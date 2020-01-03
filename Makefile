@@ -7,12 +7,12 @@ default: all
 # List only subdirectories with *.proto files.
 # sort to remove duplicates.
 PROTO_ROOT := temporal-proto
-PROTO_DIRS := $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*.proto)))
-PROTO_SERVICES := $(wildcard $(PROTO_ROOT)/*/service.proto)
+PROTO_DIRS = $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*.proto)))
+PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
 PROTO_GEN := .
 PROTO_IMPORT := $(PROTO_ROOT)
 
-all: update-proto-submodule grpc yarpc grpc-mock yarpc-mock
+all: update-proto-submodule yarpc grpc grpc-mock yarpc-mock
 
 # git submodule
 
@@ -51,11 +51,11 @@ PROTO_YARPC_SERVICES = $(patsubst $(PROTO_GEN)/%,%,$(shell find $(PROTO_GEN) -na
 dir_no_slash = $(patsubst %/,%,$(dir $(1)))
 dirname = $(notdir $(call dir_no_slash,$(1)))
 
-grpc-mock: gobin
+grpc-mock: gobin-install
 	@echo "Generate gRPC mocks..."
 	@$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_GEN) && mockgen -package $(call dirname,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_GRPC_SERVICE))mock/$(notdir $(PROTO_GRPC_SERVICE:go=mock.go)) )
 
-yarpc-mock: gobin
+yarpc-mock: gobin-install
 	@echo "Generate YARPC mocks..."
 	@$(foreach PROTO_YARPC_SERVICE,$(PROTO_YARPC_SERVICES),cd $(PROTO_GEN) && mockgen -package $(call dirname,$(PROTO_YARPC_SERVICE))mock -source $(PROTO_YARPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_YARPC_SERVICE))mock/$(notdir $(PROTO_YARPC_SERVICE:go=mock.go)) )
 
@@ -82,6 +82,8 @@ gobin-install:
 
 mockgen-install: gobin-install
 	gobin -mod=readonly github.com/golang/mock/mockgen
+
+# clean
 
 clean:
 	echo "Deleting generated go files..."
