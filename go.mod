@@ -22,8 +22,8 @@ require (
 	github.com/streadway/quantile v0.0.0-20150917103942-b0c588724d25 // indirect
 	github.com/uber-go/mapdecode v1.0.0 // indirect
 	github.com/uber-go/tally v3.3.13+incompatible // indirect
-	github.com/uber/jaeger-client-go v2.21.1+incompatible // indirect
-	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
+	github.com/uber/jaeger-client-go v2.15.0+incompatible // indirect
+	github.com/uber/jaeger-lib v1.5.0 // indirect
 	github.com/uber/tchannel-go v1.16.0 // indirect
 	go.uber.org/fx v1.10.0
 	go.uber.org/net/metrics v1.2.0 // indirect
