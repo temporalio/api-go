@@ -28,7 +28,7 @@ package workflowservicemock
 import (
 	context "context"
 	gomock "github.com/golang/mock/gomock"
-	workflowservice "github.com/temporalio/temporal-proto-go/workflowservice"
+	workflowservice "go.temporal.io/temporal-proto/workflowservice"
 	yarpc "go.uber.org/yarpc"
 	reflect "reflect"
 )
