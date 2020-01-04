@@ -12,14 +12,16 @@ PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
 PROTO_OUT := .
 PROTO_IMPORT := $(PROTO_ROOT)
 
-all: update-proto-submodule yarpc grpc grpc-mock yarpc-mock copyright
+all: update-proto-submodule yarpc grpc grpc-mock yarpc-mock copyright gomodtidy
 
-# git submodule
+all-install: grpc-install yarpc-install mockgen-install
+
+# git submodule for proto files
 
 update-proto-submodule:
 	git submodule update --init --remote $(PROTO_ROOT)
 
-# protoc
+# Compile proto files to go
 
 yarpc: gogo-protobuf
 	echo "Compiling for YARPC..."
@@ -43,7 +45,7 @@ go-grpc: clean $(PROTO_OUT)
 	echo "Compiling for go-gRPC..."
 	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --go_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
-# mocks
+# Generate mocks
 
 # All generated service files pathes relative to PROTO_OUT
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.go"))
@@ -59,9 +61,7 @@ yarpc-mock: gobin-install
 	@echo "Generate YARPC mocks..."
 	@$(foreach PROTO_YARPC_SERVICE,$(PROTO_YARPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call dirname,$(PROTO_YARPC_SERVICE))mock -source $(PROTO_YARPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_YARPC_SERVICE))mock/$(notdir $(PROTO_YARPC_SERVICE:go=mock.go)) )
 
-# plugins
-
-all-install: grpc-install yarpc-install mockgen-install
+# Plugins & tools
 
 yarpc-install: gogo-protobuf-install
 	echo "Installing/updaing YARPC plugins..."
@@ -83,10 +83,15 @@ gobin-install:
 mockgen-install: gobin-install
 	gobin -mod=readonly github.com/golang/mock/mockgen
 
-# copyright
+# Add licence header to generated files
 
 copyright:
 	go run ./cmd/copyright/licensegen.go
+
+# Keep go.mod updated
+
+gomodtidy:
+	go mod tidy
 
 # clean
 
