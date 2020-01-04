@@ -1,4 +1,4 @@
-module github.com/temporalio/temporal-proto-go
+module go.temporal.io/temporal-proto
 
 go 1.13
 
