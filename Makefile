@@ -9,10 +9,10 @@ default: all
 PROTO_ROOT := temporal-proto
 PROTO_DIRS = $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*.proto)))
 PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
-PROTO_GEN := .
+PROTO_OUT := .
 PROTO_IMPORT := $(PROTO_ROOT)
 
-all: update-proto-submodule yarpc grpc grpc-mock yarpc-mock
+all: update-proto-submodule yarpc grpc grpc-mock yarpc-mock copyright
 
 # git submodule
 
@@ -23,41 +23,41 @@ update-proto-submodule:
 
 yarpc: gogo-protobuf
 	echo "Compiling for YARPC..."
-	$(foreach PROTO_SERVICE,$(PROTO_SERVICES),protoc --proto_path=$(PROTO_IMPORT) --yarpc-go_out=$(PROTO_GEN) $(PROTO_SERVICE);)
+	$(foreach PROTO_SERVICE,$(PROTO_SERVICES),protoc --proto_path=$(PROTO_IMPORT) --yarpc-go_out=$(PROTO_OUT) $(PROTO_SERVICE);)
 
 grpc: gogo-grpc
 
-gogo-grpc: clean $(PROTO_GEN)
+gogo-grpc: clean $(PROTO_OUT)
 	echo "Compiling for gogo-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogoslick_out=plugins=grpc,paths=source_relative:$(PROTO_GEN) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogoslick_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
-gogo-protobuf: clean $(PROTO_GEN)
+gogo-protobuf: clean $(PROTO_OUT)
 	echo "Compiling for gogo-protobuf..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogoslick_out=paths=source_relative:$(PROTO_GEN) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogoslick_out=paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
-go-protobuf: clean $(PROTO_GEN)
+go-protobuf: clean $(PROTO_OUT)
 	echo "Compiling for go-protobuf..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --go_out=paths=source_relative:$(PROTO_GEN) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --go_out=paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
-go-grpc: clean $(PROTO_GEN)
+go-grpc: clean $(PROTO_OUT)
 	echo "Compiling for go-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --go_out=plugins=grpc,paths=source_relative:$(PROTO_GEN) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --go_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
 # mocks
 
-# All generated service files pathes relative to PROTO_GEN
-PROTO_GRPC_SERVICES = $(patsubst $(PROTO_GEN)/%,%,$(shell find $(PROTO_GEN) -name "service.pb.go"))
-PROTO_YARPC_SERVICES = $(patsubst $(PROTO_GEN)/%,%,$(shell find $(PROTO_GEN) -name "service.pb.yarpc.go"))
+# All generated service files pathes relative to PROTO_OUT
+PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.go"))
+PROTO_YARPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.yarpc.go"))
 dir_no_slash = $(patsubst %/,%,$(dir $(1)))
 dirname = $(notdir $(call dir_no_slash,$(1)))
 
 grpc-mock: gobin-install
 	@echo "Generate gRPC mocks..."
-	@$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_GEN) && mockgen -package $(call dirname,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_GRPC_SERVICE))mock/$(notdir $(PROTO_GRPC_SERVICE:go=mock.go)) )
+	@$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call dirname,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_GRPC_SERVICE))mock/$(notdir $(PROTO_GRPC_SERVICE:go=mock.go)) )
 
 yarpc-mock: gobin-install
 	@echo "Generate YARPC mocks..."
-	@$(foreach PROTO_YARPC_SERVICE,$(PROTO_YARPC_SERVICES),cd $(PROTO_GEN) && mockgen -package $(call dirname,$(PROTO_YARPC_SERVICE))mock -source $(PROTO_YARPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_YARPC_SERVICE))mock/$(notdir $(PROTO_YARPC_SERVICE:go=mock.go)) )
+	@$(foreach PROTO_YARPC_SERVICE,$(PROTO_YARPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call dirname,$(PROTO_YARPC_SERVICE))mock -source $(PROTO_YARPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_YARPC_SERVICE))mock/$(notdir $(PROTO_YARPC_SERVICE:go=mock.go)) )
 
 # plugins
 
@@ -83,8 +83,13 @@ gobin-install:
 mockgen-install: gobin-install
 	gobin -mod=readonly github.com/golang/mock/mockgen
 
+# copyright
+
+copyright:
+	go run ./cmd/copyright/licensegen.go
+
 # clean
 
 clean:
 	echo "Deleting generated go files..."
-	rm -rf $(PROTO_GEN)/*/*.go
+	rm -rf $(PROTO_OUT)/*/*.go
