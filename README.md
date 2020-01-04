@@ -1,6 +1,8 @@
 # Temporal proto generated files for Go
 
-Generate Go files from [temporal-proto](https://github.com/temporalio/temporal-proto) repository.
+Generated Go files from [temporal-proto](https://github.com/temporalio/temporal-proto) repository.
+
+Reference as `go.temporal.io/temporal-proto`.
 
 Run `make all` to regenerage.
 
