@@ -1,3 +1,7 @@
+// The MIT License (MIT)
+//
+// Copyright (c) 2020 Temporal Technologies, Inc.
+//
 // Copyright (c) 2017 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -49,7 +53,7 @@ type (
 const licenseFileName = "LICENSE"
 
 // unique prefix that identifies a license header
-const licenseHeaderPrefix = "// Copyright (c)"
+const licenseHeaderPrefix = "// The MIT License (MIT)"
 
 var (
 	// directories to be excluded
