@@ -97,4 +97,4 @@ gomodtidy:
 
 clean:
 	echo "Deleting generated go files..."
-	rm -rf $(PROTO_OUT)/*/*.go
+	rm -rf $(PROTO_OUT)/*/*.pb.*go
