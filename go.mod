@@ -12,7 +12,7 @@ require (
 	github.com/flynn/go-shlex v0.0.0-20150515145356-3f9db97f8568 // indirect
 	github.com/gogo/googleapis v1.3.1 // indirect
 	github.com/gogo/protobuf v1.3.1
-	github.com/gogo/status v1.1.0 // indirect
+	github.com/gogo/status v1.1.0
 	github.com/golang/mock v1.2.0
 	github.com/jessevdk/go-flags v1.4.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.0 // indirect
