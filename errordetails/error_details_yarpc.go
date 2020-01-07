@@ -37,8 +37,8 @@ func NewDomainNotActiveErrorYARPC(msg, domainName, currentCluster, activeCluster
 	))
 }
 
-func IsDomainNotActiveFailureYARPC(st *yarpcerrors.Status) bool {
-	_, ok := GetDomainNotActiveFailureYARPC(st)
+func IsDomainNotActiveFailureYARPC(err error) bool {
+	_, ok := GetDomainNotActiveFailureYARPC(err)
 	return ok
 }
 
@@ -61,8 +61,8 @@ func NewWorkflowExecutionAlreadyStartedErrorYARPC(msg, startRequestId, runId str
 	))
 }
 
-func IsWorkflowExecutionAlreadyStartedFailureYARPC(st *yarpcerrors.Status) bool {
-	_, ok := GetWorkflowExecutionAlreadyStartedFailureYARPC(st)
+func IsWorkflowExecutionAlreadyStartedFailureYARPC(err error) bool {
+	_, ok := GetWorkflowExecutionAlreadyStartedFailureYARPC(err)
 	return ok
 }
 
@@ -86,8 +86,8 @@ func NewClientVersionNotSupportedErrorYARPC(msg, featureVersion, clientImpl, sup
 	))
 }
 
-func IsClientVersionNotSupportedErrorYARPC(st *yarpcerrors.Status) bool {
-	_, ok := GetClientVersionNotSupportedFailureYARPC(st)
+func IsClientVersionNotSupportedErrorYARPC(err error) bool {
+	_, ok := GetClientVersionNotSupportedFailureYARPC(err)
 	return ok
 }
 
