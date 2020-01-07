@@ -72,7 +72,7 @@ func IsDomainNotActiveFailure(st *status.Status) bool {
 }
 
 func GetDomainNotActiveFailure(st *status.Status) (*DomainNotActiveFailure, bool) {
-	if st.Code() != codes.InvalidArgument{
+	if st == nil || st.Code() != codes.InvalidArgument{
 		return nil, false
 	}
 
@@ -98,7 +98,7 @@ func IsWorkflowExecutionAlreadyStartedFailure(st *status.Status) bool {
 }
 
 func GetWorkflowExecutionAlreadyStartedFailure(st *status.Status) (*WorkflowExecutionAlreadyStartedFailure, bool) {
-	if st.Code() != codes.AlreadyExists{
+	if st == nil || st.Code() != codes.AlreadyExists{
 		return nil, false
 	}
 
@@ -125,7 +125,7 @@ func IsClientVersionNotSupportedFailure(st *status.Status) bool {
 }
 
 func GetClientVersionNotSupportedFailure(st *status.Status) (*ClientVersionNotSupportedFailure, bool) {
-	if st.Code() != codes.AlreadyExists{
+	if st == nil || st.Code() != codes.AlreadyExists{
 		return nil, false
 	}
 

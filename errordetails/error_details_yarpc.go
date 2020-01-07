@@ -65,7 +65,7 @@ func IsDomainNotActiveFailureYARPC(st *yarpcerrors.Status) bool {
 
 func GetDomainNotActiveFailureYARPC(err error) (*DomainNotActiveFailure, bool) {
 	st := yarpcerrors.FromError(err)
-	if st.Code() != yarpcerrors.CodeInvalidArgument{
+	if st == nil || st.Code() != yarpcerrors.CodeInvalidArgument{
 		return nil, false
 	}
 
@@ -89,7 +89,7 @@ func IsWorkflowExecutionAlreadyStartedFailureYARPC(st *yarpcerrors.Status) bool 
 
 func GetWorkflowExecutionAlreadyStartedFailureYARPC(err error) (*WorkflowExecutionAlreadyStartedFailure, bool) {
 	st := yarpcerrors.FromError(err)
-	if st.Code() != yarpcerrors.CodeAlreadyExists{
+	if st == nil || st.Code() != yarpcerrors.CodeAlreadyExists{
 		return nil, false
 	}
 
@@ -114,7 +114,7 @@ func IsClientVersionNotSupportedErrorYARPC(st *yarpcerrors.Status) bool {
 
 func GetClientVersionNotSupportedFailureYARPC(err error) (*ClientVersionNotSupportedFailure, bool) {
 	st := yarpcerrors.FromError(err)
-	if st.Code() != yarpcerrors.CodeFailedPrecondition{
+	if st == nil || st.Code() != yarpcerrors.CodeFailedPrecondition{
 		return nil, false
 	}
 
