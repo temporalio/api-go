@@ -32,7 +32,7 @@ import (
 // - Is*Failure
 // - Get*Failure
 
-func BuildDomainNotActiveStatus(msg, domainName, currentCluster, activeCluster string) *status.Status {
+func NewDomainNotActiveStatus(msg, domainName, currentCluster, activeCluster string) *status.Status {
 	st := status.New(codes.InvalidArgument, msg)
 	st, _  = st.WithDetails(
 		&DomainNotActiveFailure{
@@ -59,7 +59,7 @@ func GetDomainNotActiveFailure(st *status.Status) (*DomainNotActiveFailure, bool
 	return failure, ok
 }
 
-func BuildWorkflowExecutionAlreadyStartedStatus(msg, startRequestId, runId string) *status.Status {
+func NewWorkflowExecutionAlreadyStartedStatus(msg, startRequestId, runId string) *status.Status {
 	st := status.New(codes.AlreadyExists, msg)
 	st, _  = st.WithDetails(
 		&WorkflowExecutionAlreadyStartedFailure{
@@ -85,7 +85,7 @@ func GetWorkflowExecutionAlreadyStartedFailure(st *status.Status) (*WorkflowExec
 	return failure, ok
 }
 
-func BuildClientVersionNotSupportedStatus(msg, featureVersion, clientImpl, supportedVersions string) *status.Status {
+func NewClientVersionNotSupportedStatus(msg, featureVersion, clientImpl, supportedVersions string) *status.Status {
 	st := status.New(codes.FailedPrecondition, msg)
 	st, _  = st.WithDetails(
 		&ClientVersionNotSupportedFailure{

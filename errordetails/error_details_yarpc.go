@@ -27,7 +27,7 @@ import (
 	"go.uber.org/yarpc/yarpcerrors"
 )
 
-func BuildDomainNotActiveErrorYARPC(msg, domainName, currentCluster, activeCluster string) error {
+func NewDomainNotActiveErrorYARPC(msg, domainName, currentCluster, activeCluster string) error {
 	return protobuf.NewError(yarpcerrors.CodeInvalidArgument, msg, protobuf.WithErrorDetails(
 		&DomainNotActiveFailure{
 			DomainName:     domainName,
@@ -52,7 +52,7 @@ func GetDomainNotActiveFailureYARPC(err error) (*DomainNotActiveFailure, bool) {
 	return failure, ok
 }
 
-func BuildWorkflowExecutionAlreadyStartedErrorYARPC(msg, startRequestId, runId string) error {
+func NewWorkflowExecutionAlreadyStartedErrorYARPC(msg, startRequestId, runId string) error {
 	return protobuf.NewError(yarpcerrors.CodeAlreadyExists, msg, protobuf.WithErrorDetails(
 		&WorkflowExecutionAlreadyStartedFailure{
 			StartRequestId: startRequestId,
@@ -76,7 +76,7 @@ func GetWorkflowExecutionAlreadyStartedFailureYARPC(err error) (*WorkflowExecuti
 	return failure, ok
 }
 
-func BuildClientVersionNotSupportedErrorYARPC(msg, featureVersion, clientImpl, supportedVersions string) error {
+func NewClientVersionNotSupportedErrorYARPC(msg, featureVersion, clientImpl, supportedVersions string) error {
 	return protobuf.NewError(yarpcerrors.CodeFailedPrecondition, msg, protobuf.WithErrorDetails(
 		&ClientVersionNotSupportedFailure{
 			FeatureVersion:    featureVersion,
