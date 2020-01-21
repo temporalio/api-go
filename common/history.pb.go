@@ -179,7 +179,7 @@ func (m *WorkflowExecutionStartedEventAttributes) GetInitiator() enums.ContinueA
 	if m != nil {
 		return m.Initiator
 	}
-	return enums.ContinueAsNewInitiatorDecider
+	return enums.ContinueAsNewInitiatorNotSet
 }
 
 func (m *WorkflowExecutionStartedEventAttributes) GetContinuedFailureReason() string {
@@ -558,7 +558,7 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetInitiator() enums.Co
 	if m != nil {
 		return m.Initiator
 	}
-	return enums.ContinueAsNewInitiatorDecider
+	return enums.ContinueAsNewInitiatorNotSet
 }
 
 func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetFailureReason() string {

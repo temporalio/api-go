@@ -877,7 +877,7 @@ func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) GetInitiator() enums.
 	if m != nil {
 		return m.Initiator
 	}
-	return enums.ContinueAsNewInitiatorDecider
+	return enums.ContinueAsNewInitiatorNotSet
 }
 
 func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) GetFailureReason() string {
