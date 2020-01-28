@@ -737,6 +737,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) QueryWorkflow(ctx, in interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryWorkflow", reflect.TypeOf((*MockWorkflowServiceClient)(nil).QueryWorkflow), varargs...)
 }
 
+// GetWorkflowExecutionRawHistory mocks base method
+func (m *MockWorkflowServiceClient) GetWorkflowExecutionRawHistory(ctx context.Context, in *workflowservice.GetWorkflowExecutionRawHistoryRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowExecutionRawHistoryResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetWorkflowExecutionRawHistory", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionRawHistoryResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkflowExecutionRawHistory indicates an expected call of GetWorkflowExecutionRawHistory
+func (mr *MockWorkflowServiceClientMockRecorder) GetWorkflowExecutionRawHistory(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionRawHistory", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkflowExecutionRawHistory), varargs...)
+}
+
 // DescribeWorkflowExecution mocks base method
 func (m *MockWorkflowServiceClient) DescribeWorkflowExecution(ctx context.Context, in *workflowservice.DescribeWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
@@ -775,66 +795,6 @@ func (mr *MockWorkflowServiceClientMockRecorder) DescribeTaskList(ctx, in interf
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeTaskList", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeTaskList), varargs...)
-}
-
-// GetReplicationMessages mocks base method
-func (m *MockWorkflowServiceClient) GetReplicationMessages(ctx context.Context, in *workflowservice.GetReplicationMessagesRequest, opts ...grpc.CallOption) (*workflowservice.GetReplicationMessagesResponse, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "GetReplicationMessages", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetReplicationMessagesResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetReplicationMessages indicates an expected call of GetReplicationMessages
-func (mr *MockWorkflowServiceClientMockRecorder) GetReplicationMessages(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetReplicationMessages", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetReplicationMessages), varargs...)
-}
-
-// GetDomainReplicationMessages mocks base method
-func (m *MockWorkflowServiceClient) GetDomainReplicationMessages(ctx context.Context, in *workflowservice.GetDomainReplicationMessagesRequest, opts ...grpc.CallOption) (*workflowservice.GetDomainReplicationMessagesResponse, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "GetDomainReplicationMessages", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetDomainReplicationMessagesResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetDomainReplicationMessages indicates an expected call of GetDomainReplicationMessages
-func (mr *MockWorkflowServiceClientMockRecorder) GetDomainReplicationMessages(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomainReplicationMessages", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetDomainReplicationMessages), varargs...)
-}
-
-// ReapplyEvents mocks base method
-func (m *MockWorkflowServiceClient) ReapplyEvents(ctx context.Context, in *workflowservice.ReapplyEventsRequest, opts ...grpc.CallOption) (*workflowservice.ReapplyEventsResponse, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "ReapplyEvents", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ReapplyEventsResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ReapplyEvents indicates an expected call of ReapplyEvents
-func (mr *MockWorkflowServiceClientMockRecorder) ReapplyEvents(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReapplyEvents", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ReapplyEvents), varargs...)
 }
 
 // GetClusterInfo mocks base method
@@ -1410,6 +1370,21 @@ func (mr *MockWorkflowServiceServerMockRecorder) QueryWorkflow(arg0, arg1 interf
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryWorkflow", reflect.TypeOf((*MockWorkflowServiceServer)(nil).QueryWorkflow), arg0, arg1)
 }
 
+// GetWorkflowExecutionRawHistory mocks base method
+func (m *MockWorkflowServiceServer) GetWorkflowExecutionRawHistory(arg0 context.Context, arg1 *workflowservice.GetWorkflowExecutionRawHistoryRequest) (*workflowservice.GetWorkflowExecutionRawHistoryResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWorkflowExecutionRawHistory", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionRawHistoryResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkflowExecutionRawHistory indicates an expected call of GetWorkflowExecutionRawHistory
+func (mr *MockWorkflowServiceServerMockRecorder) GetWorkflowExecutionRawHistory(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionRawHistory", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkflowExecutionRawHistory), arg0, arg1)
+}
+
 // DescribeWorkflowExecution mocks base method
 func (m *MockWorkflowServiceServer) DescribeWorkflowExecution(arg0 context.Context, arg1 *workflowservice.DescribeWorkflowExecutionRequest) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
@@ -1438,51 +1413,6 @@ func (m *MockWorkflowServiceServer) DescribeTaskList(arg0 context.Context, arg1 
 func (mr *MockWorkflowServiceServerMockRecorder) DescribeTaskList(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeTaskList", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeTaskList), arg0, arg1)
-}
-
-// GetReplicationMessages mocks base method
-func (m *MockWorkflowServiceServer) GetReplicationMessages(arg0 context.Context, arg1 *workflowservice.GetReplicationMessagesRequest) (*workflowservice.GetReplicationMessagesResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetReplicationMessages", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetReplicationMessagesResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetReplicationMessages indicates an expected call of GetReplicationMessages
-func (mr *MockWorkflowServiceServerMockRecorder) GetReplicationMessages(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetReplicationMessages", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetReplicationMessages), arg0, arg1)
-}
-
-// GetDomainReplicationMessages mocks base method
-func (m *MockWorkflowServiceServer) GetDomainReplicationMessages(arg0 context.Context, arg1 *workflowservice.GetDomainReplicationMessagesRequest) (*workflowservice.GetDomainReplicationMessagesResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetDomainReplicationMessages", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetDomainReplicationMessagesResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetDomainReplicationMessages indicates an expected call of GetDomainReplicationMessages
-func (mr *MockWorkflowServiceServerMockRecorder) GetDomainReplicationMessages(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDomainReplicationMessages", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetDomainReplicationMessages), arg0, arg1)
-}
-
-// ReapplyEvents mocks base method
-func (m *MockWorkflowServiceServer) ReapplyEvents(arg0 context.Context, arg1 *workflowservice.ReapplyEventsRequest) (*workflowservice.ReapplyEventsResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ReapplyEvents", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ReapplyEventsResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// ReapplyEvents indicates an expected call of ReapplyEvents
-func (mr *MockWorkflowServiceServerMockRecorder) ReapplyEvents(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReapplyEvents", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ReapplyEvents), arg0, arg1)
 }
 
 // GetClusterInfo mocks base method
