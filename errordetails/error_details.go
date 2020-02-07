@@ -28,10 +28,11 @@ import (
 )
 
 // Generate these 3 helper funcs for every failure from error_details.proto:
-// - Build*Status
-// - Is*Failure
+// - New*Status
+// - Is*Status
 // - Get*Failure
 
+// NewDomainNotActiveStatus returns new status with DomainNotActiveFailure in details.
 func NewDomainNotActiveStatus(msg, domainName, currentCluster, activeCluster string) *status.Status {
 	st := status.New(codes.InvalidArgument, msg)
 	st, _  = st.WithDetails(
@@ -41,15 +42,16 @@ func NewDomainNotActiveStatus(msg, domainName, currentCluster, activeCluster str
 			ActiveCluster:  activeCluster,
 		},
 	)
-
 	return st
 }
 
-func IsDomainNotActiveFailure(st *status.Status) bool {
+// IsDomainNotActiveStatus checks if status has DomainNotActiveFailure in details.
+func IsDomainNotActiveStatus(st *status.Status) bool {
 	_, ok := GetDomainNotActiveFailure(st)
 	return ok
 }
 
+// GetDomainNotActiveFailure returns DomainNotActiveFailure from status details.
 func GetDomainNotActiveFailure(st *status.Status) (*DomainNotActiveFailure, bool) {
 	if st == nil || st.Code() != codes.InvalidArgument{
 		return nil, false
@@ -59,6 +61,7 @@ func GetDomainNotActiveFailure(st *status.Status) (*DomainNotActiveFailure, bool
 	return failure, ok
 }
 
+// NewWorkflowExecutionAlreadyStartedStatus returns new status with WorkflowExecutionAlreadyStartedFailure in details.
 func NewWorkflowExecutionAlreadyStartedStatus(msg, startRequestId, runId string) *status.Status {
 	st := status.New(codes.AlreadyExists, msg)
 	st, _  = st.WithDetails(
@@ -67,15 +70,16 @@ func NewWorkflowExecutionAlreadyStartedStatus(msg, startRequestId, runId string)
 			RunId:          runId,
 		},
 	)
-
 	return st
 }
 
-func IsWorkflowExecutionAlreadyStartedFailure(st *status.Status) bool {
+// IsWorkflowExecutionAlreadyStartedStatus checks if status has WorkflowExecutionAlreadyStartedFailure in details.
+func IsWorkflowExecutionAlreadyStartedStatus(st *status.Status) bool {
 	_, ok := GetWorkflowExecutionAlreadyStartedFailure(st)
 	return ok
 }
 
+// GetWorkflowExecutionAlreadyStartedFailure returns WorkflowExecutionAlreadyStartedFailure from status details.
 func GetWorkflowExecutionAlreadyStartedFailure(st *status.Status) (*WorkflowExecutionAlreadyStartedFailure, bool) {
 	if st == nil || st.Code() != codes.AlreadyExists{
 		return nil, false
@@ -85,6 +89,7 @@ func GetWorkflowExecutionAlreadyStartedFailure(st *status.Status) (*WorkflowExec
 	return failure, ok
 }
 
+// NewClientVersionNotSupportedStatus returns new status with ClientVersionNotSupportedFailure in details.
 func NewClientVersionNotSupportedStatus(msg, featureVersion, clientImpl, supportedVersions string) *status.Status {
 	st := status.New(codes.FailedPrecondition, msg)
 	st, _  = st.WithDetails(
@@ -94,15 +99,16 @@ func NewClientVersionNotSupportedStatus(msg, featureVersion, clientImpl, support
 			SupportedVersions: supportedVersions,
 		},
 	)
-
 	return st
 }
 
-func IsClientVersionNotSupportedFailure(st *status.Status) bool {
+// IsClientVersionNotSupportedStatus checks if status has ClientVersionNotSupportedFailure in details.
+func IsClientVersionNotSupportedStatus(st *status.Status) bool {
 	_, ok := GetClientVersionNotSupportedFailure(st)
 	return ok
 }
 
+// GetClientVersionNotSupportedFailure returns ClientVersionNotSupportedFailure from status details.
 func GetClientVersionNotSupportedFailure(st *status.Status) (*ClientVersionNotSupportedFailure, bool) {
 	if st == nil || st.Code() != codes.AlreadyExists{
 		return nil, false
