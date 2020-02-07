@@ -1,4 +1,4 @@
-.PHONY: grpc yarpc clean yarpc-install grpc-install
+.PHONY: grpc clean grpc-install
 $(VERBOSE).SILENT:
 
 # default target
@@ -12,9 +12,9 @@ PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
 PROTO_OUT := .
 PROTO_IMPORT := $(PROTO_ROOT)
 
-all: update-proto-submodule yarpc grpc grpc-mock yarpc-mock copyright gomodtidy
+all: update-proto-submodule grpc grpc-mock copyright gomodtidy
 
-all-install: grpc-install yarpc-install mockgen-install
+all-install: grpc-install mockgen-install
 
 # git submodule for proto files
 
@@ -22,10 +22,6 @@ update-proto-submodule:
 	git submodule update --init --remote $(PROTO_ROOT)
 
 # Compile proto files to go
-
-yarpc: gogo-protobuf
-	echo "Compiling for YARPC..."
-	$(foreach PROTO_SERVICE,$(PROTO_SERVICES),protoc --proto_path=$(PROTO_IMPORT) --yarpc-go_out=$(PROTO_OUT) $(PROTO_SERVICE);)
 
 grpc: gogo-grpc
 
@@ -49,7 +45,6 @@ go-grpc: clean $(PROTO_OUT)
 
 # All generated service files pathes relative to PROTO_OUT
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.go"))
-PROTO_YARPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.yarpc.go"))
 dir_no_slash = $(patsubst %/,%,$(dir $(1)))
 dirname = $(notdir $(call dir_no_slash,$(1)))
 
@@ -57,15 +52,7 @@ grpc-mock: gobin-install
 	@echo "Generate gRPC mocks..."
 	@$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call dirname,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_GRPC_SERVICE))mock/$(notdir $(PROTO_GRPC_SERVICE:go=mock.go)) )
 
-yarpc-mock: gobin-install
-	@echo "Generate YARPC mocks..."
-	@$(foreach PROTO_YARPC_SERVICE,$(PROTO_YARPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call dirname,$(PROTO_YARPC_SERVICE))mock -source $(PROTO_YARPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_YARPC_SERVICE))mock/$(notdir $(PROTO_YARPC_SERVICE:go=mock.go)) )
-
 # Plugins & tools
-
-yarpc-install: gogo-protobuf-install
-	echo "Installing/updaing YARPC plugins..."
-	go get -u go.uber.org/yarpc/encoding/protobuf/protoc-gen-yarpc-go
 
 grpc-install: gogo-protobuf-install
 	echo "Installing/updaing gRPC plugins..."

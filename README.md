@@ -4,7 +4,9 @@ Generated Go files from [temporal-proto](https://github.com/temporalio/temporal-
 
 Reference as `go.temporal.io/temporal-proto`.
 
-Run `make all` to regenerage.
+Run `make all-install` once to install all plugins and tools (`protoc` and `go` must be installed manually).
+
+Run `make all` to regenerage go files.
 
 ## License
 
