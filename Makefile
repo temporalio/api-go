@@ -2,7 +2,7 @@
 $(VERBOSE).SILENT:
 
 # default target
-default: all
+default: all-install all
 
 # List only subdirectories with *.proto files.
 # sort to remove duplicates.

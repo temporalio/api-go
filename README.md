@@ -2,7 +2,10 @@
 
 Generated Go files from [temporal-proto](https://github.com/temporalio/temporal-proto) repository.
 
-Reference as `go.temporal.io/temporal-proto`.
+To install in your project run:
+```
+go get go.temporal.io/temporal-proto 
+```
 
 Run `make all-install` once to install all plugins and tools (`protoc` and `go` must be installed manually).
 
