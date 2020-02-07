@@ -68,7 +68,7 @@ gobin-install:
 	GO111MODULE=off go get -u github.com/myitcv/gobin
 
 mockgen-install: gobin-install
-	gobin -mod=readonly github.com/golang/mock/mockgen
+	gobin -mod=readonly github.com/golang/mock/mockgen@v1.4.0
 
 # Add licence header to generated files
 
