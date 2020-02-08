@@ -110,13 +110,41 @@ func IsClientVersionNotSupportedStatus(st *status.Status) bool {
 
 // GetClientVersionNotSupportedFailure returns ClientVersionNotSupportedFailure from status details.
 func GetClientVersionNotSupportedFailure(st *status.Status) (*ClientVersionNotSupportedFailure, bool) {
-	if st == nil || st.Code() != codes.AlreadyExists{
+	if st == nil || st.Code() != codes.FailedPrecondition{
 		return nil, false
 	}
 
 	failure, ok := getFirstDetail(st).(*ClientVersionNotSupportedFailure)
 	return failure, ok
 }
+
+// NewShardOwnershipLostStatus returns new status with ShardOwnershipLostFailure in details.
+func NewShardOwnershipLostStatus(msg, owner string) *status.Status {
+	st := status.New(codes.Aborted, msg)
+	st, _  = st.WithDetails(
+		&ShardOwnershipLostFailure{
+			Owner:    owner,
+		},
+	)
+	return st
+}
+
+// IsShardOwnershipLostStatus checks if status has ShardOwnershipLostFailure in details.
+func IsShardOwnershipLostStatus(st *status.Status) bool {
+	_, ok := GetShardOwnershipLostFailure(st)
+	return ok
+}
+
+// GetShardOwnershipLostFailure returns ShardOwnershipLostFailure from status details.
+func GetShardOwnershipLostFailure(st *status.Status) (*ShardOwnershipLostFailure, bool) {
+	if st == nil || st.Code() != codes.Aborted{
+		return nil, false
+	}
+
+	failure, ok := getFirstDetail(st).(*ShardOwnershipLostFailure)
+	return failure, ok
+}
+
 
 func getFirstDetail(st *status.Status) interface{}{
 	details := st.Details()
