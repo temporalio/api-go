@@ -145,6 +145,68 @@ func GetShardOwnershipLostFailure(st *status.Status) (*ShardOwnershipLostFailure
 	return failure, ok
 }
 
+// NewRetryTaskStatus returns new status with RetryTaskFailure in details.
+func NewRetryTaskStatus(msg, domainId, workflowId, RunId string, nextEventId int64) *status.Status {
+	st := status.New(codes.Aborted, msg)
+	st, _  = st.WithDetails(
+		&RetryTaskFailure{
+			DomainId:    domainId,
+			WorkflowId:  workflowId,
+			RunId:       RunId,
+			NextEventId: nextEventId,
+		},
+	)
+	return st
+}
+
+// IsRetryTaskStatus checks if status has RetryTaskFailure in details.
+func IsRetryTaskStatus(st *status.Status) bool {
+	_, ok := GetRetryTaskFailure(st)
+	return ok
+}
+
+// GetRetryTaskFailure returns RetryTaskFailure from status details.
+func GetRetryTaskFailure(st *status.Status) (*RetryTaskFailure, bool) {
+	if st == nil || st.Code() != codes.Aborted{
+		return nil, false
+	}
+
+	failure, ok := getFirstDetail(st).(*RetryTaskFailure)
+	return failure, ok
+}
+
+// NewRetryTaskV2Status returns new status with RetryTaskV2Failure in details.
+func NewRetryTaskV2Status(msg, domainId, workflowId, RunId string, startEventId, startEventVersion, endEventId, endEventVersion int64) *status.Status {
+	st := status.New(codes.Aborted, msg)
+	st, _  = st.WithDetails(
+		&RetryTaskV2Failure{
+			DomainId:          domainId,
+			WorkflowId:        workflowId,
+			RunId:             RunId,
+			StartEventId:      startEventId,
+			StartEventVersion: startEventVersion,
+			EndEventId:        endEventId,
+			EndEventVersion:   endEventVersion,
+		},
+	)
+	return st
+}
+
+// IsRetryTaskV2Status checks if status has RetryTaskV2Failure in details.
+func IsRetryTaskV2Status(st *status.Status) bool {
+	_, ok := GetRetryTaskV2Failure(st)
+	return ok
+}
+
+// GetRetryTaskV2Failure returns RetryTaskV2Failure from status details.
+func GetRetryTaskV2Failure(st *status.Status) (*RetryTaskV2Failure, bool) {
+	if st == nil || st.Code() != codes.Aborted{
+		return nil, false
+	}
+
+	failure, ok := getFirstDetail(st).(*RetryTaskV2Failure)
+	return failure, ok
+}
 
 func getFirstDetail(st *status.Status) interface{}{
 	details := st.Details()
