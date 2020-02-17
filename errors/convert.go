@@ -6,12 +6,6 @@ import (
 
 )
 
-func ToStatus(err error) *status.Status {
-	if st, ok := status.FromError(err); ok {
-		return st
-	}
-}
-
 // FromStatus converts gRPC status to go error.
 func FromStatus(st *status.Status) error {
 	if st == nil || st.Code() == codes.OK {
