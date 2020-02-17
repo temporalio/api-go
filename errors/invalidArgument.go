@@ -1,6 +1,8 @@
 package errors
 
 import (
+	"fmt"
+
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 )
@@ -18,6 +20,11 @@ func NewInvalidArgument(message string) *InvalidArgument {
 	return &InvalidArgument{
 		Message: message,
 	}
+}
+
+// Error returns string message.
+func (e *InvalidArgument) MessageArgs(a ...interface{}) *InvalidArgument {
+	return NewInvalidArgument(fmt.Sprintf(e.Message, a))
 }
 
 // Error returns string message.
