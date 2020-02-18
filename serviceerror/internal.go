@@ -23,6 +23,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 )
@@ -40,6 +42,11 @@ func NewInternal(message string) *Internal {
 	return &Internal{
 		Message: message,
 	}
+}
+
+// MessageArgs returns new Internal with Message formatted with passed args.
+func (e *Internal) MessageArgs(a ...interface{}) *Internal {
+	return NewInternal(fmt.Sprintf(e.Message, a...))
 }
 
 // Error returns string message.
