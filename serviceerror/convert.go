@@ -1,4 +1,4 @@
-package errors
+package serviceerror
 
 import (
 	"github.com/gogo/status"

@@ -1,4 +1,4 @@
-package errors
+package serviceerror
 
 import (
 	"github.com/gogo/status"
@@ -55,7 +55,7 @@ func clientVersionNotSupported(st *status.Status) (*ClientVersionNotSupported, b
 		return nil, false
 	}
 
-	if failure, ok := getFirstDetail(st).(*errordetails.ClientVersionNotSupportedFailure); ok {
+	if failure, ok := getFailure(st).(*errordetails.ClientVersionNotSupportedFailure); ok {
 		return &ClientVersionNotSupported{
 			Message:           st.Message(),
 			FeatureVersion:    failure.FeatureVersion,

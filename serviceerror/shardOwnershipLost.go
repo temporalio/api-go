@@ -1,4 +1,4 @@
-package errors
+package serviceerror
 
 import (
 	"github.com/gogo/status"
@@ -49,7 +49,7 @@ func shardOwnershipLost(st *status.Status) (*ShardOwnershipLost, bool) {
 		return nil, false
 	}
 
-	if failure, ok := getFirstDetail(st).(*errordetails.ShardOwnershipLostFailure); ok {
+	if failure, ok := getFailure(st).(*errordetails.ShardOwnershipLostFailure); ok {
 		return &ShardOwnershipLost{
 			Message: st.Message(),
 			Owner:   failure.Owner,
