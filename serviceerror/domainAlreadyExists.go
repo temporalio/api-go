@@ -30,51 +30,46 @@ import (
 )
 
 type (
-	// ShardOwnershipLost represents shard ownership lost error.
-	ShardOwnershipLost struct {
-		Message string
-		Owner   string
-		st      *status.Status
+	// DomainAlreadyExists represents domain already exists error.
+	DomainAlreadyExists struct {
+		Message        string
+		st             *status.Status
 	}
 )
 
-// NewShardOwnershipLost returns new ShardOwnershipLost error.
-func NewShardOwnershipLost(message, owner string) *ShardOwnershipLost {
-	return &ShardOwnershipLost{
-		Message: message,
-		Owner:   owner,
+// NewDomainAlreadyExists returns new DomainAlreadyExists error.
+func NewDomainAlreadyExists(message string) *DomainAlreadyExists {
+	return &DomainAlreadyExists{
+		Message:        message,
 	}
 }
 
 // Error returns string message.
-func (e *ShardOwnershipLost) Error() string {
+func (e *DomainAlreadyExists) Error() string {
 	return e.Message
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *ShardOwnershipLost) GRPCStatus() *status.Status {
-	if e.st != nil{
+func (e *DomainAlreadyExists) GRPCStatus() *status.Status {
+	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.Aborted, e.Message)
+	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ShardOwnershipLostFailure{
-			Owner: e.Owner,
-		},
+		&errordetails.DomainAlreadyExistsFailure{},
 	)
 	return st
 }
 
-func shardOwnershipLost(st *status.Status) (*ShardOwnershipLost, bool) {
-	if st == nil || st.Code() != codes.Aborted {
+func domainAlreadyExists(st *status.Status) (*DomainAlreadyExists, bool) {
+	if st == nil || st.Code() != codes.AlreadyExists {
 		return nil, false
 	}
 
-	if failure, ok := getFailure(st).(*errordetails.ShardOwnershipLostFailure); ok {
-		return &ShardOwnershipLost{
+	if _, ok := getFailure(st).(*errordetails.DomainAlreadyExistsFailure); ok {
+		return &DomainAlreadyExists{
 			Message: st.Message(),
-			Owner:   failure.Owner,
 			st:      st,
 		}, true
 	}

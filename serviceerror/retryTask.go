@@ -30,52 +30,64 @@ import (
 )
 
 type (
-	// ShardOwnershipLost represents shard ownership lost error.
-	ShardOwnershipLost struct {
-		Message string
-		Owner   string
-		st      *status.Status
+	// RetryTask represents retry task error.
+	RetryTask struct {
+		Message     string
+		DomainId    string
+		WorkflowId  string
+		RunId       string
+		NextEventId int64
+		st          *status.Status
 	}
 )
 
-// NewShardOwnershipLost returns new ShardOwnershipLost error.
-func NewShardOwnershipLost(message, owner string) *ShardOwnershipLost {
-	return &ShardOwnershipLost{
-		Message: message,
-		Owner:   owner,
+// NewRetryTask returns new RetryTask error.
+func NewRetryTask(message, domainId, workflowId, runId string, nextEventId int64) *RetryTask {
+	return &RetryTask{
+		Message:     message,
+		DomainId:    domainId,
+		WorkflowId:  workflowId,
+		RunId:       runId,
+		NextEventId: nextEventId,
 	}
 }
 
 // Error returns string message.
-func (e *ShardOwnershipLost) Error() string {
+func (e *RetryTask) Error() string {
 	return e.Message
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *ShardOwnershipLost) GRPCStatus() *status.Status {
-	if e.st != nil{
+func (e *RetryTask) GRPCStatus() *status.Status {
+	if e.st != nil {
 		return e.st
 	}
 
 	st := status.New(codes.Aborted, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ShardOwnershipLostFailure{
-			Owner: e.Owner,
+		&errordetails.RetryTaskFailure{
+			DomainId:    e.DomainId,
+			WorkflowId:  e.WorkflowId,
+			RunId:       e.RunId,
+			NextEventId: e.NextEventId,
 		},
 	)
 	return st
 }
 
-func shardOwnershipLost(st *status.Status) (*ShardOwnershipLost, bool) {
+func retryTask(st *status.Status) (*RetryTask, bool) {
 	if st == nil || st.Code() != codes.Aborted {
 		return nil, false
 	}
 
-	if failure, ok := getFailure(st).(*errordetails.ShardOwnershipLostFailure); ok {
-		return &ShardOwnershipLost{
-			Message: st.Message(),
-			Owner:   failure.Owner,
-			st:      st,
+	if failure, ok := getFailure(st).(*errordetails.RetryTaskFailure); ok {
+		return &RetryTask{
+			Message:     st.Message(),
+			DomainId:    failure.DomainId,
+			WorkflowId:  failure.WorkflowId,
+			RunId:       failure.RunId,
+			NextEventId: failure.NextEventId,
+			st:          st,
 		}, true
 	}
 

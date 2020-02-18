@@ -30,51 +30,51 @@ import (
 )
 
 type (
-	// ShardOwnershipLost represents shard ownership lost error.
-	ShardOwnershipLost struct {
-		Message string
-		Owner   string
-		st      *status.Status
+	// CurrentBranchChanged represents current branch changed error.
+	CurrentBranchChanged struct {
+		Message        string
+		CurrentBranchToken []byte
+		st             *status.Status
 	}
 )
 
-// NewShardOwnershipLost returns new ShardOwnershipLost error.
-func NewShardOwnershipLost(message, owner string) *ShardOwnershipLost {
-	return &ShardOwnershipLost{
-		Message: message,
-		Owner:   owner,
+// NewCurrentBranchChanged returns new CurrentBranchChanged error.
+func NewCurrentBranchChanged(message string, currentBranchToken []byte) *CurrentBranchChanged {
+	return &CurrentBranchChanged{
+		Message:        message,
+		CurrentBranchToken: currentBranchToken,
 	}
 }
 
 // Error returns string message.
-func (e *ShardOwnershipLost) Error() string {
+func (e *CurrentBranchChanged) Error() string {
 	return e.Message
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *ShardOwnershipLost) GRPCStatus() *status.Status {
-	if e.st != nil{
+func (e *CurrentBranchChanged) GRPCStatus() *status.Status {
+	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.Aborted, e.Message)
+	st := status.New(codes.InvalidArgument, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ShardOwnershipLostFailure{
-			Owner: e.Owner,
+		&errordetails.CurrentBranchChangedFailure{
+			CurrentBranchToken:e.CurrentBranchToken,
 		},
 	)
 	return st
 }
 
-func shardOwnershipLost(st *status.Status) (*ShardOwnershipLost, bool) {
-	if st == nil || st.Code() != codes.Aborted {
+func currentBranchChanged(st *status.Status) (*CurrentBranchChanged, bool) {
+	if st == nil || st.Code() != codes.InvalidArgument {
 		return nil, false
 	}
 
-	if failure, ok := getFailure(st).(*errordetails.ShardOwnershipLostFailure); ok {
-		return &ShardOwnershipLost{
+	if failure, ok := getFailure(st).(*errordetails.CurrentBranchChangedFailure); ok {
+		return &CurrentBranchChanged{
 			Message: st.Message(),
-			Owner:   failure.Owner,
+			CurrentBranchToken: failure.CurrentBranchToken,
 			st:      st,
 		}, true
 	}

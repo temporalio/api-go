@@ -30,52 +30,60 @@ import (
 )
 
 type (
-	// ShardOwnershipLost represents shard ownership lost error.
-	ShardOwnershipLost struct {
-		Message string
-		Owner   string
-		st      *status.Status
+	// DomainNotActive represents domain not active error.
+	DomainNotActive struct {
+		Message        string
+		DomainName     string
+		CurrentCluster string
+		ActiveCluster  string
+		st             *status.Status
 	}
 )
 
-// NewShardOwnershipLost returns new ShardOwnershipLost error.
-func NewShardOwnershipLost(message, owner string) *ShardOwnershipLost {
-	return &ShardOwnershipLost{
-		Message: message,
-		Owner:   owner,
+// NewDomainNotActive returns new DomainNotActive error.
+func NewDomainNotActive(message, domainName, currentCluster, activeCluster string) *DomainNotActive {
+	return &DomainNotActive{
+		Message:        message,
+		DomainName:     domainName,
+		CurrentCluster: currentCluster,
+		ActiveCluster:  activeCluster,
 	}
 }
 
 // Error returns string message.
-func (e *ShardOwnershipLost) Error() string {
+func (e *DomainNotActive) Error() string {
 	return e.Message
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *ShardOwnershipLost) GRPCStatus() *status.Status {
-	if e.st != nil{
+func (e *DomainNotActive) GRPCStatus() *status.Status {
+	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.Aborted, e.Message)
+	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ShardOwnershipLostFailure{
-			Owner: e.Owner,
+		&errordetails.DomainNotActiveFailure{
+			DomainName:     e.DomainName,
+			CurrentCluster: e.CurrentCluster,
+			ActiveCluster:  e.ActiveCluster,
 		},
 	)
 	return st
 }
 
-func shardOwnershipLost(st *status.Status) (*ShardOwnershipLost, bool) {
-	if st == nil || st.Code() != codes.Aborted {
+func domainNotActive(st *status.Status) (*DomainNotActive, bool) {
+	if st == nil || st.Code() != codes.FailedPrecondition {
 		return nil, false
 	}
 
-	if failure, ok := getFailure(st).(*errordetails.ShardOwnershipLostFailure); ok {
-		return &ShardOwnershipLost{
-			Message: st.Message(),
-			Owner:   failure.Owner,
-			st:      st,
+	if failure, ok := getFailure(st).(*errordetails.DomainNotActiveFailure); ok {
+		return &DomainNotActive{
+			Message:        st.Message(),
+			DomainName:     failure.DomainName,
+			CurrentCluster: failure.CurrentCluster,
+			ActiveCluster:  failure.ActiveCluster,
+			st:             st,
 		}, true
 	}
 

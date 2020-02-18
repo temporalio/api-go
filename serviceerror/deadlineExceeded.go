@@ -22,13 +22,47 @@
 
 package serviceerror
 
-import "github.com/gogo/status"
+import (
+	"github.com/gogo/status"
+	"google.golang.org/grpc/codes"
+)
 
-func getFailure(st *status.Status) interface{} {
-	details := st.Details()
-	if len(details) > 0 {
-		return details[0]
+type (
+	// DeadlineExceeded represents deadline exceeded error.
+	DeadlineExceeded struct {
+		Message string
+		st *status.Status
+	}
+)
+
+// NewDeadlineExceeded returns new DeadlineExceeded error.
+func NewDeadlineExceeded(message string) *DeadlineExceeded {
+	return &DeadlineExceeded{
+		Message: message,
+	}
+}
+
+// Error returns string message.
+func (e *DeadlineExceeded) Error() string {
+	return e.Message
+}
+
+// GRPCStatus returns corresponding gRPC status.Status.
+func (e *DeadlineExceeded) GRPCStatus() *status.Status {
+	if e.st != nil{
+		return e.st
 	}
 
-	return nil
+	return status.New(codes.DeadlineExceeded, e.Message)
+}
+
+func deadlineExceeded(st *status.Status) (*DeadlineExceeded, bool) {
+	if st == nil || st.Code() != codes.DeadlineExceeded {
+		return nil, false
+	}
+
+	return &DeadlineExceeded{
+		Message: st.Message(),
+		st: st,
+	}, true
 }

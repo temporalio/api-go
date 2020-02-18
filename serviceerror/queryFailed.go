@@ -22,13 +22,57 @@
 
 package serviceerror
 
-import "github.com/gogo/status"
+import (
+	"github.com/gogo/status"
+	"google.golang.org/grpc/codes"
 
-func getFailure(st *status.Status) interface{} {
-	details := st.Details()
-	if len(details) > 0 {
-		return details[0]
+	"go.temporal.io/temporal-proto/errordetails"
+)
+
+type (
+	// QueryFailed represents query failed error.
+	QueryFailed struct {
+		Message        string
+		st             *status.Status
+	}
+)
+
+// NewQueryFailed returns new QueryFailed error.
+func NewQueryFailed(message string) *QueryFailed {
+	return &QueryFailed{
+		Message:        message,
+	}
+}
+
+// Error returns string message.
+func (e *QueryFailed) Error() string {
+	return e.Message
+}
+
+// GRPCStatus returns corresponding gRPC status.Status.
+func (e *QueryFailed) GRPCStatus() *status.Status {
+	if e.st != nil {
+		return e.st
 	}
 
-	return nil
+	st := status.New(codes.InvalidArgument, e.Message)
+	st, _ = st.WithDetails(
+		&errordetails.QueryFailedFailure{},
+	)
+	return st
+}
+
+func queryFailed(st *status.Status) (*QueryFailed, bool) {
+	if st == nil || st.Code() != codes.InvalidArgument {
+		return nil, false
+	}
+
+	if _, ok := getFailure(st).(*errordetails.QueryFailedFailure); ok {
+		return &QueryFailed{
+			Message: st.Message(),
+			st:      st,
+		}, true
+	}
+
+	return nil, false
 }

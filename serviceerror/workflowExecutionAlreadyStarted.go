@@ -30,51 +30,55 @@ import (
 )
 
 type (
-	// ShardOwnershipLost represents shard ownership lost error.
-	ShardOwnershipLost struct {
-		Message string
-		Owner   string
-		st      *status.Status
+	// WorkflowExecutionAlreadyStarted represents workflow execution already started error.
+	WorkflowExecutionAlreadyStarted struct {
+		Message        string
+		StartRequestId string
+		RunId          string
+		st             *status.Status
 	}
 )
 
-// NewShardOwnershipLost returns new ShardOwnershipLost error.
-func NewShardOwnershipLost(message, owner string) *ShardOwnershipLost {
-	return &ShardOwnershipLost{
-		Message: message,
-		Owner:   owner,
+// NewWorkflowExecutionAlreadyStarted returns new WorkflowExecutionAlreadyStarted error.
+func NewWorkflowExecutionAlreadyStarted(message, startRequestId, runId string) *WorkflowExecutionAlreadyStarted {
+	return &WorkflowExecutionAlreadyStarted{
+		Message:        message,
+		StartRequestId: startRequestId,
+		RunId:          runId,
 	}
 }
 
 // Error returns string message.
-func (e *ShardOwnershipLost) Error() string {
+func (e *WorkflowExecutionAlreadyStarted) Error() string {
 	return e.Message
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *ShardOwnershipLost) GRPCStatus() *status.Status {
-	if e.st != nil{
+func (e *WorkflowExecutionAlreadyStarted) GRPCStatus() *status.Status {
+	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.Aborted, e.Message)
+	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ShardOwnershipLostFailure{
-			Owner: e.Owner,
+		&errordetails.WorkflowExecutionAlreadyStartedFailure{
+			StartRequestId: e.StartRequestId,
+			RunId:          e.RunId,
 		},
 	)
 	return st
 }
 
-func shardOwnershipLost(st *status.Status) (*ShardOwnershipLost, bool) {
-	if st == nil || st.Code() != codes.Aborted {
+func workflowExecutionAlreadyStarted(st *status.Status) (*WorkflowExecutionAlreadyStarted, bool) {
+	if st == nil || st.Code() != codes.AlreadyExists {
 		return nil, false
 	}
 
-	if failure, ok := getFailure(st).(*errordetails.ShardOwnershipLostFailure); ok {
-		return &ShardOwnershipLost{
+	if failure, ok := getFailure(st).(*errordetails.WorkflowExecutionAlreadyStartedFailure); ok {
+		return &WorkflowExecutionAlreadyStarted{
 			Message: st.Message(),
-			Owner:   failure.Owner,
+			StartRequestId: failure.StartRequestId,
+			RunId:          failure.RunId,
 			st:      st,
 		}, true
 	}

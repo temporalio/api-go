@@ -30,59 +30,75 @@ import (
 )
 
 type (
-	// ClientVersionNotSupported represents client version is not supported error.
-	ClientVersionNotSupported struct {
+	// RetryTaskV2 represents retry task v2 error.
+	RetryTaskV2 struct {
 		Message           string
-		FeatureVersion    string
-		ClientImpl        string
-		SupportedVersions string
+		DomainId          string
+		WorkflowId        string
+		RunId             string
+		StartEventId      int64
+		StartEventVersion int64
+		EndEventId        int64
+		EndEventVersion   int64
 		st                *status.Status
 	}
 )
 
-// NewClientVersionNotSupported returns new ClientVersionNotSupported error.
-func NewClientVersionNotSupported(message, featureVersion, clientImpl, supportedVersions string) *ClientVersionNotSupported {
-	return &ClientVersionNotSupported{
+// NewRetryTaskV2 returns new RetryTaskV2 error.
+func NewRetryTaskV2(message, domainId, workflowId, runId string, startEventId, startEventVersion, endEventId, endEventVersion int64) *RetryTaskV2 {
+	return &RetryTaskV2{
 		Message:           message,
-		FeatureVersion:    featureVersion,
-		ClientImpl:        clientImpl,
-		SupportedVersions: supportedVersions,
+		DomainId:          domainId,
+		WorkflowId:        workflowId,
+		RunId:             runId,
+		StartEventId:      startEventId,
+		StartEventVersion: startEventVersion,
+		EndEventId:        endEventId,
+		EndEventVersion:   endEventVersion,
 	}
 }
 
 // Error returns string message.
-func (e *ClientVersionNotSupported) Error() string {
+func (e *RetryTaskV2) Error() string {
 	return e.Message
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *ClientVersionNotSupported) GRPCStatus() *status.Status {
+func (e *RetryTaskV2) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.FailedPrecondition, e.Message)
+	st := status.New(codes.Aborted, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ClientVersionNotSupportedFailure{
-			FeatureVersion:    e.FeatureVersion,
-			ClientImpl:        e.ClientImpl,
-			SupportedVersions: e.SupportedVersions,
+		&errordetails.RetryTaskV2Failure{
+			DomainId:          e.DomainId,
+			WorkflowId:        e.WorkflowId,
+			RunId:             e.RunId,
+			StartEventId:      e.StartEventId,
+			StartEventVersion: e.StartEventVersion,
+			EndEventId:        e.EndEventId,
+			EndEventVersion:   e.EndEventVersion,
 		},
 	)
 	return st
 }
 
-func clientVersionNotSupported(st *status.Status) (*ClientVersionNotSupported, bool) {
-	if st == nil || st.Code() != codes.FailedPrecondition {
+func retryTaskV2(st *status.Status) (*RetryTaskV2, bool) {
+	if st == nil || st.Code() != codes.Aborted {
 		return nil, false
 	}
 
-	if failure, ok := getFailure(st).(*errordetails.ClientVersionNotSupportedFailure); ok {
-		return &ClientVersionNotSupported{
+	if failure, ok := getFailure(st).(*errordetails.RetryTaskV2Failure); ok {
+		return &RetryTaskV2{
 			Message:           st.Message(),
-			FeatureVersion:    failure.FeatureVersion,
-			ClientImpl:        failure.ClientImpl,
-			SupportedVersions: failure.SupportedVersions,
+			DomainId:          failure.DomainId,
+			WorkflowId:        failure.WorkflowId,
+			RunId:             failure.RunId,
+			StartEventId:      failure.StartEventId,
+			StartEventVersion: failure.StartEventVersion,
+			EndEventId:        failure.EndEventId,
+			EndEventVersion:   failure.EndEventVersion,
 			st:                st,
 		}, true
 	}

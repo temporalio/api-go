@@ -419,21 +419,20 @@ func (m *CurrentBranchChangedFailure) GetCurrentBranchToken() []byte {
 	return nil
 }
 
-type ShardOwnershipLostFailure struct {
-	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+type DomainAlreadyExistsFailure struct {
 }
 
-func (m *ShardOwnershipLostFailure) Reset()      { *m = ShardOwnershipLostFailure{} }
-func (*ShardOwnershipLostFailure) ProtoMessage() {}
-func (*ShardOwnershipLostFailure) Descriptor() ([]byte, []int) {
+func (m *DomainAlreadyExistsFailure) Reset()      { *m = DomainAlreadyExistsFailure{} }
+func (*DomainAlreadyExistsFailure) ProtoMessage() {}
+func (*DomainAlreadyExistsFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_9ac0eeeb3160cc8e, []int{6}
 }
-func (m *ShardOwnershipLostFailure) XXX_Unmarshal(b []byte) error {
+func (m *DomainAlreadyExistsFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ShardOwnershipLostFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *DomainAlreadyExistsFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ShardOwnershipLostFailure.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DomainAlreadyExistsFailure.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -443,24 +442,122 @@ func (m *ShardOwnershipLostFailure) XXX_Marshal(b []byte, deterministic bool) ([
 		return b[:n], nil
 	}
 }
-func (m *ShardOwnershipLostFailure) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ShardOwnershipLostFailure.Merge(m, src)
+func (m *DomainAlreadyExistsFailure) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DomainAlreadyExistsFailure.Merge(m, src)
 }
-func (m *ShardOwnershipLostFailure) XXX_Size() int {
+func (m *DomainAlreadyExistsFailure) XXX_Size() int {
 	return m.Size()
 }
-func (m *ShardOwnershipLostFailure) XXX_DiscardUnknown() {
-	xxx_messageInfo_ShardOwnershipLostFailure.DiscardUnknown(m)
+func (m *DomainAlreadyExistsFailure) XXX_DiscardUnknown() {
+	xxx_messageInfo_DomainAlreadyExistsFailure.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ShardOwnershipLostFailure proto.InternalMessageInfo
+var xxx_messageInfo_DomainAlreadyExistsFailure proto.InternalMessageInfo
 
-func (m *ShardOwnershipLostFailure) GetOwner() string {
-	if m != nil {
-		return m.Owner
+type CancellationAlreadyRequestedFailure struct {
+}
+
+func (m *CancellationAlreadyRequestedFailure) Reset()      { *m = CancellationAlreadyRequestedFailure{} }
+func (*CancellationAlreadyRequestedFailure) ProtoMessage() {}
+func (*CancellationAlreadyRequestedFailure) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9ac0eeeb3160cc8e, []int{7}
+}
+func (m *CancellationAlreadyRequestedFailure) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *CancellationAlreadyRequestedFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_CancellationAlreadyRequestedFailure.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
 	}
-	return ""
 }
+func (m *CancellationAlreadyRequestedFailure) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CancellationAlreadyRequestedFailure.Merge(m, src)
+}
+func (m *CancellationAlreadyRequestedFailure) XXX_Size() int {
+	return m.Size()
+}
+func (m *CancellationAlreadyRequestedFailure) XXX_DiscardUnknown() {
+	xxx_messageInfo_CancellationAlreadyRequestedFailure.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CancellationAlreadyRequestedFailure proto.InternalMessageInfo
+
+type QueryFailedFailure struct {
+}
+
+func (m *QueryFailedFailure) Reset()      { *m = QueryFailedFailure{} }
+func (*QueryFailedFailure) ProtoMessage() {}
+func (*QueryFailedFailure) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9ac0eeeb3160cc8e, []int{8}
+}
+func (m *QueryFailedFailure) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryFailedFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryFailedFailure.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryFailedFailure) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryFailedFailure.Merge(m, src)
+}
+func (m *QueryFailedFailure) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryFailedFailure) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryFailedFailure.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryFailedFailure proto.InternalMessageInfo
+
+type EventAlreadyStartedFailure struct {
+}
+
+func (m *EventAlreadyStartedFailure) Reset()      { *m = EventAlreadyStartedFailure{} }
+func (*EventAlreadyStartedFailure) ProtoMessage() {}
+func (*EventAlreadyStartedFailure) Descriptor() ([]byte, []int) {
+	return fileDescriptor_9ac0eeeb3160cc8e, []int{9}
+}
+func (m *EventAlreadyStartedFailure) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *EventAlreadyStartedFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_EventAlreadyStartedFailure.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *EventAlreadyStartedFailure) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EventAlreadyStartedFailure.Merge(m, src)
+}
+func (m *EventAlreadyStartedFailure) XXX_Size() int {
+	return m.Size()
+}
+func (m *EventAlreadyStartedFailure) XXX_DiscardUnknown() {
+	xxx_messageInfo_EventAlreadyStartedFailure.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EventAlreadyStartedFailure proto.InternalMessageInfo
 
 func init() {
 	proto.RegisterType((*WorkflowExecutionAlreadyStartedFailure)(nil), "errordetails.WorkflowExecutionAlreadyStartedFailure")
@@ -469,46 +566,51 @@ func init() {
 	proto.RegisterType((*RetryTaskV2Failure)(nil), "errordetails.RetryTaskV2Failure")
 	proto.RegisterType((*ClientVersionNotSupportedFailure)(nil), "errordetails.ClientVersionNotSupportedFailure")
 	proto.RegisterType((*CurrentBranchChangedFailure)(nil), "errordetails.CurrentBranchChangedFailure")
-	proto.RegisterType((*ShardOwnershipLostFailure)(nil), "errordetails.ShardOwnershipLostFailure")
+	proto.RegisterType((*DomainAlreadyExistsFailure)(nil), "errordetails.DomainAlreadyExistsFailure")
+	proto.RegisterType((*CancellationAlreadyRequestedFailure)(nil), "errordetails.CancellationAlreadyRequestedFailure")
+	proto.RegisterType((*QueryFailedFailure)(nil), "errordetails.QueryFailedFailure")
+	proto.RegisterType((*EventAlreadyStartedFailure)(nil), "errordetails.EventAlreadyStartedFailure")
 }
 
 func init() { proto.RegisterFile("errordetails/error_details.proto", fileDescriptor_9ac0eeeb3160cc8e) }
 
 var fileDescriptor_9ac0eeeb3160cc8e = []byte{
-	// 519 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x93, 0xcf, 0x6e, 0xd3, 0x40,
-	0x10, 0xc6, 0xbd, 0x2d, 0x29, 0xb0, 0x84, 0x7f, 0x56, 0x85, 0x02, 0x48, 0x2b, 0xcb, 0x42, 0x55,
-	0x84, 0x20, 0x11, 0xf0, 0x04, 0x6d, 0x28, 0x52, 0x24, 0x28, 0x92, 0x53, 0x15, 0x89, 0x0b, 0x2c,
-	0xf6, 0xa4, 0xb1, 0xe2, 0xec, 0x9a, 0xf1, 0xba, 0x69, 0x6f, 0x88, 0x03, 0x67, 0x8e, 0x3c, 0x02,
-	0x8f, 0xc2, 0x31, 0xc7, 0x1e, 0x89, 0x73, 0xe1, 0xd8, 0x47, 0x40, 0x5e, 0x7b, 0x63, 0x27, 0xe5,
-	0xca, 0x2d, 0xdf, 0x6f, 0x26, 0xdf, 0x7e, 0x33, 0xde, 0xa5, 0x0e, 0x20, 0x4a, 0x0c, 0x40, 0xf1,
-	0x30, 0x4a, 0xba, 0x5a, 0x7c, 0x28, 0x55, 0x27, 0x46, 0xa9, 0xa4, 0xdd, 0xac, 0x77, 0xb8, 0x43,
-	0xba, 0xf3, 0x4e, 0xe2, 0x78, 0x18, 0xc9, 0xe9, 0xfe, 0x29, 0xf8, 0xa9, 0x0a, 0xa5, 0xd8, 0x8d,
-	0x10, 0x78, 0x70, 0x36, 0x50, 0x1c, 0x15, 0x04, 0xaf, 0x78, 0x18, 0xa5, 0x08, 0xf6, 0x0e, 0xbd,
-	0x95, 0xe4, 0xc4, 0x83, 0xcf, 0x29, 0x24, 0xaa, 0x1f, 0xb4, 0x88, 0x43, 0xda, 0xd7, 0xbd, 0x35,
-	0x6a, 0x6f, 0xd3, 0x06, 0xa6, 0xa2, 0x1f, 0xb4, 0x36, 0x74, 0xb9, 0x10, 0xee, 0x37, 0x42, 0xef,
-	0xbd, 0x94, 0x13, 0x1e, 0x8a, 0x03, 0xa9, 0x76, 0x7d, 0x15, 0x9e, 0x80, 0x31, 0x66, 0x94, 0x06,
-	0x45, 0x85, 0x4f, 0xa0, 0x34, 0xad, 0x91, 0xfc, 0x60, 0x3f, 0x45, 0x04, 0xa1, 0x7a, 0x51, 0x9a,
-	0x28, 0xc0, 0xd2, 0x79, 0x8d, 0xda, 0x8f, 0xe8, 0x4d, 0xae, 0x8d, 0x4d, 0xdb, 0xa6, 0x6e, 0x5b,
-	0x85, 0x79, 0x90, 0x3b, 0x1e, 0x28, 0x3c, 0x3b, 0xe4, 0xc9, 0xd8, 0x44, 0x78, 0x40, 0xaf, 0x15,
-	0x07, 0x2e, 0xa7, 0x5a, 0xea, 0x3c, 0xde, 0xb4, 0xdc, 0xd0, 0x72, 0xa8, 0x1a, 0xa9, 0xe6, 0xdd,
-	0xac, 0xcd, 0x6b, 0x3b, 0xf4, 0x86, 0x80, 0x53, 0xb5, 0x7f, 0x02, 0x22, 0x5f, 0xd5, 0x15, 0x87,
-	0xb4, 0x37, 0xbd, 0x3a, 0x72, 0xbf, 0x6e, 0x50, 0x7b, 0x19, 0xe4, 0xe8, 0xf9, 0xff, 0x8b, 0xe2,
-	0xd2, 0xa6, 0xfe, 0x44, 0xab, 0x59, 0x56, 0x98, 0xfd, 0x84, 0xde, 0xad, 0xf4, 0x11, 0x60, 0x12,
-	0x4a, 0xd1, 0x6a, 0xe8, 0xc6, 0xcb, 0x85, 0x3c, 0x07, 0x88, 0xc0, 0xf8, 0x6d, 0xe9, 0xb6, 0x1a,
-	0xb1, 0xdb, 0xf4, 0xb6, 0x51, 0xc6, 0xeb, 0xaa, 0x6e, 0x5a, 0xc7, 0xee, 0x0f, 0x42, 0x9d, 0x5e,
-	0x14, 0x56, 0xe4, 0x40, 0xaa, 0x41, 0x1a, 0xc7, 0x72, 0xed, 0xe6, 0x0d, 0x81, 0xab, 0x14, 0xc1,
-	0xb8, 0x95, 0x37, 0x6f, 0x95, 0xe6, 0xb1, 0x7c, 0xed, 0xd5, 0x9f, 0xc4, 0x91, 0x59, 0x4f, 0x45,
-	0xf4, 0x90, 0xc6, 0xbb, 0xfc, 0x4f, 0x52, 0xae, 0xea, 0x72, 0xc1, 0x7d, 0x43, 0x1f, 0xf6, 0x8a,
-	0x0b, 0xb6, 0x87, 0x5c, 0xf8, 0xa3, 0xde, 0x88, 0x8b, 0xe3, 0x2a, 0x54, 0x87, 0xda, 0x7e, 0xbd,
-	0x7c, 0x28, 0xc7, 0x50, 0x04, 0x6b, 0x7a, 0xff, 0xa8, 0xb8, 0xcf, 0xe8, 0xfd, 0xc1, 0x88, 0x63,
-	0xf0, 0x76, 0x2a, 0x00, 0x93, 0x51, 0x18, 0xbf, 0x96, 0x89, 0x32, 0x66, 0xdb, 0xb4, 0x21, 0x73,
-	0x5e, 0x0e, 0x56, 0x88, 0xbd, 0x8f, 0xb3, 0x39, 0xb3, 0xce, 0xe7, 0xcc, 0xba, 0x98, 0x33, 0xf2,
-	0x25, 0x63, 0xe4, 0x67, 0xc6, 0xc8, 0xaf, 0x8c, 0x91, 0x59, 0xc6, 0xc8, 0xef, 0x8c, 0x91, 0x3f,
-	0x19, 0xb3, 0x2e, 0x32, 0x46, 0xbe, 0x2f, 0x98, 0x35, 0x5b, 0x30, 0xeb, 0x7c, 0xc1, 0xac, 0xf7,
-	0x8f, 0x8f, 0x65, 0x47, 0xc1, 0x24, 0x96, 0xc8, 0xa3, 0x4e, 0x28, 0xbb, 0xe6, 0xf7, 0x53, 0xfd,
-	0xfc, 0xbb, 0xf5, 0xd7, 0xff, 0x69, 0x4b, 0xb3, 0x17, 0x7f, 0x03, 0x00, 0x00, 0xff, 0xff, 0xdf,
-	0xfe, 0xc1, 0x18, 0x36, 0x04, 0x00, 0x00,
+	// 546 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0xcf, 0x6e, 0xd3, 0x4e,
+	0x10, 0xc7, 0xbd, 0xcd, 0xaf, 0xfd, 0xc1, 0x34, 0xfc, 0xb3, 0x2a, 0x14, 0x85, 0x6a, 0x15, 0x19,
+	0xa8, 0x22, 0x04, 0x89, 0x04, 0x4f, 0xd0, 0x86, 0x20, 0xe5, 0x40, 0x25, 0xd2, 0xaa, 0x48, 0x5c,
+	0xd0, 0x62, 0x4f, 0x5a, 0x2b, 0xce, 0x6e, 0x58, 0xaf, 0xdb, 0xe4, 0x86, 0x38, 0x70, 0xe6, 0xc8,
+	0x23, 0xf0, 0x28, 0x1c, 0x73, 0xec, 0x91, 0x38, 0x17, 0x8e, 0x7d, 0x04, 0xe4, 0xf5, 0x6e, 0xec,
+	0xa4, 0xbd, 0x72, 0xcb, 0x7c, 0x66, 0xf2, 0xdd, 0xef, 0x8c, 0x77, 0x16, 0x1a, 0x28, 0xa5, 0x90,
+	0x01, 0x2a, 0x16, 0x46, 0x71, 0x5b, 0x07, 0x1f, 0x4d, 0xd4, 0x1a, 0x4b, 0xa1, 0x84, 0x5b, 0x2d,
+	0x57, 0x78, 0x03, 0xd8, 0x7b, 0x2f, 0xe4, 0x70, 0x10, 0x89, 0x8b, 0xee, 0x04, 0xfd, 0x44, 0x85,
+	0x82, 0xef, 0x47, 0x12, 0x59, 0x30, 0x3d, 0x52, 0x4c, 0x2a, 0x0c, 0xde, 0xb0, 0x30, 0x4a, 0x24,
+	0xba, 0x7b, 0x70, 0x37, 0xce, 0x48, 0x1f, 0x3f, 0x27, 0x18, 0xab, 0x5e, 0x50, 0x23, 0x0d, 0xd2,
+	0xbc, 0xdd, 0x5f, 0xa3, 0xee, 0x0e, 0x6c, 0xca, 0x84, 0xf7, 0x82, 0xda, 0x86, 0x4e, 0xe7, 0x81,
+	0xf7, 0x8d, 0xc0, 0xc3, 0xd7, 0x62, 0xc4, 0x42, 0x7e, 0x28, 0xd4, 0xbe, 0xaf, 0xc2, 0x73, 0xb4,
+	0xc2, 0x14, 0x20, 0xc8, 0x33, 0x6c, 0x84, 0x46, 0xb4, 0x44, 0xb2, 0x83, 0xfd, 0x44, 0x4a, 0xe4,
+	0xaa, 0x13, 0x25, 0xb1, 0x42, 0x69, 0x94, 0xd7, 0xa8, 0xfb, 0x04, 0xee, 0x30, 0x2d, 0x6c, 0xcb,
+	0x2a, 0xba, 0x6c, 0x15, 0x66, 0x46, 0xee, 0xf7, 0x51, 0xc9, 0xe9, 0x31, 0x8b, 0x87, 0xd6, 0x42,
+	0x1d, 0x6e, 0xe5, 0x07, 0x2e, 0xbb, 0x5a, 0xc6, 0x99, 0xbd, 0x0b, 0x33, 0xa1, 0x65, 0x53, 0x25,
+	0x52, 0xf4, 0x5b, 0x29, 0xf5, 0xeb, 0x36, 0x60, 0x9b, 0xe3, 0x44, 0x75, 0xcf, 0x91, 0x67, 0xa3,
+	0xfa, 0xaf, 0x41, 0x9a, 0x95, 0x7e, 0x19, 0x79, 0x5f, 0x37, 0xc0, 0x5d, 0x1a, 0x39, 0x79, 0xf9,
+	0xef, 0xac, 0x78, 0x50, 0xd5, 0x9f, 0x68, 0xd5, 0xcb, 0x0a, 0x73, 0x9f, 0xc3, 0x83, 0x22, 0x3e,
+	0x41, 0x19, 0x87, 0x82, 0xd7, 0x36, 0x75, 0xe1, 0xf5, 0x44, 0xe6, 0x03, 0x79, 0x60, 0xf5, 0xb6,
+	0x74, 0x59, 0x89, 0xb8, 0x4d, 0xb8, 0x67, 0x23, 0xab, 0xf5, 0xbf, 0x2e, 0x5a, 0xc7, 0xde, 0x0f,
+	0x02, 0x8d, 0x4e, 0x14, 0x16, 0xe4, 0x50, 0xa8, 0xa3, 0x64, 0x3c, 0x16, 0x6b, 0x37, 0x6f, 0x80,
+	0x4c, 0x25, 0x12, 0xad, 0x9a, 0xb9, 0x79, 0xab, 0x34, 0xb3, 0xe5, 0x6b, 0xad, 0xde, 0x68, 0x1c,
+	0xd9, 0xf1, 0x14, 0x44, 0x37, 0x69, 0xb5, 0xcd, 0x7f, 0x62, 0x33, 0xaa, 0xeb, 0x09, 0xef, 0x2d,
+	0x3c, 0xea, 0xe4, 0x17, 0xec, 0x40, 0x32, 0xee, 0x9f, 0x75, 0xce, 0x18, 0x3f, 0x2d, 0x4c, 0xb5,
+	0xc0, 0xf5, 0xcb, 0xe9, 0x63, 0x31, 0xc4, 0xdc, 0x58, 0xb5, 0x7f, 0x43, 0xc6, 0xdb, 0x85, 0x7a,
+	0x7e, 0xff, 0xcd, 0x76, 0x75, 0x27, 0x61, 0xac, 0x62, 0xa3, 0xe6, 0x3d, 0x85, 0xc7, 0x1d, 0xc6,
+	0x7d, 0x8c, 0x22, 0x56, 0xda, 0x40, 0xb3, 0x54, 0xcb, 0x43, 0xbd, 0x1d, 0x70, 0xdf, 0x25, 0x28,
+	0xa7, 0x59, 0x5c, 0xd0, 0x5d, 0xa8, 0xeb, 0xa1, 0xde, 0xb8, 0xb7, 0x07, 0xa3, 0xd9, 0x9c, 0x3a,
+	0x97, 0x73, 0xea, 0x5c, 0xcd, 0x29, 0xf9, 0x92, 0x52, 0xf2, 0x33, 0xa5, 0xe4, 0x57, 0x4a, 0xc9,
+	0x2c, 0xa5, 0xe4, 0x77, 0x4a, 0xc9, 0x9f, 0x94, 0x3a, 0x57, 0x29, 0x25, 0xdf, 0x17, 0xd4, 0x99,
+	0x2d, 0xa8, 0x73, 0xb9, 0xa0, 0x0e, 0x6c, 0x87, 0xa2, 0xa5, 0x70, 0x34, 0x16, 0x92, 0x45, 0x1f,
+	0x9e, 0x9d, 0x16, 0x41, 0x2b, 0x14, 0x6d, 0xfb, 0xfb, 0x85, 0x7e, 0x51, 0xda, 0xe5, 0x07, 0xe5,
+	0xd3, 0x96, 0x66, 0xaf, 0xfe, 0x06, 0x00, 0x00, 0xff, 0xff, 0x01, 0xde, 0x54, 0x71, 0x89, 0x04,
+	0x00, 0x00,
 }
 
 func (this *WorkflowExecutionAlreadyStartedFailure) Equal(that interface{}) bool {
@@ -697,14 +799,14 @@ func (this *CurrentBranchChangedFailure) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *ShardOwnershipLostFailure) Equal(that interface{}) bool {
+func (this *DomainAlreadyExistsFailure) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*ShardOwnershipLostFailure)
+	that1, ok := that.(*DomainAlreadyExistsFailure)
 	if !ok {
-		that2, ok := that.(ShardOwnershipLostFailure)
+		that2, ok := that.(DomainAlreadyExistsFailure)
 		if ok {
 			that1 = &that2
 		} else {
@@ -716,7 +818,67 @@ func (this *ShardOwnershipLostFailure) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Owner != that1.Owner {
+	return true
+}
+func (this *CancellationAlreadyRequestedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*CancellationAlreadyRequestedFailure)
+	if !ok {
+		that2, ok := that.(CancellationAlreadyRequestedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *QueryFailedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*QueryFailedFailure)
+	if !ok {
+		that2, ok := that.(QueryFailedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *EventAlreadyStartedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*EventAlreadyStartedFailure)
+	if !ok {
+		that2, ok := that.(EventAlreadyStartedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
 		return false
 	}
 	return true
@@ -795,13 +957,39 @@ func (this *CurrentBranchChangedFailure) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *ShardOwnershipLostFailure) GoString() string {
+func (this *DomainAlreadyExistsFailure) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 5)
-	s = append(s, "&errordetails.ShardOwnershipLostFailure{")
-	s = append(s, "Owner: "+fmt.Sprintf("%#v", this.Owner)+",\n")
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.DomainAlreadyExistsFailure{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *CancellationAlreadyRequestedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.CancellationAlreadyRequestedFailure{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *QueryFailedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.QueryFailedFailure{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *EventAlreadyStartedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.EventAlreadyStartedFailure{")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1081,7 +1269,7 @@ func (m *CurrentBranchChangedFailure) MarshalToSizedBuffer(dAtA []byte) (int, er
 	return len(dAtA) - i, nil
 }
 
-func (m *ShardOwnershipLostFailure) Marshal() (dAtA []byte, err error) {
+func (m *DomainAlreadyExistsFailure) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1091,23 +1279,85 @@ func (m *ShardOwnershipLostFailure) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ShardOwnershipLostFailure) MarshalTo(dAtA []byte) (int, error) {
+func (m *DomainAlreadyExistsFailure) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ShardOwnershipLostFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *DomainAlreadyExistsFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintErrorDetails(dAtA, i, uint64(len(m.Owner)))
-		i--
-		dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *CancellationAlreadyRequestedFailure) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
 	}
+	return dAtA[:n], nil
+}
+
+func (m *CancellationAlreadyRequestedFailure) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CancellationAlreadyRequestedFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryFailedFailure) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryFailedFailure) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryFailedFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *EventAlreadyStartedFailure) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *EventAlreadyStartedFailure) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *EventAlreadyStartedFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
 	return len(dAtA) - i, nil
 }
 
@@ -1251,16 +1501,39 @@ func (m *CurrentBranchChangedFailure) Size() (n int) {
 	return n
 }
 
-func (m *ShardOwnershipLostFailure) Size() (n int) {
+func (m *DomainAlreadyExistsFailure) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovErrorDetails(uint64(l))
+	return n
+}
+
+func (m *CancellationAlreadyRequestedFailure) Size() (n int) {
+	if m == nil {
+		return 0
 	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryFailedFailure) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *EventAlreadyStartedFailure) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	return n
 }
 
@@ -1344,12 +1617,38 @@ func (this *CurrentBranchChangedFailure) String() string {
 	}, "")
 	return s
 }
-func (this *ShardOwnershipLostFailure) String() string {
+func (this *DomainAlreadyExistsFailure) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&ShardOwnershipLostFailure{`,
-		`Owner:` + fmt.Sprintf("%v", this.Owner) + `,`,
+	s := strings.Join([]string{`&DomainAlreadyExistsFailure{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *CancellationAlreadyRequestedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&CancellationAlreadyRequestedFailure{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *QueryFailedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&QueryFailedFailure{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *EventAlreadyStartedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&EventAlreadyStartedFailure{`,
 		`}`,
 	}, "")
 	return s
@@ -2257,7 +2556,7 @@ func (m *CurrentBranchChangedFailure) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ShardOwnershipLostFailure) Unmarshal(dAtA []byte) error {
+func (m *DomainAlreadyExistsFailure) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2280,44 +2579,171 @@ func (m *ShardOwnershipLostFailure) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ShardOwnershipLostFailure: wiretype end group for non-group")
+			return fmt.Errorf("proto: DomainAlreadyExistsFailure: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ShardOwnershipLostFailure: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: DomainAlreadyExistsFailure: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipErrorDetails(dAtA[iNdEx:])
+			if err != nil {
+				return err
 			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowErrorDetails
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
+			if skippy < 0 {
 				return ErrInvalidLengthErrorDetails
 			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
+			if (iNdEx + skippy) < 0 {
 				return ErrInvalidLengthErrorDetails
 			}
-			if postIndex > l {
+			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *CancellationAlreadyRequestedFailure) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowErrorDetails
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: CancellationAlreadyRequestedFailure: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: CancellationAlreadyRequestedFailure: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipErrorDetails(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthErrorDetails
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthErrorDetails
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryFailedFailure) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowErrorDetails
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryFailedFailure: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryFailedFailure: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipErrorDetails(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthErrorDetails
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthErrorDetails
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *EventAlreadyStartedFailure) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowErrorDetails
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: EventAlreadyStartedFailure: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: EventAlreadyStartedFailure: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipErrorDetails(dAtA[iNdEx:])

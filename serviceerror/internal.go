@@ -22,13 +22,47 @@
 
 package serviceerror
 
-import "github.com/gogo/status"
+import (
+	"github.com/gogo/status"
+	"google.golang.org/grpc/codes"
+)
 
-func getFailure(st *status.Status) interface{} {
-	details := st.Details()
-	if len(details) > 0 {
-		return details[0]
+type (
+	// Internal represents internal error.
+	Internal struct {
+		Message string
+		st *status.Status
+	}
+)
+
+// NewInternal returns new Internal error.
+func NewInternal(message string) *Internal {
+	return &Internal{
+		Message: message,
+	}
+}
+
+// Error returns string message.
+func (e *Internal) Error() string {
+	return e.Message
+}
+
+// GRPCStatus returns corresponding gRPC status.Status.
+func (e *Internal) GRPCStatus() *status.Status {
+	if e.st != nil{
+		return e.st
 	}
 
-	return nil
+	return status.New(codes.Internal, e.Message)
+}
+
+func internal(st *status.Status) (*Internal, bool) {
+	if st == nil || st.Code() != codes.Internal {
+		return nil, false
+	}
+
+	return &Internal{
+		Message: st.Message(),
+		st: st,
+	}, true
 }
