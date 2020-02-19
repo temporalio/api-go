@@ -23,8 +23,8 @@
 package serviceerror
 
 import (
+	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
 	"go.temporal.io/temporal-proto/errordetails"
 )
@@ -64,7 +64,7 @@ func (e *RetryTaskV2) Error() string {
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *RetryTaskV2) GRPCStatus() *status.Status {
+func (e *RetryTaskV2) status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

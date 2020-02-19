@@ -25,8 +25,8 @@ package serviceerror
 import (
 	"fmt"
 
+	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 type (
@@ -55,7 +55,7 @@ func (e *InvalidArgument) Error() string {
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *InvalidArgument) GRPCStatus() *status.Status {
+func (e *InvalidArgument) status() *status.Status {
 	if e.st != nil{
 		return e.st
 	}

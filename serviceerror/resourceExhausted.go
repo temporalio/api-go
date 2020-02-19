@@ -23,8 +23,8 @@
 package serviceerror
 
 import (
+	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 type (
@@ -48,7 +48,7 @@ func (e *ResourceExhausted) Error() string {
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *ResourceExhausted) GRPCStatus() *status.Status {
+func (e *ResourceExhausted) status() *status.Status {
 	if e.st != nil{
 		return e.st
 	}

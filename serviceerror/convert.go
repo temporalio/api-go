@@ -25,14 +25,28 @@ package serviceerror
 import (
 	"errors"
 
-	gogostatus "github.com/gogo/status"
+	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	grpcstatus "google.golang.org/grpc/status"
 
 	"go.temporal.io/temporal-proto/errordetails"
 )
+// ToStatus converts service error to gogo gRPC status.
+// If error is not a service error it returns status with code Unknown.
+func ToStatus(err error) *status.Status {
+	if svcerr, ok := err.(ServiceError); ok {
+		return svcerr.status()
+	}
 
-// FromStatus converts gRPC status to service error.
+	// TODO: remove after error migration is done
+	if se, ok := err.(interface{ GRPCStatus() *grpcstatus.Status }); ok {
+		return status.FromGRPCStatus(se.GRPCStatus())
+	}
+
+	return status.New(codes.Unknown, err.Error())
+}
+
+// FromStatus converts gogo gRPC status to service error.
 func FromStatus(st *status.Status) error {
 	if st == nil || st.Code() == codes.OK {
 		return nil
@@ -113,9 +127,7 @@ func FromStatus(st *status.Status) error {
 }
 
 func extractFailure(st *status.Status) interface{} {
-	// This transformation is required because failures are serialized using gogo.
-	gogoSt := gogostatus.FromGRPCStatus(st)
-	details := gogoSt.Details()
+	details := st.Details()
 	if len(details) > 0 {
 		return details[0]
 	}

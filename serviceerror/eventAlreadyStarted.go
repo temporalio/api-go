@@ -23,8 +23,8 @@
 package serviceerror
 
 import (
+	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
 	"go.temporal.io/temporal-proto/errordetails"
 )
@@ -50,7 +50,7 @@ func (e *EventAlreadyStarted) Error() string {
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *EventAlreadyStarted) GRPCStatus() *status.Status {
+func (e *EventAlreadyStarted) status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

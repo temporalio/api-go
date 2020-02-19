@@ -23,8 +23,8 @@
 package serviceerror
 
 import (
+	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
 	"go.temporal.io/temporal-proto/errordetails"
 )
@@ -56,7 +56,7 @@ func (e *DomainNotActive) Error() string {
 }
 
 // GRPCStatus returns corresponding gRPC status.Status.
-func (e *DomainNotActive) GRPCStatus() *status.Status {
+func (e *DomainNotActive) status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
