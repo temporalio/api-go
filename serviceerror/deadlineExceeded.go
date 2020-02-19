@@ -56,13 +56,9 @@ func (e *DeadlineExceeded) GRPCStatus() *status.Status {
 	return status.New(codes.DeadlineExceeded, e.Message)
 }
 
-func deadlineExceeded(st *status.Status) (*DeadlineExceeded, bool) {
-	if st == nil || st.Code() != codes.DeadlineExceeded {
-		return nil, false
-	}
-
+func newDeadlineExceeded(st *status.Status) *DeadlineExceeded {
 	return &DeadlineExceeded{
 		Message: st.Message(),
 		st: st,
-	}, true
+	}
 }

@@ -66,18 +66,10 @@ func (e *ShardOwnershipLost) GRPCStatus() *status.Status {
 	return st
 }
 
-func shardOwnershipLost(st *status.Status) (*ShardOwnershipLost, bool) {
-	if st == nil || st.Code() != codes.Aborted {
-		return nil, false
+func newShardOwnershipLost(st *status.Status, failure *errordetails.ShardOwnershipLostFailure) *ShardOwnershipLost {
+	return &ShardOwnershipLost{
+		Message: st.Message(),
+		Owner:   failure.Owner,
+		st:      st,
 	}
-
-	if failure, ok := getFailure(st).(*errordetails.ShardOwnershipLostFailure); ok {
-		return &ShardOwnershipLost{
-			Message: st.Message(),
-			Owner:   failure.Owner,
-			st:      st,
-		}, true
-	}
-
-	return nil, false
 }

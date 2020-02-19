@@ -23,40 +23,99 @@
 package serviceerror
 
 import (
+	"errors"
+
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
-// FromStatus converts gRPC status to go error.
+// FromStatus converts gRPC status to service error.
 func FromStatus(st *status.Status) error {
 	if st == nil || st.Code() == codes.OK {
 		return nil
 	}
 
-	//switch st.Code() {
-	//case codes.Canceled:
-	//case codes.Unknown:
-	//case codes.InvalidArgument:
-	//case codes.DeadlineExceeded:
-	//case codes.NotFound:
-	//	err, _ := notFoundErrorFromStatus(st)
-	//	return err
-	//case codes.AlreadyExists:
-	//case codes.PermissionDenied:
-	//case codes.ResourceExhausted:
-	//case codes.FailedPrecondition:
-	//case codes.Aborted:
-	//	if err, ok := shardOwnershipLostErrorFromStatus(st); ok {
-	//		return err
-	//	}
-	//case codes.OutOfRange:
-	//case codes.Unimplemented:
-	//case codes.Internal:
-	//case codes.Unavailable:
-	//case codes.DataLoss:
-	//case codes.Unauthenticated:
-	//}
+	// Simple case. Code to error is one to one mapping and there is no failure.
+	switch st.Code() {
+	case codes.Internal:
+		return newInternal(st)
+	case codes.DataLoss:
+		return newDataLoss(st)
+	case codes.NotFound:
+		return newNotFound(st)
+	case codes.ResourceExhausted:
+		return newResourceExhausted(st)
+	case codes.PermissionDenied:
+		return newPermissionDenied(st)
+	case codes.DeadlineExceeded:
+		return newDeadlineExceeded(st)
+	case codes.Unknown:
+		// Unwrap error message from unknown error.
+		return errors.New(st.Message())
+	// Unsupported codes.
+	case codes.Canceled:
+	case codes.OutOfRange:
+	case codes.Unimplemented:
+	case codes.Unavailable:
+	case codes.Unauthenticated:
+		// Use standard gRPC error representation for unsupported codes.
+		return st.Err()
+	}
 
+	// Extract failure once to optimize performance.
+	failure := extractFailure(st)
+	switch st.Code() {
+	case codes.InvalidArgument:
+		if failure == nil{
+			return newInvalidArgument(st)
+		}
+		switch f := failure.(type) {
+		case *errordetails.QueryFailedFailure:
+			return newQueryFailed(st)
+		case *errordetails.CurrentBranchChangedFailure:
+			return newCurrentBranchChanged(st,f)
+		}
+	case codes.AlreadyExists:
+		switch f := failure.(type) {
+		case *errordetails.DomainAlreadyExistsFailure:
+			return newDomainAlreadyExists(st)
+		case *errordetails.WorkflowExecutionAlreadyStartedFailure:
+			return newWorkflowExecutionAlreadyStarted(st,f)
+		case *errordetails.CancellationAlreadyRequestedFailure:
+			return newCancellationAlreadyRequested(st)
+		case *errordetails.EventAlreadyStartedFailure:
+			return newEventAlreadyStarted(st)
+		}
+	case codes.FailedPrecondition:
+		switch f := failure.(type) {
+		case *errordetails.DomainNotActiveFailure:
+			return newDomainNotActive(st, f)
+		case *errordetails.ClientVersionNotSupportedFailure:
+			return newClientVersionNotSupported(st,f)
+		}
+	case codes.Aborted:
+		switch f := failure.(type) {
+		case *errordetails.ShardOwnershipLostFailure:
+			return newShardOwnershipLost(st,f)
+		case *errordetails.RetryTaskFailure:
+			return newRetryTask(st,f)
+		case *errordetails.RetryTaskV2Failure:
+			return newRetryTaskV2(st,f)
+		}
+	}
+
+	// Code suppose to have failure but it didn't (or failure has wrong type).
+	// Use standard gRPC error representation here also.
 	return st.Err()
+}
+
+func extractFailure(st *status.Status) interface{} {
+	details := st.Details()
+	if len(details) > 0 {
+		return details[0]
+	}
+
+	return nil
 }

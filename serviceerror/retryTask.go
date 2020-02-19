@@ -75,21 +75,13 @@ func (e *RetryTask) GRPCStatus() *status.Status {
 	return st
 }
 
-func retryTask(st *status.Status) (*RetryTask, bool) {
-	if st == nil || st.Code() != codes.Aborted {
-		return nil, false
+func newRetryTask(st *status.Status, failure *errordetails.RetryTaskFailure) *RetryTask {
+	return &RetryTask{
+		Message:     st.Message(),
+		DomainId:    failure.DomainId,
+		WorkflowId:  failure.WorkflowId,
+		RunId:       failure.RunId,
+		NextEventId: failure.NextEventId,
+		st:          st,
 	}
-
-	if failure, ok := getFailure(st).(*errordetails.RetryTaskFailure); ok {
-		return &RetryTask{
-			Message:     st.Message(),
-			DomainId:    failure.DomainId,
-			WorkflowId:  failure.WorkflowId,
-			RunId:       failure.RunId,
-			NextEventId: failure.NextEventId,
-			st:          st,
-		}, true
-	}
-
-	return nil, false
 }

@@ -62,17 +62,9 @@ func (e *CancellationAlreadyRequested) GRPCStatus() *status.Status {
 	return st
 }
 
-func cancellationAlreadyRequested(st *status.Status) (*CancellationAlreadyRequested, bool) {
-	if st == nil || st.Code() != codes.AlreadyExists {
-		return nil, false
+func newCancellationAlreadyRequested(st *status.Status) *CancellationAlreadyRequested {
+	return &CancellationAlreadyRequested{
+		Message: st.Message(),
+		st:      st,
 	}
-
-	if _, ok := getFailure(st).(*errordetails.CancellationAlreadyRequestedFailure); ok {
-		return &CancellationAlreadyRequested{
-			Message: st.Message(),
-			st:      st,
-		}, true
-	}
-
-	return nil, false
 }

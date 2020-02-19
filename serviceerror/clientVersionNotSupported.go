@@ -72,20 +72,12 @@ func (e *ClientVersionNotSupported) GRPCStatus() *status.Status {
 	return st
 }
 
-func clientVersionNotSupported(st *status.Status) (*ClientVersionNotSupported, bool) {
-	if st == nil || st.Code() != codes.FailedPrecondition {
-		return nil, false
+func newClientVersionNotSupported(st *status.Status, failure *errordetails.ClientVersionNotSupportedFailure) *ClientVersionNotSupported {
+	return &ClientVersionNotSupported{
+		Message:           st.Message(),
+		FeatureVersion:    failure.FeatureVersion,
+		ClientImpl:        failure.ClientImpl,
+		SupportedVersions: failure.SupportedVersions,
+		st:                st,
 	}
-
-	if failure, ok := getFailure(st).(*errordetails.ClientVersionNotSupportedFailure); ok {
-		return &ClientVersionNotSupported{
-			Message:           st.Message(),
-			FeatureVersion:    failure.FeatureVersion,
-			ClientImpl:        failure.ClientImpl,
-			SupportedVersions: failure.SupportedVersions,
-			st:                st,
-		}, true
-	}
-
-	return nil, false
 }

@@ -56,13 +56,9 @@ func (e *PermissionDenied) GRPCStatus() *status.Status {
 	return status.New(codes.PermissionDenied, e.Message)
 }
 
-func permissionDenied(st *status.Status) (*PermissionDenied, bool) {
-	if st == nil || st.Code() != codes.PermissionDenied {
-		return nil, false
-	}
-
+func newPermissionDenied(st *status.Status) *PermissionDenied {
 	return &PermissionDenied{
 		Message: st.Message(),
 		st: st,
-	}, true
+	}
 }

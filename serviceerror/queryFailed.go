@@ -62,17 +62,9 @@ func (e *QueryFailed) GRPCStatus() *status.Status {
 	return st
 }
 
-func queryFailed(st *status.Status) (*QueryFailed, bool) {
-	if st == nil || st.Code() != codes.InvalidArgument {
-		return nil, false
+func newQueryFailed(st *status.Status) *QueryFailed {
+	return &QueryFailed{
+		Message: st.Message(),
+		st:      st,
 	}
-
-	if _, ok := getFailure(st).(*errordetails.QueryFailedFailure); ok {
-		return &QueryFailed{
-			Message: st.Message(),
-			st:      st,
-		}, true
-	}
-
-	return nil, false
 }

@@ -56,13 +56,9 @@ func (e *ResourceExhausted) GRPCStatus() *status.Status {
 	return status.New(codes.ResourceExhausted, e.Message)
 }
 
-func resourceExhausted(st *status.Status) (*ResourceExhausted, bool) {
-	if st == nil || st.Code() != codes.ResourceExhausted {
-		return nil, false
-	}
-
+func newResourceExhausted(st *status.Status) *ResourceExhausted {
 	return &ResourceExhausted{
 		Message: st.Message(),
 		st: st,
-	}, true
+	}
 }

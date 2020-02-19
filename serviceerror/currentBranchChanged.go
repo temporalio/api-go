@@ -66,18 +66,10 @@ func (e *CurrentBranchChanged) GRPCStatus() *status.Status {
 	return st
 }
 
-func currentBranchChanged(st *status.Status) (*CurrentBranchChanged, bool) {
-	if st == nil || st.Code() != codes.InvalidArgument {
-		return nil, false
+func newCurrentBranchChanged(st *status.Status, failure *errordetails.CurrentBranchChangedFailure) *CurrentBranchChanged {
+	return &CurrentBranchChanged{
+		Message: st.Message(),
+		CurrentBranchToken: failure.CurrentBranchToken,
+		st:      st,
 	}
-
-	if failure, ok := getFailure(st).(*errordetails.CurrentBranchChangedFailure); ok {
-		return &CurrentBranchChanged{
-			Message: st.Message(),
-			CurrentBranchToken: failure.CurrentBranchToken,
-			st:      st,
-		}, true
-	}
-
-	return nil, false
 }

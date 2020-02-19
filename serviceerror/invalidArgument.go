@@ -63,13 +63,9 @@ func (e *InvalidArgument) GRPCStatus() *status.Status {
 	return status.New(codes.InvalidArgument, e.Message)
 }
 
-func invalidArgument(st *status.Status) (*InvalidArgument, bool) {
-	if st == nil || st.Code() != codes.InvalidArgument {
-		return nil, false
-	}
-
+func newInvalidArgument(st *status.Status) *InvalidArgument {
 	return &InvalidArgument{
 		Message: st.Message(),
 		st: st,
-	}, true
+	}
 }

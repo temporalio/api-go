@@ -56,13 +56,9 @@ func (e *DataLoss) GRPCStatus() *status.Status {
 	return status.New(codes.DataLoss, e.Message)
 }
 
-func dataLoss(st *status.Status) (*DataLoss, bool) {
-	if st == nil || st.Code() != codes.DataLoss {
-		return nil, false
-	}
-
+func newDataLoss(st *status.Status) *DataLoss {
 	return &DataLoss{
 		Message: st.Message(),
 		st: st,
-	}, true
+	}
 }

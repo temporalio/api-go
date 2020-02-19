@@ -72,20 +72,12 @@ func (e *DomainNotActive) GRPCStatus() *status.Status {
 	return st
 }
 
-func domainNotActive(st *status.Status) (*DomainNotActive, bool) {
-	if st == nil || st.Code() != codes.FailedPrecondition {
-		return nil, false
+func newDomainNotActive(st *status.Status, failure *errordetails.DomainNotActiveFailure) *DomainNotActive {
+	return &DomainNotActive{
+		Message:        st.Message(),
+		DomainName:     failure.DomainName,
+		CurrentCluster: failure.CurrentCluster,
+		ActiveCluster:  failure.ActiveCluster,
+		st:             st,
 	}
-
-	if failure, ok := getFailure(st).(*errordetails.DomainNotActiveFailure); ok {
-		return &DomainNotActive{
-			Message:        st.Message(),
-			DomainName:     failure.DomainName,
-			CurrentCluster: failure.CurrentCluster,
-			ActiveCluster:  failure.ActiveCluster,
-			st:             st,
-		}, true
-	}
-
-	return nil, false
 }

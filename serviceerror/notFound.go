@@ -56,13 +56,9 @@ func (e *NotFound) GRPCStatus() *status.Status {
 	return status.New(codes.NotFound, e.Message)
 }
 
-func notFound(st *status.Status) (*NotFound, bool) {
-	if st == nil || st.Code() != codes.NotFound {
-		return nil, false
-	}
-
+func newNotFound(st *status.Status) *NotFound {
 	return &NotFound{
 		Message: st.Message(),
 		st: st,
-	}, true
+	}
 }

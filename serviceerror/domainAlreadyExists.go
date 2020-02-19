@@ -62,17 +62,9 @@ func (e *DomainAlreadyExists) GRPCStatus() *status.Status {
 	return st
 }
 
-func domainAlreadyExists(st *status.Status) (*DomainAlreadyExists, bool) {
-	if st == nil || st.Code() != codes.AlreadyExists {
-		return nil, false
+func newDomainAlreadyExists(st *status.Status) *DomainAlreadyExists {
+	return &DomainAlreadyExists{
+		Message: st.Message(),
+		st:      st,
 	}
-
-	if _, ok := getFailure(st).(*errordetails.DomainAlreadyExistsFailure); ok {
-		return &DomainAlreadyExists{
-			Message: st.Message(),
-			st:      st,
-		}, true
-	}
-
-	return nil, false
 }

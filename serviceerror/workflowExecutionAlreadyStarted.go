@@ -69,19 +69,11 @@ func (e *WorkflowExecutionAlreadyStarted) GRPCStatus() *status.Status {
 	return st
 }
 
-func workflowExecutionAlreadyStarted(st *status.Status) (*WorkflowExecutionAlreadyStarted, bool) {
-	if st == nil || st.Code() != codes.AlreadyExists {
-		return nil, false
+func newWorkflowExecutionAlreadyStarted(st *status.Status, failure *errordetails.WorkflowExecutionAlreadyStartedFailure) *WorkflowExecutionAlreadyStarted {
+	return &WorkflowExecutionAlreadyStarted{
+		Message: st.Message(),
+		StartRequestId: failure.StartRequestId,
+		RunId:          failure.RunId,
+		st:      st,
 	}
-
-	if failure, ok := getFailure(st).(*errordetails.WorkflowExecutionAlreadyStartedFailure); ok {
-		return &WorkflowExecutionAlreadyStarted{
-			Message: st.Message(),
-			StartRequestId: failure.StartRequestId,
-			RunId:          failure.RunId,
-			st:      st,
-		}, true
-	}
-
-	return nil, false
 }

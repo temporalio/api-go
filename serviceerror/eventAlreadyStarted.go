@@ -62,17 +62,9 @@ func (e *EventAlreadyStarted) GRPCStatus() *status.Status {
 	return st
 }
 
-func eventAlreadyStarted(st *status.Status) (*EventAlreadyStarted, bool) {
-	if st == nil || st.Code() != codes.AlreadyExists {
-		return nil, false
+func newEventAlreadyStarted(st *status.Status) *EventAlreadyStarted {
+	return &EventAlreadyStarted{
+		Message: st.Message(),
+		st:      st,
 	}
-
-	if _, ok := getFailure(st).(*errordetails.EventAlreadyStartedFailure); ok {
-		return &EventAlreadyStarted{
-			Message: st.Message(),
-			st:      st,
-		}, true
-	}
-
-	return nil, false
 }

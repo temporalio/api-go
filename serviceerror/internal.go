@@ -63,13 +63,9 @@ func (e *Internal) GRPCStatus() *status.Status {
 	return status.New(codes.Internal, e.Message)
 }
 
-func internal(st *status.Status) (*Internal, bool) {
-	if st == nil || st.Code() != codes.Internal {
-		return nil, false
-	}
-
+func newInternal(st *status.Status) *Internal {
 	return &Internal{
 		Message: st.Message(),
 		st: st,
-	}, true
+	}
 }
