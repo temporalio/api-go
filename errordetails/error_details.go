@@ -23,8 +23,8 @@
 package errordetails
 
 import (
-	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // Generate these 3 helper funcs for every failure from error_details.proto:
