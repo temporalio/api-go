@@ -34,6 +34,10 @@ import (
 // ToStatus converts service error to gogo gRPC status.
 // If error is not a service error it returns status with code Unknown.
 func ToStatus(err error) *status.Status {
+	if err == nil{
+		return status.New(codes.OK, "")
+	}
+
 	if svcerr, ok := err.(ServiceError); ok {
 		return svcerr.status()
 	}
