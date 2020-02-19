@@ -25,6 +25,7 @@ package serviceerror
 import (
 	"errors"
 
+	gogostatus "github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -112,7 +113,9 @@ func FromStatus(st *status.Status) error {
 }
 
 func extractFailure(st *status.Status) interface{} {
-	details := st.Details()
+	// This transformation is required because failures are serialized using gogo.
+	gogoSt := gogostatus.FromGRPCStatus(st)
+	details := gogoSt.Details()
 	if len(details) > 0 {
 		return details[0]
 	}
