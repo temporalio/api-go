@@ -55,11 +55,11 @@ func FromStatus(st *status.Status) error {
 		// Unwrap error message from unknown error.
 		return errors.New(st.Message())
 	// Unsupported codes.
-	case codes.Canceled:
-	case codes.OutOfRange:
-	case codes.Unimplemented:
-	case codes.Unavailable:
-	case codes.Unauthenticated:
+	case codes.Canceled,
+		codes.OutOfRange,
+		codes.Unimplemented,
+		codes.Unavailable,
+		codes.Unauthenticated:
 		// Use standard gRPC error representation for unsupported codes.
 		return st.Err()
 	}
@@ -68,21 +68,21 @@ func FromStatus(st *status.Status) error {
 	failure := extractFailure(st)
 	switch st.Code() {
 	case codes.InvalidArgument:
-		if failure == nil{
+		if failure == nil {
 			return newInvalidArgument(st)
 		}
 		switch f := failure.(type) {
 		case *errordetails.QueryFailedFailure:
 			return newQueryFailed(st)
 		case *errordetails.CurrentBranchChangedFailure:
-			return newCurrentBranchChanged(st,f)
+			return newCurrentBranchChanged(st, f)
 		}
 	case codes.AlreadyExists:
 		switch f := failure.(type) {
 		case *errordetails.DomainAlreadyExistsFailure:
 			return newDomainAlreadyExists(st)
 		case *errordetails.WorkflowExecutionAlreadyStartedFailure:
-			return newWorkflowExecutionAlreadyStarted(st,f)
+			return newWorkflowExecutionAlreadyStarted(st, f)
 		case *errordetails.CancellationAlreadyRequestedFailure:
 			return newCancellationAlreadyRequested(st)
 		case *errordetails.EventAlreadyStartedFailure:
@@ -93,16 +93,16 @@ func FromStatus(st *status.Status) error {
 		case *errordetails.DomainNotActiveFailure:
 			return newDomainNotActive(st, f)
 		case *errordetails.ClientVersionNotSupportedFailure:
-			return newClientVersionNotSupported(st,f)
+			return newClientVersionNotSupported(st, f)
 		}
 	case codes.Aborted:
 		switch f := failure.(type) {
 		case *errordetails.ShardOwnershipLostFailure:
-			return newShardOwnershipLost(st,f)
+			return newShardOwnershipLost(st, f)
 		case *errordetails.RetryTaskFailure:
-			return newRetryTask(st,f)
+			return newRetryTask(st, f)
 		case *errordetails.RetryTaskV2Failure:
-			return newRetryTaskV2(st,f)
+			return newRetryTaskV2(st, f)
 		}
 	}
 
