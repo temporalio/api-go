@@ -27,7 +27,6 @@ import (
 
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
-	grpcstatus "google.golang.org/grpc/status"
 
 	"go.temporal.io/temporal-proto/errordetails"
 )
@@ -42,12 +41,10 @@ func ToStatus(err error) *status.Status {
 		return svcerr.status()
 	}
 
-	// TODO: remove after error migration is done
-	if se, ok := err.(interface{ GRPCStatus() *grpcstatus.Status }); ok {
-		return status.FromGRPCStatus(se.GRPCStatus())
-	}
-
-	return status.New(codes.Unknown, err.Error())
+	// If err is gogo Status or gRPC status return it (this should never happen though).
+	// Otherwise returns codes.Unknown with message from err.Error()
+	// This should never happen and this check is a safety net.
+	return status.Convert(err)
 }
 
 // FromStatus converts gogo gRPC status to service error.
@@ -56,7 +53,7 @@ func FromStatus(st *status.Status) error {
 		return nil
 	}
 
-	// Simple case. Code to error is one to one mapping and there is no failure.
+	// Simple case. Code to serviceerror is one to one mapping and there is no failure.
 	switch st.Code() {
 	case codes.Internal:
 		return newInternal(st)
@@ -125,7 +122,7 @@ func FromStatus(st *status.Status) error {
 		}
 	}
 
-	// Code suppose to have failure but it didn't (or failure has wrong type).
+	// Code should have failure but it didn't (or failure is of an wrong type).
 	// Use standard gRPC error representation here also.
 	return st.Err()
 }
