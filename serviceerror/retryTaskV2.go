@@ -63,7 +63,6 @@ func (e *RetryTaskV2) Error() string {
 	return e.Message
 }
 
-// GRPCStatus returns corresponding gRPC status.Status.
 func (e *RetryTaskV2) status() *status.Status {
 	if e.st != nil {
 		return e.st

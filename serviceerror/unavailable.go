@@ -25,54 +25,39 @@ package serviceerror
 import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
-
-	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
-	// WorkflowExecutionAlreadyStarted represents workflow execution already started error.
-	WorkflowExecutionAlreadyStarted struct {
-		Message        string
-		StartRequestId string
-		RunId          string
-		st             *status.Status
+	// Unavailable represents unavailable error.
+	Unavailable struct {
+		Message string
+		st *status.Status
 	}
 )
 
-// NewWorkflowExecutionAlreadyStarted returns new WorkflowExecutionAlreadyStarted error.
-func NewWorkflowExecutionAlreadyStarted(message, startRequestId, runId string) *WorkflowExecutionAlreadyStarted {
-	return &WorkflowExecutionAlreadyStarted{
-		Message:        message,
-		StartRequestId: startRequestId,
-		RunId:          runId,
+// NewUnavailable returns new Unavailable error.
+func NewUnavailable(message string) *Unavailable {
+	return &Unavailable{
+		Message: message,
 	}
 }
 
 // Error returns string message.
-func (e *WorkflowExecutionAlreadyStarted) Error() string {
+func (e *Unavailable) Error() string {
 	return e.Message
 }
 
-func (e *WorkflowExecutionAlreadyStarted) status() *status.Status {
-	if e.st != nil {
+func (e *Unavailable) status() *status.Status {
+	if e.st != nil{
 		return e.st
 	}
 
-	st := status.New(codes.AlreadyExists, e.Message)
-	st, _ = st.WithDetails(
-		&errordetails.WorkflowExecutionAlreadyStartedFailure{
-			StartRequestId: e.StartRequestId,
-			RunId:          e.RunId,
-		},
-	)
-	return st
+	return status.New(codes.Unavailable, e.Message)
 }
 
-func newWorkflowExecutionAlreadyStarted(st *status.Status, failure *errordetails.WorkflowExecutionAlreadyStartedFailure) *WorkflowExecutionAlreadyStarted {
-	return &WorkflowExecutionAlreadyStarted{
+func newUnavailable(st *status.Status) *Unavailable {
+	return &Unavailable{
 		Message: st.Message(),
-		StartRequestId: failure.StartRequestId,
-		RunId:          failure.RunId,
-		st:      st,
+		st: st,
 	}
 }

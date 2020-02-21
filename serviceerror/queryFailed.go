@@ -49,7 +49,6 @@ func (e *QueryFailed) Error() string {
 	return e.Message
 }
 
-// GRPCStatus returns corresponding gRPC status.Status.
 func (e *QueryFailed) status() *status.Status {
 	if e.st != nil {
 		return e.st

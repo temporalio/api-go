@@ -51,7 +51,6 @@ func (e *ShardOwnershipLost) Error() string {
 	return e.Message
 }
 
-// GRPCStatus returns corresponding gRPC status.Status.
 func (e *ShardOwnershipLost) status() *status.Status {
 	if e.st != nil{
 		return e.st

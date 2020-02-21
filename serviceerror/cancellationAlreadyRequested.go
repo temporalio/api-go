@@ -49,7 +49,6 @@ func (e *CancellationAlreadyRequested) Error() string {
 	return e.Message
 }
 
-// GRPCStatus returns corresponding gRPC status.Status.
 func (e *CancellationAlreadyRequested) status() *status.Status {
 	if e.st != nil {
 		return e.st

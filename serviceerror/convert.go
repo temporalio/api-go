@@ -67,6 +67,8 @@ func FromStatus(st *status.Status) error {
 		return newPermissionDenied(st)
 	case codes.DeadlineExceeded:
 		return newDeadlineExceeded(st)
+	case codes.Unavailable:
+		return newUnavailable(st)
 	case codes.Unknown:
 		// Unwrap error message from unknown error.
 		return errors.New(st.Message())
@@ -74,7 +76,6 @@ func FromStatus(st *status.Status) error {
 	case codes.Canceled,
 		codes.OutOfRange,
 		codes.Unimplemented,
-		codes.Unavailable,
 		codes.Unauthenticated:
 		// Use standard gRPC error representation for unsupported codes.
 		return st.Err()

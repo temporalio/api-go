@@ -49,7 +49,6 @@ func (e *DomainAlreadyExists) Error() string {
 	return e.Message
 }
 
-// GRPCStatus returns corresponding gRPC status.Status.
 func (e *DomainAlreadyExists) status() *status.Status {
 	if e.st != nil {
 		return e.st

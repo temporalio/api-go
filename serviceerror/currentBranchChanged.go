@@ -51,7 +51,6 @@ func (e *CurrentBranchChanged) Error() string {
 	return e.Message
 }
 
-// GRPCStatus returns corresponding gRPC status.Status.
 func (e *CurrentBranchChanged) status() *status.Status {
 	if e.st != nil {
 		return e.st

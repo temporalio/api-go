@@ -54,7 +54,6 @@ func (e *InvalidArgument) Error() string {
 	return e.Message
 }
 
-// GRPCStatus returns corresponding gRPC status.Status.
 func (e *InvalidArgument) status() *status.Status {
 	if e.st != nil{
 		return e.st
