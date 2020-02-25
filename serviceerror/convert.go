@@ -28,7 +28,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/errordetails"
+	"go.temporal.io/temporal-proto/failure"
 )
 // ToStatus converts service error to gogo gRPC status.
 // If error is not a service error it returns status with code Unknown.
@@ -82,43 +82,43 @@ func FromStatus(st *status.Status) error {
 	}
 
 	// Extract failure once to optimize performance.
-	failure := extractFailure(st)
+	f := extractFailure(st)
 	switch st.Code() {
 	case codes.InvalidArgument:
-		if failure == nil {
+		if f == nil {
 			return newInvalidArgument(st)
 		}
-		switch f := failure.(type) {
-		case *errordetails.QueryFailedFailure:
+		switch f := f.(type) {
+		case *failure.QueryFailed:
 			return newQueryFailed(st)
-		case *errordetails.CurrentBranchChangedFailure:
+		case *failure.CurrentBranchChanged:
 			return newCurrentBranchChanged(st, f)
 		}
 	case codes.AlreadyExists:
-		switch f := failure.(type) {
-		case *errordetails.DomainAlreadyExistsFailure:
+		switch f := f.(type) {
+		case *failure.DomainAlreadyExists:
 			return newDomainAlreadyExists(st)
-		case *errordetails.WorkflowExecutionAlreadyStartedFailure:
+		case *failure.WorkflowExecutionAlreadyStarted:
 			return newWorkflowExecutionAlreadyStarted(st, f)
-		case *errordetails.CancellationAlreadyRequestedFailure:
+		case *failure.CancellationAlreadyRequested:
 			return newCancellationAlreadyRequested(st)
-		case *errordetails.EventAlreadyStartedFailure:
+		case *failure.EventAlreadyStarted:
 			return newEventAlreadyStarted(st)
 		}
 	case codes.FailedPrecondition:
-		switch f := failure.(type) {
-		case *errordetails.DomainNotActiveFailure:
+		switch f := f.(type) {
+		case *failure.DomainNotActive:
 			return newDomainNotActive(st, f)
-		case *errordetails.ClientVersionNotSupportedFailure:
+		case *failure.ClientVersionNotSupported:
 			return newClientVersionNotSupported(st, f)
 		}
 	case codes.Aborted:
-		switch f := failure.(type) {
-		case *errordetails.ShardOwnershipLostFailure:
+		switch f := f.(type) {
+		case *failure.ShardOwnershipLost:
 			return newShardOwnershipLost(st, f)
-		case *errordetails.RetryTaskFailure:
+		case *failure.RetryTask:
 			return newRetryTask(st, f)
-		case *errordetails.RetryTaskV2Failure:
+		case *failure.RetryTaskV2:
 			return newRetryTaskV2(st, f)
 		}
 	}

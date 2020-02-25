@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/errordetails"
+	"go.temporal.io/temporal-proto/failure"
 )
 
 type (
@@ -62,7 +62,7 @@ func (e *DomainNotActive) status() *status.Status {
 
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.DomainNotActiveFailure{
+		&failure.DomainNotActive{
 			DomainName:     e.DomainName,
 			CurrentCluster: e.CurrentCluster,
 			ActiveCluster:  e.ActiveCluster,
@@ -71,7 +71,7 @@ func (e *DomainNotActive) status() *status.Status {
 	return st
 }
 
-func newDomainNotActive(st *status.Status, failure *errordetails.DomainNotActiveFailure) *DomainNotActive {
+func newDomainNotActive(st *status.Status, failure *failure.DomainNotActive) *DomainNotActive {
 	return &DomainNotActive{
 		Message:        st.Message(),
 		DomainName:     failure.DomainName,

@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/errordetails"
+	"go.temporal.io/temporal-proto/failure"
 )
 
 type (
@@ -56,7 +56,7 @@ func (e *QueryFailed) status() *status.Status {
 
 	st := status.New(codes.InvalidArgument, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.QueryFailedFailure{},
+		&failure.QueryFailed{},
 	)
 	return st
 }

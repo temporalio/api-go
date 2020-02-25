@@ -16,6 +16,9 @@ all: update-proto-submodule grpc grpc-mock copyright gomodtidy
 
 all-install: grpc-install mockgen-install
 
+$(PROTO_OUT):
+	mkdir $(PROTO_OUT)
+
 # git submodule for proto files
 
 update-proto-submodule:
