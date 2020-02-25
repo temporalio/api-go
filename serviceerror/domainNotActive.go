@@ -23,6 +23,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
@@ -41,9 +43,14 @@ type (
 )
 
 // NewDomainNotActive returns new DomainNotActive error.
-func NewDomainNotActive(message, domainName, currentCluster, activeCluster string) *DomainNotActive {
+func NewDomainNotActive(domainName, currentCluster, activeCluster string) *DomainNotActive {
 	return &DomainNotActive{
-		Message:        message,
+		Message:        fmt.Sprintf(
+			"Domain: %s is active in cluster: %s, while current cluster %s is a standby cluster.",
+			domainName,
+			activeCluster,
+			currentCluster,
+		),
 		DomainName:     domainName,
 		CurrentCluster: currentCluster,
 		ActiveCluster:  activeCluster,
