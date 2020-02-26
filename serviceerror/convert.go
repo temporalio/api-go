@@ -23,6 +23,7 @@
 package serviceerror
 
 import (
+	"context"
 	"errors"
 
 	"github.com/gogo/status"
@@ -41,9 +42,14 @@ func ToStatus(err error) *status.Status {
 		return svcerr.status()
 	}
 
-	// If err is gogo Status or gRPC status return it (this should never happen though).
-	// Otherwise returns codes.Unknown with message from err.Error()
-	// This should never happen and this check is a safety net.
+	// Special case for context.DeadlineExceeded because it can happened in unpredictable places.
+	if errors.Is(err, context.DeadlineExceeded){
+		return status.New(codes.DeadlineExceeded, err.Error())
+	}
+
+	// Internal logic of status.Convert is:
+	//   - if err is already gogo Status or gRPC status, then just return it (this should never happen though).
+	//   - otherwise returns codes.Unknown with message from err.Error() (this might happen if some generic go error reach to this point).
 	return status.Convert(err)
 }
 
@@ -77,7 +83,7 @@ func FromStatus(st *status.Status) error {
 		codes.OutOfRange,
 		codes.Unimplemented,
 		codes.Unauthenticated:
-		// Use standard gRPC error representation for unsupported codes.
+		// Use standard gRPC error representation for unsupported codes ("rpc error: code = %s desc = %s").
 		return st.Err()
 	}
 
@@ -123,8 +129,8 @@ func FromStatus(st *status.Status) error {
 		}
 	}
 
-	// Code should have failure but it didn't (or failure is of an wrong type).
-	// Use standard gRPC error representation here also.
+	// st.Code() should have failure but it didn't (or failure is of a wrong type).
+	// Then use standard gRPC error representation ("rpc error: code = %s desc = %s").
 	return st.Err()
 }
 
