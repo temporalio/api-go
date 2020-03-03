@@ -179,7 +179,7 @@ func (m *WorkflowExecutionStartedEventAttributes) GetInitiator() enums.ContinueA
 	if m != nil {
 		return m.Initiator
 	}
-	return enums.ContinueAsNewInitiatorNotSet
+	return enums.ContinueAsNewInitiatorDecider
 }
 
 func (m *WorkflowExecutionStartedEventAttributes) GetContinuedFailureReason() string {
@@ -558,7 +558,7 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetInitiator() enums.Co
 	if m != nil {
 		return m.Initiator
 	}
-	return enums.ContinueAsNewInitiatorNotSet
+	return enums.ContinueAsNewInitiatorDecider
 }
 
 func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetFailureReason() string {
@@ -2790,7 +2790,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetWorkflowIdReuse
 	if m != nil {
 		return m.WorkflowIdReusePolicy
 	}
-	return enums.WorkflowIdReusePolicyAllowDuplicateFailedOnly
+	return enums.WorkflowIdReusePolicyAllowDuplicate
 }
 
 func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetRetryPolicy() *RetryPolicy {

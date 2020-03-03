@@ -822,7 +822,7 @@ func (m *StartWorkflowExecutionRequest) GetWorkflowIdReusePolicy() enums.Workflo
 	if m != nil {
 		return m.WorkflowIdReusePolicy
 	}
-	return enums.WorkflowIdReusePolicyAllowDuplicateFailedOnly
+	return enums.WorkflowIdReusePolicyAllowDuplicate
 }
 
 func (m *StartWorkflowExecutionRequest) GetRetryPolicy() *common.RetryPolicy {
@@ -2993,7 +2993,7 @@ func (m *SignalWithStartWorkflowExecutionRequest) GetWorkflowIdReusePolicy() enu
 	if m != nil {
 		return m.WorkflowIdReusePolicy
 	}
-	return enums.WorkflowIdReusePolicyAllowDuplicateFailedOnly
+	return enums.WorkflowIdReusePolicyAllowDuplicate
 }
 
 func (m *SignalWithStartWorkflowExecutionRequest) GetSignalName() string {

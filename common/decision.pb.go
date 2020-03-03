@@ -877,7 +877,7 @@ func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) GetInitiator() enums.
 	if m != nil {
 		return m.Initiator
 	}
-	return enums.ContinueAsNewInitiatorNotSet
+	return enums.ContinueAsNewInitiatorDecider
 }
 
 func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) GetFailureReason() string {
@@ -1048,7 +1048,7 @@ func (m *StartChildWorkflowExecutionDecisionAttributes) GetWorkflowIdReusePolicy
 	if m != nil {
 		return m.WorkflowIdReusePolicy
 	}
-	return enums.WorkflowIdReusePolicyAllowDuplicateFailedOnly
+	return enums.WorkflowIdReusePolicyAllowDuplicate
 }
 
 func (m *StartChildWorkflowExecutionDecisionAttributes) GetRetryPolicy() *RetryPolicy {
