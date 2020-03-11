@@ -973,7 +973,7 @@ func (m *StatusFilter) GetCloseStatus() enums.WorkflowExecutionCloseStatus {
 	if m != nil {
 		return m.CloseStatus
 	}
-	return enums.WorkflowExecutionCloseStatusRunning
+	return enums.WorkflowExecutionCloseStatusUnknown
 }
 
 type StickyExecutionAttributes struct {
@@ -1312,7 +1312,7 @@ func (m *QueryRejected) GetCloseStatus() enums.WorkflowExecutionCloseStatus {
 	if m != nil {
 		return m.CloseStatus
 	}
-	return enums.WorkflowExecutionCloseStatusRunning
+	return enums.WorkflowExecutionCloseStatusUnknown
 }
 
 // SupportedClientVersions contains the support versions for client library

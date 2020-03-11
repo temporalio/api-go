@@ -281,7 +281,7 @@ func (m *WorkflowExecutionInfo) GetCloseStatus() enums.WorkflowExecutionCloseSta
 	if m != nil {
 		return m.CloseStatus
 	}
-	return enums.WorkflowExecutionCloseStatusRunning
+	return enums.WorkflowExecutionCloseStatusUnknown
 }
 
 func (m *WorkflowExecutionInfo) GetHistoryLength() int64 {
