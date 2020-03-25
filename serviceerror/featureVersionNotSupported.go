@@ -32,52 +32,52 @@ import (
 )
 
 type (
-	// ClientVersionNotSupported represents client version is not supported error.
-	ClientVersionNotSupported struct {
+	// FeatureVersionNotSupported represents client version is not supported error.
+	FeatureVersionNotSupported struct {
 		Message           string
-		ClientVersion     string
-		ClientImpl        string
+		FeatureVersion    string
+		Feature           string
 		SupportedVersions string
 		st                *status.Status
 	}
 )
 
-// NewClientVersionNotSupported returns new ClientVersionNotSupported error.
-func NewClientVersionNotSupported(clientVersion, clientImpl, supportedVersions string) *ClientVersionNotSupported {
-	return &ClientVersionNotSupported{
-		Message:           fmt.Sprintf("Client version %s is not supported. Supported versions for %s are %s", clientVersion, clientImpl, supportedVersions),
-		ClientVersion:     clientVersion,
-		ClientImpl:        clientImpl,
+// NewFeatureVersionNotSupported returns new FeatureVersionNotSupported error.
+func NewFeatureVersionNotSupported(feature, featureVersion, supportedVersions string) *FeatureVersionNotSupported {
+	return &FeatureVersionNotSupported{
+		Message:           fmt.Sprintf("Feature %s is not supported in feature set version %s. At least %s feature set version is required", feature, featureVersion, supportedVersions),
+		FeatureVersion:    featureVersion,
+		Feature:           feature,
 		SupportedVersions: supportedVersions,
 	}
 }
 
 // Error returns string message.
-func (e *ClientVersionNotSupported) Error() string {
+func (e *FeatureVersionNotSupported) Error() string {
 	return e.Message
 }
 
-func (e *ClientVersionNotSupported) status() *status.Status {
+func (e *FeatureVersionNotSupported) status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
 
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&failure.ClientVersionNotSupported{
-			ClientVersion:     e.ClientVersion,
-			ClientImpl:        e.ClientImpl,
+		&failure.FeatureVersionNotSupported{
+			FeatureVersion:    e.FeatureVersion,
+			Feature:           e.Feature,
 			SupportedVersions: e.SupportedVersions,
 		},
 	)
 	return st
 }
 
-func newClientVersionNotSupported(st *status.Status, failure *failure.ClientVersionNotSupported) *ClientVersionNotSupported {
-	return &ClientVersionNotSupported{
+func newFeatureVersionNotSupported(st *status.Status, failure *failure.FeatureVersionNotSupported) *FeatureVersionNotSupported {
+	return &FeatureVersionNotSupported{
 		Message:           st.Message(),
-		ClientVersion:     failure.ClientVersion,
-		ClientImpl:        failure.ClientImpl,
+		FeatureVersion:    failure.FeatureVersion,
+		Feature:           failure.Feature,
 		SupportedVersions: failure.SupportedVersions,
 		st:                st,
 	}

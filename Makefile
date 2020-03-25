@@ -51,7 +51,7 @@ PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -nam
 dir_no_slash = $(patsubst %/,%,$(dir $(1)))
 dirname = $(notdir $(call dir_no_slash,$(1)))
 
-grpc-mock: gobin-install
+grpc-mock:
 	@echo "Generate gRPC mocks..."
 	@$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call dirname,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_GRPC_SERVICE))mock/$(notdir $(PROTO_GRPC_SERVICE:go=mock.go)) )
 
@@ -59,19 +59,16 @@ grpc-mock: gobin-install
 
 grpc-install: gogo-protobuf-install
 	echo "Installing/updaing gRPC plugins..."
-	go get -u google.golang.org/grpc
+	GO111MODULE=off go get -u google.golang.org/grpc
 
 gogo-protobuf-install: go-protobuf-install
-	go get -u github.com/gogo/protobuf/protoc-gen-gogoslick
+	GO111MODULE=off go get -u github.com/gogo/protobuf/protoc-gen-gogoslick
 
 go-protobuf-install:
-	go get -u github.com/golang/protobuf/protoc-gen-go
+	GO111MODULE=off go get -u github.com/golang/protobuf/protoc-gen-go
 
-gobin-install:
-	GO111MODULE=off go get -u github.com/myitcv/gobin
-
-mockgen-install: gobin-install
-	gobin -mod=readonly github.com/golang/mock/mockgen@v1.4.0
+mockgen-install:
+	GO111MODULE=off go get -u github.com/golang/mock/mockgen
 
 # Add licence header to generated files
 

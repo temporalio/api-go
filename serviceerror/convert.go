@@ -118,6 +118,8 @@ func FromStatus(st *status.Status) error {
 			return newDomainNotActive(st, f)
 		case *failure.ClientVersionNotSupported:
 			return newClientVersionNotSupported(st, f)
+		case *failure.FeatureVersionNotSupported:
+			return newFeatureVersionNotSupported(st, f)
 		}
 	case codes.Aborted:
 		switch f := f.(type) {
