@@ -98,23 +98,23 @@ func (m *WorkflowExecutionAlreadyStarted) GetRunId() string {
 	return ""
 }
 
-type DomainNotActive struct {
-	DomainName     string `protobuf:"bytes,1,opt,name=domainName,proto3" json:"domainName,omitempty"`
+type NamespaceNotActive struct {
+	Namespace      string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	CurrentCluster string `protobuf:"bytes,2,opt,name=currentCluster,proto3" json:"currentCluster,omitempty"`
 	ActiveCluster  string `protobuf:"bytes,3,opt,name=activeCluster,proto3" json:"activeCluster,omitempty"`
 }
 
-func (m *DomainNotActive) Reset()      { *m = DomainNotActive{} }
-func (*DomainNotActive) ProtoMessage() {}
-func (*DomainNotActive) Descriptor() ([]byte, []int) {
+func (m *NamespaceNotActive) Reset()      { *m = NamespaceNotActive{} }
+func (*NamespaceNotActive) ProtoMessage() {}
+func (*NamespaceNotActive) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1d59a05d2bdcc87a, []int{1}
 }
-func (m *DomainNotActive) XXX_Unmarshal(b []byte) error {
+func (m *NamespaceNotActive) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DomainNotActive) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *NamespaceNotActive) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DomainNotActive.Marshal(b, m, deterministic)
+		return xxx_messageInfo_NamespaceNotActive.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -124,33 +124,33 @@ func (m *DomainNotActive) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-func (m *DomainNotActive) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DomainNotActive.Merge(m, src)
+func (m *NamespaceNotActive) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceNotActive.Merge(m, src)
 }
-func (m *DomainNotActive) XXX_Size() int {
+func (m *NamespaceNotActive) XXX_Size() int {
 	return m.Size()
 }
-func (m *DomainNotActive) XXX_DiscardUnknown() {
-	xxx_messageInfo_DomainNotActive.DiscardUnknown(m)
+func (m *NamespaceNotActive) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceNotActive.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DomainNotActive proto.InternalMessageInfo
+var xxx_messageInfo_NamespaceNotActive proto.InternalMessageInfo
 
-func (m *DomainNotActive) GetDomainName() string {
+func (m *NamespaceNotActive) GetNamespace() string {
 	if m != nil {
-		return m.DomainName
+		return m.Namespace
 	}
 	return ""
 }
 
-func (m *DomainNotActive) GetCurrentCluster() string {
+func (m *NamespaceNotActive) GetCurrentCluster() string {
 	if m != nil {
 		return m.CurrentCluster
 	}
 	return ""
 }
 
-func (m *DomainNotActive) GetActiveCluster() string {
+func (m *NamespaceNotActive) GetActiveCluster() string {
 	if m != nil {
 		return m.ActiveCluster
 	}
@@ -158,7 +158,7 @@ func (m *DomainNotActive) GetActiveCluster() string {
 }
 
 type RetryTask struct {
-	DomainId    string `protobuf:"bytes,1,opt,name=domainId,proto3" json:"domainId,omitempty"`
+	NamespaceId string `protobuf:"bytes,1,opt,name=namespaceId,proto3" json:"namespaceId,omitempty"`
 	WorkflowId  string `protobuf:"bytes,2,opt,name=workflowId,proto3" json:"workflowId,omitempty"`
 	RunId       string `protobuf:"bytes,3,opt,name=runId,proto3" json:"runId,omitempty"`
 	NextEventId int64  `protobuf:"varint,4,opt,name=nextEventId,proto3" json:"nextEventId,omitempty"`
@@ -196,9 +196,9 @@ func (m *RetryTask) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RetryTask proto.InternalMessageInfo
 
-func (m *RetryTask) GetDomainId() string {
+func (m *RetryTask) GetNamespaceId() string {
 	if m != nil {
-		return m.DomainId
+		return m.NamespaceId
 	}
 	return ""
 }
@@ -225,7 +225,7 @@ func (m *RetryTask) GetNextEventId() int64 {
 }
 
 type RetryTaskV2 struct {
-	DomainId          string `protobuf:"bytes,1,opt,name=domainId,proto3" json:"domainId,omitempty"`
+	NamespaceId       string `protobuf:"bytes,1,opt,name=namespaceId,proto3" json:"namespaceId,omitempty"`
 	WorkflowId        string `protobuf:"bytes,2,opt,name=workflowId,proto3" json:"workflowId,omitempty"`
 	RunId             string `protobuf:"bytes,3,opt,name=runId,proto3" json:"runId,omitempty"`
 	StartEventId      int64  `protobuf:"varint,4,opt,name=startEventId,proto3" json:"startEventId,omitempty"`
@@ -266,9 +266,9 @@ func (m *RetryTaskV2) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RetryTaskV2 proto.InternalMessageInfo
 
-func (m *RetryTaskV2) GetDomainId() string {
+func (m *RetryTaskV2) GetNamespaceId() string {
 	if m != nil {
-		return m.DomainId
+		return m.NamespaceId
 	}
 	return ""
 }
@@ -519,20 +519,20 @@ func (m *ShardOwnershipLost) GetOwner() string {
 	return ""
 }
 
-type DomainAlreadyExists struct {
+type NamespaceAlreadyExists struct {
 }
 
-func (m *DomainAlreadyExists) Reset()      { *m = DomainAlreadyExists{} }
-func (*DomainAlreadyExists) ProtoMessage() {}
-func (*DomainAlreadyExists) Descriptor() ([]byte, []int) {
+func (m *NamespaceAlreadyExists) Reset()      { *m = NamespaceAlreadyExists{} }
+func (*NamespaceAlreadyExists) ProtoMessage() {}
+func (*NamespaceAlreadyExists) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1d59a05d2bdcc87a, []int{8}
 }
-func (m *DomainAlreadyExists) XXX_Unmarshal(b []byte) error {
+func (m *NamespaceAlreadyExists) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DomainAlreadyExists) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *NamespaceAlreadyExists) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DomainAlreadyExists.Marshal(b, m, deterministic)
+		return xxx_messageInfo_NamespaceAlreadyExists.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -542,17 +542,17 @@ func (m *DomainAlreadyExists) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *DomainAlreadyExists) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DomainAlreadyExists.Merge(m, src)
+func (m *NamespaceAlreadyExists) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceAlreadyExists.Merge(m, src)
 }
-func (m *DomainAlreadyExists) XXX_Size() int {
+func (m *NamespaceAlreadyExists) XXX_Size() int {
 	return m.Size()
 }
-func (m *DomainAlreadyExists) XXX_DiscardUnknown() {
-	xxx_messageInfo_DomainAlreadyExists.DiscardUnknown(m)
+func (m *NamespaceAlreadyExists) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceAlreadyExists.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DomainAlreadyExists proto.InternalMessageInfo
+var xxx_messageInfo_NamespaceAlreadyExists proto.InternalMessageInfo
 
 type CancellationAlreadyRequested struct {
 }
@@ -661,14 +661,14 @@ var xxx_messageInfo_EventAlreadyStarted proto.InternalMessageInfo
 
 func init() {
 	proto.RegisterType((*WorkflowExecutionAlreadyStarted)(nil), "failure.WorkflowExecutionAlreadyStarted")
-	proto.RegisterType((*DomainNotActive)(nil), "failure.DomainNotActive")
+	proto.RegisterType((*NamespaceNotActive)(nil), "failure.NamespaceNotActive")
 	proto.RegisterType((*RetryTask)(nil), "failure.RetryTask")
 	proto.RegisterType((*RetryTaskV2)(nil), "failure.RetryTaskV2")
 	proto.RegisterType((*ClientVersionNotSupported)(nil), "failure.ClientVersionNotSupported")
 	proto.RegisterType((*FeatureVersionNotSupported)(nil), "failure.FeatureVersionNotSupported")
 	proto.RegisterType((*CurrentBranchChanged)(nil), "failure.CurrentBranchChanged")
 	proto.RegisterType((*ShardOwnershipLost)(nil), "failure.ShardOwnershipLost")
-	proto.RegisterType((*DomainAlreadyExists)(nil), "failure.DomainAlreadyExists")
+	proto.RegisterType((*NamespaceAlreadyExists)(nil), "failure.NamespaceAlreadyExists")
 	proto.RegisterType((*CancellationAlreadyRequested)(nil), "failure.CancellationAlreadyRequested")
 	proto.RegisterType((*QueryFailed)(nil), "failure.QueryFailed")
 	proto.RegisterType((*EventAlreadyStarted)(nil), "failure.EventAlreadyStarted")
@@ -678,43 +678,43 @@ func init() { proto.RegisterFile("failure/failure.proto", fileDescriptor_1d59a05
 
 var fileDescriptor_1d59a05d2bdcc87a = []byte{
 	// 591 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0xc1, 0x6e, 0xd3, 0x4c,
-	0x10, 0xc7, 0xbd, 0x5f, 0xbf, 0xb6, 0x74, 0xda, 0x52, 0xb1, 0xb4, 0x52, 0x5a, 0xa1, 0xa5, 0xb2,
-	0x0a, 0xaa, 0x10, 0xa4, 0x12, 0x3c, 0x41, 0x1b, 0x5a, 0xa9, 0x12, 0x2a, 0x90, 0x56, 0x45, 0xe2,
-	0x82, 0x16, 0x7b, 0xd2, 0x58, 0x75, 0x76, 0xcd, 0x7a, 0xdd, 0x24, 0xa7, 0xf2, 0x00, 0x48, 0xf0,
-	0x18, 0x3c, 0x0a, 0xc7, 0x1c, 0x7b, 0x24, 0xce, 0x85, 0x63, 0xef, 0x5c, 0x90, 0xd7, 0xeb, 0xc4,
-	0x4e, 0x7b, 0xe1, 0xc0, 0xc9, 0x9e, 0xdf, 0x8c, 0xc7, 0xff, 0x99, 0x9d, 0x1d, 0x58, 0x6b, 0xf1,
-	0x20, 0x4c, 0x14, 0xee, 0xd8, 0x67, 0x3d, 0x52, 0x52, 0x4b, 0x3a, 0x6f, 0x4d, 0xf7, 0x03, 0x3c,
-	0x7c, 0x27, 0xd5, 0x79, 0x2b, 0x94, 0xdd, 0xfd, 0x1e, 0x7a, 0x89, 0x0e, 0xa4, 0xd8, 0x0d, 0x15,
-	0x72, 0xbf, 0x7f, 0xac, 0xb9, 0xd2, 0xe8, 0xd3, 0xc7, 0x70, 0x37, 0xce, 0x5e, 0x9b, 0xf8, 0x29,
-	0xc1, 0x58, 0x1f, 0xfa, 0x35, 0xb2, 0x49, 0xb6, 0x17, 0x9a, 0x53, 0x94, 0xae, 0xc2, 0xac, 0x4a,
-	0xc4, 0xa1, 0x5f, 0xfb, 0xcf, 0xb8, 0x73, 0xc3, 0xbd, 0x84, 0x95, 0x97, 0xb2, 0xc3, 0x03, 0x71,
-	0x24, 0xf5, 0xae, 0xa7, 0x83, 0x0b, 0xa4, 0x0c, 0xc0, 0xcf, 0x11, 0xef, 0xa0, 0x4d, 0x56, 0x22,
-	0xd9, 0x0f, 0xbd, 0x44, 0x29, 0x14, 0xba, 0x11, 0x26, 0xb1, 0x46, 0x65, 0x33, 0x4e, 0x51, 0xba,
-	0x05, 0xcb, 0xdc, 0x64, 0x2c, 0xc2, 0x66, 0x4c, 0x58, 0x15, 0xba, 0x97, 0xb0, 0xd0, 0x44, 0xad,
-	0xfa, 0x27, 0x3c, 0x3e, 0xa7, 0x1b, 0x70, 0x27, 0xff, 0xd1, 0xb8, 0x8a, 0xb1, 0x9d, 0xc9, 0xea,
-	0xda, 0x56, 0x8c, 0x8b, 0x28, 0x91, 0x49, 0x7d, 0x33, 0xa5, 0xfa, 0xe8, 0x26, 0x2c, 0x0a, 0xec,
-	0xe9, 0xfd, 0x0b, 0x14, 0x59, 0x6b, 0xfe, 0xdf, 0x24, 0xdb, 0x33, 0xcd, 0x32, 0x72, 0x7f, 0x13,
-	0x58, 0x1c, 0x2b, 0x38, 0x7d, 0xfe, 0x0f, 0x34, 0xb8, 0xb0, 0x64, 0xce, 0xa2, 0x2a, 0xa2, 0xc2,
-	0xe8, 0x53, 0xb8, 0x37, 0xb1, 0x4f, 0x51, 0xc5, 0x81, 0x14, 0xb5, 0x59, 0x13, 0x78, 0xd3, 0x91,
-	0xe9, 0x40, 0xe1, 0x17, 0xf9, 0xe6, 0x4c, 0x58, 0x89, 0xd0, 0x6d, 0x58, 0x29, 0xac, 0x22, 0xd7,
-	0xbc, 0x09, 0x9a, 0xc6, 0xee, 0x57, 0x02, 0xeb, 0x8d, 0x30, 0x98, 0x90, 0x23, 0xa9, 0x8f, 0x93,
-	0x28, 0x92, 0x66, 0xb6, 0xb6, 0x60, 0xd9, 0x2b, 0x3b, 0x6d, 0x43, 0xaa, 0x30, 0x53, 0x93, 0x83,
-	0xc3, 0x4e, 0x14, 0x16, 0x5d, 0x99, 0x10, 0x53, 0x5b, 0x91, 0xd2, 0x7e, 0x13, 0xdb, 0x0e, 0xdd,
-	0x74, 0xb8, 0x5f, 0x08, 0x6c, 0x1c, 0x20, 0xd7, 0x89, 0xc2, 0xdb, 0x24, 0xd5, 0x60, 0xbe, 0x95,
-	0x7b, 0xad, 0x98, 0xc2, 0xcc, 0xe6, 0xb2, 0x55, 0xf9, 0xae, 0x98, 0xcb, 0x2a, 0xfd, 0x4b, 0x39,
-	0x07, 0xb0, 0xda, 0xc8, 0xe7, 0x7a, 0x4f, 0x71, 0xe1, 0xb5, 0x1b, 0x6d, 0x2e, 0xce, 0xd0, 0xa7,
-	0x75, 0xa0, 0x5e, 0x99, 0x9f, 0xc8, 0x73, 0xcc, 0xfb, 0xb3, 0xd4, 0xbc, 0xc5, 0xe3, 0x3e, 0x01,
-	0x7a, 0xdc, 0xe6, 0xca, 0x7f, 0xdd, 0x15, 0xa8, 0xe2, 0x76, 0x10, 0xbd, 0x92, 0xb1, 0xce, 0x06,
-	0x46, 0x66, 0xc0, 0xd6, 0x92, 0x1b, 0xee, 0x1a, 0xdc, 0xcf, 0x2f, 0xa5, 0xbd, 0xea, 0xfb, 0xbd,
-	0x20, 0xd6, 0xb1, 0xcb, 0xe0, 0x41, 0x83, 0x0b, 0x0f, 0xc3, 0x90, 0x97, 0xf6, 0x80, 0xbd, 0xe1,
-	0xe8, 0xbb, 0xcb, 0xb0, 0xf8, 0x36, 0x41, 0xd5, 0x3f, 0xe0, 0x41, 0x88, 0x7e, 0x96, 0xc5, 0x1c,
-	0x75, 0x75, 0x5f, 0xec, 0xf5, 0x06, 0x43, 0xe6, 0x5c, 0x0d, 0x99, 0x73, 0x3d, 0x64, 0xe4, 0x73,
-	0xca, 0xc8, 0xf7, 0x94, 0x91, 0x1f, 0x29, 0x23, 0x83, 0x94, 0x91, 0x9f, 0x29, 0x23, 0xbf, 0x52,
-	0xe6, 0x5c, 0xa7, 0x8c, 0x7c, 0x1b, 0x31, 0x67, 0x30, 0x62, 0xce, 0xd5, 0x88, 0x39, 0xb0, 0x1e,
-	0xc8, 0xba, 0xc6, 0x4e, 0x24, 0x15, 0x0f, 0xf3, 0x25, 0x55, 0xb7, 0x3b, 0xea, 0x0d, 0x79, 0xff,
-	0xe8, 0xac, 0xe4, 0x0c, 0xe4, 0x4e, 0xf1, 0xfe, 0xcc, 0x04, 0x16, 0xbb, 0xed, 0xe3, 0x9c, 0x31,
-	0x5f, 0xfc, 0x09, 0x00, 0x00, 0xff, 0xff, 0xf0, 0x8b, 0xce, 0xac, 0xf5, 0x04, 0x00, 0x00,
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0x41, 0x4f, 0xd4, 0x40,
+	0x14, 0xc7, 0x3b, 0x20, 0x10, 0x1e, 0xa0, 0x71, 0x04, 0xb3, 0x18, 0x32, 0x92, 0x09, 0x1a, 0x62,
+	0x74, 0x49, 0xf4, 0x13, 0xc0, 0x06, 0x12, 0x12, 0x83, 0xba, 0x10, 0x4c, 0xbc, 0x98, 0xb1, 0x7d,
+	0xcb, 0x36, 0x74, 0x3b, 0x75, 0x3a, 0x65, 0x77, 0x6f, 0x78, 0xf0, 0x66, 0xa2, 0x1f, 0xc3, 0x8f,
+	0xe2, 0x71, 0x8f, 0x1c, 0xdd, 0xee, 0xc5, 0x23, 0x1f, 0xc1, 0x74, 0x3a, 0xdd, 0x6d, 0x17, 0x2e,
+	0x1e, 0x3c, 0xb5, 0xef, 0xf7, 0x5e, 0x5f, 0xff, 0xef, 0xcd, 0x9b, 0x07, 0x6b, 0x2d, 0xe1, 0x07,
+	0x89, 0xc2, 0x1d, 0xfb, 0xac, 0x47, 0x4a, 0x6a, 0x49, 0x17, 0xac, 0xc9, 0x3f, 0xc2, 0xe3, 0xf7,
+	0x52, 0x9d, 0xb7, 0x02, 0xd9, 0xdd, 0xef, 0xa1, 0x9b, 0x68, 0x5f, 0x86, 0xbb, 0x81, 0x42, 0xe1,
+	0xf5, 0x8f, 0xb5, 0x50, 0x1a, 0x3d, 0xfa, 0x14, 0xee, 0xc6, 0xd9, 0x6b, 0x13, 0x3f, 0x27, 0x18,
+	0xeb, 0x43, 0xaf, 0x46, 0x36, 0xc9, 0xf6, 0x62, 0x73, 0x8a, 0xd2, 0x55, 0x98, 0x53, 0x49, 0x78,
+	0xe8, 0xd5, 0x66, 0x8c, 0x3b, 0x37, 0xf8, 0x25, 0x01, 0x7a, 0x24, 0x3a, 0x18, 0x47, 0xc2, 0xc5,
+	0x23, 0xa9, 0x77, 0x5d, 0xed, 0x5f, 0x20, 0xdd, 0x80, 0xc5, 0xb0, 0xa0, 0x36, 0xdf, 0x04, 0x64,
+	0xbf, 0x74, 0x13, 0xa5, 0x30, 0xd4, 0x8d, 0x20, 0x89, 0x35, 0x2a, 0x9b, 0x73, 0x8a, 0xd2, 0x2d,
+	0x58, 0x11, 0x26, 0x5f, 0x11, 0x36, 0x6b, 0xc2, 0xaa, 0x90, 0x7f, 0x25, 0xb0, 0xd8, 0x44, 0xad,
+	0xfa, 0x27, 0x22, 0x3e, 0xa7, 0x9b, 0xb0, 0x34, 0xfe, 0xd1, 0xb8, 0x96, 0x32, 0xa2, 0x0c, 0xa0,
+	0x6b, 0x7b, 0x32, 0xae, 0xa6, 0x44, 0x26, 0x85, 0xce, 0x96, 0x0a, 0x35, 0x79, 0xb1, 0xa7, 0xf7,
+	0x2f, 0x30, 0xcc, 0x7a, 0x74, 0x67, 0x93, 0x6c, 0xcf, 0x36, 0xcb, 0x88, 0x7f, 0x99, 0x81, 0xa5,
+	0xb1, 0x8e, 0xd3, 0x97, 0xff, 0x4d, 0x09, 0x87, 0x65, 0x73, 0x34, 0x55, 0x29, 0x15, 0x46, 0x9f,
+	0xc3, 0xfd, 0x89, 0x7d, 0x8a, 0x2a, 0xf6, 0x65, 0x58, 0x9b, 0x33, 0x81, 0x37, 0x1d, 0x99, 0x0e,
+	0x0c, 0xbd, 0x22, 0xdf, 0xbc, 0x09, 0x2b, 0x11, 0xba, 0x0d, 0xf7, 0x0a, 0xab, 0xc8, 0xb5, 0x60,
+	0x82, 0xa6, 0x31, 0xff, 0x4e, 0x60, 0xbd, 0x11, 0xf8, 0x13, 0x72, 0x24, 0xf5, 0x71, 0x12, 0x45,
+	0xd2, 0x8c, 0xda, 0x16, 0xac, 0xb8, 0x65, 0xa7, 0xed, 0x49, 0x15, 0x66, 0x6a, 0x72, 0x70, 0xd8,
+	0x89, 0x82, 0xa2, 0x2b, 0x13, 0x62, 0x6a, 0x2b, 0x52, 0xda, 0x6f, 0x62, 0xdb, 0xa1, 0x9b, 0x0e,
+	0xfe, 0x8d, 0xc0, 0xa3, 0x03, 0x14, 0x3a, 0x51, 0x78, 0x9b, 0xa4, 0x1a, 0x2c, 0xb4, 0x72, 0xaf,
+	0x15, 0x53, 0x98, 0xd9, 0x90, 0xb6, 0x2a, 0xdf, 0x15, 0x43, 0x5a, 0xa5, 0xff, 0x28, 0xe7, 0x00,
+	0x56, 0x1b, 0xf9, 0x90, 0xef, 0x29, 0x11, 0xba, 0xed, 0x46, 0x5b, 0x84, 0x67, 0xe8, 0xd1, 0x3a,
+	0x50, 0xb7, 0xcc, 0x4f, 0xe4, 0x39, 0xe6, 0xfd, 0x59, 0x6e, 0xde, 0xe2, 0xe1, 0xcf, 0x80, 0x1e,
+	0xb7, 0x85, 0xf2, 0xde, 0x74, 0x43, 0x54, 0x71, 0xdb, 0x8f, 0x5e, 0xcb, 0x58, 0x67, 0x03, 0x23,
+	0x33, 0x60, 0x6b, 0xc9, 0x0d, 0x5e, 0x83, 0x87, 0xe3, 0x2b, 0x6a, 0x2f, 0xff, 0x7e, 0xcf, 0x8f,
+	0x75, 0xcc, 0x19, 0x6c, 0x34, 0x44, 0xe8, 0x62, 0x10, 0x88, 0xd2, 0x66, 0xb0, 0x77, 0x1e, 0x3d,
+	0xbe, 0x02, 0x4b, 0xef, 0x12, 0x54, 0xfd, 0x03, 0xe1, 0x07, 0xe8, 0xf1, 0x35, 0x78, 0x60, 0x4e,
+	0xbb, 0xba, 0x41, 0xf6, 0x7a, 0x83, 0x21, 0x73, 0xae, 0x86, 0xcc, 0xb9, 0x1e, 0x32, 0x72, 0x99,
+	0x32, 0xf2, 0x33, 0x65, 0xe4, 0x57, 0xca, 0xc8, 0x20, 0x65, 0xe4, 0x77, 0xca, 0xc8, 0x9f, 0x94,
+	0x39, 0xd7, 0x29, 0x23, 0x3f, 0x46, 0xcc, 0x19, 0x8c, 0x98, 0x73, 0x35, 0x62, 0x0e, 0xac, 0xfb,
+	0xb2, 0xae, 0xb1, 0x13, 0x49, 0x25, 0x82, 0x7c, 0x6d, 0xd5, 0xed, 0xd6, 0x7a, 0x4b, 0x3e, 0x3c,
+	0x39, 0x2b, 0x39, 0x7d, 0xb9, 0x53, 0xbc, 0xbf, 0x30, 0x81, 0xc5, 0xb6, 0xfb, 0x34, 0x6f, 0xcc,
+	0x57, 0x7f, 0x03, 0x00, 0x00, 0xff, 0xff, 0x86, 0xaa, 0x1a, 0x83, 0x07, 0x05, 0x00, 0x00,
 }
 
 func (this *WorkflowExecutionAlreadyStarted) Equal(that interface{}) bool {
@@ -744,14 +744,14 @@ func (this *WorkflowExecutionAlreadyStarted) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *DomainNotActive) Equal(that interface{}) bool {
+func (this *NamespaceNotActive) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*DomainNotActive)
+	that1, ok := that.(*NamespaceNotActive)
 	if !ok {
-		that2, ok := that.(DomainNotActive)
+		that2, ok := that.(NamespaceNotActive)
 		if ok {
 			that1 = &that2
 		} else {
@@ -763,7 +763,7 @@ func (this *DomainNotActive) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.DomainName != that1.DomainName {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.CurrentCluster != that1.CurrentCluster {
@@ -793,7 +793,7 @@ func (this *RetryTask) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.DomainId != that1.DomainId {
+	if this.NamespaceId != that1.NamespaceId {
 		return false
 	}
 	if this.WorkflowId != that1.WorkflowId {
@@ -826,7 +826,7 @@ func (this *RetryTaskV2) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.DomainId != that1.DomainId {
+	if this.NamespaceId != that1.NamespaceId {
 		return false
 	}
 	if this.WorkflowId != that1.WorkflowId {
@@ -957,14 +957,14 @@ func (this *ShardOwnershipLost) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *DomainAlreadyExists) Equal(that interface{}) bool {
+func (this *NamespaceAlreadyExists) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*DomainAlreadyExists)
+	that1, ok := that.(*NamespaceAlreadyExists)
 	if !ok {
-		that2, ok := that.(DomainAlreadyExists)
+		that2, ok := that.(NamespaceAlreadyExists)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1052,13 +1052,13 @@ func (this *WorkflowExecutionAlreadyStarted) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *DomainNotActive) GoString() string {
+func (this *NamespaceNotActive) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 7)
-	s = append(s, "&failure.DomainNotActive{")
-	s = append(s, "DomainName: "+fmt.Sprintf("%#v", this.DomainName)+",\n")
+	s = append(s, "&failure.NamespaceNotActive{")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "CurrentCluster: "+fmt.Sprintf("%#v", this.CurrentCluster)+",\n")
 	s = append(s, "ActiveCluster: "+fmt.Sprintf("%#v", this.ActiveCluster)+",\n")
 	s = append(s, "}")
@@ -1070,7 +1070,7 @@ func (this *RetryTask) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&failure.RetryTask{")
-	s = append(s, "DomainId: "+fmt.Sprintf("%#v", this.DomainId)+",\n")
+	s = append(s, "NamespaceId: "+fmt.Sprintf("%#v", this.NamespaceId)+",\n")
 	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
 	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
 	s = append(s, "NextEventId: "+fmt.Sprintf("%#v", this.NextEventId)+",\n")
@@ -1083,7 +1083,7 @@ func (this *RetryTaskV2) GoString() string {
 	}
 	s := make([]string, 0, 11)
 	s = append(s, "&failure.RetryTaskV2{")
-	s = append(s, "DomainId: "+fmt.Sprintf("%#v", this.DomainId)+",\n")
+	s = append(s, "NamespaceId: "+fmt.Sprintf("%#v", this.NamespaceId)+",\n")
 	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
 	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
 	s = append(s, "StartEventId: "+fmt.Sprintf("%#v", this.StartEventId)+",\n")
@@ -1137,12 +1137,12 @@ func (this *ShardOwnershipLost) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *DomainAlreadyExists) GoString() string {
+func (this *NamespaceAlreadyExists) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 4)
-	s = append(s, "&failure.DomainAlreadyExists{")
+	s = append(s, "&failure.NamespaceAlreadyExists{")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1218,7 +1218,7 @@ func (m *WorkflowExecutionAlreadyStarted) MarshalToSizedBuffer(dAtA []byte) (int
 	return len(dAtA) - i, nil
 }
 
-func (m *DomainNotActive) Marshal() (dAtA []byte, err error) {
+func (m *NamespaceNotActive) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1228,12 +1228,12 @@ func (m *DomainNotActive) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DomainNotActive) MarshalTo(dAtA []byte) (int, error) {
+func (m *NamespaceNotActive) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DomainNotActive) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *NamespaceNotActive) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1252,10 +1252,10 @@ func (m *DomainNotActive) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.DomainName) > 0 {
-		i -= len(m.DomainName)
-		copy(dAtA[i:], m.DomainName)
-		i = encodeVarintFailure(dAtA, i, uint64(len(m.DomainName)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintFailure(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -1301,10 +1301,10 @@ func (m *RetryTask) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.DomainId) > 0 {
-		i -= len(m.DomainId)
-		copy(dAtA[i:], m.DomainId)
-		i = encodeVarintFailure(dAtA, i, uint64(len(m.DomainId)))
+	if len(m.NamespaceId) > 0 {
+		i -= len(m.NamespaceId)
+		copy(dAtA[i:], m.NamespaceId)
+		i = encodeVarintFailure(dAtA, i, uint64(len(m.NamespaceId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -1365,10 +1365,10 @@ func (m *RetryTaskV2) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.DomainId) > 0 {
-		i -= len(m.DomainId)
-		copy(dAtA[i:], m.DomainId)
-		i = encodeVarintFailure(dAtA, i, uint64(len(m.DomainId)))
+	if len(m.NamespaceId) > 0 {
+		i -= len(m.NamespaceId)
+		copy(dAtA[i:], m.NamespaceId)
+		i = encodeVarintFailure(dAtA, i, uint64(len(m.NamespaceId)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -1523,7 +1523,7 @@ func (m *ShardOwnershipLost) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *DomainAlreadyExists) Marshal() (dAtA []byte, err error) {
+func (m *NamespaceAlreadyExists) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -1533,12 +1533,12 @@ func (m *DomainAlreadyExists) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DomainAlreadyExists) MarshalTo(dAtA []byte) (int, error) {
+func (m *NamespaceAlreadyExists) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DomainAlreadyExists) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *NamespaceAlreadyExists) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1643,13 +1643,13 @@ func (m *WorkflowExecutionAlreadyStarted) Size() (n int) {
 	return n
 }
 
-func (m *DomainNotActive) Size() (n int) {
+func (m *NamespaceNotActive) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.DomainName)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovFailure(uint64(l))
 	}
@@ -1670,7 +1670,7 @@ func (m *RetryTask) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.DomainId)
+	l = len(m.NamespaceId)
 	if l > 0 {
 		n += 1 + l + sovFailure(uint64(l))
 	}
@@ -1694,7 +1694,7 @@ func (m *RetryTaskV2) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.DomainId)
+	l = len(m.NamespaceId)
 	if l > 0 {
 		n += 1 + l + sovFailure(uint64(l))
 	}
@@ -1789,7 +1789,7 @@ func (m *ShardOwnershipLost) Size() (n int) {
 	return n
 }
 
-func (m *DomainAlreadyExists) Size() (n int) {
+func (m *NamespaceAlreadyExists) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1842,12 +1842,12 @@ func (this *WorkflowExecutionAlreadyStarted) String() string {
 	}, "")
 	return s
 }
-func (this *DomainNotActive) String() string {
+func (this *NamespaceNotActive) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&DomainNotActive{`,
-		`DomainName:` + fmt.Sprintf("%v", this.DomainName) + `,`,
+	s := strings.Join([]string{`&NamespaceNotActive{`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`CurrentCluster:` + fmt.Sprintf("%v", this.CurrentCluster) + `,`,
 		`ActiveCluster:` + fmt.Sprintf("%v", this.ActiveCluster) + `,`,
 		`}`,
@@ -1859,7 +1859,7 @@ func (this *RetryTask) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&RetryTask{`,
-		`DomainId:` + fmt.Sprintf("%v", this.DomainId) + `,`,
+		`NamespaceId:` + fmt.Sprintf("%v", this.NamespaceId) + `,`,
 		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
 		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
 		`NextEventId:` + fmt.Sprintf("%v", this.NextEventId) + `,`,
@@ -1872,7 +1872,7 @@ func (this *RetryTaskV2) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&RetryTaskV2{`,
-		`DomainId:` + fmt.Sprintf("%v", this.DomainId) + `,`,
+		`NamespaceId:` + fmt.Sprintf("%v", this.NamespaceId) + `,`,
 		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
 		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
 		`StartEventId:` + fmt.Sprintf("%v", this.StartEventId) + `,`,
@@ -1927,11 +1927,11 @@ func (this *ShardOwnershipLost) String() string {
 	}, "")
 	return s
 }
-func (this *DomainAlreadyExists) String() string {
+func (this *NamespaceAlreadyExists) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&DomainAlreadyExists{`,
+	s := strings.Join([]string{`&NamespaceAlreadyExists{`,
 		`}`,
 	}, "")
 	return s
@@ -2088,7 +2088,7 @@ func (m *WorkflowExecutionAlreadyStarted) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DomainNotActive) Unmarshal(dAtA []byte) error {
+func (m *NamespaceNotActive) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -2111,15 +2111,15 @@ func (m *DomainNotActive) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: DomainNotActive: wiretype end group for non-group")
+			return fmt.Errorf("proto: NamespaceNotActive: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DomainNotActive: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: NamespaceNotActive: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DomainName", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2147,7 +2147,7 @@ func (m *DomainNotActive) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DomainName = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -2268,7 +2268,7 @@ func (m *RetryTask) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DomainId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NamespaceId", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2296,7 +2296,7 @@ func (m *RetryTask) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DomainId = string(dAtA[iNdEx:postIndex])
+			m.NamespaceId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -2436,7 +2436,7 @@ func (m *RetryTaskV2) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DomainId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NamespaceId", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -2464,7 +2464,7 @@ func (m *RetryTaskV2) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.DomainId = string(dAtA[iNdEx:postIndex])
+			m.NamespaceId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -3100,7 +3100,7 @@ func (m *ShardOwnershipLost) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DomainAlreadyExists) Unmarshal(dAtA []byte) error {
+func (m *NamespaceAlreadyExists) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -3123,10 +3123,10 @@ func (m *DomainAlreadyExists) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: DomainAlreadyExists: wiretype end group for non-group")
+			return fmt.Errorf("proto: NamespaceAlreadyExists: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DomainAlreadyExists: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: NamespaceAlreadyExists: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

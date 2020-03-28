@@ -57,104 +57,104 @@ func (m *MockWorkflowServiceClient) EXPECT() *MockWorkflowServiceClientMockRecor
 	return m.recorder
 }
 
-// RegisterDomain mocks base method.
-func (m *MockWorkflowServiceClient) RegisterDomain(ctx context.Context, in *workflowservice.RegisterDomainRequest, opts ...grpc.CallOption) (*workflowservice.RegisterDomainResponse, error) {
+// RegisterNamespace mocks base method.
+func (m *MockWorkflowServiceClient) RegisterNamespace(ctx context.Context, in *workflowservice.RegisterNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.RegisterNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "RegisterDomain", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RegisterDomainResponse)
+	ret := m.ctrl.Call(m, "RegisterNamespace", varargs...)
+	ret0, _ := ret[0].(*workflowservice.RegisterNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RegisterDomain indicates an expected call of RegisterDomain.
-func (mr *MockWorkflowServiceClientMockRecorder) RegisterDomain(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// RegisterNamespace indicates an expected call of RegisterNamespace.
+func (mr *MockWorkflowServiceClientMockRecorder) RegisterNamespace(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterDomain", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RegisterDomain), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterNamespace", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RegisterNamespace), varargs...)
 }
 
-// DescribeDomain mocks base method.
-func (m *MockWorkflowServiceClient) DescribeDomain(ctx context.Context, in *workflowservice.DescribeDomainRequest, opts ...grpc.CallOption) (*workflowservice.DescribeDomainResponse, error) {
+// DescribeNamespace mocks base method.
+func (m *MockWorkflowServiceClient) DescribeNamespace(ctx context.Context, in *workflowservice.DescribeNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.DescribeNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "DescribeDomain", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DescribeDomainResponse)
+	ret := m.ctrl.Call(m, "DescribeNamespace", varargs...)
+	ret0, _ := ret[0].(*workflowservice.DescribeNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DescribeDomain indicates an expected call of DescribeDomain.
-func (mr *MockWorkflowServiceClientMockRecorder) DescribeDomain(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// DescribeNamespace indicates an expected call of DescribeNamespace.
+func (mr *MockWorkflowServiceClientMockRecorder) DescribeNamespace(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeDomain", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeDomain), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeNamespace", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeNamespace), varargs...)
 }
 
-// ListDomains mocks base method.
-func (m *MockWorkflowServiceClient) ListDomains(ctx context.Context, in *workflowservice.ListDomainsRequest, opts ...grpc.CallOption) (*workflowservice.ListDomainsResponse, error) {
+// ListNamespaces mocks base method.
+func (m *MockWorkflowServiceClient) ListNamespaces(ctx context.Context, in *workflowservice.ListNamespacesRequest, opts ...grpc.CallOption) (*workflowservice.ListNamespacesResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "ListDomains", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListDomainsResponse)
+	ret := m.ctrl.Call(m, "ListNamespaces", varargs...)
+	ret0, _ := ret[0].(*workflowservice.ListNamespacesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListDomains indicates an expected call of ListDomains.
-func (mr *MockWorkflowServiceClientMockRecorder) ListDomains(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// ListNamespaces indicates an expected call of ListNamespaces.
+func (mr *MockWorkflowServiceClientMockRecorder) ListNamespaces(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListDomains", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListDomains), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListNamespaces", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListNamespaces), varargs...)
 }
 
-// UpdateDomain mocks base method.
-func (m *MockWorkflowServiceClient) UpdateDomain(ctx context.Context, in *workflowservice.UpdateDomainRequest, opts ...grpc.CallOption) (*workflowservice.UpdateDomainResponse, error) {
+// UpdateNamespace mocks base method.
+func (m *MockWorkflowServiceClient) UpdateNamespace(ctx context.Context, in *workflowservice.UpdateNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.UpdateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "UpdateDomain", varargs...)
-	ret0, _ := ret[0].(*workflowservice.UpdateDomainResponse)
+	ret := m.ctrl.Call(m, "UpdateNamespace", varargs...)
+	ret0, _ := ret[0].(*workflowservice.UpdateNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// UpdateDomain indicates an expected call of UpdateDomain.
-func (mr *MockWorkflowServiceClientMockRecorder) UpdateDomain(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// UpdateNamespace indicates an expected call of UpdateNamespace.
+func (mr *MockWorkflowServiceClientMockRecorder) UpdateNamespace(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateDomain", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateDomain), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNamespace", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateNamespace), varargs...)
 }
 
-// DeprecateDomain mocks base method.
-func (m *MockWorkflowServiceClient) DeprecateDomain(ctx context.Context, in *workflowservice.DeprecateDomainRequest, opts ...grpc.CallOption) (*workflowservice.DeprecateDomainResponse, error) {
+// DeprecateNamespace mocks base method.
+func (m *MockWorkflowServiceClient) DeprecateNamespace(ctx context.Context, in *workflowservice.DeprecateNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.DeprecateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "DeprecateDomain", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DeprecateDomainResponse)
+	ret := m.ctrl.Call(m, "DeprecateNamespace", varargs...)
+	ret0, _ := ret[0].(*workflowservice.DeprecateNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DeprecateDomain indicates an expected call of DeprecateDomain.
-func (mr *MockWorkflowServiceClientMockRecorder) DeprecateDomain(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// DeprecateNamespace indicates an expected call of DeprecateNamespace.
+func (mr *MockWorkflowServiceClientMockRecorder) DeprecateNamespace(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeprecateDomain", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DeprecateDomain), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeprecateNamespace", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DeprecateNamespace), varargs...)
 }
 
 // StartWorkflowExecution mocks base method.
@@ -880,79 +880,79 @@ func (m *MockWorkflowServiceServer) EXPECT() *MockWorkflowServiceServerMockRecor
 	return m.recorder
 }
 
-// RegisterDomain mocks base method.
-func (m *MockWorkflowServiceServer) RegisterDomain(arg0 context.Context, arg1 *workflowservice.RegisterDomainRequest) (*workflowservice.RegisterDomainResponse, error) {
+// RegisterNamespace mocks base method.
+func (m *MockWorkflowServiceServer) RegisterNamespace(arg0 context.Context, arg1 *workflowservice.RegisterNamespaceRequest) (*workflowservice.RegisterNamespaceResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RegisterDomain", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RegisterDomainResponse)
+	ret := m.ctrl.Call(m, "RegisterNamespace", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.RegisterNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RegisterDomain indicates an expected call of RegisterDomain.
-func (mr *MockWorkflowServiceServerMockRecorder) RegisterDomain(arg0, arg1 interface{}) *gomock.Call {
+// RegisterNamespace indicates an expected call of RegisterNamespace.
+func (mr *MockWorkflowServiceServerMockRecorder) RegisterNamespace(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterDomain", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RegisterDomain), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterNamespace", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RegisterNamespace), arg0, arg1)
 }
 
-// DescribeDomain mocks base method.
-func (m *MockWorkflowServiceServer) DescribeDomain(arg0 context.Context, arg1 *workflowservice.DescribeDomainRequest) (*workflowservice.DescribeDomainResponse, error) {
+// DescribeNamespace mocks base method.
+func (m *MockWorkflowServiceServer) DescribeNamespace(arg0 context.Context, arg1 *workflowservice.DescribeNamespaceRequest) (*workflowservice.DescribeNamespaceResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DescribeDomain", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DescribeDomainResponse)
+	ret := m.ctrl.Call(m, "DescribeNamespace", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.DescribeNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DescribeDomain indicates an expected call of DescribeDomain.
-func (mr *MockWorkflowServiceServerMockRecorder) DescribeDomain(arg0, arg1 interface{}) *gomock.Call {
+// DescribeNamespace indicates an expected call of DescribeNamespace.
+func (mr *MockWorkflowServiceServerMockRecorder) DescribeNamespace(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeDomain", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeDomain), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeNamespace", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeNamespace), arg0, arg1)
 }
 
-// ListDomains mocks base method.
-func (m *MockWorkflowServiceServer) ListDomains(arg0 context.Context, arg1 *workflowservice.ListDomainsRequest) (*workflowservice.ListDomainsResponse, error) {
+// ListNamespaces mocks base method.
+func (m *MockWorkflowServiceServer) ListNamespaces(arg0 context.Context, arg1 *workflowservice.ListNamespacesRequest) (*workflowservice.ListNamespacesResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListDomains", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListDomainsResponse)
+	ret := m.ctrl.Call(m, "ListNamespaces", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.ListNamespacesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListDomains indicates an expected call of ListDomains.
-func (mr *MockWorkflowServiceServerMockRecorder) ListDomains(arg0, arg1 interface{}) *gomock.Call {
+// ListNamespaces indicates an expected call of ListNamespaces.
+func (mr *MockWorkflowServiceServerMockRecorder) ListNamespaces(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListDomains", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListDomains), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListNamespaces", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListNamespaces), arg0, arg1)
 }
 
-// UpdateDomain mocks base method.
-func (m *MockWorkflowServiceServer) UpdateDomain(arg0 context.Context, arg1 *workflowservice.UpdateDomainRequest) (*workflowservice.UpdateDomainResponse, error) {
+// UpdateNamespace mocks base method.
+func (m *MockWorkflowServiceServer) UpdateNamespace(arg0 context.Context, arg1 *workflowservice.UpdateNamespaceRequest) (*workflowservice.UpdateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateDomain", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.UpdateDomainResponse)
+	ret := m.ctrl.Call(m, "UpdateNamespace", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.UpdateNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// UpdateDomain indicates an expected call of UpdateDomain.
-func (mr *MockWorkflowServiceServerMockRecorder) UpdateDomain(arg0, arg1 interface{}) *gomock.Call {
+// UpdateNamespace indicates an expected call of UpdateNamespace.
+func (mr *MockWorkflowServiceServerMockRecorder) UpdateNamespace(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateDomain", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateDomain), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNamespace", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateNamespace), arg0, arg1)
 }
 
-// DeprecateDomain mocks base method.
-func (m *MockWorkflowServiceServer) DeprecateDomain(arg0 context.Context, arg1 *workflowservice.DeprecateDomainRequest) (*workflowservice.DeprecateDomainResponse, error) {
+// DeprecateNamespace mocks base method.
+func (m *MockWorkflowServiceServer) DeprecateNamespace(arg0 context.Context, arg1 *workflowservice.DeprecateNamespaceRequest) (*workflowservice.DeprecateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeprecateDomain", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DeprecateDomainResponse)
+	ret := m.ctrl.Call(m, "DeprecateNamespace", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.DeprecateNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DeprecateDomain indicates an expected call of DeprecateDomain.
-func (mr *MockWorkflowServiceServerMockRecorder) DeprecateDomain(arg0, arg1 interface{}) *gomock.Call {
+// DeprecateNamespace indicates an expected call of DeprecateNamespace.
+func (mr *MockWorkflowServiceServerMockRecorder) DeprecateNamespace(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeprecateDomain", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DeprecateDomain), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeprecateNamespace", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DeprecateNamespace), arg0, arg1)
 }
 
 // StartWorkflowExecution mocks base method.

@@ -23,6 +23,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
@@ -30,40 +32,58 @@ import (
 )
 
 type (
-	// DomainAlreadyExists represents domain already exists error.
-	DomainAlreadyExists struct {
+	// NamespaceNotActive represents namespace not active error.
+	NamespaceNotActive struct {
 		Message        string
+		Namespace     string
+		CurrentCluster string
+		ActiveCluster  string
 		st             *status.Status
 	}
 )
 
-// NewDomainAlreadyExists returns new DomainAlreadyExists error.
-func NewDomainAlreadyExists(message string) *DomainAlreadyExists {
-	return &DomainAlreadyExists{
-		Message:        message,
+// NewNamespaceNotActive returns new NamespaceNotActive error.
+func NewNamespaceNotActive(namespace, currentCluster, activeCluster string) *NamespaceNotActive {
+	return &NamespaceNotActive{
+		Message:        fmt.Sprintf(
+			"Namespace: %s is active in cluster: %s, while current cluster %s is a standby cluster.",
+			namespace,
+			activeCluster,
+			currentCluster,
+		),
+		Namespace:     namespace,
+		CurrentCluster: currentCluster,
+		ActiveCluster:  activeCluster,
 	}
 }
 
 // Error returns string message.
-func (e *DomainAlreadyExists) Error() string {
+func (e *NamespaceNotActive) Error() string {
 	return e.Message
 }
 
-func (e *DomainAlreadyExists) status() *status.Status {
+func (e *NamespaceNotActive) status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.AlreadyExists, e.Message)
+	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&failure.DomainAlreadyExists{},
+		&failure.NamespaceNotActive{
+			Namespace:     e.Namespace,
+			CurrentCluster: e.CurrentCluster,
+			ActiveCluster:  e.ActiveCluster,
+		},
 	)
 	return st
 }
 
-func newDomainAlreadyExists(st *status.Status) *DomainAlreadyExists {
-	return &DomainAlreadyExists{
-		Message: st.Message(),
-		st:      st,
+func newNamespaceNotActive(st *status.Status, failure *failure.NamespaceNotActive) *NamespaceNotActive {
+	return &NamespaceNotActive{
+		Message:        st.Message(),
+		Namespace:     failure.Namespace,
+		CurrentCluster: failure.CurrentCluster,
+		ActiveCluster:  failure.ActiveCluster,
+		st:             st,
 	}
 }

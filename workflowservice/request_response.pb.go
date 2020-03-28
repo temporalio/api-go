@@ -50,7 +50,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-type RegisterDomainRequest struct {
+type RegisterNamespaceRequest struct {
 	Name                                   string                                    `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Description                            string                                    `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	OwnerEmail                             string                                    `protobuf:"bytes,3,opt,name=ownerEmail,proto3" json:"ownerEmail,omitempty"`
@@ -61,24 +61,24 @@ type RegisterDomainRequest struct {
 	// A key-value map for any customized purpose.
 	Data                     map[string]string    `protobuf:"bytes,8,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	SecurityToken            string               `protobuf:"bytes,9,opt,name=securityToken,proto3" json:"securityToken,omitempty"`
-	IsGlobalDomain           bool                 `protobuf:"varint,10,opt,name=isGlobalDomain,proto3" json:"isGlobalDomain,omitempty"`
+	IsGlobalNamespace        bool                 `protobuf:"varint,10,opt,name=isGlobalNamespace,proto3" json:"isGlobalNamespace,omitempty"`
 	HistoryArchivalStatus    enums.ArchivalStatus `protobuf:"varint,11,opt,name=historyArchivalStatus,proto3,enum=enums.ArchivalStatus" json:"historyArchivalStatus,omitempty"`
 	HistoryArchivalURI       string               `protobuf:"bytes,12,opt,name=historyArchivalURI,proto3" json:"historyArchivalURI,omitempty"`
 	VisibilityArchivalStatus enums.ArchivalStatus `protobuf:"varint,13,opt,name=visibilityArchivalStatus,proto3,enum=enums.ArchivalStatus" json:"visibilityArchivalStatus,omitempty"`
 	VisibilityArchivalURI    string               `protobuf:"bytes,14,opt,name=visibilityArchivalURI,proto3" json:"visibilityArchivalURI,omitempty"`
 }
 
-func (m *RegisterDomainRequest) Reset()      { *m = RegisterDomainRequest{} }
-func (*RegisterDomainRequest) ProtoMessage() {}
-func (*RegisterDomainRequest) Descriptor() ([]byte, []int) {
+func (m *RegisterNamespaceRequest) Reset()      { *m = RegisterNamespaceRequest{} }
+func (*RegisterNamespaceRequest) ProtoMessage() {}
+func (*RegisterNamespaceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{0}
 }
-func (m *RegisterDomainRequest) XXX_Unmarshal(b []byte) error {
+func (m *RegisterNamespaceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *RegisterDomainRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *RegisterNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_RegisterDomainRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_RegisterNamespaceRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -88,130 +88,130 @@ func (m *RegisterDomainRequest) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
-func (m *RegisterDomainRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisterDomainRequest.Merge(m, src)
+func (m *RegisterNamespaceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RegisterNamespaceRequest.Merge(m, src)
 }
-func (m *RegisterDomainRequest) XXX_Size() int {
+func (m *RegisterNamespaceRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *RegisterDomainRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegisterDomainRequest.DiscardUnknown(m)
+func (m *RegisterNamespaceRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_RegisterNamespaceRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RegisterDomainRequest proto.InternalMessageInfo
+var xxx_messageInfo_RegisterNamespaceRequest proto.InternalMessageInfo
 
-func (m *RegisterDomainRequest) GetName() string {
+func (m *RegisterNamespaceRequest) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *RegisterDomainRequest) GetDescription() string {
+func (m *RegisterNamespaceRequest) GetDescription() string {
 	if m != nil {
 		return m.Description
 	}
 	return ""
 }
 
-func (m *RegisterDomainRequest) GetOwnerEmail() string {
+func (m *RegisterNamespaceRequest) GetOwnerEmail() string {
 	if m != nil {
 		return m.OwnerEmail
 	}
 	return ""
 }
 
-func (m *RegisterDomainRequest) GetWorkflowExecutionRetentionPeriodInDays() int32 {
+func (m *RegisterNamespaceRequest) GetWorkflowExecutionRetentionPeriodInDays() int32 {
 	if m != nil {
 		return m.WorkflowExecutionRetentionPeriodInDays
 	}
 	return 0
 }
 
-func (m *RegisterDomainRequest) GetEmitMetric() bool {
+func (m *RegisterNamespaceRequest) GetEmitMetric() bool {
 	if m != nil {
 		return m.EmitMetric
 	}
 	return false
 }
 
-func (m *RegisterDomainRequest) GetClusters() []*common.ClusterReplicationConfiguration {
+func (m *RegisterNamespaceRequest) GetClusters() []*common.ClusterReplicationConfiguration {
 	if m != nil {
 		return m.Clusters
 	}
 	return nil
 }
 
-func (m *RegisterDomainRequest) GetActiveClusterName() string {
+func (m *RegisterNamespaceRequest) GetActiveClusterName() string {
 	if m != nil {
 		return m.ActiveClusterName
 	}
 	return ""
 }
 
-func (m *RegisterDomainRequest) GetData() map[string]string {
+func (m *RegisterNamespaceRequest) GetData() map[string]string {
 	if m != nil {
 		return m.Data
 	}
 	return nil
 }
 
-func (m *RegisterDomainRequest) GetSecurityToken() string {
+func (m *RegisterNamespaceRequest) GetSecurityToken() string {
 	if m != nil {
 		return m.SecurityToken
 	}
 	return ""
 }
 
-func (m *RegisterDomainRequest) GetIsGlobalDomain() bool {
+func (m *RegisterNamespaceRequest) GetIsGlobalNamespace() bool {
 	if m != nil {
-		return m.IsGlobalDomain
+		return m.IsGlobalNamespace
 	}
 	return false
 }
 
-func (m *RegisterDomainRequest) GetHistoryArchivalStatus() enums.ArchivalStatus {
+func (m *RegisterNamespaceRequest) GetHistoryArchivalStatus() enums.ArchivalStatus {
 	if m != nil {
 		return m.HistoryArchivalStatus
 	}
 	return enums.ArchivalStatusDefault
 }
 
-func (m *RegisterDomainRequest) GetHistoryArchivalURI() string {
+func (m *RegisterNamespaceRequest) GetHistoryArchivalURI() string {
 	if m != nil {
 		return m.HistoryArchivalURI
 	}
 	return ""
 }
 
-func (m *RegisterDomainRequest) GetVisibilityArchivalStatus() enums.ArchivalStatus {
+func (m *RegisterNamespaceRequest) GetVisibilityArchivalStatus() enums.ArchivalStatus {
 	if m != nil {
 		return m.VisibilityArchivalStatus
 	}
 	return enums.ArchivalStatusDefault
 }
 
-func (m *RegisterDomainRequest) GetVisibilityArchivalURI() string {
+func (m *RegisterNamespaceRequest) GetVisibilityArchivalURI() string {
 	if m != nil {
 		return m.VisibilityArchivalURI
 	}
 	return ""
 }
 
-type RegisterDomainResponse struct {
+type RegisterNamespaceResponse struct {
 }
 
-func (m *RegisterDomainResponse) Reset()      { *m = RegisterDomainResponse{} }
-func (*RegisterDomainResponse) ProtoMessage() {}
-func (*RegisterDomainResponse) Descriptor() ([]byte, []int) {
+func (m *RegisterNamespaceResponse) Reset()      { *m = RegisterNamespaceResponse{} }
+func (*RegisterNamespaceResponse) ProtoMessage() {}
+func (*RegisterNamespaceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{1}
 }
-func (m *RegisterDomainResponse) XXX_Unmarshal(b []byte) error {
+func (m *RegisterNamespaceResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *RegisterDomainResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *RegisterNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_RegisterDomainResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_RegisterNamespaceResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -221,34 +221,34 @@ func (m *RegisterDomainResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *RegisterDomainResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisterDomainResponse.Merge(m, src)
+func (m *RegisterNamespaceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RegisterNamespaceResponse.Merge(m, src)
 }
-func (m *RegisterDomainResponse) XXX_Size() int {
+func (m *RegisterNamespaceResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *RegisterDomainResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegisterDomainResponse.DiscardUnknown(m)
+func (m *RegisterNamespaceResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_RegisterNamespaceResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RegisterDomainResponse proto.InternalMessageInfo
+var xxx_messageInfo_RegisterNamespaceResponse proto.InternalMessageInfo
 
-type ListDomainsRequest struct {
+type ListNamespacesRequest struct {
 	PageSize      int32  `protobuf:"varint,1,opt,name=pageSize,proto3" json:"pageSize,omitempty"`
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *ListDomainsRequest) Reset()      { *m = ListDomainsRequest{} }
-func (*ListDomainsRequest) ProtoMessage() {}
-func (*ListDomainsRequest) Descriptor() ([]byte, []int) {
+func (m *ListNamespacesRequest) Reset()      { *m = ListNamespacesRequest{} }
+func (*ListNamespacesRequest) ProtoMessage() {}
+func (*ListNamespacesRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{2}
 }
-func (m *ListDomainsRequest) XXX_Unmarshal(b []byte) error {
+func (m *ListNamespacesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ListDomainsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ListNamespacesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ListDomainsRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ListNamespacesRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -258,48 +258,48 @@ func (m *ListDomainsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-func (m *ListDomainsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListDomainsRequest.Merge(m, src)
+func (m *ListNamespacesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListNamespacesRequest.Merge(m, src)
 }
-func (m *ListDomainsRequest) XXX_Size() int {
+func (m *ListNamespacesRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *ListDomainsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListDomainsRequest.DiscardUnknown(m)
+func (m *ListNamespacesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListNamespacesRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListDomainsRequest proto.InternalMessageInfo
+var xxx_messageInfo_ListNamespacesRequest proto.InternalMessageInfo
 
-func (m *ListDomainsRequest) GetPageSize() int32 {
+func (m *ListNamespacesRequest) GetPageSize() int32 {
 	if m != nil {
 		return m.PageSize
 	}
 	return 0
 }
 
-func (m *ListDomainsRequest) GetNextPageToken() []byte {
+func (m *ListNamespacesRequest) GetNextPageToken() []byte {
 	if m != nil {
 		return m.NextPageToken
 	}
 	return nil
 }
 
-type ListDomainsResponse struct {
-	Domains       []*DescribeDomainResponse `protobuf:"bytes,1,rep,name=domains,proto3" json:"domains,omitempty"`
-	NextPageToken []byte                    `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
+type ListNamespacesResponse struct {
+	Namespaces    []*DescribeNamespaceResponse `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
+	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *ListDomainsResponse) Reset()      { *m = ListDomainsResponse{} }
-func (*ListDomainsResponse) ProtoMessage() {}
-func (*ListDomainsResponse) Descriptor() ([]byte, []int) {
+func (m *ListNamespacesResponse) Reset()      { *m = ListNamespacesResponse{} }
+func (*ListNamespacesResponse) ProtoMessage() {}
+func (*ListNamespacesResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{3}
 }
-func (m *ListDomainsResponse) XXX_Unmarshal(b []byte) error {
+func (m *ListNamespacesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ListDomainsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ListNamespacesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ListDomainsResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ListNamespacesResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -309,48 +309,48 @@ func (m *ListDomainsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *ListDomainsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListDomainsResponse.Merge(m, src)
+func (m *ListNamespacesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ListNamespacesResponse.Merge(m, src)
 }
-func (m *ListDomainsResponse) XXX_Size() int {
+func (m *ListNamespacesResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *ListDomainsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListDomainsResponse.DiscardUnknown(m)
+func (m *ListNamespacesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ListNamespacesResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListDomainsResponse proto.InternalMessageInfo
+var xxx_messageInfo_ListNamespacesResponse proto.InternalMessageInfo
 
-func (m *ListDomainsResponse) GetDomains() []*DescribeDomainResponse {
+func (m *ListNamespacesResponse) GetNamespaces() []*DescribeNamespaceResponse {
 	if m != nil {
-		return m.Domains
+		return m.Namespaces
 	}
 	return nil
 }
 
-func (m *ListDomainsResponse) GetNextPageToken() []byte {
+func (m *ListNamespacesResponse) GetNextPageToken() []byte {
 	if m != nil {
 		return m.NextPageToken
 	}
 	return nil
 }
 
-type DescribeDomainRequest struct {
+type DescribeNamespaceRequest struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Uuid string `protobuf:"bytes,2,opt,name=uuid,proto3" json:"uuid,omitempty"`
 }
 
-func (m *DescribeDomainRequest) Reset()      { *m = DescribeDomainRequest{} }
-func (*DescribeDomainRequest) ProtoMessage() {}
-func (*DescribeDomainRequest) Descriptor() ([]byte, []int) {
+func (m *DescribeNamespaceRequest) Reset()      { *m = DescribeNamespaceRequest{} }
+func (*DescribeNamespaceRequest) ProtoMessage() {}
+func (*DescribeNamespaceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{4}
 }
-func (m *DescribeDomainRequest) XXX_Unmarshal(b []byte) error {
+func (m *DescribeNamespaceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DescribeDomainRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *DescribeNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DescribeDomainRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DescribeNamespaceRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -360,51 +360,51 @@ func (m *DescribeDomainRequest) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
-func (m *DescribeDomainRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DescribeDomainRequest.Merge(m, src)
+func (m *DescribeNamespaceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DescribeNamespaceRequest.Merge(m, src)
 }
-func (m *DescribeDomainRequest) XXX_Size() int {
+func (m *DescribeNamespaceRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *DescribeDomainRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_DescribeDomainRequest.DiscardUnknown(m)
+func (m *DescribeNamespaceRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DescribeNamespaceRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DescribeDomainRequest proto.InternalMessageInfo
+var xxx_messageInfo_DescribeNamespaceRequest proto.InternalMessageInfo
 
-func (m *DescribeDomainRequest) GetName() string {
+func (m *DescribeNamespaceRequest) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *DescribeDomainRequest) GetUuid() string {
+func (m *DescribeNamespaceRequest) GetUuid() string {
 	if m != nil {
 		return m.Uuid
 	}
 	return ""
 }
 
-type DescribeDomainResponse struct {
-	DomainInfo               *common.DomainInfo                     `protobuf:"bytes,1,opt,name=domainInfo,proto3" json:"domainInfo,omitempty"`
-	Configuration            *common.DomainConfiguration            `protobuf:"bytes,2,opt,name=configuration,proto3" json:"configuration,omitempty"`
-	ReplicationConfiguration *common.DomainReplicationConfiguration `protobuf:"bytes,3,opt,name=replicationConfiguration,proto3" json:"replicationConfiguration,omitempty"`
-	FailoverVersion          int64                                  `protobuf:"varint,4,opt,name=failoverVersion,proto3" json:"failoverVersion,omitempty"`
-	IsGlobalDomain           bool                                   `protobuf:"varint,5,opt,name=isGlobalDomain,proto3" json:"isGlobalDomain,omitempty"`
+type DescribeNamespaceResponse struct {
+	NamespaceInfo            *common.NamespaceInfo                     `protobuf:"bytes,1,opt,name=namespaceInfo,proto3" json:"namespaceInfo,omitempty"`
+	Configuration            *common.NamespaceConfiguration            `protobuf:"bytes,2,opt,name=configuration,proto3" json:"configuration,omitempty"`
+	ReplicationConfiguration *common.NamespaceReplicationConfiguration `protobuf:"bytes,3,opt,name=replicationConfiguration,proto3" json:"replicationConfiguration,omitempty"`
+	FailoverVersion          int64                                     `protobuf:"varint,4,opt,name=failoverVersion,proto3" json:"failoverVersion,omitempty"`
+	IsGlobalNamespace        bool                                      `protobuf:"varint,5,opt,name=isGlobalNamespace,proto3" json:"isGlobalNamespace,omitempty"`
 }
 
-func (m *DescribeDomainResponse) Reset()      { *m = DescribeDomainResponse{} }
-func (*DescribeDomainResponse) ProtoMessage() {}
-func (*DescribeDomainResponse) Descriptor() ([]byte, []int) {
+func (m *DescribeNamespaceResponse) Reset()      { *m = DescribeNamespaceResponse{} }
+func (*DescribeNamespaceResponse) ProtoMessage() {}
+func (*DescribeNamespaceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{5}
 }
-func (m *DescribeDomainResponse) XXX_Unmarshal(b []byte) error {
+func (m *DescribeNamespaceResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DescribeDomainResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *DescribeNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DescribeDomainResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DescribeNamespaceResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -414,73 +414,73 @@ func (m *DescribeDomainResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *DescribeDomainResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DescribeDomainResponse.Merge(m, src)
+func (m *DescribeNamespaceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DescribeNamespaceResponse.Merge(m, src)
 }
-func (m *DescribeDomainResponse) XXX_Size() int {
+func (m *DescribeNamespaceResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *DescribeDomainResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_DescribeDomainResponse.DiscardUnknown(m)
+func (m *DescribeNamespaceResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DescribeNamespaceResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DescribeDomainResponse proto.InternalMessageInfo
+var xxx_messageInfo_DescribeNamespaceResponse proto.InternalMessageInfo
 
-func (m *DescribeDomainResponse) GetDomainInfo() *common.DomainInfo {
+func (m *DescribeNamespaceResponse) GetNamespaceInfo() *common.NamespaceInfo {
 	if m != nil {
-		return m.DomainInfo
+		return m.NamespaceInfo
 	}
 	return nil
 }
 
-func (m *DescribeDomainResponse) GetConfiguration() *common.DomainConfiguration {
+func (m *DescribeNamespaceResponse) GetConfiguration() *common.NamespaceConfiguration {
 	if m != nil {
 		return m.Configuration
 	}
 	return nil
 }
 
-func (m *DescribeDomainResponse) GetReplicationConfiguration() *common.DomainReplicationConfiguration {
+func (m *DescribeNamespaceResponse) GetReplicationConfiguration() *common.NamespaceReplicationConfiguration {
 	if m != nil {
 		return m.ReplicationConfiguration
 	}
 	return nil
 }
 
-func (m *DescribeDomainResponse) GetFailoverVersion() int64 {
+func (m *DescribeNamespaceResponse) GetFailoverVersion() int64 {
 	if m != nil {
 		return m.FailoverVersion
 	}
 	return 0
 }
 
-func (m *DescribeDomainResponse) GetIsGlobalDomain() bool {
+func (m *DescribeNamespaceResponse) GetIsGlobalNamespace() bool {
 	if m != nil {
-		return m.IsGlobalDomain
+		return m.IsGlobalNamespace
 	}
 	return false
 }
 
-type UpdateDomainRequest struct {
-	Name                     string                                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	UpdatedInfo              *common.UpdateDomainInfo               `protobuf:"bytes,2,opt,name=updatedInfo,proto3" json:"updatedInfo,omitempty"`
-	Configuration            *common.DomainConfiguration            `protobuf:"bytes,3,opt,name=configuration,proto3" json:"configuration,omitempty"`
-	ReplicationConfiguration *common.DomainReplicationConfiguration `protobuf:"bytes,4,opt,name=replicationConfiguration,proto3" json:"replicationConfiguration,omitempty"`
-	SecurityToken            string                                 `protobuf:"bytes,5,opt,name=securityToken,proto3" json:"securityToken,omitempty"`
-	DeleteBadBinary          string                                 `protobuf:"bytes,6,opt,name=deleteBadBinary,proto3" json:"deleteBadBinary,omitempty"`
+type UpdateNamespaceRequest struct {
+	Name                     string                                    `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	UpdatedInfo              *common.UpdateNamespaceInfo               `protobuf:"bytes,2,opt,name=updatedInfo,proto3" json:"updatedInfo,omitempty"`
+	Configuration            *common.NamespaceConfiguration            `protobuf:"bytes,3,opt,name=configuration,proto3" json:"configuration,omitempty"`
+	ReplicationConfiguration *common.NamespaceReplicationConfiguration `protobuf:"bytes,4,opt,name=replicationConfiguration,proto3" json:"replicationConfiguration,omitempty"`
+	SecurityToken            string                                    `protobuf:"bytes,5,opt,name=securityToken,proto3" json:"securityToken,omitempty"`
+	DeleteBadBinary          string                                    `protobuf:"bytes,6,opt,name=deleteBadBinary,proto3" json:"deleteBadBinary,omitempty"`
 }
 
-func (m *UpdateDomainRequest) Reset()      { *m = UpdateDomainRequest{} }
-func (*UpdateDomainRequest) ProtoMessage() {}
-func (*UpdateDomainRequest) Descriptor() ([]byte, []int) {
+func (m *UpdateNamespaceRequest) Reset()      { *m = UpdateNamespaceRequest{} }
+func (*UpdateNamespaceRequest) ProtoMessage() {}
+func (*UpdateNamespaceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{6}
 }
-func (m *UpdateDomainRequest) XXX_Unmarshal(b []byte) error {
+func (m *UpdateNamespaceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *UpdateDomainRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *UpdateNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_UpdateDomainRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_UpdateNamespaceRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -490,79 +490,79 @@ func (m *UpdateDomainRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *UpdateDomainRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateDomainRequest.Merge(m, src)
+func (m *UpdateNamespaceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateNamespaceRequest.Merge(m, src)
 }
-func (m *UpdateDomainRequest) XXX_Size() int {
+func (m *UpdateNamespaceRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *UpdateDomainRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateDomainRequest.DiscardUnknown(m)
+func (m *UpdateNamespaceRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateNamespaceRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_UpdateDomainRequest proto.InternalMessageInfo
+var xxx_messageInfo_UpdateNamespaceRequest proto.InternalMessageInfo
 
-func (m *UpdateDomainRequest) GetName() string {
+func (m *UpdateNamespaceRequest) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *UpdateDomainRequest) GetUpdatedInfo() *common.UpdateDomainInfo {
+func (m *UpdateNamespaceRequest) GetUpdatedInfo() *common.UpdateNamespaceInfo {
 	if m != nil {
 		return m.UpdatedInfo
 	}
 	return nil
 }
 
-func (m *UpdateDomainRequest) GetConfiguration() *common.DomainConfiguration {
+func (m *UpdateNamespaceRequest) GetConfiguration() *common.NamespaceConfiguration {
 	if m != nil {
 		return m.Configuration
 	}
 	return nil
 }
 
-func (m *UpdateDomainRequest) GetReplicationConfiguration() *common.DomainReplicationConfiguration {
+func (m *UpdateNamespaceRequest) GetReplicationConfiguration() *common.NamespaceReplicationConfiguration {
 	if m != nil {
 		return m.ReplicationConfiguration
 	}
 	return nil
 }
 
-func (m *UpdateDomainRequest) GetSecurityToken() string {
+func (m *UpdateNamespaceRequest) GetSecurityToken() string {
 	if m != nil {
 		return m.SecurityToken
 	}
 	return ""
 }
 
-func (m *UpdateDomainRequest) GetDeleteBadBinary() string {
+func (m *UpdateNamespaceRequest) GetDeleteBadBinary() string {
 	if m != nil {
 		return m.DeleteBadBinary
 	}
 	return ""
 }
 
-type UpdateDomainResponse struct {
-	DomainInfo               *common.DomainInfo                     `protobuf:"bytes,1,opt,name=domainInfo,proto3" json:"domainInfo,omitempty"`
-	Configuration            *common.DomainConfiguration            `protobuf:"bytes,2,opt,name=configuration,proto3" json:"configuration,omitempty"`
-	ReplicationConfiguration *common.DomainReplicationConfiguration `protobuf:"bytes,3,opt,name=replicationConfiguration,proto3" json:"replicationConfiguration,omitempty"`
-	FailoverVersion          int64                                  `protobuf:"varint,4,opt,name=failoverVersion,proto3" json:"failoverVersion,omitempty"`
-	IsGlobalDomain           bool                                   `protobuf:"varint,5,opt,name=isGlobalDomain,proto3" json:"isGlobalDomain,omitempty"`
+type UpdateNamespaceResponse struct {
+	NamespaceInfo            *common.NamespaceInfo                     `protobuf:"bytes,1,opt,name=namespaceInfo,proto3" json:"namespaceInfo,omitempty"`
+	Configuration            *common.NamespaceConfiguration            `protobuf:"bytes,2,opt,name=configuration,proto3" json:"configuration,omitempty"`
+	ReplicationConfiguration *common.NamespaceReplicationConfiguration `protobuf:"bytes,3,opt,name=replicationConfiguration,proto3" json:"replicationConfiguration,omitempty"`
+	FailoverVersion          int64                                     `protobuf:"varint,4,opt,name=failoverVersion,proto3" json:"failoverVersion,omitempty"`
+	IsGlobalNamespace        bool                                      `protobuf:"varint,5,opt,name=isGlobalNamespace,proto3" json:"isGlobalNamespace,omitempty"`
 }
 
-func (m *UpdateDomainResponse) Reset()      { *m = UpdateDomainResponse{} }
-func (*UpdateDomainResponse) ProtoMessage() {}
-func (*UpdateDomainResponse) Descriptor() ([]byte, []int) {
+func (m *UpdateNamespaceResponse) Reset()      { *m = UpdateNamespaceResponse{} }
+func (*UpdateNamespaceResponse) ProtoMessage() {}
+func (*UpdateNamespaceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{7}
 }
-func (m *UpdateDomainResponse) XXX_Unmarshal(b []byte) error {
+func (m *UpdateNamespaceResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *UpdateDomainResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *UpdateNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_UpdateDomainResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_UpdateNamespaceResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -572,69 +572,69 @@ func (m *UpdateDomainResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-func (m *UpdateDomainResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateDomainResponse.Merge(m, src)
+func (m *UpdateNamespaceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateNamespaceResponse.Merge(m, src)
 }
-func (m *UpdateDomainResponse) XXX_Size() int {
+func (m *UpdateNamespaceResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *UpdateDomainResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateDomainResponse.DiscardUnknown(m)
+func (m *UpdateNamespaceResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateNamespaceResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_UpdateDomainResponse proto.InternalMessageInfo
+var xxx_messageInfo_UpdateNamespaceResponse proto.InternalMessageInfo
 
-func (m *UpdateDomainResponse) GetDomainInfo() *common.DomainInfo {
+func (m *UpdateNamespaceResponse) GetNamespaceInfo() *common.NamespaceInfo {
 	if m != nil {
-		return m.DomainInfo
+		return m.NamespaceInfo
 	}
 	return nil
 }
 
-func (m *UpdateDomainResponse) GetConfiguration() *common.DomainConfiguration {
+func (m *UpdateNamespaceResponse) GetConfiguration() *common.NamespaceConfiguration {
 	if m != nil {
 		return m.Configuration
 	}
 	return nil
 }
 
-func (m *UpdateDomainResponse) GetReplicationConfiguration() *common.DomainReplicationConfiguration {
+func (m *UpdateNamespaceResponse) GetReplicationConfiguration() *common.NamespaceReplicationConfiguration {
 	if m != nil {
 		return m.ReplicationConfiguration
 	}
 	return nil
 }
 
-func (m *UpdateDomainResponse) GetFailoverVersion() int64 {
+func (m *UpdateNamespaceResponse) GetFailoverVersion() int64 {
 	if m != nil {
 		return m.FailoverVersion
 	}
 	return 0
 }
 
-func (m *UpdateDomainResponse) GetIsGlobalDomain() bool {
+func (m *UpdateNamespaceResponse) GetIsGlobalNamespace() bool {
 	if m != nil {
-		return m.IsGlobalDomain
+		return m.IsGlobalNamespace
 	}
 	return false
 }
 
-type DeprecateDomainRequest struct {
+type DeprecateNamespaceRequest struct {
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	SecurityToken string `protobuf:"bytes,2,opt,name=securityToken,proto3" json:"securityToken,omitempty"`
 }
 
-func (m *DeprecateDomainRequest) Reset()      { *m = DeprecateDomainRequest{} }
-func (*DeprecateDomainRequest) ProtoMessage() {}
-func (*DeprecateDomainRequest) Descriptor() ([]byte, []int) {
+func (m *DeprecateNamespaceRequest) Reset()      { *m = DeprecateNamespaceRequest{} }
+func (*DeprecateNamespaceRequest) ProtoMessage() {}
+func (*DeprecateNamespaceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{8}
 }
-func (m *DeprecateDomainRequest) XXX_Unmarshal(b []byte) error {
+func (m *DeprecateNamespaceRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DeprecateDomainRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *DeprecateNamespaceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DeprecateDomainRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DeprecateNamespaceRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -644,46 +644,46 @@ func (m *DeprecateDomainRequest) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-func (m *DeprecateDomainRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeprecateDomainRequest.Merge(m, src)
+func (m *DeprecateNamespaceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeprecateNamespaceRequest.Merge(m, src)
 }
-func (m *DeprecateDomainRequest) XXX_Size() int {
+func (m *DeprecateNamespaceRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *DeprecateDomainRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeprecateDomainRequest.DiscardUnknown(m)
+func (m *DeprecateNamespaceRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeprecateNamespaceRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DeprecateDomainRequest proto.InternalMessageInfo
+var xxx_messageInfo_DeprecateNamespaceRequest proto.InternalMessageInfo
 
-func (m *DeprecateDomainRequest) GetName() string {
+func (m *DeprecateNamespaceRequest) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *DeprecateDomainRequest) GetSecurityToken() string {
+func (m *DeprecateNamespaceRequest) GetSecurityToken() string {
 	if m != nil {
 		return m.SecurityToken
 	}
 	return ""
 }
 
-type DeprecateDomainResponse struct {
+type DeprecateNamespaceResponse struct {
 }
 
-func (m *DeprecateDomainResponse) Reset()      { *m = DeprecateDomainResponse{} }
-func (*DeprecateDomainResponse) ProtoMessage() {}
-func (*DeprecateDomainResponse) Descriptor() ([]byte, []int) {
+func (m *DeprecateNamespaceResponse) Reset()      { *m = DeprecateNamespaceResponse{} }
+func (*DeprecateNamespaceResponse) ProtoMessage() {}
+func (*DeprecateNamespaceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{9}
 }
-func (m *DeprecateDomainResponse) XXX_Unmarshal(b []byte) error {
+func (m *DeprecateNamespaceResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *DeprecateDomainResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *DeprecateNamespaceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DeprecateDomainResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DeprecateNamespaceResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -693,20 +693,20 @@ func (m *DeprecateDomainResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-func (m *DeprecateDomainResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DeprecateDomainResponse.Merge(m, src)
+func (m *DeprecateNamespaceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeprecateNamespaceResponse.Merge(m, src)
 }
-func (m *DeprecateDomainResponse) XXX_Size() int {
+func (m *DeprecateNamespaceResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *DeprecateDomainResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_DeprecateDomainResponse.DiscardUnknown(m)
+func (m *DeprecateNamespaceResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeprecateNamespaceResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_DeprecateDomainResponse proto.InternalMessageInfo
+var xxx_messageInfo_DeprecateNamespaceResponse proto.InternalMessageInfo
 
 type StartWorkflowExecutionRequest struct {
-	Domain                              string                      `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace                           string                      `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowId                          string                      `protobuf:"bytes,2,opt,name=workflowId,proto3" json:"workflowId,omitempty"`
 	WorkflowType                        *common.WorkflowType        `protobuf:"bytes,3,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
 	TaskList                            *common.TaskList            `protobuf:"bytes,4,opt,name=taskList,proto3" json:"taskList,omitempty"`
@@ -755,9 +755,9 @@ func (m *StartWorkflowExecutionRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_StartWorkflowExecutionRequest proto.InternalMessageInfo
 
-func (m *StartWorkflowExecutionRequest) GetDomain() string {
+func (m *StartWorkflowExecutionRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -904,7 +904,7 @@ func (m *StartWorkflowExecutionResponse) GetRunId() string {
 }
 
 type GetWorkflowExecutionHistoryRequest struct {
-	Domain                 string                       `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace              string                       `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution              *common.WorkflowExecution    `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	MaximumPageSize        int32                        `protobuf:"varint,3,opt,name=maximumPageSize,proto3" json:"maximumPageSize,omitempty"`
 	NextPageToken          []byte                       `protobuf:"bytes,4,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
@@ -944,9 +944,9 @@ func (m *GetWorkflowExecutionHistoryRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetWorkflowExecutionHistoryRequest proto.InternalMessageInfo
 
-func (m *GetWorkflowExecutionHistoryRequest) GetDomain() string {
+func (m *GetWorkflowExecutionHistoryRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -1046,7 +1046,7 @@ func (m *GetWorkflowExecutionHistoryResponse) GetArchived() bool {
 }
 
 type PollForDecisionTaskRequest struct {
-	Domain         string           `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace      string           `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskList       *common.TaskList `protobuf:"bytes,2,opt,name=taskList,proto3" json:"taskList,omitempty"`
 	Identity       string           `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	BinaryChecksum string           `protobuf:"bytes,4,opt,name=binaryChecksum,proto3" json:"binaryChecksum,omitempty"`
@@ -1084,9 +1084,9 @@ func (m *PollForDecisionTaskRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_PollForDecisionTaskRequest proto.InternalMessageInfo
 
-func (m *PollForDecisionTaskRequest) GetDomain() string {
+func (m *PollForDecisionTaskRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -1520,7 +1520,7 @@ func (m *RespondDecisionTaskFailedResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondDecisionTaskFailedResponse proto.InternalMessageInfo
 
 type PollForActivityTaskRequest struct {
-	Domain           string                   `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace        string                   `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskList         *common.TaskList         `protobuf:"bytes,2,opt,name=taskList,proto3" json:"taskList,omitempty"`
 	Identity         string                   `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	TaskListMetadata *common.TaskListMetadata `protobuf:"bytes,4,opt,name=taskListMetadata,proto3" json:"taskListMetadata,omitempty"`
@@ -1558,9 +1558,9 @@ func (m *PollForActivityTaskRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_PollForActivityTaskRequest proto.InternalMessageInfo
 
-func (m *PollForActivityTaskRequest) GetDomain() string {
+func (m *PollForActivityTaskRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -1601,7 +1601,7 @@ type PollForActivityTaskResponse struct {
 	ScheduledTimestampOfThisAttempt int64                     `protobuf:"varint,12,opt,name=scheduledTimestampOfThisAttempt,proto3" json:"scheduledTimestampOfThisAttempt,omitempty"`
 	HeartbeatDetails                []byte                    `protobuf:"bytes,13,opt,name=heartbeatDetails,proto3" json:"heartbeatDetails,omitempty"`
 	WorkflowType                    *common.WorkflowType      `protobuf:"bytes,14,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
-	WorkflowDomain                  string                    `protobuf:"bytes,15,opt,name=workflowDomain,proto3" json:"workflowDomain,omitempty"`
+	WorkflowNamespace               string                    `protobuf:"bytes,15,opt,name=workflowNamespace,proto3" json:"workflowNamespace,omitempty"`
 	Header                          *common.Header            `protobuf:"bytes,16,opt,name=header,proto3" json:"header,omitempty"`
 }
 
@@ -1735,9 +1735,9 @@ func (m *PollForActivityTaskResponse) GetWorkflowType() *common.WorkflowType {
 	return nil
 }
 
-func (m *PollForActivityTaskResponse) GetWorkflowDomain() string {
+func (m *PollForActivityTaskResponse) GetWorkflowNamespace() string {
 	if m != nil {
-		return m.WorkflowDomain
+		return m.WorkflowNamespace
 	}
 	return ""
 }
@@ -1852,7 +1852,7 @@ func (m *RecordActivityTaskHeartbeatResponse) GetCancelRequested() bool {
 }
 
 type RecordActivityTaskHeartbeatByIDRequest struct {
-	Domain     string `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace  string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowID string `protobuf:"bytes,2,opt,name=workflowID,proto3" json:"workflowID,omitempty"`
 	RunID      string `protobuf:"bytes,3,opt,name=runID,proto3" json:"runID,omitempty"`
 	ActivityID string `protobuf:"bytes,4,opt,name=activityID,proto3" json:"activityID,omitempty"`
@@ -1894,9 +1894,9 @@ func (m *RecordActivityTaskHeartbeatByIDRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RecordActivityTaskHeartbeatByIDRequest proto.InternalMessageInfo
 
-func (m *RecordActivityTaskHeartbeatByIDRequest) GetDomain() string {
+func (m *RecordActivityTaskHeartbeatByIDRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -2076,7 +2076,7 @@ func (m *RespondActivityTaskCompletedResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskCompletedResponse proto.InternalMessageInfo
 
 type RespondActivityTaskCompletedByIDRequest struct {
-	Domain     string `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace  string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowID string `protobuf:"bytes,2,opt,name=workflowID,proto3" json:"workflowID,omitempty"`
 	RunID      string `protobuf:"bytes,3,opt,name=runID,proto3" json:"runID,omitempty"`
 	ActivityID string `protobuf:"bytes,4,opt,name=activityID,proto3" json:"activityID,omitempty"`
@@ -2118,9 +2118,9 @@ func (m *RespondActivityTaskCompletedByIDRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RespondActivityTaskCompletedByIDRequest proto.InternalMessageInfo
 
-func (m *RespondActivityTaskCompletedByIDRequest) GetDomain() string {
+func (m *RespondActivityTaskCompletedByIDRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -2300,7 +2300,7 @@ func (m *RespondActivityTaskFailedResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskFailedResponse proto.InternalMessageInfo
 
 type RespondActivityTaskFailedByIDRequest struct {
-	Domain     string `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace  string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowID string `protobuf:"bytes,2,opt,name=workflowID,proto3" json:"workflowID,omitempty"`
 	RunID      string `protobuf:"bytes,3,opt,name=runID,proto3" json:"runID,omitempty"`
 	ActivityID string `protobuf:"bytes,4,opt,name=activityID,proto3" json:"activityID,omitempty"`
@@ -2341,9 +2341,9 @@ func (m *RespondActivityTaskFailedByIDRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RespondActivityTaskFailedByIDRequest proto.InternalMessageInfo
 
-func (m *RespondActivityTaskFailedByIDRequest) GetDomain() string {
+func (m *RespondActivityTaskFailedByIDRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -2520,7 +2520,7 @@ func (m *RespondActivityTaskCanceledResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskCanceledResponse proto.InternalMessageInfo
 
 type RespondActivityTaskCanceledByIDRequest struct {
-	Domain     string `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace  string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowID string `protobuf:"bytes,2,opt,name=workflowID,proto3" json:"workflowID,omitempty"`
 	RunID      string `protobuf:"bytes,3,opt,name=runID,proto3" json:"runID,omitempty"`
 	ActivityID string `protobuf:"bytes,4,opt,name=activityID,proto3" json:"activityID,omitempty"`
@@ -2562,9 +2562,9 @@ func (m *RespondActivityTaskCanceledByIDRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RespondActivityTaskCanceledByIDRequest proto.InternalMessageInfo
 
-func (m *RespondActivityTaskCanceledByIDRequest) GetDomain() string {
+func (m *RespondActivityTaskCanceledByIDRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -2642,7 +2642,7 @@ func (m *RespondActivityTaskCanceledByIDResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskCanceledByIDResponse proto.InternalMessageInfo
 
 type RequestCancelWorkflowExecutionRequest struct {
-	Domain            string                    `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace         string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *common.WorkflowExecution `protobuf:"bytes,2,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
 	Identity          string                    `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	RequestId         string                    `protobuf:"bytes,4,opt,name=requestId,proto3" json:"requestId,omitempty"`
@@ -2680,9 +2680,9 @@ func (m *RequestCancelWorkflowExecutionRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RequestCancelWorkflowExecutionRequest proto.InternalMessageInfo
 
-func (m *RequestCancelWorkflowExecutionRequest) GetDomain() string {
+func (m *RequestCancelWorkflowExecutionRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -2746,7 +2746,7 @@ func (m *RequestCancelWorkflowExecutionResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RequestCancelWorkflowExecutionResponse proto.InternalMessageInfo
 
 type SignalWorkflowExecutionRequest struct {
-	Domain            string                    `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace         string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *common.WorkflowExecution `protobuf:"bytes,2,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
 	SignalName        string                    `protobuf:"bytes,3,opt,name=signalName,proto3" json:"signalName,omitempty"`
 	Input             []byte                    `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
@@ -2787,9 +2787,9 @@ func (m *SignalWorkflowExecutionRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SignalWorkflowExecutionRequest proto.InternalMessageInfo
 
-func (m *SignalWorkflowExecutionRequest) GetDomain() string {
+func (m *SignalWorkflowExecutionRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -2872,7 +2872,7 @@ func (m *SignalWorkflowExecutionResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_SignalWorkflowExecutionResponse proto.InternalMessageInfo
 
 type SignalWithStartWorkflowExecutionRequest struct {
-	Domain                              string                      `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace                           string                      `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowId                          string                      `protobuf:"bytes,2,opt,name=workflowId,proto3" json:"workflowId,omitempty"`
 	WorkflowType                        *common.WorkflowType        `protobuf:"bytes,3,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
 	TaskList                            *common.TaskList            `protobuf:"bytes,4,opt,name=taskList,proto3" json:"taskList,omitempty"`
@@ -2926,9 +2926,9 @@ func (m *SignalWithStartWorkflowExecutionRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SignalWithStartWorkflowExecutionRequest proto.InternalMessageInfo
 
-func (m *SignalWithStartWorkflowExecutionRequest) GetDomain() string {
+func (m *SignalWithStartWorkflowExecutionRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -3098,7 +3098,7 @@ func (m *SignalWithStartWorkflowExecutionResponse) GetRunId() string {
 }
 
 type ResetWorkflowExecutionRequest struct {
-	Domain                string                    `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace             string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution     *common.WorkflowExecution `protobuf:"bytes,2,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
 	Reason                string                    `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	DecisionFinishEventId int64                     `protobuf:"varint,4,opt,name=decisionFinishEventId,proto3" json:"decisionFinishEventId,omitempty"`
@@ -3137,9 +3137,9 @@ func (m *ResetWorkflowExecutionRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ResetWorkflowExecutionRequest proto.InternalMessageInfo
 
-func (m *ResetWorkflowExecutionRequest) GetDomain() string {
+func (m *ResetWorkflowExecutionRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -3216,7 +3216,7 @@ func (m *ResetWorkflowExecutionResponse) GetRunId() string {
 }
 
 type TerminateWorkflowExecutionRequest struct {
-	Domain            string                    `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace         string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *common.WorkflowExecution `protobuf:"bytes,2,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
 	Reason            string                    `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	Details           []byte                    `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
@@ -3255,9 +3255,9 @@ func (m *TerminateWorkflowExecutionRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_TerminateWorkflowExecutionRequest proto.InternalMessageInfo
 
-func (m *TerminateWorkflowExecutionRequest) GetDomain() string {
+func (m *TerminateWorkflowExecutionRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -3326,7 +3326,7 @@ func (m *TerminateWorkflowExecutionResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_TerminateWorkflowExecutionResponse proto.InternalMessageInfo
 
 type ListOpenWorkflowExecutionsRequest struct {
-	Domain          string                  `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace       string                  `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	MaximumPageSize int32                   `protobuf:"varint,2,opt,name=maximumPageSize,proto3" json:"maximumPageSize,omitempty"`
 	NextPageToken   []byte                  `protobuf:"bytes,3,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 	StartTimeFilter *common.StartTimeFilter `protobuf:"bytes,4,opt,name=StartTimeFilter,proto3" json:"StartTimeFilter,omitempty"`
@@ -3393,9 +3393,9 @@ func (m *ListOpenWorkflowExecutionsRequest) GetFilters() isListOpenWorkflowExecu
 	return nil
 }
 
-func (m *ListOpenWorkflowExecutionsRequest) GetDomain() string {
+func (m *ListOpenWorkflowExecutionsRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -3495,7 +3495,7 @@ func (m *ListOpenWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type ListClosedWorkflowExecutionsRequest struct {
-	Domain          string                  `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace       string                  `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	MaximumPageSize int32                   `protobuf:"varint,2,opt,name=maximumPageSize,proto3" json:"maximumPageSize,omitempty"`
 	NextPageToken   []byte                  `protobuf:"bytes,3,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 	StartTimeFilter *common.StartTimeFilter `protobuf:"bytes,4,opt,name=StartTimeFilter,proto3" json:"StartTimeFilter,omitempty"`
@@ -3569,9 +3569,9 @@ func (m *ListClosedWorkflowExecutionsRequest) GetFilters() isListClosedWorkflowE
 	return nil
 }
 
-func (m *ListClosedWorkflowExecutionsRequest) GetDomain() string {
+func (m *ListClosedWorkflowExecutionsRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -3679,7 +3679,7 @@ func (m *ListClosedWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type ListWorkflowExecutionsRequest struct {
-	Domain        string `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32  `protobuf:"varint,2,opt,name=pageSize,proto3" json:"pageSize,omitempty"`
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
@@ -3717,9 +3717,9 @@ func (m *ListWorkflowExecutionsRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ListWorkflowExecutionsRequest proto.InternalMessageInfo
 
-func (m *ListWorkflowExecutionsRequest) GetDomain() string {
+func (m *ListWorkflowExecutionsRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -3797,7 +3797,7 @@ func (m *ListWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type ListArchivedWorkflowExecutionsRequest struct {
-	Domain        string `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32  `protobuf:"varint,2,opt,name=pageSize,proto3" json:"pageSize,omitempty"`
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
@@ -3835,9 +3835,9 @@ func (m *ListArchivedWorkflowExecutionsRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ListArchivedWorkflowExecutionsRequest proto.InternalMessageInfo
 
-func (m *ListArchivedWorkflowExecutionsRequest) GetDomain() string {
+func (m *ListArchivedWorkflowExecutionsRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -3917,7 +3917,7 @@ func (m *ListArchivedWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type ScanWorkflowExecutionsRequest struct {
-	Domain        string `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32  `protobuf:"varint,2,opt,name=pageSize,proto3" json:"pageSize,omitempty"`
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
@@ -3955,9 +3955,9 @@ func (m *ScanWorkflowExecutionsRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ScanWorkflowExecutionsRequest proto.InternalMessageInfo
 
-func (m *ScanWorkflowExecutionsRequest) GetDomain() string {
+func (m *ScanWorkflowExecutionsRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -4035,8 +4035,8 @@ func (m *ScanWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type CountWorkflowExecutionsRequest struct {
-	Domain string `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
-	Query  string `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Query     string `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 }
 
 func (m *CountWorkflowExecutionsRequest) Reset()      { *m = CountWorkflowExecutionsRequest{} }
@@ -4071,9 +4071,9 @@ func (m *CountWorkflowExecutionsRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_CountWorkflowExecutionsRequest proto.InternalMessageInfo
 
-func (m *CountWorkflowExecutionsRequest) GetDomain() string {
+func (m *CountWorkflowExecutionsRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -4317,7 +4317,7 @@ func (m *RespondQueryTaskCompletedResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondQueryTaskCompletedResponse proto.InternalMessageInfo
 
 type ResetStickyTaskListRequest struct {
-	Domain    string                    `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution *common.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 }
 
@@ -4353,9 +4353,9 @@ func (m *ResetStickyTaskListRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ResetStickyTaskListRequest proto.InternalMessageInfo
 
-func (m *ResetStickyTaskListRequest) GetDomain() string {
+func (m *ResetStickyTaskListRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -4403,7 +4403,7 @@ func (m *ResetStickyTaskListResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_ResetStickyTaskListResponse proto.InternalMessageInfo
 
 type QueryWorkflowRequest struct {
-	Domain    string                    `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution *common.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	Query     *common.WorkflowQuery     `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
 	// QueryRejectCondition can used to reject the query if workflow state does not satisfy condition
@@ -4443,9 +4443,9 @@ func (m *QueryWorkflowRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QueryWorkflowRequest proto.InternalMessageInfo
 
-func (m *QueryWorkflowRequest) GetDomain() string {
+func (m *QueryWorkflowRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -4530,7 +4530,7 @@ func (m *QueryWorkflowResponse) GetQueryRejected() *common.QueryRejected {
 }
 
 type GetWorkflowExecutionRawHistoryRequest struct {
-	Domain          string                    `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace       string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution       *common.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	MaximumPageSize int32                     `protobuf:"varint,3,opt,name=maximumPageSize,proto3" json:"maximumPageSize,omitempty"`
 	NextPageToken   []byte                    `protobuf:"bytes,4,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
@@ -4568,9 +4568,9 @@ func (m *GetWorkflowExecutionRawHistoryRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetWorkflowExecutionRawHistoryRequest proto.InternalMessageInfo
 
-func (m *GetWorkflowExecutionRawHistoryRequest) GetDomain() string {
+func (m *GetWorkflowExecutionRawHistoryRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -4650,7 +4650,7 @@ func (m *GetWorkflowExecutionRawHistoryResponse) GetNextPageToken() []byte {
 }
 
 type DescribeWorkflowExecutionRequest struct {
-	Domain    string                    `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution *common.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 }
 
@@ -4686,9 +4686,9 @@ func (m *DescribeWorkflowExecutionRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DescribeWorkflowExecutionRequest proto.InternalMessageInfo
 
-func (m *DescribeWorkflowExecutionRequest) GetDomain() string {
+func (m *DescribeWorkflowExecutionRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -4768,7 +4768,7 @@ func (m *DescribeWorkflowExecutionResponse) GetPendingChildren() []*common.Pendi
 }
 
 type DescribeTaskListRequest struct {
-	Domain                string             `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace             string             `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskList              *common.TaskList   `protobuf:"bytes,2,opt,name=taskList,proto3" json:"taskList,omitempty"`
 	TaskListType          enums.TaskListType `protobuf:"varint,3,opt,name=taskListType,proto3,enum=enums.TaskListType" json:"taskListType,omitempty"`
 	IncludeTaskListStatus bool               `protobuf:"varint,4,opt,name=includeTaskListStatus,proto3" json:"includeTaskListStatus,omitempty"`
@@ -4806,9 +4806,9 @@ func (m *DescribeTaskListRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DescribeTaskListRequest proto.InternalMessageInfo
 
-func (m *DescribeTaskListRequest) GetDomain() string {
+func (m *DescribeTaskListRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -4965,8 +4965,8 @@ func (m *GetClusterInfoResponse) GetSupportedClientVersions() *common.SupportedC
 }
 
 type ListTaskListPartitionsRequest struct {
-	Domain   string           `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
-	TaskList *common.TaskList `protobuf:"bytes,2,opt,name=taskList,proto3" json:"taskList,omitempty"`
+	Namespace string           `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskList  *common.TaskList `protobuf:"bytes,2,opt,name=taskList,proto3" json:"taskList,omitempty"`
 }
 
 func (m *ListTaskListPartitionsRequest) Reset()      { *m = ListTaskListPartitionsRequest{} }
@@ -5001,9 +5001,9 @@ func (m *ListTaskListPartitionsRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ListTaskListPartitionsRequest proto.InternalMessageInfo
 
-func (m *ListTaskListPartitionsRequest) GetDomain() string {
+func (m *ListTaskListPartitionsRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -5067,7 +5067,7 @@ func (m *ListTaskListPartitionsResponse) GetDecisionTaskListPartitions() []*comm
 }
 
 type PollForWorkflowExecutionRawHistoryRequest struct {
-	Domain                 string                       `protobuf:"bytes,1,opt,name=domain,proto3" json:"domain,omitempty"`
+	Namespace              string                       `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution              *common.WorkflowExecution    `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	MaximumPageSize        int32                        `protobuf:"varint,3,opt,name=maximumPageSize,proto3" json:"maximumPageSize,omitempty"`
 	NextPageToken          []byte                       `protobuf:"bytes,4,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
@@ -5108,9 +5108,9 @@ func (m *PollForWorkflowExecutionRawHistoryRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_PollForWorkflowExecutionRawHistoryRequest proto.InternalMessageInfo
 
-func (m *PollForWorkflowExecutionRawHistoryRequest) GetDomain() string {
+func (m *PollForWorkflowExecutionRawHistoryRequest) GetNamespace() string {
 	if m != nil {
-		return m.Domain
+		return m.Namespace
 	}
 	return ""
 }
@@ -5197,17 +5197,17 @@ func (m *PollForWorkflowExecutionRawHistoryResponse) GetNextPageToken() []byte {
 }
 
 func init() {
-	proto.RegisterType((*RegisterDomainRequest)(nil), "workflowservice.RegisterDomainRequest")
-	proto.RegisterMapType((map[string]string)(nil), "workflowservice.RegisterDomainRequest.DataEntry")
-	proto.RegisterType((*RegisterDomainResponse)(nil), "workflowservice.RegisterDomainResponse")
-	proto.RegisterType((*ListDomainsRequest)(nil), "workflowservice.ListDomainsRequest")
-	proto.RegisterType((*ListDomainsResponse)(nil), "workflowservice.ListDomainsResponse")
-	proto.RegisterType((*DescribeDomainRequest)(nil), "workflowservice.DescribeDomainRequest")
-	proto.RegisterType((*DescribeDomainResponse)(nil), "workflowservice.DescribeDomainResponse")
-	proto.RegisterType((*UpdateDomainRequest)(nil), "workflowservice.UpdateDomainRequest")
-	proto.RegisterType((*UpdateDomainResponse)(nil), "workflowservice.UpdateDomainResponse")
-	proto.RegisterType((*DeprecateDomainRequest)(nil), "workflowservice.DeprecateDomainRequest")
-	proto.RegisterType((*DeprecateDomainResponse)(nil), "workflowservice.DeprecateDomainResponse")
+	proto.RegisterType((*RegisterNamespaceRequest)(nil), "workflowservice.RegisterNamespaceRequest")
+	proto.RegisterMapType((map[string]string)(nil), "workflowservice.RegisterNamespaceRequest.DataEntry")
+	proto.RegisterType((*RegisterNamespaceResponse)(nil), "workflowservice.RegisterNamespaceResponse")
+	proto.RegisterType((*ListNamespacesRequest)(nil), "workflowservice.ListNamespacesRequest")
+	proto.RegisterType((*ListNamespacesResponse)(nil), "workflowservice.ListNamespacesResponse")
+	proto.RegisterType((*DescribeNamespaceRequest)(nil), "workflowservice.DescribeNamespaceRequest")
+	proto.RegisterType((*DescribeNamespaceResponse)(nil), "workflowservice.DescribeNamespaceResponse")
+	proto.RegisterType((*UpdateNamespaceRequest)(nil), "workflowservice.UpdateNamespaceRequest")
+	proto.RegisterType((*UpdateNamespaceResponse)(nil), "workflowservice.UpdateNamespaceResponse")
+	proto.RegisterType((*DeprecateNamespaceRequest)(nil), "workflowservice.DeprecateNamespaceRequest")
+	proto.RegisterType((*DeprecateNamespaceResponse)(nil), "workflowservice.DeprecateNamespaceResponse")
 	proto.RegisterType((*StartWorkflowExecutionRequest)(nil), "workflowservice.StartWorkflowExecutionRequest")
 	proto.RegisterType((*StartWorkflowExecutionResponse)(nil), "workflowservice.StartWorkflowExecutionResponse")
 	proto.RegisterType((*GetWorkflowExecutionHistoryRequest)(nil), "workflowservice.GetWorkflowExecutionHistoryRequest")
@@ -5288,232 +5288,233 @@ func init() {
 }
 
 var fileDescriptor_2f2cc3b10536a077 = []byte{
-	// 3436 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x3b, 0xdd, 0x6f, 0x1c, 0x57,
-	0xf5, 0x9e, 0xfd, 0xb2, 0x7d, 0xfc, 0x95, 0x4c, 0x6c, 0x67, 0xeb, 0x24, 0x1b, 0x7b, 0x92, 0x38,
-	0x6e, 0x9b, 0x3a, 0xfd, 0xf9, 0x17, 0x92, 0x52, 0xa0, 0xe0, 0xec, 0xe6, 0xc3, 0xb4, 0x49, 0x9c,
-	0x6b, 0x37, 0x15, 0x08, 0x51, 0x8d, 0x67, 0x6e, 0xec, 0x5b, 0xcf, 0xce, 0x6c, 0x67, 0xee, 0xda,
-	0x59, 0x1e, 0x50, 0x1f, 0x40, 0x2a, 0xaa, 0xf8, 0x10, 0x42, 0xe2, 0x1d, 0x24, 0x84, 0xe0, 0x1d,
-	0x09, 0xf1, 0xc6, 0x97, 0x2a, 0x81, 0xaa, 0x0a, 0xf1, 0xd0, 0x07, 0x1e, 0xa8, 0x8b, 0x50, 0x1f,
-	0x78, 0xa8, 0xf8, 0x0b, 0xd0, 0xdc, 0x7b, 0x67, 0xf6, 0xce, 0xe7, 0xee, 0xa6, 0x69, 0xd2, 0x42,
-	0x5f, 0x92, 0x9d, 0x73, 0xcf, 0x39, 0xf7, 0x9c, 0x73, 0xcf, 0xd7, 0xfd, 0x30, 0x2c, 0xee, 0x3b,
-	0xee, 0xee, 0x5d, 0xcb, 0xd9, 0xf7, 0xb0, 0xbb, 0x47, 0x0c, 0x7c, 0xde, 0xc5, 0xaf, 0xb6, 0xb1,
-	0x47, 0x5f, 0x76, 0xb1, 0xd7, 0x72, 0x6c, 0x0f, 0x2f, 0xb7, 0x5c, 0x87, 0x3a, 0xea, 0x54, 0x0c,
-	0x6f, 0xee, 0x30, 0xb6, 0xdb, 0x4d, 0xef, 0x3c, 0xfb, 0x97, 0xe3, 0xcc, 0x1d, 0x31, 0x9c, 0x66,
-	0xd3, 0xb1, 0xcf, 0xf3, 0xff, 0x62, 0x40, 0xd3, 0x69, 0xea, 0x24, 0x00, 0x4e, 0x0b, 0xe0, 0x0e,
-	0xf1, 0xa8, 0xe3, 0x76, 0x04, 0x74, 0x26, 0x40, 0xc5, 0x06, 0xf1, 0x48, 0xc8, 0xe1, 0xa4, 0x00,
-	0x07, 0x12, 0xbc, 0x8c, 0xef, 0x61, 0xa3, 0x4d, 0x43, 0x04, 0xed, 0x97, 0x15, 0x98, 0x41, 0x78,
-	0x9b, 0x78, 0x14, 0xbb, 0x0d, 0x36, 0x0d, 0xe2, 0x4a, 0xa8, 0x2a, 0x94, 0x6c, 0xbd, 0x89, 0xab,
-	0xca, 0xbc, 0xb2, 0x34, 0x8a, 0xd8, 0x6f, 0x75, 0x1e, 0xc6, 0x4c, 0xec, 0x19, 0x2e, 0x69, 0xf9,
-	0x2c, 0xaa, 0x05, 0x36, 0x24, 0x83, 0xd4, 0x1a, 0x80, 0xb3, 0x6f, 0x63, 0xf7, 0x4a, 0x53, 0x27,
-	0x56, 0xb5, 0xc8, 0x10, 0x24, 0x88, 0x7a, 0xa7, 0x6b, 0xb5, 0x2b, 0x81, 0x28, 0x08, 0x53, 0x6c,
-	0xfb, 0x3f, 0xd6, 0xb1, 0x4b, 0x1c, 0x73, 0xcd, 0x6e, 0xe8, 0x1d, 0xaf, 0x5a, 0x9a, 0x57, 0x96,
-	0xca, 0xa8, 0x4f, 0x6c, 0x7f, 0x5e, 0xdc, 0x24, 0xf4, 0x06, 0xa6, 0x2e, 0x31, 0xaa, 0xe5, 0x79,
-	0x65, 0x69, 0x04, 0x49, 0x10, 0xb5, 0x0e, 0x23, 0x86, 0xd5, 0xf6, 0xb5, 0xf4, 0xaa, 0x95, 0xf9,
-	0xe2, 0xd2, 0xd8, 0xca, 0xd9, 0x65, 0x61, 0xeb, 0x3a, 0x87, 0x23, 0xdc, 0xb2, 0x88, 0xa1, 0xfb,
-	0x9c, 0xeb, 0x8e, 0x7d, 0x97, 0x6c, 0xb7, 0x5d, 0xf6, 0x81, 0x42, 0x42, 0xf5, 0x1c, 0x1c, 0xd6,
-	0x0d, 0x4a, 0xf6, 0xb0, 0x20, 0xb9, 0xe9, 0xdb, 0x67, 0x98, 0xe9, 0x98, 0x1c, 0x50, 0x1b, 0x50,
-	0x32, 0x75, 0xaa, 0x57, 0x47, 0xd8, 0x74, 0x4f, 0x2f, 0xc7, 0xbc, 0x60, 0x39, 0xd5, 0xec, 0xcb,
-	0x0d, 0x9d, 0xea, 0x57, 0x6c, 0xea, 0x76, 0x10, 0xa3, 0x56, 0x4f, 0xc3, 0x84, 0x87, 0x8d, 0xb6,
-	0x4b, 0x68, 0x67, 0xd3, 0xd9, 0xc5, 0x76, 0x75, 0x94, 0xcd, 0x17, 0x05, 0xaa, 0x8b, 0x30, 0x49,
-	0xbc, 0x6b, 0x96, 0xb3, 0xa5, 0x5b, 0x9c, 0x5d, 0x15, 0x98, 0x09, 0x62, 0x50, 0xf5, 0x79, 0x98,
-	0x11, 0x7e, 0xb3, 0xea, 0x1a, 0x3b, 0x64, 0x4f, 0xb7, 0x36, 0xa8, 0x4e, 0xdb, 0x5e, 0x75, 0x6c,
-	0x5e, 0x59, 0x9a, 0x5c, 0x99, 0x59, 0xe6, 0x3e, 0x19, 0x1d, 0x44, 0xe9, 0x34, 0xea, 0x32, 0xa8,
-	0xb1, 0x81, 0x17, 0xd1, 0x5a, 0x75, 0x9c, 0xc9, 0x97, 0x32, 0xa2, 0xde, 0x86, 0xea, 0x1e, 0xf1,
-	0xc8, 0x16, 0xb1, 0x08, 0x8d, 0xcf, 0x3f, 0x91, 0x37, 0x7f, 0x26, 0x99, 0x7a, 0x01, 0x66, 0x92,
-	0x63, 0xbe, 0x14, 0x93, 0x4c, 0x8a, 0xf4, 0xc1, 0xb9, 0x4b, 0x30, 0x1a, 0x9a, 0x59, 0x3d, 0x04,
-	0xc5, 0x5d, 0xdc, 0x11, 0x6e, 0xee, 0xff, 0x54, 0xa7, 0xa1, 0xbc, 0xa7, 0x5b, 0x6d, 0x2c, 0xfc,
-	0x9b, 0x7f, 0x3c, 0x5b, 0x78, 0x46, 0xd1, 0xaa, 0x30, 0x1b, 0x5f, 0x35, 0x1e, 0xe9, 0xda, 0x1d,
-	0x50, 0x5f, 0x20, 0x1e, 0xe5, 0x50, 0x2f, 0x88, 0xa1, 0x39, 0x18, 0x69, 0xe9, 0xdb, 0x78, 0x83,
-	0x7c, 0x83, 0xc7, 0x51, 0x19, 0x85, 0xdf, 0xfe, 0xc2, 0xda, 0xf8, 0x1e, 0x5d, 0xd7, 0xb7, 0x31,
-	0x5f, 0x58, 0x7f, 0xb6, 0x71, 0x14, 0x05, 0x6a, 0xdf, 0x84, 0x23, 0x11, 0xbe, 0x7c, 0x3a, 0x75,
-	0x15, 0x86, 0x79, 0x52, 0xf0, 0xaa, 0x8a, 0xf0, 0xe6, 0xb8, 0x7b, 0x35, 0x58, 0x54, 0x6e, 0xe1,
-	0xa8, 0xa0, 0x28, 0xa0, 0xeb, 0x73, 0xfe, 0x2f, 0xc2, 0x4c, 0x9c, 0x51, 0x76, 0x7a, 0x50, 0xa1,
-	0xd4, 0x6e, 0x13, 0x53, 0xd8, 0x8d, 0xfd, 0xd6, 0xfe, 0x50, 0x80, 0xd9, 0x74, 0x51, 0xd4, 0x15,
-	0x00, 0x2e, 0xcc, 0x9a, 0x7d, 0xd7, 0x61, 0x8c, 0xc6, 0x56, 0xd4, 0x20, 0x2a, 0x1b, 0xe1, 0x08,
-	0x92, 0xb0, 0xd4, 0x55, 0x98, 0x30, 0xe4, 0xe8, 0x64, 0x73, 0x8d, 0xad, 0x1c, 0x8b, 0x92, 0x45,
-	0x03, 0x38, 0x4a, 0xa1, 0x6e, 0x41, 0xd5, 0xcd, 0x88, 0x75, 0x96, 0xb0, 0xc6, 0x56, 0x16, 0xa3,
-	0xdc, 0x32, 0x33, 0x43, 0x26, 0x1f, 0x75, 0x09, 0xa6, 0xee, 0xea, 0xc4, 0x72, 0xf6, 0xb0, 0x7b,
-	0x07, 0xbb, 0x7e, 0x42, 0x66, 0xf9, 0xac, 0x88, 0xe2, 0xe0, 0x94, 0xc8, 0x2d, 0xa7, 0x45, 0xae,
-	0xf6, 0xb7, 0x02, 0x1c, 0x79, 0xb1, 0x65, 0xea, 0xb4, 0x8f, 0x75, 0x78, 0x16, 0xc6, 0xda, 0x0c,
-	0xd5, 0x64, 0x96, 0xe5, 0x26, 0xaa, 0x06, 0x4a, 0xc9, 0x5c, 0x98, 0x7d, 0x65, 0xe4, 0xa4, 0x81,
-	0x8b, 0x0f, 0xd4, 0xc0, 0xa5, 0x07, 0x64, 0xe0, 0x44, 0x5a, 0x2c, 0xa7, 0xa5, 0xc5, 0x25, 0x98,
-	0x32, 0xb1, 0x85, 0x29, 0xbe, 0xac, 0x9b, 0x97, 0x89, 0xad, 0xbb, 0x9d, 0x6a, 0x85, 0xe1, 0xc5,
-	0xc1, 0xda, 0xef, 0x0a, 0x30, 0x1d, 0x35, 0xef, 0xa7, 0x4e, 0x3a, 0xb8, 0x93, 0x22, 0x3f, 0xd6,
-	0x5b, 0x2e, 0x36, 0xfa, 0x72, 0xd3, 0xc4, 0x1a, 0x16, 0x52, 0xd6, 0x50, 0x7b, 0x0c, 0x8e, 0x26,
-	0x78, 0x8a, 0xa4, 0xfb, 0x7e, 0x19, 0x4e, 0x6c, 0x50, 0xdd, 0xa5, 0x2f, 0x25, 0x9b, 0x04, 0x3e,
-	0xed, 0x2c, 0x54, 0xf8, 0xba, 0x88, 0x89, 0xc5, 0x97, 0xdf, 0x2e, 0x04, 0xf9, 0x72, 0x2d, 0xc8,
-	0x57, 0x12, 0x44, 0x7d, 0x06, 0xc6, 0x83, 0xaf, 0xcd, 0x4e, 0x0b, 0x0b, 0x93, 0x4f, 0x07, 0x26,
-	0x7f, 0x49, 0x1a, 0x43, 0x11, 0x4c, 0xf5, 0x1c, 0x8c, 0x50, 0xdd, 0xdb, 0xf5, 0x93, 0xb6, 0x70,
-	0xf6, 0x43, 0x01, 0xd5, 0xa6, 0x80, 0xa3, 0x10, 0xc3, 0x2f, 0x35, 0xc4, 0x6e, 0xb5, 0x29, 0xb3,
-	0xe7, 0x38, 0xe2, 0x1f, 0xea, 0x3a, 0x9c, 0x0a, 0xfb, 0x34, 0xa6, 0xdf, 0xa6, 0x53, 0xb7, 0x1c,
-	0x0f, 0x6f, 0x92, 0x26, 0x76, 0xda, 0x74, 0x03, 0x1b, 0x8e, 0x6d, 0x7a, 0xcc, 0x95, 0xcb, 0xa8,
-	0x1f, 0x54, 0xf5, 0x2a, 0xd4, 0xfc, 0x39, 0x73, 0x98, 0x0d, 0x33, 0x66, 0x3d, 0xb0, 0xfc, 0x82,
-	0x46, 0x4c, 0xbf, 0xfd, 0xa2, 0x9d, 0xea, 0x08, 0xb3, 0x5a, 0xf8, 0xad, 0x1e, 0x87, 0x51, 0xd1,
-	0x00, 0xaf, 0x99, 0xa2, 0x4b, 0xe9, 0x02, 0x54, 0x04, 0x33, 0x5d, 0xfb, 0x22, 0xdc, 0xf6, 0xf0,
-	0xba, 0x63, 0x11, 0xa3, 0xc3, 0x1a, 0x95, 0xc9, 0x95, 0xe3, 0xa2, 0xf2, 0xbf, 0x94, 0x86, 0x83,
-	0xd2, 0x49, 0xd5, 0xcf, 0xc0, 0x98, 0x8b, 0xa9, 0xdb, 0x11, 0x9c, 0xc6, 0x98, 0xb9, 0x8f, 0x04,
-	0xe6, 0x46, 0xdd, 0x21, 0x24, 0xe3, 0xa9, 0x1a, 0x8c, 0x1b, 0xae, 0x63, 0x6f, 0x18, 0x3b, 0xd8,
-	0x6c, 0x5b, 0x58, 0x74, 0x2c, 0x11, 0x98, 0x3a, 0x0f, 0xa5, 0x26, 0x6e, 0x3a, 0xac, 0x2f, 0x19,
-	0x5b, 0x19, 0x0f, 0x78, 0xde, 0xc0, 0x4d, 0x07, 0xb1, 0x11, 0xb5, 0x01, 0x87, 0x3c, 0xac, 0xbb,
-	0xc6, 0xce, 0x2a, 0xa5, 0x2e, 0xd9, 0x6a, 0x53, 0xec, 0xb1, 0xae, 0x43, 0xca, 0xb4, 0x1b, 0xb1,
-	0x71, 0x94, 0xa0, 0x50, 0x17, 0xa1, 0xb2, 0x83, 0x75, 0x13, 0xbb, 0xd5, 0x29, 0x46, 0x3b, 0x19,
-	0xd0, 0x5e, 0x67, 0x50, 0x24, 0x46, 0xb5, 0x8b, 0x50, 0xcb, 0xf2, 0x74, 0x91, 0xa8, 0xa6, 0xa1,
-	0xec, 0xb6, 0xed, 0x35, 0x53, 0x78, 0x3a, 0xff, 0xd0, 0xfe, 0x58, 0x00, 0xed, 0x1a, 0x4e, 0x92,
-	0x5d, 0xe7, 0xed, 0x59, 0xaf, 0x38, 0xb9, 0x04, 0xa3, 0xa1, 0x7b, 0x89, 0x2c, 0xf6, 0x58, 0x3c,
-	0x08, 0xba, 0xa2, 0x74, 0x71, 0xfd, 0xdc, 0xd2, 0xd4, 0xef, 0x91, 0x66, 0xbb, 0xb9, 0x1e, 0x34,
-	0x40, 0x45, 0xe6, 0x61, 0x71, 0x70, 0xb2, 0x0f, 0x29, 0xa5, 0xf4, 0x21, 0x3e, 0xbf, 0x7d, 0x9d,
-	0xd0, 0xab, 0x8e, 0x7b, 0x13, 0xef, 0x5f, 0xd9, 0xc3, 0x36, 0x15, 0x29, 0x28, 0x0e, 0x56, 0x5f,
-	0x84, 0x59, 0xa1, 0x1c, 0xfb, 0xbe, 0x4a, 0x2c, 0x8a, 0x5d, 0x16, 0xc4, 0x15, 0xe6, 0x69, 0x27,
-	0x84, 0xa7, 0xa5, 0x23, 0xa1, 0x0c, 0x62, 0xed, 0x87, 0x0a, 0x9c, 0xca, 0x35, 0xa4, 0x58, 0x86,
-	0xc7, 0x61, 0x58, 0xb4, 0xbe, 0xa2, 0x58, 0x4c, 0x85, 0x2b, 0x2a, 0x30, 0x83, 0xf1, 0xfe, 0x3a,
-	0x30, 0x3f, 0xe4, 0x74, 0xd6, 0xbb, 0x62, 0x93, 0x99, 0x70, 0x04, 0x85, 0xdf, 0xda, 0xcf, 0x14,
-	0x98, 0x5b, 0x77, 0x2c, 0xeb, 0xaa, 0xe3, 0x36, 0xc4, 0xc6, 0xcf, 0x4f, 0x32, 0xbd, 0x56, 0x55,
-	0xce, 0x51, 0x85, 0x9e, 0x39, 0x4a, 0x8e, 0xf9, 0x62, 0x2c, 0xe6, 0x17, 0x61, 0x72, 0x8b, 0x15,
-	0xd0, 0xfa, 0x0e, 0x36, 0x76, 0xbd, 0x76, 0x93, 0xad, 0xde, 0x28, 0x8a, 0x41, 0xb5, 0x5f, 0x55,
-	0xe0, 0x58, 0xaa, 0xa0, 0xc2, 0x6a, 0xc7, 0x61, 0xd4, 0x9f, 0x8f, 0x9b, 0x41, 0x61, 0x66, 0xe8,
-	0x02, 0xd4, 0x6b, 0x70, 0x38, 0xb1, 0x0d, 0xec, 0xed, 0x8d, 0x49, 0x9a, 0x0f, 0x91, 0xd6, 0x2f,
-	0xc2, 0x6c, 0xcb, 0xc5, 0x7b, 0xc4, 0x69, 0x7b, 0x2c, 0x0e, 0xb1, 0xc9, 0x1c, 0x64, 0xcd, 0x14,
-	0x25, 0x33, 0x63, 0xd4, 0x37, 0x90, 0x17, 0xc5, 0x2f, 0x33, 0xfc, 0x18, 0x54, 0xad, 0xc2, 0xb0,
-	0x4e, 0x29, 0x6e, 0xb6, 0x28, 0x73, 0xd3, 0x22, 0x0a, 0x3e, 0xd5, 0x27, 0xe0, 0xd0, 0x96, 0x6e,
-	0xec, 0x5a, 0xce, 0x76, 0xdd, 0x69, 0xdb, 0xf4, 0x3a, 0xb1, 0x29, 0x4b, 0xd6, 0x45, 0x94, 0x80,
-	0xcb, 0xce, 0x37, 0x32, 0xa8, 0xf3, 0x8d, 0xa6, 0x39, 0xdf, 0x93, 0x50, 0x7e, 0xb5, 0x8d, 0x5d,
-	0x9e, 0xa5, 0xc7, 0x56, 0x66, 0xe2, 0x96, 0xba, 0xed, 0x0f, 0x22, 0x8e, 0xa3, 0xde, 0x84, 0xc7,
-	0x12, 0xab, 0x10, 0xf8, 0x93, 0x48, 0xce, 0x49, 0x3f, 0xcb, 0x26, 0xf1, 0xf7, 0x97, 0x9e, 0xc8,
-	0xc7, 0xa6, 0x5f, 0x87, 0x3c, 0xaa, 0x37, 0x5b, 0x2c, 0x5b, 0x17, 0x51, 0xca, 0x88, 0x6f, 0x29,
-	0x61, 0xd5, 0x2e, 0xf6, 0x04, 0xb7, 0x54, 0x1c, 0xae, 0x6e, 0xc0, 0xb0, 0x2f, 0x34, 0x61, 0x49,
-	0xdb, 0xdf, 0x40, 0x7d, 0x36, 0xb1, 0x81, 0xca, 0xf1, 0xd7, 0xe5, 0xdb, 0x9c, 0x96, 0x6f, 0xd4,
-	0x03, 0x4e, 0x73, 0xb7, 0x61, 0x5c, 0x1e, 0x48, 0xd9, 0x5a, 0x3e, 0x29, 0x6f, 0x2d, 0xb3, 0xed,
-	0xd9, 0xdd, 0x71, 0xfe, 0xbb, 0x04, 0xa7, 0xf8, 0xac, 0xa6, 0x2c, 0x48, 0xdd, 0x69, 0xb6, 0xfc,
-	0x06, 0xd6, 0x0c, 0x42, 0x3d, 0x3f, 0x80, 0x96, 0x61, 0x34, 0x38, 0x18, 0xf2, 0xaa, 0x05, 0xa6,
-	0x6f, 0xb8, 0x12, 0x01, 0x5b, 0xd4, 0x45, 0xf1, 0x2d, 0x19, 0xa6, 0xf2, 0xba, 0x63, 0x53, 0x7c,
-	0x8f, 0xb2, 0x58, 0x19, 0x47, 0x09, 0x78, 0x24, 0x3d, 0x94, 0x62, 0xe9, 0xe1, 0x86, 0xbf, 0x22,
-	0xc4, 0xd8, 0xed, 0x48, 0x35, 0xb2, 0xcc, 0x34, 0x5f, 0x08, 0x6b, 0x24, 0x1b, 0x0f, 0x17, 0x3f,
-	0x52, 0x2c, 0x63, 0xa4, 0xfe, 0x6e, 0xdf, 0xc5, 0xb4, 0xed, 0xda, 0x37, 0xf1, 0xbe, 0x6c, 0x0d,
-	0x16, 0x32, 0x23, 0x28, 0x7d, 0x50, 0x7d, 0x0e, 0xe6, 0xee, 0x3a, 0xae, 0x81, 0xeb, 0x2e, 0xd6,
-	0x29, 0x8e, 0x93, 0x0e, 0x33, 0xd2, 0x1c, 0x8c, 0x94, 0x1c, 0x37, 0x92, 0x96, 0xe3, 0xd4, 0x57,
-	0x60, 0x9c, 0xc5, 0x01, 0xc2, 0x5e, 0xdb, 0xa2, 0x5e, 0x75, 0x94, 0xd9, 0xf9, 0x6a, 0xca, 0xb9,
-	0x4f, 0xcf, 0xe5, 0x5c, 0xbe, 0x2d, 0x31, 0xe2, 0x4e, 0x16, 0xe1, 0x3d, 0xf7, 0x35, 0x38, 0x9c,
-	0x40, 0x49, 0x71, 0xb7, 0xff, 0x8b, 0xba, 0xdb, 0xb1, 0x74, 0x77, 0x63, 0x3c, 0x64, 0xa7, 0xbb,
-	0x07, 0xa7, 0xf3, 0x85, 0x14, 0x59, 0x7b, 0x1d, 0xc6, 0x4d, 0xd9, 0x96, 0xbc, 0xe0, 0x9d, 0x1b,
-	0x24, 0x92, 0x50, 0x84, 0x83, 0xf6, 0x57, 0x05, 0xe6, 0x53, 0xa6, 0xbe, 0xaa, 0x13, 0xab, 0x5f,
-	0x5f, 0xbf, 0x00, 0x65, 0x43, 0x6f, 0x7b, 0x5c, 0xe7, 0xc9, 0x95, 0x9a, 0x28, 0xf7, 0x49, 0x76,
-	0x75, 0x1f, 0x0b, 0x71, 0x64, 0x3f, 0xff, 0x9a, 0x98, 0xea, 0xc4, 0xf2, 0x84, 0xa3, 0x07, 0x9f,
-	0xb9, 0xfe, 0x9d, 0x74, 0x8d, 0x72, 0x6a, 0xf9, 0x3b, 0x05, 0x0b, 0x39, 0x5a, 0x89, 0xdd, 0xcc,
-	0xef, 0xbb, 0xc5, 0x7c, 0xd5, 0xa0, 0x64, 0xcf, 0xdf, 0x01, 0x3d, 0xd4, 0x62, 0xde, 0x80, 0x43,
-	0x01, 0xde, 0x0d, 0x4c, 0x75, 0x76, 0x78, 0x59, 0x8a, 0x76, 0xb4, 0x9b, 0xb1, 0x71, 0x94, 0xa0,
-	0xd0, 0x7e, 0xd1, 0x2d, 0xf5, 0x51, 0x35, 0x1e, 0x6e, 0xa9, 0xaf, 0x01, 0xe8, 0x62, 0xfa, 0x35,
-	0x33, 0x38, 0x88, 0xee, 0x42, 0xfc, 0x56, 0x20, 0xf8, 0x62, 0xad, 0x40, 0x29, 0xda, 0x0a, 0xac,
-	0x4a, 0x63, 0x28, 0x82, 0x99, 0xb1, 0x67, 0x4b, 0x2f, 0x56, 0x95, 0xcc, 0x62, 0xd5, 0x80, 0x13,
-	0x01, 0x34, 0x6f, 0x43, 0x96, 0x8f, 0x94, 0x5a, 0xf2, 0x46, 0x32, 0x4a, 0xde, 0x73, 0x30, 0xe7,
-	0x65, 0xef, 0xff, 0x46, 0xd9, 0x74, 0x39, 0x18, 0xea, 0x33, 0x70, 0x74, 0x07, 0xeb, 0x2e, 0xdd,
-	0xc2, 0x3a, 0x8d, 0x11, 0x03, 0x23, 0xce, 0x1a, 0x96, 0x9b, 0x9b, 0x31, 0x86, 0x19, 0x36, 0x37,
-	0xd7, 0xe1, 0x64, 0xd2, 0x36, 0xb7, 0xee, 0x6e, 0xee, 0x10, 0x6f, 0x55, 0x50, 0xf0, 0x7a, 0xdf,
-	0x0b, 0xcd, 0xb7, 0x44, 0x38, 0x7d, 0x43, 0x44, 0xf2, 0x04, 0x2f, 0x59, 0x71, 0x78, 0xa2, 0x0d,
-	0x9c, 0xec, 0xbb, 0x0d, 0x5c, 0x84, 0xc9, 0xe0, 0x5b, 0x1c, 0x84, 0x4c, 0xf1, 0x80, 0x8f, 0x42,
-	0xa5, 0x6d, 0xdd, 0xa1, 0xdc, 0x6d, 0xdd, 0x3d, 0xd0, 0x10, 0x36, 0x1c, 0xd7, 0x94, 0x43, 0xe5,
-	0x7a, 0x20, 0x6f, 0x7f, 0x09, 0x4f, 0x4a, 0x5d, 0x85, 0xec, 0xd4, 0x15, 0x0b, 0x76, 0xed, 0x96,
-	0xdf, 0x57, 0xe4, 0xcc, 0x2c, 0xa2, 0x75, 0x09, 0xa6, 0x0c, 0xdd, 0x36, 0xb0, 0x25, 0x64, 0xc1,
-	0x7c, 0x7f, 0x39, 0x82, 0xe2, 0x60, 0xed, 0xcf, 0x0a, 0x2c, 0xe6, 0x70, 0xbc, 0xdc, 0x59, 0x6b,
-	0x0c, 0x72, 0x2a, 0xd3, 0x48, 0x9c, 0xca, 0x34, 0x82, 0x2d, 0x6e, 0x43, 0x28, 0xc3, 0x3f, 0x22,
-	0x91, 0xde, 0x10, 0x29, 0x5a, 0x82, 0xc8, 0xf6, 0x29, 0x67, 0xdb, 0xa7, 0x12, 0xb3, 0xcf, 0x06,
-	0x9c, 0xed, 0xa9, 0xcd, 0xc0, 0x36, 0xda, 0x0f, 0x9b, 0x39, 0x99, 0xeb, 0x80, 0xcd, 0xdc, 0x2c,
-	0x54, 0x5c, 0x56, 0xb2, 0xc5, 0x72, 0x8b, 0xaf, 0xdc, 0xd5, 0x5e, 0x0c, 0x2b, 0x7a, 0xc6, 0xc4,
-	0xa2, 0x06, 0xfd, 0x49, 0xf1, 0xd5, 0xce, 0x46, 0x7c, 0x74, 0xab, 0xd8, 0xd5, 0xba, 0x9c, 0xa9,
-	0x75, 0x7c, 0x0d, 0x9f, 0x80, 0xa5, 0xde, 0xca, 0x08, 0xcd, 0xbf, 0xd7, 0xed, 0x3c, 0x64, 0xe4,
-	0x41, 0x3a, 0x0f, 0x26, 0xa2, 0xee, 0x85, 0x17, 0xa3, 0xe2, 0xeb, 0xfe, 0x7a, 0x0b, 0xa9, 0x67,
-	0x48, 0x93, 0x47, 0x48, 0x7d, 0xa0, 0xa4, 0x2e, 0x2c, 0xc7, 0x7a, 0xc4, 0x8b, 0xc5, 0x2c, 0x51,
-	0xce, 0xb2, 0x44, 0x25, 0xdb, 0x12, 0xc3, 0x31, 0x4b, 0x9c, 0x85, 0x33, 0x3d, 0x74, 0x14, 0xd6,
-	0x60, 0xd9, 0x34, 0xb9, 0xde, 0x2c, 0x08, 0xfb, 0x5d, 0xc4, 0xfb, 0xcb, 0xa6, 0x67, 0xd2, 0x03,
-	0x3b, 0x9c, 0x59, 0x08, 0xc8, 0x73, 0x64, 0x26, 0xde, 0x27, 0x2d, 0x47, 0x3e, 0x9e, 0x9e, 0x2c,
-	0x22, 0xda, 0x08, 0xcd, 0x7f, 0xab, 0xf8, 0x8b, 0xc8, 0x54, 0xe3, 0xe3, 0x03, 0x1f, 0xd9, 0x3f,
-	0xb0, 0xce, 0x30, 0xaf, 0x05, 0x8e, 0x9c, 0x61, 0x97, 0x62, 0x67, 0xd8, 0xda, 0x92, 0xbf, 0x7a,
-	0xf9, 0x3a, 0x08, 0x75, 0xdf, 0x28, 0x40, 0x6d, 0x83, 0x6c, 0xdb, 0xfa, 0x23, 0xd4, 0xb3, 0x06,
-	0xe0, 0x31, 0x11, 0xd8, 0x33, 0x05, 0xd1, 0x01, 0x77, 0x21, 0xdd, 0x3e, 0xb6, 0x24, 0xf7, 0xb1,
-	0xb2, 0x75, 0xca, 0x79, 0xd6, 0xa9, 0xc4, 0x4f, 0xf8, 0xab, 0x30, 0x6c, 0x38, 0x36, 0x75, 0x1d,
-	0x8b, 0x45, 0xf0, 0x38, 0x0a, 0x3e, 0xb5, 0x05, 0x38, 0x99, 0x69, 0x0c, 0x61, 0xb0, 0xb7, 0x2a,
-	0x70, 0x56, 0xe0, 0x10, 0xba, 0xf3, 0xe9, 0xa5, 0xce, 0xff, 0xee, 0xa5, 0x4e, 0xd4, 0x6d, 0xc7,
-	0x12, 0x6e, 0x3b, 0x0f, 0x63, 0xfc, 0x6b, 0x8d, 0xd9, 0x78, 0x9c, 0xd9, 0x58, 0x06, 0xc9, 0x8e,
-	0x38, 0x11, 0x71, 0xc4, 0xf8, 0x85, 0xd1, 0xe4, 0x7d, 0x5e, 0x18, 0x4d, 0xe5, 0x5c, 0x18, 0x1d,
-	0x1a, 0xe8, 0xc2, 0xe8, 0xf0, 0x87, 0xb8, 0x30, 0x52, 0x73, 0x77, 0x16, 0x5f, 0x82, 0xa5, 0xde,
-	0xf1, 0x94, 0x7b, 0x75, 0xf4, 0x2f, 0x05, 0x4e, 0x20, 0xec, 0x61, 0xfa, 0xe8, 0x52, 0x58, 0xb7,
-	0x8f, 0x28, 0x46, 0xfa, 0x88, 0x0b, 0x30, 0x13, 0x1c, 0x1b, 0x5d, 0x25, 0x36, 0xf1, 0x76, 0xa2,
-	0x87, 0xf1, 0xe9, 0x83, 0x51, 0x5f, 0x2e, 0xc7, 0x93, 0xfb, 0x45, 0xa8, 0x65, 0x69, 0x9b, 0x6b,
-	0xa6, 0xbf, 0x28, 0xb0, 0xb0, 0x89, 0xdd, 0x26, 0xb1, 0x75, 0x8a, 0x3f, 0x7e, 0xa6, 0x92, 0x2a,
-	0x7b, 0x29, 0xbb, 0xb2, 0xc7, 0x32, 0xbd, 0x76, 0x1a, 0xb4, 0x3c, 0x9d, 0x44, 0xd2, 0xfe, 0x47,
-	0x01, 0x16, 0xfc, 0x8c, 0x77, 0xab, 0x85, 0xed, 0x04, 0x96, 0xd7, 0x4b, 0xf5, 0x94, 0x2b, 0xc2,
-	0x42, 0x9f, 0x57, 0x84, 0xc5, 0xb4, 0xbb, 0x8a, 0x55, 0x98, 0xe2, 0x49, 0x8e, 0x34, 0x31, 0xbf,
-	0xb8, 0x13, 0xb9, 0xfa, 0x68, 0xf7, 0xac, 0x39, 0x32, 0x8c, 0xe2, 0xf8, 0xea, 0xf3, 0x30, 0x15,
-	0x26, 0x5e, 0xc1, 0x82, 0x1f, 0x57, 0x9f, 0xcc, 0x5c, 0x0b, 0x8e, 0x76, 0x7d, 0x08, 0xc5, 0x29,
-	0xd5, 0xcf, 0x03, 0xd0, 0x4e, 0x2b, 0x10, 0xa5, 0xc2, 0xf8, 0xcc, 0xa5, 0x15, 0x9b, 0x90, 0x85,
-	0x84, 0x7f, 0x79, 0x14, 0x86, 0xf9, 0x2f, 0x4f, 0xfb, 0x8e, 0x02, 0x5a, 0x9e, 0x99, 0x85, 0x7b,
-	0x7e, 0x01, 0x20, 0x14, 0x21, 0x78, 0x16, 0x76, 0x22, 0x53, 0x6e, 0xfe, 0x68, 0xa5, 0x4b, 0xd0,
-	0xe7, 0x7b, 0xb0, 0x9f, 0x14, 0xe1, 0x94, 0x2f, 0x0b, 0xab, 0x23, 0xe6, 0xa7, 0x8b, 0xfe, 0x40,
-	0x17, 0x5d, 0x7d, 0x16, 0xc6, 0x3d, 0xf6, 0xb0, 0x51, 0xd0, 0x0f, 0x47, 0x3b, 0x94, 0x0d, 0x69,
-	0xec, 0xfa, 0x10, 0x8a, 0xe0, 0xca, 0x0e, 0xf3, 0x86, 0x02, 0xa7, 0xf3, 0x17, 0xe9, 0x61, 0xba,
-	0xcc, 0xf7, 0x15, 0x38, 0xe1, 0x4b, 0x33, 0xb8, 0xb3, 0xc8, 0xcf, 0x27, 0x0b, 0xbd, 0x9e, 0x4f,
-	0xa6, 0xba, 0xc7, 0x74, 0x70, 0x7f, 0xc9, 0x7b, 0x79, 0xfe, 0xa1, 0x7d, 0x5b, 0x81, 0x5a, 0x96,
-	0x44, 0x0f, 0xd3, 0x32, 0x3f, 0x56, 0xe0, 0x8c, 0x2f, 0xc7, 0xaa, 0xb8, 0xcf, 0xff, 0xf8, 0x58,
-	0xe8, 0xbb, 0x0a, 0x2c, 0xf6, 0x92, 0xec, 0x61, 0xfb, 0xd0, 0x86, 0xa1, 0xdb, 0x1f, 0x2f, 0x1f,
-	0xca, 0x92, 0xe8, 0x61, 0x5a, 0xe6, 0x26, 0xd4, 0xd8, 0xfd, 0xff, 0xe0, 0x96, 0x09, 0xf5, 0x2a,
-	0xc8, 0x7a, 0x5d, 0x82, 0x93, 0x99, 0xfc, 0xba, 0x7d, 0x90, 0xe1, 0xa3, 0x30, 0x7e, 0x45, 0xc4,
-	0x3f, 0xb4, 0xe3, 0x30, 0x77, 0x0d, 0xd3, 0x44, 0x07, 0xcb, 0x85, 0xd0, 0x7e, 0xa3, 0xc0, 0xb1,
-	0xd4, 0x61, 0xc1, 0xf3, 0xcb, 0x50, 0xda, 0xc5, 0x9d, 0xc0, 0x4a, 0x17, 0x13, 0x57, 0x88, 0x39,
-	0xb4, 0xcb, 0xcf, 0xe3, 0x8e, 0xb8, 0x24, 0x65, 0x3c, 0xe6, 0xd6, 0x61, 0x34, 0x04, 0xa5, 0x5c,
-	0x8a, 0x3e, 0x25, 0x5f, 0x8a, 0x4e, 0xae, 0x1c, 0x15, 0x9b, 0x94, 0x35, 0xdb, 0xc4, 0xf7, 0xb0,
-	0x79, 0xc7, 0x1f, 0x62, 0x5b, 0x40, 0xe9, 0x42, 0xf4, 0x47, 0x85, 0xf0, 0x70, 0x90, 0x5d, 0x99,
-	0xde, 0xc7, 0xa9, 0x6d, 0x1d, 0x26, 0x8c, 0x80, 0x82, 0xed, 0x3e, 0x0b, 0x91, 0xd7, 0x48, 0x49,
-	0xb6, 0x4c, 0x86, 0x28, 0x8d, 0xbf, 0xf7, 0x91, 0xae, 0x81, 0x85, 0xbb, 0xca, 0x20, 0x7f, 0xab,
-	0x82, 0x5d, 0xd7, 0x71, 0x6f, 0x60, 0xcf, 0xd3, 0xb7, 0xb1, 0xf0, 0xd9, 0x08, 0x2c, 0xe8, 0x39,
-	0xc3, 0xe7, 0x9d, 0xec, 0x65, 0x6b, 0x39, 0xd9, 0x73, 0x46, 0x10, 0x50, 0x92, 0x46, 0x3a, 0xa2,
-	0x4c, 0xb3, 0x8a, 0x68, 0x12, 0x9b, 0x30, 0xc7, 0xfa, 0x6a, 0x7e, 0xd1, 0x1f, 0x6e, 0x97, 0x3f,
-	0xa2, 0x87, 0x67, 0xda, 0x09, 0x38, 0x96, 0x3a, 0x9d, 0x90, 0xe6, 0xd7, 0x05, 0x98, 0x66, 0xc2,
-	0x06, 0x4c, 0x3e, 0xb2, 0x17, 0x70, 0xe1, 0xd3, 0x99, 0x62, 0x1f, 0x4f, 0x67, 0x6e, 0xc1, 0xb4,
-	0x58, 0xc5, 0x57, 0xb0, 0x41, 0xeb, 0x8e, 0x6d, 0x92, 0xf0, 0xb9, 0xf4, 0xe4, 0xca, 0x31, 0xd9,
-	0x49, 0x62, 0x28, 0x28, 0x95, 0xd0, 0xdf, 0x99, 0x33, 0x78, 0xdd, 0xb1, 0x3d, 0xe2, 0x51, 0x6c,
-	0x1b, 0x9d, 0x17, 0xf0, 0x1e, 0xb6, 0xd8, 0x3a, 0x77, 0x77, 0xe6, 0xb7, 0xd3, 0x70, 0x50, 0x3a,
-	0xa9, 0xb6, 0x07, 0x33, 0x31, 0xd3, 0x89, 0xe0, 0x8d, 0xb9, 0xa5, 0x92, 0x74, 0xcb, 0xcf, 0xc1,
-	0x84, 0x24, 0x26, 0x36, 0xe3, 0xef, 0x5f, 0x6e, 0xcb, 0x83, 0x28, 0x8a, 0xab, 0xbd, 0xa9, 0xc0,
-	0x99, 0xb4, 0xa7, 0x77, 0x48, 0xdf, 0xff, 0x84, 0x3d, 0x63, 0xd4, 0x5e, 0x53, 0x60, 0xb1, 0x97,
-	0x2a, 0xc2, 0xa8, 0x4f, 0x03, 0xb8, 0x21, 0x54, 0xe4, 0xc5, 0xee, 0xa3, 0x1d, 0x9d, 0xea, 0x97,
-	0x2d, 0x67, 0x0b, 0x49, 0x38, 0x7d, 0x16, 0x0c, 0x0f, 0xe6, 0x83, 0xbf, 0xc7, 0x18, 0x78, 0xb7,
-	0x7a, 0xdf, 0x51, 0xf9, 0x41, 0x01, 0x16, 0x72, 0x66, 0x15, 0x2a, 0x7f, 0x1d, 0x66, 0xe5, 0xe7,
-	0x45, 0xd2, 0x93, 0x77, 0x25, 0xfa, 0xe4, 0x3d, 0xc1, 0x22, 0xfa, 0xe4, 0x3d, 0x83, 0x8b, 0xba,
-	0xd1, 0x3d, 0xae, 0x8a, 0x94, 0x5d, 0xa1, 0x4a, 0x8f, 0xda, 0x9c, 0x4e, 0xab, 0xae, 0xc1, 0xe1,
-	0x16, 0xb6, 0x4d, 0x62, 0x6f, 0x8b, 0x43, 0x70, 0x82, 0xbd, 0x6a, 0x91, 0x2d, 0x57, 0xf8, 0xde,
-	0x66, 0x3d, 0x82, 0xd0, 0xe1, 0xf9, 0x34, 0x41, 0xe5, 0xef, 0x44, 0x04, 0xb0, 0xbe, 0x43, 0x2c,
-	0xd3, 0x65, 0x5e, 0x54, 0x94, 0x5f, 0x4b, 0xad, 0x4b, 0xc3, 0x51, 0xe9, 0xe2, 0x94, 0xda, 0x5b,
-	0x0a, 0x1c, 0x0d, 0x4c, 0xde, 0x6f, 0xd6, 0x1d, 0xec, 0x2d, 0xc9, 0x25, 0x18, 0x0f, 0x7e, 0x87,
-	0xe7, 0xa9, 0x93, 0x2b, 0x47, 0x44, 0x6a, 0xd9, 0x94, 0x86, 0x50, 0x04, 0x51, 0xbd, 0x00, 0x33,
-	0xc4, 0x36, 0xac, 0xb6, 0x19, 0x0a, 0x26, 0xfe, 0x0a, 0xac, 0xc4, 0xdf, 0x71, 0xa5, 0x0e, 0x6a,
-	0xaf, 0x2b, 0x50, 0x4d, 0x2a, 0x24, 0x5c, 0xe7, 0x1c, 0x0c, 0xb7, 0x1c, 0xcb, 0xc2, 0x6e, 0xd0,
-	0x42, 0x84, 0x7f, 0xa3, 0xb1, 0xce, 0xc0, 0xcc, 0x46, 0x01, 0x8a, 0xfa, 0x1c, 0x4c, 0xd2, 0xe8,
-	0xcc, 0x5c, 0xdb, 0xd9, 0xb8, 0xb6, 0xe2, 0x0f, 0xd0, 0x62, 0xd8, 0xda, 0x51, 0x98, 0xb9, 0x86,
-	0xa9, 0xf8, 0x63, 0x3f, 0xc6, 0x5a, 0xb4, 0x39, 0x1e, 0xcc, 0xc6, 0x07, 0x84, 0x80, 0x5f, 0x81,
-	0xa3, 0x5e, 0xbb, 0xd5, 0x72, 0x5c, 0x8a, 0xcd, 0xba, 0x45, 0xb0, 0x4d, 0x45, 0x25, 0xf5, 0x84,
-	0x73, 0x87, 0xbb, 0xcd, 0x8d, 0x74, 0x34, 0x94, 0x45, 0xaf, 0x61, 0xbe, 0xbf, 0x0a, 0x64, 0x5e,
-	0xd7, 0x5d, 0x4a, 0xfa, 0xea, 0x00, 0x07, 0x5a, 0x6e, 0xed, 0x9f, 0x62, 0xd7, 0x94, 0x36, 0x8f,
-	0x50, 0x52, 0x87, 0x39, 0x5d, 0xba, 0x09, 0x8a, 0x62, 0x89, 0x85, 0x59, 0x88, 0x4f, 0x11, 0x62,
-	0x84, 0x8f, 0x8a, 0x72, 0x98, 0xf8, 0x53, 0xc8, 0x2f, 0xc6, 0x62, 0x53, 0x14, 0xfa, 0x9e, 0x22,
-	0x9b, 0x89, 0xf6, 0xd3, 0x02, 0x3c, 0x2e, 0x5e, 0x30, 0xfd, 0x17, 0xd4, 0x9c, 0x9c, 0x07, 0xf1,
-	0xe5, 0x0f, 0xf3, 0x20, 0xfe, 0x5b, 0x0a, 0x3c, 0xd1, 0x8f, 0x95, 0x3e, 0xda, 0x72, 0x76, 0xf9,
-	0x75, 0xe5, 0xed, 0x77, 0x6b, 0x43, 0xef, 0xbc, 0x5b, 0x1b, 0xfa, 0xe0, 0xdd, 0x9a, 0xf2, 0xda,
-	0x41, 0x4d, 0xf9, 0xf9, 0x41, 0x4d, 0x79, 0xf3, 0xa0, 0xa6, 0xbc, 0x7d, 0x50, 0x53, 0xfe, 0x7e,
-	0x50, 0x53, 0xde, 0x3f, 0xa8, 0x0d, 0x7d, 0x70, 0x50, 0x53, 0x7e, 0xf0, 0x5e, 0x6d, 0xe8, 0xed,
-	0xf7, 0x6a, 0x43, 0xef, 0xbc, 0x57, 0x1b, 0x82, 0x05, 0xe2, 0x2c, 0x53, 0xdc, 0x6c, 0x39, 0xae,
-	0x6e, 0xf1, 0x3f, 0x85, 0x8e, 0x6f, 0x39, 0xd6, 0x95, 0xaf, 0x3e, 0xb5, 0x2d, 0x21, 0x11, 0xe7,
-	0x7c, 0xf0, 0xfb, 0x29, 0x46, 0x70, 0x3e, 0x46, 0xb0, 0x55, 0x61, 0xe0, 0xff, 0xff, 0x4f, 0x00,
-	0x00, 0x00, 0xff, 0xff, 0xcd, 0x40, 0x9a, 0x30, 0x18, 0x3e, 0x00, 0x00,
+	// 3446 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x3b, 0x4b, 0x6f, 0x1c, 0xc7,
+	0xd1, 0x9c, 0x7d, 0xf0, 0x51, 0xbb, 0x24, 0xa5, 0xb1, 0x48, 0xad, 0x56, 0xd2, 0x8a, 0x1c, 0x49,
+	0x14, 0x25, 0xcb, 0xd4, 0xf7, 0xd1, 0x8a, 0xe4, 0xd8, 0xb1, 0x11, 0x69, 0x57, 0x0f, 0xc6, 0x96,
+	0x44, 0x35, 0x29, 0x1b, 0x0e, 0x82, 0x18, 0xc3, 0x99, 0x16, 0xd9, 0xe6, 0xec, 0xcc, 0x7a, 0xa6,
+	0x97, 0xd4, 0xe6, 0xe4, 0x43, 0x02, 0x38, 0x09, 0x12, 0x24, 0x41, 0x72, 0xcc, 0xdd, 0x01, 0x72,
+	0xc8, 0x29, 0x39, 0xe4, 0x90, 0xab, 0x11, 0x04, 0x81, 0x13, 0xf8, 0x60, 0x20, 0x08, 0x10, 0xcb,
+	0x40, 0x60, 0xe4, 0x10, 0x18, 0xfe, 0x05, 0x41, 0xf7, 0xf4, 0xcc, 0xf6, 0x3c, 0xb9, 0xa4, 0xf5,
+	0x72, 0xe2, 0x8b, 0xb4, 0x53, 0xaf, 0xae, 0xae, 0xaa, 0xae, 0xae, 0xee, 0x2e, 0xc2, 0xdc, 0xb6,
+	0xe3, 0x6e, 0xde, 0xb5, 0x9c, 0x6d, 0x0f, 0xbb, 0x5b, 0xc4, 0xc0, 0xe7, 0x5c, 0xfc, 0x56, 0x17,
+	0x7b, 0xf4, 0x0d, 0x17, 0x7b, 0x1d, 0xc7, 0xf6, 0xf0, 0x42, 0xc7, 0x75, 0xa8, 0xa3, 0x4e, 0xc6,
+	0xe8, 0xea, 0xfb, 0xb1, 0xdd, 0x6d, 0x7b, 0xe7, 0xf8, 0xbf, 0x3e, 0x4d, 0xfd, 0x29, 0xc3, 0x69,
+	0xb7, 0x1d, 0xfb, 0x9c, 0xff, 0x9f, 0x00, 0x4e, 0x0b, 0xa0, 0xad, 0xb7, 0xb1, 0xd7, 0xd1, 0x0d,
+	0x21, 0xb0, 0x7e, 0x40, 0xc0, 0x37, 0x88, 0x47, 0x1d, 0xb7, 0x27, 0xa0, 0x53, 0x02, 0x6a, 0x62,
+	0x83, 0x78, 0x24, 0x14, 0x72, 0x4c, 0x80, 0x03, 0x25, 0xde, 0xc0, 0xf7, 0xb0, 0xd1, 0xa5, 0x21,
+	0x81, 0xf6, 0xbb, 0x61, 0xa8, 0x21, 0xbc, 0x4e, 0x3c, 0x8a, 0xdd, 0x9b, 0xc1, 0x48, 0xc8, 0x9f,
+	0x8a, 0xaa, 0x42, 0x89, 0x8d, 0x5e, 0x53, 0x66, 0x94, 0xf9, 0x31, 0xc4, 0x7f, 0xab, 0x33, 0x50,
+	0x31, 0xb1, 0x67, 0xb8, 0xa4, 0xc3, 0xa4, 0xd4, 0x0a, 0x1c, 0x25, 0x83, 0xd4, 0x06, 0x80, 0xb3,
+	0x6d, 0x63, 0xf7, 0x4a, 0x5b, 0x27, 0x56, 0xad, 0xc8, 0x09, 0x24, 0x88, 0xfa, 0x6a, 0xdf, 0x76,
+	0x57, 0x02, 0x6d, 0x10, 0xa6, 0xd8, 0x66, 0x3f, 0x96, 0xb1, 0x4b, 0x1c, 0x73, 0xc9, 0x6e, 0xe9,
+	0x3d, 0xaf, 0x56, 0x9a, 0x51, 0xe6, 0xcb, 0x68, 0x40, 0x6a, 0x36, 0x2e, 0x6e, 0x13, 0x7a, 0x03,
+	0x53, 0x97, 0x18, 0xb5, 0xf2, 0x8c, 0x32, 0x3f, 0x8a, 0x24, 0x88, 0xda, 0x84, 0x51, 0xc3, 0xea,
+	0xb2, 0x89, 0x7a, 0xb5, 0xe1, 0x99, 0xe2, 0x7c, 0x65, 0xf1, 0xd4, 0x82, 0xb0, 0x78, 0xd3, 0x87,
+	0x23, 0xdc, 0xb1, 0x88, 0xa1, 0x33, 0xc9, 0x4d, 0xc7, 0xbe, 0x4b, 0xd6, 0xbb, 0x2e, 0xff, 0x40,
+	0x21, 0xa3, 0x7a, 0x16, 0xf6, 0xeb, 0x06, 0x25, 0x5b, 0x58, 0xb0, 0x30, 0x9b, 0xd5, 0x46, 0xf8,
+	0x1c, 0x93, 0x08, 0xf5, 0x1a, 0x94, 0x4c, 0x9d, 0xea, 0xb5, 0x51, 0x3e, 0xdc, 0xb3, 0x0b, 0xb1,
+	0x58, 0x58, 0xc8, 0xb2, 0xfc, 0x42, 0x4b, 0xa7, 0xfa, 0x15, 0x9b, 0xba, 0x3d, 0xc4, 0x05, 0xa8,
+	0x27, 0x60, 0xdc, 0xc3, 0x46, 0xd7, 0x25, 0xb4, 0xb7, 0xea, 0x6c, 0x62, 0xbb, 0x36, 0xc6, 0x87,
+	0x8c, 0x02, 0x99, 0x72, 0xc4, 0xbb, 0x66, 0x39, 0x6b, 0xba, 0x15, 0x4a, 0xac, 0x01, 0x37, 0x44,
+	0x12, 0xa1, 0xbe, 0x0c, 0x53, 0x22, 0x86, 0x2e, 0xb9, 0xc6, 0x06, 0xd9, 0xd2, 0xad, 0x15, 0xaa,
+	0xd3, 0xae, 0x57, 0xab, 0xcc, 0x28, 0xf3, 0x13, 0x8b, 0x53, 0x0b, 0x7e, 0x88, 0x46, 0x91, 0x28,
+	0x9d, 0x47, 0x5d, 0x00, 0x35, 0x86, 0xb8, 0x83, 0x96, 0x6a, 0x55, 0xae, 0x65, 0x0a, 0x46, 0xbd,
+	0x0d, 0xb5, 0x2d, 0xe2, 0x91, 0x35, 0x62, 0x11, 0x1a, 0x1f, 0x7f, 0x3c, 0x6f, 0xfc, 0x4c, 0x36,
+	0xf5, 0x3c, 0x4c, 0x25, 0x71, 0x4c, 0x8b, 0x09, 0xae, 0x45, 0x3a, 0xb2, 0x7e, 0x11, 0xc6, 0x42,
+	0x63, 0xab, 0xfb, 0xa0, 0xb8, 0x89, 0x7b, 0x22, 0xde, 0xd9, 0x4f, 0xf5, 0x00, 0x94, 0xb7, 0x74,
+	0xab, 0x8b, 0x45, 0xa0, 0xfb, 0x1f, 0xcf, 0x17, 0x9e, 0x53, 0xb4, 0xc3, 0x70, 0x28, 0xc5, 0x7d,
+	0xfe, 0xda, 0xd7, 0x5e, 0x87, 0xa9, 0x57, 0x88, 0x47, 0x43, 0x84, 0x17, 0x2c, 0xa9, 0x3a, 0x8c,
+	0x76, 0xf4, 0x75, 0xbc, 0x42, 0xbe, 0xe3, 0x2f, 0xab, 0x32, 0x0a, 0xbf, 0x99, 0x93, 0x6d, 0x7c,
+	0x8f, 0x2e, 0xeb, 0xeb, 0xd8, 0x77, 0x32, 0x1b, 0xb3, 0x8a, 0xa2, 0x40, 0xed, 0x07, 0x0a, 0x4c,
+	0xc7, 0x65, 0xfb, 0xa3, 0xaa, 0xdf, 0x00, 0x08, 0xb3, 0x85, 0x57, 0x53, 0x78, 0xd0, 0x9d, 0x49,
+	0x04, 0x5d, 0x8b, 0xaf, 0xd5, 0x35, 0x9c, 0xd0, 0x1a, 0x49, 0xdc, 0x03, 0x2a, 0x73, 0x19, 0x6a,
+	0x29, 0xe2, 0xb2, 0xb3, 0x87, 0x0a, 0xa5, 0x6e, 0x97, 0x98, 0xc2, 0x9a, 0xfc, 0xb7, 0xf6, 0xf7,
+	0x02, 0x1c, 0xca, 0xd4, 0x49, 0x7d, 0x01, 0xc6, 0x43, 0xad, 0x96, 0xec, 0xbb, 0x0e, 0x17, 0x57,
+	0x59, 0x9c, 0x0a, 0x96, 0xee, 0x4d, 0x19, 0x89, 0xa2, 0xb4, 0x6a, 0x0b, 0xc6, 0x0d, 0x79, 0x21,
+	0xf3, 0x71, 0x2b, 0x8b, 0x8d, 0x04, 0x73, 0x74, 0xb9, 0x47, 0x99, 0x54, 0x0c, 0x35, 0x37, 0x23,
+	0x33, 0xf0, 0xf4, 0x56, 0x59, 0x3c, 0x9d, 0x10, 0x98, 0x99, 0x4a, 0x32, 0x45, 0xa9, 0xf3, 0x30,
+	0x79, 0x57, 0x27, 0x96, 0xb3, 0x85, 0xdd, 0x57, 0xb1, 0xcb, 0x92, 0x38, 0x4f, 0x80, 0x45, 0x14,
+	0x07, 0xa7, 0xaf, 0xf3, 0x72, 0xc6, 0x3a, 0xd7, 0x3e, 0x29, 0xc0, 0xf4, 0x9d, 0x8e, 0xa9, 0xd3,
+	0xc1, 0x5c, 0xf4, 0x22, 0x54, 0xba, 0x9c, 0xda, 0xe4, 0xe6, 0xf6, 0x2d, 0x76, 0x38, 0x98, 0x60,
+	0x4c, 0x10, 0x37, 0xba, 0x4c, 0x9f, 0x34, 0x79, 0xf1, 0x41, 0x9b, 0xbc, 0xf4, 0xe0, 0x4c, 0x9e,
+	0x48, 0xab, 0xe5, 0xb4, 0xb4, 0x3a, 0x0f, 0x93, 0x26, 0xb6, 0x30, 0xc5, 0x97, 0x75, 0xf3, 0x32,
+	0xb1, 0x75, 0xb7, 0x57, 0x1b, 0xe6, 0x74, 0x71, 0xb0, 0xf6, 0xb7, 0x02, 0x1c, 0x4c, 0x98, 0xfa,
+	0xcb, 0x40, 0x7e, 0x40, 0x81, 0x7c, 0x87, 0xe5, 0x89, 0x8e, 0x8b, 0x8d, 0x41, 0x43, 0x39, 0xe1,
+	0xde, 0x42, 0x8a, 0x7b, 0xb5, 0x23, 0x50, 0x4f, 0x13, 0x2b, 0x32, 0xf9, 0xbf, 0xcb, 0x70, 0x74,
+	0x85, 0xea, 0x2e, 0x7d, 0x2d, 0x59, 0x85, 0xf8, 0x23, 0x1f, 0x81, 0xb1, 0xd0, 0x59, 0x62, 0xf8,
+	0x3e, 0x80, 0x55, 0x25, 0x41, 0x02, 0x5e, 0x0a, 0xf2, 0x9e, 0x04, 0x51, 0x9f, 0x83, 0x6a, 0xf0,
+	0xb5, 0xda, 0xeb, 0x60, 0xe1, 0x87, 0x03, 0x81, 0x1f, 0x5e, 0x93, 0x70, 0x28, 0x42, 0xa9, 0x9e,
+	0x85, 0x51, 0xaa, 0x7b, 0x9b, 0x6c, 0x2f, 0x10, 0x6b, 0x62, 0x5f, 0xc0, 0xb5, 0x2a, 0xe0, 0x28,
+	0xa4, 0x60, 0x1b, 0x19, 0xb1, 0x3b, 0x5d, 0xca, 0xcd, 0x5b, 0x45, 0xfe, 0x87, 0xba, 0x0c, 0xc7,
+	0xc3, 0x8a, 0x90, 0xcf, 0x72, 0xd5, 0x69, 0x5a, 0x8e, 0x87, 0x57, 0x49, 0x1b, 0x3b, 0x5d, 0xba,
+	0x82, 0x0d, 0xc7, 0x36, 0x3d, 0x1e, 0xee, 0x65, 0x34, 0x08, 0xa9, 0x7a, 0x15, 0x1a, 0x6c, 0xcc,
+	0x1c, 0x61, 0x23, 0x5c, 0xd8, 0x0e, 0x54, 0x6c, 0xa3, 0x24, 0x26, 0xab, 0xf2, 0x68, 0xaf, 0x36,
+	0xca, 0xad, 0x16, 0x7e, 0x33, 0x8b, 0x8b, 0x6a, 0x7b, 0xc9, 0x14, 0x95, 0x50, 0x1f, 0xa0, 0x22,
+	0x98, 0xea, 0xdb, 0x17, 0xe1, 0xae, 0x87, 0x97, 0x1d, 0x8b, 0x18, 0x3d, 0x5e, 0x09, 0x4d, 0x2c,
+	0x1e, 0x11, 0x75, 0xc5, 0x6b, 0x69, 0x34, 0x28, 0x9d, 0x55, 0xfd, 0x0a, 0x54, 0x5c, 0x4c, 0xdd,
+	0x9e, 0x90, 0x54, 0xe1, 0xe6, 0x7e, 0x2a, 0x30, 0x37, 0xea, 0xa3, 0x90, 0x4c, 0xa7, 0x6a, 0x50,
+	0x35, 0x5c, 0xc7, 0x5e, 0x31, 0x36, 0xb0, 0xd9, 0xb5, 0xb0, 0xa8, 0x87, 0x22, 0x30, 0x75, 0x06,
+	0x4a, 0x6d, 0xdc, 0x76, 0x78, 0xd5, 0x53, 0x59, 0xac, 0x06, 0x32, 0x6f, 0xe0, 0xb6, 0x83, 0x38,
+	0x46, 0x6d, 0xc1, 0x3e, 0x0f, 0xeb, 0xae, 0xb1, 0x71, 0x89, 0x52, 0x97, 0xac, 0x75, 0x29, 0xf6,
+	0x78, 0x4d, 0x53, 0x59, 0xac, 0x05, 0xd4, 0x2b, 0x31, 0x3c, 0x4a, 0x70, 0xa8, 0x73, 0x30, 0xbc,
+	0x81, 0x75, 0x13, 0xbb, 0xb5, 0x49, 0xce, 0x3b, 0x11, 0xf0, 0x5e, 0xe7, 0x50, 0x24, 0xb0, 0xda,
+	0x05, 0x68, 0x64, 0xc5, 0xbb, 0xc8, 0x64, 0x07, 0xa0, 0xec, 0x76, 0xed, 0x25, 0x53, 0x04, 0xbb,
+	0xff, 0xa1, 0xfd, 0xa9, 0x00, 0xda, 0x35, 0x9c, 0x64, 0xbb, 0xee, 0x17, 0x7f, 0x83, 0xad, 0x96,
+	0x8b, 0x30, 0x16, 0x06, 0x99, 0xc8, 0x71, 0x87, 0xe2, 0x4b, 0xa1, 0xaf, 0x50, 0x9f, 0x96, 0xe5,
+	0x9c, 0xb6, 0x7e, 0x8f, 0xb4, 0xbb, 0xed, 0xe5, 0xa0, 0xbc, 0x2a, 0xf2, 0x38, 0x8b, 0x83, 0x93,
+	0x85, 0x4d, 0x29, 0xa5, 0xb0, 0x61, 0xf2, 0xb6, 0x75, 0x42, 0xaf, 0x3a, 0xee, 0x4d, 0xbc, 0x7d,
+	0x65, 0x0b, 0xdb, 0x54, 0xe4, 0xa5, 0x38, 0x58, 0xbd, 0x03, 0xd3, 0x62, 0x8a, 0xfc, 0xfb, 0x2a,
+	0xb1, 0x28, 0x76, 0xf9, 0x52, 0x1e, 0xe6, 0xf1, 0x76, 0x54, 0xc4, 0x5b, 0x3a, 0x11, 0xca, 0x60,
+	0xd6, 0x7e, 0xa6, 0xc0, 0xf1, 0x5c, 0x73, 0x0a, 0x67, 0x9c, 0x86, 0x11, 0x51, 0x5e, 0x8b, 0x0d,
+	0x65, 0x32, 0xf4, 0xab, 0xa0, 0x0c, 0xf0, 0x83, 0x95, 0x74, 0x6c, 0xe1, 0xe9, 0xbc, 0x3e, 0xc6,
+	0x26, 0x37, 0xe1, 0x28, 0x0a, 0xbf, 0xb5, 0x5f, 0x2b, 0x50, 0x5f, 0x76, 0x2c, 0xeb, 0xaa, 0xe3,
+	0xb6, 0xc4, 0x41, 0x93, 0xa5, 0x9a, 0xc1, 0x7c, 0x2b, 0xe7, 0xab, 0xc2, 0x8e, 0xf9, 0x4a, 0x5e,
+	0xff, 0xc5, 0xd8, 0xfa, 0x9f, 0x83, 0x89, 0x35, 0xbe, 0xe1, 0x36, 0x37, 0xb0, 0xb1, 0xe9, 0x75,
+	0xdb, 0xdc, 0x87, 0x63, 0x28, 0x06, 0xd5, 0x7e, 0x3b, 0x0c, 0x87, 0x53, 0xd5, 0x15, 0xb6, 0x3b,
+	0x02, 0x63, 0x6c, 0x3c, 0xdf, 0x18, 0x0a, 0x37, 0x46, 0x1f, 0xa0, 0x5e, 0x83, 0xfd, 0x89, 0x93,
+	0xe7, 0xce, 0x31, 0x99, 0xe4, 0xf9, 0x1c, 0x29, 0xfe, 0x02, 0x4c, 0x77, 0x5c, 0xbc, 0x45, 0x9c,
+	0xae, 0xc7, 0xd7, 0x24, 0x36, 0x79, 0x98, 0x2c, 0x99, 0x62, 0x43, 0xcd, 0xc0, 0x32, 0x03, 0x79,
+	0x51, 0xfa, 0x32, 0xa7, 0x8f, 0x41, 0xd5, 0x1a, 0x8c, 0xe8, 0x94, 0xe2, 0x76, 0x87, 0xf2, 0x60,
+	0x2d, 0xa2, 0xe0, 0x53, 0x3d, 0x03, 0xfb, 0xd6, 0x74, 0x63, 0xd3, 0x72, 0xd6, 0x9b, 0x4e, 0xd7,
+	0xa6, 0xd7, 0x89, 0x4d, 0x79, 0xe2, 0x2e, 0xa2, 0x04, 0x5c, 0x0e, 0xc1, 0xd1, 0xdd, 0x86, 0xe0,
+	0x58, 0x5a, 0x08, 0x3e, 0x0d, 0xe5, 0xb7, 0xba, 0xd8, 0xf5, 0x33, 0xb6, 0x54, 0x22, 0x05, 0x96,
+	0xba, 0xcd, 0x90, 0xc8, 0xa7, 0x51, 0x6f, 0xc2, 0xa1, 0x84, 0x17, 0x82, 0x78, 0x12, 0x89, 0x3a,
+	0x19, 0x67, 0xd9, 0x2c, 0xec, 0x24, 0xeb, 0x89, 0xdc, 0x6c, 0xb2, 0x3d, 0xc9, 0xa3, 0x7a, 0xbb,
+	0xc3, 0x33, 0x77, 0x11, 0xa5, 0x60, 0x98, 0xa5, 0x84, 0x55, 0xfb, 0xd4, 0xe3, 0xbe, 0xa5, 0xe2,
+	0x70, 0x75, 0x05, 0x46, 0x98, 0xd2, 0x84, 0x27, 0x70, 0x76, 0x3a, 0xfb, 0x6a, 0xe2, 0x74, 0x96,
+	0x13, 0xaf, 0x0b, 0xb7, 0x7d, 0x5e, 0xff, 0x62, 0x20, 0x90, 0x54, 0xbf, 0x0d, 0x55, 0x19, 0x91,
+	0x72, 0x88, 0x7d, 0x5a, 0x3e, 0xc4, 0x66, 0xdb, 0xb3, 0x7f, 0xb6, 0xfd, 0xac, 0x04, 0xc7, 0xfd,
+	0x51, 0x4d, 0x59, 0x91, 0xa6, 0xd3, 0xee, 0xb0, 0x82, 0xd7, 0x94, 0x16, 0x7c, 0xce, 0x02, 0x5a,
+	0x80, 0xb1, 0xe0, 0x3a, 0xca, 0xab, 0x15, 0xf8, 0x7c, 0x43, 0x4f, 0x04, 0x62, 0x51, 0x9f, 0x84,
+	0x59, 0x32, 0x4c, 0xe8, 0x4d, 0xc7, 0xa6, 0xf8, 0x1e, 0xe5, 0x6b, 0xa5, 0x8a, 0x12, 0xf0, 0x48,
+	0x7a, 0x28, 0xc5, 0xd2, 0xc3, 0x0d, 0xe6, 0x11, 0x62, 0x6c, 0xf6, 0xa4, 0xfd, 0xb2, 0xcc, 0x67,
+	0x3e, 0x1b, 0xee, 0x97, 0x1c, 0x1f, 0x3a, 0x3f, 0xb2, 0x71, 0xc6, 0x58, 0xd5, 0xf3, 0x30, 0xe5,
+	0x62, 0xda, 0x75, 0xed, 0x9b, 0x78, 0x5b, 0xb6, 0x06, 0x5f, 0x32, 0xa3, 0x28, 0x1d, 0xa9, 0xbe,
+	0x04, 0xf5, 0xbb, 0x8e, 0x6b, 0xe0, 0xa6, 0x8b, 0x59, 0x5d, 0x19, 0x63, 0x1d, 0xe1, 0xac, 0x39,
+	0x14, 0x29, 0x39, 0x6e, 0x34, 0x2d, 0xc7, 0xa9, 0x6f, 0x42, 0x95, 0xaf, 0x03, 0x84, 0xbd, 0xae,
+	0x45, 0xbd, 0xda, 0x18, 0xb7, 0xf3, 0xd5, 0x94, 0xab, 0xa6, 0x1d, 0xdd, 0xb9, 0x70, 0x5b, 0x12,
+	0xe4, 0x07, 0x59, 0x44, 0x76, 0xfd, 0x5b, 0xb0, 0x3f, 0x41, 0x92, 0x12, 0x6e, 0xff, 0x1f, 0x0d,
+	0xb7, 0xc3, 0xe9, 0xe1, 0xc6, 0x65, 0xc8, 0x41, 0x77, 0x0f, 0x4e, 0xe4, 0x2b, 0x29, 0xb2, 0xf6,
+	0x32, 0x54, 0x4d, 0xd9, 0x96, 0xfe, 0xb6, 0x77, 0x76, 0x37, 0x2b, 0x09, 0x45, 0x24, 0x68, 0x1f,
+	0x28, 0x30, 0x93, 0x32, 0xf4, 0x55, 0x9d, 0x58, 0x83, 0xc6, 0xfa, 0x79, 0x28, 0x1b, 0x7a, 0xd7,
+	0xf3, 0xe7, 0x3c, 0xb1, 0xd8, 0x10, 0x9b, 0x7e, 0x52, 0x5c, 0x93, 0x51, 0x21, 0x9f, 0x98, 0xe5,
+	0x5f, 0x13, 0x53, 0x9d, 0x58, 0x9e, 0x08, 0xf4, 0xe0, 0x33, 0x37, 0xbe, 0x93, 0xa1, 0x51, 0x4e,
+	0xdd, 0xfe, 0x8e, 0xc3, 0x6c, 0xce, 0xac, 0xc4, 0xf9, 0xe6, 0x8f, 0xfd, 0x2d, 0xfd, 0x92, 0x41,
+	0xc9, 0x16, 0x3b, 0x16, 0x3d, 0x86, 0x2d, 0xbd, 0x05, 0xfb, 0x02, 0xba, 0x1b, 0x98, 0xea, 0xfc,
+	0xd6, 0xb4, 0x14, 0xad, 0x71, 0x57, 0x63, 0x78, 0x94, 0xe0, 0xd0, 0x7e, 0xd3, 0xdf, 0xf0, 0xa3,
+	0x93, 0x79, 0xb4, 0x1b, 0x7e, 0x03, 0x40, 0x17, 0xc3, 0x2f, 0x99, 0xc1, 0x0d, 0x78, 0x1f, 0xc2,
+	0x0a, 0x82, 0xe0, 0x8b, 0x17, 0x04, 0xa5, 0x68, 0x41, 0x70, 0x49, 0xc2, 0xa1, 0x08, 0x65, 0xc6,
+	0x29, 0x2e, 0x7d, 0xcb, 0x1a, 0xce, 0xdc, 0xb2, 0x5a, 0x70, 0x34, 0x80, 0xe6, 0x1d, 0xd1, 0xf2,
+	0x89, 0x52, 0x37, 0xbe, 0xd1, 0x8c, 0x8d, 0xef, 0x25, 0xa8, 0x7b, 0xd9, 0x27, 0xc2, 0x31, 0x3e,
+	0x5c, 0x0e, 0x85, 0xfa, 0x1c, 0x1c, 0xdc, 0xc0, 0xba, 0x4b, 0xd7, 0xb0, 0x4e, 0x63, 0xcc, 0xc0,
+	0x99, 0xb3, 0xd0, 0x72, 0x89, 0x53, 0xe1, 0x94, 0x61, 0x89, 0x73, 0x1d, 0x8e, 0x25, 0x6d, 0x73,
+	0xeb, 0xee, 0xea, 0x06, 0xf1, 0x2e, 0x09, 0x0e, 0x7f, 0xd7, 0xdf, 0x89, 0x8c, 0x59, 0x22, 0x1c,
+	0xbe, 0x25, 0xd6, 0xf3, 0xb8, 0xbf, 0x71, 0xc5, 0xe1, 0x89, 0x62, 0x70, 0x62, 0x17, 0xe7, 0xfd,
+	0x30, 0xd4, 0xfa, 0x97, 0x25, 0x93, 0xfe, 0xd3, 0x43, 0x02, 0x21, 0x1d, 0xf7, 0xf6, 0xe5, 0x1e,
+	0xf7, 0xee, 0x81, 0x86, 0xb0, 0xe1, 0xb8, 0xa6, 0xbc, 0x60, 0xae, 0x07, 0x5a, 0x0f, 0x96, 0xfc,
+	0xa4, 0x34, 0x56, 0xc8, 0x4e, 0x63, 0xb1, 0x25, 0xaf, 0xdd, 0x62, 0x35, 0x46, 0xce, 0xc8, 0x62,
+	0xcd, 0xce, 0xc3, 0xa4, 0xa1, 0xdb, 0x06, 0xb6, 0x84, 0x2e, 0xd8, 0x3f, 0x77, 0x8e, 0xa2, 0x38,
+	0x58, 0xfb, 0xab, 0x02, 0x73, 0x39, 0x12, 0x2f, 0xf7, 0x96, 0x5a, 0xbb, 0xbf, 0xb3, 0x69, 0x25,
+	0xee, 0x6c, 0x5a, 0xc1, 0x01, 0xb8, 0x25, 0xa6, 0xe4, 0x7f, 0x44, 0x56, 0x7d, 0x4b, 0x24, 0x6d,
+	0x09, 0x22, 0x5b, 0xa9, 0x9c, 0x6d, 0xa5, 0xe1, 0x98, 0x95, 0x56, 0xe0, 0xd4, 0x8e, 0x73, 0xda,
+	0xb5, 0xa5, 0xb6, 0xc3, 0xf2, 0x4e, 0x96, 0xba, 0xcb, 0xf2, 0x6e, 0x1a, 0x86, 0x5d, 0xbe, 0x89,
+	0x0b, 0xa7, 0x8b, 0xaf, 0x5c, 0x9f, 0xcf, 0x85, 0x7b, 0x7c, 0xc6, 0xc0, 0x62, 0x57, 0xfa, 0x8b,
+	0xc2, 0xa6, 0x9d, 0x4d, 0xf8, 0xb8, 0x7d, 0xd9, 0x9f, 0x7b, 0x39, 0x73, 0xee, 0x71, 0x4f, 0x9e,
+	0x81, 0xf9, 0x9d, 0xa7, 0x24, 0xe6, 0xff, 0xe3, 0x7e, 0x45, 0x22, 0x13, 0xef, 0xa6, 0x22, 0xe1,
+	0x2a, 0xea, 0x5e, 0xf8, 0x46, 0x2b, 0xbe, 0xf6, 0x56, 0x73, 0x48, 0xb5, 0x44, 0x9a, 0x3e, 0x42,
+	0xeb, 0x4f, 0x94, 0x54, 0xf7, 0xfa, 0x54, 0x4f, 0x84, 0xcb, 0xb8, 0x3d, 0xca, 0x59, 0xf6, 0x18,
+	0xce, 0xb6, 0xc7, 0x48, 0xcc, 0x1e, 0xa7, 0xe0, 0xe4, 0x0e, 0x33, 0x15, 0x36, 0xe1, 0xf9, 0x35,
+	0xe9, 0x75, 0xbe, 0x20, 0x07, 0x75, 0xe5, 0xde, 0xf2, 0xeb, 0xc9, 0xf4, 0x45, 0x1e, 0x8e, 0x2c,
+	0x14, 0xf4, 0xb3, 0x66, 0x26, 0xdd, 0x17, 0x33, 0x6b, 0x9e, 0x4e, 0x4f, 0x1f, 0x91, 0x39, 0x89,
+	0xf9, 0xbf, 0xa7, 0x30, 0x57, 0xf2, 0x09, 0xfa, 0xf8, 0x3d, 0x5e, 0xf4, 0x3f, 0xb0, 0xea, 0x31,
+	0xaf, 0x4c, 0x8e, 0xdc, 0x7c, 0x97, 0x62, 0x37, 0xdf, 0xda, 0x3c, 0xf3, 0x64, 0xfe, 0x4c, 0xc4,
+	0xa4, 0x7f, 0x5a, 0x80, 0xc6, 0x0a, 0x59, 0xb7, 0xf5, 0xc7, 0x3e, 0xdb, 0x06, 0x80, 0xc7, 0x15,
+	0xe1, 0x9d, 0x14, 0xa2, 0x56, 0xee, 0x43, 0xfa, 0x15, 0x6f, 0x49, 0xae, 0x78, 0x65, 0x1b, 0x95,
+	0xf3, 0x6c, 0x34, 0x1c, 0x7f, 0x1d, 0xa8, 0xc1, 0x88, 0xe1, 0xd8, 0xd4, 0x75, 0x2c, 0xbe, 0xa6,
+	0xab, 0x28, 0xf8, 0xd4, 0x66, 0xe1, 0x58, 0xa6, 0x49, 0x84, 0xd9, 0x3e, 0x18, 0x86, 0x53, 0x82,
+	0x86, 0xd0, 0x8d, 0x2f, 0x9f, 0x85, 0xfe, 0xd7, 0x9f, 0x85, 0xa2, 0xc1, 0x5b, 0x49, 0x04, 0xef,
+	0x0c, 0x54, 0xfc, 0xaf, 0x25, 0x6e, 0xe3, 0x2a, 0xb7, 0xb1, 0x0c, 0x92, 0xc3, 0x71, 0x3c, 0x12,
+	0x8e, 0xf1, 0x27, 0xa7, 0x89, 0x3d, 0x3e, 0x39, 0x4d, 0xe6, 0x3c, 0x39, 0xed, 0xdb, 0xd5, 0x93,
+	0xd3, 0xfe, 0xcf, 0xf1, 0xe4, 0xa4, 0xe6, 0x9e, 0x41, 0xbe, 0x0e, 0xf3, 0x3b, 0xaf, 0xaa, 0xdc,
+	0xc7, 0xa7, 0xcf, 0x14, 0x38, 0x8a, 0xb0, 0x87, 0xe9, 0xe3, 0x4e, 0x67, 0xfd, 0x2a, 0xa3, 0x18,
+	0xa9, 0x32, 0xce, 0xc3, 0x54, 0x70, 0xe5, 0x74, 0x95, 0xd8, 0xc4, 0xdb, 0x88, 0x5e, 0xe4, 0xa7,
+	0x23, 0xa3, 0x11, 0x5d, 0x8e, 0xa7, 0xfb, 0x0b, 0xd0, 0xc8, 0x9a, 0x73, 0xae, 0xb1, 0x3e, 0x54,
+	0x60, 0x76, 0x15, 0xbb, 0x6d, 0x62, 0xeb, 0x14, 0x3f, 0xa9, 0x06, 0x93, 0xf6, 0xfd, 0x52, 0xf6,
+	0xbe, 0x1f, 0xcb, 0xfd, 0xda, 0x09, 0xd0, 0xf2, 0x66, 0x26, 0xd2, 0xf8, 0xbf, 0x0a, 0x30, 0xcb,
+	0xb2, 0xdf, 0xad, 0x0e, 0xb6, 0x13, 0x54, 0xde, 0x60, 0x06, 0x48, 0x79, 0x70, 0x2c, 0x0c, 0xf8,
+	0xe0, 0x58, 0x4c, 0x7b, 0xf3, 0xb8, 0x04, 0x93, 0x7e, 0xda, 0x23, 0x6d, 0xec, 0x3f, 0x03, 0x8a,
+	0xec, 0x7d, 0xb0, 0x7f, 0x67, 0x1d, 0x41, 0xa3, 0x38, 0xbd, 0xfa, 0x32, 0x4c, 0x86, 0xa9, 0x58,
+	0x88, 0xf0, 0xaf, 0xbd, 0x8f, 0x65, 0x7a, 0xc4, 0x27, 0xbb, 0x3e, 0x84, 0xe2, 0x9c, 0xea, 0xd7,
+	0x00, 0x68, 0xaf, 0x13, 0xa8, 0x32, 0xcc, 0xe5, 0xd4, 0xd3, 0xb6, 0x9f, 0x50, 0x84, 0x44, 0x7f,
+	0x79, 0x0c, 0x46, 0xfc, 0x5f, 0x9e, 0xf6, 0x7d, 0x05, 0xb4, 0x3c, 0x63, 0x8b, 0x50, 0x7d, 0x11,
+	0x20, 0x54, 0x21, 0xe8, 0x5d, 0x3b, 0x9a, 0xa9, 0x37, 0xef, 0x91, 0x91, 0x18, 0x06, 0x6c, 0x57,
+	0x7b, 0xb7, 0x08, 0xc7, 0x99, 0x2e, 0x7c, 0x67, 0x31, 0xbf, 0x74, 0xfd, 0x43, 0x70, 0xbd, 0xfa,
+	0x3c, 0x54, 0x3d, 0xde, 0x90, 0x29, 0xf8, 0x47, 0xa2, 0x95, 0xcb, 0x8a, 0x84, 0xbb, 0x3e, 0x84,
+	0x22, 0xb4, 0x72, 0xd8, 0xfc, 0x50, 0x81, 0x13, 0xf9, 0xae, 0x7a, 0x94, 0x81, 0xf3, 0x0b, 0x05,
+	0x8e, 0x32, 0x6d, 0xf6, 0x1a, 0x32, 0x72, 0xdb, 0x67, 0x61, 0xa7, 0xb6, 0xcf, 0xd4, 0x20, 0x39,
+	0x10, 0xbc, 0x89, 0xfa, 0x55, 0xbf, 0xff, 0xa1, 0x7d, 0x4f, 0x81, 0x46, 0x96, 0x5e, 0x8f, 0xd2,
+	0x3e, 0xbf, 0x54, 0xe0, 0x24, 0xd3, 0xe3, 0x92, 0xe8, 0x14, 0x78, 0xd2, 0xec, 0xf4, 0x23, 0x05,
+	0xe6, 0x76, 0xd2, 0xef, 0x51, 0xc7, 0xd3, 0x8a, 0xa1, 0xdb, 0x4f, 0x62, 0x3c, 0x65, 0xe9, 0xf5,
+	0x28, 0xed, 0xb3, 0x0a, 0x0d, 0xde, 0x5f, 0xb0, 0x57, 0xfb, 0x84, 0xb3, 0x2b, 0xc8, 0xb3, 0xbb,
+	0x08, 0xc7, 0x32, 0xa5, 0xf6, 0x2b, 0x26, 0x83, 0x91, 0x70, 0x91, 0x45, 0xe4, 0x7f, 0x68, 0x47,
+	0xa0, 0x7e, 0x0d, 0xd3, 0x44, 0xc5, 0xeb, 0xab, 0xa2, 0xfd, 0x5e, 0x81, 0xc3, 0xa9, 0xe8, 0xb0,
+	0x2d, 0xbb, 0xb4, 0x89, 0x7b, 0x81, 0xad, 0x2e, 0x24, 0x1e, 0x2a, 0x73, 0x78, 0x17, 0x5e, 0xc6,
+	0x3d, 0xf1, 0x14, 0xcb, 0x65, 0xd4, 0x97, 0x61, 0x2c, 0x04, 0xa5, 0x3c, 0xbd, 0x3e, 0x23, 0x3f,
+	0xbd, 0x4e, 0x2c, 0x1e, 0x14, 0x87, 0x9a, 0x25, 0xdb, 0xc4, 0xf7, 0xb0, 0xf9, 0x2a, 0x43, 0xf1,
+	0x23, 0xa3, 0xf4, 0xec, 0xfa, 0xf3, 0x42, 0x78, 0xd5, 0xc8, 0x1f, 0x66, 0xf7, 0x70, 0x13, 0xdc,
+	0x84, 0x71, 0x23, 0xe0, 0xe0, 0xa7, 0xd5, 0x42, 0xa4, 0xf3, 0x29, 0x29, 0x96, 0xeb, 0x10, 0xe5,
+	0x61, 0x67, 0x25, 0xe9, 0xb1, 0x59, 0x04, 0xad, 0x0c, 0x62, 0x47, 0x1b, 0xec, 0xba, 0x8e, 0x7b,
+	0x03, 0x7b, 0x9e, 0xbe, 0x8e, 0x45, 0xe4, 0x46, 0x60, 0x41, 0x5d, 0x1a, 0xb6, 0x98, 0xf2, 0x4e,
+	0xdb, 0x72, 0xb2, 0x2e, 0x8d, 0x10, 0xa0, 0x24, 0x8f, 0x74, 0xe1, 0x99, 0x66, 0x15, 0x51, 0x48,
+	0x7a, 0x50, 0xe7, 0x15, 0xb8, 0xdf, 0x4e, 0x10, 0x1e, 0xaf, 0x1f, 0x6a, 0xab, 0x9b, 0x76, 0x14,
+	0x0e, 0xa7, 0x0e, 0x2a, 0x74, 0xfa, 0x43, 0x01, 0x0e, 0x70, 0x95, 0x03, 0x21, 0x0f, 0xb9, 0xf3,
+	0x2e, 0x6c, 0xd6, 0x29, 0x0e, 0xd0, 0xac, 0x73, 0x0b, 0x0e, 0x08, 0x8f, 0xbe, 0x89, 0x0d, 0xda,
+	0x74, 0x6c, 0x93, 0x84, 0x3d, 0xdd, 0x13, 0x8b, 0x87, 0xe5, 0x80, 0x89, 0x91, 0xa0, 0x54, 0x46,
+	0x76, 0xaa, 0xe7, 0xf0, 0xa6, 0x63, 0x7b, 0xc4, 0xa3, 0xd8, 0x36, 0x7a, 0xaf, 0xe0, 0x2d, 0x6c,
+	0x71, 0x9f, 0xf7, 0x4f, 0xf5, 0xb7, 0xd3, 0x68, 0x50, 0x3a, 0xab, 0xb6, 0x05, 0x53, 0x31, 0x03,
+	0x8a, 0x85, 0x1c, 0x0b, 0x51, 0x25, 0x19, 0xa2, 0x2f, 0xc0, 0xb8, 0xa4, 0x26, 0x36, 0xe3, 0x1d,
+	0x37, 0xb7, 0x65, 0x24, 0x8a, 0xd2, 0x6a, 0x7f, 0x56, 0xe0, 0x64, 0x5a, 0xcb, 0x1f, 0xd2, 0xb7,
+	0xbf, 0x90, 0x4d, 0x94, 0xda, 0xdb, 0x0a, 0xcc, 0xed, 0x34, 0x21, 0x61, 0xda, 0xff, 0x03, 0x70,
+	0x43, 0xa8, 0xc8, 0x94, 0xfd, 0x66, 0x21, 0x9d, 0xea, 0x97, 0x2d, 0x67, 0x0d, 0x49, 0x34, 0x03,
+	0x6e, 0x24, 0x3d, 0x98, 0x09, 0xfe, 0xb6, 0x64, 0x8f, 0x27, 0xdd, 0x3d, 0xaf, 0xd3, 0x4f, 0x0b,
+	0x30, 0x9b, 0x33, 0xb6, 0x98, 0xf8, 0xb7, 0x61, 0x5a, 0x6e, 0x6e, 0x92, 0x3a, 0xf2, 0xfd, 0xbe,
+	0x96, 0xb9, 0xcc, 0xb1, 0xa2, 0xed, 0xf8, 0x19, 0x52, 0xd4, 0x95, 0xfe, 0xb5, 0x57, 0x64, 0x53,
+	0x16, 0x53, 0xd9, 0x61, 0xe7, 0x4e, 0xe7, 0x55, 0x97, 0x60, 0x7f, 0x07, 0xdb, 0x26, 0xb1, 0xd7,
+	0xc5, 0xf5, 0x3a, 0xc1, 0x5e, 0xad, 0xc8, 0x9d, 0x16, 0x76, 0xfb, 0x2c, 0x47, 0x08, 0x7a, 0x7e,
+	0x9e, 0x4d, 0x70, 0xb1, 0x93, 0x8b, 0x00, 0x36, 0x37, 0x88, 0x65, 0xba, 0x3c, 0x96, 0x8a, 0x72,
+	0xaf, 0xd6, 0xb2, 0x84, 0x8e, 0x6a, 0x17, 0xe7, 0xd4, 0x3e, 0x50, 0xe0, 0x60, 0x60, 0xf2, 0xdd,
+	0x65, 0xe3, 0xdd, 0x75, 0xb2, 0x5c, 0x84, 0x6a, 0xf0, 0x3b, 0xbc, 0x9d, 0x9d, 0x58, 0x7c, 0x4a,
+	0x24, 0x9b, 0x55, 0x09, 0x85, 0x22, 0x84, 0xea, 0x79, 0x98, 0x22, 0xb6, 0x61, 0x75, 0xcd, 0x50,
+	0x3d, 0xf1, 0x37, 0x6f, 0x25, 0xbf, 0x97, 0x2c, 0x15, 0xa9, 0xbd, 0xa3, 0xf4, 0xff, 0xcc, 0x2a,
+	0x9e, 0xef, 0xd5, 0xb3, 0x30, 0xd2, 0x71, 0x2c, 0x0b, 0xbb, 0x41, 0x81, 0xa1, 0x86, 0x86, 0xe3,
+	0x60, 0x6e, 0xa9, 0x80, 0x44, 0x7d, 0x09, 0x26, 0x68, 0x74, 0x64, 0x7f, 0xb6, 0xd3, 0xf1, 0xd9,
+	0x8a, 0x3f, 0xb7, 0x8b, 0x51, 0x6b, 0x07, 0x61, 0xea, 0x1a, 0xa6, 0xe2, 0x6f, 0x1c, 0xb9, 0x68,
+	0x51, 0x04, 0x79, 0x30, 0x1d, 0x47, 0x08, 0x05, 0x5f, 0x87, 0x83, 0x5e, 0xb7, 0xd3, 0x71, 0x5c,
+	0x8a, 0xcd, 0xa6, 0x45, 0xb0, 0x4d, 0xc5, 0x3e, 0xeb, 0x89, 0x10, 0x0f, 0xcf, 0xa8, 0x2b, 0xe9,
+	0x64, 0x28, 0x8b, 0x5f, 0xdb, 0xf4, 0x4f, 0x65, 0x81, 0xce, 0xcb, 0xba, 0x4b, 0xc9, 0x2e, 0xaa,
+	0xc4, 0x5d, 0x39, 0x5d, 0xfb, 0xa7, 0x38, 0x6b, 0xa5, 0x8d, 0x26, 0xa6, 0xaa, 0x43, 0x5d, 0x97,
+	0xde, 0x9b, 0xa2, 0x54, 0xc2, 0x3d, 0xb3, 0xf1, 0x21, 0x42, 0x8a, 0xb0, 0xb1, 0x29, 0x47, 0x08,
+	0x1b, 0x42, 0xee, 0x5d, 0x8b, 0x0d, 0x51, 0x18, 0x78, 0x88, 0x6c, 0x21, 0xda, 0xaf, 0x0a, 0x70,
+	0x5a, 0x74, 0x51, 0xfd, 0xd7, 0xec, 0x45, 0x39, 0x6d, 0xfa, 0xe5, 0xcf, 0xd3, 0xa6, 0xff, 0x5d,
+	0x05, 0xce, 0x0c, 0x62, 0xab, 0x87, 0xbb, 0xcd, 0x5d, 0x7e, 0x47, 0x79, 0xff, 0xa3, 0xc6, 0xd0,
+	0x87, 0x1f, 0x35, 0x86, 0x3e, 0xfd, 0xa8, 0xa1, 0xbc, 0x7d, 0xbf, 0xa1, 0xbc, 0x7b, 0xbf, 0xa1,
+	0xbc, 0x77, 0xbf, 0xa1, 0xbc, 0x7f, 0xbf, 0xa1, 0xfc, 0xe3, 0x7e, 0x43, 0xf9, 0xe4, 0x7e, 0x63,
+	0xe8, 0xd3, 0xfb, 0x0d, 0xe5, 0x27, 0x1f, 0x37, 0x86, 0xde, 0xff, 0xb8, 0x31, 0xf4, 0xe1, 0xc7,
+	0x8d, 0x21, 0x98, 0x25, 0xce, 0x02, 0xc5, 0xed, 0x8e, 0xe3, 0xea, 0x96, 0xff, 0x07, 0xe1, 0xf1,
+	0xc3, 0xc9, 0xb2, 0xf2, 0xcd, 0x67, 0xd6, 0x25, 0x22, 0xe2, 0x9c, 0x0b, 0x7e, 0x3f, 0xc3, 0x19,
+	0xce, 0xc5, 0x18, 0xd6, 0x86, 0x39, 0xf8, 0xd9, 0xff, 0x04, 0x00, 0x00, 0xff, 0xff, 0xdb, 0xec,
+	0x48, 0xa4, 0x21, 0x3f, 0x00, 0x00,
 }
 
-func (this *RegisterDomainRequest) Equal(that interface{}) bool {
+func (this *RegisterNamespaceRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*RegisterDomainRequest)
+	that1, ok := that.(*RegisterNamespaceRequest)
 	if !ok {
-		that2, ok := that.(RegisterDomainRequest)
+		that2, ok := that.(RegisterNamespaceRequest)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5562,7 +5563,7 @@ func (this *RegisterDomainRequest) Equal(that interface{}) bool {
 	if this.SecurityToken != that1.SecurityToken {
 		return false
 	}
-	if this.IsGlobalDomain != that1.IsGlobalDomain {
+	if this.IsGlobalNamespace != that1.IsGlobalNamespace {
 		return false
 	}
 	if this.HistoryArchivalStatus != that1.HistoryArchivalStatus {
@@ -5579,14 +5580,14 @@ func (this *RegisterDomainRequest) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *RegisterDomainResponse) Equal(that interface{}) bool {
+func (this *RegisterNamespaceResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*RegisterDomainResponse)
+	that1, ok := that.(*RegisterNamespaceResponse)
 	if !ok {
-		that2, ok := that.(RegisterDomainResponse)
+		that2, ok := that.(RegisterNamespaceResponse)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5600,14 +5601,14 @@ func (this *RegisterDomainResponse) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *ListDomainsRequest) Equal(that interface{}) bool {
+func (this *ListNamespacesRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*ListDomainsRequest)
+	that1, ok := that.(*ListNamespacesRequest)
 	if !ok {
-		that2, ok := that.(ListDomainsRequest)
+		that2, ok := that.(ListNamespacesRequest)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5627,14 +5628,14 @@ func (this *ListDomainsRequest) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *ListDomainsResponse) Equal(that interface{}) bool {
+func (this *ListNamespacesResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*ListDomainsResponse)
+	that1, ok := that.(*ListNamespacesResponse)
 	if !ok {
-		that2, ok := that.(ListDomainsResponse)
+		that2, ok := that.(ListNamespacesResponse)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5646,11 +5647,11 @@ func (this *ListDomainsResponse) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if len(this.Domains) != len(that1.Domains) {
+	if len(this.Namespaces) != len(that1.Namespaces) {
 		return false
 	}
-	for i := range this.Domains {
-		if !this.Domains[i].Equal(that1.Domains[i]) {
+	for i := range this.Namespaces {
+		if !this.Namespaces[i].Equal(that1.Namespaces[i]) {
 			return false
 		}
 	}
@@ -5659,14 +5660,14 @@ func (this *ListDomainsResponse) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *DescribeDomainRequest) Equal(that interface{}) bool {
+func (this *DescribeNamespaceRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*DescribeDomainRequest)
+	that1, ok := that.(*DescribeNamespaceRequest)
 	if !ok {
-		that2, ok := that.(DescribeDomainRequest)
+		that2, ok := that.(DescribeNamespaceRequest)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5686,14 +5687,14 @@ func (this *DescribeDomainRequest) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *DescribeDomainResponse) Equal(that interface{}) bool {
+func (this *DescribeNamespaceResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*DescribeDomainResponse)
+	that1, ok := that.(*DescribeNamespaceResponse)
 	if !ok {
-		that2, ok := that.(DescribeDomainResponse)
+		that2, ok := that.(DescribeNamespaceResponse)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5705,7 +5706,7 @@ func (this *DescribeDomainResponse) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if !this.DomainInfo.Equal(that1.DomainInfo) {
+	if !this.NamespaceInfo.Equal(that1.NamespaceInfo) {
 		return false
 	}
 	if !this.Configuration.Equal(that1.Configuration) {
@@ -5717,19 +5718,19 @@ func (this *DescribeDomainResponse) Equal(that interface{}) bool {
 	if this.FailoverVersion != that1.FailoverVersion {
 		return false
 	}
-	if this.IsGlobalDomain != that1.IsGlobalDomain {
+	if this.IsGlobalNamespace != that1.IsGlobalNamespace {
 		return false
 	}
 	return true
 }
-func (this *UpdateDomainRequest) Equal(that interface{}) bool {
+func (this *UpdateNamespaceRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateDomainRequest)
+	that1, ok := that.(*UpdateNamespaceRequest)
 	if !ok {
-		that2, ok := that.(UpdateDomainRequest)
+		that2, ok := that.(UpdateNamespaceRequest)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5761,14 +5762,14 @@ func (this *UpdateDomainRequest) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *UpdateDomainResponse) Equal(that interface{}) bool {
+func (this *UpdateNamespaceResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateDomainResponse)
+	that1, ok := that.(*UpdateNamespaceResponse)
 	if !ok {
-		that2, ok := that.(UpdateDomainResponse)
+		that2, ok := that.(UpdateNamespaceResponse)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5780,7 +5781,7 @@ func (this *UpdateDomainResponse) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if !this.DomainInfo.Equal(that1.DomainInfo) {
+	if !this.NamespaceInfo.Equal(that1.NamespaceInfo) {
 		return false
 	}
 	if !this.Configuration.Equal(that1.Configuration) {
@@ -5792,19 +5793,19 @@ func (this *UpdateDomainResponse) Equal(that interface{}) bool {
 	if this.FailoverVersion != that1.FailoverVersion {
 		return false
 	}
-	if this.IsGlobalDomain != that1.IsGlobalDomain {
+	if this.IsGlobalNamespace != that1.IsGlobalNamespace {
 		return false
 	}
 	return true
 }
-func (this *DeprecateDomainRequest) Equal(that interface{}) bool {
+func (this *DeprecateNamespaceRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*DeprecateDomainRequest)
+	that1, ok := that.(*DeprecateNamespaceRequest)
 	if !ok {
-		that2, ok := that.(DeprecateDomainRequest)
+		that2, ok := that.(DeprecateNamespaceRequest)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5824,14 +5825,14 @@ func (this *DeprecateDomainRequest) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *DeprecateDomainResponse) Equal(that interface{}) bool {
+func (this *DeprecateNamespaceResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*DeprecateDomainResponse)
+	that1, ok := that.(*DeprecateNamespaceResponse)
 	if !ok {
-		that2, ok := that.(DeprecateDomainResponse)
+		that2, ok := that.(DeprecateNamespaceResponse)
 		if ok {
 			that1 = &that2
 		} else {
@@ -5864,7 +5865,7 @@ func (this *StartWorkflowExecutionRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.WorkflowId != that1.WorkflowId {
@@ -5954,7 +5955,7 @@ func (this *GetWorkflowExecutionHistoryRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.Execution.Equal(that1.Execution) {
@@ -6023,7 +6024,7 @@ func (this *PollForDecisionTaskRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.TaskList.Equal(that1.TaskList) {
@@ -6263,7 +6264,7 @@ func (this *PollForActivityTaskRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.TaskList.Equal(that1.TaskList) {
@@ -6338,7 +6339,7 @@ func (this *PollForActivityTaskResponse) Equal(that interface{}) bool {
 	if !this.WorkflowType.Equal(that1.WorkflowType) {
 		return false
 	}
-	if this.WorkflowDomain != that1.WorkflowDomain {
+	if this.WorkflowNamespace != that1.WorkflowNamespace {
 		return false
 	}
 	if !this.Header.Equal(that1.Header) {
@@ -6419,7 +6420,7 @@ func (this *RecordActivityTaskHeartbeatByIDRequest) Equal(that interface{}) bool
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.WorkflowID != that1.WorkflowID {
@@ -6533,7 +6534,7 @@ func (this *RespondActivityTaskCompletedByIDRequest) Equal(that interface{}) boo
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.WorkflowID != that1.WorkflowID {
@@ -6647,7 +6648,7 @@ func (this *RespondActivityTaskFailedByIDRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.WorkflowID != that1.WorkflowID {
@@ -6761,7 +6762,7 @@ func (this *RespondActivityTaskCanceledByIDRequest) Equal(that interface{}) bool
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.WorkflowID != that1.WorkflowID {
@@ -6821,7 +6822,7 @@ func (this *RequestCancelWorkflowExecutionRequest) Equal(that interface{}) bool 
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
@@ -6875,7 +6876,7 @@ func (this *SignalWorkflowExecutionRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
@@ -6938,7 +6939,7 @@ func (this *SignalWithStartWorkflowExecutionRequest) Equal(that interface{}) boo
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.WorkflowId != that1.WorkflowId {
@@ -7037,7 +7038,7 @@ func (this *ResetWorkflowExecutionRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
@@ -7097,7 +7098,7 @@ func (this *TerminateWorkflowExecutionRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
@@ -7154,7 +7155,7 @@ func (this *ListOpenWorkflowExecutionsRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.MaximumPageSize != that1.MaximumPageSize {
@@ -7276,7 +7277,7 @@ func (this *ListClosedWorkflowExecutionsRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.MaximumPageSize != that1.MaximumPageSize {
@@ -7422,7 +7423,7 @@ func (this *ListWorkflowExecutionsRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.PageSize != that1.PageSize {
@@ -7487,7 +7488,7 @@ func (this *ListArchivedWorkflowExecutionsRequest) Equal(that interface{}) bool 
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.PageSize != that1.PageSize {
@@ -7552,7 +7553,7 @@ func (this *ScanWorkflowExecutionsRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.PageSize != that1.PageSize {
@@ -7617,7 +7618,7 @@ func (this *CountWorkflowExecutionsRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if this.Query != that1.Query {
@@ -7775,7 +7776,7 @@ func (this *ResetStickyTaskListRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.Execution.Equal(that1.Execution) {
@@ -7823,7 +7824,7 @@ func (this *QueryWorkflowRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.Execution.Equal(that1.Execution) {
@@ -7886,7 +7887,7 @@ func (this *GetWorkflowExecutionRawHistoryRequest) Equal(that interface{}) bool 
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.Execution.Equal(that1.Execution) {
@@ -7951,7 +7952,7 @@ func (this *DescribeWorkflowExecutionRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.Execution.Equal(that1.Execution) {
@@ -8021,7 +8022,7 @@ func (this *DescribeTaskListRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.TaskList.Equal(that1.TaskList) {
@@ -8131,7 +8132,7 @@ func (this *ListTaskListPartitionsRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.TaskList.Equal(that1.TaskList) {
@@ -8195,7 +8196,7 @@ func (this *PollForWorkflowExecutionRawHistoryRequest) Equal(that interface{}) b
 	} else if this == nil {
 		return false
 	}
-	if this.Domain != that1.Domain {
+	if this.Namespace != that1.Namespace {
 		return false
 	}
 	if !this.Execution.Equal(that1.Execution) {
@@ -8244,12 +8245,12 @@ func (this *PollForWorkflowExecutionRawHistoryResponse) Equal(that interface{}) 
 	}
 	return true
 }
-func (this *RegisterDomainRequest) GoString() string {
+func (this *RegisterNamespaceRequest) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 18)
-	s = append(s, "&workflowservice.RegisterDomainRequest{")
+	s = append(s, "&workflowservice.RegisterNamespaceRequest{")
 	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
 	s = append(s, "Description: "+fmt.Sprintf("%#v", this.Description)+",\n")
 	s = append(s, "OwnerEmail: "+fmt.Sprintf("%#v", this.OwnerEmail)+",\n")
@@ -8273,7 +8274,7 @@ func (this *RegisterDomainRequest) GoString() string {
 		s = append(s, "Data: "+mapStringForData+",\n")
 	}
 	s = append(s, "SecurityToken: "+fmt.Sprintf("%#v", this.SecurityToken)+",\n")
-	s = append(s, "IsGlobalDomain: "+fmt.Sprintf("%#v", this.IsGlobalDomain)+",\n")
+	s = append(s, "IsGlobalNamespace: "+fmt.Sprintf("%#v", this.IsGlobalNamespace)+",\n")
 	s = append(s, "HistoryArchivalStatus: "+fmt.Sprintf("%#v", this.HistoryArchivalStatus)+",\n")
 	s = append(s, "HistoryArchivalURI: "+fmt.Sprintf("%#v", this.HistoryArchivalURI)+",\n")
 	s = append(s, "VisibilityArchivalStatus: "+fmt.Sprintf("%#v", this.VisibilityArchivalStatus)+",\n")
@@ -8281,58 +8282,58 @@ func (this *RegisterDomainRequest) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *RegisterDomainResponse) GoString() string {
+func (this *RegisterNamespaceResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RegisterDomainResponse{")
+	s = append(s, "&workflowservice.RegisterNamespaceResponse{")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *ListDomainsRequest) GoString() string {
+func (this *ListNamespacesRequest) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListDomainsRequest{")
+	s = append(s, "&workflowservice.ListNamespacesRequest{")
 	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
 	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *ListDomainsResponse) GoString() string {
+func (this *ListNamespacesResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListDomainsResponse{")
-	if this.Domains != nil {
-		s = append(s, "Domains: "+fmt.Sprintf("%#v", this.Domains)+",\n")
+	s = append(s, "&workflowservice.ListNamespacesResponse{")
+	if this.Namespaces != nil {
+		s = append(s, "Namespaces: "+fmt.Sprintf("%#v", this.Namespaces)+",\n")
 	}
 	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *DescribeDomainRequest) GoString() string {
+func (this *DescribeNamespaceRequest) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.DescribeDomainRequest{")
+	s = append(s, "&workflowservice.DescribeNamespaceRequest{")
 	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
 	s = append(s, "Uuid: "+fmt.Sprintf("%#v", this.Uuid)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *DescribeDomainResponse) GoString() string {
+func (this *DescribeNamespaceResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.DescribeDomainResponse{")
-	if this.DomainInfo != nil {
-		s = append(s, "DomainInfo: "+fmt.Sprintf("%#v", this.DomainInfo)+",\n")
+	s = append(s, "&workflowservice.DescribeNamespaceResponse{")
+	if this.NamespaceInfo != nil {
+		s = append(s, "NamespaceInfo: "+fmt.Sprintf("%#v", this.NamespaceInfo)+",\n")
 	}
 	if this.Configuration != nil {
 		s = append(s, "Configuration: "+fmt.Sprintf("%#v", this.Configuration)+",\n")
@@ -8341,16 +8342,16 @@ func (this *DescribeDomainResponse) GoString() string {
 		s = append(s, "ReplicationConfiguration: "+fmt.Sprintf("%#v", this.ReplicationConfiguration)+",\n")
 	}
 	s = append(s, "FailoverVersion: "+fmt.Sprintf("%#v", this.FailoverVersion)+",\n")
-	s = append(s, "IsGlobalDomain: "+fmt.Sprintf("%#v", this.IsGlobalDomain)+",\n")
+	s = append(s, "IsGlobalNamespace: "+fmt.Sprintf("%#v", this.IsGlobalNamespace)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *UpdateDomainRequest) GoString() string {
+func (this *UpdateNamespaceRequest) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 10)
-	s = append(s, "&workflowservice.UpdateDomainRequest{")
+	s = append(s, "&workflowservice.UpdateNamespaceRequest{")
 	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
 	if this.UpdatedInfo != nil {
 		s = append(s, "UpdatedInfo: "+fmt.Sprintf("%#v", this.UpdatedInfo)+",\n")
@@ -8366,14 +8367,14 @@ func (this *UpdateDomainRequest) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *UpdateDomainResponse) GoString() string {
+func (this *UpdateNamespaceResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.UpdateDomainResponse{")
-	if this.DomainInfo != nil {
-		s = append(s, "DomainInfo: "+fmt.Sprintf("%#v", this.DomainInfo)+",\n")
+	s = append(s, "&workflowservice.UpdateNamespaceResponse{")
+	if this.NamespaceInfo != nil {
+		s = append(s, "NamespaceInfo: "+fmt.Sprintf("%#v", this.NamespaceInfo)+",\n")
 	}
 	if this.Configuration != nil {
 		s = append(s, "Configuration: "+fmt.Sprintf("%#v", this.Configuration)+",\n")
@@ -8382,27 +8383,27 @@ func (this *UpdateDomainResponse) GoString() string {
 		s = append(s, "ReplicationConfiguration: "+fmt.Sprintf("%#v", this.ReplicationConfiguration)+",\n")
 	}
 	s = append(s, "FailoverVersion: "+fmt.Sprintf("%#v", this.FailoverVersion)+",\n")
-	s = append(s, "IsGlobalDomain: "+fmt.Sprintf("%#v", this.IsGlobalDomain)+",\n")
+	s = append(s, "IsGlobalNamespace: "+fmt.Sprintf("%#v", this.IsGlobalNamespace)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *DeprecateDomainRequest) GoString() string {
+func (this *DeprecateNamespaceRequest) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.DeprecateDomainRequest{")
+	s = append(s, "&workflowservice.DeprecateNamespaceRequest{")
 	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
 	s = append(s, "SecurityToken: "+fmt.Sprintf("%#v", this.SecurityToken)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *DeprecateDomainResponse) GoString() string {
+func (this *DeprecateNamespaceResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.DeprecateDomainResponse{")
+	s = append(s, "&workflowservice.DeprecateNamespaceResponse{")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -8412,7 +8413,7 @@ func (this *StartWorkflowExecutionRequest) GoString() string {
 	}
 	s := make([]string, 0, 19)
 	s = append(s, "&workflowservice.StartWorkflowExecutionRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
 	if this.WorkflowType != nil {
 		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
@@ -8458,7 +8459,7 @@ func (this *GetWorkflowExecutionHistoryRequest) GoString() string {
 	}
 	s := make([]string, 0, 10)
 	s = append(s, "&workflowservice.GetWorkflowExecutionHistoryRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.Execution != nil {
 		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
 	}
@@ -8489,7 +8490,7 @@ func (this *PollForDecisionTaskRequest) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&workflowservice.PollForDecisionTaskRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.TaskList != nil {
 		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
 	}
@@ -8618,7 +8619,7 @@ func (this *PollForActivityTaskRequest) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&workflowservice.PollForActivityTaskRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.TaskList != nil {
 		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
 	}
@@ -8655,7 +8656,7 @@ func (this *PollForActivityTaskResponse) GoString() string {
 	if this.WorkflowType != nil {
 		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
 	}
-	s = append(s, "WorkflowDomain: "+fmt.Sprintf("%#v", this.WorkflowDomain)+",\n")
+	s = append(s, "WorkflowNamespace: "+fmt.Sprintf("%#v", this.WorkflowNamespace)+",\n")
 	if this.Header != nil {
 		s = append(s, "Header: "+fmt.Sprintf("%#v", this.Header)+",\n")
 	}
@@ -8690,7 +8691,7 @@ func (this *RecordActivityTaskHeartbeatByIDRequest) GoString() string {
 	}
 	s := make([]string, 0, 10)
 	s = append(s, "&workflowservice.RecordActivityTaskHeartbeatByIDRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "WorkflowID: "+fmt.Sprintf("%#v", this.WorkflowID)+",\n")
 	s = append(s, "RunID: "+fmt.Sprintf("%#v", this.RunID)+",\n")
 	s = append(s, "ActivityID: "+fmt.Sprintf("%#v", this.ActivityID)+",\n")
@@ -8736,7 +8737,7 @@ func (this *RespondActivityTaskCompletedByIDRequest) GoString() string {
 	}
 	s := make([]string, 0, 10)
 	s = append(s, "&workflowservice.RespondActivityTaskCompletedByIDRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "WorkflowID: "+fmt.Sprintf("%#v", this.WorkflowID)+",\n")
 	s = append(s, "RunID: "+fmt.Sprintf("%#v", this.RunID)+",\n")
 	s = append(s, "ActivityID: "+fmt.Sprintf("%#v", this.ActivityID)+",\n")
@@ -8782,7 +8783,7 @@ func (this *RespondActivityTaskFailedByIDRequest) GoString() string {
 	}
 	s := make([]string, 0, 11)
 	s = append(s, "&workflowservice.RespondActivityTaskFailedByIDRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "WorkflowID: "+fmt.Sprintf("%#v", this.WorkflowID)+",\n")
 	s = append(s, "RunID: "+fmt.Sprintf("%#v", this.RunID)+",\n")
 	s = append(s, "ActivityID: "+fmt.Sprintf("%#v", this.ActivityID)+",\n")
@@ -8828,7 +8829,7 @@ func (this *RespondActivityTaskCanceledByIDRequest) GoString() string {
 	}
 	s := make([]string, 0, 10)
 	s = append(s, "&workflowservice.RespondActivityTaskCanceledByIDRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "WorkflowID: "+fmt.Sprintf("%#v", this.WorkflowID)+",\n")
 	s = append(s, "RunID: "+fmt.Sprintf("%#v", this.RunID)+",\n")
 	s = append(s, "ActivityID: "+fmt.Sprintf("%#v", this.ActivityID)+",\n")
@@ -8852,7 +8853,7 @@ func (this *RequestCancelWorkflowExecutionRequest) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&workflowservice.RequestCancelWorkflowExecutionRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.WorkflowExecution != nil {
 		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
 	}
@@ -8876,7 +8877,7 @@ func (this *SignalWorkflowExecutionRequest) GoString() string {
 	}
 	s := make([]string, 0, 11)
 	s = append(s, "&workflowservice.SignalWorkflowExecutionRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.WorkflowExecution != nil {
 		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
 	}
@@ -8903,7 +8904,7 @@ func (this *SignalWithStartWorkflowExecutionRequest) GoString() string {
 	}
 	s := make([]string, 0, 22)
 	s = append(s, "&workflowservice.SignalWithStartWorkflowExecutionRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
 	if this.WorkflowType != nil {
 		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
@@ -8952,7 +8953,7 @@ func (this *ResetWorkflowExecutionRequest) GoString() string {
 	}
 	s := make([]string, 0, 9)
 	s = append(s, "&workflowservice.ResetWorkflowExecutionRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.WorkflowExecution != nil {
 		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
 	}
@@ -8978,7 +8979,7 @@ func (this *TerminateWorkflowExecutionRequest) GoString() string {
 	}
 	s := make([]string, 0, 9)
 	s = append(s, "&workflowservice.TerminateWorkflowExecutionRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.WorkflowExecution != nil {
 		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
 	}
@@ -9003,7 +9004,7 @@ func (this *ListOpenWorkflowExecutionsRequest) GoString() string {
 	}
 	s := make([]string, 0, 10)
 	s = append(s, "&workflowservice.ListOpenWorkflowExecutionsRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "MaximumPageSize: "+fmt.Sprintf("%#v", this.MaximumPageSize)+",\n")
 	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
 	if this.StartTimeFilter != nil {
@@ -9050,7 +9051,7 @@ func (this *ListClosedWorkflowExecutionsRequest) GoString() string {
 	}
 	s := make([]string, 0, 11)
 	s = append(s, "&workflowservice.ListClosedWorkflowExecutionsRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "MaximumPageSize: "+fmt.Sprintf("%#v", this.MaximumPageSize)+",\n")
 	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
 	if this.StartTimeFilter != nil {
@@ -9105,7 +9106,7 @@ func (this *ListWorkflowExecutionsRequest) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&workflowservice.ListWorkflowExecutionsRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
 	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
 	s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
@@ -9131,7 +9132,7 @@ func (this *ListArchivedWorkflowExecutionsRequest) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&workflowservice.ListArchivedWorkflowExecutionsRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
 	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
 	s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
@@ -9157,7 +9158,7 @@ func (this *ScanWorkflowExecutionsRequest) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&workflowservice.ScanWorkflowExecutionsRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
 	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
 	s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
@@ -9183,7 +9184,7 @@ func (this *CountWorkflowExecutionsRequest) GoString() string {
 	}
 	s := make([]string, 0, 6)
 	s = append(s, "&workflowservice.CountWorkflowExecutionsRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
@@ -9260,7 +9261,7 @@ func (this *ResetStickyTaskListRequest) GoString() string {
 	}
 	s := make([]string, 0, 6)
 	s = append(s, "&workflowservice.ResetStickyTaskListRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.Execution != nil {
 		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
 	}
@@ -9282,7 +9283,7 @@ func (this *QueryWorkflowRequest) GoString() string {
 	}
 	s := make([]string, 0, 9)
 	s = append(s, "&workflowservice.QueryWorkflowRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.Execution != nil {
 		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
 	}
@@ -9313,7 +9314,7 @@ func (this *GetWorkflowExecutionRawHistoryRequest) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&workflowservice.GetWorkflowExecutionRawHistoryRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.Execution != nil {
 		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
 	}
@@ -9341,7 +9342,7 @@ func (this *DescribeWorkflowExecutionRequest) GoString() string {
 	}
 	s := make([]string, 0, 6)
 	s = append(s, "&workflowservice.DescribeWorkflowExecutionRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.Execution != nil {
 		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
 	}
@@ -9375,7 +9376,7 @@ func (this *DescribeTaskListRequest) GoString() string {
 	}
 	s := make([]string, 0, 8)
 	s = append(s, "&workflowservice.DescribeTaskListRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.TaskList != nil {
 		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
 	}
@@ -9426,7 +9427,7 @@ func (this *ListTaskListPartitionsRequest) GoString() string {
 	}
 	s := make([]string, 0, 6)
 	s = append(s, "&workflowservice.ListTaskListPartitionsRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.TaskList != nil {
 		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
 	}
@@ -9454,7 +9455,7 @@ func (this *PollForWorkflowExecutionRawHistoryRequest) GoString() string {
 	}
 	s := make([]string, 0, 9)
 	s = append(s, "&workflowservice.PollForWorkflowExecutionRawHistoryRequest{")
-	s = append(s, "Domain: "+fmt.Sprintf("%#v", this.Domain)+",\n")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	if this.Execution != nil {
 		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
 	}
@@ -9485,7 +9486,7 @@ func valueToGoStringRequestResponse(v interface{}, typ string) string {
 	pv := reflect.Indirect(rv).Interface()
 	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
 }
-func (m *RegisterDomainRequest) Marshal() (dAtA []byte, err error) {
+func (m *RegisterNamespaceRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -9495,12 +9496,12 @@ func (m *RegisterDomainRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *RegisterDomainRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *RegisterNamespaceRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *RegisterDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *RegisterNamespaceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -9529,9 +9530,9 @@ func (m *RegisterDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x58
 	}
-	if m.IsGlobalDomain {
+	if m.IsGlobalNamespace {
 		i--
-		if m.IsGlobalDomain {
+		if m.IsGlobalNamespace {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
@@ -9625,7 +9626,7 @@ func (m *RegisterDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *RegisterDomainResponse) Marshal() (dAtA []byte, err error) {
+func (m *RegisterNamespaceResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -9635,12 +9636,12 @@ func (m *RegisterDomainResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *RegisterDomainResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *RegisterNamespaceResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *RegisterDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *RegisterNamespaceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -9648,7 +9649,7 @@ func (m *RegisterDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *ListDomainsRequest) Marshal() (dAtA []byte, err error) {
+func (m *ListNamespacesRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -9658,12 +9659,12 @@ func (m *ListDomainsRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ListDomainsRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *ListNamespacesRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ListDomainsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ListNamespacesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -9683,7 +9684,7 @@ func (m *ListDomainsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *ListDomainsResponse) Marshal() (dAtA []byte, err error) {
+func (m *ListNamespacesResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -9693,12 +9694,12 @@ func (m *ListDomainsResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ListDomainsResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *ListNamespacesResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ListDomainsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ListNamespacesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -9710,10 +9711,10 @@ func (m *ListDomainsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domains) > 0 {
-		for iNdEx := len(m.Domains) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.Namespaces) > 0 {
+		for iNdEx := len(m.Namespaces) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := m.Domains[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.Namespaces[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -9727,7 +9728,7 @@ func (m *ListDomainsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *DescribeDomainRequest) Marshal() (dAtA []byte, err error) {
+func (m *DescribeNamespaceRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -9737,12 +9738,12 @@ func (m *DescribeDomainRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DescribeDomainRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *DescribeNamespaceRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DescribeDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *DescribeNamespaceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -9764,7 +9765,7 @@ func (m *DescribeDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *DescribeDomainResponse) Marshal() (dAtA []byte, err error) {
+func (m *DescribeNamespaceResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -9774,19 +9775,19 @@ func (m *DescribeDomainResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DescribeDomainResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *DescribeNamespaceResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DescribeDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *DescribeNamespaceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.IsGlobalDomain {
+	if m.IsGlobalNamespace {
 		i--
-		if m.IsGlobalDomain {
+		if m.IsGlobalNamespace {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
@@ -9823,9 +9824,9 @@ func (m *DescribeDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.DomainInfo != nil {
+	if m.NamespaceInfo != nil {
 		{
-			size, err := m.DomainInfo.MarshalToSizedBuffer(dAtA[:i])
+			size, err := m.NamespaceInfo.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -9838,7 +9839,7 @@ func (m *DescribeDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *UpdateDomainRequest) Marshal() (dAtA []byte, err error) {
+func (m *UpdateNamespaceRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -9848,12 +9849,12 @@ func (m *UpdateDomainRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *UpdateDomainRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateNamespaceRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateNamespaceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -9918,7 +9919,7 @@ func (m *UpdateDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *UpdateDomainResponse) Marshal() (dAtA []byte, err error) {
+func (m *UpdateNamespaceResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -9928,19 +9929,19 @@ func (m *UpdateDomainResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *UpdateDomainResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateNamespaceResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateNamespaceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.IsGlobalDomain {
+	if m.IsGlobalNamespace {
 		i--
-		if m.IsGlobalDomain {
+		if m.IsGlobalNamespace {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
@@ -9977,9 +9978,9 @@ func (m *UpdateDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.DomainInfo != nil {
+	if m.NamespaceInfo != nil {
 		{
-			size, err := m.DomainInfo.MarshalToSizedBuffer(dAtA[:i])
+			size, err := m.NamespaceInfo.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -9992,7 +9993,7 @@ func (m *UpdateDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *DeprecateDomainRequest) Marshal() (dAtA []byte, err error) {
+func (m *DeprecateNamespaceRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -10002,12 +10003,12 @@ func (m *DeprecateDomainRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DeprecateDomainRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *DeprecateNamespaceRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DeprecateDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *DeprecateNamespaceRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -10029,7 +10030,7 @@ func (m *DeprecateDomainRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *DeprecateDomainResponse) Marshal() (dAtA []byte, err error) {
+func (m *DeprecateNamespaceResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -10039,12 +10040,12 @@ func (m *DeprecateDomainResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *DeprecateDomainResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *DeprecateNamespaceResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DeprecateDomainResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *DeprecateNamespaceResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -10194,10 +10195,10 @@ func (m *StartWorkflowExecutionRequest) MarshalToSizedBuffer(dAtA []byte) (int, 
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -10293,10 +10294,10 @@ func (m *GetWorkflowExecutionHistoryRequest) MarshalToSizedBuffer(dAtA []byte) (
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -10401,10 +10402,10 @@ func (m *PollForDecisionTaskRequest) MarshalToSizedBuffer(dAtA []byte) (int, err
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -10852,10 +10853,10 @@ func (m *PollForActivityTaskRequest) MarshalToSizedBuffer(dAtA []byte) (int, err
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -10896,10 +10897,10 @@ func (m *PollForActivityTaskResponse) MarshalToSizedBuffer(dAtA []byte) (int, er
 		i--
 		dAtA[i] = 0x82
 	}
-	if len(m.WorkflowDomain) > 0 {
-		i -= len(m.WorkflowDomain)
-		copy(dAtA[i:], m.WorkflowDomain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.WorkflowDomain)))
+	if len(m.WorkflowNamespace) > 0 {
+		i -= len(m.WorkflowNamespace)
+		copy(dAtA[i:], m.WorkflowNamespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.WorkflowNamespace)))
 		i--
 		dAtA[i] = 0x7a
 	}
@@ -11137,10 +11138,10 @@ func (m *RecordActivityTaskHeartbeatByIDRequest) MarshalToSizedBuffer(dAtA []byt
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -11302,10 +11303,10 @@ func (m *RespondActivityTaskCompletedByIDRequest) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -11471,10 +11472,10 @@ func (m *RespondActivityTaskFailedByIDRequest) MarshalToSizedBuffer(dAtA []byte)
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -11626,10 +11627,10 @@ func (m *RespondActivityTaskCanceledByIDRequest) MarshalToSizedBuffer(dAtA []byt
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -11705,10 +11706,10 @@ func (m *RequestCancelWorkflowExecutionRequest) MarshalToSizedBuffer(dAtA []byte
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -11805,10 +11806,10 @@ func (m *SignalWorkflowExecutionRequest) MarshalToSizedBuffer(dAtA []byte) (int,
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12007,10 +12008,10 @@ func (m *SignalWithStartWorkflowExecutionRequest) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12098,10 +12099,10 @@ func (m *ResetWorkflowExecutionRequest) MarshalToSizedBuffer(dAtA []byte) (int, 
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12191,10 +12192,10 @@ func (m *TerminateWorkflowExecutionRequest) MarshalToSizedBuffer(dAtA []byte) (i
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12277,10 +12278,10 @@ func (m *ListOpenWorkflowExecutionsRequest) MarshalToSizedBuffer(dAtA []byte) (i
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12426,10 +12427,10 @@ func (m *ListClosedWorkflowExecutionsRequest) MarshalToSizedBuffer(dAtA []byte) 
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12582,10 +12583,10 @@ func (m *ListWorkflowExecutionsRequest) MarshalToSizedBuffer(dAtA []byte) (int, 
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12675,10 +12676,10 @@ func (m *ListArchivedWorkflowExecutionsRequest) MarshalToSizedBuffer(dAtA []byte
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12768,10 +12769,10 @@ func (m *ScanWorkflowExecutionsRequest) MarshalToSizedBuffer(dAtA []byte) (int, 
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -12849,10 +12850,10 @@ func (m *CountWorkflowExecutionsRequest) MarshalToSizedBuffer(dAtA []byte) (int,
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -13066,10 +13067,10 @@ func (m *ResetStickyTaskListRequest) MarshalToSizedBuffer(dAtA []byte) (int, err
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -13153,10 +13154,10 @@ func (m *QueryWorkflowRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -13249,10 +13250,10 @@ func (m *GetWorkflowExecutionRawHistoryRequest) MarshalToSizedBuffer(dAtA []byte
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -13335,10 +13336,10 @@ func (m *DescribeWorkflowExecutionRequest) MarshalToSizedBuffer(dAtA []byte) (in
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -13467,10 +13468,10 @@ func (m *DescribeTaskListRequest) MarshalToSizedBuffer(dAtA []byte) (int, error)
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -13616,10 +13617,10 @@ func (m *ListTaskListPartitionsRequest) MarshalToSizedBuffer(dAtA []byte) (int, 
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -13726,10 +13727,10 @@ func (m *PollForWorkflowExecutionRawHistoryRequest) MarshalToSizedBuffer(dAtA []
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Domain) > 0 {
-		i -= len(m.Domain)
-		copy(dAtA[i:], m.Domain)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Domain)))
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Namespace)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -13791,7 +13792,7 @@ func encodeVarintRequestResponse(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *RegisterDomainRequest) Size() (n int) {
+func (m *RegisterNamespaceRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -13837,7 +13838,7 @@ func (m *RegisterDomainRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
-	if m.IsGlobalDomain {
+	if m.IsGlobalNamespace {
 		n += 2
 	}
 	if m.HistoryArchivalStatus != 0 {
@@ -13857,7 +13858,7 @@ func (m *RegisterDomainRequest) Size() (n int) {
 	return n
 }
 
-func (m *RegisterDomainResponse) Size() (n int) {
+func (m *RegisterNamespaceResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -13866,7 +13867,7 @@ func (m *RegisterDomainResponse) Size() (n int) {
 	return n
 }
 
-func (m *ListDomainsRequest) Size() (n int) {
+func (m *ListNamespacesRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -13882,14 +13883,14 @@ func (m *ListDomainsRequest) Size() (n int) {
 	return n
 }
 
-func (m *ListDomainsResponse) Size() (n int) {
+func (m *ListNamespacesResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if len(m.Domains) > 0 {
-		for _, e := range m.Domains {
+	if len(m.Namespaces) > 0 {
+		for _, e := range m.Namespaces {
 			l = e.Size()
 			n += 1 + l + sovRequestResponse(uint64(l))
 		}
@@ -13901,7 +13902,7 @@ func (m *ListDomainsResponse) Size() (n int) {
 	return n
 }
 
-func (m *DescribeDomainRequest) Size() (n int) {
+func (m *DescribeNamespaceRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -13918,14 +13919,14 @@ func (m *DescribeDomainRequest) Size() (n int) {
 	return n
 }
 
-func (m *DescribeDomainResponse) Size() (n int) {
+func (m *DescribeNamespaceResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.DomainInfo != nil {
-		l = m.DomainInfo.Size()
+	if m.NamespaceInfo != nil {
+		l = m.NamespaceInfo.Size()
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
 	if m.Configuration != nil {
@@ -13939,13 +13940,13 @@ func (m *DescribeDomainResponse) Size() (n int) {
 	if m.FailoverVersion != 0 {
 		n += 1 + sovRequestResponse(uint64(m.FailoverVersion))
 	}
-	if m.IsGlobalDomain {
+	if m.IsGlobalNamespace {
 		n += 2
 	}
 	return n
 }
 
-func (m *UpdateDomainRequest) Size() (n int) {
+func (m *UpdateNamespaceRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -13978,14 +13979,14 @@ func (m *UpdateDomainRequest) Size() (n int) {
 	return n
 }
 
-func (m *UpdateDomainResponse) Size() (n int) {
+func (m *UpdateNamespaceResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.DomainInfo != nil {
-		l = m.DomainInfo.Size()
+	if m.NamespaceInfo != nil {
+		l = m.NamespaceInfo.Size()
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
 	if m.Configuration != nil {
@@ -13999,13 +14000,13 @@ func (m *UpdateDomainResponse) Size() (n int) {
 	if m.FailoverVersion != 0 {
 		n += 1 + sovRequestResponse(uint64(m.FailoverVersion))
 	}
-	if m.IsGlobalDomain {
+	if m.IsGlobalNamespace {
 		n += 2
 	}
 	return n
 }
 
-func (m *DeprecateDomainRequest) Size() (n int) {
+func (m *DeprecateNamespaceRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -14022,7 +14023,7 @@ func (m *DeprecateDomainRequest) Size() (n int) {
 	return n
 }
 
-func (m *DeprecateDomainResponse) Size() (n int) {
+func (m *DeprecateNamespaceResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -14037,7 +14038,7 @@ func (m *StartWorkflowExecutionRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14116,7 +14117,7 @@ func (m *GetWorkflowExecutionHistoryRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14166,7 +14167,7 @@ func (m *PollForDecisionTaskRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14363,7 +14364,7 @@ func (m *PollForActivityTaskRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14437,7 +14438,7 @@ func (m *PollForActivityTaskResponse) Size() (n int) {
 		l = m.WorkflowType.Size()
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
-	l = len(m.WorkflowDomain)
+	l = len(m.WorkflowNamespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14487,7 +14488,7 @@ func (m *RecordActivityTaskHeartbeatByIDRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14562,7 +14563,7 @@ func (m *RespondActivityTaskCompletedByIDRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14638,7 +14639,7 @@ func (m *RespondActivityTaskFailedByIDRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14714,7 +14715,7 @@ func (m *RespondActivityTaskCanceledByIDRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14756,7 +14757,7 @@ func (m *RequestCancelWorkflowExecutionRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14790,7 +14791,7 @@ func (m *SignalWorkflowExecutionRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14836,7 +14837,7 @@ func (m *SignalWithStartWorkflowExecutionRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14927,7 +14928,7 @@ func (m *ResetWorkflowExecutionRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -14968,7 +14969,7 @@ func (m *TerminateWorkflowExecutionRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15006,7 +15007,7 @@ func (m *ListOpenWorkflowExecutionsRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15076,7 +15077,7 @@ func (m *ListClosedWorkflowExecutionsRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15158,7 +15159,7 @@ func (m *ListWorkflowExecutionsRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15201,7 +15202,7 @@ func (m *ListArchivedWorkflowExecutionsRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15244,7 +15245,7 @@ func (m *ScanWorkflowExecutionsRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15287,7 +15288,7 @@ func (m *CountWorkflowExecutionsRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15379,7 +15380,7 @@ func (m *ResetStickyTaskListRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15405,7 +15406,7 @@ func (m *QueryWorkflowRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15449,7 +15450,7 @@ func (m *GetWorkflowExecutionRawHistoryRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15492,7 +15493,7 @@ func (m *DescribeWorkflowExecutionRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15538,7 +15539,7 @@ func (m *DescribeTaskListRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15602,7 +15603,7 @@ func (m *ListTaskListPartitionsRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15640,7 +15641,7 @@ func (m *PollForWorkflowExecutionRawHistoryRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Domain)
+	l = len(m.Namespace)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
@@ -15686,7 +15687,7 @@ func sovRequestResponse(x uint64) (n int) {
 func sozRequestResponse(x uint64) (n int) {
 	return sovRequestResponse(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (this *RegisterDomainRequest) String() string {
+func (this *RegisterNamespaceRequest) String() string {
 	if this == nil {
 		return "nil"
 	}
@@ -15705,7 +15706,7 @@ func (this *RegisterDomainRequest) String() string {
 		mapStringForData += fmt.Sprintf("%v: %v,", k, this.Data[k])
 	}
 	mapStringForData += "}"
-	s := strings.Join([]string{`&RegisterDomainRequest{`,
+	s := strings.Join([]string{`&RegisterNamespaceRequest{`,
 		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
 		`Description:` + fmt.Sprintf("%v", this.Description) + `,`,
 		`OwnerEmail:` + fmt.Sprintf("%v", this.OwnerEmail) + `,`,
@@ -15715,7 +15716,7 @@ func (this *RegisterDomainRequest) String() string {
 		`ActiveClusterName:` + fmt.Sprintf("%v", this.ActiveClusterName) + `,`,
 		`Data:` + mapStringForData + `,`,
 		`SecurityToken:` + fmt.Sprintf("%v", this.SecurityToken) + `,`,
-		`IsGlobalDomain:` + fmt.Sprintf("%v", this.IsGlobalDomain) + `,`,
+		`IsGlobalNamespace:` + fmt.Sprintf("%v", this.IsGlobalNamespace) + `,`,
 		`HistoryArchivalStatus:` + fmt.Sprintf("%v", this.HistoryArchivalStatus) + `,`,
 		`HistoryArchivalURI:` + fmt.Sprintf("%v", this.HistoryArchivalURI) + `,`,
 		`VisibilityArchivalStatus:` + fmt.Sprintf("%v", this.VisibilityArchivalStatus) + `,`,
@@ -15724,112 +15725,112 @@ func (this *RegisterDomainRequest) String() string {
 	}, "")
 	return s
 }
-func (this *RegisterDomainResponse) String() string {
+func (this *RegisterNamespaceResponse) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&RegisterDomainResponse{`,
+	s := strings.Join([]string{`&RegisterNamespaceResponse{`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *ListDomainsRequest) String() string {
+func (this *ListNamespacesRequest) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&ListDomainsRequest{`,
+	s := strings.Join([]string{`&ListNamespacesRequest{`,
 		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *ListDomainsResponse) String() string {
+func (this *ListNamespacesResponse) String() string {
 	if this == nil {
 		return "nil"
 	}
-	repeatedStringForDomains := "[]*DescribeDomainResponse{"
-	for _, f := range this.Domains {
-		repeatedStringForDomains += strings.Replace(f.String(), "DescribeDomainResponse", "DescribeDomainResponse", 1) + ","
+	repeatedStringForNamespaces := "[]*DescribeNamespaceResponse{"
+	for _, f := range this.Namespaces {
+		repeatedStringForNamespaces += strings.Replace(f.String(), "DescribeNamespaceResponse", "DescribeNamespaceResponse", 1) + ","
 	}
-	repeatedStringForDomains += "}"
-	s := strings.Join([]string{`&ListDomainsResponse{`,
-		`Domains:` + repeatedStringForDomains + `,`,
+	repeatedStringForNamespaces += "}"
+	s := strings.Join([]string{`&ListNamespacesResponse{`,
+		`Namespaces:` + repeatedStringForNamespaces + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *DescribeDomainRequest) String() string {
+func (this *DescribeNamespaceRequest) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&DescribeDomainRequest{`,
+	s := strings.Join([]string{`&DescribeNamespaceRequest{`,
 		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
 		`Uuid:` + fmt.Sprintf("%v", this.Uuid) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *DescribeDomainResponse) String() string {
+func (this *DescribeNamespaceResponse) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&DescribeDomainResponse{`,
-		`DomainInfo:` + strings.Replace(fmt.Sprintf("%v", this.DomainInfo), "DomainInfo", "common.DomainInfo", 1) + `,`,
-		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "DomainConfiguration", "common.DomainConfiguration", 1) + `,`,
-		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "DomainReplicationConfiguration", "common.DomainReplicationConfiguration", 1) + `,`,
+	s := strings.Join([]string{`&DescribeNamespaceResponse{`,
+		`NamespaceInfo:` + strings.Replace(fmt.Sprintf("%v", this.NamespaceInfo), "NamespaceInfo", "common.NamespaceInfo", 1) + `,`,
+		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "NamespaceConfiguration", "common.NamespaceConfiguration", 1) + `,`,
+		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "NamespaceReplicationConfiguration", "common.NamespaceReplicationConfiguration", 1) + `,`,
 		`FailoverVersion:` + fmt.Sprintf("%v", this.FailoverVersion) + `,`,
-		`IsGlobalDomain:` + fmt.Sprintf("%v", this.IsGlobalDomain) + `,`,
+		`IsGlobalNamespace:` + fmt.Sprintf("%v", this.IsGlobalNamespace) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *UpdateDomainRequest) String() string {
+func (this *UpdateNamespaceRequest) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateDomainRequest{`,
+	s := strings.Join([]string{`&UpdateNamespaceRequest{`,
 		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
-		`UpdatedInfo:` + strings.Replace(fmt.Sprintf("%v", this.UpdatedInfo), "UpdateDomainInfo", "common.UpdateDomainInfo", 1) + `,`,
-		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "DomainConfiguration", "common.DomainConfiguration", 1) + `,`,
-		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "DomainReplicationConfiguration", "common.DomainReplicationConfiguration", 1) + `,`,
+		`UpdatedInfo:` + strings.Replace(fmt.Sprintf("%v", this.UpdatedInfo), "UpdateNamespaceInfo", "common.UpdateNamespaceInfo", 1) + `,`,
+		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "NamespaceConfiguration", "common.NamespaceConfiguration", 1) + `,`,
+		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "NamespaceReplicationConfiguration", "common.NamespaceReplicationConfiguration", 1) + `,`,
 		`SecurityToken:` + fmt.Sprintf("%v", this.SecurityToken) + `,`,
 		`DeleteBadBinary:` + fmt.Sprintf("%v", this.DeleteBadBinary) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *UpdateDomainResponse) String() string {
+func (this *UpdateNamespaceResponse) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateDomainResponse{`,
-		`DomainInfo:` + strings.Replace(fmt.Sprintf("%v", this.DomainInfo), "DomainInfo", "common.DomainInfo", 1) + `,`,
-		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "DomainConfiguration", "common.DomainConfiguration", 1) + `,`,
-		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "DomainReplicationConfiguration", "common.DomainReplicationConfiguration", 1) + `,`,
+	s := strings.Join([]string{`&UpdateNamespaceResponse{`,
+		`NamespaceInfo:` + strings.Replace(fmt.Sprintf("%v", this.NamespaceInfo), "NamespaceInfo", "common.NamespaceInfo", 1) + `,`,
+		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "NamespaceConfiguration", "common.NamespaceConfiguration", 1) + `,`,
+		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "NamespaceReplicationConfiguration", "common.NamespaceReplicationConfiguration", 1) + `,`,
 		`FailoverVersion:` + fmt.Sprintf("%v", this.FailoverVersion) + `,`,
-		`IsGlobalDomain:` + fmt.Sprintf("%v", this.IsGlobalDomain) + `,`,
+		`IsGlobalNamespace:` + fmt.Sprintf("%v", this.IsGlobalNamespace) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *DeprecateDomainRequest) String() string {
+func (this *DeprecateNamespaceRequest) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&DeprecateDomainRequest{`,
+	s := strings.Join([]string{`&DeprecateNamespaceRequest{`,
 		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
 		`SecurityToken:` + fmt.Sprintf("%v", this.SecurityToken) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *DeprecateDomainResponse) String() string {
+func (this *DeprecateNamespaceResponse) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&DeprecateDomainResponse{`,
+	s := strings.Join([]string{`&DeprecateNamespaceResponse{`,
 		`}`,
 	}, "")
 	return s
@@ -15839,7 +15840,7 @@ func (this *StartWorkflowExecutionRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&StartWorkflowExecutionRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
 		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
 		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "common.TaskList", 1) + `,`,
@@ -15873,7 +15874,7 @@ func (this *GetWorkflowExecutionHistoryRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&GetWorkflowExecutionHistoryRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
@@ -15900,7 +15901,7 @@ func (this *PollForDecisionTaskRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&PollForDecisionTaskRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "common.TaskList", 1) + `,`,
 		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
 		`BinaryChecksum:` + fmt.Sprintf("%v", this.BinaryChecksum) + `,`,
@@ -16012,7 +16013,7 @@ func (this *PollForActivityTaskRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&PollForActivityTaskRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "common.TaskList", 1) + `,`,
 		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
 		`TaskListMetadata:` + strings.Replace(fmt.Sprintf("%v", this.TaskListMetadata), "TaskListMetadata", "common.TaskListMetadata", 1) + `,`,
@@ -16039,7 +16040,7 @@ func (this *PollForActivityTaskResponse) String() string {
 		`ScheduledTimestampOfThisAttempt:` + fmt.Sprintf("%v", this.ScheduledTimestampOfThisAttempt) + `,`,
 		`HeartbeatDetails:` + fmt.Sprintf("%v", this.HeartbeatDetails) + `,`,
 		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
-		`WorkflowDomain:` + fmt.Sprintf("%v", this.WorkflowDomain) + `,`,
+		`WorkflowNamespace:` + fmt.Sprintf("%v", this.WorkflowNamespace) + `,`,
 		`Header:` + strings.Replace(fmt.Sprintf("%v", this.Header), "Header", "common.Header", 1) + `,`,
 		`}`,
 	}, "")
@@ -16072,7 +16073,7 @@ func (this *RecordActivityTaskHeartbeatByIDRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&RecordActivityTaskHeartbeatByIDRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowID:` + fmt.Sprintf("%v", this.WorkflowID) + `,`,
 		`RunID:` + fmt.Sprintf("%v", this.RunID) + `,`,
 		`ActivityID:` + fmt.Sprintf("%v", this.ActivityID) + `,`,
@@ -16118,7 +16119,7 @@ func (this *RespondActivityTaskCompletedByIDRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&RespondActivityTaskCompletedByIDRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowID:` + fmt.Sprintf("%v", this.WorkflowID) + `,`,
 		`RunID:` + fmt.Sprintf("%v", this.RunID) + `,`,
 		`ActivityID:` + fmt.Sprintf("%v", this.ActivityID) + `,`,
@@ -16164,7 +16165,7 @@ func (this *RespondActivityTaskFailedByIDRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&RespondActivityTaskFailedByIDRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowID:` + fmt.Sprintf("%v", this.WorkflowID) + `,`,
 		`RunID:` + fmt.Sprintf("%v", this.RunID) + `,`,
 		`ActivityID:` + fmt.Sprintf("%v", this.ActivityID) + `,`,
@@ -16210,7 +16211,7 @@ func (this *RespondActivityTaskCanceledByIDRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&RespondActivityTaskCanceledByIDRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowID:` + fmt.Sprintf("%v", this.WorkflowID) + `,`,
 		`RunID:` + fmt.Sprintf("%v", this.RunID) + `,`,
 		`ActivityID:` + fmt.Sprintf("%v", this.ActivityID) + `,`,
@@ -16234,7 +16235,7 @@ func (this *RequestCancelWorkflowExecutionRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&RequestCancelWorkflowExecutionRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
 		`RequestId:` + fmt.Sprintf("%v", this.RequestId) + `,`,
@@ -16256,7 +16257,7 @@ func (this *SignalWorkflowExecutionRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&SignalWorkflowExecutionRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`SignalName:` + fmt.Sprintf("%v", this.SignalName) + `,`,
 		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
@@ -16281,7 +16282,7 @@ func (this *SignalWithStartWorkflowExecutionRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&SignalWithStartWorkflowExecutionRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
 		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
 		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "common.TaskList", 1) + `,`,
@@ -16318,7 +16319,7 @@ func (this *ResetWorkflowExecutionRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ResetWorkflowExecutionRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`Reason:` + fmt.Sprintf("%v", this.Reason) + `,`,
 		`DecisionFinishEventId:` + fmt.Sprintf("%v", this.DecisionFinishEventId) + `,`,
@@ -16342,7 +16343,7 @@ func (this *TerminateWorkflowExecutionRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&TerminateWorkflowExecutionRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`Reason:` + fmt.Sprintf("%v", this.Reason) + `,`,
 		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
@@ -16365,7 +16366,7 @@ func (this *ListOpenWorkflowExecutionsRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ListOpenWorkflowExecutionsRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
 		`StartTimeFilter:` + strings.Replace(fmt.Sprintf("%v", this.StartTimeFilter), "StartTimeFilter", "common.StartTimeFilter", 1) + `,`,
@@ -16415,7 +16416,7 @@ func (this *ListClosedWorkflowExecutionsRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ListClosedWorkflowExecutionsRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
 		`StartTimeFilter:` + strings.Replace(fmt.Sprintf("%v", this.StartTimeFilter), "StartTimeFilter", "common.StartTimeFilter", 1) + `,`,
@@ -16475,7 +16476,7 @@ func (this *ListWorkflowExecutionsRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ListWorkflowExecutionsRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
 		`Query:` + fmt.Sprintf("%v", this.Query) + `,`,
@@ -16504,7 +16505,7 @@ func (this *ListArchivedWorkflowExecutionsRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ListArchivedWorkflowExecutionsRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
 		`Query:` + fmt.Sprintf("%v", this.Query) + `,`,
@@ -16533,7 +16534,7 @@ func (this *ScanWorkflowExecutionsRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ScanWorkflowExecutionsRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
 		`Query:` + fmt.Sprintf("%v", this.Query) + `,`,
@@ -16562,7 +16563,7 @@ func (this *CountWorkflowExecutionsRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&CountWorkflowExecutionsRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`Query:` + fmt.Sprintf("%v", this.Query) + `,`,
 		`}`,
 	}, "")
@@ -16635,7 +16636,7 @@ func (this *ResetStickyTaskListRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ResetStickyTaskListRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`}`,
 	}, "")
@@ -16655,7 +16656,7 @@ func (this *QueryWorkflowRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&QueryWorkflowRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`Query:` + strings.Replace(fmt.Sprintf("%v", this.Query), "WorkflowQuery", "common.WorkflowQuery", 1) + `,`,
 		`QueryRejectCondition:` + fmt.Sprintf("%v", this.QueryRejectCondition) + `,`,
@@ -16680,7 +16681,7 @@ func (this *GetWorkflowExecutionRawHistoryRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&GetWorkflowExecutionRawHistoryRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
@@ -16709,7 +16710,7 @@ func (this *DescribeWorkflowExecutionRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&DescribeWorkflowExecutionRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`}`,
 	}, "")
@@ -16743,7 +16744,7 @@ func (this *DescribeTaskListRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&DescribeTaskListRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "common.TaskList", 1) + `,`,
 		`TaskListType:` + fmt.Sprintf("%v", this.TaskListType) + `,`,
 		`IncludeTaskListStatus:` + fmt.Sprintf("%v", this.IncludeTaskListStatus) + `,`,
@@ -16791,7 +16792,7 @@ func (this *ListTaskListPartitionsRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ListTaskListPartitionsRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "common.TaskList", 1) + `,`,
 		`}`,
 	}, "")
@@ -16823,7 +16824,7 @@ func (this *PollForWorkflowExecutionRawHistoryRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&PollForWorkflowExecutionRawHistoryRequest{`,
-		`Domain:` + fmt.Sprintf("%v", this.Domain) + `,`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
 		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
 		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
@@ -16856,7 +16857,7 @@ func valueToStringRequestResponse(v interface{}) string {
 	pv := reflect.Indirect(rv).Interface()
 	return fmt.Sprintf("*%v", pv)
 }
-func (m *RegisterDomainRequest) Unmarshal(dAtA []byte) error {
+func (m *RegisterNamespaceRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -16879,10 +16880,10 @@ func (m *RegisterDomainRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: RegisterDomainRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: RegisterNamespaceRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: RegisterDomainRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: RegisterNamespaceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -17247,7 +17248,7 @@ func (m *RegisterDomainRequest) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 10:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IsGlobalDomain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field IsGlobalNamespace", wireType)
 			}
 			var v int
 			for shift := uint(0); ; shift += 7 {
@@ -17264,7 +17265,7 @@ func (m *RegisterDomainRequest) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-			m.IsGlobalDomain = bool(v != 0)
+			m.IsGlobalNamespace = bool(v != 0)
 		case 11:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field HistoryArchivalStatus", wireType)
@@ -17391,7 +17392,7 @@ func (m *RegisterDomainRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *RegisterDomainResponse) Unmarshal(dAtA []byte) error {
+func (m *RegisterNamespaceResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -17414,10 +17415,10 @@ func (m *RegisterDomainResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: RegisterDomainResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: RegisterNamespaceResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: RegisterDomainResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: RegisterNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -17444,7 +17445,7 @@ func (m *RegisterDomainResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ListDomainsRequest) Unmarshal(dAtA []byte) error {
+func (m *ListNamespacesRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -17467,10 +17468,10 @@ func (m *ListDomainsRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ListDomainsRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: ListNamespacesRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ListDomainsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ListNamespacesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -17550,7 +17551,7 @@ func (m *ListDomainsRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ListDomainsResponse) Unmarshal(dAtA []byte) error {
+func (m *ListNamespacesResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -17573,15 +17574,15 @@ func (m *ListDomainsResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ListDomainsResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: ListNamespacesResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ListDomainsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ListNamespacesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domains", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespaces", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -17608,8 +17609,8 @@ func (m *ListDomainsResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domains = append(m.Domains, &DescribeDomainResponse{})
-			if err := m.Domains[len(m.Domains)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Namespaces = append(m.Namespaces, &DescribeNamespaceResponse{})
+			if err := m.Namespaces[len(m.Namespaces)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -17671,7 +17672,7 @@ func (m *ListDomainsResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DescribeDomainRequest) Unmarshal(dAtA []byte) error {
+func (m *DescribeNamespaceRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -17694,10 +17695,10 @@ func (m *DescribeDomainRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: DescribeDomainRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: DescribeNamespaceRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DescribeDomainRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: DescribeNamespaceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -17788,7 +17789,7 @@ func (m *DescribeDomainRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DescribeDomainResponse) Unmarshal(dAtA []byte) error {
+func (m *DescribeNamespaceResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -17811,15 +17812,15 @@ func (m *DescribeDomainResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: DescribeDomainResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: DescribeNamespaceResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DescribeDomainResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: DescribeNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DomainInfo", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NamespaceInfo", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -17846,10 +17847,10 @@ func (m *DescribeDomainResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.DomainInfo == nil {
-				m.DomainInfo = &common.DomainInfo{}
+			if m.NamespaceInfo == nil {
+				m.NamespaceInfo = &common.NamespaceInfo{}
 			}
-			if err := m.DomainInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.NamespaceInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -17883,7 +17884,7 @@ func (m *DescribeDomainResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Configuration == nil {
-				m.Configuration = &common.DomainConfiguration{}
+				m.Configuration = &common.NamespaceConfiguration{}
 			}
 			if err := m.Configuration.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -17919,7 +17920,7 @@ func (m *DescribeDomainResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.ReplicationConfiguration == nil {
-				m.ReplicationConfiguration = &common.DomainReplicationConfiguration{}
+				m.ReplicationConfiguration = &common.NamespaceReplicationConfiguration{}
 			}
 			if err := m.ReplicationConfiguration.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -17946,7 +17947,7 @@ func (m *DescribeDomainResponse) Unmarshal(dAtA []byte) error {
 			}
 		case 5:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IsGlobalDomain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field IsGlobalNamespace", wireType)
 			}
 			var v int
 			for shift := uint(0); ; shift += 7 {
@@ -17963,7 +17964,7 @@ func (m *DescribeDomainResponse) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-			m.IsGlobalDomain = bool(v != 0)
+			m.IsGlobalNamespace = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipRequestResponse(dAtA[iNdEx:])
@@ -17988,7 +17989,7 @@ func (m *DescribeDomainResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *UpdateDomainRequest) Unmarshal(dAtA []byte) error {
+func (m *UpdateNamespaceRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -18011,10 +18012,10 @@ func (m *UpdateDomainRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: UpdateDomainRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: UpdateNamespaceRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: UpdateDomainRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: UpdateNamespaceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -18079,7 +18080,7 @@ func (m *UpdateDomainRequest) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.UpdatedInfo == nil {
-				m.UpdatedInfo = &common.UpdateDomainInfo{}
+				m.UpdatedInfo = &common.UpdateNamespaceInfo{}
 			}
 			if err := m.UpdatedInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -18115,7 +18116,7 @@ func (m *UpdateDomainRequest) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Configuration == nil {
-				m.Configuration = &common.DomainConfiguration{}
+				m.Configuration = &common.NamespaceConfiguration{}
 			}
 			if err := m.Configuration.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -18151,7 +18152,7 @@ func (m *UpdateDomainRequest) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.ReplicationConfiguration == nil {
-				m.ReplicationConfiguration = &common.DomainReplicationConfiguration{}
+				m.ReplicationConfiguration = &common.NamespaceReplicationConfiguration{}
 			}
 			if err := m.ReplicationConfiguration.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -18245,7 +18246,7 @@ func (m *UpdateDomainRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *UpdateDomainResponse) Unmarshal(dAtA []byte) error {
+func (m *UpdateNamespaceResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -18268,15 +18269,15 @@ func (m *UpdateDomainResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: UpdateDomainResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: UpdateNamespaceResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: UpdateDomainResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: UpdateNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DomainInfo", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field NamespaceInfo", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -18303,10 +18304,10 @@ func (m *UpdateDomainResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.DomainInfo == nil {
-				m.DomainInfo = &common.DomainInfo{}
+			if m.NamespaceInfo == nil {
+				m.NamespaceInfo = &common.NamespaceInfo{}
 			}
-			if err := m.DomainInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.NamespaceInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -18340,7 +18341,7 @@ func (m *UpdateDomainResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Configuration == nil {
-				m.Configuration = &common.DomainConfiguration{}
+				m.Configuration = &common.NamespaceConfiguration{}
 			}
 			if err := m.Configuration.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -18376,7 +18377,7 @@ func (m *UpdateDomainResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.ReplicationConfiguration == nil {
-				m.ReplicationConfiguration = &common.DomainReplicationConfiguration{}
+				m.ReplicationConfiguration = &common.NamespaceReplicationConfiguration{}
 			}
 			if err := m.ReplicationConfiguration.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -18403,7 +18404,7 @@ func (m *UpdateDomainResponse) Unmarshal(dAtA []byte) error {
 			}
 		case 5:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IsGlobalDomain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field IsGlobalNamespace", wireType)
 			}
 			var v int
 			for shift := uint(0); ; shift += 7 {
@@ -18420,7 +18421,7 @@ func (m *UpdateDomainResponse) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-			m.IsGlobalDomain = bool(v != 0)
+			m.IsGlobalNamespace = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipRequestResponse(dAtA[iNdEx:])
@@ -18445,7 +18446,7 @@ func (m *UpdateDomainResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DeprecateDomainRequest) Unmarshal(dAtA []byte) error {
+func (m *DeprecateNamespaceRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -18468,10 +18469,10 @@ func (m *DeprecateDomainRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: DeprecateDomainRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: DeprecateNamespaceRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DeprecateDomainRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: DeprecateNamespaceRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -18562,7 +18563,7 @@ func (m *DeprecateDomainRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DeprecateDomainResponse) Unmarshal(dAtA []byte) error {
+func (m *DeprecateNamespaceResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -18585,10 +18586,10 @@ func (m *DeprecateDomainResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: DeprecateDomainResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: DeprecateNamespaceResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DeprecateDomainResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: DeprecateNamespaceResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -18646,7 +18647,7 @@ func (m *StartWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -18674,7 +18675,7 @@ func (m *StartWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -19251,7 +19252,7 @@ func (m *GetWorkflowExecutionHistoryRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -19279,7 +19280,7 @@ func (m *GetWorkflowExecutionHistoryRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -19607,7 +19608,7 @@ func (m *PollForDecisionTaskRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -19635,7 +19636,7 @@ func (m *PollForDecisionTaskRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -21106,7 +21107,7 @@ func (m *PollForActivityTaskRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -21134,7 +21135,7 @@ func (m *PollForActivityTaskRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -21670,7 +21671,7 @@ func (m *PollForActivityTaskResponse) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 15:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowDomain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowNamespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -21698,7 +21699,7 @@ func (m *PollForActivityTaskResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.WorkflowDomain = string(dAtA[iNdEx:postIndex])
+			m.WorkflowNamespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 16:
 			if wireType != 2 {
@@ -22017,7 +22018,7 @@ func (m *RecordActivityTaskHeartbeatByIDRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -22045,7 +22046,7 @@ func (m *RecordActivityTaskHeartbeatByIDRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -22543,7 +22544,7 @@ func (m *RespondActivityTaskCompletedByIDRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -22571,7 +22572,7 @@ func (m *RespondActivityTaskCompletedByIDRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -23081,7 +23082,7 @@ func (m *RespondActivityTaskFailedByIDRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -23109,7 +23110,7 @@ func (m *RespondActivityTaskFailedByIDRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -23619,7 +23620,7 @@ func (m *RespondActivityTaskCanceledByIDRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -23647,7 +23648,7 @@ func (m *RespondActivityTaskCanceledByIDRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -23919,7 +23920,7 @@ func (m *RequestCancelWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -23947,7 +23948,7 @@ func (m *RequestCancelWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -24157,7 +24158,7 @@ func (m *SignalWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -24185,7 +24186,7 @@ func (m *SignalWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -24495,7 +24496,7 @@ func (m *SignalWithStartWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -24523,7 +24524,7 @@ func (m *SignalWithStartWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -25200,7 +25201,7 @@ func (m *ResetWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -25228,7 +25229,7 @@ func (m *ResetWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -25489,7 +25490,7 @@ func (m *TerminateWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -25517,7 +25518,7 @@ func (m *TerminateWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -25761,7 +25762,7 @@ func (m *ListOpenWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -25789,7 +25790,7 @@ func (m *ListOpenWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
@@ -26126,7 +26127,7 @@ func (m *ListClosedWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -26154,7 +26155,7 @@ func (m *ListClosedWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
@@ -26526,7 +26527,7 @@ func (m *ListWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -26554,7 +26555,7 @@ func (m *ListWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
@@ -26817,7 +26818,7 @@ func (m *ListArchivedWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -26845,7 +26846,7 @@ func (m *ListArchivedWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
@@ -27108,7 +27109,7 @@ func (m *ScanWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -27136,7 +27137,7 @@ func (m *ScanWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {
@@ -27399,7 +27400,7 @@ func (m *CountWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -27427,7 +27428,7 @@ func (m *CountWorkflowExecutionsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -28068,7 +28069,7 @@ func (m *ResetStickyTaskListRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -28096,7 +28097,7 @@ func (m *ResetStickyTaskListRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -28242,7 +28243,7 @@ func (m *QueryWorkflowRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -28270,7 +28271,7 @@ func (m *QueryWorkflowRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -28560,7 +28561,7 @@ func (m *GetWorkflowExecutionRawHistoryRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -28588,7 +28589,7 @@ func (m *GetWorkflowExecutionRawHistoryRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -28855,7 +28856,7 @@ func (m *DescribeWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -28883,7 +28884,7 @@ func (m *DescribeWorkflowExecutionRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -29169,7 +29170,7 @@ func (m *DescribeTaskListRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -29197,7 +29198,7 @@ func (m *DescribeTaskListRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -29594,7 +29595,7 @@ func (m *ListTaskListPartitionsRequest) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -29622,7 +29623,7 @@ func (m *ListTaskListPartitionsRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -29836,7 +29837,7 @@ func (m *PollForWorkflowExecutionRawHistoryRequest) Unmarshal(dAtA []byte) error
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Domain", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -29864,7 +29865,7 @@ func (m *PollForWorkflowExecutionRawHistoryRequest) Unmarshal(dAtA []byte) error
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Domain = string(dAtA[iNdEx:postIndex])
+			m.Namespace = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {

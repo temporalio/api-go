@@ -23,8 +23,6 @@
 package serviceerror
 
 import (
-	"fmt"
-
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
@@ -32,58 +30,40 @@ import (
 )
 
 type (
-	// DomainNotActive represents domain not active error.
-	DomainNotActive struct {
+	// NamespaceAlreadyExists represents namespace already exists error.
+	NamespaceAlreadyExists struct {
 		Message        string
-		DomainName     string
-		CurrentCluster string
-		ActiveCluster  string
 		st             *status.Status
 	}
 )
 
-// NewDomainNotActive returns new DomainNotActive error.
-func NewDomainNotActive(domainName, currentCluster, activeCluster string) *DomainNotActive {
-	return &DomainNotActive{
-		Message:        fmt.Sprintf(
-			"Domain: %s is active in cluster: %s, while current cluster %s is a standby cluster.",
-			domainName,
-			activeCluster,
-			currentCluster,
-		),
-		DomainName:     domainName,
-		CurrentCluster: currentCluster,
-		ActiveCluster:  activeCluster,
+// NewNamespaceAlreadyExists returns new NamespaceAlreadyExists error.
+func NewNamespaceAlreadyExists(message string) *NamespaceAlreadyExists {
+	return &NamespaceAlreadyExists{
+		Message:        message,
 	}
 }
 
 // Error returns string message.
-func (e *DomainNotActive) Error() string {
+func (e *NamespaceAlreadyExists) Error() string {
 	return e.Message
 }
 
-func (e *DomainNotActive) status() *status.Status {
+func (e *NamespaceAlreadyExists) status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.FailedPrecondition, e.Message)
+	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
-		&failure.DomainNotActive{
-			DomainName:     e.DomainName,
-			CurrentCluster: e.CurrentCluster,
-			ActiveCluster:  e.ActiveCluster,
-		},
+		&failure.NamespaceAlreadyExists{},
 	)
 	return st
 }
 
-func newDomainNotActive(st *status.Status, failure *failure.DomainNotActive) *DomainNotActive {
-	return &DomainNotActive{
-		Message:        st.Message(),
-		DomainName:     failure.DomainName,
-		CurrentCluster: failure.CurrentCluster,
-		ActiveCluster:  failure.ActiveCluster,
-		st:             st,
+func newNamespaceAlreadyExists(st *status.Status) *NamespaceAlreadyExists {
+	return &NamespaceAlreadyExists{
+		Message: st.Message(),
+		st:      st,
 	}
 }

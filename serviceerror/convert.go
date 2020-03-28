@@ -103,8 +103,8 @@ func FromStatus(st *status.Status) error {
 		}
 	case codes.AlreadyExists:
 		switch f := f.(type) {
-		case *failure.DomainAlreadyExists:
-			return newDomainAlreadyExists(st)
+		case *failure.NamespaceAlreadyExists:
+			return newNamespaceAlreadyExists(st)
 		case *failure.WorkflowExecutionAlreadyStarted:
 			return newWorkflowExecutionAlreadyStarted(st, f)
 		case *failure.CancellationAlreadyRequested:
@@ -114,8 +114,8 @@ func FromStatus(st *status.Status) error {
 		}
 	case codes.FailedPrecondition:
 		switch f := f.(type) {
-		case *failure.DomainNotActive:
-			return newDomainNotActive(st, f)
+		case *failure.NamespaceNotActive:
+			return newNamespaceNotActive(st, f)
 		case *failure.ClientVersionNotSupported:
 			return newClientVersionNotSupported(st, f)
 		case *failure.FeatureVersionNotSupported:

@@ -33,7 +33,7 @@ type (
 	// RetryTask represents retry task error.
 	RetryTask struct {
 		Message     string
-		DomainId    string
+		NamespaceId    string
 		WorkflowId  string
 		RunId       string
 		NextEventId int64
@@ -42,10 +42,10 @@ type (
 )
 
 // NewRetryTask returns new RetryTask error.
-func NewRetryTask(message, domainId, workflowId, runId string, nextEventId int64) *RetryTask {
+func NewRetryTask(message, namespaceId, workflowId, runId string, nextEventId int64) *RetryTask {
 	return &RetryTask{
 		Message:     message,
-		DomainId:    domainId,
+		NamespaceId:    namespaceId,
 		WorkflowId:  workflowId,
 		RunId:       runId,
 		NextEventId: nextEventId,
@@ -65,7 +65,7 @@ func (e *RetryTask) status() *status.Status {
 	st := status.New(codes.Aborted, e.Message)
 	st, _ = st.WithDetails(
 		&failure.RetryTask{
-			DomainId:    e.DomainId,
+			NamespaceId:    e.NamespaceId,
 			WorkflowId:  e.WorkflowId,
 			RunId:       e.RunId,
 			NextEventId: e.NextEventId,
@@ -77,7 +77,7 @@ func (e *RetryTask) status() *status.Status {
 func newRetryTask(st *status.Status, failure *failure.RetryTask) *RetryTask {
 	return &RetryTask{
 		Message:     st.Message(),
-		DomainId:    failure.DomainId,
+		NamespaceId:    failure.NamespaceId,
 		WorkflowId:  failure.WorkflowId,
 		RunId:       failure.RunId,
 		NextEventId: failure.NextEventId,

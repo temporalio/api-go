@@ -49,72 +49,72 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 func init() { proto.RegisterFile("workflowservice/service.proto", fileDescriptor_6d5ecb190c8dcb99) }
 
 var fileDescriptor_6d5ecb190c8dcb99 = []byte{
-	// 1032 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x98, 0xcf, 0x6f, 0xdc, 0x44,
-	0x14, 0xc7, 0x77, 0x2e, 0x1c, 0x86, 0x1f, 0x41, 0x46, 0x02, 0x11, 0xa8, 0x81, 0x02, 0x21, 0x08,
-	0xba, 0x4b, 0x93, 0x34, 0x0d, 0x70, 0x4a, 0xb3, 0x34, 0xad, 0x84, 0x44, 0xd8, 0x2d, 0x42, 0xaa,
-	0x84, 0xc0, 0xf1, 0xbe, 0x24, 0xa3, 0x6c, 0x3c, 0xcb, 0x78, 0x36, 0x21, 0x42, 0x42, 0x1c, 0x90,
-	0x40, 0x48, 0x48, 0x95, 0x90, 0x90, 0x38, 0x71, 0xe5, 0x4f, 0xe1, 0x98, 0x63, 0xb9, 0x91, 0xcd,
-	0x85, 0x63, 0xff, 0x84, 0x6a, 0xd7, 0x3b, 0x53, 0xdb, 0xf3, 0xde, 0xd8, 0xce, 0xa9, 0xcd, 0xfa,
-	0xf3, 0x7d, 0xef, 0xeb, 0x99, 0x79, 0xe3, 0x37, 0xc3, 0xaf, 0x9c, 0x48, 0x75, 0xb8, 0x37, 0x94,
-	0x27, 0x29, 0xa8, 0x63, 0x11, 0x43, 0x67, 0xfe, 0x6f, 0x7b, 0xa4, 0xa4, 0x96, 0xc1, 0x42, 0xe9,
-	0xf1, 0xe2, 0x52, 0x99, 0x57, 0xf0, 0xed, 0x18, 0x52, 0xfd, 0xb5, 0x82, 0x74, 0x24, 0x93, 0x74,
-	0x2e, 0x5c, 0xf9, 0x77, 0x99, 0x2f, 0x7c, 0x39, 0x47, 0xfb, 0x19, 0x1a, 0xc4, 0xfc, 0xb9, 0x1e,
-	0xec, 0x8b, 0x54, 0x83, 0xea, 0xca, 0xa3, 0x48, 0x24, 0xc1, 0x52, 0xbb, 0x14, 0xae, 0x5d, 0x04,
-	0x7a, 0x59, 0xf0, 0xc5, 0x77, 0x2a, 0xb9, 0x2c, 0xf9, 0xd5, 0xd6, 0x34, 0x49, 0x17, 0xd2, 0x58,
-	0x89, 0x5d, 0x20, 0x93, 0x14, 0x01, 0x3a, 0x49, 0x99, 0xb3, 0x49, 0xee, 0xf3, 0xa7, 0x3f, 0x15,
-	0xa9, 0xce, 0x7e, 0x4f, 0x83, 0x37, 0x1d, 0x65, 0xee, 0xa9, 0x09, 0xff, 0x96, 0x1f, 0xb2, 0xb1,
-	0xbf, 0xe2, 0xcf, 0x7c, 0x31, 0x1a, 0x44, 0xda, 0xd8, 0x77, 0x75, 0xf9, 0xc7, 0x26, 0xfa, 0xdb,
-	0x15, 0x94, 0x0d, 0xbf, 0xc7, 0x17, 0xba, 0x30, 0x52, 0x10, 0x3f, 0xc9, 0x80, 0xbd, 0x78, 0x81,
-	0x30, 0x49, 0x96, 0xab, 0x41, 0x9b, 0xe7, 0x7b, 0xfe, 0x62, 0x5f, 0x47, 0x4a, 0x9b, 0x45, 0xf0,
-	0xc9, 0x77, 0x10, 0x8f, 0xb5, 0x90, 0x49, 0xd0, 0x76, 0xa2, 0xe0, 0xa0, 0xc9, 0xda, 0xa9, 0xcd,
-	0xdb, 0xe4, 0xbf, 0x32, 0xfe, 0xca, 0x36, 0xb8, 0xc8, 0x1d, 0x91, 0x6a, 0xa9, 0x4e, 0x83, 0x55,
-	0x27, 0xa4, 0x87, 0x36, 0x3e, 0xd6, 0x9a, 0x89, 0xac, 0x19, 0xc5, 0x5f, 0xd8, 0x91, 0xc3, 0xe1,
-	0x6d, 0xa9, 0xba, 0x10, 0x8b, 0x54, 0xc8, 0xe4, 0x5e, 0x94, 0x1e, 0x06, 0xef, 0x39, 0xe1, 0x10,
-	0xca, 0xe4, 0x7e, 0xbf, 0x1e, 0x6c, 0x73, 0xfe, 0xc6, 0xf8, 0xab, 0xd9, 0x9f, 0x83, 0x3c, 0xb1,
-	0x25, 0x8f, 0x46, 0x43, 0xd0, 0x30, 0x08, 0xd6, 0x90, 0x8a, 0xa2, 0x71, 0x63, 0xe3, 0x46, 0x43,
-	0x95, 0xf5, 0xf3, 0x13, 0xe3, 0x2f, 0x23, 0xe8, 0xed, 0x48, 0x0c, 0x61, 0x10, 0x5c, 0xaf, 0x13,
-	0x36, 0x63, 0x8d, 0x93, 0x95, 0x26, 0x12, 0x64, 0x2a, 0x36, 0x63, 0x2d, 0x8e, 0x85, 0x3e, 0xf5,
-	0x4f, 0x45, 0x9e, 0xaa, 0x9c, 0x8a, 0x22, 0x5c, 0x58, 0x8b, 0x3d, 0x88, 0xa5, 0x1a, 0xe4, 0x81,
-	0x3b, 0x10, 0x29, 0xbd, 0x0b, 0x91, 0x46, 0xd6, 0xa2, 0x87, 0xa6, 0xd7, 0xa2, 0x57, 0x64, 0xcd,
-	0xfc, 0xc1, 0xf8, 0x6b, 0x1e, 0xf2, 0xd6, 0xe9, 0xdd, 0x6e, 0x70, 0xb3, 0x49, 0xec, 0xa9, 0xc2,
-	0x98, 0xda, 0x68, 0x2e, 0xc4, 0x16, 0x6c, 0x1e, 0xaf, 0xb1, 0x60, 0x51, 0xbc, 0x72, 0xc1, 0x12,
-	0x2a, 0xeb, 0xe7, 0x4f, 0xc6, 0x5f, 0xf7, 0xa1, 0xb3, 0x91, 0xda, 0x68, 0x14, 0x3d, 0x3f, 0x54,
-	0x1f, 0x5e, 0x42, 0x89, 0x15, 0x53, 0x1e, 0xaf, 0x2a, 0x26, 0x97, 0xad, 0x2c, 0x26, 0x4c, 0x62,
-	0x6d, 0x3c, 0x60, 0xfc, 0x0a, 0xc9, 0xcd, 0xc6, 0xe7, 0x46, 0xfd, 0xb8, 0xf9, 0xc1, 0x59, 0x6f,
-	0x2a, 0x2b, 0xd5, 0x9a, 0x3b, 0x90, 0x51, 0x12, 0xc3, 0x74, 0x6c, 0x56, 0x6b, 0x0d, 0xfb, 0x9c,
-	0xf6, 0xd5, 0x9a, 0x47, 0x54, 0xaa, 0x35, 0x92, 0x24, 0x6b, 0xcd, 0xab, 0xf0, 0xd5, 0x5a, 0x85,
-	0xd0, 0x1a, 0xfb, 0x9d, 0xf1, 0x70, 0x1e, 0x27, 0x23, 0xdc, 0x6f, 0x34, 0x36, 0x05, 0x3e, 0x81,
-	0xb1, 0x75, 0xb3, 0xb1, 0xce, 0xba, 0xfa, 0x81, 0xbf, 0xd4, 0x17, 0xfb, 0x49, 0x84, 0xb8, 0x41,
-	0x3a, 0x00, 0x9c, 0x34, 0x36, 0x3e, 0xa8, 0x2f, 0x28, 0x54, 0xfc, 0x9c, 0x12, 0xfa, 0x80, 0xe8,
-	0x5d, 0x36, 0xa8, 0xc0, 0xa4, 0x84, 0xae, 0xf8, 0x6a, 0x65, 0xbe, 0x99, 0xea, 0x41, 0x0a, 0xb5,
-	0x9a, 0x29, 0x1c, 0xa4, 0x9b, 0x29, 0x8a, 0xb7, 0xc9, 0x7f, 0x66, 0x7c, 0xf1, 0x1e, 0xa8, 0x23,
-	0x91, 0x44, 0x1a, 0x5c, 0x07, 0xee, 0xe6, 0x41, 0xc3, 0xc6, 0xc5, 0x6a, 0x23, 0x4d, 0xc1, 0xc9,
-	0xb4, 0x69, 0xfe, 0x6c, 0x04, 0x89, 0xc3, 0xa5, 0x88, 0x13, 0x1a, 0xa6, 0x9d, 0xf8, 0x34, 0x85,
-	0xcf, 0xd5, 0x14, 0xdc, 0x1a, 0xca, 0x14, 0x06, 0x88, 0x97, 0x35, 0x34, 0x2e, 0x85, 0xd3, 0x9f,
-	0x2b, 0xbf, 0x2a, 0xbf, 0x40, 0xa6, 0x24, 0x62, 0xa4, 0x8d, 0x86, 0xa4, 0x2d, 0x74, 0x6a, 0xf3,
-	0x85, 0xfd, 0x64, 0x0a, 0x6d, 0xaa, 0xf8, 0x40, 0x1c, 0xa3, 0xc3, 0xb1, 0x8e, 0x46, 0xa5, 0x05,
-	0xf4, 0x7e, 0x52, 0xa5, 0x2b, 0x1c, 0x40, 0xe2, 0x28, 0xa9, 0x35, 0x24, 0x38, 0xe8, 0x39, 0x80,
-	0x10, 0x7c, 0x7e, 0x33, 0xdb, 0x92, 0xe3, 0x04, 0x9b, 0x10, 0x37, 0x1a, 0x41, 0xd2, 0x9b, 0x19,
-	0x29, 0xc8, 0x37, 0xba, 0xdb, 0xa0, 0xfb, 0x10, 0xa9, 0xf8, 0x60, 0x53, 0x6b, 0x25, 0x76, 0xc7,
-	0x1a, 0x52, 0xa4, 0xd1, 0x45, 0x28, 0xba, 0xd1, 0x45, 0x61, 0xac, 0x2d, 0xf9, 0x7c, 0x0c, 0xaa,
-	0xd4, 0xbf, 0x91, 0x6d, 0x89, 0xcb, 0x56, 0xb6, 0x25, 0x98, 0x24, 0xff, 0xea, 0xb3, 0x2d, 0xad,
-	0xaf, 0x45, 0x7c, 0x38, 0xa3, 0xa6, 0x4b, 0x06, 0x79, 0x75, 0x84, 0xa2, 0x5f, 0x1d, 0x85, 0x6d,
-	0xce, 0x6f, 0xf8, 0xb3, 0x33, 0x4f, 0x66, 0x4e, 0x02, 0xf7, 0x38, 0x5e, 0x78, 0x6e, 0xf2, 0x2c,
-	0x55, 0x61, 0x85, 0x1a, 0xc3, 0x8e, 0x9b, 0xbd, 0xe8, 0xc4, 0x1c, 0x6a, 0xd7, 0x6b, 0x9d, 0x4f,
-	0x9f, 0x08, 0xe8, 0x1a, 0xab, 0xd2, 0x15, 0xa6, 0xdc, 0x5c, 0x92, 0xb8, 0x5f, 0x86, 0xeb, 0xe4,
-	0x85, 0x0a, 0xf9, 0x61, 0x58, 0x69, 0x22, 0xb1, 0x36, 0x04, 0x7f, 0xde, 0x60, 0x76, 0xbe, 0x97,
-	0xc9, 0x48, 0xe5, 0xc9, 0x7e, 0xb7, 0x06, 0x99, 0xbf, 0x5e, 0xda, 0x06, 0xbd, 0x35, 0x1c, 0xa7,
-	0x1a, 0xd4, 0xdd, 0x64, 0x4f, 0x22, 0xd7, 0x4b, 0x45, 0x80, 0xbe, 0x5e, 0x2a, 0x73, 0xe5, 0xdd,
-	0xdc, 0xa4, 0xdf, 0x89, 0x94, 0x16, 0xbe, 0xdd, 0xdc, 0x05, 0xfd, 0xbb, 0x39, 0xc6, 0xdb, 0xe4,
-	0x7f, 0x31, 0x7e, 0x75, 0x7e, 0xa2, 0xf5, 0xad, 0xb6, 0x8f, 0xa8, 0x63, 0x70, 0x8d, 0x15, 0xf7,
-	0xf1, 0xa5, 0xb4, 0xc6, 0xe1, 0xad, 0x5f, 0xd8, 0xd9, 0x79, 0xd8, 0x7a, 0x78, 0x1e, 0xb6, 0x1e,
-	0x9d, 0x87, 0xec, 0xc7, 0x49, 0xc8, 0xfe, 0x9e, 0x84, 0xec, 0x9f, 0x49, 0xc8, 0xce, 0x26, 0x21,
-	0xfb, 0x6f, 0x12, 0xb2, 0xff, 0x27, 0x61, 0xeb, 0xd1, 0x24, 0x64, 0x0f, 0x2e, 0xc2, 0xd6, 0xd9,
-	0x45, 0xd8, 0x7a, 0x78, 0x11, 0xb6, 0xf8, 0x1b, 0x42, 0xb6, 0x35, 0x1c, 0x8d, 0xa4, 0x8a, 0x86,
-	0xd9, 0x2d, 0x65, 0xd9, 0xc6, 0x0e, 0xbb, 0x7f, 0x6d, 0x3f, 0x07, 0x09, 0xd9, 0x31, 0xff, 0xbf,
-	0x36, 0x13, 0x74, 0x4a, 0x82, 0xdd, 0xa7, 0x66, 0x3f, 0xaf, 0x3e, 0x0e, 0x00, 0x00, 0xff, 0xff,
-	0x82, 0x47, 0xa7, 0x08, 0x47, 0x15, 0x00, 0x00,
+	// 1030 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x98, 0xcf, 0x6f, 0x1c, 0x35,
+	0x14, 0xc7, 0xd7, 0x17, 0x0e, 0x96, 0x20, 0x30, 0x48, 0x20, 0x02, 0x1d, 0xa0, 0x12, 0xa1, 0x01,
+	0xba, 0x4b, 0x93, 0x34, 0x0d, 0x70, 0x4a, 0x13, 0x9a, 0x56, 0x42, 0x10, 0x76, 0x8b, 0x90, 0xb8,
+	0xc0, 0x64, 0xf6, 0x25, 0xb1, 0xb2, 0x19, 0x2f, 0xb6, 0x37, 0x21, 0x42, 0x42, 0x1c, 0x10, 0x20,
+	0x24, 0xa4, 0x4a, 0x48, 0x48, 0x9c, 0xb8, 0xf2, 0xa7, 0x70, 0xcc, 0xb1, 0x47, 0xb2, 0xb9, 0x70,
+	0xec, 0x9f, 0x80, 0xf6, 0x87, 0xcd, 0xcc, 0xf8, 0x3d, 0xcf, 0x4c, 0x4e, 0xf9, 0x31, 0x9f, 0xef,
+	0x7b, 0xdf, 0xb1, 0xfd, 0x3c, 0xcf, 0xe6, 0xd7, 0x4e, 0xa5, 0x3a, 0xda, 0x1f, 0xc8, 0x53, 0x0d,
+	0xea, 0x44, 0xa4, 0xd0, 0x99, 0xff, 0x6c, 0x0f, 0x95, 0x34, 0x32, 0x5a, 0x28, 0x3d, 0x5e, 0x5c,
+	0x2a, 0xf3, 0x0a, 0xbe, 0x1e, 0x81, 0x36, 0x5f, 0x2a, 0xd0, 0x43, 0x99, 0xe9, 0xb9, 0x70, 0xe5,
+	0xc7, 0x65, 0xbe, 0xf0, 0xf9, 0x1c, 0xed, 0xcd, 0xd0, 0x68, 0xc0, 0x9f, 0xeb, 0xc2, 0x81, 0xd0,
+	0x06, 0xd4, 0xc7, 0xc9, 0x31, 0xe8, 0x61, 0x92, 0x42, 0xb4, 0xdc, 0x2e, 0x45, 0x6c, 0x7b, 0x4c,
+	0x77, 0x96, 0x62, 0xf1, 0xad, 0x3a, 0xe8, 0xcc, 0xc5, 0xf5, 0xd6, 0x24, 0xdb, 0x36, 0xe8, 0x54,
+	0x89, 0x3d, 0x08, 0x65, 0xf3, 0x18, 0x3a, 0x1b, 0x82, 0xba, 0x6c, 0x29, 0x7f, 0xe6, 0x23, 0xa1,
+	0x8d, 0x7b, 0xa4, 0xa3, 0x25, 0x4f, 0x5f, 0x04, 0x6c, 0x9e, 0x37, 0x2b, 0x39, 0x97, 0x64, 0x9f,
+	0x2f, 0x7c, 0x36, 0xec, 0x27, 0x26, 0xf7, 0x42, 0xbe, 0xba, 0x44, 0xd8, 0x34, 0x37, 0xaa, 0x41,
+	0x97, 0x47, 0xf2, 0x68, 0x1b, 0x86, 0x0a, 0xd2, 0x42, 0x2a, 0x6c, 0x40, 0xca, 0x90, 0xcd, 0xf6,
+	0x76, 0x2d, 0xd6, 0x25, 0xfc, 0x96, 0xbf, 0xd0, 0x33, 0x89, 0x32, 0x76, 0xc5, 0x7c, 0xf8, 0x0d,
+	0xa4, 0x23, 0x23, 0x64, 0x16, 0xb5, 0xbd, 0x40, 0x38, 0x68, 0x13, 0x77, 0x6a, 0xf3, 0x2e, 0xf9,
+	0x2f, 0x8c, 0xbf, 0xbc, 0x03, 0x3e, 0x72, 0x5f, 0x68, 0x23, 0xd5, 0x59, 0xb4, 0xea, 0x85, 0x0c,
+	0xd0, 0xd6, 0xc7, 0x5a, 0x33, 0x91, 0x33, 0xa3, 0xf8, 0xf3, 0xbb, 0x72, 0x30, 0xb8, 0x27, 0xd5,
+	0x36, 0xa4, 0x42, 0x0b, 0x99, 0x3d, 0x4c, 0xf4, 0x51, 0xe4, 0x8f, 0x27, 0x42, 0xd9, 0xdc, 0xef,
+	0xd4, 0x83, 0x5d, 0xce, 0x5f, 0x19, 0x7f, 0x65, 0xf6, 0x67, 0x3f, 0x4f, 0x6c, 0xc9, 0xe3, 0xe1,
+	0x00, 0x0c, 0xf4, 0xa3, 0x35, 0xa4, 0xf0, 0x68, 0xdc, 0xda, 0xb8, 0xdd, 0x50, 0xe5, 0xfc, 0xfc,
+	0xc0, 0xf8, 0x4b, 0x08, 0x7a, 0x2f, 0x11, 0x03, 0xe8, 0x47, 0xb7, 0xea, 0x84, 0x9d, 0xb1, 0xd6,
+	0xc9, 0x4a, 0x13, 0x09, 0x32, 0x15, 0x9b, 0xa9, 0x11, 0x27, 0xc2, 0x9c, 0x85, 0xa7, 0x22, 0x4f,
+	0x55, 0x4e, 0x45, 0x11, 0x2e, 0xac, 0xc5, 0x2e, 0xa4, 0x52, 0xf5, 0xf3, 0xc0, 0x7d, 0x48, 0x94,
+	0xd9, 0x83, 0xc4, 0x20, 0x6b, 0x31, 0x40, 0xd3, 0x6b, 0x31, 0x28, 0x72, 0x66, 0x7e, 0x67, 0xfc,
+	0xd5, 0x00, 0x79, 0xf7, 0xec, 0xc1, 0x76, 0x74, 0xa7, 0x49, 0xec, 0x89, 0xc2, 0x9a, 0xda, 0x68,
+	0x2e, 0xc4, 0x16, 0x6c, 0x1e, 0xaf, 0xb1, 0x60, 0x51, 0xbc, 0x72, 0xc1, 0x12, 0x2a, 0xe7, 0xe7,
+	0x0f, 0xc6, 0x5f, 0x0b, 0xa1, 0xd3, 0x91, 0xda, 0x68, 0x14, 0x3d, 0x3f, 0x54, 0xef, 0x5d, 0x41,
+	0x89, 0x15, 0x53, 0x1e, 0xaf, 0x2a, 0x26, 0x9f, 0xad, 0x2c, 0x26, 0x4c, 0xe2, 0x6c, 0x3c, 0x62,
+	0xfc, 0x1a, 0xc9, 0x4d, 0xc7, 0xe7, 0x76, 0xfd, 0xb8, 0xf9, 0xc1, 0x59, 0x6f, 0x2a, 0x2b, 0xd5,
+	0x9a, 0x3f, 0x90, 0x49, 0x96, 0xc2, 0x64, 0x6c, 0x56, 0x6b, 0x0d, 0xfb, 0x9c, 0x0e, 0xd5, 0x5a,
+	0x40, 0x54, 0xaa, 0x35, 0x92, 0x24, 0x6b, 0x2d, 0xa8, 0x08, 0xd5, 0x5a, 0x85, 0xd0, 0x19, 0xfb,
+	0x8d, 0xf1, 0x78, 0x1e, 0x67, 0x46, 0xf8, 0xdf, 0x68, 0x6c, 0x0a, 0x42, 0x02, 0x6b, 0xeb, 0x4e,
+	0x63, 0x9d, 0x73, 0xf5, 0x1d, 0x7f, 0xb1, 0x27, 0x0e, 0xb2, 0x04, 0x71, 0x83, 0x74, 0x00, 0x38,
+	0x69, 0x6d, 0xbc, 0x5b, 0x5f, 0x50, 0xa8, 0xf8, 0x39, 0x25, 0xcc, 0x21, 0xd1, 0xbb, 0x6c, 0x50,
+	0x81, 0x49, 0x09, 0x5d, 0xf1, 0xd5, 0xca, 0x7c, 0x33, 0xd5, 0x05, 0x0d, 0xb5, 0x9a, 0x29, 0x1c,
+	0xa4, 0x9b, 0x29, 0x8a, 0x77, 0xc9, 0x7f, 0x62, 0x7c, 0xf1, 0x21, 0xa8, 0x63, 0x91, 0x25, 0x06,
+	0x7c, 0x07, 0xfe, 0xe6, 0x41, 0xc3, 0xd6, 0xc5, 0x6a, 0x23, 0x4d, 0xc1, 0xc9, 0xa4, 0x93, 0xfe,
+	0x64, 0x08, 0x99, 0xc7, 0x69, 0xc4, 0x09, 0x0d, 0xd3, 0x4e, 0x42, 0x9a, 0xc2, 0xe7, 0x6a, 0x02,
+	0x6e, 0x0d, 0xa4, 0x86, 0x3e, 0xe2, 0x65, 0x0d, 0x8d, 0x4b, 0xe1, 0xf4, 0xe7, 0x2a, 0xac, 0xca,
+	0x2f, 0x90, 0x09, 0x89, 0x18, 0x69, 0xa3, 0x21, 0x69, 0x0b, 0x9d, 0xda, 0x7c, 0x61, 0x3f, 0x99,
+	0x40, 0x9b, 0x2a, 0x3d, 0x14, 0x27, 0xe8, 0x70, 0xac, 0xa3, 0x51, 0x69, 0x01, 0xbd, 0x9f, 0x54,
+	0xe9, 0x0a, 0x07, 0x90, 0x34, 0xc9, 0x6a, 0x0d, 0x09, 0x0e, 0x06, 0x0e, 0x20, 0x04, 0x9f, 0xdf,
+	0xcc, 0xb6, 0xe4, 0x28, 0xc3, 0x26, 0xc4, 0x8f, 0x46, 0x90, 0xf4, 0x66, 0x46, 0x0a, 0xf2, 0x8d,
+	0xee, 0x0e, 0x98, 0x1e, 0x24, 0x2a, 0x3d, 0xdc, 0x34, 0x46, 0x89, 0xbd, 0x91, 0x01, 0x8d, 0x34,
+	0xba, 0x08, 0x45, 0x37, 0xba, 0x28, 0x8c, 0xb5, 0x25, 0x9f, 0x8e, 0x40, 0x95, 0xfa, 0x37, 0xb2,
+	0x2d, 0xf1, 0xd9, 0xca, 0xb6, 0x04, 0x93, 0xe4, 0x5f, 0x7d, 0xba, 0xa5, 0xf5, 0x8c, 0x48, 0x8f,
+	0xa6, 0xd4, 0x64, 0xc9, 0x20, 0xaf, 0x8e, 0x50, 0xf4, 0xab, 0xa3, 0xb0, 0xcb, 0xf9, 0x15, 0x7f,
+	0x7a, 0xea, 0xc9, 0xce, 0x49, 0xf4, 0x86, 0x17, 0xa0, 0xf0, 0xdc, 0xe6, 0x59, 0xaa, 0xc2, 0x0a,
+	0x35, 0x86, 0x1d, 0x37, 0xbb, 0xc9, 0xa9, 0x3d, 0xd4, 0xae, 0xd7, 0x3a, 0x9f, 0xfe, 0x2f, 0xa0,
+	0x6b, 0xac, 0x4a, 0x57, 0x98, 0x72, 0x7b, 0x85, 0xe2, 0x7f, 0x19, 0x6e, 0x91, 0xd7, 0x2d, 0xe4,
+	0x87, 0x61, 0xa5, 0x89, 0xc4, 0xd9, 0x10, 0xfc, 0x59, 0x8b, 0xb9, 0xf9, 0xbe, 0x41, 0x46, 0x2a,
+	0x4f, 0xf6, 0x72, 0x0d, 0x32, 0x7f, 0x29, 0xb4, 0x03, 0x66, 0x6b, 0x30, 0xd2, 0x06, 0xd4, 0x83,
+	0x6c, 0x5f, 0x22, 0x97, 0x42, 0x45, 0x80, 0xbe, 0x14, 0x2a, 0x73, 0xe5, 0xdd, 0xdc, 0xa6, 0xdf,
+	0x4d, 0x94, 0x11, 0xa1, 0xdd, 0xdc, 0x07, 0xc3, 0xbb, 0x39, 0xc6, 0xbb, 0xe4, 0x7f, 0x32, 0x7e,
+	0x7d, 0x7e, 0xa2, 0x0d, 0xad, 0xb6, 0xf7, 0xa9, 0x63, 0x70, 0x8d, 0x15, 0xf7, 0xc1, 0x95, 0xb4,
+	0xd6, 0xe1, 0xdd, 0x9f, 0xd9, 0xf9, 0x45, 0xdc, 0x7a, 0x7c, 0x11, 0xb7, 0x9e, 0x5c, 0xc4, 0xec,
+	0xfb, 0x71, 0xcc, 0xfe, 0x1a, 0xc7, 0xec, 0xef, 0x71, 0xcc, 0xce, 0xc7, 0x31, 0xfb, 0x67, 0x1c,
+	0xb3, 0x7f, 0xc7, 0x71, 0xeb, 0xc9, 0x38, 0x66, 0x8f, 0x2e, 0xe3, 0xd6, 0xf9, 0x65, 0xdc, 0x7a,
+	0x7c, 0x19, 0xb7, 0xf8, 0xeb, 0x42, 0xb6, 0x0d, 0x1c, 0x0f, 0xa5, 0x4a, 0x06, 0xb3, 0x2b, 0xcd,
+	0xb2, 0x8d, 0x5d, 0xf6, 0xc5, 0xcd, 0x83, 0x1c, 0x24, 0x64, 0xc7, 0xfe, 0x7e, 0x73, 0x2a, 0xe8,
+	0x94, 0x04, 0x7b, 0x4f, 0x4d, 0xff, 0xbd, 0xfa, 0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x33, 0x89,
+	0x49, 0xfd, 0x74, 0x15, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -129,21 +129,21 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type WorkflowServiceClient interface {
-	// RegisterDomain creates a new domain which can be used as a container for all resources.  Domain is a top level
-	// entity within Temporal, used as a container for all resources like workflow executions, task lists, etc.  Domain
-	// acts as a sandbox and provides isolation for all resources within the domain.  All resources belongs to exactly one
-	// domain.
-	RegisterDomain(ctx context.Context, in *RegisterDomainRequest, opts ...grpc.CallOption) (*RegisterDomainResponse, error)
-	// DescribeDomain returns the information and configuration for a registered domain.
-	DescribeDomain(ctx context.Context, in *DescribeDomainRequest, opts ...grpc.CallOption) (*DescribeDomainResponse, error)
-	// ListDomains returns the information and configuration for all domains.
-	ListDomains(ctx context.Context, in *ListDomainsRequest, opts ...grpc.CallOption) (*ListDomainsResponse, error)
-	// UpdateDomain is used to update the information and configuration for a registered domain.
-	UpdateDomain(ctx context.Context, in *UpdateDomainRequest, opts ...grpc.CallOption) (*UpdateDomainResponse, error)
-	// DeprecateDomain us used to update status of a registered domain to DEPRECATED.  Once the domain is deprecated
+	// RegisterNamespace creates a new namespace which can be used as a container for all resources.  Namespace is a top level
+	// entity within Temporal, used as a container for all resources like workflow executions, task lists, etc.  Namespace
+	// acts as a sandbox and provides isolation for all resources within the namespace.  All resources belongs to exactly one
+	// namespace.
+	RegisterNamespace(ctx context.Context, in *RegisterNamespaceRequest, opts ...grpc.CallOption) (*RegisterNamespaceResponse, error)
+	// DescribeNamespace returns the information and configuration for a registered namespace.
+	DescribeNamespace(ctx context.Context, in *DescribeNamespaceRequest, opts ...grpc.CallOption) (*DescribeNamespaceResponse, error)
+	// ListNamespaces returns the information and configuration for all namespaces.
+	ListNamespaces(ctx context.Context, in *ListNamespacesRequest, opts ...grpc.CallOption) (*ListNamespacesResponse, error)
+	// UpdateNamespace is used to update the information and configuration for a registered namespace.
+	UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...grpc.CallOption) (*UpdateNamespaceResponse, error)
+	// DeprecateNamespace us used to update status of a registered namespace to DEPRECATED.  Once the namespace is deprecated
 	// it cannot be used to start new workflow executions.  Existing workflow executions will continue to run on
-	// deprecated domains.
-	DeprecateDomain(ctx context.Context, in *DeprecateDomainRequest, opts ...grpc.CallOption) (*DeprecateDomainResponse, error)
+	// deprecated namespaces.
+	DeprecateNamespace(ctx context.Context, in *DeprecateNamespaceRequest, opts ...grpc.CallOption) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new long running workflow instance.  It will create the instance with
 	// 'WorkflowExecutionStarted' event in history and also schedule the first DecisionTask for the worker to make the
 	// first decision for this instance.  It will return 'WorkflowExecutionAlreadyStartedError', if an instance already
@@ -188,7 +188,7 @@ type WorkflowServiceClient interface {
 	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timed out and
 	// 'ActivityTaskTimedOut' event will be written to the workflow history.  Calling 'RecordActivityTaskHeartbeatByID' will
 	// fail with 'EntityNotExistsError' in such situations.  Instead of using 'taskToken' like in RecordActivityTaskHeartbeat,
-	// use Domain, WorkflowID and ActivityID
+	// use Namespace, WorkflowID and ActivityID
 	RecordActivityTaskHeartbeatByID(ctx context.Context, in *RecordActivityTaskHeartbeatByIDRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatByIDResponse, error)
 	// RespondActivityTaskCompleted is called by application worker when it is done processing an ActivityTask.  It will
 	// result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new DecisionTask
@@ -198,7 +198,7 @@ type WorkflowServiceClient interface {
 	RespondActivityTaskCompleted(ctx context.Context, in *RespondActivityTaskCompletedRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedResponse, error)
 	// RespondActivityTaskCompletedByID is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new DecisionTask
-	// created for the workflow so new decisions could be made.  Similar to RespondActivityTaskCompleted but use Domain,
+	// created for the workflow so new decisions could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
 	// WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
 	// if the these IDs are not valid anymore due to activity timeout.
 	RespondActivityTaskCompletedByID(ctx context.Context, in *RespondActivityTaskCompletedByIDRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedByIDResponse, error)
@@ -211,7 +211,7 @@ type WorkflowServiceClient interface {
 	// RespondActivityTaskFailedByID is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskFailed' event being written to the workflow history and a new DecisionTask
 	// created for the workflow instance so new decisions could be made.  Similar to RespondActivityTaskFailed but use
-	// Domain, WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
+	// Namespace, WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
 	// if the these IDs are not valid anymore due to activity timeout.
 	RespondActivityTaskFailedByID(ctx context.Context, in *RespondActivityTaskFailedByIDRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedByIDResponse, error)
 	// RespondActivityTaskCanceled is called by application worker when it is successfully canceled an ActivityTask.  It will
@@ -223,7 +223,7 @@ type WorkflowServiceClient interface {
 	// RespondActivityTaskCanceledByID is called by application worker when it is successfully canceled an ActivityTask.
 	// It will result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new DecisionTask
 	// created for the workflow instance so new decisions could be made.  Similar to RespondActivityTaskCanceled but use
-	// Domain, WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
+	// Namespace, WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
 	// if the these IDs are not valid anymore due to activity timeout.
 	RespondActivityTaskCanceledByID(ctx context.Context, in *RespondActivityTaskCanceledByIDRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledByIDResponse, error)
 	// RequestCancelWorkflowExecution is called by application worker when it wants to request cancellation of a workflow instance.
@@ -246,17 +246,17 @@ type WorkflowServiceClient interface {
 	// TerminateWorkflowExecution terminates an existing workflow execution by recording WorkflowExecutionTerminated event
 	// in the history and immediately terminating the execution instance.
 	TerminateWorkflowExecution(ctx context.Context, in *TerminateWorkflowExecutionRequest, opts ...grpc.CallOption) (*TerminateWorkflowExecutionResponse, error)
-	// ListOpenWorkflowExecutions is a visibility API to list the open executions in a specific domain.
+	// ListOpenWorkflowExecutions is a visibility API to list the open executions in a specific namespace.
 	ListOpenWorkflowExecutions(ctx context.Context, in *ListOpenWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListOpenWorkflowExecutionsResponse, error)
-	// ListClosedWorkflowExecutions is a visibility API to list the closed executions in a specific domain.
+	// ListClosedWorkflowExecutions is a visibility API to list the closed executions in a specific namespace.
 	ListClosedWorkflowExecutions(ctx context.Context, in *ListClosedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListClosedWorkflowExecutionsResponse, error)
-	// ListWorkflowExecutions is a visibility API to list workflow executions in a specific domain.
+	// ListWorkflowExecutions is a visibility API to list workflow executions in a specific namespace.
 	ListWorkflowExecutions(ctx context.Context, in *ListWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListWorkflowExecutionsResponse, error)
-	// ListArchivedWorkflowExecutions is a visibility API to list archived workflow executions in a specific domain.
+	// ListArchivedWorkflowExecutions is a visibility API to list archived workflow executions in a specific namespace.
 	ListArchivedWorkflowExecutions(ctx context.Context, in *ListArchivedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListArchivedWorkflowExecutionsResponse, error)
-	// ScanWorkflowExecutions is a visibility API to list large amount of workflow executions in a specific domain without order.
+	// ScanWorkflowExecutions is a visibility API to list large amount of workflow executions in a specific namespace without order.
 	ScanWorkflowExecutions(ctx context.Context, in *ScanWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ScanWorkflowExecutionsResponse, error)
-	// CountWorkflowExecutions is a visibility API to count of workflow executions in a specific domain.
+	// CountWorkflowExecutions is a visibility API to count of workflow executions in a specific namespace.
 	CountWorkflowExecutions(ctx context.Context, in *CountWorkflowExecutionsRequest, opts ...grpc.CallOption) (*CountWorkflowExecutionsResponse, error)
 	// GetSearchAttributes is a visibility API to get all legal keys that could be used in list APIs
 	GetSearchAttributes(ctx context.Context, in *GetSearchAttributesRequest, opts ...grpc.CallOption) (*GetSearchAttributesResponse, error)
@@ -296,45 +296,45 @@ func NewWorkflowServiceClient(cc *grpc.ClientConn) WorkflowServiceClient {
 	return &workflowServiceClient{cc}
 }
 
-func (c *workflowServiceClient) RegisterDomain(ctx context.Context, in *RegisterDomainRequest, opts ...grpc.CallOption) (*RegisterDomainResponse, error) {
-	out := new(RegisterDomainResponse)
-	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/RegisterDomain", in, out, opts...)
+func (c *workflowServiceClient) RegisterNamespace(ctx context.Context, in *RegisterNamespaceRequest, opts ...grpc.CallOption) (*RegisterNamespaceResponse, error) {
+	out := new(RegisterNamespaceResponse)
+	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/RegisterNamespace", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *workflowServiceClient) DescribeDomain(ctx context.Context, in *DescribeDomainRequest, opts ...grpc.CallOption) (*DescribeDomainResponse, error) {
-	out := new(DescribeDomainResponse)
-	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/DescribeDomain", in, out, opts...)
+func (c *workflowServiceClient) DescribeNamespace(ctx context.Context, in *DescribeNamespaceRequest, opts ...grpc.CallOption) (*DescribeNamespaceResponse, error) {
+	out := new(DescribeNamespaceResponse)
+	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/DescribeNamespace", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *workflowServiceClient) ListDomains(ctx context.Context, in *ListDomainsRequest, opts ...grpc.CallOption) (*ListDomainsResponse, error) {
-	out := new(ListDomainsResponse)
-	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/ListDomains", in, out, opts...)
+func (c *workflowServiceClient) ListNamespaces(ctx context.Context, in *ListNamespacesRequest, opts ...grpc.CallOption) (*ListNamespacesResponse, error) {
+	out := new(ListNamespacesResponse)
+	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/ListNamespaces", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *workflowServiceClient) UpdateDomain(ctx context.Context, in *UpdateDomainRequest, opts ...grpc.CallOption) (*UpdateDomainResponse, error) {
-	out := new(UpdateDomainResponse)
-	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/UpdateDomain", in, out, opts...)
+func (c *workflowServiceClient) UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...grpc.CallOption) (*UpdateNamespaceResponse, error) {
+	out := new(UpdateNamespaceResponse)
+	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/UpdateNamespace", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *workflowServiceClient) DeprecateDomain(ctx context.Context, in *DeprecateDomainRequest, opts ...grpc.CallOption) (*DeprecateDomainResponse, error) {
-	out := new(DeprecateDomainResponse)
-	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/DeprecateDomain", in, out, opts...)
+func (c *workflowServiceClient) DeprecateNamespace(ctx context.Context, in *DeprecateNamespaceRequest, opts ...grpc.CallOption) (*DeprecateNamespaceResponse, error) {
+	out := new(DeprecateNamespaceResponse)
+	err := c.cc.Invoke(ctx, "/workflowservice.WorkflowService/DeprecateNamespace", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -658,21 +658,21 @@ func (c *workflowServiceClient) PollForWorkflowExecutionRawHistory(ctx context.C
 
 // WorkflowServiceServer is the server API for WorkflowService service.
 type WorkflowServiceServer interface {
-	// RegisterDomain creates a new domain which can be used as a container for all resources.  Domain is a top level
-	// entity within Temporal, used as a container for all resources like workflow executions, task lists, etc.  Domain
-	// acts as a sandbox and provides isolation for all resources within the domain.  All resources belongs to exactly one
-	// domain.
-	RegisterDomain(context.Context, *RegisterDomainRequest) (*RegisterDomainResponse, error)
-	// DescribeDomain returns the information and configuration for a registered domain.
-	DescribeDomain(context.Context, *DescribeDomainRequest) (*DescribeDomainResponse, error)
-	// ListDomains returns the information and configuration for all domains.
-	ListDomains(context.Context, *ListDomainsRequest) (*ListDomainsResponse, error)
-	// UpdateDomain is used to update the information and configuration for a registered domain.
-	UpdateDomain(context.Context, *UpdateDomainRequest) (*UpdateDomainResponse, error)
-	// DeprecateDomain us used to update status of a registered domain to DEPRECATED.  Once the domain is deprecated
+	// RegisterNamespace creates a new namespace which can be used as a container for all resources.  Namespace is a top level
+	// entity within Temporal, used as a container for all resources like workflow executions, task lists, etc.  Namespace
+	// acts as a sandbox and provides isolation for all resources within the namespace.  All resources belongs to exactly one
+	// namespace.
+	RegisterNamespace(context.Context, *RegisterNamespaceRequest) (*RegisterNamespaceResponse, error)
+	// DescribeNamespace returns the information and configuration for a registered namespace.
+	DescribeNamespace(context.Context, *DescribeNamespaceRequest) (*DescribeNamespaceResponse, error)
+	// ListNamespaces returns the information and configuration for all namespaces.
+	ListNamespaces(context.Context, *ListNamespacesRequest) (*ListNamespacesResponse, error)
+	// UpdateNamespace is used to update the information and configuration for a registered namespace.
+	UpdateNamespace(context.Context, *UpdateNamespaceRequest) (*UpdateNamespaceResponse, error)
+	// DeprecateNamespace us used to update status of a registered namespace to DEPRECATED.  Once the namespace is deprecated
 	// it cannot be used to start new workflow executions.  Existing workflow executions will continue to run on
-	// deprecated domains.
-	DeprecateDomain(context.Context, *DeprecateDomainRequest) (*DeprecateDomainResponse, error)
+	// deprecated namespaces.
+	DeprecateNamespace(context.Context, *DeprecateNamespaceRequest) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new long running workflow instance.  It will create the instance with
 	// 'WorkflowExecutionStarted' event in history and also schedule the first DecisionTask for the worker to make the
 	// first decision for this instance.  It will return 'WorkflowExecutionAlreadyStartedError', if an instance already
@@ -717,7 +717,7 @@ type WorkflowServiceServer interface {
 	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timed out and
 	// 'ActivityTaskTimedOut' event will be written to the workflow history.  Calling 'RecordActivityTaskHeartbeatByID' will
 	// fail with 'EntityNotExistsError' in such situations.  Instead of using 'taskToken' like in RecordActivityTaskHeartbeat,
-	// use Domain, WorkflowID and ActivityID
+	// use Namespace, WorkflowID and ActivityID
 	RecordActivityTaskHeartbeatByID(context.Context, *RecordActivityTaskHeartbeatByIDRequest) (*RecordActivityTaskHeartbeatByIDResponse, error)
 	// RespondActivityTaskCompleted is called by application worker when it is done processing an ActivityTask.  It will
 	// result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new DecisionTask
@@ -727,7 +727,7 @@ type WorkflowServiceServer interface {
 	RespondActivityTaskCompleted(context.Context, *RespondActivityTaskCompletedRequest) (*RespondActivityTaskCompletedResponse, error)
 	// RespondActivityTaskCompletedByID is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new DecisionTask
-	// created for the workflow so new decisions could be made.  Similar to RespondActivityTaskCompleted but use Domain,
+	// created for the workflow so new decisions could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
 	// WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
 	// if the these IDs are not valid anymore due to activity timeout.
 	RespondActivityTaskCompletedByID(context.Context, *RespondActivityTaskCompletedByIDRequest) (*RespondActivityTaskCompletedByIDResponse, error)
@@ -740,7 +740,7 @@ type WorkflowServiceServer interface {
 	// RespondActivityTaskFailedByID is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskFailed' event being written to the workflow history and a new DecisionTask
 	// created for the workflow instance so new decisions could be made.  Similar to RespondActivityTaskFailed but use
-	// Domain, WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
+	// Namespace, WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
 	// if the these IDs are not valid anymore due to activity timeout.
 	RespondActivityTaskFailedByID(context.Context, *RespondActivityTaskFailedByIDRequest) (*RespondActivityTaskFailedByIDResponse, error)
 	// RespondActivityTaskCanceled is called by application worker when it is successfully canceled an ActivityTask.  It will
@@ -752,7 +752,7 @@ type WorkflowServiceServer interface {
 	// RespondActivityTaskCanceledByID is called by application worker when it is successfully canceled an ActivityTask.
 	// It will result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new DecisionTask
 	// created for the workflow instance so new decisions could be made.  Similar to RespondActivityTaskCanceled but use
-	// Domain, WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
+	// Namespace, WorkflowID and ActivityID instead of 'taskToken' for completion. It fails with 'EntityNotExistsError'
 	// if the these IDs are not valid anymore due to activity timeout.
 	RespondActivityTaskCanceledByID(context.Context, *RespondActivityTaskCanceledByIDRequest) (*RespondActivityTaskCanceledByIDResponse, error)
 	// RequestCancelWorkflowExecution is called by application worker when it wants to request cancellation of a workflow instance.
@@ -775,17 +775,17 @@ type WorkflowServiceServer interface {
 	// TerminateWorkflowExecution terminates an existing workflow execution by recording WorkflowExecutionTerminated event
 	// in the history and immediately terminating the execution instance.
 	TerminateWorkflowExecution(context.Context, *TerminateWorkflowExecutionRequest) (*TerminateWorkflowExecutionResponse, error)
-	// ListOpenWorkflowExecutions is a visibility API to list the open executions in a specific domain.
+	// ListOpenWorkflowExecutions is a visibility API to list the open executions in a specific namespace.
 	ListOpenWorkflowExecutions(context.Context, *ListOpenWorkflowExecutionsRequest) (*ListOpenWorkflowExecutionsResponse, error)
-	// ListClosedWorkflowExecutions is a visibility API to list the closed executions in a specific domain.
+	// ListClosedWorkflowExecutions is a visibility API to list the closed executions in a specific namespace.
 	ListClosedWorkflowExecutions(context.Context, *ListClosedWorkflowExecutionsRequest) (*ListClosedWorkflowExecutionsResponse, error)
-	// ListWorkflowExecutions is a visibility API to list workflow executions in a specific domain.
+	// ListWorkflowExecutions is a visibility API to list workflow executions in a specific namespace.
 	ListWorkflowExecutions(context.Context, *ListWorkflowExecutionsRequest) (*ListWorkflowExecutionsResponse, error)
-	// ListArchivedWorkflowExecutions is a visibility API to list archived workflow executions in a specific domain.
+	// ListArchivedWorkflowExecutions is a visibility API to list archived workflow executions in a specific namespace.
 	ListArchivedWorkflowExecutions(context.Context, *ListArchivedWorkflowExecutionsRequest) (*ListArchivedWorkflowExecutionsResponse, error)
-	// ScanWorkflowExecutions is a visibility API to list large amount of workflow executions in a specific domain without order.
+	// ScanWorkflowExecutions is a visibility API to list large amount of workflow executions in a specific namespace without order.
 	ScanWorkflowExecutions(context.Context, *ScanWorkflowExecutionsRequest) (*ScanWorkflowExecutionsResponse, error)
-	// CountWorkflowExecutions is a visibility API to count of workflow executions in a specific domain.
+	// CountWorkflowExecutions is a visibility API to count of workflow executions in a specific namespace.
 	CountWorkflowExecutions(context.Context, *CountWorkflowExecutionsRequest) (*CountWorkflowExecutionsResponse, error)
 	// GetSearchAttributes is a visibility API to get all legal keys that could be used in list APIs
 	GetSearchAttributes(context.Context, *GetSearchAttributesRequest) (*GetSearchAttributesResponse, error)
@@ -821,20 +821,20 @@ type WorkflowServiceServer interface {
 type UnimplementedWorkflowServiceServer struct {
 }
 
-func (*UnimplementedWorkflowServiceServer) RegisterDomain(ctx context.Context, req *RegisterDomainRequest) (*RegisterDomainResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterDomain not implemented")
+func (*UnimplementedWorkflowServiceServer) RegisterNamespace(ctx context.Context, req *RegisterNamespaceRequest) (*RegisterNamespaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterNamespace not implemented")
 }
-func (*UnimplementedWorkflowServiceServer) DescribeDomain(ctx context.Context, req *DescribeDomainRequest) (*DescribeDomainResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DescribeDomain not implemented")
+func (*UnimplementedWorkflowServiceServer) DescribeNamespace(ctx context.Context, req *DescribeNamespaceRequest) (*DescribeNamespaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeNamespace not implemented")
 }
-func (*UnimplementedWorkflowServiceServer) ListDomains(ctx context.Context, req *ListDomainsRequest) (*ListDomainsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListDomains not implemented")
+func (*UnimplementedWorkflowServiceServer) ListNamespaces(ctx context.Context, req *ListNamespacesRequest) (*ListNamespacesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNamespaces not implemented")
 }
-func (*UnimplementedWorkflowServiceServer) UpdateDomain(ctx context.Context, req *UpdateDomainRequest) (*UpdateDomainResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateDomain not implemented")
+func (*UnimplementedWorkflowServiceServer) UpdateNamespace(ctx context.Context, req *UpdateNamespaceRequest) (*UpdateNamespaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNamespace not implemented")
 }
-func (*UnimplementedWorkflowServiceServer) DeprecateDomain(ctx context.Context, req *DeprecateDomainRequest) (*DeprecateDomainResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeprecateDomain not implemented")
+func (*UnimplementedWorkflowServiceServer) DeprecateNamespace(ctx context.Context, req *DeprecateNamespaceRequest) (*DeprecateNamespaceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeprecateNamespace not implemented")
 }
 func (*UnimplementedWorkflowServiceServer) StartWorkflowExecution(ctx context.Context, req *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartWorkflowExecution not implemented")
@@ -946,92 +946,92 @@ func RegisterWorkflowServiceServer(s *grpc.Server, srv WorkflowServiceServer) {
 	s.RegisterService(&_WorkflowService_serviceDesc, srv)
 }
 
-func _WorkflowService_RegisterDomain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterDomainRequest)
+func _WorkflowService_RegisterNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterNamespaceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).RegisterDomain(ctx, in)
+		return srv.(WorkflowServiceServer).RegisterNamespace(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/workflowservice.WorkflowService/RegisterDomain",
+		FullMethod: "/workflowservice.WorkflowService/RegisterNamespace",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).RegisterDomain(ctx, req.(*RegisterDomainRequest))
+		return srv.(WorkflowServiceServer).RegisterNamespace(ctx, req.(*RegisterNamespaceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_DescribeDomain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeDomainRequest)
+func _WorkflowService_DescribeNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeNamespaceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).DescribeDomain(ctx, in)
+		return srv.(WorkflowServiceServer).DescribeNamespace(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/workflowservice.WorkflowService/DescribeDomain",
+		FullMethod: "/workflowservice.WorkflowService/DescribeNamespace",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).DescribeDomain(ctx, req.(*DescribeDomainRequest))
+		return srv.(WorkflowServiceServer).DescribeNamespace(ctx, req.(*DescribeNamespaceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_ListDomains_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListDomainsRequest)
+func _WorkflowService_ListNamespaces_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNamespacesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).ListDomains(ctx, in)
+		return srv.(WorkflowServiceServer).ListNamespaces(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/workflowservice.WorkflowService/ListDomains",
+		FullMethod: "/workflowservice.WorkflowService/ListNamespaces",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).ListDomains(ctx, req.(*ListDomainsRequest))
+		return srv.(WorkflowServiceServer).ListNamespaces(ctx, req.(*ListNamespacesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_UpdateDomain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateDomainRequest)
+func _WorkflowService_UpdateNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNamespaceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).UpdateDomain(ctx, in)
+		return srv.(WorkflowServiceServer).UpdateNamespace(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/workflowservice.WorkflowService/UpdateDomain",
+		FullMethod: "/workflowservice.WorkflowService/UpdateNamespace",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).UpdateDomain(ctx, req.(*UpdateDomainRequest))
+		return srv.(WorkflowServiceServer).UpdateNamespace(ctx, req.(*UpdateNamespaceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_DeprecateDomain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeprecateDomainRequest)
+func _WorkflowService_DeprecateNamespace_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeprecateNamespaceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).DeprecateDomain(ctx, in)
+		return srv.(WorkflowServiceServer).DeprecateNamespace(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/workflowservice.WorkflowService/DeprecateDomain",
+		FullMethod: "/workflowservice.WorkflowService/DeprecateNamespace",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).DeprecateDomain(ctx, req.(*DeprecateDomainRequest))
+		return srv.(WorkflowServiceServer).DeprecateNamespace(ctx, req.(*DeprecateNamespaceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1671,24 +1671,24 @@ var _WorkflowService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*WorkflowServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "RegisterDomain",
-			Handler:    _WorkflowService_RegisterDomain_Handler,
+			MethodName: "RegisterNamespace",
+			Handler:    _WorkflowService_RegisterNamespace_Handler,
 		},
 		{
-			MethodName: "DescribeDomain",
-			Handler:    _WorkflowService_DescribeDomain_Handler,
+			MethodName: "DescribeNamespace",
+			Handler:    _WorkflowService_DescribeNamespace_Handler,
 		},
 		{
-			MethodName: "ListDomains",
-			Handler:    _WorkflowService_ListDomains_Handler,
+			MethodName: "ListNamespaces",
+			Handler:    _WorkflowService_ListNamespaces_Handler,
 		},
 		{
-			MethodName: "UpdateDomain",
-			Handler:    _WorkflowService_UpdateDomain_Handler,
+			MethodName: "UpdateNamespace",
+			Handler:    _WorkflowService_UpdateNamespace_Handler,
 		},
 		{
-			MethodName: "DeprecateDomain",
-			Handler:    _WorkflowService_DeprecateDomain_Handler,
+			MethodName: "DeprecateNamespace",
+			Handler:    _WorkflowService_DeprecateNamespace_Handler,
 		},
 		{
 			MethodName: "StartWorkflowExecution",
