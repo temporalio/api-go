@@ -297,24 +297,24 @@ func (mr *MockWorkflowServiceClientMockRecorder) RecordActivityTaskHeartbeat(ctx
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordActivityTaskHeartbeat", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RecordActivityTaskHeartbeat), varargs...)
 }
 
-// RecordActivityTaskHeartbeatByID mocks base method.
-func (m *MockWorkflowServiceClient) RecordActivityTaskHeartbeatByID(ctx context.Context, in *workflowservice.RecordActivityTaskHeartbeatByIDRequest, opts ...grpc.CallOption) (*workflowservice.RecordActivityTaskHeartbeatByIDResponse, error) {
+// RecordActivityTaskHeartbeatById mocks base method.
+func (m *MockWorkflowServiceClient) RecordActivityTaskHeartbeatById(ctx context.Context, in *workflowservice.RecordActivityTaskHeartbeatByIdRequest, opts ...grpc.CallOption) (*workflowservice.RecordActivityTaskHeartbeatByIdResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "RecordActivityTaskHeartbeatByID", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RecordActivityTaskHeartbeatByIDResponse)
+	ret := m.ctrl.Call(m, "RecordActivityTaskHeartbeatById", varargs...)
+	ret0, _ := ret[0].(*workflowservice.RecordActivityTaskHeartbeatByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RecordActivityTaskHeartbeatByID indicates an expected call of RecordActivityTaskHeartbeatByID.
-func (mr *MockWorkflowServiceClientMockRecorder) RecordActivityTaskHeartbeatByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// RecordActivityTaskHeartbeatById indicates an expected call of RecordActivityTaskHeartbeatById.
+func (mr *MockWorkflowServiceClientMockRecorder) RecordActivityTaskHeartbeatById(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordActivityTaskHeartbeatByID", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RecordActivityTaskHeartbeatByID), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordActivityTaskHeartbeatById", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RecordActivityTaskHeartbeatById), varargs...)
 }
 
 // RespondActivityTaskCompleted mocks base method.
@@ -337,24 +337,24 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCompleted(ct
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCompleted", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskCompleted), varargs...)
 }
 
-// RespondActivityTaskCompletedByID mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskCompletedByID(ctx context.Context, in *workflowservice.RespondActivityTaskCompletedByIDRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskCompletedByIDResponse, error) {
+// RespondActivityTaskCompletedById mocks base method.
+func (m *MockWorkflowServiceClient) RespondActivityTaskCompletedById(ctx context.Context, in *workflowservice.RespondActivityTaskCompletedByIdRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskCompletedByIdResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "RespondActivityTaskCompletedByID", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCompletedByIDResponse)
+	ret := m.ctrl.Call(m, "RespondActivityTaskCompletedById", varargs...)
+	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCompletedByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RespondActivityTaskCompletedByID indicates an expected call of RespondActivityTaskCompletedByID.
-func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCompletedByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// RespondActivityTaskCompletedById indicates an expected call of RespondActivityTaskCompletedById.
+func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCompletedById(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCompletedByID", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskCompletedByID), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCompletedById", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskCompletedById), varargs...)
 }
 
 // RespondActivityTaskFailed mocks base method.
@@ -377,24 +377,24 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskFailed(ctx, 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskFailed", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskFailed), varargs...)
 }
 
-// RespondActivityTaskFailedByID mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskFailedByID(ctx context.Context, in *workflowservice.RespondActivityTaskFailedByIDRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskFailedByIDResponse, error) {
+// RespondActivityTaskFailedById mocks base method.
+func (m *MockWorkflowServiceClient) RespondActivityTaskFailedById(ctx context.Context, in *workflowservice.RespondActivityTaskFailedByIdRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskFailedByIdResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "RespondActivityTaskFailedByID", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskFailedByIDResponse)
+	ret := m.ctrl.Call(m, "RespondActivityTaskFailedById", varargs...)
+	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskFailedByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RespondActivityTaskFailedByID indicates an expected call of RespondActivityTaskFailedByID.
-func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskFailedByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// RespondActivityTaskFailedById indicates an expected call of RespondActivityTaskFailedById.
+func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskFailedById(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskFailedByID", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskFailedByID), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskFailedById", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskFailedById), varargs...)
 }
 
 // RespondActivityTaskCanceled mocks base method.
@@ -417,24 +417,24 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCanceled(ctx
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCanceled", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskCanceled), varargs...)
 }
 
-// RespondActivityTaskCanceledByID mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskCanceledByID(ctx context.Context, in *workflowservice.RespondActivityTaskCanceledByIDRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskCanceledByIDResponse, error) {
+// RespondActivityTaskCanceledById mocks base method.
+func (m *MockWorkflowServiceClient) RespondActivityTaskCanceledById(ctx context.Context, in *workflowservice.RespondActivityTaskCanceledByIdRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskCanceledByIdResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "RespondActivityTaskCanceledByID", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCanceledByIDResponse)
+	ret := m.ctrl.Call(m, "RespondActivityTaskCanceledById", varargs...)
+	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCanceledByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RespondActivityTaskCanceledByID indicates an expected call of RespondActivityTaskCanceledByID.
-func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCanceledByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// RespondActivityTaskCanceledById indicates an expected call of RespondActivityTaskCanceledById.
+func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCanceledById(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCanceledByID", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskCanceledByID), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCanceledById", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondActivityTaskCanceledById), varargs...)
 }
 
 // RequestCancelWorkflowExecution mocks base method.
@@ -1060,19 +1060,19 @@ func (mr *MockWorkflowServiceServerMockRecorder) RecordActivityTaskHeartbeat(arg
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordActivityTaskHeartbeat", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RecordActivityTaskHeartbeat), arg0, arg1)
 }
 
-// RecordActivityTaskHeartbeatByID mocks base method.
-func (m *MockWorkflowServiceServer) RecordActivityTaskHeartbeatByID(arg0 context.Context, arg1 *workflowservice.RecordActivityTaskHeartbeatByIDRequest) (*workflowservice.RecordActivityTaskHeartbeatByIDResponse, error) {
+// RecordActivityTaskHeartbeatById mocks base method.
+func (m *MockWorkflowServiceServer) RecordActivityTaskHeartbeatById(arg0 context.Context, arg1 *workflowservice.RecordActivityTaskHeartbeatByIdRequest) (*workflowservice.RecordActivityTaskHeartbeatByIdResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RecordActivityTaskHeartbeatByID", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RecordActivityTaskHeartbeatByIDResponse)
+	ret := m.ctrl.Call(m, "RecordActivityTaskHeartbeatById", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.RecordActivityTaskHeartbeatByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RecordActivityTaskHeartbeatByID indicates an expected call of RecordActivityTaskHeartbeatByID.
-func (mr *MockWorkflowServiceServerMockRecorder) RecordActivityTaskHeartbeatByID(arg0, arg1 interface{}) *gomock.Call {
+// RecordActivityTaskHeartbeatById indicates an expected call of RecordActivityTaskHeartbeatById.
+func (mr *MockWorkflowServiceServerMockRecorder) RecordActivityTaskHeartbeatById(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordActivityTaskHeartbeatByID", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RecordActivityTaskHeartbeatByID), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RecordActivityTaskHeartbeatById", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RecordActivityTaskHeartbeatById), arg0, arg1)
 }
 
 // RespondActivityTaskCompleted mocks base method.
@@ -1090,19 +1090,19 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCompleted(ar
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCompleted", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskCompleted), arg0, arg1)
 }
 
-// RespondActivityTaskCompletedByID mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskCompletedByID(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskCompletedByIDRequest) (*workflowservice.RespondActivityTaskCompletedByIDResponse, error) {
+// RespondActivityTaskCompletedById mocks base method.
+func (m *MockWorkflowServiceServer) RespondActivityTaskCompletedById(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskCompletedByIdRequest) (*workflowservice.RespondActivityTaskCompletedByIdResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RespondActivityTaskCompletedByID", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCompletedByIDResponse)
+	ret := m.ctrl.Call(m, "RespondActivityTaskCompletedById", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCompletedByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RespondActivityTaskCompletedByID indicates an expected call of RespondActivityTaskCompletedByID.
-func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCompletedByID(arg0, arg1 interface{}) *gomock.Call {
+// RespondActivityTaskCompletedById indicates an expected call of RespondActivityTaskCompletedById.
+func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCompletedById(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCompletedByID", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskCompletedByID), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCompletedById", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskCompletedById), arg0, arg1)
 }
 
 // RespondActivityTaskFailed mocks base method.
@@ -1120,19 +1120,19 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskFailed(arg0,
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskFailed", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskFailed), arg0, arg1)
 }
 
-// RespondActivityTaskFailedByID mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskFailedByID(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskFailedByIDRequest) (*workflowservice.RespondActivityTaskFailedByIDResponse, error) {
+// RespondActivityTaskFailedById mocks base method.
+func (m *MockWorkflowServiceServer) RespondActivityTaskFailedById(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskFailedByIdRequest) (*workflowservice.RespondActivityTaskFailedByIdResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RespondActivityTaskFailedByID", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskFailedByIDResponse)
+	ret := m.ctrl.Call(m, "RespondActivityTaskFailedById", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskFailedByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RespondActivityTaskFailedByID indicates an expected call of RespondActivityTaskFailedByID.
-func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskFailedByID(arg0, arg1 interface{}) *gomock.Call {
+// RespondActivityTaskFailedById indicates an expected call of RespondActivityTaskFailedById.
+func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskFailedById(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskFailedByID", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskFailedByID), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskFailedById", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskFailedById), arg0, arg1)
 }
 
 // RespondActivityTaskCanceled mocks base method.
@@ -1150,19 +1150,19 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCanceled(arg
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCanceled", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskCanceled), arg0, arg1)
 }
 
-// RespondActivityTaskCanceledByID mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskCanceledByID(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskCanceledByIDRequest) (*workflowservice.RespondActivityTaskCanceledByIDResponse, error) {
+// RespondActivityTaskCanceledById mocks base method.
+func (m *MockWorkflowServiceServer) RespondActivityTaskCanceledById(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskCanceledByIdRequest) (*workflowservice.RespondActivityTaskCanceledByIdResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RespondActivityTaskCanceledByID", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCanceledByIDResponse)
+	ret := m.ctrl.Call(m, "RespondActivityTaskCanceledById", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCanceledByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// RespondActivityTaskCanceledByID indicates an expected call of RespondActivityTaskCanceledByID.
-func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCanceledByID(arg0, arg1 interface{}) *gomock.Call {
+// RespondActivityTaskCanceledById indicates an expected call of RespondActivityTaskCanceledById.
+func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCanceledById(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCanceledByID", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskCanceledByID), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondActivityTaskCanceledById", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondActivityTaskCanceledById), arg0, arg1)
 }
 
 // RequestCancelWorkflowExecution mocks base method.

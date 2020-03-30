@@ -62,10 +62,10 @@ type WorkflowExecutionStartedEventAttributes struct {
 	ContinuedFailureReason              string                       `protobuf:"bytes,11,opt,name=continuedFailureReason,proto3" json:"continuedFailureReason,omitempty"`
 	ContinuedFailureDetails             []byte                       `protobuf:"bytes,12,opt,name=continuedFailureDetails,proto3" json:"continuedFailureDetails,omitempty"`
 	LastCompletionResult                []byte                       `protobuf:"bytes,13,opt,name=lastCompletionResult,proto3" json:"lastCompletionResult,omitempty"`
-	// This is the runID when the WorkflowExecutionStarted event is written.
+	// This is the runId when the WorkflowExecutionStarted event is written.
 	OriginalExecutionRunId string `protobuf:"bytes,14,opt,name=originalExecutionRunId,proto3" json:"originalExecutionRunId,omitempty"`
 	Identity               string `protobuf:"bytes,15,opt,name=identity,proto3" json:"identity,omitempty"`
-	// This is the very first runID along the chain of ContinueAsNew and Reset.
+	// This is the very first runId along the chain of ContinueAsNew and Reset.
 	FirstExecutionRunId             string            `protobuf:"bytes,16,opt,name=firstExecutionRunId,proto3" json:"firstExecutionRunId,omitempty"`
 	RetryPolicy                     *RetryPolicy      `protobuf:"bytes,17,opt,name=retryPolicy,proto3" json:"retryPolicy,omitempty"`
 	Attempt                         int32             `protobuf:"varint,18,opt,name=attempt,proto3" json:"attempt,omitempty"`
