@@ -46,12 +46,12 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type WorkflowIdReusePolicy int32
 
 const (
-	// Allow start a workflow execution using the same workflow ID, when workflow not running.
+	// Allow start a workflow execution using the same workflow Id, when workflow not running.
 	WorkflowIdReusePolicyAllowDuplicate WorkflowIdReusePolicy = 0
-	// Allow start a workflow execution using the same workflow ID, when workflow not running, and the last execution close state is in
+	// Allow start a workflow execution using the same workflow Id, when workflow not running, and the last execution close state is in
 	// [terminated, cancelled, timed out, failed].
 	WorkflowIdReusePolicyAllowDuplicateFailedOnly WorkflowIdReusePolicy = 1
-	// Do not allow start a workflow execution using the same workflow ID at all.
+	// Do not allow start a workflow execution using the same workflow Id at all.
 	WorkflowIdReusePolicyRejectDuplicate WorkflowIdReusePolicy = 2
 )
 
