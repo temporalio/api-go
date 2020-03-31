@@ -77,12 +77,13 @@ func FromStatus(st *status.Status) error {
 		return newCanceled(st)
 	case codes.Unavailable:
 		return newUnavailable(st)
+	case codes.Unimplemented:
+		return newUnimplemented(st)
 	case codes.Unknown:
 		// Unwrap error message from unknown error.
 		return errors.New(st.Message())
 	// Unsupported codes.
 	case codes.OutOfRange,
-		codes.Unimplemented,
 		codes.Unauthenticated:
 		// Use standard gRPC error representation for unsupported codes ("rpc error: code = %s desc = %s").
 		return st.Err()
