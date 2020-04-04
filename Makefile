@@ -1,16 +1,18 @@
-.PHONY: grpc clean grpc-install
 $(VERBOSE).SILENT:
 
 # default target
 default: all-install all
 
-# List only subdirectories with *.proto files.
-# sort to remove duplicates.
+ifndef GOPATH
+GOPATH := $(shell go env GOPATH)
+endif
+
 PROTO_ROOT := temporal-proto
+# List only subdirectories with *.proto files. Sort to remove duplicates.
 PROTO_DIRS = $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*.proto)))
 PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
 PROTO_OUT := .
-PROTO_IMPORT := $(PROTO_ROOT)
+PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/gogo/protobuf
 
 all: update-proto-submodule grpc grpc-mock copyright gomodtidy
 

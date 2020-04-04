@@ -90,7 +90,7 @@ func (m *DataBlob) GetEncodingType() EncodingType {
 	if m != nil {
 		return m.EncodingType
 	}
-	return EncodingTypeProto3
+	return EncodingType_Proto3
 }
 
 func (m *DataBlob) GetData() []byte {

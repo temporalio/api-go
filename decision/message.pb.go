@@ -828,7 +828,7 @@ func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) GetInitiator() common
 	if m != nil {
 		return m.Initiator
 	}
-	return common.ContinueAsNewInitiatorDecider
+	return common.ContinueAsNewInitiator_ContinueAsNewInitiatorDecider
 }
 
 func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) GetFailureReason() string {
@@ -985,7 +985,7 @@ func (m *StartChildWorkflowExecutionDecisionAttributes) GetParentClosePolicy() c
 	if m != nil {
 		return m.ParentClosePolicy
 	}
-	return common.ParentClosePolicyAbandon
+	return common.ParentClosePolicy_Abandon
 }
 
 func (m *StartChildWorkflowExecutionDecisionAttributes) GetControl() []byte {
@@ -999,7 +999,7 @@ func (m *StartChildWorkflowExecutionDecisionAttributes) GetWorkflowIdReusePolicy
 	if m != nil {
 		return m.WorkflowIdReusePolicy
 	}
-	return common.WorkflowIdReusePolicyAllowDuplicate
+	return common.WorkflowIdReusePolicy_AllowDuplicate
 }
 
 func (m *StartChildWorkflowExecutionDecisionAttributes) GetRetryPolicy() *common.RetryPolicy {
@@ -1160,7 +1160,7 @@ func (m *Decision) GetDecisionType() DecisionType {
 	if m != nil {
 		return m.DecisionType
 	}
-	return DecisionTypeScheduleActivityTask
+	return DecisionType_ScheduleActivityTask
 }
 
 func (m *Decision) GetScheduleActivityTaskDecisionAttributes() *ScheduleActivityTaskDecisionAttributes {

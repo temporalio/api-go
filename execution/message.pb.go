@@ -180,7 +180,7 @@ func (m *WorkflowExecutionInfo) GetStatus() WorkflowExecutionStatus {
 	if m != nil {
 		return m.Status
 	}
-	return WorkflowExecutionStatusUnknown
+	return WorkflowExecutionStatus_Unknown
 }
 
 func (m *WorkflowExecutionInfo) GetHistoryLength() int64 {
@@ -357,7 +357,7 @@ func (m *PendingActivityInfo) GetState() PendingActivityState {
 	if m != nil {
 		return m.State
 	}
-	return PendingActivityStateScheduled
+	return PendingActivityState_Scheduled
 }
 
 func (m *PendingActivityInfo) GetHeartbeatDetails() []byte {
@@ -502,7 +502,7 @@ func (m *PendingChildExecutionInfo) GetParentClosePolicy() common.ParentClosePol
 	if m != nil {
 		return m.ParentClosePolicy
 	}
-	return common.ParentClosePolicyAbandon
+	return common.ParentClosePolicy_Abandon
 }
 
 type ResetPoints struct {

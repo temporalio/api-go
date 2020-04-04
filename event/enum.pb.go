@@ -27,6 +27,7 @@ package event
 
 import (
 	fmt "fmt"
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	math "math"
 	strconv "strconv"
@@ -47,138 +48,138 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type EventType int32
 
 const (
-	EventTypeWorkflowExecutionStarted                        EventType = 0
-	EventTypeWorkflowExecutionCompleted                      EventType = 1
-	EventTypeWorkflowExecutionFailed                         EventType = 2
-	EventTypeWorkflowExecutionTimedOut                       EventType = 3
-	EventTypeDecisionTaskScheduled                           EventType = 4
-	EventTypeDecisionTaskStarted                             EventType = 5
-	EventTypeDecisionTaskCompleted                           EventType = 6
-	EventTypeDecisionTaskTimedOut                            EventType = 7
-	EventTypeDecisionTaskFailed                              EventType = 8
-	EventTypeActivityTaskScheduled                           EventType = 9
-	EventTypeActivityTaskStarted                             EventType = 10
-	EventTypeActivityTaskCompleted                           EventType = 11
-	EventTypeActivityTaskFailed                              EventType = 12
-	EventTypeActivityTaskTimedOut                            EventType = 13
-	EventTypeActivityTaskCancelRequested                     EventType = 14
-	EventTypeRequestCancelActivityTaskFailed                 EventType = 15
-	EventTypeActivityTaskCanceled                            EventType = 16
-	EventTypeTimerStarted                                    EventType = 17
-	EventTypeTimerFired                                      EventType = 18
-	EventTypeCancelTimerFailed                               EventType = 19
-	EventTypeTimerCanceled                                   EventType = 20
-	EventTypeWorkflowExecutionCancelRequested                EventType = 21
-	EventTypeWorkflowExecutionCanceled                       EventType = 22
-	EventTypeRequestCancelExternalWorkflowExecutionInitiated EventType = 23
-	EventTypeRequestCancelExternalWorkflowExecutionFailed    EventType = 24
-	EventTypeExternalWorkflowExecutionCancelRequested        EventType = 25
-	EventTypeMarkerRecorded                                  EventType = 26
-	EventTypeWorkflowExecutionSignaled                       EventType = 27
-	EventTypeWorkflowExecutionTerminated                     EventType = 28
-	EventTypeWorkflowExecutionContinuedAsNew                 EventType = 29
-	EventTypeStartChildWorkflowExecutionInitiated            EventType = 30
-	EventTypeStartChildWorkflowExecutionFailed               EventType = 31
-	EventTypeChildWorkflowExecutionStarted                   EventType = 32
-	EventTypeChildWorkflowExecutionCompleted                 EventType = 33
-	EventTypeChildWorkflowExecutionFailed                    EventType = 34
-	EventTypeChildWorkflowExecutionCanceled                  EventType = 35
-	EventTypeChildWorkflowExecutionTimedOut                  EventType = 36
-	EventTypeChildWorkflowExecutionTerminated                EventType = 37
-	EventTypeSignalExternalWorkflowExecutionInitiated        EventType = 38
-	EventTypeSignalExternalWorkflowExecutionFailed           EventType = 39
-	EventTypeExternalWorkflowExecutionSignaled               EventType = 40
-	EventTypeUpsertWorkflowSearchAttributes                  EventType = 41
+	EventType_WorkflowExecutionStarted                        EventType = 0
+	EventType_WorkflowExecutionCompleted                      EventType = 1
+	EventType_WorkflowExecutionFailed                         EventType = 2
+	EventType_WorkflowExecutionTimedOut                       EventType = 3
+	EventType_DecisionTaskScheduled                           EventType = 4
+	EventType_DecisionTaskStarted                             EventType = 5
+	EventType_DecisionTaskCompleted                           EventType = 6
+	EventType_DecisionTaskTimedOut                            EventType = 7
+	EventType_DecisionTaskFailed                              EventType = 8
+	EventType_ActivityTaskScheduled                           EventType = 9
+	EventType_ActivityTaskStarted                             EventType = 10
+	EventType_ActivityTaskCompleted                           EventType = 11
+	EventType_ActivityTaskFailed                              EventType = 12
+	EventType_ActivityTaskTimedOut                            EventType = 13
+	EventType_ActivityTaskCancelRequested                     EventType = 14
+	EventType_RequestCancelActivityTaskFailed                 EventType = 15
+	EventType_ActivityTaskCanceled                            EventType = 16
+	EventType_TimerStarted                                    EventType = 17
+	EventType_TimerFired                                      EventType = 18
+	EventType_CancelTimerFailed                               EventType = 19
+	EventType_TimerCanceled                                   EventType = 20
+	EventType_WorkflowExecutionCancelRequested                EventType = 21
+	EventType_WorkflowExecutionCanceled                       EventType = 22
+	EventType_RequestCancelExternalWorkflowExecutionInitiated EventType = 23
+	EventType_RequestCancelExternalWorkflowExecutionFailed    EventType = 24
+	EventType_ExternalWorkflowExecutionCancelRequested        EventType = 25
+	EventType_MarkerRecorded                                  EventType = 26
+	EventType_WorkflowExecutionSignaled                       EventType = 27
+	EventType_WorkflowExecutionTerminated                     EventType = 28
+	EventType_WorkflowExecutionContinuedAsNew                 EventType = 29
+	EventType_StartChildWorkflowExecutionInitiated            EventType = 30
+	EventType_StartChildWorkflowExecutionFailed               EventType = 31
+	EventType_ChildWorkflowExecutionStarted                   EventType = 32
+	EventType_ChildWorkflowExecutionCompleted                 EventType = 33
+	EventType_ChildWorkflowExecutionFailed                    EventType = 34
+	EventType_ChildWorkflowExecutionCanceled                  EventType = 35
+	EventType_ChildWorkflowExecutionTimedOut                  EventType = 36
+	EventType_ChildWorkflowExecutionTerminated                EventType = 37
+	EventType_SignalExternalWorkflowExecutionInitiated        EventType = 38
+	EventType_SignalExternalWorkflowExecutionFailed           EventType = 39
+	EventType_ExternalWorkflowExecutionSignaled               EventType = 40
+	EventType_UpsertWorkflowSearchAttributes                  EventType = 41
 )
 
 var EventType_name = map[int32]string{
-	0:  "EventTypeWorkflowExecutionStarted",
-	1:  "EventTypeWorkflowExecutionCompleted",
-	2:  "EventTypeWorkflowExecutionFailed",
-	3:  "EventTypeWorkflowExecutionTimedOut",
-	4:  "EventTypeDecisionTaskScheduled",
-	5:  "EventTypeDecisionTaskStarted",
-	6:  "EventTypeDecisionTaskCompleted",
-	7:  "EventTypeDecisionTaskTimedOut",
-	8:  "EventTypeDecisionTaskFailed",
-	9:  "EventTypeActivityTaskScheduled",
-	10: "EventTypeActivityTaskStarted",
-	11: "EventTypeActivityTaskCompleted",
-	12: "EventTypeActivityTaskFailed",
-	13: "EventTypeActivityTaskTimedOut",
-	14: "EventTypeActivityTaskCancelRequested",
-	15: "EventTypeRequestCancelActivityTaskFailed",
-	16: "EventTypeActivityTaskCanceled",
-	17: "EventTypeTimerStarted",
-	18: "EventTypeTimerFired",
-	19: "EventTypeCancelTimerFailed",
-	20: "EventTypeTimerCanceled",
-	21: "EventTypeWorkflowExecutionCancelRequested",
-	22: "EventTypeWorkflowExecutionCanceled",
-	23: "EventTypeRequestCancelExternalWorkflowExecutionInitiated",
-	24: "EventTypeRequestCancelExternalWorkflowExecutionFailed",
-	25: "EventTypeExternalWorkflowExecutionCancelRequested",
-	26: "EventTypeMarkerRecorded",
-	27: "EventTypeWorkflowExecutionSignaled",
-	28: "EventTypeWorkflowExecutionTerminated",
-	29: "EventTypeWorkflowExecutionContinuedAsNew",
-	30: "EventTypeStartChildWorkflowExecutionInitiated",
-	31: "EventTypeStartChildWorkflowExecutionFailed",
-	32: "EventTypeChildWorkflowExecutionStarted",
-	33: "EventTypeChildWorkflowExecutionCompleted",
-	34: "EventTypeChildWorkflowExecutionFailed",
-	35: "EventTypeChildWorkflowExecutionCanceled",
-	36: "EventTypeChildWorkflowExecutionTimedOut",
-	37: "EventTypeChildWorkflowExecutionTerminated",
-	38: "EventTypeSignalExternalWorkflowExecutionInitiated",
-	39: "EventTypeSignalExternalWorkflowExecutionFailed",
-	40: "EventTypeExternalWorkflowExecutionSignaled",
-	41: "EventTypeUpsertWorkflowSearchAttributes",
+	0:  "WorkflowExecutionStarted",
+	1:  "WorkflowExecutionCompleted",
+	2:  "WorkflowExecutionFailed",
+	3:  "WorkflowExecutionTimedOut",
+	4:  "DecisionTaskScheduled",
+	5:  "DecisionTaskStarted",
+	6:  "DecisionTaskCompleted",
+	7:  "DecisionTaskTimedOut",
+	8:  "DecisionTaskFailed",
+	9:  "ActivityTaskScheduled",
+	10: "ActivityTaskStarted",
+	11: "ActivityTaskCompleted",
+	12: "ActivityTaskFailed",
+	13: "ActivityTaskTimedOut",
+	14: "ActivityTaskCancelRequested",
+	15: "RequestCancelActivityTaskFailed",
+	16: "ActivityTaskCanceled",
+	17: "TimerStarted",
+	18: "TimerFired",
+	19: "CancelTimerFailed",
+	20: "TimerCanceled",
+	21: "WorkflowExecutionCancelRequested",
+	22: "WorkflowExecutionCanceled",
+	23: "RequestCancelExternalWorkflowExecutionInitiated",
+	24: "RequestCancelExternalWorkflowExecutionFailed",
+	25: "ExternalWorkflowExecutionCancelRequested",
+	26: "MarkerRecorded",
+	27: "WorkflowExecutionSignaled",
+	28: "WorkflowExecutionTerminated",
+	29: "WorkflowExecutionContinuedAsNew",
+	30: "StartChildWorkflowExecutionInitiated",
+	31: "StartChildWorkflowExecutionFailed",
+	32: "ChildWorkflowExecutionStarted",
+	33: "ChildWorkflowExecutionCompleted",
+	34: "ChildWorkflowExecutionFailed",
+	35: "ChildWorkflowExecutionCanceled",
+	36: "ChildWorkflowExecutionTimedOut",
+	37: "ChildWorkflowExecutionTerminated",
+	38: "SignalExternalWorkflowExecutionInitiated",
+	39: "SignalExternalWorkflowExecutionFailed",
+	40: "ExternalWorkflowExecutionSignaled",
+	41: "UpsertWorkflowSearchAttributes",
 }
 
 var EventType_value = map[string]int32{
-	"EventTypeWorkflowExecutionStarted":                        0,
-	"EventTypeWorkflowExecutionCompleted":                      1,
-	"EventTypeWorkflowExecutionFailed":                         2,
-	"EventTypeWorkflowExecutionTimedOut":                       3,
-	"EventTypeDecisionTaskScheduled":                           4,
-	"EventTypeDecisionTaskStarted":                             5,
-	"EventTypeDecisionTaskCompleted":                           6,
-	"EventTypeDecisionTaskTimedOut":                            7,
-	"EventTypeDecisionTaskFailed":                              8,
-	"EventTypeActivityTaskScheduled":                           9,
-	"EventTypeActivityTaskStarted":                             10,
-	"EventTypeActivityTaskCompleted":                           11,
-	"EventTypeActivityTaskFailed":                              12,
-	"EventTypeActivityTaskTimedOut":                            13,
-	"EventTypeActivityTaskCancelRequested":                     14,
-	"EventTypeRequestCancelActivityTaskFailed":                 15,
-	"EventTypeActivityTaskCanceled":                            16,
-	"EventTypeTimerStarted":                                    17,
-	"EventTypeTimerFired":                                      18,
-	"EventTypeCancelTimerFailed":                               19,
-	"EventTypeTimerCanceled":                                   20,
-	"EventTypeWorkflowExecutionCancelRequested":                21,
-	"EventTypeWorkflowExecutionCanceled":                       22,
-	"EventTypeRequestCancelExternalWorkflowExecutionInitiated": 23,
-	"EventTypeRequestCancelExternalWorkflowExecutionFailed":    24,
-	"EventTypeExternalWorkflowExecutionCancelRequested":        25,
-	"EventTypeMarkerRecorded":                                  26,
-	"EventTypeWorkflowExecutionSignaled":                       27,
-	"EventTypeWorkflowExecutionTerminated":                     28,
-	"EventTypeWorkflowExecutionContinuedAsNew":                 29,
-	"EventTypeStartChildWorkflowExecutionInitiated":            30,
-	"EventTypeStartChildWorkflowExecutionFailed":               31,
-	"EventTypeChildWorkflowExecutionStarted":                   32,
-	"EventTypeChildWorkflowExecutionCompleted":                 33,
-	"EventTypeChildWorkflowExecutionFailed":                    34,
-	"EventTypeChildWorkflowExecutionCanceled":                  35,
-	"EventTypeChildWorkflowExecutionTimedOut":                  36,
-	"EventTypeChildWorkflowExecutionTerminated":                37,
-	"EventTypeSignalExternalWorkflowExecutionInitiated":        38,
-	"EventTypeSignalExternalWorkflowExecutionFailed":           39,
-	"EventTypeExternalWorkflowExecutionSignaled":               40,
-	"EventTypeUpsertWorkflowSearchAttributes":                  41,
+	"WorkflowExecutionStarted":                        0,
+	"WorkflowExecutionCompleted":                      1,
+	"WorkflowExecutionFailed":                         2,
+	"WorkflowExecutionTimedOut":                       3,
+	"DecisionTaskScheduled":                           4,
+	"DecisionTaskStarted":                             5,
+	"DecisionTaskCompleted":                           6,
+	"DecisionTaskTimedOut":                            7,
+	"DecisionTaskFailed":                              8,
+	"ActivityTaskScheduled":                           9,
+	"ActivityTaskStarted":                             10,
+	"ActivityTaskCompleted":                           11,
+	"ActivityTaskFailed":                              12,
+	"ActivityTaskTimedOut":                            13,
+	"ActivityTaskCancelRequested":                     14,
+	"RequestCancelActivityTaskFailed":                 15,
+	"ActivityTaskCanceled":                            16,
+	"TimerStarted":                                    17,
+	"TimerFired":                                      18,
+	"CancelTimerFailed":                               19,
+	"TimerCanceled":                                   20,
+	"WorkflowExecutionCancelRequested":                21,
+	"WorkflowExecutionCanceled":                       22,
+	"RequestCancelExternalWorkflowExecutionInitiated": 23,
+	"RequestCancelExternalWorkflowExecutionFailed":    24,
+	"ExternalWorkflowExecutionCancelRequested":        25,
+	"MarkerRecorded":                                  26,
+	"WorkflowExecutionSignaled":                       27,
+	"WorkflowExecutionTerminated":                     28,
+	"WorkflowExecutionContinuedAsNew":                 29,
+	"StartChildWorkflowExecutionInitiated":            30,
+	"StartChildWorkflowExecutionFailed":               31,
+	"ChildWorkflowExecutionStarted":                   32,
+	"ChildWorkflowExecutionCompleted":                 33,
+	"ChildWorkflowExecutionFailed":                    34,
+	"ChildWorkflowExecutionCanceled":                  35,
+	"ChildWorkflowExecutionTimedOut":                  36,
+	"ChildWorkflowExecutionTerminated":                37,
+	"SignalExternalWorkflowExecutionInitiated":        38,
+	"SignalExternalWorkflowExecutionFailed":           39,
+	"ExternalWorkflowExecutionSignaled":               40,
+	"UpsertWorkflowSearchAttributes":                  41,
 }
 
 func (EventType) EnumDescriptor() ([]byte, []int) {
@@ -188,81 +189,81 @@ func (EventType) EnumDescriptor() ([]byte, []int) {
 type DecisionTaskFailedCause int32
 
 const (
-	DecisionTaskFailedCauseUnhandledDecision                                   DecisionTaskFailedCause = 0
-	DecisionTaskFailedCauseBadScheduleActivityAttributes                       DecisionTaskFailedCause = 1
-	DecisionTaskFailedCauseBadRequestCancelActivityAttributes                  DecisionTaskFailedCause = 2
-	DecisionTaskFailedCauseBadStartTimerAttributes                             DecisionTaskFailedCause = 3
-	DecisionTaskFailedCauseBadCancelTimerAttributes                            DecisionTaskFailedCause = 4
-	DecisionTaskFailedCauseBadRecordMarkerAttributes                           DecisionTaskFailedCause = 5
-	DecisionTaskFailedCauseBadCompleteWorkflowExecutionAttributes              DecisionTaskFailedCause = 6
-	DecisionTaskFailedCauseBadFailWorkflowExecutionAttributes                  DecisionTaskFailedCause = 7
-	DecisionTaskFailedCauseBadCancelWorkflowExecutionAttributes                DecisionTaskFailedCause = 8
-	DecisionTaskFailedCauseBadRequestCancelExternalWorkflowExecutionAttributes DecisionTaskFailedCause = 9
-	DecisionTaskFailedCauseBadContinueAsNewAttributes                          DecisionTaskFailedCause = 10
-	DecisionTaskFailedCauseStartTimerDuplicateId                               DecisionTaskFailedCause = 11
-	DecisionTaskFailedCauseResetStickyTasklist                                 DecisionTaskFailedCause = 12
-	DecisionTaskFailedCauseWorkflowWorkerUnhandledFailure                      DecisionTaskFailedCause = 13
-	DecisionTaskFailedCauseBadSignalWorkflowExecutionAttributes                DecisionTaskFailedCause = 14
-	DecisionTaskFailedCauseBadStartChildExecutionAttributes                    DecisionTaskFailedCause = 15
-	DecisionTaskFailedCauseForceCloseDecision                                  DecisionTaskFailedCause = 16
-	DecisionTaskFailedCauseFailoverCloseDecision                               DecisionTaskFailedCause = 17
-	DecisionTaskFailedCauseBadSignalInputSize                                  DecisionTaskFailedCause = 18
-	DecisionTaskFailedCauseResetWorkflow                                       DecisionTaskFailedCause = 19
-	DecisionTaskFailedCauseBadBinary                                           DecisionTaskFailedCause = 20
-	DecisionTaskFailedCauseScheduleActivityDuplicateId                         DecisionTaskFailedCause = 21
-	DecisionTaskFailedCauseBadSearchAttributes                                 DecisionTaskFailedCause = 22
+	DecisionTaskFailedCause_UnhandledDecision                                   DecisionTaskFailedCause = 0
+	DecisionTaskFailedCause_BadScheduleActivityAttributes                       DecisionTaskFailedCause = 1
+	DecisionTaskFailedCause_BadRequestCancelActivityAttributes                  DecisionTaskFailedCause = 2
+	DecisionTaskFailedCause_BadStartTimerAttributes                             DecisionTaskFailedCause = 3
+	DecisionTaskFailedCause_BadCancelTimerAttributes                            DecisionTaskFailedCause = 4
+	DecisionTaskFailedCause_BadRecordMarkerAttributes                           DecisionTaskFailedCause = 5
+	DecisionTaskFailedCause_BadCompleteWorkflowExecutionAttributes              DecisionTaskFailedCause = 6
+	DecisionTaskFailedCause_BadFailWorkflowExecutionAttributes                  DecisionTaskFailedCause = 7
+	DecisionTaskFailedCause_BadCancelWorkflowExecutionAttributes                DecisionTaskFailedCause = 8
+	DecisionTaskFailedCause_BadRequestCancelExternalWorkflowExecutionAttributes DecisionTaskFailedCause = 9
+	DecisionTaskFailedCause_BadContinueAsNewAttributes                          DecisionTaskFailedCause = 10
+	DecisionTaskFailedCause_StartTimerDuplicateId                               DecisionTaskFailedCause = 11
+	DecisionTaskFailedCause_ResetStickyTasklist                                 DecisionTaskFailedCause = 12
+	DecisionTaskFailedCause_WorkflowWorkerUnhandledFailure                      DecisionTaskFailedCause = 13
+	DecisionTaskFailedCause_BadSignalWorkflowExecutionAttributes                DecisionTaskFailedCause = 14
+	DecisionTaskFailedCause_BadStartChildExecutionAttributes                    DecisionTaskFailedCause = 15
+	DecisionTaskFailedCause_ForceCloseDecision                                  DecisionTaskFailedCause = 16
+	DecisionTaskFailedCause_FailoverCloseDecision                               DecisionTaskFailedCause = 17
+	DecisionTaskFailedCause_BadSignalInputSize                                  DecisionTaskFailedCause = 18
+	DecisionTaskFailedCause_ResetWorkflow                                       DecisionTaskFailedCause = 19
+	DecisionTaskFailedCause_BadBinary                                           DecisionTaskFailedCause = 20
+	DecisionTaskFailedCause_ScheduleActivityDuplicateId                         DecisionTaskFailedCause = 21
+	DecisionTaskFailedCause_BadSearchAttributes                                 DecisionTaskFailedCause = 22
 )
 
 var DecisionTaskFailedCause_name = map[int32]string{
-	0:  "DecisionTaskFailedCauseUnhandledDecision",
-	1:  "DecisionTaskFailedCauseBadScheduleActivityAttributes",
-	2:  "DecisionTaskFailedCauseBadRequestCancelActivityAttributes",
-	3:  "DecisionTaskFailedCauseBadStartTimerAttributes",
-	4:  "DecisionTaskFailedCauseBadCancelTimerAttributes",
-	5:  "DecisionTaskFailedCauseBadRecordMarkerAttributes",
-	6:  "DecisionTaskFailedCauseBadCompleteWorkflowExecutionAttributes",
-	7:  "DecisionTaskFailedCauseBadFailWorkflowExecutionAttributes",
-	8:  "DecisionTaskFailedCauseBadCancelWorkflowExecutionAttributes",
-	9:  "DecisionTaskFailedCauseBadRequestCancelExternalWorkflowExecutionAttributes",
-	10: "DecisionTaskFailedCauseBadContinueAsNewAttributes",
-	11: "DecisionTaskFailedCauseStartTimerDuplicateId",
-	12: "DecisionTaskFailedCauseResetStickyTasklist",
-	13: "DecisionTaskFailedCauseWorkflowWorkerUnhandledFailure",
-	14: "DecisionTaskFailedCauseBadSignalWorkflowExecutionAttributes",
-	15: "DecisionTaskFailedCauseBadStartChildExecutionAttributes",
-	16: "DecisionTaskFailedCauseForceCloseDecision",
-	17: "DecisionTaskFailedCauseFailoverCloseDecision",
-	18: "DecisionTaskFailedCauseBadSignalInputSize",
-	19: "DecisionTaskFailedCauseResetWorkflow",
-	20: "DecisionTaskFailedCauseBadBinary",
-	21: "DecisionTaskFailedCauseScheduleActivityDuplicateId",
-	22: "DecisionTaskFailedCauseBadSearchAttributes",
+	0:  "UnhandledDecision",
+	1:  "BadScheduleActivityAttributes",
+	2:  "BadRequestCancelActivityAttributes",
+	3:  "BadStartTimerAttributes",
+	4:  "BadCancelTimerAttributes",
+	5:  "BadRecordMarkerAttributes",
+	6:  "BadCompleteWorkflowExecutionAttributes",
+	7:  "BadFailWorkflowExecutionAttributes",
+	8:  "BadCancelWorkflowExecutionAttributes",
+	9:  "BadRequestCancelExternalWorkflowExecutionAttributes",
+	10: "BadContinueAsNewAttributes",
+	11: "StartTimerDuplicateId",
+	12: "ResetStickyTasklist",
+	13: "WorkflowWorkerUnhandledFailure",
+	14: "BadSignalWorkflowExecutionAttributes",
+	15: "BadStartChildExecutionAttributes",
+	16: "ForceCloseDecision",
+	17: "FailoverCloseDecision",
+	18: "BadSignalInputSize",
+	19: "ResetWorkflow",
+	20: "BadBinary",
+	21: "ScheduleActivityDuplicateId",
+	22: "BadSearchAttributes",
 }
 
 var DecisionTaskFailedCause_value = map[string]int32{
-	"DecisionTaskFailedCauseUnhandledDecision":                                   0,
-	"DecisionTaskFailedCauseBadScheduleActivityAttributes":                       1,
-	"DecisionTaskFailedCauseBadRequestCancelActivityAttributes":                  2,
-	"DecisionTaskFailedCauseBadStartTimerAttributes":                             3,
-	"DecisionTaskFailedCauseBadCancelTimerAttributes":                            4,
-	"DecisionTaskFailedCauseBadRecordMarkerAttributes":                           5,
-	"DecisionTaskFailedCauseBadCompleteWorkflowExecutionAttributes":              6,
-	"DecisionTaskFailedCauseBadFailWorkflowExecutionAttributes":                  7,
-	"DecisionTaskFailedCauseBadCancelWorkflowExecutionAttributes":                8,
-	"DecisionTaskFailedCauseBadRequestCancelExternalWorkflowExecutionAttributes": 9,
-	"DecisionTaskFailedCauseBadContinueAsNewAttributes":                          10,
-	"DecisionTaskFailedCauseStartTimerDuplicateId":                               11,
-	"DecisionTaskFailedCauseResetStickyTasklist":                                 12,
-	"DecisionTaskFailedCauseWorkflowWorkerUnhandledFailure":                      13,
-	"DecisionTaskFailedCauseBadSignalWorkflowExecutionAttributes":                14,
-	"DecisionTaskFailedCauseBadStartChildExecutionAttributes":                    15,
-	"DecisionTaskFailedCauseForceCloseDecision":                                  16,
-	"DecisionTaskFailedCauseFailoverCloseDecision":                               17,
-	"DecisionTaskFailedCauseBadSignalInputSize":                                  18,
-	"DecisionTaskFailedCauseResetWorkflow":                                       19,
-	"DecisionTaskFailedCauseBadBinary":                                           20,
-	"DecisionTaskFailedCauseScheduleActivityDuplicateId":                         21,
-	"DecisionTaskFailedCauseBadSearchAttributes":                                 22,
+	"UnhandledDecision":                                   0,
+	"BadScheduleActivityAttributes":                       1,
+	"BadRequestCancelActivityAttributes":                  2,
+	"BadStartTimerAttributes":                             3,
+	"BadCancelTimerAttributes":                            4,
+	"BadRecordMarkerAttributes":                           5,
+	"BadCompleteWorkflowExecutionAttributes":              6,
+	"BadFailWorkflowExecutionAttributes":                  7,
+	"BadCancelWorkflowExecutionAttributes":                8,
+	"BadRequestCancelExternalWorkflowExecutionAttributes": 9,
+	"BadContinueAsNewAttributes":                          10,
+	"StartTimerDuplicateId":                               11,
+	"ResetStickyTasklist":                                 12,
+	"WorkflowWorkerUnhandledFailure":                      13,
+	"BadSignalWorkflowExecutionAttributes":                14,
+	"BadStartChildExecutionAttributes":                    15,
+	"ForceCloseDecision":                                  16,
+	"FailoverCloseDecision":                               17,
+	"BadSignalInputSize":                                  18,
+	"ResetWorkflow":                                       19,
+	"BadBinary":                                           20,
+	"ScheduleActivityDuplicateId":                         21,
+	"BadSearchAttributes":                                 22,
 }
 
 func (DecisionTaskFailedCause) EnumDescriptor() ([]byte, []int) {
@@ -272,164 +273,123 @@ func (DecisionTaskFailedCause) EnumDescriptor() ([]byte, []int) {
 type TimeoutType int32
 
 const (
-	TimeoutTypeStartToClose    TimeoutType = 0
-	TimeoutTypeScheduleToStart TimeoutType = 1
-	TimeoutTypeScheduleToClose TimeoutType = 2
-	TimeoutTypeHeartbeat       TimeoutType = 3
+	TimeoutType_StartToClose    TimeoutType = 0
+	TimeoutType_ScheduleToStart TimeoutType = 1
+	TimeoutType_ScheduleToClose TimeoutType = 2
+	TimeoutType_Heartbeat       TimeoutType = 3
 )
 
 var TimeoutType_name = map[int32]string{
-	0: "TimeoutTypeStartToClose",
-	1: "TimeoutTypeScheduleToStart",
-	2: "TimeoutTypeScheduleToClose",
-	3: "TimeoutTypeHeartbeat",
+	0: "StartToClose",
+	1: "ScheduleToStart",
+	2: "ScheduleToClose",
+	3: "Heartbeat",
 }
 
 var TimeoutType_value = map[string]int32{
-	"TimeoutTypeStartToClose":    0,
-	"TimeoutTypeScheduleToStart": 1,
-	"TimeoutTypeScheduleToClose": 2,
-	"TimeoutTypeHeartbeat":       3,
+	"StartToClose":    0,
+	"ScheduleToStart": 1,
+	"ScheduleToClose": 2,
+	"Heartbeat":       3,
 }
 
 func (TimeoutType) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_274c373c015eaec4, []int{2}
 }
 
-type CancelExternalWorkflowExecutionFailedCause int32
+type WorkflowExecutionFailedCause int32
 
 const (
-	CancelExternalWorkflowExecutionFailedCauseUnknownExternalWorkflowExecution CancelExternalWorkflowExecutionFailedCause = 0
+	WorkflowExecutionFailedCause_UnknownExternalWorkflowExecution WorkflowExecutionFailedCause = 0
+	WorkflowExecutionFailedCause_WorkflowAlreadyRunning           WorkflowExecutionFailedCause = 1
 )
 
-var CancelExternalWorkflowExecutionFailedCause_name = map[int32]string{
-	0: "CancelExternalWorkflowExecutionFailedCauseUnknownExternalWorkflowExecution",
+var WorkflowExecutionFailedCause_name = map[int32]string{
+	0: "UnknownExternalWorkflowExecution",
+	1: "WorkflowAlreadyRunning",
 }
 
-var CancelExternalWorkflowExecutionFailedCause_value = map[string]int32{
-	"CancelExternalWorkflowExecutionFailedCauseUnknownExternalWorkflowExecution": 0,
+var WorkflowExecutionFailedCause_value = map[string]int32{
+	"UnknownExternalWorkflowExecution": 0,
+	"WorkflowAlreadyRunning":           1,
 }
 
-func (CancelExternalWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
+func (WorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_274c373c015eaec4, []int{3}
-}
-
-type SignalExternalWorkflowExecutionFailedCause int32
-
-const (
-	SignalExternalWorkflowExecutionFailedCauseUnknownExternalWorkflowExecution SignalExternalWorkflowExecutionFailedCause = 0
-)
-
-var SignalExternalWorkflowExecutionFailedCause_name = map[int32]string{
-	0: "SignalExternalWorkflowExecutionFailedCauseUnknownExternalWorkflowExecution",
-}
-
-var SignalExternalWorkflowExecutionFailedCause_value = map[string]int32{
-	"SignalExternalWorkflowExecutionFailedCauseUnknownExternalWorkflowExecution": 0,
-}
-
-func (SignalExternalWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_274c373c015eaec4, []int{4}
-}
-
-type ChildWorkflowExecutionFailedCause int32
-
-const (
-	ChildWorkflowExecutionFailedCauseWorkflowAlreadyRunning ChildWorkflowExecutionFailedCause = 0
-)
-
-var ChildWorkflowExecutionFailedCause_name = map[int32]string{
-	0: "ChildWorkflowExecutionFailedCauseWorkflowAlreadyRunning",
-}
-
-var ChildWorkflowExecutionFailedCause_value = map[string]int32{
-	"ChildWorkflowExecutionFailedCauseWorkflowAlreadyRunning": 0,
-}
-
-func (ChildWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_274c373c015eaec4, []int{5}
 }
 
 func init() {
 	proto.RegisterEnum("event.EventType", EventType_name, EventType_value)
 	proto.RegisterEnum("event.DecisionTaskFailedCause", DecisionTaskFailedCause_name, DecisionTaskFailedCause_value)
 	proto.RegisterEnum("event.TimeoutType", TimeoutType_name, TimeoutType_value)
-	proto.RegisterEnum("event.CancelExternalWorkflowExecutionFailedCause", CancelExternalWorkflowExecutionFailedCause_name, CancelExternalWorkflowExecutionFailedCause_value)
-	proto.RegisterEnum("event.SignalExternalWorkflowExecutionFailedCause", SignalExternalWorkflowExecutionFailedCause_name, SignalExternalWorkflowExecutionFailedCause_value)
-	proto.RegisterEnum("event.ChildWorkflowExecutionFailedCause", ChildWorkflowExecutionFailedCause_name, ChildWorkflowExecutionFailedCause_value)
+	proto.RegisterEnum("event.WorkflowExecutionFailedCause", WorkflowExecutionFailedCause_name, WorkflowExecutionFailedCause_value)
 }
 
 func init() { proto.RegisterFile("event/enum.proto", fileDescriptor_274c373c015eaec4) }
 
 var fileDescriptor_274c373c015eaec4 = []byte{
-	// 1058 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x57, 0x49, 0x53, 0xdc, 0x46,
-	0x14, 0x96, 0xc0, 0x60, 0xf3, 0x6c, 0xec, 0x76, 0xb3, 0x8c, 0x0d, 0xb6, 0xcc, 0xbe, 0x4c, 0xcc,
-	0xe0, 0x35, 0xb6, 0x8b, 0xb8, 0x52, 0x80, 0xa1, 0x82, 0xab, 0x42, 0x52, 0x0c, 0x54, 0xaa, 0x72,
-	0x8a, 0x18, 0xbd, 0x40, 0x17, 0xa2, 0x35, 0xe9, 0x69, 0x81, 0x49, 0xe5, 0x90, 0x43, 0x8e, 0x39,
-	0xe4, 0x67, 0xe4, 0xa7, 0xe4, 0x92, 0x2a, 0x8e, 0x3e, 0x86, 0xe1, 0x92, 0xa3, 0x7f, 0x42, 0xaa,
-	0xb5, 0x8d, 0x04, 0x6a, 0xa1, 0x9c, 0x46, 0x9a, 0xf7, 0x7d, 0x6f, 0xeb, 0xaf, 0x5f, 0xb7, 0x80,
-	0xe0, 0x11, 0x72, 0xb9, 0x88, 0xdc, 0x3f, 0xac, 0x35, 0x85, 0x27, 0x3d, 0xda, 0x13, 0xfc, 0x53,
-	0xfd, 0xbb, 0x1f, 0xfa, 0xd6, 0xd4, 0xd3, 0xf6, 0x49, 0x13, 0xe9, 0x34, 0x8c, 0x27, 0x2f, 0xdf,
-	0x79, 0xe2, 0xe0, 0x47, 0xd7, 0x3b, 0x5e, 0xfb, 0x80, 0x0d, 0x5f, 0x32, 0x8f, 0xd7, 0xa5, 0x2d,
-	0x24, 0x3a, 0xc4, 0xa0, 0xb3, 0x30, 0xa9, 0x87, 0xad, 0x7a, 0x87, 0x4d, 0x17, 0x15, 0xd0, 0xa4,
-	0x53, 0x30, 0xa6, 0x07, 0xae, 0xdb, 0xcc, 0x45, 0x87, 0x74, 0xd1, 0x19, 0x98, 0xd0, 0xa3, 0xb6,
-	0xd9, 0x21, 0x3a, 0xdf, 0xf8, 0x92, 0x74, 0xd3, 0x09, 0xb0, 0x12, 0xdc, 0x3b, 0x6c, 0xb0, 0x96,
-	0x32, 0xdb, 0xad, 0x83, 0x7a, 0x63, 0x1f, 0x1d, 0x5f, 0xf9, 0xba, 0x46, 0xc7, 0xe0, 0x41, 0x3e,
-	0x26, 0x4a, 0xbe, 0x47, 0xeb, 0xa5, 0x93, 0x77, 0x2f, 0x1d, 0x87, 0x87, 0xb9, 0x98, 0x24, 0x99,
-	0xeb, 0xf4, 0x11, 0x8c, 0xe6, 0x42, 0xa2, 0xaa, 0x6e, 0x64, 0xe2, 0x2c, 0x37, 0x24, 0x3b, 0x62,
-	0xf2, 0x24, 0x9b, 0x6d, 0x5f, 0x26, 0xdb, 0x0c, 0x26, 0xca, 0x16, 0xb4, 0x5e, 0x3a, 0xd9, 0xde,
-	0xcc, 0xa4, 0x92, 0xc6, 0x44, 0xa9, 0xdc, 0xca, 0x94, 0x93, 0x06, 0x24, 0xe5, 0xf4, 0xd3, 0x39,
-	0x98, 0xca, 0x8f, 0x63, 0xf3, 0x06, 0xba, 0x5b, 0xf8, 0x93, 0x8f, 0x2d, 0x15, 0xed, 0x36, 0x7d,
-	0x0c, 0x73, 0x09, 0x32, 0xfa, 0x3f, 0x04, 0xe5, 0x84, 0xbe, 0xa3, 0x0d, 0x1d, 0x52, 0xd0, 0x21,
-	0x84, 0xde, 0x87, 0xa1, 0x04, 0xa2, 0x32, 0x12, 0x71, 0xf5, 0x77, 0x69, 0x05, 0x06, 0xb2, 0xa6,
-	0x75, 0x26, 0xd0, 0x21, 0x94, 0x5a, 0x30, 0x92, 0x18, 0x42, 0x57, 0xa1, 0x39, 0x0c, 0x3b, 0x40,
-	0x47, 0x60, 0x38, 0x4b, 0x4c, 0xe2, 0x0d, 0xd2, 0x05, 0x98, 0x2f, 0x50, 0xef, 0x85, 0x7a, 0x87,
-	0x8a, 0xd5, 0x99, 0xb8, 0x1d, 0xa6, 0x5f, 0xc0, 0xeb, 0xfc, 0xbe, 0xac, 0x7d, 0x90, 0x28, 0xb8,
-	0xed, 0x5e, 0x22, 0x6f, 0x70, 0x26, 0x99, 0xad, 0xa2, 0x54, 0xe8, 0x1b, 0x78, 0xf9, 0x3f, 0xd9,
-	0x51, 0xad, 0xf7, 0xe8, 0x4b, 0x78, 0x9a, 0x50, 0xb5, 0xe8, 0x8b, 0x75, 0xdd, 0xa7, 0xa3, 0x50,
-	0x49, 0x68, 0x5f, 0xdb, 0xe2, 0x00, 0xc5, 0x16, 0x36, 0x3c, 0xe1, 0xa0, 0x43, 0x46, 0x8a, 0x8b,
-	0xae, 0xb3, 0x3d, 0x6e, 0xab, 0xd8, 0xa3, 0x19, 0xd9, 0x5c, 0xde, 0xba, 0x28, 0x0e, 0x19, 0x0f,
-	0x0a, 0x7c, 0x90, 0x91, 0x4d, 0xce, 0xcc, 0xe0, 0x92, 0x71, 0x1f, 0x9d, 0xe5, 0xd6, 0x26, 0x1e,
-	0x93, 0x87, 0xf4, 0x29, 0x2c, 0x24, 0xe8, 0x40, 0x0e, 0xab, 0xfb, 0xcc, 0x75, 0x0a, 0x3a, 0x68,
-	0xd1, 0x1a, 0x54, 0xcb, 0x50, 0xa2, 0xb6, 0x3d, 0xa2, 0x55, 0x98, 0xe9, 0x48, 0x28, 0x17, 0x1a,
-	0xeb, 0x70, 0x2c, 0x93, 0x7c, 0x3e, 0xb6, 0xb3, 0x1f, 0xc7, 0xe9, 0x3c, 0x4c, 0x5f, 0x81, 0x8e,
-	0x92, 0x98, 0xa0, 0x9f, 0xc1, 0xec, 0x55, 0x8e, 0x63, 0x85, 0x4d, 0x96, 0x00, 0x27, 0x1b, 0x7a,
-	0x2a, 0xa3, 0x72, 0x0d, 0xb8, 0xb3, 0x3c, 0xd3, 0x19, 0x11, 0x85, 0xeb, 0x5b, 0x42, 0xb6, 0x33,
-	0xf4, 0x19, 0xd4, 0xca, 0xd2, 0xa2, 0x9a, 0x67, 0x33, 0x0b, 0xa5, 0x45, 0x27, 0x1a, 0x9b, 0xcb,
-	0x94, 0xbd, 0xd3, 0x6c, 0xa1, 0x90, 0x31, 0xba, 0x8e, 0xb6, 0x68, 0xec, 0x2f, 0x4b, 0x29, 0xd8,
-	0xae, 0x2f, 0xb1, 0x45, 0xe6, 0xab, 0xbf, 0x03, 0x54, 0x2e, 0x8f, 0xe3, 0x55, 0xdb, 0x6f, 0xa1,
-	0x5a, 0x45, 0x8d, 0x69, 0x87, 0xef, 0xdb, 0xdc, 0x71, 0xd1, 0x89, 0xed, 0xc4, 0xa0, 0xaf, 0xe1,
-	0x85, 0x06, 0xbd, 0x62, 0x3b, 0xf1, 0x10, 0x8f, 0x47, 0x5a, 0x2a, 0x07, 0x93, 0xbe, 0x85, 0x37,
-	0x7a, 0x66, 0xee, 0xc8, 0x4c, 0xd1, 0xbb, 0x54, 0x4f, 0x0b, 0x02, 0x2b, 0x4d, 0x06, 0x13, 0x2d,
-	0xc5, 0xe9, 0xa6, 0xcf, 0x61, 0x51, 0xcf, 0x49, 0x0d, 0xc8, 0x14, 0xe9, 0x1a, 0x7d, 0x01, 0x4f,
-	0x8a, 0xf2, 0x54, 0xc3, 0x20, 0x1c, 0x0c, 0x29, 0x56, 0x0f, 0x5d, 0x86, 0xb7, 0x05, 0xa1, 0xa2,
-	0x6d, 0x70, 0x69, 0x3d, 0x53, 0x2e, 0x7a, 0x8b, 0x1b, 0xa4, 0xde, 0x8a, 0xe8, 0xd7, 0xe9, 0x97,
-	0xb0, 0x74, 0x55, 0xb1, 0x45, 0x0e, 0x6e, 0xd0, 0x4d, 0x78, 0x5f, 0x72, 0x81, 0xb4, 0xfa, 0x4c,
-	0xf9, 0xeb, 0x53, 0x9b, 0xa7, 0xa8, 0x25, 0xe1, 0x6c, 0x0b, 0x46, 0x5b, 0x8a, 0x06, 0xf4, 0x09,
-	0x3c, 0xd6, 0xd0, 0x3a, 0xab, 0xfc, 0xce, 0x6f, 0xba, 0xac, 0x61, 0x4b, 0xdc, 0x50, 0x27, 0x7d,
-	0x0d, 0xaa, 0x1a, 0xc6, 0x16, 0xb6, 0x50, 0xd6, 0x25, 0x6b, 0x1c, 0x04, 0xc7, 0xab, 0xcb, 0x5a,
-	0x92, 0xdc, 0x52, 0xa7, 0x8a, 0x06, 0x1f, 0x17, 0xa4, 0x7e, 0x51, 0x24, 0xfa, 0x57, 0x08, 0x5f,
-	0x20, 0xe9, 0x2f, 0x6e, 0x72, 0xb8, 0x3b, 0x8b, 0x9a, 0x72, 0x9b, 0x2e, 0xc1, 0xab, 0x2b, 0x64,
-	0x1c, 0x8c, 0xa5, 0x3c, 0xf2, 0x1d, 0x35, 0xbd, 0x34, 0xe4, 0x75, 0x4f, 0x34, 0x70, 0xd5, 0xf5,
-	0x5a, 0xc9, 0xad, 0x8b, 0x90, 0x82, 0x4e, 0xaa, 0x47, 0xef, 0x08, 0x45, 0x96, 0x71, 0xb7, 0x20,
-	0x40, 0x52, 0xde, 0x06, 0x6f, 0xfa, 0xb2, 0xce, 0x7e, 0x46, 0x42, 0xd5, 0x39, 0x57, 0xd4, 0xf8,
-	0xb8, 0x13, 0x64, 0x40, 0x5d, 0x79, 0xf5, 0x8e, 0x57, 0x18, 0xb7, 0xc5, 0x09, 0x19, 0xa4, 0x9f,
-	0xc3, 0x33, 0xdd, 0xd2, 0x5f, 0x98, 0x2c, 0x69, 0x01, 0x0c, 0x15, 0x08, 0x40, 0xa5, 0x7d, 0x71,
-	0x1c, 0x0e, 0x57, 0x7f, 0x33, 0xe1, 0xa6, 0xd2, 0x91, 0xe7, 0x87, 0x17, 0xfc, 0x51, 0xa8, 0xa4,
-	0x5e, 0x43, 0x99, 0x79, 0x41, 0x6f, 0x88, 0xa1, 0x2e, 0x55, 0x69, 0x63, 0x94, 0xc8, 0xb6, 0x17,
-	0xc0, 0x88, 0xa9, 0xb5, 0x87, 0xfc, 0x2e, 0x7a, 0x0f, 0x06, 0x53, 0xf6, 0xaf, 0xd0, 0x16, 0x72,
-	0x17, 0x6d, 0x49, 0xba, 0xab, 0xbf, 0x40, 0xb5, 0xd4, 0x6d, 0x26, 0x9c, 0xd3, 0x9b, 0xf0, 0xbe,
-	0x3c, 0x7a, 0x87, 0x1f, 0x70, 0xef, 0x98, 0x6b, 0xa1, 0xc4, 0x50, 0xd1, 0x4b, 0x9d, 0x4d, 0x49,
-	0xf4, 0xf2, 0xe8, 0x12, 0xd1, 0x7f, 0x80, 0xf1, 0xa2, 0x4b, 0x40, 0x18, 0x74, 0x09, 0x5e, 0x5d,
-	0x09, 0x8a, 0x6d, 0xcb, 0xae, 0x40, 0xdb, 0x39, 0xd9, 0xf2, 0x39, 0x67, 0x7c, 0x8f, 0x18, 0x2b,
-	0xf2, 0xf4, 0xcc, 0x32, 0x3e, 0x9e, 0x59, 0xc6, 0xa7, 0x33, 0xcb, 0xfc, 0xb5, 0x6d, 0x99, 0x7f,
-	0xb6, 0x2d, 0xf3, 0xaf, 0xb6, 0x65, 0x9e, 0xb6, 0x2d, 0xf3, 0x9f, 0xb6, 0x65, 0xfe, 0xdb, 0xb6,
-	0x8c, 0x4f, 0x6d, 0xcb, 0xfc, 0xe3, 0xdc, 0x32, 0x4e, 0xcf, 0x2d, 0xe3, 0xe3, 0xb9, 0x65, 0x40,
-	0x85, 0x79, 0x35, 0x89, 0x87, 0x4d, 0x4f, 0xd8, 0x6e, 0xf8, 0x4d, 0x58, 0x0b, 0x3e, 0x09, 0xbf,
-	0x35, 0xbf, 0x9f, 0xdc, 0x4b, 0x99, 0x98, 0xb7, 0x18, 0x3f, 0x2f, 0x04, 0xb0, 0xc5, 0x00, 0xb6,
-	0xdb, 0x1b, 0xbc, 0x3c, 0xff, 0x2f, 0x00, 0x00, 0xff, 0xff, 0x1f, 0xd7, 0xdd, 0x78, 0x5b, 0x0e,
-	0x00, 0x00,
+	// 967 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x56, 0x39, 0x53, 0x23, 0x47,
+	0x14, 0xd6, 0xc0, 0xc2, 0x2e, 0x6f, 0x39, 0x9a, 0xe6, 0x10, 0xe7, 0x70, 0x63, 0x96, 0x5a, 0x83,
+	0xab, 0x08, 0x1c, 0x23, 0x16, 0xca, 0x04, 0x3e, 0x0a, 0x41, 0xd9, 0xe5, 0xc8, 0xcd, 0xcc, 0x33,
+	0x74, 0x69, 0xd4, 0x23, 0xf7, 0xf4, 0xc0, 0xe2, 0xc8, 0x3f, 0xc1, 0x3f, 0xc3, 0x3f, 0xc5, 0x21,
+	0x55, 0x4e, 0x36, 0x34, 0x22, 0x71, 0xb8, 0xb9, 0x13, 0xd7, 0xeb, 0x39, 0x34, 0x3a, 0xbd, 0x91,
+	0xa4, 0xfe, 0xbe, 0x7e, 0xef, 0x7b, 0xa7, 0x1a, 0x18, 0xde, 0xa1, 0x32, 0x87, 0xa8, 0xe2, 0xfa,
+	0x41, 0x43, 0x87, 0x26, 0xe4, 0x23, 0xf6, 0x64, 0x69, 0xf6, 0x26, 0xbc, 0x09, 0xed, 0xc9, 0x21,
+	0x7d, 0x4b, 0xc0, 0xfd, 0xbf, 0x00, 0xc6, 0x4e, 0x09, 0xbf, 0x7c, 0x68, 0x20, 0x5f, 0x81, 0x85,
+	0xef, 0x43, 0x5d, 0xfb, 0x39, 0x08, 0xef, 0x4f, 0xdf, 0xa3, 0x17, 0x1b, 0x19, 0xaa, 0xaa, 0x11,
+	0xda, 0xa0, 0xcf, 0x4a, 0xdc, 0x85, 0xa5, 0x2e, 0xf4, 0x24, 0xac, 0x37, 0x02, 0x24, 0xdc, 0xe1,
+	0xcb, 0x50, 0xee, 0xc2, 0xcf, 0x84, 0x0c, 0xd0, 0x67, 0x43, 0x7c, 0x15, 0x16, 0xbb, 0xc0, 0x4b,
+	0x59, 0x47, 0xff, 0xdb, 0xd8, 0xb0, 0x61, 0xbe, 0x08, 0x73, 0xef, 0xd0, 0x93, 0x11, 0x9d, 0x8a,
+	0xa8, 0x56, 0xf5, 0x6e, 0xd1, 0x8f, 0xe9, 0xe6, 0x0b, 0x5e, 0x86, 0x99, 0x36, 0x28, 0xd5, 0x33,
+	0xd2, 0x79, 0xa7, 0x25, 0x65, 0x94, 0x2f, 0xc0, 0x6c, 0x11, 0xca, 0x1d, 0xbd, 0xe4, 0xf3, 0xc0,
+	0x8b, 0x48, 0xaa, 0xef, 0x15, 0x19, 0x3b, 0xf6, 0x8c, 0xbc, 0x93, 0xe6, 0xa1, 0x5d, 0xc0, 0x18,
+	0x09, 0x68, 0x83, 0x52, 0x01, 0xd0, 0x79, 0xa7, 0x25, 0xe0, 0x35, 0xb9, 0x29, 0x42, 0xa9, 0x9b,
+	0x71, 0x12, 0x56, 0x3c, 0xcf, 0x85, 0x4d, 0xf0, 0x35, 0x58, 0x6e, 0x33, 0x26, 0x94, 0x87, 0xc1,
+	0x05, 0xfe, 0x12, 0x63, 0x44, 0x26, 0x27, 0xf9, 0x16, 0xac, 0xa5, 0x3f, 0x13, 0xac, 0x87, 0xfd,
+	0xa9, 0x4e, 0xfb, 0x09, 0x13, 0x7d, 0xc6, 0x38, 0x83, 0x71, 0xf2, 0xa6, 0x33, 0xf9, 0xd3, 0x7c,
+	0x12, 0xc0, 0x9e, 0x9c, 0x49, 0x8d, 0x3e, 0xe3, 0x7c, 0x0e, 0xa6, 0x13, 0x7e, 0x72, 0x9a, 0x98,
+	0x9c, 0xe1, 0xd3, 0x30, 0x61, 0x0f, 0x72, 0x5b, 0xb3, 0x7c, 0x1b, 0xd6, 0xbb, 0x3b, 0xa1, 0x43,
+	0xf0, 0x5c, 0xcf, 0x92, 0xe7, 0x46, 0xe6, 0xf9, 0x11, 0x1c, 0xb6, 0xc5, 0x73, 0xfa, 0xde, 0xa0,
+	0x56, 0x22, 0xe8, 0xba, 0x73, 0xae, 0xa4, 0x91, 0x82, 0x6c, 0x96, 0xf9, 0x17, 0xf0, 0xf6, 0xd3,
+	0x2e, 0xa5, 0xf2, 0x17, 0xf8, 0x5b, 0xd8, 0xeb, 0x4b, 0xea, 0xd4, 0xbc, 0xc8, 0x39, 0x4c, 0x7e,
+	0x2d, 0x74, 0x0d, 0xf5, 0x05, 0x7a, 0xa1, 0xf6, 0xd1, 0x67, 0x4b, 0x3d, 0xe3, 0xa8, 0xca, 0x1b,
+	0x25, 0xc8, 0xc1, 0x32, 0x15, 0xae, 0xbb, 0xb3, 0x51, 0xd7, 0xa5, 0xb2, 0x9a, 0x57, 0xa8, 0x70,
+	0x3d, 0xe6, 0x46, 0x19, 0xa9, 0x62, 0xf4, 0x8f, 0xa3, 0x6f, 0xf0, 0x9e, 0xad, 0xf2, 0x3d, 0xd8,
+	0xb6, 0x95, 0x39, 0xb9, 0x95, 0x81, 0x3f, 0x20, 0x05, 0x2e, 0xdf, 0x81, 0x8d, 0x01, 0xcc, 0x34,
+	0xee, 0x35, 0xbe, 0x01, 0xab, 0xbd, 0x19, 0x59, 0x03, 0xac, 0x93, 0xb0, 0xde, 0x94, 0x56, 0x27,
+	0x6f, 0xf0, 0x75, 0x58, 0x19, 0xe8, 0x69, 0x93, 0x6f, 0x82, 0xdb, 0xc7, 0x4c, 0x56, 0xec, 0xad,
+	0xfe, 0x9c, 0x7c, 0x02, 0xb6, 0xa9, 0xab, 0xfa, 0x70, 0x5a, 0xd9, 0xdc, 0xa1, 0x7a, 0x26, 0xc9,
+	0xff, 0x84, 0x7e, 0xd9, 0xe5, 0x6f, 0x60, 0xe7, 0x7f, 0xd8, 0x69, 0x18, 0x9f, 0x51, 0x5e, 0xfb,
+	0x92, 0xf2, 0x72, 0xef, 0x51, 0x24, 0x57, 0x8d, 0x08, 0xb5, 0xc9, 0x48, 0x55, 0x14, 0xda, 0xbb,
+	0x3d, 0x36, 0x46, 0xcb, 0xeb, 0xd8, 0x60, 0xc4, 0xde, 0xec, 0xff, 0x3b, 0x02, 0xe5, 0xee, 0x2d,
+	0x73, 0x22, 0xe2, 0x08, 0x69, 0xca, 0xae, 0xd4, 0xad, 0x50, 0x7e, 0x80, 0x7e, 0xc6, 0x61, 0x25,
+	0x2a, 0x57, 0x45, 0xf8, 0xd9, 0xda, 0xc9, 0x66, 0xb8, 0x60, 0xd5, 0xe1, 0xbb, 0xb0, 0x59, 0x11,
+	0x7e, 0xcf, 0x1d, 0x50, 0xe0, 0x0d, 0xd1, 0x1e, 0x26, 0x53, 0x54, 0x66, 0x3b, 0xb8, 0x05, 0x70,
+	0x98, 0x56, 0x7c, 0x45, 0xf8, 0x85, 0x39, 0x2f, 0xa0, 0x2f, 0xa8, 0xd5, 0xad, 0x0b, 0xea, 0xfd,
+	0x64, 0x0e, 0x0a, 0xf0, 0x08, 0xdf, 0x87, 0x5d, 0xba, 0x9c, 0x76, 0x47, 0x57, 0x96, 0x0a, 0xdc,
+	0xd1, 0x54, 0x2d, 0x45, 0x3e, 0x88, 0xf7, 0x92, 0x1a, 0x3f, 0x17, 0x34, 0x88, 0xf9, 0x8a, 0x7f,
+	0x09, 0x47, 0x9d, 0xf1, 0xf7, 0x2d, 0x58, 0xe1, 0xe2, 0x18, 0xfd, 0x71, 0x59, 0xd9, 0xc9, 0xc8,
+	0xd9, 0x89, 0x2b, 0xe0, 0x76, 0x8f, 0xb7, 0xb2, 0xf5, 0x2e, 0x6e, 0x04, 0xd2, 0x13, 0x06, 0xcf,
+	0x69, 0x8f, 0x97, 0x61, 0xe6, 0x02, 0x23, 0x34, 0x55, 0x23, 0xbd, 0x9a, 0x5d, 0xa9, 0x81, 0x8c,
+	0x0c, 0x1b, 0xa7, 0x36, 0xc8, 0x9c, 0xd2, 0x27, 0xea, 0xbc, 0xa8, 0x14, 0x72, 0xac, 0x91, 0x4d,
+	0xa4, 0xa1, 0x25, 0xbd, 0x33, 0x48, 0xe1, 0x24, 0xb5, 0x7e, 0x56, 0x32, 0x3b, 0x02, 0xbd, 0x58,
+	0x53, 0xf4, 0xa7, 0x72, 0x16, 0x6a, 0x0f, 0x4f, 0x82, 0x30, 0xc2, 0xbc, 0x77, 0x18, 0xe9, 0x27,
+	0xa7, 0xe1, 0x1d, 0xea, 0x76, 0x68, 0x9a, 0xae, 0xe4, 0x12, 0xce, 0x55, 0x23, 0x36, 0x55, 0xf9,
+	0x2b, 0x32, 0x4e, 0x4b, 0xdd, 0xc6, 0x95, 0xc9, 0x62, 0x33, 0x7c, 0x02, 0xc6, 0x2a, 0xc2, 0xaf,
+	0x48, 0x25, 0xf4, 0x03, 0x9b, 0xa5, 0xb5, 0xd6, 0xd9, 0x8d, 0xc5, 0xd4, 0xcc, 0x51, 0x6a, 0xc8,
+	0x74, 0x67, 0xf7, 0xcf, 0xef, 0xff, 0x00, 0xaf, 0x29, 0x93, 0x61, 0x9c, 0x3c, 0x2a, 0x18, 0x8c,
+	0x27, 0xd9, 0x0d, 0xad, 0x38, 0x56, 0xe2, 0x33, 0x30, 0x95, 0x99, 0xbe, 0x0c, 0x2d, 0xc6, 0x9c,
+	0xf6, 0xc3, 0x84, 0x39, 0x44, 0x9a, 0xbe, 0x42, 0xa1, 0xcd, 0x35, 0x0a, 0xc3, 0x86, 0xf7, 0x7f,
+	0x82, 0x95, 0x3e, 0xf3, 0x9b, 0xcc, 0xd6, 0x36, 0xac, 0x5f, 0xa9, 0x9a, 0x0a, 0xef, 0x55, 0xdf,
+	0xc6, 0x60, 0x25, 0xbe, 0x04, 0xf3, 0xd9, 0xf1, 0x71, 0xa0, 0x51, 0xf8, 0x0f, 0x17, 0xb1, 0x52,
+	0x52, 0xdd, 0x30, 0xa7, 0x62, 0x1e, 0x9f, 0x5c, 0xe7, 0xc3, 0x93, 0x5b, 0xfa, 0xf8, 0xe4, 0x3a,
+	0xbf, 0x35, 0x5d, 0xe7, 0x8f, 0xa6, 0xeb, 0xfc, 0xd9, 0x74, 0x9d, 0xc7, 0xa6, 0xeb, 0xfc, 0xdd,
+	0x74, 0x9d, 0x7f, 0x9a, 0x6e, 0xe9, 0x63, 0xd3, 0x75, 0x7e, 0x7f, 0x76, 0x4b, 0x8f, 0xcf, 0x6e,
+	0xe9, 0xc3, 0xb3, 0x5b, 0x82, 0xb2, 0x0c, 0x0f, 0x0c, 0xd6, 0x1b, 0xa1, 0x16, 0x41, 0xf2, 0xb0,
+	0x3a, 0xb0, 0x8f, 0xae, 0xef, 0x9c, 0x1f, 0xb7, 0x6e, 0x0a, 0x90, 0x0c, 0x0f, 0xb3, 0xef, 0x9f,
+	0x27, 0x4f, 0x31, 0x4b, 0xbb, 0x1e, 0xb5, 0x3f, 0x8e, 0xfe, 0x0b, 0x00, 0x00, 0xff, 0xff, 0x78,
+	0x34, 0x66, 0x2e, 0xbd, 0x09, 0x00, 0x00,
 }
 
 func (x EventType) String() string {
@@ -453,22 +413,8 @@ func (x TimeoutType) String() string {
 	}
 	return strconv.Itoa(int(x))
 }
-func (x CancelExternalWorkflowExecutionFailedCause) String() string {
-	s, ok := CancelExternalWorkflowExecutionFailedCause_name[int32(x)]
-	if ok {
-		return s
-	}
-	return strconv.Itoa(int(x))
-}
-func (x SignalExternalWorkflowExecutionFailedCause) String() string {
-	s, ok := SignalExternalWorkflowExecutionFailedCause_name[int32(x)]
-	if ok {
-		return s
-	}
-	return strconv.Itoa(int(x))
-}
-func (x ChildWorkflowExecutionFailedCause) String() string {
-	s, ok := ChildWorkflowExecutionFailedCause_name[int32(x)]
+func (x WorkflowExecutionFailedCause) String() string {
+	s, ok := WorkflowExecutionFailedCause_name[int32(x)]
 	if ok {
 		return s
 	}
