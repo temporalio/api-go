@@ -828,7 +828,7 @@ func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) GetInitiator() common
 	if m != nil {
 		return m.Initiator
 	}
-	return common.ContinueAsNewInitiator_ContinueAsNewInitiatorDecider
+	return common.ContinueAsNewInitiator_Decider
 }
 
 func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) GetFailureReason() string {

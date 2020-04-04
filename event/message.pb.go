@@ -181,7 +181,7 @@ func (m *WorkflowExecutionStartedEventAttributes) GetInitiator() common.Continue
 	if m != nil {
 		return m.Initiator
 	}
-	return common.ContinueAsNewInitiator_ContinueAsNewInitiatorDecider
+	return common.ContinueAsNewInitiator_Decider
 }
 
 func (m *WorkflowExecutionStartedEventAttributes) GetContinuedFailureReason() string {
@@ -560,7 +560,7 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetInitiator() common.C
 	if m != nil {
 		return m.Initiator
 	}
-	return common.ContinueAsNewInitiator_ContinueAsNewInitiatorDecider
+	return common.ContinueAsNewInitiator_Decider
 }
 
 func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetFailureReason() string {
