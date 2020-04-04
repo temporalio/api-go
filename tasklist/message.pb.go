@@ -96,7 +96,7 @@ func (m *TaskList) GetKind() TaskListKind {
 	if m != nil {
 		return m.Kind
 	}
-	return TaskListKindNormal
+	return TaskListKind_Normal
 }
 
 type TaskListMetadata struct {

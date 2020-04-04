@@ -232,7 +232,7 @@ func (m *StatusFilter) GetStatus() execution.WorkflowExecutionStatus {
 	if m != nil {
 		return m.Status
 	}
-	return execution.WorkflowExecutionStatusUnknown
+	return execution.WorkflowExecutionStatus_Unknown
 }
 
 func init() {

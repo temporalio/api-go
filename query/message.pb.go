@@ -141,7 +141,7 @@ func (m *WorkflowQueryResult) GetResultType() QueryResultType {
 	if m != nil {
 		return m.ResultType
 	}
-	return QueryResultTypeAnswered
+	return QueryResultType_Answered
 }
 
 func (m *WorkflowQueryResult) GetAnswer() []byte {
@@ -198,7 +198,7 @@ func (m *QueryRejected) GetStatus() execution.WorkflowExecutionStatus {
 	if m != nil {
 		return m.Status
 	}
-	return execution.WorkflowExecutionStatusUnknown
+	return execution.WorkflowExecutionStatus_Unknown
 }
 
 func init() {
