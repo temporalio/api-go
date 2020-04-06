@@ -12,7 +12,7 @@ PROTO_ROOT := temporal-proto
 PROTO_DIRS = $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*.proto)))
 PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
 PROTO_OUT := .
-PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/gogo/protobuf
+PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/gogo/protobuf/protobuf
 
 all: update-proto-submodule grpc grpc-mock copyright gomodtidy
 
@@ -32,11 +32,11 @@ grpc: gogo-grpc
 
 gogo-grpc: clean $(PROTO_OUT)
 	echo "Compiling for gogo-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogoslick_out=Mprotobuf/google/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mprotobuf/google/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogofaster_out=Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
 gogo-protobuf: clean $(PROTO_OUT)
 	echo "Compiling for gogo-protobuf..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogoslick_out=Mprotobuf/google/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mprotobuf/google/protobuf/timestamp.proto=github.com/gogo/protobuf/types,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogofaster_out=Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
 go-protobuf: clean $(PROTO_OUT)
 	echo "Compiling for go-protobuf..."
@@ -64,7 +64,7 @@ grpc-install: gogo-protobuf-install
 	GO111MODULE=off go get -u google.golang.org/grpc
 
 gogo-protobuf-install: go-protobuf-install
-	GO111MODULE=off go get -u github.com/gogo/protobuf/protoc-gen-gogoslick
+	GO111MODULE=off go get -u github.com/gogo/protobuf/protoc-gen-gogofaster
 
 go-protobuf-install:
 	GO111MODULE=off go get -u github.com/golang/protobuf/protoc-gen-go

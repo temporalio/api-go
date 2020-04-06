@@ -26,10 +26,8 @@
 package workflowservice
 
 import (
-	bytes "bytes"
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_sortkeys "github.com/gogo/protobuf/sortkeys"
 	common "go.temporal.io/temporal-proto/common"
 	decision "go.temporal.io/temporal-proto/decision"
 	event "go.temporal.io/temporal-proto/event"
@@ -43,8 +41,6 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	reflect "reflect"
-	strings "strings"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -76,8 +72,9 @@ type RegisterNamespaceRequest struct {
 	VisibilityArchivalURI    string                   `protobuf:"bytes,14,opt,name=visibilityArchivalURI,proto3" json:"visibilityArchivalURI,omitempty"`
 }
 
-func (m *RegisterNamespaceRequest) Reset()      { *m = RegisterNamespaceRequest{} }
-func (*RegisterNamespaceRequest) ProtoMessage() {}
+func (m *RegisterNamespaceRequest) Reset()         { *m = RegisterNamespaceRequest{} }
+func (m *RegisterNamespaceRequest) String() string { return proto.CompactTextString(m) }
+func (*RegisterNamespaceRequest) ProtoMessage()    {}
 func (*RegisterNamespaceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{0}
 }
@@ -209,8 +206,9 @@ func (m *RegisterNamespaceRequest) GetVisibilityArchivalURI() string {
 type RegisterNamespaceResponse struct {
 }
 
-func (m *RegisterNamespaceResponse) Reset()      { *m = RegisterNamespaceResponse{} }
-func (*RegisterNamespaceResponse) ProtoMessage() {}
+func (m *RegisterNamespaceResponse) Reset()         { *m = RegisterNamespaceResponse{} }
+func (m *RegisterNamespaceResponse) String() string { return proto.CompactTextString(m) }
+func (*RegisterNamespaceResponse) ProtoMessage()    {}
 func (*RegisterNamespaceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{1}
 }
@@ -246,8 +244,9 @@ type ListNamespacesRequest struct {
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *ListNamespacesRequest) Reset()      { *m = ListNamespacesRequest{} }
-func (*ListNamespacesRequest) ProtoMessage() {}
+func (m *ListNamespacesRequest) Reset()         { *m = ListNamespacesRequest{} }
+func (m *ListNamespacesRequest) String() string { return proto.CompactTextString(m) }
+func (*ListNamespacesRequest) ProtoMessage()    {}
 func (*ListNamespacesRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{2}
 }
@@ -297,8 +296,9 @@ type ListNamespacesResponse struct {
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *ListNamespacesResponse) Reset()      { *m = ListNamespacesResponse{} }
-func (*ListNamespacesResponse) ProtoMessage() {}
+func (m *ListNamespacesResponse) Reset()         { *m = ListNamespacesResponse{} }
+func (m *ListNamespacesResponse) String() string { return proto.CompactTextString(m) }
+func (*ListNamespacesResponse) ProtoMessage()    {}
 func (*ListNamespacesResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{3}
 }
@@ -348,8 +348,9 @@ type DescribeNamespaceRequest struct {
 	Id   string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (m *DescribeNamespaceRequest) Reset()      { *m = DescribeNamespaceRequest{} }
-func (*DescribeNamespaceRequest) ProtoMessage() {}
+func (m *DescribeNamespaceRequest) Reset()         { *m = DescribeNamespaceRequest{} }
+func (m *DescribeNamespaceRequest) String() string { return proto.CompactTextString(m) }
+func (*DescribeNamespaceRequest) ProtoMessage()    {}
 func (*DescribeNamespaceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{4}
 }
@@ -402,8 +403,9 @@ type DescribeNamespaceResponse struct {
 	IsGlobalNamespace        bool                                           `protobuf:"varint,5,opt,name=isGlobalNamespace,proto3" json:"isGlobalNamespace,omitempty"`
 }
 
-func (m *DescribeNamespaceResponse) Reset()      { *m = DescribeNamespaceResponse{} }
-func (*DescribeNamespaceResponse) ProtoMessage() {}
+func (m *DescribeNamespaceResponse) Reset()         { *m = DescribeNamespaceResponse{} }
+func (m *DescribeNamespaceResponse) String() string { return proto.CompactTextString(m) }
+func (*DescribeNamespaceResponse) ProtoMessage()    {}
 func (*DescribeNamespaceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{5}
 }
@@ -478,8 +480,9 @@ type UpdateNamespaceRequest struct {
 	DeleteBadBinary          string                                         `protobuf:"bytes,6,opt,name=deleteBadBinary,proto3" json:"deleteBadBinary,omitempty"`
 }
 
-func (m *UpdateNamespaceRequest) Reset()      { *m = UpdateNamespaceRequest{} }
-func (*UpdateNamespaceRequest) ProtoMessage() {}
+func (m *UpdateNamespaceRequest) Reset()         { *m = UpdateNamespaceRequest{} }
+func (m *UpdateNamespaceRequest) String() string { return proto.CompactTextString(m) }
+func (*UpdateNamespaceRequest) ProtoMessage()    {}
 func (*UpdateNamespaceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{6}
 }
@@ -560,8 +563,9 @@ type UpdateNamespaceResponse struct {
 	IsGlobalNamespace        bool                                           `protobuf:"varint,5,opt,name=isGlobalNamespace,proto3" json:"isGlobalNamespace,omitempty"`
 }
 
-func (m *UpdateNamespaceResponse) Reset()      { *m = UpdateNamespaceResponse{} }
-func (*UpdateNamespaceResponse) ProtoMessage() {}
+func (m *UpdateNamespaceResponse) Reset()         { *m = UpdateNamespaceResponse{} }
+func (m *UpdateNamespaceResponse) String() string { return proto.CompactTextString(m) }
+func (*UpdateNamespaceResponse) ProtoMessage()    {}
 func (*UpdateNamespaceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{7}
 }
@@ -632,8 +636,9 @@ type DeprecateNamespaceRequest struct {
 	SecurityToken string `protobuf:"bytes,2,opt,name=securityToken,proto3" json:"securityToken,omitempty"`
 }
 
-func (m *DeprecateNamespaceRequest) Reset()      { *m = DeprecateNamespaceRequest{} }
-func (*DeprecateNamespaceRequest) ProtoMessage() {}
+func (m *DeprecateNamespaceRequest) Reset()         { *m = DeprecateNamespaceRequest{} }
+func (m *DeprecateNamespaceRequest) String() string { return proto.CompactTextString(m) }
+func (*DeprecateNamespaceRequest) ProtoMessage()    {}
 func (*DeprecateNamespaceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{8}
 }
@@ -681,8 +686,9 @@ func (m *DeprecateNamespaceRequest) GetSecurityToken() string {
 type DeprecateNamespaceResponse struct {
 }
 
-func (m *DeprecateNamespaceResponse) Reset()      { *m = DeprecateNamespaceResponse{} }
-func (*DeprecateNamespaceResponse) ProtoMessage() {}
+func (m *DeprecateNamespaceResponse) Reset()         { *m = DeprecateNamespaceResponse{} }
+func (m *DeprecateNamespaceResponse) String() string { return proto.CompactTextString(m) }
+func (*DeprecateNamespaceResponse) ProtoMessage()    {}
 func (*DeprecateNamespaceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{9}
 }
@@ -731,8 +737,9 @@ type StartWorkflowExecutionRequest struct {
 	Header                              *common.Header               `protobuf:"bytes,15,opt,name=header,proto3" json:"header,omitempty"`
 }
 
-func (m *StartWorkflowExecutionRequest) Reset()      { *m = StartWorkflowExecutionRequest{} }
-func (*StartWorkflowExecutionRequest) ProtoMessage() {}
+func (m *StartWorkflowExecutionRequest) Reset()         { *m = StartWorkflowExecutionRequest{} }
+func (m *StartWorkflowExecutionRequest) String() string { return proto.CompactTextString(m) }
+func (*StartWorkflowExecutionRequest) ProtoMessage()    {}
 func (*StartWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{10}
 }
@@ -872,8 +879,9 @@ type StartWorkflowExecutionResponse struct {
 	RunId string `protobuf:"bytes,1,opt,name=runId,proto3" json:"runId,omitempty"`
 }
 
-func (m *StartWorkflowExecutionResponse) Reset()      { *m = StartWorkflowExecutionResponse{} }
-func (*StartWorkflowExecutionResponse) ProtoMessage() {}
+func (m *StartWorkflowExecutionResponse) Reset()         { *m = StartWorkflowExecutionResponse{} }
+func (m *StartWorkflowExecutionResponse) String() string { return proto.CompactTextString(m) }
+func (*StartWorkflowExecutionResponse) ProtoMessage()    {}
 func (*StartWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{11}
 }
@@ -920,8 +928,9 @@ type GetWorkflowExecutionHistoryRequest struct {
 	HistoryEventFilterType filter.HistoryEventFilterType `protobuf:"varint,6,opt,name=historyEventFilterType,proto3,enum=filter.HistoryEventFilterType" json:"historyEventFilterType,omitempty"`
 }
 
-func (m *GetWorkflowExecutionHistoryRequest) Reset()      { *m = GetWorkflowExecutionHistoryRequest{} }
-func (*GetWorkflowExecutionHistoryRequest) ProtoMessage() {}
+func (m *GetWorkflowExecutionHistoryRequest) Reset()         { *m = GetWorkflowExecutionHistoryRequest{} }
+func (m *GetWorkflowExecutionHistoryRequest) String() string { return proto.CompactTextString(m) }
+func (*GetWorkflowExecutionHistoryRequest) ProtoMessage()    {}
 func (*GetWorkflowExecutionHistoryRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{12}
 }
@@ -1000,8 +1009,9 @@ type GetWorkflowExecutionHistoryResponse struct {
 	Archived      bool           `protobuf:"varint,3,opt,name=archived,proto3" json:"archived,omitempty"`
 }
 
-func (m *GetWorkflowExecutionHistoryResponse) Reset()      { *m = GetWorkflowExecutionHistoryResponse{} }
-func (*GetWorkflowExecutionHistoryResponse) ProtoMessage() {}
+func (m *GetWorkflowExecutionHistoryResponse) Reset()         { *m = GetWorkflowExecutionHistoryResponse{} }
+func (m *GetWorkflowExecutionHistoryResponse) String() string { return proto.CompactTextString(m) }
+func (*GetWorkflowExecutionHistoryResponse) ProtoMessage()    {}
 func (*GetWorkflowExecutionHistoryResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{13}
 }
@@ -1060,8 +1070,9 @@ type PollForDecisionTaskRequest struct {
 	BinaryChecksum string             `protobuf:"bytes,4,opt,name=binaryChecksum,proto3" json:"binaryChecksum,omitempty"`
 }
 
-func (m *PollForDecisionTaskRequest) Reset()      { *m = PollForDecisionTaskRequest{} }
-func (*PollForDecisionTaskRequest) ProtoMessage() {}
+func (m *PollForDecisionTaskRequest) Reset()         { *m = PollForDecisionTaskRequest{} }
+func (m *PollForDecisionTaskRequest) String() string { return proto.CompactTextString(m) }
+func (*PollForDecisionTaskRequest) ProtoMessage()    {}
 func (*PollForDecisionTaskRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{14}
 }
@@ -1137,8 +1148,9 @@ type PollForDecisionTaskResponse struct {
 	Queries                   map[string]*query.WorkflowQuery `protobuf:"bytes,14,rep,name=queries,proto3" json:"queries,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
-func (m *PollForDecisionTaskResponse) Reset()      { *m = PollForDecisionTaskResponse{} }
-func (*PollForDecisionTaskResponse) ProtoMessage() {}
+func (m *PollForDecisionTaskResponse) Reset()         { *m = PollForDecisionTaskResponse{} }
+func (m *PollForDecisionTaskResponse) String() string { return proto.CompactTextString(m) }
+func (*PollForDecisionTaskResponse) ProtoMessage()    {}
 func (*PollForDecisionTaskResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{15}
 }
@@ -1279,8 +1291,9 @@ type RespondDecisionTaskCompletedRequest struct {
 	QueryResults               map[string]*query.WorkflowQueryResult `protobuf:"bytes,9,rep,name=queryResults,proto3" json:"queryResults,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
-func (m *RespondDecisionTaskCompletedRequest) Reset()      { *m = RespondDecisionTaskCompletedRequest{} }
-func (*RespondDecisionTaskCompletedRequest) ProtoMessage() {}
+func (m *RespondDecisionTaskCompletedRequest) Reset()         { *m = RespondDecisionTaskCompletedRequest{} }
+func (m *RespondDecisionTaskCompletedRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondDecisionTaskCompletedRequest) ProtoMessage()    {}
 func (*RespondDecisionTaskCompletedRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{16}
 }
@@ -1378,8 +1391,9 @@ type RespondDecisionTaskCompletedResponse struct {
 	DecisionTask *PollForDecisionTaskResponse `protobuf:"bytes,1,opt,name=decisionTask,proto3" json:"decisionTask,omitempty"`
 }
 
-func (m *RespondDecisionTaskCompletedResponse) Reset()      { *m = RespondDecisionTaskCompletedResponse{} }
-func (*RespondDecisionTaskCompletedResponse) ProtoMessage() {}
+func (m *RespondDecisionTaskCompletedResponse) Reset()         { *m = RespondDecisionTaskCompletedResponse{} }
+func (m *RespondDecisionTaskCompletedResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondDecisionTaskCompletedResponse) ProtoMessage()    {}
 func (*RespondDecisionTaskCompletedResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{17}
 }
@@ -1425,8 +1439,9 @@ type RespondDecisionTaskFailedRequest struct {
 	BinaryChecksum string                        `protobuf:"bytes,5,opt,name=binaryChecksum,proto3" json:"binaryChecksum,omitempty"`
 }
 
-func (m *RespondDecisionTaskFailedRequest) Reset()      { *m = RespondDecisionTaskFailedRequest{} }
-func (*RespondDecisionTaskFailedRequest) ProtoMessage() {}
+func (m *RespondDecisionTaskFailedRequest) Reset()         { *m = RespondDecisionTaskFailedRequest{} }
+func (m *RespondDecisionTaskFailedRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondDecisionTaskFailedRequest) ProtoMessage()    {}
 func (*RespondDecisionTaskFailedRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{18}
 }
@@ -1495,8 +1510,9 @@ func (m *RespondDecisionTaskFailedRequest) GetBinaryChecksum() string {
 type RespondDecisionTaskFailedResponse struct {
 }
 
-func (m *RespondDecisionTaskFailedResponse) Reset()      { *m = RespondDecisionTaskFailedResponse{} }
-func (*RespondDecisionTaskFailedResponse) ProtoMessage() {}
+func (m *RespondDecisionTaskFailedResponse) Reset()         { *m = RespondDecisionTaskFailedResponse{} }
+func (m *RespondDecisionTaskFailedResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondDecisionTaskFailedResponse) ProtoMessage()    {}
 func (*RespondDecisionTaskFailedResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{19}
 }
@@ -1534,8 +1550,9 @@ type PollForActivityTaskRequest struct {
 	TaskListMetadata *tasklist.TaskListMetadata `protobuf:"bytes,4,opt,name=taskListMetadata,proto3" json:"taskListMetadata,omitempty"`
 }
 
-func (m *PollForActivityTaskRequest) Reset()      { *m = PollForActivityTaskRequest{} }
-func (*PollForActivityTaskRequest) ProtoMessage() {}
+func (m *PollForActivityTaskRequest) Reset()         { *m = PollForActivityTaskRequest{} }
+func (m *PollForActivityTaskRequest) String() string { return proto.CompactTextString(m) }
+func (*PollForActivityTaskRequest) ProtoMessage()    {}
 func (*PollForActivityTaskRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{20}
 }
@@ -1613,8 +1630,9 @@ type PollForActivityTaskResponse struct {
 	Header                          *common.Header               `protobuf:"bytes,16,opt,name=header,proto3" json:"header,omitempty"`
 }
 
-func (m *PollForActivityTaskResponse) Reset()      { *m = PollForActivityTaskResponse{} }
-func (*PollForActivityTaskResponse) ProtoMessage() {}
+func (m *PollForActivityTaskResponse) Reset()         { *m = PollForActivityTaskResponse{} }
+func (m *PollForActivityTaskResponse) String() string { return proto.CompactTextString(m) }
+func (*PollForActivityTaskResponse) ProtoMessage()    {}
 func (*PollForActivityTaskResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{21}
 }
@@ -1763,8 +1781,9 @@ type RecordActivityTaskHeartbeatRequest struct {
 	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
-func (m *RecordActivityTaskHeartbeatRequest) Reset()      { *m = RecordActivityTaskHeartbeatRequest{} }
-func (*RecordActivityTaskHeartbeatRequest) ProtoMessage() {}
+func (m *RecordActivityTaskHeartbeatRequest) Reset()         { *m = RecordActivityTaskHeartbeatRequest{} }
+func (m *RecordActivityTaskHeartbeatRequest) String() string { return proto.CompactTextString(m) }
+func (*RecordActivityTaskHeartbeatRequest) ProtoMessage()    {}
 func (*RecordActivityTaskHeartbeatRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{22}
 }
@@ -1820,8 +1839,9 @@ type RecordActivityTaskHeartbeatResponse struct {
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancelRequested,proto3" json:"cancelRequested,omitempty"`
 }
 
-func (m *RecordActivityTaskHeartbeatResponse) Reset()      { *m = RecordActivityTaskHeartbeatResponse{} }
-func (*RecordActivityTaskHeartbeatResponse) ProtoMessage() {}
+func (m *RecordActivityTaskHeartbeatResponse) Reset()         { *m = RecordActivityTaskHeartbeatResponse{} }
+func (m *RecordActivityTaskHeartbeatResponse) String() string { return proto.CompactTextString(m) }
+func (*RecordActivityTaskHeartbeatResponse) ProtoMessage()    {}
 func (*RecordActivityTaskHeartbeatResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{23}
 }
@@ -1871,7 +1891,8 @@ type RecordActivityTaskHeartbeatByIdRequest struct {
 func (m *RecordActivityTaskHeartbeatByIdRequest) Reset() {
 	*m = RecordActivityTaskHeartbeatByIdRequest{}
 }
-func (*RecordActivityTaskHeartbeatByIdRequest) ProtoMessage() {}
+func (m *RecordActivityTaskHeartbeatByIdRequest) String() string { return proto.CompactTextString(m) }
+func (*RecordActivityTaskHeartbeatByIdRequest) ProtoMessage()    {}
 func (*RecordActivityTaskHeartbeatByIdRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{24}
 }
@@ -1951,7 +1972,8 @@ type RecordActivityTaskHeartbeatByIdResponse struct {
 func (m *RecordActivityTaskHeartbeatByIdResponse) Reset() {
 	*m = RecordActivityTaskHeartbeatByIdResponse{}
 }
-func (*RecordActivityTaskHeartbeatByIdResponse) ProtoMessage() {}
+func (m *RecordActivityTaskHeartbeatByIdResponse) String() string { return proto.CompactTextString(m) }
+func (*RecordActivityTaskHeartbeatByIdResponse) ProtoMessage()    {}
 func (*RecordActivityTaskHeartbeatByIdResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{25}
 }
@@ -1995,8 +2017,9 @@ type RespondActivityTaskCompletedRequest struct {
 	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
-func (m *RespondActivityTaskCompletedRequest) Reset()      { *m = RespondActivityTaskCompletedRequest{} }
-func (*RespondActivityTaskCompletedRequest) ProtoMessage() {}
+func (m *RespondActivityTaskCompletedRequest) Reset()         { *m = RespondActivityTaskCompletedRequest{} }
+func (m *RespondActivityTaskCompletedRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskCompletedRequest) ProtoMessage()    {}
 func (*RespondActivityTaskCompletedRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{26}
 }
@@ -2051,8 +2074,9 @@ func (m *RespondActivityTaskCompletedRequest) GetIdentity() string {
 type RespondActivityTaskCompletedResponse struct {
 }
 
-func (m *RespondActivityTaskCompletedResponse) Reset()      { *m = RespondActivityTaskCompletedResponse{} }
-func (*RespondActivityTaskCompletedResponse) ProtoMessage() {}
+func (m *RespondActivityTaskCompletedResponse) Reset()         { *m = RespondActivityTaskCompletedResponse{} }
+func (m *RespondActivityTaskCompletedResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskCompletedResponse) ProtoMessage()    {}
 func (*RespondActivityTaskCompletedResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{27}
 }
@@ -2095,7 +2119,8 @@ type RespondActivityTaskCompletedByIdRequest struct {
 func (m *RespondActivityTaskCompletedByIdRequest) Reset() {
 	*m = RespondActivityTaskCompletedByIdRequest{}
 }
-func (*RespondActivityTaskCompletedByIdRequest) ProtoMessage() {}
+func (m *RespondActivityTaskCompletedByIdRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskCompletedByIdRequest) ProtoMessage()    {}
 func (*RespondActivityTaskCompletedByIdRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{28}
 }
@@ -2174,7 +2199,8 @@ type RespondActivityTaskCompletedByIdResponse struct {
 func (m *RespondActivityTaskCompletedByIdResponse) Reset() {
 	*m = RespondActivityTaskCompletedByIdResponse{}
 }
-func (*RespondActivityTaskCompletedByIdResponse) ProtoMessage() {}
+func (m *RespondActivityTaskCompletedByIdResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskCompletedByIdResponse) ProtoMessage()    {}
 func (*RespondActivityTaskCompletedByIdResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{29}
 }
@@ -2212,8 +2238,9 @@ type RespondActivityTaskFailedRequest struct {
 	Identity  string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
-func (m *RespondActivityTaskFailedRequest) Reset()      { *m = RespondActivityTaskFailedRequest{} }
-func (*RespondActivityTaskFailedRequest) ProtoMessage() {}
+func (m *RespondActivityTaskFailedRequest) Reset()         { *m = RespondActivityTaskFailedRequest{} }
+func (m *RespondActivityTaskFailedRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskFailedRequest) ProtoMessage()    {}
 func (*RespondActivityTaskFailedRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{30}
 }
@@ -2275,8 +2302,9 @@ func (m *RespondActivityTaskFailedRequest) GetIdentity() string {
 type RespondActivityTaskFailedResponse struct {
 }
 
-func (m *RespondActivityTaskFailedResponse) Reset()      { *m = RespondActivityTaskFailedResponse{} }
-func (*RespondActivityTaskFailedResponse) ProtoMessage() {}
+func (m *RespondActivityTaskFailedResponse) Reset()         { *m = RespondActivityTaskFailedResponse{} }
+func (m *RespondActivityTaskFailedResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskFailedResponse) ProtoMessage()    {}
 func (*RespondActivityTaskFailedResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{31}
 }
@@ -2317,8 +2345,9 @@ type RespondActivityTaskFailedByIdRequest struct {
 	Identity   string `protobuf:"bytes,7,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
-func (m *RespondActivityTaskFailedByIdRequest) Reset()      { *m = RespondActivityTaskFailedByIdRequest{} }
-func (*RespondActivityTaskFailedByIdRequest) ProtoMessage() {}
+func (m *RespondActivityTaskFailedByIdRequest) Reset()         { *m = RespondActivityTaskFailedByIdRequest{} }
+func (m *RespondActivityTaskFailedByIdRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskFailedByIdRequest) ProtoMessage()    {}
 func (*RespondActivityTaskFailedByIdRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{32}
 }
@@ -2401,8 +2430,9 @@ func (m *RespondActivityTaskFailedByIdRequest) GetIdentity() string {
 type RespondActivityTaskFailedByIdResponse struct {
 }
 
-func (m *RespondActivityTaskFailedByIdResponse) Reset()      { *m = RespondActivityTaskFailedByIdResponse{} }
-func (*RespondActivityTaskFailedByIdResponse) ProtoMessage() {}
+func (m *RespondActivityTaskFailedByIdResponse) Reset()         { *m = RespondActivityTaskFailedByIdResponse{} }
+func (m *RespondActivityTaskFailedByIdResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskFailedByIdResponse) ProtoMessage()    {}
 func (*RespondActivityTaskFailedByIdResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{33}
 }
@@ -2439,8 +2469,9 @@ type RespondActivityTaskCanceledRequest struct {
 	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
-func (m *RespondActivityTaskCanceledRequest) Reset()      { *m = RespondActivityTaskCanceledRequest{} }
-func (*RespondActivityTaskCanceledRequest) ProtoMessage() {}
+func (m *RespondActivityTaskCanceledRequest) Reset()         { *m = RespondActivityTaskCanceledRequest{} }
+func (m *RespondActivityTaskCanceledRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskCanceledRequest) ProtoMessage()    {}
 func (*RespondActivityTaskCanceledRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{34}
 }
@@ -2495,8 +2526,9 @@ func (m *RespondActivityTaskCanceledRequest) GetIdentity() string {
 type RespondActivityTaskCanceledResponse struct {
 }
 
-func (m *RespondActivityTaskCanceledResponse) Reset()      { *m = RespondActivityTaskCanceledResponse{} }
-func (*RespondActivityTaskCanceledResponse) ProtoMessage() {}
+func (m *RespondActivityTaskCanceledResponse) Reset()         { *m = RespondActivityTaskCanceledResponse{} }
+func (m *RespondActivityTaskCanceledResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskCanceledResponse) ProtoMessage()    {}
 func (*RespondActivityTaskCanceledResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{35}
 }
@@ -2539,7 +2571,8 @@ type RespondActivityTaskCanceledByIdRequest struct {
 func (m *RespondActivityTaskCanceledByIdRequest) Reset() {
 	*m = RespondActivityTaskCanceledByIdRequest{}
 }
-func (*RespondActivityTaskCanceledByIdRequest) ProtoMessage() {}
+func (m *RespondActivityTaskCanceledByIdRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskCanceledByIdRequest) ProtoMessage()    {}
 func (*RespondActivityTaskCanceledByIdRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{36}
 }
@@ -2618,7 +2651,8 @@ type RespondActivityTaskCanceledByIdResponse struct {
 func (m *RespondActivityTaskCanceledByIdResponse) Reset() {
 	*m = RespondActivityTaskCanceledByIdResponse{}
 }
-func (*RespondActivityTaskCanceledByIdResponse) ProtoMessage() {}
+func (m *RespondActivityTaskCanceledByIdResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondActivityTaskCanceledByIdResponse) ProtoMessage()    {}
 func (*RespondActivityTaskCanceledByIdResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{37}
 }
@@ -2656,8 +2690,9 @@ type RequestCancelWorkflowExecutionRequest struct {
 	RequestId         string                       `protobuf:"bytes,4,opt,name=requestId,proto3" json:"requestId,omitempty"`
 }
 
-func (m *RequestCancelWorkflowExecutionRequest) Reset()      { *m = RequestCancelWorkflowExecutionRequest{} }
-func (*RequestCancelWorkflowExecutionRequest) ProtoMessage() {}
+func (m *RequestCancelWorkflowExecutionRequest) Reset()         { *m = RequestCancelWorkflowExecutionRequest{} }
+func (m *RequestCancelWorkflowExecutionRequest) String() string { return proto.CompactTextString(m) }
+func (*RequestCancelWorkflowExecutionRequest) ProtoMessage()    {}
 func (*RequestCancelWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{38}
 }
@@ -2722,7 +2757,8 @@ type RequestCancelWorkflowExecutionResponse struct {
 func (m *RequestCancelWorkflowExecutionResponse) Reset() {
 	*m = RequestCancelWorkflowExecutionResponse{}
 }
-func (*RequestCancelWorkflowExecutionResponse) ProtoMessage() {}
+func (m *RequestCancelWorkflowExecutionResponse) String() string { return proto.CompactTextString(m) }
+func (*RequestCancelWorkflowExecutionResponse) ProtoMessage()    {}
 func (*RequestCancelWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{39}
 }
@@ -2763,8 +2799,9 @@ type SignalWorkflowExecutionRequest struct {
 	Control           []byte                       `protobuf:"bytes,7,opt,name=control,proto3" json:"control,omitempty"`
 }
 
-func (m *SignalWorkflowExecutionRequest) Reset()      { *m = SignalWorkflowExecutionRequest{} }
-func (*SignalWorkflowExecutionRequest) ProtoMessage() {}
+func (m *SignalWorkflowExecutionRequest) Reset()         { *m = SignalWorkflowExecutionRequest{} }
+func (m *SignalWorkflowExecutionRequest) String() string { return proto.CompactTextString(m) }
+func (*SignalWorkflowExecutionRequest) ProtoMessage()    {}
 func (*SignalWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{40}
 }
@@ -2847,8 +2884,9 @@ func (m *SignalWorkflowExecutionRequest) GetControl() []byte {
 type SignalWorkflowExecutionResponse struct {
 }
 
-func (m *SignalWorkflowExecutionResponse) Reset()      { *m = SignalWorkflowExecutionResponse{} }
-func (*SignalWorkflowExecutionResponse) ProtoMessage() {}
+func (m *SignalWorkflowExecutionResponse) Reset()         { *m = SignalWorkflowExecutionResponse{} }
+func (m *SignalWorkflowExecutionResponse) String() string { return proto.CompactTextString(m) }
+func (*SignalWorkflowExecutionResponse) ProtoMessage()    {}
 func (*SignalWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{41}
 }
@@ -2903,7 +2941,8 @@ type SignalWithStartWorkflowExecutionRequest struct {
 func (m *SignalWithStartWorkflowExecutionRequest) Reset() {
 	*m = SignalWithStartWorkflowExecutionRequest{}
 }
-func (*SignalWithStartWorkflowExecutionRequest) ProtoMessage() {}
+func (m *SignalWithStartWorkflowExecutionRequest) String() string { return proto.CompactTextString(m) }
+func (*SignalWithStartWorkflowExecutionRequest) ProtoMessage()    {}
 func (*SignalWithStartWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{42}
 }
@@ -3067,7 +3106,8 @@ type SignalWithStartWorkflowExecutionResponse struct {
 func (m *SignalWithStartWorkflowExecutionResponse) Reset() {
 	*m = SignalWithStartWorkflowExecutionResponse{}
 }
-func (*SignalWithStartWorkflowExecutionResponse) ProtoMessage() {}
+func (m *SignalWithStartWorkflowExecutionResponse) String() string { return proto.CompactTextString(m) }
+func (*SignalWithStartWorkflowExecutionResponse) ProtoMessage()    {}
 func (*SignalWithStartWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{43}
 }
@@ -3113,8 +3153,9 @@ type ResetWorkflowExecutionRequest struct {
 	RequestId             string                       `protobuf:"bytes,5,opt,name=requestId,proto3" json:"requestId,omitempty"`
 }
 
-func (m *ResetWorkflowExecutionRequest) Reset()      { *m = ResetWorkflowExecutionRequest{} }
-func (*ResetWorkflowExecutionRequest) ProtoMessage() {}
+func (m *ResetWorkflowExecutionRequest) Reset()         { *m = ResetWorkflowExecutionRequest{} }
+func (m *ResetWorkflowExecutionRequest) String() string { return proto.CompactTextString(m) }
+func (*ResetWorkflowExecutionRequest) ProtoMessage()    {}
 func (*ResetWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{44}
 }
@@ -3184,8 +3225,9 @@ type ResetWorkflowExecutionResponse struct {
 	RunId string `protobuf:"bytes,1,opt,name=runId,proto3" json:"runId,omitempty"`
 }
 
-func (m *ResetWorkflowExecutionResponse) Reset()      { *m = ResetWorkflowExecutionResponse{} }
-func (*ResetWorkflowExecutionResponse) ProtoMessage() {}
+func (m *ResetWorkflowExecutionResponse) Reset()         { *m = ResetWorkflowExecutionResponse{} }
+func (m *ResetWorkflowExecutionResponse) String() string { return proto.CompactTextString(m) }
+func (*ResetWorkflowExecutionResponse) ProtoMessage()    {}
 func (*ResetWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{45}
 }
@@ -3231,8 +3273,9 @@ type TerminateWorkflowExecutionRequest struct {
 	Identity          string                       `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
-func (m *TerminateWorkflowExecutionRequest) Reset()      { *m = TerminateWorkflowExecutionRequest{} }
-func (*TerminateWorkflowExecutionRequest) ProtoMessage() {}
+func (m *TerminateWorkflowExecutionRequest) Reset()         { *m = TerminateWorkflowExecutionRequest{} }
+func (m *TerminateWorkflowExecutionRequest) String() string { return proto.CompactTextString(m) }
+func (*TerminateWorkflowExecutionRequest) ProtoMessage()    {}
 func (*TerminateWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{46}
 }
@@ -3301,8 +3344,9 @@ func (m *TerminateWorkflowExecutionRequest) GetIdentity() string {
 type TerminateWorkflowExecutionResponse struct {
 }
 
-func (m *TerminateWorkflowExecutionResponse) Reset()      { *m = TerminateWorkflowExecutionResponse{} }
-func (*TerminateWorkflowExecutionResponse) ProtoMessage() {}
+func (m *TerminateWorkflowExecutionResponse) Reset()         { *m = TerminateWorkflowExecutionResponse{} }
+func (m *TerminateWorkflowExecutionResponse) String() string { return proto.CompactTextString(m) }
+func (*TerminateWorkflowExecutionResponse) ProtoMessage()    {}
 func (*TerminateWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{47}
 }
@@ -3344,8 +3388,9 @@ type ListOpenWorkflowExecutionsRequest struct {
 	Filters isListOpenWorkflowExecutionsRequest_Filters `protobuf_oneof:"filters"`
 }
 
-func (m *ListOpenWorkflowExecutionsRequest) Reset()      { *m = ListOpenWorkflowExecutionsRequest{} }
-func (*ListOpenWorkflowExecutionsRequest) ProtoMessage() {}
+func (m *ListOpenWorkflowExecutionsRequest) Reset()         { *m = ListOpenWorkflowExecutionsRequest{} }
+func (m *ListOpenWorkflowExecutionsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListOpenWorkflowExecutionsRequest) ProtoMessage()    {}
 func (*ListOpenWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{48}
 }
@@ -3378,7 +3423,6 @@ var xxx_messageInfo_ListOpenWorkflowExecutionsRequest proto.InternalMessageInfo
 
 type isListOpenWorkflowExecutionsRequest_Filters interface {
 	isListOpenWorkflowExecutionsRequest_Filters()
-	Equal(interface{}) bool
 	MarshalTo([]byte) (int, error)
 	Size() int
 }
@@ -3456,8 +3500,9 @@ type ListOpenWorkflowExecutionsResponse struct {
 	NextPageToken []byte                             `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *ListOpenWorkflowExecutionsResponse) Reset()      { *m = ListOpenWorkflowExecutionsResponse{} }
-func (*ListOpenWorkflowExecutionsResponse) ProtoMessage() {}
+func (m *ListOpenWorkflowExecutionsResponse) Reset()         { *m = ListOpenWorkflowExecutionsResponse{} }
+func (m *ListOpenWorkflowExecutionsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListOpenWorkflowExecutionsResponse) ProtoMessage()    {}
 func (*ListOpenWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{49}
 }
@@ -3514,8 +3559,9 @@ type ListClosedWorkflowExecutionsRequest struct {
 	Filters isListClosedWorkflowExecutionsRequest_Filters `protobuf_oneof:"filters"`
 }
 
-func (m *ListClosedWorkflowExecutionsRequest) Reset()      { *m = ListClosedWorkflowExecutionsRequest{} }
-func (*ListClosedWorkflowExecutionsRequest) ProtoMessage() {}
+func (m *ListClosedWorkflowExecutionsRequest) Reset()         { *m = ListClosedWorkflowExecutionsRequest{} }
+func (m *ListClosedWorkflowExecutionsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListClosedWorkflowExecutionsRequest) ProtoMessage()    {}
 func (*ListClosedWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{50}
 }
@@ -3548,7 +3594,6 @@ var xxx_messageInfo_ListClosedWorkflowExecutionsRequest proto.InternalMessageInf
 
 type isListClosedWorkflowExecutionsRequest_Filters interface {
 	isListClosedWorkflowExecutionsRequest_Filters()
-	Equal(interface{}) bool
 	MarshalTo([]byte) (int, error)
 	Size() int
 }
@@ -3640,8 +3685,9 @@ type ListClosedWorkflowExecutionsResponse struct {
 	NextPageToken []byte                             `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *ListClosedWorkflowExecutionsResponse) Reset()      { *m = ListClosedWorkflowExecutionsResponse{} }
-func (*ListClosedWorkflowExecutionsResponse) ProtoMessage() {}
+func (m *ListClosedWorkflowExecutionsResponse) Reset()         { *m = ListClosedWorkflowExecutionsResponse{} }
+func (m *ListClosedWorkflowExecutionsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListClosedWorkflowExecutionsResponse) ProtoMessage()    {}
 func (*ListClosedWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{51}
 }
@@ -3693,8 +3739,9 @@ type ListWorkflowExecutionsRequest struct {
 	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 }
 
-func (m *ListWorkflowExecutionsRequest) Reset()      { *m = ListWorkflowExecutionsRequest{} }
-func (*ListWorkflowExecutionsRequest) ProtoMessage() {}
+func (m *ListWorkflowExecutionsRequest) Reset()         { *m = ListWorkflowExecutionsRequest{} }
+func (m *ListWorkflowExecutionsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListWorkflowExecutionsRequest) ProtoMessage()    {}
 func (*ListWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{52}
 }
@@ -3758,8 +3805,9 @@ type ListWorkflowExecutionsResponse struct {
 	NextPageToken []byte                             `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *ListWorkflowExecutionsResponse) Reset()      { *m = ListWorkflowExecutionsResponse{} }
-func (*ListWorkflowExecutionsResponse) ProtoMessage() {}
+func (m *ListWorkflowExecutionsResponse) Reset()         { *m = ListWorkflowExecutionsResponse{} }
+func (m *ListWorkflowExecutionsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListWorkflowExecutionsResponse) ProtoMessage()    {}
 func (*ListWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{53}
 }
@@ -3811,8 +3859,9 @@ type ListArchivedWorkflowExecutionsRequest struct {
 	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 }
 
-func (m *ListArchivedWorkflowExecutionsRequest) Reset()      { *m = ListArchivedWorkflowExecutionsRequest{} }
-func (*ListArchivedWorkflowExecutionsRequest) ProtoMessage() {}
+func (m *ListArchivedWorkflowExecutionsRequest) Reset()         { *m = ListArchivedWorkflowExecutionsRequest{} }
+func (m *ListArchivedWorkflowExecutionsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListArchivedWorkflowExecutionsRequest) ProtoMessage()    {}
 func (*ListArchivedWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{54}
 }
@@ -3879,7 +3928,8 @@ type ListArchivedWorkflowExecutionsResponse struct {
 func (m *ListArchivedWorkflowExecutionsResponse) Reset() {
 	*m = ListArchivedWorkflowExecutionsResponse{}
 }
-func (*ListArchivedWorkflowExecutionsResponse) ProtoMessage() {}
+func (m *ListArchivedWorkflowExecutionsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListArchivedWorkflowExecutionsResponse) ProtoMessage()    {}
 func (*ListArchivedWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{55}
 }
@@ -3931,8 +3981,9 @@ type ScanWorkflowExecutionsRequest struct {
 	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 }
 
-func (m *ScanWorkflowExecutionsRequest) Reset()      { *m = ScanWorkflowExecutionsRequest{} }
-func (*ScanWorkflowExecutionsRequest) ProtoMessage() {}
+func (m *ScanWorkflowExecutionsRequest) Reset()         { *m = ScanWorkflowExecutionsRequest{} }
+func (m *ScanWorkflowExecutionsRequest) String() string { return proto.CompactTextString(m) }
+func (*ScanWorkflowExecutionsRequest) ProtoMessage()    {}
 func (*ScanWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{56}
 }
@@ -3996,8 +4047,9 @@ type ScanWorkflowExecutionsResponse struct {
 	NextPageToken []byte                             `protobuf:"bytes,2,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *ScanWorkflowExecutionsResponse) Reset()      { *m = ScanWorkflowExecutionsResponse{} }
-func (*ScanWorkflowExecutionsResponse) ProtoMessage() {}
+func (m *ScanWorkflowExecutionsResponse) Reset()         { *m = ScanWorkflowExecutionsResponse{} }
+func (m *ScanWorkflowExecutionsResponse) String() string { return proto.CompactTextString(m) }
+func (*ScanWorkflowExecutionsResponse) ProtoMessage()    {}
 func (*ScanWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{57}
 }
@@ -4047,8 +4099,9 @@ type CountWorkflowExecutionsRequest struct {
 	Query     string `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 }
 
-func (m *CountWorkflowExecutionsRequest) Reset()      { *m = CountWorkflowExecutionsRequest{} }
-func (*CountWorkflowExecutionsRequest) ProtoMessage() {}
+func (m *CountWorkflowExecutionsRequest) Reset()         { *m = CountWorkflowExecutionsRequest{} }
+func (m *CountWorkflowExecutionsRequest) String() string { return proto.CompactTextString(m) }
+func (*CountWorkflowExecutionsRequest) ProtoMessage()    {}
 func (*CountWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{58}
 }
@@ -4097,8 +4150,9 @@ type CountWorkflowExecutionsResponse struct {
 	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
 }
 
-func (m *CountWorkflowExecutionsResponse) Reset()      { *m = CountWorkflowExecutionsResponse{} }
-func (*CountWorkflowExecutionsResponse) ProtoMessage() {}
+func (m *CountWorkflowExecutionsResponse) Reset()         { *m = CountWorkflowExecutionsResponse{} }
+func (m *CountWorkflowExecutionsResponse) String() string { return proto.CompactTextString(m) }
+func (*CountWorkflowExecutionsResponse) ProtoMessage()    {}
 func (*CountWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{59}
 }
@@ -4139,8 +4193,9 @@ func (m *CountWorkflowExecutionsResponse) GetCount() int64 {
 type GetSearchAttributesRequest struct {
 }
 
-func (m *GetSearchAttributesRequest) Reset()      { *m = GetSearchAttributesRequest{} }
-func (*GetSearchAttributesRequest) ProtoMessage() {}
+func (m *GetSearchAttributesRequest) Reset()         { *m = GetSearchAttributesRequest{} }
+func (m *GetSearchAttributesRequest) String() string { return proto.CompactTextString(m) }
+func (*GetSearchAttributesRequest) ProtoMessage()    {}
 func (*GetSearchAttributesRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{60}
 }
@@ -4175,8 +4230,9 @@ type GetSearchAttributesResponse struct {
 	Keys map[string]common.IndexedValueType `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=common.IndexedValueType"`
 }
 
-func (m *GetSearchAttributesResponse) Reset()      { *m = GetSearchAttributesResponse{} }
-func (*GetSearchAttributesResponse) ProtoMessage() {}
+func (m *GetSearchAttributesResponse) Reset()         { *m = GetSearchAttributesResponse{} }
+func (m *GetSearchAttributesResponse) String() string { return proto.CompactTextString(m) }
+func (*GetSearchAttributesResponse) ProtoMessage()    {}
 func (*GetSearchAttributesResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{61}
 }
@@ -4223,8 +4279,9 @@ type RespondQueryTaskCompletedRequest struct {
 	WorkerVersionInfo *version.WorkerVersionInfo `protobuf:"bytes,5,opt,name=workerVersionInfo,proto3" json:"workerVersionInfo,omitempty"`
 }
 
-func (m *RespondQueryTaskCompletedRequest) Reset()      { *m = RespondQueryTaskCompletedRequest{} }
-func (*RespondQueryTaskCompletedRequest) ProtoMessage() {}
+func (m *RespondQueryTaskCompletedRequest) Reset()         { *m = RespondQueryTaskCompletedRequest{} }
+func (m *RespondQueryTaskCompletedRequest) String() string { return proto.CompactTextString(m) }
+func (*RespondQueryTaskCompletedRequest) ProtoMessage()    {}
 func (*RespondQueryTaskCompletedRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{62}
 }
@@ -4293,8 +4350,9 @@ func (m *RespondQueryTaskCompletedRequest) GetWorkerVersionInfo() *version.Worke
 type RespondQueryTaskCompletedResponse struct {
 }
 
-func (m *RespondQueryTaskCompletedResponse) Reset()      { *m = RespondQueryTaskCompletedResponse{} }
-func (*RespondQueryTaskCompletedResponse) ProtoMessage() {}
+func (m *RespondQueryTaskCompletedResponse) Reset()         { *m = RespondQueryTaskCompletedResponse{} }
+func (m *RespondQueryTaskCompletedResponse) String() string { return proto.CompactTextString(m) }
+func (*RespondQueryTaskCompletedResponse) ProtoMessage()    {}
 func (*RespondQueryTaskCompletedResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{63}
 }
@@ -4330,8 +4388,9 @@ type ResetStickyTaskListRequest struct {
 	Execution *execution.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 }
 
-func (m *ResetStickyTaskListRequest) Reset()      { *m = ResetStickyTaskListRequest{} }
-func (*ResetStickyTaskListRequest) ProtoMessage() {}
+func (m *ResetStickyTaskListRequest) Reset()         { *m = ResetStickyTaskListRequest{} }
+func (m *ResetStickyTaskListRequest) String() string { return proto.CompactTextString(m) }
+func (*ResetStickyTaskListRequest) ProtoMessage()    {}
 func (*ResetStickyTaskListRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{64}
 }
@@ -4379,8 +4438,9 @@ func (m *ResetStickyTaskListRequest) GetExecution() *execution.WorkflowExecution
 type ResetStickyTaskListResponse struct {
 }
 
-func (m *ResetStickyTaskListResponse) Reset()      { *m = ResetStickyTaskListResponse{} }
-func (*ResetStickyTaskListResponse) ProtoMessage() {}
+func (m *ResetStickyTaskListResponse) Reset()         { *m = ResetStickyTaskListResponse{} }
+func (m *ResetStickyTaskListResponse) String() string { return proto.CompactTextString(m) }
+func (*ResetStickyTaskListResponse) ProtoMessage()    {}
 func (*ResetStickyTaskListResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{65}
 }
@@ -4420,8 +4480,9 @@ type QueryWorkflowRequest struct {
 	QueryConsistencyLevel query.QueryConsistencyLevel `protobuf:"varint,5,opt,name=queryConsistencyLevel,proto3,enum=query.QueryConsistencyLevel" json:"queryConsistencyLevel,omitempty"`
 }
 
-func (m *QueryWorkflowRequest) Reset()      { *m = QueryWorkflowRequest{} }
-func (*QueryWorkflowRequest) ProtoMessage() {}
+func (m *QueryWorkflowRequest) Reset()         { *m = QueryWorkflowRequest{} }
+func (m *QueryWorkflowRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryWorkflowRequest) ProtoMessage()    {}
 func (*QueryWorkflowRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{66}
 }
@@ -4492,8 +4553,9 @@ type QueryWorkflowResponse struct {
 	QueryRejected *query.QueryRejected `protobuf:"bytes,2,opt,name=queryRejected,proto3" json:"queryRejected,omitempty"`
 }
 
-func (m *QueryWorkflowResponse) Reset()      { *m = QueryWorkflowResponse{} }
-func (*QueryWorkflowResponse) ProtoMessage() {}
+func (m *QueryWorkflowResponse) Reset()         { *m = QueryWorkflowResponse{} }
+func (m *QueryWorkflowResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryWorkflowResponse) ProtoMessage()    {}
 func (*QueryWorkflowResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{67}
 }
@@ -4545,8 +4607,9 @@ type GetWorkflowExecutionRawHistoryRequest struct {
 	NextPageToken   []byte                       `protobuf:"bytes,4,opt,name=nextPageToken,proto3" json:"nextPageToken,omitempty"`
 }
 
-func (m *GetWorkflowExecutionRawHistoryRequest) Reset()      { *m = GetWorkflowExecutionRawHistoryRequest{} }
-func (*GetWorkflowExecutionRawHistoryRequest) ProtoMessage() {}
+func (m *GetWorkflowExecutionRawHistoryRequest) Reset()         { *m = GetWorkflowExecutionRawHistoryRequest{} }
+func (m *GetWorkflowExecutionRawHistoryRequest) String() string { return proto.CompactTextString(m) }
+func (*GetWorkflowExecutionRawHistoryRequest) ProtoMessage()    {}
 func (*GetWorkflowExecutionRawHistoryRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{68}
 }
@@ -4613,7 +4676,8 @@ type GetWorkflowExecutionRawHistoryResponse struct {
 func (m *GetWorkflowExecutionRawHistoryResponse) Reset() {
 	*m = GetWorkflowExecutionRawHistoryResponse{}
 }
-func (*GetWorkflowExecutionRawHistoryResponse) ProtoMessage() {}
+func (m *GetWorkflowExecutionRawHistoryResponse) String() string { return proto.CompactTextString(m) }
+func (*GetWorkflowExecutionRawHistoryResponse) ProtoMessage()    {}
 func (*GetWorkflowExecutionRawHistoryResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{69}
 }
@@ -4663,8 +4727,9 @@ type DescribeWorkflowExecutionRequest struct {
 	Execution *execution.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 }
 
-func (m *DescribeWorkflowExecutionRequest) Reset()      { *m = DescribeWorkflowExecutionRequest{} }
-func (*DescribeWorkflowExecutionRequest) ProtoMessage() {}
+func (m *DescribeWorkflowExecutionRequest) Reset()         { *m = DescribeWorkflowExecutionRequest{} }
+func (m *DescribeWorkflowExecutionRequest) String() string { return proto.CompactTextString(m) }
+func (*DescribeWorkflowExecutionRequest) ProtoMessage()    {}
 func (*DescribeWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{70}
 }
@@ -4716,8 +4781,9 @@ type DescribeWorkflowExecutionResponse struct {
 	PendingChildren        []*execution.PendingChildExecutionInfo    `protobuf:"bytes,4,rep,name=pendingChildren,proto3" json:"pendingChildren,omitempty"`
 }
 
-func (m *DescribeWorkflowExecutionResponse) Reset()      { *m = DescribeWorkflowExecutionResponse{} }
-func (*DescribeWorkflowExecutionResponse) ProtoMessage() {}
+func (m *DescribeWorkflowExecutionResponse) Reset()         { *m = DescribeWorkflowExecutionResponse{} }
+func (m *DescribeWorkflowExecutionResponse) String() string { return proto.CompactTextString(m) }
+func (*DescribeWorkflowExecutionResponse) ProtoMessage()    {}
 func (*DescribeWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{71}
 }
@@ -4783,8 +4849,9 @@ type DescribeTaskListRequest struct {
 	IncludeTaskListStatus bool                  `protobuf:"varint,4,opt,name=includeTaskListStatus,proto3" json:"includeTaskListStatus,omitempty"`
 }
 
-func (m *DescribeTaskListRequest) Reset()      { *m = DescribeTaskListRequest{} }
-func (*DescribeTaskListRequest) ProtoMessage() {}
+func (m *DescribeTaskListRequest) Reset()         { *m = DescribeTaskListRequest{} }
+func (m *DescribeTaskListRequest) String() string { return proto.CompactTextString(m) }
+func (*DescribeTaskListRequest) ProtoMessage()    {}
 func (*DescribeTaskListRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{72}
 }
@@ -4848,8 +4915,9 @@ type DescribeTaskListResponse struct {
 	TaskListStatus *tasklist.TaskListStatus `protobuf:"bytes,2,opt,name=taskListStatus,proto3" json:"taskListStatus,omitempty"`
 }
 
-func (m *DescribeTaskListResponse) Reset()      { *m = DescribeTaskListResponse{} }
-func (*DescribeTaskListResponse) ProtoMessage() {}
+func (m *DescribeTaskListResponse) Reset()         { *m = DescribeTaskListResponse{} }
+func (m *DescribeTaskListResponse) String() string { return proto.CompactTextString(m) }
+func (*DescribeTaskListResponse) ProtoMessage()    {}
 func (*DescribeTaskListResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{73}
 }
@@ -4897,8 +4965,9 @@ func (m *DescribeTaskListResponse) GetTaskListStatus() *tasklist.TaskListStatus 
 type GetClusterInfoRequest struct {
 }
 
-func (m *GetClusterInfoRequest) Reset()      { *m = GetClusterInfoRequest{} }
-func (*GetClusterInfoRequest) ProtoMessage() {}
+func (m *GetClusterInfoRequest) Reset()         { *m = GetClusterInfoRequest{} }
+func (m *GetClusterInfoRequest) String() string { return proto.CompactTextString(m) }
+func (*GetClusterInfoRequest) ProtoMessage()    {}
 func (*GetClusterInfoRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{74}
 }
@@ -4934,8 +5003,9 @@ type GetClusterInfoResponse struct {
 	SupportedClientVersions *version.SupportedClientVersions `protobuf:"bytes,1,opt,name=supportedClientVersions,proto3" json:"supportedClientVersions,omitempty"`
 }
 
-func (m *GetClusterInfoResponse) Reset()      { *m = GetClusterInfoResponse{} }
-func (*GetClusterInfoResponse) ProtoMessage() {}
+func (m *GetClusterInfoResponse) Reset()         { *m = GetClusterInfoResponse{} }
+func (m *GetClusterInfoResponse) String() string { return proto.CompactTextString(m) }
+func (*GetClusterInfoResponse) ProtoMessage()    {}
 func (*GetClusterInfoResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{75}
 }
@@ -4978,8 +5048,9 @@ type ListTaskListPartitionsRequest struct {
 	TaskList  *tasklist.TaskList `protobuf:"bytes,2,opt,name=taskList,proto3" json:"taskList,omitempty"`
 }
 
-func (m *ListTaskListPartitionsRequest) Reset()      { *m = ListTaskListPartitionsRequest{} }
-func (*ListTaskListPartitionsRequest) ProtoMessage() {}
+func (m *ListTaskListPartitionsRequest) Reset()         { *m = ListTaskListPartitionsRequest{} }
+func (m *ListTaskListPartitionsRequest) String() string { return proto.CompactTextString(m) }
+func (*ListTaskListPartitionsRequest) ProtoMessage()    {}
 func (*ListTaskListPartitionsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{76}
 }
@@ -5029,8 +5100,9 @@ type ListTaskListPartitionsResponse struct {
 	DecisionTaskListPartitions []*tasklist.TaskListPartitionMetadata `protobuf:"bytes,2,rep,name=decisionTaskListPartitions,proto3" json:"decisionTaskListPartitions,omitempty"`
 }
 
-func (m *ListTaskListPartitionsResponse) Reset()      { *m = ListTaskListPartitionsResponse{} }
-func (*ListTaskListPartitionsResponse) ProtoMessage() {}
+func (m *ListTaskListPartitionsResponse) Reset()         { *m = ListTaskListPartitionsResponse{} }
+func (m *ListTaskListPartitionsResponse) String() string { return proto.CompactTextString(m) }
+func (*ListTaskListPartitionsResponse) ProtoMessage()    {}
 func (*ListTaskListPartitionsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2f2cc3b10536a077, []int{77}
 }
@@ -5085,6 +5157,9 @@ type PollForWorkflowExecutionRawHistoryRequest struct {
 
 func (m *PollForWorkflowExecutionRawHistoryRequest) Reset() {
 	*m = PollForWorkflowExecutionRawHistoryRequest{}
+}
+func (m *PollForWorkflowExecutionRawHistoryRequest) String() string {
+	return proto.CompactTextString(m)
 }
 func (*PollForWorkflowExecutionRawHistoryRequest) ProtoMessage() {}
 func (*PollForWorkflowExecutionRawHistoryRequest) Descriptor() ([]byte, []int) {
@@ -5159,6 +5234,9 @@ type PollForWorkflowExecutionRawHistoryResponse struct {
 
 func (m *PollForWorkflowExecutionRawHistoryResponse) Reset() {
 	*m = PollForWorkflowExecutionRawHistoryResponse{}
+}
+func (m *PollForWorkflowExecutionRawHistoryResponse) String() string {
+	return proto.CompactTextString(m)
 }
 func (*PollForWorkflowExecutionRawHistoryResponse) ProtoMessage() {}
 func (*PollForWorkflowExecutionRawHistoryResponse) Descriptor() ([]byte, []int) {
@@ -5297,4208 +5375,227 @@ func init() {
 }
 
 var fileDescriptor_2f2cc3b10536a077 = []byte{
-	// 3515 bytes of a gzipped FileDescriptorProto
+	// 3483 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x1b, 0x3b, 0x6c, 0x1c, 0xc7,
-	0x95, 0x7b, 0x1f, 0x7e, 0x1e, 0xbf, 0x5a, 0x93, 0xd4, 0xe9, 0x24, 0x9d, 0xa8, 0xd5, 0xc7, 0xb4,
+	0x55, 0x7b, 0x1f, 0x7e, 0x1e, 0xbf, 0x5a, 0x93, 0xd4, 0xe9, 0x24, 0x9d, 0xa8, 0xd5, 0xc7, 0xb4,
 	0x20, 0x9f, 0x0c, 0x5a, 0x91, 0x1d, 0xc1, 0x10, 0x24, 0x91, 0xa2, 0x48, 0xdb, 0x92, 0xa8, 0x21,
 	0x25, 0x23, 0x4e, 0x11, 0x2c, 0x77, 0x47, 0xe4, 0x98, 0x7b, 0xbb, 0xe7, 0xdd, 0x39, 0x52, 0x17,
-	0xa4, 0x70, 0x91, 0xc2, 0x08, 0x02, 0xc3, 0x01, 0x92, 0x32, 0xbd, 0x9b, 0xa4, 0x49, 0x93, 0x22,
-	0x4d, 0x80, 0x14, 0x01, 0x02, 0x04, 0x72, 0x10, 0x20, 0x0e, 0xd2, 0xc4, 0x32, 0x10, 0x18, 0xae,
-	0x1c, 0x04, 0xee, 0x52, 0x04, 0x33, 0x3b, 0xbb, 0x3b, 0xfb, 0xe5, 0x91, 0x96, 0x64, 0x39, 0x50,
-	0x77, 0xfb, 0xe6, 0xbd, 0x37, 0xef, 0xbd, 0x79, 0xf3, 0x3e, 0x33, 0x73, 0x70, 0x7a, 0xc7, 0x71,
-	0xb7, 0xee, 0x59, 0xce, 0x8e, 0x87, 0xdd, 0x6d, 0x62, 0xe0, 0x73, 0x2e, 0x7e, 0xb7, 0x83, 0x3d,
-	0xfa, 0x03, 0x17, 0x7b, 0x6d, 0xc7, 0xf6, 0x70, 0xb3, 0xed, 0x3a, 0xd4, 0x51, 0xc7, 0x13, 0x78,
-	0xf5, 0x03, 0x86, 0xd3, 0x6a, 0x39, 0xf6, 0x39, 0x6c, 0x77, 0x5a, 0x3e, 0x4e, 0x7d, 0x52, 0x80,
-	0x5a, 0xd8, 0xf3, 0xf4, 0x0d, 0x41, 0x59, 0x9f, 0xc0, 0xdb, 0xd8, 0xa6, 0x32, 0xde, 0x73, 0x3e,
-	0x24, 0x8e, 0x76, 0x10, 0xdf, 0xc7, 0x46, 0x87, 0x92, 0x14, 0xfd, 0xb4, 0x89, 0x0d, 0xe2, 0xa5,
-	0xe1, 0x07, 0xee, 0x11, 0x8b, 0x62, 0x37, 0x26, 0x80, 0x00, 0x25, 0x38, 0xdb, 0x7a, 0x0b, 0x7b,
-	0x6d, 0xdd, 0xc0, 0x89, 0x81, 0xc9, 0x68, 0x40, 0x62, 0x32, 0xf1, 0x6e, 0x07, 0xbb, 0xdd, 0x98,
-	0xbc, 0x3e, 0x24, 0x4e, 0x7c, 0xc8, 0xc5, 0x6d, 0x8b, 0x18, 0x7a, 0x86, 0xc4, 0xcf, 0x51, 0xdd,
-	0xdb, 0xb2, 0x88, 0x17, 0x53, 0x7a, 0x3a, 0x04, 0xc6, 0x91, 0xa7, 0xb6, 0xb1, 0x9b, 0xd6, 0x4e,
-	0xfb, 0x43, 0x3f, 0xd4, 0x10, 0xde, 0x20, 0x1e, 0xc5, 0xee, 0xcd, 0x40, 0x4c, 0xe4, 0xaf, 0x8d,
-	0xaa, 0x42, 0x85, 0x89, 0x5e, 0x53, 0x66, 0x94, 0xd9, 0x21, 0xc4, 0x7f, 0xab, 0x33, 0x30, 0x6c,
-	0x62, 0xcf, 0x70, 0x49, 0x9b, 0x49, 0x54, 0x2b, 0xf1, 0x21, 0x19, 0xa4, 0x36, 0x00, 0x9c, 0x1d,
-	0x1b, 0xbb, 0xd7, 0x5a, 0x3a, 0xb1, 0x6a, 0x65, 0x8e, 0x20, 0x41, 0xd4, 0xbb, 0x91, 0x33, 0x5c,
-	0x0b, 0xd6, 0x02, 0x61, 0x8a, 0x6d, 0xf6, 0x63, 0x05, 0xbb, 0xc4, 0x31, 0x97, 0xed, 0x05, 0xbd,
-	0xeb, 0xd5, 0x2a, 0x33, 0xca, 0x6c, 0x15, 0xf5, 0x88, 0xcd, 0xe6, 0xc5, 0x2d, 0x42, 0x6f, 0x60,
-	0xea, 0x12, 0xa3, 0x56, 0x9d, 0x51, 0x66, 0x07, 0x91, 0x04, 0x51, 0x97, 0x60, 0xd0, 0xb0, 0x3a,
-	0x4c, 0x51, 0xaf, 0xd6, 0x3f, 0x53, 0x9e, 0x1d, 0x9e, 0x3b, 0xdb, 0x94, 0x8c, 0xdb, 0x9c, 0xf7,
-	0x07, 0x51, 0x04, 0x9a, 0x77, 0xec, 0x7b, 0x64, 0xa3, 0xe3, 0xf2, 0x0f, 0x14, 0x52, 0xab, 0x67,
-	0xe1, 0x80, 0x6e, 0x50, 0xb2, 0x8d, 0x05, 0x09, 0x33, 0x5c, 0x6d, 0x80, 0x2b, 0x9a, 0x1e, 0x50,
-	0xaf, 0x43, 0xc5, 0xd4, 0xa9, 0x5e, 0x1b, 0xe4, 0x73, 0xbe, 0xdc, 0x4c, 0x78, 0x78, 0x33, 0xcf,
-	0xfc, 0xcd, 0x05, 0x9d, 0xea, 0xd7, 0x6c, 0xea, 0x76, 0x11, 0x67, 0xa0, 0x9e, 0x84, 0x51, 0x0f,
-	0x1b, 0x1d, 0x97, 0xd0, 0xee, 0x9a, 0xb3, 0x85, 0xed, 0xda, 0x10, 0x9f, 0x32, 0x0e, 0x64, 0xc2,
-	0x11, 0xef, 0xba, 0xe5, 0xac, 0xeb, 0x56, 0xc8, 0xb1, 0x06, 0xdc, 0x1a, 0xe9, 0x01, 0xf5, 0x16,
-	0x4c, 0x6d, 0x12, 0x8f, 0x3a, 0x6e, 0xf7, 0x8a, 0x6b, 0x6c, 0x92, 0x6d, 0xdd, 0x5a, 0xa5, 0x3a,
-	0xed, 0x78, 0xb5, 0xe1, 0x19, 0x65, 0x76, 0x6c, 0xee, 0x50, 0x33, 0xf4, 0xdd, 0x66, 0x1c, 0x01,
-	0x65, 0xd3, 0xa9, 0x4d, 0x50, 0x13, 0x03, 0x77, 0xd0, 0x72, 0x6d, 0x84, 0x4b, 0x9a, 0x31, 0xa2,
-	0xde, 0x81, 0xda, 0x36, 0xf1, 0xc8, 0x3a, 0xb1, 0x08, 0x4d, 0xca, 0x30, 0xba, 0x9b, 0x0c, 0xb9,
-	0xa4, 0xea, 0x79, 0x98, 0x4a, 0x8f, 0x31, 0x49, 0xc6, 0xb8, 0x24, 0xd9, 0x83, 0xf5, 0x57, 0x60,
-	0x28, 0x34, 0xba, 0x3a, 0x01, 0xe5, 0x2d, 0xdc, 0x15, 0xce, 0xcf, 0x7e, 0xaa, 0x93, 0x50, 0xdd,
-	0xd6, 0xad, 0x0e, 0x16, 0x5e, 0xef, 0x7f, 0x5c, 0x2c, 0xbd, 0xaa, 0x68, 0x87, 0xe1, 0x50, 0xc6,
-	0x32, 0xfa, 0x91, 0x4d, 0xfb, 0x1e, 0x4c, 0xbd, 0x49, 0x3c, 0x1a, 0x0e, 0x78, 0xc1, 0xfe, 0xaa,
-	0xc3, 0x60, 0x5b, 0xdf, 0xc0, 0xab, 0xe4, 0x87, 0xfe, 0x1e, 0xab, 0xa2, 0xf0, 0x9b, 0x2d, 0xb6,
-	0x8d, 0xef, 0xd3, 0x15, 0x7d, 0x03, 0xfb, 0x8b, 0xcd, 0xe6, 0x1c, 0x41, 0x71, 0xa0, 0xf6, 0x13,
-	0x05, 0xa6, 0x93, 0xbc, 0xfd, 0x59, 0xd5, 0xd7, 0x01, 0x42, 0xbb, 0x79, 0x35, 0x85, 0x3b, 0xdf,
-	0x99, 0x94, 0xf3, 0x2d, 0xf0, 0x8d, 0xbb, 0x8e, 0x53, 0x52, 0x23, 0x89, 0xba, 0x47, 0x61, 0x2e,
-	0x41, 0x2d, 0x83, 0x5d, 0x7e, 0x28, 0x19, 0x83, 0x12, 0x31, 0x85, 0x2d, 0x4b, 0xc4, 0xd4, 0x3e,
-	0x2f, 0xc1, 0xa1, 0x5c, 0x79, 0xd4, 0x4b, 0x30, 0x1a, 0x4a, 0xb4, 0x6c, 0xdf, 0x73, 0x38, 0xab,
-	0xe1, 0xb9, 0x9a, 0xe4, 0x1d, 0x37, 0xe5, 0x71, 0x14, 0x47, 0x57, 0xaf, 0xc3, 0xa8, 0x21, 0xef,
-	0x67, 0x3e, 0xf1, 0xf0, 0xdc, 0xf1, 0x2c, 0xfa, 0xf8, 0xc6, 0x8f, 0xd3, 0xa9, 0xef, 0x40, 0xcd,
-	0xcd, 0x89, 0x11, 0x3c, 0xda, 0x0d, 0xcf, 0x35, 0x63, 0x71, 0x45, 0x52, 0x25, 0x27, 0xb2, 0xe4,
-	0xf2, 0x53, 0x67, 0x61, 0xfc, 0x9e, 0x4e, 0x2c, 0x67, 0x1b, 0xbb, 0x77, 0xfd, 0xf8, 0xcd, 0x83,
-	0x62, 0x19, 0x25, 0xc1, 0xd9, 0xdb, 0xbe, 0x9a, 0xb3, 0xed, 0xb5, 0xff, 0x94, 0x60, 0xfa, 0x4e,
-	0xdb, 0xd4, 0x69, 0x6f, 0x2b, 0x75, 0x19, 0x86, 0x3b, 0x1c, 0xdb, 0xe4, 0x96, 0xf7, 0x2d, 0xd7,
-	0x90, 0x2c, 0x97, 0xe0, 0xc5, 0xed, 0x2f, 0x93, 0xa4, 0xad, 0x5f, 0x7e, 0x0c, 0xd6, 0xaf, 0x3c,
-	0x62, 0xeb, 0xa7, 0x02, 0x6e, 0x35, 0x2b, 0xe0, 0xce, 0xc2, 0xb8, 0x89, 0x2d, 0x4c, 0xf1, 0x55,
-	0xdd, 0xbc, 0x4a, 0x6c, 0xdd, 0xed, 0xd6, 0xfa, 0x39, 0x5e, 0x12, 0xac, 0xfd, 0xab, 0x04, 0x07,
-	0x53, 0x56, 0x7f, 0xe6, 0xde, 0x8f, 0xde, 0xbd, 0xef, 0xb0, 0x40, 0xd2, 0x76, 0xb1, 0xd1, 0xab,
-	0x83, 0xa7, 0x56, 0xba, 0x94, 0xb1, 0xd2, 0xda, 0x11, 0xa8, 0x67, 0xb1, 0x15, 0x61, 0xfe, 0xdf,
-	0x55, 0x38, 0xba, 0x4a, 0x75, 0x97, 0xbe, 0x95, 0xae, 0x57, 0xfc, 0x99, 0x8f, 0xc0, 0x50, 0xb8,
-	0x1a, 0x62, 0xfa, 0x08, 0xc0, 0xea, 0x97, 0x20, 0x3a, 0x2f, 0x07, 0x61, 0x51, 0x82, 0xa8, 0xaf,
-	0xc2, 0x48, 0xf0, 0xb5, 0xd6, 0x6d, 0x63, 0xb1, 0x18, 0x93, 0x4d, 0xbf, 0x1a, 0x6e, 0xbe, 0x25,
-	0x8d, 0xa1, 0x18, 0xa6, 0xda, 0x84, 0x41, 0x56, 0x15, 0xb2, 0x44, 0x21, 0xf6, 0x88, 0xda, 0x0c,
-	0xca, 0xc4, 0xe6, 0x9a, 0x18, 0x41, 0x21, 0x0e, 0xcb, 0x73, 0xc4, 0x6e, 0x77, 0x28, 0x37, 0xf0,
-	0x08, 0xf2, 0x3f, 0xd4, 0x15, 0x38, 0x11, 0xd6, 0xce, 0x5c, 0xcf, 0x35, 0x67, 0xde, 0x72, 0x3c,
-	0xbc, 0x46, 0x5a, 0xd8, 0xe9, 0xd0, 0x55, 0x6c, 0x38, 0xb6, 0xe9, 0x71, 0xdf, 0xaf, 0xa2, 0x5e,
-	0x50, 0xd5, 0x45, 0x68, 0xb0, 0x39, 0x0b, 0x98, 0x0d, 0x70, 0x66, 0xbb, 0x60, 0xb1, 0x3c, 0x4a,
-	0x4c, 0x56, 0x11, 0xd2, 0x6e, 0x6d, 0x90, 0xdb, 0x2d, 0xfc, 0x66, 0x36, 0x17, 0xad, 0xc6, 0xb2,
-	0x29, 0x0a, 0xa6, 0x08, 0xa0, 0xae, 0xc2, 0x54, 0x64, 0x61, 0x84, 0x3b, 0x1e, 0x5e, 0x71, 0x2c,
-	0x62, 0x74, 0x79, 0xc1, 0x34, 0x36, 0x77, 0x34, 0x69, 0xdc, 0x18, 0x12, 0xca, 0xa6, 0x55, 0xbf,
-	0x03, 0xc3, 0x2e, 0xa6, 0x6e, 0x57, 0xb0, 0x1a, 0xe6, 0x16, 0x7f, 0x2e, 0x60, 0x85, 0xa2, 0x21,
-	0x24, 0xe3, 0xa9, 0x1a, 0x8c, 0x18, 0xae, 0x63, 0xaf, 0x1a, 0x9b, 0xd8, 0xec, 0x58, 0x58, 0xd4,
-	0x4c, 0x31, 0x98, 0x3a, 0x03, 0x95, 0x16, 0x6e, 0x39, 0xbc, 0x32, 0x1a, 0x9e, 0x1b, 0x09, 0x78,
-	0xde, 0xc0, 0x2d, 0x07, 0xf1, 0x11, 0x75, 0x01, 0x26, 0x3c, 0xac, 0xbb, 0xc6, 0xe6, 0x15, 0x4a,
-	0x5d, 0xb2, 0xde, 0xa1, 0xd8, 0xe3, 0x35, 0x0f, 0x0b, 0x25, 0x02, 0x7b, 0x35, 0x31, 0x8e, 0x52,
-	0x14, 0xea, 0x69, 0xe8, 0xdf, 0xc4, 0xba, 0x89, 0xdd, 0xda, 0x38, 0xa7, 0x1d, 0x0b, 0x68, 0x97,
-	0x38, 0x14, 0x89, 0x51, 0xed, 0x02, 0x34, 0xf2, 0x5c, 0x5e, 0xc4, 0xb5, 0x49, 0xa8, 0xba, 0x1d,
-	0x7b, 0xd9, 0x14, 0xfe, 0xee, 0x7f, 0x68, 0x0f, 0x4a, 0xa0, 0x5d, 0xc7, 0x69, 0xb2, 0x25, 0xbf,
-	0x40, 0xec, 0x6d, 0xc3, 0x5c, 0x84, 0xa1, 0xd0, 0xcb, 0x44, 0xb8, 0x3b, 0xd2, 0x0c, 0x21, 0xcd,
-	0xb4, 0x4c, 0x11, 0x3a, 0x8b, 0x3c, 0x2d, 0xfd, 0x3e, 0x69, 0x75, 0x5a, 0x2b, 0x41, 0x05, 0x56,
-	0xe6, 0xbe, 0x96, 0x04, 0xa7, 0x6b, 0x9f, 0x4a, 0x46, 0xed, 0xc3, 0xf8, 0xed, 0xe8, 0x84, 0x2e,
-	0x3a, 0xee, 0x4d, 0xbc, 0x73, 0x8d, 0xf5, 0x9d, 0x22, 0x3a, 0x25, 0xc1, 0xea, 0x5d, 0x98, 0x16,
-	0x65, 0x30, 0xff, 0x5e, 0xe4, 0xad, 0x24, 0xdf, 0xd0, 0xfd, 0xdc, 0xe7, 0x1a, 0x4d, 0xbf, 0xbb,
-	0x6c, 0x2e, 0x65, 0x62, 0xa1, 0x1c, 0x6a, 0xed, 0x67, 0x0a, 0x9c, 0x28, 0x34, 0xa9, 0x58, 0x90,
-	0x59, 0x18, 0x10, 0x1c, 0x44, 0x8a, 0x19, 0x6b, 0xf2, 0x3e, 0x39, 0x98, 0x0f, 0x05, 0xc3, 0xbd,
-	0x55, 0x7d, 0x6c, 0xf3, 0xe9, 0xbc, 0x84, 0xc6, 0x26, 0x37, 0xe1, 0x20, 0x0a, 0xbf, 0xb5, 0x5f,
-	0x2b, 0x50, 0x5f, 0x71, 0x2c, 0x6b, 0xd1, 0x71, 0x17, 0x44, 0x77, 0xcd, 0xc2, 0x4d, 0x6f, 0xcb,
-	0x2b, 0x47, 0xad, 0x52, 0x0f, 0x51, 0x4b, 0x8e, 0x02, 0xe5, 0x44, 0x14, 0x38, 0x0d, 0x63, 0xeb,
-	0x3c, 0x07, 0xcf, 0x6f, 0x62, 0x63, 0xcb, 0xeb, 0xb4, 0xf8, 0x2a, 0x0e, 0xa1, 0x04, 0x54, 0xfb,
-	0x6d, 0x3f, 0x1c, 0xce, 0x14, 0x58, 0x18, 0xef, 0x08, 0x0c, 0xb1, 0xf9, 0x7c, 0x73, 0x28, 0xdc,
-	0x1c, 0x11, 0x40, 0x7d, 0x1d, 0x0e, 0xa4, 0x7a, 0xd5, 0x9e, 0x1c, 0x33, 0x4d, 0xf6, 0x35, 0xa2,
-	0xfd, 0x05, 0x98, 0x6e, 0xbb, 0x78, 0x9b, 0x38, 0x1d, 0x8f, 0xef, 0x4d, 0x6c, 0x72, 0x57, 0x59,
-	0x36, 0x45, 0x6e, 0xcd, 0x19, 0x65, 0x36, 0xf2, 0xe2, 0xf8, 0x55, 0x8e, 0x9f, 0x80, 0xaa, 0x35,
-	0x18, 0xd0, 0x29, 0xc5, 0xad, 0x36, 0xe5, 0x1e, 0x5b, 0x46, 0xc1, 0xa7, 0x7a, 0x06, 0x26, 0xd6,
-	0x75, 0x63, 0xcb, 0x72, 0x36, 0xe6, 0x9d, 0x8e, 0x4d, 0x97, 0x88, 0x4d, 0x79, 0x04, 0x2f, 0xa3,
-	0x14, 0x5c, 0x76, 0xc3, 0xc1, 0x3d, 0xba, 0xe1, 0x50, 0x96, 0x1b, 0x9e, 0x81, 0x2a, 0x3f, 0x3e,
-	0xe1, 0x91, 0x9b, 0x19, 0x8a, 0x7f, 0x85, 0x76, 0xba, 0xcd, 0xbe, 0x90, 0x8f, 0xa2, 0xae, 0xc0,
-	0xa1, 0x94, 0xc1, 0x03, 0x87, 0x12, 0xe1, 0x3a, 0xcb, 0xd5, 0xf2, 0x89, 0x58, 0xd7, 0xeb, 0x89,
-	0x18, 0x6d, 0xb2, 0xe4, 0xe4, 0x51, 0xbd, 0xd5, 0xe6, 0x11, 0xbc, 0x8c, 0x32, 0x46, 0x98, 0xa5,
-	0x84, 0x55, 0x23, 0xec, 0x51, 0xdf, 0x52, 0x49, 0xb8, 0xba, 0x0a, 0x03, 0x4c, 0x6c, 0xc2, 0x03,
-	0x39, 0xeb, 0xe2, 0xbe, 0x9b, 0xea, 0xe2, 0x0a, 0x5c, 0xb6, 0x79, 0xdb, 0xa7, 0xf5, 0x0f, 0x12,
-	0x02, 0x4e, 0xf5, 0x15, 0x18, 0x91, 0x07, 0x32, 0x9a, 0xdd, 0x33, 0x72, 0xb3, 0x9b, 0x6b, 0xd0,
-	0xa8, 0x05, 0xfe, 0xaa, 0x02, 0x27, 0xfc, 0x49, 0x4d, 0x59, 0x8e, 0x79, 0xa7, 0xd5, 0x66, 0x55,
-	0xb0, 0x29, 0x6d, 0xfa, 0x82, 0x2d, 0xf4, 0x12, 0x0c, 0x05, 0xe7, 0x70, 0x5e, 0xad, 0xc4, 0xd5,
-	0x55, 0x9b, 0x01, 0xa4, 0x19, 0x30, 0x46, 0x11, 0x12, 0x33, 0x65, 0xb8, 0xb5, 0xe6, 0x1d, 0x9b,
-	0xe2, 0xfb, 0x94, 0x6f, 0x96, 0x11, 0x94, 0x82, 0xc7, 0x42, 0x44, 0x25, 0x11, 0x22, 0x6e, 0xb1,
-	0x25, 0x21, 0xc6, 0x56, 0x57, 0x4a, 0x9c, 0x55, 0xae, 0xfa, 0x89, 0x48, 0x80, 0x55, 0x8e, 0x11,
-	0xae, 0x7f, 0x2c, 0x87, 0x26, 0x88, 0xd5, 0xf3, 0x30, 0xe5, 0x62, 0xda, 0x71, 0xed, 0x9b, 0x78,
-	0x47, 0xb6, 0x08, 0xdf, 0x35, 0x83, 0x28, 0x7b, 0x50, 0xbd, 0x04, 0xf5, 0x7b, 0x8e, 0x6b, 0xe0,
-	0x79, 0x17, 0xb3, 0x2a, 0x33, 0x41, 0x3a, 0xc0, 0x49, 0x0b, 0x30, 0x32, 0x22, 0xdd, 0x60, 0x56,
-	0xa4, 0x53, 0xdf, 0x81, 0x11, 0xbe, 0xa0, 0x08, 0x7b, 0x1d, 0x8b, 0x7a, 0xb5, 0x21, 0x6e, 0xeb,
-	0xc5, 0x8c, 0xd3, 0xa9, 0x5d, 0x97, 0xb4, 0x79, 0x5b, 0x62, 0xe4, 0xfb, 0x59, 0x8c, 0x77, 0xfd,
-	0xfb, 0x70, 0x20, 0x85, 0x92, 0xe1, 0x71, 0x2f, 0xc5, 0x3d, 0xae, 0x9e, 0xe9, 0x71, 0x9c, 0x85,
-	0xec, 0x77, 0xf7, 0xe1, 0x64, 0xb1, 0x8c, 0x22, 0x74, 0xaf, 0xc0, 0x88, 0x29, 0x9b, 0xd2, 0x4f,
-	0x7e, 0x67, 0xf7, 0xb2, 0x97, 0x50, 0x8c, 0x83, 0xf6, 0x57, 0x05, 0x66, 0x32, 0xa6, 0x5e, 0xd4,
-	0x89, 0xd5, 0xab, 0xbb, 0x9f, 0x87, 0xaa, 0xa1, 0x77, 0x3c, 0x5f, 0x65, 0x96, 0xfb, 0xfd, 0x18,
-	0x98, 0x66, 0x37, 0xcf, 0xb0, 0x90, 0x8f, 0xcc, 0x22, 0xb0, 0x89, 0xa9, 0x4e, 0x2c, 0x4f, 0x78,
-	0x7a, 0xf0, 0x59, 0xe8, 0xe0, 0x69, 0xcf, 0xa8, 0x66, 0xe6, 0xc0, 0x13, 0x70, 0xbc, 0x40, 0x2b,
-	0xd1, 0xec, 0xfc, 0x39, 0xca, 0xec, 0x57, 0x0c, 0x4a, 0xb6, 0x59, 0x8f, 0xf4, 0x8d, 0x64, 0xf6,
-	0x45, 0x98, 0x08, 0xf0, 0x6e, 0x60, 0xaa, 0xf3, 0x93, 0xd6, 0x8a, 0xf0, 0x9f, 0x14, 0xcf, 0x00,
-	0x03, 0xa5, 0x68, 0xb4, 0xdf, 0x44, 0x99, 0x3f, 0xae, 0xd0, 0x13, 0xcf, 0xfc, 0x0d, 0x00, 0x5d,
-	0x48, 0xb0, 0x6c, 0x06, 0xe7, 0xe7, 0x11, 0x84, 0x55, 0x06, 0xc1, 0x17, 0xaf, 0x0c, 0x2a, 0xf1,
-	0xca, 0xe0, 0x8a, 0x34, 0x86, 0x62, 0x98, 0x39, 0x7d, 0x5d, 0x76, 0xee, 0xea, 0xcf, 0xcd, 0x5d,
-	0x0b, 0x70, 0x34, 0x80, 0x16, 0x35, 0x6d, 0xc5, 0x48, 0x99, 0x19, 0x70, 0x30, 0x27, 0x03, 0x5e,
-	0x82, 0xba, 0x97, 0xdf, 0x23, 0x0e, 0xf1, 0xe9, 0x0a, 0x30, 0xd4, 0x57, 0xe1, 0xe0, 0x26, 0xd6,
-	0x5d, 0xba, 0x8e, 0x75, 0x9a, 0x20, 0x06, 0x4e, 0x9c, 0x37, 0x2c, 0xd7, 0x3a, 0xc3, 0x1c, 0x33,
-	0xac, 0x75, 0x96, 0xe0, 0x58, 0xda, 0x36, 0xb7, 0xee, 0xad, 0x6d, 0x12, 0xef, 0x8a, 0xa0, 0xf0,
-	0xd3, 0xff, 0x6e, 0x68, 0xcc, 0x12, 0xe1, 0xf4, 0x0b, 0x62, 0x5b, 0x8f, 0xfa, 0x09, 0x2c, 0x09,
-	0x4f, 0x55, 0x85, 0x63, 0x3d, 0x57, 0x85, 0x67, 0x23, 0x0f, 0x8d, 0x0e, 0x50, 0xc6, 0xfd, 0x3b,
-	0x8b, 0xd4, 0x80, 0xd4, 0xff, 0x4d, 0x14, 0xf6, 0x7f, 0xf7, 0x41, 0x43, 0xd8, 0x70, 0x5c, 0x53,
-	0xde, 0x33, 0x4b, 0x81, 0xd4, 0xbd, 0xc5, 0x40, 0x29, 0x9a, 0x95, 0xf2, 0xa3, 0x59, 0x62, 0xdf,
-	0x6b, 0xb7, 0x58, 0xb5, 0x51, 0x30, 0x73, 0xd8, 0xed, 0x8c, 0x1b, 0xba, 0x6d, 0x60, 0x4b, 0xc8,
-	0x82, 0xfd, 0x46, 0x74, 0x10, 0x25, 0xc1, 0xda, 0x5f, 0x14, 0x38, 0x5d, 0xc0, 0xf1, 0x6a, 0x77,
-	0xd9, 0x7c, 0x34, 0xe7, 0x38, 0x61, 0x47, 0x5c, 0x96, 0x3a, 0xe2, 0xc4, 0xae, 0xaf, 0xa4, 0x76,
-	0xbd, 0x64, 0xa5, 0x6a, 0xbe, 0x95, 0xfa, 0x13, 0x56, 0x5a, 0x85, 0xe7, 0x77, 0xd5, 0x69, 0xcf,
-	0x96, 0xda, 0x09, 0x0b, 0x3d, 0x99, 0xeb, 0x1e, 0x0b, 0xbd, 0x69, 0xe8, 0x77, 0x79, 0x2e, 0x17,
-	0x8b, 0x2e, 0xbe, 0x0a, 0xd7, 0xfc, 0x74, 0x98, 0xea, 0x73, 0x26, 0x16, 0xc9, 0xe9, 0x63, 0x85,
-	0xa9, 0x9d, 0x8f, 0xf8, 0x4d, 0xaf, 0x65, 0xa4, 0x7b, 0x35, 0x57, 0xf7, 0xe4, 0x4a, 0x9e, 0x81,
-	0xd9, 0xdd, 0x55, 0x12, 0xfa, 0x7f, 0x10, 0x15, 0x26, 0x32, 0xf2, 0x5e, 0x0a, 0x13, 0x2e, 0xa2,
-	0xee, 0x85, 0x37, 0xbc, 0xe2, 0x6b, 0x7f, 0xa5, 0x87, 0x54, 0x52, 0x64, 0xc9, 0x23, 0xa4, 0xfe,
-	0x5c, 0xc9, 0x5c, 0x5e, 0x1f, 0xeb, 0xa9, 0x58, 0x32, 0x6e, 0x8f, 0x6a, 0x9e, 0x3d, 0xfa, 0xf3,
-	0xed, 0x31, 0x90, 0xb0, 0xc7, 0xf3, 0x70, 0x6a, 0x17, 0x4d, 0x85, 0x4d, 0x78, 0x7c, 0x4d, 0xaf,
-	0x3a, 0xdf, 0x90, 0xbd, 0x2e, 0xe5, 0xfe, 0xe2, 0xeb, 0xa9, 0xec, 0x4d, 0x1e, 0xce, 0x2c, 0x04,
-	0xf4, 0xa3, 0x66, 0x2e, 0xde, 0xb7, 0x33, 0x6a, 0xbe, 0x90, 0x1d, 0x3e, 0x62, 0x3a, 0x09, 0xfd,
-	0xff, 0xa4, 0xb0, 0xa5, 0xe4, 0x0a, 0xfa, 0xe3, 0xfb, 0x3c, 0xfc, 0x7f, 0x94, 0x05, 0x64, 0x51,
-	0xb9, 0x1c, 0x3b, 0x0e, 0xaf, 0x24, 0x8e, 0xc3, 0xb5, 0x59, 0xb6, 0x98, 0xc5, 0xca, 0x08, 0xbd,
-	0x7f, 0x5e, 0x82, 0xc6, 0x2a, 0xd9, 0xb0, 0xf5, 0xa7, 0x41, 0xe1, 0x06, 0x80, 0xc7, 0x65, 0xe1,
-	0x0f, 0x31, 0x44, 0xc5, 0x1c, 0x41, 0xa2, 0xba, 0xb7, 0x22, 0xd7, 0xbd, 0xb2, 0x99, 0xaa, 0x45,
-	0x66, 0xea, 0x4f, 0xde, 0x1a, 0xd4, 0x60, 0xc0, 0x70, 0x6c, 0xea, 0x3a, 0x16, 0xdf, 0xd9, 0x23,
-	0x28, 0xf8, 0xd4, 0x8e, 0xc3, 0xb1, 0x5c, 0xab, 0x08, 0xcb, 0xfd, 0xad, 0x1f, 0x9e, 0x17, 0x38,
-	0x84, 0x6e, 0x3e, 0xbb, 0x30, 0x7a, 0x76, 0x61, 0x94, 0xf0, 0xdf, 0xe1, 0x94, 0xff, 0xce, 0xc0,
-	0xb0, 0xff, 0xb5, 0xcc, 0x8d, 0x3c, 0xc2, 0x8d, 0x2c, 0x83, 0x64, 0x8f, 0x1c, 0x8d, 0x79, 0x64,
-	0xf2, 0x32, 0x6a, 0x6c, 0x9f, 0x97, 0x51, 0xe3, 0x05, 0x97, 0x51, 0x13, 0x7b, 0xba, 0x8c, 0x3a,
-	0xf0, 0x35, 0x2e, 0xa3, 0xd4, 0xc2, 0x66, 0xe4, 0x32, 0xcc, 0xee, 0xbe, 0xb1, 0x0a, 0xaf, 0xa5,
-	0xbe, 0x52, 0xe0, 0x28, 0xc2, 0x1e, 0xa6, 0x4f, 0x41, 0x50, 0x8b, 0x2a, 0x8e, 0x72, 0xac, 0xe2,
-	0x38, 0x0f, 0x53, 0xc1, 0x29, 0xd4, 0x22, 0xb1, 0x89, 0xb7, 0x19, 0x3f, 0xdd, 0xcf, 0x1e, 0x8c,
-	0x7b, 0x75, 0x35, 0x19, 0xf7, 0x2f, 0x40, 0x23, 0x4f, 0xed, 0x42, 0x7b, 0xfd, 0x43, 0x81, 0xe3,
-	0x6b, 0xd8, 0x6d, 0x11, 0x5b, 0xa7, 0xf8, 0x29, 0xb6, 0x99, 0x54, 0x06, 0x54, 0xf2, 0xcb, 0x80,
-	0x44, 0x12, 0xd0, 0x4e, 0x82, 0x56, 0xa4, 0x9c, 0x88, 0xe7, 0x5f, 0x94, 0xe0, 0x38, 0x0b, 0x82,
-	0xb7, 0xda, 0xd8, 0x4e, 0x61, 0x79, 0xbd, 0xd9, 0x20, 0xe3, 0x36, 0xb2, 0xd4, 0xe3, 0x6d, 0x64,
-	0x39, 0xeb, 0x32, 0xe4, 0x0a, 0x8c, 0xfb, 0xc7, 0x21, 0xa4, 0x85, 0xfd, 0x2b, 0x42, 0x11, 0xc6,
-	0x0f, 0x06, 0x97, 0x8b, 0xab, 0xf1, 0x61, 0x94, 0xc4, 0x57, 0xdf, 0x80, 0xf1, 0xd0, 0xf8, 0x82,
-	0x85, 0x7f, 0x1a, 0x7e, 0x2c, 0x60, 0x91, 0x52, 0xd6, 0x47, 0x5b, 0xea, 0x43, 0x49, 0x4a, 0xf5,
-	0x35, 0x00, 0xda, 0x6d, 0x07, 0xa2, 0xf4, 0x8b, 0xe3, 0xb9, 0x04, 0x9f, 0xb5, 0x10, 0x63, 0xa9,
-	0x0f, 0x49, 0xf8, 0x57, 0x87, 0x60, 0xc0, 0x47, 0xf5, 0xb4, 0x9f, 0x2a, 0xa0, 0x15, 0x19, 0x5b,
-	0x78, 0xeb, 0x65, 0x80, 0x50, 0x84, 0xe0, 0xed, 0xdb, 0x4c, 0x91, 0x33, 0xf1, 0x17, 0x35, 0x12,
-	0x4d, 0x8f, 0x2f, 0xde, 0x3e, 0x2a, 0xc3, 0x09, 0x26, 0x0e, 0xcf, 0x31, 0xe6, 0xb3, 0xd5, 0x7f,
-	0x0c, 0xab, 0xaf, 0x5e, 0x84, 0x11, 0x8f, 0xbf, 0xe9, 0x14, 0xf4, 0x03, 0xa2, 0x8a, 0x89, 0x54,
-	0x09, 0xc7, 0x96, 0xfa, 0x50, 0x0c, 0x57, 0xf6, 0x9c, 0x0f, 0x14, 0x38, 0x59, 0xbc, 0x54, 0x4f,
-	0xd8, 0x77, 0x7e, 0xa1, 0xc0, 0x51, 0x26, 0xd0, 0x7e, 0xbd, 0x46, 0x7e, 0x3c, 0x5a, 0xda, 0xed,
-	0xf1, 0x68, 0xa6, 0x9f, 0x4c, 0x06, 0x57, 0xa6, 0x7e, 0x1f, 0xe0, 0x7f, 0x68, 0xef, 0x2b, 0xd0,
-	0xc8, 0x93, 0xeb, 0x09, 0x9b, 0xe8, 0x97, 0x0a, 0x9c, 0x62, 0xa2, 0x5c, 0x11, 0xef, 0x09, 0x9e,
-	0x36, 0x53, 0x7d, 0xa8, 0xc0, 0xe9, 0xdd, 0xe4, 0xfb, 0x06, 0xbc, 0x6a, 0xd5, 0xd0, 0xed, 0xa7,
-	0xd1, 0xab, 0xf2, 0xe4, 0x7a, 0xc2, 0x26, 0x5a, 0x83, 0x06, 0x7f, 0x86, 0xb0, 0x5f, 0x13, 0x85,
-	0x0a, 0x96, 0x64, 0x05, 0x5f, 0x81, 0x63, 0xb9, 0x5c, 0xa3, 0x1a, 0xca, 0x60, 0x28, 0x9c, 0x65,
-	0x19, 0xf9, 0x1f, 0xda, 0x11, 0xa8, 0x5f, 0xc7, 0x34, 0x55, 0x06, 0xfb, 0xa2, 0x68, 0xbf, 0x53,
-	0xe0, 0x70, 0xe6, 0x70, 0xf8, 0xca, 0xbb, 0xb2, 0x85, 0xbb, 0x81, 0xb9, 0x2e, 0xa4, 0x6e, 0x33,
-	0x0b, 0x68, 0x9b, 0x6f, 0xe0, 0xae, 0xb8, 0xae, 0xe5, 0x3c, 0xea, 0xb7, 0x61, 0x28, 0x04, 0x65,
-	0x5c, 0xcf, 0x36, 0xe5, 0xeb, 0xd9, 0xb1, 0xa8, 0x82, 0x5f, 0xb6, 0x4d, 0x7c, 0x1f, 0x9b, 0x77,
-	0xd9, 0x18, 0xef, 0x25, 0xa5, 0xcb, 0xd9, 0x0f, 0x4a, 0xe1, 0x49, 0x24, 0xbf, 0xbe, 0xdd, 0xc7,
-	0x41, 0xf1, 0x6b, 0x30, 0x6a, 0x04, 0x14, 0xbc, 0x8d, 0xf5, 0xa7, 0x9f, 0x16, 0xb7, 0xc3, 0xd2,
-	0xad, 0x30, 0x9f, 0x3c, 0x8e, 0xcc, 0x5a, 0x27, 0xe9, 0x2a, 0x5a, 0x78, 0xac, 0x0c, 0x62, 0x9d,
-	0x0e, 0x76, 0x5d, 0xc7, 0xbd, 0xe1, 0xff, 0x2f, 0x46, 0xb8, 0x6d, 0x0c, 0xa6, 0x2e, 0xf9, 0x35,
-	0x6a, 0xf8, 0x1c, 0x95, 0x3f, 0xd0, 0xad, 0x8a, 0x44, 0x26, 0xfe, 0x58, 0xc3, 0xfd, 0x33, 0x86,
-	0x81, 0xd2, 0x44, 0xd2, 0x49, 0x68, 0x96, 0x3d, 0x44, 0x49, 0xb9, 0x0d, 0x75, 0x5e, 0x8e, 0xfb,
-	0xaf, 0x0d, 0xc2, 0x7e, 0xfb, 0x71, 0x3f, 0x8a, 0xd3, 0x8e, 0xc2, 0xe1, 0xcc, 0x79, 0x85, 0x58,
-	0xbf, 0x2f, 0xc1, 0x24, 0x97, 0x3a, 0x60, 0xf2, 0xf8, 0x9f, 0xe9, 0x85, 0xaf, 0x7a, 0xca, 0xbb,
-	0xbf, 0xea, 0xb9, 0x05, 0x93, 0x62, 0x5d, 0xdf, 0xc1, 0x06, 0x9d, 0x77, 0x6c, 0x93, 0x84, 0xaf,
-	0xc2, 0xc7, 0xe6, 0x0e, 0xc7, 0xfd, 0x25, 0x86, 0x82, 0x32, 0x09, 0x55, 0x04, 0x53, 0x1c, 0x3e,
-	0xef, 0xd8, 0x1e, 0xf1, 0x28, 0xb6, 0x8d, 0xee, 0x9b, 0x78, 0x1b, 0x5b, 0x7c, 0xe5, 0xc7, 0xe6,
-	0x8e, 0xc8, 0x1c, 0x93, 0x38, 0x28, 0x9b, 0x54, 0xeb, 0xc0, 0x54, 0xc2, 0x84, 0x62, 0x23, 0x27,
-	0x1c, 0x55, 0x49, 0x3b, 0xea, 0x45, 0x18, 0x95, 0xc4, 0xc4, 0x66, 0xe2, 0x61, 0xce, 0x6d, 0x79,
-	0x0c, 0xc5, 0x51, 0xb5, 0x8f, 0x15, 0x38, 0x95, 0xf5, 0x38, 0x10, 0xe9, 0x3b, 0xdf, 0xd6, 0x27,
-	0x97, 0xda, 0x7b, 0x0a, 0x9c, 0xde, 0x4d, 0x27, 0x61, 0xdc, 0x97, 0x00, 0xdc, 0x10, 0x2a, 0x62,
-	0xe5, 0x44, 0x10, 0xbf, 0x16, 0x74, 0xaa, 0x5f, 0xb5, 0x9c, 0x75, 0x24, 0xe1, 0xf4, 0x98, 0x4a,
-	0x7e, 0x04, 0x33, 0xc1, 0x1f, 0x56, 0xf6, 0xd9, 0xfd, 0x7e, 0x9d, 0xed, 0xfa, 0xdf, 0x12, 0x1c,
-	0x2f, 0x98, 0x5e, 0xe8, 0xae, 0xc3, 0xb4, 0xfc, 0x0e, 0x4a, 0x7a, 0xcd, 0xef, 0xbf, 0x80, 0x79,
-	0xa1, 0x68, 0xba, 0xf8, 0x43, 0xfe, 0x1c, 0x46, 0xea, 0xdd, 0xe8, 0x50, 0x2c, 0x96, 0x9c, 0x85,
-	0x42, 0xbb, 0x27, 0xf1, 0x6c, 0x72, 0xf5, 0x4d, 0x38, 0xd0, 0xc6, 0xb6, 0x49, 0xec, 0x0d, 0x71,
-	0x0e, 0x4f, 0xb0, 0x57, 0x2b, 0xf3, 0xd5, 0x6b, 0x48, 0x3c, 0x57, 0x62, 0x38, 0x5d, 0x3f, 0xf4,
-	0xa6, 0x08, 0xd5, 0x9b, 0x30, 0x2e, 0x80, 0xf3, 0x9b, 0xc4, 0x32, 0x5d, 0xee, 0x57, 0x8c, 0xd7,
-	0xc9, 0x34, 0x2f, 0x8e, 0x11, 0x97, 0x31, 0x49, 0xac, 0xfd, 0x5d, 0x81, 0x83, 0x81, 0xf9, 0xf7,
-	0x16, 0xa3, 0xf7, 0xfa, 0xfe, 0xe5, 0x22, 0x8c, 0x04, 0xbf, 0xc3, 0x83, 0x5c, 0x96, 0x01, 0x53,
-	0x34, 0xfe, 0x51, 0xae, 0x8c, 0xab, 0x9e, 0x87, 0x29, 0x62, 0x1b, 0x56, 0xc7, 0x0c, 0x65, 0x14,
-	0x7f, 0xae, 0xab, 0xf8, 0xaf, 0xd0, 0x32, 0x07, 0x59, 0x9f, 0x5d, 0x4b, 0xeb, 0x26, 0x3c, 0xaa,
-	0x09, 0x03, 0x6d, 0xc7, 0xb2, 0xb0, 0x1b, 0x94, 0x1d, 0x93, 0x91, 0x24, 0x2b, 0x7c, 0x80, 0x1b,
-	0x2c, 0x40, 0x52, 0x2f, 0xc3, 0x18, 0x8d, 0xcf, 0x5d, 0x12, 0x67, 0x80, 0x29, 0x05, 0xc4, 0xff,
-	0xfa, 0x12, 0xf8, 0xda, 0x41, 0x98, 0xba, 0x8e, 0xa9, 0xf8, 0x53, 0x25, 0x67, 0x2e, 0xca, 0x23,
-	0x0a, 0xd3, 0xc9, 0x01, 0x21, 0xe4, 0xdb, 0x70, 0xd0, 0xeb, 0xb4, 0xdb, 0x8e, 0x4b, 0xb1, 0x39,
-	0x6f, 0x11, 0x6c, 0x53, 0x91, 0x86, 0x3d, 0xe1, 0xf7, 0x33, 0x61, 0xe2, 0x5e, 0xcd, 0xc6, 0x43,
-	0x79, 0x0c, 0xb4, 0x96, 0xdf, 0xb9, 0x05, 0x42, 0xaf, 0xe8, 0x2e, 0x25, 0x7b, 0x28, 0x20, 0xf7,
-	0xb8, 0xfc, 0xda, 0x17, 0xa2, 0x23, 0xcb, 0x9a, 0x4f, 0x68, 0x6b, 0x40, 0x5d, 0x97, 0xae, 0xaa,
-	0xe2, 0x58, 0x62, 0x95, 0x4e, 0xa4, 0x27, 0x09, 0x71, 0xc2, 0x87, 0x51, 0x05, 0x6c, 0xd8, 0x24,
-	0xf2, 0xfb, 0xb7, 0xc4, 0x24, 0xa5, 0x3d, 0x4c, 0x92, 0xcf, 0x46, 0xfb, 0x55, 0x09, 0x5e, 0x10,
-	0xef, 0xb0, 0xfe, 0x9f, 0xb2, 0x95, 0x7a, 0x17, 0xa6, 0xb3, 0x1f, 0xf4, 0x8b, 0x6a, 0x62, 0xd7,
-	0x67, 0xff, 0xd9, 0x70, 0xed, 0xc7, 0x0a, 0x9c, 0xe9, 0xc5, 0x5e, 0x8f, 0x37, 0x13, 0x5e, 0x7d,
-	0x5f, 0x79, 0xf0, 0x69, 0xa3, 0xef, 0x93, 0x4f, 0x1b, 0x7d, 0x5f, 0x7e, 0xda, 0x50, 0xde, 0x7b,
-	0xd8, 0x50, 0x3e, 0x7a, 0xd8, 0x50, 0xfe, 0xf8, 0xb0, 0xa1, 0x3c, 0x78, 0xd8, 0x50, 0xfe, 0xf9,
-	0xb0, 0xa1, 0x7c, 0xfe, 0xb0, 0xd1, 0xf7, 0xe5, 0xc3, 0x86, 0xf2, 0xe1, 0x67, 0x8d, 0xbe, 0x07,
-	0x9f, 0x35, 0xfa, 0x3e, 0xf9, 0xac, 0xd1, 0x07, 0xc7, 0x89, 0xd3, 0xa4, 0xb8, 0xd5, 0x76, 0x5c,
-	0xdd, 0xf2, 0xff, 0x91, 0x9e, 0xec, 0x60, 0x56, 0x94, 0xb7, 0x5f, 0xdc, 0x90, 0x90, 0x88, 0x73,
-	0x2e, 0xf8, 0xfd, 0x22, 0x27, 0x38, 0x97, 0x20, 0x58, 0xef, 0xe7, 0xe0, 0x97, 0xff, 0x17, 0x00,
-	0x00, 0xff, 0xff, 0x10, 0x55, 0x55, 0x84, 0x73, 0x40, 0x00, 0x00,
+	0xa4, 0x48, 0x91, 0x22, 0x08, 0x02, 0xc3, 0x01, 0x92, 0x32, 0x7d, 0x9a, 0xa4, 0x49, 0x93, 0x22,
+	0x4d, 0x80, 0x14, 0x01, 0x02, 0x04, 0x76, 0x10, 0x20, 0x09, 0xd2, 0x04, 0x36, 0x10, 0x18, 0xee,
+	0x82, 0xc0, 0x5d, 0x8a, 0x60, 0x3e, 0xbb, 0x37, 0xfb, 0xe5, 0x91, 0x96, 0x64, 0x39, 0x50, 0x77,
+	0xfb, 0xe6, 0xbd, 0x37, 0xef, 0xbd, 0x79, 0xf3, 0x3e, 0x33, 0x73, 0x70, 0x6e, 0xd7, 0xf3, 0xb7,
+	0x1f, 0x3a, 0xde, 0x6e, 0x80, 0xfd, 0x1d, 0x62, 0xe1, 0x8b, 0x3e, 0x7e, 0xbf, 0x83, 0x03, 0xfa,
+	0x1d, 0x1f, 0x07, 0x6d, 0xcf, 0x0d, 0x70, 0xb3, 0xed, 0x7b, 0xd4, 0xd3, 0x27, 0x12, 0x78, 0xf5,
+	0xc3, 0x96, 0xd7, 0x6a, 0x79, 0xee, 0x45, 0xec, 0x76, 0x5a, 0x02, 0xa7, 0x3e, 0x25, 0x41, 0x2d,
+	0x1c, 0x04, 0xe6, 0xa6, 0xa4, 0xac, 0x4f, 0xe2, 0x1d, 0xec, 0x52, 0x15, 0xef, 0x05, 0x01, 0x89,
+	0xa3, 0x1d, 0xc1, 0x8f, 0xb0, 0xd5, 0xa1, 0x24, 0x45, 0x3f, 0x63, 0x63, 0x8b, 0x04, 0x69, 0xf8,
+	0xe1, 0x87, 0xc4, 0xa1, 0xd8, 0x8f, 0x09, 0x20, 0x41, 0x09, 0xce, 0xae, 0xd9, 0xc2, 0x41, 0xdb,
+	0xb4, 0x70, 0x62, 0x60, 0xaa, 0x37, 0xa0, 0x30, 0x99, 0x7c, 0xbf, 0x83, 0xfd, 0x6e, 0x4c, 0x5e,
+	0x01, 0x89, 0x13, 0x1f, 0xf5, 0x71, 0xdb, 0x21, 0x96, 0x99, 0x21, 0xf1, 0x0b, 0xd4, 0x0c, 0xb6,
+	0x1d, 0x12, 0xc4, 0x94, 0x9e, 0x89, 0x80, 0x71, 0xe4, 0xe9, 0x1d, 0xec, 0xa7, 0xb5, 0x33, 0x7e,
+	0x3f, 0x00, 0x35, 0x84, 0x37, 0x49, 0x40, 0xb1, 0x7f, 0x27, 0x14, 0x13, 0x89, 0xb5, 0xd1, 0x75,
+	0xa8, 0x30, 0xd1, 0x6b, 0xda, 0xac, 0x36, 0x37, 0x8c, 0xf8, 0x6f, 0x7d, 0x16, 0x46, 0x6c, 0x1c,
+	0x58, 0x3e, 0x69, 0x33, 0x89, 0x6a, 0x25, 0x3e, 0xa4, 0x82, 0xf4, 0x06, 0x80, 0xb7, 0xeb, 0x62,
+	0xff, 0x66, 0xcb, 0x24, 0x4e, 0xad, 0xcc, 0x11, 0x14, 0x88, 0xfe, 0xa0, 0xe7, 0x0c, 0x37, 0xc3,
+	0xb5, 0x40, 0x98, 0x62, 0x97, 0xfd, 0x58, 0xc5, 0x3e, 0xf1, 0xec, 0x15, 0x77, 0xd1, 0xec, 0x06,
+	0xb5, 0xca, 0xac, 0x36, 0x57, 0x45, 0x7d, 0x62, 0xb3, 0x79, 0x71, 0x8b, 0xd0, 0xdb, 0x98, 0xfa,
+	0xc4, 0xaa, 0x55, 0x67, 0xb5, 0xb9, 0x21, 0xa4, 0x40, 0xf4, 0x65, 0x18, 0xb2, 0x9c, 0x0e, 0x53,
+	0x34, 0xa8, 0x0d, 0xcc, 0x96, 0xe7, 0x46, 0xe6, 0x2f, 0x34, 0x15, 0xe3, 0x36, 0x17, 0xc4, 0x20,
+	0xea, 0x81, 0x16, 0x3c, 0xf7, 0x21, 0xd9, 0xec, 0xf8, 0xfc, 0x03, 0x45, 0xd4, 0xfa, 0x05, 0x38,
+	0x6c, 0x5a, 0x94, 0xec, 0x60, 0x49, 0xc2, 0x0c, 0x57, 0x1b, 0xe4, 0x8a, 0xa6, 0x07, 0xf4, 0x5b,
+	0x50, 0xb1, 0x4d, 0x6a, 0xd6, 0x86, 0xf8, 0x9c, 0xaf, 0x36, 0x13, 0x1e, 0xde, 0xcc, 0x33, 0x7f,
+	0x73, 0xd1, 0xa4, 0xe6, 0x4d, 0x97, 0xfa, 0x5d, 0xc4, 0x19, 0xe8, 0x67, 0x60, 0x2c, 0xc0, 0x56,
+	0xc7, 0x27, 0xb4, 0xbb, 0xee, 0x6d, 0x63, 0xb7, 0x36, 0xcc, 0xa7, 0x8c, 0x03, 0x99, 0x70, 0x24,
+	0xb8, 0xe5, 0x78, 0x1b, 0xa6, 0x13, 0x71, 0xac, 0x01, 0xb7, 0x46, 0x7a, 0x40, 0xbf, 0x0b, 0xd3,
+	0x5b, 0x24, 0xa0, 0x9e, 0xdf, 0xbd, 0xee, 0x5b, 0x5b, 0x64, 0xc7, 0x74, 0xd6, 0xa8, 0x49, 0x3b,
+	0x41, 0x6d, 0x64, 0x56, 0x9b, 0x1b, 0x9f, 0x3f, 0xda, 0x8c, 0x7c, 0xb7, 0x19, 0x47, 0x40, 0xd9,
+	0x74, 0x7a, 0x13, 0xf4, 0xc4, 0xc0, 0x7d, 0xb4, 0x52, 0x1b, 0xe5, 0x92, 0x66, 0x8c, 0xe8, 0xf7,
+	0xa1, 0xb6, 0x43, 0x02, 0xb2, 0x41, 0x1c, 0x42, 0x93, 0x32, 0x8c, 0xed, 0x25, 0x43, 0x2e, 0xa9,
+	0x7e, 0x09, 0xa6, 0xd3, 0x63, 0x4c, 0x92, 0x71, 0x2e, 0x49, 0xf6, 0x60, 0xfd, 0x35, 0x18, 0x8e,
+	0x8c, 0xae, 0x4f, 0x42, 0x79, 0x1b, 0x77, 0xa5, 0xf3, 0xb3, 0x9f, 0xfa, 0x14, 0x54, 0x77, 0x4c,
+	0xa7, 0x83, 0xa5, 0xd7, 0x8b, 0x8f, 0x2b, 0xa5, 0xd7, 0x35, 0xe3, 0x18, 0x1c, 0xcd, 0x58, 0x46,
+	0x11, 0xd9, 0x8c, 0x6f, 0xc1, 0xf4, 0xdb, 0x24, 0xa0, 0xd1, 0x40, 0x10, 0xee, 0xaf, 0x3a, 0x0c,
+	0xb5, 0xcd, 0x4d, 0xbc, 0x46, 0xbe, 0x2b, 0xf6, 0x58, 0x15, 0x45, 0xdf, 0x6c, 0xb1, 0x5d, 0xfc,
+	0x88, 0xae, 0x9a, 0x9b, 0x58, 0x2c, 0x36, 0x9b, 0x73, 0x14, 0xc5, 0x81, 0xc6, 0x8f, 0x34, 0x98,
+	0x49, 0xf2, 0x16, 0xb3, 0xea, 0x6f, 0x02, 0x44, 0x76, 0x0b, 0x6a, 0x1a, 0x77, 0xbe, 0xf3, 0x29,
+	0xe7, 0x5b, 0xe4, 0x1b, 0x77, 0x03, 0xa7, 0xa4, 0x46, 0x0a, 0x75, 0x9f, 0xc2, 0x5c, 0x85, 0x5a,
+	0x06, 0xbb, 0xfc, 0x50, 0x32, 0x0e, 0x25, 0x62, 0x4b, 0x5b, 0x96, 0x88, 0x6d, 0x7c, 0x56, 0x82,
+	0xa3, 0xb9, 0xf2, 0xe8, 0x57, 0x61, 0x2c, 0x92, 0x68, 0xc5, 0x7d, 0xe8, 0x71, 0x56, 0x23, 0xf3,
+	0x35, 0xc5, 0x3b, 0xee, 0xa8, 0xe3, 0x28, 0x8e, 0xae, 0xdf, 0x82, 0x31, 0x4b, 0xdd, 0xcf, 0x7c,
+	0xe2, 0x91, 0xf9, 0x53, 0x59, 0xf4, 0xf1, 0x8d, 0x1f, 0xa7, 0xd3, 0xdf, 0x83, 0x9a, 0x9f, 0x13,
+	0x23, 0x78, 0xb4, 0x1b, 0x99, 0x6f, 0xc6, 0xe2, 0x8a, 0xa2, 0x4a, 0x4e, 0x64, 0xc9, 0xe5, 0xa7,
+	0xcf, 0xc1, 0xc4, 0x43, 0x93, 0x38, 0xde, 0x0e, 0xf6, 0x1f, 0x88, 0xf8, 0xcd, 0x83, 0x62, 0x19,
+	0x25, 0xc1, 0xd9, 0xdb, 0xbe, 0x9a, 0xb3, 0xed, 0x8d, 0xff, 0x94, 0x60, 0xe6, 0x7e, 0xdb, 0x36,
+	0x69, 0x7f, 0x2b, 0x75, 0x0d, 0x46, 0x3a, 0x1c, 0xdb, 0xe6, 0x96, 0x17, 0x96, 0x6b, 0x28, 0x96,
+	0x4b, 0xf0, 0xe2, 0xf6, 0x57, 0x49, 0xd2, 0xd6, 0x2f, 0x3f, 0x01, 0xeb, 0x57, 0x1e, 0xb3, 0xf5,
+	0x53, 0x01, 0xb7, 0x9a, 0x15, 0x70, 0xe7, 0x60, 0xc2, 0xc6, 0x0e, 0xa6, 0xf8, 0x86, 0x69, 0xdf,
+	0x20, 0xae, 0xe9, 0x77, 0x6b, 0x03, 0x1c, 0x2f, 0x09, 0x36, 0xfe, 0x55, 0x82, 0x23, 0x29, 0xab,
+	0x3f, 0x77, 0xef, 0xc7, 0xef, 0xde, 0xf7, 0x59, 0x20, 0x69, 0xfb, 0xd8, 0xea, 0xd7, 0xc1, 0x53,
+	0x2b, 0x5d, 0xca, 0x58, 0x69, 0xe3, 0x38, 0xd4, 0xb3, 0xd8, 0xca, 0x30, 0xff, 0xef, 0x2a, 0x9c,
+	0x58, 0xa3, 0xa6, 0x4f, 0xdf, 0x49, 0xd7, 0x2b, 0x62, 0xe6, 0xe3, 0x30, 0x1c, 0xad, 0x86, 0x9c,
+	0xbe, 0x07, 0x60, 0xf5, 0x4b, 0x18, 0x9d, 0x57, 0xc2, 0xb0, 0xa8, 0x40, 0xf4, 0xd7, 0x61, 0x34,
+	0xfc, 0x5a, 0xef, 0xb6, 0xb1, 0x5c, 0x8c, 0xa9, 0xa6, 0xa8, 0x86, 0x9b, 0xef, 0x28, 0x63, 0x28,
+	0x86, 0xa9, 0x37, 0x61, 0x88, 0x55, 0x85, 0x2c, 0x51, 0xc8, 0x3d, 0xa2, 0x37, 0xc3, 0x32, 0xb1,
+	0xb9, 0x2e, 0x47, 0x50, 0x84, 0xc3, 0xf2, 0x1c, 0x71, 0xdb, 0x1d, 0xca, 0x0d, 0x3c, 0x8a, 0xc4,
+	0x87, 0xbe, 0x0a, 0xa7, 0xa3, 0xda, 0x99, 0xeb, 0xb9, 0xee, 0x2d, 0x38, 0x5e, 0x80, 0xd7, 0x49,
+	0x0b, 0x7b, 0x1d, 0xba, 0x86, 0x2d, 0xcf, 0xb5, 0x03, 0xee, 0xfb, 0x55, 0xd4, 0x0f, 0xaa, 0xbe,
+	0x04, 0x0d, 0x36, 0x67, 0x01, 0xb3, 0x41, 0xce, 0x6c, 0x0f, 0x2c, 0x96, 0x47, 0x89, 0xcd, 0x2a,
+	0x42, 0xda, 0xad, 0x0d, 0x71, 0xbb, 0x45, 0xdf, 0xcc, 0xe6, 0xb2, 0xd5, 0x58, 0xb1, 0x65, 0xc1,
+	0xd4, 0x03, 0xe8, 0x6b, 0x30, 0xdd, 0xb3, 0x30, 0xc2, 0x9d, 0x00, 0xaf, 0x7a, 0x0e, 0xb1, 0xba,
+	0xbc, 0x60, 0x1a, 0x9f, 0x3f, 0x91, 0x34, 0x6e, 0x0c, 0x09, 0x65, 0xd3, 0xea, 0xdf, 0x80, 0x11,
+	0x1f, 0x53, 0xbf, 0x2b, 0x59, 0x8d, 0x70, 0x8b, 0xbf, 0x10, 0xb2, 0x42, 0xbd, 0x21, 0xa4, 0xe2,
+	0xe9, 0x06, 0x8c, 0x5a, 0xbe, 0xe7, 0xae, 0x59, 0x5b, 0xd8, 0xee, 0x38, 0x58, 0xd6, 0x4c, 0x31,
+	0x98, 0x3e, 0x0b, 0x95, 0x16, 0x6e, 0x79, 0xbc, 0x32, 0x1a, 0x99, 0x1f, 0x0d, 0x79, 0xde, 0xc6,
+	0x2d, 0x0f, 0xf1, 0x11, 0x7d, 0x11, 0x26, 0x03, 0x6c, 0xfa, 0xd6, 0xd6, 0x75, 0x4a, 0x7d, 0xb2,
+	0xd1, 0xa1, 0x38, 0xe0, 0x35, 0x0f, 0x0b, 0x25, 0x12, 0x7b, 0x2d, 0x31, 0x8e, 0x52, 0x14, 0xfa,
+	0x39, 0x18, 0xd8, 0xc2, 0xa6, 0x8d, 0xfd, 0xda, 0x04, 0xa7, 0x1d, 0x0f, 0x69, 0x97, 0x39, 0x14,
+	0xc9, 0x51, 0xe3, 0x32, 0x34, 0xf2, 0x5c, 0x5e, 0xc6, 0xb5, 0x29, 0xa8, 0xfa, 0x1d, 0x77, 0xc5,
+	0x96, 0xfe, 0x2e, 0x3e, 0x8c, 0x8f, 0x4a, 0x60, 0xdc, 0xc2, 0x69, 0xb2, 0x65, 0x51, 0x20, 0xf6,
+	0xb7, 0x61, 0xae, 0xc0, 0x70, 0xe4, 0x65, 0x32, 0xdc, 0x1d, 0x6f, 0x46, 0x90, 0x66, 0x5a, 0xa6,
+	0x1e, 0x3a, 0x8b, 0x3c, 0x2d, 0xf3, 0x11, 0x69, 0x75, 0x5a, 0xab, 0x61, 0x05, 0x56, 0xe6, 0xbe,
+	0x96, 0x04, 0xa7, 0x6b, 0x9f, 0x4a, 0x46, 0xed, 0xc3, 0xf8, 0xed, 0x9a, 0x84, 0x2e, 0x79, 0xfe,
+	0x1d, 0xbc, 0x7b, 0x93, 0xf5, 0x9d, 0x32, 0x3a, 0x25, 0xc1, 0xfa, 0x03, 0x98, 0x91, 0x65, 0x30,
+	0xff, 0x5e, 0xe2, 0xad, 0x24, 0xdf, 0xd0, 0x03, 0xdc, 0xe7, 0x1a, 0x4d, 0xd1, 0x5d, 0x36, 0x97,
+	0x33, 0xb1, 0x50, 0x0e, 0xb5, 0xf1, 0x13, 0x0d, 0x4e, 0x17, 0x9a, 0x54, 0x2e, 0xc8, 0x1c, 0x0c,
+	0x4a, 0x0e, 0x32, 0xc5, 0x8c, 0x37, 0x79, 0x9f, 0x1c, 0xce, 0x87, 0xc2, 0xe1, 0xfe, 0xaa, 0x3e,
+	0xb6, 0xf9, 0x4c, 0x5e, 0x42, 0x63, 0x9b, 0x9b, 0x70, 0x08, 0x45, 0xdf, 0xc6, 0xaf, 0x34, 0xa8,
+	0xaf, 0x7a, 0x8e, 0xb3, 0xe4, 0xf9, 0x8b, 0xb2, 0xbb, 0x66, 0xe1, 0xa6, 0xbf, 0xe5, 0x55, 0xa3,
+	0x56, 0xa9, 0x8f, 0xa8, 0xa5, 0x46, 0x81, 0x72, 0x22, 0x0a, 0x9c, 0x83, 0xf1, 0x0d, 0x9e, 0x83,
+	0x17, 0xb6, 0xb0, 0xb5, 0x1d, 0x74, 0x5a, 0x7c, 0x15, 0x87, 0x51, 0x02, 0x6a, 0xfc, 0x66, 0x00,
+	0x8e, 0x65, 0x0a, 0x2c, 0x8d, 0x77, 0x1c, 0x86, 0xd9, 0x7c, 0xc2, 0x1c, 0x1a, 0x37, 0x47, 0x0f,
+	0xa0, 0xbf, 0x09, 0x87, 0x53, 0xbd, 0x6a, 0x5f, 0x8e, 0x99, 0x26, 0xfb, 0x12, 0xd1, 0xfe, 0x32,
+	0xcc, 0xb4, 0x7d, 0xbc, 0x43, 0xbc, 0x4e, 0xc0, 0xf7, 0x26, 0xb6, 0xb9, 0xab, 0xac, 0xd8, 0x32,
+	0xb7, 0xe6, 0x8c, 0x32, 0x1b, 0x05, 0x71, 0xfc, 0x2a, 0xc7, 0x4f, 0x40, 0xf5, 0x1a, 0x0c, 0x9a,
+	0x94, 0xe2, 0x56, 0x9b, 0x72, 0x8f, 0x2d, 0xa3, 0xf0, 0x53, 0x3f, 0x0f, 0x93, 0x1b, 0xa6, 0xb5,
+	0xed, 0x78, 0x9b, 0x0b, 0x5e, 0xc7, 0xa5, 0xcb, 0xc4, 0xa5, 0x3c, 0x82, 0x97, 0x51, 0x0a, 0xae,
+	0xba, 0xe1, 0xd0, 0x3e, 0xdd, 0x70, 0x38, 0xcb, 0x0d, 0xcf, 0x43, 0x95, 0x1f, 0x9f, 0xf0, 0xc8,
+	0xcd, 0x0c, 0xc5, 0xbf, 0x22, 0x3b, 0xdd, 0x63, 0x5f, 0x48, 0xa0, 0xe8, 0xab, 0x70, 0x34, 0x65,
+	0xf0, 0xd0, 0xa1, 0x64, 0xb8, 0xce, 0x72, 0xb5, 0x7c, 0x22, 0xd6, 0xf5, 0x06, 0x32, 0x46, 0xdb,
+	0x2c, 0x39, 0x05, 0xd4, 0x6c, 0xb5, 0x79, 0x04, 0x2f, 0xa3, 0x8c, 0x11, 0x66, 0x29, 0x69, 0xd5,
+	0x1e, 0xf6, 0x98, 0xb0, 0x54, 0x12, 0xae, 0xaf, 0xc1, 0x20, 0x13, 0x9b, 0xf0, 0x40, 0xce, 0xba,
+	0xb8, 0x6f, 0xa6, 0xba, 0xb8, 0x02, 0x97, 0x6d, 0xde, 0x13, 0xb4, 0xe2, 0x20, 0x21, 0xe4, 0x54,
+	0x5f, 0x85, 0x51, 0x75, 0x20, 0xa3, 0xd9, 0x3d, 0xaf, 0x36, 0xbb, 0xb9, 0x06, 0xed, 0xb5, 0xc0,
+	0x5f, 0x54, 0xe0, 0xb4, 0x98, 0xd4, 0x56, 0xe5, 0x58, 0xf0, 0x5a, 0x6d, 0x56, 0x05, 0xdb, 0xca,
+	0xa6, 0x2f, 0xd8, 0x42, 0xaf, 0xc0, 0x70, 0x78, 0x0e, 0x17, 0xd4, 0x4a, 0x5c, 0x5d, 0xbd, 0x19,
+	0x42, 0x9a, 0x21, 0x63, 0xd4, 0x43, 0x62, 0xa6, 0x8c, 0xb6, 0xd6, 0x82, 0xe7, 0x52, 0xfc, 0x88,
+	0xf2, 0xcd, 0x32, 0x8a, 0x52, 0xf0, 0x58, 0x88, 0xa8, 0x24, 0x42, 0xc4, 0x5d, 0xb6, 0x24, 0xc4,
+	0xda, 0xee, 0x2a, 0x89, 0xb3, 0xca, 0x55, 0x3f, 0xdd, 0x13, 0x60, 0x8d, 0x63, 0x44, 0xeb, 0x1f,
+	0xcb, 0xa1, 0x09, 0x62, 0xfd, 0x12, 0x4c, 0xfb, 0x98, 0x76, 0x7c, 0xf7, 0x0e, 0xde, 0x55, 0x2d,
+	0xc2, 0x77, 0xcd, 0x10, 0xca, 0x1e, 0xd4, 0xaf, 0x42, 0xfd, 0xa1, 0xe7, 0x5b, 0x78, 0xc1, 0xc7,
+	0xac, 0xca, 0x4c, 0x90, 0x0e, 0x72, 0xd2, 0x02, 0x8c, 0x8c, 0x48, 0x37, 0x94, 0x15, 0xe9, 0xf4,
+	0xf7, 0x60, 0x94, 0x2f, 0x28, 0xc2, 0x41, 0xc7, 0xa1, 0x41, 0x6d, 0x98, 0xdb, 0x7a, 0x29, 0xe3,
+	0x74, 0x6a, 0xcf, 0x25, 0x6d, 0xde, 0x53, 0x18, 0x09, 0x3f, 0x8b, 0xf1, 0xae, 0x7f, 0x1b, 0x0e,
+	0xa7, 0x50, 0x32, 0x3c, 0xee, 0x95, 0xb8, 0xc7, 0xd5, 0x33, 0x3d, 0x8e, 0xb3, 0x50, 0xfd, 0xee,
+	0x11, 0x9c, 0x29, 0x96, 0x51, 0x86, 0xee, 0x55, 0x18, 0xb5, 0x55, 0x53, 0x8a, 0xe4, 0x77, 0x61,
+	0x3f, 0x7b, 0x09, 0xc5, 0x38, 0x18, 0x7f, 0xd1, 0x60, 0x36, 0x63, 0xea, 0x25, 0x93, 0x38, 0xfd,
+	0xba, 0xfb, 0x25, 0xa8, 0x5a, 0x66, 0x27, 0x10, 0x2a, 0xb3, 0xdc, 0x2f, 0x62, 0x60, 0x9a, 0xdd,
+	0x02, 0xc3, 0x42, 0x02, 0x99, 0x45, 0x60, 0x1b, 0x53, 0x93, 0x38, 0x81, 0xf4, 0xf4, 0xf0, 0xb3,
+	0xd0, 0xc1, 0xd3, 0x9e, 0x51, 0xcd, 0xcc, 0x81, 0xa7, 0xe1, 0x54, 0x81, 0x56, 0xb2, 0xd9, 0xf9,
+	0x53, 0x2f, 0xb3, 0x5f, 0xb7, 0x28, 0xd9, 0x61, 0x3d, 0xd2, 0x57, 0x92, 0xd9, 0x97, 0x60, 0x32,
+	0xc4, 0xbb, 0x8d, 0xa9, 0xc9, 0x4f, 0x5a, 0x2b, 0xd2, 0x7f, 0x52, 0x3c, 0x43, 0x0c, 0x94, 0xa2,
+	0x31, 0x7e, 0xdd, 0xcb, 0xfc, 0x71, 0x85, 0x9e, 0x7a, 0xe6, 0x6f, 0x00, 0x98, 0x52, 0x82, 0x15,
+	0x3b, 0x3c, 0x3f, 0xef, 0x41, 0x58, 0x65, 0x10, 0x7e, 0xf1, 0xca, 0xa0, 0x12, 0xaf, 0x0c, 0xae,
+	0x2b, 0x63, 0x28, 0x86, 0x99, 0xd3, 0xd7, 0x65, 0xe7, 0xae, 0x81, 0xdc, 0xdc, 0xb5, 0x08, 0x27,
+	0x42, 0x68, 0x51, 0xd3, 0x56, 0x8c, 0x94, 0x99, 0x01, 0x87, 0x72, 0x32, 0xe0, 0x55, 0xa8, 0x07,
+	0xf9, 0x3d, 0xe2, 0x30, 0x9f, 0xae, 0x00, 0x43, 0x7f, 0x1d, 0x8e, 0x6c, 0x61, 0xd3, 0xa7, 0x1b,
+	0xd8, 0xa4, 0x09, 0x62, 0xe0, 0xc4, 0x79, 0xc3, 0x6a, 0xad, 0x33, 0xc2, 0x31, 0xa3, 0x5a, 0x67,
+	0x19, 0x4e, 0xa6, 0x6d, 0x73, 0xf7, 0xe1, 0xfa, 0x16, 0x09, 0xae, 0x4b, 0x0a, 0x91, 0xfe, 0xf7,
+	0x42, 0x63, 0x96, 0x88, 0xa6, 0x5f, 0x94, 0xdb, 0x7a, 0x4c, 0x24, 0xb0, 0x24, 0x3c, 0x55, 0x15,
+	0x8e, 0xf7, 0x5d, 0x15, 0x5e, 0xe8, 0x79, 0x68, 0xef, 0x00, 0x65, 0x42, 0xdc, 0x59, 0xa4, 0x06,
+	0x94, 0xfe, 0x6f, 0xb2, 0xb0, 0xff, 0x7b, 0x04, 0x06, 0xc2, 0x96, 0xe7, 0xdb, 0xea, 0x9e, 0x59,
+	0x0e, 0xa5, 0xee, 0x2f, 0x06, 0x2a, 0xd1, 0xac, 0x94, 0x1f, 0xcd, 0x12, 0xfb, 0xde, 0xb8, 0xcb,
+	0xaa, 0x8d, 0x82, 0x99, 0xa3, 0x6e, 0x67, 0xc2, 0x32, 0x5d, 0x0b, 0x3b, 0x52, 0x16, 0x2c, 0x1a,
+	0xd1, 0x21, 0x94, 0x04, 0x1b, 0x7f, 0xd6, 0xe0, 0x5c, 0x01, 0xc7, 0x1b, 0xdd, 0x15, 0xfb, 0xf1,
+	0x9c, 0xe3, 0x44, 0x1d, 0x71, 0x59, 0xe9, 0x88, 0x13, 0xbb, 0xbe, 0x92, 0xda, 0xf5, 0x8a, 0x95,
+	0xaa, 0xf9, 0x56, 0x1a, 0x48, 0x58, 0x69, 0x0d, 0x5e, 0xdc, 0x53, 0xa7, 0x7d, 0x5b, 0x6a, 0x37,
+	0x2a, 0xf4, 0x54, 0xae, 0xfb, 0x2c, 0xf4, 0x66, 0x60, 0xc0, 0xe7, 0xb9, 0x5c, 0x2e, 0xba, 0xfc,
+	0x2a, 0x5c, 0xf3, 0x73, 0x51, 0xaa, 0xcf, 0x99, 0x58, 0x26, 0xa7, 0x8f, 0x35, 0xa6, 0x76, 0x3e,
+	0xe2, 0x57, 0xbd, 0x96, 0x3d, 0xdd, 0xab, 0xb9, 0xba, 0x27, 0x57, 0xf2, 0x3c, 0xcc, 0xed, 0xad,
+	0x92, 0xd4, 0xff, 0x83, 0x5e, 0x61, 0xa2, 0x22, 0xef, 0xa7, 0x30, 0xe1, 0x22, 0x9a, 0x41, 0x74,
+	0xc3, 0x2b, 0xbf, 0x0e, 0x56, 0x7a, 0x28, 0x25, 0x45, 0x96, 0x3c, 0x52, 0xea, 0xcf, 0xb4, 0xcc,
+	0xe5, 0x15, 0x58, 0xcf, 0xc4, 0x92, 0x71, 0x7b, 0x54, 0xf3, 0xec, 0x31, 0x90, 0x6f, 0x8f, 0xc1,
+	0x84, 0x3d, 0x5e, 0x84, 0xb3, 0x7b, 0x68, 0x2a, 0x6d, 0xc2, 0xe3, 0x6b, 0x7a, 0xd5, 0xf9, 0x86,
+	0xec, 0x77, 0x29, 0x0f, 0x16, 0x5f, 0xcf, 0x66, 0x6f, 0xf2, 0x68, 0x66, 0x29, 0xa0, 0x88, 0x9a,
+	0xb9, 0x78, 0x5f, 0xcf, 0xa8, 0xf9, 0x52, 0x76, 0xf8, 0x88, 0xe9, 0x24, 0xf5, 0xff, 0xa3, 0xc6,
+	0x96, 0x92, 0x2b, 0x28, 0xc6, 0x0f, 0x78, 0xf8, 0xff, 0x38, 0x0b, 0xc8, 0xa2, 0x72, 0x39, 0x76,
+	0x1c, 0x5e, 0x49, 0x1c, 0x87, 0x1b, 0x73, 0x6c, 0x31, 0x8b, 0x95, 0x91, 0x7a, 0xff, 0xb4, 0x04,
+	0x8d, 0x35, 0xb2, 0xe9, 0x9a, 0xcf, 0x82, 0xc2, 0x0d, 0x80, 0x80, 0xcb, 0xc2, 0x1f, 0x62, 0xc8,
+	0x8a, 0xb9, 0x07, 0xe9, 0xd5, 0xbd, 0x15, 0xb5, 0xee, 0x55, 0xcd, 0x54, 0x2d, 0x32, 0xd3, 0x40,
+	0xf2, 0xd6, 0xa0, 0x06, 0x83, 0x96, 0xe7, 0x52, 0xdf, 0x73, 0xf8, 0xce, 0x1e, 0x45, 0xe1, 0xa7,
+	0x71, 0x0a, 0x4e, 0xe6, 0x5a, 0x45, 0x5a, 0xee, 0xaf, 0x03, 0xf0, 0xa2, 0xc4, 0x21, 0x74, 0xeb,
+	0xf9, 0x85, 0xd1, 0xf3, 0x0b, 0xa3, 0x84, 0xff, 0x8e, 0xa4, 0xfc, 0x77, 0x16, 0x46, 0xc4, 0xd7,
+	0x0a, 0x37, 0xf2, 0x28, 0x37, 0xb2, 0x0a, 0x52, 0x3d, 0x72, 0x2c, 0xe6, 0x91, 0xc9, 0xcb, 0xa8,
+	0xf1, 0x03, 0x5e, 0x46, 0x4d, 0x14, 0x5c, 0x46, 0x4d, 0xee, 0xeb, 0x32, 0xea, 0xf0, 0x97, 0xb8,
+	0x8c, 0xd2, 0x0b, 0x9b, 0x91, 0x6b, 0x30, 0xb7, 0xf7, 0xc6, 0x2a, 0xbc, 0x96, 0xfa, 0x42, 0x83,
+	0x13, 0x08, 0x07, 0x98, 0x3e, 0x03, 0x41, 0xad, 0x57, 0x71, 0x94, 0x63, 0x15, 0xc7, 0x25, 0x98,
+	0x0e, 0x4f, 0xa1, 0x96, 0x88, 0x4b, 0x82, 0xad, 0xf8, 0xe9, 0x7e, 0xf6, 0x60, 0xdc, 0xab, 0xab,
+	0xc9, 0xb8, 0x7f, 0x19, 0x1a, 0x79, 0x6a, 0x17, 0xda, 0xeb, 0x1f, 0x1a, 0x9c, 0x5a, 0xc7, 0x7e,
+	0x8b, 0xb8, 0x26, 0xc5, 0xcf, 0xb0, 0xcd, 0x94, 0x32, 0xa0, 0x92, 0x5f, 0x06, 0x24, 0x92, 0x80,
+	0x71, 0x06, 0x8c, 0x22, 0xe5, 0x64, 0x3c, 0xff, 0xbc, 0x04, 0xa7, 0x58, 0x10, 0xbc, 0xdb, 0xc6,
+	0x6e, 0x0a, 0x2b, 0xe8, 0xcf, 0x06, 0x19, 0xb7, 0x91, 0xa5, 0x3e, 0x6f, 0x23, 0xcb, 0x59, 0x97,
+	0x21, 0xd7, 0x61, 0x42, 0x1c, 0x87, 0x90, 0x16, 0x16, 0x57, 0x84, 0x32, 0x8c, 0x1f, 0x09, 0x2f,
+	0x17, 0xd7, 0xe2, 0xc3, 0x28, 0x89, 0xaf, 0xbf, 0x05, 0x13, 0x91, 0xf1, 0x25, 0x0b, 0x71, 0x1a,
+	0x7e, 0x32, 0x64, 0x91, 0x52, 0x56, 0xa0, 0x2d, 0x1f, 0x42, 0x49, 0x4a, 0xfd, 0x0d, 0x00, 0xda,
+	0x6d, 0x87, 0xa2, 0x0c, 0xc8, 0xe3, 0xb9, 0x04, 0x9f, 0xf5, 0x08, 0x63, 0xf9, 0x10, 0x52, 0xf0,
+	0x6f, 0x0c, 0xc3, 0xa0, 0x40, 0x0d, 0x8c, 0x1f, 0x6b, 0x60, 0x14, 0x19, 0x5b, 0x7a, 0xeb, 0x35,
+	0x80, 0x48, 0x84, 0xf0, 0xed, 0xdb, 0x6c, 0x91, 0x33, 0xf1, 0x17, 0x35, 0x0a, 0x4d, 0x9f, 0x2f,
+	0xde, 0x7e, 0x51, 0x86, 0xd3, 0x4c, 0x1c, 0x9e, 0x63, 0xec, 0xe7, 0xab, 0xff, 0x04, 0x56, 0x5f,
+	0xbf, 0x02, 0xa3, 0x01, 0x7f, 0xd3, 0x29, 0xe9, 0x07, 0x65, 0x15, 0xd3, 0x53, 0x25, 0x1a, 0x5b,
+	0x3e, 0x84, 0x62, 0xb8, 0xaa, 0xe7, 0x7c, 0xa0, 0xc1, 0x99, 0xe2, 0xa5, 0x7a, 0xca, 0xbe, 0xf3,
+	0x33, 0x0d, 0x4e, 0x30, 0x81, 0x0e, 0xea, 0x35, 0xea, 0xe3, 0xd1, 0xd2, 0x5e, 0x8f, 0x47, 0x33,
+	0xfd, 0x64, 0x2a, 0xbc, 0x32, 0x15, 0x7d, 0x80, 0xf8, 0x30, 0x7e, 0xa8, 0x41, 0x23, 0x4f, 0xae,
+	0xa7, 0x6c, 0xa2, 0x9f, 0x6b, 0x70, 0x96, 0x89, 0x72, 0x5d, 0xbe, 0x27, 0x78, 0xd6, 0x4c, 0xf5,
+	0xa1, 0x06, 0xe7, 0xf6, 0x92, 0xef, 0x2b, 0xf0, 0xaa, 0x35, 0xcb, 0x74, 0x9f, 0x45, 0xaf, 0xca,
+	0x93, 0xeb, 0x29, 0x9b, 0x68, 0x1d, 0x1a, 0xfc, 0x19, 0xc2, 0x41, 0x4d, 0x14, 0x29, 0x58, 0x52,
+	0x15, 0x7c, 0x0d, 0x4e, 0xe6, 0x72, 0xed, 0xd5, 0x50, 0x16, 0x43, 0xe1, 0x2c, 0xcb, 0x48, 0x7c,
+	0x18, 0xc7, 0xa1, 0x7e, 0x0b, 0xd3, 0x54, 0x19, 0x2c, 0x44, 0x31, 0x7e, 0xab, 0xc1, 0xb1, 0xcc,
+	0xe1, 0xe8, 0x95, 0x77, 0x65, 0x1b, 0x77, 0x43, 0x73, 0x5d, 0x4e, 0xdd, 0x66, 0x16, 0xd0, 0x36,
+	0xdf, 0xc2, 0x5d, 0x79, 0x5d, 0xcb, 0x79, 0xd4, 0xef, 0xc1, 0x70, 0x04, 0xca, 0xb8, 0x9e, 0x6d,
+	0xaa, 0xd7, 0xb3, 0xe3, 0xbd, 0x0a, 0x7e, 0xc5, 0xb5, 0xf1, 0x23, 0x6c, 0x3f, 0x60, 0x63, 0xbc,
+	0x97, 0x54, 0x2e, 0x67, 0x3f, 0x28, 0x45, 0x27, 0x91, 0xfc, 0xfa, 0xf6, 0x00, 0x07, 0xc5, 0x6f,
+	0xc0, 0x98, 0x15, 0x52, 0xf0, 0x36, 0x56, 0x4c, 0x3f, 0x23, 0x6f, 0x87, 0x95, 0x5b, 0x61, 0x3e,
+	0x79, 0x1c, 0x99, 0xb5, 0x4e, 0xca, 0x55, 0xb4, 0xf4, 0x58, 0x15, 0xc4, 0x3a, 0x1d, 0xec, 0xfb,
+	0x9e, 0x7f, 0x5b, 0xfc, 0x2f, 0x46, 0xba, 0x6d, 0x0c, 0xa6, 0x2f, 0x8b, 0x1a, 0x35, 0x7a, 0x8e,
+	0xca, 0x1f, 0xe8, 0x56, 0x65, 0x22, 0x93, 0x7f, 0xac, 0xe1, 0xfe, 0x19, 0xc3, 0x40, 0x69, 0x22,
+	0xe5, 0x24, 0x34, 0xcb, 0x1e, 0xb2, 0xa4, 0xdc, 0x81, 0x3a, 0x2f, 0xc7, 0xc5, 0x6b, 0x83, 0xa8,
+	0xdf, 0x7e, 0xd2, 0x8f, 0xe2, 0x8c, 0x13, 0x70, 0x2c, 0x73, 0x5e, 0x29, 0xd6, 0xef, 0x4a, 0x30,
+	0xc5, 0xa5, 0x0e, 0x99, 0x3c, 0xf9, 0x67, 0x7a, 0xd1, 0xab, 0x9e, 0xf2, 0xde, 0xaf, 0x7a, 0xee,
+	0xc2, 0x94, 0x5c, 0xd7, 0xf7, 0xb0, 0x45, 0x17, 0x3c, 0xd7, 0x26, 0xd1, 0xab, 0xf0, 0xf1, 0xf9,
+	0x63, 0x71, 0x7f, 0x89, 0xa1, 0xa0, 0x4c, 0x42, 0x1d, 0xc1, 0x34, 0x87, 0x2f, 0x78, 0x6e, 0x40,
+	0x02, 0x8a, 0x5d, 0xab, 0xfb, 0x36, 0xde, 0xc1, 0x0e, 0x5f, 0xf9, 0xf1, 0xf9, 0xe3, 0x2a, 0xc7,
+	0x24, 0x0e, 0xca, 0x26, 0x35, 0x3a, 0x30, 0x9d, 0x30, 0xa1, 0xdc, 0xc8, 0x09, 0x47, 0xd5, 0xd2,
+	0x8e, 0x7a, 0x05, 0xc6, 0x14, 0x31, 0xb1, 0x9d, 0x78, 0x98, 0x73, 0x4f, 0x1d, 0x43, 0x71, 0x54,
+	0xe3, 0x63, 0x0d, 0xce, 0x66, 0x3d, 0x0e, 0x44, 0xe6, 0xee, 0xd7, 0xf5, 0xc9, 0xa5, 0xf1, 0x7d,
+	0x0d, 0xce, 0xed, 0xa5, 0x93, 0x34, 0xee, 0x2b, 0x00, 0x7e, 0x04, 0x95, 0xb1, 0x72, 0x32, 0x8c,
+	0x5f, 0x8b, 0x26, 0x35, 0x6f, 0x38, 0xde, 0x06, 0x52, 0x70, 0xfa, 0x4c, 0x25, 0xdf, 0x83, 0xd9,
+	0xf0, 0x0f, 0x2b, 0x07, 0xec, 0x7e, 0xbf, 0xcc, 0x76, 0xfd, 0x6f, 0x09, 0x4e, 0x15, 0x4c, 0x2f,
+	0x75, 0x37, 0x61, 0x46, 0x7d, 0x07, 0xa5, 0xbc, 0xe6, 0x17, 0x2f, 0x60, 0x5e, 0x2a, 0x9a, 0x2e,
+	0xfe, 0x90, 0x3f, 0x87, 0x91, 0xfe, 0xa0, 0x77, 0x28, 0x16, 0x4b, 0xce, 0x52, 0xa1, 0xbd, 0x93,
+	0x78, 0x36, 0xb9, 0xfe, 0x36, 0x1c, 0x6e, 0x63, 0xd7, 0x26, 0xee, 0xa6, 0x3c, 0x87, 0x27, 0x38,
+	0xa8, 0x95, 0xf9, 0xea, 0x35, 0x14, 0x9e, 0xab, 0x31, 0x9c, 0xae, 0x08, 0xbd, 0x29, 0x42, 0xfd,
+	0x0e, 0x4c, 0x48, 0xe0, 0xc2, 0x16, 0x71, 0x6c, 0x9f, 0xfb, 0x15, 0xe3, 0x75, 0x26, 0xcd, 0x8b,
+	0x63, 0xc4, 0x65, 0x4c, 0x12, 0x1b, 0x7f, 0xd7, 0xe0, 0x48, 0x68, 0xfe, 0xfd, 0xc5, 0xe8, 0xfd,
+	0xbe, 0x7f, 0xb9, 0x02, 0xa3, 0xe1, 0xef, 0xe8, 0x20, 0x97, 0x65, 0xc0, 0x14, 0x8d, 0x38, 0xca,
+	0x55, 0x71, 0xf5, 0x4b, 0x30, 0x4d, 0x5c, 0xcb, 0xe9, 0xd8, 0x91, 0x8c, 0xf2, 0xcf, 0x75, 0x15,
+	0xf1, 0x0a, 0x2d, 0x73, 0x90, 0xf5, 0xd9, 0xb5, 0xb4, 0x6e, 0xd2, 0xa3, 0x9a, 0x30, 0xd8, 0xf6,
+	0x1c, 0x07, 0xfb, 0x61, 0xd9, 0x31, 0xd5, 0x93, 0x64, 0x95, 0x0f, 0x70, 0x83, 0x85, 0x48, 0xfa,
+	0x35, 0x18, 0xa7, 0xf1, 0xb9, 0x4b, 0xf2, 0x0c, 0x30, 0xa5, 0x80, 0xfc, 0x5f, 0x5f, 0x02, 0xdf,
+	0x38, 0x02, 0xd3, 0xb7, 0x30, 0x95, 0x7f, 0xaa, 0xe4, 0xcc, 0x65, 0x79, 0x44, 0x61, 0x26, 0x39,
+	0x20, 0x85, 0x7c, 0x17, 0x8e, 0x04, 0x9d, 0x76, 0xdb, 0xf3, 0x29, 0xb6, 0x17, 0x1c, 0x82, 0x5d,
+	0x2a, 0xd3, 0x70, 0x20, 0xfd, 0x7e, 0x36, 0x4a, 0xdc, 0x6b, 0xd9, 0x78, 0x28, 0x8f, 0x81, 0xd1,
+	0x12, 0x9d, 0x5b, 0x28, 0xf4, 0xaa, 0xe9, 0x53, 0xb2, 0x8f, 0x02, 0x72, 0x9f, 0xcb, 0x6f, 0x7c,
+	0x2e, 0x3b, 0xb2, 0xac, 0xf9, 0xa4, 0xb6, 0x16, 0xd4, 0x4d, 0xe5, 0xaa, 0x2a, 0x8e, 0x25, 0x57,
+	0xe9, 0x74, 0x7a, 0x92, 0x08, 0x27, 0x7a, 0x18, 0x55, 0xc0, 0x86, 0x4d, 0xa2, 0xbe, 0x7f, 0x4b,
+	0x4c, 0x52, 0xda, 0xc7, 0x24, 0xf9, 0x6c, 0x8c, 0x5f, 0x96, 0xe0, 0x25, 0xf9, 0x0e, 0xeb, 0xff,
+	0x29, 0x5b, 0xe9, 0x0f, 0x60, 0x26, 0xfb, 0x41, 0xbf, 0xac, 0x26, 0xf6, 0x7c, 0xf6, 0x9f, 0x0d,
+	0x37, 0x7e, 0xa0, 0xc1, 0xf9, 0x7e, 0xec, 0xf5, 0x64, 0x33, 0xe1, 0x0d, 0xe7, 0x0f, 0x9f, 0x34,
+	0xb4, 0x8f, 0x3e, 0x69, 0x68, 0xff, 0xfc, 0xa4, 0xa1, 0x7d, 0xf8, 0x69, 0xe3, 0xd0, 0x47, 0x9f,
+	0x36, 0x0e, 0xfd, 0xed, 0xd3, 0xc6, 0x21, 0x38, 0x45, 0xbc, 0x26, 0xc5, 0xad, 0xb6, 0xe7, 0x9b,
+	0x8e, 0xf8, 0xd3, 0x79, 0xb2, 0x49, 0x59, 0xd5, 0xde, 0x7d, 0x79, 0x53, 0x41, 0x22, 0xde, 0xc5,
+	0xf0, 0xf7, 0xcb, 0x9c, 0xe0, 0x62, 0x82, 0x60, 0x63, 0x80, 0x83, 0x5f, 0xfd, 0x5f, 0x00, 0x00,
+	0x00, 0xff, 0xff, 0x15, 0xf9, 0xe3, 0x24, 0x56, 0x40, 0x00, 0x00,
 }
 
-func (this *RegisterNamespaceRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RegisterNamespaceRequest)
-	if !ok {
-		that2, ok := that.(RegisterNamespaceRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Name != that1.Name {
-		return false
-	}
-	if this.Description != that1.Description {
-		return false
-	}
-	if this.OwnerEmail != that1.OwnerEmail {
-		return false
-	}
-	if this.WorkflowExecutionRetentionPeriodInDays != that1.WorkflowExecutionRetentionPeriodInDays {
-		return false
-	}
-	if this.EmitMetric != that1.EmitMetric {
-		return false
-	}
-	if len(this.Clusters) != len(that1.Clusters) {
-		return false
-	}
-	for i := range this.Clusters {
-		if !this.Clusters[i].Equal(that1.Clusters[i]) {
-			return false
-		}
-	}
-	if this.ActiveClusterName != that1.ActiveClusterName {
-		return false
-	}
-	if len(this.Data) != len(that1.Data) {
-		return false
-	}
-	for i := range this.Data {
-		if this.Data[i] != that1.Data[i] {
-			return false
-		}
-	}
-	if this.SecurityToken != that1.SecurityToken {
-		return false
-	}
-	if this.IsGlobalNamespace != that1.IsGlobalNamespace {
-		return false
-	}
-	if this.HistoryArchivalStatus != that1.HistoryArchivalStatus {
-		return false
-	}
-	if this.HistoryArchivalURI != that1.HistoryArchivalURI {
-		return false
-	}
-	if this.VisibilityArchivalStatus != that1.VisibilityArchivalStatus {
-		return false
-	}
-	if this.VisibilityArchivalURI != that1.VisibilityArchivalURI {
-		return false
-	}
-	return true
-}
-func (this *RegisterNamespaceResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RegisterNamespaceResponse)
-	if !ok {
-		that2, ok := that.(RegisterNamespaceResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *ListNamespacesRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListNamespacesRequest)
-	if !ok {
-		that2, ok := that.(ListNamespacesRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.PageSize != that1.PageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *ListNamespacesResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListNamespacesResponse)
-	if !ok {
-		that2, ok := that.(ListNamespacesResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Namespaces) != len(that1.Namespaces) {
-		return false
-	}
-	for i := range this.Namespaces {
-		if !this.Namespaces[i].Equal(that1.Namespaces[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *DescribeNamespaceRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DescribeNamespaceRequest)
-	if !ok {
-		that2, ok := that.(DescribeNamespaceRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Name != that1.Name {
-		return false
-	}
-	if this.Id != that1.Id {
-		return false
-	}
-	return true
-}
-func (this *DescribeNamespaceResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DescribeNamespaceResponse)
-	if !ok {
-		that2, ok := that.(DescribeNamespaceResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.NamespaceInfo.Equal(that1.NamespaceInfo) {
-		return false
-	}
-	if !this.Configuration.Equal(that1.Configuration) {
-		return false
-	}
-	if !this.ReplicationConfiguration.Equal(that1.ReplicationConfiguration) {
-		return false
-	}
-	if this.FailoverVersion != that1.FailoverVersion {
-		return false
-	}
-	if this.IsGlobalNamespace != that1.IsGlobalNamespace {
-		return false
-	}
-	return true
-}
-func (this *UpdateNamespaceRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*UpdateNamespaceRequest)
-	if !ok {
-		that2, ok := that.(UpdateNamespaceRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Name != that1.Name {
-		return false
-	}
-	if !this.UpdatedInfo.Equal(that1.UpdatedInfo) {
-		return false
-	}
-	if !this.Configuration.Equal(that1.Configuration) {
-		return false
-	}
-	if !this.ReplicationConfiguration.Equal(that1.ReplicationConfiguration) {
-		return false
-	}
-	if this.SecurityToken != that1.SecurityToken {
-		return false
-	}
-	if this.DeleteBadBinary != that1.DeleteBadBinary {
-		return false
-	}
-	return true
-}
-func (this *UpdateNamespaceResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*UpdateNamespaceResponse)
-	if !ok {
-		that2, ok := that.(UpdateNamespaceResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.NamespaceInfo.Equal(that1.NamespaceInfo) {
-		return false
-	}
-	if !this.Configuration.Equal(that1.Configuration) {
-		return false
-	}
-	if !this.ReplicationConfiguration.Equal(that1.ReplicationConfiguration) {
-		return false
-	}
-	if this.FailoverVersion != that1.FailoverVersion {
-		return false
-	}
-	if this.IsGlobalNamespace != that1.IsGlobalNamespace {
-		return false
-	}
-	return true
-}
-func (this *DeprecateNamespaceRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DeprecateNamespaceRequest)
-	if !ok {
-		that2, ok := that.(DeprecateNamespaceRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Name != that1.Name {
-		return false
-	}
-	if this.SecurityToken != that1.SecurityToken {
-		return false
-	}
-	return true
-}
-func (this *DeprecateNamespaceResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DeprecateNamespaceResponse)
-	if !ok {
-		that2, ok := that.(DeprecateNamespaceResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *StartWorkflowExecutionRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*StartWorkflowExecutionRequest)
-	if !ok {
-		that2, ok := that.(StartWorkflowExecutionRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if !this.WorkflowType.Equal(that1.WorkflowType) {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	if !bytes.Equal(this.Input, that1.Input) {
-		return false
-	}
-	if this.ExecutionStartToCloseTimeoutSeconds != that1.ExecutionStartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.TaskStartToCloseTimeoutSeconds != that1.TaskStartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	if this.RequestId != that1.RequestId {
-		return false
-	}
-	if this.WorkflowIdReusePolicy != that1.WorkflowIdReusePolicy {
-		return false
-	}
-	if !this.RetryPolicy.Equal(that1.RetryPolicy) {
-		return false
-	}
-	if this.CronSchedule != that1.CronSchedule {
-		return false
-	}
-	if !this.Memo.Equal(that1.Memo) {
-		return false
-	}
-	if !this.SearchAttributes.Equal(that1.SearchAttributes) {
-		return false
-	}
-	if !this.Header.Equal(that1.Header) {
-		return false
-	}
-	return true
-}
-func (this *StartWorkflowExecutionResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*StartWorkflowExecutionResponse)
-	if !ok {
-		that2, ok := that.(StartWorkflowExecutionResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	return true
-}
-func (this *GetWorkflowExecutionHistoryRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*GetWorkflowExecutionHistoryRequest)
-	if !ok {
-		that2, ok := that.(GetWorkflowExecutionHistoryRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.Execution.Equal(that1.Execution) {
-		return false
-	}
-	if this.MaximumPageSize != that1.MaximumPageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if this.WaitForNewEvent != that1.WaitForNewEvent {
-		return false
-	}
-	if this.HistoryEventFilterType != that1.HistoryEventFilterType {
-		return false
-	}
-	return true
-}
-func (this *GetWorkflowExecutionHistoryResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*GetWorkflowExecutionHistoryResponse)
-	if !ok {
-		that2, ok := that.(GetWorkflowExecutionHistoryResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.History.Equal(that1.History) {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if this.Archived != that1.Archived {
-		return false
-	}
-	return true
-}
-func (this *PollForDecisionTaskRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*PollForDecisionTaskRequest)
-	if !ok {
-		that2, ok := that.(PollForDecisionTaskRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	if this.BinaryChecksum != that1.BinaryChecksum {
-		return false
-	}
-	return true
-}
-func (this *PollForDecisionTaskResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*PollForDecisionTaskResponse)
-	if !ok {
-		that2, ok := that.(PollForDecisionTaskResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
-		return false
-	}
-	if !this.WorkflowType.Equal(that1.WorkflowType) {
-		return false
-	}
-	if this.PreviousStartedEventId != that1.PreviousStartedEventId {
-		return false
-	}
-	if this.StartedEventId != that1.StartedEventId {
-		return false
-	}
-	if this.Attempt != that1.Attempt {
-		return false
-	}
-	if this.BacklogCountHint != that1.BacklogCountHint {
-		return false
-	}
-	if !this.History.Equal(that1.History) {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if !this.Query.Equal(that1.Query) {
-		return false
-	}
-	if !this.WorkflowExecutionTaskList.Equal(that1.WorkflowExecutionTaskList) {
-		return false
-	}
-	if this.ScheduledTimestamp != that1.ScheduledTimestamp {
-		return false
-	}
-	if this.StartedTimestamp != that1.StartedTimestamp {
-		return false
-	}
-	if len(this.Queries) != len(that1.Queries) {
-		return false
-	}
-	for i := range this.Queries {
-		if !this.Queries[i].Equal(that1.Queries[i]) {
-			return false
-		}
-	}
-	return true
-}
-func (this *RespondDecisionTaskCompletedRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondDecisionTaskCompletedRequest)
-	if !ok {
-		that2, ok := that.(RespondDecisionTaskCompletedRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if len(this.Decisions) != len(that1.Decisions) {
-		return false
-	}
-	for i := range this.Decisions {
-		if !this.Decisions[i].Equal(that1.Decisions[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.ExecutionContext, that1.ExecutionContext) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	if !this.StickyAttributes.Equal(that1.StickyAttributes) {
-		return false
-	}
-	if this.ReturnNewDecisionTask != that1.ReturnNewDecisionTask {
-		return false
-	}
-	if this.ForceCreateNewDecisionTask != that1.ForceCreateNewDecisionTask {
-		return false
-	}
-	if this.BinaryChecksum != that1.BinaryChecksum {
-		return false
-	}
-	if len(this.QueryResults) != len(that1.QueryResults) {
-		return false
-	}
-	for i := range this.QueryResults {
-		if !this.QueryResults[i].Equal(that1.QueryResults[i]) {
-			return false
-		}
-	}
-	return true
-}
-func (this *RespondDecisionTaskCompletedResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondDecisionTaskCompletedResponse)
-	if !ok {
-		that2, ok := that.(RespondDecisionTaskCompletedResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.DecisionTask.Equal(that1.DecisionTask) {
-		return false
-	}
-	return true
-}
-func (this *RespondDecisionTaskFailedRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondDecisionTaskFailedRequest)
-	if !ok {
-		that2, ok := that.(RespondDecisionTaskFailedRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if this.Cause != that1.Cause {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	if this.BinaryChecksum != that1.BinaryChecksum {
-		return false
-	}
-	return true
-}
-func (this *RespondDecisionTaskFailedResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondDecisionTaskFailedResponse)
-	if !ok {
-		that2, ok := that.(RespondDecisionTaskFailedResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *PollForActivityTaskRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*PollForActivityTaskRequest)
-	if !ok {
-		that2, ok := that.(PollForActivityTaskRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	if !this.TaskListMetadata.Equal(that1.TaskListMetadata) {
-		return false
-	}
-	return true
-}
-func (this *PollForActivityTaskResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*PollForActivityTaskResponse)
-	if !ok {
-		that2, ok := that.(PollForActivityTaskResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
-		return false
-	}
-	if this.ActivityId != that1.ActivityId {
-		return false
-	}
-	if !this.ActivityType.Equal(that1.ActivityType) {
-		return false
-	}
-	if !bytes.Equal(this.Input, that1.Input) {
-		return false
-	}
-	if this.ScheduledTimestamp != that1.ScheduledTimestamp {
-		return false
-	}
-	if this.ScheduleToCloseTimeoutSeconds != that1.ScheduleToCloseTimeoutSeconds {
-		return false
-	}
-	if this.StartedTimestamp != that1.StartedTimestamp {
-		return false
-	}
-	if this.StartToCloseTimeoutSeconds != that1.StartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.HeartbeatTimeoutSeconds != that1.HeartbeatTimeoutSeconds {
-		return false
-	}
-	if this.Attempt != that1.Attempt {
-		return false
-	}
-	if this.ScheduledTimestampOfThisAttempt != that1.ScheduledTimestampOfThisAttempt {
-		return false
-	}
-	if !bytes.Equal(this.HeartbeatDetails, that1.HeartbeatDetails) {
-		return false
-	}
-	if !this.WorkflowType.Equal(that1.WorkflowType) {
-		return false
-	}
-	if this.WorkflowNamespace != that1.WorkflowNamespace {
-		return false
-	}
-	if !this.Header.Equal(that1.Header) {
-		return false
-	}
-	return true
-}
-func (this *RecordActivityTaskHeartbeatRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RecordActivityTaskHeartbeatRequest)
-	if !ok {
-		that2, ok := that.(RecordActivityTaskHeartbeatRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *RecordActivityTaskHeartbeatResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RecordActivityTaskHeartbeatResponse)
-	if !ok {
-		that2, ok := that.(RecordActivityTaskHeartbeatResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.CancelRequested != that1.CancelRequested {
-		return false
-	}
-	return true
-}
-func (this *RecordActivityTaskHeartbeatByIdRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RecordActivityTaskHeartbeatByIdRequest)
-	if !ok {
-		that2, ok := that.(RecordActivityTaskHeartbeatByIdRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	if this.ActivityId != that1.ActivityId {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *RecordActivityTaskHeartbeatByIdResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RecordActivityTaskHeartbeatByIdResponse)
-	if !ok {
-		that2, ok := that.(RecordActivityTaskHeartbeatByIdResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.CancelRequested != that1.CancelRequested {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskCompletedRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskCompletedRequest)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskCompletedRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if !bytes.Equal(this.Result, that1.Result) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskCompletedResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskCompletedResponse)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskCompletedResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskCompletedByIdRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskCompletedByIdRequest)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskCompletedByIdRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	if this.ActivityId != that1.ActivityId {
-		return false
-	}
-	if !bytes.Equal(this.Result, that1.Result) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskCompletedByIdResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskCompletedByIdResponse)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskCompletedByIdResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskFailedRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskFailedRequest)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskFailedRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if this.Reason != that1.Reason {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskFailedResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskFailedResponse)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskFailedResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskFailedByIdRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskFailedByIdRequest)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskFailedByIdRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	if this.ActivityId != that1.ActivityId {
-		return false
-	}
-	if this.Reason != that1.Reason {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskFailedByIdResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskFailedByIdResponse)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskFailedByIdResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskCanceledRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskCanceledRequest)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskCanceledRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskCanceledResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskCanceledResponse)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskCanceledResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskCanceledByIdRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskCanceledByIdRequest)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskCanceledByIdRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	if this.ActivityId != that1.ActivityId {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *RespondActivityTaskCanceledByIdResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondActivityTaskCanceledByIdResponse)
-	if !ok {
-		that2, ok := that.(RespondActivityTaskCanceledByIdResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *RequestCancelWorkflowExecutionRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RequestCancelWorkflowExecutionRequest)
-	if !ok {
-		that2, ok := that.(RequestCancelWorkflowExecutionRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	if this.RequestId != that1.RequestId {
-		return false
-	}
-	return true
-}
-func (this *RequestCancelWorkflowExecutionResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RequestCancelWorkflowExecutionResponse)
-	if !ok {
-		that2, ok := that.(RequestCancelWorkflowExecutionResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *SignalWorkflowExecutionRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*SignalWorkflowExecutionRequest)
-	if !ok {
-		that2, ok := that.(SignalWorkflowExecutionRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
-		return false
-	}
-	if this.SignalName != that1.SignalName {
-		return false
-	}
-	if !bytes.Equal(this.Input, that1.Input) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	if this.RequestId != that1.RequestId {
-		return false
-	}
-	if !bytes.Equal(this.Control, that1.Control) {
-		return false
-	}
-	return true
-}
-func (this *SignalWorkflowExecutionResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*SignalWorkflowExecutionResponse)
-	if !ok {
-		that2, ok := that.(SignalWorkflowExecutionResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *SignalWithStartWorkflowExecutionRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*SignalWithStartWorkflowExecutionRequest)
-	if !ok {
-		that2, ok := that.(SignalWithStartWorkflowExecutionRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if !this.WorkflowType.Equal(that1.WorkflowType) {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	if !bytes.Equal(this.Input, that1.Input) {
-		return false
-	}
-	if this.ExecutionStartToCloseTimeoutSeconds != that1.ExecutionStartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.TaskStartToCloseTimeoutSeconds != that1.TaskStartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	if this.RequestId != that1.RequestId {
-		return false
-	}
-	if this.WorkflowIdReusePolicy != that1.WorkflowIdReusePolicy {
-		return false
-	}
-	if this.SignalName != that1.SignalName {
-		return false
-	}
-	if !bytes.Equal(this.SignalInput, that1.SignalInput) {
-		return false
-	}
-	if !bytes.Equal(this.Control, that1.Control) {
-		return false
-	}
-	if !this.RetryPolicy.Equal(that1.RetryPolicy) {
-		return false
-	}
-	if this.CronSchedule != that1.CronSchedule {
-		return false
-	}
-	if !this.Memo.Equal(that1.Memo) {
-		return false
-	}
-	if !this.SearchAttributes.Equal(that1.SearchAttributes) {
-		return false
-	}
-	if !this.Header.Equal(that1.Header) {
-		return false
-	}
-	return true
-}
-func (this *SignalWithStartWorkflowExecutionResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*SignalWithStartWorkflowExecutionResponse)
-	if !ok {
-		that2, ok := that.(SignalWithStartWorkflowExecutionResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	return true
-}
-func (this *ResetWorkflowExecutionRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ResetWorkflowExecutionRequest)
-	if !ok {
-		that2, ok := that.(ResetWorkflowExecutionRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
-		return false
-	}
-	if this.Reason != that1.Reason {
-		return false
-	}
-	if this.DecisionFinishEventId != that1.DecisionFinishEventId {
-		return false
-	}
-	if this.RequestId != that1.RequestId {
-		return false
-	}
-	return true
-}
-func (this *ResetWorkflowExecutionResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ResetWorkflowExecutionResponse)
-	if !ok {
-		that2, ok := that.(ResetWorkflowExecutionResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	return true
-}
-func (this *TerminateWorkflowExecutionRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*TerminateWorkflowExecutionRequest)
-	if !ok {
-		that2, ok := that.(TerminateWorkflowExecutionRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
-		return false
-	}
-	if this.Reason != that1.Reason {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if this.Identity != that1.Identity {
-		return false
-	}
-	return true
-}
-func (this *TerminateWorkflowExecutionResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*TerminateWorkflowExecutionResponse)
-	if !ok {
-		that2, ok := that.(TerminateWorkflowExecutionResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *ListOpenWorkflowExecutionsRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListOpenWorkflowExecutionsRequest)
-	if !ok {
-		that2, ok := that.(ListOpenWorkflowExecutionsRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.MaximumPageSize != that1.MaximumPageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if !this.StartTimeFilter.Equal(that1.StartTimeFilter) {
-		return false
-	}
-	if that1.Filters == nil {
-		if this.Filters != nil {
-			return false
-		}
-	} else if this.Filters == nil {
-		return false
-	} else if !this.Filters.Equal(that1.Filters) {
-		return false
-	}
-	return true
-}
-func (this *ListOpenWorkflowExecutionsRequest_ExecutionFilter) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListOpenWorkflowExecutionsRequest_ExecutionFilter)
-	if !ok {
-		that2, ok := that.(ListOpenWorkflowExecutionsRequest_ExecutionFilter)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.ExecutionFilter.Equal(that1.ExecutionFilter) {
-		return false
-	}
-	return true
-}
-func (this *ListOpenWorkflowExecutionsRequest_TypeFilter) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListOpenWorkflowExecutionsRequest_TypeFilter)
-	if !ok {
-		that2, ok := that.(ListOpenWorkflowExecutionsRequest_TypeFilter)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.TypeFilter.Equal(that1.TypeFilter) {
-		return false
-	}
-	return true
-}
-func (this *ListOpenWorkflowExecutionsResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListOpenWorkflowExecutionsResponse)
-	if !ok {
-		that2, ok := that.(ListOpenWorkflowExecutionsResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Executions) != len(that1.Executions) {
-		return false
-	}
-	for i := range this.Executions {
-		if !this.Executions[i].Equal(that1.Executions[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *ListClosedWorkflowExecutionsRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListClosedWorkflowExecutionsRequest)
-	if !ok {
-		that2, ok := that.(ListClosedWorkflowExecutionsRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.MaximumPageSize != that1.MaximumPageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if !this.StartTimeFilter.Equal(that1.StartTimeFilter) {
-		return false
-	}
-	if that1.Filters == nil {
-		if this.Filters != nil {
-			return false
-		}
-	} else if this.Filters == nil {
-		return false
-	} else if !this.Filters.Equal(that1.Filters) {
-		return false
-	}
-	return true
-}
-func (this *ListClosedWorkflowExecutionsRequest_ExecutionFilter) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListClosedWorkflowExecutionsRequest_ExecutionFilter)
-	if !ok {
-		that2, ok := that.(ListClosedWorkflowExecutionsRequest_ExecutionFilter)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.ExecutionFilter.Equal(that1.ExecutionFilter) {
-		return false
-	}
-	return true
-}
-func (this *ListClosedWorkflowExecutionsRequest_TypeFilter) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListClosedWorkflowExecutionsRequest_TypeFilter)
-	if !ok {
-		that2, ok := that.(ListClosedWorkflowExecutionsRequest_TypeFilter)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.TypeFilter.Equal(that1.TypeFilter) {
-		return false
-	}
-	return true
-}
-func (this *ListClosedWorkflowExecutionsRequest_StatusFilter) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListClosedWorkflowExecutionsRequest_StatusFilter)
-	if !ok {
-		that2, ok := that.(ListClosedWorkflowExecutionsRequest_StatusFilter)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.StatusFilter.Equal(that1.StatusFilter) {
-		return false
-	}
-	return true
-}
-func (this *ListClosedWorkflowExecutionsResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListClosedWorkflowExecutionsResponse)
-	if !ok {
-		that2, ok := that.(ListClosedWorkflowExecutionsResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Executions) != len(that1.Executions) {
-		return false
-	}
-	for i := range this.Executions {
-		if !this.Executions[i].Equal(that1.Executions[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *ListWorkflowExecutionsRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListWorkflowExecutionsRequest)
-	if !ok {
-		that2, ok := that.(ListWorkflowExecutionsRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.PageSize != that1.PageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if this.Query != that1.Query {
-		return false
-	}
-	return true
-}
-func (this *ListWorkflowExecutionsResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListWorkflowExecutionsResponse)
-	if !ok {
-		that2, ok := that.(ListWorkflowExecutionsResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Executions) != len(that1.Executions) {
-		return false
-	}
-	for i := range this.Executions {
-		if !this.Executions[i].Equal(that1.Executions[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *ListArchivedWorkflowExecutionsRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListArchivedWorkflowExecutionsRequest)
-	if !ok {
-		that2, ok := that.(ListArchivedWorkflowExecutionsRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.PageSize != that1.PageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if this.Query != that1.Query {
-		return false
-	}
-	return true
-}
-func (this *ListArchivedWorkflowExecutionsResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListArchivedWorkflowExecutionsResponse)
-	if !ok {
-		that2, ok := that.(ListArchivedWorkflowExecutionsResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Executions) != len(that1.Executions) {
-		return false
-	}
-	for i := range this.Executions {
-		if !this.Executions[i].Equal(that1.Executions[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *ScanWorkflowExecutionsRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ScanWorkflowExecutionsRequest)
-	if !ok {
-		that2, ok := that.(ScanWorkflowExecutionsRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.PageSize != that1.PageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if this.Query != that1.Query {
-		return false
-	}
-	return true
-}
-func (this *ScanWorkflowExecutionsResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ScanWorkflowExecutionsResponse)
-	if !ok {
-		that2, ok := that.(ScanWorkflowExecutionsResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Executions) != len(that1.Executions) {
-		return false
-	}
-	for i := range this.Executions {
-		if !this.Executions[i].Equal(that1.Executions[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *CountWorkflowExecutionsRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*CountWorkflowExecutionsRequest)
-	if !ok {
-		that2, ok := that.(CountWorkflowExecutionsRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.Query != that1.Query {
-		return false
-	}
-	return true
-}
-func (this *CountWorkflowExecutionsResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*CountWorkflowExecutionsResponse)
-	if !ok {
-		that2, ok := that.(CountWorkflowExecutionsResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Count != that1.Count {
-		return false
-	}
-	return true
-}
-func (this *GetSearchAttributesRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*GetSearchAttributesRequest)
-	if !ok {
-		that2, ok := that.(GetSearchAttributesRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *GetSearchAttributesResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*GetSearchAttributesResponse)
-	if !ok {
-		that2, ok := that.(GetSearchAttributesResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Keys) != len(that1.Keys) {
-		return false
-	}
-	for i := range this.Keys {
-		if this.Keys[i] != that1.Keys[i] {
-			return false
-		}
-	}
-	return true
-}
-func (this *RespondQueryTaskCompletedRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondQueryTaskCompletedRequest)
-	if !ok {
-		that2, ok := that.(RespondQueryTaskCompletedRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.TaskToken, that1.TaskToken) {
-		return false
-	}
-	if this.CompletedType != that1.CompletedType {
-		return false
-	}
-	if !bytes.Equal(this.QueryResult, that1.QueryResult) {
-		return false
-	}
-	if this.ErrorMessage != that1.ErrorMessage {
-		return false
-	}
-	if !this.WorkerVersionInfo.Equal(that1.WorkerVersionInfo) {
-		return false
-	}
-	return true
-}
-func (this *RespondQueryTaskCompletedResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RespondQueryTaskCompletedResponse)
-	if !ok {
-		that2, ok := that.(RespondQueryTaskCompletedResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *ResetStickyTaskListRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ResetStickyTaskListRequest)
-	if !ok {
-		that2, ok := that.(ResetStickyTaskListRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.Execution.Equal(that1.Execution) {
-		return false
-	}
-	return true
-}
-func (this *ResetStickyTaskListResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ResetStickyTaskListResponse)
-	if !ok {
-		that2, ok := that.(ResetStickyTaskListResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *QueryWorkflowRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*QueryWorkflowRequest)
-	if !ok {
-		that2, ok := that.(QueryWorkflowRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.Execution.Equal(that1.Execution) {
-		return false
-	}
-	if !this.Query.Equal(that1.Query) {
-		return false
-	}
-	if this.QueryRejectCondition != that1.QueryRejectCondition {
-		return false
-	}
-	if this.QueryConsistencyLevel != that1.QueryConsistencyLevel {
-		return false
-	}
-	return true
-}
-func (this *QueryWorkflowResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*QueryWorkflowResponse)
-	if !ok {
-		that2, ok := that.(QueryWorkflowResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.QueryResult, that1.QueryResult) {
-		return false
-	}
-	if !this.QueryRejected.Equal(that1.QueryRejected) {
-		return false
-	}
-	return true
-}
-func (this *GetWorkflowExecutionRawHistoryRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*GetWorkflowExecutionRawHistoryRequest)
-	if !ok {
-		that2, ok := that.(GetWorkflowExecutionRawHistoryRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.Execution.Equal(that1.Execution) {
-		return false
-	}
-	if this.MaximumPageSize != that1.MaximumPageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *GetWorkflowExecutionRawHistoryResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*GetWorkflowExecutionRawHistoryResponse)
-	if !ok {
-		that2, ok := that.(GetWorkflowExecutionRawHistoryResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.RawHistory) != len(that1.RawHistory) {
-		return false
-	}
-	for i := range this.RawHistory {
-		if !this.RawHistory[i].Equal(that1.RawHistory[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *DescribeWorkflowExecutionRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DescribeWorkflowExecutionRequest)
-	if !ok {
-		that2, ok := that.(DescribeWorkflowExecutionRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.Execution.Equal(that1.Execution) {
-		return false
-	}
-	return true
-}
-func (this *DescribeWorkflowExecutionResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DescribeWorkflowExecutionResponse)
-	if !ok {
-		that2, ok := that.(DescribeWorkflowExecutionResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.ExecutionConfiguration.Equal(that1.ExecutionConfiguration) {
-		return false
-	}
-	if !this.WorkflowExecutionInfo.Equal(that1.WorkflowExecutionInfo) {
-		return false
-	}
-	if len(this.PendingActivities) != len(that1.PendingActivities) {
-		return false
-	}
-	for i := range this.PendingActivities {
-		if !this.PendingActivities[i].Equal(that1.PendingActivities[i]) {
-			return false
-		}
-	}
-	if len(this.PendingChildren) != len(that1.PendingChildren) {
-		return false
-	}
-	for i := range this.PendingChildren {
-		if !this.PendingChildren[i].Equal(that1.PendingChildren[i]) {
-			return false
-		}
-	}
-	return true
-}
-func (this *DescribeTaskListRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DescribeTaskListRequest)
-	if !ok {
-		that2, ok := that.(DescribeTaskListRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	if this.TaskListType != that1.TaskListType {
-		return false
-	}
-	if this.IncludeTaskListStatus != that1.IncludeTaskListStatus {
-		return false
-	}
-	return true
-}
-func (this *DescribeTaskListResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DescribeTaskListResponse)
-	if !ok {
-		that2, ok := that.(DescribeTaskListResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Pollers) != len(that1.Pollers) {
-		return false
-	}
-	for i := range this.Pollers {
-		if !this.Pollers[i].Equal(that1.Pollers[i]) {
-			return false
-		}
-	}
-	if !this.TaskListStatus.Equal(that1.TaskListStatus) {
-		return false
-	}
-	return true
-}
-func (this *GetClusterInfoRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*GetClusterInfoRequest)
-	if !ok {
-		that2, ok := that.(GetClusterInfoRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
-func (this *GetClusterInfoResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*GetClusterInfoResponse)
-	if !ok {
-		that2, ok := that.(GetClusterInfoResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.SupportedClientVersions.Equal(that1.SupportedClientVersions) {
-		return false
-	}
-	return true
-}
-func (this *ListTaskListPartitionsRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListTaskListPartitionsRequest)
-	if !ok {
-		that2, ok := that.(ListTaskListPartitionsRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	return true
-}
-func (this *ListTaskListPartitionsResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListTaskListPartitionsResponse)
-	if !ok {
-		that2, ok := that.(ListTaskListPartitionsResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.ActivityTaskListPartitions) != len(that1.ActivityTaskListPartitions) {
-		return false
-	}
-	for i := range this.ActivityTaskListPartitions {
-		if !this.ActivityTaskListPartitions[i].Equal(that1.ActivityTaskListPartitions[i]) {
-			return false
-		}
-	}
-	if len(this.DecisionTaskListPartitions) != len(that1.DecisionTaskListPartitions) {
-		return false
-	}
-	for i := range this.DecisionTaskListPartitions {
-		if !this.DecisionTaskListPartitions[i].Equal(that1.DecisionTaskListPartitions[i]) {
-			return false
-		}
-	}
-	return true
-}
-func (this *PollForWorkflowExecutionRawHistoryRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*PollForWorkflowExecutionRawHistoryRequest)
-	if !ok {
-		that2, ok := that.(PollForWorkflowExecutionRawHistoryRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.Execution.Equal(that1.Execution) {
-		return false
-	}
-	if this.MaximumPageSize != that1.MaximumPageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	if this.HistoryEventFilterType != that1.HistoryEventFilterType {
-		return false
-	}
-	return true
-}
-func (this *PollForWorkflowExecutionRawHistoryResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*PollForWorkflowExecutionRawHistoryResponse)
-	if !ok {
-		that2, ok := that.(PollForWorkflowExecutionRawHistoryResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.RawHistory) != len(that1.RawHistory) {
-		return false
-	}
-	for i := range this.RawHistory {
-		if !this.RawHistory[i].Equal(that1.RawHistory[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *RegisterNamespaceRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 18)
-	s = append(s, "&workflowservice.RegisterNamespaceRequest{")
-	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
-	s = append(s, "Description: "+fmt.Sprintf("%#v", this.Description)+",\n")
-	s = append(s, "OwnerEmail: "+fmt.Sprintf("%#v", this.OwnerEmail)+",\n")
-	s = append(s, "WorkflowExecutionRetentionPeriodInDays: "+fmt.Sprintf("%#v", this.WorkflowExecutionRetentionPeriodInDays)+",\n")
-	s = append(s, "EmitMetric: "+fmt.Sprintf("%#v", this.EmitMetric)+",\n")
-	if this.Clusters != nil {
-		s = append(s, "Clusters: "+fmt.Sprintf("%#v", this.Clusters)+",\n")
-	}
-	s = append(s, "ActiveClusterName: "+fmt.Sprintf("%#v", this.ActiveClusterName)+",\n")
-	keysForData := make([]string, 0, len(this.Data))
-	for k, _ := range this.Data {
-		keysForData = append(keysForData, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForData)
-	mapStringForData := "map[string]string{"
-	for _, k := range keysForData {
-		mapStringForData += fmt.Sprintf("%#v: %#v,", k, this.Data[k])
-	}
-	mapStringForData += "}"
-	if this.Data != nil {
-		s = append(s, "Data: "+mapStringForData+",\n")
-	}
-	s = append(s, "SecurityToken: "+fmt.Sprintf("%#v", this.SecurityToken)+",\n")
-	s = append(s, "IsGlobalNamespace: "+fmt.Sprintf("%#v", this.IsGlobalNamespace)+",\n")
-	s = append(s, "HistoryArchivalStatus: "+fmt.Sprintf("%#v", this.HistoryArchivalStatus)+",\n")
-	s = append(s, "HistoryArchivalURI: "+fmt.Sprintf("%#v", this.HistoryArchivalURI)+",\n")
-	s = append(s, "VisibilityArchivalStatus: "+fmt.Sprintf("%#v", this.VisibilityArchivalStatus)+",\n")
-	s = append(s, "VisibilityArchivalURI: "+fmt.Sprintf("%#v", this.VisibilityArchivalURI)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RegisterNamespaceResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RegisterNamespaceResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListNamespacesRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListNamespacesRequest{")
-	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListNamespacesResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListNamespacesResponse{")
-	if this.Namespaces != nil {
-		s = append(s, "Namespaces: "+fmt.Sprintf("%#v", this.Namespaces)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DescribeNamespaceRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.DescribeNamespaceRequest{")
-	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
-	s = append(s, "Id: "+fmt.Sprintf("%#v", this.Id)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DescribeNamespaceResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.DescribeNamespaceResponse{")
-	if this.NamespaceInfo != nil {
-		s = append(s, "NamespaceInfo: "+fmt.Sprintf("%#v", this.NamespaceInfo)+",\n")
-	}
-	if this.Configuration != nil {
-		s = append(s, "Configuration: "+fmt.Sprintf("%#v", this.Configuration)+",\n")
-	}
-	if this.ReplicationConfiguration != nil {
-		s = append(s, "ReplicationConfiguration: "+fmt.Sprintf("%#v", this.ReplicationConfiguration)+",\n")
-	}
-	s = append(s, "FailoverVersion: "+fmt.Sprintf("%#v", this.FailoverVersion)+",\n")
-	s = append(s, "IsGlobalNamespace: "+fmt.Sprintf("%#v", this.IsGlobalNamespace)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *UpdateNamespaceRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 10)
-	s = append(s, "&workflowservice.UpdateNamespaceRequest{")
-	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
-	if this.UpdatedInfo != nil {
-		s = append(s, "UpdatedInfo: "+fmt.Sprintf("%#v", this.UpdatedInfo)+",\n")
-	}
-	if this.Configuration != nil {
-		s = append(s, "Configuration: "+fmt.Sprintf("%#v", this.Configuration)+",\n")
-	}
-	if this.ReplicationConfiguration != nil {
-		s = append(s, "ReplicationConfiguration: "+fmt.Sprintf("%#v", this.ReplicationConfiguration)+",\n")
-	}
-	s = append(s, "SecurityToken: "+fmt.Sprintf("%#v", this.SecurityToken)+",\n")
-	s = append(s, "DeleteBadBinary: "+fmt.Sprintf("%#v", this.DeleteBadBinary)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *UpdateNamespaceResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.UpdateNamespaceResponse{")
-	if this.NamespaceInfo != nil {
-		s = append(s, "NamespaceInfo: "+fmt.Sprintf("%#v", this.NamespaceInfo)+",\n")
-	}
-	if this.Configuration != nil {
-		s = append(s, "Configuration: "+fmt.Sprintf("%#v", this.Configuration)+",\n")
-	}
-	if this.ReplicationConfiguration != nil {
-		s = append(s, "ReplicationConfiguration: "+fmt.Sprintf("%#v", this.ReplicationConfiguration)+",\n")
-	}
-	s = append(s, "FailoverVersion: "+fmt.Sprintf("%#v", this.FailoverVersion)+",\n")
-	s = append(s, "IsGlobalNamespace: "+fmt.Sprintf("%#v", this.IsGlobalNamespace)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DeprecateNamespaceRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.DeprecateNamespaceRequest{")
-	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
-	s = append(s, "SecurityToken: "+fmt.Sprintf("%#v", this.SecurityToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DeprecateNamespaceResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.DeprecateNamespaceResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *StartWorkflowExecutionRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 19)
-	s = append(s, "&workflowservice.StartWorkflowExecutionRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	if this.WorkflowType != nil {
-		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
-	}
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "Input: "+fmt.Sprintf("%#v", this.Input)+",\n")
-	s = append(s, "ExecutionStartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.ExecutionStartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "TaskStartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.TaskStartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "RequestId: "+fmt.Sprintf("%#v", this.RequestId)+",\n")
-	s = append(s, "WorkflowIdReusePolicy: "+fmt.Sprintf("%#v", this.WorkflowIdReusePolicy)+",\n")
-	if this.RetryPolicy != nil {
-		s = append(s, "RetryPolicy: "+fmt.Sprintf("%#v", this.RetryPolicy)+",\n")
-	}
-	s = append(s, "CronSchedule: "+fmt.Sprintf("%#v", this.CronSchedule)+",\n")
-	if this.Memo != nil {
-		s = append(s, "Memo: "+fmt.Sprintf("%#v", this.Memo)+",\n")
-	}
-	if this.SearchAttributes != nil {
-		s = append(s, "SearchAttributes: "+fmt.Sprintf("%#v", this.SearchAttributes)+",\n")
-	}
-	if this.Header != nil {
-		s = append(s, "Header: "+fmt.Sprintf("%#v", this.Header)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *StartWorkflowExecutionResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.StartWorkflowExecutionResponse{")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *GetWorkflowExecutionHistoryRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 10)
-	s = append(s, "&workflowservice.GetWorkflowExecutionHistoryRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.Execution != nil {
-		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
-	}
-	s = append(s, "MaximumPageSize: "+fmt.Sprintf("%#v", this.MaximumPageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "WaitForNewEvent: "+fmt.Sprintf("%#v", this.WaitForNewEvent)+",\n")
-	s = append(s, "HistoryEventFilterType: "+fmt.Sprintf("%#v", this.HistoryEventFilterType)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *GetWorkflowExecutionHistoryResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 7)
-	s = append(s, "&workflowservice.GetWorkflowExecutionHistoryResponse{")
-	if this.History != nil {
-		s = append(s, "History: "+fmt.Sprintf("%#v", this.History)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "Archived: "+fmt.Sprintf("%#v", this.Archived)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *PollForDecisionTaskRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.PollForDecisionTaskRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "BinaryChecksum: "+fmt.Sprintf("%#v", this.BinaryChecksum)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *PollForDecisionTaskResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 18)
-	s = append(s, "&workflowservice.PollForDecisionTaskResponse{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	if this.WorkflowExecution != nil {
-		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
-	}
-	if this.WorkflowType != nil {
-		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
-	}
-	s = append(s, "PreviousStartedEventId: "+fmt.Sprintf("%#v", this.PreviousStartedEventId)+",\n")
-	s = append(s, "StartedEventId: "+fmt.Sprintf("%#v", this.StartedEventId)+",\n")
-	s = append(s, "Attempt: "+fmt.Sprintf("%#v", this.Attempt)+",\n")
-	s = append(s, "BacklogCountHint: "+fmt.Sprintf("%#v", this.BacklogCountHint)+",\n")
-	if this.History != nil {
-		s = append(s, "History: "+fmt.Sprintf("%#v", this.History)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	if this.Query != nil {
-		s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
-	}
-	if this.WorkflowExecutionTaskList != nil {
-		s = append(s, "WorkflowExecutionTaskList: "+fmt.Sprintf("%#v", this.WorkflowExecutionTaskList)+",\n")
-	}
-	s = append(s, "ScheduledTimestamp: "+fmt.Sprintf("%#v", this.ScheduledTimestamp)+",\n")
-	s = append(s, "StartedTimestamp: "+fmt.Sprintf("%#v", this.StartedTimestamp)+",\n")
-	keysForQueries := make([]string, 0, len(this.Queries))
-	for k, _ := range this.Queries {
-		keysForQueries = append(keysForQueries, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForQueries)
-	mapStringForQueries := "map[string]*query.WorkflowQuery{"
-	for _, k := range keysForQueries {
-		mapStringForQueries += fmt.Sprintf("%#v: %#v,", k, this.Queries[k])
-	}
-	mapStringForQueries += "}"
-	if this.Queries != nil {
-		s = append(s, "Queries: "+mapStringForQueries+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondDecisionTaskCompletedRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 13)
-	s = append(s, "&workflowservice.RespondDecisionTaskCompletedRequest{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	if this.Decisions != nil {
-		s = append(s, "Decisions: "+fmt.Sprintf("%#v", this.Decisions)+",\n")
-	}
-	s = append(s, "ExecutionContext: "+fmt.Sprintf("%#v", this.ExecutionContext)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	if this.StickyAttributes != nil {
-		s = append(s, "StickyAttributes: "+fmt.Sprintf("%#v", this.StickyAttributes)+",\n")
-	}
-	s = append(s, "ReturnNewDecisionTask: "+fmt.Sprintf("%#v", this.ReturnNewDecisionTask)+",\n")
-	s = append(s, "ForceCreateNewDecisionTask: "+fmt.Sprintf("%#v", this.ForceCreateNewDecisionTask)+",\n")
-	s = append(s, "BinaryChecksum: "+fmt.Sprintf("%#v", this.BinaryChecksum)+",\n")
-	keysForQueryResults := make([]string, 0, len(this.QueryResults))
-	for k, _ := range this.QueryResults {
-		keysForQueryResults = append(keysForQueryResults, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForQueryResults)
-	mapStringForQueryResults := "map[string]*query.WorkflowQueryResult{"
-	for _, k := range keysForQueryResults {
-		mapStringForQueryResults += fmt.Sprintf("%#v: %#v,", k, this.QueryResults[k])
-	}
-	mapStringForQueryResults += "}"
-	if this.QueryResults != nil {
-		s = append(s, "QueryResults: "+mapStringForQueryResults+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondDecisionTaskCompletedResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.RespondDecisionTaskCompletedResponse{")
-	if this.DecisionTask != nil {
-		s = append(s, "DecisionTask: "+fmt.Sprintf("%#v", this.DecisionTask)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondDecisionTaskFailedRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.RespondDecisionTaskFailedRequest{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	s = append(s, "Cause: "+fmt.Sprintf("%#v", this.Cause)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "BinaryChecksum: "+fmt.Sprintf("%#v", this.BinaryChecksum)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondDecisionTaskFailedResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RespondDecisionTaskFailedResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *PollForActivityTaskRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.PollForActivityTaskRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	if this.TaskListMetadata != nil {
-		s = append(s, "TaskListMetadata: "+fmt.Sprintf("%#v", this.TaskListMetadata)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *PollForActivityTaskResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 20)
-	s = append(s, "&workflowservice.PollForActivityTaskResponse{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	if this.WorkflowExecution != nil {
-		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
-	}
-	s = append(s, "ActivityId: "+fmt.Sprintf("%#v", this.ActivityId)+",\n")
-	if this.ActivityType != nil {
-		s = append(s, "ActivityType: "+fmt.Sprintf("%#v", this.ActivityType)+",\n")
-	}
-	s = append(s, "Input: "+fmt.Sprintf("%#v", this.Input)+",\n")
-	s = append(s, "ScheduledTimestamp: "+fmt.Sprintf("%#v", this.ScheduledTimestamp)+",\n")
-	s = append(s, "ScheduleToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.ScheduleToCloseTimeoutSeconds)+",\n")
-	s = append(s, "StartedTimestamp: "+fmt.Sprintf("%#v", this.StartedTimestamp)+",\n")
-	s = append(s, "StartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.StartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "HeartbeatTimeoutSeconds: "+fmt.Sprintf("%#v", this.HeartbeatTimeoutSeconds)+",\n")
-	s = append(s, "Attempt: "+fmt.Sprintf("%#v", this.Attempt)+",\n")
-	s = append(s, "ScheduledTimestampOfThisAttempt: "+fmt.Sprintf("%#v", this.ScheduledTimestampOfThisAttempt)+",\n")
-	s = append(s, "HeartbeatDetails: "+fmt.Sprintf("%#v", this.HeartbeatDetails)+",\n")
-	if this.WorkflowType != nil {
-		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
-	}
-	s = append(s, "WorkflowNamespace: "+fmt.Sprintf("%#v", this.WorkflowNamespace)+",\n")
-	if this.Header != nil {
-		s = append(s, "Header: "+fmt.Sprintf("%#v", this.Header)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RecordActivityTaskHeartbeatRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 7)
-	s = append(s, "&workflowservice.RecordActivityTaskHeartbeatRequest{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RecordActivityTaskHeartbeatResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.RecordActivityTaskHeartbeatResponse{")
-	s = append(s, "CancelRequested: "+fmt.Sprintf("%#v", this.CancelRequested)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RecordActivityTaskHeartbeatByIdRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 10)
-	s = append(s, "&workflowservice.RecordActivityTaskHeartbeatByIdRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "ActivityId: "+fmt.Sprintf("%#v", this.ActivityId)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RecordActivityTaskHeartbeatByIdResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.RecordActivityTaskHeartbeatByIdResponse{")
-	s = append(s, "CancelRequested: "+fmt.Sprintf("%#v", this.CancelRequested)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskCompletedRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 7)
-	s = append(s, "&workflowservice.RespondActivityTaskCompletedRequest{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	s = append(s, "Result: "+fmt.Sprintf("%#v", this.Result)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskCompletedResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RespondActivityTaskCompletedResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskCompletedByIdRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 10)
-	s = append(s, "&workflowservice.RespondActivityTaskCompletedByIdRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "ActivityId: "+fmt.Sprintf("%#v", this.ActivityId)+",\n")
-	s = append(s, "Result: "+fmt.Sprintf("%#v", this.Result)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskCompletedByIdResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RespondActivityTaskCompletedByIdResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskFailedRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.RespondActivityTaskFailedRequest{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	s = append(s, "Reason: "+fmt.Sprintf("%#v", this.Reason)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskFailedResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RespondActivityTaskFailedResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskFailedByIdRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 11)
-	s = append(s, "&workflowservice.RespondActivityTaskFailedByIdRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "ActivityId: "+fmt.Sprintf("%#v", this.ActivityId)+",\n")
-	s = append(s, "Reason: "+fmt.Sprintf("%#v", this.Reason)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskFailedByIdResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RespondActivityTaskFailedByIdResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskCanceledRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 7)
-	s = append(s, "&workflowservice.RespondActivityTaskCanceledRequest{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskCanceledResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RespondActivityTaskCanceledResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskCanceledByIdRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 10)
-	s = append(s, "&workflowservice.RespondActivityTaskCanceledByIdRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "ActivityId: "+fmt.Sprintf("%#v", this.ActivityId)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondActivityTaskCanceledByIdResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RespondActivityTaskCanceledByIdResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RequestCancelWorkflowExecutionRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.RequestCancelWorkflowExecutionRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.WorkflowExecution != nil {
-		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
-	}
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "RequestId: "+fmt.Sprintf("%#v", this.RequestId)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RequestCancelWorkflowExecutionResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RequestCancelWorkflowExecutionResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *SignalWorkflowExecutionRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 11)
-	s = append(s, "&workflowservice.SignalWorkflowExecutionRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.WorkflowExecution != nil {
-		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
-	}
-	s = append(s, "SignalName: "+fmt.Sprintf("%#v", this.SignalName)+",\n")
-	s = append(s, "Input: "+fmt.Sprintf("%#v", this.Input)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "RequestId: "+fmt.Sprintf("%#v", this.RequestId)+",\n")
-	s = append(s, "Control: "+fmt.Sprintf("%#v", this.Control)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *SignalWorkflowExecutionResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.SignalWorkflowExecutionResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *SignalWithStartWorkflowExecutionRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 22)
-	s = append(s, "&workflowservice.SignalWithStartWorkflowExecutionRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	if this.WorkflowType != nil {
-		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
-	}
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "Input: "+fmt.Sprintf("%#v", this.Input)+",\n")
-	s = append(s, "ExecutionStartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.ExecutionStartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "TaskStartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.TaskStartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "RequestId: "+fmt.Sprintf("%#v", this.RequestId)+",\n")
-	s = append(s, "WorkflowIdReusePolicy: "+fmt.Sprintf("%#v", this.WorkflowIdReusePolicy)+",\n")
-	s = append(s, "SignalName: "+fmt.Sprintf("%#v", this.SignalName)+",\n")
-	s = append(s, "SignalInput: "+fmt.Sprintf("%#v", this.SignalInput)+",\n")
-	s = append(s, "Control: "+fmt.Sprintf("%#v", this.Control)+",\n")
-	if this.RetryPolicy != nil {
-		s = append(s, "RetryPolicy: "+fmt.Sprintf("%#v", this.RetryPolicy)+",\n")
-	}
-	s = append(s, "CronSchedule: "+fmt.Sprintf("%#v", this.CronSchedule)+",\n")
-	if this.Memo != nil {
-		s = append(s, "Memo: "+fmt.Sprintf("%#v", this.Memo)+",\n")
-	}
-	if this.SearchAttributes != nil {
-		s = append(s, "SearchAttributes: "+fmt.Sprintf("%#v", this.SearchAttributes)+",\n")
-	}
-	if this.Header != nil {
-		s = append(s, "Header: "+fmt.Sprintf("%#v", this.Header)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *SignalWithStartWorkflowExecutionResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.SignalWithStartWorkflowExecutionResponse{")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ResetWorkflowExecutionRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.ResetWorkflowExecutionRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.WorkflowExecution != nil {
-		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
-	}
-	s = append(s, "Reason: "+fmt.Sprintf("%#v", this.Reason)+",\n")
-	s = append(s, "DecisionFinishEventId: "+fmt.Sprintf("%#v", this.DecisionFinishEventId)+",\n")
-	s = append(s, "RequestId: "+fmt.Sprintf("%#v", this.RequestId)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ResetWorkflowExecutionResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.ResetWorkflowExecutionResponse{")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *TerminateWorkflowExecutionRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.TerminateWorkflowExecutionRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.WorkflowExecution != nil {
-		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
-	}
-	s = append(s, "Reason: "+fmt.Sprintf("%#v", this.Reason)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *TerminateWorkflowExecutionResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.TerminateWorkflowExecutionResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListOpenWorkflowExecutionsRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 10)
-	s = append(s, "&workflowservice.ListOpenWorkflowExecutionsRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "MaximumPageSize: "+fmt.Sprintf("%#v", this.MaximumPageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	if this.StartTimeFilter != nil {
-		s = append(s, "StartTimeFilter: "+fmt.Sprintf("%#v", this.StartTimeFilter)+",\n")
-	}
-	if this.Filters != nil {
-		s = append(s, "Filters: "+fmt.Sprintf("%#v", this.Filters)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListOpenWorkflowExecutionsRequest_ExecutionFilter) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&workflowservice.ListOpenWorkflowExecutionsRequest_ExecutionFilter{` +
-		`ExecutionFilter:` + fmt.Sprintf("%#v", this.ExecutionFilter) + `}`}, ", ")
-	return s
-}
-func (this *ListOpenWorkflowExecutionsRequest_TypeFilter) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&workflowservice.ListOpenWorkflowExecutionsRequest_TypeFilter{` +
-		`TypeFilter:` + fmt.Sprintf("%#v", this.TypeFilter) + `}`}, ", ")
-	return s
-}
-func (this *ListOpenWorkflowExecutionsResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListOpenWorkflowExecutionsResponse{")
-	if this.Executions != nil {
-		s = append(s, "Executions: "+fmt.Sprintf("%#v", this.Executions)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListClosedWorkflowExecutionsRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 11)
-	s = append(s, "&workflowservice.ListClosedWorkflowExecutionsRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "MaximumPageSize: "+fmt.Sprintf("%#v", this.MaximumPageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	if this.StartTimeFilter != nil {
-		s = append(s, "StartTimeFilter: "+fmt.Sprintf("%#v", this.StartTimeFilter)+",\n")
-	}
-	if this.Filters != nil {
-		s = append(s, "Filters: "+fmt.Sprintf("%#v", this.Filters)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListClosedWorkflowExecutionsRequest_ExecutionFilter) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&workflowservice.ListClosedWorkflowExecutionsRequest_ExecutionFilter{` +
-		`ExecutionFilter:` + fmt.Sprintf("%#v", this.ExecutionFilter) + `}`}, ", ")
-	return s
-}
-func (this *ListClosedWorkflowExecutionsRequest_TypeFilter) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&workflowservice.ListClosedWorkflowExecutionsRequest_TypeFilter{` +
-		`TypeFilter:` + fmt.Sprintf("%#v", this.TypeFilter) + `}`}, ", ")
-	return s
-}
-func (this *ListClosedWorkflowExecutionsRequest_StatusFilter) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&workflowservice.ListClosedWorkflowExecutionsRequest_StatusFilter{` +
-		`StatusFilter:` + fmt.Sprintf("%#v", this.StatusFilter) + `}`}, ", ")
-	return s
-}
-func (this *ListClosedWorkflowExecutionsResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListClosedWorkflowExecutionsResponse{")
-	if this.Executions != nil {
-		s = append(s, "Executions: "+fmt.Sprintf("%#v", this.Executions)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListWorkflowExecutionsRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.ListWorkflowExecutionsRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListWorkflowExecutionsResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListWorkflowExecutionsResponse{")
-	if this.Executions != nil {
-		s = append(s, "Executions: "+fmt.Sprintf("%#v", this.Executions)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListArchivedWorkflowExecutionsRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.ListArchivedWorkflowExecutionsRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListArchivedWorkflowExecutionsResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListArchivedWorkflowExecutionsResponse{")
-	if this.Executions != nil {
-		s = append(s, "Executions: "+fmt.Sprintf("%#v", this.Executions)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ScanWorkflowExecutionsRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.ScanWorkflowExecutionsRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ScanWorkflowExecutionsResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ScanWorkflowExecutionsResponse{")
-	if this.Executions != nil {
-		s = append(s, "Executions: "+fmt.Sprintf("%#v", this.Executions)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *CountWorkflowExecutionsRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.CountWorkflowExecutionsRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *CountWorkflowExecutionsResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.CountWorkflowExecutionsResponse{")
-	s = append(s, "Count: "+fmt.Sprintf("%#v", this.Count)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *GetSearchAttributesRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.GetSearchAttributesRequest{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *GetSearchAttributesResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.GetSearchAttributesResponse{")
-	keysForKeys := make([]string, 0, len(this.Keys))
-	for k, _ := range this.Keys {
-		keysForKeys = append(keysForKeys, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForKeys)
-	mapStringForKeys := "map[string]common.IndexedValueType{"
-	for _, k := range keysForKeys {
-		mapStringForKeys += fmt.Sprintf("%#v: %#v,", k, this.Keys[k])
-	}
-	mapStringForKeys += "}"
-	if this.Keys != nil {
-		s = append(s, "Keys: "+mapStringForKeys+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondQueryTaskCompletedRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.RespondQueryTaskCompletedRequest{")
-	s = append(s, "TaskToken: "+fmt.Sprintf("%#v", this.TaskToken)+",\n")
-	s = append(s, "CompletedType: "+fmt.Sprintf("%#v", this.CompletedType)+",\n")
-	s = append(s, "QueryResult: "+fmt.Sprintf("%#v", this.QueryResult)+",\n")
-	s = append(s, "ErrorMessage: "+fmt.Sprintf("%#v", this.ErrorMessage)+",\n")
-	if this.WorkerVersionInfo != nil {
-		s = append(s, "WorkerVersionInfo: "+fmt.Sprintf("%#v", this.WorkerVersionInfo)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RespondQueryTaskCompletedResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.RespondQueryTaskCompletedResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ResetStickyTaskListRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ResetStickyTaskListRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.Execution != nil {
-		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ResetStickyTaskListResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.ResetStickyTaskListResponse{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *QueryWorkflowRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.QueryWorkflowRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.Execution != nil {
-		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
-	}
-	if this.Query != nil {
-		s = append(s, "Query: "+fmt.Sprintf("%#v", this.Query)+",\n")
-	}
-	s = append(s, "QueryRejectCondition: "+fmt.Sprintf("%#v", this.QueryRejectCondition)+",\n")
-	s = append(s, "QueryConsistencyLevel: "+fmt.Sprintf("%#v", this.QueryConsistencyLevel)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *QueryWorkflowResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.QueryWorkflowResponse{")
-	s = append(s, "QueryResult: "+fmt.Sprintf("%#v", this.QueryResult)+",\n")
-	if this.QueryRejected != nil {
-		s = append(s, "QueryRejected: "+fmt.Sprintf("%#v", this.QueryRejected)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *GetWorkflowExecutionRawHistoryRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.GetWorkflowExecutionRawHistoryRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.Execution != nil {
-		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
-	}
-	s = append(s, "MaximumPageSize: "+fmt.Sprintf("%#v", this.MaximumPageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *GetWorkflowExecutionRawHistoryResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.GetWorkflowExecutionRawHistoryResponse{")
-	if this.RawHistory != nil {
-		s = append(s, "RawHistory: "+fmt.Sprintf("%#v", this.RawHistory)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DescribeWorkflowExecutionRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.DescribeWorkflowExecutionRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.Execution != nil {
-		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DescribeWorkflowExecutionResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.DescribeWorkflowExecutionResponse{")
-	if this.ExecutionConfiguration != nil {
-		s = append(s, "ExecutionConfiguration: "+fmt.Sprintf("%#v", this.ExecutionConfiguration)+",\n")
-	}
-	if this.WorkflowExecutionInfo != nil {
-		s = append(s, "WorkflowExecutionInfo: "+fmt.Sprintf("%#v", this.WorkflowExecutionInfo)+",\n")
-	}
-	if this.PendingActivities != nil {
-		s = append(s, "PendingActivities: "+fmt.Sprintf("%#v", this.PendingActivities)+",\n")
-	}
-	if this.PendingChildren != nil {
-		s = append(s, "PendingChildren: "+fmt.Sprintf("%#v", this.PendingChildren)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DescribeTaskListRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&workflowservice.DescribeTaskListRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "TaskListType: "+fmt.Sprintf("%#v", this.TaskListType)+",\n")
-	s = append(s, "IncludeTaskListStatus: "+fmt.Sprintf("%#v", this.IncludeTaskListStatus)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DescribeTaskListResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.DescribeTaskListResponse{")
-	if this.Pollers != nil {
-		s = append(s, "Pollers: "+fmt.Sprintf("%#v", this.Pollers)+",\n")
-	}
-	if this.TaskListStatus != nil {
-		s = append(s, "TaskListStatus: "+fmt.Sprintf("%#v", this.TaskListStatus)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *GetClusterInfoRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&workflowservice.GetClusterInfoRequest{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *GetClusterInfoResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.GetClusterInfoResponse{")
-	if this.SupportedClientVersions != nil {
-		s = append(s, "SupportedClientVersions: "+fmt.Sprintf("%#v", this.SupportedClientVersions)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListTaskListPartitionsRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListTaskListPartitionsRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListTaskListPartitionsResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.ListTaskListPartitionsResponse{")
-	if this.ActivityTaskListPartitions != nil {
-		s = append(s, "ActivityTaskListPartitions: "+fmt.Sprintf("%#v", this.ActivityTaskListPartitions)+",\n")
-	}
-	if this.DecisionTaskListPartitions != nil {
-		s = append(s, "DecisionTaskListPartitions: "+fmt.Sprintf("%#v", this.DecisionTaskListPartitions)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *PollForWorkflowExecutionRawHistoryRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.PollForWorkflowExecutionRawHistoryRequest{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.Execution != nil {
-		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
-	}
-	s = append(s, "MaximumPageSize: "+fmt.Sprintf("%#v", this.MaximumPageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "HistoryEventFilterType: "+fmt.Sprintf("%#v", this.HistoryEventFilterType)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *PollForWorkflowExecutionRawHistoryResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.PollForWorkflowExecutionRawHistoryResponse{")
-	if this.RawHistory != nil {
-		s = append(s, "RawHistory: "+fmt.Sprintf("%#v", this.RawHistory)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func valueToGoStringRequestResponse(v interface{}, typ string) string {
-	rv := reflect.ValueOf(v)
-	if rv.IsNil() {
-		return "nil"
-	}
-	pv := reflect.Indirect(rv).Interface()
-	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
-}
 func (m *RegisterNamespaceRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -15699,1176 +11796,6 @@ func sovRequestResponse(x uint64) (n int) {
 }
 func sozRequestResponse(x uint64) (n int) {
 	return sovRequestResponse(uint64((x << 1) ^ uint64((int64(x) >> 63))))
-}
-func (this *RegisterNamespaceRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForClusters := "[]*ClusterReplicationConfiguration{"
-	for _, f := range this.Clusters {
-		repeatedStringForClusters += strings.Replace(fmt.Sprintf("%v", f), "ClusterReplicationConfiguration", "replication.ClusterReplicationConfiguration", 1) + ","
-	}
-	repeatedStringForClusters += "}"
-	keysForData := make([]string, 0, len(this.Data))
-	for k, _ := range this.Data {
-		keysForData = append(keysForData, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForData)
-	mapStringForData := "map[string]string{"
-	for _, k := range keysForData {
-		mapStringForData += fmt.Sprintf("%v: %v,", k, this.Data[k])
-	}
-	mapStringForData += "}"
-	s := strings.Join([]string{`&RegisterNamespaceRequest{`,
-		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
-		`Description:` + fmt.Sprintf("%v", this.Description) + `,`,
-		`OwnerEmail:` + fmt.Sprintf("%v", this.OwnerEmail) + `,`,
-		`WorkflowExecutionRetentionPeriodInDays:` + fmt.Sprintf("%v", this.WorkflowExecutionRetentionPeriodInDays) + `,`,
-		`EmitMetric:` + fmt.Sprintf("%v", this.EmitMetric) + `,`,
-		`Clusters:` + repeatedStringForClusters + `,`,
-		`ActiveClusterName:` + fmt.Sprintf("%v", this.ActiveClusterName) + `,`,
-		`Data:` + mapStringForData + `,`,
-		`SecurityToken:` + fmt.Sprintf("%v", this.SecurityToken) + `,`,
-		`IsGlobalNamespace:` + fmt.Sprintf("%v", this.IsGlobalNamespace) + `,`,
-		`HistoryArchivalStatus:` + fmt.Sprintf("%v", this.HistoryArchivalStatus) + `,`,
-		`HistoryArchivalURI:` + fmt.Sprintf("%v", this.HistoryArchivalURI) + `,`,
-		`VisibilityArchivalStatus:` + fmt.Sprintf("%v", this.VisibilityArchivalStatus) + `,`,
-		`VisibilityArchivalURI:` + fmt.Sprintf("%v", this.VisibilityArchivalURI) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RegisterNamespaceResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RegisterNamespaceResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListNamespacesRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListNamespacesRequest{`,
-		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListNamespacesResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForNamespaces := "[]*DescribeNamespaceResponse{"
-	for _, f := range this.Namespaces {
-		repeatedStringForNamespaces += strings.Replace(f.String(), "DescribeNamespaceResponse", "DescribeNamespaceResponse", 1) + ","
-	}
-	repeatedStringForNamespaces += "}"
-	s := strings.Join([]string{`&ListNamespacesResponse{`,
-		`Namespaces:` + repeatedStringForNamespaces + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DescribeNamespaceRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&DescribeNamespaceRequest{`,
-		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
-		`Id:` + fmt.Sprintf("%v", this.Id) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DescribeNamespaceResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&DescribeNamespaceResponse{`,
-		`NamespaceInfo:` + strings.Replace(fmt.Sprintf("%v", this.NamespaceInfo), "NamespaceInfo", "namespace.NamespaceInfo", 1) + `,`,
-		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "NamespaceConfiguration", "namespace.NamespaceConfiguration", 1) + `,`,
-		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "NamespaceReplicationConfiguration", "replication.NamespaceReplicationConfiguration", 1) + `,`,
-		`FailoverVersion:` + fmt.Sprintf("%v", this.FailoverVersion) + `,`,
-		`IsGlobalNamespace:` + fmt.Sprintf("%v", this.IsGlobalNamespace) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *UpdateNamespaceRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&UpdateNamespaceRequest{`,
-		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
-		`UpdatedInfo:` + strings.Replace(fmt.Sprintf("%v", this.UpdatedInfo), "UpdateNamespaceInfo", "namespace.UpdateNamespaceInfo", 1) + `,`,
-		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "NamespaceConfiguration", "namespace.NamespaceConfiguration", 1) + `,`,
-		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "NamespaceReplicationConfiguration", "replication.NamespaceReplicationConfiguration", 1) + `,`,
-		`SecurityToken:` + fmt.Sprintf("%v", this.SecurityToken) + `,`,
-		`DeleteBadBinary:` + fmt.Sprintf("%v", this.DeleteBadBinary) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *UpdateNamespaceResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&UpdateNamespaceResponse{`,
-		`NamespaceInfo:` + strings.Replace(fmt.Sprintf("%v", this.NamespaceInfo), "NamespaceInfo", "namespace.NamespaceInfo", 1) + `,`,
-		`Configuration:` + strings.Replace(fmt.Sprintf("%v", this.Configuration), "NamespaceConfiguration", "namespace.NamespaceConfiguration", 1) + `,`,
-		`ReplicationConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ReplicationConfiguration), "NamespaceReplicationConfiguration", "replication.NamespaceReplicationConfiguration", 1) + `,`,
-		`FailoverVersion:` + fmt.Sprintf("%v", this.FailoverVersion) + `,`,
-		`IsGlobalNamespace:` + fmt.Sprintf("%v", this.IsGlobalNamespace) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DeprecateNamespaceRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&DeprecateNamespaceRequest{`,
-		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
-		`SecurityToken:` + fmt.Sprintf("%v", this.SecurityToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DeprecateNamespaceResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&DeprecateNamespaceResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *StartWorkflowExecutionRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&StartWorkflowExecutionRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
-		`ExecutionStartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.ExecutionStartToCloseTimeoutSeconds) + `,`,
-		`TaskStartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.TaskStartToCloseTimeoutSeconds) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`RequestId:` + fmt.Sprintf("%v", this.RequestId) + `,`,
-		`WorkflowIdReusePolicy:` + fmt.Sprintf("%v", this.WorkflowIdReusePolicy) + `,`,
-		`RetryPolicy:` + strings.Replace(fmt.Sprintf("%v", this.RetryPolicy), "RetryPolicy", "common.RetryPolicy", 1) + `,`,
-		`CronSchedule:` + fmt.Sprintf("%v", this.CronSchedule) + `,`,
-		`Memo:` + strings.Replace(fmt.Sprintf("%v", this.Memo), "Memo", "common.Memo", 1) + `,`,
-		`SearchAttributes:` + strings.Replace(fmt.Sprintf("%v", this.SearchAttributes), "SearchAttributes", "common.SearchAttributes", 1) + `,`,
-		`Header:` + strings.Replace(fmt.Sprintf("%v", this.Header), "Header", "common.Header", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *StartWorkflowExecutionResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&StartWorkflowExecutionResponse{`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *GetWorkflowExecutionHistoryRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&GetWorkflowExecutionHistoryRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`WaitForNewEvent:` + fmt.Sprintf("%v", this.WaitForNewEvent) + `,`,
-		`HistoryEventFilterType:` + fmt.Sprintf("%v", this.HistoryEventFilterType) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *GetWorkflowExecutionHistoryResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&GetWorkflowExecutionHistoryResponse{`,
-		`History:` + strings.Replace(fmt.Sprintf("%v", this.History), "History", "event.History", 1) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`Archived:` + fmt.Sprintf("%v", this.Archived) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *PollForDecisionTaskRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&PollForDecisionTaskRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`BinaryChecksum:` + fmt.Sprintf("%v", this.BinaryChecksum) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *PollForDecisionTaskResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	keysForQueries := make([]string, 0, len(this.Queries))
-	for k, _ := range this.Queries {
-		keysForQueries = append(keysForQueries, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForQueries)
-	mapStringForQueries := "map[string]*query.WorkflowQuery{"
-	for _, k := range keysForQueries {
-		mapStringForQueries += fmt.Sprintf("%v: %v,", k, this.Queries[k])
-	}
-	mapStringForQueries += "}"
-	s := strings.Join([]string{`&PollForDecisionTaskResponse{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
-		`PreviousStartedEventId:` + fmt.Sprintf("%v", this.PreviousStartedEventId) + `,`,
-		`StartedEventId:` + fmt.Sprintf("%v", this.StartedEventId) + `,`,
-		`Attempt:` + fmt.Sprintf("%v", this.Attempt) + `,`,
-		`BacklogCountHint:` + fmt.Sprintf("%v", this.BacklogCountHint) + `,`,
-		`History:` + strings.Replace(fmt.Sprintf("%v", this.History), "History", "event.History", 1) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`Query:` + strings.Replace(fmt.Sprintf("%v", this.Query), "WorkflowQuery", "query.WorkflowQuery", 1) + `,`,
-		`WorkflowExecutionTaskList:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecutionTaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`ScheduledTimestamp:` + fmt.Sprintf("%v", this.ScheduledTimestamp) + `,`,
-		`StartedTimestamp:` + fmt.Sprintf("%v", this.StartedTimestamp) + `,`,
-		`Queries:` + mapStringForQueries + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondDecisionTaskCompletedRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForDecisions := "[]*Decision{"
-	for _, f := range this.Decisions {
-		repeatedStringForDecisions += strings.Replace(fmt.Sprintf("%v", f), "Decision", "decision.Decision", 1) + ","
-	}
-	repeatedStringForDecisions += "}"
-	keysForQueryResults := make([]string, 0, len(this.QueryResults))
-	for k, _ := range this.QueryResults {
-		keysForQueryResults = append(keysForQueryResults, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForQueryResults)
-	mapStringForQueryResults := "map[string]*query.WorkflowQueryResult{"
-	for _, k := range keysForQueryResults {
-		mapStringForQueryResults += fmt.Sprintf("%v: %v,", k, this.QueryResults[k])
-	}
-	mapStringForQueryResults += "}"
-	s := strings.Join([]string{`&RespondDecisionTaskCompletedRequest{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`Decisions:` + repeatedStringForDecisions + `,`,
-		`ExecutionContext:` + fmt.Sprintf("%v", this.ExecutionContext) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`StickyAttributes:` + strings.Replace(fmt.Sprintf("%v", this.StickyAttributes), "StickyExecutionAttributes", "decision.StickyExecutionAttributes", 1) + `,`,
-		`ReturnNewDecisionTask:` + fmt.Sprintf("%v", this.ReturnNewDecisionTask) + `,`,
-		`ForceCreateNewDecisionTask:` + fmt.Sprintf("%v", this.ForceCreateNewDecisionTask) + `,`,
-		`BinaryChecksum:` + fmt.Sprintf("%v", this.BinaryChecksum) + `,`,
-		`QueryResults:` + mapStringForQueryResults + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondDecisionTaskCompletedResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondDecisionTaskCompletedResponse{`,
-		`DecisionTask:` + strings.Replace(this.DecisionTask.String(), "PollForDecisionTaskResponse", "PollForDecisionTaskResponse", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondDecisionTaskFailedRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondDecisionTaskFailedRequest{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`Cause:` + fmt.Sprintf("%v", this.Cause) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`BinaryChecksum:` + fmt.Sprintf("%v", this.BinaryChecksum) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondDecisionTaskFailedResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondDecisionTaskFailedResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *PollForActivityTaskRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&PollForActivityTaskRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`TaskListMetadata:` + strings.Replace(fmt.Sprintf("%v", this.TaskListMetadata), "TaskListMetadata", "tasklist.TaskListMetadata", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *PollForActivityTaskResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&PollForActivityTaskResponse{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`ActivityId:` + fmt.Sprintf("%v", this.ActivityId) + `,`,
-		`ActivityType:` + strings.Replace(fmt.Sprintf("%v", this.ActivityType), "ActivityType", "common.ActivityType", 1) + `,`,
-		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
-		`ScheduledTimestamp:` + fmt.Sprintf("%v", this.ScheduledTimestamp) + `,`,
-		`ScheduleToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.ScheduleToCloseTimeoutSeconds) + `,`,
-		`StartedTimestamp:` + fmt.Sprintf("%v", this.StartedTimestamp) + `,`,
-		`StartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.StartToCloseTimeoutSeconds) + `,`,
-		`HeartbeatTimeoutSeconds:` + fmt.Sprintf("%v", this.HeartbeatTimeoutSeconds) + `,`,
-		`Attempt:` + fmt.Sprintf("%v", this.Attempt) + `,`,
-		`ScheduledTimestampOfThisAttempt:` + fmt.Sprintf("%v", this.ScheduledTimestampOfThisAttempt) + `,`,
-		`HeartbeatDetails:` + fmt.Sprintf("%v", this.HeartbeatDetails) + `,`,
-		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
-		`WorkflowNamespace:` + fmt.Sprintf("%v", this.WorkflowNamespace) + `,`,
-		`Header:` + strings.Replace(fmt.Sprintf("%v", this.Header), "Header", "common.Header", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RecordActivityTaskHeartbeatRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RecordActivityTaskHeartbeatRequest{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RecordActivityTaskHeartbeatResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RecordActivityTaskHeartbeatResponse{`,
-		`CancelRequested:` + fmt.Sprintf("%v", this.CancelRequested) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RecordActivityTaskHeartbeatByIdRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RecordActivityTaskHeartbeatByIdRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`ActivityId:` + fmt.Sprintf("%v", this.ActivityId) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RecordActivityTaskHeartbeatByIdResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RecordActivityTaskHeartbeatByIdResponse{`,
-		`CancelRequested:` + fmt.Sprintf("%v", this.CancelRequested) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskCompletedRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskCompletedRequest{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`Result:` + fmt.Sprintf("%v", this.Result) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskCompletedResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskCompletedResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskCompletedByIdRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskCompletedByIdRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`ActivityId:` + fmt.Sprintf("%v", this.ActivityId) + `,`,
-		`Result:` + fmt.Sprintf("%v", this.Result) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskCompletedByIdResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskCompletedByIdResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskFailedRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskFailedRequest{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`Reason:` + fmt.Sprintf("%v", this.Reason) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskFailedResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskFailedResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskFailedByIdRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskFailedByIdRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`ActivityId:` + fmt.Sprintf("%v", this.ActivityId) + `,`,
-		`Reason:` + fmt.Sprintf("%v", this.Reason) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskFailedByIdResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskFailedByIdResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskCanceledRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskCanceledRequest{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskCanceledResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskCanceledResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskCanceledByIdRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskCanceledByIdRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`ActivityId:` + fmt.Sprintf("%v", this.ActivityId) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondActivityTaskCanceledByIdResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondActivityTaskCanceledByIdResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RequestCancelWorkflowExecutionRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RequestCancelWorkflowExecutionRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`RequestId:` + fmt.Sprintf("%v", this.RequestId) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RequestCancelWorkflowExecutionResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RequestCancelWorkflowExecutionResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *SignalWorkflowExecutionRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&SignalWorkflowExecutionRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`SignalName:` + fmt.Sprintf("%v", this.SignalName) + `,`,
-		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`RequestId:` + fmt.Sprintf("%v", this.RequestId) + `,`,
-		`Control:` + fmt.Sprintf("%v", this.Control) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *SignalWorkflowExecutionResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&SignalWorkflowExecutionResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *SignalWithStartWorkflowExecutionRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&SignalWithStartWorkflowExecutionRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
-		`ExecutionStartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.ExecutionStartToCloseTimeoutSeconds) + `,`,
-		`TaskStartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.TaskStartToCloseTimeoutSeconds) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`RequestId:` + fmt.Sprintf("%v", this.RequestId) + `,`,
-		`WorkflowIdReusePolicy:` + fmt.Sprintf("%v", this.WorkflowIdReusePolicy) + `,`,
-		`SignalName:` + fmt.Sprintf("%v", this.SignalName) + `,`,
-		`SignalInput:` + fmt.Sprintf("%v", this.SignalInput) + `,`,
-		`Control:` + fmt.Sprintf("%v", this.Control) + `,`,
-		`RetryPolicy:` + strings.Replace(fmt.Sprintf("%v", this.RetryPolicy), "RetryPolicy", "common.RetryPolicy", 1) + `,`,
-		`CronSchedule:` + fmt.Sprintf("%v", this.CronSchedule) + `,`,
-		`Memo:` + strings.Replace(fmt.Sprintf("%v", this.Memo), "Memo", "common.Memo", 1) + `,`,
-		`SearchAttributes:` + strings.Replace(fmt.Sprintf("%v", this.SearchAttributes), "SearchAttributes", "common.SearchAttributes", 1) + `,`,
-		`Header:` + strings.Replace(fmt.Sprintf("%v", this.Header), "Header", "common.Header", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *SignalWithStartWorkflowExecutionResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&SignalWithStartWorkflowExecutionResponse{`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ResetWorkflowExecutionRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ResetWorkflowExecutionRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`Reason:` + fmt.Sprintf("%v", this.Reason) + `,`,
-		`DecisionFinishEventId:` + fmt.Sprintf("%v", this.DecisionFinishEventId) + `,`,
-		`RequestId:` + fmt.Sprintf("%v", this.RequestId) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ResetWorkflowExecutionResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ResetWorkflowExecutionResponse{`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *TerminateWorkflowExecutionRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&TerminateWorkflowExecutionRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`Reason:` + fmt.Sprintf("%v", this.Reason) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *TerminateWorkflowExecutionResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&TerminateWorkflowExecutionResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListOpenWorkflowExecutionsRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListOpenWorkflowExecutionsRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`StartTimeFilter:` + strings.Replace(fmt.Sprintf("%v", this.StartTimeFilter), "StartTimeFilter", "filter.StartTimeFilter", 1) + `,`,
-		`Filters:` + fmt.Sprintf("%v", this.Filters) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListOpenWorkflowExecutionsRequest_ExecutionFilter) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListOpenWorkflowExecutionsRequest_ExecutionFilter{`,
-		`ExecutionFilter:` + strings.Replace(fmt.Sprintf("%v", this.ExecutionFilter), "WorkflowExecutionFilter", "filter.WorkflowExecutionFilter", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListOpenWorkflowExecutionsRequest_TypeFilter) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListOpenWorkflowExecutionsRequest_TypeFilter{`,
-		`TypeFilter:` + strings.Replace(fmt.Sprintf("%v", this.TypeFilter), "WorkflowTypeFilter", "filter.WorkflowTypeFilter", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListOpenWorkflowExecutionsResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForExecutions := "[]*WorkflowExecutionInfo{"
-	for _, f := range this.Executions {
-		repeatedStringForExecutions += strings.Replace(fmt.Sprintf("%v", f), "WorkflowExecutionInfo", "execution.WorkflowExecutionInfo", 1) + ","
-	}
-	repeatedStringForExecutions += "}"
-	s := strings.Join([]string{`&ListOpenWorkflowExecutionsResponse{`,
-		`Executions:` + repeatedStringForExecutions + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListClosedWorkflowExecutionsRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListClosedWorkflowExecutionsRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`StartTimeFilter:` + strings.Replace(fmt.Sprintf("%v", this.StartTimeFilter), "StartTimeFilter", "filter.StartTimeFilter", 1) + `,`,
-		`Filters:` + fmt.Sprintf("%v", this.Filters) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListClosedWorkflowExecutionsRequest_ExecutionFilter) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListClosedWorkflowExecutionsRequest_ExecutionFilter{`,
-		`ExecutionFilter:` + strings.Replace(fmt.Sprintf("%v", this.ExecutionFilter), "WorkflowExecutionFilter", "filter.WorkflowExecutionFilter", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListClosedWorkflowExecutionsRequest_TypeFilter) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListClosedWorkflowExecutionsRequest_TypeFilter{`,
-		`TypeFilter:` + strings.Replace(fmt.Sprintf("%v", this.TypeFilter), "WorkflowTypeFilter", "filter.WorkflowTypeFilter", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListClosedWorkflowExecutionsRequest_StatusFilter) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListClosedWorkflowExecutionsRequest_StatusFilter{`,
-		`StatusFilter:` + strings.Replace(fmt.Sprintf("%v", this.StatusFilter), "StatusFilter", "filter.StatusFilter", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListClosedWorkflowExecutionsResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForExecutions := "[]*WorkflowExecutionInfo{"
-	for _, f := range this.Executions {
-		repeatedStringForExecutions += strings.Replace(fmt.Sprintf("%v", f), "WorkflowExecutionInfo", "execution.WorkflowExecutionInfo", 1) + ","
-	}
-	repeatedStringForExecutions += "}"
-	s := strings.Join([]string{`&ListClosedWorkflowExecutionsResponse{`,
-		`Executions:` + repeatedStringForExecutions + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListWorkflowExecutionsRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListWorkflowExecutionsRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`Query:` + fmt.Sprintf("%v", this.Query) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListWorkflowExecutionsResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForExecutions := "[]*WorkflowExecutionInfo{"
-	for _, f := range this.Executions {
-		repeatedStringForExecutions += strings.Replace(fmt.Sprintf("%v", f), "WorkflowExecutionInfo", "execution.WorkflowExecutionInfo", 1) + ","
-	}
-	repeatedStringForExecutions += "}"
-	s := strings.Join([]string{`&ListWorkflowExecutionsResponse{`,
-		`Executions:` + repeatedStringForExecutions + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListArchivedWorkflowExecutionsRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListArchivedWorkflowExecutionsRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`Query:` + fmt.Sprintf("%v", this.Query) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListArchivedWorkflowExecutionsResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForExecutions := "[]*WorkflowExecutionInfo{"
-	for _, f := range this.Executions {
-		repeatedStringForExecutions += strings.Replace(fmt.Sprintf("%v", f), "WorkflowExecutionInfo", "execution.WorkflowExecutionInfo", 1) + ","
-	}
-	repeatedStringForExecutions += "}"
-	s := strings.Join([]string{`&ListArchivedWorkflowExecutionsResponse{`,
-		`Executions:` + repeatedStringForExecutions + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ScanWorkflowExecutionsRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ScanWorkflowExecutionsRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`Query:` + fmt.Sprintf("%v", this.Query) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ScanWorkflowExecutionsResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForExecutions := "[]*WorkflowExecutionInfo{"
-	for _, f := range this.Executions {
-		repeatedStringForExecutions += strings.Replace(fmt.Sprintf("%v", f), "WorkflowExecutionInfo", "execution.WorkflowExecutionInfo", 1) + ","
-	}
-	repeatedStringForExecutions += "}"
-	s := strings.Join([]string{`&ScanWorkflowExecutionsResponse{`,
-		`Executions:` + repeatedStringForExecutions + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *CountWorkflowExecutionsRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&CountWorkflowExecutionsRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`Query:` + fmt.Sprintf("%v", this.Query) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *CountWorkflowExecutionsResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&CountWorkflowExecutionsResponse{`,
-		`Count:` + fmt.Sprintf("%v", this.Count) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *GetSearchAttributesRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&GetSearchAttributesRequest{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *GetSearchAttributesResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	keysForKeys := make([]string, 0, len(this.Keys))
-	for k, _ := range this.Keys {
-		keysForKeys = append(keysForKeys, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForKeys)
-	mapStringForKeys := "map[string]common.IndexedValueType{"
-	for _, k := range keysForKeys {
-		mapStringForKeys += fmt.Sprintf("%v: %v,", k, this.Keys[k])
-	}
-	mapStringForKeys += "}"
-	s := strings.Join([]string{`&GetSearchAttributesResponse{`,
-		`Keys:` + mapStringForKeys + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondQueryTaskCompletedRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondQueryTaskCompletedRequest{`,
-		`TaskToken:` + fmt.Sprintf("%v", this.TaskToken) + `,`,
-		`CompletedType:` + fmt.Sprintf("%v", this.CompletedType) + `,`,
-		`QueryResult:` + fmt.Sprintf("%v", this.QueryResult) + `,`,
-		`ErrorMessage:` + fmt.Sprintf("%v", this.ErrorMessage) + `,`,
-		`WorkerVersionInfo:` + strings.Replace(fmt.Sprintf("%v", this.WorkerVersionInfo), "WorkerVersionInfo", "version.WorkerVersionInfo", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RespondQueryTaskCompletedResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RespondQueryTaskCompletedResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ResetStickyTaskListRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ResetStickyTaskListRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ResetStickyTaskListResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ResetStickyTaskListResponse{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *QueryWorkflowRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&QueryWorkflowRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`Query:` + strings.Replace(fmt.Sprintf("%v", this.Query), "WorkflowQuery", "query.WorkflowQuery", 1) + `,`,
-		`QueryRejectCondition:` + fmt.Sprintf("%v", this.QueryRejectCondition) + `,`,
-		`QueryConsistencyLevel:` + fmt.Sprintf("%v", this.QueryConsistencyLevel) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *QueryWorkflowResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&QueryWorkflowResponse{`,
-		`QueryResult:` + fmt.Sprintf("%v", this.QueryResult) + `,`,
-		`QueryRejected:` + strings.Replace(fmt.Sprintf("%v", this.QueryRejected), "QueryRejected", "query.QueryRejected", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *GetWorkflowExecutionRawHistoryRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&GetWorkflowExecutionRawHistoryRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *GetWorkflowExecutionRawHistoryResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForRawHistory := "[]*DataBlob{"
-	for _, f := range this.RawHistory {
-		repeatedStringForRawHistory += strings.Replace(fmt.Sprintf("%v", f), "DataBlob", "common.DataBlob", 1) + ","
-	}
-	repeatedStringForRawHistory += "}"
-	s := strings.Join([]string{`&GetWorkflowExecutionRawHistoryResponse{`,
-		`RawHistory:` + repeatedStringForRawHistory + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DescribeWorkflowExecutionRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&DescribeWorkflowExecutionRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DescribeWorkflowExecutionResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForPendingActivities := "[]*PendingActivityInfo{"
-	for _, f := range this.PendingActivities {
-		repeatedStringForPendingActivities += strings.Replace(fmt.Sprintf("%v", f), "PendingActivityInfo", "execution.PendingActivityInfo", 1) + ","
-	}
-	repeatedStringForPendingActivities += "}"
-	repeatedStringForPendingChildren := "[]*PendingChildExecutionInfo{"
-	for _, f := range this.PendingChildren {
-		repeatedStringForPendingChildren += strings.Replace(fmt.Sprintf("%v", f), "PendingChildExecutionInfo", "execution.PendingChildExecutionInfo", 1) + ","
-	}
-	repeatedStringForPendingChildren += "}"
-	s := strings.Join([]string{`&DescribeWorkflowExecutionResponse{`,
-		`ExecutionConfiguration:` + strings.Replace(fmt.Sprintf("%v", this.ExecutionConfiguration), "WorkflowExecutionConfiguration", "execution.WorkflowExecutionConfiguration", 1) + `,`,
-		`WorkflowExecutionInfo:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecutionInfo), "WorkflowExecutionInfo", "execution.WorkflowExecutionInfo", 1) + `,`,
-		`PendingActivities:` + repeatedStringForPendingActivities + `,`,
-		`PendingChildren:` + repeatedStringForPendingChildren + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DescribeTaskListRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&DescribeTaskListRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`TaskListType:` + fmt.Sprintf("%v", this.TaskListType) + `,`,
-		`IncludeTaskListStatus:` + fmt.Sprintf("%v", this.IncludeTaskListStatus) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DescribeTaskListResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForPollers := "[]*PollerInfo{"
-	for _, f := range this.Pollers {
-		repeatedStringForPollers += strings.Replace(fmt.Sprintf("%v", f), "PollerInfo", "tasklist.PollerInfo", 1) + ","
-	}
-	repeatedStringForPollers += "}"
-	s := strings.Join([]string{`&DescribeTaskListResponse{`,
-		`Pollers:` + repeatedStringForPollers + `,`,
-		`TaskListStatus:` + strings.Replace(fmt.Sprintf("%v", this.TaskListStatus), "TaskListStatus", "tasklist.TaskListStatus", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *GetClusterInfoRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&GetClusterInfoRequest{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *GetClusterInfoResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&GetClusterInfoResponse{`,
-		`SupportedClientVersions:` + strings.Replace(fmt.Sprintf("%v", this.SupportedClientVersions), "SupportedClientVersions", "version.SupportedClientVersions", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListTaskListPartitionsRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ListTaskListPartitionsRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListTaskListPartitionsResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForActivityTaskListPartitions := "[]*TaskListPartitionMetadata{"
-	for _, f := range this.ActivityTaskListPartitions {
-		repeatedStringForActivityTaskListPartitions += strings.Replace(fmt.Sprintf("%v", f), "TaskListPartitionMetadata", "tasklist.TaskListPartitionMetadata", 1) + ","
-	}
-	repeatedStringForActivityTaskListPartitions += "}"
-	repeatedStringForDecisionTaskListPartitions := "[]*TaskListPartitionMetadata{"
-	for _, f := range this.DecisionTaskListPartitions {
-		repeatedStringForDecisionTaskListPartitions += strings.Replace(fmt.Sprintf("%v", f), "TaskListPartitionMetadata", "tasklist.TaskListPartitionMetadata", 1) + ","
-	}
-	repeatedStringForDecisionTaskListPartitions += "}"
-	s := strings.Join([]string{`&ListTaskListPartitionsResponse{`,
-		`ActivityTaskListPartitions:` + repeatedStringForActivityTaskListPartitions + `,`,
-		`DecisionTaskListPartitions:` + repeatedStringForDecisionTaskListPartitions + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *PollForWorkflowExecutionRawHistoryRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&PollForWorkflowExecutionRawHistoryRequest{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`MaximumPageSize:` + fmt.Sprintf("%v", this.MaximumPageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`HistoryEventFilterType:` + fmt.Sprintf("%v", this.HistoryEventFilterType) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *PollForWorkflowExecutionRawHistoryResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForRawHistory := "[]*DataBlob{"
-	for _, f := range this.RawHistory {
-		repeatedStringForRawHistory += strings.Replace(fmt.Sprintf("%v", f), "DataBlob", "common.DataBlob", 1) + ","
-	}
-	repeatedStringForRawHistory += "}"
-	s := strings.Join([]string{`&PollForWorkflowExecutionRawHistoryResponse{`,
-		`RawHistory:` + repeatedStringForRawHistory + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func valueToStringRequestResponse(v interface{}) string {
-	rv := reflect.ValueOf(v)
-	if rv.IsNil() {
-		return "nil"
-	}
-	pv := reflect.Indirect(rv).Interface()
-	return fmt.Sprintf("*%v", pv)
 }
 func (m *RegisterNamespaceRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
