@@ -26,16 +26,12 @@
 package common
 
 import (
-	bytes "bytes"
 	encoding_binary "encoding/binary"
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_sortkeys "github.com/gogo/protobuf/sortkeys"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	reflect "reflect"
-	strings "strings"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -54,8 +50,9 @@ type DataBlob struct {
 	Data         []byte       `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 }
 
-func (m *DataBlob) Reset()      { *m = DataBlob{} }
-func (*DataBlob) ProtoMessage() {}
+func (m *DataBlob) Reset()         { *m = DataBlob{} }
+func (m *DataBlob) String() string { return proto.CompactTextString(m) }
+func (*DataBlob) ProtoMessage()    {}
 func (*DataBlob) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8de410db4f60bbbc, []int{0}
 }
@@ -104,8 +101,9 @@ type WorkflowType struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 }
 
-func (m *WorkflowType) Reset()      { *m = WorkflowType{} }
-func (*WorkflowType) ProtoMessage() {}
+func (m *WorkflowType) Reset()         { *m = WorkflowType{} }
+func (m *WorkflowType) String() string { return proto.CompactTextString(m) }
+func (*WorkflowType) ProtoMessage()    {}
 func (*WorkflowType) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8de410db4f60bbbc, []int{1}
 }
@@ -147,8 +145,9 @@ type ActivityType struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 }
 
-func (m *ActivityType) Reset()      { *m = ActivityType{} }
-func (*ActivityType) ProtoMessage() {}
+func (m *ActivityType) Reset()         { *m = ActivityType{} }
+func (m *ActivityType) String() string { return proto.CompactTextString(m) }
+func (*ActivityType) ProtoMessage()    {}
 func (*ActivityType) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8de410db4f60bbbc, []int{2}
 }
@@ -190,8 +189,9 @@ type SearchAttributes struct {
 	IndexedFields map[string][]byte `protobuf:"bytes,1,rep,name=indexedFields,proto3" json:"indexedFields,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
-func (m *SearchAttributes) Reset()      { *m = SearchAttributes{} }
-func (*SearchAttributes) ProtoMessage() {}
+func (m *SearchAttributes) Reset()         { *m = SearchAttributes{} }
+func (m *SearchAttributes) String() string { return proto.CompactTextString(m) }
+func (*SearchAttributes) ProtoMessage()    {}
 func (*SearchAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8de410db4f60bbbc, []int{3}
 }
@@ -233,8 +233,9 @@ type Memo struct {
 	Fields map[string][]byte `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
-func (m *Memo) Reset()      { *m = Memo{} }
-func (*Memo) ProtoMessage() {}
+func (m *Memo) Reset()         { *m = Memo{} }
+func (m *Memo) String() string { return proto.CompactTextString(m) }
+func (*Memo) ProtoMessage()    {}
 func (*Memo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8de410db4f60bbbc, []int{4}
 }
@@ -276,8 +277,9 @@ type Header struct {
 	Fields map[string][]byte `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
-func (m *Header) Reset()      { *m = Header{} }
-func (*Header) ProtoMessage() {}
+func (m *Header) Reset()         { *m = Header{} }
+func (m *Header) String() string { return proto.CompactTextString(m) }
+func (*Header) ProtoMessage()    {}
 func (*Header) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8de410db4f60bbbc, []int{5}
 }
@@ -334,8 +336,9 @@ type RetryPolicy struct {
 	ExpirationIntervalInSeconds int32 `protobuf:"varint,6,opt,name=expirationIntervalInSeconds,proto3" json:"expirationIntervalInSeconds,omitempty"`
 }
 
-func (m *RetryPolicy) Reset()      { *m = RetryPolicy{} }
-func (*RetryPolicy) ProtoMessage() {}
+func (m *RetryPolicy) Reset()         { *m = RetryPolicy{} }
+func (m *RetryPolicy) String() string { return proto.CompactTextString(m) }
+func (*RetryPolicy) ProtoMessage()    {}
 func (*RetryPolicy) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8de410db4f60bbbc, []int{6}
 }
@@ -424,368 +427,41 @@ func init() {
 func init() { proto.RegisterFile("common/message.proto", fileDescriptor_8de410db4f60bbbc) }
 
 var fileDescriptor_8de410db4f60bbbc = []byte{
-	// 528 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x93, 0xbf, 0x8e, 0xd3, 0x30,
-	0x1c, 0xc7, 0xe3, 0xeb, 0x1f, 0x71, 0x6e, 0x81, 0xc3, 0xea, 0x10, 0x15, 0xc9, 0xaa, 0x2a, 0x86,
-	0x48, 0x88, 0x14, 0x95, 0xe5, 0xb8, 0xe9, 0x7a, 0x50, 0xc4, 0x0d, 0x48, 0x47, 0x0e, 0x09, 0xc4,
-	0xe6, 0x26, 0xbf, 0x14, 0xab, 0x89, 0x5d, 0x39, 0x6e, 0xaf, 0xd9, 0x78, 0x04, 0xde, 0x02, 0x1e,
-	0x85, 0xb1, 0xe3, 0x2d, 0x48, 0x34, 0x5d, 0x18, 0xef, 0x11, 0x50, 0xfe, 0x54, 0xca, 0xb5, 0x94,
-	0x01, 0x31, 0xf5, 0x67, 0x7f, 0xbe, 0xf6, 0xe7, 0x6b, 0xa9, 0xc1, 0x2d, 0x57, 0x86, 0xa1, 0x14,
-	0xbd, 0x10, 0xa2, 0x88, 0x8d, 0xc1, 0x9e, 0x2a, 0xa9, 0x25, 0xa9, 0xe7, 0xbb, 0xed, 0x07, 0x05,
-	0x05, 0x31, 0x0b, 0x73, 0xd4, 0xfd, 0x80, 0xef, 0xbc, 0x64, 0x9a, 0x9d, 0x05, 0x72, 0x44, 0x8e,
-	0x71, 0x13, 0x84, 0x2b, 0x3d, 0x2e, 0xc6, 0xef, 0xe2, 0x29, 0x98, 0xa8, 0x83, 0xac, 0x7b, 0xfd,
-	0x96, 0x9d, 0x9f, 0xb2, 0x87, 0x25, 0xe6, 0xdc, 0x4a, 0x12, 0x82, 0xab, 0x1e, 0xd3, 0xcc, 0x3c,
-	0xe8, 0x20, 0xab, 0xe9, 0x64, 0x73, 0xb7, 0x8b, 0x9b, 0xef, 0xa5, 0x9a, 0xf8, 0x81, 0xbc, 0xda,
-	0x64, 0x04, 0x0b, 0xf3, 0x5b, 0x0f, 0x9d, 0x6c, 0x4e, 0x33, 0x03, 0x57, 0xf3, 0x39, 0xd7, 0xf1,
-	0xde, 0xcc, 0x57, 0x84, 0x8f, 0x2e, 0x81, 0x29, 0xf7, 0xd3, 0x40, 0x6b, 0xc5, 0x47, 0x33, 0x0d,
-	0x11, 0x79, 0x8b, 0xef, 0x72, 0xe1, 0xc1, 0x02, 0xbc, 0x57, 0x1c, 0x02, 0x2f, 0x32, 0x51, 0xa7,
-	0x62, 0x35, 0xfa, 0x8f, 0x37, 0x5d, 0xb7, 0x0f, 0xd8, 0xe7, 0xe5, 0xf4, 0x50, 0x68, 0x15, 0x3b,
-	0xb7, 0x6f, 0x68, 0x9f, 0x62, 0xb2, 0x1b, 0x22, 0x47, 0xb8, 0x32, 0x81, 0xb8, 0x28, 0x94, 0x8e,
-	0xa4, 0x85, 0x6b, 0x73, 0x16, 0xcc, 0xa0, 0x78, 0x6c, 0xbe, 0x38, 0x39, 0x38, 0x46, 0xdd, 0x08,
-	0x57, 0xdf, 0x40, 0x28, 0xc9, 0x53, 0x5c, 0xf7, 0xcb, 0xad, 0xcc, 0x4d, 0xab, 0x94, 0xda, 0xe5,
-	0x0a, 0x45, 0xae, 0xfd, 0x1c, 0x37, 0xfe, 0x55, 0x7a, 0x85, 0xeb, 0xaf, 0x81, 0x79, 0xa0, 0x48,
-	0x7f, 0x4b, 0xdb, 0xde, 0x68, 0x73, 0xfe, 0xbf, 0xc5, 0x3f, 0x0e, 0x70, 0xc3, 0x01, 0xad, 0xe2,
-	0x0b, 0x19, 0x70, 0x37, 0x26, 0x27, 0xd8, 0xe4, 0x82, 0x6b, 0xce, 0x82, 0x73, 0xa1, 0x41, 0xcd,
-	0xd3, 0xdf, 0x4b, 0x70, 0xa5, 0xc8, 0x0a, 0x21, 0xab, 0xe6, 0xec, 0xe5, 0xc4, 0xc6, 0x64, 0xc4,
-	0xdc, 0x89, 0xf4, 0xfd, 0x17, 0x12, 0x7c, 0x9f, 0xbb, 0x1c, 0x84, 0xce, 0x94, 0xc8, 0xf9, 0x03,
-	0x49, 0x5d, 0x21, 0x5b, 0xf0, 0x70, 0x16, 0xee, 0xba, 0x2a, 0xb9, 0x6b, 0x1f, 0x27, 0x16, 0xbe,
-	0x5f, 0xb0, 0x81, 0xd6, 0x10, 0x4e, 0x75, 0x64, 0x56, 0xb3, 0x23, 0xdb, 0xdb, 0xa9, 0x45, 0x48,
-	0x91, 0xbe, 0x91, 0xb3, 0x51, 0x00, 0x43, 0xa5, 0xa4, 0x72, 0x80, 0x45, 0x52, 0x44, 0x66, 0xad,
-	0x53, 0xb1, 0x0e, 0x9d, 0xbd, 0x9c, 0x9c, 0xe2, 0x87, 0xb0, 0x98, 0x72, 0xc5, 0x34, 0x97, 0x62,
-	0xb7, 0x64, 0x3d, 0x33, 0xfe, 0x2d, 0x72, 0x36, 0x5f, 0xae, 0xa8, 0x71, 0xbd, 0xa2, 0xc6, 0xcd,
-	0x8a, 0xa2, 0xcf, 0x09, 0x45, 0xdf, 0x12, 0x8a, 0xbe, 0x27, 0x14, 0x2d, 0x13, 0x8a, 0x7e, 0x26,
-	0x14, 0xfd, 0x4a, 0xa8, 0x71, 0x93, 0x50, 0xf4, 0x65, 0x4d, 0x8d, 0xe5, 0x9a, 0x1a, 0xd7, 0x6b,
-	0x6a, 0x60, 0x93, 0x4b, 0x3b, 0xad, 0x2f, 0x15, 0x0b, 0xf2, 0x4f, 0xbc, 0xf8, 0x17, 0x5c, 0xa0,
-	0x8f, 0x8f, 0xc6, 0x25, 0xc6, 0x65, 0x6f, 0x33, 0x3f, 0xc9, 0x72, 0xbd, 0x3c, 0x37, 0xaa, 0x67,
-	0xab, 0x67, 0xbf, 0x03, 0x00, 0x00, 0xff, 0xff, 0x32, 0x77, 0x97, 0x86, 0x4b, 0x04, 0x00, 0x00,
+	// 500 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x93, 0x4d, 0x6b, 0x13, 0x41,
+	0x18, 0xc7, 0x33, 0x79, 0xc3, 0x4e, 0xa2, 0xd6, 0x21, 0x87, 0x25, 0xc2, 0x12, 0x82, 0x87, 0x05,
+	0x71, 0x23, 0xf1, 0x52, 0x7b, 0x6a, 0xaa, 0x11, 0x7b, 0x10, 0xea, 0x56, 0x50, 0x7a, 0x9b, 0xec,
+	0x3e, 0x1b, 0x87, 0xec, 0xcc, 0x13, 0x66, 0x27, 0x69, 0xf6, 0x5b, 0xf8, 0x2d, 0xfc, 0x2a, 0x1e,
+	0x7b, 0xf4, 0x22, 0x48, 0xf2, 0x45, 0x64, 0x5f, 0x02, 0xdb, 0xc4, 0x78, 0x90, 0x9e, 0xf2, 0xcc,
+	0xfc, 0xfe, 0x33, 0xbf, 0xff, 0x10, 0x96, 0x76, 0x7c, 0x94, 0x12, 0xd5, 0x40, 0x42, 0x1c, 0xf3,
+	0x29, 0xb8, 0x73, 0x8d, 0x06, 0x59, 0x33, 0xdf, 0xed, 0x3e, 0x29, 0x28, 0xa8, 0x85, 0xcc, 0x51,
+	0xff, 0x0b, 0x7d, 0xf0, 0x96, 0x1b, 0x7e, 0x1e, 0xe1, 0x84, 0x9d, 0xd0, 0x36, 0x28, 0x1f, 0x03,
+	0xa1, 0xa6, 0x9f, 0x92, 0x39, 0x58, 0xa4, 0x47, 0x9c, 0x47, 0xc3, 0x8e, 0x9b, 0x9f, 0x72, 0xc7,
+	0x25, 0xe6, 0xdd, 0x49, 0x32, 0x46, 0xeb, 0x01, 0x37, 0xdc, 0xaa, 0xf6, 0x88, 0xd3, 0xf6, 0xb2,
+	0xb9, 0xdf, 0xa7, 0xed, 0xcf, 0xa8, 0x67, 0x61, 0x84, 0x37, 0xdb, 0x8c, 0xe2, 0x32, 0xbf, 0xf5,
+	0xc8, 0xcb, 0xe6, 0x34, 0x33, 0xf2, 0x8d, 0x58, 0x0a, 0x93, 0x1c, 0xcc, 0x7c, 0x27, 0xf4, 0xf8,
+	0x0a, 0xb8, 0xf6, 0xbf, 0x8e, 0x8c, 0xd1, 0x62, 0xb2, 0x30, 0x10, 0xb3, 0x8f, 0xf4, 0xa1, 0x50,
+	0x01, 0xac, 0x20, 0x78, 0x27, 0x20, 0x0a, 0x62, 0x8b, 0xf4, 0x6a, 0x4e, 0x6b, 0xf8, 0x7c, 0xdb,
+	0x75, 0xf7, 0x80, 0x7b, 0x51, 0x4e, 0x8f, 0x95, 0xd1, 0x89, 0x77, 0xf7, 0x86, 0xee, 0x19, 0x65,
+	0xfb, 0x21, 0x76, 0x4c, 0x6b, 0x33, 0x48, 0x8a, 0x42, 0xe9, 0xc8, 0x3a, 0xb4, 0xb1, 0xe4, 0xd1,
+	0x02, 0x8a, 0xc7, 0xe6, 0x8b, 0xd3, 0xea, 0x09, 0xe9, 0xc7, 0xb4, 0xfe, 0x01, 0x24, 0xb2, 0x97,
+	0xb4, 0x19, 0x96, 0x5b, 0x59, 0xdb, 0x56, 0x29, 0x75, 0xcb, 0x15, 0x8a, 0x5c, 0xf7, 0x35, 0x6d,
+	0xfd, 0xaf, 0xf4, 0x86, 0x36, 0xdf, 0x03, 0x0f, 0x40, 0xb3, 0xe1, 0x8e, 0xb6, 0xbb, 0xd5, 0xe6,
+	0xfc, 0xbe, 0xc5, 0xbf, 0xaa, 0xb4, 0xe5, 0x81, 0xd1, 0xc9, 0x25, 0x46, 0xc2, 0x4f, 0xd8, 0x29,
+	0xb5, 0x84, 0x12, 0x46, 0xf0, 0xe8, 0x42, 0x19, 0xd0, 0xcb, 0xf4, 0xf7, 0x0a, 0x7c, 0x54, 0x59,
+	0x21, 0xe2, 0x34, 0xbc, 0x83, 0x9c, 0xb9, 0x94, 0x4d, 0xb8, 0x3f, 0xc3, 0x30, 0x7c, 0x83, 0x10,
+	0x86, 0xc2, 0x17, 0xa0, 0x4c, 0xa6, 0x24, 0xde, 0x5f, 0x48, 0xea, 0x92, 0x7c, 0x25, 0xe4, 0x42,
+	0xee, 0xbb, 0x6a, 0xb9, 0xeb, 0x10, 0x67, 0x0e, 0x7d, 0x5c, 0xb0, 0x91, 0x31, 0x20, 0xe7, 0x26,
+	0xb6, 0xea, 0xd9, 0x91, 0xdd, 0xed, 0xd4, 0xa2, 0x50, 0xa5, 0x6f, 0x14, 0x7c, 0x12, 0xc1, 0x58,
+	0x6b, 0xd4, 0x1e, 0xf0, 0x18, 0x55, 0x6c, 0x35, 0x7a, 0x35, 0xe7, 0xc8, 0x3b, 0xc8, 0xd9, 0x19,
+	0x7d, 0x0a, 0xab, 0xb9, 0xd0, 0xdc, 0x08, 0x54, 0xfb, 0x25, 0x9b, 0x99, 0xf1, 0x5f, 0x91, 0xf3,
+	0xeb, 0x1f, 0x6b, 0x9b, 0xdc, 0xae, 0x6d, 0xf2, 0x7b, 0x6d, 0x93, 0x6f, 0x1b, 0xbb, 0x72, 0xbb,
+	0xb1, 0x2b, 0x3f, 0x37, 0x76, 0x85, 0x5a, 0x02, 0xdd, 0xb4, 0x22, 0x6a, 0x1e, 0xe5, 0x9f, 0x71,
+	0xf1, 0x4f, 0x5f, 0x92, 0xeb, 0x67, 0xd3, 0x12, 0x13, 0x38, 0xd8, 0xce, 0x2f, 0xb2, 0xdc, 0x20,
+	0xcf, 0x4d, 0x9a, 0xd9, 0xea, 0xd5, 0x9f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x96, 0x7d, 0xf0, 0x19,
+	0x2f, 0x04, 0x00, 0x00,
 }
 
-func (this *DataBlob) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DataBlob)
-	if !ok {
-		that2, ok := that.(DataBlob)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.EncodingType != that1.EncodingType {
-		return false
-	}
-	if !bytes.Equal(this.Data, that1.Data) {
-		return false
-	}
-	return true
-}
-func (this *WorkflowType) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*WorkflowType)
-	if !ok {
-		that2, ok := that.(WorkflowType)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Name != that1.Name {
-		return false
-	}
-	return true
-}
-func (this *ActivityType) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ActivityType)
-	if !ok {
-		that2, ok := that.(ActivityType)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Name != that1.Name {
-		return false
-	}
-	return true
-}
-func (this *SearchAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*SearchAttributes)
-	if !ok {
-		that2, ok := that.(SearchAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.IndexedFields) != len(that1.IndexedFields) {
-		return false
-	}
-	for i := range this.IndexedFields {
-		if !bytes.Equal(this.IndexedFields[i], that1.IndexedFields[i]) {
-			return false
-		}
-	}
-	return true
-}
-func (this *Memo) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Memo)
-	if !ok {
-		that2, ok := that.(Memo)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Fields) != len(that1.Fields) {
-		return false
-	}
-	for i := range this.Fields {
-		if !bytes.Equal(this.Fields[i], that1.Fields[i]) {
-			return false
-		}
-	}
-	return true
-}
-func (this *Header) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Header)
-	if !ok {
-		that2, ok := that.(Header)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.Fields) != len(that1.Fields) {
-		return false
-	}
-	for i := range this.Fields {
-		if !bytes.Equal(this.Fields[i], that1.Fields[i]) {
-			return false
-		}
-	}
-	return true
-}
-func (this *RetryPolicy) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RetryPolicy)
-	if !ok {
-		that2, ok := that.(RetryPolicy)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.InitialIntervalInSeconds != that1.InitialIntervalInSeconds {
-		return false
-	}
-	if this.BackoffCoefficient != that1.BackoffCoefficient {
-		return false
-	}
-	if this.MaximumIntervalInSeconds != that1.MaximumIntervalInSeconds {
-		return false
-	}
-	if this.MaximumAttempts != that1.MaximumAttempts {
-		return false
-	}
-	if len(this.NonRetriableErrorReasons) != len(that1.NonRetriableErrorReasons) {
-		return false
-	}
-	for i := range this.NonRetriableErrorReasons {
-		if this.NonRetriableErrorReasons[i] != that1.NonRetriableErrorReasons[i] {
-			return false
-		}
-	}
-	if this.ExpirationIntervalInSeconds != that1.ExpirationIntervalInSeconds {
-		return false
-	}
-	return true
-}
-func (this *DataBlob) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&common.DataBlob{")
-	s = append(s, "EncodingType: "+fmt.Sprintf("%#v", this.EncodingType)+",\n")
-	s = append(s, "Data: "+fmt.Sprintf("%#v", this.Data)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *WorkflowType) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&common.WorkflowType{")
-	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ActivityType) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&common.ActivityType{")
-	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *SearchAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&common.SearchAttributes{")
-	keysForIndexedFields := make([]string, 0, len(this.IndexedFields))
-	for k, _ := range this.IndexedFields {
-		keysForIndexedFields = append(keysForIndexedFields, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForIndexedFields)
-	mapStringForIndexedFields := "map[string][]byte{"
-	for _, k := range keysForIndexedFields {
-		mapStringForIndexedFields += fmt.Sprintf("%#v: %#v,", k, this.IndexedFields[k])
-	}
-	mapStringForIndexedFields += "}"
-	if this.IndexedFields != nil {
-		s = append(s, "IndexedFields: "+mapStringForIndexedFields+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *Memo) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&common.Memo{")
-	keysForFields := make([]string, 0, len(this.Fields))
-	for k, _ := range this.Fields {
-		keysForFields = append(keysForFields, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForFields)
-	mapStringForFields := "map[string][]byte{"
-	for _, k := range keysForFields {
-		mapStringForFields += fmt.Sprintf("%#v: %#v,", k, this.Fields[k])
-	}
-	mapStringForFields += "}"
-	if this.Fields != nil {
-		s = append(s, "Fields: "+mapStringForFields+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *Header) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&common.Header{")
-	keysForFields := make([]string, 0, len(this.Fields))
-	for k, _ := range this.Fields {
-		keysForFields = append(keysForFields, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForFields)
-	mapStringForFields := "map[string][]byte{"
-	for _, k := range keysForFields {
-		mapStringForFields += fmt.Sprintf("%#v: %#v,", k, this.Fields[k])
-	}
-	mapStringForFields += "}"
-	if this.Fields != nil {
-		s = append(s, "Fields: "+mapStringForFields+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RetryPolicy) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 10)
-	s = append(s, "&common.RetryPolicy{")
-	s = append(s, "InitialIntervalInSeconds: "+fmt.Sprintf("%#v", this.InitialIntervalInSeconds)+",\n")
-	s = append(s, "BackoffCoefficient: "+fmt.Sprintf("%#v", this.BackoffCoefficient)+",\n")
-	s = append(s, "MaximumIntervalInSeconds: "+fmt.Sprintf("%#v", this.MaximumIntervalInSeconds)+",\n")
-	s = append(s, "MaximumAttempts: "+fmt.Sprintf("%#v", this.MaximumAttempts)+",\n")
-	s = append(s, "NonRetriableErrorReasons: "+fmt.Sprintf("%#v", this.NonRetriableErrorReasons)+",\n")
-	s = append(s, "ExpirationIntervalInSeconds: "+fmt.Sprintf("%#v", this.ExpirationIntervalInSeconds)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func valueToGoStringMessage(v interface{}, typ string) string {
-	rv := reflect.ValueOf(v)
-	if rv.IsNil() {
-		return "nil"
-	}
-	pv := reflect.Indirect(rv).Interface()
-	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
-}
 func (m *DataBlob) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1222,120 +898,6 @@ func sovMessage(x uint64) (n int) {
 }
 func sozMessage(x uint64) (n int) {
 	return sovMessage(uint64((x << 1) ^ uint64((int64(x) >> 63))))
-}
-func (this *DataBlob) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&DataBlob{`,
-		`EncodingType:` + fmt.Sprintf("%v", this.EncodingType) + `,`,
-		`Data:` + fmt.Sprintf("%v", this.Data) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *WorkflowType) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&WorkflowType{`,
-		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ActivityType) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ActivityType{`,
-		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *SearchAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	keysForIndexedFields := make([]string, 0, len(this.IndexedFields))
-	for k, _ := range this.IndexedFields {
-		keysForIndexedFields = append(keysForIndexedFields, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForIndexedFields)
-	mapStringForIndexedFields := "map[string][]byte{"
-	for _, k := range keysForIndexedFields {
-		mapStringForIndexedFields += fmt.Sprintf("%v: %v,", k, this.IndexedFields[k])
-	}
-	mapStringForIndexedFields += "}"
-	s := strings.Join([]string{`&SearchAttributes{`,
-		`IndexedFields:` + mapStringForIndexedFields + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Memo) String() string {
-	if this == nil {
-		return "nil"
-	}
-	keysForFields := make([]string, 0, len(this.Fields))
-	for k, _ := range this.Fields {
-		keysForFields = append(keysForFields, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForFields)
-	mapStringForFields := "map[string][]byte{"
-	for _, k := range keysForFields {
-		mapStringForFields += fmt.Sprintf("%v: %v,", k, this.Fields[k])
-	}
-	mapStringForFields += "}"
-	s := strings.Join([]string{`&Memo{`,
-		`Fields:` + mapStringForFields + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Header) String() string {
-	if this == nil {
-		return "nil"
-	}
-	keysForFields := make([]string, 0, len(this.Fields))
-	for k, _ := range this.Fields {
-		keysForFields = append(keysForFields, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForFields)
-	mapStringForFields := "map[string][]byte{"
-	for _, k := range keysForFields {
-		mapStringForFields += fmt.Sprintf("%v: %v,", k, this.Fields[k])
-	}
-	mapStringForFields += "}"
-	s := strings.Join([]string{`&Header{`,
-		`Fields:` + mapStringForFields + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RetryPolicy) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RetryPolicy{`,
-		`InitialIntervalInSeconds:` + fmt.Sprintf("%v", this.InitialIntervalInSeconds) + `,`,
-		`BackoffCoefficient:` + fmt.Sprintf("%v", this.BackoffCoefficient) + `,`,
-		`MaximumIntervalInSeconds:` + fmt.Sprintf("%v", this.MaximumIntervalInSeconds) + `,`,
-		`MaximumAttempts:` + fmt.Sprintf("%v", this.MaximumAttempts) + `,`,
-		`NonRetriableErrorReasons:` + fmt.Sprintf("%v", this.NonRetriableErrorReasons) + `,`,
-		`ExpirationIntervalInSeconds:` + fmt.Sprintf("%v", this.ExpirationIntervalInSeconds) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func valueToStringMessage(v interface{}) string {
-	rv := reflect.ValueOf(v)
-	if rv.IsNil() {
-		return "nil"
-	}
-	pv := reflect.Indirect(rv).Interface()
-	return fmt.Sprintf("*%v", pv)
 }
 func (m *DataBlob) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)

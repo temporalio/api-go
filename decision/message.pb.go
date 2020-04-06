@@ -26,7 +26,6 @@
 package decision
 
 import (
-	bytes "bytes"
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
 	common "go.temporal.io/temporal-proto/common"
@@ -35,8 +34,6 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	reflect "reflect"
-	strings "strings"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -67,7 +64,8 @@ type ScheduleActivityTaskDecisionAttributes struct {
 func (m *ScheduleActivityTaskDecisionAttributes) Reset() {
 	*m = ScheduleActivityTaskDecisionAttributes{}
 }
-func (*ScheduleActivityTaskDecisionAttributes) ProtoMessage() {}
+func (m *ScheduleActivityTaskDecisionAttributes) String() string { return proto.CompactTextString(m) }
+func (*ScheduleActivityTaskDecisionAttributes) ProtoMessage()    {}
 func (*ScheduleActivityTaskDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{0}
 }
@@ -182,6 +180,9 @@ type RequestCancelActivityTaskDecisionAttributes struct {
 func (m *RequestCancelActivityTaskDecisionAttributes) Reset() {
 	*m = RequestCancelActivityTaskDecisionAttributes{}
 }
+func (m *RequestCancelActivityTaskDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
+}
 func (*RequestCancelActivityTaskDecisionAttributes) ProtoMessage() {}
 func (*RequestCancelActivityTaskDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{1}
@@ -225,8 +226,9 @@ type StartTimerDecisionAttributes struct {
 	StartToFireTimeoutSeconds int64  `protobuf:"varint,2,opt,name=startToFireTimeoutSeconds,proto3" json:"startToFireTimeoutSeconds,omitempty"`
 }
 
-func (m *StartTimerDecisionAttributes) Reset()      { *m = StartTimerDecisionAttributes{} }
-func (*StartTimerDecisionAttributes) ProtoMessage() {}
+func (m *StartTimerDecisionAttributes) Reset()         { *m = StartTimerDecisionAttributes{} }
+func (m *StartTimerDecisionAttributes) String() string { return proto.CompactTextString(m) }
+func (*StartTimerDecisionAttributes) ProtoMessage()    {}
 func (*StartTimerDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{2}
 }
@@ -278,6 +280,9 @@ type CompleteWorkflowExecutionDecisionAttributes struct {
 func (m *CompleteWorkflowExecutionDecisionAttributes) Reset() {
 	*m = CompleteWorkflowExecutionDecisionAttributes{}
 }
+func (m *CompleteWorkflowExecutionDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
+}
 func (*CompleteWorkflowExecutionDecisionAttributes) ProtoMessage() {}
 func (*CompleteWorkflowExecutionDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{3}
@@ -324,7 +329,8 @@ type FailWorkflowExecutionDecisionAttributes struct {
 func (m *FailWorkflowExecutionDecisionAttributes) Reset() {
 	*m = FailWorkflowExecutionDecisionAttributes{}
 }
-func (*FailWorkflowExecutionDecisionAttributes) ProtoMessage() {}
+func (m *FailWorkflowExecutionDecisionAttributes) String() string { return proto.CompactTextString(m) }
+func (*FailWorkflowExecutionDecisionAttributes) ProtoMessage()    {}
 func (*FailWorkflowExecutionDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{4}
 }
@@ -373,8 +379,9 @@ type CancelTimerDecisionAttributes struct {
 	TimerId string `protobuf:"bytes,1,opt,name=timerId,proto3" json:"timerId,omitempty"`
 }
 
-func (m *CancelTimerDecisionAttributes) Reset()      { *m = CancelTimerDecisionAttributes{} }
-func (*CancelTimerDecisionAttributes) ProtoMessage() {}
+func (m *CancelTimerDecisionAttributes) Reset()         { *m = CancelTimerDecisionAttributes{} }
+func (m *CancelTimerDecisionAttributes) String() string { return proto.CompactTextString(m) }
+func (*CancelTimerDecisionAttributes) ProtoMessage()    {}
 func (*CancelTimerDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{5}
 }
@@ -418,6 +425,9 @@ type CancelWorkflowExecutionDecisionAttributes struct {
 
 func (m *CancelWorkflowExecutionDecisionAttributes) Reset() {
 	*m = CancelWorkflowExecutionDecisionAttributes{}
+}
+func (m *CancelWorkflowExecutionDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
 }
 func (*CancelWorkflowExecutionDecisionAttributes) ProtoMessage() {}
 func (*CancelWorkflowExecutionDecisionAttributes) Descriptor() ([]byte, []int) {
@@ -467,6 +477,9 @@ type RequestCancelExternalWorkflowExecutionDecisionAttributes struct {
 
 func (m *RequestCancelExternalWorkflowExecutionDecisionAttributes) Reset() {
 	*m = RequestCancelExternalWorkflowExecutionDecisionAttributes{}
+}
+func (m *RequestCancelExternalWorkflowExecutionDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
 }
 func (*RequestCancelExternalWorkflowExecutionDecisionAttributes) ProtoMessage() {}
 func (*RequestCancelExternalWorkflowExecutionDecisionAttributes) Descriptor() ([]byte, []int) {
@@ -545,6 +558,9 @@ type SignalExternalWorkflowExecutionDecisionAttributes struct {
 
 func (m *SignalExternalWorkflowExecutionDecisionAttributes) Reset() {
 	*m = SignalExternalWorkflowExecutionDecisionAttributes{}
+}
+func (m *SignalExternalWorkflowExecutionDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
 }
 func (*SignalExternalWorkflowExecutionDecisionAttributes) ProtoMessage() {}
 func (*SignalExternalWorkflowExecutionDecisionAttributes) Descriptor() ([]byte, []int) {
@@ -626,6 +642,9 @@ type UpsertWorkflowSearchAttributesDecisionAttributes struct {
 func (m *UpsertWorkflowSearchAttributesDecisionAttributes) Reset() {
 	*m = UpsertWorkflowSearchAttributesDecisionAttributes{}
 }
+func (m *UpsertWorkflowSearchAttributesDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
+}
 func (*UpsertWorkflowSearchAttributesDecisionAttributes) ProtoMessage() {}
 func (*UpsertWorkflowSearchAttributesDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{9}
@@ -670,8 +689,9 @@ type RecordMarkerDecisionAttributes struct {
 	Header     *common.Header `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
 }
 
-func (m *RecordMarkerDecisionAttributes) Reset()      { *m = RecordMarkerDecisionAttributes{} }
-func (*RecordMarkerDecisionAttributes) ProtoMessage() {}
+func (m *RecordMarkerDecisionAttributes) Reset()         { *m = RecordMarkerDecisionAttributes{} }
+func (m *RecordMarkerDecisionAttributes) String() string { return proto.CompactTextString(m) }
+func (*RecordMarkerDecisionAttributes) ProtoMessage()    {}
 func (*RecordMarkerDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{10}
 }
@@ -743,6 +763,9 @@ type ContinueAsNewWorkflowExecutionDecisionAttributes struct {
 
 func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) Reset() {
 	*m = ContinueAsNewWorkflowExecutionDecisionAttributes{}
+}
+func (m *ContinueAsNewWorkflowExecutionDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
 }
 func (*ContinueAsNewWorkflowExecutionDecisionAttributes) ProtoMessage() {}
 func (*ContinueAsNewWorkflowExecutionDecisionAttributes) Descriptor() ([]byte, []int) {
@@ -901,6 +924,9 @@ type StartChildWorkflowExecutionDecisionAttributes struct {
 func (m *StartChildWorkflowExecutionDecisionAttributes) Reset() {
 	*m = StartChildWorkflowExecutionDecisionAttributes{}
 }
+func (m *StartChildWorkflowExecutionDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
+}
 func (*StartChildWorkflowExecutionDecisionAttributes) ProtoMessage() {}
 func (*StartChildWorkflowExecutionDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{12}
@@ -1056,8 +1082,9 @@ type Decision struct {
 	Attributes isDecision_Attributes `protobuf_oneof:"attributes"`
 }
 
-func (m *Decision) Reset()      { *m = Decision{} }
-func (*Decision) ProtoMessage() {}
+func (m *Decision) Reset()         { *m = Decision{} }
+func (m *Decision) String() string { return proto.CompactTextString(m) }
+func (*Decision) ProtoMessage()    {}
 func (*Decision) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{13}
 }
@@ -1090,7 +1117,6 @@ var xxx_messageInfo_Decision proto.InternalMessageInfo
 
 type isDecision_Attributes interface {
 	isDecision_Attributes()
-	Equal(interface{}) bool
 	MarshalTo([]byte) (int, error)
 	Size() int
 }
@@ -1278,8 +1304,9 @@ type StickyExecutionAttributes struct {
 	ScheduleToStartTimeoutSeconds int32              `protobuf:"varint,2,opt,name=scheduleToStartTimeoutSeconds,proto3" json:"scheduleToStartTimeoutSeconds,omitempty"`
 }
 
-func (m *StickyExecutionAttributes) Reset()      { *m = StickyExecutionAttributes{} }
-func (*StickyExecutionAttributes) ProtoMessage() {}
+func (m *StickyExecutionAttributes) Reset()         { *m = StickyExecutionAttributes{} }
+func (m *StickyExecutionAttributes) String() string { return proto.CompactTextString(m) }
+func (*StickyExecutionAttributes) ProtoMessage()    {}
 func (*StickyExecutionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{14}
 }
@@ -1345,1294 +1372,99 @@ func init() {
 func init() { proto.RegisterFile("decision/message.proto", fileDescriptor_ec8a6bcee89103f4) }
 
 var fileDescriptor_ec8a6bcee89103f4 = []byte{
-	// 1454 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x58, 0xcf, 0x6f, 0x1b, 0xc5,
-	0x17, 0xdf, 0xc9, 0x0f, 0x27, 0x7e, 0x76, 0xd3, 0x6f, 0xa7, 0xf9, 0xa6, 0x6e, 0x94, 0xac, 0x22,
-	0x83, 0xd2, 0x54, 0xa5, 0x4e, 0xea, 0xaa, 0x22, 0x84, 0x0a, 0x29, 0x4d, 0x52, 0x1c, 0x89, 0x96,
-	0x68, 0x1c, 0x54, 0x09, 0x4e, 0x93, 0xf5, 0xa4, 0x59, 0x65, 0xbd, 0x63, 0x66, 0x67, 0xdb, 0x86,
-	0x13, 0xe2, 0x08, 0x42, 0x42, 0xe2, 0xc4, 0x01, 0x71, 0xad, 0xe0, 0x6f, 0x40, 0xe2, 0x88, 0xc4,
-	0xa5, 0x27, 0xd4, 0x23, 0x75, 0x2f, 0x1c, 0x7b, 0xe7, 0x82, 0x76, 0x3c, 0x6b, 0xef, 0x6e, 0x9c,
-	0xcd, 0x6e, 0x28, 0x07, 0x6e, 0x3b, 0xef, 0x7d, 0xe6, 0xbd, 0x37, 0xef, 0xcd, 0x7b, 0x6f, 0xde,
-	0xc2, 0x4c, 0x8b, 0x59, 0xb6, 0x67, 0x73, 0x77, 0xb9, 0xcd, 0x3c, 0x8f, 0x3e, 0x64, 0xb5, 0x8e,
-	0xe0, 0x92, 0xe3, 0xc9, 0x90, 0x3e, 0x7b, 0xc1, 0xe2, 0xed, 0x36, 0x77, 0x97, 0x99, 0xeb, 0xb7,
-	0x7b, 0xcc, 0xd9, 0x8b, 0xfd, 0x4d, 0x11, 0xe2, 0xb4, 0xc6, 0xc5, 0xe4, 0xcc, 0xce, 0x48, 0xea,
-	0x1d, 0x3a, 0xb6, 0x27, 0x13, 0xf4, 0x4b, 0xec, 0x09, 0xb3, 0x7c, 0x79, 0x4c, 0x71, 0xf5, 0xb7,
-	0x31, 0x58, 0x6c, 0x5a, 0x07, 0xac, 0xe5, 0x3b, 0x6c, 0xdd, 0x92, 0xf6, 0x23, 0x5b, 0x1e, 0xed,
-	0x52, 0xef, 0x70, 0x53, 0xab, 0x5c, 0x97, 0x52, 0xd8, 0x7b, 0xbe, 0x64, 0x1e, 0x36, 0x01, 0xa8,
-	0x46, 0x6c, 0xb7, 0x2a, 0x68, 0x01, 0x2d, 0x15, 0x49, 0x84, 0x82, 0x57, 0xa1, 0x1c, 0xae, 0x76,
-	0x8f, 0x3a, 0xac, 0x32, 0xb2, 0x80, 0x96, 0x4a, 0xf5, 0xe9, 0x5a, 0xcf, 0xd0, 0xda, 0x7a, 0x84,
-	0x47, 0x62, 0x48, 0x3c, 0x07, 0x45, 0x97, 0xb6, 0x99, 0xd7, 0xa1, 0x16, 0xab, 0x8c, 0x2a, 0xc1,
-	0x03, 0x02, 0xae, 0xc1, 0x64, 0x70, 0xaa, 0x0f, 0x6c, 0x4f, 0x56, 0xc6, 0x94, 0x4c, 0x5c, 0x0b,
-	0x8f, 0x59, 0xdb, 0xd5, 0x1c, 0xd2, 0xc7, 0xe0, 0x69, 0x18, 0xb7, 0xdd, 0x8e, 0x2f, 0x2b, 0xe3,
-	0x0b, 0x68, 0xa9, 0x4c, 0x7a, 0x0b, 0xbc, 0x09, 0xf3, 0x9e, 0x3e, 0xe7, 0x2e, 0xdf, 0x70, 0xb8,
-	0xc7, 0x76, 0xed, 0x36, 0xe3, 0xbe, 0x6c, 0x32, 0x8b, 0xbb, 0x2d, 0xaf, 0x52, 0x58, 0x40, 0x4b,
-	0xe3, 0x24, 0x1d, 0x14, 0x97, 0xd2, 0x94, 0x54, 0xc8, 0x84, 0x94, 0x89, 0xa4, 0x94, 0x21, 0x20,
-	0xfc, 0x1e, 0xcc, 0x7a, 0x8a, 0x3c, 0xd4, 0x90, 0x49, 0x25, 0x22, 0x05, 0x81, 0x57, 0xe1, 0xd2,
-	0x01, 0xa3, 0x42, 0xee, 0x31, 0x9a, 0xd4, 0x5f, 0x54, 0x9b, 0x4f, 0x62, 0xe3, 0x5b, 0x50, 0x12,
-	0x4c, 0x8a, 0xa3, 0x1d, 0xee, 0xd8, 0xd6, 0x51, 0x05, 0x94, 0x3b, 0x2f, 0x86, 0x21, 0x22, 0x03,
-	0x16, 0x89, 0xe2, 0xf0, 0x22, 0x14, 0x0e, 0x18, 0x6d, 0x31, 0x51, 0x29, 0xa9, 0x1d, 0x53, 0xe1,
-	0x8e, 0x86, 0xa2, 0x12, 0xcd, 0xad, 0xde, 0x83, 0x6b, 0x84, 0x7d, 0xea, 0x33, 0x4f, 0x6e, 0x50,
-	0xd7, 0x62, 0xce, 0x3f, 0xbb, 0x51, 0xd5, 0x47, 0x30, 0xd7, 0x77, 0x9f, 0x18, 0xb2, 0xbf, 0x02,
-	0x13, 0x32, 0x60, 0xf5, 0x37, 0x87, 0x4b, 0x7c, 0x1b, 0x2e, 0x6b, 0xff, 0xdd, 0xb5, 0x45, 0xd2,
-	0xc1, 0xc1, 0xc5, 0x1c, 0x25, 0x27, 0x03, 0xaa, 0x5b, 0x70, 0x6d, 0x83, 0xb7, 0x3b, 0x0e, 0x93,
-	0xec, 0x01, 0x17, 0x87, 0xfb, 0x0e, 0x7f, 0xbc, 0x15, 0xe6, 0xcf, 0x10, 0x33, 0x66, 0xa0, 0x20,
-	0x98, 0xe7, 0x3b, 0x52, 0x59, 0x51, 0x26, 0x7a, 0x55, 0xfd, 0x04, 0xae, 0xdc, 0xa5, 0xb6, 0x93,
-	0x59, 0x04, 0xf5, 0xb8, 0xab, 0x0f, 0xa2, 0x57, 0xc1, 0x09, 0x5b, 0x4c, 0x52, 0xdb, 0xe9, 0x59,
-	0x5d, 0x26, 0xe1, 0xb2, 0xfa, 0x0e, 0xcc, 0xf7, 0x7c, 0x9c, 0xdb, 0x39, 0xd5, 0x2d, 0xb8, 0xda,
-	0xdb, 0x9a, 0xc5, 0xb2, 0x88, 0x05, 0x28, 0x6e, 0xc1, 0xef, 0x08, 0x56, 0x63, 0xd1, 0xde, 0x7a,
-	0x22, 0x99, 0x70, 0x69, 0x26, 0xb1, 0xb1, 0x94, 0x47, 0xc9, 0x94, 0x37, 0x01, 0x1e, 0x6b, 0x21,
-	0xdb, 0x2d, 0x75, 0xf2, 0x22, 0x89, 0x50, 0x82, 0x14, 0x17, 0xbe, 0xbb, 0xdd, 0xd2, 0xc5, 0xa2,
-	0xb7, 0x08, 0x4c, 0xb5, 0xb8, 0x2b, 0x05, 0x77, 0x54, 0x9d, 0x28, 0x93, 0x70, 0x89, 0xdf, 0x82,
-	0x0b, 0xd6, 0x81, 0xed, 0xb4, 0x42, 0xcb, 0x3e, 0x74, 0x9d, 0x23, 0x55, 0x1e, 0x26, 0xc9, 0x71,
-	0x46, 0xf5, 0xab, 0x11, 0xb8, 0xd1, 0xb4, 0x1f, 0xba, 0xf4, 0x35, 0x9e, 0x68, 0x0d, 0x8a, 0xfd,
-	0x12, 0xac, 0x2b, 0xe3, 0x5c, 0xad, 0x4f, 0xa9, 0x1d, 0x53, 0x40, 0x06, 0xf0, 0xc0, 0x1b, 0x9e,
-	0x32, 0xe7, 0x3e, 0x6d, 0x87, 0xf5, 0x31, 0x42, 0x19, 0x14, 0xbc, 0xb1, 0x68, 0xc1, 0x8b, 0x78,
-	0x63, 0x3c, 0x83, 0x37, 0x0a, 0x27, 0x79, 0xe3, 0x09, 0xac, 0x7c, 0xd4, 0xf1, 0x98, 0x90, 0x21,
-	0xb5, 0xc9, 0xa8, 0xb0, 0x0e, 0x06, 0x27, 0x1f, 0xe2, 0x8b, 0x4d, 0xf8, 0x9f, 0x97, 0x40, 0x29,
-	0x97, 0x94, 0xea, 0x95, 0xb0, 0x72, 0x24, 0xa5, 0x90, 0x63, 0x3b, 0xaa, 0x5f, 0x20, 0x30, 0x09,
-	0xb3, 0xb8, 0x68, 0xdd, 0xa3, 0xe2, 0x70, 0xe8, 0x25, 0x37, 0x01, 0xda, 0x8a, 0xa7, 0x5c, 0xa3,
-	0x2b, 0xc8, 0x80, 0x72, 0x72, 0xfe, 0x44, 0x4a, 0xda, 0x68, 0x6a, 0x49, 0xfb, 0xb9, 0x00, 0x2b,
-	0x1b, 0xdc, 0x95, 0xb6, 0xeb, 0xb3, 0x75, 0xef, 0x3e, 0x7b, 0x9c, 0xe5, 0x2e, 0xac, 0x42, 0x39,
-	0xbc, 0xad, 0xaa, 0x15, 0xa2, 0x78, 0x2b, 0x7c, 0x10, 0xe1, 0x91, 0x18, 0x32, 0xd6, 0xec, 0x46,
-	0xf2, 0x34, 0xbb, 0xd1, 0x68, 0xec, 0x77, 0xe0, 0x8d, 0xfe, 0xf5, 0x69, 0x9e, 0xdc, 0x69, 0xc6,
-	0x54, 0xb3, 0xc8, 0x02, 0xc5, 0x77, 0xc1, 0x0c, 0x74, 0xa6, 0x08, 0x1b, 0x57, 0xc2, 0x4e, 0x41,
-	0x05, 0x0d, 0x74, 0x8f, 0x5a, 0x87, 0x7c, 0x7f, 0x5f, 0x81, 0xb6, 0x5d, 0xc9, 0xc4, 0x23, 0xea,
-	0x6c, 0xbb, 0x89, 0x36, 0x9c, 0x0a, 0x4a, 0xb6, 0xb1, 0x89, 0x8c, 0x6d, 0xec, 0x36, 0x14, 0x6d,
-	0xd7, 0x96, 0x36, 0x95, 0x5c, 0xa8, 0x36, 0x3b, 0x55, 0x37, 0xc3, 0x4d, 0xb1, 0x18, 0x6f, 0x87,
-	0x28, 0x32, 0xd8, 0x80, 0xdf, 0x84, 0x73, 0xfb, 0xd4, 0x76, 0x7c, 0xc1, 0x48, 0xaf, 0x54, 0x17,
-	0xd5, 0x75, 0x8b, 0x13, 0xf1, 0x22, 0x4c, 0x69, 0xc2, 0xa6, 0xbe, 0x78, 0xa0, 0x22, 0x93, 0xa0,
-	0xe2, 0x3a, 0x4c, 0x3b, 0xd4, 0x93, 0xba, 0xcf, 0x04, 0x19, 0xdf, 0x6b, 0x21, 0x25, 0x85, 0x1e,
-	0xca, 0xc3, 0x55, 0x28, 0x5b, 0x82, 0xbb, 0xe1, 0x7b, 0xad, 0x52, 0x56, 0x06, 0xc4, 0x68, 0x91,
-	0x7b, 0x7d, 0x2e, 0xed, 0x5e, 0xe3, 0x05, 0x18, 0x6b, 0xb3, 0x36, 0xaf, 0x4c, 0x29, 0x54, 0x39,
-	0x44, 0xdd, 0x63, 0x6d, 0x4e, 0x14, 0x67, 0x68, 0x12, 0x9f, 0xcf, 0x9d, 0xc4, 0x3f, 0x16, 0xe0,
-	0xba, 0x8a, 0xe2, 0x46, 0xb4, 0xb2, 0xfc, 0x7b, 0xad, 0x21, 0x99, 0x7a, 0xa3, 0x67, 0x4a, 0xbd,
-	0xb3, 0xbf, 0x33, 0x33, 0xa6, 0x5e, 0xe1, 0x75, 0xa6, 0xde, 0x44, 0xa6, 0xd4, 0x7b, 0x1f, 0x2e,
-	0x74, 0xa8, 0x60, 0xae, 0x54, 0x4c, 0x9d, 0x3a, 0xbd, 0x2c, 0xb8, 0x1c, 0xba, 0x67, 0x27, 0x09,
-	0x20, 0xc7, 0xf7, 0x44, 0x3b, 0x4b, 0x31, 0xde, 0x59, 0x9a, 0xf0, 0xff, 0x41, 0x28, 0x08, 0xf3,
-	0xfb, 0x6a, 0x40, 0xa9, 0x99, 0x4f, 0x46, 0x21, 0x06, 0x22, 0xc3, 0xf7, 0x26, 0x93, 0xbd, 0x94,
-	0x31, 0xd9, 0xff, 0x8b, 0xc9, 0xf2, 0xd7, 0x79, 0x98, 0x0c, 0x33, 0x02, 0xaf, 0x41, 0x39, 0x1c,
-	0xfc, 0xfa, 0x4d, 0x64, 0xaa, 0x3e, 0x53, 0x0b, 0x89, 0xb5, 0xcd, 0x08, 0x97, 0xc4, 0xb0, 0xf8,
-	0x4b, 0x04, 0x8b, 0x5e, 0xa6, 0xb1, 0x4e, 0x77, 0x99, 0x95, 0x81, 0xd8, 0x6c, 0xe3, 0x60, 0xc3,
-	0x20, 0x19, 0x35, 0x60, 0x07, 0xe6, 0xbc, 0x94, 0x67, 0xbc, 0x4e, 0xd1, 0xc5, 0x88, 0x05, 0x29,
-	0xe8, 0x86, 0x41, 0x52, 0xa5, 0xe1, 0xef, 0x10, 0x5c, 0xb3, 0xb2, 0xbf, 0xde, 0x75, 0xaa, 0xdf,
-	0x1a, 0x68, 0xcf, 0xf1, 0xf4, 0x6f, 0x18, 0x24, 0x8f, 0x2e, 0xfc, 0x35, 0x82, 0x2b, 0xfb, 0xd9,
-	0x46, 0x02, 0x55, 0x55, 0x4a, 0xf5, 0x1b, 0x03, 0xbb, 0x32, 0xce, 0x12, 0x0d, 0x83, 0x64, 0xd5,
-	0xa1, 0x7c, 0x25, 0xb2, 0x0f, 0x6c, 0xaa, 0x6a, 0xc5, 0x7c, 0x95, 0x63, 0xda, 0x0b, 0x7c, 0x95,
-	0x43, 0x17, 0xe6, 0x30, 0x6f, 0xa5, 0x0d, 0x38, 0xba, 0xeb, 0x5f, 0x89, 0x04, 0x2e, 0x0d, 0xde,
-	0x30, 0x48, 0xba, 0x3c, 0xfc, 0x2d, 0x82, 0xab, 0x56, 0xd6, 0xb9, 0x48, 0x15, 0xce, 0x52, 0xfd,
-	0x66, 0x52, 0x7b, 0xb6, 0x00, 0x65, 0xd7, 0x83, 0x7f, 0x41, 0xb0, 0x2a, 0xce, 0x38, 0x65, 0xa9,
-	0xf2, 0x5c, 0xaa, 0xdf, 0x39, 0x21, 0x5e, 0x39, 0x24, 0x35, 0x0c, 0x72, 0x66, 0x2b, 0xb0, 0x00,
-	0x53, 0xa4, 0x3e, 0xe3, 0xf5, 0x7f, 0x88, 0xa5, 0xa8, 0x9d, 0x69, 0xf8, 0x86, 0x41, 0x4e, 0x91,
-	0x88, 0x9f, 0x22, 0x58, 0xb1, 0x72, 0x3e, 0xdb, 0x75, 0x6b, 0x59, 0x8b, 0x96, 0x82, 0x7c, 0x12,
-	0x1a, 0x06, 0xc9, 0xad, 0x15, 0xff, 0x80, 0xe0, 0xba, 0x97, 0xe7, 0x85, 0xa4, 0x5a, 0x59, 0xa9,
-	0xfe, 0x76, 0xa2, 0x60, 0x66, 0xdd, 0xde, 0x30, 0x48, 0x3e, 0x7d, 0xf8, 0x27, 0x04, 0x37, 0xbc,
-	0xbc, 0x03, 0xb1, 0x6e, 0xa9, 0xef, 0x46, 0xac, 0xcc, 0x2b, 0xa2, 0x61, 0x90, 0xfc, 0x7a, 0x55,
-	0xe8, 0xfd, 0x9c, 0x13, 0xab, 0xee, 0xec, 0x91, 0xd0, 0xe7, 0x9d, 0x79, 0x83, 0xd0, 0xe7, 0xd5,
-	0x7a, 0xa7, 0x0c, 0x40, 0x07, 0xdd, 0xff, 0x7b, 0x04, 0x97, 0x9b, 0xd2, 0xb6, 0x0e, 0x8f, 0xfa,
-	0xc7, 0x8b, 0x1c, 0x6b, 0x0d, 0xa6, 0x82, 0xf7, 0x11, 0x13, 0xe1, 0x53, 0x54, 0x4f, 0x95, 0xc3,
-	0x1e, 0xa9, 0x09, 0xe4, 0xe9, 0xbf, 0x2d, 0x47, 0x32, 0xfc, 0xb6, 0xbc, 0xf3, 0xd9, 0xb3, 0x17,
-	0xa6, 0xf1, 0xfc, 0x85, 0x69, 0xbc, 0x7a, 0x61, 0xa2, 0xcf, 0xbb, 0x26, 0x7a, 0xda, 0x35, 0xd1,
-	0xaf, 0x5d, 0x13, 0x3d, 0xeb, 0x9a, 0xe8, 0x8f, 0xae, 0x89, 0xfe, 0xec, 0x9a, 0xc6, 0xab, 0xae,
-	0x89, 0xbe, 0x79, 0x69, 0x1a, 0xcf, 0x5e, 0x9a, 0xc6, 0xf3, 0x97, 0xa6, 0x01, 0xb3, 0x36, 0xaf,
-	0x49, 0xd6, 0xee, 0x70, 0x41, 0x9d, 0xde, 0x4f, 0xe7, 0xbe, 0x93, 0x77, 0xd0, 0xc7, 0x8b, 0x0f,
-	0x23, 0x5c, 0x9b, 0x2f, 0x87, 0xdf, 0xd7, 0x15, 0x72, 0x39, 0x44, 0xee, 0x15, 0xd4, 0xfa, 0xe6,
-	0xdf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x83, 0x8e, 0xfd, 0x16, 0x41, 0x17, 0x00, 0x00,
+	// 1425 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x58, 0xcf, 0x6e, 0x1c, 0x45,
+	0x13, 0xdf, 0xf1, 0x9f, 0xb5, 0xb7, 0x76, 0xe3, 0x7c, 0xe9, 0xf8, 0x73, 0x36, 0x96, 0x3d, 0xb2,
+	0x16, 0xe4, 0x38, 0x0a, 0x59, 0x3b, 0x1b, 0x45, 0x18, 0x13, 0x21, 0x39, 0xb6, 0xc3, 0x5a, 0x22,
+	0xc1, 0xea, 0x35, 0x8a, 0x04, 0x12, 0x52, 0x7b, 0xb6, 0x1d, 0x8f, 0x3c, 0x33, 0xbd, 0x74, 0xf7,
+	0x24, 0xf1, 0x95, 0x23, 0x08, 0x09, 0x89, 0x13, 0x07, 0xc4, 0x15, 0xc1, 0x33, 0x20, 0x71, 0x44,
+	0xe2, 0x92, 0x13, 0xe2, 0x88, 0x92, 0xc7, 0xe0, 0x82, 0xa6, 0xb7, 0x7b, 0x77, 0x66, 0xbc, 0x9e,
+	0xcc, 0x98, 0x70, 0xe0, 0x36, 0x5d, 0xf5, 0xeb, 0xaa, 0xea, 0xaa, 0xae, 0xaa, 0xae, 0x81, 0xb9,
+	0x2e, 0x75, 0x5c, 0xe1, 0xb2, 0x60, 0xd5, 0xa7, 0x42, 0x90, 0xc7, 0xb4, 0xd9, 0xe3, 0x4c, 0x32,
+	0x34, 0x6d, 0xe8, 0xf3, 0x97, 0x1c, 0xe6, 0xfb, 0x2c, 0x58, 0xa5, 0x41, 0xe8, 0xf7, 0x99, 0xf3,
+	0x97, 0x07, 0x9b, 0x62, 0xc4, 0x59, 0x8d, 0x4b, 0xc8, 0x99, 0x9f, 0x93, 0x44, 0x1c, 0x7b, 0xae,
+	0x90, 0x29, 0xfa, 0x15, 0xfa, 0x8c, 0x3a, 0xa1, 0x3c, 0xa5, 0xb8, 0xf1, 0xdb, 0x04, 0x2c, 0x77,
+	0x9c, 0x23, 0xda, 0x0d, 0x3d, 0xba, 0xe9, 0x48, 0xf7, 0x89, 0x2b, 0x4f, 0xf6, 0x89, 0x38, 0xde,
+	0xd6, 0x2a, 0x37, 0xa5, 0xe4, 0xee, 0x41, 0x28, 0xa9, 0x40, 0x36, 0x00, 0xd1, 0x88, 0xdd, 0x6e,
+	0xdd, 0x5a, 0xb2, 0x56, 0x2a, 0x38, 0x46, 0x41, 0xeb, 0x50, 0x33, 0xab, 0xfd, 0x93, 0x1e, 0xad,
+	0x8f, 0x2d, 0x59, 0x2b, 0xd5, 0xd6, 0x6c, 0xb3, 0x6f, 0x68, 0x73, 0x33, 0xc6, 0xc3, 0x09, 0x24,
+	0x5a, 0x80, 0x4a, 0x40, 0x7c, 0x2a, 0x7a, 0xc4, 0xa1, 0xf5, 0x71, 0x25, 0x78, 0x48, 0x40, 0x4d,
+	0x98, 0x8e, 0x4e, 0xf5, 0x81, 0x2b, 0x64, 0x7d, 0x42, 0xc9, 0x44, 0x4d, 0x73, 0xcc, 0xe6, 0xbe,
+	0xe6, 0xe0, 0x01, 0x06, 0xcd, 0xc2, 0xa4, 0x1b, 0xf4, 0x42, 0x59, 0x9f, 0x5c, 0xb2, 0x56, 0x6a,
+	0xb8, 0xbf, 0x40, 0xdb, 0xb0, 0x28, 0xf4, 0x39, 0xf7, 0xd9, 0x96, 0xc7, 0x04, 0xdd, 0x77, 0x7d,
+	0xca, 0x42, 0xd9, 0xa1, 0x0e, 0x0b, 0xba, 0xa2, 0x5e, 0x5e, 0xb2, 0x56, 0x26, 0x71, 0x36, 0x28,
+	0x29, 0xa5, 0x23, 0x09, 0x97, 0x29, 0x29, 0x53, 0x69, 0x29, 0x23, 0x40, 0xe8, 0x3d, 0x98, 0x17,
+	0x8a, 0x3c, 0xd2, 0x90, 0x69, 0x25, 0x22, 0x03, 0x81, 0xd6, 0xe1, 0xca, 0x11, 0x25, 0x5c, 0x1e,
+	0x50, 0x92, 0xd6, 0x5f, 0x51, 0x9b, 0xcf, 0x62, 0xa3, 0x3b, 0x50, 0xe5, 0x54, 0xf2, 0x93, 0x3d,
+	0xe6, 0xb9, 0xce, 0x49, 0x1d, 0x94, 0x3b, 0x2f, 0x9b, 0x10, 0xe1, 0x21, 0x0b, 0xc7, 0x71, 0x68,
+	0x19, 0xca, 0x47, 0x94, 0x74, 0x29, 0xaf, 0x57, 0xd5, 0x8e, 0x19, 0xb3, 0xa3, 0xad, 0xa8, 0x58,
+	0x73, 0x1b, 0x0f, 0xe0, 0x06, 0xa6, 0x9f, 0x85, 0x54, 0xc8, 0x2d, 0x12, 0x38, 0xd4, 0xfb, 0x67,
+	0x37, 0xaa, 0xf1, 0x04, 0x16, 0x06, 0xee, 0xe3, 0x23, 0xf6, 0xd7, 0x61, 0x4a, 0x46, 0xac, 0xc1,
+	0x66, 0xb3, 0x44, 0x77, 0xe1, 0xaa, 0xf6, 0xdf, 0x7d, 0x97, 0xa7, 0x1d, 0x1c, 0x5d, 0xcc, 0x71,
+	0x7c, 0x36, 0xa0, 0xb1, 0x03, 0x37, 0xb6, 0x98, 0xdf, 0xf3, 0xa8, 0xa4, 0x8f, 0x18, 0x3f, 0x3e,
+	0xf4, 0xd8, 0xd3, 0x1d, 0x93, 0x3f, 0x23, 0xcc, 0x98, 0x83, 0x32, 0xa7, 0x22, 0xf4, 0xa4, 0xb2,
+	0xa2, 0x86, 0xf5, 0xaa, 0xf1, 0x09, 0x5c, 0xbb, 0x4f, 0x5c, 0x2f, 0xb7, 0x08, 0x22, 0x58, 0xa0,
+	0x0f, 0xa2, 0x57, 0xd1, 0x09, 0xbb, 0x54, 0x12, 0xd7, 0xeb, 0x5b, 0x5d, 0xc3, 0x66, 0xd9, 0x78,
+	0x07, 0x16, 0xfb, 0x3e, 0x2e, 0xec, 0x9c, 0xc6, 0x0e, 0x5c, 0xef, 0x6f, 0xcd, 0x63, 0x59, 0xcc,
+	0x02, 0x2b, 0x69, 0xc1, 0xef, 0x16, 0xac, 0x27, 0xa2, 0xbd, 0xf3, 0x4c, 0x52, 0x1e, 0x90, 0x5c,
+	0x62, 0x13, 0x29, 0x6f, 0xa5, 0x53, 0xde, 0x06, 0x78, 0xaa, 0x85, 0xec, 0x76, 0xd5, 0xc9, 0x2b,
+	0x38, 0x46, 0x89, 0x52, 0x9c, 0x87, 0xc1, 0x6e, 0x57, 0x17, 0x8b, 0xfe, 0x22, 0x32, 0xd5, 0x61,
+	0x81, 0xe4, 0xcc, 0x53, 0x75, 0xa2, 0x86, 0xcd, 0x12, 0xbd, 0x05, 0x97, 0x9c, 0x23, 0xd7, 0xeb,
+	0x1a, 0xcb, 0x3e, 0x0c, 0xbc, 0x13, 0x55, 0x1e, 0xa6, 0xf1, 0x69, 0x46, 0xe3, 0xcb, 0x31, 0xb8,
+	0xd5, 0x71, 0x1f, 0x07, 0xe4, 0x35, 0x9e, 0x68, 0x03, 0x2a, 0x83, 0x12, 0xac, 0x2b, 0xe3, 0x42,
+	0x73, 0x40, 0x69, 0x9e, 0x52, 0x80, 0x87, 0xf0, 0xc8, 0x1b, 0x42, 0x99, 0xf3, 0x90, 0xf8, 0xa6,
+	0x3e, 0xc6, 0x28, 0xc3, 0x82, 0x37, 0x11, 0x2f, 0x78, 0x31, 0x6f, 0x4c, 0xe6, 0xf0, 0x46, 0xf9,
+	0x2c, 0x6f, 0x3c, 0x83, 0xb5, 0x8f, 0x7a, 0x82, 0x72, 0x69, 0xa8, 0x1d, 0x4a, 0xb8, 0x73, 0x34,
+	0x3c, 0xf9, 0x08, 0x5f, 0x6c, 0xc3, 0xff, 0x44, 0x0a, 0xa5, 0x5c, 0x52, 0x6d, 0xd5, 0x4d, 0xe5,
+	0x48, 0x4b, 0xc1, 0xa7, 0x76, 0x34, 0x3e, 0xb7, 0xc0, 0xc6, 0xd4, 0x61, 0xbc, 0xfb, 0x80, 0xf0,
+	0xe3, 0x91, 0x97, 0xdc, 0x06, 0xf0, 0x15, 0x4f, 0xb9, 0x46, 0x57, 0x90, 0x21, 0xe5, 0xec, 0xfc,
+	0x89, 0x95, 0xb4, 0xf1, 0xcc, 0x92, 0xf6, 0x73, 0x19, 0xd6, 0xb6, 0x58, 0x20, 0xdd, 0x20, 0xa4,
+	0x9b, 0xe2, 0x21, 0x7d, 0x9a, 0xe7, 0x2e, 0xac, 0x43, 0xcd, 0xdc, 0x56, 0xd5, 0x0a, 0xad, 0x64,
+	0x2b, 0x7c, 0x14, 0xe3, 0xe1, 0x04, 0x32, 0xd1, 0xec, 0xc6, 0x8a, 0x34, 0xbb, 0xf1, 0x78, 0xec,
+	0xf7, 0xe0, 0x8d, 0xc1, 0xf5, 0xe9, 0x9c, 0xdd, 0x69, 0x26, 0x54, 0xb3, 0xc8, 0x03, 0x45, 0xf7,
+	0xc1, 0x8e, 0x74, 0x66, 0x08, 0x9b, 0x54, 0xc2, 0x5e, 0x81, 0x8a, 0x1a, 0xe8, 0x01, 0x71, 0x8e,
+	0xd9, 0xe1, 0xa1, 0x02, 0xed, 0x06, 0x92, 0xf2, 0x27, 0xc4, 0xdb, 0x0d, 0x52, 0x6d, 0x38, 0x13,
+	0x94, 0x6e, 0x63, 0x53, 0x39, 0xdb, 0xd8, 0x5d, 0xa8, 0xb8, 0x81, 0x2b, 0x5d, 0x22, 0x19, 0x57,
+	0x6d, 0x76, 0xa6, 0x65, 0x9b, 0x4d, 0x89, 0x18, 0xef, 0x1a, 0x14, 0x1e, 0x6e, 0x40, 0x6f, 0xc2,
+	0x85, 0x43, 0xe2, 0x7a, 0x21, 0xa7, 0xb8, 0x5f, 0xaa, 0x2b, 0xea, 0xba, 0x25, 0x89, 0x68, 0x19,
+	0x66, 0x34, 0x61, 0x5b, 0x5f, 0x3c, 0x50, 0x91, 0x49, 0x51, 0x51, 0x0b, 0x66, 0x3d, 0x22, 0xa4,
+	0xee, 0x33, 0x51, 0xc6, 0xf7, 0x5b, 0x48, 0x55, 0xa1, 0x47, 0xf2, 0x50, 0x03, 0x6a, 0x0e, 0x67,
+	0x81, 0x79, 0xaf, 0xd5, 0x6b, 0xca, 0x80, 0x04, 0x2d, 0x76, 0xaf, 0x2f, 0x64, 0xdd, 0x6b, 0xb4,
+	0x04, 0x13, 0x3e, 0xf5, 0x59, 0x7d, 0x46, 0xa1, 0x6a, 0x06, 0xf5, 0x80, 0xfa, 0x0c, 0x2b, 0xce,
+	0xc8, 0x24, 0xbe, 0x58, 0x38, 0x89, 0x7f, 0x2c, 0xc3, 0x4d, 0x15, 0xc5, 0xad, 0x78, 0x65, 0xf9,
+	0xf7, 0x5a, 0x43, 0x3a, 0xf5, 0xc6, 0xcf, 0x95, 0x7a, 0xe7, 0x7f, 0x67, 0xe6, 0x4c, 0xbd, 0xf2,
+	0xeb, 0x4c, 0xbd, 0xa9, 0x5c, 0xa9, 0xf7, 0x3e, 0x5c, 0xea, 0x11, 0x4e, 0x03, 0xa9, 0x98, 0x3a,
+	0x75, 0xfa, 0x59, 0x70, 0xd5, 0xb8, 0x67, 0x2f, 0x0d, 0xc0, 0xa7, 0xf7, 0xc4, 0x3b, 0x4b, 0x25,
+	0xd9, 0x59, 0x3a, 0xf0, 0xff, 0x61, 0x28, 0x30, 0x0d, 0x07, 0x6a, 0x40, 0xa9, 0x59, 0x4c, 0x47,
+	0x21, 0x01, 0xc2, 0xa3, 0xf7, 0xa6, 0x93, 0xbd, 0x9a, 0x33, 0xd9, 0xff, 0x8b, 0xc9, 0xf2, 0xd7,
+	0x45, 0x98, 0x36, 0x19, 0x81, 0x36, 0xa0, 0x66, 0x06, 0xbf, 0x41, 0x13, 0x99, 0x69, 0xcd, 0x35,
+	0x0d, 0xb1, 0xb9, 0x1d, 0xe3, 0xe2, 0x04, 0x16, 0x7d, 0x61, 0xc1, 0xb2, 0xc8, 0x35, 0xd6, 0xe9,
+	0x2e, 0xb3, 0x36, 0x14, 0x9b, 0x6f, 0x1c, 0x6c, 0x97, 0x70, 0x4e, 0x0d, 0xc8, 0x83, 0x05, 0x91,
+	0xf1, 0x8c, 0xd7, 0x29, 0xba, 0x1c, 0xb3, 0x20, 0x03, 0xdd, 0x2e, 0xe1, 0x4c, 0x69, 0xe8, 0x5b,
+	0x0b, 0x6e, 0x38, 0xf9, 0x5f, 0xef, 0x3a, 0xd5, 0xef, 0x0c, 0xb5, 0x17, 0x78, 0xfa, 0xb7, 0x4b,
+	0xb8, 0x88, 0x2e, 0xf4, 0x95, 0x05, 0xd7, 0x0e, 0xf3, 0x8d, 0x04, 0xaa, 0xaa, 0x54, 0x5b, 0xb7,
+	0x86, 0x76, 0xe5, 0x9c, 0x25, 0xda, 0x25, 0x9c, 0x57, 0x87, 0xf2, 0x15, 0xcf, 0x3f, 0xb0, 0xa9,
+	0xaa, 0x95, 0xf0, 0x55, 0x81, 0x69, 0x2f, 0xf2, 0x55, 0x01, 0x5d, 0x88, 0xc1, 0xa2, 0x93, 0x35,
+	0xe0, 0xe8, 0xae, 0x7f, 0x2d, 0x16, 0xb8, 0x2c, 0x78, 0xbb, 0x84, 0xb3, 0xe5, 0xa1, 0x6f, 0x2c,
+	0xb8, 0xee, 0xe4, 0x9d, 0x8b, 0x54, 0xe1, 0xac, 0xb6, 0x6e, 0xa7, 0xb5, 0xe7, 0x0b, 0x50, 0x7e,
+	0x3d, 0xe8, 0x17, 0x0b, 0xd6, 0xf9, 0x39, 0xa7, 0x2c, 0x55, 0x9e, 0xab, 0xad, 0x7b, 0x67, 0xc4,
+	0xab, 0x80, 0xa4, 0x76, 0x09, 0x9f, 0xdb, 0x0a, 0xc4, 0xc1, 0xe6, 0x99, 0xcf, 0x78, 0xfd, 0x1f,
+	0x62, 0x25, 0x6e, 0x67, 0x16, 0xbe, 0x5d, 0xc2, 0xaf, 0x90, 0x88, 0x7e, 0xb0, 0x60, 0xcd, 0x29,
+	0xf8, 0x6c, 0xd7, 0xad, 0x65, 0x23, 0x5e, 0x0a, 0x8a, 0x49, 0x68, 0x97, 0x70, 0x61, 0xad, 0xe8,
+	0x7b, 0x0b, 0x6e, 0x8a, 0x22, 0x2f, 0x24, 0xd5, 0xca, 0xaa, 0xad, 0xb7, 0x53, 0x05, 0x33, 0xef,
+	0xf6, 0x76, 0x09, 0x17, 0xd3, 0x87, 0x7e, 0xb2, 0xe0, 0x96, 0x28, 0x3a, 0x10, 0xeb, 0x96, 0xfa,
+	0x6e, 0xcc, 0xca, 0xa2, 0x22, 0xda, 0x25, 0x5c, 0x5c, 0xaf, 0x0a, 0x7d, 0x58, 0x70, 0x62, 0xd5,
+	0x9d, 0x3d, 0x16, 0xfa, 0xa2, 0x33, 0x6f, 0x14, 0xfa, 0xa2, 0x5a, 0xef, 0xd5, 0x00, 0xc8, 0xb0,
+	0xfb, 0x7f, 0x67, 0xc1, 0xd5, 0x8e, 0x74, 0x9d, 0xe3, 0x93, 0xc1, 0xf1, 0x62, 0xc7, 0xda, 0x80,
+	0x99, 0xe8, 0x7d, 0x44, 0xb9, 0x79, 0x8a, 0xea, 0xa9, 0x72, 0xd4, 0x23, 0x35, 0x85, 0x7c, 0xf5,
+	0x6f, 0xcb, 0xb1, 0x1c, 0xbf, 0x2d, 0xef, 0x7d, 0xfa, 0xeb, 0x0b, 0xdb, 0x7a, 0xfe, 0xc2, 0xb6,
+	0xfe, 0x7c, 0x61, 0x5b, 0x5f, 0xbf, 0xb4, 0x4b, 0xcf, 0x5f, 0xda, 0xa5, 0x3f, 0x5e, 0xda, 0x25,
+	0x98, 0x77, 0x59, 0x53, 0x52, 0xbf, 0xc7, 0x38, 0xf1, 0xfa, 0x3f, 0x96, 0x07, 0x8e, 0xdc, 0xb3,
+	0x3e, 0x5e, 0x7e, 0x1c, 0xe3, 0xba, 0x6c, 0xd5, 0x7c, 0xdf, 0x54, 0xc8, 0x55, 0x83, 0x3c, 0x28,
+	0xab, 0xf5, 0xed, 0xbf, 0x03, 0x00, 0x00, 0xff, 0xff, 0xfd, 0x2d, 0x73, 0x64, 0x25, 0x17, 0x00,
+	0x00,
 }
 
-func (this *ScheduleActivityTaskDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ScheduleActivityTaskDecisionAttributes)
-	if !ok {
-		that2, ok := that.(ScheduleActivityTaskDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.ActivityId != that1.ActivityId {
-		return false
-	}
-	if !this.ActivityType.Equal(that1.ActivityType) {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	if !bytes.Equal(this.Input, that1.Input) {
-		return false
-	}
-	if this.ScheduleToCloseTimeoutSeconds != that1.ScheduleToCloseTimeoutSeconds {
-		return false
-	}
-	if this.ScheduleToStartTimeoutSeconds != that1.ScheduleToStartTimeoutSeconds {
-		return false
-	}
-	if this.StartToCloseTimeoutSeconds != that1.StartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.HeartbeatTimeoutSeconds != that1.HeartbeatTimeoutSeconds {
-		return false
-	}
-	if !this.RetryPolicy.Equal(that1.RetryPolicy) {
-		return false
-	}
-	if !this.Header.Equal(that1.Header) {
-		return false
-	}
-	return true
-}
-func (this *RequestCancelActivityTaskDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RequestCancelActivityTaskDecisionAttributes)
-	if !ok {
-		that2, ok := that.(RequestCancelActivityTaskDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.ActivityId != that1.ActivityId {
-		return false
-	}
-	return true
-}
-func (this *StartTimerDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*StartTimerDecisionAttributes)
-	if !ok {
-		that2, ok := that.(StartTimerDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.TimerId != that1.TimerId {
-		return false
-	}
-	if this.StartToFireTimeoutSeconds != that1.StartToFireTimeoutSeconds {
-		return false
-	}
-	return true
-}
-func (this *CompleteWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*CompleteWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(CompleteWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.Result, that1.Result) {
-		return false
-	}
-	return true
-}
-func (this *FailWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*FailWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(FailWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Reason != that1.Reason {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	return true
-}
-func (this *CancelTimerDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*CancelTimerDecisionAttributes)
-	if !ok {
-		that2, ok := that.(CancelTimerDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.TimerId != that1.TimerId {
-		return false
-	}
-	return true
-}
-func (this *CancelWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*CancelWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(CancelWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	return true
-}
-func (this *RequestCancelExternalWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RequestCancelExternalWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(RequestCancelExternalWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	if !bytes.Equal(this.Control, that1.Control) {
-		return false
-	}
-	if this.ChildWorkflowOnly != that1.ChildWorkflowOnly {
-		return false
-	}
-	return true
-}
-func (this *SignalExternalWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*SignalExternalWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(SignalExternalWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if !this.Execution.Equal(that1.Execution) {
-		return false
-	}
-	if this.SignalName != that1.SignalName {
-		return false
-	}
-	if !bytes.Equal(this.Input, that1.Input) {
-		return false
-	}
-	if !bytes.Equal(this.Control, that1.Control) {
-		return false
-	}
-	if this.ChildWorkflowOnly != that1.ChildWorkflowOnly {
-		return false
-	}
-	return true
-}
-func (this *UpsertWorkflowSearchAttributesDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*UpsertWorkflowSearchAttributesDecisionAttributes)
-	if !ok {
-		that2, ok := that.(UpsertWorkflowSearchAttributesDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.SearchAttributes.Equal(that1.SearchAttributes) {
-		return false
-	}
-	return true
-}
-func (this *RecordMarkerDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RecordMarkerDecisionAttributes)
-	if !ok {
-		that2, ok := that.(RecordMarkerDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.MarkerName != that1.MarkerName {
-		return false
-	}
-	if !bytes.Equal(this.Details, that1.Details) {
-		return false
-	}
-	if !this.Header.Equal(that1.Header) {
-		return false
-	}
-	return true
-}
-func (this *ContinueAsNewWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ContinueAsNewWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(ContinueAsNewWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.WorkflowType.Equal(that1.WorkflowType) {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	if !bytes.Equal(this.Input, that1.Input) {
-		return false
-	}
-	if this.ExecutionStartToCloseTimeoutSeconds != that1.ExecutionStartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.TaskStartToCloseTimeoutSeconds != that1.TaskStartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.BackoffStartIntervalInSeconds != that1.BackoffStartIntervalInSeconds {
-		return false
-	}
-	if !this.RetryPolicy.Equal(that1.RetryPolicy) {
-		return false
-	}
-	if this.Initiator != that1.Initiator {
-		return false
-	}
-	if this.FailureReason != that1.FailureReason {
-		return false
-	}
-	if !bytes.Equal(this.FailureDetails, that1.FailureDetails) {
-		return false
-	}
-	if !bytes.Equal(this.LastCompletionResult, that1.LastCompletionResult) {
-		return false
-	}
-	if this.CronSchedule != that1.CronSchedule {
-		return false
-	}
-	if !this.Header.Equal(that1.Header) {
-		return false
-	}
-	if !this.Memo.Equal(that1.Memo) {
-		return false
-	}
-	if !this.SearchAttributes.Equal(that1.SearchAttributes) {
-		return false
-	}
-	return true
-}
-func (this *StartChildWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*StartChildWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(StartChildWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Namespace != that1.Namespace {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if !this.WorkflowType.Equal(that1.WorkflowType) {
-		return false
-	}
-	if !this.TaskList.Equal(that1.TaskList) {
-		return false
-	}
-	if !bytes.Equal(this.Input, that1.Input) {
-		return false
-	}
-	if this.ExecutionStartToCloseTimeoutSeconds != that1.ExecutionStartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.TaskStartToCloseTimeoutSeconds != that1.TaskStartToCloseTimeoutSeconds {
-		return false
-	}
-	if this.ParentClosePolicy != that1.ParentClosePolicy {
-		return false
-	}
-	if !bytes.Equal(this.Control, that1.Control) {
-		return false
-	}
-	if this.WorkflowIdReusePolicy != that1.WorkflowIdReusePolicy {
-		return false
-	}
-	if !this.RetryPolicy.Equal(that1.RetryPolicy) {
-		return false
-	}
-	if this.CronSchedule != that1.CronSchedule {
-		return false
-	}
-	if !this.Header.Equal(that1.Header) {
-		return false
-	}
-	if !this.Memo.Equal(that1.Memo) {
-		return false
-	}
-	if !this.SearchAttributes.Equal(that1.SearchAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision)
-	if !ok {
-		that2, ok := that.(Decision)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.DecisionType != that1.DecisionType {
-		return false
-	}
-	if that1.Attributes == nil {
-		if this.Attributes != nil {
-			return false
-		}
-	} else if this.Attributes == nil {
-		return false
-	} else if !this.Attributes.Equal(that1.Attributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_ScheduleActivityTaskDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_ScheduleActivityTaskDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_ScheduleActivityTaskDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.ScheduleActivityTaskDecisionAttributes.Equal(that1.ScheduleActivityTaskDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_StartTimerDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_StartTimerDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_StartTimerDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.StartTimerDecisionAttributes.Equal(that1.StartTimerDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_CompleteWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_CompleteWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_CompleteWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.CompleteWorkflowExecutionDecisionAttributes.Equal(that1.CompleteWorkflowExecutionDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_FailWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_FailWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_FailWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.FailWorkflowExecutionDecisionAttributes.Equal(that1.FailWorkflowExecutionDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_RequestCancelActivityTaskDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_RequestCancelActivityTaskDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_RequestCancelActivityTaskDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.RequestCancelActivityTaskDecisionAttributes.Equal(that1.RequestCancelActivityTaskDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_CancelTimerDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_CancelTimerDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_CancelTimerDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.CancelTimerDecisionAttributes.Equal(that1.CancelTimerDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_CancelWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_CancelWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_CancelWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.CancelWorkflowExecutionDecisionAttributes.Equal(that1.CancelWorkflowExecutionDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_RequestCancelExternalWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_RequestCancelExternalWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_RequestCancelExternalWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.RequestCancelExternalWorkflowExecutionDecisionAttributes.Equal(that1.RequestCancelExternalWorkflowExecutionDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_RecordMarkerDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_RecordMarkerDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_RecordMarkerDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.RecordMarkerDecisionAttributes.Equal(that1.RecordMarkerDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_ContinueAsNewWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_ContinueAsNewWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_ContinueAsNewWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.ContinueAsNewWorkflowExecutionDecisionAttributes.Equal(that1.ContinueAsNewWorkflowExecutionDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_StartChildWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_StartChildWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_StartChildWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.StartChildWorkflowExecutionDecisionAttributes.Equal(that1.StartChildWorkflowExecutionDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_SignalExternalWorkflowExecutionDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_SignalExternalWorkflowExecutionDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_SignalExternalWorkflowExecutionDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.SignalExternalWorkflowExecutionDecisionAttributes.Equal(that1.SignalExternalWorkflowExecutionDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *Decision_UpsertWorkflowSearchAttributesDecisionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*Decision_UpsertWorkflowSearchAttributesDecisionAttributes)
-	if !ok {
-		that2, ok := that.(Decision_UpsertWorkflowSearchAttributesDecisionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.UpsertWorkflowSearchAttributesDecisionAttributes.Equal(that1.UpsertWorkflowSearchAttributesDecisionAttributes) {
-		return false
-	}
-	return true
-}
-func (this *StickyExecutionAttributes) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*StickyExecutionAttributes)
-	if !ok {
-		that2, ok := that.(StickyExecutionAttributes)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !this.WorkerTaskList.Equal(that1.WorkerTaskList) {
-		return false
-	}
-	if this.ScheduleToStartTimeoutSeconds != that1.ScheduleToStartTimeoutSeconds {
-		return false
-	}
-	return true
-}
-func (this *ScheduleActivityTaskDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 15)
-	s = append(s, "&decision.ScheduleActivityTaskDecisionAttributes{")
-	s = append(s, "ActivityId: "+fmt.Sprintf("%#v", this.ActivityId)+",\n")
-	if this.ActivityType != nil {
-		s = append(s, "ActivityType: "+fmt.Sprintf("%#v", this.ActivityType)+",\n")
-	}
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "Input: "+fmt.Sprintf("%#v", this.Input)+",\n")
-	s = append(s, "ScheduleToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.ScheduleToCloseTimeoutSeconds)+",\n")
-	s = append(s, "ScheduleToStartTimeoutSeconds: "+fmt.Sprintf("%#v", this.ScheduleToStartTimeoutSeconds)+",\n")
-	s = append(s, "StartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.StartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "HeartbeatTimeoutSeconds: "+fmt.Sprintf("%#v", this.HeartbeatTimeoutSeconds)+",\n")
-	if this.RetryPolicy != nil {
-		s = append(s, "RetryPolicy: "+fmt.Sprintf("%#v", this.RetryPolicy)+",\n")
-	}
-	if this.Header != nil {
-		s = append(s, "Header: "+fmt.Sprintf("%#v", this.Header)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RequestCancelActivityTaskDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&decision.RequestCancelActivityTaskDecisionAttributes{")
-	s = append(s, "ActivityId: "+fmt.Sprintf("%#v", this.ActivityId)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *StartTimerDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&decision.StartTimerDecisionAttributes{")
-	s = append(s, "TimerId: "+fmt.Sprintf("%#v", this.TimerId)+",\n")
-	s = append(s, "StartToFireTimeoutSeconds: "+fmt.Sprintf("%#v", this.StartToFireTimeoutSeconds)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *CompleteWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&decision.CompleteWorkflowExecutionDecisionAttributes{")
-	s = append(s, "Result: "+fmt.Sprintf("%#v", this.Result)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *FailWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&decision.FailWorkflowExecutionDecisionAttributes{")
-	s = append(s, "Reason: "+fmt.Sprintf("%#v", this.Reason)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *CancelTimerDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&decision.CancelTimerDecisionAttributes{")
-	s = append(s, "TimerId: "+fmt.Sprintf("%#v", this.TimerId)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *CancelWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&decision.CancelWorkflowExecutionDecisionAttributes{")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RequestCancelExternalWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 9)
-	s = append(s, "&decision.RequestCancelExternalWorkflowExecutionDecisionAttributes{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "Control: "+fmt.Sprintf("%#v", this.Control)+",\n")
-	s = append(s, "ChildWorkflowOnly: "+fmt.Sprintf("%#v", this.ChildWorkflowOnly)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *SignalExternalWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 10)
-	s = append(s, "&decision.SignalExternalWorkflowExecutionDecisionAttributes{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	if this.Execution != nil {
-		s = append(s, "Execution: "+fmt.Sprintf("%#v", this.Execution)+",\n")
-	}
-	s = append(s, "SignalName: "+fmt.Sprintf("%#v", this.SignalName)+",\n")
-	s = append(s, "Input: "+fmt.Sprintf("%#v", this.Input)+",\n")
-	s = append(s, "Control: "+fmt.Sprintf("%#v", this.Control)+",\n")
-	s = append(s, "ChildWorkflowOnly: "+fmt.Sprintf("%#v", this.ChildWorkflowOnly)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *UpsertWorkflowSearchAttributesDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&decision.UpsertWorkflowSearchAttributesDecisionAttributes{")
-	if this.SearchAttributes != nil {
-		s = append(s, "SearchAttributes: "+fmt.Sprintf("%#v", this.SearchAttributes)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RecordMarkerDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 7)
-	s = append(s, "&decision.RecordMarkerDecisionAttributes{")
-	s = append(s, "MarkerName: "+fmt.Sprintf("%#v", this.MarkerName)+",\n")
-	s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
-	if this.Header != nil {
-		s = append(s, "Header: "+fmt.Sprintf("%#v", this.Header)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ContinueAsNewWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 19)
-	s = append(s, "&decision.ContinueAsNewWorkflowExecutionDecisionAttributes{")
-	if this.WorkflowType != nil {
-		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
-	}
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "Input: "+fmt.Sprintf("%#v", this.Input)+",\n")
-	s = append(s, "ExecutionStartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.ExecutionStartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "TaskStartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.TaskStartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "BackoffStartIntervalInSeconds: "+fmt.Sprintf("%#v", this.BackoffStartIntervalInSeconds)+",\n")
-	if this.RetryPolicy != nil {
-		s = append(s, "RetryPolicy: "+fmt.Sprintf("%#v", this.RetryPolicy)+",\n")
-	}
-	s = append(s, "Initiator: "+fmt.Sprintf("%#v", this.Initiator)+",\n")
-	s = append(s, "FailureReason: "+fmt.Sprintf("%#v", this.FailureReason)+",\n")
-	s = append(s, "FailureDetails: "+fmt.Sprintf("%#v", this.FailureDetails)+",\n")
-	s = append(s, "LastCompletionResult: "+fmt.Sprintf("%#v", this.LastCompletionResult)+",\n")
-	s = append(s, "CronSchedule: "+fmt.Sprintf("%#v", this.CronSchedule)+",\n")
-	if this.Header != nil {
-		s = append(s, "Header: "+fmt.Sprintf("%#v", this.Header)+",\n")
-	}
-	if this.Memo != nil {
-		s = append(s, "Memo: "+fmt.Sprintf("%#v", this.Memo)+",\n")
-	}
-	if this.SearchAttributes != nil {
-		s = append(s, "SearchAttributes: "+fmt.Sprintf("%#v", this.SearchAttributes)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *StartChildWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 19)
-	s = append(s, "&decision.StartChildWorkflowExecutionDecisionAttributes{")
-	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	if this.WorkflowType != nil {
-		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
-	}
-	if this.TaskList != nil {
-		s = append(s, "TaskList: "+fmt.Sprintf("%#v", this.TaskList)+",\n")
-	}
-	s = append(s, "Input: "+fmt.Sprintf("%#v", this.Input)+",\n")
-	s = append(s, "ExecutionStartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.ExecutionStartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "TaskStartToCloseTimeoutSeconds: "+fmt.Sprintf("%#v", this.TaskStartToCloseTimeoutSeconds)+",\n")
-	s = append(s, "ParentClosePolicy: "+fmt.Sprintf("%#v", this.ParentClosePolicy)+",\n")
-	s = append(s, "Control: "+fmt.Sprintf("%#v", this.Control)+",\n")
-	s = append(s, "WorkflowIdReusePolicy: "+fmt.Sprintf("%#v", this.WorkflowIdReusePolicy)+",\n")
-	if this.RetryPolicy != nil {
-		s = append(s, "RetryPolicy: "+fmt.Sprintf("%#v", this.RetryPolicy)+",\n")
-	}
-	s = append(s, "CronSchedule: "+fmt.Sprintf("%#v", this.CronSchedule)+",\n")
-	if this.Header != nil {
-		s = append(s, "Header: "+fmt.Sprintf("%#v", this.Header)+",\n")
-	}
-	if this.Memo != nil {
-		s = append(s, "Memo: "+fmt.Sprintf("%#v", this.Memo)+",\n")
-	}
-	if this.SearchAttributes != nil {
-		s = append(s, "SearchAttributes: "+fmt.Sprintf("%#v", this.SearchAttributes)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *Decision) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 18)
-	s = append(s, "&decision.Decision{")
-	s = append(s, "DecisionType: "+fmt.Sprintf("%#v", this.DecisionType)+",\n")
-	if this.Attributes != nil {
-		s = append(s, "Attributes: "+fmt.Sprintf("%#v", this.Attributes)+",\n")
-	}
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *Decision_ScheduleActivityTaskDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_ScheduleActivityTaskDecisionAttributes{` +
-		`ScheduleActivityTaskDecisionAttributes:` + fmt.Sprintf("%#v", this.ScheduleActivityTaskDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_StartTimerDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_StartTimerDecisionAttributes{` +
-		`StartTimerDecisionAttributes:` + fmt.Sprintf("%#v", this.StartTimerDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_CompleteWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_CompleteWorkflowExecutionDecisionAttributes{` +
-		`CompleteWorkflowExecutionDecisionAttributes:` + fmt.Sprintf("%#v", this.CompleteWorkflowExecutionDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_FailWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_FailWorkflowExecutionDecisionAttributes{` +
-		`FailWorkflowExecutionDecisionAttributes:` + fmt.Sprintf("%#v", this.FailWorkflowExecutionDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_RequestCancelActivityTaskDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_RequestCancelActivityTaskDecisionAttributes{` +
-		`RequestCancelActivityTaskDecisionAttributes:` + fmt.Sprintf("%#v", this.RequestCancelActivityTaskDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_CancelTimerDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_CancelTimerDecisionAttributes{` +
-		`CancelTimerDecisionAttributes:` + fmt.Sprintf("%#v", this.CancelTimerDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_CancelWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_CancelWorkflowExecutionDecisionAttributes{` +
-		`CancelWorkflowExecutionDecisionAttributes:` + fmt.Sprintf("%#v", this.CancelWorkflowExecutionDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_RequestCancelExternalWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_RequestCancelExternalWorkflowExecutionDecisionAttributes{` +
-		`RequestCancelExternalWorkflowExecutionDecisionAttributes:` + fmt.Sprintf("%#v", this.RequestCancelExternalWorkflowExecutionDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_RecordMarkerDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_RecordMarkerDecisionAttributes{` +
-		`RecordMarkerDecisionAttributes:` + fmt.Sprintf("%#v", this.RecordMarkerDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_ContinueAsNewWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_ContinueAsNewWorkflowExecutionDecisionAttributes{` +
-		`ContinueAsNewWorkflowExecutionDecisionAttributes:` + fmt.Sprintf("%#v", this.ContinueAsNewWorkflowExecutionDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_StartChildWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_StartChildWorkflowExecutionDecisionAttributes{` +
-		`StartChildWorkflowExecutionDecisionAttributes:` + fmt.Sprintf("%#v", this.StartChildWorkflowExecutionDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_SignalExternalWorkflowExecutionDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_SignalExternalWorkflowExecutionDecisionAttributes{` +
-		`SignalExternalWorkflowExecutionDecisionAttributes:` + fmt.Sprintf("%#v", this.SignalExternalWorkflowExecutionDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *Decision_UpsertWorkflowSearchAttributesDecisionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&decision.Decision_UpsertWorkflowSearchAttributesDecisionAttributes{` +
-		`UpsertWorkflowSearchAttributesDecisionAttributes:` + fmt.Sprintf("%#v", this.UpsertWorkflowSearchAttributesDecisionAttributes) + `}`}, ", ")
-	return s
-}
-func (this *StickyExecutionAttributes) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&decision.StickyExecutionAttributes{")
-	if this.WorkerTaskList != nil {
-		s = append(s, "WorkerTaskList: "+fmt.Sprintf("%#v", this.WorkerTaskList)+",\n")
-	}
-	s = append(s, "ScheduleToStartTimeoutSeconds: "+fmt.Sprintf("%#v", this.ScheduleToStartTimeoutSeconds)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func valueToGoStringMessage(v interface{}, typ string) string {
-	rv := reflect.ValueOf(v)
-	if rv.IsNil() {
-		return "nil"
-	}
-	pv := reflect.Indirect(rv).Interface()
-	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
-}
 func (m *ScheduleActivityTaskDecisionAttributes) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -4366,347 +3198,6 @@ func sovMessage(x uint64) (n int) {
 }
 func sozMessage(x uint64) (n int) {
 	return sovMessage(uint64((x << 1) ^ uint64((int64(x) >> 63))))
-}
-func (this *ScheduleActivityTaskDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ScheduleActivityTaskDecisionAttributes{`,
-		`ActivityId:` + fmt.Sprintf("%v", this.ActivityId) + `,`,
-		`ActivityType:` + strings.Replace(fmt.Sprintf("%v", this.ActivityType), "ActivityType", "common.ActivityType", 1) + `,`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
-		`ScheduleToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.ScheduleToCloseTimeoutSeconds) + `,`,
-		`ScheduleToStartTimeoutSeconds:` + fmt.Sprintf("%v", this.ScheduleToStartTimeoutSeconds) + `,`,
-		`StartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.StartToCloseTimeoutSeconds) + `,`,
-		`HeartbeatTimeoutSeconds:` + fmt.Sprintf("%v", this.HeartbeatTimeoutSeconds) + `,`,
-		`RetryPolicy:` + strings.Replace(fmt.Sprintf("%v", this.RetryPolicy), "RetryPolicy", "common.RetryPolicy", 1) + `,`,
-		`Header:` + strings.Replace(fmt.Sprintf("%v", this.Header), "Header", "common.Header", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RequestCancelActivityTaskDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RequestCancelActivityTaskDecisionAttributes{`,
-		`ActivityId:` + fmt.Sprintf("%v", this.ActivityId) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *StartTimerDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&StartTimerDecisionAttributes{`,
-		`TimerId:` + fmt.Sprintf("%v", this.TimerId) + `,`,
-		`StartToFireTimeoutSeconds:` + fmt.Sprintf("%v", this.StartToFireTimeoutSeconds) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *CompleteWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&CompleteWorkflowExecutionDecisionAttributes{`,
-		`Result:` + fmt.Sprintf("%v", this.Result) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *FailWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&FailWorkflowExecutionDecisionAttributes{`,
-		`Reason:` + fmt.Sprintf("%v", this.Reason) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *CancelTimerDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&CancelTimerDecisionAttributes{`,
-		`TimerId:` + fmt.Sprintf("%v", this.TimerId) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *CancelWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&CancelWorkflowExecutionDecisionAttributes{`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RequestCancelExternalWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RequestCancelExternalWorkflowExecutionDecisionAttributes{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`Control:` + fmt.Sprintf("%v", this.Control) + `,`,
-		`ChildWorkflowOnly:` + fmt.Sprintf("%v", this.ChildWorkflowOnly) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *SignalExternalWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&SignalExternalWorkflowExecutionDecisionAttributes{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "execution.WorkflowExecution", 1) + `,`,
-		`SignalName:` + fmt.Sprintf("%v", this.SignalName) + `,`,
-		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
-		`Control:` + fmt.Sprintf("%v", this.Control) + `,`,
-		`ChildWorkflowOnly:` + fmt.Sprintf("%v", this.ChildWorkflowOnly) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *UpsertWorkflowSearchAttributesDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&UpsertWorkflowSearchAttributesDecisionAttributes{`,
-		`SearchAttributes:` + strings.Replace(fmt.Sprintf("%v", this.SearchAttributes), "SearchAttributes", "common.SearchAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RecordMarkerDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RecordMarkerDecisionAttributes{`,
-		`MarkerName:` + fmt.Sprintf("%v", this.MarkerName) + `,`,
-		`Details:` + fmt.Sprintf("%v", this.Details) + `,`,
-		`Header:` + strings.Replace(fmt.Sprintf("%v", this.Header), "Header", "common.Header", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ContinueAsNewWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ContinueAsNewWorkflowExecutionDecisionAttributes{`,
-		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
-		`ExecutionStartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.ExecutionStartToCloseTimeoutSeconds) + `,`,
-		`TaskStartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.TaskStartToCloseTimeoutSeconds) + `,`,
-		`BackoffStartIntervalInSeconds:` + fmt.Sprintf("%v", this.BackoffStartIntervalInSeconds) + `,`,
-		`RetryPolicy:` + strings.Replace(fmt.Sprintf("%v", this.RetryPolicy), "RetryPolicy", "common.RetryPolicy", 1) + `,`,
-		`Initiator:` + fmt.Sprintf("%v", this.Initiator) + `,`,
-		`FailureReason:` + fmt.Sprintf("%v", this.FailureReason) + `,`,
-		`FailureDetails:` + fmt.Sprintf("%v", this.FailureDetails) + `,`,
-		`LastCompletionResult:` + fmt.Sprintf("%v", this.LastCompletionResult) + `,`,
-		`CronSchedule:` + fmt.Sprintf("%v", this.CronSchedule) + `,`,
-		`Header:` + strings.Replace(fmt.Sprintf("%v", this.Header), "Header", "common.Header", 1) + `,`,
-		`Memo:` + strings.Replace(fmt.Sprintf("%v", this.Memo), "Memo", "common.Memo", 1) + `,`,
-		`SearchAttributes:` + strings.Replace(fmt.Sprintf("%v", this.SearchAttributes), "SearchAttributes", "common.SearchAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *StartChildWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&StartChildWorkflowExecutionDecisionAttributes{`,
-		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
-		`TaskList:` + strings.Replace(fmt.Sprintf("%v", this.TaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`Input:` + fmt.Sprintf("%v", this.Input) + `,`,
-		`ExecutionStartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.ExecutionStartToCloseTimeoutSeconds) + `,`,
-		`TaskStartToCloseTimeoutSeconds:` + fmt.Sprintf("%v", this.TaskStartToCloseTimeoutSeconds) + `,`,
-		`ParentClosePolicy:` + fmt.Sprintf("%v", this.ParentClosePolicy) + `,`,
-		`Control:` + fmt.Sprintf("%v", this.Control) + `,`,
-		`WorkflowIdReusePolicy:` + fmt.Sprintf("%v", this.WorkflowIdReusePolicy) + `,`,
-		`RetryPolicy:` + strings.Replace(fmt.Sprintf("%v", this.RetryPolicy), "RetryPolicy", "common.RetryPolicy", 1) + `,`,
-		`CronSchedule:` + fmt.Sprintf("%v", this.CronSchedule) + `,`,
-		`Header:` + strings.Replace(fmt.Sprintf("%v", this.Header), "Header", "common.Header", 1) + `,`,
-		`Memo:` + strings.Replace(fmt.Sprintf("%v", this.Memo), "Memo", "common.Memo", 1) + `,`,
-		`SearchAttributes:` + strings.Replace(fmt.Sprintf("%v", this.SearchAttributes), "SearchAttributes", "common.SearchAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision{`,
-		`DecisionType:` + fmt.Sprintf("%v", this.DecisionType) + `,`,
-		`Attributes:` + fmt.Sprintf("%v", this.Attributes) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_ScheduleActivityTaskDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_ScheduleActivityTaskDecisionAttributes{`,
-		`ScheduleActivityTaskDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.ScheduleActivityTaskDecisionAttributes), "ScheduleActivityTaskDecisionAttributes", "ScheduleActivityTaskDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_StartTimerDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_StartTimerDecisionAttributes{`,
-		`StartTimerDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.StartTimerDecisionAttributes), "StartTimerDecisionAttributes", "StartTimerDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_CompleteWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_CompleteWorkflowExecutionDecisionAttributes{`,
-		`CompleteWorkflowExecutionDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.CompleteWorkflowExecutionDecisionAttributes), "CompleteWorkflowExecutionDecisionAttributes", "CompleteWorkflowExecutionDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_FailWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_FailWorkflowExecutionDecisionAttributes{`,
-		`FailWorkflowExecutionDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.FailWorkflowExecutionDecisionAttributes), "FailWorkflowExecutionDecisionAttributes", "FailWorkflowExecutionDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_RequestCancelActivityTaskDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_RequestCancelActivityTaskDecisionAttributes{`,
-		`RequestCancelActivityTaskDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.RequestCancelActivityTaskDecisionAttributes), "RequestCancelActivityTaskDecisionAttributes", "RequestCancelActivityTaskDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_CancelTimerDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_CancelTimerDecisionAttributes{`,
-		`CancelTimerDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.CancelTimerDecisionAttributes), "CancelTimerDecisionAttributes", "CancelTimerDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_CancelWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_CancelWorkflowExecutionDecisionAttributes{`,
-		`CancelWorkflowExecutionDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.CancelWorkflowExecutionDecisionAttributes), "CancelWorkflowExecutionDecisionAttributes", "CancelWorkflowExecutionDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_RequestCancelExternalWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_RequestCancelExternalWorkflowExecutionDecisionAttributes{`,
-		`RequestCancelExternalWorkflowExecutionDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.RequestCancelExternalWorkflowExecutionDecisionAttributes), "RequestCancelExternalWorkflowExecutionDecisionAttributes", "RequestCancelExternalWorkflowExecutionDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_RecordMarkerDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_RecordMarkerDecisionAttributes{`,
-		`RecordMarkerDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.RecordMarkerDecisionAttributes), "RecordMarkerDecisionAttributes", "RecordMarkerDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_ContinueAsNewWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_ContinueAsNewWorkflowExecutionDecisionAttributes{`,
-		`ContinueAsNewWorkflowExecutionDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.ContinueAsNewWorkflowExecutionDecisionAttributes), "ContinueAsNewWorkflowExecutionDecisionAttributes", "ContinueAsNewWorkflowExecutionDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_StartChildWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_StartChildWorkflowExecutionDecisionAttributes{`,
-		`StartChildWorkflowExecutionDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.StartChildWorkflowExecutionDecisionAttributes), "StartChildWorkflowExecutionDecisionAttributes", "StartChildWorkflowExecutionDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_SignalExternalWorkflowExecutionDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_SignalExternalWorkflowExecutionDecisionAttributes{`,
-		`SignalExternalWorkflowExecutionDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.SignalExternalWorkflowExecutionDecisionAttributes), "SignalExternalWorkflowExecutionDecisionAttributes", "SignalExternalWorkflowExecutionDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *Decision_UpsertWorkflowSearchAttributesDecisionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&Decision_UpsertWorkflowSearchAttributesDecisionAttributes{`,
-		`UpsertWorkflowSearchAttributesDecisionAttributes:` + strings.Replace(fmt.Sprintf("%v", this.UpsertWorkflowSearchAttributesDecisionAttributes), "UpsertWorkflowSearchAttributesDecisionAttributes", "UpsertWorkflowSearchAttributesDecisionAttributes", 1) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *StickyExecutionAttributes) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&StickyExecutionAttributes{`,
-		`WorkerTaskList:` + strings.Replace(fmt.Sprintf("%v", this.WorkerTaskList), "TaskList", "tasklist.TaskList", 1) + `,`,
-		`ScheduleToStartTimeoutSeconds:` + fmt.Sprintf("%v", this.ScheduleToStartTimeoutSeconds) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func valueToStringMessage(v interface{}) string {
-	rv := reflect.ValueOf(v)
-	if rv.IsNil() {
-		return "nil"
-	}
-	pv := reflect.Indirect(rv).Interface()
-	return fmt.Sprintf("*%v", pv)
 }
 func (m *ScheduleActivityTaskDecisionAttributes) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
