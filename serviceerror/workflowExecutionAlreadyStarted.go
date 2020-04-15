@@ -27,6 +27,7 @@ import (
 	"google.golang.org/grpc/codes"
 
 	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/primitives"
 )
 
 type (
@@ -34,13 +35,13 @@ type (
 	WorkflowExecutionAlreadyStarted struct {
 		Message        string
 		StartRequestId string
-		RunId          string
+		RunId          primitives.UUID
 		st             *status.Status
 	}
 )
 
 // NewWorkflowExecutionAlreadyStarted returns new WorkflowExecutionAlreadyStarted error.
-func NewWorkflowExecutionAlreadyStarted(message, startRequestId, runId string) *WorkflowExecutionAlreadyStarted {
+func NewWorkflowExecutionAlreadyStarted(message, startRequestId string, runId primitives.UUID) *WorkflowExecutionAlreadyStarted {
 	return &WorkflowExecutionAlreadyStarted{
 		Message:        message,
 		StartRequestId: startRequestId,

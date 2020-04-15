@@ -27,25 +27,26 @@ import (
 	"google.golang.org/grpc/codes"
 
 	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/primitives"
 )
 
 type (
 	// RetryTask represents retry task error.
 	RetryTask struct {
 		Message     string
-		NamespaceId    string
+		NamespaceId primitives.UUID
 		WorkflowId  string
-		RunId       string
+		RunId       primitives.UUID
 		NextEventId int64
 		st          *status.Status
 	}
 )
 
 // NewRetryTask returns new RetryTask error.
-func NewRetryTask(message, namespaceId, workflowId, runId string, nextEventId int64) *RetryTask {
+func NewRetryTask(message string, namespaceId primitives.UUID, workflowId string, runId primitives.UUID, nextEventId int64) *RetryTask {
 	return &RetryTask{
 		Message:     message,
-		NamespaceId:    namespaceId,
+		NamespaceId: namespaceId,
 		WorkflowId:  workflowId,
 		RunId:       runId,
 		NextEventId: nextEventId,

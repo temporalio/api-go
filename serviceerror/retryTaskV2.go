@@ -27,15 +27,16 @@ import (
 	"google.golang.org/grpc/codes"
 
 	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/primitives"
 )
 
 type (
 	// RetryTaskV2 represents retry task v2 error.
 	RetryTaskV2 struct {
 		Message           string
-		NamespaceId          string
+		NamespaceId       primitives.UUID
 		WorkflowId        string
-		RunId             string
+		RunId             primitives.UUID
 		StartEventId      int64
 		StartEventVersion int64
 		EndEventId        int64
@@ -45,10 +46,11 @@ type (
 )
 
 // NewRetryTaskV2 returns new RetryTaskV2 error.
-func NewRetryTaskV2(message, namespaceId, workflowId, runId string, startEventId, startEventVersion, endEventId, endEventVersion int64) *RetryTaskV2 {
+func NewRetryTaskV2(message string, namespaceId primitives.UUID, workflowId string, runId primitives.UUID,
+	startEventId, startEventVersion, endEventId, endEventVersion int64) *RetryTaskV2 {
 	return &RetryTaskV2{
 		Message:           message,
-		NamespaceId:          namespaceId,
+		NamespaceId:       namespaceId,
 		WorkflowId:        workflowId,
 		RunId:             runId,
 		StartEventId:      startEventId,
@@ -71,7 +73,7 @@ func (e *RetryTaskV2) status() *status.Status {
 	st := status.New(codes.Aborted, e.Message)
 	st, _ = st.WithDetails(
 		&failure.RetryTaskV2{
-			NamespaceId:          e.NamespaceId,
+			NamespaceId:       e.NamespaceId,
 			WorkflowId:        e.WorkflowId,
 			RunId:             e.RunId,
 			StartEventId:      e.StartEventId,
@@ -86,7 +88,7 @@ func (e *RetryTaskV2) status() *status.Status {
 func newRetryTaskV2(st *status.Status, failure *failure.RetryTaskV2) *RetryTaskV2 {
 	return &RetryTaskV2{
 		Message:           st.Message(),
-		NamespaceId:          failure.NamespaceId,
+		NamespaceId:       failure.NamespaceId,
 		WorkflowId:        failure.WorkflowId,
 		RunId:             failure.RunId,
 		StartEventId:      failure.StartEventId,
