@@ -426,8 +426,10 @@ type CancelWorkflowExecutionDecisionAttributes struct {
 func (m *CancelWorkflowExecutionDecisionAttributes) Reset() {
 	*m = CancelWorkflowExecutionDecisionAttributes{}
 }
-func (m *CancelWorkflowExecutionDecisionAttributes) String() string { return proto.CompactTextString(m) }
-func (*CancelWorkflowExecutionDecisionAttributes) ProtoMessage()    {}
+func (m *CancelWorkflowExecutionDecisionAttributes) String() string {
+	return proto.CompactTextString(m)
+}
+func (*CancelWorkflowExecutionDecisionAttributes) ProtoMessage() {}
 func (*CancelWorkflowExecutionDecisionAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ec8a6bcee89103f4, []int{6}
 }
