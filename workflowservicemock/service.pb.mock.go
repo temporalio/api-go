@@ -737,6 +737,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) QueryWorkflow(ctx, in interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryWorkflow", reflect.TypeOf((*MockWorkflowServiceClient)(nil).QueryWorkflow), varargs...)
 }
 
+// GetWorkflowExecutionRawHistory mocks base method.
+func (m *MockWorkflowServiceClient) GetWorkflowExecutionRawHistory(ctx context.Context, in *workflowservice.GetWorkflowExecutionRawHistoryRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowExecutionRawHistoryResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetWorkflowExecutionRawHistory", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionRawHistoryResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkflowExecutionRawHistory indicates an expected call of GetWorkflowExecutionRawHistory.
+func (mr *MockWorkflowServiceClientMockRecorder) GetWorkflowExecutionRawHistory(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionRawHistory", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkflowExecutionRawHistory), varargs...)
+}
+
 // DescribeWorkflowExecution mocks base method.
 func (m *MockWorkflowServiceClient) DescribeWorkflowExecution(ctx context.Context, in *workflowservice.DescribeWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
@@ -815,6 +835,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListTaskListPartitions(ctx, in 
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTaskListPartitions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListTaskListPartitions), varargs...)
+}
+
+// PollForWorkflowExecutionRawHistory mocks base method.
+func (m *MockWorkflowServiceClient) PollForWorkflowExecutionRawHistory(ctx context.Context, in *workflowservice.PollForWorkflowExecutionRawHistoryRequest, opts ...grpc.CallOption) (*workflowservice.PollForWorkflowExecutionRawHistoryResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PollForWorkflowExecutionRawHistory", varargs...)
+	ret0, _ := ret[0].(*workflowservice.PollForWorkflowExecutionRawHistoryResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PollForWorkflowExecutionRawHistory indicates an expected call of PollForWorkflowExecutionRawHistory.
+func (mr *MockWorkflowServiceClientMockRecorder) PollForWorkflowExecutionRawHistory(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollForWorkflowExecutionRawHistory", reflect.TypeOf((*MockWorkflowServiceClient)(nil).PollForWorkflowExecutionRawHistory), varargs...)
 }
 
 // MockWorkflowServiceServer is a mock of WorkflowServiceServer interface.
@@ -1350,6 +1390,21 @@ func (mr *MockWorkflowServiceServerMockRecorder) QueryWorkflow(arg0, arg1 interf
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryWorkflow", reflect.TypeOf((*MockWorkflowServiceServer)(nil).QueryWorkflow), arg0, arg1)
 }
 
+// GetWorkflowExecutionRawHistory mocks base method.
+func (m *MockWorkflowServiceServer) GetWorkflowExecutionRawHistory(arg0 context.Context, arg1 *workflowservice.GetWorkflowExecutionRawHistoryRequest) (*workflowservice.GetWorkflowExecutionRawHistoryResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWorkflowExecutionRawHistory", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionRawHistoryResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkflowExecutionRawHistory indicates an expected call of GetWorkflowExecutionRawHistory.
+func (mr *MockWorkflowServiceServerMockRecorder) GetWorkflowExecutionRawHistory(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionRawHistory", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkflowExecutionRawHistory), arg0, arg1)
+}
+
 // DescribeWorkflowExecution mocks base method.
 func (m *MockWorkflowServiceServer) DescribeWorkflowExecution(arg0 context.Context, arg1 *workflowservice.DescribeWorkflowExecutionRequest) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
@@ -1408,4 +1463,19 @@ func (m *MockWorkflowServiceServer) ListTaskListPartitions(arg0 context.Context,
 func (mr *MockWorkflowServiceServerMockRecorder) ListTaskListPartitions(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTaskListPartitions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListTaskListPartitions), arg0, arg1)
+}
+
+// PollForWorkflowExecutionRawHistory mocks base method.
+func (m *MockWorkflowServiceServer) PollForWorkflowExecutionRawHistory(arg0 context.Context, arg1 *workflowservice.PollForWorkflowExecutionRawHistoryRequest) (*workflowservice.PollForWorkflowExecutionRawHistoryResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PollForWorkflowExecutionRawHistory", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.PollForWorkflowExecutionRawHistoryResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PollForWorkflowExecutionRawHistory indicates an expected call of PollForWorkflowExecutionRawHistory.
+func (mr *MockWorkflowServiceServerMockRecorder) PollForWorkflowExecutionRawHistory(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollForWorkflowExecutionRawHistory", reflect.TypeOf((*MockWorkflowServiceServer)(nil).PollForWorkflowExecutionRawHistory), arg0, arg1)
 }
