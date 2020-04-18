@@ -295,8 +295,10 @@ type WorkflowExecutionCompletedEventAttributes struct {
 func (m *WorkflowExecutionCompletedEventAttributes) Reset() {
 	*m = WorkflowExecutionCompletedEventAttributes{}
 }
-func (m *WorkflowExecutionCompletedEventAttributes) String() string { return proto.CompactTextString(m) }
-func (*WorkflowExecutionCompletedEventAttributes) ProtoMessage()    {}
+func (m *WorkflowExecutionCompletedEventAttributes) String() string {
+	return proto.CompactTextString(m)
+}
+func (*WorkflowExecutionCompletedEventAttributes) ProtoMessage() {}
 func (*WorkflowExecutionCompletedEventAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_7135fdf3a2c9ba09, []int{1}
 }
@@ -3754,15 +3756,16 @@ func (*HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes)
 }
 func (*HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes) isHistoryEvent_Attributes() {
 }
-func (*HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes) isHistoryEvent_Attributes()      {}
-func (*HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes) isHistoryEvent_Attributes() {}
-func (*HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes) isHistoryEvent_Attributes()    {}
-func (*HistoryEvent_ChildWorkflowExecutionStartedEventAttributes) isHistoryEvent_Attributes()        {}
-func (*HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes) isHistoryEvent_Attributes()      {}
-func (*HistoryEvent_ChildWorkflowExecutionFailedEventAttributes) isHistoryEvent_Attributes()         {}
-func (*HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes) isHistoryEvent_Attributes()       {}
-func (*HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes) isHistoryEvent_Attributes()       {}
-func (*HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes) isHistoryEvent_Attributes()     {}
+func (*HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes) isHistoryEvent_Attributes() {}
+func (*HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes) isHistoryEvent_Attributes() {
+}
+func (*HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes) isHistoryEvent_Attributes() {}
+func (*HistoryEvent_ChildWorkflowExecutionStartedEventAttributes) isHistoryEvent_Attributes()     {}
+func (*HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes) isHistoryEvent_Attributes()   {}
+func (*HistoryEvent_ChildWorkflowExecutionFailedEventAttributes) isHistoryEvent_Attributes()      {}
+func (*HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes) isHistoryEvent_Attributes()    {}
+func (*HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes) isHistoryEvent_Attributes()    {}
+func (*HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes) isHistoryEvent_Attributes()  {}
 func (*HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes) isHistoryEvent_Attributes() {
 }
 func (*HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes) isHistoryEvent_Attributes() {
