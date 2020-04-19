@@ -76,9 +76,9 @@ func (e *ClientVersionNotSupported) status() *status.Status {
 func newClientVersionNotSupported(st *status.Status, failure *failure.ClientVersionNotSupported) *ClientVersionNotSupported {
 	return &ClientVersionNotSupported{
 		Message:           st.Message(),
-		ClientVersion:     failure.ClientVersion,
-		ClientImpl:        failure.ClientImpl,
-		SupportedVersions: failure.SupportedVersions,
+		ClientVersion:     failure.GetClientVersion(),
+		ClientImpl:        failure.GetClientImpl(),
+		SupportedVersions: failure.GetSupportedVersions(),
 		st:                st,
 	}
 }

@@ -71,8 +71,8 @@ func (e *WorkflowExecutionAlreadyStarted) status() *status.Status {
 func newWorkflowExecutionAlreadyStarted(st *status.Status, failure *failure.WorkflowExecutionAlreadyStarted) *WorkflowExecutionAlreadyStarted {
 	return &WorkflowExecutionAlreadyStarted{
 		Message: st.Message(),
-		StartRequestId: failure.StartRequestId,
-		RunId:          failure.RunId,
+		StartRequestId: failure.GetStartRequestId(),
+		RunId:          failure.GetRunId(),
 		st:      st,
 	}
 }

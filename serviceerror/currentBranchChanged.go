@@ -68,7 +68,7 @@ func (e *CurrentBranchChanged) status() *status.Status {
 func newCurrentBranchChanged(st *status.Status, failure *failure.CurrentBranchChanged) *CurrentBranchChanged {
 	return &CurrentBranchChanged{
 		Message: st.Message(),
-		CurrentBranchToken: failure.CurrentBranchToken,
+		CurrentBranchToken: failure.GetCurrentBranchToken(),
 		st:      st,
 	}
 }

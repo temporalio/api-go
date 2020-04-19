@@ -76,9 +76,9 @@ func (e *FeatureVersionNotSupported) status() *status.Status {
 func newFeatureVersionNotSupported(st *status.Status, failure *failure.FeatureVersionNotSupported) *FeatureVersionNotSupported {
 	return &FeatureVersionNotSupported{
 		Message:           st.Message(),
-		FeatureVersion:    failure.FeatureVersion,
-		Feature:           failure.Feature,
-		SupportedVersions: failure.SupportedVersions,
+		FeatureVersion:    failure.GetFeatureVersion(),
+		Feature:           failure.GetFeature(),
+		SupportedVersions: failure.GetSupportedVersions(),
 		st:                st,
 	}
 }

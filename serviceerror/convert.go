@@ -65,8 +65,6 @@ func FromStatus(st *status.Status) error {
 		return newInternal(st)
 	case codes.DataLoss:
 		return newDataLoss(st)
-	case codes.NotFound:
-		return newNotFound(st)
 	case codes.ResourceExhausted:
 		return newResourceExhausted(st)
 	case codes.PermissionDenied:
@@ -92,6 +90,8 @@ func FromStatus(st *status.Status) error {
 	// Extract failure once to optimize performance.
 	f := extractFailure(st)
 	switch st.Code() {
+	case codes.NotFound:
+		return newNotFound(st, f.(*failure.NotFound))
 	case codes.InvalidArgument:
 		if f == nil {
 			return newInvalidArgument(st)
