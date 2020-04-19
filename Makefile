@@ -14,6 +14,8 @@ PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
 PROTO_OUT := .
 PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/gogo/protobuf/protobuf
 
+skip-update: grpc grpc-mock copyright gomodtidy
+
 all: update-proto-submodule grpc grpc-mock copyright gomodtidy
 
 all-install: grpc-install mockgen-install
