@@ -25,13 +25,17 @@ package serviceerror
 import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
+
+	"go.temporal.io/temporal-proto/failure"
 )
 
 type (
 	// NotFound represents not found error.
 	NotFound struct {
-		Message string
-		st *status.Status
+		Message        string
+		CurrentCluster string
+		ActiveCluster  string
+		st             *status.Status
 	}
 )
 
@@ -48,16 +52,25 @@ func (e *NotFound) Error() string {
 }
 
 func (e *NotFound) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
-	return status.New(codes.NotFound, e.Message)
+	st := status.New(codes.NotFound, e.Message)
+	st, _ = st.WithDetails(
+		&failure.NotFound{
+			CurrentCluster: e.CurrentCluster,
+			ActiveCluster:  e.ActiveCluster,
+		},
+	)
+	return st
 }
 
-func newNotFound(st *status.Status) *NotFound {
+func newNotFound(st *status.Status, failure *failure.NotFound) *NotFound {
 	return &NotFound{
-		Message: st.Message(),
-		st: st,
+		Message:        st.Message(),
+		CurrentCluster: failure.GetCurrentCluster(),
+		ActiveCluster:  failure.GetActiveCluster(),
+		st:             st,
 	}
 }

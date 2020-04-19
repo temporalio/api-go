@@ -68,7 +68,7 @@ func (e *ShardOwnershipLost) status() *status.Status {
 func newShardOwnershipLost(st *status.Status, failure *failure.ShardOwnershipLost) *ShardOwnershipLost {
 	return &ShardOwnershipLost{
 		Message: st.Message(),
-		Owner:   failure.Owner,
+		Owner:   failure.GetOwner(),
 		st:      st,
 	}
 }
