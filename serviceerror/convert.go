@@ -91,11 +91,13 @@ func FromStatus(st *status.Status) error {
 	f := extractFailure(st)
 	switch st.Code() {
 	case codes.NotFound:
-		if f != nil {
-			return newNotFound(st, f.(*failure.NotFound))
+		if f == nil{
+			return newNotFound(st, nil)
 		}
-		
-		return newNotFound(st, &failure.NotFound{})
+		switch f := f.(type) {
+		case *failure.NotFound:
+			return newNotFound(st, f)
+		}
 	case codes.InvalidArgument:
 		if f == nil {
 			return newInvalidArgument(st)
