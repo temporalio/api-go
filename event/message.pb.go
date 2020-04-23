@@ -48,37 +48,33 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type WorkflowExecutionStartedEventAttributes struct {
-	WorkflowType            *common.WorkflowType         `protobuf:"bytes,1,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
-	ParentWorkflowNamespace string                       `protobuf:"bytes,2,opt,name=parentWorkflowNamespace,proto3" json:"parentWorkflowNamespace,omitempty"`
-	ParentWorkflowExecution *execution.WorkflowExecution `protobuf:"bytes,3,opt,name=parentWorkflowExecution,proto3" json:"parentWorkflowExecution,omitempty"`
-	ParentInitiatedEventId  int64                        `protobuf:"varint,4,opt,name=parentInitiatedEventId,proto3" json:"parentInitiatedEventId,omitempty"`
-	TaskList                *tasklist.TaskList           `protobuf:"bytes,5,opt,name=taskList,proto3" json:"taskList,omitempty"`
-	Input                   []byte                       `protobuf:"bytes,6,opt,name=input,proto3" json:"input,omitempty"`
-	// Total workflow execution timeout including retries and continue as new
-	WorkflowExecutionTimeoutSeconds int32 `protobuf:"varint,7,opt,name=workflowExecutionTimeoutSeconds,proto3" json:"workflowExecutionTimeoutSeconds,omitempty"`
-	// Timeout of a single workflow run
-	WorkflowRunTimeoutSeconds int32 `protobuf:"varint,8,opt,name=workflowRunTimeoutSeconds,proto3" json:"workflowRunTimeoutSeconds,omitempty"`
-	// Timeout of a single workflow task
-	WorkflowTaskTimeoutSeconds int32                         `protobuf:"varint,9,opt,name=workflowTaskTimeoutSeconds,proto3" json:"workflowTaskTimeoutSeconds,omitempty"`
-	ContinuedExecutionRunId    string                        `protobuf:"bytes,10,opt,name=continuedExecutionRunId,proto3" json:"continuedExecutionRunId,omitempty"`
-	Initiator                  common.ContinueAsNewInitiator `protobuf:"varint,11,opt,name=initiator,proto3,enum=common.ContinueAsNewInitiator" json:"initiator,omitempty"`
-	ContinuedFailureReason     string                        `protobuf:"bytes,12,opt,name=continuedFailureReason,proto3" json:"continuedFailureReason,omitempty"`
-	ContinuedFailureDetails    []byte                        `protobuf:"bytes,13,opt,name=continuedFailureDetails,proto3" json:"continuedFailureDetails,omitempty"`
-	LastCompletionResult       []byte                        `protobuf:"bytes,14,opt,name=lastCompletionResult,proto3" json:"lastCompletionResult,omitempty"`
+	WorkflowType                        *common.WorkflowType          `protobuf:"bytes,1,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
+	ParentWorkflowNamespace             string                        `protobuf:"bytes,2,opt,name=parentWorkflowNamespace,proto3" json:"parentWorkflowNamespace,omitempty"`
+	ParentWorkflowExecution             *execution.WorkflowExecution  `protobuf:"bytes,3,opt,name=parentWorkflowExecution,proto3" json:"parentWorkflowExecution,omitempty"`
+	ParentInitiatedEventId              int64                         `protobuf:"varint,4,opt,name=parentInitiatedEventId,proto3" json:"parentInitiatedEventId,omitempty"`
+	TaskList                            *tasklist.TaskList            `protobuf:"bytes,5,opt,name=taskList,proto3" json:"taskList,omitempty"`
+	Input                               *common.Payload               `protobuf:"bytes,6,opt,name=input,proto3" json:"input,omitempty"`
+	ExecutionStartToCloseTimeoutSeconds int32                         `protobuf:"varint,7,opt,name=executionStartToCloseTimeoutSeconds,proto3" json:"executionStartToCloseTimeoutSeconds,omitempty"`
+	TaskStartToCloseTimeoutSeconds      int32                         `protobuf:"varint,8,opt,name=taskStartToCloseTimeoutSeconds,proto3" json:"taskStartToCloseTimeoutSeconds,omitempty"`
+	ContinuedExecutionRunId             string                        `protobuf:"bytes,9,opt,name=continuedExecutionRunId,proto3" json:"continuedExecutionRunId,omitempty"`
+	Initiator                           common.ContinueAsNewInitiator `protobuf:"varint,10,opt,name=initiator,proto3,enum=common.ContinueAsNewInitiator" json:"initiator,omitempty"`
+	ContinuedFailureReason              string                        `protobuf:"bytes,11,opt,name=continuedFailureReason,proto3" json:"continuedFailureReason,omitempty"`
+	ContinuedFailureDetails             *common.Payload               `protobuf:"bytes,12,opt,name=continuedFailureDetails,proto3" json:"continuedFailureDetails,omitempty"`
+	LastCompletionResult                *common.Payload               `protobuf:"bytes,13,opt,name=lastCompletionResult,proto3" json:"lastCompletionResult,omitempty"`
 	// This is the runId when the WorkflowExecutionStarted event is written.
-	OriginalExecutionRunId string `protobuf:"bytes,15,opt,name=originalExecutionRunId,proto3" json:"originalExecutionRunId,omitempty"`
-	Identity               string `protobuf:"bytes,16,opt,name=identity,proto3" json:"identity,omitempty"`
+	OriginalExecutionRunId string `protobuf:"bytes,14,opt,name=originalExecutionRunId,proto3" json:"originalExecutionRunId,omitempty"`
+	Identity               string `protobuf:"bytes,15,opt,name=identity,proto3" json:"identity,omitempty"`
 	// This is the very first runId along the chain of ContinueAsNew and Reset.
-	FirstExecutionRunId             string                   `protobuf:"bytes,17,opt,name=firstExecutionRunId,proto3" json:"firstExecutionRunId,omitempty"`
-	RetryPolicy                     *common.RetryPolicy      `protobuf:"bytes,18,opt,name=retryPolicy,proto3" json:"retryPolicy,omitempty"`
-	Attempt                         int32                    `protobuf:"varint,19,opt,name=attempt,proto3" json:"attempt,omitempty"`
-	ExpirationTimestamp             int64                    `protobuf:"varint,20,opt,name=expirationTimestamp,proto3" json:"expirationTimestamp,omitempty"`
-	CronSchedule                    string                   `protobuf:"bytes,21,opt,name=cronSchedule,proto3" json:"cronSchedule,omitempty"`
-	FirstDecisionTaskBackoffSeconds int32                    `protobuf:"varint,22,opt,name=firstDecisionTaskBackoffSeconds,proto3" json:"firstDecisionTaskBackoffSeconds,omitempty"`
-	Memo                            *common.Memo             `protobuf:"bytes,23,opt,name=memo,proto3" json:"memo,omitempty"`
-	SearchAttributes                *common.SearchAttributes `protobuf:"bytes,24,opt,name=searchAttributes,proto3" json:"searchAttributes,omitempty"`
-	PrevAutoResetPoints             *execution.ResetPoints   `protobuf:"bytes,25,opt,name=prevAutoResetPoints,proto3" json:"prevAutoResetPoints,omitempty"`
-	Header                          *common.Header           `protobuf:"bytes,26,opt,name=header,proto3" json:"header,omitempty"`
+	FirstExecutionRunId             string                   `protobuf:"bytes,16,opt,name=firstExecutionRunId,proto3" json:"firstExecutionRunId,omitempty"`
+	RetryPolicy                     *common.RetryPolicy      `protobuf:"bytes,17,opt,name=retryPolicy,proto3" json:"retryPolicy,omitempty"`
+	Attempt                         int32                    `protobuf:"varint,18,opt,name=attempt,proto3" json:"attempt,omitempty"`
+	ExpirationTimestamp             int64                    `protobuf:"varint,19,opt,name=expirationTimestamp,proto3" json:"expirationTimestamp,omitempty"`
+	CronSchedule                    string                   `protobuf:"bytes,20,opt,name=cronSchedule,proto3" json:"cronSchedule,omitempty"`
+	FirstDecisionTaskBackoffSeconds int32                    `protobuf:"varint,21,opt,name=firstDecisionTaskBackoffSeconds,proto3" json:"firstDecisionTaskBackoffSeconds,omitempty"`
+	Memo                            *common.Memo             `protobuf:"bytes,22,opt,name=memo,proto3" json:"memo,omitempty"`
+	SearchAttributes                *common.SearchAttributes `protobuf:"bytes,23,opt,name=searchAttributes,proto3" json:"searchAttributes,omitempty"`
+	PrevAutoResetPoints             *execution.ResetPoints   `protobuf:"bytes,24,opt,name=prevAutoResetPoints,proto3" json:"prevAutoResetPoints,omitempty"`
+	Header                          *common.Header           `protobuf:"bytes,25,opt,name=header,proto3" json:"header,omitempty"`
 }
 
 func (m *WorkflowExecutionStartedEventAttributes) Reset() {
@@ -151,30 +147,23 @@ func (m *WorkflowExecutionStartedEventAttributes) GetTaskList() *tasklist.TaskLi
 	return nil
 }
 
-func (m *WorkflowExecutionStartedEventAttributes) GetInput() []byte {
+func (m *WorkflowExecutionStartedEventAttributes) GetInput() *common.Payload {
 	if m != nil {
 		return m.Input
 	}
 	return nil
 }
 
-func (m *WorkflowExecutionStartedEventAttributes) GetWorkflowExecutionTimeoutSeconds() int32 {
+func (m *WorkflowExecutionStartedEventAttributes) GetExecutionStartToCloseTimeoutSeconds() int32 {
 	if m != nil {
-		return m.WorkflowExecutionTimeoutSeconds
+		return m.ExecutionStartToCloseTimeoutSeconds
 	}
 	return 0
 }
 
-func (m *WorkflowExecutionStartedEventAttributes) GetWorkflowRunTimeoutSeconds() int32 {
+func (m *WorkflowExecutionStartedEventAttributes) GetTaskStartToCloseTimeoutSeconds() int32 {
 	if m != nil {
-		return m.WorkflowRunTimeoutSeconds
-	}
-	return 0
-}
-
-func (m *WorkflowExecutionStartedEventAttributes) GetWorkflowTaskTimeoutSeconds() int32 {
-	if m != nil {
-		return m.WorkflowTaskTimeoutSeconds
+		return m.TaskStartToCloseTimeoutSeconds
 	}
 	return 0
 }
@@ -200,14 +189,14 @@ func (m *WorkflowExecutionStartedEventAttributes) GetContinuedFailureReason() st
 	return ""
 }
 
-func (m *WorkflowExecutionStartedEventAttributes) GetContinuedFailureDetails() []byte {
+func (m *WorkflowExecutionStartedEventAttributes) GetContinuedFailureDetails() *common.Payload {
 	if m != nil {
 		return m.ContinuedFailureDetails
 	}
 	return nil
 }
 
-func (m *WorkflowExecutionStartedEventAttributes) GetLastCompletionResult() []byte {
+func (m *WorkflowExecutionStartedEventAttributes) GetLastCompletionResult() *common.Payload {
 	if m != nil {
 		return m.LastCompletionResult
 	}
@@ -299,8 +288,8 @@ func (m *WorkflowExecutionStartedEventAttributes) GetHeader() *common.Header {
 }
 
 type WorkflowExecutionCompletedEventAttributes struct {
-	Result                       []byte `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
-	DecisionTaskCompletedEventId int64  `protobuf:"varint,2,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
+	Result                       *common.Payload `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	DecisionTaskCompletedEventId int64           `protobuf:"varint,2,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
 }
 
 func (m *WorkflowExecutionCompletedEventAttributes) Reset() {
@@ -340,7 +329,7 @@ func (m *WorkflowExecutionCompletedEventAttributes) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_WorkflowExecutionCompletedEventAttributes proto.InternalMessageInfo
 
-func (m *WorkflowExecutionCompletedEventAttributes) GetResult() []byte {
+func (m *WorkflowExecutionCompletedEventAttributes) GetResult() *common.Payload {
 	if m != nil {
 		return m.Result
 	}
@@ -355,9 +344,9 @@ func (m *WorkflowExecutionCompletedEventAttributes) GetDecisionTaskCompletedEven
 }
 
 type WorkflowExecutionFailedEventAttributes struct {
-	Reason                       string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
-	Details                      []byte `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
-	DecisionTaskCompletedEventId int64  `protobuf:"varint,3,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
+	Reason                       string          `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	Details                      *common.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	DecisionTaskCompletedEventId int64           `protobuf:"varint,3,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
 }
 
 func (m *WorkflowExecutionFailedEventAttributes) Reset() {
@@ -402,7 +391,7 @@ func (m *WorkflowExecutionFailedEventAttributes) GetReason() string {
 	return ""
 }
 
-func (m *WorkflowExecutionFailedEventAttributes) GetDetails() []byte {
+func (m *WorkflowExecutionFailedEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -466,15 +455,15 @@ type WorkflowExecutionContinuedAsNewEventAttributes struct {
 	NewExecutionRunId                   string                        `protobuf:"bytes,1,opt,name=newExecutionRunId,proto3" json:"newExecutionRunId,omitempty"`
 	WorkflowType                        *common.WorkflowType          `protobuf:"bytes,2,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
 	TaskList                            *tasklist.TaskList            `protobuf:"bytes,3,opt,name=taskList,proto3" json:"taskList,omitempty"`
-	Input                               []byte                        `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
+	Input                               *common.Payload               `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
 	ExecutionStartToCloseTimeoutSeconds int32                         `protobuf:"varint,5,opt,name=executionStartToCloseTimeoutSeconds,proto3" json:"executionStartToCloseTimeoutSeconds,omitempty"`
 	TaskStartToCloseTimeoutSeconds      int32                         `protobuf:"varint,6,opt,name=taskStartToCloseTimeoutSeconds,proto3" json:"taskStartToCloseTimeoutSeconds,omitempty"`
 	DecisionTaskCompletedEventId        int64                         `protobuf:"varint,7,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
 	BackoffStartIntervalInSeconds       int32                         `protobuf:"varint,8,opt,name=backoffStartIntervalInSeconds,proto3" json:"backoffStartIntervalInSeconds,omitempty"`
 	Initiator                           common.ContinueAsNewInitiator `protobuf:"varint,9,opt,name=initiator,proto3,enum=common.ContinueAsNewInitiator" json:"initiator,omitempty"`
 	FailureReason                       string                        `protobuf:"bytes,10,opt,name=failureReason,proto3" json:"failureReason,omitempty"`
-	FailureDetails                      []byte                        `protobuf:"bytes,11,opt,name=failureDetails,proto3" json:"failureDetails,omitempty"`
-	LastCompletionResult                []byte                        `protobuf:"bytes,12,opt,name=lastCompletionResult,proto3" json:"lastCompletionResult,omitempty"`
+	FailureDetails                      *common.Payload               `protobuf:"bytes,11,opt,name=failureDetails,proto3" json:"failureDetails,omitempty"`
+	LastCompletionResult                *common.Payload               `protobuf:"bytes,12,opt,name=lastCompletionResult,proto3" json:"lastCompletionResult,omitempty"`
 	Header                              *common.Header                `protobuf:"bytes,13,opt,name=header,proto3" json:"header,omitempty"`
 	Memo                                *common.Memo                  `protobuf:"bytes,14,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes                    *common.SearchAttributes      `protobuf:"bytes,15,opt,name=searchAttributes,proto3" json:"searchAttributes,omitempty"`
@@ -538,7 +527,7 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetTaskList() *tasklist
 	return nil
 }
 
-func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetInput() []byte {
+func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetInput() *common.Payload {
 	if m != nil {
 		return m.Input
 	}
@@ -587,14 +576,14 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetFailureReason() stri
 	return ""
 }
 
-func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetFailureDetails() []byte {
+func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetFailureDetails() *common.Payload {
 	if m != nil {
 		return m.FailureDetails
 	}
 	return nil
 }
 
-func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetLastCompletionResult() []byte {
+func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetLastCompletionResult() *common.Payload {
 	if m != nil {
 		return m.LastCompletionResult
 	}
@@ -882,7 +871,7 @@ type DecisionTaskFailedEventAttributes struct {
 	ScheduledEventId int64                   `protobuf:"varint,1,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
 	StartedEventId   int64                   `protobuf:"varint,2,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
 	Cause            DecisionTaskFailedCause `protobuf:"varint,3,opt,name=cause,proto3,enum=event.DecisionTaskFailedCause" json:"cause,omitempty"`
-	Details          []byte                  `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
+	Details          *common.Payload         `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
 	Identity         string                  `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 	Reason           string                  `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
 	// for reset workflow
@@ -946,7 +935,7 @@ func (m *DecisionTaskFailedEventAttributes) GetCause() DecisionTaskFailedCause {
 	return DecisionTaskFailedCause_UnhandledDecision
 }
 
-func (m *DecisionTaskFailedEventAttributes) GetDetails() []byte {
+func (m *DecisionTaskFailedEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -996,29 +985,18 @@ func (m *DecisionTaskFailedEventAttributes) GetBinaryChecksum() string {
 }
 
 type ActivityTaskScheduledEventAttributes struct {
-	ActivityId   string               `protobuf:"bytes,1,opt,name=activityId,proto3" json:"activityId,omitempty"`
-	ActivityType *common.ActivityType `protobuf:"bytes,2,opt,name=activityType,proto3" json:"activityType,omitempty"`
-	Namespace    string               `protobuf:"bytes,3,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskList     *tasklist.TaskList   `protobuf:"bytes,4,opt,name=taskList,proto3" json:"taskList,omitempty"`
-	Header       *common.Header       `protobuf:"bytes,5,opt,name=header,proto3" json:"header,omitempty"`
-	Input        []byte               `protobuf:"bytes,6,opt,name=input,proto3" json:"input,omitempty"`
-	// Indicates how long the caller is willing to wait for an activity completion.
-	// Limits for how long retries are happening. Either this or startToCloseTimeoutSeconds is required.
-	ScheduleToCloseTimeoutSeconds int32 `protobuf:"varint,7,opt,name=scheduleToCloseTimeoutSeconds,proto3" json:"scheduleToCloseTimeoutSeconds,omitempty"`
-	// Limits time an activity task can stay in a task queue before a worker picks it up.
-	// This timeout is always non retriable as all a retry would achieve is to put it back into the same queue.
-	// Defaults to scheduleToCloseTimeoutSeconds or workflow execution timeout if not specified.
-	ScheduleToStartTimeoutSeconds int32 `protobuf:"varint,8,opt,name=scheduleToStartTimeoutSeconds,proto3" json:"scheduleToStartTimeoutSeconds,omitempty"`
-	// Maximum time an activity is allowed to execute after a pick up by a worker.
-	// This timeout is always retriable. Either this or scheduleToCloseTimeoutSeconds is required.
-	StartToCloseTimeoutSeconds int32 `protobuf:"varint,9,opt,name=startToCloseTimeoutSeconds,proto3" json:"startToCloseTimeoutSeconds,omitempty"`
-	// Maximum time between successful worker heartbeats.
-	HeartbeatTimeoutSeconds      int32 `protobuf:"varint,10,opt,name=heartbeatTimeoutSeconds,proto3" json:"heartbeatTimeoutSeconds,omitempty"`
-	DecisionTaskCompletedEventId int64 `protobuf:"varint,11,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
-	// Activities are provided by a default retry policy controlled through the service dynamic configuration.
-	// Retries are happening up to scheduleToCloseTimeout.
-	// To disable retries set retryPolicy.maximumAttempts to 1.
-	RetryPolicy *common.RetryPolicy `protobuf:"bytes,12,opt,name=retryPolicy,proto3" json:"retryPolicy,omitempty"`
+	ActivityId                    string               `protobuf:"bytes,1,opt,name=activityId,proto3" json:"activityId,omitempty"`
+	ActivityType                  *common.ActivityType `protobuf:"bytes,2,opt,name=activityType,proto3" json:"activityType,omitempty"`
+	Namespace                     string               `protobuf:"bytes,3,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskList                      *tasklist.TaskList   `protobuf:"bytes,4,opt,name=taskList,proto3" json:"taskList,omitempty"`
+	Input                         *common.Payload      `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
+	ScheduleToCloseTimeoutSeconds int32                `protobuf:"varint,6,opt,name=scheduleToCloseTimeoutSeconds,proto3" json:"scheduleToCloseTimeoutSeconds,omitempty"`
+	ScheduleToStartTimeoutSeconds int32                `protobuf:"varint,7,opt,name=scheduleToStartTimeoutSeconds,proto3" json:"scheduleToStartTimeoutSeconds,omitempty"`
+	StartToCloseTimeoutSeconds    int32                `protobuf:"varint,8,opt,name=startToCloseTimeoutSeconds,proto3" json:"startToCloseTimeoutSeconds,omitempty"`
+	HeartbeatTimeoutSeconds       int32                `protobuf:"varint,9,opt,name=heartbeatTimeoutSeconds,proto3" json:"heartbeatTimeoutSeconds,omitempty"`
+	DecisionTaskCompletedEventId  int64                `protobuf:"varint,10,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
+	RetryPolicy                   *common.RetryPolicy  `protobuf:"bytes,11,opt,name=retryPolicy,proto3" json:"retryPolicy,omitempty"`
+	Header                        *common.Header       `protobuf:"bytes,12,opt,name=header,proto3" json:"header,omitempty"`
 }
 
 func (m *ActivityTaskScheduledEventAttributes) Reset()         { *m = ActivityTaskScheduledEventAttributes{} }
@@ -1082,14 +1060,7 @@ func (m *ActivityTaskScheduledEventAttributes) GetTaskList() *tasklist.TaskList 
 	return nil
 }
 
-func (m *ActivityTaskScheduledEventAttributes) GetHeader() *common.Header {
-	if m != nil {
-		return m.Header
-	}
-	return nil
-}
-
-func (m *ActivityTaskScheduledEventAttributes) GetInput() []byte {
+func (m *ActivityTaskScheduledEventAttributes) GetInput() *common.Payload {
 	if m != nil {
 		return m.Input
 	}
@@ -1138,13 +1109,20 @@ func (m *ActivityTaskScheduledEventAttributes) GetRetryPolicy() *common.RetryPol
 	return nil
 }
 
+func (m *ActivityTaskScheduledEventAttributes) GetHeader() *common.Header {
+	if m != nil {
+		return m.Header
+	}
+	return nil
+}
+
 type ActivityTaskStartedEventAttributes struct {
-	ScheduledEventId   int64  `protobuf:"varint,1,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
-	Identity           string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
-	RequestId          string `protobuf:"bytes,3,opt,name=requestId,proto3" json:"requestId,omitempty"`
-	Attempt            int32  `protobuf:"varint,4,opt,name=attempt,proto3" json:"attempt,omitempty"`
-	LastFailureReason  string `protobuf:"bytes,5,opt,name=lastFailureReason,proto3" json:"lastFailureReason,omitempty"`
-	LastFailureDetails []byte `protobuf:"bytes,6,opt,name=lastFailureDetails,proto3" json:"lastFailureDetails,omitempty"`
+	ScheduledEventId   int64           `protobuf:"varint,1,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
+	Identity           string          `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	RequestId          string          `protobuf:"bytes,3,opt,name=requestId,proto3" json:"requestId,omitempty"`
+	Attempt            int32           `protobuf:"varint,4,opt,name=attempt,proto3" json:"attempt,omitempty"`
+	LastFailureReason  string          `protobuf:"bytes,5,opt,name=lastFailureReason,proto3" json:"lastFailureReason,omitempty"`
+	LastFailureDetails *common.Payload `protobuf:"bytes,6,opt,name=lastFailureDetails,proto3" json:"lastFailureDetails,omitempty"`
 }
 
 func (m *ActivityTaskStartedEventAttributes) Reset()         { *m = ActivityTaskStartedEventAttributes{} }
@@ -1215,7 +1193,7 @@ func (m *ActivityTaskStartedEventAttributes) GetLastFailureReason() string {
 	return ""
 }
 
-func (m *ActivityTaskStartedEventAttributes) GetLastFailureDetails() []byte {
+func (m *ActivityTaskStartedEventAttributes) GetLastFailureDetails() *common.Payload {
 	if m != nil {
 		return m.LastFailureDetails
 	}
@@ -1223,10 +1201,10 @@ func (m *ActivityTaskStartedEventAttributes) GetLastFailureDetails() []byte {
 }
 
 type ActivityTaskCompletedEventAttributes struct {
-	Result           []byte `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
-	ScheduledEventId int64  `protobuf:"varint,2,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
-	StartedEventId   int64  `protobuf:"varint,3,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
-	Identity         string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
+	Result           *common.Payload `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	ScheduledEventId int64           `protobuf:"varint,2,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
+	StartedEventId   int64           `protobuf:"varint,3,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
+	Identity         string          `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *ActivityTaskCompletedEventAttributes) Reset()         { *m = ActivityTaskCompletedEventAttributes{} }
@@ -1262,7 +1240,7 @@ func (m *ActivityTaskCompletedEventAttributes) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ActivityTaskCompletedEventAttributes proto.InternalMessageInfo
 
-func (m *ActivityTaskCompletedEventAttributes) GetResult() []byte {
+func (m *ActivityTaskCompletedEventAttributes) GetResult() *common.Payload {
 	if m != nil {
 		return m.Result
 	}
@@ -1291,11 +1269,11 @@ func (m *ActivityTaskCompletedEventAttributes) GetIdentity() string {
 }
 
 type ActivityTaskFailedEventAttributes struct {
-	Reason           string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
-	Details          []byte `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
-	ScheduledEventId int64  `protobuf:"varint,3,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
-	StartedEventId   int64  `protobuf:"varint,4,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
-	Identity         string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
+	Reason           string          `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	Details          *common.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	ScheduledEventId int64           `protobuf:"varint,3,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
+	StartedEventId   int64           `protobuf:"varint,4,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
+	Identity         string          `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *ActivityTaskFailedEventAttributes) Reset()         { *m = ActivityTaskFailedEventAttributes{} }
@@ -1338,7 +1316,7 @@ func (m *ActivityTaskFailedEventAttributes) GetReason() string {
 	return ""
 }
 
-func (m *ActivityTaskFailedEventAttributes) GetDetails() []byte {
+func (m *ActivityTaskFailedEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -1367,14 +1345,14 @@ func (m *ActivityTaskFailedEventAttributes) GetIdentity() string {
 }
 
 type ActivityTaskTimedOutEventAttributes struct {
-	Details          []byte      `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
-	ScheduledEventId int64       `protobuf:"varint,2,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
-	StartedEventId   int64       `protobuf:"varint,3,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
-	TimeoutType      TimeoutType `protobuf:"varint,4,opt,name=timeoutType,proto3,enum=event.TimeoutType" json:"timeoutType,omitempty"`
+	Details          *common.Payload `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
+	ScheduledEventId int64           `protobuf:"varint,2,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
+	StartedEventId   int64           `protobuf:"varint,3,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
+	TimeoutType      TimeoutType     `protobuf:"varint,4,opt,name=timeoutType,proto3,enum=event.TimeoutType" json:"timeoutType,omitempty"`
 	// For retry activity, it may have a failure before timeout. It's important to keep those information for debug.
 	// Client can also provide the info for making next decision
-	LastFailureReason  string `protobuf:"bytes,5,opt,name=lastFailureReason,proto3" json:"lastFailureReason,omitempty"`
-	LastFailureDetails []byte `protobuf:"bytes,6,opt,name=lastFailureDetails,proto3" json:"lastFailureDetails,omitempty"`
+	LastFailureReason  string          `protobuf:"bytes,5,opt,name=lastFailureReason,proto3" json:"lastFailureReason,omitempty"`
+	LastFailureDetails *common.Payload `protobuf:"bytes,6,opt,name=lastFailureDetails,proto3" json:"lastFailureDetails,omitempty"`
 }
 
 func (m *ActivityTaskTimedOutEventAttributes) Reset()         { *m = ActivityTaskTimedOutEventAttributes{} }
@@ -1410,7 +1388,7 @@ func (m *ActivityTaskTimedOutEventAttributes) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ActivityTaskTimedOutEventAttributes proto.InternalMessageInfo
 
-func (m *ActivityTaskTimedOutEventAttributes) GetDetails() []byte {
+func (m *ActivityTaskTimedOutEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -1445,7 +1423,7 @@ func (m *ActivityTaskTimedOutEventAttributes) GetLastFailureReason() string {
 	return ""
 }
 
-func (m *ActivityTaskTimedOutEventAttributes) GetLastFailureDetails() []byte {
+func (m *ActivityTaskTimedOutEventAttributes) GetLastFailureDetails() *common.Payload {
 	if m != nil {
 		return m.LastFailureDetails
 	}
@@ -1573,11 +1551,11 @@ func (m *RequestCancelActivityTaskFailedEventAttributes) GetDecisionTaskComplete
 }
 
 type ActivityTaskCanceledEventAttributes struct {
-	Details                      []byte `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
-	LatestCancelRequestedEventId int64  `protobuf:"varint,2,opt,name=latestCancelRequestedEventId,proto3" json:"latestCancelRequestedEventId,omitempty"`
-	ScheduledEventId             int64  `protobuf:"varint,3,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
-	StartedEventId               int64  `protobuf:"varint,4,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
-	Identity                     string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
+	Details                      *common.Payload `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
+	LatestCancelRequestedEventId int64           `protobuf:"varint,2,opt,name=latestCancelRequestedEventId,proto3" json:"latestCancelRequestedEventId,omitempty"`
+	ScheduledEventId             int64           `protobuf:"varint,3,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
+	StartedEventId               int64           `protobuf:"varint,4,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
+	Identity                     string          `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *ActivityTaskCanceledEventAttributes) Reset()         { *m = ActivityTaskCanceledEventAttributes{} }
@@ -1613,7 +1591,7 @@ func (m *ActivityTaskCanceledEventAttributes) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ActivityTaskCanceledEventAttributes proto.InternalMessageInfo
 
-func (m *ActivityTaskCanceledEventAttributes) GetDetails() []byte {
+func (m *ActivityTaskCanceledEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -1969,8 +1947,8 @@ func (m *WorkflowExecutionCancelRequestedEventAttributes) GetIdentity() string {
 }
 
 type WorkflowExecutionCanceledEventAttributes struct {
-	DecisionTaskCompletedEventId int64  `protobuf:"varint,1,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
-	Details                      []byte `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	DecisionTaskCompletedEventId int64           `protobuf:"varint,1,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
+	Details                      *common.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
 }
 
 func (m *WorkflowExecutionCanceledEventAttributes) Reset() {
@@ -2015,7 +1993,7 @@ func (m *WorkflowExecutionCanceledEventAttributes) GetDecisionTaskCompletedEvent
 	return 0
 }
 
-func (m *WorkflowExecutionCanceledEventAttributes) GetDetails() []byte {
+func (m *WorkflowExecutionCanceledEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -2023,10 +2001,10 @@ func (m *WorkflowExecutionCanceledEventAttributes) GetDetails() []byte {
 }
 
 type MarkerRecordedEventAttributes struct {
-	MarkerName                   string         `protobuf:"bytes,1,opt,name=markerName,proto3" json:"markerName,omitempty"`
-	Details                      []byte         `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
-	DecisionTaskCompletedEventId int64          `protobuf:"varint,3,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
-	Header                       *common.Header `protobuf:"bytes,4,opt,name=header,proto3" json:"header,omitempty"`
+	MarkerName                   string          `protobuf:"bytes,1,opt,name=markerName,proto3" json:"markerName,omitempty"`
+	Details                      *common.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	DecisionTaskCompletedEventId int64           `protobuf:"varint,3,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
+	Header                       *common.Header  `protobuf:"bytes,4,opt,name=header,proto3" json:"header,omitempty"`
 }
 
 func (m *MarkerRecordedEventAttributes) Reset()         { *m = MarkerRecordedEventAttributes{} }
@@ -2069,7 +2047,7 @@ func (m *MarkerRecordedEventAttributes) GetMarkerName() string {
 	return ""
 }
 
-func (m *MarkerRecordedEventAttributes) GetDetails() []byte {
+func (m *MarkerRecordedEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -2091,9 +2069,9 @@ func (m *MarkerRecordedEventAttributes) GetHeader() *common.Header {
 }
 
 type WorkflowExecutionSignaledEventAttributes struct {
-	SignalName string `protobuf:"bytes,1,opt,name=signalName,proto3" json:"signalName,omitempty"`
-	Input      []byte `protobuf:"bytes,2,opt,name=input,proto3" json:"input,omitempty"`
-	Identity   string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	SignalName string          `protobuf:"bytes,1,opt,name=signalName,proto3" json:"signalName,omitempty"`
+	Input      *common.Payload `protobuf:"bytes,2,opt,name=input,proto3" json:"input,omitempty"`
+	Identity   string          `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *WorkflowExecutionSignaledEventAttributes) Reset() {
@@ -2138,7 +2116,7 @@ func (m *WorkflowExecutionSignaledEventAttributes) GetSignalName() string {
 	return ""
 }
 
-func (m *WorkflowExecutionSignaledEventAttributes) GetInput() []byte {
+func (m *WorkflowExecutionSignaledEventAttributes) GetInput() *common.Payload {
 	if m != nil {
 		return m.Input
 	}
@@ -2153,9 +2131,9 @@ func (m *WorkflowExecutionSignaledEventAttributes) GetIdentity() string {
 }
 
 type WorkflowExecutionTerminatedEventAttributes struct {
-	Reason   string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
-	Details  []byte `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
-	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	Reason   string          `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	Details  *common.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	Identity string          `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *WorkflowExecutionTerminatedEventAttributes) Reset() {
@@ -2202,7 +2180,7 @@ func (m *WorkflowExecutionTerminatedEventAttributes) GetReason() string {
 	return ""
 }
 
-func (m *WorkflowExecutionTerminatedEventAttributes) GetDetails() []byte {
+func (m *WorkflowExecutionTerminatedEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -2453,7 +2431,7 @@ type SignalExternalWorkflowExecutionInitiatedEventAttributes struct {
 	Namespace                    string                       `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution            *execution.WorkflowExecution `protobuf:"bytes,3,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
 	SignalName                   string                       `protobuf:"bytes,4,opt,name=signalName,proto3" json:"signalName,omitempty"`
-	Input                        []byte                       `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
+	Input                        *common.Payload              `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
 	Control                      []byte                       `protobuf:"bytes,6,opt,name=control,proto3" json:"control,omitempty"`
 	ChildWorkflowOnly            bool                         `protobuf:"varint,7,opt,name=childWorkflowOnly,proto3" json:"childWorkflowOnly,omitempty"`
 }
@@ -2523,7 +2501,7 @@ func (m *SignalExternalWorkflowExecutionInitiatedEventAttributes) GetSignalName(
 	return ""
 }
 
-func (m *SignalExternalWorkflowExecutionInitiatedEventAttributes) GetInput() []byte {
+func (m *SignalExternalWorkflowExecutionInitiatedEventAttributes) GetInput() *common.Payload {
 	if m != nil {
 		return m.Input
 	}
@@ -2761,26 +2739,22 @@ func (m *UpsertWorkflowSearchAttributesEventAttributes) GetSearchAttributes() *c
 }
 
 type StartChildWorkflowExecutionInitiatedEventAttributes struct {
-	Namespace    string               `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId   string               `protobuf:"bytes,2,opt,name=workflowId,proto3" json:"workflowId,omitempty"`
-	WorkflowType *common.WorkflowType `protobuf:"bytes,3,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
-	TaskList     *tasklist.TaskList   `protobuf:"bytes,4,opt,name=taskList,proto3" json:"taskList,omitempty"`
-	Input        []byte               `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
-	// Total workflow execution timeout including retries and continue as new
-	WorkflowExecutionTimeoutSeconds int32 `protobuf:"varint,6,opt,name=workflowExecutionTimeoutSeconds,proto3" json:"workflowExecutionTimeoutSeconds,omitempty"`
-	// Timeout of a single workflow run
-	WorkflowRunTimeoutSeconds int32 `protobuf:"varint,7,opt,name=workflowRunTimeoutSeconds,proto3" json:"workflowRunTimeoutSeconds,omitempty"`
-	// Timeout of a single workflow task
-	WorkflowTaskTimeoutSeconds   int32                        `protobuf:"varint,8,opt,name=workflowTaskTimeoutSeconds,proto3" json:"workflowTaskTimeoutSeconds,omitempty"`
-	ParentClosePolicy            common.ParentClosePolicy     `protobuf:"varint,9,opt,name=parentClosePolicy,proto3,enum=common.ParentClosePolicy" json:"parentClosePolicy,omitempty"`
-	Control                      []byte                       `protobuf:"bytes,10,opt,name=control,proto3" json:"control,omitempty"`
-	DecisionTaskCompletedEventId int64                        `protobuf:"varint,11,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
-	WorkflowIdReusePolicy        common.WorkflowIdReusePolicy `protobuf:"varint,12,opt,name=workflowIdReusePolicy,proto3,enum=common.WorkflowIdReusePolicy" json:"workflowIdReusePolicy,omitempty"`
-	RetryPolicy                  *common.RetryPolicy          `protobuf:"bytes,13,opt,name=retryPolicy,proto3" json:"retryPolicy,omitempty"`
-	CronSchedule                 string                       `protobuf:"bytes,14,opt,name=cronSchedule,proto3" json:"cronSchedule,omitempty"`
-	Header                       *common.Header               `protobuf:"bytes,15,opt,name=header,proto3" json:"header,omitempty"`
-	Memo                         *common.Memo                 `protobuf:"bytes,16,opt,name=memo,proto3" json:"memo,omitempty"`
-	SearchAttributes             *common.SearchAttributes     `protobuf:"bytes,17,opt,name=searchAttributes,proto3" json:"searchAttributes,omitempty"`
+	Namespace                           string                       `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowId                          string                       `protobuf:"bytes,2,opt,name=workflowId,proto3" json:"workflowId,omitempty"`
+	WorkflowType                        *common.WorkflowType         `protobuf:"bytes,3,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
+	TaskList                            *tasklist.TaskList           `protobuf:"bytes,4,opt,name=taskList,proto3" json:"taskList,omitempty"`
+	Input                               *common.Payload              `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
+	ExecutionStartToCloseTimeoutSeconds int32                        `protobuf:"varint,6,opt,name=executionStartToCloseTimeoutSeconds,proto3" json:"executionStartToCloseTimeoutSeconds,omitempty"`
+	TaskStartToCloseTimeoutSeconds      int32                        `protobuf:"varint,7,opt,name=taskStartToCloseTimeoutSeconds,proto3" json:"taskStartToCloseTimeoutSeconds,omitempty"`
+	ParentClosePolicy                   common.ParentClosePolicy     `protobuf:"varint,8,opt,name=parentClosePolicy,proto3,enum=common.ParentClosePolicy" json:"parentClosePolicy,omitempty"`
+	Control                             []byte                       `protobuf:"bytes,9,opt,name=control,proto3" json:"control,omitempty"`
+	DecisionTaskCompletedEventId        int64                        `protobuf:"varint,10,opt,name=decisionTaskCompletedEventId,proto3" json:"decisionTaskCompletedEventId,omitempty"`
+	WorkflowIdReusePolicy               common.WorkflowIdReusePolicy `protobuf:"varint,11,opt,name=workflowIdReusePolicy,proto3,enum=common.WorkflowIdReusePolicy" json:"workflowIdReusePolicy,omitempty"`
+	RetryPolicy                         *common.RetryPolicy          `protobuf:"bytes,12,opt,name=retryPolicy,proto3" json:"retryPolicy,omitempty"`
+	CronSchedule                        string                       `protobuf:"bytes,13,opt,name=cronSchedule,proto3" json:"cronSchedule,omitempty"`
+	Header                              *common.Header               `protobuf:"bytes,14,opt,name=header,proto3" json:"header,omitempty"`
+	Memo                                *common.Memo                 `protobuf:"bytes,15,opt,name=memo,proto3" json:"memo,omitempty"`
+	SearchAttributes                    *common.SearchAttributes     `protobuf:"bytes,16,opt,name=searchAttributes,proto3" json:"searchAttributes,omitempty"`
 }
 
 func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Reset() {
@@ -2848,30 +2822,23 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetTaskList() *tas
 	return nil
 }
 
-func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetInput() []byte {
+func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetInput() *common.Payload {
 	if m != nil {
 		return m.Input
 	}
 	return nil
 }
 
-func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetWorkflowExecutionTimeoutSeconds() int32 {
+func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetExecutionStartToCloseTimeoutSeconds() int32 {
 	if m != nil {
-		return m.WorkflowExecutionTimeoutSeconds
+		return m.ExecutionStartToCloseTimeoutSeconds
 	}
 	return 0
 }
 
-func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetWorkflowRunTimeoutSeconds() int32 {
+func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetTaskStartToCloseTimeoutSeconds() int32 {
 	if m != nil {
-		return m.WorkflowRunTimeoutSeconds
-	}
-	return 0
-}
-
-func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetWorkflowTaskTimeoutSeconds() int32 {
-	if m != nil {
-		return m.WorkflowTaskTimeoutSeconds
+		return m.TaskStartToCloseTimeoutSeconds
 	}
 	return 0
 }
@@ -3116,7 +3083,7 @@ func (m *ChildWorkflowExecutionStartedEventAttributes) GetHeader() *common.Heade
 }
 
 type ChildWorkflowExecutionCompletedEventAttributes struct {
-	Result            []byte                       `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	Result            *common.Payload              `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	Namespace         string                       `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *execution.WorkflowExecution `protobuf:"bytes,3,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
 	WorkflowType      *common.WorkflowType         `protobuf:"bytes,4,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
@@ -3161,7 +3128,7 @@ func (m *ChildWorkflowExecutionCompletedEventAttributes) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ChildWorkflowExecutionCompletedEventAttributes proto.InternalMessageInfo
 
-func (m *ChildWorkflowExecutionCompletedEventAttributes) GetResult() []byte {
+func (m *ChildWorkflowExecutionCompletedEventAttributes) GetResult() *common.Payload {
 	if m != nil {
 		return m.Result
 	}
@@ -3205,7 +3172,7 @@ func (m *ChildWorkflowExecutionCompletedEventAttributes) GetStartedEventId() int
 
 type ChildWorkflowExecutionFailedEventAttributes struct {
 	Reason            string                       `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
-	Details           []byte                       `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	Details           *common.Payload              `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
 	Namespace         string                       `protobuf:"bytes,3,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *execution.WorkflowExecution `protobuf:"bytes,4,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
 	WorkflowType      *common.WorkflowType         `protobuf:"bytes,5,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
@@ -3257,7 +3224,7 @@ func (m *ChildWorkflowExecutionFailedEventAttributes) GetReason() string {
 	return ""
 }
 
-func (m *ChildWorkflowExecutionFailedEventAttributes) GetDetails() []byte {
+func (m *ChildWorkflowExecutionFailedEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -3300,7 +3267,7 @@ func (m *ChildWorkflowExecutionFailedEventAttributes) GetStartedEventId() int64 
 }
 
 type ChildWorkflowExecutionCanceledEventAttributes struct {
-	Details           []byte                       `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
+	Details           *common.Payload              `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	Namespace         string                       `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *execution.WorkflowExecution `protobuf:"bytes,3,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
 	WorkflowType      *common.WorkflowType         `protobuf:"bytes,4,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
@@ -3345,7 +3312,7 @@ func (m *ChildWorkflowExecutionCanceledEventAttributes) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ChildWorkflowExecutionCanceledEventAttributes proto.InternalMessageInfo
 
-func (m *ChildWorkflowExecutionCanceledEventAttributes) GetDetails() []byte {
+func (m *ChildWorkflowExecutionCanceledEventAttributes) GetDetails() *common.Payload {
 	if m != nil {
 		return m.Details
 	}
@@ -4300,209 +4267,208 @@ func init() {
 func init() { proto.RegisterFile("event/message.proto", fileDescriptor_7135fdf3a2c9ba09) }
 
 var fileDescriptor_7135fdf3a2c9ba09 = []byte{
-	// 3231 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x5c, 0x4d, 0x8c, 0x1c, 0x47,
-	0xf5, 0x9f, 0xea, 0xf9, 0x58, 0xef, 0x9b, 0xf5, 0x66, 0xb7, 0xec, 0xd8, 0xbd, 0x9b, 0xf5, 0x66,
-	0x3d, 0xeb, 0xff, 0x7a, 0xbd, 0xb6, 0x67, 0x9d, 0xb1, 0x13, 0xe7, 0x9f, 0x44, 0x96, 0xfc, 0x15,
-	0x66, 0x11, 0x49, 0xac, 0xb6, 0x49, 0x50, 0x24, 0xa4, 0xb4, 0x67, 0x6a, 0xbd, 0xad, 0x9d, 0xe9,
-	0x1e, 0xba, 0x7b, 0x3c, 0x5e, 0x40, 0x48, 0x70, 0x09, 0x44, 0x8a, 0x14, 0x09, 0x09, 0x09, 0x09,
-	0x81, 0x14, 0x09, 0x10, 0x39, 0x84, 0x8f, 0x03, 0x12, 0x9c, 0xc2, 0x01, 0xc4, 0x2d, 0x11, 0x17,
-	0xb8, 0x20, 0x45, 0xb6, 0x72, 0x41, 0x48, 0x1c, 0x38, 0x72, 0x41, 0x5d, 0xdd, 0x3d, 0xd3, 0x1f,
-	0x55, 0xdd, 0x55, 0xb3, 0x63, 0x07, 0x11, 0x6e, 0xdb, 0x55, 0xaf, 0xea, 0xfd, 0xea, 0xd5, 0xfb,
-	0xa8, 0x57, 0xf5, 0x66, 0xe1, 0x10, 0xb9, 0x4b, 0x4c, 0x77, 0xb3, 0x4b, 0x1c, 0x47, 0xbf, 0x43,
-	0xea, 0x3d, 0xdb, 0x72, 0x2d, 0x5c, 0xa6, 0x8d, 0x8b, 0x73, 0x7e, 0x1f, 0x31, 0xfb, 0x5d, 0xbf,
-	0x63, 0x71, 0xbe, 0x65, 0x75, 0xbb, 0x96, 0x19, 0x6d, 0x3a, 0x1c, 0x34, 0xc5, 0x66, 0x58, 0x3c,
-	0x4a, 0xee, 0x91, 0x56, 0xdf, 0x35, 0x52, 0x1d, 0x47, 0x5c, 0xdd, 0xd9, 0xed, 0x18, 0x4e, 0x82,
-	0x65, 0xed, 0xbd, 0x2a, 0x9c, 0x7c, 0xcd, 0xb2, 0x77, 0xb7, 0x3b, 0xd6, 0xe0, 0x7a, 0x38, 0xf6,
-	0xa6, 0xab, 0xdb, 0x2e, 0x69, 0x5f, 0xf7, 0x60, 0x5c, 0x76, 0x5d, 0xdb, 0xb8, 0xdd, 0x77, 0x89,
-	0x83, 0x9f, 0x85, 0x99, 0x41, 0x40, 0x7a, 0x6b, 0xaf, 0x47, 0x54, 0xb4, 0x82, 0xd6, 0xab, 0x8d,
-	0xc3, 0x75, 0x1f, 0x49, 0xfd, 0xb5, 0x48, 0x9f, 0x16, 0xa3, 0xc4, 0xcf, 0xc2, 0xd1, 0x9e, 0x6e,
-	0x13, 0xd3, 0x0d, 0x69, 0x5e, 0xd6, 0xbb, 0xc4, 0xe9, 0xe9, 0x2d, 0xa2, 0x2a, 0x2b, 0x68, 0x7d,
-	0x5a, 0xe3, 0x75, 0xe3, 0x57, 0x93, 0x23, 0x87, 0x20, 0xd5, 0x22, 0x65, 0xbf, 0x54, 0x1f, 0x2e,
-	0xb9, 0x9e, 0xa2, 0xd1, 0x78, 0x83, 0xf1, 0x33, 0x70, 0xc4, 0xef, 0xda, 0x32, 0x0d, 0xd7, 0xd0,
-	0xc3, 0xd5, 0x6e, 0xb5, 0xd5, 0xd2, 0x0a, 0x5a, 0x2f, 0x6a, 0x9c, 0x5e, 0x5c, 0x87, 0x03, 0x9e,
-	0x24, 0xbf, 0x60, 0x38, 0xae, 0x5a, 0xa6, 0x00, 0x70, 0x3d, 0x14, 0x6d, 0xfd, 0x56, 0xd0, 0xa3,
-	0x0d, 0x69, 0xf0, 0x61, 0x28, 0x1b, 0x66, 0xaf, 0xef, 0xaa, 0x95, 0x15, 0xb4, 0x3e, 0xa3, 0xf9,
-	0x1f, 0xb8, 0x09, 0x4f, 0x0e, 0x92, 0x90, 0x6e, 0x19, 0x5d, 0x62, 0xf5, 0xdd, 0x9b, 0xa4, 0x65,
-	0x99, 0x6d, 0x47, 0x9d, 0x5a, 0x41, 0xeb, 0x65, 0x2d, 0x8f, 0x0c, 0xbf, 0x00, 0x0b, 0x21, 0x89,
-	0xd6, 0x4f, 0xce, 0x71, 0x80, 0xce, 0xc1, 0x27, 0xc0, 0x97, 0x60, 0x71, 0xb8, 0x4f, 0xba, 0xb3,
-	0x9b, 0x18, 0x3e, 0x4d, 0x87, 0x67, 0x50, 0x78, 0xfb, 0xda, 0xb2, 0x4c, 0xd7, 0x30, 0xfb, 0xa4,
-	0x3d, 0x12, 0x7a, 0xdf, 0xdc, 0x6a, 0xab, 0xe0, 0xef, 0x2b, 0xa7, 0x1b, 0xbf, 0x00, 0xd3, 0x86,
-	0x2f, 0x5b, 0xcb, 0x56, 0xab, 0x2b, 0x68, 0x7d, 0xb6, 0xb1, 0x1c, 0x2a, 0xd2, 0xd5, 0x60, 0xcc,
-	0x65, 0xe7, 0x65, 0x32, 0xd8, 0x0a, 0xa9, 0xb4, 0xd1, 0x00, 0x6f, 0xf7, 0x86, 0x13, 0xbf, 0xa8,
-	0x1b, 0x9d, 0xbe, 0x4d, 0x34, 0xa2, 0x3b, 0x96, 0xa9, 0xce, 0x50, 0xb6, 0x9c, 0xde, 0x18, 0xde,
-	0xa0, 0xe7, 0x1a, 0x71, 0x75, 0xa3, 0xe3, 0xa8, 0x07, 0xe9, 0xfe, 0xf0, 0xba, 0x71, 0x03, 0x0e,
-	0x77, 0x74, 0xc7, 0xbd, 0x6a, 0x75, 0x7b, 0x1d, 0x42, 0x97, 0x41, 0x9c, 0x7e, 0xc7, 0x55, 0x67,
-	0xe9, 0x30, 0x66, 0x9f, 0x87, 0xd2, 0xb2, 0x8d, 0x3b, 0x86, 0xa9, 0x77, 0x12, 0xc2, 0x79, 0xcc,
-	0x47, 0xc9, 0xee, 0xc5, 0x8b, 0x70, 0xc0, 0x68, 0x13, 0xd3, 0x35, 0xdc, 0x3d, 0x75, 0x8e, 0x52,
-	0x0e, 0xbf, 0xf1, 0x39, 0x38, 0xb4, 0x6d, 0xd8, 0x8e, 0x9b, 0x98, 0x70, 0x9e, 0x92, 0xb1, 0xba,
-	0xf0, 0xd3, 0x50, 0xb5, 0x89, 0x6b, 0xef, 0xdd, 0xb0, 0x3a, 0x46, 0x6b, 0x4f, 0xc5, 0x54, 0x69,
-	0x0f, 0x85, 0xb2, 0xd6, 0x46, 0x5d, 0x5a, 0x94, 0x0e, 0xab, 0x30, 0xa5, 0xbb, 0x2e, 0xe9, 0xf6,
-	0x5c, 0xf5, 0x10, 0xd5, 0x83, 0xf0, 0xd3, 0x83, 0x40, 0xee, 0xf5, 0x0c, 0x5b, 0x0f, 0xd5, 0xd1,
-	0x71, 0xf5, 0x6e, 0x4f, 0x3d, 0x4c, 0xed, 0x86, 0xd5, 0x85, 0x6b, 0x30, 0xd3, 0xb2, 0x2d, 0xf3,
-	0x66, 0x6b, 0x87, 0xb4, 0xfb, 0x1d, 0xa2, 0x3e, 0x4e, 0xd1, 0xc6, 0xda, 0x3c, 0x93, 0xa0, 0xe8,
-	0xaf, 0x91, 0x96, 0xe1, 0x78, 0xa3, 0x75, 0x67, 0xf7, 0x8a, 0xde, 0xda, 0xb5, 0xb6, 0xb7, 0x43,
-	0x7d, 0x3c, 0xe2, 0x9b, 0x44, 0x0e, 0x19, 0x5e, 0x81, 0x52, 0x97, 0x74, 0x2d, 0xf5, 0x28, 0x5d,
-	0xe9, 0x4c, 0xb8, 0xd2, 0x97, 0x48, 0xd7, 0xd2, 0x68, 0x0f, 0xbe, 0x06, 0x73, 0x0e, 0xd1, 0xed,
-	0xd6, 0xce, 0xc8, 0xb9, 0xa9, 0x2a, 0xa5, 0x56, 0x43, 0xea, 0x9b, 0x89, 0x7e, 0x2d, 0x35, 0x02,
-	0x37, 0xe1, 0x50, 0xcf, 0x26, 0x77, 0x2f, 0xf7, 0x5d, 0x4b, 0x23, 0x0e, 0x71, 0x6f, 0x58, 0x86,
-	0xe9, 0x3a, 0xea, 0x02, 0x9d, 0xe8, 0x48, 0xc4, 0x2d, 0x45, 0x7a, 0x35, 0xd6, 0x10, 0xbc, 0x06,
-	0x95, 0x1d, 0xa2, 0xb7, 0x89, 0xad, 0x2e, 0xd2, 0xc1, 0xb3, 0x21, 0x8a, 0x26, 0x6d, 0xd5, 0x82,
-	0xde, 0xda, 0x9b, 0x08, 0x4e, 0xa5, 0x5c, 0x59, 0xa0, 0x76, 0x69, 0x77, 0x7d, 0x04, 0x2a, 0xb6,
-	0xaf, 0xa4, 0x88, 0x2a, 0x69, 0xf0, 0x85, 0xaf, 0xc0, 0x52, 0x3b, 0x22, 0xbd, 0xf8, 0xf8, 0xad,
-	0x36, 0xf5, 0xc8, 0x45, 0x2d, 0x93, 0xa6, 0xf6, 0x43, 0x04, 0x6b, 0x29, 0x24, 0x9e, 0xc9, 0x70,
-	0x60, 0x50, 0xdb, 0x44, 0x74, 0xdb, 0x83, 0x2f, 0x4f, 0xc1, 0xda, 0x81, 0xed, 0x29, 0x14, 0x5f,
-	0xf8, 0x99, 0x0b, 0xb0, 0x28, 0x00, 0xf0, 0x0d, 0x58, 0x7f, 0x8d, 0xe5, 0x3a, 0xdb, 0xaf, 0xf4,
-	0xdd, 0x24, 0xc2, 0x0b, 0x50, 0x75, 0x7d, 0xbf, 0x46, 0xc3, 0x9a, 0x42, 0xbd, 0x11, 0xae, 0xd3,
-	0x28, 0x5c, 0xbf, 0x35, 0xea, 0xd1, 0xa2, 0x64, 0xb5, 0x3f, 0x55, 0xa0, 0xce, 0xd8, 0x8c, 0xc0,
-	0x7d, 0x50, 0xdf, 0x95, 0x64, 0x74, 0x06, 0xe6, 0x4d, 0x32, 0x48, 0x98, 0xae, 0x2f, 0x95, 0x74,
-	0x47, 0x2a, 0xdc, 0x2a, 0xc2, 0xe1, 0x36, 0x1a, 0xa4, 0x8a, 0x32, 0x41, 0xaa, 0x14, 0x0d, 0x52,
-	0x37, 0x60, 0x95, 0xc4, 0x4e, 0x04, 0xb7, 0xac, 0xab, 0x1d, 0xcb, 0x21, 0x89, 0x28, 0x51, 0xa6,
-	0x56, 0x29, 0x42, 0x8a, 0x5f, 0x84, 0x65, 0x8f, 0x67, 0xc6, 0x64, 0x15, 0x3a, 0x59, 0x0e, 0x55,
-	0xae, 0x82, 0x4c, 0xe5, 0x2b, 0x08, 0xbe, 0x06, 0xc7, 0x6e, 0x07, 0x7e, 0xc3, 0x63, 0xb4, 0x65,
-	0xba, 0xc4, 0xbe, 0xab, 0x77, 0xb6, 0xcc, 0x78, 0xf0, 0xcc, 0x26, 0x8a, 0x87, 0xb1, 0x69, 0xd9,
-	0x30, 0x76, 0x02, 0x0e, 0x6e, 0xc7, 0xa2, 0x97, 0x1f, 0x34, 0xe3, 0x8d, 0x78, 0x0d, 0x66, 0xb7,
-	0xe3, 0xb1, 0xaa, 0x4a, 0xb7, 0x29, 0xd1, 0xca, 0x0d, 0x51, 0x33, 0x19, 0x21, 0x6a, 0xe4, 0x79,
-	0x0e, 0x66, 0x79, 0x9e, 0xa1, 0x4f, 0x9d, 0x95, 0xf2, 0xa9, 0x8f, 0xc9, 0xfa, 0xd4, 0xda, 0x2f,
-	0x10, 0x9c, 0x88, 0xba, 0xf6, 0x30, 0x3c, 0xa4, 0xbc, 0x4a, 0x54, 0xc5, 0x91, 0x80, 0x8a, 0x5f,
-	0x82, 0x45, 0x87, 0xaf, 0x76, 0x8a, 0x7f, 0xd2, 0xe1, 0x53, 0x44, 0xc3, 0xa1, 0xef, 0x7e, 0xc2,
-	0xcf, 0xda, 0x5b, 0x08, 0x6a, 0x31, 0xc8, 0xec, 0xc3, 0xf3, 0x06, 0xcc, 0x39, 0xb1, 0xc5, 0x04,
-	0xa6, 0x5f, 0xd4, 0x52, 0xed, 0xb1, 0x03, 0x80, 0x92, 0x38, 0x00, 0x2c, 0xc1, 0xb4, 0x4d, 0xbe,
-	0xd2, 0x27, 0x4e, 0xe8, 0x09, 0xa7, 0xb5, 0x51, 0x43, 0xed, 0x6f, 0x09, 0xf9, 0x71, 0x83, 0xc3,
-	0x06, 0xcc, 0x91, 0xa8, 0xd3, 0x22, 0xf7, 0xc2, 0x30, 0x91, 0x6a, 0x67, 0x42, 0x57, 0x38, 0xd0,
-	0xd7, 0x60, 0xd6, 0x89, 0x08, 0x60, 0xe8, 0xad, 0x13, 0xad, 0xb1, 0x25, 0x96, 0x12, 0x4b, 0x5c,
-	0x83, 0xd9, 0xdb, 0x86, 0xa9, 0xdb, 0x7b, 0x57, 0x77, 0x48, 0x6b, 0xd7, 0xe9, 0x77, 0xa9, 0x8f,
-	0x99, 0xd6, 0x12, 0xad, 0xb5, 0x9f, 0x23, 0x58, 0x8d, 0x2e, 0x96, 0xe7, 0xdf, 0x65, 0x44, 0x9f,
-	0xc6, 0xaf, 0x30, 0xf1, 0x27, 0x62, 0x46, 0x51, 0x2c, 0x66, 0x7c, 0xa7, 0x08, 0xc7, 0xa3, 0x88,
-	0xd9, 0x11, 0xf3, 0xe1, 0xe0, 0x2d, 0xb7, 0xf4, 0xbe, 0x13, 0x22, 0x5d, 0x0e, 0x90, 0xa6, 0xc1,
-	0x5c, 0xf5, 0xa8, 0x34, 0x9f, 0x38, 0x1a, 0xa3, 0x4b, 0xf1, 0x18, 0x1d, 0xdd, 0xbf, 0x72, 0x62,
-	0xff, 0x46, 0x11, 0xbf, 0x12, 0x8b, 0xf8, 0x4b, 0x30, 0x7d, 0x5b, 0x77, 0x88, 0x1f, 0xf6, 0xa6,
-	0x7c, 0xd5, 0x1d, 0x36, 0x78, 0x33, 0x9a, 0x64, 0xe0, 0x77, 0x1e, 0xf0, 0x67, 0x0c, 0xbf, 0x3d,
-	0x89, 0x6c, 0x5b, 0xf6, 0x2e, 0x5d, 0xcc, 0xab, 0xc4, 0xf6, 0x10, 0x53, 0x6f, 0x5b, 0xd4, 0x52,
-	0xed, 0x0c, 0xed, 0x01, 0xa6, 0xf6, 0xbc, 0x5d, 0x86, 0x13, 0x97, 0x5b, 0xae, 0x71, 0xd7, 0x70,
-	0xf7, 0x32, 0x5d, 0xcd, 0x32, 0x80, 0x1e, 0xd0, 0x0d, 0xc3, 0x75, 0xa4, 0xc5, 0x8b, 0xd3, 0xe1,
-	0x17, 0x2b, 0x4e, 0x5f, 0x8e, 0xf4, 0x69, 0x31, 0x4a, 0x4f, 0x20, 0xe6, 0x30, 0x11, 0x0e, 0x6c,
-	0x79, 0xd8, 0x10, 0x73, 0x71, 0x25, 0x01, 0x17, 0x37, 0xf2, 0xe5, 0xe5, 0x4c, 0x5f, 0xce, 0x4e,
-	0x49, 0xaf, 0xc1, 0xb1, 0x50, 0xb9, 0xd8, 0x3e, 0xd2, 0x4f, 0x48, 0xb3, 0x89, 0xe2, 0xb3, 0xf8,
-	0x11, 0x9c, 0x95, 0x92, 0x66, 0x13, 0xe5, 0x38, 0xeb, 0xe9, 0x5c, 0x67, 0xfd, 0x2c, 0x1c, 0xdd,
-	0x21, 0xba, 0xed, 0xde, 0x26, 0x7a, 0x92, 0x3f, 0xd0, 0xc1, 0xbc, 0xee, 0xdc, 0x93, 0x45, 0x55,
-	0xe0, 0x64, 0x91, 0x48, 0xb8, 0x66, 0xc4, 0x12, 0xae, 0xda, 0xb7, 0x14, 0xa8, 0xc5, 0xf4, 0xf1,
-	0x53, 0x8c, 0x23, 0xd1, 0x70, 0x57, 0x8a, 0x67, 0x7f, 0x67, 0x60, 0xde, 0x3b, 0x49, 0xc4, 0xb3,
-	0x6e, 0xdf, 0x03, 0xa4, 0x3b, 0x70, 0x1d, 0x70, 0xa4, 0x31, 0x3c, 0xbf, 0xf8, 0x8a, 0xc7, 0xe8,
-	0xa9, 0xbd, 0x8f, 0xe2, 0x46, 0x29, 0x9d, 0xdc, 0x3c, 0xe2, 0x58, 0x55, 0xfb, 0x3d, 0x82, 0xe3,
-	0x51, 0xc0, 0x93, 0xca, 0x81, 0x58, 0xeb, 0x28, 0x0a, 0xaf, 0xa3, 0x94, 0xbb, 0x8e, 0x84, 0xcf,
-	0xae, 0xfd, 0x54, 0x81, 0xd5, 0xe8, 0x3a, 0x78, 0xb1, 0x34, 0x82, 0x18, 0xe5, 0x23, 0xde, 0xaf,
-	0xe4, 0x13, 0x51, 0xb6, 0x24, 0x14, 0x65, 0x1f, 0xb2, 0x8a, 0xbe, 0x83, 0x60, 0x23, 0xa6, 0xa2,
-	0xba, 0xd9, 0x22, 0x1d, 0xcd, 0x37, 0x1d, 0xf9, 0xe8, 0x31, 0x89, 0x6c, 0xfc, 0x3d, 0x04, 0xf5,
-	0x00, 0x80, 0x8f, 0x26, 0x5f, 0x23, 0xf3, 0x60, 0x1d, 0x0e, 0xcf, 0x0b, 0xbe, 0xdf, 0x08, 0xce,
-	0x03, 0x93, 0xc8, 0xcc, 0xff, 0x89, 0xe2, 0x9a, 0xe6, 0x23, 0x4e, 0x23, 0xe4, 0x6b, 0xda, 0x15,
-	0x58, 0xea, 0xe8, 0xee, 0x70, 0xb1, 0x71, 0xd1, 0x8f, 0x44, 0x96, 0x45, 0xf3, 0xc8, 0xed, 0xeb,
-	0x37, 0x08, 0x9e, 0xf0, 0x14, 0xd6, 0xe6, 0xb8, 0x75, 0x15, 0xa6, 0x3c, 0x15, 0xb6, 0x87, 0x9b,
-	0x11, 0x7e, 0xe2, 0x17, 0x60, 0x21, 0x08, 0x75, 0x2f, 0x1a, 0x36, 0x2b, 0x71, 0x29, 0x6a, 0x7c,
-	0x82, 0x89, 0xec, 0xd8, 0x97, 0x61, 0x81, 0x42, 0xf7, 0xa6, 0x97, 0x00, 0x2e, 0x78, 0x34, 0xad,
-	0x7d, 0x80, 0x60, 0x89, 0xce, 0x9f, 0xa1, 0x09, 0xfb, 0x63, 0x31, 0x09, 0x29, 0x64, 0x46, 0x81,
-	0x5f, 0x21, 0x58, 0xf1, 0xd1, 0xfb, 0x82, 0x62, 0x9a, 0x1c, 0x7f, 0x19, 0x0f, 0xcd, 0xd8, 0x32,
-	0x41, 0xff, 0x0b, 0xc1, 0x66, 0xfa, 0x02, 0x2b, 0xdb, 0x9b, 0x0d, 0x91, 0xa2, 0x28, 0xd2, 0xe7,
-	0x40, 0x25, 0xf7, 0x5c, 0x62, 0x9b, 0x7a, 0x27, 0xf5, 0x9c, 0xe2, 0x6f, 0x08, 0xb7, 0x1f, 0xbf,
-	0x0e, 0x0b, 0x61, 0xdf, 0x78, 0x4f, 0x3c, 0xfc, 0xe1, 0x99, 0xab, 0xff, 0x36, 0x62, 0xdc, 0x10,
-	0xf2, 0x34, 0x30, 0x6f, 0x2b, 0x90, 0xc0, 0x56, 0x70, 0x63, 0xbd, 0x77, 0x86, 0x38, 0xf6, 0x92,
-	0x6e, 0xef, 0x12, 0x5b, 0x23, 0x2d, 0xcb, 0x6e, 0x33, 0xbd, 0x75, 0x97, 0x12, 0xbc, 0xac, 0x77,
-	0x43, 0xd9, 0x47, 0x5a, 0x1e, 0xee, 0x5d, 0x6a, 0x24, 0xb1, 0x28, 0x65, 0x5e, 0x4f, 0x7f, 0x9d,
-	0x21, 0xd1, 0x9b, 0xc6, 0x1d, 0x53, 0x67, 0xc7, 0x1f, 0x87, 0x76, 0x45, 0x57, 0x34, 0x6a, 0x19,
-	0x25, 0x29, 0x4a, 0x34, 0x49, 0x89, 0x6e, 0x68, 0x31, 0xb1, 0xa1, 0x5f, 0x85, 0x8d, 0xf4, 0x8d,
-	0x2f, 0xb1, 0xbb, 0x86, 0xa9, 0xbb, 0x93, 0x38, 0x91, 0x65, 0xf1, 0xfe, 0xb5, 0x02, 0x97, 0x62,
-	0x01, 0xf8, 0x3a, 0x4f, 0x27, 0xe3, 0xfa, 0x3f, 0x61, 0x15, 0x8b, 0xe5, 0x93, 0x4a, 0x32, 0x9f,
-	0xfc, 0x3c, 0xcc, 0x0f, 0xc6, 0xb2, 0xb0, 0xf4, 0x30, 0x4f, 0x4c, 0x2d, 0xcb, 0x74, 0x6d, 0xab,
-	0x13, 0x5e, 0x0c, 0x04, 0x9f, 0xde, 0xe1, 0xab, 0xb5, 0x63, 0x74, 0xda, 0xe1, 0x34, 0xaf, 0x98,
-	0x1d, 0x3f, 0x1a, 0x1e, 0xd0, 0xd2, 0x1d, 0xb5, 0xbf, 0x2b, 0xf0, 0xbc, 0x98, 0xe0, 0xd8, 0x3e,
-	0xf5, 0xff, 0xa3, 0xfe, 0x68, 0xb6, 0xb1, 0x1a, 0x1c, 0x0d, 0x39, 0xa3, 0x63, 0x77, 0x1b, 0x13,
-	0x38, 0x78, 0xe5, 0x24, 0xf0, 0x4c, 0x81, 0x97, 0xc6, 0x13, 0xf8, 0x06, 0xcc, 0x19, 0x49, 0xd7,
-	0x5a, 0xf6, 0xcf, 0x2b, 0xc9, 0xf6, 0xe8, 0xe6, 0x54, 0x62, 0x9b, 0x53, 0xfb, 0x10, 0xc1, 0x45,
-	0xae, 0x84, 0x73, 0x5c, 0x3f, 0x0b, 0x01, 0xe2, 0x20, 0x78, 0x64, 0x8a, 0x58, 0xfb, 0x44, 0x81,
-	0x8b, 0xbe, 0x8f, 0xf9, 0x6f, 0x37, 0xb9, 0xb8, 0xc7, 0x2c, 0xf1, 0x3d, 0x66, 0x39, 0xea, 0x31,
-	0xb9, 0xba, 0xc0, 0x36, 0xd4, 0x29, 0x9e, 0xa1, 0x7e, 0xa2, 0xc0, 0x85, 0x1c, 0x39, 0xff, 0xcf,
-	0x42, 0x27, 0x60, 0xa1, 0xf7, 0x11, 0x9c, 0xe3, 0x4a, 0x98, 0x17, 0x4c, 0xff, 0x23, 0x4d, 0x93,
-	0x1f, 0x23, 0xbc, 0x64, 0xe8, 0xec, 0x17, 0x7b, 0x0e, 0xb1, 0x87, 0x85, 0x39, 0xc9, 0xa7, 0xa1,
-	0x87, 0x61, 0xaa, 0xac, 0x17, 0x2a, 0x45, 0xfa, 0x85, 0xea, 0xdd, 0x29, 0x38, 0x4f, 0x73, 0xb8,
-	0xab, 0x51, 0x1b, 0xc9, 0x77, 0x36, 0x31, 0xb9, 0xa3, 0xa4, 0xdc, 0x97, 0x01, 0x42, 0x01, 0x06,
-	0x8a, 0x3d, 0xad, 0x45, 0x5a, 0x52, 0x6f, 0xc1, 0xc5, 0xb1, 0xde, 0x82, 0x4b, 0x32, 0x6f, 0xc1,
-	0x65, 0xc9, 0x82, 0xa5, 0xca, 0x04, 0x0a, 0x96, 0xa6, 0xf6, 0x57, 0xb0, 0x74, 0x20, 0xb7, 0x60,
-	0xe9, 0x73, 0x30, 0xef, 0x17, 0x76, 0xd1, 0x6b, 0xe3, 0xe0, 0x86, 0xd6, 0x7f, 0xb7, 0x5d, 0x08,
-	0x85, 0x79, 0x23, 0x49, 0xa0, 0xa5, 0xc7, 0x44, 0x95, 0x1b, 0xe2, 0x7e, 0x75, 0x12, 0x57, 0xc8,
-	0x37, 0xe1, 0xf1, 0xd1, 0xe6, 0x6b, 0xa4, 0x3f, 0x84, 0x3a, 0x43, 0xa1, 0x1e, 0x4b, 0xee, 0x7b,
-	0x8c, 0x48, 0x63, 0x8f, 0x4d, 0xde, 0x4b, 0x1f, 0x14, 0x2c, 0x04, 0x4a, 0x16, 0xef, 0xcc, 0x32,
-	0x8a, 0x77, 0x46, 0x19, 0xc2, 0x63, 0x42, 0xcf, 0xc8, 0x73, 0x52, 0xcf, 0xc8, 0xf3, 0xd2, 0x46,
-	0xfa, 0x0f, 0x05, 0xce, 0x65, 0x18, 0x29, 0x3b, 0x52, 0x7d, 0x5a, 0x16, 0x3a, 0x8c, 0x90, 0x25,
-	0xe9, 0x08, 0x19, 0xd1, 0xc2, 0x72, 0x5c, 0x0b, 0x59, 0x21, 0xa1, 0xc2, 0x09, 0x09, 0x13, 0x28,
-	0xa7, 0xa8, 0xfd, 0x44, 0x81, 0x33, 0x6c, 0x61, 0x73, 0x2e, 0xbc, 0xb2, 0xa5, 0xcd, 0x82, 0xaf,
-	0x70, 0xe0, 0x4f, 0x32, 0x66, 0x25, 0x77, 0xb1, 0x24, 0xbc, 0x8b, 0x82, 0xaf, 0x6f, 0xb5, 0x0f,
-	0x14, 0xa8, 0xb3, 0x05, 0x25, 0xfd, 0xd6, 0xf1, 0xe8, 0x42, 0xf9, 0xf8, 0x62, 0x91, 0x39, 0x15,
-	0xa5, 0x6f, 0xf3, 0x2a, 0xcc, 0x0b, 0xc3, 0x3f, 0x2b, 0x70, 0x5a, 0xc6, 0xb0, 0xe5, 0x73, 0xfd,
-	0x47, 0x77, 0x6a, 0x4c, 0x4a, 0xb6, 0xbc, 0x2f, 0xc9, 0x56, 0x84, 0x25, 0x3b, 0xc5, 0x94, 0xec,
-	0xef, 0x14, 0x38, 0xcb, 0x51, 0x4e, 0xe9, 0x5b, 0xfa, 0xcf, 0xaa, 0x76, 0xfe, 0x95, 0x2b, 0x43,
-	0xc1, 0xfa, 0x43, 0x24, 0xf6, 0xca, 0xf5, 0x59, 0x95, 0xef, 0xcf, 0x14, 0xd8, 0xe4, 0xc8, 0x97,
-	0x7b, 0xdb, 0x97, 0x1d, 0x6c, 0x98, 0xb2, 0x52, 0x26, 0x23, 0xab, 0xe2, 0xbe, 0x64, 0x55, 0x12,
-	0x96, 0x55, 0x99, 0x29, 0xab, 0x8f, 0x9f, 0x82, 0x99, 0xa6, 0xe1, 0xb8, 0x96, 0xbd, 0x47, 0x9b,
-	0x3c, 0x73, 0x25, 0xb1, 0x94, 0x29, 0xfc, 0xf4, 0x44, 0xe4, 0x0e, 0x6b, 0xb9, 0xfd, 0x50, 0x3b,
-	0x6a, 0xc0, 0x75, 0x98, 0xa6, 0x84, 0x91, 0x62, 0xa7, 0xb9, 0x40, 0x41, 0xaf, 0x87, 0xed, 0xda,
-	0x88, 0xc4, 0xe3, 0x73, 0x37, 0xa8, 0xd3, 0xf1, 0xd7, 0x10, 0x7e, 0x7a, 0xce, 0xd8, 0xcb, 0x35,
-	0x86, 0x90, 0x83, 0x2f, 0xfc, 0x16, 0x82, 0x93, 0x03, 0xb1, 0xb3, 0x03, 0x55, 0x8c, 0x6a, 0xa3,
-	0xce, 0x3b, 0x28, 0xb1, 0x47, 0x35, 0x0b, 0x9a, 0x28, 0x03, 0xfc, 0x0e, 0x82, 0x53, 0x03, 0xd1,
-	0xf8, 0x4c, 0x7d, 0x69, 0xb5, 0x71, 0x8e, 0x07, 0x87, 0x37, 0xae, 0x59, 0xd0, 0xc4, 0x99, 0xe0,
-	0x37, 0x11, 0xac, 0x0d, 0x84, 0xe2, 0x1d, 0x4d, 0x83, 0xaa, 0x8d, 0xb3, 0xd9, 0xe7, 0xc8, 0x34,
-	0x18, 0xc1, 0xe9, 0xf1, 0xdb, 0x08, 0xd6, 0x07, 0x82, 0xbe, 0x8d, 0xe6, 0x56, 0xd5, 0xc6, 0x26,
-	0x0f, 0x0b, 0x67, 0x58, 0xb3, 0xa0, 0x09, 0xb3, 0xc0, 0xdf, 0x44, 0x70, 0xa2, 0x2d, 0x50, 0x33,
-	0x4a, 0x13, 0xb5, 0x6a, 0xe3, 0x34, 0xa3, 0xf4, 0x8d, 0x37, 0xa4, 0x59, 0xd0, 0x84, 0xa6, 0xc6,
-	0x5f, 0x83, 0x5a, 0x3b, 0xb7, 0x06, 0x94, 0xa6, 0x7e, 0xd5, 0xc6, 0x29, 0x16, 0x00, 0x9e, 0xca,
-	0x0a, 0x4c, 0x9b, 0x12, 0x00, 0x57, 0x51, 0x67, 0xb8, 0x02, 0xc8, 0xd0, 0x51, 0xa1, 0xa9, 0xf1,
-	0x37, 0x60, 0xb5, 0x9d, 0x5f, 0x8a, 0x19, 0x24, 0x9d, 0x1b, 0x0c, 0x04, 0x7c, 0x4d, 0x10, 0x99,
-	0x18, 0xdf, 0x83, 0xe3, 0xed, 0xbc, 0xc2, 0xca, 0xa0, 0x7a, 0x79, 0x9d, 0x5b, 0xfb, 0x98, 0xe6,
-	0x9d, 0x3f, 0x29, 0x95, 0xbe, 0x2e, 0x50, 0x47, 0x18, 0xa4, 0xc6, 0xa1, 0xf4, 0x45, 0x4a, 0x0f,
-	0x3d, 0xe9, 0x8b, 0x4c, 0xed, 0xa9, 0x9f, 0x9e, 0x5b, 0x3a, 0x16, 0x64, 0xdd, 0xa7, 0x58, 0x00,
-	0xb8, 0xea, 0x97, 0x3f, 0x6d, 0x4a, 0x00, 0x5c, 0xf5, 0x9b, 0xe7, 0x0a, 0x20, 0x4b, 0xfd, 0x44,
-	0xa6, 0xf6, 0xb6, 0x5f, 0xcf, 0xab, 0x79, 0x09, 0x7e, 0xfa, 0xb4, 0xce, 0xe0, 0xcf, 0xdd, 0xfe,
-	0xdc, 0x49, 0x3d, 0xc5, 0xd7, 0xf3, 0xeb, 0xa6, 0xe8, 0x6f, 0xa8, 0x46, 0x8a, 0x2f, 0x50, 0x69,
-	0xe5, 0x29, 0xbe, 0xc0, 0xc4, 0x78, 0x1b, 0x9e, 0x70, 0xf9, 0x75, 0x25, 0xf4, 0x57, 0x59, 0xd5,
-	0x46, 0x2d, 0x72, 0x98, 0xb4, 0xb9, 0x9b, 0x9d, 0x35, 0x11, 0x7e, 0x03, 0x16, 0x5c, 0x5e, 0x11,
-	0x08, 0xfd, 0x41, 0x57, 0xb5, 0xb1, 0x12, 0xe5, 0xc2, 0xa2, 0x6b, 0x16, 0x34, 0xfe, 0x24, 0xf8,
-	0xbb, 0x08, 0x36, 0x74, 0xe1, 0xc2, 0x2a, 0xfa, 0x6b, 0xb0, 0x6a, 0xe3, 0x29, 0x96, 0x36, 0x65,
-	0x0e, 0x6c, 0x16, 0x34, 0x09, 0x36, 0xf8, 0x47, 0x08, 0xea, 0xb6, 0x54, 0x6d, 0x55, 0xf0, 0xc3,
-	0xb3, 0xa7, 0x03, 0x64, 0x72, 0x85, 0x59, 0xcd, 0x82, 0x26, 0xc9, 0x2e, 0xa9, 0x81, 0x9c, 0x4c,
-	0x2d, 0xf8, 0x81, 0xdb, 0x06, 0x57, 0x5e, 0x2c, 0x28, 0x22, 0x13, 0x63, 0x03, 0x96, 0xdc, 0x8c,
-	0xf2, 0x9d, 0xe0, 0x07, 0x71, 0xab, 0x51, 0xe5, 0xe0, 0x73, 0xcc, 0x9c, 0x0a, 0xf7, 0x61, 0xa5,
-	0x95, 0x53, 0x66, 0x13, 0xfc, 0x84, 0xee, 0x64, 0xc0, 0x2e, 0xaf, 0x2a, 0xa7, 0x59, 0xd0, 0x72,
-	0xa7, 0xc4, 0x1d, 0x38, 0xd6, 0xcd, 0xaa, 0xcf, 0x50, 0x9f, 0xa0, 0x3c, 0x4f, 0x04, 0x3c, 0x33,
-	0x6b, 0x39, 0x9a, 0x05, 0x2d, 0x7b, 0x32, 0xf6, 0xf9, 0x8a, 0xf3, 0xf4, 0xa3, 0x2e, 0x65, 0x9f,
-	0xaf, 0x38, 0xc3, 0x98, 0xe7, 0x2b, 0xde, 0xeb, 0x92, 0x67, 0x97, 0x03, 0xe1, 0x5c, 0x4b, 0x3d,
-	0x16, 0xb3, 0x4b, 0xf1, 0x24, 0xcd, 0xb3, 0x4b, 0x71, 0x36, 0xf8, 0x5d, 0x04, 0x9b, 0x03, 0xb9,
-	0x27, 0x6c, 0x75, 0x99, 0x42, 0x7b, 0x86, 0x7b, 0x50, 0xcf, 0xf3, 0x1b, 0xb2, 0x0c, 0xd9, 0x5b,
-	0xc9, 0xb3, 0x93, 0x27, 0xb3, 0xb7, 0x92, 0x6f, 0x33, 0xc2, 0x2c, 0xf0, 0x87, 0x08, 0x2e, 0xd9,
-	0xfb, 0xaa, 0x53, 0x51, 0x57, 0x28, 0xca, 0xeb, 0x2c, 0xe7, 0x26, 0x3d, 0x59, 0xb3, 0xa0, 0xed,
-	0x13, 0x0e, 0xfe, 0x03, 0x82, 0xe7, 0xed, 0xf1, 0x0b, 0x48, 0xd4, 0xe3, 0x74, 0x39, 0x57, 0xa4,
-	0x96, 0xc3, 0x73, 0x24, 0xfb, 0x01, 0x82, 0x7f, 0x8b, 0xe0, 0x22, 0x19, 0xaf, 0x34, 0x43, 0xad,
-	0xd1, 0x45, 0x5c, 0x0a, 0x13, 0xf2, 0xf1, 0x66, 0x69, 0x16, 0xb4, 0x71, 0x01, 0xd0, 0x20, 0x39,
-	0x90, 0xfa, 0x2d, 0xac, 0xba, 0x1a, 0x0b, 0x92, 0x72, 0x3f, 0xa4, 0xf5, 0x82, 0xa4, 0x1c, 0x3b,
-	0xfc, 0x3e, 0x82, 0xf3, 0x8e, 0xfc, 0xb3, 0xad, 0x7a, 0x82, 0xc2, 0x7c, 0x2e, 0x80, 0x39, 0xc6,
-	0xc3, 0x6f, 0xb3, 0xa0, 0x8d, 0xc3, 0x18, 0xff, 0x18, 0xc1, 0x39, 0x47, 0xf2, 0x09, 0x4b, 0xfd,
-	0x3f, 0x8a, 0xf6, 0x62, 0x3e, 0x5a, 0x9e, 0x0a, 0x4b, 0xb3, 0xc4, 0xdf, 0x47, 0x70, 0xa6, 0x25,
-	0xf1, 0xf0, 0xa3, 0xae, 0x51, 0x8c, 0xe7, 0xc3, 0xf8, 0x2c, 0x31, 0xb4, 0x59, 0xd0, 0xa4, 0x58,
-	0x51, 0xb5, 0x6c, 0x49, 0xbd, 0xb5, 0xa8, 0x27, 0x63, 0x6a, 0x29, 0xf7, 0x50, 0xe3, 0xa9, 0xa5,
-	0x1c, 0x3b, 0xfc, 0x3d, 0x04, 0xa7, 0x5b, 0x12, 0x1b, 0xbc, 0x4e, 0xe1, 0x35, 0x32, 0xe1, 0xf1,
-	0xf6, 0x56, 0x86, 0x11, 0xfe, 0x01, 0x82, 0xb3, 0x2d, 0x99, 0x97, 0x00, 0xf5, 0x14, 0x85, 0x76,
-	0x21, 0x5b, 0x72, 0xdc, 0x18, 0x26, 0xc7, 0x2c, 0x03, 0x1e, 0x2f, 0x01, 0xdb, 0x10, 0x80, 0xc7,
-	0x4f, 0xc5, 0xe4, 0x98, 0xd1, 0xc3, 0x49, 0x4b, 0xee, 0x8e, 0x5a, 0x3d, 0x1d, 0x3b, 0x9c, 0x48,
-	0xde, 0x70, 0x7b, 0x87, 0x13, 0x49, 0x86, 0x34, 0xe2, 0x38, 0xe3, 0x95, 0xce, 0xa9, 0x67, 0x62,
-	0x11, 0x67, 0xcc, 0x02, 0x3c, 0x2f, 0xe2, 0x8c, 0x09, 0x00, 0xff, 0x12, 0xc1, 0x05, 0x67, 0x8c,
-	0x7a, 0x34, 0xf5, 0x2c, 0x45, 0xfe, 0xbc, 0x18, 0x72, 0x9e, 0x29, 0x8d, 0xc5, 0x9a, 0xba, 0x74,
-	0x22, 0x59, 0xdb, 0xa5, 0xd6, 0x63, 0x2e, 0x5d, 0xb6, 0x34, 0xcc, 0x73, 0xe9, 0xb2, 0x2c, 0xa9,
-	0x71, 0xf5, 0x65, 0xca, 0xb3, 0xd4, 0xcd, 0x98, 0x71, 0x49, 0x95, 0x76, 0x79, 0xc6, 0x25, 0xc5,
-	0xec, 0xca, 0x0c, 0x80, 0x3e, 0x2a, 0xf5, 0x78, 0x06, 0xa6, 0x82, 0x17, 0x0e, 0x7c, 0x1a, 0x2a,
-	0x14, 0x80, 0xa3, 0xa2, 0x95, 0x22, 0xad, 0x6d, 0xf1, 0xf1, 0x44, 0x5f, 0x40, 0xb4, 0x80, 0xe4,
-	0xca, 0x97, 0xfe, 0x78, 0x7f, 0x19, 0x7d, 0x74, 0x7f, 0x19, 0x7d, 0x7c, 0x7f, 0x19, 0xbd, 0xf3,
-	0x60, 0xb9, 0xf0, 0xd1, 0x83, 0xe5, 0xc2, 0x5f, 0x1e, 0x2c, 0x17, 0xe0, 0xa8, 0x61, 0xd5, 0x5d,
-	0xd2, 0xed, 0x59, 0xb6, 0xde, 0xf1, 0xff, 0x4b, 0x96, 0x3f, 0xcf, 0x0d, 0xf4, 0xfa, 0xea, 0x9d,
-	0x48, 0x97, 0x61, 0x6d, 0x86, 0x7f, 0x9f, 0xa5, 0x64, 0x9b, 0x94, 0xec, 0x76, 0x85, 0x7e, 0x9c,
-	0xff, 0x77, 0x00, 0x00, 0x00, 0xff, 0xff, 0x97, 0xe8, 0xa3, 0x96, 0xe3, 0x4b, 0x00, 0x00,
+	// 3214 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x5c, 0x5f, 0x6c, 0x1c, 0x47,
+	0x19, 0xbf, 0xd9, 0xbb, 0xf3, 0x9f, 0xef, 0x1c, 0xc7, 0x9e, 0xa4, 0xc9, 0x26, 0x75, 0x5c, 0xe7,
+	0x9c, 0x26, 0x8e, 0x93, 0x9c, 0x53, 0x27, 0x6d, 0x4a, 0x5b, 0x05, 0x25, 0x4e, 0xca, 0x19, 0xd1,
+	0x36, 0x9a, 0x84, 0x16, 0x55, 0x42, 0xea, 0xe6, 0x6e, 0x9c, 0xac, 0x7c, 0xb7, 0x6b, 0x76, 0xf7,
+	0xe2, 0x58, 0x48, 0x48, 0x48, 0x54, 0x48, 0x45, 0x95, 0x2a, 0x55, 0x42, 0x14, 0x21, 0x90, 0x90,
+	0x40, 0x82, 0x07, 0x0a, 0x3c, 0x20, 0xc1, 0x0b, 0x3c, 0x21, 0x78, 0x6a, 0xe1, 0x01, 0xf1, 0x82,
+	0x54, 0x25, 0x42, 0x42, 0x08, 0x89, 0x37, 0x5e, 0x78, 0x41, 0x3b, 0xbb, 0x7b, 0xb7, 0x7f, 0x66,
+	0x76, 0x67, 0xce, 0x17, 0x17, 0x51, 0xde, 0xbc, 0x33, 0xdf, 0xcc, 0xf7, 0x9b, 0x6f, 0xbe, 0x7f,
+	0x33, 0xf3, 0x9d, 0xe1, 0x00, 0xbd, 0x47, 0x2d, 0x6f, 0xa5, 0x4b, 0x5d, 0xd7, 0xb8, 0x43, 0x1b,
+	0x5b, 0x8e, 0xed, 0xd9, 0xb8, 0xca, 0x1a, 0x8f, 0xce, 0x04, 0x7d, 0xd4, 0xea, 0x75, 0x83, 0x8e,
+	0xa3, 0xb3, 0x2d, 0xbb, 0xdb, 0xb5, 0xad, 0x78, 0xd3, 0xc1, 0xb0, 0x29, 0x31, 0xc3, 0xd1, 0xc3,
+	0xf4, 0x3e, 0x6d, 0xf5, 0x3c, 0x33, 0xd3, 0x71, 0xc8, 0x33, 0xdc, 0xcd, 0x8e, 0xe9, 0xa6, 0x58,
+	0xd6, 0xdf, 0xaf, 0xc1, 0xa9, 0xd7, 0x6c, 0x67, 0x73, 0xa3, 0x63, 0x6f, 0x5f, 0x8f, 0xc6, 0xde,
+	0xf4, 0x0c, 0xc7, 0xa3, 0xed, 0xeb, 0x3e, 0x8c, 0x2b, 0x9e, 0xe7, 0x98, 0xb7, 0x7b, 0x1e, 0x75,
+	0xf1, 0xb3, 0x30, 0xb5, 0x1d, 0x92, 0xde, 0xda, 0xd9, 0xa2, 0x3a, 0x5a, 0x40, 0x4b, 0xb5, 0xd5,
+	0x83, 0x8d, 0x00, 0x49, 0xe3, 0xb5, 0x58, 0x1f, 0x49, 0x50, 0xe2, 0x67, 0xe1, 0xf0, 0x96, 0xe1,
+	0x50, 0xcb, 0x8b, 0x68, 0x5e, 0x36, 0xba, 0xd4, 0xdd, 0x32, 0x5a, 0x54, 0xd7, 0x16, 0xd0, 0xd2,
+	0x24, 0x11, 0x75, 0xe3, 0x57, 0xd3, 0x23, 0xfb, 0x20, 0xf5, 0x32, 0x63, 0x3f, 0xd7, 0xe8, 0x2f,
+	0xb9, 0x91, 0xa1, 0x21, 0xa2, 0xc1, 0xf8, 0x19, 0x38, 0x14, 0x74, 0xad, 0x5b, 0xa6, 0x67, 0x1a,
+	0xd1, 0x6a, 0xd7, 0xdb, 0x7a, 0x65, 0x01, 0x2d, 0x95, 0x89, 0xa0, 0x17, 0x37, 0x60, 0xc2, 0x97,
+	0xe4, 0xe7, 0x4c, 0xd7, 0xd3, 0xab, 0x0c, 0x00, 0x6e, 0x44, 0xa2, 0x6d, 0xdc, 0x0a, 0x7b, 0x48,
+	0x9f, 0x06, 0x3f, 0x09, 0x55, 0xd3, 0xda, 0xea, 0x79, 0xfa, 0x18, 0x23, 0xde, 0x1f, 0x09, 0xeb,
+	0x86, 0xb1, 0xd3, 0xb1, 0x8d, 0x36, 0x09, 0x7a, 0xf1, 0x0d, 0x58, 0xa4, 0x09, 0xe9, 0xdf, 0xb2,
+	0xd7, 0x3a, 0xb6, 0x4b, 0x6f, 0x99, 0x5d, 0x6a, 0xf7, 0xbc, 0x9b, 0xb4, 0x65, 0x5b, 0x6d, 0x57,
+	0x1f, 0x5f, 0x40, 0x4b, 0x55, 0x22, 0x43, 0x8a, 0x5f, 0x84, 0x79, 0x1f, 0x44, 0xce, 0x64, 0x13,
+	0x6c, 0xb2, 0x02, 0x2a, 0x7f, 0xeb, 0x5a, 0xb6, 0xe5, 0x99, 0x56, 0x8f, 0xb6, 0x07, 0x72, 0xed,
+	0x59, 0xeb, 0x6d, 0x7d, 0x32, 0xd8, 0x3a, 0x41, 0x37, 0x7e, 0x01, 0x26, 0xcd, 0x40, 0x7c, 0xb6,
+	0xa3, 0xc3, 0x02, 0x5a, 0x9a, 0x5e, 0x9d, 0x8f, 0x96, 0xbf, 0x16, 0x8e, 0xb9, 0xe2, 0xbe, 0x4c,
+	0xb7, 0xd7, 0x23, 0x2a, 0x32, 0x18, 0xe0, 0x6f, 0x50, 0x7f, 0xe2, 0x17, 0x0d, 0xb3, 0xd3, 0x73,
+	0x28, 0xa1, 0x86, 0x6b, 0x5b, 0x7a, 0x8d, 0xb1, 0x15, 0xf4, 0xe2, 0xf5, 0x18, 0xde, 0xb0, 0xe7,
+	0x1a, 0xf5, 0x0c, 0xb3, 0xe3, 0xea, 0x53, 0xfc, 0x2d, 0x10, 0xd1, 0xe3, 0x35, 0x38, 0xd8, 0x31,
+	0x5c, 0x6f, 0xcd, 0xee, 0x6e, 0x75, 0x28, 0x5b, 0x17, 0x75, 0x7b, 0x1d, 0x4f, 0xdf, 0xc7, 0x9f,
+	0x87, 0x4b, 0xec, 0xaf, 0xc3, 0x76, 0xcc, 0x3b, 0xa6, 0x65, 0x74, 0x52, 0xe2, 0x9b, 0x0e, 0xd6,
+	0xc1, 0xef, 0xc5, 0x47, 0x61, 0xc2, 0x6c, 0x53, 0xcb, 0x33, 0xbd, 0x1d, 0x7d, 0x3f, 0xa3, 0xec,
+	0x7f, 0xe3, 0xf3, 0x70, 0x60, 0xc3, 0x74, 0x5c, 0x2f, 0x35, 0xe1, 0x0c, 0x23, 0xe3, 0x75, 0xe1,
+	0xa7, 0xa1, 0xe6, 0x50, 0xcf, 0xd9, 0xb9, 0x61, 0x77, 0xcc, 0xd6, 0x8e, 0x3e, 0xcb, 0x56, 0x70,
+	0x20, 0x5a, 0x01, 0x19, 0x74, 0x91, 0x38, 0x1d, 0xd6, 0x61, 0xdc, 0xf0, 0x3c, 0xda, 0xdd, 0xf2,
+	0x74, 0xcc, 0xb4, 0x25, 0xfa, 0xf4, 0x21, 0xd0, 0xfb, 0x5b, 0xa6, 0x63, 0xf8, 0x3c, 0x7c, 0x95,
+	0x71, 0x3d, 0xa3, 0xbb, 0xa5, 0x1f, 0x60, 0xc6, 0xc3, 0xeb, 0xc2, 0x75, 0x98, 0x6a, 0x39, 0xb6,
+	0x75, 0xb3, 0x75, 0x97, 0xb6, 0x7b, 0x1d, 0xaa, 0x1f, 0x64, 0x68, 0x13, 0x6d, 0xb8, 0x09, 0x4f,
+	0x30, 0xf4, 0xd7, 0x68, 0xcb, 0x74, 0xfd, 0xd1, 0x86, 0xbb, 0x79, 0xd5, 0x68, 0x6d, 0xda, 0x1b,
+	0x1b, 0x91, 0xd6, 0x3e, 0xc6, 0x70, 0x14, 0x91, 0xe1, 0x05, 0xa8, 0x74, 0x69, 0xd7, 0xd6, 0x0f,
+	0xb1, 0x95, 0x4e, 0x45, 0x2b, 0x7d, 0x89, 0x76, 0x6d, 0xc2, 0x7a, 0xf0, 0x35, 0x98, 0x71, 0xa9,
+	0xe1, 0xb4, 0xee, 0x0e, 0x3c, 0x9c, 0x7e, 0x98, 0x51, 0xeb, 0x11, 0xf5, 0xcd, 0x54, 0x3f, 0xc9,
+	0x8c, 0xc0, 0x4d, 0x38, 0xb0, 0xe5, 0xd0, 0x7b, 0x57, 0x7a, 0x9e, 0x4d, 0xa8, 0x4b, 0xbd, 0x1b,
+	0xb6, 0x69, 0x79, 0xae, 0xae, 0xb3, 0x89, 0x0e, 0xc5, 0x7c, 0x53, 0xac, 0x97, 0xf0, 0x86, 0xe0,
+	0x93, 0x30, 0x76, 0x97, 0x1a, 0x6d, 0xea, 0xe8, 0x47, 0xd8, 0xe0, 0xe9, 0x08, 0x45, 0x93, 0xb5,
+	0x92, 0xb0, 0xb7, 0xfe, 0x2d, 0x04, 0xa7, 0x33, 0xfe, 0x2c, 0x54, 0xbb, 0xac, 0xcf, 0x3e, 0x05,
+	0x63, 0x4e, 0xa0, 0xb5, 0x88, 0xaf, 0xb5, 0x61, 0x37, 0xbe, 0x0a, 0x73, 0xed, 0x98, 0x38, 0x93,
+	0x13, 0xae, 0xb7, 0x99, 0x9f, 0x2e, 0x93, 0x5c, 0x9a, 0xfa, 0xfb, 0x08, 0x4e, 0x66, 0xa0, 0xf9,
+	0x46, 0x95, 0xc5, 0x75, 0xc8, 0xc7, 0xc5, 0xcc, 0x19, 0x31, 0x3d, 0x08, 0xbf, 0xf0, 0x69, 0x18,
+	0x6f, 0x87, 0xe6, 0xaa, 0xf1, 0x01, 0x47, 0xfd, 0x85, 0x88, 0xcb, 0x12, 0x88, 0xdf, 0x80, 0xa5,
+	0x0c, 0x60, 0x5f, 0x65, 0xdb, 0xaf, 0xf4, 0xbc, 0x34, 0xe4, 0x8b, 0x50, 0xf3, 0x02, 0xdf, 0xc8,
+	0xa2, 0x9f, 0xc6, 0x3c, 0x1a, 0x6e, 0xb0, 0x60, 0xdd, 0xb8, 0x35, 0xe8, 0x21, 0x71, 0xb2, 0xfa,
+	0x9b, 0xe3, 0xd0, 0xe0, 0x6c, 0x57, 0xe8, 0x71, 0x98, 0xff, 0x4b, 0x33, 0x3a, 0x0b, 0xb3, 0x16,
+	0xdd, 0x4e, 0x19, 0x77, 0x20, 0xa6, 0x6c, 0x47, 0x26, 0x2a, 0x6b, 0xd2, 0x51, 0x39, 0x1e, 0xcb,
+	0xca, 0x2a, 0xb1, 0xac, 0x32, 0x8a, 0x58, 0x56, 0x1d, 0x65, 0x2c, 0x1b, 0x93, 0x8a, 0x65, 0x45,
+	0x1a, 0x33, 0x5e, 0xac, 0x31, 0xf8, 0x1a, 0x1c, 0xbb, 0x1d, 0xba, 0x1a, 0x9f, 0xd1, 0xba, 0xe5,
+	0x51, 0xe7, 0x9e, 0xd1, 0x59, 0xb7, 0x92, 0x61, 0x35, 0x9f, 0x28, 0x19, 0x1b, 0x27, 0x55, 0x63,
+	0xe3, 0x09, 0xd8, 0xb7, 0x91, 0x08, 0x89, 0xc0, 0x94, 0x23, 0xd9, 0x88, 0x2f, 0xc1, 0xf4, 0x46,
+	0x32, 0x00, 0xd6, 0xf8, 0xfb, 0x96, 0x22, 0x13, 0xc6, 0xbd, 0x29, 0x95, 0xb8, 0x37, 0x70, 0x67,
+	0xfb, 0xf2, 0xdc, 0x59, 0xdf, 0x51, 0x4f, 0x2b, 0x39, 0xea, 0xfd, 0xaa, 0x8e, 0xba, 0xfe, 0x53,
+	0x04, 0x27, 0xe2, 0xf1, 0x22, 0x8a, 0x39, 0x19, 0xcf, 0x14, 0xb7, 0x0a, 0x24, 0x61, 0x15, 0x97,
+	0xe1, 0xa8, 0x2b, 0x56, 0x4c, 0x8d, 0x69, 0x43, 0x0e, 0x45, 0x3c, 0xc6, 0x06, 0x1e, 0x2b, 0xfa,
+	0xac, 0xbf, 0x85, 0xa0, 0x9e, 0x80, 0xcc, 0x4f, 0xcb, 0x97, 0x61, 0xc6, 0x4d, 0x2c, 0x26, 0xf4,
+	0x16, 0x65, 0x92, 0x69, 0x4f, 0x64, 0x15, 0x5a, 0x2a, 0xab, 0x98, 0x83, 0x49, 0x87, 0x7e, 0xa9,
+	0x47, 0xdd, 0xc8, 0x79, 0x4e, 0x92, 0x41, 0x43, 0xfd, 0xef, 0x29, 0xf9, 0x09, 0x23, 0xce, 0x32,
+	0xcc, 0xd0, 0xb8, 0x9f, 0xa3, 0xf7, 0x03, 0x39, 0x4e, 0x91, 0x4c, 0x3b, 0x17, 0xba, 0x26, 0x80,
+	0x7e, 0x12, 0xa6, 0xdd, 0x98, 0x00, 0xfa, 0x0e, 0x3e, 0xd5, 0x9a, 0x58, 0x62, 0x25, 0xb5, 0xc4,
+	0x93, 0x30, 0x7d, 0xdb, 0xb4, 0x0c, 0x67, 0x67, 0xed, 0x2e, 0x6d, 0x6d, 0xba, 0xbd, 0x2e, 0xf3,
+	0x42, 0x93, 0x24, 0xd5, 0xea, 0x07, 0xb2, 0xc5, 0xf8, 0x62, 0x45, 0x21, 0x41, 0x45, 0xf4, 0x59,
+	0xfc, 0x1a, 0x17, 0x7f, 0x2a, 0xcc, 0x94, 0xe5, 0xc2, 0xcc, 0xb7, 0xcb, 0x70, 0x3c, 0x8e, 0x98,
+	0x1f, 0x75, 0x1f, 0x0d, 0xde, 0x6a, 0xcb, 0xe8, 0xb9, 0x11, 0xd2, 0xf9, 0x10, 0x69, 0x16, 0xcc,
+	0x9a, 0x4f, 0x45, 0x02, 0xe2, 0x78, 0x9c, 0xaf, 0x14, 0xc4, 0xf9, 0xf8, 0x86, 0x56, 0x53, 0x1b,
+	0x3a, 0x48, 0x23, 0xc6, 0x12, 0x69, 0xc4, 0x1c, 0x4c, 0xde, 0x36, 0x5c, 0x1a, 0x84, 0xce, 0xf1,
+	0x40, 0x97, 0xfb, 0x0d, 0xfe, 0x8c, 0x16, 0xdd, 0x0e, 0x3a, 0x27, 0x82, 0x19, 0xa3, 0x6f, 0x5f,
+	0x44, 0x1b, 0xb6, 0xb3, 0xc9, 0x56, 0xf7, 0x2a, 0x75, 0xfc, 0x25, 0x30, 0x07, 0x5d, 0x26, 0x99,
+	0x76, 0x8e, 0x3a, 0x01, 0x57, 0x9d, 0xbe, 0x5b, 0x85, 0x13, 0x57, 0x5a, 0x9e, 0x79, 0xcf, 0xf4,
+	0x76, 0x72, 0x7d, 0xcf, 0x3c, 0x80, 0x11, 0xd2, 0xf5, 0x43, 0x7e, 0xac, 0xc5, 0x8f, 0xf5, 0xd1,
+	0x17, 0x2f, 0xd6, 0x5f, 0x89, 0xf5, 0x91, 0x04, 0xa5, 0x2f, 0x10, 0xab, 0x7f, 0xe6, 0x0e, 0x8d,
+	0xbb, 0xdf, 0x90, 0xf0, 0x79, 0x15, 0x95, 0x4c, 0xa0, 0x9a, 0x9b, 0x09, 0x5c, 0x83, 0x63, 0x91,
+	0x5a, 0xe5, 0x85, 0xed, 0x7c, 0xa2, 0xe4, 0x2c, 0x41, 0x74, 0xe7, 0x9d, 0x8a, 0xf3, 0x89, 0x0a,
+	0xdc, 0xf4, 0x44, 0xa1, 0x9b, 0x7e, 0x16, 0x0e, 0xdf, 0xa5, 0x86, 0xe3, 0xdd, 0xa6, 0x46, 0x9a,
+	0xff, 0x24, 0x1b, 0x2c, 0xea, 0x2e, 0xcc, 0x3a, 0x40, 0x22, 0xeb, 0x48, 0x9d, 0xdf, 0x6a, 0x92,
+	0xe7, 0xb7, 0x41, 0x10, 0x9e, 0xca, 0x3d, 0x53, 0xbc, 0xab, 0x41, 0x3d, 0xa1, 0xa0, 0x1f, 0x63,
+	0xa4, 0x89, 0x07, 0xc4, 0x4a, 0xf2, 0xd0, 0x79, 0x16, 0x66, 0xfd, 0x5c, 0x23, 0x79, 0x1d, 0x10,
+	0xb8, 0x84, 0x6c, 0x07, 0xfe, 0x34, 0xe0, 0x58, 0x63, 0x94, 0x03, 0x09, 0xee, 0x61, 0x38, 0xa4,
+	0xf5, 0x5f, 0xa3, 0xa4, 0xd9, 0xee, 0xfe, 0x90, 0xb5, 0xc7, 0xf1, 0xae, 0xfe, 0x27, 0x04, 0xc7,
+	0xe3, 0x2b, 0x78, 0x64, 0x67, 0x31, 0xde, 0xc2, 0xca, 0xd2, 0x0b, 0xab, 0x14, 0x2e, 0x2c, 0xe5,
+	0xf7, 0xeb, 0xbf, 0xd7, 0x60, 0x31, 0xbe, 0x30, 0x51, 0x80, 0x8e, 0x2d, 0x01, 0x0d, 0xb1, 0x84,
+	0xdd, 0xee, 0x4d, 0x2a, 0x96, 0x57, 0xa4, 0x62, 0xf9, 0x5e, 0xab, 0xf9, 0x3b, 0x08, 0x96, 0x13,
+	0x6a, 0x6e, 0x58, 0x2d, 0xda, 0x21, 0x81, 0x3d, 0xaa, 0xc7, 0xa8, 0x51, 0x5c, 0x24, 0xfc, 0x18,
+	0x41, 0x23, 0x04, 0x10, 0xa0, 0x29, 0x56, 0xe2, 0x22, 0x58, 0x07, 0xa3, 0x34, 0x25, 0x70, 0x46,
+	0x61, 0x1a, 0x32, 0x8a, 0x3b, 0x84, 0xaf, 0xa5, 0x74, 0x31, 0x40, 0x9c, 0x45, 0xa8, 0xa0, 0x8b,
+	0x57, 0x61, 0xae, 0x63, 0x78, 0xfd, 0xd5, 0x27, 0xf7, 0x62, 0x20, 0xc3, 0x3c, 0x9a, 0x3d, 0x37,
+	0xc9, 0x5f, 0x22, 0x78, 0xdc, 0x57, 0x69, 0x47, 0x10, 0x3c, 0x74, 0x18, 0xf7, 0x95, 0xdc, 0xe9,
+	0xef, 0x4e, 0xf4, 0x89, 0x5f, 0x80, 0x23, 0x61, 0xe0, 0x7d, 0xd1, 0x74, 0x78, 0x07, 0xa8, 0x32,
+	0x11, 0x13, 0x8c, 0x64, 0x0b, 0xbf, 0x08, 0x47, 0x18, 0x74, 0x7f, 0x7a, 0x05, 0xe0, 0x92, 0x29,
+	0x72, 0xfd, 0x37, 0x08, 0xe6, 0xd8, 0xfc, 0x22, 0xd5, 0xd8, 0x35, 0x8b, 0x51, 0x48, 0x21, 0x37,
+	0x92, 0xfc, 0x1c, 0xc1, 0x42, 0x80, 0x3e, 0x10, 0x14, 0xd7, 0x06, 0xc5, 0xcb, 0x78, 0x64, 0xd6,
+	0x97, 0x0b, 0xfa, 0xdf, 0x08, 0x56, 0xb2, 0x77, 0x6f, 0xf9, 0xee, 0xad, 0x8f, 0x14, 0xc5, 0x91,
+	0x3e, 0x07, 0x3a, 0xbd, 0xef, 0x51, 0xc7, 0x32, 0x3a, 0x99, 0x07, 0xa3, 0x60, 0x43, 0x84, 0xfd,
+	0xf8, 0x75, 0x38, 0x12, 0xf5, 0x0d, 0xf7, 0x88, 0x25, 0x1e, 0x9e, 0xbb, 0xfa, 0xf7, 0x10, 0xe7,
+	0x72, 0x53, 0xa4, 0x81, 0x45, 0x5b, 0x81, 0x24, 0xb6, 0x42, 0x3e, 0x5f, 0xf0, 0x13, 0x93, 0x63,
+	0x2f, 0x19, 0xce, 0x26, 0x75, 0x08, 0x6d, 0xd9, 0x4e, 0x9b, 0xeb, 0xcf, 0xbb, 0x8c, 0xe0, 0x65,
+	0xa3, 0x1b, 0x6d, 0x46, 0xac, 0x65, 0x8f, 0x2f, 0x8a, 0x63, 0x99, 0x74, 0x25, 0x37, 0x93, 0x7e,
+	0x9b, 0x27, 0xf4, 0x9b, 0xe6, 0x1d, 0xcb, 0xe0, 0xc7, 0x2c, 0x97, 0x75, 0xc5, 0xd7, 0x38, 0x68,
+	0x19, 0x1c, 0xb3, 0xb4, 0xdc, 0x63, 0x56, 0x5c, 0x09, 0xca, 0x29, 0x25, 0xf8, 0x06, 0x82, 0xe5,
+	0xec, 0x0d, 0x37, 0x75, 0xba, 0xa6, 0x65, 0x78, 0x8f, 0x24, 0x15, 0xcc, 0x43, 0xf3, 0x0b, 0x0d,
+	0x2e, 0x27, 0xe2, 0xfa, 0x75, 0x91, 0x66, 0x27, 0xad, 0x68, 0xc4, 0x8a, 0x9a, 0x38, 0x0c, 0x6b,
+	0xe9, 0xc3, 0xf0, 0x67, 0x61, 0x76, 0x7b, 0x28, 0x3b, 0xcd, 0x0e, 0xf3, 0x3d, 0x62, 0xcb, 0xb6,
+	0x3c, 0xc7, 0xee, 0x30, 0xbd, 0x99, 0x22, 0xd1, 0xa7, 0x9f, 0xe4, 0xb5, 0xee, 0x9a, 0x9d, 0x76,
+	0x34, 0xcd, 0x2b, 0x56, 0x27, 0x88, 0xa9, 0x13, 0x24, 0xdb, 0x51, 0xff, 0x87, 0x06, 0xcf, 0xcb,
+	0x09, 0x8e, 0xef, 0x99, 0x3f, 0x15, 0xf7, 0x6a, 0xd3, 0xab, 0x8b, 0x61, 0x0a, 0x2a, 0x18, 0x9d,
+	0xb8, 0xa9, 0x19, 0x41, 0x3e, 0x57, 0x70, 0xfb, 0xc0, 0x15, 0x78, 0x65, 0x38, 0x81, 0x2f, 0xc3,
+	0x8c, 0x99, 0x76, 0xd0, 0xd5, 0x20, 0xeb, 0x49, 0xb7, 0xc7, 0x37, 0x67, 0x2c, 0xb1, 0x39, 0xf5,
+	0x0f, 0x10, 0x5c, 0x12, 0x4a, 0xb8, 0x20, 0x80, 0xf0, 0x10, 0x20, 0x01, 0x82, 0x3d, 0x53, 0xc4,
+	0xfa, 0xbf, 0x34, 0xb8, 0x14, 0xb8, 0xa1, 0xff, 0x75, 0x93, 0x4b, 0x3a, 0xd5, 0x8a, 0xd8, 0xa9,
+	0xe6, 0xdf, 0x5d, 0x09, 0x95, 0x83, 0x6f, 0xb9, 0xe3, 0x22, 0xcb, 0xfd, 0xab, 0x06, 0x17, 0x0b,
+	0x04, 0xff, 0x7f, 0x93, 0x1d, 0x81, 0xc9, 0x3e, 0x40, 0x70, 0x5e, 0x28, 0x61, 0x51, 0x00, 0xfe,
+	0xaf, 0xb4, 0x55, 0x71, 0xd0, 0xf0, 0xcf, 0x58, 0xe7, 0x3e, 0xbf, 0xe5, 0x52, 0xa7, 0x5f, 0xd1,
+	0x94, 0x7e, 0xf9, 0x7a, 0x14, 0xb6, 0xcb, 0x7b, 0x80, 0xd3, 0x94, 0x1f, 0xe0, 0xde, 0x1c, 0x87,
+	0x0b, 0xec, 0x68, 0xb8, 0x16, 0xb7, 0x91, 0x62, 0xef, 0x93, 0x90, 0x3b, 0x4a, 0xcb, 0x7d, 0x1e,
+	0x20, 0x12, 0x60, 0xa8, 0xd8, 0x93, 0x24, 0xd6, 0x92, 0x79, 0x1d, 0x2f, 0x0f, 0xf5, 0x3a, 0x3e,
+	0xc2, 0x3b, 0x71, 0xc9, 0xd7, 0xf1, 0xb1, 0x51, 0xbe, 0x8e, 0x8f, 0x4b, 0xbd, 0x8e, 0x7f, 0x06,
+	0x66, 0x83, 0xa2, 0x37, 0xd6, 0x19, 0xde, 0x34, 0x4f, 0x30, 0xe7, 0x73, 0x64, 0xb0, 0x98, 0x14,
+	0x01, 0xc9, 0x8e, 0x89, 0xeb, 0xef, 0x64, 0xd2, 0x75, 0x8e, 0xe2, 0x2a, 0xfc, 0x26, 0x3c, 0x36,
+	0xd8, 0x5f, 0x42, 0x7b, 0x7d, 0xa8, 0x35, 0x06, 0xf5, 0x58, 0x7a, 0x6b, 0x13, 0x44, 0x84, 0x3f,
+	0x36, 0x7d, 0xbf, 0x3e, 0x25, 0x79, 0xbf, 0x9e, 0xae, 0x69, 0xda, 0xc7, 0xa9, 0x69, 0x1a, 0x9c,
+	0x1c, 0xa6, 0xa5, 0x1e, 0xc2, 0xf7, 0x2b, 0x3d, 0x84, 0xcf, 0x28, 0xdb, 0xe1, 0x3f, 0x35, 0x38,
+	0x9f, 0x63, 0x87, 0xfc, 0x60, 0xf4, 0x71, 0x19, 0x61, 0x3f, 0x08, 0x56, 0x94, 0x83, 0x60, 0x4c,
+	0x0b, 0xab, 0x49, 0x2d, 0xe4, 0x79, 0xfd, 0x31, 0x81, 0xd7, 0x1f, 0x41, 0xc9, 0x48, 0xfd, 0x87,
+	0x1a, 0x9c, 0xe5, 0x0b, 0x5b, 0x70, 0x55, 0x96, 0x2f, 0x6d, 0x1e, 0x7c, 0x4d, 0x00, 0x7f, 0x94,
+	0x61, 0x29, 0xbd, 0x8b, 0x15, 0xe9, 0x5d, 0x1c, 0x98, 0x40, 0x35, 0xf7, 0xf0, 0xfc, 0x07, 0x0d,
+	0x1a, 0x7c, 0x41, 0xed, 0xfe, 0xe9, 0x65, 0xef, 0xc2, 0xf7, 0xf0, 0x72, 0x52, 0xc9, 0x84, 0xb2,
+	0x17, 0x83, 0x63, 0xdc, 0xbb, 0xc7, 0xbf, 0x69, 0x70, 0x46, 0xc5, 0xd2, 0x47, 0x70, 0x03, 0xb0,
+	0x77, 0xa9, 0x63, 0x5a, 0xd4, 0xd5, 0x5d, 0x89, 0x7a, 0x4c, 0x5a, 0xd4, 0xe3, 0x5c, 0x51, 0xff,
+	0x51, 0x83, 0x73, 0x02, 0xf5, 0xdd, 0xfd, 0x93, 0xc0, 0x27, 0x55, 0x7f, 0xff, 0x22, 0x14, 0xaa,
+	0x64, 0x9d, 0x26, 0x92, 0x7b, 0x74, 0xfb, 0xa4, 0xca, 0xf7, 0x47, 0x1a, 0xac, 0x08, 0xe4, 0x2b,
+	0xbc, 0x25, 0xcc, 0x8f, 0x4f, 0x5c, 0x59, 0x69, 0xa3, 0x91, 0x55, 0x79, 0x57, 0xb2, 0xaa, 0x48,
+	0xcb, 0xaa, 0xca, 0x95, 0xd5, 0x47, 0x4f, 0xc1, 0x54, 0xd3, 0x74, 0x3d, 0xdb, 0xd9, 0x61, 0x4d,
+	0x7e, 0x8e, 0x41, 0x13, 0x07, 0xa9, 0xe8, 0xd3, 0x17, 0x91, 0xd7, 0xaf, 0x8a, 0x0f, 0xa2, 0xf3,
+	0xa0, 0x01, 0x37, 0x60, 0x92, 0x11, 0xc6, 0x2a, 0xbc, 0x66, 0x42, 0x05, 0xbd, 0x1e, 0xb5, 0x93,
+	0x01, 0x89, 0xcf, 0xe7, 0x5e, 0x58, 0x8b, 0x14, 0xac, 0x21, 0xfa, 0xf4, 0xdd, 0xb5, 0x9f, 0xd6,
+	0xf7, 0x21, 0x87, 0x5f, 0xf8, 0x2d, 0x04, 0xa7, 0xb6, 0xe5, 0xd2, 0x8d, 0xf0, 0xad, 0xb8, 0x21,
+	0xca, 0xad, 0xf8, 0xa3, 0x9a, 0x25, 0x22, 0xcb, 0x00, 0xbf, 0x83, 0xe0, 0xf4, 0xb6, 0x6c, 0x48,
+	0x67, 0xce, 0xb5, 0xb6, 0x7a, 0x5e, 0x04, 0x47, 0x34, 0xae, 0x59, 0x22, 0xf2, 0x4c, 0xf0, 0xd7,
+	0x11, 0x9c, 0xdc, 0x96, 0x8a, 0x88, 0xec, 0x08, 0x54, 0x5b, 0x3d, 0x97, 0x9f, 0x7a, 0x66, 0xc1,
+	0x48, 0x4e, 0x8f, 0xdf, 0x46, 0xb0, 0xb4, 0x2d, 0xe9, 0xdb, 0xd8, 0x79, 0xaa, 0xb6, 0xba, 0x22,
+	0xc2, 0x22, 0x18, 0xd6, 0x2c, 0x11, 0x69, 0x16, 0xf8, 0xab, 0x08, 0x4e, 0xb4, 0x25, 0x0a, 0x65,
+	0xd9, 0x61, 0xad, 0xb6, 0x7a, 0x86, 0x53, 0xef, 0x27, 0x1a, 0xd2, 0x2c, 0x11, 0xa9, 0xa9, 0xf1,
+	0x97, 0xa1, 0xde, 0x2e, 0x2c, 0x7c, 0x0d, 0xab, 0xa0, 0x4e, 0xf3, 0x00, 0x88, 0x54, 0x56, 0x62,
+	0xda, 0x8c, 0x00, 0x84, 0x8a, 0x3a, 0x25, 0x14, 0x40, 0x8e, 0x8e, 0x4a, 0x4d, 0x8d, 0xbf, 0x02,
+	0x8b, 0xed, 0xe2, 0xfa, 0xd3, 0xb0, 0xb4, 0x7a, 0x99, 0x83, 0x40, 0xac, 0x09, 0x32, 0x13, 0xe3,
+	0xfb, 0x70, 0xbc, 0x5d, 0x54, 0x4d, 0x1a, 0x9e, 0x67, 0x97, 0x84, 0x05, 0x9f, 0x59, 0xde, 0xc5,
+	0x93, 0x32, 0xe9, 0x1b, 0x12, 0xb5, 0x92, 0xe1, 0x39, 0x39, 0x92, 0xbe, 0x4c, 0x79, 0xa5, 0x2f,
+	0x7d, 0x99, 0xa9, 0x7d, 0xf5, 0x33, 0x0a, 0xab, 0xe1, 0xc2, 0xa3, 0xf7, 0x69, 0x1e, 0x00, 0xa1,
+	0xfa, 0x15, 0x4f, 0x9b, 0x11, 0x80, 0x50, 0xfd, 0x66, 0x85, 0x02, 0xc8, 0x53, 0x3f, 0x99, 0xa9,
+	0xfd, 0xed, 0x37, 0x8a, 0x2a, 0x6e, 0xd8, 0x2f, 0xc2, 0x06, 0xdb, 0x5f, 0x58, 0xa1, 0xe3, 0x6f,
+	0x7f, 0xe1, 0xa4, 0xbe, 0xe2, 0x1b, 0xc5, 0x75, 0x5d, 0xec, 0x77, 0x66, 0x03, 0xc5, 0x97, 0xa8,
+	0x04, 0xf3, 0x15, 0x5f, 0x62, 0x62, 0xbc, 0x01, 0x8f, 0x7b, 0xe2, 0x22, 0x16, 0xf6, 0xa3, 0xb5,
+	0xda, 0x6a, 0x3d, 0x96, 0x4c, 0x3a, 0xc2, 0xcd, 0xce, 0x9b, 0x08, 0xbf, 0x01, 0x47, 0x3c, 0x51,
+	0xc5, 0x09, 0xfb, 0x8d, 0x5b, 0x6d, 0x75, 0x21, 0xce, 0x85, 0x47, 0xd7, 0x2c, 0x11, 0xf1, 0x24,
+	0xf8, 0x5d, 0x04, 0xcb, 0x86, 0x74, 0x59, 0x57, 0xf8, 0x43, 0xb9, 0xa7, 0x78, 0xda, 0x94, 0x3b,
+	0xb0, 0x59, 0x22, 0x0a, 0x6c, 0xf0, 0xf7, 0x10, 0x34, 0x1c, 0xa5, 0xca, 0xae, 0xf0, 0x47, 0x79,
+	0x4f, 0x87, 0xc8, 0xd4, 0xca, 0xc2, 0x9a, 0x25, 0xa2, 0xc8, 0x2e, 0xad, 0x81, 0x82, 0xa3, 0x5b,
+	0xf8, 0x0b, 0xbf, 0x65, 0xa1, 0xbc, 0x78, 0x50, 0x64, 0x26, 0xc6, 0x26, 0xcc, 0x79, 0x39, 0xb5,
+	0x42, 0xe1, 0xaf, 0x03, 0x17, 0xe3, 0xca, 0x21, 0xe6, 0x98, 0x3b, 0x15, 0xee, 0xc1, 0x42, 0xab,
+	0xa0, 0xa6, 0x47, 0x3f, 0xca, 0xd8, 0x9d, 0x0a, 0xd9, 0x15, 0x95, 0x00, 0x35, 0x4b, 0xa4, 0x70,
+	0x4a, 0xdc, 0x81, 0x63, 0xdd, 0xbc, 0xda, 0x0f, 0xfd, 0x71, 0xc6, 0xf3, 0x44, 0xc8, 0x33, 0xb7,
+	0x4e, 0xa4, 0x59, 0x22, 0xf9, 0x93, 0xf1, 0xf3, 0x2b, 0xc1, 0x83, 0x90, 0x3e, 0x97, 0x9f, 0x5f,
+	0x09, 0x86, 0x71, 0xf3, 0x2b, 0xd1, 0x9b, 0x93, 0x6f, 0x97, 0xdb, 0xd2, 0x67, 0x2d, 0xfd, 0x58,
+	0xc2, 0x2e, 0xe5, 0x0f, 0x69, 0xbe, 0x5d, 0xca, 0xb3, 0xc1, 0xdf, 0x47, 0xb0, 0xb2, 0xad, 0xf6,
+	0xd2, 0xad, 0xcf, 0x33, 0x68, 0xcf, 0x08, 0x13, 0xf5, 0x22, 0xbf, 0xa1, 0xca, 0x90, 0xbf, 0x95,
+	0x22, 0x3b, 0x79, 0x22, 0x7f, 0x2b, 0xc5, 0x36, 0x23, 0xcd, 0x02, 0x7f, 0x80, 0xe0, 0xb2, 0xb3,
+	0xab, 0x72, 0x16, 0x7d, 0x81, 0xa1, 0xbc, 0xce, 0x73, 0x6e, 0xca, 0x93, 0x35, 0x4b, 0x64, 0x97,
+	0x70, 0xf0, 0x6f, 0x11, 0x3c, 0xef, 0x0c, 0x5f, 0x67, 0xa2, 0x1f, 0x67, 0xcb, 0xb9, 0xaa, 0xb4,
+	0x1c, 0x91, 0x23, 0xd9, 0x0d, 0x10, 0xfc, 0x2b, 0x04, 0x97, 0xe8, 0x70, 0x15, 0x1c, 0x7a, 0x9d,
+	0x2d, 0xe2, 0x72, 0x74, 0x20, 0x1f, 0x6e, 0x96, 0x66, 0x89, 0x0c, 0x0b, 0x80, 0x05, 0xc9, 0x6d,
+	0xa5, 0xdf, 0x0c, 0xeb, 0x8b, 0x89, 0x20, 0xa9, 0xf6, 0x83, 0x63, 0x3f, 0x48, 0xaa, 0xb1, 0xc3,
+	0x3f, 0x41, 0x70, 0xc1, 0x55, 0x7f, 0xcc, 0xd5, 0x4f, 0x30, 0x98, 0xcf, 0x85, 0x30, 0x87, 0x78,
+	0x0e, 0x6e, 0x96, 0xc8, 0x30, 0x8c, 0xf1, 0x0f, 0x10, 0x9c, 0x77, 0x15, 0x5f, 0xbd, 0xf4, 0x27,
+	0x19, 0xda, 0x4b, 0xc5, 0x68, 0x45, 0x2a, 0xac, 0xcc, 0x12, 0xbf, 0x87, 0xe0, 0x6c, 0x4b, 0xe1,
+	0xad, 0x48, 0x3f, 0xc9, 0x30, 0x5e, 0x88, 0xe2, 0xb3, 0xc2, 0xd0, 0x66, 0x89, 0x28, 0xb1, 0x62,
+	0x6a, 0xd9, 0x52, 0x7a, 0x9e, 0xd1, 0x4f, 0x25, 0xd4, 0x52, 0xed, 0x6d, 0xc7, 0x57, 0x4b, 0x35,
+	0x76, 0xf8, 0x9b, 0x08, 0xce, 0xb4, 0x14, 0x36, 0x78, 0x89, 0xc1, 0x5b, 0xcd, 0x85, 0x27, 0xda,
+	0x5b, 0x15, 0x46, 0xf8, 0x3b, 0x08, 0xce, 0xb5, 0x54, 0x9e, 0x06, 0xf4, 0xd3, 0x0c, 0xda, 0xc5,
+	0x7c, 0xc9, 0x09, 0x63, 0x98, 0x1a, 0xb3, 0x1c, 0x78, 0xa2, 0x03, 0xd8, 0xb2, 0x04, 0x3c, 0xf1,
+	0x51, 0x4c, 0x8d, 0x19, 0x4b, 0x4e, 0x5a, 0x6a, 0x77, 0xd4, 0xfa, 0x99, 0x44, 0x72, 0xa2, 0x78,
+	0xc3, 0xed, 0x27, 0x27, 0x8a, 0x0c, 0x59, 0xc4, 0x71, 0x87, 0xab, 0xb0, 0xd3, 0xcf, 0x26, 0x22,
+	0xce, 0x90, 0x75, 0x7a, 0x7e, 0xc4, 0x19, 0x12, 0x00, 0xfe, 0x19, 0x82, 0x8b, 0xee, 0x10, 0x55,
+	0x6a, 0xfa, 0x39, 0x86, 0xfc, 0x79, 0x39, 0xe4, 0x22, 0x53, 0x1a, 0x8a, 0x35, 0x73, 0xe9, 0x54,
+	0xb1, 0xe2, 0x4b, 0x6f, 0x24, 0x5c, 0xba, 0x6a, 0xc1, 0x98, 0xef, 0xd2, 0x55, 0x59, 0x32, 0xe3,
+	0xea, 0xa9, 0x14, 0x6d, 0xe9, 0x2b, 0x09, 0xe3, 0x52, 0x2a, 0xf8, 0xf2, 0x8d, 0x4b, 0x89, 0xd9,
+	0xd5, 0x29, 0x00, 0x63, 0x50, 0x1d, 0xf2, 0x0c, 0x8c, 0x87, 0x2f, 0x1c, 0xf8, 0x0c, 0x8c, 0x31,
+	0x00, 0xae, 0x8e, 0x16, 0xca, 0xac, 0x1c, 0x26, 0xc0, 0x13, 0x7f, 0x01, 0x21, 0x21, 0xc9, 0xd5,
+	0x2f, 0xfc, 0xee, 0xc1, 0x3c, 0xfa, 0xf0, 0xc1, 0x3c, 0xfa, 0xe8, 0xc1, 0x3c, 0x7a, 0xe7, 0xe1,
+	0x7c, 0xe9, 0xc3, 0x87, 0xf3, 0xa5, 0x3f, 0x3f, 0x9c, 0x2f, 0xc1, 0x61, 0xd3, 0x6e, 0x78, 0xb4,
+	0xbb, 0x65, 0x3b, 0x46, 0x27, 0xf8, 0xa7, 0x63, 0xc1, 0x3c, 0x37, 0xd0, 0xeb, 0x8b, 0x77, 0x62,
+	0x5d, 0xa6, 0xbd, 0x12, 0xfd, 0x7d, 0x8e, 0x91, 0xad, 0x30, 0xb2, 0xdb, 0x63, 0xec, 0xe3, 0xc2,
+	0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0x33, 0x43, 0x39, 0x7b, 0x32, 0x4d, 0x00, 0x00,
 }
 
 func (m *WorkflowExecutionStartedEventAttributes) Marshal() (dAtA []byte, err error) {
@@ -4537,7 +4503,7 @@ func (m *WorkflowExecutionStartedEventAttributes) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xd2
+		dAtA[i] = 0xca
 	}
 	if m.PrevAutoResetPoints != nil {
 		{
@@ -4551,7 +4517,7 @@ func (m *WorkflowExecutionStartedEventAttributes) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xca
+		dAtA[i] = 0xc2
 	}
 	if m.SearchAttributes != nil {
 		{
@@ -4565,7 +4531,7 @@ func (m *WorkflowExecutionStartedEventAttributes) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xc2
+		dAtA[i] = 0xba
 	}
 	if m.Memo != nil {
 		{
@@ -4579,14 +4545,14 @@ func (m *WorkflowExecutionStartedEventAttributes) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xba
+		dAtA[i] = 0xb2
 	}
 	if m.FirstDecisionTaskBackoffSeconds != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.FirstDecisionTaskBackoffSeconds))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xb0
+		dAtA[i] = 0xa8
 	}
 	if len(m.CronSchedule) > 0 {
 		i -= len(m.CronSchedule)
@@ -4595,21 +4561,21 @@ func (m *WorkflowExecutionStartedEventAttributes) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xaa
+		dAtA[i] = 0xa2
 	}
 	if m.ExpirationTimestamp != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.ExpirationTimestamp))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0xa0
+		dAtA[i] = 0x98
 	}
 	if m.Attempt != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.Attempt))
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x98
+		dAtA[i] = 0x90
 	}
 	if m.RetryPolicy != nil {
 		{
@@ -4623,7 +4589,7 @@ func (m *WorkflowExecutionStartedEventAttributes) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x92
+		dAtA[i] = 0x8a
 	}
 	if len(m.FirstExecutionRunId) > 0 {
 		i -= len(m.FirstExecutionRunId)
@@ -4632,76 +4598,84 @@ func (m *WorkflowExecutionStartedEventAttributes) MarshalToSizedBuffer(dAtA []by
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x8a
+		dAtA[i] = 0x82
 	}
 	if len(m.Identity) > 0 {
 		i -= len(m.Identity)
 		copy(dAtA[i:], m.Identity)
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.Identity)))
 		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x82
+		dAtA[i] = 0x7a
 	}
 	if len(m.OriginalExecutionRunId) > 0 {
 		i -= len(m.OriginalExecutionRunId)
 		copy(dAtA[i:], m.OriginalExecutionRunId)
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.OriginalExecutionRunId)))
 		i--
-		dAtA[i] = 0x7a
-	}
-	if len(m.LastCompletionResult) > 0 {
-		i -= len(m.LastCompletionResult)
-		copy(dAtA[i:], m.LastCompletionResult)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.LastCompletionResult)))
-		i--
 		dAtA[i] = 0x72
 	}
-	if len(m.ContinuedFailureDetails) > 0 {
-		i -= len(m.ContinuedFailureDetails)
-		copy(dAtA[i:], m.ContinuedFailureDetails)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.ContinuedFailureDetails)))
+	if m.LastCompletionResult != nil {
+		{
+			size, err := m.LastCompletionResult.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x6a
+	}
+	if m.ContinuedFailureDetails != nil {
+		{
+			size, err := m.ContinuedFailureDetails.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x62
 	}
 	if len(m.ContinuedFailureReason) > 0 {
 		i -= len(m.ContinuedFailureReason)
 		copy(dAtA[i:], m.ContinuedFailureReason)
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.ContinuedFailureReason)))
 		i--
-		dAtA[i] = 0x62
+		dAtA[i] = 0x5a
 	}
 	if m.Initiator != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.Initiator))
 		i--
-		dAtA[i] = 0x58
+		dAtA[i] = 0x50
 	}
 	if len(m.ContinuedExecutionRunId) > 0 {
 		i -= len(m.ContinuedExecutionRunId)
 		copy(dAtA[i:], m.ContinuedExecutionRunId)
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.ContinuedExecutionRunId)))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x4a
 	}
-	if m.WorkflowTaskTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowTaskTimeoutSeconds))
-		i--
-		dAtA[i] = 0x48
-	}
-	if m.WorkflowRunTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowRunTimeoutSeconds))
+	if m.TaskStartToCloseTimeoutSeconds != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.TaskStartToCloseTimeoutSeconds))
 		i--
 		dAtA[i] = 0x40
 	}
-	if m.WorkflowExecutionTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowExecutionTimeoutSeconds))
+	if m.ExecutionStartToCloseTimeoutSeconds != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.ExecutionStartToCloseTimeoutSeconds))
 		i--
 		dAtA[i] = 0x38
 	}
-	if len(m.Input) > 0 {
-		i -= len(m.Input)
-		copy(dAtA[i:], m.Input)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Input)))
+	if m.Input != nil {
+		{
+			size, err := m.Input.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x32
 	}
@@ -4781,10 +4755,15 @@ func (m *WorkflowExecutionCompletedEventAttributes) MarshalToSizedBuffer(dAtA []
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Result) > 0 {
-		i -= len(m.Result)
-		copy(dAtA[i:], m.Result)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Result)))
+	if m.Result != nil {
+		{
+			size, err := m.Result.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0xa
 	}
@@ -4816,10 +4795,15 @@ func (m *WorkflowExecutionFailedEventAttributes) MarshalToSizedBuffer(dAtA []byt
 		i--
 		dAtA[i] = 0x18
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
@@ -4917,17 +4901,27 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) MarshalToSizedBuffer(dA
 		i--
 		dAtA[i] = 0x6a
 	}
-	if len(m.LastCompletionResult) > 0 {
-		i -= len(m.LastCompletionResult)
-		copy(dAtA[i:], m.LastCompletionResult)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.LastCompletionResult)))
+	if m.LastCompletionResult != nil {
+		{
+			size, err := m.LastCompletionResult.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x62
 	}
-	if len(m.FailureDetails) > 0 {
-		i -= len(m.FailureDetails)
-		copy(dAtA[i:], m.FailureDetails)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.FailureDetails)))
+	if m.FailureDetails != nil {
+		{
+			size, err := m.FailureDetails.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x5a
 	}
@@ -4963,10 +4957,15 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) MarshalToSizedBuffer(dA
 		i--
 		dAtA[i] = 0x28
 	}
-	if len(m.Input) > 0 {
-		i -= len(m.Input)
-		copy(dAtA[i:], m.Input)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Input)))
+	if m.Input != nil {
+		{
+			size, err := m.Input.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x22
 	}
@@ -5243,10 +5242,15 @@ func (m *DecisionTaskFailedEventAttributes) MarshalToSizedBuffer(dAtA []byte) (i
 		i--
 		dAtA[i] = 0x2a
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x22
 	}
@@ -5288,6 +5292,18 @@ func (m *ActivityTaskScheduledEventAttributes) MarshalToSizedBuffer(dAtA []byte)
 	_ = i
 	var l int
 	_ = l
+	if m.Header != nil {
+		{
+			size, err := m.Header.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x62
+	}
 	if m.RetryPolicy != nil {
 		{
 			size, err := m.RetryPolicy.MarshalToSizedBuffer(dAtA[:i])
@@ -5298,43 +5314,36 @@ func (m *ActivityTaskScheduledEventAttributes) MarshalToSizedBuffer(dAtA []byte)
 			i = encodeVarintMessage(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x62
+		dAtA[i] = 0x5a
 	}
 	if m.DecisionTaskCompletedEventId != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.DecisionTaskCompletedEventId))
 		i--
-		dAtA[i] = 0x58
+		dAtA[i] = 0x50
 	}
 	if m.HeartbeatTimeoutSeconds != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.HeartbeatTimeoutSeconds))
 		i--
-		dAtA[i] = 0x50
+		dAtA[i] = 0x48
 	}
 	if m.StartToCloseTimeoutSeconds != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.StartToCloseTimeoutSeconds))
 		i--
-		dAtA[i] = 0x48
+		dAtA[i] = 0x40
 	}
 	if m.ScheduleToStartTimeoutSeconds != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.ScheduleToStartTimeoutSeconds))
 		i--
-		dAtA[i] = 0x40
+		dAtA[i] = 0x38
 	}
 	if m.ScheduleToCloseTimeoutSeconds != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.ScheduleToCloseTimeoutSeconds))
 		i--
-		dAtA[i] = 0x38
+		dAtA[i] = 0x30
 	}
-	if len(m.Input) > 0 {
-		i -= len(m.Input)
-		copy(dAtA[i:], m.Input)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Input)))
-		i--
-		dAtA[i] = 0x32
-	}
-	if m.Header != nil {
+	if m.Input != nil {
 		{
-			size, err := m.Header.MarshalToSizedBuffer(dAtA[:i])
+			size, err := m.Input.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -5405,10 +5414,15 @@ func (m *ActivityTaskStartedEventAttributes) MarshalToSizedBuffer(dAtA []byte) (
 	_ = i
 	var l int
 	_ = l
-	if len(m.LastFailureDetails) > 0 {
-		i -= len(m.LastFailureDetails)
-		copy(dAtA[i:], m.LastFailureDetails)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.LastFailureDetails)))
+	if m.LastFailureDetails != nil {
+		{
+			size, err := m.LastFailureDetails.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x32
 	}
@@ -5483,10 +5497,15 @@ func (m *ActivityTaskCompletedEventAttributes) MarshalToSizedBuffer(dAtA []byte)
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Result) > 0 {
-		i -= len(m.Result)
-		copy(dAtA[i:], m.Result)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Result)))
+	if m.Result != nil {
+		{
+			size, err := m.Result.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0xa
 	}
@@ -5530,10 +5549,15 @@ func (m *ActivityTaskFailedEventAttributes) MarshalToSizedBuffer(dAtA []byte) (i
 		i--
 		dAtA[i] = 0x18
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
@@ -5567,10 +5591,15 @@ func (m *ActivityTaskTimedOutEventAttributes) MarshalToSizedBuffer(dAtA []byte) 
 	_ = i
 	var l int
 	_ = l
-	if len(m.LastFailureDetails) > 0 {
-		i -= len(m.LastFailureDetails)
-		copy(dAtA[i:], m.LastFailureDetails)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.LastFailureDetails)))
+	if m.LastFailureDetails != nil {
+		{
+			size, err := m.LastFailureDetails.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x32
 	}
@@ -5596,10 +5625,15 @@ func (m *ActivityTaskTimedOutEventAttributes) MarshalToSizedBuffer(dAtA []byte) 
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0xa
 	}
@@ -5725,10 +5759,15 @@ func (m *ActivityTaskCanceledEventAttributes) MarshalToSizedBuffer(dAtA []byte) 
 		i--
 		dAtA[i] = 0x10
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0xa
 	}
@@ -5980,10 +6019,15 @@ func (m *WorkflowExecutionCanceledEventAttributes) MarshalToSizedBuffer(dAtA []b
 	_ = i
 	var l int
 	_ = l
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
@@ -6032,10 +6076,15 @@ func (m *MarkerRecordedEventAttributes) MarshalToSizedBuffer(dAtA []byte) (int, 
 		i--
 		dAtA[i] = 0x18
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
@@ -6076,10 +6125,15 @@ func (m *WorkflowExecutionSignaledEventAttributes) MarshalToSizedBuffer(dAtA []b
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.Input) > 0 {
-		i -= len(m.Input)
-		copy(dAtA[i:], m.Input)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Input)))
+	if m.Input != nil {
+		{
+			size, err := m.Input.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
@@ -6120,10 +6174,15 @@ func (m *WorkflowExecutionTerminatedEventAttributes) MarshalToSizedBuffer(dAtA [
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
@@ -6349,10 +6408,15 @@ func (m *SignalExternalWorkflowExecutionInitiatedEventAttributes) MarshalToSized
 		i--
 		dAtA[i] = 0x32
 	}
-	if len(m.Input) > 0 {
-		i -= len(m.Input)
-		copy(dAtA[i:], m.Input)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Input)))
+	if m.Input != nil {
+		{
+			size, err := m.Input.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x2a
 	}
@@ -6580,7 +6644,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) MarshalToSizedBuff
 		i--
 		dAtA[i] = 0x1
 		i--
-		dAtA[i] = 0x8a
+		dAtA[i] = 0x82
 	}
 	if m.Memo != nil {
 		{
@@ -6592,9 +6656,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) MarshalToSizedBuff
 			i = encodeVarintMessage(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x82
+		dAtA[i] = 0x7a
 	}
 	if m.Header != nil {
 		{
@@ -6606,14 +6668,14 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) MarshalToSizedBuff
 			i = encodeVarintMessage(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x7a
+		dAtA[i] = 0x72
 	}
 	if len(m.CronSchedule) > 0 {
 		i -= len(m.CronSchedule)
 		copy(dAtA[i:], m.CronSchedule)
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.CronSchedule)))
 		i--
-		dAtA[i] = 0x72
+		dAtA[i] = 0x6a
 	}
 	if m.RetryPolicy != nil {
 		{
@@ -6625,49 +6687,49 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) MarshalToSizedBuff
 			i = encodeVarintMessage(dAtA, i, uint64(size))
 		}
 		i--
-		dAtA[i] = 0x6a
+		dAtA[i] = 0x62
 	}
 	if m.WorkflowIdReusePolicy != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowIdReusePolicy))
 		i--
-		dAtA[i] = 0x60
+		dAtA[i] = 0x58
 	}
 	if m.DecisionTaskCompletedEventId != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.DecisionTaskCompletedEventId))
 		i--
-		dAtA[i] = 0x58
+		dAtA[i] = 0x50
 	}
 	if len(m.Control) > 0 {
 		i -= len(m.Control)
 		copy(dAtA[i:], m.Control)
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.Control)))
 		i--
-		dAtA[i] = 0x52
+		dAtA[i] = 0x4a
 	}
 	if m.ParentClosePolicy != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.ParentClosePolicy))
 		i--
-		dAtA[i] = 0x48
-	}
-	if m.WorkflowTaskTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowTaskTimeoutSeconds))
-		i--
 		dAtA[i] = 0x40
 	}
-	if m.WorkflowRunTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowRunTimeoutSeconds))
+	if m.TaskStartToCloseTimeoutSeconds != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.TaskStartToCloseTimeoutSeconds))
 		i--
 		dAtA[i] = 0x38
 	}
-	if m.WorkflowExecutionTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowExecutionTimeoutSeconds))
+	if m.ExecutionStartToCloseTimeoutSeconds != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.ExecutionStartToCloseTimeoutSeconds))
 		i--
 		dAtA[i] = 0x30
 	}
-	if len(m.Input) > 0 {
-		i -= len(m.Input)
-		copy(dAtA[i:], m.Input)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Input)))
+	if m.Input != nil {
+		{
+			size, err := m.Input.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x2a
 	}
@@ -6915,10 +6977,15 @@ func (m *ChildWorkflowExecutionCompletedEventAttributes) MarshalToSizedBuffer(dA
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Result) > 0 {
-		i -= len(m.Result)
-		copy(dAtA[i:], m.Result)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Result)))
+	if m.Result != nil {
+		{
+			size, err := m.Result.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0xa
 	}
@@ -6986,10 +7053,15 @@ func (m *ChildWorkflowExecutionFailedEventAttributes) MarshalToSizedBuffer(dAtA 
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0x12
 	}
@@ -7064,10 +7136,15 @@ func (m *ChildWorkflowExecutionCanceledEventAttributes) MarshalToSizedBuffer(dAt
 		i--
 		dAtA[i] = 0x12
 	}
-	if len(m.Details) > 0 {
-		i -= len(m.Details)
-		copy(dAtA[i:], m.Details)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Details)))
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
 		i--
 		dAtA[i] = 0xa
 	}
@@ -8283,18 +8360,15 @@ func (m *WorkflowExecutionStartedEventAttributes) Size() (n int) {
 		l = m.TaskList.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Input)
-	if l > 0 {
+	if m.Input != nil {
+		l = m.Input.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.WorkflowExecutionTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.WorkflowExecutionTimeoutSeconds))
+	if m.ExecutionStartToCloseTimeoutSeconds != 0 {
+		n += 1 + sovMessage(uint64(m.ExecutionStartToCloseTimeoutSeconds))
 	}
-	if m.WorkflowRunTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.WorkflowRunTimeoutSeconds))
-	}
-	if m.WorkflowTaskTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.WorkflowTaskTimeoutSeconds))
+	if m.TaskStartToCloseTimeoutSeconds != 0 {
+		n += 1 + sovMessage(uint64(m.TaskStartToCloseTimeoutSeconds))
 	}
 	l = len(m.ContinuedExecutionRunId)
 	if l > 0 {
@@ -8307,12 +8381,12 @@ func (m *WorkflowExecutionStartedEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.ContinuedFailureDetails)
-	if l > 0 {
+	if m.ContinuedFailureDetails != nil {
+		l = m.ContinuedFailureDetails.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.LastCompletionResult)
-	if l > 0 {
+	if m.LastCompletionResult != nil {
+		l = m.LastCompletionResult.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.OriginalExecutionRunId)
@@ -8321,7 +8395,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Size() (n int) {
 	}
 	l = len(m.Identity)
 	if l > 0 {
-		n += 2 + l + sovMessage(uint64(l))
+		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.FirstExecutionRunId)
 	if l > 0 {
@@ -8369,8 +8443,8 @@ func (m *WorkflowExecutionCompletedEventAttributes) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Result)
-	if l > 0 {
+	if m.Result != nil {
+		l = m.Result.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.DecisionTaskCompletedEventId != 0 {
@@ -8389,8 +8463,8 @@ func (m *WorkflowExecutionFailedEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.DecisionTaskCompletedEventId != 0 {
@@ -8429,8 +8503,8 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) Size() (n int) {
 		l = m.TaskList.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Input)
-	if l > 0 {
+	if m.Input != nil {
+		l = m.Input.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.ExecutionStartToCloseTimeoutSeconds != 0 {
@@ -8452,12 +8526,12 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.FailureDetails)
-	if l > 0 {
+	if m.FailureDetails != nil {
+		l = m.FailureDetails.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.LastCompletionResult)
-	if l > 0 {
+	if m.LastCompletionResult != nil {
+		l = m.LastCompletionResult.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.Header != nil {
@@ -8574,8 +8648,8 @@ func (m *DecisionTaskFailedEventAttributes) Size() (n int) {
 	if m.Cause != 0 {
 		n += 1 + sovMessage(uint64(m.Cause))
 	}
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.Identity)
@@ -8626,12 +8700,8 @@ func (m *ActivityTaskScheduledEventAttributes) Size() (n int) {
 		l = m.TaskList.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.Header != nil {
-		l = m.Header.Size()
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	l = len(m.Input)
-	if l > 0 {
+	if m.Input != nil {
+		l = m.Input.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.ScheduleToCloseTimeoutSeconds != 0 {
@@ -8651,6 +8721,10 @@ func (m *ActivityTaskScheduledEventAttributes) Size() (n int) {
 	}
 	if m.RetryPolicy != nil {
 		l = m.RetryPolicy.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.Header != nil {
+		l = m.Header.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	return n
@@ -8680,8 +8754,8 @@ func (m *ActivityTaskStartedEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.LastFailureDetails)
-	if l > 0 {
+	if m.LastFailureDetails != nil {
+		l = m.LastFailureDetails.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	return n
@@ -8693,8 +8767,8 @@ func (m *ActivityTaskCompletedEventAttributes) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Result)
-	if l > 0 {
+	if m.Result != nil {
+		l = m.Result.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.ScheduledEventId != 0 {
@@ -8720,8 +8794,8 @@ func (m *ActivityTaskFailedEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.ScheduledEventId != 0 {
@@ -8743,8 +8817,8 @@ func (m *ActivityTaskTimedOutEventAttributes) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.ScheduledEventId != 0 {
@@ -8760,8 +8834,8 @@ func (m *ActivityTaskTimedOutEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.LastFailureDetails)
-	if l > 0 {
+	if m.LastFailureDetails != nil {
+		l = m.LastFailureDetails.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	return n
@@ -8809,8 +8883,8 @@ func (m *ActivityTaskCanceledEventAttributes) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.LatestCancelRequestedEventId != 0 {
@@ -8944,8 +9018,8 @@ func (m *WorkflowExecutionCanceledEventAttributes) Size() (n int) {
 	if m.DecisionTaskCompletedEventId != 0 {
 		n += 1 + sovMessage(uint64(m.DecisionTaskCompletedEventId))
 	}
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	return n
@@ -8961,8 +9035,8 @@ func (m *MarkerRecordedEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.DecisionTaskCompletedEventId != 0 {
@@ -8985,8 +9059,8 @@ func (m *WorkflowExecutionSignaledEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Input)
-	if l > 0 {
+	if m.Input != nil {
+		l = m.Input.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.Identity)
@@ -9006,8 +9080,8 @@ func (m *WorkflowExecutionTerminatedEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.Identity)
@@ -9115,8 +9189,8 @@ func (m *SignalExternalWorkflowExecutionInitiatedEventAttributes) Size() (n int)
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Input)
-	if l > 0 {
+	if m.Input != nil {
+		l = m.Input.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.Control)
@@ -9221,18 +9295,15 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Size() (n int) {
 		l = m.TaskList.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Input)
-	if l > 0 {
+	if m.Input != nil {
+		l = m.Input.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.WorkflowExecutionTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.WorkflowExecutionTimeoutSeconds))
+	if m.ExecutionStartToCloseTimeoutSeconds != 0 {
+		n += 1 + sovMessage(uint64(m.ExecutionStartToCloseTimeoutSeconds))
 	}
-	if m.WorkflowRunTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.WorkflowRunTimeoutSeconds))
-	}
-	if m.WorkflowTaskTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.WorkflowTaskTimeoutSeconds))
+	if m.TaskStartToCloseTimeoutSeconds != 0 {
+		n += 1 + sovMessage(uint64(m.TaskStartToCloseTimeoutSeconds))
 	}
 	if m.ParentClosePolicy != 0 {
 		n += 1 + sovMessage(uint64(m.ParentClosePolicy))
@@ -9261,7 +9332,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Size() (n int) {
 	}
 	if m.Memo != nil {
 		l = m.Memo.Size()
-		n += 2 + l + sovMessage(uint64(l))
+		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.SearchAttributes != nil {
 		l = m.SearchAttributes.Size()
@@ -9338,8 +9409,8 @@ func (m *ChildWorkflowExecutionCompletedEventAttributes) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Result)
-	if l > 0 {
+	if m.Result != nil {
+		l = m.Result.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.Namespace)
@@ -9373,8 +9444,8 @@ func (m *ChildWorkflowExecutionFailedEventAttributes) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.Namespace)
@@ -9404,8 +9475,8 @@ func (m *ChildWorkflowExecutionCanceledEventAttributes) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Details)
-	if l > 0 {
+	if m.Details != nil {
+		l = m.Details.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	l = len(m.Namespace)
@@ -10230,7 +10301,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Input", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -10240,31 +10311,33 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Input = append(m.Input[:0], dAtA[iNdEx:postIndex]...)
 			if m.Input == nil {
-				m.Input = []byte{}
+				m.Input = &common.Payload{}
+			}
+			if err := m.Input.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 7:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowExecutionTimeoutSeconds", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ExecutionStartToCloseTimeoutSeconds", wireType)
 			}
-			m.WorkflowExecutionTimeoutSeconds = 0
+			m.ExecutionStartToCloseTimeoutSeconds = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -10274,16 +10347,16 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.WorkflowExecutionTimeoutSeconds |= int32(b&0x7F) << shift
+				m.ExecutionStartToCloseTimeoutSeconds |= int32(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 8:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowRunTimeoutSeconds", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field TaskStartToCloseTimeoutSeconds", wireType)
 			}
-			m.WorkflowRunTimeoutSeconds = 0
+			m.TaskStartToCloseTimeoutSeconds = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -10293,31 +10366,12 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.WorkflowRunTimeoutSeconds |= int32(b&0x7F) << shift
+				m.TaskStartToCloseTimeoutSeconds |= int32(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 9:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowTaskTimeoutSeconds", wireType)
-			}
-			m.WorkflowTaskTimeoutSeconds = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.WorkflowTaskTimeoutSeconds |= int32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ContinuedExecutionRunId", wireType)
 			}
@@ -10349,7 +10403,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 			}
 			m.ContinuedExecutionRunId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 11:
+		case 10:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Initiator", wireType)
 			}
@@ -10368,7 +10422,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 12:
+		case 11:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ContinuedFailureReason", wireType)
 			}
@@ -10400,11 +10454,11 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 			}
 			m.ContinuedFailureReason = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 13:
+		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ContinuedFailureDetails", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -10414,31 +10468,33 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ContinuedFailureDetails = append(m.ContinuedFailureDetails[:0], dAtA[iNdEx:postIndex]...)
 			if m.ContinuedFailureDetails == nil {
-				m.ContinuedFailureDetails = []byte{}
+				m.ContinuedFailureDetails = &common.Payload{}
+			}
+			if err := m.ContinuedFailureDetails.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
-		case 14:
+		case 13:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field LastCompletionResult", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -10448,27 +10504,29 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.LastCompletionResult = append(m.LastCompletionResult[:0], dAtA[iNdEx:postIndex]...)
 			if m.LastCompletionResult == nil {
-				m.LastCompletionResult = []byte{}
+				m.LastCompletionResult = &common.Payload{}
+			}
+			if err := m.LastCompletionResult.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
-		case 15:
+		case 14:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field OriginalExecutionRunId", wireType)
 			}
@@ -10500,7 +10558,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 			}
 			m.OriginalExecutionRunId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 16:
+		case 15:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Identity", wireType)
 			}
@@ -10532,7 +10590,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 			}
 			m.Identity = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 17:
+		case 16:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FirstExecutionRunId", wireType)
 			}
@@ -10564,7 +10622,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 			}
 			m.FirstExecutionRunId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 18:
+		case 17:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RetryPolicy", wireType)
 			}
@@ -10600,7 +10658,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 19:
+		case 18:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Attempt", wireType)
 			}
@@ -10619,7 +10677,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 20:
+		case 19:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ExpirationTimestamp", wireType)
 			}
@@ -10638,7 +10696,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 21:
+		case 20:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CronSchedule", wireType)
 			}
@@ -10670,7 +10728,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 			}
 			m.CronSchedule = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 22:
+		case 21:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FirstDecisionTaskBackoffSeconds", wireType)
 			}
@@ -10689,7 +10747,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 23:
+		case 22:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Memo", wireType)
 			}
@@ -10725,7 +10783,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 24:
+		case 23:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field SearchAttributes", wireType)
 			}
@@ -10761,7 +10819,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 25:
+		case 24:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PrevAutoResetPoints", wireType)
 			}
@@ -10797,7 +10855,7 @@ func (m *WorkflowExecutionStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 26:
+		case 25:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Header", wireType)
 			}
@@ -10890,7 +10948,7 @@ func (m *WorkflowExecutionCompletedEventAttributes) Unmarshal(dAtA []byte) error
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Result", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -10900,24 +10958,26 @@ func (m *WorkflowExecutionCompletedEventAttributes) Unmarshal(dAtA []byte) error
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Result = append(m.Result[:0], dAtA[iNdEx:postIndex]...)
 			if m.Result == nil {
-				m.Result = []byte{}
+				m.Result = &common.Payload{}
+			}
+			if err := m.Result.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 2:
@@ -11028,7 +11088,7 @@ func (m *WorkflowExecutionFailedEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -11038,24 +11098,26 @@ func (m *WorkflowExecutionFailedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 3:
@@ -11310,7 +11372,7 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) Unmarshal(dAtA []byte) 
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Input", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -11320,24 +11382,26 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) Unmarshal(dAtA []byte) 
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Input = append(m.Input[:0], dAtA[iNdEx:postIndex]...)
 			if m.Input == nil {
-				m.Input = []byte{}
+				m.Input = &common.Payload{}
+			}
+			if err := m.Input.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 5:
@@ -11471,7 +11535,7 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) Unmarshal(dAtA []byte) 
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FailureDetails", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -11481,31 +11545,33 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) Unmarshal(dAtA []byte) 
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.FailureDetails = append(m.FailureDetails[:0], dAtA[iNdEx:postIndex]...)
 			if m.FailureDetails == nil {
-				m.FailureDetails = []byte{}
+				m.FailureDetails = &common.Payload{}
+			}
+			if err := m.FailureDetails.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field LastCompletionResult", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -11515,24 +11581,26 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) Unmarshal(dAtA []byte) 
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.LastCompletionResult = append(m.LastCompletionResult[:0], dAtA[iNdEx:postIndex]...)
 			if m.LastCompletionResult == nil {
-				m.LastCompletionResult = []byte{}
+				m.LastCompletionResult = &common.Payload{}
+			}
+			if err := m.LastCompletionResult.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 13:
@@ -12319,7 +12387,7 @@ func (m *DecisionTaskFailedEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -12329,24 +12397,26 @@ func (m *DecisionTaskFailedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 5:
@@ -12719,7 +12789,7 @@ func (m *ActivityTaskScheduledEventAttributes) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Header", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Input", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -12746,48 +12816,14 @@ func (m *ActivityTaskScheduledEventAttributes) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.Header == nil {
-				m.Header = &common.Header{}
+			if m.Input == nil {
+				m.Input = &common.Payload{}
 			}
-			if err := m.Header.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.Input.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
 		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Input", wireType)
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				byteLen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if byteLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + byteLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Input = append(m.Input[:0], dAtA[iNdEx:postIndex]...)
-			if m.Input == nil {
-				m.Input = []byte{}
-			}
-			iNdEx = postIndex
-		case 7:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ScheduleToCloseTimeoutSeconds", wireType)
 			}
@@ -12806,7 +12842,7 @@ func (m *ActivityTaskScheduledEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 8:
+		case 7:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ScheduleToStartTimeoutSeconds", wireType)
 			}
@@ -12825,7 +12861,7 @@ func (m *ActivityTaskScheduledEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 9:
+		case 8:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field StartToCloseTimeoutSeconds", wireType)
 			}
@@ -12844,7 +12880,7 @@ func (m *ActivityTaskScheduledEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 10:
+		case 9:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field HeartbeatTimeoutSeconds", wireType)
 			}
@@ -12863,7 +12899,7 @@ func (m *ActivityTaskScheduledEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 11:
+		case 10:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DecisionTaskCompletedEventId", wireType)
 			}
@@ -12882,7 +12918,7 @@ func (m *ActivityTaskScheduledEventAttributes) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 12:
+		case 11:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RetryPolicy", wireType)
 			}
@@ -12915,6 +12951,42 @@ func (m *ActivityTaskScheduledEventAttributes) Unmarshal(dAtA []byte) error {
 				m.RetryPolicy = &common.RetryPolicy{}
 			}
 			if err := m.RetryPolicy.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 12:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Header", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Header == nil {
+				m.Header = &common.Header{}
+			}
+			if err := m.Header.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -13109,7 +13181,7 @@ func (m *ActivityTaskStartedEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field LastFailureDetails", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -13119,24 +13191,26 @@ func (m *ActivityTaskStartedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.LastFailureDetails = append(m.LastFailureDetails[:0], dAtA[iNdEx:postIndex]...)
 			if m.LastFailureDetails == nil {
-				m.LastFailureDetails = []byte{}
+				m.LastFailureDetails = &common.Payload{}
+			}
+			if err := m.LastFailureDetails.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		default:
@@ -13196,7 +13270,7 @@ func (m *ActivityTaskCompletedEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Result", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -13206,24 +13280,26 @@ func (m *ActivityTaskCompletedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Result = append(m.Result[:0], dAtA[iNdEx:postIndex]...)
 			if m.Result == nil {
-				m.Result = []byte{}
+				m.Result = &common.Payload{}
+			}
+			if err := m.Result.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 2:
@@ -13385,7 +13461,7 @@ func (m *ActivityTaskFailedEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -13395,24 +13471,26 @@ func (m *ActivityTaskFailedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 3:
@@ -13542,7 +13620,7 @@ func (m *ActivityTaskTimedOutEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -13552,24 +13630,26 @@ func (m *ActivityTaskTimedOutEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 2:
@@ -13665,7 +13745,7 @@ func (m *ActivityTaskTimedOutEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field LastFailureDetails", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -13675,24 +13755,26 @@ func (m *ActivityTaskTimedOutEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.LastFailureDetails = append(m.LastFailureDetails[:0], dAtA[iNdEx:postIndex]...)
 			if m.LastFailureDetails == nil {
-				m.LastFailureDetails = []byte{}
+				m.LastFailureDetails = &common.Payload{}
+			}
+			if err := m.LastFailureDetails.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		default:
@@ -13992,7 +14074,7 @@ func (m *ActivityTaskCanceledEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -14002,24 +14084,26 @@ func (m *ActivityTaskCanceledEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 2:
@@ -14909,7 +14993,7 @@ func (m *WorkflowExecutionCanceledEventAttributes) Unmarshal(dAtA []byte) error 
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -14919,24 +15003,26 @@ func (m *WorkflowExecutionCanceledEventAttributes) Unmarshal(dAtA []byte) error 
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		default:
@@ -15028,7 +15114,7 @@ func (m *MarkerRecordedEventAttributes) Unmarshal(dAtA []byte) error {
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -15038,24 +15124,26 @@ func (m *MarkerRecordedEventAttributes) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 3:
@@ -15202,7 +15290,7 @@ func (m *WorkflowExecutionSignaledEventAttributes) Unmarshal(dAtA []byte) error 
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Input", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -15212,24 +15300,26 @@ func (m *WorkflowExecutionSignaledEventAttributes) Unmarshal(dAtA []byte) error 
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Input = append(m.Input[:0], dAtA[iNdEx:postIndex]...)
 			if m.Input == nil {
-				m.Input = []byte{}
+				m.Input = &common.Payload{}
+			}
+			if err := m.Input.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 3:
@@ -15353,7 +15443,7 @@ func (m *WorkflowExecutionTerminatedEventAttributes) Unmarshal(dAtA []byte) erro
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -15363,24 +15453,26 @@ func (m *WorkflowExecutionTerminatedEventAttributes) Unmarshal(dAtA []byte) erro
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 3:
@@ -16137,7 +16229,7 @@ func (m *SignalExternalWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Input", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -16147,24 +16239,26 @@ func (m *SignalExternalWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Input = append(m.Input[:0], dAtA[iNdEx:postIndex]...)
 			if m.Input == nil {
-				m.Input = []byte{}
+				m.Input = &common.Payload{}
+			}
+			if err := m.Input.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 6:
@@ -16908,7 +17002,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Input", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -16918,31 +17012,33 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Input = append(m.Input[:0], dAtA[iNdEx:postIndex]...)
 			if m.Input == nil {
-				m.Input = []byte{}
+				m.Input = &common.Payload{}
+			}
+			if err := m.Input.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 6:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowExecutionTimeoutSeconds", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ExecutionStartToCloseTimeoutSeconds", wireType)
 			}
-			m.WorkflowExecutionTimeoutSeconds = 0
+			m.ExecutionStartToCloseTimeoutSeconds = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -16952,16 +17048,16 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.WorkflowExecutionTimeoutSeconds |= int32(b&0x7F) << shift
+				m.ExecutionStartToCloseTimeoutSeconds |= int32(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 7:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowRunTimeoutSeconds", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field TaskStartToCloseTimeoutSeconds", wireType)
 			}
-			m.WorkflowRunTimeoutSeconds = 0
+			m.TaskStartToCloseTimeoutSeconds = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -16971,31 +17067,12 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.WorkflowRunTimeoutSeconds |= int32(b&0x7F) << shift
+				m.TaskStartToCloseTimeoutSeconds |= int32(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 8:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowTaskTimeoutSeconds", wireType)
-			}
-			m.WorkflowTaskTimeoutSeconds = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.WorkflowTaskTimeoutSeconds |= int32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 9:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ParentClosePolicy", wireType)
 			}
@@ -17014,7 +17091,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 					break
 				}
 			}
-		case 10:
+		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Control", wireType)
 			}
@@ -17048,7 +17125,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 				m.Control = []byte{}
 			}
 			iNdEx = postIndex
-		case 11:
+		case 10:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DecisionTaskCompletedEventId", wireType)
 			}
@@ -17067,7 +17144,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 					break
 				}
 			}
-		case 12:
+		case 11:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowIdReusePolicy", wireType)
 			}
@@ -17086,7 +17163,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 					break
 				}
 			}
-		case 13:
+		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RetryPolicy", wireType)
 			}
@@ -17122,7 +17199,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 				return err
 			}
 			iNdEx = postIndex
-		case 14:
+		case 13:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field CronSchedule", wireType)
 			}
@@ -17154,7 +17231,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 			}
 			m.CronSchedule = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 15:
+		case 14:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Header", wireType)
 			}
@@ -17190,7 +17267,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 				return err
 			}
 			iNdEx = postIndex
-		case 16:
+		case 15:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Memo", wireType)
 			}
@@ -17226,7 +17303,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(dAtA []b
 				return err
 			}
 			iNdEx = postIndex
-		case 17:
+		case 16:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field SearchAttributes", wireType)
 			}
@@ -17775,7 +17852,7 @@ func (m *ChildWorkflowExecutionCompletedEventAttributes) Unmarshal(dAtA []byte) 
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Result", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -17785,24 +17862,26 @@ func (m *ChildWorkflowExecutionCompletedEventAttributes) Unmarshal(dAtA []byte) 
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Result = append(m.Result[:0], dAtA[iNdEx:postIndex]...)
 			if m.Result == nil {
-				m.Result = []byte{}
+				m.Result = &common.Payload{}
+			}
+			if err := m.Result.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 2:
@@ -18036,7 +18115,7 @@ func (m *ChildWorkflowExecutionFailedEventAttributes) Unmarshal(dAtA []byte) err
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -18046,24 +18125,26 @@ func (m *ChildWorkflowExecutionFailedEventAttributes) Unmarshal(dAtA []byte) err
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 3:
@@ -18265,7 +18346,7 @@ func (m *ChildWorkflowExecutionCanceledEventAttributes) Unmarshal(dAtA []byte) e
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
 			}
-			var byteLen int
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -18275,24 +18356,26 @@ func (m *ChildWorkflowExecutionCanceledEventAttributes) Unmarshal(dAtA []byte) e
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				byteLen |= int(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if byteLen < 0 {
+			if msglen < 0 {
 				return ErrInvalidLengthMessage
 			}
-			postIndex := iNdEx + byteLen
+			postIndex := iNdEx + msglen
 			if postIndex < 0 {
 				return ErrInvalidLengthMessage
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Details = append(m.Details[:0], dAtA[iNdEx:postIndex]...)
 			if m.Details == nil {
-				m.Details = []byte{}
+				m.Details = &common.Payload{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
 			iNdEx = postIndex
 		case 2:
