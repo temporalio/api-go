@@ -16,7 +16,7 @@ PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/gogo/protobuf/protobuf
 
 update-proto: update-proto-submodule all
 
-all: update-proto-submodule grpc grpc-mock copyright gomodtidy
+all: grpc grpc-mock copyright gomodtidy
 
 all-install: grpc-install mockgen-install
 
