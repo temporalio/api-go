@@ -26,7 +26,7 @@ $(PROTO_OUT):
 # git submodule for proto files
 
 update-proto-submodule:
-#	git submodule update --init --remote $(PROTO_ROOT)
+	git submodule update --init --remote $(PROTO_ROOT)
 
 # Compile proto files to go
 
