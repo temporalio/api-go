@@ -1,7 +1,7 @@
 $(VERBOSE).SILENT:
 
 # default target
-default: all-install all
+default: all-install update-proto
 
 ifndef GOPATH
 GOPATH := $(shell go env GOPATH)
@@ -14,9 +14,9 @@ PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
 PROTO_OUT := .
 PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/gogo/protobuf/protobuf
 
-skip-update: grpc grpc-mock copyright gomodtidy
+update-proto: update-proto-submodule all
 
-all: update-proto-submodule grpc grpc-mock copyright gomodtidy
+all: grpc grpc-mock copyright gomodtidy
 
 all-install: grpc-install mockgen-install
 
