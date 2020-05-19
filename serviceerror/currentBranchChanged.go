@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -58,17 +58,17 @@ func (e *CurrentBranchChanged) status() *status.Status {
 
 	st := status.New(codes.InvalidArgument, e.Message)
 	st, _ = st.WithDetails(
-		&failure.CurrentBranchChanged{
+		&errordetails.CurrentBranchChangedFailure{
 			CurrentBranchToken:e.CurrentBranchToken,
 		},
 	)
 	return st
 }
 
-func newCurrentBranchChanged(st *status.Status, failure *failure.CurrentBranchChanged) *CurrentBranchChanged {
+func newCurrentBranchChanged(st *status.Status, errDetails *errordetails.CurrentBranchChangedFailure) *CurrentBranchChanged {
 	return &CurrentBranchChanged{
-		Message: st.Message(),
-		CurrentBranchToken: failure.GetCurrentBranchToken(),
-		st:      st,
+		Message:            st.Message(),
+		CurrentBranchToken: errDetails.GetCurrentBranchToken(),
+		st:                 st,
 	}
 }

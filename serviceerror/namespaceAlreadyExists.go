@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -56,7 +56,7 @@ func (e *NamespaceAlreadyExists) status() *status.Status {
 
 	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
-		&failure.NamespaceAlreadyExists{},
+		&errordetails.NamespaceAlreadyExistsFailure{},
 	)
 	return st
 }

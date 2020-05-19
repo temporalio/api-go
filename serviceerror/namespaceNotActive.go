@@ -28,7 +28,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -69,7 +69,7 @@ func (e *NamespaceNotActive) status() *status.Status {
 
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&failure.NamespaceNotActive{
+		&errordetails.NamespaceNotActiveFailure{
 			Namespace:      e.Namespace,
 			CurrentCluster: e.CurrentCluster,
 			ActiveCluster:  e.ActiveCluster,
@@ -78,12 +78,12 @@ func (e *NamespaceNotActive) status() *status.Status {
 	return st
 }
 
-func newNamespaceNotActive(st *status.Status, failure *failure.NamespaceNotActive) *NamespaceNotActive {
+func newNamespaceNotActive(st *status.Status, errDetails *errordetails.NamespaceNotActiveFailure) *NamespaceNotActive {
 	return &NamespaceNotActive{
 		Message:        st.Message(),
-		Namespace:      failure.GetNamespace(),
-		CurrentCluster: failure.GetCurrentCluster(),
-		ActiveCluster:  failure.GetActiveCluster(),
+		Namespace:      errDetails.GetNamespace(),
+		CurrentCluster: errDetails.GetCurrentCluster(),
+		ActiveCluster:  errDetails.GetActiveCluster(),
 		st:             st,
 	}
 }

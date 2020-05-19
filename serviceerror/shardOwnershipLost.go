@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -58,17 +58,17 @@ func (e *ShardOwnershipLost) status() *status.Status {
 
 	st := status.New(codes.Aborted, e.Message)
 	st, _ = st.WithDetails(
-		&failure.ShardOwnershipLost{
+		&errordetails.ShardOwnershipLostFailure{
 			Owner: e.Owner,
 		},
 	)
 	return st
 }
 
-func newShardOwnershipLost(st *status.Status, failure *failure.ShardOwnershipLost) *ShardOwnershipLost {
+func newShardOwnershipLost(st *status.Status, errDetails *errordetails.ShardOwnershipLostFailure) *ShardOwnershipLost {
 	return &ShardOwnershipLost{
 		Message: st.Message(),
-		Owner:   failure.GetOwner(),
+		Owner:   errDetails.GetOwner(),
 		st:      st,
 	}
 }

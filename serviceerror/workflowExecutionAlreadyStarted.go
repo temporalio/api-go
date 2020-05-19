@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -60,7 +60,7 @@ func (e *WorkflowExecutionAlreadyStarted) status() *status.Status {
 
 	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
-		&failure.WorkflowExecutionAlreadyStarted{
+		&errordetails.WorkflowExecutionAlreadyStartedFailure{
 			StartRequestId: e.StartRequestId,
 			RunId:          e.RunId,
 		},
@@ -68,11 +68,11 @@ func (e *WorkflowExecutionAlreadyStarted) status() *status.Status {
 	return st
 }
 
-func newWorkflowExecutionAlreadyStarted(st *status.Status, failure *failure.WorkflowExecutionAlreadyStarted) *WorkflowExecutionAlreadyStarted {
+func newWorkflowExecutionAlreadyStarted(st *status.Status, errDetails *errordetails.WorkflowExecutionAlreadyStartedFailure) *WorkflowExecutionAlreadyStarted {
 	return &WorkflowExecutionAlreadyStarted{
-		Message: st.Message(),
-		StartRequestId: failure.GetStartRequestId(),
-		RunId:          failure.GetRunId(),
-		st:      st,
+		Message:        st.Message(),
+		StartRequestId: errDetails.GetStartRequestId(),
+		RunId:          errDetails.GetRunId(),
+		st:             st,
 	}
 }

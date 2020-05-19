@@ -28,7 +28,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -64,7 +64,7 @@ func (e *FeatureVersionNotSupported) status() *status.Status {
 
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&failure.FeatureVersionNotSupported{
+		&errordetails.FeatureVersionNotSupportedFailure{
 			FeatureVersion:    e.FeatureVersion,
 			Feature:           e.Feature,
 			SupportedVersions: e.SupportedVersions,
@@ -73,12 +73,12 @@ func (e *FeatureVersionNotSupported) status() *status.Status {
 	return st
 }
 
-func newFeatureVersionNotSupported(st *status.Status, failure *failure.FeatureVersionNotSupported) *FeatureVersionNotSupported {
+func newFeatureVersionNotSupported(st *status.Status, errDetails *errordetails.FeatureVersionNotSupportedFailure) *FeatureVersionNotSupported {
 	return &FeatureVersionNotSupported{
 		Message:           st.Message(),
-		FeatureVersion:    failure.GetFeatureVersion(),
-		Feature:           failure.GetFeature(),
-		SupportedVersions: failure.GetSupportedVersions(),
+		FeatureVersion:    errDetails.GetFeatureVersion(),
+		Feature:           errDetails.GetFeature(),
+		SupportedVersions: errDetails.GetSupportedVersions(),
 		st:                st,
 	}
 }
