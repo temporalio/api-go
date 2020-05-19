@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -70,7 +70,7 @@ func (e *RetryTaskV2) status() *status.Status {
 
 	st := status.New(codes.Aborted, e.Message)
 	st, _ = st.WithDetails(
-		&failure.RetryTaskV2{
+		&errordetails.RetryTaskV2Failure{
 			NamespaceId:       e.NamespaceId,
 			WorkflowId:        e.WorkflowId,
 			RunId:             e.RunId,
@@ -83,16 +83,16 @@ func (e *RetryTaskV2) status() *status.Status {
 	return st
 }
 
-func newRetryTaskV2(st *status.Status, failure *failure.RetryTaskV2) *RetryTaskV2 {
+func newRetryTaskV2(st *status.Status, errDetails *errordetails.RetryTaskV2Failure) *RetryTaskV2 {
 	return &RetryTaskV2{
 		Message:           st.Message(),
-		NamespaceId:       failure.GetNamespaceId(),
-		WorkflowId:        failure.GetWorkflowId(),
-		RunId:             failure.GetRunId(),
-		StartEventId:      failure.GetStartEventId(),
-		StartEventVersion: failure.GetStartEventVersion(),
-		EndEventId:        failure.GetEndEventId(),
-		EndEventVersion:   failure.GetEndEventVersion(),
+		NamespaceId:       errDetails.GetNamespaceId(),
+		WorkflowId:        errDetails.GetWorkflowId(),
+		RunId:             errDetails.GetRunId(),
+		StartEventId:      errDetails.GetStartEventId(),
+		StartEventVersion: errDetails.GetStartEventVersion(),
+		EndEventId:        errDetails.GetEndEventId(),
+		EndEventVersion:   errDetails.GetEndEventVersion(),
 		st:                st,
 	}
 }

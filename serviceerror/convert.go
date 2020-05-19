@@ -29,7 +29,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 // ToStatus converts service error to gogo gRPC status.
 // If error is not a service error it returns status with code Unknown.
@@ -59,7 +59,7 @@ func FromStatus(st *status.Status) error {
 		return nil
 	}
 
-	// Simple case. Code to serviceerror is one to one mapping and there is no failure.
+	// Simple case. Code to serviceerror is one to one mapping and there are no error details.
 	switch st.Code() {
 	case codes.Internal:
 		return newInternal(st)
@@ -87,64 +87,64 @@ func FromStatus(st *status.Status) error {
 		return st.Err()
 	}
 
-	// Extract failure once to optimize performance.
-	f := extractFailure(st)
+	// Extract error details once to optimize performance.
+	errDetails := extractErrorDetails(st)
 	switch st.Code() {
 	case codes.NotFound:
-		if f == nil{
+		if errDetails == nil{
 			return newNotFound(st, nil)
 		}
-		switch f := f.(type) {
-		case *failure.NotFound:
-			return newNotFound(st, f)
+		switch errDetails := errDetails.(type) {
+		case *errordetails.NotFoundFailure:
+			return newNotFound(st, errDetails)
 		}
 	case codes.InvalidArgument:
-		if f == nil {
+		if errDetails == nil {
 			return newInvalidArgument(st)
 		}
-		switch f := f.(type) {
-		case *failure.QueryFailed:
+		switch errDetails := errDetails.(type) {
+		case *errordetails.QueryFailedFailure:
 			return newQueryFailed(st)
-		case *failure.CurrentBranchChanged:
-			return newCurrentBranchChanged(st, f)
+		case *errordetails.CurrentBranchChangedFailure:
+			return newCurrentBranchChanged(st, errDetails)
 		}
 	case codes.AlreadyExists:
-		switch f := f.(type) {
-		case *failure.NamespaceAlreadyExists:
+		switch errDetails := errDetails.(type) {
+		case *errordetails.NamespaceAlreadyExistsFailure:
 			return newNamespaceAlreadyExists(st)
-		case *failure.WorkflowExecutionAlreadyStarted:
-			return newWorkflowExecutionAlreadyStarted(st, f)
-		case *failure.CancellationAlreadyRequested:
+		case *errordetails.WorkflowExecutionAlreadyStartedFailure:
+			return newWorkflowExecutionAlreadyStarted(st, errDetails)
+		case *errordetails.CancellationAlreadyRequestedFailure:
 			return newCancellationAlreadyRequested(st)
-		case *failure.EventAlreadyStarted:
+		case *errordetails.EventAlreadyStartedFailure:
 			return newEventAlreadyStarted(st)
 		}
 	case codes.FailedPrecondition:
-		switch f := f.(type) {
-		case *failure.NamespaceNotActive:
-			return newNamespaceNotActive(st, f)
-		case *failure.ClientVersionNotSupported:
-			return newClientVersionNotSupported(st, f)
-		case *failure.FeatureVersionNotSupported:
-			return newFeatureVersionNotSupported(st, f)
+		switch errDetails := errDetails.(type) {
+		case *errordetails.NamespaceNotActiveFailure:
+			return newNamespaceNotActive(st, errDetails)
+		case *errordetails.ClientVersionNotSupportedFailure:
+			return newClientVersionNotSupported(st, errDetails)
+		case *errordetails.FeatureVersionNotSupportedFailure:
+			return newFeatureVersionNotSupported(st, errDetails)
 		}
 	case codes.Aborted:
-		switch f := f.(type) {
-		case *failure.ShardOwnershipLost:
-			return newShardOwnershipLost(st, f)
-		case *failure.RetryTask:
-			return newRetryTask(st, f)
-		case *failure.RetryTaskV2:
-			return newRetryTaskV2(st, f)
+		switch errDetails := errDetails.(type) {
+		case *errordetails.ShardOwnershipLostFailure:
+			return newShardOwnershipLost(st, errDetails)
+		case *errordetails.RetryTaskFailure:
+			return newRetryTask(st, errDetails)
+		case *errordetails.RetryTaskV2Failure:
+			return newRetryTaskV2(st, errDetails)
 		}
 	}
 
-	// st.Code() should have failure but it didn't (or failure is of a wrong type).
+	// st.Code() should have error details but it didn't (or error details are of a wrong type).
 	// Then use standard gRPC error representation ("rpc error: code = %s desc = %s").
 	return st.Err()
 }
 
-func extractFailure(st *status.Status) interface{} {
+func extractErrorDetails(st *status.Status) interface{} {
 	details := st.Details()
 	if len(details) > 0 {
 		return details[0]

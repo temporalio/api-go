@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -58,7 +58,7 @@ func (e *NotFound) status() *status.Status {
 
 	st := status.New(codes.NotFound, e.Message)
 	st, _ = st.WithDetails(
-		&failure.NotFound{
+		&errordetails.NotFoundFailure{
 			CurrentCluster: e.CurrentCluster,
 			ActiveCluster:  e.ActiveCluster,
 		},
@@ -66,11 +66,11 @@ func (e *NotFound) status() *status.Status {
 	return st
 }
 
-func newNotFound(st *status.Status, failure *failure.NotFound) *NotFound {
+func newNotFound(st *status.Status, errDetails *errordetails.NotFoundFailure) *NotFound {
 	return &NotFound{
 		Message:        st.Message(),
-		CurrentCluster: failure.GetCurrentCluster(),
-		ActiveCluster:  failure.GetActiveCluster(),
+		CurrentCluster: errDetails.GetCurrentCluster(),
+		ActiveCluster:  errDetails.GetActiveCluster(),
 		st:             st,
 	}
 }

@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/failure"
+	"go.temporal.io/temporal-proto/errordetails"
 )
 
 type (
@@ -64,7 +64,7 @@ func (e *RetryTask) status() *status.Status {
 
 	st := status.New(codes.Aborted, e.Message)
 	st, _ = st.WithDetails(
-		&failure.RetryTask{
+		&errordetails.RetryTaskFailure{
 			NamespaceId: e.NamespaceId,
 			WorkflowId:  e.WorkflowId,
 			RunId:       e.RunId,
@@ -74,13 +74,13 @@ func (e *RetryTask) status() *status.Status {
 	return st
 }
 
-func newRetryTask(st *status.Status, failure *failure.RetryTask) *RetryTask {
+func newRetryTask(st *status.Status, errDetails *errordetails.RetryTaskFailure) *RetryTask {
 	return &RetryTask{
 		Message:     st.Message(),
-		NamespaceId: failure.GetNamespaceId(),
-		WorkflowId:  failure.GetWorkflowId(),
-		RunId:       failure.GetRunId(),
-		NextEventId: failure.GetNextEventId(),
+		NamespaceId: errDetails.GetNamespaceId(),
+		WorkflowId:  errDetails.GetWorkflowId(),
+		RunId:       errDetails.GetRunId(),
+		NextEventId: errDetails.GetNextEventId(),
 		st:          st,
 	}
 }
