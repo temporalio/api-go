@@ -45,7 +45,6 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Storage messages
 type DataBlob struct {
 	EncodingType EncodingType `protobuf:"varint,1,opt,name=encodingType,proto3,enum=common.EncodingType" json:"encodingType,omitempty"`
 	Data         []byte       `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
@@ -326,7 +325,6 @@ func (m *Header) GetFields() map[string]*Payload {
 	return nil
 }
 
-// Workflow messages
 type WorkflowExecution struct {
 	WorkflowId string `protobuf:"bytes,1,opt,name=workflowId,proto3" json:"workflowId,omitempty"`
 	RunId      string `protobuf:"bytes,2,opt,name=runId,proto3" json:"runId,omitempty"`
@@ -467,7 +465,6 @@ func (m *ActivityType) GetName() string {
 	return ""
 }
 
-// Retry policy
 type RetryPolicy struct {
 	// Interval of the first retry. If retryBackoffCoefficient is 1.0 then it is used for all retries.
 	InitialIntervalInSeconds int32 `protobuf:"varint,1,opt,name=initialIntervalInSeconds,proto3" json:"initialIntervalInSeconds,omitempty"`

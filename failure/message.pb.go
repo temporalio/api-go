@@ -28,7 +28,10 @@ package failure
 import (
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
+	common "go.temporal.io/temporal-proto/common"
+	io "io"
 	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -42,16 +45,2986 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+type ApplicationFailureInfo struct {
+	Type         string           `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	NonRetryable bool             `protobuf:"varint,2,opt,name=nonRetryable,proto3" json:"nonRetryable,omitempty"`
+	Details      *common.Payloads `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
+}
+
+func (m *ApplicationFailureInfo) Reset()         { *m = ApplicationFailureInfo{} }
+func (m *ApplicationFailureInfo) String() string { return proto.CompactTextString(m) }
+func (*ApplicationFailureInfo) ProtoMessage()    {}
+func (*ApplicationFailureInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{0}
+}
+func (m *ApplicationFailureInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ApplicationFailureInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ApplicationFailureInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ApplicationFailureInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ApplicationFailureInfo.Merge(m, src)
+}
+func (m *ApplicationFailureInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *ApplicationFailureInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ApplicationFailureInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ApplicationFailureInfo proto.InternalMessageInfo
+
+func (m *ApplicationFailureInfo) GetType() string {
+	if m != nil {
+		return m.Type
+	}
+	return ""
+}
+
+func (m *ApplicationFailureInfo) GetNonRetryable() bool {
+	if m != nil {
+		return m.NonRetryable
+	}
+	return false
+}
+
+func (m *ApplicationFailureInfo) GetDetails() *common.Payloads {
+	if m != nil {
+		return m.Details
+	}
+	return nil
+}
+
+type TimeoutFailureInfo struct {
+	TimeoutType          common.TimeoutType `protobuf:"varint,1,opt,name=timeoutType,proto3,enum=common.TimeoutType" json:"timeoutType,omitempty"`
+	LastHeartbeatDetails *common.Payloads   `protobuf:"bytes,2,opt,name=lastHeartbeatDetails,proto3" json:"lastHeartbeatDetails,omitempty"`
+	LastFailure          *Failure           `protobuf:"bytes,3,opt,name=lastFailure,proto3" json:"lastFailure,omitempty"`
+}
+
+func (m *TimeoutFailureInfo) Reset()         { *m = TimeoutFailureInfo{} }
+func (m *TimeoutFailureInfo) String() string { return proto.CompactTextString(m) }
+func (*TimeoutFailureInfo) ProtoMessage()    {}
+func (*TimeoutFailureInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{1}
+}
+func (m *TimeoutFailureInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TimeoutFailureInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TimeoutFailureInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TimeoutFailureInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TimeoutFailureInfo.Merge(m, src)
+}
+func (m *TimeoutFailureInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *TimeoutFailureInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_TimeoutFailureInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TimeoutFailureInfo proto.InternalMessageInfo
+
+func (m *TimeoutFailureInfo) GetTimeoutType() common.TimeoutType {
+	if m != nil {
+		return m.TimeoutType
+	}
+	return common.TimeoutType_StartToClose
+}
+
+func (m *TimeoutFailureInfo) GetLastHeartbeatDetails() *common.Payloads {
+	if m != nil {
+		return m.LastHeartbeatDetails
+	}
+	return nil
+}
+
+func (m *TimeoutFailureInfo) GetLastFailure() *Failure {
+	if m != nil {
+		return m.LastFailure
+	}
+	return nil
+}
+
+type CanceledFailureInfo struct {
+	Details *common.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
+}
+
+func (m *CanceledFailureInfo) Reset()         { *m = CanceledFailureInfo{} }
+func (m *CanceledFailureInfo) String() string { return proto.CompactTextString(m) }
+func (*CanceledFailureInfo) ProtoMessage()    {}
+func (*CanceledFailureInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{2}
+}
+func (m *CanceledFailureInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *CanceledFailureInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_CanceledFailureInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *CanceledFailureInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CanceledFailureInfo.Merge(m, src)
+}
+func (m *CanceledFailureInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *CanceledFailureInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_CanceledFailureInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CanceledFailureInfo proto.InternalMessageInfo
+
+func (m *CanceledFailureInfo) GetDetails() *common.Payloads {
+	if m != nil {
+		return m.Details
+	}
+	return nil
+}
+
+type TerminatedFailureInfo struct {
+}
+
+func (m *TerminatedFailureInfo) Reset()         { *m = TerminatedFailureInfo{} }
+func (m *TerminatedFailureInfo) String() string { return proto.CompactTextString(m) }
+func (*TerminatedFailureInfo) ProtoMessage()    {}
+func (*TerminatedFailureInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{3}
+}
+func (m *TerminatedFailureInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TerminatedFailureInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TerminatedFailureInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TerminatedFailureInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TerminatedFailureInfo.Merge(m, src)
+}
+func (m *TerminatedFailureInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *TerminatedFailureInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_TerminatedFailureInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TerminatedFailureInfo proto.InternalMessageInfo
+
+type ServerFailureInfo struct {
+	NonRetryable bool `protobuf:"varint,1,opt,name=nonRetryable,proto3" json:"nonRetryable,omitempty"`
+}
+
+func (m *ServerFailureInfo) Reset()         { *m = ServerFailureInfo{} }
+func (m *ServerFailureInfo) String() string { return proto.CompactTextString(m) }
+func (*ServerFailureInfo) ProtoMessage()    {}
+func (*ServerFailureInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{4}
+}
+func (m *ServerFailureInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ServerFailureInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ServerFailureInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ServerFailureInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ServerFailureInfo.Merge(m, src)
+}
+func (m *ServerFailureInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *ServerFailureInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ServerFailureInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ServerFailureInfo proto.InternalMessageInfo
+
+func (m *ServerFailureInfo) GetNonRetryable() bool {
+	if m != nil {
+		return m.NonRetryable
+	}
+	return false
+}
+
+type ResetWorkflowFailureInfo struct {
+	LastHeartbeatDetails *common.Payloads `protobuf:"bytes,1,opt,name=lastHeartbeatDetails,proto3" json:"lastHeartbeatDetails,omitempty"`
+}
+
+func (m *ResetWorkflowFailureInfo) Reset()         { *m = ResetWorkflowFailureInfo{} }
+func (m *ResetWorkflowFailureInfo) String() string { return proto.CompactTextString(m) }
+func (*ResetWorkflowFailureInfo) ProtoMessage()    {}
+func (*ResetWorkflowFailureInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{5}
+}
+func (m *ResetWorkflowFailureInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ResetWorkflowFailureInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ResetWorkflowFailureInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ResetWorkflowFailureInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ResetWorkflowFailureInfo.Merge(m, src)
+}
+func (m *ResetWorkflowFailureInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *ResetWorkflowFailureInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ResetWorkflowFailureInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ResetWorkflowFailureInfo proto.InternalMessageInfo
+
+func (m *ResetWorkflowFailureInfo) GetLastHeartbeatDetails() *common.Payloads {
+	if m != nil {
+		return m.LastHeartbeatDetails
+	}
+	return nil
+}
+
+type ActivityTaskFailureInfo struct {
+	ScheduledEventId int64  `protobuf:"varint,1,opt,name=scheduledEventId,proto3" json:"scheduledEventId,omitempty"`
+	StartedEventId   int64  `protobuf:"varint,2,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
+	Identity         string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+}
+
+func (m *ActivityTaskFailureInfo) Reset()         { *m = ActivityTaskFailureInfo{} }
+func (m *ActivityTaskFailureInfo) String() string { return proto.CompactTextString(m) }
+func (*ActivityTaskFailureInfo) ProtoMessage()    {}
+func (*ActivityTaskFailureInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{6}
+}
+func (m *ActivityTaskFailureInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ActivityTaskFailureInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ActivityTaskFailureInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ActivityTaskFailureInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ActivityTaskFailureInfo.Merge(m, src)
+}
+func (m *ActivityTaskFailureInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *ActivityTaskFailureInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ActivityTaskFailureInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ActivityTaskFailureInfo proto.InternalMessageInfo
+
+func (m *ActivityTaskFailureInfo) GetScheduledEventId() int64 {
+	if m != nil {
+		return m.ScheduledEventId
+	}
+	return 0
+}
+
+func (m *ActivityTaskFailureInfo) GetStartedEventId() int64 {
+	if m != nil {
+		return m.StartedEventId
+	}
+	return 0
+}
+
+func (m *ActivityTaskFailureInfo) GetIdentity() string {
+	if m != nil {
+		return m.Identity
+	}
+	return ""
+}
+
+type ChildWorkflowExecutionFailureInfo struct {
+	Namespace         string                    `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowExecution *common.WorkflowExecution `protobuf:"bytes,2,opt,name=workflowExecution,proto3" json:"workflowExecution,omitempty"`
+	WorkflowType      *common.WorkflowType      `protobuf:"bytes,3,opt,name=workflowType,proto3" json:"workflowType,omitempty"`
+	InitiatedEventId  int64                     `protobuf:"varint,4,opt,name=initiatedEventId,proto3" json:"initiatedEventId,omitempty"`
+	StartedEventId    int64                     `protobuf:"varint,5,opt,name=startedEventId,proto3" json:"startedEventId,omitempty"`
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) Reset()         { *m = ChildWorkflowExecutionFailureInfo{} }
+func (m *ChildWorkflowExecutionFailureInfo) String() string { return proto.CompactTextString(m) }
+func (*ChildWorkflowExecutionFailureInfo) ProtoMessage()    {}
+func (*ChildWorkflowExecutionFailureInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{7}
+}
+func (m *ChildWorkflowExecutionFailureInfo) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ChildWorkflowExecutionFailureInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ChildWorkflowExecutionFailureInfo.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ChildWorkflowExecutionFailureInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChildWorkflowExecutionFailureInfo.Merge(m, src)
+}
+func (m *ChildWorkflowExecutionFailureInfo) XXX_Size() int {
+	return m.Size()
+}
+func (m *ChildWorkflowExecutionFailureInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChildWorkflowExecutionFailureInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChildWorkflowExecutionFailureInfo proto.InternalMessageInfo
+
+func (m *ChildWorkflowExecutionFailureInfo) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+	}
+	return ""
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) GetWorkflowExecution() *common.WorkflowExecution {
+	if m != nil {
+		return m.WorkflowExecution
+	}
+	return nil
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) GetWorkflowType() *common.WorkflowType {
+	if m != nil {
+		return m.WorkflowType
+	}
+	return nil
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) GetInitiatedEventId() int64 {
+	if m != nil {
+		return m.InitiatedEventId
+	}
+	return 0
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) GetStartedEventId() int64 {
+	if m != nil {
+		return m.StartedEventId
+	}
+	return 0
+}
+
+type Failure struct {
+	Message    string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Source     string   `protobuf:"bytes,2,opt,name=source,proto3" json:"source,omitempty"`
+	StackTrace string   `protobuf:"bytes,3,opt,name=stackTrace,proto3" json:"stackTrace,omitempty"`
+	Cause      *Failure `protobuf:"bytes,4,opt,name=cause,proto3" json:"cause,omitempty"`
+	// Types that are valid to be assigned to FailureInfo:
+	//	*Failure_ApplicationFailureInfo
+	//	*Failure_TimeoutFailureInfo
+	//	*Failure_CanceledFailureInfo
+	//	*Failure_TerminatedFailureInfo
+	//	*Failure_ServerFailureInfo
+	//	*Failure_ResetWorkflowFailureInfo
+	//	*Failure_ActivityTaskFailureInfo
+	//	*Failure_ChildWorkflowExecutionFailureInfo
+	FailureInfo isFailure_FailureInfo `protobuf_oneof:"failureInfo"`
+}
+
+func (m *Failure) Reset()         { *m = Failure{} }
+func (m *Failure) String() string { return proto.CompactTextString(m) }
+func (*Failure) ProtoMessage()    {}
+func (*Failure) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a6d6035a0763f36, []int{8}
+}
+func (m *Failure) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Failure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Failure.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Failure) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Failure.Merge(m, src)
+}
+func (m *Failure) XXX_Size() int {
+	return m.Size()
+}
+func (m *Failure) XXX_DiscardUnknown() {
+	xxx_messageInfo_Failure.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Failure proto.InternalMessageInfo
+
+type isFailure_FailureInfo interface {
+	isFailure_FailureInfo()
+	MarshalTo([]byte) (int, error)
+	Size() int
+}
+
+type Failure_ApplicationFailureInfo struct {
+	ApplicationFailureInfo *ApplicationFailureInfo `protobuf:"bytes,5,opt,name=applicationFailureInfo,proto3,oneof" json:"applicationFailureInfo,omitempty"`
+}
+type Failure_TimeoutFailureInfo struct {
+	TimeoutFailureInfo *TimeoutFailureInfo `protobuf:"bytes,6,opt,name=timeoutFailureInfo,proto3,oneof" json:"timeoutFailureInfo,omitempty"`
+}
+type Failure_CanceledFailureInfo struct {
+	CanceledFailureInfo *CanceledFailureInfo `protobuf:"bytes,7,opt,name=canceledFailureInfo,proto3,oneof" json:"canceledFailureInfo,omitempty"`
+}
+type Failure_TerminatedFailureInfo struct {
+	TerminatedFailureInfo *TerminatedFailureInfo `protobuf:"bytes,8,opt,name=terminatedFailureInfo,proto3,oneof" json:"terminatedFailureInfo,omitempty"`
+}
+type Failure_ServerFailureInfo struct {
+	ServerFailureInfo *ServerFailureInfo `protobuf:"bytes,9,opt,name=serverFailureInfo,proto3,oneof" json:"serverFailureInfo,omitempty"`
+}
+type Failure_ResetWorkflowFailureInfo struct {
+	ResetWorkflowFailureInfo *ResetWorkflowFailureInfo `protobuf:"bytes,10,opt,name=resetWorkflowFailureInfo,proto3,oneof" json:"resetWorkflowFailureInfo,omitempty"`
+}
+type Failure_ActivityTaskFailureInfo struct {
+	ActivityTaskFailureInfo *ActivityTaskFailureInfo `protobuf:"bytes,11,opt,name=activityTaskFailureInfo,proto3,oneof" json:"activityTaskFailureInfo,omitempty"`
+}
+type Failure_ChildWorkflowExecutionFailureInfo struct {
+	ChildWorkflowExecutionFailureInfo *ChildWorkflowExecutionFailureInfo `protobuf:"bytes,12,opt,name=childWorkflowExecutionFailureInfo,proto3,oneof" json:"childWorkflowExecutionFailureInfo,omitempty"`
+}
+
+func (*Failure_ApplicationFailureInfo) isFailure_FailureInfo()            {}
+func (*Failure_TimeoutFailureInfo) isFailure_FailureInfo()                {}
+func (*Failure_CanceledFailureInfo) isFailure_FailureInfo()               {}
+func (*Failure_TerminatedFailureInfo) isFailure_FailureInfo()             {}
+func (*Failure_ServerFailureInfo) isFailure_FailureInfo()                 {}
+func (*Failure_ResetWorkflowFailureInfo) isFailure_FailureInfo()          {}
+func (*Failure_ActivityTaskFailureInfo) isFailure_FailureInfo()           {}
+func (*Failure_ChildWorkflowExecutionFailureInfo) isFailure_FailureInfo() {}
+
+func (m *Failure) GetFailureInfo() isFailure_FailureInfo {
+	if m != nil {
+		return m.FailureInfo
+	}
+	return nil
+}
+
+func (m *Failure) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *Failure) GetSource() string {
+	if m != nil {
+		return m.Source
+	}
+	return ""
+}
+
+func (m *Failure) GetStackTrace() string {
+	if m != nil {
+		return m.StackTrace
+	}
+	return ""
+}
+
+func (m *Failure) GetCause() *Failure {
+	if m != nil {
+		return m.Cause
+	}
+	return nil
+}
+
+func (m *Failure) GetApplicationFailureInfo() *ApplicationFailureInfo {
+	if x, ok := m.GetFailureInfo().(*Failure_ApplicationFailureInfo); ok {
+		return x.ApplicationFailureInfo
+	}
+	return nil
+}
+
+func (m *Failure) GetTimeoutFailureInfo() *TimeoutFailureInfo {
+	if x, ok := m.GetFailureInfo().(*Failure_TimeoutFailureInfo); ok {
+		return x.TimeoutFailureInfo
+	}
+	return nil
+}
+
+func (m *Failure) GetCanceledFailureInfo() *CanceledFailureInfo {
+	if x, ok := m.GetFailureInfo().(*Failure_CanceledFailureInfo); ok {
+		return x.CanceledFailureInfo
+	}
+	return nil
+}
+
+func (m *Failure) GetTerminatedFailureInfo() *TerminatedFailureInfo {
+	if x, ok := m.GetFailureInfo().(*Failure_TerminatedFailureInfo); ok {
+		return x.TerminatedFailureInfo
+	}
+	return nil
+}
+
+func (m *Failure) GetServerFailureInfo() *ServerFailureInfo {
+	if x, ok := m.GetFailureInfo().(*Failure_ServerFailureInfo); ok {
+		return x.ServerFailureInfo
+	}
+	return nil
+}
+
+func (m *Failure) GetResetWorkflowFailureInfo() *ResetWorkflowFailureInfo {
+	if x, ok := m.GetFailureInfo().(*Failure_ResetWorkflowFailureInfo); ok {
+		return x.ResetWorkflowFailureInfo
+	}
+	return nil
+}
+
+func (m *Failure) GetActivityTaskFailureInfo() *ActivityTaskFailureInfo {
+	if x, ok := m.GetFailureInfo().(*Failure_ActivityTaskFailureInfo); ok {
+		return x.ActivityTaskFailureInfo
+	}
+	return nil
+}
+
+func (m *Failure) GetChildWorkflowExecutionFailureInfo() *ChildWorkflowExecutionFailureInfo {
+	if x, ok := m.GetFailureInfo().(*Failure_ChildWorkflowExecutionFailureInfo); ok {
+		return x.ChildWorkflowExecutionFailureInfo
+	}
+	return nil
+}
+
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*Failure) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
+		(*Failure_ApplicationFailureInfo)(nil),
+		(*Failure_TimeoutFailureInfo)(nil),
+		(*Failure_CanceledFailureInfo)(nil),
+		(*Failure_TerminatedFailureInfo)(nil),
+		(*Failure_ServerFailureInfo)(nil),
+		(*Failure_ResetWorkflowFailureInfo)(nil),
+		(*Failure_ActivityTaskFailureInfo)(nil),
+		(*Failure_ChildWorkflowExecutionFailureInfo)(nil),
+	}
+}
+
+func init() {
+	proto.RegisterType((*ApplicationFailureInfo)(nil), "failure.ApplicationFailureInfo")
+	proto.RegisterType((*TimeoutFailureInfo)(nil), "failure.TimeoutFailureInfo")
+	proto.RegisterType((*CanceledFailureInfo)(nil), "failure.CanceledFailureInfo")
+	proto.RegisterType((*TerminatedFailureInfo)(nil), "failure.TerminatedFailureInfo")
+	proto.RegisterType((*ServerFailureInfo)(nil), "failure.ServerFailureInfo")
+	proto.RegisterType((*ResetWorkflowFailureInfo)(nil), "failure.ResetWorkflowFailureInfo")
+	proto.RegisterType((*ActivityTaskFailureInfo)(nil), "failure.ActivityTaskFailureInfo")
+	proto.RegisterType((*ChildWorkflowExecutionFailureInfo)(nil), "failure.ChildWorkflowExecutionFailureInfo")
+	proto.RegisterType((*Failure)(nil), "failure.Failure")
+}
+
 func init() { proto.RegisterFile("failure/message.proto", fileDescriptor_8a6d6035a0763f36) }
 
 var fileDescriptor_8a6d6035a0763f36 = []byte{
-	// 119 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x4d, 0x4b, 0xcc, 0xcc,
-	0x29, 0x2d, 0x4a, 0xd5, 0xcf, 0x4d, 0x2d, 0x2e, 0x4e, 0x4c, 0x4f, 0xd5, 0x2b, 0x28, 0xca, 0x2f,
-	0xc9, 0x17, 0x62, 0x87, 0x0a, 0x3b, 0xc5, 0x9c, 0x78, 0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3,
-	0x83, 0x47, 0x72, 0x8c, 0x13, 0x1e, 0xcb, 0x31, 0x5c, 0x78, 0x2c, 0xc7, 0x70, 0xe3, 0xb1, 0x1c,
-	0x03, 0x97, 0x64, 0x66, 0xbe, 0x5e, 0x49, 0x6a, 0x6e, 0x41, 0x7e, 0x51, 0x62, 0x0e, 0x44, 0x97,
-	0x1e, 0x54, 0x53, 0x00, 0x63, 0x94, 0x6a, 0x3a, 0x92, 0x64, 0x66, 0xbe, 0x3e, 0x8c, 0xad, 0x0b,
-	0x56, 0xa8, 0x0f, 0x55, 0x98, 0xc4, 0x06, 0xe6, 0x1a, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x72,
-	0xc0, 0x13, 0x4e, 0x86, 0x00, 0x00, 0x00,
+	// 755 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x55, 0x4d, 0x4f, 0xdb, 0x4a,
+	0x14, 0xb5, 0x03, 0x24, 0xe4, 0x86, 0x87, 0xc8, 0xf0, 0x65, 0xf2, 0x90, 0x5f, 0xb0, 0xf4, 0x10,
+	0x42, 0x6a, 0x90, 0x52, 0x55, 0xed, 0x96, 0x02, 0xad, 0xa9, 0x54, 0x09, 0x4d, 0xa3, 0x56, 0xad,
+	0x90, 0xda, 0xc1, 0x9e, 0xc0, 0x08, 0xdb, 0x13, 0xd9, 0x13, 0x68, 0xaa, 0xfe, 0x81, 0xee, 0xba,
+	0xec, 0x1f, 0xaa, 0xd4, 0x25, 0xcb, 0x2e, 0x2b, 0x58, 0xf7, 0x3f, 0x54, 0x8c, 0xed, 0xc4, 0x89,
+	0xc7, 0x8a, 0xba, 0xf3, 0x9c, 0x39, 0xf7, 0xcc, 0x9d, 0x33, 0xf7, 0x5e, 0xc3, 0x6a, 0x97, 0x30,
+	0xaf, 0x1f, 0xd2, 0x3d, 0x9f, 0x46, 0x11, 0x39, 0xa7, 0xad, 0x5e, 0xc8, 0x05, 0x47, 0x95, 0x04,
+	0x6e, 0xac, 0x38, 0xdc, 0xf7, 0x79, 0x30, 0xbe, 0xdd, 0xa8, 0x27, 0x28, 0x0d, 0xfa, 0x7e, 0x0c,
+	0x59, 0x9f, 0x61, 0x6d, 0xbf, 0xd7, 0xf3, 0x98, 0x43, 0x04, 0xe3, 0xc1, 0xb3, 0x38, 0xfc, 0x38,
+	0xe8, 0x72, 0x84, 0x60, 0x56, 0x0c, 0x7a, 0xd4, 0xd0, 0x9b, 0xfa, 0x4e, 0x15, 0xcb, 0x6f, 0x64,
+	0xc1, 0x42, 0xc0, 0x03, 0x4c, 0x45, 0x38, 0x20, 0x67, 0x1e, 0x35, 0x4a, 0x4d, 0x7d, 0x67, 0x1e,
+	0x8f, 0x61, 0x68, 0x17, 0x2a, 0x2e, 0x15, 0x84, 0x79, 0x91, 0x31, 0xd3, 0xd4, 0x77, 0x6a, 0xed,
+	0xa5, 0x56, 0x7c, 0x6c, 0xeb, 0x84, 0x0c, 0x3c, 0x4e, 0xdc, 0x08, 0xa7, 0x04, 0xeb, 0xbb, 0x0e,
+	0xa8, 0xc3, 0x7c, 0xca, 0xfb, 0x22, 0x7b, 0xf4, 0x23, 0xa8, 0x89, 0x18, 0xed, 0xa4, 0x19, 0x2c,
+	0xb6, 0x97, 0x53, 0x99, 0xce, 0x68, 0x0b, 0x67, 0x79, 0xe8, 0x10, 0x56, 0x3c, 0x12, 0x09, 0x9b,
+	0x92, 0x50, 0x9c, 0x51, 0x22, 0x0e, 0x93, 0x34, 0x4a, 0x05, 0x69, 0x28, 0xd9, 0xa8, 0x0d, 0xb5,
+	0x7b, 0x3c, 0xc9, 0x67, 0x78, 0x87, 0xc4, 0xd9, 0x56, 0x82, 0xe3, 0x2c, 0xc9, 0xda, 0x87, 0xe5,
+	0x03, 0x12, 0x38, 0xd4, 0xa3, 0x6e, 0xf6, 0x1e, 0x19, 0x2b, 0xf4, 0x69, 0x56, 0xac, 0xc3, 0x6a,
+	0x87, 0x86, 0x3e, 0x0b, 0x88, 0x18, 0x13, 0xb1, 0x1e, 0x43, 0xfd, 0x15, 0x0d, 0xaf, 0x68, 0x98,
+	0x55, 0x9e, 0x7c, 0x08, 0x3d, 0xff, 0x10, 0xd6, 0x07, 0x30, 0x30, 0x8d, 0xa8, 0x78, 0xc3, 0xc3,
+	0xcb, 0xae, 0xc7, 0xaf, 0xb3, 0xf1, 0x45, 0x56, 0xe9, 0x7f, 0x63, 0x95, 0xf5, 0x45, 0x87, 0xf5,
+	0x7d, 0x47, 0xb0, 0x2b, 0x26, 0x06, 0x1d, 0x12, 0x5d, 0x8e, 0xdf, 0x7d, 0x29, 0x72, 0x2e, 0xa8,
+	0xdb, 0xf7, 0xa8, 0x7b, 0x74, 0x45, 0x03, 0x71, 0xec, 0x4a, 0xf5, 0x19, 0x9c, 0xc3, 0xd1, 0x36,
+	0x2c, 0x46, 0x82, 0x84, 0x62, 0xc4, 0x2c, 0x49, 0xe6, 0x04, 0x8a, 0x1a, 0x30, 0xcf, 0x5c, 0x1a,
+	0x08, 0x26, 0x06, 0xf2, 0x5d, 0xaa, 0x78, 0xb8, 0xb6, 0xbe, 0x95, 0x60, 0xeb, 0xe0, 0x82, 0x79,
+	0x6e, 0x7a, 0xdd, 0xa3, 0x8f, 0xd4, 0xe9, 0x4f, 0x16, 0xf5, 0x26, 0x54, 0x03, 0xe2, 0xd3, 0xa8,
+	0x47, 0x9c, 0xb4, 0xb2, 0x47, 0x00, 0x7a, 0x0e, 0xf5, 0xeb, 0xc9, 0xe8, 0xa4, 0x7a, 0x36, 0x52,
+	0x4b, 0x72, 0xf2, 0x38, 0x1f, 0x83, 0x9e, 0xc0, 0x42, 0x0a, 0xca, 0x0a, 0x8e, 0x8b, 0x68, 0x65,
+	0x52, 0x43, 0x96, 0xf0, 0x18, 0xf3, 0xde, 0x36, 0x16, 0x30, 0xc1, 0x48, 0xc6, 0x8c, 0xd9, 0xd8,
+	0xb6, 0x49, 0x5c, 0x61, 0xdb, 0x9c, 0xca, 0x36, 0xeb, 0x77, 0x19, 0x2a, 0x89, 0x09, 0xc8, 0x80,
+	0x4a, 0x32, 0x13, 0x92, 0xeb, 0xa7, 0x4b, 0xb4, 0x06, 0xe5, 0x88, 0xf7, 0x43, 0x27, 0xee, 0xea,
+	0x2a, 0x4e, 0x56, 0xc8, 0x04, 0x88, 0x04, 0x71, 0x2e, 0x3b, 0xe1, 0xbd, 0x67, 0xb1, 0xed, 0x19,
+	0x04, 0x6d, 0xc3, 0x9c, 0x43, 0xfa, 0x11, 0x95, 0x69, 0xaa, 0x3a, 0x25, 0xde, 0x46, 0x6f, 0x61,
+	0x8d, 0x28, 0x27, 0x8d, 0xcc, 0xba, 0xd6, 0xfe, 0x6f, 0x18, 0xa8, 0x1e, 0x48, 0xb6, 0x86, 0x0b,
+	0x04, 0xd0, 0x4b, 0x40, 0x22, 0x37, 0x45, 0x8c, 0xb2, 0x94, 0xfd, 0x77, 0x28, 0x9b, 0x1f, 0x34,
+	0xb6, 0x86, 0x15, 0x81, 0xe8, 0x04, 0x96, 0x9d, 0x7c, 0x37, 0x1b, 0x15, 0xa9, 0xb7, 0x39, 0xd4,
+	0x53, 0x74, 0xbc, 0xad, 0x61, 0x55, 0x28, 0x7a, 0x0d, 0xab, 0x42, 0xd5, 0xdc, 0xc6, 0xbc, 0xd4,
+	0x34, 0x47, 0x39, 0xaa, 0x58, 0xb6, 0x86, 0xd5, 0xe1, 0xe8, 0x05, 0xd4, 0xa3, 0xc9, 0xd9, 0x60,
+	0x54, 0xa5, 0x66, 0x63, 0xa8, 0x99, 0x9b, 0x1e, 0xb6, 0x86, 0xf3, 0x61, 0xe8, 0x3d, 0x18, 0x61,
+	0xc1, 0xb8, 0x30, 0x40, 0x4a, 0x6e, 0x0d, 0x25, 0x8b, 0xe6, 0x8a, 0xad, 0xe1, 0x42, 0x11, 0x74,
+	0x0a, 0xeb, 0x44, 0x3d, 0x2c, 0x8c, 0x9a, 0xd4, 0x6f, 0x8e, 0x2a, 0x40, 0xcd, 0xb3, 0x35, 0x5c,
+	0x24, 0x81, 0x3e, 0xc1, 0x96, 0x33, 0xad, 0xfd, 0x8d, 0x05, 0x79, 0xce, 0xee, 0xe8, 0x09, 0xa7,
+	0x45, 0xd8, 0x1a, 0x9e, 0x2e, 0xfb, 0xf4, 0x1f, 0xa8, 0x75, 0x33, 0xcb, 0xd3, 0x1f, 0xb7, 0xa6,
+	0x7e, 0x73, 0x6b, 0xea, 0xbf, 0x6e, 0x4d, 0xfd, 0xeb, 0x9d, 0xa9, 0xdd, 0xdc, 0x99, 0xda, 0xcf,
+	0x3b, 0x53, 0x83, 0x0d, 0xc6, 0x5b, 0x82, 0xfa, 0x3d, 0x1e, 0x12, 0x2f, 0xfe, 0x01, 0xa7, 0xa9,
+	0x9c, 0xe8, 0xef, 0xfe, 0x3f, 0xcf, 0x6c, 0x32, 0xbe, 0x97, 0x7e, 0x3f, 0x90, 0xc4, 0xbd, 0x84,
+	0x78, 0x56, 0x96, 0xcb, 0x87, 0x7f, 0x02, 0x00, 0x00, 0xff, 0xff, 0xf8, 0x40, 0xad, 0xf2, 0x03,
+	0x08, 0x00, 0x00,
 }
+
+func (m *ApplicationFailureInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ApplicationFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ApplicationFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.NonRetryable {
+		i--
+		if m.NonRetryable {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Type) > 0 {
+		i -= len(m.Type)
+		copy(dAtA[i:], m.Type)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Type)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *TimeoutFailureInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TimeoutFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TimeoutFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LastFailure != nil {
+		{
+			size, err := m.LastFailure.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.LastHeartbeatDetails != nil {
+		{
+			size, err := m.LastHeartbeatDetails.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.TimeoutType != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.TimeoutType))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *CanceledFailureInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *CanceledFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CanceledFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Details != nil {
+		{
+			size, err := m.Details.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *TerminatedFailureInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *TerminatedFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TerminatedFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *ServerFailureInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ServerFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ServerFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.NonRetryable {
+		i--
+		if m.NonRetryable {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ResetWorkflowFailureInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ResetWorkflowFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ResetWorkflowFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.LastHeartbeatDetails != nil {
+		{
+			size, err := m.LastHeartbeatDetails.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ActivityTaskFailureInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ActivityTaskFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ActivityTaskFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Identity) > 0 {
+		i -= len(m.Identity)
+		copy(dAtA[i:], m.Identity)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Identity)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.StartedEventId != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.StartedEventId))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.ScheduledEventId != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.ScheduledEventId))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.StartedEventId != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.StartedEventId))
+		i--
+		dAtA[i] = 0x28
+	}
+	if m.InitiatedEventId != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.InitiatedEventId))
+		i--
+		dAtA[i] = 0x20
+	}
+	if m.WorkflowType != nil {
+		{
+			size, err := m.WorkflowType.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.WorkflowExecution != nil {
+		{
+			size, err := m.WorkflowExecution.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Namespace)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Failure) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Failure) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.FailureInfo != nil {
+		{
+			size := m.FailureInfo.Size()
+			i -= size
+			if _, err := m.FailureInfo.MarshalTo(dAtA[i:]); err != nil {
+				return 0, err
+			}
+		}
+	}
+	if m.Cause != nil {
+		{
+			size, err := m.Cause.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.StackTrace) > 0 {
+		i -= len(m.StackTrace)
+		copy(dAtA[i:], m.StackTrace)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.StackTrace)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Source) > 0 {
+		i -= len(m.Source)
+		copy(dAtA[i:], m.Source)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Source)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Failure_ApplicationFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure_ApplicationFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.ApplicationFailureInfo != nil {
+		{
+			size, err := m.ApplicationFailureInfo.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x2a
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Failure_TimeoutFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure_TimeoutFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.TimeoutFailureInfo != nil {
+		{
+			size, err := m.TimeoutFailureInfo.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x32
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Failure_CanceledFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure_CanceledFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.CanceledFailureInfo != nil {
+		{
+			size, err := m.CanceledFailureInfo.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x3a
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Failure_TerminatedFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure_TerminatedFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.TerminatedFailureInfo != nil {
+		{
+			size, err := m.TerminatedFailureInfo.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x42
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Failure_ServerFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure_ServerFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.ServerFailureInfo != nil {
+		{
+			size, err := m.ServerFailureInfo.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x4a
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Failure_ResetWorkflowFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure_ResetWorkflowFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.ResetWorkflowFailureInfo != nil {
+		{
+			size, err := m.ResetWorkflowFailureInfo.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x52
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Failure_ActivityTaskFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure_ActivityTaskFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.ActivityTaskFailureInfo != nil {
+		{
+			size, err := m.ActivityTaskFailureInfo.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x5a
+	}
+	return len(dAtA) - i, nil
+}
+func (m *Failure_ChildWorkflowExecutionFailureInfo) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Failure_ChildWorkflowExecutionFailureInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	if m.ChildWorkflowExecutionFailureInfo != nil {
+		{
+			size, err := m.ChildWorkflowExecutionFailureInfo.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMessage(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x62
+	}
+	return len(dAtA) - i, nil
+}
+func encodeVarintMessage(dAtA []byte, offset int, v uint64) int {
+	offset -= sovMessage(v)
+	base := offset
+	for v >= 1<<7 {
+		dAtA[offset] = uint8(v&0x7f | 0x80)
+		v >>= 7
+		offset++
+	}
+	dAtA[offset] = uint8(v)
+	return base
+}
+func (m *ApplicationFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Type)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.NonRetryable {
+		n += 2
+	}
+	if m.Details != nil {
+		l = m.Details.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+
+func (m *TimeoutFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.TimeoutType != 0 {
+		n += 1 + sovMessage(uint64(m.TimeoutType))
+	}
+	if m.LastHeartbeatDetails != nil {
+		l = m.LastHeartbeatDetails.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.LastFailure != nil {
+		l = m.LastFailure.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+
+func (m *CanceledFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Details != nil {
+		l = m.Details.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+
+func (m *TerminatedFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *ServerFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.NonRetryable {
+		n += 2
+	}
+	return n
+}
+
+func (m *ResetWorkflowFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.LastHeartbeatDetails != nil {
+		l = m.LastHeartbeatDetails.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+
+func (m *ActivityTaskFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ScheduledEventId != 0 {
+		n += 1 + sovMessage(uint64(m.ScheduledEventId))
+	}
+	if m.StartedEventId != 0 {
+		n += 1 + sovMessage(uint64(m.StartedEventId))
+	}
+	l = len(m.Identity)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+
+func (m *ChildWorkflowExecutionFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.WorkflowExecution != nil {
+		l = m.WorkflowExecution.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.WorkflowType != nil {
+		l = m.WorkflowType.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.InitiatedEventId != 0 {
+		n += 1 + sovMessage(uint64(m.InitiatedEventId))
+	}
+	if m.StartedEventId != 0 {
+		n += 1 + sovMessage(uint64(m.StartedEventId))
+	}
+	return n
+}
+
+func (m *Failure) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	l = len(m.Source)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	l = len(m.StackTrace)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.Cause != nil {
+		l = m.Cause.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.FailureInfo != nil {
+		n += m.FailureInfo.Size()
+	}
+	return n
+}
+
+func (m *Failure_ApplicationFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ApplicationFailureInfo != nil {
+		l = m.ApplicationFailureInfo.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+func (m *Failure_TimeoutFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.TimeoutFailureInfo != nil {
+		l = m.TimeoutFailureInfo.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+func (m *Failure_CanceledFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.CanceledFailureInfo != nil {
+		l = m.CanceledFailureInfo.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+func (m *Failure_TerminatedFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.TerminatedFailureInfo != nil {
+		l = m.TerminatedFailureInfo.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+func (m *Failure_ServerFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ServerFailureInfo != nil {
+		l = m.ServerFailureInfo.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+func (m *Failure_ResetWorkflowFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ResetWorkflowFailureInfo != nil {
+		l = m.ResetWorkflowFailureInfo.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+func (m *Failure_ActivityTaskFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ActivityTaskFailureInfo != nil {
+		l = m.ActivityTaskFailureInfo.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+func (m *Failure_ChildWorkflowExecutionFailureInfo) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.ChildWorkflowExecutionFailureInfo != nil {
+		l = m.ChildWorkflowExecutionFailureInfo.Size()
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+
+func sovMessage(x uint64) (n int) {
+	return (math_bits.Len64(x|1) + 6) / 7
+}
+func sozMessage(x uint64) (n int) {
+	return sovMessage(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *ApplicationFailureInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ApplicationFailureInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ApplicationFailureInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Type", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Type = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NonRetryable", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.NonRetryable = bool(v != 0)
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Details == nil {
+				m.Details = &common.Payloads{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TimeoutFailureInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TimeoutFailureInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TimeoutFailureInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimeoutType", wireType)
+			}
+			m.TimeoutType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.TimeoutType |= common.TimeoutType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LastHeartbeatDetails", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.LastHeartbeatDetails == nil {
+				m.LastHeartbeatDetails = &common.Payloads{}
+			}
+			if err := m.LastHeartbeatDetails.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LastFailure", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.LastFailure == nil {
+				m.LastFailure = &Failure{}
+			}
+			if err := m.LastFailure.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *CanceledFailureInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: CanceledFailureInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: CanceledFailureInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Details", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Details == nil {
+				m.Details = &common.Payloads{}
+			}
+			if err := m.Details.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *TerminatedFailureInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: TerminatedFailureInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: TerminatedFailureInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ServerFailureInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ServerFailureInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ServerFailureInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NonRetryable", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.NonRetryable = bool(v != 0)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ResetWorkflowFailureInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ResetWorkflowFailureInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ResetWorkflowFailureInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LastHeartbeatDetails", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.LastHeartbeatDetails == nil {
+				m.LastHeartbeatDetails = &common.Payloads{}
+			}
+			if err := m.LastHeartbeatDetails.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ActivityTaskFailureInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ActivityTaskFailureInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ActivityTaskFailureInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ScheduledEventId", wireType)
+			}
+			m.ScheduledEventId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ScheduledEventId |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StartedEventId", wireType)
+			}
+			m.StartedEventId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.StartedEventId |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Identity", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Identity = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *ChildWorkflowExecutionFailureInfo) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: ChildWorkflowExecutionFailureInfo: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: ChildWorkflowExecutionFailureInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowExecution", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WorkflowExecution == nil {
+				m.WorkflowExecution = &common.WorkflowExecution{}
+			}
+			if err := m.WorkflowExecution.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowType", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WorkflowType == nil {
+				m.WorkflowType = &common.WorkflowType{}
+			}
+			if err := m.WorkflowType.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field InitiatedEventId", wireType)
+			}
+			m.InitiatedEventId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.InitiatedEventId |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StartedEventId", wireType)
+			}
+			m.StartedEventId = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.StartedEventId |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Failure) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Failure: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Failure: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Source", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Source = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StackTrace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.StackTrace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Cause", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Cause == nil {
+				m.Cause = &Failure{}
+			}
+			if err := m.Cause.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ApplicationFailureInfo", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &ApplicationFailureInfo{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.FailureInfo = &Failure_ApplicationFailureInfo{v}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TimeoutFailureInfo", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &TimeoutFailureInfo{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.FailureInfo = &Failure_TimeoutFailureInfo{v}
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CanceledFailureInfo", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &CanceledFailureInfo{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.FailureInfo = &Failure_CanceledFailureInfo{v}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TerminatedFailureInfo", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &TerminatedFailureInfo{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.FailureInfo = &Failure_TerminatedFailureInfo{v}
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ServerFailureInfo", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &ServerFailureInfo{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.FailureInfo = &Failure_ServerFailureInfo{v}
+			iNdEx = postIndex
+		case 10:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ResetWorkflowFailureInfo", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &ResetWorkflowFailureInfo{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.FailureInfo = &Failure_ResetWorkflowFailureInfo{v}
+			iNdEx = postIndex
+		case 11:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ActivityTaskFailureInfo", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &ActivityTaskFailureInfo{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.FailureInfo = &Failure_ActivityTaskFailureInfo{v}
+			iNdEx = postIndex
+		case 12:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChildWorkflowExecutionFailureInfo", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			v := &ChildWorkflowExecutionFailureInfo{}
+			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			m.FailureInfo = &Failure_ChildWorkflowExecutionFailureInfo{v}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func skipMessage(dAtA []byte) (n int, err error) {
+	l := len(dAtA)
+	iNdEx := 0
+	depth := 0
+	for iNdEx < l {
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return 0, ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return 0, io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		wireType := int(wire & 0x7)
+		switch wireType {
+		case 0:
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				iNdEx++
+				if dAtA[iNdEx-1] < 0x80 {
+					break
+				}
+			}
+		case 1:
+			iNdEx += 8
+		case 2:
+			var length int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return 0, ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return 0, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				length |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if length < 0 {
+				return 0, ErrInvalidLengthMessage
+			}
+			iNdEx += length
+		case 3:
+			depth++
+		case 4:
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupMessage
+			}
+			depth--
+		case 5:
+			iNdEx += 4
+		default:
+			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
+		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthMessage
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
+	}
+	return 0, io.ErrUnexpectedEOF
+}
+
+var (
+	ErrInvalidLengthMessage        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowMessage          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupMessage = fmt.Errorf("proto: unexpected end of group")
+)
