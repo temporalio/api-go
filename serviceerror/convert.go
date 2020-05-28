@@ -89,6 +89,12 @@ func FromStatus(st *status.Status) error {
 
 	// Extract error details once to optimize performance.
 	errDetails := extractErrorDetails(st)
+
+	// If there was an error during details extraction, it will go to errDetails.
+	if err, ok := errDetails.(error); ok{
+		return NewInvalidArgument(err.Error())
+	}
+
 	switch st.Code() {
 	case codes.NotFound:
 		if errDetails == nil{
