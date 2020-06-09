@@ -32,6 +32,8 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
+	reflect "reflect"
+	strings "strings"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -51,9 +53,8 @@ type ApplicationFailureInfo struct {
 	Details      *common.Payloads `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
 }
 
-func (m *ApplicationFailureInfo) Reset()         { *m = ApplicationFailureInfo{} }
-func (m *ApplicationFailureInfo) String() string { return proto.CompactTextString(m) }
-func (*ApplicationFailureInfo) ProtoMessage()    {}
+func (m *ApplicationFailureInfo) Reset()      { *m = ApplicationFailureInfo{} }
+func (*ApplicationFailureInfo) ProtoMessage() {}
 func (*ApplicationFailureInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{0}
 }
@@ -110,9 +111,8 @@ type TimeoutFailureInfo struct {
 	LastHeartbeatDetails *common.Payloads   `protobuf:"bytes,2,opt,name=lastHeartbeatDetails,proto3" json:"lastHeartbeatDetails,omitempty"`
 }
 
-func (m *TimeoutFailureInfo) Reset()         { *m = TimeoutFailureInfo{} }
-func (m *TimeoutFailureInfo) String() string { return proto.CompactTextString(m) }
-func (*TimeoutFailureInfo) ProtoMessage()    {}
+func (m *TimeoutFailureInfo) Reset()      { *m = TimeoutFailureInfo{} }
+func (*TimeoutFailureInfo) ProtoMessage() {}
 func (*TimeoutFailureInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{1}
 }
@@ -147,7 +147,7 @@ func (m *TimeoutFailureInfo) GetTimeoutType() common.TimeoutType {
 	if m != nil {
 		return m.TimeoutType
 	}
-	return common.TimeoutType_StartToClose
+	return common.TIMEOUT_TYPE_START_TO_CLOSE
 }
 
 func (m *TimeoutFailureInfo) GetLastHeartbeatDetails() *common.Payloads {
@@ -161,9 +161,8 @@ type CanceledFailureInfo struct {
 	Details *common.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 }
 
-func (m *CanceledFailureInfo) Reset()         { *m = CanceledFailureInfo{} }
-func (m *CanceledFailureInfo) String() string { return proto.CompactTextString(m) }
-func (*CanceledFailureInfo) ProtoMessage()    {}
+func (m *CanceledFailureInfo) Reset()      { *m = CanceledFailureInfo{} }
+func (*CanceledFailureInfo) ProtoMessage() {}
 func (*CanceledFailureInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{2}
 }
@@ -204,9 +203,8 @@ func (m *CanceledFailureInfo) GetDetails() *common.Payloads {
 type TerminatedFailureInfo struct {
 }
 
-func (m *TerminatedFailureInfo) Reset()         { *m = TerminatedFailureInfo{} }
-func (m *TerminatedFailureInfo) String() string { return proto.CompactTextString(m) }
-func (*TerminatedFailureInfo) ProtoMessage()    {}
+func (m *TerminatedFailureInfo) Reset()      { *m = TerminatedFailureInfo{} }
+func (*TerminatedFailureInfo) ProtoMessage() {}
 func (*TerminatedFailureInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{3}
 }
@@ -241,9 +239,8 @@ type ServerFailureInfo struct {
 	NonRetryable bool `protobuf:"varint,1,opt,name=nonRetryable,proto3" json:"nonRetryable,omitempty"`
 }
 
-func (m *ServerFailureInfo) Reset()         { *m = ServerFailureInfo{} }
-func (m *ServerFailureInfo) String() string { return proto.CompactTextString(m) }
-func (*ServerFailureInfo) ProtoMessage()    {}
+func (m *ServerFailureInfo) Reset()      { *m = ServerFailureInfo{} }
+func (*ServerFailureInfo) ProtoMessage() {}
 func (*ServerFailureInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{4}
 }
@@ -285,9 +282,8 @@ type ResetWorkflowFailureInfo struct {
 	LastHeartbeatDetails *common.Payloads `protobuf:"bytes,1,opt,name=lastHeartbeatDetails,proto3" json:"lastHeartbeatDetails,omitempty"`
 }
 
-func (m *ResetWorkflowFailureInfo) Reset()         { *m = ResetWorkflowFailureInfo{} }
-func (m *ResetWorkflowFailureInfo) String() string { return proto.CompactTextString(m) }
-func (*ResetWorkflowFailureInfo) ProtoMessage()    {}
+func (m *ResetWorkflowFailureInfo) Reset()      { *m = ResetWorkflowFailureInfo{} }
+func (*ResetWorkflowFailureInfo) ProtoMessage() {}
 func (*ResetWorkflowFailureInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{5}
 }
@@ -334,9 +330,8 @@ type ActivityFailureInfo struct {
 	RetryStatus      common.RetryStatus   `protobuf:"varint,6,opt,name=retryStatus,proto3,enum=common.RetryStatus" json:"retryStatus,omitempty"`
 }
 
-func (m *ActivityFailureInfo) Reset()         { *m = ActivityFailureInfo{} }
-func (m *ActivityFailureInfo) String() string { return proto.CompactTextString(m) }
-func (*ActivityFailureInfo) ProtoMessage()    {}
+func (m *ActivityFailureInfo) Reset()      { *m = ActivityFailureInfo{} }
+func (*ActivityFailureInfo) ProtoMessage() {}
 func (*ActivityFailureInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{6}
 }
@@ -406,7 +401,7 @@ func (m *ActivityFailureInfo) GetRetryStatus() common.RetryStatus {
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RetryStatus_InProgress
+	return common.RETRY_STATUS_IN_PROGRESS
 }
 
 type ChildWorkflowExecutionFailureInfo struct {
@@ -418,9 +413,8 @@ type ChildWorkflowExecutionFailureInfo struct {
 	RetryStatus       common.RetryStatus        `protobuf:"varint,6,opt,name=retryStatus,proto3,enum=common.RetryStatus" json:"retryStatus,omitempty"`
 }
 
-func (m *ChildWorkflowExecutionFailureInfo) Reset()         { *m = ChildWorkflowExecutionFailureInfo{} }
-func (m *ChildWorkflowExecutionFailureInfo) String() string { return proto.CompactTextString(m) }
-func (*ChildWorkflowExecutionFailureInfo) ProtoMessage()    {}
+func (m *ChildWorkflowExecutionFailureInfo) Reset()      { *m = ChildWorkflowExecutionFailureInfo{} }
+func (*ChildWorkflowExecutionFailureInfo) ProtoMessage() {}
 func (*ChildWorkflowExecutionFailureInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{7}
 }
@@ -490,7 +484,7 @@ func (m *ChildWorkflowExecutionFailureInfo) GetRetryStatus() common.RetryStatus 
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RetryStatus_InProgress
+	return common.RETRY_STATUS_IN_PROGRESS
 }
 
 type Failure struct {
@@ -510,9 +504,8 @@ type Failure struct {
 	FailureInfo isFailure_FailureInfo `protobuf_oneof:"failureInfo"`
 }
 
-func (m *Failure) Reset()         { *m = Failure{} }
-func (m *Failure) String() string { return proto.CompactTextString(m) }
-func (*Failure) ProtoMessage()    {}
+func (m *Failure) Reset()      { *m = Failure{} }
+func (*Failure) ProtoMessage() {}
 func (*Failure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a6d6035a0763f36, []int{8}
 }
@@ -545,6 +538,7 @@ var xxx_messageInfo_Failure proto.InternalMessageInfo
 
 type isFailure_FailureInfo interface {
 	isFailure_FailureInfo()
+	Equal(interface{}) bool
 	MarshalTo([]byte) (int, error)
 	Size() int
 }
@@ -703,58 +697,718 @@ func init() {
 func init() { proto.RegisterFile("failure/message.proto", fileDescriptor_8a6d6035a0763f36) }
 
 var fileDescriptor_8a6d6035a0763f36 = []byte{
-	// 784 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x56, 0xd1, 0x4e, 0xdb, 0x4a,
-	0x10, 0xb5, 0x03, 0x24, 0x64, 0xc2, 0x45, 0x64, 0x03, 0x5c, 0x93, 0x8b, 0x7c, 0x21, 0xd2, 0x45,
-	0x08, 0xe9, 0x06, 0x29, 0x55, 0xd5, 0xbe, 0xa6, 0x40, 0x6b, 0x2a, 0x55, 0x42, 0x4b, 0x54, 0xd4,
-	0xaa, 0x52, 0xbb, 0xd8, 0x1b, 0x58, 0x61, 0x7b, 0x23, 0x7b, 0x0d, 0x4d, 0xd5, 0x8f, 0x68, 0x5f,
-	0xfa, 0x4d, 0x7d, 0x2b, 0x8f, 0x7d, 0x6c, 0xe1, 0x47, 0x2a, 0xaf, 0xed, 0xc4, 0x8e, 0x1d, 0x45,
-	0xed, 0x5b, 0xf6, 0xcc, 0xcc, 0xd9, 0x99, 0x33, 0xeb, 0xa3, 0xc0, 0x5a, 0x9f, 0x30, 0x3b, 0xf0,
-	0xe8, 0xbe, 0x43, 0x7d, 0x9f, 0x5c, 0xd0, 0xf6, 0xc0, 0xe3, 0x82, 0xa3, 0x4a, 0x0c, 0x37, 0x57,
-	0x4d, 0xee, 0x38, 0xdc, 0xcd, 0x86, 0x9b, 0xf5, 0x18, 0xa5, 0x6e, 0xe0, 0x44, 0x50, 0xeb, 0x23,
-	0xac, 0x77, 0x07, 0x03, 0x9b, 0x99, 0x44, 0x30, 0xee, 0x3e, 0x8d, 0xca, 0x8f, 0xdd, 0x3e, 0x47,
-	0x08, 0xe6, 0xc5, 0x70, 0x40, 0x35, 0x75, 0x4b, 0xdd, 0xad, 0x62, 0xf9, 0x1b, 0xb5, 0x60, 0xc9,
-	0xe5, 0x2e, 0xa6, 0xc2, 0x1b, 0x92, 0x73, 0x9b, 0x6a, 0xa5, 0x2d, 0x75, 0x77, 0x11, 0x67, 0x30,
-	0xb4, 0x07, 0x15, 0x8b, 0x0a, 0xc2, 0x6c, 0x5f, 0x9b, 0xdb, 0x52, 0x77, 0x6b, 0x9d, 0x95, 0x76,
-	0x74, 0x6d, 0xfb, 0x84, 0x0c, 0x6d, 0x4e, 0x2c, 0x1f, 0x27, 0x09, 0xad, 0xcf, 0x2a, 0xa0, 0x1e,
-	0x73, 0x28, 0x0f, 0x44, 0xfa, 0xea, 0x87, 0x50, 0x13, 0x11, 0xda, 0x4b, 0x3a, 0x58, 0xee, 0x34,
-	0x12, 0x9a, 0xde, 0x38, 0x84, 0xd3, 0x79, 0xe8, 0x10, 0x56, 0x6d, 0xe2, 0x0b, 0x83, 0x12, 0x4f,
-	0x9c, 0x53, 0x22, 0x0e, 0xe3, 0x36, 0x4a, 0x53, 0xda, 0x28, 0xcc, 0x6e, 0x75, 0xa1, 0x71, 0x40,
-	0x5c, 0x93, 0xda, 0xd4, 0x4a, 0xf7, 0x94, 0x1a, 0x4b, 0x9d, 0x35, 0xd6, 0xdf, 0xb0, 0xd6, 0xa3,
-	0x9e, 0xc3, 0x5c, 0x22, 0x32, 0x24, 0xad, 0x47, 0x50, 0x3f, 0xa5, 0xde, 0x35, 0xf5, 0xd2, 0xcc,
-	0x93, 0xa2, 0xaa, 0x79, 0x51, 0x5b, 0xef, 0x40, 0xc3, 0xd4, 0xa7, 0xe2, 0x8c, 0x7b, 0x57, 0x7d,
-	0x9b, 0xdf, 0xa4, 0xeb, 0xa7, 0x8d, 0xad, 0xfe, 0xd6, 0xd8, 0x5f, 0x4a, 0xd0, 0xe8, 0x9a, 0x82,
-	0x5d, 0x33, 0x31, 0xcc, 0xce, 0xbd, 0xe2, 0x9b, 0x97, 0xd4, 0x0a, 0x6c, 0x6a, 0x1d, 0x5d, 0x53,
-	0x57, 0x1c, 0x5b, 0x92, 0x79, 0x0e, 0xe7, 0x70, 0xb4, 0x03, 0xcb, 0xbe, 0x20, 0x9e, 0x18, 0x67,
-	0x96, 0x64, 0xe6, 0x04, 0x8a, 0x9a, 0xb0, 0xc8, 0x2c, 0xea, 0x0a, 0x26, 0x86, 0xf2, 0x8d, 0x54,
-	0xf1, 0xe8, 0x8c, 0x1e, 0xc3, 0x12, 0x89, 0xdb, 0x90, 0xcb, 0x9f, 0x97, 0x53, 0xac, 0x26, 0x53,
-	0x74, 0x53, 0x31, 0x9c, 0xc9, 0x44, 0x3a, 0x40, 0x72, 0x3e, 0xb6, 0xb4, 0x05, 0xc9, 0x9b, 0x42,
-	0xc2, 0x57, 0xe5, 0x85, 0x82, 0x9e, 0x0a, 0x22, 0x02, 0x5f, 0x2b, 0x67, 0x5f, 0x15, 0x1e, 0x87,
-	0x70, 0x3a, 0xaf, 0xf5, 0xad, 0x04, 0xdb, 0x07, 0x97, 0xcc, 0xb6, 0x12, 0xed, 0x8f, 0xde, 0x53,
-	0x33, 0x98, 0xfc, 0x5a, 0x36, 0xa1, 0xea, 0x12, 0x87, 0xfa, 0x03, 0x62, 0x26, 0x9f, 0xcc, 0x18,
-	0x40, 0xcf, 0xa0, 0x7e, 0x33, 0x59, 0x1d, 0x3f, 0xcb, 0x8d, 0xa4, 0x81, 0x1c, 0x3d, 0xce, 0xd7,
-	0x84, 0xea, 0x24, 0xa0, 0x54, 0x67, 0x2e, 0xab, 0xce, 0x59, 0x2a, 0x86, 0x33, 0x99, 0xe1, 0x1e,
-	0x99, 0xcb, 0x04, 0x23, 0xa9, 0xed, 0xcc, 0x47, 0x7b, 0x9c, 0xc4, 0x0b, 0xf6, 0xb8, 0x50, 0xb8,
-	0xc7, 0x3f, 0x54, 0xf4, 0x67, 0x19, 0x2a, 0xb1, 0x76, 0x48, 0x83, 0x4a, 0xec, 0x51, 0xb1, 0x6a,
-	0xc9, 0x11, 0xad, 0x43, 0xd9, 0xe7, 0x81, 0x67, 0x46, 0x2e, 0x53, 0xc5, 0xf1, 0x29, 0x5c, 0xb3,
-	0x2f, 0x88, 0x79, 0xd5, 0xf3, 0x42, 0xa9, 0xa3, 0xe7, 0x93, 0x42, 0xd0, 0x0e, 0x2c, 0x98, 0x24,
-	0xf0, 0x93, 0x97, 0xb3, 0xd2, 0x8e, 0x3d, 0xb1, 0x1d, 0x5f, 0x89, 0xa3, 0x30, 0x7a, 0x05, 0xeb,
-	0xa4, 0xd0, 0xf9, 0xe4, 0xb0, 0xb5, 0xce, 0xbf, 0xa3, 0xc2, 0x62, 0x83, 0x34, 0x14, 0x3c, 0x85,
-	0x00, 0xbd, 0x00, 0x24, 0x72, 0xae, 0x26, 0xe5, 0xa9, 0x75, 0xfe, 0x19, 0xd1, 0xe6, 0x8d, 0xcf,
-	0x50, 0x70, 0x41, 0x21, 0x3a, 0x81, 0x86, 0x99, 0x77, 0x24, 0xad, 0x22, 0xf9, 0x36, 0x47, 0x7c,
-	0x05, 0xae, 0x65, 0x28, 0xb8, 0xa8, 0x14, 0xbd, 0x84, 0x35, 0x51, 0x64, 0x50, 0xda, 0xa2, 0xe4,
-	0xd4, 0xc7, 0x3d, 0x16, 0x65, 0x19, 0x0a, 0x2e, 0x2e, 0x47, 0xcf, 0xa1, 0xee, 0x4f, 0xfa, 0x9b,
-	0x56, 0x95, 0x9c, 0xcd, 0x11, 0x67, 0xce, 0x01, 0x0d, 0x05, 0xe7, 0xcb, 0xd0, 0x5b, 0xd0, 0xbc,
-	0x29, 0x96, 0xa7, 0x81, 0xa4, 0xdc, 0x1e, 0x51, 0x4e, 0xf3, 0x46, 0x43, 0xc1, 0x53, 0x49, 0x42,
-	0x59, 0x49, 0xde, 0xf0, 0xb4, 0xda, 0x84, 0xac, 0x05, 0xa6, 0x18, 0xca, 0x5a, 0x50, 0x8a, 0x3e,
-	0xc0, 0xb6, 0x39, 0xcb, 0x29, 0xb4, 0x25, 0xc9, 0xbf, 0x37, 0x5e, 0xdb, 0xac, 0x0a, 0x43, 0xc1,
-	0xb3, 0x69, 0x9f, 0xfc, 0x05, 0xb5, 0x7e, 0xea, 0xf8, 0xe6, 0xeb, 0x9d, 0xae, 0xde, 0xde, 0xe9,
-	0xea, 0x8f, 0x3b, 0x5d, 0xfd, 0x74, 0xaf, 0x2b, 0xb7, 0xf7, 0xba, 0xf2, 0xfd, 0x5e, 0x57, 0x60,
-	0x83, 0xf1, 0xb6, 0xa0, 0xce, 0x80, 0x7b, 0xc4, 0x8e, 0xfe, 0x04, 0x24, 0xad, 0x9c, 0xa8, 0xaf,
-	0xff, 0xbb, 0x48, 0x05, 0x19, 0xdf, 0x4f, 0x7e, 0xff, 0x2f, 0x13, 0xf7, 0xe3, 0xc4, 0xf3, 0xb2,
-	0x3c, 0x3e, 0xf8, 0x15, 0x00, 0x00, 0xff, 0xff, 0xe5, 0x53, 0xdc, 0x2b, 0x87, 0x08, 0x00, 0x00,
+	// 815 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x56, 0xcd, 0x4e, 0xeb, 0x46,
+	0x14, 0xf6, 0x04, 0x48, 0xc8, 0x09, 0x45, 0x64, 0x02, 0xd4, 0xa4, 0xc8, 0x85, 0x48, 0x45, 0x08,
+	0xa9, 0x41, 0x4a, 0x55, 0xb5, 0xdb, 0x14, 0x68, 0x4d, 0xa5, 0x4a, 0x68, 0x88, 0x8a, 0xda, 0x4d,
+	0x3b, 0xd8, 0x13, 0x18, 0xe1, 0x9f, 0xc8, 0x1e, 0x03, 0xa9, 0xba, 0xe8, 0x23, 0xb4, 0x9b, 0x3e,
+	0x43, 0x1f, 0xa5, 0xbb, 0xcb, 0x92, 0xe5, 0x4d, 0xd8, 0xdc, 0x25, 0x8f, 0x70, 0xe5, 0xb1, 0x9d,
+	0xd8, 0xb1, 0xa3, 0xe8, 0xde, 0x5d, 0xe6, 0x3b, 0xe7, 0x7c, 0x73, 0xce, 0x77, 0xc6, 0x9f, 0x02,
+	0x5b, 0x7d, 0xca, 0xad, 0xc0, 0x63, 0xc7, 0x36, 0xf3, 0x7d, 0x7a, 0xc3, 0xda, 0x03, 0xcf, 0x15,
+	0x2e, 0xae, 0xc4, 0x70, 0x73, 0xd3, 0x70, 0x6d, 0xdb, 0x75, 0xb2, 0xe1, 0x66, 0x3d, 0x46, 0x99,
+	0x13, 0xd8, 0x11, 0xd4, 0xfa, 0x13, 0xb6, 0xbb, 0x83, 0x81, 0xc5, 0x0d, 0x2a, 0xb8, 0xeb, 0x7c,
+	0x1f, 0x95, 0x9f, 0x3b, 0x7d, 0x17, 0x63, 0x58, 0x16, 0xc3, 0x01, 0x53, 0xd1, 0x1e, 0x3a, 0xac,
+	0x12, 0xf9, 0x1b, 0xb7, 0x60, 0xcd, 0x71, 0x1d, 0xc2, 0x84, 0x37, 0xa4, 0xd7, 0x16, 0x53, 0x4b,
+	0x7b, 0xe8, 0x70, 0x95, 0x64, 0x30, 0x7c, 0x04, 0x15, 0x93, 0x09, 0xca, 0x2d, 0x5f, 0x5d, 0xda,
+	0x43, 0x87, 0xb5, 0xce, 0x46, 0x3b, 0xba, 0xb6, 0x7d, 0x41, 0x87, 0x96, 0x4b, 0x4d, 0x9f, 0x24,
+	0x09, 0xad, 0x7f, 0x10, 0xe0, 0x1e, 0xb7, 0x99, 0x1b, 0x88, 0xf4, 0xd5, 0x5f, 0x43, 0x4d, 0x44,
+	0x68, 0x2f, 0xe9, 0x60, 0xbd, 0xd3, 0x48, 0x68, 0x7a, 0xd3, 0x10, 0x49, 0xe7, 0xe1, 0x53, 0xd8,
+	0xb4, 0xa8, 0x2f, 0x74, 0x46, 0x3d, 0x71, 0xcd, 0xa8, 0x38, 0x8d, 0xdb, 0x28, 0xcd, 0x69, 0xa3,
+	0x30, 0xbb, 0xd5, 0x85, 0xc6, 0x09, 0x75, 0x0c, 0x66, 0x31, 0x33, 0xdd, 0x53, 0x6a, 0x2c, 0xb4,
+	0x68, 0xac, 0x4f, 0x61, 0xab, 0xc7, 0x3c, 0x9b, 0x3b, 0x54, 0x64, 0x48, 0x5a, 0xdf, 0x40, 0xfd,
+	0x92, 0x79, 0xf7, 0xcc, 0x4b, 0x33, 0xcf, 0x8a, 0x8a, 0xf2, 0xa2, 0xb6, 0x7e, 0x07, 0x95, 0x30,
+	0x9f, 0x89, 0x2b, 0xd7, 0xbb, 0xeb, 0x5b, 0xee, 0x43, 0xba, 0x7e, 0xde, 0xd8, 0xe8, 0x83, 0xc6,
+	0xfe, 0xb7, 0x04, 0x8d, 0xae, 0x21, 0xf8, 0x3d, 0x17, 0xc3, 0xec, 0xdc, 0x1b, 0xbe, 0x71, 0xcb,
+	0xcc, 0xc0, 0x62, 0xe6, 0xd9, 0x3d, 0x73, 0xc4, 0xb9, 0x29, 0x99, 0x97, 0x48, 0x0e, 0xc7, 0x07,
+	0xb0, 0xee, 0x0b, 0xea, 0x89, 0x69, 0x66, 0x49, 0x66, 0xce, 0xa0, 0xb8, 0x09, 0xab, 0xdc, 0x64,
+	0x8e, 0xe0, 0x62, 0x28, 0xdf, 0x48, 0x95, 0x4c, 0xce, 0xf8, 0x5b, 0x58, 0xa3, 0x71, 0x1b, 0x72,
+	0xf9, 0xcb, 0x72, 0x8a, 0xcd, 0x64, 0x8a, 0x6e, 0x2a, 0x46, 0x32, 0x99, 0x58, 0x03, 0x48, 0xce,
+	0xe7, 0xa6, 0xba, 0x22, 0x79, 0x53, 0x48, 0xf8, 0xaa, 0xbc, 0x50, 0xd0, 0x4b, 0x41, 0x45, 0xe0,
+	0xab, 0xe5, 0xec, 0xab, 0x22, 0xd3, 0x10, 0x49, 0xe7, 0xb5, 0xde, 0x94, 0x60, 0xff, 0xe4, 0x96,
+	0x5b, 0x66, 0xa2, 0xfd, 0xd9, 0x23, 0x33, 0x82, 0xd9, 0xaf, 0x65, 0x17, 0xaa, 0x0e, 0xb5, 0x99,
+	0x3f, 0xa0, 0x46, 0xf2, 0xc9, 0x4c, 0x01, 0xfc, 0x03, 0xd4, 0x1f, 0x66, 0xab, 0xe3, 0x67, 0xb9,
+	0x93, 0x34, 0x90, 0xa3, 0x27, 0xf9, 0x9a, 0x50, 0x9d, 0x04, 0x94, 0xea, 0x2c, 0x65, 0xd5, 0xb9,
+	0x4a, 0xc5, 0x48, 0x26, 0x33, 0xdc, 0x23, 0x77, 0xb8, 0xe0, 0x34, 0xb5, 0x9d, 0xe5, 0x68, 0x8f,
+	0xb3, 0x78, 0xc1, 0x1e, 0x57, 0x0a, 0xf7, 0xf8, 0x91, 0x8a, 0x8e, 0xca, 0x50, 0x89, 0xb5, 0xc3,
+	0x2a, 0x54, 0x62, 0x8f, 0x8a, 0x55, 0x4b, 0x8e, 0x78, 0x1b, 0xca, 0xbe, 0x1b, 0x78, 0x46, 0xe4,
+	0x32, 0x55, 0x12, 0x9f, 0xc2, 0x35, 0xfb, 0x82, 0x1a, 0x77, 0x3d, 0x2f, 0x94, 0x3a, 0x7a, 0x3e,
+	0x29, 0x04, 0x1f, 0xc0, 0x8a, 0x41, 0x03, 0x3f, 0x79, 0x39, 0x1b, 0xed, 0xd8, 0x13, 0xdb, 0xf1,
+	0x95, 0x24, 0x0a, 0xe3, 0x5f, 0x60, 0x9b, 0x16, 0x3a, 0x9f, 0x1c, 0xb6, 0xd6, 0xf9, 0x7c, 0x52,
+	0x58, 0x6c, 0x90, 0xba, 0x42, 0xe6, 0x10, 0xe0, 0x9f, 0x00, 0x8b, 0x9c, 0xab, 0x49, 0x79, 0x6a,
+	0x9d, 0xcf, 0x26, 0xb4, 0x79, 0xe3, 0xd3, 0x15, 0x52, 0x50, 0x88, 0x2f, 0xa0, 0x61, 0xe4, 0x1d,
+	0x49, 0xad, 0x48, 0xbe, 0xdd, 0x09, 0x5f, 0x81, 0x6b, 0xe9, 0x0a, 0x29, 0x2a, 0xc5, 0x3f, 0xc3,
+	0x96, 0x28, 0x32, 0x28, 0x75, 0x55, 0x72, 0x6a, 0xd3, 0x1e, 0x8b, 0xb2, 0x74, 0x85, 0x14, 0x97,
+	0xe3, 0x1f, 0xa1, 0xee, 0xcf, 0xfa, 0x9b, 0x5a, 0x95, 0x9c, 0xcd, 0x09, 0x67, 0xce, 0x01, 0x75,
+	0x85, 0xe4, 0xcb, 0xf0, 0x6f, 0xa0, 0x7a, 0x73, 0x2c, 0x4f, 0x05, 0x49, 0xb9, 0x3f, 0xa1, 0x9c,
+	0xe7, 0x8d, 0xba, 0x42, 0xe6, 0x92, 0x84, 0xb2, 0xd2, 0xbc, 0xe1, 0xa9, 0xb5, 0x19, 0x59, 0x0b,
+	0x4c, 0x31, 0x94, 0xb5, 0xa0, 0x14, 0xff, 0x01, 0xfb, 0xc6, 0x22, 0xa7, 0x50, 0xd7, 0x24, 0xff,
+	0xd1, 0x74, 0x6d, 0x8b, 0x2a, 0x74, 0x85, 0x2c, 0xa6, 0xfd, 0xee, 0x13, 0xa8, 0xf5, 0x53, 0xc7,
+	0xc7, 0xa7, 0x91, 0xa6, 0x3c, 0x8f, 0x34, 0xe5, 0x75, 0xa4, 0xa1, 0xbf, 0xc6, 0x1a, 0xfa, 0x6f,
+	0xac, 0xa1, 0xff, 0xc7, 0x1a, 0x7a, 0x1a, 0x6b, 0xe8, 0xed, 0x58, 0x43, 0xef, 0xc6, 0x9a, 0xf2,
+	0x3a, 0xd6, 0xd0, 0xdf, 0x2f, 0x9a, 0xf2, 0xf4, 0xa2, 0x29, 0xcf, 0x2f, 0x9a, 0x02, 0x3b, 0xdc,
+	0x6d, 0x0b, 0x66, 0x0f, 0x5c, 0x8f, 0x5a, 0xd1, 0x1f, 0x84, 0xa4, 0xcd, 0x0b, 0xf4, 0xeb, 0x17,
+	0x37, 0xa9, 0x20, 0x77, 0x8f, 0x93, 0xdf, 0x5f, 0xca, 0xc4, 0xe3, 0x38, 0xf1, 0xba, 0x2c, 0x8f,
+	0x5f, 0xbd, 0x0f, 0x00, 0x00, 0xff, 0xff, 0x37, 0x12, 0x83, 0x55, 0xa3, 0x08, 0x00, 0x00,
 }
 
+func (this *ApplicationFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ApplicationFailureInfo)
+	if !ok {
+		that2, ok := that.(ApplicationFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Type != that1.Type {
+		return false
+	}
+	if this.NonRetryable != that1.NonRetryable {
+		return false
+	}
+	if !this.Details.Equal(that1.Details) {
+		return false
+	}
+	return true
+}
+func (this *TimeoutFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*TimeoutFailureInfo)
+	if !ok {
+		that2, ok := that.(TimeoutFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.TimeoutType != that1.TimeoutType {
+		return false
+	}
+	if !this.LastHeartbeatDetails.Equal(that1.LastHeartbeatDetails) {
+		return false
+	}
+	return true
+}
+func (this *CanceledFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*CanceledFailureInfo)
+	if !ok {
+		that2, ok := that.(CanceledFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.Details.Equal(that1.Details) {
+		return false
+	}
+	return true
+}
+func (this *TerminatedFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*TerminatedFailureInfo)
+	if !ok {
+		that2, ok := that.(TerminatedFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *ServerFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ServerFailureInfo)
+	if !ok {
+		that2, ok := that.(ServerFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.NonRetryable != that1.NonRetryable {
+		return false
+	}
+	return true
+}
+func (this *ResetWorkflowFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ResetWorkflowFailureInfo)
+	if !ok {
+		that2, ok := that.(ResetWorkflowFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.LastHeartbeatDetails.Equal(that1.LastHeartbeatDetails) {
+		return false
+	}
+	return true
+}
+func (this *ActivityFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ActivityFailureInfo)
+	if !ok {
+		that2, ok := that.(ActivityFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.ScheduledEventId != that1.ScheduledEventId {
+		return false
+	}
+	if this.StartedEventId != that1.StartedEventId {
+		return false
+	}
+	if this.Identity != that1.Identity {
+		return false
+	}
+	if !this.ActivityType.Equal(that1.ActivityType) {
+		return false
+	}
+	if this.ActivityId != that1.ActivityId {
+		return false
+	}
+	if this.RetryStatus != that1.RetryStatus {
+		return false
+	}
+	return true
+}
+func (this *ChildWorkflowExecutionFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ChildWorkflowExecutionFailureInfo)
+	if !ok {
+		that2, ok := that.(ChildWorkflowExecutionFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Namespace != that1.Namespace {
+		return false
+	}
+	if !this.WorkflowExecution.Equal(that1.WorkflowExecution) {
+		return false
+	}
+	if !this.WorkflowType.Equal(that1.WorkflowType) {
+		return false
+	}
+	if this.InitiatedEventId != that1.InitiatedEventId {
+		return false
+	}
+	if this.StartedEventId != that1.StartedEventId {
+		return false
+	}
+	if this.RetryStatus != that1.RetryStatus {
+		return false
+	}
+	return true
+}
+func (this *Failure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure)
+	if !ok {
+		that2, ok := that.(Failure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Message != that1.Message {
+		return false
+	}
+	if this.Source != that1.Source {
+		return false
+	}
+	if this.StackTrace != that1.StackTrace {
+		return false
+	}
+	if !this.Cause.Equal(that1.Cause) {
+		return false
+	}
+	if that1.FailureInfo == nil {
+		if this.FailureInfo != nil {
+			return false
+		}
+	} else if this.FailureInfo == nil {
+		return false
+	} else if !this.FailureInfo.Equal(that1.FailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *Failure_ApplicationFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure_ApplicationFailureInfo)
+	if !ok {
+		that2, ok := that.(Failure_ApplicationFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.ApplicationFailureInfo.Equal(that1.ApplicationFailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *Failure_TimeoutFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure_TimeoutFailureInfo)
+	if !ok {
+		that2, ok := that.(Failure_TimeoutFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.TimeoutFailureInfo.Equal(that1.TimeoutFailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *Failure_CanceledFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure_CanceledFailureInfo)
+	if !ok {
+		that2, ok := that.(Failure_CanceledFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.CanceledFailureInfo.Equal(that1.CanceledFailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *Failure_TerminatedFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure_TerminatedFailureInfo)
+	if !ok {
+		that2, ok := that.(Failure_TerminatedFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.TerminatedFailureInfo.Equal(that1.TerminatedFailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *Failure_ServerFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure_ServerFailureInfo)
+	if !ok {
+		that2, ok := that.(Failure_ServerFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.ServerFailureInfo.Equal(that1.ServerFailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *Failure_ResetWorkflowFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure_ResetWorkflowFailureInfo)
+	if !ok {
+		that2, ok := that.(Failure_ResetWorkflowFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.ResetWorkflowFailureInfo.Equal(that1.ResetWorkflowFailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *Failure_ActivityFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure_ActivityFailureInfo)
+	if !ok {
+		that2, ok := that.(Failure_ActivityFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.ActivityFailureInfo.Equal(that1.ActivityFailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *Failure_ChildWorkflowExecutionFailureInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Failure_ChildWorkflowExecutionFailureInfo)
+	if !ok {
+		that2, ok := that.(Failure_ChildWorkflowExecutionFailureInfo)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !this.ChildWorkflowExecutionFailureInfo.Equal(that1.ChildWorkflowExecutionFailureInfo) {
+		return false
+	}
+	return true
+}
+func (this *ApplicationFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 7)
+	s = append(s, "&failure.ApplicationFailureInfo{")
+	s = append(s, "Type: "+fmt.Sprintf("%#v", this.Type)+",\n")
+	s = append(s, "NonRetryable: "+fmt.Sprintf("%#v", this.NonRetryable)+",\n")
+	if this.Details != nil {
+		s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *TimeoutFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&failure.TimeoutFailureInfo{")
+	s = append(s, "TimeoutType: "+fmt.Sprintf("%#v", this.TimeoutType)+",\n")
+	if this.LastHeartbeatDetails != nil {
+		s = append(s, "LastHeartbeatDetails: "+fmt.Sprintf("%#v", this.LastHeartbeatDetails)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *CanceledFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&failure.CanceledFailureInfo{")
+	if this.Details != nil {
+		s = append(s, "Details: "+fmt.Sprintf("%#v", this.Details)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *TerminatedFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&failure.TerminatedFailureInfo{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *ServerFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&failure.ServerFailureInfo{")
+	s = append(s, "NonRetryable: "+fmt.Sprintf("%#v", this.NonRetryable)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *ResetWorkflowFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&failure.ResetWorkflowFailureInfo{")
+	if this.LastHeartbeatDetails != nil {
+		s = append(s, "LastHeartbeatDetails: "+fmt.Sprintf("%#v", this.LastHeartbeatDetails)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *ActivityFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 10)
+	s = append(s, "&failure.ActivityFailureInfo{")
+	s = append(s, "ScheduledEventId: "+fmt.Sprintf("%#v", this.ScheduledEventId)+",\n")
+	s = append(s, "StartedEventId: "+fmt.Sprintf("%#v", this.StartedEventId)+",\n")
+	s = append(s, "Identity: "+fmt.Sprintf("%#v", this.Identity)+",\n")
+	if this.ActivityType != nil {
+		s = append(s, "ActivityType: "+fmt.Sprintf("%#v", this.ActivityType)+",\n")
+	}
+	s = append(s, "ActivityId: "+fmt.Sprintf("%#v", this.ActivityId)+",\n")
+	s = append(s, "RetryStatus: "+fmt.Sprintf("%#v", this.RetryStatus)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *ChildWorkflowExecutionFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 10)
+	s = append(s, "&failure.ChildWorkflowExecutionFailureInfo{")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
+	if this.WorkflowExecution != nil {
+		s = append(s, "WorkflowExecution: "+fmt.Sprintf("%#v", this.WorkflowExecution)+",\n")
+	}
+	if this.WorkflowType != nil {
+		s = append(s, "WorkflowType: "+fmt.Sprintf("%#v", this.WorkflowType)+",\n")
+	}
+	s = append(s, "InitiatedEventId: "+fmt.Sprintf("%#v", this.InitiatedEventId)+",\n")
+	s = append(s, "StartedEventId: "+fmt.Sprintf("%#v", this.StartedEventId)+",\n")
+	s = append(s, "RetryStatus: "+fmt.Sprintf("%#v", this.RetryStatus)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *Failure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 16)
+	s = append(s, "&failure.Failure{")
+	s = append(s, "Message: "+fmt.Sprintf("%#v", this.Message)+",\n")
+	s = append(s, "Source: "+fmt.Sprintf("%#v", this.Source)+",\n")
+	s = append(s, "StackTrace: "+fmt.Sprintf("%#v", this.StackTrace)+",\n")
+	if this.Cause != nil {
+		s = append(s, "Cause: "+fmt.Sprintf("%#v", this.Cause)+",\n")
+	}
+	if this.FailureInfo != nil {
+		s = append(s, "FailureInfo: "+fmt.Sprintf("%#v", this.FailureInfo)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *Failure_ApplicationFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&failure.Failure_ApplicationFailureInfo{` +
+		`ApplicationFailureInfo:` + fmt.Sprintf("%#v", this.ApplicationFailureInfo) + `}`}, ", ")
+	return s
+}
+func (this *Failure_TimeoutFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&failure.Failure_TimeoutFailureInfo{` +
+		`TimeoutFailureInfo:` + fmt.Sprintf("%#v", this.TimeoutFailureInfo) + `}`}, ", ")
+	return s
+}
+func (this *Failure_CanceledFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&failure.Failure_CanceledFailureInfo{` +
+		`CanceledFailureInfo:` + fmt.Sprintf("%#v", this.CanceledFailureInfo) + `}`}, ", ")
+	return s
+}
+func (this *Failure_TerminatedFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&failure.Failure_TerminatedFailureInfo{` +
+		`TerminatedFailureInfo:` + fmt.Sprintf("%#v", this.TerminatedFailureInfo) + `}`}, ", ")
+	return s
+}
+func (this *Failure_ServerFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&failure.Failure_ServerFailureInfo{` +
+		`ServerFailureInfo:` + fmt.Sprintf("%#v", this.ServerFailureInfo) + `}`}, ", ")
+	return s
+}
+func (this *Failure_ResetWorkflowFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&failure.Failure_ResetWorkflowFailureInfo{` +
+		`ResetWorkflowFailureInfo:` + fmt.Sprintf("%#v", this.ResetWorkflowFailureInfo) + `}`}, ", ")
+	return s
+}
+func (this *Failure_ActivityFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&failure.Failure_ActivityFailureInfo{` +
+		`ActivityFailureInfo:` + fmt.Sprintf("%#v", this.ActivityFailureInfo) + `}`}, ", ")
+	return s
+}
+func (this *Failure_ChildWorkflowExecutionFailureInfo) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&failure.Failure_ChildWorkflowExecutionFailureInfo{` +
+		`ChildWorkflowExecutionFailureInfo:` + fmt.Sprintf("%#v", this.ChildWorkflowExecutionFailureInfo) + `}`}, ", ")
+	return s
+}
+func valueToGoStringMessage(v interface{}, typ string) string {
+	rv := reflect.ValueOf(v)
+	if rv.IsNil() {
+		return "nil"
+	}
+	pv := reflect.Indirect(rv).Interface()
+	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
+}
 func (m *ApplicationFailureInfo) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1623,6 +2277,200 @@ func sovMessage(x uint64) (n int) {
 }
 func sozMessage(x uint64) (n int) {
 	return sovMessage(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (this *ApplicationFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&ApplicationFailureInfo{`,
+		`Type:` + fmt.Sprintf("%v", this.Type) + `,`,
+		`NonRetryable:` + fmt.Sprintf("%v", this.NonRetryable) + `,`,
+		`Details:` + strings.Replace(fmt.Sprintf("%v", this.Details), "Payloads", "common.Payloads", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *TimeoutFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&TimeoutFailureInfo{`,
+		`TimeoutType:` + fmt.Sprintf("%v", this.TimeoutType) + `,`,
+		`LastHeartbeatDetails:` + strings.Replace(fmt.Sprintf("%v", this.LastHeartbeatDetails), "Payloads", "common.Payloads", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *CanceledFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&CanceledFailureInfo{`,
+		`Details:` + strings.Replace(fmt.Sprintf("%v", this.Details), "Payloads", "common.Payloads", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *TerminatedFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&TerminatedFailureInfo{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *ServerFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&ServerFailureInfo{`,
+		`NonRetryable:` + fmt.Sprintf("%v", this.NonRetryable) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *ResetWorkflowFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&ResetWorkflowFailureInfo{`,
+		`LastHeartbeatDetails:` + strings.Replace(fmt.Sprintf("%v", this.LastHeartbeatDetails), "Payloads", "common.Payloads", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *ActivityFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&ActivityFailureInfo{`,
+		`ScheduledEventId:` + fmt.Sprintf("%v", this.ScheduledEventId) + `,`,
+		`StartedEventId:` + fmt.Sprintf("%v", this.StartedEventId) + `,`,
+		`Identity:` + fmt.Sprintf("%v", this.Identity) + `,`,
+		`ActivityType:` + strings.Replace(fmt.Sprintf("%v", this.ActivityType), "ActivityType", "common.ActivityType", 1) + `,`,
+		`ActivityId:` + fmt.Sprintf("%v", this.ActivityId) + `,`,
+		`RetryStatus:` + fmt.Sprintf("%v", this.RetryStatus) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *ChildWorkflowExecutionFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&ChildWorkflowExecutionFailureInfo{`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
+		`WorkflowExecution:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecution), "WorkflowExecution", "common.WorkflowExecution", 1) + `,`,
+		`WorkflowType:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowType), "WorkflowType", "common.WorkflowType", 1) + `,`,
+		`InitiatedEventId:` + fmt.Sprintf("%v", this.InitiatedEventId) + `,`,
+		`StartedEventId:` + fmt.Sprintf("%v", this.StartedEventId) + `,`,
+		`RetryStatus:` + fmt.Sprintf("%v", this.RetryStatus) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure{`,
+		`Message:` + fmt.Sprintf("%v", this.Message) + `,`,
+		`Source:` + fmt.Sprintf("%v", this.Source) + `,`,
+		`StackTrace:` + fmt.Sprintf("%v", this.StackTrace) + `,`,
+		`Cause:` + strings.Replace(this.Cause.String(), "Failure", "Failure", 1) + `,`,
+		`FailureInfo:` + fmt.Sprintf("%v", this.FailureInfo) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure_ApplicationFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure_ApplicationFailureInfo{`,
+		`ApplicationFailureInfo:` + strings.Replace(fmt.Sprintf("%v", this.ApplicationFailureInfo), "ApplicationFailureInfo", "ApplicationFailureInfo", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure_TimeoutFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure_TimeoutFailureInfo{`,
+		`TimeoutFailureInfo:` + strings.Replace(fmt.Sprintf("%v", this.TimeoutFailureInfo), "TimeoutFailureInfo", "TimeoutFailureInfo", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure_CanceledFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure_CanceledFailureInfo{`,
+		`CanceledFailureInfo:` + strings.Replace(fmt.Sprintf("%v", this.CanceledFailureInfo), "CanceledFailureInfo", "CanceledFailureInfo", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure_TerminatedFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure_TerminatedFailureInfo{`,
+		`TerminatedFailureInfo:` + strings.Replace(fmt.Sprintf("%v", this.TerminatedFailureInfo), "TerminatedFailureInfo", "TerminatedFailureInfo", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure_ServerFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure_ServerFailureInfo{`,
+		`ServerFailureInfo:` + strings.Replace(fmt.Sprintf("%v", this.ServerFailureInfo), "ServerFailureInfo", "ServerFailureInfo", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure_ResetWorkflowFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure_ResetWorkflowFailureInfo{`,
+		`ResetWorkflowFailureInfo:` + strings.Replace(fmt.Sprintf("%v", this.ResetWorkflowFailureInfo), "ResetWorkflowFailureInfo", "ResetWorkflowFailureInfo", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure_ActivityFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure_ActivityFailureInfo{`,
+		`ActivityFailureInfo:` + strings.Replace(fmt.Sprintf("%v", this.ActivityFailureInfo), "ActivityFailureInfo", "ActivityFailureInfo", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Failure_ChildWorkflowExecutionFailureInfo) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Failure_ChildWorkflowExecutionFailureInfo{`,
+		`ChildWorkflowExecutionFailureInfo:` + strings.Replace(fmt.Sprintf("%v", this.ChildWorkflowExecutionFailureInfo), "ChildWorkflowExecutionFailureInfo", "ChildWorkflowExecutionFailureInfo", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func valueToStringMessage(v interface{}) string {
+	rv := reflect.ValueOf(v)
+	if rv.IsNil() {
+		return "nil"
+	}
+	pv := reflect.Indirect(rv).Interface()
+	return fmt.Sprintf("*%v", pv)
 }
 func (m *ApplicationFailureInfo) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
