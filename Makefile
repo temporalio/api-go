@@ -36,7 +36,7 @@ grpc: gogo-grpc
 
 gogo-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for gogo-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogofaster_out=Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --gogoslick_out=Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
 gogo-protobuf: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for gogo-protobuf..."
@@ -69,7 +69,7 @@ grpc-install: gogo-protobuf-install
 
 gogo-protobuf-install: go-protobuf-install
 	printf $(COLOR) "Installing/updating gogo protobuf plugin..."
-	go get -u github.com/gogo/protobuf/protoc-gen-gogofaster
+	(cd && go get -u github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick)
 
 go-protobuf-install:
 	printf $(COLOR) "Installing/updating go protobuf plugin..."

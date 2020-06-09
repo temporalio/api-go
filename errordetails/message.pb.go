@@ -26,11 +26,14 @@
 package errordetails
 
 import (
+	bytes "bytes"
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+	reflect "reflect"
+	strings "strings"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -49,9 +52,8 @@ type NotFoundFailure struct {
 	ActiveCluster  string `protobuf:"bytes,2,opt,name=activeCluster,proto3" json:"activeCluster,omitempty"`
 }
 
-func (m *NotFoundFailure) Reset()         { *m = NotFoundFailure{} }
-func (m *NotFoundFailure) String() string { return proto.CompactTextString(m) }
-func (*NotFoundFailure) ProtoMessage()    {}
+func (m *NotFoundFailure) Reset()      { *m = NotFoundFailure{} }
+func (*NotFoundFailure) ProtoMessage() {}
 func (*NotFoundFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{0}
 }
@@ -104,8 +106,7 @@ type WorkflowExecutionAlreadyStartedFailure struct {
 func (m *WorkflowExecutionAlreadyStartedFailure) Reset() {
 	*m = WorkflowExecutionAlreadyStartedFailure{}
 }
-func (m *WorkflowExecutionAlreadyStartedFailure) String() string { return proto.CompactTextString(m) }
-func (*WorkflowExecutionAlreadyStartedFailure) ProtoMessage()    {}
+func (*WorkflowExecutionAlreadyStartedFailure) ProtoMessage() {}
 func (*WorkflowExecutionAlreadyStartedFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{1}
 }
@@ -156,9 +157,8 @@ type NamespaceNotActiveFailure struct {
 	ActiveCluster  string `protobuf:"bytes,3,opt,name=activeCluster,proto3" json:"activeCluster,omitempty"`
 }
 
-func (m *NamespaceNotActiveFailure) Reset()         { *m = NamespaceNotActiveFailure{} }
-func (m *NamespaceNotActiveFailure) String() string { return proto.CompactTextString(m) }
-func (*NamespaceNotActiveFailure) ProtoMessage()    {}
+func (m *NamespaceNotActiveFailure) Reset()      { *m = NamespaceNotActiveFailure{} }
+func (*NamespaceNotActiveFailure) ProtoMessage() {}
 func (*NamespaceNotActiveFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{2}
 }
@@ -217,9 +217,8 @@ type RetryTaskFailure struct {
 	NextEventId int64  `protobuf:"varint,4,opt,name=nextEventId,proto3" json:"nextEventId,omitempty"`
 }
 
-func (m *RetryTaskFailure) Reset()         { *m = RetryTaskFailure{} }
-func (m *RetryTaskFailure) String() string { return proto.CompactTextString(m) }
-func (*RetryTaskFailure) ProtoMessage()    {}
+func (m *RetryTaskFailure) Reset()      { *m = RetryTaskFailure{} }
+func (*RetryTaskFailure) ProtoMessage() {}
 func (*RetryTaskFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{3}
 }
@@ -288,9 +287,8 @@ type RetryTaskV2Failure struct {
 	EndEventVersion   int64  `protobuf:"varint,7,opt,name=endEventVersion,proto3" json:"endEventVersion,omitempty"`
 }
 
-func (m *RetryTaskV2Failure) Reset()         { *m = RetryTaskV2Failure{} }
-func (m *RetryTaskV2Failure) String() string { return proto.CompactTextString(m) }
-func (*RetryTaskV2Failure) ProtoMessage()    {}
+func (m *RetryTaskV2Failure) Reset()      { *m = RetryTaskV2Failure{} }
+func (*RetryTaskV2Failure) ProtoMessage() {}
 func (*RetryTaskV2Failure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{4}
 }
@@ -376,9 +374,8 @@ type ClientVersionNotSupportedFailure struct {
 	SupportedVersions string `protobuf:"bytes,3,opt,name=supportedVersions,proto3" json:"supportedVersions,omitempty"`
 }
 
-func (m *ClientVersionNotSupportedFailure) Reset()         { *m = ClientVersionNotSupportedFailure{} }
-func (m *ClientVersionNotSupportedFailure) String() string { return proto.CompactTextString(m) }
-func (*ClientVersionNotSupportedFailure) ProtoMessage()    {}
+func (m *ClientVersionNotSupportedFailure) Reset()      { *m = ClientVersionNotSupportedFailure{} }
+func (*ClientVersionNotSupportedFailure) ProtoMessage() {}
 func (*ClientVersionNotSupportedFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{5}
 }
@@ -436,9 +433,8 @@ type FeatureVersionNotSupportedFailure struct {
 	SupportedVersions string `protobuf:"bytes,3,opt,name=supportedVersions,proto3" json:"supportedVersions,omitempty"`
 }
 
-func (m *FeatureVersionNotSupportedFailure) Reset()         { *m = FeatureVersionNotSupportedFailure{} }
-func (m *FeatureVersionNotSupportedFailure) String() string { return proto.CompactTextString(m) }
-func (*FeatureVersionNotSupportedFailure) ProtoMessage()    {}
+func (m *FeatureVersionNotSupportedFailure) Reset()      { *m = FeatureVersionNotSupportedFailure{} }
+func (*FeatureVersionNotSupportedFailure) ProtoMessage() {}
 func (*FeatureVersionNotSupportedFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{6}
 }
@@ -494,9 +490,8 @@ type CurrentBranchChangedFailure struct {
 	CurrentBranchToken []byte `protobuf:"bytes,1,opt,name=currentBranchToken,proto3" json:"currentBranchToken,omitempty"`
 }
 
-func (m *CurrentBranchChangedFailure) Reset()         { *m = CurrentBranchChangedFailure{} }
-func (m *CurrentBranchChangedFailure) String() string { return proto.CompactTextString(m) }
-func (*CurrentBranchChangedFailure) ProtoMessage()    {}
+func (m *CurrentBranchChangedFailure) Reset()      { *m = CurrentBranchChangedFailure{} }
+func (*CurrentBranchChangedFailure) ProtoMessage() {}
 func (*CurrentBranchChangedFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{7}
 }
@@ -538,9 +533,8 @@ type ShardOwnershipLostFailure struct {
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
 }
 
-func (m *ShardOwnershipLostFailure) Reset()         { *m = ShardOwnershipLostFailure{} }
-func (m *ShardOwnershipLostFailure) String() string { return proto.CompactTextString(m) }
-func (*ShardOwnershipLostFailure) ProtoMessage()    {}
+func (m *ShardOwnershipLostFailure) Reset()      { *m = ShardOwnershipLostFailure{} }
+func (*ShardOwnershipLostFailure) ProtoMessage() {}
 func (*ShardOwnershipLostFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{8}
 }
@@ -581,9 +575,8 @@ func (m *ShardOwnershipLostFailure) GetOwner() string {
 type NamespaceAlreadyExistsFailure struct {
 }
 
-func (m *NamespaceAlreadyExistsFailure) Reset()         { *m = NamespaceAlreadyExistsFailure{} }
-func (m *NamespaceAlreadyExistsFailure) String() string { return proto.CompactTextString(m) }
-func (*NamespaceAlreadyExistsFailure) ProtoMessage()    {}
+func (m *NamespaceAlreadyExistsFailure) Reset()      { *m = NamespaceAlreadyExistsFailure{} }
+func (*NamespaceAlreadyExistsFailure) ProtoMessage() {}
 func (*NamespaceAlreadyExistsFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{9}
 }
@@ -617,9 +610,8 @@ var xxx_messageInfo_NamespaceAlreadyExistsFailure proto.InternalMessageInfo
 type CancellationAlreadyRequestedFailure struct {
 }
 
-func (m *CancellationAlreadyRequestedFailure) Reset()         { *m = CancellationAlreadyRequestedFailure{} }
-func (m *CancellationAlreadyRequestedFailure) String() string { return proto.CompactTextString(m) }
-func (*CancellationAlreadyRequestedFailure) ProtoMessage()    {}
+func (m *CancellationAlreadyRequestedFailure) Reset()      { *m = CancellationAlreadyRequestedFailure{} }
+func (*CancellationAlreadyRequestedFailure) ProtoMessage() {}
 func (*CancellationAlreadyRequestedFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{10}
 }
@@ -653,9 +645,8 @@ var xxx_messageInfo_CancellationAlreadyRequestedFailure proto.InternalMessageInf
 type QueryFailedFailure struct {
 }
 
-func (m *QueryFailedFailure) Reset()         { *m = QueryFailedFailure{} }
-func (m *QueryFailedFailure) String() string { return proto.CompactTextString(m) }
-func (*QueryFailedFailure) ProtoMessage()    {}
+func (m *QueryFailedFailure) Reset()      { *m = QueryFailedFailure{} }
+func (*QueryFailedFailure) ProtoMessage() {}
 func (*QueryFailedFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{11}
 }
@@ -689,9 +680,8 @@ var xxx_messageInfo_QueryFailedFailure proto.InternalMessageInfo
 type EventAlreadyStartedFailure struct {
 }
 
-func (m *EventAlreadyStartedFailure) Reset()         { *m = EventAlreadyStartedFailure{} }
-func (m *EventAlreadyStartedFailure) String() string { return proto.CompactTextString(m) }
-func (*EventAlreadyStartedFailure) ProtoMessage()    {}
+func (m *EventAlreadyStartedFailure) Reset()      { *m = EventAlreadyStartedFailure{} }
+func (*EventAlreadyStartedFailure) ProtoMessage() {}
 func (*EventAlreadyStartedFailure) Descriptor() ([]byte, []int) {
 	return fileDescriptor_11b0fc455c174fdb, []int{12}
 }
@@ -741,47 +731,551 @@ func init() {
 func init() { proto.RegisterFile("errordetails/message.proto", fileDescriptor_11b0fc455c174fdb) }
 
 var fileDescriptor_11b0fc455c174fdb = []byte{
-	// 599 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0xcf, 0x6e, 0xd3, 0x4e,
-	0x10, 0xc7, 0xeb, 0xf6, 0xd7, 0x56, 0x9d, 0x5f, 0x4a, 0xc1, 0xca, 0x21, 0x2d, 0xc5, 0x04, 0x53,
-	0xaa, 0x08, 0x41, 0x22, 0xe0, 0x09, 0xda, 0x28, 0x91, 0x22, 0x41, 0x80, 0xa4, 0x2a, 0x12, 0x17,
-	0xb4, 0xd8, 0x93, 0xc4, 0x8a, 0xb3, 0x6b, 0x76, 0xd7, 0x4d, 0xf2, 0x04, 0x70, 0xe0, 0x80, 0x84,
-	0xc4, 0x33, 0x71, 0xec, 0x91, 0x23, 0x4a, 0x5e, 0x04, 0xf9, 0xcf, 0xda, 0xeb, 0x36, 0x42, 0x70,
-	0xe0, 0x96, 0xf9, 0xcc, 0x77, 0x67, 0xbf, 0x33, 0x59, 0x0f, 0x1c, 0x20, 0xe7, 0x8c, 0xbb, 0x28,
-	0x89, 0xe7, 0x8b, 0xc6, 0x04, 0x85, 0x20, 0x43, 0xac, 0x07, 0x9c, 0x49, 0x66, 0x96, 0xf4, 0x9c,
-	0xfd, 0x0e, 0xf6, 0xba, 0x4c, 0xb6, 0x59, 0x48, 0xdd, 0x36, 0xf1, 0xfc, 0x90, 0xa3, 0x79, 0x0c,
-	0x37, 0x9c, 0x90, 0x73, 0xa4, 0xb2, 0xe9, 0x87, 0x42, 0x22, 0xaf, 0x18, 0x55, 0xa3, 0xb6, 0xd3,
-	0xbb, 0x42, 0xcd, 0x23, 0xd8, 0x25, 0x8e, 0xf4, 0x2e, 0x50, 0xc9, 0xd6, 0x63, 0x59, 0x11, 0xda,
-	0x03, 0x38, 0x7e, 0xc3, 0xf8, 0x78, 0xe0, 0xb3, 0x69, 0x6b, 0x86, 0x4e, 0x28, 0x3d, 0x46, 0x4f,
-	0x7c, 0x8e, 0xc4, 0x9d, 0xf7, 0x25, 0xe1, 0x12, 0xf5, 0x7b, 0x45, 0x44, 0x7a, 0xf8, 0x21, 0x44,
-	0x21, 0x3b, 0xae, 0xba, 0xb7, 0x48, 0xcd, 0x32, 0x6c, 0xf2, 0x90, 0x76, 0xdc, 0xf4, 0xbe, 0x24,
-	0xb0, 0x3f, 0x1a, 0xb0, 0xdf, 0x25, 0x13, 0x14, 0x01, 0x71, 0xb0, 0xcb, 0xe4, 0x49, 0xec, 0x42,
-	0xd5, 0x3e, 0x84, 0x1d, 0xaa, 0x92, 0x69, 0xd9, 0x1c, 0xac, 0xe8, 0x78, 0xfd, 0xcf, 0x3a, 0xde,
-	0x58, 0xd5, 0xf1, 0x67, 0x03, 0x6e, 0xf6, 0x50, 0xf2, 0xf9, 0x19, 0x11, 0x63, 0x65, 0xa0, 0x0a,
-	0xff, 0x67, 0xf7, 0x65, 0x9d, 0xe9, 0xc8, 0xb4, 0x00, 0xa6, 0xe9, 0xa0, 0xb2, 0xde, 0x34, 0x92,
-	0xb7, 0xbd, 0xa1, 0xb5, 0x1d, 0xd7, 0xc5, 0x99, 0x6c, 0x5d, 0x20, 0x8d, 0x26, 0xf6, 0x5f, 0xd5,
-	0xa8, 0x6d, 0xf4, 0x74, 0x64, 0x7f, 0x5a, 0x07, 0x33, 0xb3, 0x73, 0xfe, 0xf4, 0x5f, 0x1b, 0xb2,
-	0xa1, 0x14, 0xff, 0x5f, 0x45, 0x47, 0x05, 0x66, 0x3e, 0x82, 0x5b, 0x79, 0x7c, 0x8e, 0x5c, 0x78,
-	0x8c, 0x56, 0x36, 0x63, 0xe1, 0xf5, 0x44, 0xe4, 0x03, 0xa9, 0xab, 0xea, 0x6d, 0xc5, 0x32, 0x8d,
-	0x98, 0x35, 0xd8, 0x53, 0x91, 0xaa, 0xb5, 0x1d, 0x8b, 0xae, 0x62, 0xfb, 0x9b, 0x01, 0xd5, 0xa6,
-	0xef, 0xe5, 0xa4, 0xcb, 0x64, 0x3f, 0x0c, 0x02, 0xa6, 0x3f, 0xc3, 0x23, 0xd8, 0x75, 0x74, 0x4d,
-	0x3a, 0x9a, 0x22, 0x8c, 0x4c, 0x25, 0xa0, 0x33, 0x09, 0x7c, 0x35, 0x9c, 0x9c, 0xc4, 0x2d, 0xaa,
-	0xca, 0xe9, 0x19, 0x91, 0x0e, 0xea, 0x7a, 0xc2, 0xfe, 0x6a, 0xc0, 0xbd, 0x36, 0x12, 0x19, 0x72,
-	0xfc, 0x8d, 0xb3, 0x0a, 0x6c, 0x0f, 0x12, 0x51, 0xea, 0x49, 0x85, 0xd1, 0x03, 0x1e, 0x14, 0x8e,
-	0xab, 0x07, 0x5c, 0xa4, 0x7f, 0xe9, 0xea, 0x05, 0xdc, 0x6e, 0x26, 0x1f, 0xc0, 0x29, 0x27, 0xd4,
-	0x19, 0x35, 0x47, 0x84, 0x0e, 0x73, 0x3b, 0x75, 0x30, 0x1d, 0x3d, 0x7d, 0xc6, 0xc6, 0x98, 0x4c,
-	0xab, 0xd4, 0x5b, 0x91, 0xb1, 0x9f, 0xc0, 0x7e, 0x7f, 0x44, 0xb8, 0xfb, 0x72, 0x4a, 0x91, 0x8b,
-	0x91, 0x17, 0x3c, 0x67, 0x42, 0xaa, 0x62, 0x65, 0xd8, 0x64, 0x11, 0x4f, 0x3b, 0x4b, 0x02, 0xfb,
-	0x2e, 0xdc, 0xc9, 0xbe, 0xe9, 0x74, 0x69, 0xb4, 0x66, 0x9e, 0x90, 0x22, 0x3d, 0x66, 0x3f, 0x80,
-	0xfb, 0x4d, 0x42, 0x1d, 0xf4, 0x7d, 0xa2, 0x2d, 0x96, 0x74, 0x57, 0x64, 0x56, 0xed, 0x32, 0x98,
-	0xaf, 0x43, 0xe4, 0xf3, 0x28, 0xce, 0xe9, 0x21, 0x1c, 0xc4, 0xcf, 0x63, 0xe5, 0x3a, 0x3a, 0x1d,
-	0x7c, 0x5f, 0x58, 0xc6, 0xe5, 0xc2, 0x32, 0x7e, 0x2e, 0x2c, 0xe3, 0xcb, 0xd2, 0x5a, 0xbb, 0x5c,
-	0x5a, 0x6b, 0x3f, 0x96, 0xd6, 0x1a, 0x58, 0x1e, 0xab, 0x4b, 0x9c, 0x04, 0x8c, 0x13, 0x3f, 0x59,
-	0xaa, 0x75, 0x7d, 0xa7, 0xbe, 0x32, 0xde, 0x3e, 0x1c, 0x6a, 0x0a, 0x8f, 0x35, 0xd4, 0xef, 0xc7,
-	0xb1, 0xba, 0xa1, 0xab, 0xdf, 0x6f, 0xc5, 0xec, 0xd9, 0xaf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xdf,
-	0x5c, 0x67, 0xe0, 0xb4, 0x05, 0x00, 0x00,
+	// 628 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x94, 0xcd, 0x4e, 0x14, 0x41,
+	0x10, 0xc7, 0xb7, 0x41, 0x20, 0x94, 0x20, 0x3a, 0xe1, 0x00, 0x88, 0xed, 0x3a, 0x22, 0x21, 0x46,
+	0x97, 0xa8, 0x4f, 0x00, 0x1b, 0x48, 0x48, 0x74, 0xd5, 0x85, 0x60, 0xe2, 0xc5, 0xb4, 0x33, 0xb5,
+	0xec, 0x84, 0xd9, 0xee, 0xb1, 0xbb, 0x87, 0x8f, 0x9b, 0xf1, 0xa2, 0x07, 0x0f, 0x26, 0x26, 0x3e,
+	0x83, 0x8f, 0xe2, 0x91, 0x23, 0x47, 0x99, 0xbd, 0x78, 0xe4, 0x11, 0xcc, 0x7c, 0xf4, 0x4e, 0x0f,
+	0x6c, 0x8c, 0x1e, 0xbc, 0x6d, 0xfd, 0xea, 0xdf, 0xd5, 0xff, 0xaa, 0xed, 0x29, 0x58, 0x40, 0x29,
+	0x85, 0xf4, 0x51, 0xb3, 0x20, 0x54, 0xab, 0x3d, 0x54, 0x8a, 0xed, 0x61, 0x23, 0x92, 0x42, 0x0b,
+	0x67, 0xca, 0xce, 0xb9, 0x6f, 0x60, 0xa6, 0x25, 0xf4, 0xa6, 0x88, 0xb9, 0xbf, 0xc9, 0x82, 0x30,
+	0x96, 0xe8, 0x2c, 0xc3, 0x35, 0x2f, 0x96, 0x12, 0xb9, 0x6e, 0x86, 0xb1, 0xd2, 0x28, 0xe7, 0x48,
+	0x9d, 0xac, 0x4c, 0xb6, 0x2f, 0x50, 0x67, 0x09, 0xa6, 0x99, 0xa7, 0x83, 0x03, 0x34, 0xb2, 0x91,
+	0x4c, 0x56, 0x85, 0x6e, 0x07, 0x96, 0x5f, 0x09, 0xb9, 0xdf, 0x09, 0xc5, 0xe1, 0xc6, 0x11, 0x7a,
+	0xb1, 0x0e, 0x04, 0x5f, 0x0b, 0x25, 0x32, 0xff, 0x78, 0x5b, 0x33, 0xa9, 0xd1, 0xbe, 0x57, 0xa5,
+	0xa4, 0x8d, 0xef, 0x62, 0x54, 0x7a, 0xcb, 0x37, 0xf7, 0x56, 0xa9, 0x33, 0x0b, 0x63, 0x32, 0xe6,
+	0x5b, 0x7e, 0x71, 0x5f, 0x1e, 0xb8, 0x1f, 0x09, 0xcc, 0xb7, 0x58, 0x0f, 0x55, 0xc4, 0x3c, 0x6c,
+	0x09, 0xbd, 0x96, 0xb9, 0x30, 0xb5, 0x17, 0x61, 0x92, 0x9b, 0x64, 0x51, 0xb6, 0x04, 0x43, 0x3a,
+	0x1e, 0xf9, 0xbb, 0x8e, 0x47, 0x87, 0x75, 0xfc, 0x99, 0xc0, 0xf5, 0x36, 0x6a, 0x79, 0xbc, 0xc3,
+	0xd4, 0xbe, 0x31, 0x50, 0x87, 0xab, 0x83, 0xfb, 0x06, 0x9d, 0xd9, 0xc8, 0xa1, 0x00, 0x87, 0xc5,
+	0xa0, 0x06, 0xbd, 0x59, 0xa4, 0x6c, 0x7b, 0xd4, 0x6a, 0x3b, 0xab, 0x8b, 0x47, 0x7a, 0xe3, 0x00,
+	0x79, 0x3a, 0xb1, 0x2b, 0x75, 0xb2, 0x32, 0xda, 0xb6, 0x91, 0xfb, 0x69, 0x04, 0x9c, 0x81, 0x9d,
+	0xdd, 0xc7, 0xff, 0xdb, 0x90, 0x0b, 0x53, 0xd9, 0xff, 0x55, 0x75, 0x54, 0x61, 0xce, 0x03, 0xb8,
+	0x51, 0xc6, 0xbb, 0x28, 0x55, 0x20, 0xf8, 0xdc, 0x58, 0x26, 0xbc, 0x9c, 0x48, 0x7d, 0x20, 0xf7,
+	0x4d, 0xbd, 0xf1, 0x4c, 0x66, 0x11, 0x67, 0x05, 0x66, 0x4c, 0x64, 0x6a, 0x4d, 0x64, 0xa2, 0x8b,
+	0xd8, 0xfd, 0x46, 0xa0, 0xde, 0x0c, 0x83, 0x92, 0xb4, 0x84, 0xde, 0x8e, 0xa3, 0x48, 0xd8, 0xcf,
+	0x70, 0x09, 0xa6, 0x3d, 0x5b, 0x53, 0x8c, 0xa6, 0x0a, 0x53, 0x53, 0x39, 0xd8, 0xea, 0x45, 0xa1,
+	0x19, 0x4e, 0x49, 0xb2, 0x16, 0x4d, 0xe5, 0xe2, 0x8c, 0x2a, 0x06, 0x75, 0x39, 0xe1, 0x7e, 0x25,
+	0x70, 0x67, 0x13, 0x99, 0x8e, 0x25, 0xfe, 0xc1, 0xd9, 0x1c, 0x4c, 0x74, 0x72, 0x51, 0xe1, 0xc9,
+	0x84, 0xe9, 0x03, 0xee, 0x54, 0x8e, 0x9b, 0x07, 0x5c, 0xa5, 0xff, 0xe8, 0xea, 0x19, 0xdc, 0x6c,
+	0xe6, 0x1f, 0xc0, 0xba, 0x64, 0xdc, 0xeb, 0x36, 0xbb, 0x8c, 0xef, 0x95, 0x76, 0x1a, 0xe0, 0x78,
+	0x76, 0x7a, 0x47, 0xec, 0x63, 0x3e, 0xad, 0xa9, 0xf6, 0x90, 0x8c, 0xfb, 0x08, 0xe6, 0xb7, 0xbb,
+	0x4c, 0xfa, 0xcf, 0x0f, 0x39, 0x4a, 0xd5, 0x0d, 0xa2, 0xa7, 0x42, 0x69, 0x53, 0x6c, 0x16, 0xc6,
+	0x44, 0xca, 0x8b, 0xce, 0xf2, 0xc0, 0xbd, 0x0d, 0xb7, 0x06, 0xdf, 0x74, 0xb1, 0x34, 0x36, 0x8e,
+	0x02, 0xa5, 0x55, 0x71, 0xcc, 0xbd, 0x07, 0x77, 0x9b, 0x8c, 0x7b, 0x18, 0x86, 0xcc, 0x5a, 0x2c,
+	0xc5, 0xae, 0x18, 0x58, 0x75, 0x67, 0xc1, 0x79, 0x19, 0xa3, 0x3c, 0x4e, 0xe3, 0x92, 0x2e, 0xc2,
+	0x42, 0xf6, 0x3c, 0x86, 0xae, 0xa3, 0xf5, 0x0f, 0xe4, 0xe4, 0x8c, 0xd6, 0x4e, 0xcf, 0x68, 0xed,
+	0xfc, 0x8c, 0x92, 0xf7, 0x09, 0x25, 0xdf, 0x13, 0x4a, 0x7e, 0x24, 0x94, 0x9c, 0x24, 0x94, 0xfc,
+	0x4c, 0x28, 0xf9, 0x95, 0xd0, 0xda, 0x79, 0x42, 0xc9, 0x97, 0x3e, 0xad, 0x9d, 0xf4, 0x69, 0xed,
+	0xb4, 0x4f, 0x6b, 0x40, 0x03, 0xd1, 0xd0, 0xd8, 0x8b, 0x84, 0x64, 0x61, 0xbe, 0x71, 0x1b, 0xf6,
+	0xc2, 0x7d, 0x41, 0x5e, 0xdf, 0xdf, 0xb3, 0x14, 0x81, 0x58, 0x35, 0xbf, 0x1f, 0x66, 0xea, 0x55,
+	0x5b, 0xfd, 0x76, 0x3c, 0x63, 0x4f, 0x7e, 0x07, 0x00, 0x00, 0xff, 0xff, 0x4d, 0xaf, 0x24, 0xe8,
+	0xd1, 0x05, 0x00, 0x00,
 }
 
+func (this *NotFoundFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*NotFoundFailure)
+	if !ok {
+		that2, ok := that.(NotFoundFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.CurrentCluster != that1.CurrentCluster {
+		return false
+	}
+	if this.ActiveCluster != that1.ActiveCluster {
+		return false
+	}
+	return true
+}
+func (this *WorkflowExecutionAlreadyStartedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*WorkflowExecutionAlreadyStartedFailure)
+	if !ok {
+		that2, ok := that.(WorkflowExecutionAlreadyStartedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.StartRequestId != that1.StartRequestId {
+		return false
+	}
+	if this.RunId != that1.RunId {
+		return false
+	}
+	return true
+}
+func (this *NamespaceNotActiveFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*NamespaceNotActiveFailure)
+	if !ok {
+		that2, ok := that.(NamespaceNotActiveFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Namespace != that1.Namespace {
+		return false
+	}
+	if this.CurrentCluster != that1.CurrentCluster {
+		return false
+	}
+	if this.ActiveCluster != that1.ActiveCluster {
+		return false
+	}
+	return true
+}
+func (this *RetryTaskFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*RetryTaskFailure)
+	if !ok {
+		that2, ok := that.(RetryTaskFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.NamespaceId != that1.NamespaceId {
+		return false
+	}
+	if this.WorkflowId != that1.WorkflowId {
+		return false
+	}
+	if this.RunId != that1.RunId {
+		return false
+	}
+	if this.NextEventId != that1.NextEventId {
+		return false
+	}
+	return true
+}
+func (this *RetryTaskV2Failure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*RetryTaskV2Failure)
+	if !ok {
+		that2, ok := that.(RetryTaskV2Failure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.NamespaceId != that1.NamespaceId {
+		return false
+	}
+	if this.WorkflowId != that1.WorkflowId {
+		return false
+	}
+	if this.RunId != that1.RunId {
+		return false
+	}
+	if this.StartEventId != that1.StartEventId {
+		return false
+	}
+	if this.StartEventVersion != that1.StartEventVersion {
+		return false
+	}
+	if this.EndEventId != that1.EndEventId {
+		return false
+	}
+	if this.EndEventVersion != that1.EndEventVersion {
+		return false
+	}
+	return true
+}
+func (this *ClientVersionNotSupportedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ClientVersionNotSupportedFailure)
+	if !ok {
+		that2, ok := that.(ClientVersionNotSupportedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.ClientVersion != that1.ClientVersion {
+		return false
+	}
+	if this.ClientImpl != that1.ClientImpl {
+		return false
+	}
+	if this.SupportedVersions != that1.SupportedVersions {
+		return false
+	}
+	return true
+}
+func (this *FeatureVersionNotSupportedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*FeatureVersionNotSupportedFailure)
+	if !ok {
+		that2, ok := that.(FeatureVersionNotSupportedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Feature != that1.Feature {
+		return false
+	}
+	if this.FeatureVersion != that1.FeatureVersion {
+		return false
+	}
+	if this.SupportedVersions != that1.SupportedVersions {
+		return false
+	}
+	return true
+}
+func (this *CurrentBranchChangedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*CurrentBranchChangedFailure)
+	if !ok {
+		that2, ok := that.(CurrentBranchChangedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if !bytes.Equal(this.CurrentBranchToken, that1.CurrentBranchToken) {
+		return false
+	}
+	return true
+}
+func (this *ShardOwnershipLostFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*ShardOwnershipLostFailure)
+	if !ok {
+		that2, ok := that.(ShardOwnershipLostFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Owner != that1.Owner {
+		return false
+	}
+	return true
+}
+func (this *NamespaceAlreadyExistsFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*NamespaceAlreadyExistsFailure)
+	if !ok {
+		that2, ok := that.(NamespaceAlreadyExistsFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *CancellationAlreadyRequestedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*CancellationAlreadyRequestedFailure)
+	if !ok {
+		that2, ok := that.(CancellationAlreadyRequestedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *QueryFailedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*QueryFailedFailure)
+	if !ok {
+		that2, ok := that.(QueryFailedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *EventAlreadyStartedFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*EventAlreadyStartedFailure)
+	if !ok {
+		that2, ok := that.(EventAlreadyStartedFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *NotFoundFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&errordetails.NotFoundFailure{")
+	s = append(s, "CurrentCluster: "+fmt.Sprintf("%#v", this.CurrentCluster)+",\n")
+	s = append(s, "ActiveCluster: "+fmt.Sprintf("%#v", this.ActiveCluster)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *WorkflowExecutionAlreadyStartedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&errordetails.WorkflowExecutionAlreadyStartedFailure{")
+	s = append(s, "StartRequestId: "+fmt.Sprintf("%#v", this.StartRequestId)+",\n")
+	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *NamespaceNotActiveFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 7)
+	s = append(s, "&errordetails.NamespaceNotActiveFailure{")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
+	s = append(s, "CurrentCluster: "+fmt.Sprintf("%#v", this.CurrentCluster)+",\n")
+	s = append(s, "ActiveCluster: "+fmt.Sprintf("%#v", this.ActiveCluster)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *RetryTaskFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 8)
+	s = append(s, "&errordetails.RetryTaskFailure{")
+	s = append(s, "NamespaceId: "+fmt.Sprintf("%#v", this.NamespaceId)+",\n")
+	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
+	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
+	s = append(s, "NextEventId: "+fmt.Sprintf("%#v", this.NextEventId)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *RetryTaskV2Failure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 11)
+	s = append(s, "&errordetails.RetryTaskV2Failure{")
+	s = append(s, "NamespaceId: "+fmt.Sprintf("%#v", this.NamespaceId)+",\n")
+	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
+	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
+	s = append(s, "StartEventId: "+fmt.Sprintf("%#v", this.StartEventId)+",\n")
+	s = append(s, "StartEventVersion: "+fmt.Sprintf("%#v", this.StartEventVersion)+",\n")
+	s = append(s, "EndEventId: "+fmt.Sprintf("%#v", this.EndEventId)+",\n")
+	s = append(s, "EndEventVersion: "+fmt.Sprintf("%#v", this.EndEventVersion)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *ClientVersionNotSupportedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 7)
+	s = append(s, "&errordetails.ClientVersionNotSupportedFailure{")
+	s = append(s, "ClientVersion: "+fmt.Sprintf("%#v", this.ClientVersion)+",\n")
+	s = append(s, "ClientImpl: "+fmt.Sprintf("%#v", this.ClientImpl)+",\n")
+	s = append(s, "SupportedVersions: "+fmt.Sprintf("%#v", this.SupportedVersions)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *FeatureVersionNotSupportedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 7)
+	s = append(s, "&errordetails.FeatureVersionNotSupportedFailure{")
+	s = append(s, "Feature: "+fmt.Sprintf("%#v", this.Feature)+",\n")
+	s = append(s, "FeatureVersion: "+fmt.Sprintf("%#v", this.FeatureVersion)+",\n")
+	s = append(s, "SupportedVersions: "+fmt.Sprintf("%#v", this.SupportedVersions)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *CurrentBranchChangedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&errordetails.CurrentBranchChangedFailure{")
+	s = append(s, "CurrentBranchToken: "+fmt.Sprintf("%#v", this.CurrentBranchToken)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *ShardOwnershipLostFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&errordetails.ShardOwnershipLostFailure{")
+	s = append(s, "Owner: "+fmt.Sprintf("%#v", this.Owner)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *NamespaceAlreadyExistsFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.NamespaceAlreadyExistsFailure{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *CancellationAlreadyRequestedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.CancellationAlreadyRequestedFailure{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *QueryFailedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.QueryFailedFailure{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *EventAlreadyStartedFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.EventAlreadyStartedFailure{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func valueToGoStringMessage(v interface{}, typ string) string {
+	rv := reflect.ValueOf(v)
+	if rv.IsNil() {
+		return "nil"
+	}
+	pv := reflect.Indirect(rv).Interface()
+	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
+}
 func (m *NotFoundFailure) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1485,6 +1979,157 @@ func sovMessage(x uint64) (n int) {
 }
 func sozMessage(x uint64) (n int) {
 	return sovMessage(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (this *NotFoundFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&NotFoundFailure{`,
+		`CurrentCluster:` + fmt.Sprintf("%v", this.CurrentCluster) + `,`,
+		`ActiveCluster:` + fmt.Sprintf("%v", this.ActiveCluster) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *WorkflowExecutionAlreadyStartedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&WorkflowExecutionAlreadyStartedFailure{`,
+		`StartRequestId:` + fmt.Sprintf("%v", this.StartRequestId) + `,`,
+		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *NamespaceNotActiveFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&NamespaceNotActiveFailure{`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
+		`CurrentCluster:` + fmt.Sprintf("%v", this.CurrentCluster) + `,`,
+		`ActiveCluster:` + fmt.Sprintf("%v", this.ActiveCluster) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *RetryTaskFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&RetryTaskFailure{`,
+		`NamespaceId:` + fmt.Sprintf("%v", this.NamespaceId) + `,`,
+		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
+		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
+		`NextEventId:` + fmt.Sprintf("%v", this.NextEventId) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *RetryTaskV2Failure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&RetryTaskV2Failure{`,
+		`NamespaceId:` + fmt.Sprintf("%v", this.NamespaceId) + `,`,
+		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
+		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
+		`StartEventId:` + fmt.Sprintf("%v", this.StartEventId) + `,`,
+		`StartEventVersion:` + fmt.Sprintf("%v", this.StartEventVersion) + `,`,
+		`EndEventId:` + fmt.Sprintf("%v", this.EndEventId) + `,`,
+		`EndEventVersion:` + fmt.Sprintf("%v", this.EndEventVersion) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *ClientVersionNotSupportedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&ClientVersionNotSupportedFailure{`,
+		`ClientVersion:` + fmt.Sprintf("%v", this.ClientVersion) + `,`,
+		`ClientImpl:` + fmt.Sprintf("%v", this.ClientImpl) + `,`,
+		`SupportedVersions:` + fmt.Sprintf("%v", this.SupportedVersions) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *FeatureVersionNotSupportedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&FeatureVersionNotSupportedFailure{`,
+		`Feature:` + fmt.Sprintf("%v", this.Feature) + `,`,
+		`FeatureVersion:` + fmt.Sprintf("%v", this.FeatureVersion) + `,`,
+		`SupportedVersions:` + fmt.Sprintf("%v", this.SupportedVersions) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *CurrentBranchChangedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&CurrentBranchChangedFailure{`,
+		`CurrentBranchToken:` + fmt.Sprintf("%v", this.CurrentBranchToken) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *ShardOwnershipLostFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&ShardOwnershipLostFailure{`,
+		`Owner:` + fmt.Sprintf("%v", this.Owner) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *NamespaceAlreadyExistsFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&NamespaceAlreadyExistsFailure{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *CancellationAlreadyRequestedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&CancellationAlreadyRequestedFailure{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *QueryFailedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&QueryFailedFailure{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *EventAlreadyStartedFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&EventAlreadyStartedFailure{`,
+		`}`,
+	}, "")
+	return s
+}
+func valueToStringMessage(v interface{}) string {
+	rv := reflect.ValueOf(v)
+	if rv.IsNil() {
+		return "nil"
+	}
+	pv := reflect.Indirect(rv).Interface()
+	return fmt.Sprintf("*%v", pv)
 }
 func (m *NotFoundFailure) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
