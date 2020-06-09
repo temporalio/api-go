@@ -13,7 +13,7 @@ COLOR := "\e[1;36m%s\e[0m\n"
 PROTO_DIRS = $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*.proto)))
 PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
 PROTO_OUT := .
-PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/gogo/protobuf/protobuf
+PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/temporalio/gogo-protobuf/protobuf
 
 update-proto: update-proto-submodule all
 
@@ -65,19 +65,19 @@ grpc-mock:
 
 grpc-install: gogo-protobuf-install
 	printf $(COLOR) "Installing/updating gRPC plugin..."
-	go get -u google.golang.org/grpc
+	GO111MODULE=off go get -u google.golang.org/grpc
 
 gogo-protobuf-install: go-protobuf-install
 	printf $(COLOR) "Installing/updating gogo protobuf plugin..."
-	(cd && go get -u github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick)
+	GO111MODULE=off go get -u github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
 
 go-protobuf-install:
 	printf $(COLOR) "Installing/updating go protobuf plugin..."
-	go get -u github.com/golang/protobuf/protoc-gen-go
+	GO111MODULE=off go get -u github.com/golang/protobuf/protoc-gen-go
 
 mockgen-install:
 	printf $(COLOR) "Installing/updating mockgen..."
-	go get -u github.com/golang/mock/mockgen
+	GO111MODULE=off go get -u github.com/golang/mock/mockgen
 
 # Add licence header to generated files
 
@@ -89,7 +89,7 @@ copyright:
 
 update-dependencies:
 	printf $(COLOR) "Update dependencies..."
-	go get -u ./...
+	go get -u -t ./...
 
 gomodtidy:
 	printf $(COLOR) "Run 'go mod tidy'..."
