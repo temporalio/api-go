@@ -28,7 +28,7 @@ $(PROTO_OUT):
 
 update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
-	git submodule update --init --remote $(PROTO_ROOT)
+	git submodule update --force --remote $(PROTO_ROOT)
 
 # Compile proto files to go
 

@@ -141,7 +141,7 @@ func (m *WorkflowQueryResult) GetResultType() QueryResultType {
 	if m != nil {
 		return m.ResultType
 	}
-	return QUERY_RESULT_TYPE_ANSWERED
+	return QUERY_RESULT_TYPE_UNSPECIFIED
 }
 
 func (m *WorkflowQueryResult) GetAnswer() *common.Payloads {
@@ -198,7 +198,7 @@ func (m *QueryRejected) GetStatus() execution.WorkflowExecutionStatus {
 	if m != nil {
 		return m.Status
 	}
-	return execution.WORKFLOW_EXECUTION_STATUS_UNKNOWN
+	return execution.WORKFLOW_EXECUTION_STATUS_UNSPECIFIED
 }
 
 func init() {

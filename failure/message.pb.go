@@ -147,7 +147,7 @@ func (m *TimeoutFailureInfo) GetTimeoutType() common.TimeoutType {
 	if m != nil {
 		return m.TimeoutType
 	}
-	return common.TIMEOUT_TYPE_START_TO_CLOSE
+	return common.TIMEOUT_TYPE_UNSPECIFIED
 }
 
 func (m *TimeoutFailureInfo) GetLastHeartbeatDetails() *common.Payloads {
@@ -401,7 +401,7 @@ func (m *ActivityFailureInfo) GetRetryStatus() common.RetryStatus {
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RETRY_STATUS_IN_PROGRESS
+	return common.RETRY_STATUS_UNSPECIFIED
 }
 
 type ChildWorkflowExecutionFailureInfo struct {
@@ -484,7 +484,7 @@ func (m *ChildWorkflowExecutionFailureInfo) GetRetryStatus() common.RetryStatus 
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RETRY_STATUS_IN_PROGRESS
+	return common.RETRY_STATUS_UNSPECIFIED
 }
 
 type Failure struct {
