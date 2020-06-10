@@ -101,7 +101,7 @@ func (m *NamespaceInfo) GetStatus() NamespaceStatus {
 	if m != nil {
 		return m.Status
 	}
-	return NAMESPACE_STATUS_REGISTERED
+	return NAMESPACE_STATUS_UNSPECIFIED
 }
 
 func (m *NamespaceInfo) GetDescription() string {
@@ -199,7 +199,7 @@ func (m *NamespaceConfiguration) GetHistoryArchivalStatus() ArchivalStatus {
 	if m != nil {
 		return m.HistoryArchivalStatus
 	}
-	return ARCHIVAL_STATUS_DEFAULT
+	return ARCHIVAL_STATUS_UNSPECIFIED
 }
 
 func (m *NamespaceConfiguration) GetHistoryArchivalURI() string {
@@ -213,7 +213,7 @@ func (m *NamespaceConfiguration) GetVisibilityArchivalStatus() ArchivalStatus {
 	if m != nil {
 		return m.VisibilityArchivalStatus
 	}
-	return ARCHIVAL_STATUS_DEFAULT
+	return ARCHIVAL_STATUS_UNSPECIFIED
 }
 
 func (m *NamespaceConfiguration) GetVisibilityArchivalURI() string {

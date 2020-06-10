@@ -194,7 +194,7 @@ func (m *WorkflowExecutionStartedEventAttributes) GetInitiator() common.Continue
 	if m != nil {
 		return m.Initiator
 	}
-	return common.CONTINUE_AS_NEW_INITIATOR_DECIDER
+	return common.CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED
 }
 
 func (m *WorkflowExecutionStartedEventAttributes) GetContinuedFailure() *failure.Failure {
@@ -399,7 +399,7 @@ func (m *WorkflowExecutionFailedEventAttributes) GetRetryStatus() common.RetrySt
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RETRY_STATUS_IN_PROGRESS
+	return common.RETRY_STATUS_UNSPECIFIED
 }
 
 func (m *WorkflowExecutionFailedEventAttributes) GetDecisionTaskCompletedEventId() int64 {
@@ -451,7 +451,7 @@ func (m *WorkflowExecutionTimedOutEventAttributes) GetRetryStatus() common.Retry
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RETRY_STATUS_IN_PROGRESS
+	return common.RETRY_STATUS_UNSPECIFIED
 }
 
 type WorkflowExecutionContinuedAsNewEventAttributes struct {
@@ -568,7 +568,7 @@ func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetInitiator() common.C
 	if m != nil {
 		return m.Initiator
 	}
-	return common.CONTINUE_AS_NEW_INITIATOR_DECIDER
+	return common.CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED
 }
 
 func (m *WorkflowExecutionContinuedAsNewEventAttributes) GetFailure() *failure.Failure {
@@ -847,7 +847,7 @@ func (m *DecisionTaskTimedOutEventAttributes) GetTimeoutType() common.TimeoutTyp
 	if m != nil {
 		return m.TimeoutType
 	}
-	return common.TIMEOUT_TYPE_START_TO_CLOSE
+	return common.TIMEOUT_TYPE_UNSPECIFIED
 }
 
 type DecisionTaskFailedEventAttributes struct {
@@ -913,7 +913,7 @@ func (m *DecisionTaskFailedEventAttributes) GetCause() DecisionTaskFailedCause {
 	if m != nil {
 		return m.Cause
 	}
-	return DECISION_TASK_FAILED_CAUSE_UNHANDLED_DECISION
+	return DECISION_TASK_FAILED_CAUSE_UNSPECIFIED
 }
 
 func (m *DecisionTaskFailedEventAttributes) GetFailure() *failure.Failure {
@@ -1314,7 +1314,7 @@ func (m *ActivityTaskFailedEventAttributes) GetRetryStatus() common.RetryStatus 
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RETRY_STATUS_IN_PROGRESS
+	return common.RETRY_STATUS_UNSPECIFIED
 }
 
 type ActivityTaskTimedOutEventAttributes struct {
@@ -1382,7 +1382,7 @@ func (m *ActivityTaskTimedOutEventAttributes) GetRetryStatus() common.RetryStatu
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RETRY_STATUS_IN_PROGRESS
+	return common.RETRY_STATUS_UNSPECIFIED
 }
 
 type ActivityTaskCancelRequestedEventAttributes struct {
@@ -2200,7 +2200,7 @@ func (m *RequestCancelExternalWorkflowExecutionFailedEventAttributes) GetCause()
 	if m != nil {
 		return m.Cause
 	}
-	return CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND
+	return CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED
 }
 
 func (m *RequestCancelExternalWorkflowExecutionFailedEventAttributes) GetDecisionTaskCompletedEventId() int64 {
@@ -2439,7 +2439,7 @@ func (m *SignalExternalWorkflowExecutionFailedEventAttributes) GetCause() Signal
 	if m != nil {
 		return m.Cause
 	}
-	return SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND
+	return SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED
 }
 
 func (m *SignalExternalWorkflowExecutionFailedEventAttributes) GetDecisionTaskCompletedEventId() int64 {
@@ -2716,7 +2716,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetParentClosePoli
 	if m != nil {
 		return m.ParentClosePolicy
 	}
-	return common.PARENT_CLOSE_POLICY_ABANDON
+	return common.PARENT_CLOSE_POLICY_UNSPECIFIED
 }
 
 func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetControl() string {
@@ -2737,7 +2737,7 @@ func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetWorkflowIdReuse
 	if m != nil {
 		return m.WorkflowIdReusePolicy
 	}
-	return common.WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE
+	return common.WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED
 }
 
 func (m *StartChildWorkflowExecutionInitiatedEventAttributes) GetRetryPolicy() *common.RetryPolicy {
@@ -2844,7 +2844,7 @@ func (m *StartChildWorkflowExecutionFailedEventAttributes) GetCause() StartChild
 	if m != nil {
 		return m.Cause
 	}
-	return START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_WORKFLOW_ALREADY_EXISTS
+	return START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED
 }
 
 func (m *StartChildWorkflowExecutionFailedEventAttributes) GetControl() string {
@@ -3120,7 +3120,7 @@ func (m *ChildWorkflowExecutionFailedEventAttributes) GetRetryStatus() common.Re
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RETRY_STATUS_IN_PROGRESS
+	return common.RETRY_STATUS_UNSPECIFIED
 }
 
 type ChildWorkflowExecutionCanceledEventAttributes struct {
@@ -3290,7 +3290,7 @@ func (m *ChildWorkflowExecutionTimedOutEventAttributes) GetRetryStatus() common.
 	if m != nil {
 		return m.RetryStatus
 	}
-	return common.RETRY_STATUS_IN_PROGRESS
+	return common.RETRY_STATUS_UNSPECIFIED
 }
 
 type ChildWorkflowExecutionTerminatedEventAttributes struct {
@@ -3657,7 +3657,7 @@ func (m *HistoryEvent) GetEventType() EventType {
 	if m != nil {
 		return m.EventType
 	}
-	return EVENT_TYPE_WORKFLOW_EXECUTION_STARTED
+	return EVENT_TYPE_UNSPECIFIED
 }
 
 func (m *HistoryEvent) GetVersion() int64 {

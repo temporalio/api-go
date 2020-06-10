@@ -183,7 +183,7 @@ func (m *RegisterNamespaceRequest) GetHistoryArchivalStatus() namespace.Archival
 	if m != nil {
 		return m.HistoryArchivalStatus
 	}
-	return namespace.ARCHIVAL_STATUS_DEFAULT
+	return namespace.ARCHIVAL_STATUS_UNSPECIFIED
 }
 
 func (m *RegisterNamespaceRequest) GetHistoryArchivalURI() string {
@@ -197,7 +197,7 @@ func (m *RegisterNamespaceRequest) GetVisibilityArchivalStatus() namespace.Archi
 	if m != nil {
 		return m.VisibilityArchivalStatus
 	}
-	return namespace.ARCHIVAL_STATUS_DEFAULT
+	return namespace.ARCHIVAL_STATUS_UNSPECIFIED
 }
 
 func (m *RegisterNamespaceRequest) GetVisibilityArchivalURI() string {
@@ -843,7 +843,7 @@ func (m *StartWorkflowExecutionRequest) GetWorkflowIdReusePolicy() common.Workfl
 	if m != nil {
 		return m.WorkflowIdReusePolicy
 	}
-	return common.WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE
+	return common.WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED
 }
 
 func (m *StartWorkflowExecutionRequest) GetRetryPolicy() *common.RetryPolicy {
@@ -1005,7 +1005,7 @@ func (m *GetWorkflowExecutionHistoryRequest) GetHistoryEventFilterType() filter.
 	if m != nil {
 		return m.HistoryEventFilterType
 	}
-	return filter.HISTORY_EVENT_FILTER_TYPE_ALL_EVENT
+	return filter.HISTORY_EVENT_FILTER_TYPE_UNSPECIFIED
 }
 
 func (m *GetWorkflowExecutionHistoryRequest) GetSkipArchival() bool {
@@ -1489,7 +1489,7 @@ func (m *RespondDecisionTaskFailedRequest) GetCause() event.DecisionTaskFailedCa
 	if m != nil {
 		return m.Cause
 	}
-	return event.DECISION_TASK_FAILED_CAUSE_UNHANDLED_DECISION
+	return event.DECISION_TASK_FAILED_CAUSE_UNSPECIFIED
 }
 
 func (m *RespondDecisionTaskFailedRequest) GetFailure() *failure.Failure {
@@ -3029,7 +3029,7 @@ func (m *SignalWithStartWorkflowExecutionRequest) GetWorkflowIdReusePolicy() com
 	if m != nil {
 		return m.WorkflowIdReusePolicy
 	}
-	return common.WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE
+	return common.WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED
 }
 
 func (m *SignalWithStartWorkflowExecutionRequest) GetSignalName() string {
@@ -4294,7 +4294,7 @@ func (m *RespondQueryTaskCompletedRequest) GetCompletedType() query.QueryResultT
 	if m != nil {
 		return m.CompletedType
 	}
-	return query.QUERY_RESULT_TYPE_ANSWERED
+	return query.QUERY_RESULT_TYPE_UNSPECIFIED
 }
 
 func (m *RespondQueryTaskCompletedRequest) GetQueryResult() *common.Payloads {
@@ -4505,14 +4505,14 @@ func (m *QueryWorkflowRequest) GetQueryRejectCondition() query.QueryRejectCondit
 	if m != nil {
 		return m.QueryRejectCondition
 	}
-	return query.QUERY_REJECT_CONDITION_NONE
+	return query.QUERY_REJECT_CONDITION_UNSPECIFIED
 }
 
 func (m *QueryWorkflowRequest) GetQueryConsistencyLevel() query.QueryConsistencyLevel {
 	if m != nil {
 		return m.QueryConsistencyLevel
 	}
-	return query.QUERY_CONSISTENCY_LEVEL_EVENTUAL
+	return query.QUERY_CONSISTENCY_LEVEL_UNSPECIFIED
 }
 
 type QueryWorkflowResponse struct {
@@ -4741,7 +4741,7 @@ func (m *DescribeTaskListRequest) GetTaskListType() tasklist.TaskListType {
 	if m != nil {
 		return m.TaskListType
 	}
-	return tasklist.TASK_LIST_TYPE_DECISION
+	return tasklist.TASK_LIST_TYPE_UNSPECIFIED
 }
 
 func (m *DescribeTaskListRequest) GetIncludeTaskListStatus() bool {
