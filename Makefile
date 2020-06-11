@@ -10,8 +10,8 @@ endif
 PROTO_ROOT := temporal-proto
 COLOR := "\e[1;36m%s\e[0m\n"
 # List only subdirectories with *.proto files. Sort to remove duplicates.
-PROTO_DIRS = $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*.proto)))
-PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/service.proto)
+PROTO_DIRS = $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*/*.proto)))
+PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/*/service.proto)
 PROTO_OUT := .
 PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/temporalio/gogo-protobuf/protobuf
 
@@ -54,12 +54,12 @@ go-grpc: clean $(PROTO_OUT)
 
 # All generated service files pathes relative to PROTO_OUT
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.go"))
-dir_no_slash = $(patsubst %/,%,$(dir $(1)))
-dirname = $(notdir $(call dir_no_slash,$(1)))
+service_name = $(firstword $(subst /, ,$(1)))
+mock_file_name = $(call service_name,$(1))mock/$(subst $(call service_name,$(1))/,,$(1:go=mock.go))
 
 grpc-mock:
 	printf $(COLOR) "Generate gRPC mocks..."
-	$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call dirname,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call dir_no_slash,$(PROTO_GRPC_SERVICE))mock/$(notdir $(PROTO_GRPC_SERVICE:go=mock.go)) )
+	$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call service_name,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call mock_file_name,$(PROTO_GRPC_SERVICE)) )
 
 # Plugins & tools
 
@@ -99,4 +99,4 @@ gomodtidy:
 
 clean:
 	printf $(COLOR) "Deleting generated go files..."
-	rm -rf $(PROTO_OUT)/*/*.pb.*go
+	rm -rf $(PROTO_OUT)/*/*/*.pb.*go
