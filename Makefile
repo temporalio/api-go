@@ -10,8 +10,8 @@ endif
 PROTO_ROOT := temporal-proto
 COLOR := "\e[1;36m%s\e[0m\n"
 # List only subdirectories with *.proto files. Sort to remove duplicates.
-PROTO_DIRS = $(sort $(dir $(wildcard $(PROTO_ROOT)/*/*/*.proto)))
-PROTO_SERVICES = $(wildcard $(PROTO_ROOT)/*/*/service.proto)
+PROTO_DIRS = $(sort $(dir $(shell find $(PROTO_ROOT) -name "*.proto")))
+PROTO_SERVICES = $(shell find $(PROTO_ROOT) -name "service.proto")
 PROTO_OUT := .
 PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/temporalio/gogo-protobuf/protobuf
 
@@ -32,7 +32,7 @@ update-proto-submodule:
 
 # Compile proto files to go
 
-grpc: gogo-grpc
+grpc: gogo-grpc move-to-root
 
 gogo-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for gogo-gRPC..."
@@ -50,6 +50,9 @@ go-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for go-gRPC..."
 	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --go_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
+move-to-root:
+	mv -f $(PROTO_OUT)/temporal/* $(PROTO_OUT) && rm -d $(PROTO_OUT)/temporal
+
 # Generate mocks
 
 # All generated service files pathes relative to PROTO_OUT
@@ -59,7 +62,7 @@ mock_file_name = $(call service_name,$(1))mock/$(subst $(call service_name,$(1))
 
 grpc-mock:
 	printf $(COLOR) "Generate gRPC mocks..."
-	$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call service_name,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call mock_file_name,$(PROTO_GRPC_SERVICE)) )
+	$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call service_name,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call mock_file_name,$(PROTO_GRPC_SERVICE))$(NEWLINE) )
 
 # Plugins & tools
 
@@ -95,8 +98,9 @@ gomodtidy:
 	printf $(COLOR) "Run 'go mod tidy'..."
 	go mod tidy
 
-# clean
+# Clean
 
 clean:
 	printf $(COLOR) "Deleting generated go files..."
-	rm -rf $(PROTO_OUT)/*/*/*.pb.*go
+# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
+	$(foreach PROTO_OUT_DIR,$(shell find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" \) -printf "%h\n" | sort -u),rm -rf $(dir $(PROTO_OUT_DIR)) )
