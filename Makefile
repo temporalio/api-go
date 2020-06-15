@@ -50,7 +50,7 @@ go-grpc: clean $(PROTO_OUT)
 	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --go_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
 fix-path:
-	mv -f $(PROTO_OUT)/temporal/* $(PROTO_OUT) && rm -d $(PROTO_OUT)/temporal
+	mv -f $(PROTO_OUT)/temporal/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
 # Generate mocks
 

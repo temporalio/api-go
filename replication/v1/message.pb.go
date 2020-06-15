@@ -46,21 +46,21 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-type ClusterReplicationConfiguration struct {
+type ClusterReplicationConfig struct {
 	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 }
 
-func (m *ClusterReplicationConfiguration) Reset()      { *m = ClusterReplicationConfiguration{} }
-func (*ClusterReplicationConfiguration) ProtoMessage() {}
-func (*ClusterReplicationConfiguration) Descriptor() ([]byte, []int) {
+func (m *ClusterReplicationConfig) Reset()      { *m = ClusterReplicationConfig{} }
+func (*ClusterReplicationConfig) ProtoMessage() {}
+func (*ClusterReplicationConfig) Descriptor() ([]byte, []int) {
 	return fileDescriptor_25259f2f75677ad4, []int{0}
 }
-func (m *ClusterReplicationConfiguration) XXX_Unmarshal(b []byte) error {
+func (m *ClusterReplicationConfig) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ClusterReplicationConfiguration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ClusterReplicationConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ClusterReplicationConfiguration.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ClusterReplicationConfig.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -70,41 +70,41 @@ func (m *ClusterReplicationConfiguration) XXX_Marshal(b []byte, deterministic bo
 		return b[:n], nil
 	}
 }
-func (m *ClusterReplicationConfiguration) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ClusterReplicationConfiguration.Merge(m, src)
+func (m *ClusterReplicationConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ClusterReplicationConfig.Merge(m, src)
 }
-func (m *ClusterReplicationConfiguration) XXX_Size() int {
+func (m *ClusterReplicationConfig) XXX_Size() int {
 	return m.Size()
 }
-func (m *ClusterReplicationConfiguration) XXX_DiscardUnknown() {
-	xxx_messageInfo_ClusterReplicationConfiguration.DiscardUnknown(m)
+func (m *ClusterReplicationConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_ClusterReplicationConfig.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ClusterReplicationConfiguration proto.InternalMessageInfo
+var xxx_messageInfo_ClusterReplicationConfig proto.InternalMessageInfo
 
-func (m *ClusterReplicationConfiguration) GetClusterName() string {
+func (m *ClusterReplicationConfig) GetClusterName() string {
 	if m != nil {
 		return m.ClusterName
 	}
 	return ""
 }
 
-type NamespaceReplicationConfiguration struct {
-	ActiveClusterName string                             `protobuf:"bytes,1,opt,name=active_cluster_name,json=activeClusterName,proto3" json:"active_cluster_name,omitempty"`
-	Clusters          []*ClusterReplicationConfiguration `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`
+type NamespaceReplicationConfig struct {
+	ActiveClusterName string                      `protobuf:"bytes,1,opt,name=active_cluster_name,json=activeClusterName,proto3" json:"active_cluster_name,omitempty"`
+	Clusters          []*ClusterReplicationConfig `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`
 }
 
-func (m *NamespaceReplicationConfiguration) Reset()      { *m = NamespaceReplicationConfiguration{} }
-func (*NamespaceReplicationConfiguration) ProtoMessage() {}
-func (*NamespaceReplicationConfiguration) Descriptor() ([]byte, []int) {
+func (m *NamespaceReplicationConfig) Reset()      { *m = NamespaceReplicationConfig{} }
+func (*NamespaceReplicationConfig) ProtoMessage() {}
+func (*NamespaceReplicationConfig) Descriptor() ([]byte, []int) {
 	return fileDescriptor_25259f2f75677ad4, []int{1}
 }
-func (m *NamespaceReplicationConfiguration) XXX_Unmarshal(b []byte) error {
+func (m *NamespaceReplicationConfig) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *NamespaceReplicationConfiguration) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *NamespaceReplicationConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_NamespaceReplicationConfiguration.Marshal(b, m, deterministic)
+		return xxx_messageInfo_NamespaceReplicationConfig.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -114,26 +114,26 @@ func (m *NamespaceReplicationConfiguration) XXX_Marshal(b []byte, deterministic 
 		return b[:n], nil
 	}
 }
-func (m *NamespaceReplicationConfiguration) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NamespaceReplicationConfiguration.Merge(m, src)
+func (m *NamespaceReplicationConfig) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceReplicationConfig.Merge(m, src)
 }
-func (m *NamespaceReplicationConfiguration) XXX_Size() int {
+func (m *NamespaceReplicationConfig) XXX_Size() int {
 	return m.Size()
 }
-func (m *NamespaceReplicationConfiguration) XXX_DiscardUnknown() {
-	xxx_messageInfo_NamespaceReplicationConfiguration.DiscardUnknown(m)
+func (m *NamespaceReplicationConfig) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceReplicationConfig.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_NamespaceReplicationConfiguration proto.InternalMessageInfo
+var xxx_messageInfo_NamespaceReplicationConfig proto.InternalMessageInfo
 
-func (m *NamespaceReplicationConfiguration) GetActiveClusterName() string {
+func (m *NamespaceReplicationConfig) GetActiveClusterName() string {
 	if m != nil {
 		return m.ActiveClusterName
 	}
 	return ""
 }
 
-func (m *NamespaceReplicationConfiguration) GetClusters() []*ClusterReplicationConfiguration {
+func (m *NamespaceReplicationConfig) GetClusters() []*ClusterReplicationConfig {
 	if m != nil {
 		return m.Clusters
 	}
@@ -141,8 +141,8 @@ func (m *NamespaceReplicationConfiguration) GetClusters() []*ClusterReplicationC
 }
 
 func init() {
-	proto.RegisterType((*ClusterReplicationConfiguration)(nil), "temporal.replication.v1.ClusterReplicationConfiguration")
-	proto.RegisterType((*NamespaceReplicationConfiguration)(nil), "temporal.replication.v1.NamespaceReplicationConfiguration")
+	proto.RegisterType((*ClusterReplicationConfig)(nil), "temporal.replication.v1.ClusterReplicationConfig")
+	proto.RegisterType((*NamespaceReplicationConfig)(nil), "temporal.replication.v1.NamespaceReplicationConfig")
 }
 
 func init() {
@@ -150,35 +150,35 @@ func init() {
 }
 
 var fileDescriptor_25259f2f75677ad4 = []byte{
-	// 283 bytes of a gzipped FileDescriptorProto
+	// 275 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x52, 0x2d, 0x49, 0xcd, 0x2d,
 	0xc8, 0x2f, 0x4a, 0xcc, 0xd1, 0x2f, 0x4a, 0x2d, 0xc8, 0xc9, 0x4c, 0x4e, 0x2c, 0xc9, 0xcc, 0xcf,
 	0xd3, 0x2f, 0x33, 0xd4, 0xcf, 0x4d, 0x2d, 0x2e, 0x4e, 0x4c, 0x4f, 0xd5, 0x2b, 0x28, 0xca, 0x2f,
-	0xc9, 0x17, 0x12, 0x87, 0x29, 0xd3, 0x43, 0x52, 0xa6, 0x57, 0x66, 0xa8, 0xe4, 0xc2, 0x25, 0xef,
-	0x9c, 0x53, 0x5a, 0x5c, 0x92, 0x5a, 0x14, 0x84, 0x90, 0x70, 0xce, 0xcf, 0x4b, 0xcb, 0x4c, 0x2f,
-	0x2d, 0x02, 0x73, 0x84, 0x14, 0xb9, 0x78, 0x92, 0x21, 0x4a, 0xe2, 0xf3, 0x12, 0x73, 0x53, 0x25,
-	0x18, 0x15, 0x18, 0x35, 0x38, 0x83, 0xb8, 0xa1, 0x62, 0x7e, 0x89, 0xb9, 0xa9, 0x4a, 0x2b, 0x19,
-	0xb9, 0x14, 0x41, 0x8c, 0xe2, 0x82, 0xc4, 0xe4, 0x54, 0x9c, 0x06, 0xe9, 0x71, 0x09, 0x27, 0x26,
-	0x97, 0x64, 0x96, 0xa5, 0xc6, 0x63, 0x31, 0x4f, 0x10, 0x22, 0xe5, 0x8c, 0x30, 0x55, 0x28, 0x84,
-	0x8b, 0x03, 0xaa, 0xb0, 0x58, 0x82, 0x49, 0x81, 0x59, 0x83, 0xdb, 0xc8, 0x42, 0x0f, 0x87, 0x3f,
-	0xf4, 0x08, 0x78, 0x22, 0x08, 0x6e, 0x92, 0xd3, 0x02, 0xc6, 0x0b, 0x0f, 0xe5, 0x18, 0x6e, 0x3c,
-	0x94, 0x63, 0xf8, 0xf0, 0x50, 0x8e, 0xb1, 0xe1, 0x91, 0x1c, 0xe3, 0x8a, 0x47, 0x72, 0x8c, 0x27,
-	0x1e, 0xc9, 0x31, 0x5e, 0x78, 0x24, 0xc7, 0xf8, 0xe0, 0x91, 0x1c, 0xe3, 0x8b, 0x47, 0x72, 0x0c,
-	0x1f, 0x1e, 0xc9, 0x31, 0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe1, 0xb1, 0x1c, 0xc3, 0x8d, 0xc7, 0x72,
-	0x0c, 0x5c, 0x0a, 0x99, 0xf9, 0x08, 0xcb, 0xc1, 0x81, 0x8a, 0xe6, 0x04, 0x27, 0x1e, 0x5f, 0x48,
-	0x90, 0x07, 0x80, 0x24, 0x03, 0x18, 0xa3, 0x2c, 0xd2, 0x91, 0x74, 0x64, 0xe6, 0xeb, 0xc3, 0xd8,
-	0xba, 0x60, 0xdd, 0x68, 0xf1, 0x65, 0x8d, 0xc4, 0x4d, 0x62, 0x03, 0xab, 0x30, 0x06, 0x04, 0x00,
-	0x00, 0xff, 0xff, 0x12, 0x85, 0xa5, 0xc7, 0xdd, 0x01, 0x00, 0x00,
+	0xc9, 0x17, 0x12, 0x87, 0x29, 0xd3, 0x43, 0x52, 0xa6, 0x57, 0x66, 0xa8, 0x64, 0xcb, 0x25, 0xe1,
+	0x9c, 0x53, 0x5a, 0x5c, 0x92, 0x5a, 0x14, 0x84, 0x90, 0x70, 0xce, 0xcf, 0x4b, 0xcb, 0x4c, 0x17,
+	0x52, 0xe4, 0xe2, 0x49, 0x86, 0xc8, 0xc5, 0xe7, 0x25, 0xe6, 0xa6, 0x4a, 0x30, 0x2a, 0x30, 0x6a,
+	0x70, 0x06, 0x71, 0x43, 0xc5, 0xfc, 0x12, 0x73, 0x53, 0x95, 0x66, 0x33, 0x72, 0x49, 0x81, 0x18,
+	0xc5, 0x05, 0x89, 0xc9, 0xa9, 0x98, 0x26, 0xe8, 0x71, 0x09, 0x27, 0x26, 0x97, 0x64, 0x96, 0xa5,
+	0xc6, 0x63, 0x31, 0x48, 0x10, 0x22, 0xe5, 0x8c, 0x30, 0x4e, 0xc8, 0x97, 0x8b, 0x03, 0xaa, 0xb0,
+	0x58, 0x82, 0x49, 0x81, 0x59, 0x83, 0xdb, 0xc8, 0x50, 0x0f, 0x87, 0xcb, 0xf5, 0x70, 0x39, 0x3b,
+	0x08, 0x6e, 0x84, 0xd3, 0x2c, 0xc6, 0x0b, 0x0f, 0xe5, 0x18, 0x6e, 0x3c, 0x94, 0x63, 0xf8, 0xf0,
+	0x50, 0x8e, 0xb1, 0xe1, 0x91, 0x1c, 0xe3, 0x8a, 0x47, 0x72, 0x8c, 0x27, 0x1e, 0xc9, 0x31, 0x5e,
+	0x78, 0x24, 0xc7, 0xf8, 0xe0, 0x91, 0x1c, 0xe3, 0x8b, 0x47, 0x72, 0x0c, 0x1f, 0x1e, 0xc9, 0x31,
+	0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe1, 0xb1, 0x1c, 0xc3, 0x8d, 0xc7, 0x72, 0x0c, 0x5c, 0x52, 0x99,
+	0xf9, 0xb8, 0x6c, 0x75, 0xe2, 0xf1, 0x85, 0x84, 0x6b, 0x00, 0x28, 0x58, 0x03, 0x18, 0xa3, 0x2c,
+	0xd2, 0x91, 0xd4, 0x66, 0xe6, 0xeb, 0xc3, 0xd8, 0xba, 0xe0, 0x70, 0x47, 0x8b, 0x14, 0x6b, 0x24,
+	0x6e, 0x12, 0x1b, 0x58, 0x85, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0xe0, 0xe3, 0x9a, 0x32, 0xc2,
+	0x01, 0x00, 0x00,
 }
 
-func (this *ClusterReplicationConfiguration) Equal(that interface{}) bool {
+func (this *ClusterReplicationConfig) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*ClusterReplicationConfiguration)
+	that1, ok := that.(*ClusterReplicationConfig)
 	if !ok {
-		that2, ok := that.(ClusterReplicationConfiguration)
+		that2, ok := that.(ClusterReplicationConfig)
 		if ok {
 			that1 = &that2
 		} else {
@@ -195,14 +195,14 @@ func (this *ClusterReplicationConfiguration) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *NamespaceReplicationConfiguration) Equal(that interface{}) bool {
+func (this *NamespaceReplicationConfig) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*NamespaceReplicationConfiguration)
+	that1, ok := that.(*NamespaceReplicationConfig)
 	if !ok {
-		that2, ok := that.(NamespaceReplicationConfiguration)
+		that2, ok := that.(NamespaceReplicationConfig)
 		if ok {
 			that1 = &that2
 		} else {
@@ -227,22 +227,22 @@ func (this *NamespaceReplicationConfiguration) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *ClusterReplicationConfiguration) GoString() string {
+func (this *ClusterReplicationConfig) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 5)
-	s = append(s, "&replication.ClusterReplicationConfiguration{")
+	s = append(s, "&replication.ClusterReplicationConfig{")
 	s = append(s, "ClusterName: "+fmt.Sprintf("%#v", this.ClusterName)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *NamespaceReplicationConfiguration) GoString() string {
+func (this *NamespaceReplicationConfig) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 6)
-	s = append(s, "&replication.NamespaceReplicationConfiguration{")
+	s = append(s, "&replication.NamespaceReplicationConfig{")
 	s = append(s, "ActiveClusterName: "+fmt.Sprintf("%#v", this.ActiveClusterName)+",\n")
 	if this.Clusters != nil {
 		s = append(s, "Clusters: "+fmt.Sprintf("%#v", this.Clusters)+",\n")
@@ -258,7 +258,7 @@ func valueToGoStringMessage(v interface{}, typ string) string {
 	pv := reflect.Indirect(rv).Interface()
 	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
 }
-func (m *ClusterReplicationConfiguration) Marshal() (dAtA []byte, err error) {
+func (m *ClusterReplicationConfig) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -268,12 +268,12 @@ func (m *ClusterReplicationConfiguration) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ClusterReplicationConfiguration) MarshalTo(dAtA []byte) (int, error) {
+func (m *ClusterReplicationConfig) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ClusterReplicationConfiguration) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ClusterReplicationConfig) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -288,7 +288,7 @@ func (m *ClusterReplicationConfiguration) MarshalToSizedBuffer(dAtA []byte) (int
 	return len(dAtA) - i, nil
 }
 
-func (m *NamespaceReplicationConfiguration) Marshal() (dAtA []byte, err error) {
+func (m *NamespaceReplicationConfig) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -298,12 +298,12 @@ func (m *NamespaceReplicationConfiguration) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *NamespaceReplicationConfiguration) MarshalTo(dAtA []byte) (int, error) {
+func (m *NamespaceReplicationConfig) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *NamespaceReplicationConfiguration) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *NamespaceReplicationConfig) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -343,7 +343,7 @@ func encodeVarintMessage(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *ClusterReplicationConfiguration) Size() (n int) {
+func (m *ClusterReplicationConfig) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -356,7 +356,7 @@ func (m *ClusterReplicationConfiguration) Size() (n int) {
 	return n
 }
 
-func (m *NamespaceReplicationConfiguration) Size() (n int) {
+func (m *NamespaceReplicationConfig) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -381,26 +381,26 @@ func sovMessage(x uint64) (n int) {
 func sozMessage(x uint64) (n int) {
 	return sovMessage(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (this *ClusterReplicationConfiguration) String() string {
+func (this *ClusterReplicationConfig) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&ClusterReplicationConfiguration{`,
+	s := strings.Join([]string{`&ClusterReplicationConfig{`,
 		`ClusterName:` + fmt.Sprintf("%v", this.ClusterName) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *NamespaceReplicationConfiguration) String() string {
+func (this *NamespaceReplicationConfig) String() string {
 	if this == nil {
 		return "nil"
 	}
-	repeatedStringForClusters := "[]*ClusterReplicationConfiguration{"
+	repeatedStringForClusters := "[]*ClusterReplicationConfig{"
 	for _, f := range this.Clusters {
-		repeatedStringForClusters += strings.Replace(f.String(), "ClusterReplicationConfiguration", "ClusterReplicationConfiguration", 1) + ","
+		repeatedStringForClusters += strings.Replace(f.String(), "ClusterReplicationConfig", "ClusterReplicationConfig", 1) + ","
 	}
 	repeatedStringForClusters += "}"
-	s := strings.Join([]string{`&NamespaceReplicationConfiguration{`,
+	s := strings.Join([]string{`&NamespaceReplicationConfig{`,
 		`ActiveClusterName:` + fmt.Sprintf("%v", this.ActiveClusterName) + `,`,
 		`Clusters:` + repeatedStringForClusters + `,`,
 		`}`,
@@ -415,7 +415,7 @@ func valueToStringMessage(v interface{}) string {
 	pv := reflect.Indirect(rv).Interface()
 	return fmt.Sprintf("*%v", pv)
 }
-func (m *ClusterReplicationConfiguration) Unmarshal(dAtA []byte) error {
+func (m *ClusterReplicationConfig) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -438,10 +438,10 @@ func (m *ClusterReplicationConfiguration) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ClusterReplicationConfiguration: wiretype end group for non-group")
+			return fmt.Errorf("proto: ClusterReplicationConfig: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ClusterReplicationConfiguration: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ClusterReplicationConfig: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -500,7 +500,7 @@ func (m *ClusterReplicationConfiguration) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *NamespaceReplicationConfiguration) Unmarshal(dAtA []byte) error {
+func (m *NamespaceReplicationConfig) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -523,10 +523,10 @@ func (m *NamespaceReplicationConfiguration) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: NamespaceReplicationConfiguration: wiretype end group for non-group")
+			return fmt.Errorf("proto: NamespaceReplicationConfig: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: NamespaceReplicationConfiguration: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: NamespaceReplicationConfig: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -590,7 +590,7 @@ func (m *NamespaceReplicationConfiguration) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Clusters = append(m.Clusters, &ClusterReplicationConfiguration{})
+			m.Clusters = append(m.Clusters, &ClusterReplicationConfig{})
 			if err := m.Clusters[len(m.Clusters)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
