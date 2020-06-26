@@ -697,24 +697,24 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondQueryTaskCompleted(ctx, 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondQueryTaskCompleted", reflect.TypeOf((*MockWorkflowServiceClient)(nil).RespondQueryTaskCompleted), varargs...)
 }
 
-// ResetStickyTaskList mocks base method.
-func (m *MockWorkflowServiceClient) ResetStickyTaskList(ctx context.Context, in *workflowservice.ResetStickyTaskListRequest, opts ...grpc.CallOption) (*workflowservice.ResetStickyTaskListResponse, error) {
+// ResetStickyTaskQueue mocks base method.
+func (m *MockWorkflowServiceClient) ResetStickyTaskQueue(ctx context.Context, in *workflowservice.ResetStickyTaskQueueRequest, opts ...grpc.CallOption) (*workflowservice.ResetStickyTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "ResetStickyTaskList", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ResetStickyTaskListResponse)
+	ret := m.ctrl.Call(m, "ResetStickyTaskQueue", varargs...)
+	ret0, _ := ret[0].(*workflowservice.ResetStickyTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ResetStickyTaskList indicates an expected call of ResetStickyTaskList.
-func (mr *MockWorkflowServiceClientMockRecorder) ResetStickyTaskList(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// ResetStickyTaskQueue indicates an expected call of ResetStickyTaskQueue.
+func (mr *MockWorkflowServiceClientMockRecorder) ResetStickyTaskQueue(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResetStickyTaskList", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ResetStickyTaskList), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResetStickyTaskQueue", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ResetStickyTaskQueue), varargs...)
 }
 
 // QueryWorkflow mocks base method.
@@ -757,24 +757,24 @@ func (mr *MockWorkflowServiceClientMockRecorder) DescribeWorkflowExecution(ctx, 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeWorkflowExecution), varargs...)
 }
 
-// DescribeTaskList mocks base method.
-func (m *MockWorkflowServiceClient) DescribeTaskList(ctx context.Context, in *workflowservice.DescribeTaskListRequest, opts ...grpc.CallOption) (*workflowservice.DescribeTaskListResponse, error) {
+// DescribeTaskQueue mocks base method.
+func (m *MockWorkflowServiceClient) DescribeTaskQueue(ctx context.Context, in *workflowservice.DescribeTaskQueueRequest, opts ...grpc.CallOption) (*workflowservice.DescribeTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "DescribeTaskList", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DescribeTaskListResponse)
+	ret := m.ctrl.Call(m, "DescribeTaskQueue", varargs...)
+	ret0, _ := ret[0].(*workflowservice.DescribeTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DescribeTaskList indicates an expected call of DescribeTaskList.
-func (mr *MockWorkflowServiceClientMockRecorder) DescribeTaskList(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// DescribeTaskQueue indicates an expected call of DescribeTaskQueue.
+func (mr *MockWorkflowServiceClientMockRecorder) DescribeTaskQueue(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeTaskList", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeTaskList), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeTaskQueue", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeTaskQueue), varargs...)
 }
 
 // GetClusterInfo mocks base method.
@@ -797,24 +797,24 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetClusterInfo(ctx, in interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetClusterInfo", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetClusterInfo), varargs...)
 }
 
-// ListTaskListPartitions mocks base method.
-func (m *MockWorkflowServiceClient) ListTaskListPartitions(ctx context.Context, in *workflowservice.ListTaskListPartitionsRequest, opts ...grpc.CallOption) (*workflowservice.ListTaskListPartitionsResponse, error) {
+// ListTaskQueuePartitions mocks base method.
+func (m *MockWorkflowServiceClient) ListTaskQueuePartitions(ctx context.Context, in *workflowservice.ListTaskQueuePartitionsRequest, opts ...grpc.CallOption) (*workflowservice.ListTaskQueuePartitionsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "ListTaskListPartitions", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListTaskListPartitionsResponse)
+	ret := m.ctrl.Call(m, "ListTaskQueuePartitions", varargs...)
+	ret0, _ := ret[0].(*workflowservice.ListTaskQueuePartitionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListTaskListPartitions indicates an expected call of ListTaskListPartitions.
-func (mr *MockWorkflowServiceClientMockRecorder) ListTaskListPartitions(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// ListTaskQueuePartitions indicates an expected call of ListTaskQueuePartitions.
+func (mr *MockWorkflowServiceClientMockRecorder) ListTaskQueuePartitions(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTaskListPartitions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListTaskListPartitions), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTaskQueuePartitions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListTaskQueuePartitions), varargs...)
 }
 
 // MockWorkflowServiceServer is a mock of WorkflowServiceServer interface.
@@ -1320,19 +1320,19 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondQueryTaskCompleted(arg0,
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RespondQueryTaskCompleted", reflect.TypeOf((*MockWorkflowServiceServer)(nil).RespondQueryTaskCompleted), arg0, arg1)
 }
 
-// ResetStickyTaskList mocks base method.
-func (m *MockWorkflowServiceServer) ResetStickyTaskList(arg0 context.Context, arg1 *workflowservice.ResetStickyTaskListRequest) (*workflowservice.ResetStickyTaskListResponse, error) {
+// ResetStickyTaskQueue mocks base method.
+func (m *MockWorkflowServiceServer) ResetStickyTaskQueue(arg0 context.Context, arg1 *workflowservice.ResetStickyTaskQueueRequest) (*workflowservice.ResetStickyTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ResetStickyTaskList", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ResetStickyTaskListResponse)
+	ret := m.ctrl.Call(m, "ResetStickyTaskQueue", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.ResetStickyTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ResetStickyTaskList indicates an expected call of ResetStickyTaskList.
-func (mr *MockWorkflowServiceServerMockRecorder) ResetStickyTaskList(arg0, arg1 interface{}) *gomock.Call {
+// ResetStickyTaskQueue indicates an expected call of ResetStickyTaskQueue.
+func (mr *MockWorkflowServiceServerMockRecorder) ResetStickyTaskQueue(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResetStickyTaskList", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ResetStickyTaskList), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ResetStickyTaskQueue", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ResetStickyTaskQueue), arg0, arg1)
 }
 
 // QueryWorkflow mocks base method.
@@ -1365,19 +1365,19 @@ func (mr *MockWorkflowServiceServerMockRecorder) DescribeWorkflowExecution(arg0,
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeWorkflowExecution), arg0, arg1)
 }
 
-// DescribeTaskList mocks base method.
-func (m *MockWorkflowServiceServer) DescribeTaskList(arg0 context.Context, arg1 *workflowservice.DescribeTaskListRequest) (*workflowservice.DescribeTaskListResponse, error) {
+// DescribeTaskQueue mocks base method.
+func (m *MockWorkflowServiceServer) DescribeTaskQueue(arg0 context.Context, arg1 *workflowservice.DescribeTaskQueueRequest) (*workflowservice.DescribeTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DescribeTaskList", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DescribeTaskListResponse)
+	ret := m.ctrl.Call(m, "DescribeTaskQueue", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.DescribeTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// DescribeTaskList indicates an expected call of DescribeTaskList.
-func (mr *MockWorkflowServiceServerMockRecorder) DescribeTaskList(arg0, arg1 interface{}) *gomock.Call {
+// DescribeTaskQueue indicates an expected call of DescribeTaskQueue.
+func (mr *MockWorkflowServiceServerMockRecorder) DescribeTaskQueue(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeTaskList", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeTaskList), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeTaskQueue", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeTaskQueue), arg0, arg1)
 }
 
 // GetClusterInfo mocks base method.
@@ -1395,17 +1395,17 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetClusterInfo(arg0, arg1 inter
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetClusterInfo", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetClusterInfo), arg0, arg1)
 }
 
-// ListTaskListPartitions mocks base method.
-func (m *MockWorkflowServiceServer) ListTaskListPartitions(arg0 context.Context, arg1 *workflowservice.ListTaskListPartitionsRequest) (*workflowservice.ListTaskListPartitionsResponse, error) {
+// ListTaskQueuePartitions mocks base method.
+func (m *MockWorkflowServiceServer) ListTaskQueuePartitions(arg0 context.Context, arg1 *workflowservice.ListTaskQueuePartitionsRequest) (*workflowservice.ListTaskQueuePartitionsResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListTaskListPartitions", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListTaskListPartitionsResponse)
+	ret := m.ctrl.Call(m, "ListTaskQueuePartitions", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.ListTaskQueuePartitionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListTaskListPartitions indicates an expected call of ListTaskListPartitions.
-func (mr *MockWorkflowServiceServerMockRecorder) ListTaskListPartitions(arg0, arg1 interface{}) *gomock.Call {
+// ListTaskQueuePartitions indicates an expected call of ListTaskQueuePartitions.
+func (mr *MockWorkflowServiceServerMockRecorder) ListTaskQueuePartitions(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTaskListPartitions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListTaskListPartitions), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTaskQueuePartitions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListTaskQueuePartitions), arg0, arg1)
 }
