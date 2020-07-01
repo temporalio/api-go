@@ -134,13 +134,15 @@ func (m *NamespaceInfo) GetId() string {
 }
 
 type NamespaceConfig struct {
-	WorkflowExecutionRetentionPeriodInDays int32             `protobuf:"varint,1,opt,name=workflow_execution_retention_period_in_days,json=workflowExecutionRetentionPeriodInDays,proto3" json:"workflow_execution_retention_period_in_days,omitempty"`
-	EmitMetric                             *types.BoolValue  `protobuf:"bytes,2,opt,name=emit_metric,json=emitMetric,proto3" json:"emit_metric,omitempty"`
-	BadBinaries                            *BadBinaries      `protobuf:"bytes,3,opt,name=bad_binaries,json=badBinaries,proto3" json:"bad_binaries,omitempty"`
-	HistoryArchivalStatus                  v1.ArchivalStatus `protobuf:"varint,4,opt,name=history_archival_status,json=historyArchivalStatus,proto3,enum=temporal.enums.v1.ArchivalStatus" json:"history_archival_status,omitempty"`
-	HistoryArchivalUri                     string            `protobuf:"bytes,5,opt,name=history_archival_uri,json=historyArchivalUri,proto3" json:"history_archival_uri,omitempty"`
-	VisibilityArchivalStatus               v1.ArchivalStatus `protobuf:"varint,6,opt,name=visibility_archival_status,json=visibilityArchivalStatus,proto3,enum=temporal.enums.v1.ArchivalStatus" json:"visibility_archival_status,omitempty"`
-	VisibilityArchivalUri                  string            `protobuf:"bytes,7,opt,name=visibility_archival_uri,json=visibilityArchivalUri,proto3" json:"visibility_archival_uri,omitempty"`
+	WorkflowExecutionRetentionPeriodInDays int32            `protobuf:"varint,1,opt,name=workflow_execution_retention_period_in_days,json=workflowExecutionRetentionPeriodInDays,proto3" json:"workflow_execution_retention_period_in_days,omitempty"`
+	EmitMetric                             *types.BoolValue `protobuf:"bytes,2,opt,name=emit_metric,json=emitMetric,proto3" json:"emit_metric,omitempty"`
+	BadBinaries                            *BadBinaries     `protobuf:"bytes,3,opt,name=bad_binaries,json=badBinaries,proto3" json:"bad_binaries,omitempty"`
+	// Optional. If unspecified (ARCHIVAL_STATUS_UNSPECIFIED) then default server configuration is used.
+	HistoryArchivalStatus v1.ArchivalStatus `protobuf:"varint,4,opt,name=history_archival_status,json=historyArchivalStatus,proto3,enum=temporal.enums.v1.ArchivalStatus" json:"history_archival_status,omitempty"`
+	HistoryArchivalUri    string            `protobuf:"bytes,5,opt,name=history_archival_uri,json=historyArchivalUri,proto3" json:"history_archival_uri,omitempty"`
+	// Optional. If unspecified (ARCHIVAL_STATUS_UNSPECIFIED) then default server configuration is used.
+	VisibilityArchivalStatus v1.ArchivalStatus `protobuf:"varint,6,opt,name=visibility_archival_status,json=visibilityArchivalStatus,proto3,enum=temporal.enums.v1.ArchivalStatus" json:"visibility_archival_status,omitempty"`
+	VisibilityArchivalUri    string            `protobuf:"bytes,7,opt,name=visibility_archival_uri,json=visibilityArchivalUri,proto3" json:"visibility_archival_uri,omitempty"`
 }
 
 func (m *NamespaceConfig) Reset()      { *m = NamespaceConfig{} }
