@@ -2611,16 +2611,18 @@ type StartChildWorkflowExecutionInitiatedEventAttributes struct {
 	// Timeout of a single workflow run.
 	WorkflowRunTimeoutSeconds int32 `protobuf:"varint,7,opt,name=workflow_run_timeout_seconds,json=workflowRunTimeoutSeconds,proto3" json:"workflow_run_timeout_seconds,omitempty"`
 	// Timeout of a single workflow task.
-	WorkflowTaskTimeoutSeconds   int32                     `protobuf:"varint,8,opt,name=workflow_task_timeout_seconds,json=workflowTaskTimeoutSeconds,proto3" json:"workflow_task_timeout_seconds,omitempty"`
-	ParentClosePolicy            v12.ParentClosePolicy     `protobuf:"varint,9,opt,name=parent_close_policy,json=parentClosePolicy,proto3,enum=temporal.enums.v1.ParentClosePolicy" json:"parent_close_policy,omitempty"`
-	Control                      string                    `protobuf:"bytes,10,opt,name=control,proto3" json:"control,omitempty"`
-	DecisionTaskCompletedEventId int64                     `protobuf:"varint,11,opt,name=decision_task_completed_event_id,json=decisionTaskCompletedEventId,proto3" json:"decision_task_completed_event_id,omitempty"`
-	WorkflowIdReusePolicy        v12.WorkflowIdReusePolicy `protobuf:"varint,12,opt,name=workflow_id_reuse_policy,json=workflowIdReusePolicy,proto3,enum=temporal.enums.v1.WorkflowIdReusePolicy" json:"workflow_id_reuse_policy,omitempty"`
-	RetryPolicy                  *v1.RetryPolicy           `protobuf:"bytes,13,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
-	CronSchedule                 string                    `protobuf:"bytes,14,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
-	Header                       *v1.Header                `protobuf:"bytes,15,opt,name=header,proto3" json:"header,omitempty"`
-	Memo                         *v1.Memo                  `protobuf:"bytes,16,opt,name=memo,proto3" json:"memo,omitempty"`
-	SearchAttributes             *v1.SearchAttributes      `protobuf:"bytes,17,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
+	WorkflowTaskTimeoutSeconds int32 `protobuf:"varint,8,opt,name=workflow_task_timeout_seconds,json=workflowTaskTimeoutSeconds,proto3" json:"workflow_task_timeout_seconds,omitempty"`
+	// Default: PARENT_CLOSE_POLICY_TERMINATE.
+	ParentClosePolicy            v12.ParentClosePolicy `protobuf:"varint,9,opt,name=parent_close_policy,json=parentClosePolicy,proto3,enum=temporal.enums.v1.ParentClosePolicy" json:"parent_close_policy,omitempty"`
+	Control                      string                `protobuf:"bytes,10,opt,name=control,proto3" json:"control,omitempty"`
+	DecisionTaskCompletedEventId int64                 `protobuf:"varint,11,opt,name=decision_task_completed_event_id,json=decisionTaskCompletedEventId,proto3" json:"decision_task_completed_event_id,omitempty"`
+	// Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	WorkflowIdReusePolicy v12.WorkflowIdReusePolicy `protobuf:"varint,12,opt,name=workflow_id_reuse_policy,json=workflowIdReusePolicy,proto3,enum=temporal.enums.v1.WorkflowIdReusePolicy" json:"workflow_id_reuse_policy,omitempty"`
+	RetryPolicy           *v1.RetryPolicy           `protobuf:"bytes,13,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	CronSchedule          string                    `protobuf:"bytes,14,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
+	Header                *v1.Header                `protobuf:"bytes,15,opt,name=header,proto3" json:"header,omitempty"`
+	Memo                  *v1.Memo                  `protobuf:"bytes,16,opt,name=memo,proto3" json:"memo,omitempty"`
+	SearchAttributes      *v1.SearchAttributes      `protobuf:"bytes,17,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 }
 
 func (m *StartChildWorkflowExecutionInitiatedEventAttributes) Reset() {

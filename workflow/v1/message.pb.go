@@ -389,10 +389,11 @@ func (m *PendingActivityInfo) GetLastWorkerIdentity() string {
 }
 
 type PendingChildExecutionInfo struct {
-	WorkflowId        string                `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId             string                `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	WorkflowTypeName  string                `protobuf:"bytes,3,opt,name=workflow_type_name,json=workflowTypeName,proto3" json:"workflow_type_name,omitempty"`
-	InitiatedId       int64                 `protobuf:"varint,4,opt,name=initiated_id,json=initiatedId,proto3" json:"initiated_id,omitempty"`
+	WorkflowId       string `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId            string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	WorkflowTypeName string `protobuf:"bytes,3,opt,name=workflow_type_name,json=workflowTypeName,proto3" json:"workflow_type_name,omitempty"`
+	InitiatedId      int64  `protobuf:"varint,4,opt,name=initiated_id,json=initiatedId,proto3" json:"initiated_id,omitempty"`
+	// Default: PARENT_CLOSE_POLICY_TERMINATE.
 	ParentClosePolicy v11.ParentClosePolicy `protobuf:"varint,5,opt,name=parent_close_policy,json=parentClosePolicy,proto3,enum=temporal.enums.v1.ParentClosePolicy" json:"parent_close_policy,omitempty"`
 }
 

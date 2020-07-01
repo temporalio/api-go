@@ -69,11 +69,13 @@ type RegisterNamespaceRequest struct {
 	Clusters                               []*v1.ClusterReplicationConfig `protobuf:"bytes,6,rep,name=clusters,proto3" json:"clusters,omitempty"`
 	ActiveClusterName                      string                         `protobuf:"bytes,7,opt,name=active_cluster_name,json=activeClusterName,proto3" json:"active_cluster_name,omitempty"`
 	// A key-value map for any customized purpose.
-	Data                     map[string]string  `protobuf:"bytes,8,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	SecurityToken            string             `protobuf:"bytes,9,opt,name=security_token,json=securityToken,proto3" json:"security_token,omitempty"`
-	IsGlobalNamespace        bool               `protobuf:"varint,10,opt,name=is_global_namespace,json=isGlobalNamespace,proto3" json:"is_global_namespace,omitempty"`
-	HistoryArchivalStatus    v11.ArchivalStatus `protobuf:"varint,11,opt,name=history_archival_status,json=historyArchivalStatus,proto3,enum=temporal.enums.v1.ArchivalStatus" json:"history_archival_status,omitempty"`
-	HistoryArchivalUri       string             `protobuf:"bytes,12,opt,name=history_archival_uri,json=historyArchivalUri,proto3" json:"history_archival_uri,omitempty"`
+	Data              map[string]string `protobuf:"bytes,8,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	SecurityToken     string            `protobuf:"bytes,9,opt,name=security_token,json=securityToken,proto3" json:"security_token,omitempty"`
+	IsGlobalNamespace bool              `protobuf:"varint,10,opt,name=is_global_namespace,json=isGlobalNamespace,proto3" json:"is_global_namespace,omitempty"`
+	// Optional. If unspecified (ARCHIVAL_STATUS_UNSPECIFIED) then default server configuration is used.
+	HistoryArchivalStatus v11.ArchivalStatus `protobuf:"varint,11,opt,name=history_archival_status,json=historyArchivalStatus,proto3,enum=temporal.enums.v1.ArchivalStatus" json:"history_archival_status,omitempty"`
+	HistoryArchivalUri    string             `protobuf:"bytes,12,opt,name=history_archival_uri,json=historyArchivalUri,proto3" json:"history_archival_uri,omitempty"`
+	// Optional. If unspecified (ARCHIVAL_STATUS_UNSPECIFIED) then default server configuration is used.
 	VisibilityArchivalStatus v11.ArchivalStatus `protobuf:"varint,13,opt,name=visibility_archival_status,json=visibilityArchivalStatus,proto3,enum=temporal.enums.v1.ArchivalStatus" json:"visibility_archival_status,omitempty"`
 	VisibilityArchivalUri    string             `protobuf:"bytes,14,opt,name=visibility_archival_uri,json=visibilityArchivalUri,proto3" json:"visibility_archival_uri,omitempty"`
 }
@@ -726,11 +728,12 @@ type StartWorkflowExecutionRequest struct {
 	// Timeout of a single workflow run.
 	WorkflowRunTimeoutSeconds int32 `protobuf:"varint,7,opt,name=workflow_run_timeout_seconds,json=workflowRunTimeoutSeconds,proto3" json:"workflow_run_timeout_seconds,omitempty"`
 	// Timeout of a single workflow task.
-	WorkflowTaskTimeoutSeconds int32                     `protobuf:"varint,8,opt,name=workflow_task_timeout_seconds,json=workflowTaskTimeoutSeconds,proto3" json:"workflow_task_timeout_seconds,omitempty"`
-	Identity                   string                    `protobuf:"bytes,9,opt,name=identity,proto3" json:"identity,omitempty"`
-	RequestId                  string                    `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	WorkflowIdReusePolicy      v11.WorkflowIdReusePolicy `protobuf:"varint,11,opt,name=workflow_id_reuse_policy,json=workflowIdReusePolicy,proto3,enum=temporal.enums.v1.WorkflowIdReusePolicy" json:"workflow_id_reuse_policy,omitempty"`
-	// Retries up to workflowExecutionTimeoutSeconds.
+	WorkflowTaskTimeoutSeconds int32  `protobuf:"varint,8,opt,name=workflow_task_timeout_seconds,json=workflowTaskTimeoutSeconds,proto3" json:"workflow_task_timeout_seconds,omitempty"`
+	Identity                   string `protobuf:"bytes,9,opt,name=identity,proto3" json:"identity,omitempty"`
+	RequestId                  string `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	WorkflowIdReusePolicy v11.WorkflowIdReusePolicy `protobuf:"varint,11,opt,name=workflow_id_reuse_policy,json=workflowIdReusePolicy,proto3,enum=temporal.enums.v1.WorkflowIdReusePolicy" json:"workflow_id_reuse_policy,omitempty"`
+	// Retries up to workflow_execution_timeout_seconds.
 	RetryPolicy      *v13.RetryPolicy      `protobuf:"bytes,12,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	CronSchedule     string                `protobuf:"bytes,13,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
 	Memo             *v13.Memo             `protobuf:"bytes,14,opt,name=memo,proto3" json:"memo,omitempty"`
@@ -926,11 +929,12 @@ func (m *StartWorkflowExecutionResponse) GetRunId() string {
 }
 
 type GetWorkflowExecutionHistoryRequest struct {
-	Namespace              string                     `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Execution              *v13.WorkflowExecution     `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
-	MaximumPageSize        int32                      `protobuf:"varint,3,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
-	NextPageToken          []byte                     `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	WaitForNewEvent        bool                       `protobuf:"varint,5,opt,name=wait_for_new_event,json=waitForNewEvent,proto3" json:"wait_for_new_event,omitempty"`
+	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Execution       *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
+	MaximumPageSize int32                  `protobuf:"varint,3,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
+	NextPageToken   []byte                 `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	WaitForNewEvent bool                   `protobuf:"varint,5,opt,name=wait_for_new_event,json=waitForNewEvent,proto3" json:"wait_for_new_event,omitempty"`
+	// Default: HISTORY_EVENT_FILTER_TYPE_ALL_EVENT.
 	HistoryEventFilterType v11.HistoryEventFilterType `protobuf:"varint,6,opt,name=history_event_filter_type,json=historyEventFilterType,proto3,enum=temporal.enums.v1.HistoryEventFilterType" json:"history_event_filter_type,omitempty"`
 	SkipArchival           bool                       `protobuf:"varint,7,opt,name=skip_archival,json=skipArchival,proto3" json:"skip_archival,omitempty"`
 }
@@ -2915,11 +2919,12 @@ type SignalWithStartWorkflowExecutionRequest struct {
 	SignalName                 string                    `protobuf:"bytes,12,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
 	SignalInput                *v13.Payloads             `protobuf:"bytes,13,opt,name=signal_input,json=signalInput,proto3" json:"signal_input,omitempty"`
 	Control                    string                    `protobuf:"bytes,14,opt,name=control,proto3" json:"control,omitempty"`
-	RetryPolicy                *v13.RetryPolicy          `protobuf:"bytes,15,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
-	CronSchedule               string                    `protobuf:"bytes,16,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
-	Memo                       *v13.Memo                 `protobuf:"bytes,17,opt,name=memo,proto3" json:"memo,omitempty"`
-	SearchAttributes           *v13.SearchAttributes     `protobuf:"bytes,18,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	Header                     *v13.Header               `protobuf:"bytes,19,opt,name=header,proto3" json:"header,omitempty"`
+	// Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	RetryPolicy      *v13.RetryPolicy      `protobuf:"bytes,15,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	CronSchedule     string                `protobuf:"bytes,16,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
+	Memo             *v13.Memo             `protobuf:"bytes,17,opt,name=memo,proto3" json:"memo,omitempty"`
+	SearchAttributes *v13.SearchAttributes `protobuf:"bytes,18,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
+	Header           *v13.Header           `protobuf:"bytes,19,opt,name=header,proto3" json:"header,omitempty"`
 }
 
 func (m *SignalWithStartWorkflowExecutionRequest) Reset() {
@@ -4444,7 +4449,8 @@ type QueryWorkflowRequest struct {
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	Query     *v16.WorkflowQuery     `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
-	// QueryRejectCondition can used to reject the query if workflow state does not satisfy condition
+	// QueryRejectCondition can used to reject the query if workflow state does not satisfy condition.
+	// Default: QUERY_REJECT_CONDITION_NONE.
 	QueryRejectCondition v11.QueryRejectCondition `protobuf:"varint,4,opt,name=query_reject_condition,json=queryRejectCondition,proto3,enum=temporal.enums.v1.QueryRejectCondition" json:"query_reject_condition,omitempty"`
 }
 

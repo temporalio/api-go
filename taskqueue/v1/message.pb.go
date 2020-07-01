@@ -50,7 +50,8 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type TaskQueue struct {
-	Name string           `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	// Default: TASK_QUEUE_KIND_NORMAL.
 	Kind v1.TaskQueueKind `protobuf:"varint,2,opt,name=kind,proto3,enum=temporal.enums.v1.TaskQueueKind" json:"kind,omitempty"`
 }
 
