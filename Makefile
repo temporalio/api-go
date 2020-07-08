@@ -1,12 +1,12 @@
 $(VERBOSE).SILENT:
 ############################# Main targets #############################
-# Install everything, update submodule, run all linters, and compile proto files.
-install: grpc-install mockgen-install api-linter-install buf-install update-proto
+# Install everything, update submodule, and compile proto files.
+install: grpc-install mockgen-install update-proto
 
-# Run all linters and compile proto files.
+# Compile proto files.
 proto: grpc grpc-mock copyright
 
-# Update submodule, run all linters, and compile proto files.
+# Update submodule and compile proto files.
 update-proto: update-proto-submodule proto update-dependencies gomodtidy
 ########################################################################
 
@@ -36,7 +36,7 @@ update-proto-submodule:
 	git submodule update --force --remote $(PROTO_ROOT)
 
 ##### Compile proto files for go #####
-grpc: buf api-linter gogo-grpc fix-path
+grpc: gogo-grpc fix-path
 
 go-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for go-gRPC..."
@@ -73,14 +73,6 @@ mockgen-install:
 	printf $(COLOR) "Installing/updating mockgen..."
 	GO111MODULE=off go get -u github.com/golang/mock/mockgen
 
-api-linter-install:
-	printf $(COLOR) "Installing/updating api-linter..."
-	GO111MODULE=off go get -u github.com/googleapis/api-linter/cmd/api-linter
-
-buf-install:
-	printf $(COLOR) "Installing/updating buf..."
-	GO111MODULE=off go get -u github.com/bufbuild/buf/cmd/buf
-
 ##### License header #####
 copyright:
 	printf $(COLOR) "Update license headers..."
@@ -94,15 +86,6 @@ update-dependencies:
 gomodtidy:
 	printf $(COLOR) "go mod tidy..."
 	go mod tidy
-
-##### Linters #####
-api-linter:
-	printf $(COLOR) "Running api-linter..."
-	api-linter --set-exit-status --output-format summary --config api-linter.yaml $(PROTO_FILES)
-
-buf:
-	printf $(COLOR) "Running buf linter..."
-	buf check lint
 
 ##### Clean #####
 clean:

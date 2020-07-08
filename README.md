@@ -1,15 +1,15 @@
 # Temporal proto generated files for Go
 
-Generated Go files from [temporal-proto](https://github.com/temporalio/temporal-proto) repository.
+Generated Go files from [api repository](https://github.com/temporalio/api).
 
 To install in your project run:
 ```
-go get -u go.temporal.io/temporal-proto 
+go get -u go.temporal.io/api
 ```
 
-Run `make all-install` once to install all plugins and tools (`protoc` and `go` must be installed manually).
+Run `make` once to install all plugins and tools (`protoc` and `go` must be installed manually).
 
-Run `make all` to regenerage go files.
+Run `make update-proto` to update submodule and recompile proto files.
 
 ## License
 
