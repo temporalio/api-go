@@ -9,7 +9,7 @@ endif
 
 COLOR := "\e[1;36m%s\e[0m\n"
 
-PROTO_ROOT := temporal-proto
+PROTO_ROOT := proto/api
 PROTO_DIRS = $(sort $(dir $(shell find $(PROTO_ROOT) -name "*.proto")))
 PROTO_OUT := .
 PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/temporalio/gogo-protobuf/protobuf
@@ -50,7 +50,7 @@ go-grpc: clean $(PROTO_OUT)
 	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --proto_path=$(PROTO_IMPORT) --go_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
 fix-path:
-	mv -f $(PROTO_OUT)/temporal/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
+	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
 # Generate mocks
 
@@ -94,7 +94,7 @@ update-dependencies:
 	go get -u -t ./...
 
 gomodtidy:
-	printf $(COLOR) "Run 'go mod tidy'..."
+	printf $(COLOR) "go mod tidy..."
 	go mod tidy
 
 # Clean

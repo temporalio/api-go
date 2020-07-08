@@ -26,7 +26,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	"go.temporal.io/temporal-proto/errordetails/v1"
+	"go.temporal.io/api/errordetails/v1"
 )
 
 type (
