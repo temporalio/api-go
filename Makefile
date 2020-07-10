@@ -7,7 +7,7 @@ install: grpc-install mockgen-install update-proto
 proto: grpc grpc-mock copyright
 
 # Update submodule and compile proto files.
-update-proto: update-proto-submodule proto update-dependencies gomodtidy
+update-proto: update-proto-submodule update-dependencies proto gomodtidy
 ########################################################################
 
 ##### Variables ######
