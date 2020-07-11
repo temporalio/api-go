@@ -153,21 +153,21 @@ type WorkflowServiceClient interface {
 	DeprecateNamespace(ctx context.Context, in *DeprecateNamespaceRequest, opts ...grpc.CallOption) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new long running workflow instance.  It will create the instance with
 	// 'WorkflowExecutionStarted' event in history and also schedule the first WorkflowTask for the worker to make the
-	// first decision for this instance.  It will return 'WorkflowExecutionAlreadyStartedFailure', if an instance already
+	// first command for this instance.  It will return 'WorkflowExecutionAlreadyStartedFailure', if an instance already
 	// exists with same workflowId.
 	StartWorkflowExecution(ctx context.Context, in *StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartWorkflowExecutionResponse, error)
 	// GetWorkflowExecutionHistory returns the history of specified workflow execution.  It fails with 'NotFoundFailure' if specified workflow
 	// execution in unknown to the service.
 	GetWorkflowExecutionHistory(ctx context.Context, in *GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*GetWorkflowExecutionHistoryResponse, error)
 	// PollWorkflowTaskQueue is called by application worker to process WorkflowTask from a specific task queue.  A
-	// WorkflowTask is dispatched to callers for active workflow executions, with pending decisions.
+	// WorkflowTask is dispatched to callers for active workflow executions, with pending commands.
 	// Application is then expected to call 'RespondWorkflowTaskCompleted' API when it is done processing the WorkflowTask.
 	// It will also create a 'WorkflowTaskStarted' event in the history for that session before handing off WorkflowTask to
 	// application worker.
 	PollWorkflowTaskQueue(ctx context.Context, in *PollWorkflowTaskQueueRequest, opts ...grpc.CallOption) (*PollWorkflowTaskQueueResponse, error)
 	// RespondWorkflowTaskCompleted is called by application worker to complete a WorkflowTask handed as a result of
 	// 'PollWorkflowTaskQueue' API call.  Completing a WorkflowTask will result in new events for the workflow execution and
-	// potentially new ActivityTask being created for corresponding decisions.  It will also create a WorkflowTaskCompleted
+	// potentially new ActivityTask being created for corresponding commands.  It will also create a WorkflowTaskCompleted
 	// event in the history for that session.  Use the 'taskToken' provided as response of PollWorkflowTaskQueue API call
 	// for completing the WorkflowTask.
 	// The response could contain a new workflow task if there is one or if the request asking for one.
@@ -178,7 +178,7 @@ type WorkflowServiceClient interface {
 	// WorkflowTaskFailed event to the history of workflow execution for consecutive failures.
 	RespondWorkflowTaskFailed(ctx context.Context, in *RespondWorkflowTaskFailedRequest, opts ...grpc.CallOption) (*RespondWorkflowTaskFailedResponse, error)
 	// PollActivityTaskQueue is called by application worker to process ActivityTask from a specific task queue.  ActivityTask
-	// is dispatched to callers whenever a ScheduleTask decision is made for a workflow execution.
+	// is dispatched to callers whenever a ScheduleTask command is made for a workflow execution.
 	// Application is expected to call 'RespondActivityTaskCompleted' or 'RespondActivityTaskFailed' once it is done
 	// processing the task.
 	// Application also needs to call 'RecordActivityTaskHeartbeat' API within 'heartbeatTimeoutSeconds' interval to
@@ -199,43 +199,43 @@ type WorkflowServiceClient interface {
 	RecordActivityTaskHeartbeatById(ctx context.Context, in *RecordActivityTaskHeartbeatByIdRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatByIdResponse, error)
 	// RespondActivityTaskCompleted is called by application worker when it is done processing an ActivityTask.  It will
 	// result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow so new decisions could be made.  Use the 'taskToken' provided as response of
+	// created for the workflow so new commands could be made.  Use the 'taskToken' provided as response of
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskCompleted(ctx context.Context, in *RespondActivityTaskCompletedRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedResponse, error)
 	// RespondActivityTaskCompletedById is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow so new decisions could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
+	// created for the workflow so new commands could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
 	// WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
 	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskCompletedById(ctx context.Context, in *RespondActivityTaskCompletedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedByIdResponse, error)
 	// RespondActivityTaskFailed is called by application worker when it is done processing an ActivityTask.  It will
 	// result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made.  Use the 'taskToken' provided as response of
+	// created for the workflow instance so new commands could be made.  Use the 'taskToken' provided as response of
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskFailed(ctx context.Context, in *RespondActivityTaskFailedRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedResponse, error)
 	// RespondActivityTaskFailedById is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made.  Similar to RespondActivityTaskFailed but use
+	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskFailed but use
 	// Namespace, WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
 	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskFailedById(ctx context.Context, in *RespondActivityTaskFailedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedByIdResponse, error)
 	// RespondActivityTaskCanceled is called by application worker when it is successfully canceled an ActivityTask.  It will
 	// result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made.  Use the 'taskToken' provided as response of
+	// created for the workflow instance so new commands could be made.  Use the 'taskToken' provided as response of
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskCanceled(ctx context.Context, in *RespondActivityTaskCanceledRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledResponse, error)
 	// RespondActivityTaskCanceledById is called by application worker when it is successfully canceled an ActivityTask.
 	// It will result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made.  Similar to RespondActivityTaskCanceled but use
+	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskCanceled but use
 	// Namespace, WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
 	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskCanceledById(ctx context.Context, in *RespondActivityTaskCanceledByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledByIdResponse, error)
 	// RequestCancelWorkflowExecution is called by application worker when it wants to request cancellation of a workflow instance.
 	// It will result in a new 'WorkflowExecutionCancelRequested' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made. It fails with 'NotFoundFailure' if the workflow is not valid
+	// created for the workflow instance so new commands could be made. It fails with 'NotFoundFailure' if the workflow is not valid
 	// anymore due to completion or doesn't exist.
 	RequestCancelWorkflowExecution(ctx context.Context, in *RequestCancelWorkflowExecutionRequest, opts ...grpc.CallOption) (*RequestCancelWorkflowExecutionResponse, error)
 	// SignalWorkflowExecution is used to send a signal event to running workflow execution.  This results in
@@ -664,21 +664,21 @@ type WorkflowServiceServer interface {
 	DeprecateNamespace(context.Context, *DeprecateNamespaceRequest) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new long running workflow instance.  It will create the instance with
 	// 'WorkflowExecutionStarted' event in history and also schedule the first WorkflowTask for the worker to make the
-	// first decision for this instance.  It will return 'WorkflowExecutionAlreadyStartedFailure', if an instance already
+	// first command for this instance.  It will return 'WorkflowExecutionAlreadyStartedFailure', if an instance already
 	// exists with same workflowId.
 	StartWorkflowExecution(context.Context, *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error)
 	// GetWorkflowExecutionHistory returns the history of specified workflow execution.  It fails with 'NotFoundFailure' if specified workflow
 	// execution in unknown to the service.
 	GetWorkflowExecutionHistory(context.Context, *GetWorkflowExecutionHistoryRequest) (*GetWorkflowExecutionHistoryResponse, error)
 	// PollWorkflowTaskQueue is called by application worker to process WorkflowTask from a specific task queue.  A
-	// WorkflowTask is dispatched to callers for active workflow executions, with pending decisions.
+	// WorkflowTask is dispatched to callers for active workflow executions, with pending commands.
 	// Application is then expected to call 'RespondWorkflowTaskCompleted' API when it is done processing the WorkflowTask.
 	// It will also create a 'WorkflowTaskStarted' event in the history for that session before handing off WorkflowTask to
 	// application worker.
 	PollWorkflowTaskQueue(context.Context, *PollWorkflowTaskQueueRequest) (*PollWorkflowTaskQueueResponse, error)
 	// RespondWorkflowTaskCompleted is called by application worker to complete a WorkflowTask handed as a result of
 	// 'PollWorkflowTaskQueue' API call.  Completing a WorkflowTask will result in new events for the workflow execution and
-	// potentially new ActivityTask being created for corresponding decisions.  It will also create a WorkflowTaskCompleted
+	// potentially new ActivityTask being created for corresponding commands.  It will also create a WorkflowTaskCompleted
 	// event in the history for that session.  Use the 'taskToken' provided as response of PollWorkflowTaskQueue API call
 	// for completing the WorkflowTask.
 	// The response could contain a new workflow task if there is one or if the request asking for one.
@@ -689,7 +689,7 @@ type WorkflowServiceServer interface {
 	// WorkflowTaskFailed event to the history of workflow execution for consecutive failures.
 	RespondWorkflowTaskFailed(context.Context, *RespondWorkflowTaskFailedRequest) (*RespondWorkflowTaskFailedResponse, error)
 	// PollActivityTaskQueue is called by application worker to process ActivityTask from a specific task queue.  ActivityTask
-	// is dispatched to callers whenever a ScheduleTask decision is made for a workflow execution.
+	// is dispatched to callers whenever a ScheduleTask command is made for a workflow execution.
 	// Application is expected to call 'RespondActivityTaskCompleted' or 'RespondActivityTaskFailed' once it is done
 	// processing the task.
 	// Application also needs to call 'RecordActivityTaskHeartbeat' API within 'heartbeatTimeoutSeconds' interval to
@@ -710,43 +710,43 @@ type WorkflowServiceServer interface {
 	RecordActivityTaskHeartbeatById(context.Context, *RecordActivityTaskHeartbeatByIdRequest) (*RecordActivityTaskHeartbeatByIdResponse, error)
 	// RespondActivityTaskCompleted is called by application worker when it is done processing an ActivityTask.  It will
 	// result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow so new decisions could be made.  Use the 'taskToken' provided as response of
+	// created for the workflow so new commands could be made.  Use the 'taskToken' provided as response of
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskCompleted(context.Context, *RespondActivityTaskCompletedRequest) (*RespondActivityTaskCompletedResponse, error)
 	// RespondActivityTaskCompletedById is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow so new decisions could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
+	// created for the workflow so new commands could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
 	// WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
 	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskCompletedById(context.Context, *RespondActivityTaskCompletedByIdRequest) (*RespondActivityTaskCompletedByIdResponse, error)
 	// RespondActivityTaskFailed is called by application worker when it is done processing an ActivityTask.  It will
 	// result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made.  Use the 'taskToken' provided as response of
+	// created for the workflow instance so new commands could be made.  Use the 'taskToken' provided as response of
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskFailed(context.Context, *RespondActivityTaskFailedRequest) (*RespondActivityTaskFailedResponse, error)
 	// RespondActivityTaskFailedById is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made.  Similar to RespondActivityTaskFailed but use
+	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskFailed but use
 	// Namespace, WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
 	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskFailedById(context.Context, *RespondActivityTaskFailedByIdRequest) (*RespondActivityTaskFailedByIdResponse, error)
 	// RespondActivityTaskCanceled is called by application worker when it is successfully canceled an ActivityTask.  It will
 	// result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made.  Use the 'taskToken' provided as response of
+	// created for the workflow instance so new commands could be made.  Use the 'taskToken' provided as response of
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskCanceled(context.Context, *RespondActivityTaskCanceledRequest) (*RespondActivityTaskCanceledResponse, error)
 	// RespondActivityTaskCanceledById is called by application worker when it is successfully canceled an ActivityTask.
 	// It will result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made.  Similar to RespondActivityTaskCanceled but use
+	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskCanceled but use
 	// Namespace, WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
 	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskCanceledById(context.Context, *RespondActivityTaskCanceledByIdRequest) (*RespondActivityTaskCanceledByIdResponse, error)
 	// RequestCancelWorkflowExecution is called by application worker when it wants to request cancellation of a workflow instance.
 	// It will result in a new 'WorkflowExecutionCancelRequested' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new decisions could be made. It fails with 'NotFoundFailure' if the workflow is not valid
+	// created for the workflow instance so new commands could be made. It fails with 'NotFoundFailure' if the workflow is not valid
 	// anymore due to completion or doesn't exist.
 	RequestCancelWorkflowExecution(context.Context, *RequestCancelWorkflowExecutionRequest) (*RequestCancelWorkflowExecutionResponse, error)
 	// SignalWorkflowExecution is used to send a signal event to running workflow execution.  This results in
