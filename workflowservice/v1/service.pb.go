@@ -160,7 +160,7 @@ type WorkflowServiceClient interface {
 	// execution in unknown to the service.
 	GetWorkflowExecutionHistory(ctx context.Context, in *GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*GetWorkflowExecutionHistoryResponse, error)
 	// PollWorkflowTaskQueue is called by application worker to process WorkflowTask from a specific task queue.  A
-	// WorkflowTask is dispatched to callers for active workflow executions, with pending commands.
+	// WorkflowTask is dispatched to callers for active workflow executions, with pending workflow tasks.
 	// Application is then expected to call 'RespondWorkflowTaskCompleted' API when it is done processing the WorkflowTask.
 	// It will also create a 'WorkflowTaskStarted' event in the history for that session before handing off WorkflowTask to
 	// application worker.
@@ -671,7 +671,7 @@ type WorkflowServiceServer interface {
 	// execution in unknown to the service.
 	GetWorkflowExecutionHistory(context.Context, *GetWorkflowExecutionHistoryRequest) (*GetWorkflowExecutionHistoryResponse, error)
 	// PollWorkflowTaskQueue is called by application worker to process WorkflowTask from a specific task queue.  A
-	// WorkflowTask is dispatched to callers for active workflow executions, with pending commands.
+	// WorkflowTask is dispatched to callers for active workflow executions, with pending workflow tasks.
 	// Application is then expected to call 'RespondWorkflowTaskCompleted' API when it is done processing the WorkflowTask.
 	// It will also create a 'WorkflowTaskStarted' event in the history for that session before handing off WorkflowTask to
 	// application worker.

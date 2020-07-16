@@ -26,7 +26,6 @@
 package errordetails
 
 import (
-	bytes "bytes"
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
 	io "io"
@@ -210,164 +209,6 @@ func (m *NamespaceNotActiveFailure) GetActiveCluster() string {
 	return ""
 }
 
-type RetryTaskFailure struct {
-	NamespaceId string `protobuf:"bytes,1,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
-	WorkflowId  string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId       string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	NextEventId int64  `protobuf:"varint,4,opt,name=next_event_id,json=nextEventId,proto3" json:"next_event_id,omitempty"`
-}
-
-func (m *RetryTaskFailure) Reset()      { *m = RetryTaskFailure{} }
-func (*RetryTaskFailure) ProtoMessage() {}
-func (*RetryTaskFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{3}
-}
-func (m *RetryTaskFailure) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *RetryTaskFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_RetryTaskFailure.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *RetryTaskFailure) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RetryTaskFailure.Merge(m, src)
-}
-func (m *RetryTaskFailure) XXX_Size() int {
-	return m.Size()
-}
-func (m *RetryTaskFailure) XXX_DiscardUnknown() {
-	xxx_messageInfo_RetryTaskFailure.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_RetryTaskFailure proto.InternalMessageInfo
-
-func (m *RetryTaskFailure) GetNamespaceId() string {
-	if m != nil {
-		return m.NamespaceId
-	}
-	return ""
-}
-
-func (m *RetryTaskFailure) GetWorkflowId() string {
-	if m != nil {
-		return m.WorkflowId
-	}
-	return ""
-}
-
-func (m *RetryTaskFailure) GetRunId() string {
-	if m != nil {
-		return m.RunId
-	}
-	return ""
-}
-
-func (m *RetryTaskFailure) GetNextEventId() int64 {
-	if m != nil {
-		return m.NextEventId
-	}
-	return 0
-}
-
-type RetryTaskV2Failure struct {
-	NamespaceId       string `protobuf:"bytes,1,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
-	WorkflowId        string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId             string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	StartEventId      int64  `protobuf:"varint,4,opt,name=start_event_id,json=startEventId,proto3" json:"start_event_id,omitempty"`
-	StartEventVersion int64  `protobuf:"varint,5,opt,name=start_event_version,json=startEventVersion,proto3" json:"start_event_version,omitempty"`
-	EndEventId        int64  `protobuf:"varint,6,opt,name=end_event_id,json=endEventId,proto3" json:"end_event_id,omitempty"`
-	EndEventVersion   int64  `protobuf:"varint,7,opt,name=end_event_version,json=endEventVersion,proto3" json:"end_event_version,omitempty"`
-}
-
-func (m *RetryTaskV2Failure) Reset()      { *m = RetryTaskV2Failure{} }
-func (*RetryTaskV2Failure) ProtoMessage() {}
-func (*RetryTaskV2Failure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{4}
-}
-func (m *RetryTaskV2Failure) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *RetryTaskV2Failure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_RetryTaskV2Failure.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *RetryTaskV2Failure) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RetryTaskV2Failure.Merge(m, src)
-}
-func (m *RetryTaskV2Failure) XXX_Size() int {
-	return m.Size()
-}
-func (m *RetryTaskV2Failure) XXX_DiscardUnknown() {
-	xxx_messageInfo_RetryTaskV2Failure.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_RetryTaskV2Failure proto.InternalMessageInfo
-
-func (m *RetryTaskV2Failure) GetNamespaceId() string {
-	if m != nil {
-		return m.NamespaceId
-	}
-	return ""
-}
-
-func (m *RetryTaskV2Failure) GetWorkflowId() string {
-	if m != nil {
-		return m.WorkflowId
-	}
-	return ""
-}
-
-func (m *RetryTaskV2Failure) GetRunId() string {
-	if m != nil {
-		return m.RunId
-	}
-	return ""
-}
-
-func (m *RetryTaskV2Failure) GetStartEventId() int64 {
-	if m != nil {
-		return m.StartEventId
-	}
-	return 0
-}
-
-func (m *RetryTaskV2Failure) GetStartEventVersion() int64 {
-	if m != nil {
-		return m.StartEventVersion
-	}
-	return 0
-}
-
-func (m *RetryTaskV2Failure) GetEndEventId() int64 {
-	if m != nil {
-		return m.EndEventId
-	}
-	return 0
-}
-
-func (m *RetryTaskV2Failure) GetEndEventVersion() int64 {
-	if m != nil {
-		return m.EndEventVersion
-	}
-	return 0
-}
-
 type ClientVersionNotSupportedFailure struct {
 	ClientVersion     string `protobuf:"bytes,1,opt,name=client_version,json=clientVersion,proto3" json:"client_version,omitempty"`
 	ClientImpl        string `protobuf:"bytes,2,opt,name=client_impl,json=clientImpl,proto3" json:"client_impl,omitempty"`
@@ -377,7 +218,7 @@ type ClientVersionNotSupportedFailure struct {
 func (m *ClientVersionNotSupportedFailure) Reset()      { *m = ClientVersionNotSupportedFailure{} }
 func (*ClientVersionNotSupportedFailure) ProtoMessage() {}
 func (*ClientVersionNotSupportedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{5}
+	return fileDescriptor_2ed300ab0b02d291, []int{3}
 }
 func (m *ClientVersionNotSupportedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -436,7 +277,7 @@ type FeatureVersionNotSupportedFailure struct {
 func (m *FeatureVersionNotSupportedFailure) Reset()      { *m = FeatureVersionNotSupportedFailure{} }
 func (*FeatureVersionNotSupportedFailure) ProtoMessage() {}
 func (*FeatureVersionNotSupportedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{6}
+	return fileDescriptor_2ed300ab0b02d291, []int{4}
 }
 func (m *FeatureVersionNotSupportedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -486,99 +327,13 @@ func (m *FeatureVersionNotSupportedFailure) GetSupportedVersions() string {
 	return ""
 }
 
-type CurrentBranchChangedFailure struct {
-	CurrentBranchToken []byte `protobuf:"bytes,1,opt,name=current_branch_token,json=currentBranchToken,proto3" json:"current_branch_token,omitempty"`
-}
-
-func (m *CurrentBranchChangedFailure) Reset()      { *m = CurrentBranchChangedFailure{} }
-func (*CurrentBranchChangedFailure) ProtoMessage() {}
-func (*CurrentBranchChangedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{7}
-}
-func (m *CurrentBranchChangedFailure) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *CurrentBranchChangedFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_CurrentBranchChangedFailure.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *CurrentBranchChangedFailure) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CurrentBranchChangedFailure.Merge(m, src)
-}
-func (m *CurrentBranchChangedFailure) XXX_Size() int {
-	return m.Size()
-}
-func (m *CurrentBranchChangedFailure) XXX_DiscardUnknown() {
-	xxx_messageInfo_CurrentBranchChangedFailure.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_CurrentBranchChangedFailure proto.InternalMessageInfo
-
-func (m *CurrentBranchChangedFailure) GetCurrentBranchToken() []byte {
-	if m != nil {
-		return m.CurrentBranchToken
-	}
-	return nil
-}
-
-type ShardOwnershipLostFailure struct {
-	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-}
-
-func (m *ShardOwnershipLostFailure) Reset()      { *m = ShardOwnershipLostFailure{} }
-func (*ShardOwnershipLostFailure) ProtoMessage() {}
-func (*ShardOwnershipLostFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{8}
-}
-func (m *ShardOwnershipLostFailure) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *ShardOwnershipLostFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_ShardOwnershipLostFailure.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *ShardOwnershipLostFailure) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ShardOwnershipLostFailure.Merge(m, src)
-}
-func (m *ShardOwnershipLostFailure) XXX_Size() int {
-	return m.Size()
-}
-func (m *ShardOwnershipLostFailure) XXX_DiscardUnknown() {
-	xxx_messageInfo_ShardOwnershipLostFailure.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ShardOwnershipLostFailure proto.InternalMessageInfo
-
-func (m *ShardOwnershipLostFailure) GetOwner() string {
-	if m != nil {
-		return m.Owner
-	}
-	return ""
-}
-
 type NamespaceAlreadyExistsFailure struct {
 }
 
 func (m *NamespaceAlreadyExistsFailure) Reset()      { *m = NamespaceAlreadyExistsFailure{} }
 func (*NamespaceAlreadyExistsFailure) ProtoMessage() {}
 func (*NamespaceAlreadyExistsFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{9}
+	return fileDescriptor_2ed300ab0b02d291, []int{5}
 }
 func (m *NamespaceAlreadyExistsFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -613,7 +368,7 @@ type CancellationAlreadyRequestedFailure struct {
 func (m *CancellationAlreadyRequestedFailure) Reset()      { *m = CancellationAlreadyRequestedFailure{} }
 func (*CancellationAlreadyRequestedFailure) ProtoMessage() {}
 func (*CancellationAlreadyRequestedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{10}
+	return fileDescriptor_2ed300ab0b02d291, []int{6}
 }
 func (m *CancellationAlreadyRequestedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -648,7 +403,7 @@ type QueryFailedFailure struct {
 func (m *QueryFailedFailure) Reset()      { *m = QueryFailedFailure{} }
 func (*QueryFailedFailure) ProtoMessage() {}
 func (*QueryFailedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{11}
+	return fileDescriptor_2ed300ab0b02d291, []int{7}
 }
 func (m *QueryFailedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -677,55 +432,15 @@ func (m *QueryFailedFailure) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QueryFailedFailure proto.InternalMessageInfo
 
-type EventAlreadyStartedFailure struct {
-}
-
-func (m *EventAlreadyStartedFailure) Reset()      { *m = EventAlreadyStartedFailure{} }
-func (*EventAlreadyStartedFailure) ProtoMessage() {}
-func (*EventAlreadyStartedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{12}
-}
-func (m *EventAlreadyStartedFailure) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *EventAlreadyStartedFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_EventAlreadyStartedFailure.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *EventAlreadyStartedFailure) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EventAlreadyStartedFailure.Merge(m, src)
-}
-func (m *EventAlreadyStartedFailure) XXX_Size() int {
-	return m.Size()
-}
-func (m *EventAlreadyStartedFailure) XXX_DiscardUnknown() {
-	xxx_messageInfo_EventAlreadyStartedFailure.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EventAlreadyStartedFailure proto.InternalMessageInfo
-
 func init() {
 	proto.RegisterType((*NotFoundFailure)(nil), "temporal.api.errordetails.v1.NotFoundFailure")
 	proto.RegisterType((*WorkflowExecutionAlreadyStartedFailure)(nil), "temporal.api.errordetails.v1.WorkflowExecutionAlreadyStartedFailure")
 	proto.RegisterType((*NamespaceNotActiveFailure)(nil), "temporal.api.errordetails.v1.NamespaceNotActiveFailure")
-	proto.RegisterType((*RetryTaskFailure)(nil), "temporal.api.errordetails.v1.RetryTaskFailure")
-	proto.RegisterType((*RetryTaskV2Failure)(nil), "temporal.api.errordetails.v1.RetryTaskV2Failure")
 	proto.RegisterType((*ClientVersionNotSupportedFailure)(nil), "temporal.api.errordetails.v1.ClientVersionNotSupportedFailure")
 	proto.RegisterType((*FeatureVersionNotSupportedFailure)(nil), "temporal.api.errordetails.v1.FeatureVersionNotSupportedFailure")
-	proto.RegisterType((*CurrentBranchChangedFailure)(nil), "temporal.api.errordetails.v1.CurrentBranchChangedFailure")
-	proto.RegisterType((*ShardOwnershipLostFailure)(nil), "temporal.api.errordetails.v1.ShardOwnershipLostFailure")
 	proto.RegisterType((*NamespaceAlreadyExistsFailure)(nil), "temporal.api.errordetails.v1.NamespaceAlreadyExistsFailure")
 	proto.RegisterType((*CancellationAlreadyRequestedFailure)(nil), "temporal.api.errordetails.v1.CancellationAlreadyRequestedFailure")
 	proto.RegisterType((*QueryFailedFailure)(nil), "temporal.api.errordetails.v1.QueryFailedFailure")
-	proto.RegisterType((*EventAlreadyStartedFailure)(nil), "temporal.api.errordetails.v1.EventAlreadyStartedFailure")
 }
 
 func init() {
@@ -733,52 +448,39 @@ func init() {
 }
 
 var fileDescriptor_2ed300ab0b02d291 = []byte{
-	// 712 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x54, 0xcf, 0x4f, 0xd4, 0x4c,
-	0x18, 0xde, 0x81, 0x0f, 0x08, 0x2f, 0xcb, 0xaf, 0x7e, 0x7c, 0xc9, 0xf2, 0x89, 0x65, 0xa9, 0xa2,
-	0x84, 0xc4, 0x5d, 0xd1, 0xa3, 0x27, 0xd8, 0x40, 0xb2, 0x89, 0x2e, 0xb8, 0x10, 0x4c, 0xbc, 0x6c,
-	0x86, 0x76, 0x60, 0x27, 0x74, 0x67, 0xea, 0xcc, 0x74, 0x81, 0x9b, 0x57, 0x6f, 0x1a, 0xa3, 0x89,
-	0xff, 0x81, 0x7f, 0x8a, 0x47, 0x8e, 0x1c, 0xa5, 0x5c, 0x3c, 0xf2, 0x27, 0x98, 0xb6, 0x33, 0x6d,
-	0x31, 0x1b, 0xa2, 0x17, 0x6f, 0x9d, 0xe7, 0x7d, 0xe6, 0x99, 0xe7, 0x7d, 0x3b, 0xf3, 0xc0, 0xaa,
-	0x22, 0xbd, 0x80, 0x0b, 0xec, 0xd7, 0x71, 0x40, 0xeb, 0x44, 0x08, 0x2e, 0x3c, 0xa2, 0x30, 0xf5,
-	0x65, 0xbd, 0xbf, 0x56, 0xef, 0x11, 0x29, 0xf1, 0x11, 0xa9, 0x05, 0x82, 0x2b, 0x6e, 0x2d, 0x18,
-	0x6e, 0x0d, 0x07, 0xb4, 0x56, 0xe4, 0xd6, 0xfa, 0x6b, 0x0e, 0x86, 0xe9, 0x16, 0x57, 0x5b, 0x3c,
-	0x64, 0xde, 0x16, 0xa6, 0x7e, 0x28, 0x88, 0xf5, 0x10, 0xa6, 0xdd, 0x50, 0x08, 0xc2, 0x54, 0xc7,
-	0xf5, 0x43, 0xa9, 0x88, 0xa8, 0xa0, 0x2a, 0x5a, 0x19, 0x6f, 0x4f, 0x69, 0xb8, 0x91, 0xa2, 0xd6,
-	0x32, 0x4c, 0x61, 0x57, 0xd1, 0x3e, 0xc9, 0x78, 0x43, 0x09, 0x6f, 0x32, 0x45, 0x35, 0xcd, 0xa1,
-	0xf0, 0xe0, 0x15, 0x17, 0xc7, 0x87, 0x3e, 0x3f, 0xd9, 0x3c, 0x25, 0x6e, 0xa8, 0x28, 0x67, 0xeb,
-	0xbe, 0x20, 0xd8, 0x3b, 0xdb, 0x55, 0x58, 0x28, 0x92, 0x9d, 0xbc, 0x02, 0x33, 0x32, 0x46, 0x3a,
-	0x82, 0xbc, 0x09, 0x89, 0x54, 0x1d, 0xea, 0x99, 0xa3, 0x13, 0xbc, 0x9d, 0xc2, 0x4d, 0xcf, 0xfa,
-	0x0f, 0x46, 0x45, 0xc8, 0xe2, 0x7a, 0x7a, 0xe4, 0x88, 0x08, 0x59, 0xd3, 0x73, 0xde, 0x21, 0x98,
-	0x6f, 0xe1, 0x1e, 0x91, 0x01, 0x76, 0x49, 0x8b, 0xab, 0xf5, 0xc4, 0x88, 0x91, 0x5f, 0x80, 0x71,
-	0x66, 0x8a, 0x5a, 0x37, 0x07, 0x06, 0xb5, 0x3d, 0xf4, 0x9b, 0x6d, 0x0f, 0x0f, 0x6a, 0xfb, 0x03,
-	0x82, 0x99, 0x36, 0x51, 0xe2, 0x6c, 0x0f, 0xcb, 0x63, 0x63, 0x61, 0x09, 0xca, 0xd9, 0x89, 0x79,
-	0x77, 0x13, 0x19, 0xd6, 0xf4, 0xac, 0x45, 0x98, 0x38, 0xd1, 0xe3, 0xca, 0xfb, 0x03, 0x03, 0xdd,
-	0xe8, 0x7d, 0xb8, 0xd0, 0xbb, 0xe5, 0xc0, 0x24, 0x23, 0xa7, 0xaa, 0x43, 0xfa, 0x71, 0x0b, 0xd4,
-	0xab, 0xfc, 0x53, 0x45, 0x2b, 0xc3, 0xed, 0x89, 0x18, 0xdc, 0x8c, 0xb1, 0xa6, 0xe7, 0x7c, 0x1c,
-	0x02, 0x2b, 0xf3, 0xb4, 0xff, 0xe4, 0x2f, 0xb8, 0xba, 0x0f, 0xe9, 0xaf, 0xfb, 0xd5, 0x56, 0x39,
-	0x41, 0xb5, 0x2f, 0xab, 0x06, 0xff, 0x16, 0x59, 0x7d, 0x22, 0x24, 0xe5, 0xac, 0x32, 0x92, 0x50,
-	0x67, 0x73, 0xea, 0x7e, 0x5a, 0xb0, 0xaa, 0x50, 0x26, 0xcc, 0xcb, 0x35, 0x47, 0x13, 0x22, 0x10,
-	0xe6, 0x19, 0xc5, 0x55, 0x98, 0xcd, 0x19, 0x46, 0x6f, 0x2c, 0xa1, 0x4d, 0x1b, 0x9a, 0x56, 0x73,
-	0xbe, 0x20, 0xa8, 0x36, 0x7c, 0x9a, 0x23, 0x2d, 0xae, 0x76, 0xc3, 0x20, 0xe0, 0xc5, 0xbb, 0xb9,
-	0x0c, 0x53, 0x6e, 0xc2, 0xc9, 0xd4, 0xd2, 0x29, 0x4d, 0xba, 0xc5, 0x9d, 0xf1, 0x9c, 0x34, 0x8d,
-	0xf6, 0x02, 0xdf, 0xcc, 0x29, 0x85, 0x9a, 0xbd, 0xc0, 0xb7, 0x1e, 0x81, 0x25, 0x8d, 0xb6, 0x91,
-	0x92, 0x7a, 0x66, 0xb3, 0x59, 0x45, 0xcb, 0x49, 0xe7, 0x13, 0x82, 0xa5, 0x2d, 0x82, 0x55, 0x28,
-	0xc8, 0x2d, 0xe6, 0x2a, 0x30, 0x76, 0x98, 0x92, 0xb4, 0x2b, 0xb3, 0x8c, 0x6f, 0xb5, 0xfe, 0xcc,
-	0x7c, 0xeb, 0x5b, 0x7d, 0x78, 0x43, 0xf5, 0x4f, 0x7d, 0x6d, 0xc3, 0x9d, 0x46, 0xfa, 0x2c, 0x36,
-	0x04, 0x66, 0x6e, 0xb7, 0xd1, 0xc5, 0xec, 0x28, 0x37, 0xf4, 0x18, 0xe6, 0xcc, 0x63, 0x3a, 0x48,
-	0xea, 0x1d, 0xc5, 0x8f, 0x49, 0x3a, 0xb3, 0x72, 0xdb, 0x72, 0x8b, 0x5b, 0xf7, 0xe2, 0x8a, 0xb3,
-	0x06, 0xf3, 0xbb, 0x5d, 0x2c, 0xbc, 0xed, 0x13, 0x46, 0x84, 0xec, 0xd2, 0xe0, 0x39, 0x97, 0xca,
-	0xc8, 0xcd, 0xc1, 0x08, 0x8f, 0x71, 0xdd, 0x5d, 0xba, 0x70, 0x16, 0xe1, 0x6e, 0xf6, 0xd8, 0x75,
-	0xa0, 0x6c, 0x9e, 0x52, 0xa9, 0xa4, 0xde, 0xe6, 0x2c, 0xc3, 0xbd, 0x06, 0x66, 0x2e, 0xf1, 0x7d,
-	0x5c, 0x08, 0x1d, 0x9d, 0x22, 0x99, 0x59, 0x67, 0x0e, 0xac, 0x97, 0x21, 0x11, 0x67, 0xf1, 0x3a,
-	0x47, 0x17, 0xe0, 0xff, 0xe4, 0x96, 0x0c, 0x8c, 0xaa, 0x8d, 0xcf, 0xe8, 0xfc, 0xd2, 0x2e, 0x5d,
-	0x5c, 0xda, 0xa5, 0xeb, 0x4b, 0x1b, 0xbd, 0x8d, 0x6c, 0xf4, 0x35, 0xb2, 0xd1, 0xb7, 0xc8, 0x46,
-	0xe7, 0x91, 0x8d, 0xbe, 0x47, 0x36, 0xfa, 0x11, 0xd9, 0xa5, 0xeb, 0xc8, 0x46, 0xef, 0xaf, 0xec,
-	0xd2, 0xf9, 0x95, 0x5d, 0xba, 0xb8, 0xb2, 0x4b, 0xb0, 0x48, 0x79, 0xed, 0xb6, 0x3c, 0xde, 0x28,
-	0xbf, 0x48, 0xc3, 0x7b, 0x27, 0xce, 0xee, 0x1d, 0xf4, 0xba, 0x7e, 0x54, 0xd8, 0x40, 0xf9, 0xa0,
-	0xbc, 0x7f, 0x56, 0x5c, 0x1f, 0x8c, 0x26, 0xa9, 0xff, 0xf4, 0x67, 0x00, 0x00, 0x00, 0xff, 0xff,
-	0x58, 0x2e, 0xc4, 0x2d, 0x23, 0x06, 0x00, 0x00,
+	// 505 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0xcf, 0x6b, 0xd4, 0x40,
+	0x14, 0xce, 0x54, 0xac, 0xf4, 0x69, 0xb7, 0x1a, 0x14, 0x2a, 0xd4, 0xd9, 0x1a, 0x59, 0x2d, 0x82,
+	0xbb, 0x14, 0x8f, 0x9e, 0xda, 0xa5, 0x0b, 0x7b, 0x70, 0xa9, 0x2d, 0x28, 0x78, 0x59, 0xc6, 0xe4,
+	0x6d, 0x19, 0x9c, 0x64, 0xe2, 0xfc, 0x58, 0xdb, 0x9b, 0x57, 0x6f, 0x5e, 0x14, 0xfc, 0x0f, 0xfc,
+	0x53, 0x3c, 0xee, 0xb1, 0x47, 0x37, 0x7b, 0xf1, 0xd8, 0x3f, 0x41, 0x92, 0x4c, 0x62, 0x84, 0xa5,
+	0xd8, 0x5b, 0xe6, 0x7b, 0xdf, 0x7c, 0xef, 0x7b, 0x93, 0xf7, 0xc1, 0x53, 0x83, 0x71, 0x2a, 0x15,
+	0x13, 0x3d, 0x96, 0xf2, 0x1e, 0x2a, 0x25, 0x55, 0x84, 0x86, 0x71, 0xa1, 0x7b, 0xd3, 0xdd, 0x5e,
+	0x8c, 0x5a, 0xb3, 0x13, 0xec, 0xa6, 0x4a, 0x1a, 0xe9, 0x6f, 0x55, 0xdc, 0x2e, 0x4b, 0x79, 0xb7,
+	0xc9, 0xed, 0x4e, 0x77, 0x03, 0x06, 0x1b, 0x23, 0x69, 0x06, 0xd2, 0x26, 0xd1, 0x80, 0x71, 0x61,
+	0x15, 0xfa, 0x4f, 0x60, 0x23, 0xb4, 0x4a, 0x61, 0x62, 0xc6, 0xa1, 0xb0, 0xda, 0xa0, 0xda, 0x24,
+	0xdb, 0x64, 0x67, 0xed, 0xa8, 0xe5, 0xe0, 0x7e, 0x89, 0xfa, 0x1d, 0x68, 0xb1, 0xd0, 0xf0, 0x29,
+	0xd6, 0xbc, 0x95, 0x82, 0xb7, 0x5e, 0xa2, 0x8e, 0x16, 0x70, 0x78, 0xfc, 0x46, 0xaa, 0xf7, 0x13,
+	0x21, 0x3f, 0x1e, 0x9c, 0x62, 0x68, 0x0d, 0x97, 0xc9, 0x9e, 0x50, 0xc8, 0xa2, 0xb3, 0x63, 0xc3,
+	0x94, 0xc1, 0xba, 0xf3, 0x0e, 0xdc, 0xd6, 0x39, 0x32, 0x56, 0xf8, 0xc1, 0xa2, 0x36, 0x63, 0x1e,
+	0x55, 0xad, 0x0b, 0xfc, 0xa8, 0x84, 0x87, 0x91, 0x7f, 0x0f, 0x56, 0x95, 0x4d, 0xf2, 0x7a, 0xd9,
+	0xf2, 0xba, 0xb2, 0xc9, 0x30, 0x0a, 0x3e, 0x13, 0xb8, 0x3f, 0x62, 0x31, 0xea, 0x94, 0x85, 0x38,
+	0x92, 0x66, 0xaf, 0x30, 0x52, 0xc9, 0x6f, 0xc1, 0x5a, 0x52, 0x15, 0x9d, 0xee, 0x5f, 0x60, 0xd9,
+	0xd8, 0x2b, 0xff, 0x39, 0xf6, 0xb5, 0x65, 0x63, 0x7f, 0x27, 0xb0, 0xdd, 0x17, 0x1c, 0x13, 0xf3,
+	0x1a, 0x95, 0xe6, 0x32, 0x19, 0x49, 0x73, 0x6c, 0xd3, 0x54, 0x36, 0x27, 0xee, 0x40, 0x2b, 0x2c,
+	0x38, 0xe3, 0x69, 0x49, 0x72, 0xbe, 0xd6, 0xc3, 0xe6, 0x4d, 0xbf, 0x0d, 0x37, 0x1d, 0x8d, 0xc7,
+	0xa9, 0x70, 0xbe, 0xa0, 0x84, 0x86, 0x71, 0x2a, 0xfc, 0x67, 0xe0, 0xeb, 0x4a, 0xbb, 0x92, 0xd2,
+	0xce, 0xd7, 0x9d, 0xba, 0xe2, 0xe4, 0x74, 0xf0, 0x95, 0xc0, 0xc3, 0x01, 0x32, 0x63, 0x15, 0x5e,
+	0x62, 0x6e, 0x13, 0x6e, 0x4c, 0x4a, 0x92, 0x73, 0x55, 0x1d, 0xf3, 0xb7, 0x72, 0x9f, 0xb5, 0x6f,
+	0xf7, 0x56, 0x93, 0x7f, 0x54, 0xaf, 0xea, 0xab, 0x0d, 0x0f, 0xea, 0xdf, 0xe7, 0x56, 0xe4, 0xe0,
+	0x94, 0x6b, 0xa3, 0x9d, 0xa5, 0xa0, 0x03, 0x8f, 0xfa, 0x2c, 0x09, 0x51, 0x08, 0xd6, 0x58, 0x23,
+	0xb7, 0x17, 0xb5, 0xf3, 0xe0, 0x2e, 0xf8, 0xaf, 0x2c, 0xaa, 0xb3, 0xfc, 0x5c, 0xa3, 0xfb, 0xdf,
+	0xc8, 0x6c, 0x4e, 0xbd, 0xf3, 0x39, 0xf5, 0x2e, 0xe6, 0x94, 0x7c, 0xca, 0x28, 0xf9, 0x91, 0x51,
+	0xf2, 0x33, 0xa3, 0x64, 0x96, 0x51, 0xf2, 0x2b, 0xa3, 0xe4, 0x77, 0x46, 0xbd, 0x8b, 0x8c, 0x92,
+	0x2f, 0x0b, 0xea, 0xcd, 0x16, 0xd4, 0x3b, 0x5f, 0x50, 0x0f, 0xda, 0x5c, 0x76, 0x2f, 0xcb, 0xd0,
+	0xfe, 0xad, 0x97, 0x65, 0xe0, 0x0e, 0xf3, 0xbc, 0x1d, 0x92, 0xb7, 0xbd, 0x93, 0xc6, 0x05, 0x2e,
+	0x97, 0x65, 0xf4, 0x45, 0xf3, 0xfc, 0x6e, 0xb5, 0x48, 0xea, 0xf3, 0x3f, 0x01, 0x00, 0x00, 0xff,
+	0xff, 0x05, 0x04, 0x4c, 0x9f, 0xd7, 0x03, 0x00, 0x00,
 }
 
 func (this *NotFoundFailure) Equal(that interface{}) bool {
@@ -865,81 +567,6 @@ func (this *NamespaceNotActiveFailure) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *RetryTaskFailure) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RetryTaskFailure)
-	if !ok {
-		that2, ok := that.(RetryTaskFailure)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.NamespaceId != that1.NamespaceId {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	if this.NextEventId != that1.NextEventId {
-		return false
-	}
-	return true
-}
-func (this *RetryTaskV2Failure) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*RetryTaskV2Failure)
-	if !ok {
-		that2, ok := that.(RetryTaskV2Failure)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.NamespaceId != that1.NamespaceId {
-		return false
-	}
-	if this.WorkflowId != that1.WorkflowId {
-		return false
-	}
-	if this.RunId != that1.RunId {
-		return false
-	}
-	if this.StartEventId != that1.StartEventId {
-		return false
-	}
-	if this.StartEventVersion != that1.StartEventVersion {
-		return false
-	}
-	if this.EndEventId != that1.EndEventId {
-		return false
-	}
-	if this.EndEventVersion != that1.EndEventVersion {
-		return false
-	}
-	return true
-}
 func (this *ClientVersionNotSupportedFailure) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
@@ -996,54 +623,6 @@ func (this *FeatureVersionNotSupportedFailure) Equal(that interface{}) bool {
 		return false
 	}
 	if this.SupportedVersions != that1.SupportedVersions {
-		return false
-	}
-	return true
-}
-func (this *CurrentBranchChangedFailure) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*CurrentBranchChangedFailure)
-	if !ok {
-		that2, ok := that.(CurrentBranchChangedFailure)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if !bytes.Equal(this.CurrentBranchToken, that1.CurrentBranchToken) {
-		return false
-	}
-	return true
-}
-func (this *ShardOwnershipLostFailure) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ShardOwnershipLostFailure)
-	if !ok {
-		that2, ok := that.(ShardOwnershipLostFailure)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.Owner != that1.Owner {
 		return false
 	}
 	return true
@@ -1111,27 +690,6 @@ func (this *QueryFailedFailure) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *EventAlreadyStartedFailure) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*EventAlreadyStartedFailure)
-	if !ok {
-		that2, ok := that.(EventAlreadyStartedFailure)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	return true
-}
 func (this *NotFoundFailure) GoString() string {
 	if this == nil {
 		return "nil"
@@ -1166,35 +724,6 @@ func (this *NamespaceNotActiveFailure) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *RetryTaskFailure) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 8)
-	s = append(s, "&errordetails.RetryTaskFailure{")
-	s = append(s, "NamespaceId: "+fmt.Sprintf("%#v", this.NamespaceId)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "NextEventId: "+fmt.Sprintf("%#v", this.NextEventId)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *RetryTaskV2Failure) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 11)
-	s = append(s, "&errordetails.RetryTaskV2Failure{")
-	s = append(s, "NamespaceId: "+fmt.Sprintf("%#v", this.NamespaceId)+",\n")
-	s = append(s, "WorkflowId: "+fmt.Sprintf("%#v", this.WorkflowId)+",\n")
-	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
-	s = append(s, "StartEventId: "+fmt.Sprintf("%#v", this.StartEventId)+",\n")
-	s = append(s, "StartEventVersion: "+fmt.Sprintf("%#v", this.StartEventVersion)+",\n")
-	s = append(s, "EndEventId: "+fmt.Sprintf("%#v", this.EndEventId)+",\n")
-	s = append(s, "EndEventVersion: "+fmt.Sprintf("%#v", this.EndEventVersion)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
 func (this *ClientVersionNotSupportedFailure) GoString() string {
 	if this == nil {
 		return "nil"
@@ -1216,26 +745,6 @@ func (this *FeatureVersionNotSupportedFailure) GoString() string {
 	s = append(s, "Feature: "+fmt.Sprintf("%#v", this.Feature)+",\n")
 	s = append(s, "FeatureVersion: "+fmt.Sprintf("%#v", this.FeatureVersion)+",\n")
 	s = append(s, "SupportedVersions: "+fmt.Sprintf("%#v", this.SupportedVersions)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *CurrentBranchChangedFailure) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&errordetails.CurrentBranchChangedFailure{")
-	s = append(s, "CurrentBranchToken: "+fmt.Sprintf("%#v", this.CurrentBranchToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ShardOwnershipLostFailure) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&errordetails.ShardOwnershipLostFailure{")
-	s = append(s, "Owner: "+fmt.Sprintf("%#v", this.Owner)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1263,15 +772,6 @@ func (this *QueryFailedFailure) GoString() string {
 	}
 	s := make([]string, 0, 4)
 	s = append(s, "&errordetails.QueryFailedFailure{")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *EventAlreadyStartedFailure) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&errordetails.EventAlreadyStartedFailure{")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1401,119 +901,6 @@ func (m *NamespaceNotActiveFailure) MarshalToSizedBuffer(dAtA []byte) (int, erro
 	return len(dAtA) - i, nil
 }
 
-func (m *RetryTaskFailure) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *RetryTaskFailure) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *RetryTaskFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.NextEventId != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.NextEventId))
-		i--
-		dAtA[i] = 0x20
-	}
-	if len(m.RunId) > 0 {
-		i -= len(m.RunId)
-		copy(dAtA[i:], m.RunId)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.RunId)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.WorkflowId) > 0 {
-		i -= len(m.WorkflowId)
-		copy(dAtA[i:], m.WorkflowId)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.WorkflowId)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.NamespaceId) > 0 {
-		i -= len(m.NamespaceId)
-		copy(dAtA[i:], m.NamespaceId)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.NamespaceId)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *RetryTaskV2Failure) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *RetryTaskV2Failure) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *RetryTaskV2Failure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.EndEventVersion != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.EndEventVersion))
-		i--
-		dAtA[i] = 0x38
-	}
-	if m.EndEventId != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.EndEventId))
-		i--
-		dAtA[i] = 0x30
-	}
-	if m.StartEventVersion != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.StartEventVersion))
-		i--
-		dAtA[i] = 0x28
-	}
-	if m.StartEventId != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.StartEventId))
-		i--
-		dAtA[i] = 0x20
-	}
-	if len(m.RunId) > 0 {
-		i -= len(m.RunId)
-		copy(dAtA[i:], m.RunId)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.RunId)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.WorkflowId) > 0 {
-		i -= len(m.WorkflowId)
-		copy(dAtA[i:], m.WorkflowId)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.WorkflowId)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.NamespaceId) > 0 {
-		i -= len(m.NamespaceId)
-		copy(dAtA[i:], m.NamespaceId)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.NamespaceId)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
 func (m *ClientVersionNotSupportedFailure) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1602,66 +989,6 @@ func (m *FeatureVersionNotSupportedFailure) MarshalToSizedBuffer(dAtA []byte) (i
 	return len(dAtA) - i, nil
 }
 
-func (m *CurrentBranchChangedFailure) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *CurrentBranchChangedFailure) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *CurrentBranchChangedFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.CurrentBranchToken) > 0 {
-		i -= len(m.CurrentBranchToken)
-		copy(dAtA[i:], m.CurrentBranchToken)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.CurrentBranchToken)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *ShardOwnershipLostFailure) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *ShardOwnershipLostFailure) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *ShardOwnershipLostFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintMessage(dAtA, i, uint64(len(m.Owner)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
 func (m *NamespaceAlreadyExistsFailure) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1724,29 +1051,6 @@ func (m *QueryFailedFailure) MarshalTo(dAtA []byte) (int, error) {
 }
 
 func (m *QueryFailedFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	return len(dAtA) - i, nil
-}
-
-func (m *EventAlreadyStartedFailure) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *EventAlreadyStartedFailure) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *EventAlreadyStartedFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1820,63 +1124,6 @@ func (m *NamespaceNotActiveFailure) Size() (n int) {
 	return n
 }
 
-func (m *RetryTaskFailure) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.NamespaceId)
-	if l > 0 {
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	l = len(m.WorkflowId)
-	if l > 0 {
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	l = len(m.RunId)
-	if l > 0 {
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	if m.NextEventId != 0 {
-		n += 1 + sovMessage(uint64(m.NextEventId))
-	}
-	return n
-}
-
-func (m *RetryTaskV2Failure) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.NamespaceId)
-	if l > 0 {
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	l = len(m.WorkflowId)
-	if l > 0 {
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	l = len(m.RunId)
-	if l > 0 {
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	if m.StartEventId != 0 {
-		n += 1 + sovMessage(uint64(m.StartEventId))
-	}
-	if m.StartEventVersion != 0 {
-		n += 1 + sovMessage(uint64(m.StartEventVersion))
-	}
-	if m.EndEventId != 0 {
-		n += 1 + sovMessage(uint64(m.EndEventId))
-	}
-	if m.EndEventVersion != 0 {
-		n += 1 + sovMessage(uint64(m.EndEventVersion))
-	}
-	return n
-}
-
 func (m *ClientVersionNotSupportedFailure) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1919,32 +1166,6 @@ func (m *FeatureVersionNotSupportedFailure) Size() (n int) {
 	return n
 }
 
-func (m *CurrentBranchChangedFailure) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.CurrentBranchToken)
-	if l > 0 {
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	return n
-}
-
-func (m *ShardOwnershipLostFailure) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovMessage(uint64(l))
-	}
-	return n
-}
-
 func (m *NamespaceAlreadyExistsFailure) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1964,15 +1185,6 @@ func (m *CancellationAlreadyRequestedFailure) Size() (n int) {
 }
 
 func (m *QueryFailedFailure) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	return n
-}
-
-func (m *EventAlreadyStartedFailure) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -2021,35 +1233,6 @@ func (this *NamespaceNotActiveFailure) String() string {
 	}, "")
 	return s
 }
-func (this *RetryTaskFailure) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RetryTaskFailure{`,
-		`NamespaceId:` + fmt.Sprintf("%v", this.NamespaceId) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`NextEventId:` + fmt.Sprintf("%v", this.NextEventId) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *RetryTaskV2Failure) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&RetryTaskV2Failure{`,
-		`NamespaceId:` + fmt.Sprintf("%v", this.NamespaceId) + `,`,
-		`WorkflowId:` + fmt.Sprintf("%v", this.WorkflowId) + `,`,
-		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
-		`StartEventId:` + fmt.Sprintf("%v", this.StartEventId) + `,`,
-		`StartEventVersion:` + fmt.Sprintf("%v", this.StartEventVersion) + `,`,
-		`EndEventId:` + fmt.Sprintf("%v", this.EndEventId) + `,`,
-		`EndEventVersion:` + fmt.Sprintf("%v", this.EndEventVersion) + `,`,
-		`}`,
-	}, "")
-	return s
-}
 func (this *ClientVersionNotSupportedFailure) String() string {
 	if this == nil {
 		return "nil"
@@ -2070,26 +1253,6 @@ func (this *FeatureVersionNotSupportedFailure) String() string {
 		`Feature:` + fmt.Sprintf("%v", this.Feature) + `,`,
 		`FeatureVersion:` + fmt.Sprintf("%v", this.FeatureVersion) + `,`,
 		`SupportedVersions:` + fmt.Sprintf("%v", this.SupportedVersions) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *CurrentBranchChangedFailure) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&CurrentBranchChangedFailure{`,
-		`CurrentBranchToken:` + fmt.Sprintf("%v", this.CurrentBranchToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ShardOwnershipLostFailure) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&ShardOwnershipLostFailure{`,
-		`Owner:` + fmt.Sprintf("%v", this.Owner) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -2117,15 +1280,6 @@ func (this *QueryFailedFailure) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&QueryFailedFailure{`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *EventAlreadyStartedFailure) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&EventAlreadyStartedFailure{`,
 		`}`,
 	}, "")
 	return s
@@ -2521,399 +1675,6 @@ func (m *NamespaceNotActiveFailure) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *RetryTaskFailure) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowMessage
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: RetryTaskFailure: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: RetryTaskFailure: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NamespaceId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.NamespaceId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.WorkflowId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RunId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.RunId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NextEventId", wireType)
-			}
-			m.NextEventId = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.NextEventId |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipMessage(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *RetryTaskV2Failure) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowMessage
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: RetryTaskV2Failure: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: RetryTaskV2Failure: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NamespaceId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.NamespaceId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.WorkflowId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RunId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.RunId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field StartEventId", wireType)
-			}
-			m.StartEventId = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.StartEventId |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field StartEventVersion", wireType)
-			}
-			m.StartEventVersion = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.StartEventVersion |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 6:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EndEventId", wireType)
-			}
-			m.EndEventId = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.EndEventId |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 7:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field EndEventVersion", wireType)
-			}
-			m.EndEventVersion = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.EndEventVersion |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipMessage(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
 func (m *ClientVersionNotSupportedFailure) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -3212,178 +1973,6 @@ func (m *FeatureVersionNotSupportedFailure) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *CurrentBranchChangedFailure) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowMessage
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: CurrentBranchChangedFailure: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: CurrentBranchChangedFailure: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CurrentBranchToken", wireType)
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				byteLen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if byteLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + byteLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.CurrentBranchToken = append(m.CurrentBranchToken[:0], dAtA[iNdEx:postIndex]...)
-			if m.CurrentBranchToken == nil {
-				m.CurrentBranchToken = []byte{}
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipMessage(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *ShardOwnershipLostFailure) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowMessage
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: ShardOwnershipLostFailure: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ShardOwnershipLostFailure: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowMessage
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthMessage
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipMessage(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
 func (m *NamespaceAlreadyExistsFailure) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -3517,59 +2106,6 @@ func (m *QueryFailedFailure) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: QueryFailedFailure: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipMessage(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *EventAlreadyStartedFailure) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowMessage
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: EventAlreadyStartedFailure: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: EventAlreadyStartedFailure: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
