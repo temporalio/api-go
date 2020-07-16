@@ -23,6 +23,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
@@ -42,7 +44,9 @@ type (
 
 // NewClientVersionNotSupported returns new ClientVersionNotSupported error.
 func NewClientVersionNotSupported(clientVersion, clientImpl, supportedVersions string) *ClientVersionNotSupported {
-	return &ClientVersionNotSupported{ClientVersion:     clientVersion,
+	return &ClientVersionNotSupported{
+		Message:           fmt.Sprintf("Client version %s is not supported. Supported versions for %s are %s", clientVersion, clientImpl, supportedVersions),
+		ClientVersion:     clientVersion,
 		ClientImpl:        clientImpl,
 		SupportedVersions: supportedVersions,
 	}
