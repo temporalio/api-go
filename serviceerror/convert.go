@@ -87,7 +87,6 @@ func FromStatus(st *status.Status) error {
 		return st.Err()
 	}
 
-	// Extract error details once to optimize performance.
 	errDetails := extractErrorDetails(st)
 
 	// If there was an error during details extraction, it will go to errDetails.
@@ -108,11 +107,9 @@ func FromStatus(st *status.Status) error {
 		if errDetails == nil {
 			return newInvalidArgument(st)
 		}
-		switch errDetails := errDetails.(type) {
+		switch errDetails.(type) {
 		case *errordetails.QueryFailedFailure:
 			return newQueryFailed(st)
-		case *errordetails.CurrentBranchChangedFailure:
-			return newCurrentBranchChanged(st, errDetails)
 		}
 	case codes.AlreadyExists:
 		switch errDetails := errDetails.(type) {
@@ -122,8 +119,6 @@ func FromStatus(st *status.Status) error {
 			return newWorkflowExecutionAlreadyStarted(st, errDetails)
 		case *errordetails.CancellationAlreadyRequestedFailure:
 			return newCancellationAlreadyRequested(st)
-		case *errordetails.EventAlreadyStartedFailure:
-			return newEventAlreadyStarted(st)
 		}
 	case codes.FailedPrecondition:
 		switch errDetails := errDetails.(type) {
@@ -133,15 +128,6 @@ func FromStatus(st *status.Status) error {
 			return newClientVersionNotSupported(st, errDetails)
 		case *errordetails.FeatureVersionNotSupportedFailure:
 			return newFeatureVersionNotSupported(st, errDetails)
-		}
-	case codes.Aborted:
-		switch errDetails := errDetails.(type) {
-		case *errordetails.ShardOwnershipLostFailure:
-			return newShardOwnershipLost(st, errDetails)
-		case *errordetails.RetryTaskFailure:
-			return newRetryTask(st, errDetails)
-		case *errordetails.RetryTaskV2Failure:
-			return newRetryTaskV2(st, errDetails)
 		}
 	}
 
