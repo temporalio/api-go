@@ -192,6 +192,8 @@ type WorkflowServiceClient interface {
 	// fail with 'NotFoundFailure' in such situations.  Use the 'taskToken' provided as response of
 	// PollActivityTaskQueue API call for heart beating.
 	RecordActivityTaskHeartbeat(ctx context.Context, in *RecordActivityTaskHeartbeatRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
 	// RecordActivityTaskHeartbeatById is called by application worker while it is processing an ActivityTask.  If worker fails
 	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timed out and
 	// 'ActivityTaskTimedOut' event will be written to the workflow history.  Calling 'RecordActivityTaskHeartbeatById' will
@@ -204,6 +206,8 @@ type WorkflowServiceClient interface {
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskCompleted(ctx context.Context, in *RespondActivityTaskCompletedRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
 	// RespondActivityTaskCompletedById is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
 	// created for the workflow so new commands could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
@@ -216,6 +220,8 @@ type WorkflowServiceClient interface {
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskFailed(ctx context.Context, in *RespondActivityTaskFailedRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
 	// RespondActivityTaskFailedById is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
 	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskFailed but use
@@ -228,6 +234,8 @@ type WorkflowServiceClient interface {
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskCanceled(ctx context.Context, in *RespondActivityTaskCanceledRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
 	// RespondActivityTaskCanceledById is called by application worker when it is successfully canceled an ActivityTask.
 	// It will result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
 	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskCanceled but use
@@ -242,6 +250,8 @@ type WorkflowServiceClient interface {
 	// SignalWorkflowExecution is used to send a signal event to running workflow execution.  This results in
 	// WorkflowExecutionSignaled event recorded in the history and a workflow task being created for the execution.
 	SignalWorkflowExecution(ctx context.Context, in *SignalWorkflowExecutionRequest, opts ...grpc.CallOption) (*SignalWorkflowExecutionResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "With" is used to indicate combined operation. --)
 	// SignalWithStartWorkflowExecution is used to ensure sending signal to a workflow.
 	// If the workflow is running, this results in WorkflowExecutionSignaled event being recorded in the history
 	// and a workflow task being created for the execution.
@@ -703,6 +713,8 @@ type WorkflowServiceServer interface {
 	// fail with 'NotFoundFailure' in such situations.  Use the 'taskToken' provided as response of
 	// PollActivityTaskQueue API call for heart beating.
 	RecordActivityTaskHeartbeat(context.Context, *RecordActivityTaskHeartbeatRequest) (*RecordActivityTaskHeartbeatResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
 	// RecordActivityTaskHeartbeatById is called by application worker while it is processing an ActivityTask.  If worker fails
 	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timed out and
 	// 'ActivityTaskTimedOut' event will be written to the workflow history.  Calling 'RecordActivityTaskHeartbeatById' will
@@ -715,6 +727,8 @@ type WorkflowServiceServer interface {
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskCompleted(context.Context, *RespondActivityTaskCompletedRequest) (*RespondActivityTaskCompletedResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
 	// RespondActivityTaskCompletedById is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
 	// created for the workflow so new commands could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
@@ -727,6 +741,8 @@ type WorkflowServiceServer interface {
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskFailed(context.Context, *RespondActivityTaskFailedRequest) (*RespondActivityTaskFailedResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
 	// RespondActivityTaskFailedById is called by application worker when it is done processing an ActivityTask.
 	// It will result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
 	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskFailed but use
@@ -739,6 +755,8 @@ type WorkflowServiceServer interface {
 	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
 	// anymore due to activity timeout.
 	RespondActivityTaskCanceled(context.Context, *RespondActivityTaskCanceledRequest) (*RespondActivityTaskCanceledResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
 	// RespondActivityTaskCanceledById is called by application worker when it is successfully canceled an ActivityTask.
 	// It will result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
 	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskCanceled but use
@@ -753,6 +771,8 @@ type WorkflowServiceServer interface {
 	// SignalWorkflowExecution is used to send a signal event to running workflow execution.  This results in
 	// WorkflowExecutionSignaled event recorded in the history and a workflow task being created for the execution.
 	SignalWorkflowExecution(context.Context, *SignalWorkflowExecutionRequest) (*SignalWorkflowExecutionResponse, error)
+	// (-- api-linter: core::0136::prepositions=disabled
+	//     aip.dev/not-precedent: "With" is used to indicate combined operation. --)
 	// SignalWithStartWorkflowExecution is used to ensure sending signal to a workflow.
 	// If the workflow is running, this results in WorkflowExecutionSignaled event being recorded in the history
 	// and a workflow task being created for the execution.

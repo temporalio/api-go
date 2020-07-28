@@ -28,8 +28,10 @@ package workflow
 import (
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
-	types "github.com/gogo/protobuf/types"
+	_ "github.com/gogo/protobuf/types"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	v1 "go.temporal.io/api/common/v1"
+	_ "go.temporal.io/api/dependencies/gogoproto"
 	v11 "go.temporal.io/api/enums/v1"
 	v13 "go.temporal.io/api/failure/v1"
 	v12 "go.temporal.io/api/taskqueue/v1"
@@ -38,12 +40,14 @@ import (
 	math_bits "math/bits"
 	reflect "reflect"
 	strings "strings"
+	time "time"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -54,13 +58,13 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type WorkflowExecutionInfo struct {
 	Execution         *v1.WorkflowExecution       `protobuf:"bytes,1,opt,name=execution,proto3" json:"execution,omitempty"`
 	Type              *v1.WorkflowType            `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
-	StartTime         *types.Int64Value           `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
-	CloseTime         *types.Int64Value           `protobuf:"bytes,4,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	StartTime         *time.Time                  `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3,stdtime" json:"start_time,omitempty"`
+	CloseTime         *time.Time                  `protobuf:"bytes,4,opt,name=close_time,json=closeTime,proto3,stdtime" json:"close_time,omitempty"`
 	Status            v11.WorkflowExecutionStatus `protobuf:"varint,5,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
 	HistoryLength     int64                       `protobuf:"varint,6,opt,name=history_length,json=historyLength,proto3" json:"history_length,omitempty"`
 	ParentNamespaceId string                      `protobuf:"bytes,7,opt,name=parent_namespace_id,json=parentNamespaceId,proto3" json:"parent_namespace_id,omitempty"`
 	ParentExecution   *v1.WorkflowExecution       `protobuf:"bytes,8,opt,name=parent_execution,json=parentExecution,proto3" json:"parent_execution,omitempty"`
-	ExecutionTime     int64                       `protobuf:"varint,9,opt,name=execution_time,json=executionTime,proto3" json:"execution_time,omitempty"`
+	ExecutionTime     *time.Time                  `protobuf:"bytes,9,opt,name=execution_time,json=executionTime,proto3,stdtime" json:"execution_time,omitempty"`
 	Memo              *v1.Memo                    `protobuf:"bytes,10,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes  *v1.SearchAttributes        `protobuf:"bytes,11,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	AutoResetPoints   *ResetPoints                `protobuf:"bytes,12,opt,name=auto_reset_points,json=autoResetPoints,proto3" json:"auto_reset_points,omitempty"`
@@ -113,14 +117,14 @@ func (m *WorkflowExecutionInfo) GetType() *v1.WorkflowType {
 	return nil
 }
 
-func (m *WorkflowExecutionInfo) GetStartTime() *types.Int64Value {
+func (m *WorkflowExecutionInfo) GetStartTime() *time.Time {
 	if m != nil {
 		return m.StartTime
 	}
 	return nil
 }
 
-func (m *WorkflowExecutionInfo) GetCloseTime() *types.Int64Value {
+func (m *WorkflowExecutionInfo) GetCloseTime() *time.Time {
 	if m != nil {
 		return m.CloseTime
 	}
@@ -155,11 +159,11 @@ func (m *WorkflowExecutionInfo) GetParentExecution() *v1.WorkflowExecution {
 	return nil
 }
 
-func (m *WorkflowExecutionInfo) GetExecutionTime() int64 {
+func (m *WorkflowExecutionInfo) GetExecutionTime() *time.Time {
 	if m != nil {
 		return m.ExecutionTime
 	}
-	return 0
+	return nil
 }
 
 func (m *WorkflowExecutionInfo) GetMemo() *v1.Memo {
@@ -191,10 +195,10 @@ func (m *WorkflowExecutionInfo) GetTaskQueue() string {
 }
 
 type WorkflowExecutionConfig struct {
-	TaskQueue                         *v12.TaskQueue `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	WorkflowExecutionTimeoutSeconds   int32          `protobuf:"varint,2,opt,name=workflow_execution_timeout_seconds,json=workflowExecutionTimeoutSeconds,proto3" json:"workflow_execution_timeout_seconds,omitempty"`
-	WorkflowRunTimeoutSeconds         int32          `protobuf:"varint,3,opt,name=workflow_run_timeout_seconds,json=workflowRunTimeoutSeconds,proto3" json:"workflow_run_timeout_seconds,omitempty"`
-	DefaultWorkflowTaskTimeoutSeconds int32          `protobuf:"varint,4,opt,name=default_workflow_task_timeout_seconds,json=defaultWorkflowTaskTimeoutSeconds,proto3" json:"default_workflow_task_timeout_seconds,omitempty"`
+	TaskQueue                  *v12.TaskQueue `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	WorkflowExecutionTimeout   *time.Duration `protobuf:"bytes,2,opt,name=workflow_execution_timeout,json=workflowExecutionTimeout,proto3,stdduration" json:"workflow_execution_timeout,omitempty"`
+	WorkflowRunTimeout         *time.Duration `protobuf:"bytes,3,opt,name=workflow_run_timeout,json=workflowRunTimeout,proto3,stdduration" json:"workflow_run_timeout,omitempty"`
+	DefaultWorkflowTaskTimeout *time.Duration `protobuf:"bytes,4,opt,name=default_workflow_task_timeout,json=defaultWorkflowTaskTimeout,proto3,stdduration" json:"default_workflow_task_timeout,omitempty"`
 }
 
 func (m *WorkflowExecutionConfig) Reset()      { *m = WorkflowExecutionConfig{} }
@@ -236,40 +240,40 @@ func (m *WorkflowExecutionConfig) GetTaskQueue() *v12.TaskQueue {
 	return nil
 }
 
-func (m *WorkflowExecutionConfig) GetWorkflowExecutionTimeoutSeconds() int32 {
+func (m *WorkflowExecutionConfig) GetWorkflowExecutionTimeout() *time.Duration {
 	if m != nil {
-		return m.WorkflowExecutionTimeoutSeconds
+		return m.WorkflowExecutionTimeout
 	}
-	return 0
+	return nil
 }
 
-func (m *WorkflowExecutionConfig) GetWorkflowRunTimeoutSeconds() int32 {
+func (m *WorkflowExecutionConfig) GetWorkflowRunTimeout() *time.Duration {
 	if m != nil {
-		return m.WorkflowRunTimeoutSeconds
+		return m.WorkflowRunTimeout
 	}
-	return 0
+	return nil
 }
 
-func (m *WorkflowExecutionConfig) GetDefaultWorkflowTaskTimeoutSeconds() int32 {
+func (m *WorkflowExecutionConfig) GetDefaultWorkflowTaskTimeout() *time.Duration {
 	if m != nil {
-		return m.DefaultWorkflowTaskTimeoutSeconds
+		return m.DefaultWorkflowTaskTimeout
 	}
-	return 0
+	return nil
 }
 
 type PendingActivityInfo struct {
-	ActivityId             string                   `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	ActivityType           *v1.ActivityType         `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
-	State                  v11.PendingActivityState `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingActivityState" json:"state,omitempty"`
-	HeartbeatDetails       *v1.Payloads             `protobuf:"bytes,4,opt,name=heartbeat_details,json=heartbeatDetails,proto3" json:"heartbeat_details,omitempty"`
-	LastHeartbeatTimestamp int64                    `protobuf:"varint,5,opt,name=last_heartbeat_timestamp,json=lastHeartbeatTimestamp,proto3" json:"last_heartbeat_timestamp,omitempty"`
-	LastStartedTimestamp   int64                    `protobuf:"varint,6,opt,name=last_started_timestamp,json=lastStartedTimestamp,proto3" json:"last_started_timestamp,omitempty"`
-	Attempt                int32                    `protobuf:"varint,7,opt,name=attempt,proto3" json:"attempt,omitempty"`
-	MaximumAttempts        int32                    `protobuf:"varint,8,opt,name=maximum_attempts,json=maximumAttempts,proto3" json:"maximum_attempts,omitempty"`
-	ScheduledTimestamp     int64                    `protobuf:"varint,9,opt,name=scheduled_timestamp,json=scheduledTimestamp,proto3" json:"scheduled_timestamp,omitempty"`
-	ExpirationTimestamp    int64                    `protobuf:"varint,10,opt,name=expiration_timestamp,json=expirationTimestamp,proto3" json:"expiration_timestamp,omitempty"`
-	LastFailure            *v13.Failure             `protobuf:"bytes,11,opt,name=last_failure,json=lastFailure,proto3" json:"last_failure,omitempty"`
-	LastWorkerIdentity     string                   `protobuf:"bytes,12,opt,name=last_worker_identity,json=lastWorkerIdentity,proto3" json:"last_worker_identity,omitempty"`
+	ActivityId         string                   `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	ActivityType       *v1.ActivityType         `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
+	State              v11.PendingActivityState `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingActivityState" json:"state,omitempty"`
+	HeartbeatDetails   *v1.Payloads             `protobuf:"bytes,4,opt,name=heartbeat_details,json=heartbeatDetails,proto3" json:"heartbeat_details,omitempty"`
+	LastHeartbeatTime  *time.Time               `protobuf:"bytes,5,opt,name=last_heartbeat_time,json=lastHeartbeatTime,proto3,stdtime" json:"last_heartbeat_time,omitempty"`
+	LastStartedTime    *time.Time               `protobuf:"bytes,6,opt,name=last_started_time,json=lastStartedTime,proto3,stdtime" json:"last_started_time,omitempty"`
+	Attempt            int32                    `protobuf:"varint,7,opt,name=attempt,proto3" json:"attempt,omitempty"`
+	MaximumAttempts    int32                    `protobuf:"varint,8,opt,name=maximum_attempts,json=maximumAttempts,proto3" json:"maximum_attempts,omitempty"`
+	ScheduledTime      *time.Time               `protobuf:"bytes,9,opt,name=scheduled_time,json=scheduledTime,proto3,stdtime" json:"scheduled_time,omitempty"`
+	ExpirationTime     *time.Time               `protobuf:"bytes,10,opt,name=expiration_time,json=expirationTime,proto3,stdtime" json:"expiration_time,omitempty"`
+	LastFailure        *v13.Failure             `protobuf:"bytes,11,opt,name=last_failure,json=lastFailure,proto3" json:"last_failure,omitempty"`
+	LastWorkerIdentity string                   `protobuf:"bytes,12,opt,name=last_worker_identity,json=lastWorkerIdentity,proto3" json:"last_worker_identity,omitempty"`
 }
 
 func (m *PendingActivityInfo) Reset()      { *m = PendingActivityInfo{} }
@@ -332,18 +336,18 @@ func (m *PendingActivityInfo) GetHeartbeatDetails() *v1.Payloads {
 	return nil
 }
 
-func (m *PendingActivityInfo) GetLastHeartbeatTimestamp() int64 {
+func (m *PendingActivityInfo) GetLastHeartbeatTime() *time.Time {
 	if m != nil {
-		return m.LastHeartbeatTimestamp
+		return m.LastHeartbeatTime
 	}
-	return 0
+	return nil
 }
 
-func (m *PendingActivityInfo) GetLastStartedTimestamp() int64 {
+func (m *PendingActivityInfo) GetLastStartedTime() *time.Time {
 	if m != nil {
-		return m.LastStartedTimestamp
+		return m.LastStartedTime
 	}
-	return 0
+	return nil
 }
 
 func (m *PendingActivityInfo) GetAttempt() int32 {
@@ -360,18 +364,18 @@ func (m *PendingActivityInfo) GetMaximumAttempts() int32 {
 	return 0
 }
 
-func (m *PendingActivityInfo) GetScheduledTimestamp() int64 {
+func (m *PendingActivityInfo) GetScheduledTime() *time.Time {
 	if m != nil {
-		return m.ScheduledTimestamp
+		return m.ScheduledTime
 	}
-	return 0
+	return nil
 }
 
-func (m *PendingActivityInfo) GetExpirationTimestamp() int64 {
+func (m *PendingActivityInfo) GetExpirationTime() *time.Time {
 	if m != nil {
-		return m.ExpirationTimestamp
+		return m.ExpirationTime
 	}
-	return 0
+	return nil
 }
 
 func (m *PendingActivityInfo) GetLastFailure() *v13.Failure {
@@ -508,12 +512,14 @@ func (m *ResetPoints) GetPoints() []*ResetPointInfo {
 }
 
 type ResetPointInfo struct {
-	BinaryChecksum               string `protobuf:"bytes,1,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
-	RunId                        string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	FirstWorkflowTaskCompletedId int64  `protobuf:"varint,3,opt,name=first_workflow_task_completed_id,json=firstWorkflowTaskCompletedId,proto3" json:"first_workflow_task_completed_id,omitempty"`
-	CreateTimeNano               int64  `protobuf:"varint,4,opt,name=create_time_nano,json=createTimeNano,proto3" json:"create_time_nano,omitempty"`
+	BinaryChecksum               string     `protobuf:"bytes,1,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
+	RunId                        string     `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	FirstWorkflowTaskCompletedId int64      `protobuf:"varint,3,opt,name=first_workflow_task_completed_id,json=firstWorkflowTaskCompletedId,proto3" json:"first_workflow_task_completed_id,omitempty"`
+	CreateTime                   *time.Time `protobuf:"bytes,4,opt,name=create_time,json=createTime,proto3,stdtime" json:"create_time,omitempty"`
+	// (-- api-linter: core::0214::resource-expiry=disabled
+	//     aip.dev/not-precedent: TTL is not defined for ResetPointInfo. --)
 	// The time that the run is deleted due to retention.
-	ExpireTimeNano int64 `protobuf:"varint,5,opt,name=expire_time_nano,json=expireTimeNano,proto3" json:"expire_time_nano,omitempty"`
+	ExpireTime *time.Time `protobuf:"bytes,5,opt,name=expire_time,json=expireTime,proto3,stdtime" json:"expire_time,omitempty"`
 	// false if the reset point has pending childWFs/reqCancels/signalExternals.
 	Resettable bool `protobuf:"varint,6,opt,name=resettable,proto3" json:"resettable,omitempty"`
 }
@@ -571,18 +577,18 @@ func (m *ResetPointInfo) GetFirstWorkflowTaskCompletedId() int64 {
 	return 0
 }
 
-func (m *ResetPointInfo) GetCreateTimeNano() int64 {
+func (m *ResetPointInfo) GetCreateTime() *time.Time {
 	if m != nil {
-		return m.CreateTimeNano
+		return m.CreateTime
 	}
-	return 0
+	return nil
 }
 
-func (m *ResetPointInfo) GetExpireTimeNano() int64 {
+func (m *ResetPointInfo) GetExpireTime() *time.Time {
 	if m != nil {
-		return m.ExpireTimeNano
+		return m.ExpireTime
 	}
-	return 0
+	return nil
 }
 
 func (m *ResetPointInfo) GetResettable() bool {
@@ -606,84 +612,86 @@ func init() {
 }
 
 var fileDescriptor_f2dd1a9976dc3da7 = []byte{
-	// 1231 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x56, 0xcd, 0x72, 0xdb, 0xb6,
-	0x16, 0x36, 0x2d, 0xcb, 0x89, 0x20, 0x47, 0xb6, 0xe1, 0xe4, 0x5e, 0xe6, 0xe7, 0x32, 0x8a, 0x26,
-	0xbe, 0x51, 0xa6, 0x1d, 0x2a, 0x4e, 0x33, 0x9d, 0x8c, 0xba, 0x68, 0x1d, 0xb5, 0x69, 0x35, 0x6d,
-	0x52, 0x85, 0x56, 0x93, 0x4e, 0x37, 0x1c, 0x98, 0x84, 0x24, 0x8c, 0x49, 0x82, 0x25, 0x40, 0x3b,
-	0xda, 0xf5, 0x01, 0xba, 0xe8, 0x3b, 0x74, 0x93, 0xbe, 0x44, 0xd7, 0x5d, 0x66, 0x99, 0x65, 0xa3,
-	0x6c, 0x3a, 0x5d, 0xe5, 0x09, 0x3a, 0x1d, 0x1c, 0x90, 0xd4, 0x8f, 0xad, 0x69, 0xba, 0x23, 0xbf,
-	0xf3, 0x7d, 0x87, 0xc0, 0xc1, 0x39, 0x1f, 0x88, 0xfe, 0x2f, 0x69, 0x18, 0xf3, 0x84, 0x04, 0x2d,
-	0x12, 0xb3, 0xd6, 0x09, 0x4f, 0x8e, 0x06, 0x01, 0x3f, 0x69, 0x1d, 0xef, 0xb5, 0x42, 0x2a, 0x04,
-	0x19, 0x52, 0x3b, 0x4e, 0xb8, 0xe4, 0xd8, 0xcc, 0x79, 0x36, 0x89, 0x99, 0x9d, 0xf3, 0xec, 0xe3,
-	0xbd, 0x2b, 0x37, 0xe7, 0x32, 0xd0, 0x28, 0x0d, 0x85, 0x92, 0x17, 0x14, 0xd0, 0x2f, 0xb0, 0x3c,
-	0x1e, 0x86, 0x3c, 0x3a, 0xf5, 0x95, 0x2b, 0xbb, 0x73, 0xac, 0x01, 0x61, 0x41, 0x9a, 0xd0, 0xd3,
-	0xb4, 0x5b, 0x73, 0x34, 0x49, 0xc4, 0xd1, 0xf7, 0x29, 0x4d, 0xcf, 0x20, 0x5a, 0x43, 0xce, 0x87,
-	0x01, 0x6d, 0xc1, 0xdb, 0x61, 0x3a, 0x68, 0x9d, 0x24, 0x24, 0x8e, 0x69, 0x22, 0x74, 0xbc, 0xf1,
-	0xcb, 0x3a, 0xba, 0xf4, 0x2c, 0x5b, 0xe8, 0x67, 0xcf, 0xa9, 0x97, 0x4a, 0xc6, 0xa3, 0x6e, 0x34,
-	0xe0, 0xf8, 0x73, 0x54, 0xa1, 0x39, 0x60, 0x1a, 0x75, 0xa3, 0x59, 0xbd, 0x7b, 0xdb, 0x9e, 0xab,
-	0x81, 0xde, 0x83, 0x7d, 0xbc, 0x67, 0x9f, 0xca, 0xe0, 0x4c, 0xb5, 0xf8, 0x3e, 0x5a, 0x93, 0xe3,
-	0x98, 0x9a, 0xab, 0x90, 0xe3, 0xe6, 0x3f, 0xe5, 0xe8, 0x8f, 0x63, 0xea, 0x80, 0x02, 0xb7, 0x11,
-	0x12, 0x92, 0x24, 0xd2, 0x95, 0x2c, 0xa4, 0x66, 0x09, 0xf4, 0x57, 0x6d, 0xbd, 0x23, 0x3b, 0xdf,
-	0x91, 0xdd, 0x8d, 0xe4, 0x87, 0xf7, 0x9e, 0x92, 0x20, 0xa5, 0x4e, 0x05, 0xe8, 0x7d, 0x16, 0x82,
-	0xd6, 0x0b, 0xb8, 0xa0, 0x5a, 0xbb, 0xf6, 0x0e, 0x5a, 0xa0, 0x83, 0xf6, 0x21, 0x5a, 0x17, 0x92,
-	0xc8, 0x54, 0x98, 0xe5, 0xba, 0xd1, 0xac, 0xdd, 0xb5, 0xe7, 0xd7, 0x0c, 0x27, 0x7c, 0xe6, 0xb6,
-	0x0f, 0x40, 0xe5, 0x64, 0x6a, 0xbc, 0x8b, 0x6a, 0x23, 0x26, 0x24, 0x4f, 0xc6, 0x6e, 0x40, 0xa3,
-	0xa1, 0x1c, 0x99, 0xeb, 0x75, 0xa3, 0x59, 0x72, 0x2e, 0x64, 0xe8, 0x57, 0x00, 0x62, 0x1b, 0xed,
-	0xc4, 0x24, 0xa1, 0x91, 0x74, 0x23, 0x12, 0x52, 0x11, 0x13, 0x8f, 0xba, 0xcc, 0x37, 0xcf, 0xd5,
-	0x8d, 0x66, 0xc5, 0xd9, 0xd6, 0xa1, 0xc7, 0x79, 0xa4, 0xeb, 0xe3, 0x3e, 0xda, 0xca, 0xf8, 0xd3,
-	0x03, 0x3a, 0xff, 0x6f, 0x0f, 0x68, 0x53, 0xa7, 0x28, 0x00, 0xb5, 0xd8, 0x22, 0x9d, 0x2e, 0x5a,
-	0x45, 0x2f, 0xb6, 0x40, 0xa1, 0x36, 0x77, 0xd0, 0x5a, 0x48, 0x43, 0x6e, 0x22, 0xf8, 0xe0, 0xb5,
-	0x65, 0x1f, 0x7c, 0x44, 0x43, 0xee, 0x00, 0x13, 0x7f, 0x83, 0xb6, 0x05, 0x25, 0x89, 0x37, 0x72,
-	0x89, 0x94, 0x09, 0x3b, 0x4c, 0x25, 0x15, 0x66, 0x15, 0xe4, 0xcd, 0x65, 0xf2, 0x03, 0x10, 0xec,
-	0x17, 0x7c, 0x67, 0x4b, 0x2c, 0x20, 0xf8, 0x09, 0xda, 0x26, 0xa9, 0xe4, 0x6e, 0x42, 0x05, 0x95,
-	0x6e, 0xcc, 0x59, 0x24, 0x85, 0xb9, 0x01, 0x69, 0x77, 0xed, 0x65, 0xb3, 0x6a, 0x3b, 0x8a, 0xdd,
-	0x03, 0xb2, 0xb3, 0xa9, 0xf4, 0x33, 0x00, 0xfe, 0x1f, 0x42, 0x6a, 0x94, 0x5c, 0x98, 0x25, 0xf3,
-	0x02, 0xd4, 0xbf, 0xa2, 0x90, 0x27, 0x0a, 0x68, 0xfc, 0xba, 0x8a, 0xfe, 0x7b, 0xaa, 0x90, 0x1d,
-	0x1e, 0x0d, 0xd8, 0x10, 0x77, 0xe6, 0xa4, 0xc6, 0x59, 0xad, 0x5e, 0x4c, 0xa9, 0x5a, 0x47, 0x3f,
-	0xcf, 0x3a, 0xf3, 0x01, 0xfc, 0x25, 0x6a, 0xe4, 0x6b, 0x75, 0xe7, 0xcf, 0x82, 0xa7, 0xd2, 0x15,
-	0xd4, 0xe3, 0x91, 0x2f, 0x60, 0x8e, 0xca, 0xce, 0xf5, 0x93, 0xc5, 0x95, 0xf4, 0x35, 0xef, 0x40,
-	0xd3, 0xf0, 0xc7, 0xe8, 0x5a, 0x91, 0x2c, 0x49, 0x4f, 0xa7, 0x29, 0x41, 0x9a, 0xcb, 0x39, 0xc7,
-	0x49, 0x17, 0x13, 0xf4, 0xd0, 0xae, 0x4f, 0x07, 0x24, 0x0d, 0xa4, 0x5b, 0x24, 0x82, 0x3d, 0x2e,
-	0x66, 0x5a, 0x83, 0x4c, 0x37, 0x32, 0x72, 0x31, 0xc7, 0x44, 0x1c, 0xcd, 0x67, 0x6c, 0xfc, 0x5c,
-	0x46, 0x3b, 0x3d, 0x1a, 0xf9, 0x2c, 0x1a, 0xee, 0x7b, 0x92, 0x1d, 0x33, 0x39, 0x06, 0xab, 0xb9,
-	0x8e, 0xaa, 0x24, 0x7b, 0x57, 0x8d, 0x6f, 0x40, 0xe1, 0x51, 0x0e, 0x75, 0x7d, 0xdc, 0x45, 0x17,
-	0x0a, 0xc2, 0xbb, 0x78, 0x49, 0x9e, 0x1d, 0xbc, 0x64, 0x83, 0xcc, 0xbc, 0xe1, 0x7d, 0x54, 0x56,
-	0xd3, 0xa9, 0xed, 0xa4, 0x76, 0xf7, 0xbd, 0x25, 0xa3, 0xbd, 0xb0, 0x4c, 0x35, 0xd8, 0xd4, 0xd1,
-	0x4a, 0xfc, 0x08, 0x6d, 0x8f, 0x28, 0x49, 0xe4, 0x21, 0x25, 0xd2, 0xf5, 0xa9, 0x24, 0x2c, 0x10,
-	0x99, 0xc3, 0xd4, 0x97, 0xad, 0xa8, 0x47, 0xc6, 0x01, 0x27, 0xbe, 0x70, 0xb6, 0x0a, 0xe9, 0xa7,
-	0x5a, 0x89, 0xef, 0x23, 0x33, 0x20, 0x42, 0xba, 0xd3, 0x9c, 0xaa, 0xc0, 0x42, 0x92, 0x30, 0x06,
-	0xff, 0x29, 0x39, 0xff, 0x51, 0xf1, 0x2f, 0xf2, 0x70, 0x3f, 0x8f, 0xe2, 0x7b, 0x08, 0x22, 0x2e,
-	0xb8, 0x1e, 0xf5, 0x67, 0x74, 0xda, 0x67, 0x2e, 0xaa, 0xe8, 0x81, 0x0e, 0x4e, 0x55, 0x26, 0x3a,
-	0x47, 0xa4, 0x5a, 0xa6, 0x04, 0x8b, 0x29, 0x3b, 0xf9, 0x2b, 0xbe, 0x8d, 0xb6, 0x42, 0xf2, 0x9c,
-	0x85, 0x69, 0xe8, 0x66, 0x90, 0x00, 0x63, 0x29, 0x3b, 0x9b, 0x19, 0xbe, 0x9f, 0xc1, 0xb8, 0x85,
-	0x76, 0x84, 0x37, 0xa2, 0x7e, 0x1a, 0xcc, 0x7d, 0x57, 0x5b, 0x06, 0x2e, 0x42, 0xd3, 0xaf, 0xee,
-	0xa1, 0x8b, 0xf4, 0x79, 0xcc, 0x12, 0x52, 0xf4, 0xb4, 0x56, 0x20, 0x50, 0xec, 0x4c, 0x63, 0x53,
-	0x49, 0x07, 0x6d, 0xc0, 0xf6, 0xb2, 0x5b, 0x30, 0xf3, 0x8c, 0x85, 0x12, 0x67, 0x41, 0x55, 0xe3,
-	0x87, 0xfa, 0xd1, 0xa9, 0x2a, 0x55, 0xf6, 0x82, 0xef, 0x20, 0xa8, 0x02, 0xb4, 0x30, 0x4d, 0x5c,
-	0xe6, 0xd3, 0x48, 0x32, 0x39, 0x06, 0xa7, 0xa8, 0x38, 0x58, 0xc5, 0x9e, 0x41, 0xa8, 0x9b, 0x45,
-	0x1a, 0x7f, 0x19, 0xe8, 0x72, 0x76, 0xfc, 0x9d, 0x11, 0x0b, 0xfc, 0xf9, 0x6b, 0xf1, 0x3a, 0xaa,
-	0x16, 0xd3, 0x30, 0xed, 0xd5, 0x1c, 0xea, 0xfa, 0xf8, 0x12, 0x5a, 0x57, 0xe3, 0xc6, 0x7c, 0x68,
-	0xd2, 0x8a, 0x53, 0x4e, 0xd2, 0xa8, 0xeb, 0xe3, 0xf7, 0x11, 0x9e, 0x4e, 0xd1, 0x38, 0xa6, 0xe0,
-	0xf5, 0xd0, 0x84, 0x15, 0x67, 0xeb, 0x64, 0xe6, 0xee, 0x53, 0x4e, 0x8f, 0x6f, 0xa0, 0x0d, 0x16,
-	0x31, 0xc9, 0x88, 0x3a, 0x56, 0xe6, 0x43, 0x77, 0x95, 0x9c, 0x6a, 0x81, 0x75, 0x7d, 0xfc, 0x6d,
-	0x71, 0x6b, 0xe8, 0x7b, 0x2e, 0xe6, 0x01, 0xf3, 0xc6, 0xd9, 0x8d, 0xd5, 0x5c, 0xd6, 0xd6, 0xa0,
-	0xe8, 0x28, 0x41, 0x0f, 0xf8, 0xf9, 0xfd, 0x32, 0x03, 0x35, 0xbe, 0x46, 0xd5, 0x59, 0x57, 0xfc,
-	0x04, 0xad, 0x67, 0xee, 0x6a, 0xd4, 0x4b, 0xa7, 0x4d, 0xfb, 0x6c, 0x77, 0x55, 0xb5, 0x72, 0x32,
-	0x5d, 0xe3, 0xc7, 0x55, 0x54, 0x9b, 0x0f, 0xe1, 0x5b, 0x68, 0xf3, 0x90, 0x45, 0x24, 0x19, 0xbb,
-	0xde, 0x88, 0x7a, 0x47, 0x22, 0x0d, 0xb3, 0x52, 0xd6, 0x34, 0xdc, 0xc9, 0xd0, 0x65, 0xe5, 0x7c,
-	0x88, 0xea, 0x03, 0x96, 0x88, 0x45, 0x6b, 0xf2, 0x78, 0x18, 0x07, 0x34, 0x2b, 0x5a, 0x09, 0x8a,
-	0x76, 0x0d, 0x78, 0xb3, 0xae, 0xd4, 0xc9, 0x49, 0x5d, 0x1f, 0x37, 0xd1, 0x96, 0x97, 0x50, 0x22,
-	0xf5, 0x7f, 0x82, 0x1b, 0x91, 0x88, 0x67, 0xc5, 0xae, 0x69, 0x5c, 0xb5, 0xe3, 0x63, 0x12, 0x71,
-	0xc5, 0x84, 0x26, 0x9d, 0x65, 0xea, 0xf1, 0xac, 0x69, 0xbc, 0x60, 0x5a, 0x08, 0xc1, 0xa5, 0x24,
-	0xc9, 0x61, 0x40, 0x61, 0x14, 0xcf, 0x3b, 0x33, 0xc8, 0x83, 0x17, 0xc6, 0xcb, 0xd7, 0xd6, 0xca,
-	0xab, 0xd7, 0xd6, 0xca, 0xdb, 0xd7, 0x96, 0xf1, 0xc3, 0xc4, 0x32, 0x5e, 0x4c, 0x2c, 0xe3, 0xb7,
-	0x89, 0x65, 0xbc, 0x9c, 0x58, 0xc6, 0xef, 0x13, 0xcb, 0xf8, 0x63, 0x62, 0xad, 0xbc, 0x9d, 0x58,
-	0xc6, 0x4f, 0x6f, 0xac, 0x95, 0x97, 0x6f, 0xac, 0x95, 0x57, 0x6f, 0xac, 0x15, 0x74, 0x95, 0xf1,
-	0xa5, 0x95, 0x7f, 0xb0, 0xf1, 0x48, 0xff, 0xf6, 0xf5, 0xd4, 0x9f, 0x4d, 0xcf, 0xf8, 0xee, 0xd6,
-	0x70, 0x86, 0xcc, 0xf8, 0xe2, 0xbf, 0xed, 0x47, 0xf9, 0xf3, 0x9f, 0xab, 0x57, 0xfb, 0x19, 0xad,
-	0xdd, 0xde, 0x8f, 0x59, 0xbb, 0x9d, 0x57, 0xaa, 0xdd, 0x7e, 0xba, 0x77, 0xb8, 0x0e, 0x7f, 0x4a,
-	0x1f, 0xfc, 0x1d, 0x00, 0x00, 0xff, 0xff, 0x21, 0x38, 0xb5, 0xa8, 0x25, 0x0b, 0x00, 0x00,
+	// 1252 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x57, 0x4d, 0x6f, 0xdb, 0xc6,
+	0x16, 0x35, 0xfd, 0xa1, 0x44, 0x57, 0xb6, 0x6c, 0x4f, 0x12, 0x3c, 0xc5, 0x49, 0x68, 0xc5, 0x48,
+	0x5e, 0x1c, 0xbc, 0x07, 0x2a, 0xce, 0xdb, 0x3c, 0xb8, 0x8b, 0x56, 0x56, 0x9a, 0x54, 0x40, 0xd2,
+	0x2a, 0x8c, 0xdb, 0x14, 0x05, 0x0a, 0x62, 0x24, 0x8e, 0xa4, 0x81, 0x49, 0x0e, 0x4b, 0x0e, 0xed,
+	0x68, 0x57, 0xa0, 0x7f, 0x20, 0xcb, 0xfe, 0x84, 0xfc, 0x8a, 0xae, 0xbb, 0xcc, 0xa6, 0x40, 0x76,
+	0x6d, 0x94, 0x4d, 0xd1, 0x55, 0x16, 0x5d, 0x17, 0xc5, 0x5c, 0x0e, 0xa9, 0x2f, 0x0b, 0x55, 0x76,
+	0xe4, 0x9d, 0x73, 0x8e, 0x2f, 0xef, 0x9d, 0x7b, 0xae, 0x0c, 0xff, 0x96, 0xcc, 0x0f, 0x45, 0x44,
+	0xbd, 0x1a, 0x0d, 0x79, 0xed, 0x4c, 0x44, 0x27, 0x5d, 0x4f, 0x9c, 0xd5, 0x4e, 0x0f, 0x6a, 0x3e,
+	0x8b, 0x63, 0xda, 0x63, 0x56, 0x18, 0x09, 0x29, 0x48, 0x25, 0xc3, 0x59, 0x34, 0xe4, 0x56, 0x86,
+	0xb3, 0x4e, 0x0f, 0x76, 0xcc, 0x9e, 0x10, 0x3d, 0x8f, 0xd5, 0x10, 0xd7, 0x4e, 0xba, 0x35, 0x37,
+	0x89, 0xa8, 0xe4, 0x22, 0x48, 0x99, 0x3b, 0xbb, 0xd3, 0xe7, 0x92, 0xfb, 0x2c, 0x96, 0xd4, 0x0f,
+	0x35, 0xe0, 0xa6, 0xcb, 0x42, 0x16, 0xb8, 0x2c, 0xe8, 0x70, 0x16, 0xd7, 0x7a, 0xa2, 0x27, 0x30,
+	0x8e, 0x4f, 0x1a, 0x72, 0x6b, 0x22, 0x4b, 0x16, 0x24, 0x7e, 0xac, 0x52, 0xcc, 0xd3, 0x38, 0x0f,
+	0xd5, 0x11, 0xbe, 0x2f, 0x82, 0x99, 0x2f, 0xd9, 0xb9, 0x3d, 0x81, 0xea, 0x52, 0xee, 0x25, 0x11,
+	0x9b, 0x85, 0xdd, 0x99, 0x80, 0x49, 0x1a, 0x9f, 0x7c, 0x97, 0xb0, 0x64, 0x16, 0xb8, 0xf7, 0x4b,
+	0x01, 0xae, 0x3c, 0xd7, 0x89, 0x7c, 0xfa, 0x82, 0x75, 0x12, 0xf5, 0xed, 0xcd, 0xa0, 0x2b, 0xc8,
+	0x23, 0x28, 0xb2, 0x2c, 0x50, 0x31, 0xaa, 0xc6, 0x7e, 0xe9, 0xfe, 0x5d, 0x6b, 0xa2, 0x8e, 0x69,
+	0x8e, 0xd6, 0xe9, 0x81, 0x35, 0xa3, 0x60, 0x8f, 0xb8, 0xe4, 0xff, 0xb0, 0x2a, 0x07, 0x21, 0xab,
+	0x2c, 0xa3, 0xc6, 0xad, 0x7f, 0xd2, 0x38, 0x1e, 0x84, 0xcc, 0x46, 0x06, 0xf9, 0x18, 0x20, 0x96,
+	0x34, 0x92, 0x8e, 0x2a, 0x7a, 0x65, 0x05, 0xf9, 0x3b, 0x56, 0xda, 0x11, 0x2b, 0xeb, 0x88, 0x75,
+	0x9c, 0x75, 0xe4, 0x68, 0xf5, 0xe5, 0xaf, 0xbb, 0x86, 0x5d, 0x44, 0x8e, 0x8a, 0x2a, 0x81, 0x8e,
+	0x27, 0x62, 0x96, 0x0a, 0xac, 0x2e, 0x2a, 0x80, 0x1c, 0x14, 0x78, 0x08, 0x85, 0x58, 0x52, 0x99,
+	0xc4, 0x95, 0xb5, 0xaa, 0xb1, 0x5f, 0xbe, 0x6f, 0x4d, 0x66, 0x8f, 0xbd, 0x3c, 0xb7, 0x00, 0xcf,
+	0x90, 0x65, 0x6b, 0x36, 0xb9, 0x0d, 0xe5, 0x3e, 0x8f, 0xa5, 0x88, 0x06, 0x8e, 0xc7, 0x82, 0x9e,
+	0xec, 0x57, 0x0a, 0x55, 0x63, 0x7f, 0xc5, 0xde, 0xd0, 0xd1, 0xc7, 0x18, 0x24, 0x16, 0x5c, 0x0a,
+	0x69, 0xc4, 0x02, 0xe9, 0x04, 0xd4, 0x67, 0x71, 0x48, 0x3b, 0xcc, 0xe1, 0x6e, 0xe5, 0x42, 0xd5,
+	0xd8, 0x2f, 0xda, 0xdb, 0xe9, 0xd1, 0xe7, 0xd9, 0x49, 0xd3, 0x25, 0xc7, 0xb0, 0xa5, 0xf1, 0xa3,
+	0x56, 0x5d, 0xfc, 0xd0, 0x56, 0x6d, 0xa6, 0x12, 0x79, 0x80, 0x3c, 0x82, 0x72, 0x2e, 0x97, 0x56,
+	0xae, 0xb8, 0x60, 0xe5, 0x36, 0x72, 0x1e, 0x56, 0xef, 0x1e, 0xac, 0xfa, 0xcc, 0x17, 0x15, 0x40,
+	0xfa, 0xf5, 0x79, 0x29, 0x3d, 0x61, 0xbe, 0xb0, 0x11, 0x49, 0xbe, 0x84, 0xed, 0x98, 0xd1, 0xa8,
+	0xd3, 0x77, 0xa8, 0x94, 0x11, 0x6f, 0x27, 0x92, 0xc5, 0x95, 0x12, 0xd2, 0xf7, 0xe7, 0xd1, 0x9f,
+	0x21, 0xa1, 0x9e, 0xe3, 0xed, 0xad, 0x78, 0x2a, 0x42, 0x9e, 0xc2, 0x36, 0x4d, 0xa4, 0x70, 0x22,
+	0x16, 0x33, 0xe9, 0x84, 0x82, 0x07, 0x32, 0xae, 0xac, 0xa3, 0xec, 0x6d, 0x6b, 0x9e, 0x37, 0x58,
+	0xb6, 0x42, 0xb7, 0x10, 0x6c, 0x6f, 0x2a, 0xfe, 0x58, 0x80, 0xdc, 0x00, 0x50, 0x63, 0xe5, 0xe0,
+	0x5c, 0x55, 0x36, 0xb0, 0x43, 0x45, 0x15, 0x79, 0xaa, 0x02, 0x7b, 0x7f, 0x2e, 0xc3, 0xbf, 0x66,
+	0x4a, 0xdd, 0x10, 0x41, 0x97, 0xf7, 0x48, 0x63, 0x82, 0x6a, 0x9c, 0x37, 0x16, 0xf9, 0xc4, 0xaa,
+	0x3c, 0x8e, 0x33, 0xd5, 0xb1, 0x3f, 0x40, 0xbe, 0x85, 0x9d, 0x2c, 0x57, 0x67, 0xb2, 0x5b, 0x22,
+	0x91, 0x7a, 0xd6, 0xae, 0xce, 0x34, 0xec, 0x81, 0x76, 0xb7, 0xa3, 0xd5, 0x1f, 0x55, 0xbf, 0x2a,
+	0x67, 0xd3, 0x29, 0x1e, 0xa7, 0x02, 0xe4, 0x29, 0x5c, 0xce, 0xe5, 0xa3, 0x64, 0x24, 0xbc, 0xb2,
+	0x98, 0x30, 0xc9, 0xc8, 0x76, 0x92, 0x4b, 0xb6, 0xe1, 0x86, 0xcb, 0xba, 0x34, 0xf1, 0xa4, 0x93,
+	0x4b, 0x63, 0x1d, 0x32, 0xed, 0xd5, 0xc5, 0xb4, 0x77, 0xb4, 0x4a, 0x6e, 0x18, 0x34, 0x3e, 0xd1,
+	0x7f, 0x63, 0xef, 0x87, 0x02, 0x5c, 0x6a, 0xb1, 0xc0, 0xe5, 0x41, 0xaf, 0xde, 0x91, 0xfc, 0x94,
+	0xcb, 0x01, 0x9a, 0xd9, 0x2e, 0x94, 0xa8, 0x7e, 0x57, 0x03, 0x65, 0x60, 0xbb, 0x20, 0x0b, 0x35,
+	0x5d, 0xd2, 0x84, 0x8d, 0x1c, 0xb0, 0x88, 0x5b, 0x65, 0xea, 0xe8, 0x56, 0xeb, 0x74, 0xec, 0x8d,
+	0xd4, 0x61, 0x4d, 0x4d, 0x7d, 0x6a, 0x58, 0xe5, 0xfb, 0xff, 0x99, 0x63, 0x19, 0x53, 0x69, 0x2a,
+	0xc3, 0x60, 0x76, 0xca, 0x24, 0x4f, 0x60, 0xbb, 0xcf, 0x68, 0x24, 0xdb, 0x8c, 0x4a, 0xc7, 0x65,
+	0x92, 0x72, 0x2f, 0xd6, 0xe5, 0xa9, 0xce, 0xcb, 0xa8, 0x45, 0x07, 0x9e, 0xa0, 0x6e, 0x6c, 0x6f,
+	0xe5, 0xd4, 0x07, 0x29, 0x93, 0xb4, 0xe0, 0x92, 0x47, 0x63, 0xe9, 0x8c, 0x34, 0x71, 0xaa, 0xd7,
+	0x16, 0x9c, 0xea, 0x6d, 0x45, 0xfe, 0x2c, 0xe3, 0xe2, 0x64, 0x3f, 0x06, 0x0c, 0x3a, 0x68, 0xb5,
+	0xcc, 0x4d, 0xf5, 0x0a, 0x0b, 0xea, 0x6d, 0x2a, 0xea, 0xb3, 0x94, 0x89, 0x6a, 0x15, 0xb8, 0x40,
+	0xa5, 0xfa, 0x2c, 0x89, 0x56, 0xb7, 0x66, 0x67, 0xaf, 0xe4, 0x2e, 0x6c, 0xf9, 0xf4, 0x05, 0xf7,
+	0x13, 0xdf, 0xd1, 0xa1, 0x18, 0x0d, 0x6e, 0xcd, 0xde, 0xd4, 0xf1, 0xba, 0x0e, 0x2b, 0xd7, 0x8a,
+	0x3b, 0x7d, 0xe6, 0x26, 0x5e, 0x96, 0xcf, 0xc2, 0xae, 0x95, 0xf3, 0x30, 0x9b, 0x26, 0x6c, 0xb2,
+	0x17, 0x21, 0x4f, 0xef, 0x5c, 0xaa, 0x04, 0x0b, 0x2a, 0x95, 0x47, 0x44, 0x94, 0x6a, 0xc0, 0x3a,
+	0x96, 0x49, 0xef, 0x69, 0xed, 0x64, 0x53, 0x2d, 0xd4, 0x87, 0xaa, 0x87, 0x0f, 0xd3, 0x47, 0xbb,
+	0xa4, 0x58, 0xfa, 0x85, 0xdc, 0x83, 0xcb, 0x28, 0xa2, 0x86, 0x86, 0x45, 0x0e, 0x77, 0x59, 0x20,
+	0xb9, 0x1c, 0xa0, 0x7f, 0x15, 0x6d, 0xa2, 0xce, 0x9e, 0xe3, 0x51, 0x53, 0x9f, 0xec, 0xfd, 0x65,
+	0xc0, 0x55, 0x7d, 0xbd, 0x1a, 0x7d, 0xee, 0xb9, 0x93, 0x8b, 0x7d, 0x17, 0x4a, 0xf9, 0xfc, 0x8d,
+	0x66, 0x21, 0x0b, 0x35, 0x5d, 0x72, 0x05, 0x0a, 0x6a, 0xe4, 0xb9, 0x8b, 0x43, 0x50, 0xb4, 0xd7,
+	0xa2, 0x24, 0x68, 0xba, 0xe4, 0xbf, 0x40, 0x46, 0x73, 0x3b, 0x08, 0x19, 0xee, 0x28, 0xbc, 0xe4,
+	0x45, 0x7b, 0xeb, 0x6c, 0x6c, 0x7b, 0xab, 0x0d, 0x45, 0x6e, 0xc2, 0x3a, 0x0f, 0xb8, 0xe4, 0x54,
+	0x5d, 0x0f, 0xee, 0xe2, 0xed, 0x5d, 0xb1, 0x4b, 0x79, 0xac, 0xe9, 0x92, 0xaf, 0xf3, 0x6d, 0x97,
+	0x2e, 0xe9, 0x50, 0x78, 0xbc, 0x33, 0xd0, 0x9b, 0x76, 0x7f, 0xde, 0xd8, 0x20, 0xa3, 0xa1, 0x08,
+	0x2d, 0xc4, 0x67, 0x7b, 0x71, 0x2c, 0xb4, 0xf7, 0x05, 0x94, 0xc6, 0xbd, 0xfa, 0x13, 0x28, 0x68,
+	0xcf, 0x37, 0xaa, 0x2b, 0xb3, 0xab, 0xe4, 0x7c, 0xcf, 0x57, 0xb5, 0xb2, 0x35, 0x6f, 0xef, 0xa7,
+	0x65, 0x28, 0x4f, 0x1e, 0x91, 0x3b, 0xb0, 0xd9, 0xe6, 0x01, 0x8d, 0x06, 0x4e, 0xa7, 0xcf, 0x3a,
+	0x27, 0x71, 0xe2, 0xeb, 0x52, 0x96, 0xd3, 0x70, 0x43, 0x47, 0xe7, 0x95, 0xf3, 0x21, 0x54, 0xbb,
+	0x3c, 0x8a, 0xa7, 0xcd, 0xb0, 0x23, 0xfc, 0xd0, 0x63, 0xba, 0x68, 0x2b, 0x58, 0xb4, 0xeb, 0x88,
+	0x1b, 0xb7, 0xbb, 0x46, 0x06, 0x6a, 0xba, 0xa4, 0x0e, 0xa5, 0x4e, 0xc4, 0xa8, 0xfc, 0xc0, 0x1f,
+	0x39, 0x90, 0x92, 0xf0, 0x9a, 0xd6, 0xa1, 0x84, 0x17, 0x97, 0x7d, 0x98, 0x2f, 0x40, 0x4a, 0x42,
+	0x09, 0x13, 0x00, 0x97, 0xab, 0xa4, 0x6d, 0x2f, 0x75, 0x82, 0x8b, 0xf6, 0x58, 0xe4, 0xe8, 0x95,
+	0xf1, 0xfa, 0xad, 0xb9, 0xf4, 0xe6, 0xad, 0xb9, 0xf4, 0xfe, 0xad, 0x69, 0x7c, 0x3f, 0x34, 0x8d,
+	0x57, 0x43, 0xd3, 0xf8, 0x79, 0x68, 0x1a, 0xaf, 0x87, 0xa6, 0xf1, 0xdb, 0xd0, 0x34, 0x7e, 0x1f,
+	0x9a, 0x4b, 0xef, 0x87, 0xa6, 0xf1, 0xf2, 0x9d, 0xb9, 0xf4, 0xfa, 0x9d, 0xb9, 0xf4, 0xe6, 0x9d,
+	0xb9, 0x04, 0xd7, 0xb8, 0x98, 0xdb, 0xab, 0xa3, 0xf5, 0x27, 0xe9, 0x4f, 0xd9, 0x96, 0x4a, 0xb0,
+	0x65, 0x7c, 0x73, 0xa7, 0x37, 0x06, 0xe6, 0x62, 0xfa, 0x7f, 0x82, 0x8f, 0xb2, 0xe7, 0x3f, 0x96,
+	0xaf, 0x1d, 0x6b, 0xd8, 0xe1, 0x61, 0x3d, 0xe4, 0x87, 0x87, 0x59, 0x6d, 0x0f, 0x0f, 0xbf, 0x3a,
+	0x68, 0x17, 0xf0, 0x83, 0xff, 0xf7, 0x77, 0x00, 0x00, 0x00, 0xff, 0xff, 0xd1, 0x02, 0xe1, 0xf4,
+	0x5d, 0x0c, 0x00, 0x00,
 }
 
 func (this *WorkflowExecutionInfo) Equal(that interface{}) bool {
@@ -711,10 +719,18 @@ func (this *WorkflowExecutionInfo) Equal(that interface{}) bool {
 	if !this.Type.Equal(that1.Type) {
 		return false
 	}
-	if !this.StartTime.Equal(that1.StartTime) {
+	if that1.StartTime == nil {
+		if this.StartTime != nil {
+			return false
+		}
+	} else if !this.StartTime.Equal(*that1.StartTime) {
 		return false
 	}
-	if !this.CloseTime.Equal(that1.CloseTime) {
+	if that1.CloseTime == nil {
+		if this.CloseTime != nil {
+			return false
+		}
+	} else if !this.CloseTime.Equal(*that1.CloseTime) {
 		return false
 	}
 	if this.Status != that1.Status {
@@ -729,7 +745,11 @@ func (this *WorkflowExecutionInfo) Equal(that interface{}) bool {
 	if !this.ParentExecution.Equal(that1.ParentExecution) {
 		return false
 	}
-	if this.ExecutionTime != that1.ExecutionTime {
+	if that1.ExecutionTime == nil {
+		if this.ExecutionTime != nil {
+			return false
+		}
+	} else if !this.ExecutionTime.Equal(*that1.ExecutionTime) {
 		return false
 	}
 	if !this.Memo.Equal(that1.Memo) {
@@ -768,13 +788,31 @@ func (this *WorkflowExecutionConfig) Equal(that interface{}) bool {
 	if !this.TaskQueue.Equal(that1.TaskQueue) {
 		return false
 	}
-	if this.WorkflowExecutionTimeoutSeconds != that1.WorkflowExecutionTimeoutSeconds {
+	if this.WorkflowExecutionTimeout != nil && that1.WorkflowExecutionTimeout != nil {
+		if *this.WorkflowExecutionTimeout != *that1.WorkflowExecutionTimeout {
+			return false
+		}
+	} else if this.WorkflowExecutionTimeout != nil {
+		return false
+	} else if that1.WorkflowExecutionTimeout != nil {
 		return false
 	}
-	if this.WorkflowRunTimeoutSeconds != that1.WorkflowRunTimeoutSeconds {
+	if this.WorkflowRunTimeout != nil && that1.WorkflowRunTimeout != nil {
+		if *this.WorkflowRunTimeout != *that1.WorkflowRunTimeout {
+			return false
+		}
+	} else if this.WorkflowRunTimeout != nil {
+		return false
+	} else if that1.WorkflowRunTimeout != nil {
 		return false
 	}
-	if this.DefaultWorkflowTaskTimeoutSeconds != that1.DefaultWorkflowTaskTimeoutSeconds {
+	if this.DefaultWorkflowTaskTimeout != nil && that1.DefaultWorkflowTaskTimeout != nil {
+		if *this.DefaultWorkflowTaskTimeout != *that1.DefaultWorkflowTaskTimeout {
+			return false
+		}
+	} else if this.DefaultWorkflowTaskTimeout != nil {
+		return false
+	} else if that1.DefaultWorkflowTaskTimeout != nil {
 		return false
 	}
 	return true
@@ -810,10 +848,18 @@ func (this *PendingActivityInfo) Equal(that interface{}) bool {
 	if !this.HeartbeatDetails.Equal(that1.HeartbeatDetails) {
 		return false
 	}
-	if this.LastHeartbeatTimestamp != that1.LastHeartbeatTimestamp {
+	if that1.LastHeartbeatTime == nil {
+		if this.LastHeartbeatTime != nil {
+			return false
+		}
+	} else if !this.LastHeartbeatTime.Equal(*that1.LastHeartbeatTime) {
 		return false
 	}
-	if this.LastStartedTimestamp != that1.LastStartedTimestamp {
+	if that1.LastStartedTime == nil {
+		if this.LastStartedTime != nil {
+			return false
+		}
+	} else if !this.LastStartedTime.Equal(*that1.LastStartedTime) {
 		return false
 	}
 	if this.Attempt != that1.Attempt {
@@ -822,10 +868,18 @@ func (this *PendingActivityInfo) Equal(that interface{}) bool {
 	if this.MaximumAttempts != that1.MaximumAttempts {
 		return false
 	}
-	if this.ScheduledTimestamp != that1.ScheduledTimestamp {
+	if that1.ScheduledTime == nil {
+		if this.ScheduledTime != nil {
+			return false
+		}
+	} else if !this.ScheduledTime.Equal(*that1.ScheduledTime) {
 		return false
 	}
-	if this.ExpirationTimestamp != that1.ExpirationTimestamp {
+	if that1.ExpirationTime == nil {
+		if this.ExpirationTime != nil {
+			return false
+		}
+	} else if !this.ExpirationTime.Equal(*that1.ExpirationTime) {
 		return false
 	}
 	if !this.LastFailure.Equal(that1.LastFailure) {
@@ -929,10 +983,18 @@ func (this *ResetPointInfo) Equal(that interface{}) bool {
 	if this.FirstWorkflowTaskCompletedId != that1.FirstWorkflowTaskCompletedId {
 		return false
 	}
-	if this.CreateTimeNano != that1.CreateTimeNano {
+	if that1.CreateTime == nil {
+		if this.CreateTime != nil {
+			return false
+		}
+	} else if !this.CreateTime.Equal(*that1.CreateTime) {
 		return false
 	}
-	if this.ExpireTimeNano != that1.ExpireTimeNano {
+	if that1.ExpireTime == nil {
+		if this.ExpireTime != nil {
+			return false
+		}
+	} else if !this.ExpireTime.Equal(*that1.ExpireTime) {
 		return false
 	}
 	if this.Resettable != that1.Resettable {
@@ -952,12 +1014,8 @@ func (this *WorkflowExecutionInfo) GoString() string {
 	if this.Type != nil {
 		s = append(s, "Type: "+fmt.Sprintf("%#v", this.Type)+",\n")
 	}
-	if this.StartTime != nil {
-		s = append(s, "StartTime: "+fmt.Sprintf("%#v", this.StartTime)+",\n")
-	}
-	if this.CloseTime != nil {
-		s = append(s, "CloseTime: "+fmt.Sprintf("%#v", this.CloseTime)+",\n")
-	}
+	s = append(s, "StartTime: "+fmt.Sprintf("%#v", this.StartTime)+",\n")
+	s = append(s, "CloseTime: "+fmt.Sprintf("%#v", this.CloseTime)+",\n")
 	s = append(s, "Status: "+fmt.Sprintf("%#v", this.Status)+",\n")
 	s = append(s, "HistoryLength: "+fmt.Sprintf("%#v", this.HistoryLength)+",\n")
 	s = append(s, "ParentNamespaceId: "+fmt.Sprintf("%#v", this.ParentNamespaceId)+",\n")
@@ -987,9 +1045,9 @@ func (this *WorkflowExecutionConfig) GoString() string {
 	if this.TaskQueue != nil {
 		s = append(s, "TaskQueue: "+fmt.Sprintf("%#v", this.TaskQueue)+",\n")
 	}
-	s = append(s, "WorkflowExecutionTimeoutSeconds: "+fmt.Sprintf("%#v", this.WorkflowExecutionTimeoutSeconds)+",\n")
-	s = append(s, "WorkflowRunTimeoutSeconds: "+fmt.Sprintf("%#v", this.WorkflowRunTimeoutSeconds)+",\n")
-	s = append(s, "DefaultWorkflowTaskTimeoutSeconds: "+fmt.Sprintf("%#v", this.DefaultWorkflowTaskTimeoutSeconds)+",\n")
+	s = append(s, "WorkflowExecutionTimeout: "+fmt.Sprintf("%#v", this.WorkflowExecutionTimeout)+",\n")
+	s = append(s, "WorkflowRunTimeout: "+fmt.Sprintf("%#v", this.WorkflowRunTimeout)+",\n")
+	s = append(s, "DefaultWorkflowTaskTimeout: "+fmt.Sprintf("%#v", this.DefaultWorkflowTaskTimeout)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1007,12 +1065,12 @@ func (this *PendingActivityInfo) GoString() string {
 	if this.HeartbeatDetails != nil {
 		s = append(s, "HeartbeatDetails: "+fmt.Sprintf("%#v", this.HeartbeatDetails)+",\n")
 	}
-	s = append(s, "LastHeartbeatTimestamp: "+fmt.Sprintf("%#v", this.LastHeartbeatTimestamp)+",\n")
-	s = append(s, "LastStartedTimestamp: "+fmt.Sprintf("%#v", this.LastStartedTimestamp)+",\n")
+	s = append(s, "LastHeartbeatTime: "+fmt.Sprintf("%#v", this.LastHeartbeatTime)+",\n")
+	s = append(s, "LastStartedTime: "+fmt.Sprintf("%#v", this.LastStartedTime)+",\n")
 	s = append(s, "Attempt: "+fmt.Sprintf("%#v", this.Attempt)+",\n")
 	s = append(s, "MaximumAttempts: "+fmt.Sprintf("%#v", this.MaximumAttempts)+",\n")
-	s = append(s, "ScheduledTimestamp: "+fmt.Sprintf("%#v", this.ScheduledTimestamp)+",\n")
-	s = append(s, "ExpirationTimestamp: "+fmt.Sprintf("%#v", this.ExpirationTimestamp)+",\n")
+	s = append(s, "ScheduledTime: "+fmt.Sprintf("%#v", this.ScheduledTime)+",\n")
+	s = append(s, "ExpirationTime: "+fmt.Sprintf("%#v", this.ExpirationTime)+",\n")
 	if this.LastFailure != nil {
 		s = append(s, "LastFailure: "+fmt.Sprintf("%#v", this.LastFailure)+",\n")
 	}
@@ -1055,8 +1113,8 @@ func (this *ResetPointInfo) GoString() string {
 	s = append(s, "BinaryChecksum: "+fmt.Sprintf("%#v", this.BinaryChecksum)+",\n")
 	s = append(s, "RunId: "+fmt.Sprintf("%#v", this.RunId)+",\n")
 	s = append(s, "FirstWorkflowTaskCompletedId: "+fmt.Sprintf("%#v", this.FirstWorkflowTaskCompletedId)+",\n")
-	s = append(s, "CreateTimeNano: "+fmt.Sprintf("%#v", this.CreateTimeNano)+",\n")
-	s = append(s, "ExpireTimeNano: "+fmt.Sprintf("%#v", this.ExpireTimeNano)+",\n")
+	s = append(s, "CreateTime: "+fmt.Sprintf("%#v", this.CreateTime)+",\n")
+	s = append(s, "ExpireTime: "+fmt.Sprintf("%#v", this.ExpireTime)+",\n")
 	s = append(s, "Resettable: "+fmt.Sprintf("%#v", this.Resettable)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
@@ -1132,10 +1190,15 @@ func (m *WorkflowExecutionInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x52
 	}
-	if m.ExecutionTime != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.ExecutionTime))
+	if m.ExecutionTime != nil {
+		n4, err4 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.ExecutionTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.ExecutionTime):])
+		if err4 != nil {
+			return 0, err4
+		}
+		i -= n4
+		i = encodeVarintMessage(dAtA, i, uint64(n4))
 		i--
-		dAtA[i] = 0x48
+		dAtA[i] = 0x4a
 	}
 	if m.ParentExecution != nil {
 		{
@@ -1167,26 +1230,22 @@ func (m *WorkflowExecutionInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x28
 	}
 	if m.CloseTime != nil {
-		{
-			size, err := m.CloseTime.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintMessage(dAtA, i, uint64(size))
+		n6, err6 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.CloseTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.CloseTime):])
+		if err6 != nil {
+			return 0, err6
 		}
+		i -= n6
+		i = encodeVarintMessage(dAtA, i, uint64(n6))
 		i--
 		dAtA[i] = 0x22
 	}
 	if m.StartTime != nil {
-		{
-			size, err := m.StartTime.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintMessage(dAtA, i, uint64(size))
+		n7, err7 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.StartTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.StartTime):])
+		if err7 != nil {
+			return 0, err7
 		}
+		i -= n7
+		i = encodeVarintMessage(dAtA, i, uint64(n7))
 		i--
 		dAtA[i] = 0x1a
 	}
@@ -1237,20 +1296,35 @@ func (m *WorkflowExecutionConfig) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
-	if m.DefaultWorkflowTaskTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.DefaultWorkflowTaskTimeoutSeconds))
+	if m.DefaultWorkflowTaskTimeout != nil {
+		n10, err10 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.DefaultWorkflowTaskTimeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.DefaultWorkflowTaskTimeout):])
+		if err10 != nil {
+			return 0, err10
+		}
+		i -= n10
+		i = encodeVarintMessage(dAtA, i, uint64(n10))
 		i--
-		dAtA[i] = 0x20
+		dAtA[i] = 0x22
 	}
-	if m.WorkflowRunTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowRunTimeoutSeconds))
+	if m.WorkflowRunTimeout != nil {
+		n11, err11 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.WorkflowRunTimeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.WorkflowRunTimeout):])
+		if err11 != nil {
+			return 0, err11
+		}
+		i -= n11
+		i = encodeVarintMessage(dAtA, i, uint64(n11))
 		i--
-		dAtA[i] = 0x18
+		dAtA[i] = 0x1a
 	}
-	if m.WorkflowExecutionTimeoutSeconds != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.WorkflowExecutionTimeoutSeconds))
+	if m.WorkflowExecutionTimeout != nil {
+		n12, err12 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.WorkflowExecutionTimeout, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.WorkflowExecutionTimeout):])
+		if err12 != nil {
+			return 0, err12
+		}
+		i -= n12
+		i = encodeVarintMessage(dAtA, i, uint64(n12))
 		i--
-		dAtA[i] = 0x10
+		dAtA[i] = 0x12
 	}
 	if m.TaskQueue != nil {
 		{
@@ -1306,15 +1380,25 @@ func (m *PendingActivityInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x5a
 	}
-	if m.ExpirationTimestamp != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.ExpirationTimestamp))
+	if m.ExpirationTime != nil {
+		n15, err15 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.ExpirationTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.ExpirationTime):])
+		if err15 != nil {
+			return 0, err15
+		}
+		i -= n15
+		i = encodeVarintMessage(dAtA, i, uint64(n15))
 		i--
-		dAtA[i] = 0x50
+		dAtA[i] = 0x52
 	}
-	if m.ScheduledTimestamp != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.ScheduledTimestamp))
+	if m.ScheduledTime != nil {
+		n16, err16 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.ScheduledTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.ScheduledTime):])
+		if err16 != nil {
+			return 0, err16
+		}
+		i -= n16
+		i = encodeVarintMessage(dAtA, i, uint64(n16))
 		i--
-		dAtA[i] = 0x48
+		dAtA[i] = 0x4a
 	}
 	if m.MaximumAttempts != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.MaximumAttempts))
@@ -1326,15 +1410,25 @@ func (m *PendingActivityInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x38
 	}
-	if m.LastStartedTimestamp != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.LastStartedTimestamp))
+	if m.LastStartedTime != nil {
+		n17, err17 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.LastStartedTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.LastStartedTime):])
+		if err17 != nil {
+			return 0, err17
+		}
+		i -= n17
+		i = encodeVarintMessage(dAtA, i, uint64(n17))
 		i--
-		dAtA[i] = 0x30
+		dAtA[i] = 0x32
 	}
-	if m.LastHeartbeatTimestamp != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.LastHeartbeatTimestamp))
+	if m.LastHeartbeatTime != nil {
+		n18, err18 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.LastHeartbeatTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.LastHeartbeatTime):])
+		if err18 != nil {
+			return 0, err18
+		}
+		i -= n18
+		i = encodeVarintMessage(dAtA, i, uint64(n18))
 		i--
-		dAtA[i] = 0x28
+		dAtA[i] = 0x2a
 	}
 	if m.HeartbeatDetails != nil {
 		{
@@ -1496,15 +1590,25 @@ func (m *ResetPointInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x30
 	}
-	if m.ExpireTimeNano != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.ExpireTimeNano))
+	if m.ExpireTime != nil {
+		n21, err21 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.ExpireTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.ExpireTime):])
+		if err21 != nil {
+			return 0, err21
+		}
+		i -= n21
+		i = encodeVarintMessage(dAtA, i, uint64(n21))
 		i--
-		dAtA[i] = 0x28
+		dAtA[i] = 0x2a
 	}
-	if m.CreateTimeNano != 0 {
-		i = encodeVarintMessage(dAtA, i, uint64(m.CreateTimeNano))
+	if m.CreateTime != nil {
+		n22, err22 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.CreateTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.CreateTime):])
+		if err22 != nil {
+			return 0, err22
+		}
+		i -= n22
+		i = encodeVarintMessage(dAtA, i, uint64(n22))
 		i--
-		dAtA[i] = 0x20
+		dAtA[i] = 0x22
 	}
 	if m.FirstWorkflowTaskCompletedId != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.FirstWorkflowTaskCompletedId))
@@ -1554,11 +1658,11 @@ func (m *WorkflowExecutionInfo) Size() (n int) {
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.StartTime != nil {
-		l = m.StartTime.Size()
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.StartTime)
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.CloseTime != nil {
-		l = m.CloseTime.Size()
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.CloseTime)
 		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.Status != 0 {
@@ -1575,8 +1679,9 @@ func (m *WorkflowExecutionInfo) Size() (n int) {
 		l = m.ParentExecution.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.ExecutionTime != 0 {
-		n += 1 + sovMessage(uint64(m.ExecutionTime))
+	if m.ExecutionTime != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.ExecutionTime)
+		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.Memo != nil {
 		l = m.Memo.Size()
@@ -1607,14 +1712,17 @@ func (m *WorkflowExecutionConfig) Size() (n int) {
 		l = m.TaskQueue.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.WorkflowExecutionTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.WorkflowExecutionTimeoutSeconds))
+	if m.WorkflowExecutionTimeout != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdDuration(*m.WorkflowExecutionTimeout)
+		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.WorkflowRunTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.WorkflowRunTimeoutSeconds))
+	if m.WorkflowRunTimeout != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdDuration(*m.WorkflowRunTimeout)
+		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.DefaultWorkflowTaskTimeoutSeconds != 0 {
-		n += 1 + sovMessage(uint64(m.DefaultWorkflowTaskTimeoutSeconds))
+	if m.DefaultWorkflowTaskTimeout != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdDuration(*m.DefaultWorkflowTaskTimeout)
+		n += 1 + l + sovMessage(uint64(l))
 	}
 	return n
 }
@@ -1640,11 +1748,13 @@ func (m *PendingActivityInfo) Size() (n int) {
 		l = m.HeartbeatDetails.Size()
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.LastHeartbeatTimestamp != 0 {
-		n += 1 + sovMessage(uint64(m.LastHeartbeatTimestamp))
+	if m.LastHeartbeatTime != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.LastHeartbeatTime)
+		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.LastStartedTimestamp != 0 {
-		n += 1 + sovMessage(uint64(m.LastStartedTimestamp))
+	if m.LastStartedTime != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.LastStartedTime)
+		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.Attempt != 0 {
 		n += 1 + sovMessage(uint64(m.Attempt))
@@ -1652,11 +1762,13 @@ func (m *PendingActivityInfo) Size() (n int) {
 	if m.MaximumAttempts != 0 {
 		n += 1 + sovMessage(uint64(m.MaximumAttempts))
 	}
-	if m.ScheduledTimestamp != 0 {
-		n += 1 + sovMessage(uint64(m.ScheduledTimestamp))
+	if m.ScheduledTime != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.ScheduledTime)
+		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.ExpirationTimestamp != 0 {
-		n += 1 + sovMessage(uint64(m.ExpirationTimestamp))
+	if m.ExpirationTime != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.ExpirationTime)
+		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.LastFailure != nil {
 		l = m.LastFailure.Size()
@@ -1728,11 +1840,13 @@ func (m *ResetPointInfo) Size() (n int) {
 	if m.FirstWorkflowTaskCompletedId != 0 {
 		n += 1 + sovMessage(uint64(m.FirstWorkflowTaskCompletedId))
 	}
-	if m.CreateTimeNano != 0 {
-		n += 1 + sovMessage(uint64(m.CreateTimeNano))
+	if m.CreateTime != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.CreateTime)
+		n += 1 + l + sovMessage(uint64(l))
 	}
-	if m.ExpireTimeNano != 0 {
-		n += 1 + sovMessage(uint64(m.ExpireTimeNano))
+	if m.ExpireTime != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.ExpireTime)
+		n += 1 + l + sovMessage(uint64(l))
 	}
 	if m.Resettable {
 		n += 2
@@ -1753,13 +1867,13 @@ func (this *WorkflowExecutionInfo) String() string {
 	s := strings.Join([]string{`&WorkflowExecutionInfo{`,
 		`Execution:` + strings.Replace(fmt.Sprintf("%v", this.Execution), "WorkflowExecution", "v1.WorkflowExecution", 1) + `,`,
 		`Type:` + strings.Replace(fmt.Sprintf("%v", this.Type), "WorkflowType", "v1.WorkflowType", 1) + `,`,
-		`StartTime:` + strings.Replace(fmt.Sprintf("%v", this.StartTime), "Int64Value", "types.Int64Value", 1) + `,`,
-		`CloseTime:` + strings.Replace(fmt.Sprintf("%v", this.CloseTime), "Int64Value", "types.Int64Value", 1) + `,`,
+		`StartTime:` + strings.Replace(fmt.Sprintf("%v", this.StartTime), "Timestamp", "types.Timestamp", 1) + `,`,
+		`CloseTime:` + strings.Replace(fmt.Sprintf("%v", this.CloseTime), "Timestamp", "types.Timestamp", 1) + `,`,
 		`Status:` + fmt.Sprintf("%v", this.Status) + `,`,
 		`HistoryLength:` + fmt.Sprintf("%v", this.HistoryLength) + `,`,
 		`ParentNamespaceId:` + fmt.Sprintf("%v", this.ParentNamespaceId) + `,`,
 		`ParentExecution:` + strings.Replace(fmt.Sprintf("%v", this.ParentExecution), "WorkflowExecution", "v1.WorkflowExecution", 1) + `,`,
-		`ExecutionTime:` + fmt.Sprintf("%v", this.ExecutionTime) + `,`,
+		`ExecutionTime:` + strings.Replace(fmt.Sprintf("%v", this.ExecutionTime), "Timestamp", "types.Timestamp", 1) + `,`,
 		`Memo:` + strings.Replace(fmt.Sprintf("%v", this.Memo), "Memo", "v1.Memo", 1) + `,`,
 		`SearchAttributes:` + strings.Replace(fmt.Sprintf("%v", this.SearchAttributes), "SearchAttributes", "v1.SearchAttributes", 1) + `,`,
 		`AutoResetPoints:` + strings.Replace(this.AutoResetPoints.String(), "ResetPoints", "ResetPoints", 1) + `,`,
@@ -1774,9 +1888,9 @@ func (this *WorkflowExecutionConfig) String() string {
 	}
 	s := strings.Join([]string{`&WorkflowExecutionConfig{`,
 		`TaskQueue:` + strings.Replace(fmt.Sprintf("%v", this.TaskQueue), "TaskQueue", "v12.TaskQueue", 1) + `,`,
-		`WorkflowExecutionTimeoutSeconds:` + fmt.Sprintf("%v", this.WorkflowExecutionTimeoutSeconds) + `,`,
-		`WorkflowRunTimeoutSeconds:` + fmt.Sprintf("%v", this.WorkflowRunTimeoutSeconds) + `,`,
-		`DefaultWorkflowTaskTimeoutSeconds:` + fmt.Sprintf("%v", this.DefaultWorkflowTaskTimeoutSeconds) + `,`,
+		`WorkflowExecutionTimeout:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowExecutionTimeout), "Duration", "types.Duration", 1) + `,`,
+		`WorkflowRunTimeout:` + strings.Replace(fmt.Sprintf("%v", this.WorkflowRunTimeout), "Duration", "types.Duration", 1) + `,`,
+		`DefaultWorkflowTaskTimeout:` + strings.Replace(fmt.Sprintf("%v", this.DefaultWorkflowTaskTimeout), "Duration", "types.Duration", 1) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -1790,12 +1904,12 @@ func (this *PendingActivityInfo) String() string {
 		`ActivityType:` + strings.Replace(fmt.Sprintf("%v", this.ActivityType), "ActivityType", "v1.ActivityType", 1) + `,`,
 		`State:` + fmt.Sprintf("%v", this.State) + `,`,
 		`HeartbeatDetails:` + strings.Replace(fmt.Sprintf("%v", this.HeartbeatDetails), "Payloads", "v1.Payloads", 1) + `,`,
-		`LastHeartbeatTimestamp:` + fmt.Sprintf("%v", this.LastHeartbeatTimestamp) + `,`,
-		`LastStartedTimestamp:` + fmt.Sprintf("%v", this.LastStartedTimestamp) + `,`,
+		`LastHeartbeatTime:` + strings.Replace(fmt.Sprintf("%v", this.LastHeartbeatTime), "Timestamp", "types.Timestamp", 1) + `,`,
+		`LastStartedTime:` + strings.Replace(fmt.Sprintf("%v", this.LastStartedTime), "Timestamp", "types.Timestamp", 1) + `,`,
 		`Attempt:` + fmt.Sprintf("%v", this.Attempt) + `,`,
 		`MaximumAttempts:` + fmt.Sprintf("%v", this.MaximumAttempts) + `,`,
-		`ScheduledTimestamp:` + fmt.Sprintf("%v", this.ScheduledTimestamp) + `,`,
-		`ExpirationTimestamp:` + fmt.Sprintf("%v", this.ExpirationTimestamp) + `,`,
+		`ScheduledTime:` + strings.Replace(fmt.Sprintf("%v", this.ScheduledTime), "Timestamp", "types.Timestamp", 1) + `,`,
+		`ExpirationTime:` + strings.Replace(fmt.Sprintf("%v", this.ExpirationTime), "Timestamp", "types.Timestamp", 1) + `,`,
 		`LastFailure:` + strings.Replace(fmt.Sprintf("%v", this.LastFailure), "Failure", "v13.Failure", 1) + `,`,
 		`LastWorkerIdentity:` + fmt.Sprintf("%v", this.LastWorkerIdentity) + `,`,
 		`}`,
@@ -1839,8 +1953,8 @@ func (this *ResetPointInfo) String() string {
 		`BinaryChecksum:` + fmt.Sprintf("%v", this.BinaryChecksum) + `,`,
 		`RunId:` + fmt.Sprintf("%v", this.RunId) + `,`,
 		`FirstWorkflowTaskCompletedId:` + fmt.Sprintf("%v", this.FirstWorkflowTaskCompletedId) + `,`,
-		`CreateTimeNano:` + fmt.Sprintf("%v", this.CreateTimeNano) + `,`,
-		`ExpireTimeNano:` + fmt.Sprintf("%v", this.ExpireTimeNano) + `,`,
+		`CreateTime:` + strings.Replace(fmt.Sprintf("%v", this.CreateTime), "Timestamp", "types.Timestamp", 1) + `,`,
+		`ExpireTime:` + strings.Replace(fmt.Sprintf("%v", this.ExpireTime), "Timestamp", "types.Timestamp", 1) + `,`,
 		`Resettable:` + fmt.Sprintf("%v", this.Resettable) + `,`,
 		`}`,
 	}, "")
@@ -1985,9 +2099,9 @@ func (m *WorkflowExecutionInfo) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.StartTime == nil {
-				m.StartTime = &types.Int64Value{}
+				m.StartTime = new(time.Time)
 			}
-			if err := m.StartTime.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.StartTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -2021,9 +2135,9 @@ func (m *WorkflowExecutionInfo) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.CloseTime == nil {
-				m.CloseTime = &types.Int64Value{}
+				m.CloseTime = new(time.Time)
 			}
-			if err := m.CloseTime.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.CloseTime, dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -2134,10 +2248,10 @@ func (m *WorkflowExecutionInfo) Unmarshal(dAtA []byte) error {
 			}
 			iNdEx = postIndex
 		case 9:
-			if wireType != 0 {
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ExecutionTime", wireType)
 			}
-			m.ExecutionTime = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -2147,11 +2261,28 @@ func (m *WorkflowExecutionInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExecutionTime |= int64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ExecutionTime == nil {
+				m.ExecutionTime = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.ExecutionTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Memo", wireType)
@@ -2382,10 +2513,10 @@ func (m *WorkflowExecutionConfig) Unmarshal(dAtA []byte) error {
 			}
 			iNdEx = postIndex
 		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowExecutionTimeoutSeconds", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowExecutionTimeout", wireType)
 			}
-			m.WorkflowExecutionTimeoutSeconds = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -2395,16 +2526,33 @@ func (m *WorkflowExecutionConfig) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.WorkflowExecutionTimeoutSeconds |= int32(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WorkflowExecutionTimeout == nil {
+				m.WorkflowExecutionTimeout = new(time.Duration)
+			}
+			if err := github_com_gogo_protobuf_types.StdDurationUnmarshal(m.WorkflowExecutionTimeout, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowRunTimeoutSeconds", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field WorkflowRunTimeout", wireType)
 			}
-			m.WorkflowRunTimeoutSeconds = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -2414,16 +2562,33 @@ func (m *WorkflowExecutionConfig) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.WorkflowRunTimeoutSeconds |= int32(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.WorkflowRunTimeout == nil {
+				m.WorkflowRunTimeout = new(time.Duration)
+			}
+			if err := github_com_gogo_protobuf_types.StdDurationUnmarshal(m.WorkflowRunTimeout, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DefaultWorkflowTaskTimeoutSeconds", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DefaultWorkflowTaskTimeout", wireType)
 			}
-			m.DefaultWorkflowTaskTimeoutSeconds = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -2433,11 +2598,28 @@ func (m *WorkflowExecutionConfig) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.DefaultWorkflowTaskTimeoutSeconds |= int32(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.DefaultWorkflowTaskTimeout == nil {
+				m.DefaultWorkflowTaskTimeout = new(time.Duration)
+			}
+			if err := github_com_gogo_protobuf_types.StdDurationUnmarshal(m.DefaultWorkflowTaskTimeout, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipMessage(dAtA[iNdEx:])
@@ -2615,10 +2797,10 @@ func (m *PendingActivityInfo) Unmarshal(dAtA []byte) error {
 			}
 			iNdEx = postIndex
 		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field LastHeartbeatTimestamp", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LastHeartbeatTime", wireType)
 			}
-			m.LastHeartbeatTimestamp = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -2628,16 +2810,33 @@ func (m *PendingActivityInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.LastHeartbeatTimestamp |= int64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.LastHeartbeatTime == nil {
+				m.LastHeartbeatTime = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.LastHeartbeatTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 6:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field LastStartedTimestamp", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LastStartedTime", wireType)
 			}
-			m.LastStartedTimestamp = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -2647,11 +2846,28 @@ func (m *PendingActivityInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.LastStartedTimestamp |= int64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.LastStartedTime == nil {
+				m.LastStartedTime = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.LastStartedTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 7:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Attempt", wireType)
@@ -2691,10 +2907,10 @@ func (m *PendingActivityInfo) Unmarshal(dAtA []byte) error {
 				}
 			}
 		case 9:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ScheduledTimestamp", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ScheduledTime", wireType)
 			}
-			m.ScheduledTimestamp = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -2704,16 +2920,33 @@ func (m *PendingActivityInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ScheduledTimestamp |= int64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ScheduledTime == nil {
+				m.ScheduledTime = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.ScheduledTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 10:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ExpirationTimestamp", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ExpirationTime", wireType)
 			}
-			m.ExpirationTimestamp = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -2723,11 +2956,28 @@ func (m *PendingActivityInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpirationTimestamp |= int64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ExpirationTime == nil {
+				m.ExpirationTime = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.ExpirationTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 11:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field LastFailure", wireType)
@@ -3207,10 +3457,10 @@ func (m *ResetPointInfo) Unmarshal(dAtA []byte) error {
 				}
 			}
 		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field CreateTimeNano", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CreateTime", wireType)
 			}
-			m.CreateTimeNano = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -3220,16 +3470,33 @@ func (m *ResetPointInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.CreateTimeNano |= int64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.CreateTime == nil {
+				m.CreateTime = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.CreateTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ExpireTimeNano", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ExpireTime", wireType)
 			}
-			m.ExpireTimeNano = 0
+			var msglen int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowMessage
@@ -3239,11 +3506,28 @@ func (m *ResetPointInfo) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.ExpireTimeNano |= int64(b&0x7F) << shift
+				msglen |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.ExpireTime == nil {
+				m.ExpireTime = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.ExpireTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		case 6:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Resettable", wireType)
