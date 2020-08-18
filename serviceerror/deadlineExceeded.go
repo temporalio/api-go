@@ -31,7 +31,7 @@ type (
 	// DeadlineExceeded represents deadline exceeded error.
 	DeadlineExceeded struct {
 		Message string
-		st *status.Status
+		st      *status.Status
 	}
 )
 
@@ -48,7 +48,7 @@ func (e *DeadlineExceeded) Error() string {
 }
 
 func (e *DeadlineExceeded) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
@@ -58,6 +58,6 @@ func (e *DeadlineExceeded) status() *status.Status {
 func newDeadlineExceeded(st *status.Status) *DeadlineExceeded {
 	return &DeadlineExceeded{
 		Message: st.Message(),
-		st: st,
+		st:      st,
 	}
 }

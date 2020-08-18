@@ -31,7 +31,7 @@ type (
 	// Unavailable represents unavailable error.
 	Unavailable struct {
 		Message string
-		st *status.Status
+		st      *status.Status
 	}
 )
 
@@ -48,7 +48,7 @@ func (e *Unavailable) Error() string {
 }
 
 func (e *Unavailable) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
@@ -58,6 +58,6 @@ func (e *Unavailable) status() *status.Status {
 func newUnavailable(st *status.Status) *Unavailable {
 	return &Unavailable{
 		Message: st.Message(),
-		st: st,
+		st:      st,
 	}
 }

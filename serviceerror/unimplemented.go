@@ -31,7 +31,7 @@ type (
 	// Unimplemented represents unimplemented error.
 	Unimplemented struct {
 		Message string
-		st *status.Status
+		st      *status.Status
 	}
 )
 
@@ -48,7 +48,7 @@ func (e *Unimplemented) Error() string {
 }
 
 func (e *Unimplemented) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
@@ -58,6 +58,6 @@ func (e *Unimplemented) status() *status.Status {
 func newUnimplemented(st *status.Status) *Unimplemented {
 	return &Unimplemented{
 		Message: st.Message(),
-		st: st,
+		st:      st,
 	}
 }

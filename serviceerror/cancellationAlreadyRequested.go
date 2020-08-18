@@ -32,15 +32,15 @@ import (
 type (
 	// CancellationAlreadyRequested represents cancellation already requested error.
 	CancellationAlreadyRequested struct {
-		Message        string
-		st             *status.Status
+		Message string
+		st      *status.Status
 	}
 )
 
 // NewCancellationAlreadyRequested returns new CancellationAlreadyRequested error.
 func NewCancellationAlreadyRequested(message string) *CancellationAlreadyRequested {
 	return &CancellationAlreadyRequested{
-		Message:        message,
+		Message: message,
 	}
 }
 

@@ -28,17 +28,18 @@ package taskqueue
 import (
 	encoding_binary "encoding/binary"
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
-	types "github.com/gogo/protobuf/types"
-	_ "go.temporal.io/api/dependencies/gogoproto"
-	v1 "go.temporal.io/api/enums/v1"
 	io "io"
 	math "math"
 	math_bits "math/bits"
 	reflect "reflect"
 	strings "strings"
 	time "time"
+
+	proto "github.com/gogo/protobuf/proto"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	types "github.com/gogo/protobuf/types"
+	_ "go.temporal.io/api/dependencies/gogoproto"
+	v1 "go.temporal.io/api/enums/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

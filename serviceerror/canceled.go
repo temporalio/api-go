@@ -31,7 +31,7 @@ type (
 	// Canceled represents canceled error.
 	Canceled struct {
 		Message string
-		st *status.Status
+		st      *status.Status
 	}
 )
 
@@ -48,7 +48,7 @@ func (e *Canceled) Error() string {
 }
 
 func (e *Canceled) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
@@ -58,6 +58,6 @@ func (e *Canceled) status() *status.Status {
 func newCanceled(st *status.Status) *Canceled {
 	return &Canceled{
 		Message: st.Message(),
-		st: st,
+		st:      st,
 	}
 }
