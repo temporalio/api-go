@@ -28,10 +28,11 @@ package workflowservicemock
 
 import (
 	context "context"
+	reflect "reflect"
+
 	gomock "github.com/golang/mock/gomock"
 	workflowservice "go.temporal.io/api/workflowservice/v1"
 	grpc "google.golang.org/grpc"
-	reflect "reflect"
 )
 
 // MockWorkflowServiceClient is a mock of WorkflowServiceClient interface.
