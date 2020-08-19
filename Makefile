@@ -1,13 +1,13 @@
 $(VERBOSE).SILENT:
 ############################# Main targets #############################
 # Install everything, update submodule, and compile proto files.
-install: grpc-install mockgen-install update-proto
+install: grpc-install mockgen-install goimports-install update-proto
 
 # Compile proto files.
-proto: grpc grpc-mock copyright
+proto: grpc grpc-mock goimports copyright
 
 # Update submodule and compile proto files.
-update-proto: update-proto-submodule update-dependencies proto gomodtidy
+update-proto: update-proto-submodule proto update-dependencies gomodtidy
 ########################################################################
 
 ##### Variables ######
@@ -29,11 +29,10 @@ PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/temporalio/gogo-protobuf/
 $(PROTO_OUT):
 	mkdir $(PROTO_OUT)
 
-# git submodule for proto files
-
+##### git submodule for proto files #####
 update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
-	git submodule update --force --remote $(PROTO_ROOT)
+	git submodule update --init --force --remote $(PROTO_ROOT)
 
 ##### Compile proto files for go #####
 grpc: gogo-grpc fix-path
@@ -58,9 +57,13 @@ grpc-mock:
 	printf $(COLOR) "Generate gRPC mocks..."
 	$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call service_name,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call mock_file_name,$(PROTO_GRPC_SERVICE))$(NEWLINE) )
 
+goimports:
+	@printf $(COLOR) "Run goimports..."
+	@goimports -w $(PROTO_OUT)
+
 ##### Plugins & tools #####
 grpc-install: gogo-protobuf-install
-	printf $(COLOR) "Installing/updating gRPC plugins..."
+	printf $(COLOR) "Install/update gRPC plugins..."
 	GO111MODULE=off go get -u google.golang.org/grpc
 
 gogo-protobuf-install: go-protobuf-install
@@ -70,8 +73,12 @@ go-protobuf-install:
 	GO111MODULE=off go get -u github.com/golang/protobuf/protoc-gen-go
 
 mockgen-install:
-	printf $(COLOR) "Installing/updating mockgen..."
+	printf $(COLOR) "Install/update mockgen..."
 	GO111MODULE=off go get -u github.com/golang/mock/mockgen
+
+goimports-install:
+	printf $(COLOR) "Install/update goimports..."
+	GO111MODULE=off go get -u golang.org/x/tools/cmd/goimports
 
 ##### License header #####
 copyright:
@@ -91,4 +98,4 @@ gomodtidy:
 clean:
 	printf $(COLOR) "Deleting generated go files..."
 # Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
-	$(foreach PROTO_OUT_DIR,$(shell find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" \) -printf "%h\n" | sort -u),rm -rf $(dir $(PROTO_OUT_DIR)) )
+	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" \) | xargs dirname | sort -u | xargs rm -rf

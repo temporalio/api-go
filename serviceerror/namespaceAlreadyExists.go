@@ -32,15 +32,15 @@ import (
 type (
 	// NamespaceAlreadyExists represents namespace already exists error.
 	NamespaceAlreadyExists struct {
-		Message        string
-		st             *status.Status
+		Message string
+		st      *status.Status
 	}
 )
 
 // NewNamespaceAlreadyExists returns new NamespaceAlreadyExists error.
 func NewNamespaceAlreadyExists(message string) *NamespaceAlreadyExists {
 	return &NamespaceAlreadyExists{
-		Message:        message,
+		Message: message,
 	}
 }
 

@@ -32,15 +32,15 @@ import (
 type (
 	// QueryFailed represents query failed error.
 	QueryFailed struct {
-		Message        string
-		st             *status.Status
+		Message string
+		st      *status.Status
 	}
 )
 
 // NewQueryFailed returns new QueryFailed error.
 func NewQueryFailed(message string) *QueryFailed {
 	return &QueryFailed{
-		Message:        message,
+		Message: message,
 	}
 }
 

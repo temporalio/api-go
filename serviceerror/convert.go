@@ -31,10 +31,11 @@ import (
 
 	"go.temporal.io/api/errordetails/v1"
 )
+
 // ToStatus converts service error to gogo gRPC status.
 // If error is not a service error it returns status with code Unknown.
 func ToStatus(err error) *status.Status {
-	if err == nil{
+	if err == nil {
 		return status.New(codes.OK, "")
 	}
 
@@ -43,7 +44,7 @@ func ToStatus(err error) *status.Status {
 	}
 
 	// Special case for context.DeadlineExceeded because it can happened in unpredictable places.
-	if errors.Is(err, context.DeadlineExceeded){
+	if errors.Is(err, context.DeadlineExceeded) {
 		return status.New(codes.DeadlineExceeded, err.Error())
 	}
 
@@ -90,13 +91,13 @@ func FromStatus(st *status.Status) error {
 	errDetails := extractErrorDetails(st)
 
 	// If there was an error during details extraction, it will go to errDetails.
-	if err, ok := errDetails.(error); ok{
+	if err, ok := errDetails.(error); ok {
 		return NewInvalidArgument(err.Error())
 	}
 
 	switch st.Code() {
 	case codes.NotFound:
-		if errDetails == nil{
+		if errDetails == nil {
 			return newNotFound(st, nil)
 		}
 		switch errDetails := errDetails.(type) {

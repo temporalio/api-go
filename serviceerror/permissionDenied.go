@@ -31,7 +31,7 @@ type (
 	// PermissionDenied represents permission denied error.
 	PermissionDenied struct {
 		Message string
-		st *status.Status
+		st      *status.Status
 	}
 )
 
@@ -48,7 +48,7 @@ func (e *PermissionDenied) Error() string {
 }
 
 func (e *PermissionDenied) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
@@ -58,6 +58,6 @@ func (e *PermissionDenied) status() *status.Status {
 func newPermissionDenied(st *status.Status) *PermissionDenied {
 	return &PermissionDenied{
 		Message: st.Message(),
-		st: st,
+		st:      st,
 	}
 }

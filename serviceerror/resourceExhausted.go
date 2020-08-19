@@ -31,7 +31,7 @@ type (
 	// ResourceExhausted represents resource exhausted error.
 	ResourceExhausted struct {
 		Message string
-		st *status.Status
+		st      *status.Status
 	}
 )
 
@@ -48,7 +48,7 @@ func (e *ResourceExhausted) Error() string {
 }
 
 func (e *ResourceExhausted) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
@@ -58,6 +58,6 @@ func (e *ResourceExhausted) status() *status.Status {
 func newResourceExhausted(st *status.Status) *ResourceExhausted {
 	return &ResourceExhausted{
 		Message: st.Message(),
-		st: st,
+		st:      st,
 	}
 }

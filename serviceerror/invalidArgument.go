@@ -33,7 +33,7 @@ type (
 	// InvalidArgument represents invalid argument error.
 	InvalidArgument struct {
 		Message string
-		st *status.Status
+		st      *status.Status
 	}
 )
 
@@ -55,7 +55,7 @@ func (e *InvalidArgument) Error() string {
 }
 
 func (e *InvalidArgument) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
@@ -65,6 +65,6 @@ func (e *InvalidArgument) status() *status.Status {
 func newInvalidArgument(st *status.Status) *InvalidArgument {
 	return &InvalidArgument{
 		Message: st.Message(),
-		st: st,
+		st:      st,
 	}
 }

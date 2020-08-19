@@ -31,7 +31,7 @@ type (
 	// DataLoss represents data loss error.
 	DataLoss struct {
 		Message string
-		st *status.Status
+		st      *status.Status
 	}
 )
 
@@ -48,7 +48,7 @@ func (e *DataLoss) Error() string {
 }
 
 func (e *DataLoss) status() *status.Status {
-	if e.st != nil{
+	if e.st != nil {
 		return e.st
 	}
 
@@ -58,6 +58,6 @@ func (e *DataLoss) status() *status.Status {
 func newDataLoss(st *status.Status) *DataLoss {
 	return &DataLoss{
 		Message: st.Message(),
-		st: st,
+		st:      st,
 	}
 }
