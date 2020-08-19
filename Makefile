@@ -7,7 +7,7 @@ install: grpc-install mockgen-install goimports-install update-proto
 proto: grpc grpc-mock goimports copyright
 
 # Update submodule and compile proto files.
-update-proto: update-proto-submodule update-dependencies proto gomodtidy
+update-proto: update-proto-submodule proto update-dependencies gomodtidy
 ########################################################################
 
 ##### Variables ######
