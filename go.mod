@@ -8,10 +8,10 @@ require (
 	github.com/gogo/status v1.1.0
 	github.com/golang/mock v1.4.4
 	github.com/golang/protobuf v1.4.2 // indirect
-	golang.org/x/net v0.0.0-20200813134508-3edf25e44fcc // indirect
-	golang.org/x/sys v0.0.0-20200817155316-9781c653f443 // indirect
+	golang.org/x/net v0.0.0-20200822124328-c89045814202 // indirect
+	golang.org/x/sys v0.0.0-20200831180312-196b9ba8737a // indirect
 	golang.org/x/text v0.3.3 // indirect
-	google.golang.org/genproto v0.0.0-20200815001618-f69a88009b70 // indirect
-	google.golang.org/grpc v1.31.0
+	google.golang.org/genproto v0.0.0-20200831141814-d751682dd103 // indirect
+	google.golang.org/grpc v1.31.1
 	google.golang.org/protobuf v1.25.0 // indirect
 )

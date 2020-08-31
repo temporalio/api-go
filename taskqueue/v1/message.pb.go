@@ -35,10 +35,10 @@ import (
 	strings "strings"
 	time "time"
 
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	types "github.com/gogo/protobuf/types"
-	_ "go.temporal.io/api/dependencies/gogoproto"
 	v1 "go.temporal.io/api/enums/v1"
 )
 
