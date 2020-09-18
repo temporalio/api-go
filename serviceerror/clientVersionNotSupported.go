@@ -57,7 +57,7 @@ func (e *ClientVersionNotSupported) Error() string {
 	return e.Message
 }
 
-func (e *ClientVersionNotSupported) status() *status.Status {
+func (e *ClientVersionNotSupported) Status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

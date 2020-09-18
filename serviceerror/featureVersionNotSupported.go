@@ -57,7 +57,7 @@ func (e *FeatureVersionNotSupported) Error() string {
 	return e.Message
 }
 
-func (e *FeatureVersionNotSupported) status() *status.Status {
+func (e *FeatureVersionNotSupported) Status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
