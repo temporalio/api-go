@@ -33,7 +33,7 @@ import (
 )
 
 // ToStatus converts service error to gogo gRPC Status.
-// If error is not a service error it returns Status with code Unknown.
+// If error is not a service error it returns status with code Unknown.
 func ToStatus(err error) *status.Status {
 	if err == nil {
 		return status.New(codes.OK, "")
@@ -48,7 +48,7 @@ func ToStatus(err error) *status.Status {
 		return status.New(codes.DeadlineExceeded, err.Error())
 	}
 
-	// Internal logic of Status.Convert is:
+	// Internal logic of status.Convert is:
 	//   - if err is already gogo Status or gRPC Status, then just return it (this should never happen though).
 	//   - otherwise returns codes.Unknown with message from err.Error() (this might happen if some generic go error reach to this point).
 	return status.Convert(err)
