@@ -127,8 +127,8 @@ func FromStatus(st *status.Status) error {
 			return newNamespaceNotActive(st, errDetails)
 		case *errordetails.ClientVersionNotSupportedFailure:
 			return newClientVersionNotSupported(st, errDetails)
-		case *errordetails.FeatureVersionNotSupportedFailure:
-			return newFeatureVersionNotSupported(st, errDetails)
+		case *errordetails.ServerVersionNotSupportedFailure:
+			return newServerVersionNotSupported(st, errDetails)
 		}
 	}
 
