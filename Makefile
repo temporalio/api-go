@@ -97,5 +97,5 @@ gomodtidy:
 ##### Clean #####
 clean:
 	printf $(COLOR) "Deleting generated go files..."
-# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
-	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" \) | xargs dirname | sort -u | xargs rm -rf
+	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
+	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf
