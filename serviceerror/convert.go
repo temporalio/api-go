@@ -43,9 +43,12 @@ func ToStatus(err error) *status.Status {
 		return svcerr.Status()
 	}
 
-	// Special case for context.DeadlineExceeded because it can happened in unpredictable places.
+	// Special case for context.DeadlineExceeded and context.Canceled because they can happen in unpredictable places.
 	if errors.Is(err, context.DeadlineExceeded) {
 		return status.New(codes.DeadlineExceeded, err.Error())
+	}
+	if errors.Is(err, context.Canceled) {
+		return status.New(codes.Canceled, err.Error())
 	}
 
 	// Internal logic of status.Convert is:
