@@ -4,7 +4,7 @@ $(VERBOSE).SILENT:
 install: grpc-install mockgen-install goimports-install update-proto
 
 # Compile proto files.
-proto: grpc grpc-mock goimports copyright
+proto: grpc goimports grpc-mock copyright
 
 # Update submodule and compile proto files.
 update-proto: update-proto-submodule proto update-dependencies gomodtidy
@@ -58,27 +58,27 @@ grpc-mock:
 	$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call service_name,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call mock_file_name,$(PROTO_GRPC_SERVICE))$(NEWLINE) )
 
 goimports:
-	@printf $(COLOR) "Run goimports..."
-	@goimports -w $(PROTO_OUT)
+	printf $(COLOR) "Run goimports..."
+	goimports -w $(PROTO_OUT)
 
 ##### Plugins & tools #####
 grpc-install: gogo-protobuf-install
 	printf $(COLOR) "Install/update gRPC plugins..."
-	GO111MODULE=off go get -u google.golang.org/grpc
+	cd && GO111MODULE=on go get google.golang.org/grpc@v1.34.0
 
 gogo-protobuf-install: go-protobuf-install
-	GO111MODULE=off go get -u github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
+	GO111MODULE=off go get github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
 
 go-protobuf-install:
-	GO111MODULE=off go get -u github.com/golang/protobuf/protoc-gen-go
+	GO111MODULE=off go get github.com/golang/protobuf/protoc-gen-go
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
-	GO111MODULE=off go get -u github.com/golang/mock/mockgen
+	cd && GO111MODULE=on go get github.com/golang/mock/mockgen@1fe605df5e5f07f453dc4f594cc3510c914dbdee
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
-	GO111MODULE=off go get -u golang.org/x/tools/cmd/goimports
+	cd && GO111MODULE=on go get golang.org/x/tools/cmd/goimports
 
 ##### License header #####
 copyright:
