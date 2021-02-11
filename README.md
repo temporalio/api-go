@@ -1,4 +1,4 @@
-# Temporal proto generated files for Go
+# Temporal gRPC API and proto files compiled for Go
 
 Generated Go files from Temporal [api](https://github.com/temporalio/api) repository.
 
