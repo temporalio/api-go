@@ -40,7 +40,7 @@ type (
 )
 
 // NewNotFound returns new NotFound error.
-func NewNotFound(message string) *NotFound {
+func NewNotFound(message string) error {
 	return &NotFound{
 		Message: message,
 	}

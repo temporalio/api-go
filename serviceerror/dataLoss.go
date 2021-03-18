@@ -36,7 +36,7 @@ type (
 )
 
 // NewDataLoss returns new DataLoss error.
-func NewDataLoss(message string) *DataLoss {
+func NewDataLoss(message string) error {
 	return &DataLoss{
 		Message: message,
 	}

@@ -36,7 +36,7 @@ type (
 )
 
 // NewPermissionDenied returns new PermissionDenied error.
-func NewPermissionDenied(message string) *PermissionDenied {
+func NewPermissionDenied(message string) error {
 	return &PermissionDenied{
 		Message: message,
 	}

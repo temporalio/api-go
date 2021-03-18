@@ -36,7 +36,7 @@ type (
 )
 
 // NewDeadlineExceeded returns new DeadlineExceeded error.
-func NewDeadlineExceeded(message string) *DeadlineExceeded {
+func NewDeadlineExceeded(message string) error {
 	return &DeadlineExceeded{
 		Message: message,
 	}

@@ -36,7 +36,7 @@ type (
 )
 
 // NewCanceled returns new Canceled error.
-func NewCanceled(message string) *Canceled {
+func NewCanceled(message string) error {
 	return &Canceled{
 		Message: message,
 	}

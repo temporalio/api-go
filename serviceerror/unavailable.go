@@ -36,7 +36,7 @@ type (
 )
 
 // NewUnavailable returns new Unavailable error.
-func NewUnavailable(message string) *Unavailable {
+func NewUnavailable(message string) error {
 	return &Unavailable{
 		Message: message,
 	}

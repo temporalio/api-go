@@ -43,7 +43,7 @@ type (
 )
 
 // NewNamespaceNotActive returns new NamespaceNotActive error.
-func NewNamespaceNotActive(namespace, currentCluster, activeCluster string) *NamespaceNotActive {
+func NewNamespaceNotActive(namespace, currentCluster, activeCluster string) error {
 	return &NamespaceNotActive{
 		Message: fmt.Sprintf(
 			"Namespace: %s is active in cluster: %s, while current cluster %s is a standby cluster.",

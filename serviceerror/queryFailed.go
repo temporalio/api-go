@@ -38,7 +38,7 @@ type (
 )
 
 // NewQueryFailed returns new QueryFailed error.
-func NewQueryFailed(message string) *QueryFailed {
+func NewQueryFailed(message string) error {
 	return &QueryFailed{
 		Message: message,
 	}

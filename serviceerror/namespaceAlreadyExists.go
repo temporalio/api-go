@@ -38,7 +38,7 @@ type (
 )
 
 // NewNamespaceAlreadyExists returns new NamespaceAlreadyExists error.
-func NewNamespaceAlreadyExists(message string) *NamespaceAlreadyExists {
+func NewNamespaceAlreadyExists(message string) error {
 	return &NamespaceAlreadyExists{
 		Message: message,
 	}

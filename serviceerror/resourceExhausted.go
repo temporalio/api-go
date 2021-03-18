@@ -36,7 +36,7 @@ type (
 )
 
 // NewResourceExhausted returns new ResourceExhausted error.
-func NewResourceExhausted(message string) *ResourceExhausted {
+func NewResourceExhausted(message string) error {
 	return &ResourceExhausted{
 		Message: message,
 	}

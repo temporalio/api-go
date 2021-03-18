@@ -36,7 +36,7 @@ type (
 )
 
 // NewUnimplemented returns new Unimplemented error.
-func NewUnimplemented(message string) *Unimplemented {
+func NewUnimplemented(message string) error {
 	return &Unimplemented{
 		Message: message,
 	}

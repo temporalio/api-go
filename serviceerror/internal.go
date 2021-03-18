@@ -38,7 +38,7 @@ type (
 )
 
 // NewInternal returns new Internal error.
-func NewInternal(message string) *Internal {
+func NewInternal(message string) error {
 	return &Internal{
 		Message: message,
 	}

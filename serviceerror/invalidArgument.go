@@ -38,7 +38,7 @@ type (
 )
 
 // NewInvalidArgument returns new InvalidArgument error.
-func NewInvalidArgument(message string) *InvalidArgument {
+func NewInvalidArgument(message string) error {
 	return &InvalidArgument{
 		Message: message,
 	}

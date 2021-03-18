@@ -40,7 +40,7 @@ type (
 )
 
 // NewWorkflowExecutionAlreadyStarted returns new WorkflowExecutionAlreadyStarted error.
-func NewWorkflowExecutionAlreadyStarted(message, startRequestId, runId string) *WorkflowExecutionAlreadyStarted {
+func NewWorkflowExecutionAlreadyStarted(message, startRequestId, runId string) error {
 	return &WorkflowExecutionAlreadyStarted{
 		Message:        message,
 		StartRequestId: startRequestId,
