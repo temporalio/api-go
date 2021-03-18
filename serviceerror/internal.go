@@ -38,7 +38,7 @@ type (
 )
 
 // NewInternal returns new Internal error.
-func NewInternal(message string) *Internal {
+func NewInternal(message string) error {
 	return &Internal{
 		Message: message,
 	}
@@ -62,7 +62,7 @@ func (e *Internal) Status() *status.Status {
 	return status.New(codes.Internal, e.Message)
 }
 
-func newInternal(st *status.Status) *Internal {
+func newInternal(st *status.Status) error {
 	return &Internal{
 		Message: st.Message(),
 		st:      st,

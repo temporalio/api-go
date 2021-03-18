@@ -38,7 +38,7 @@ type (
 )
 
 // NewCancellationAlreadyRequested returns new CancellationAlreadyRequested error.
-func NewCancellationAlreadyRequested(message string) *CancellationAlreadyRequested {
+func NewCancellationAlreadyRequested(message string) error {
 	return &CancellationAlreadyRequested{
 		Message: message,
 	}
@@ -61,7 +61,7 @@ func (e *CancellationAlreadyRequested) Status() *status.Status {
 	return st
 }
 
-func newCancellationAlreadyRequested(st *status.Status) *CancellationAlreadyRequested {
+func newCancellationAlreadyRequested(st *status.Status) error {
 	return &CancellationAlreadyRequested{
 		Message: st.Message(),
 		st:      st,

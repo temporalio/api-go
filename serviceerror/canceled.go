@@ -36,7 +36,7 @@ type (
 )
 
 // NewCanceled returns new Canceled error.
-func NewCanceled(message string) *Canceled {
+func NewCanceled(message string) error {
 	return &Canceled{
 		Message: message,
 	}
@@ -55,7 +55,7 @@ func (e *Canceled) Status() *status.Status {
 	return status.New(codes.Canceled, e.Message)
 }
 
-func newCanceled(st *status.Status) *Canceled {
+func newCanceled(st *status.Status) error {
 	return &Canceled{
 		Message: st.Message(),
 		st:      st,

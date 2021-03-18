@@ -43,7 +43,7 @@ type (
 )
 
 // NewClientVersionNotSupported returns new ClientVersionNotSupported error.
-func NewClientVersionNotSupported(clientVersion, clientName, supportedVersions string) *ClientVersionNotSupported {
+func NewClientVersionNotSupported(clientVersion, clientName, supportedVersions string) error {
 	return &ClientVersionNotSupported{
 		Message:           fmt.Sprintf("Client version %s is not supported. Server supports %s versions: %s", clientVersion, clientName, supportedVersions),
 		ClientVersion:     clientVersion,
@@ -73,7 +73,7 @@ func (e *ClientVersionNotSupported) Status() *status.Status {
 	return st
 }
 
-func newClientVersionNotSupported(st *status.Status, errDetails *errordetails.ClientVersionNotSupportedFailure) *ClientVersionNotSupported {
+func newClientVersionNotSupported(st *status.Status, errDetails *errordetails.ClientVersionNotSupportedFailure) error {
 	return &ClientVersionNotSupported{
 		Message:           st.Message(),
 		ClientVersion:     errDetails.GetClientVersion(),

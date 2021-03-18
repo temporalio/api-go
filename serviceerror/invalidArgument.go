@@ -38,7 +38,7 @@ type (
 )
 
 // NewInvalidArgument returns new InvalidArgument error.
-func NewInvalidArgument(message string) *InvalidArgument {
+func NewInvalidArgument(message string) error {
 	return &InvalidArgument{
 		Message: message,
 	}
@@ -62,7 +62,7 @@ func (e *InvalidArgument) Status() *status.Status {
 	return status.New(codes.InvalidArgument, e.Message)
 }
 
-func newInvalidArgument(st *status.Status) *InvalidArgument {
+func newInvalidArgument(st *status.Status) error {
 	return &InvalidArgument{
 		Message: st.Message(),
 		st:      st,

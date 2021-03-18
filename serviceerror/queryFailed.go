@@ -38,7 +38,7 @@ type (
 )
 
 // NewQueryFailed returns new QueryFailed error.
-func NewQueryFailed(message string) *QueryFailed {
+func NewQueryFailed(message string) error {
 	return &QueryFailed{
 		Message: message,
 	}
@@ -61,7 +61,7 @@ func (e *QueryFailed) Status() *status.Status {
 	return st
 }
 
-func newQueryFailed(st *status.Status) *QueryFailed {
+func newQueryFailed(st *status.Status) error {
 	return &QueryFailed{
 		Message: st.Message(),
 		st:      st,

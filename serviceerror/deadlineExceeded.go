@@ -36,7 +36,7 @@ type (
 )
 
 // NewDeadlineExceeded returns new DeadlineExceeded error.
-func NewDeadlineExceeded(message string) *DeadlineExceeded {
+func NewDeadlineExceeded(message string) error {
 	return &DeadlineExceeded{
 		Message: message,
 	}
@@ -55,7 +55,7 @@ func (e *DeadlineExceeded) Status() *status.Status {
 	return status.New(codes.DeadlineExceeded, e.Message)
 }
 
-func newDeadlineExceeded(st *status.Status) *DeadlineExceeded {
+func newDeadlineExceeded(st *status.Status) error {
 	return &DeadlineExceeded{
 		Message: st.Message(),
 		st:      st,

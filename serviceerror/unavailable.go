@@ -36,7 +36,7 @@ type (
 )
 
 // NewUnavailable returns new Unavailable error.
-func NewUnavailable(message string) *Unavailable {
+func NewUnavailable(message string) error {
 	return &Unavailable{
 		Message: message,
 	}
@@ -55,7 +55,7 @@ func (e *Unavailable) Status() *status.Status {
 	return status.New(codes.Unavailable, e.Message)
 }
 
-func newUnavailable(st *status.Status) *Unavailable {
+func newUnavailable(st *status.Status) error {
 	return &Unavailable{
 		Message: st.Message(),
 		st:      st,
