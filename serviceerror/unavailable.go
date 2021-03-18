@@ -55,7 +55,7 @@ func (e *Unavailable) Status() *status.Status {
 	return status.New(codes.Unavailable, e.Message)
 }
 
-func newUnavailable(st *status.Status) *Unavailable {
+func newUnavailable(st *status.Status) error {
 	return &Unavailable{
 		Message: st.Message(),
 		st:      st,

@@ -55,7 +55,7 @@ func (e *Unimplemented) Status() *status.Status {
 	return status.New(codes.Unimplemented, e.Message)
 }
 
-func newUnimplemented(st *status.Status) *Unimplemented {
+func newUnimplemented(st *status.Status) error {
 	return &Unimplemented{
 		Message: st.Message(),
 		st:      st,

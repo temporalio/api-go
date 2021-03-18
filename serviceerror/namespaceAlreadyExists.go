@@ -61,7 +61,7 @@ func (e *NamespaceAlreadyExists) Status() *status.Status {
 	return st
 }
 
-func newNamespaceAlreadyExists(st *status.Status) *NamespaceAlreadyExists {
+func newNamespaceAlreadyExists(st *status.Status) error {
 	return &NamespaceAlreadyExists{
 		Message: st.Message(),
 		st:      st,

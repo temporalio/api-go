@@ -68,7 +68,7 @@ func (e *WorkflowExecutionAlreadyStarted) Status() *status.Status {
 	return st
 }
 
-func newWorkflowExecutionAlreadyStarted(st *status.Status, errDetails *errordetails.WorkflowExecutionAlreadyStartedFailure) *WorkflowExecutionAlreadyStarted {
+func newWorkflowExecutionAlreadyStarted(st *status.Status, errDetails *errordetails.WorkflowExecutionAlreadyStartedFailure) error {
 	return &WorkflowExecutionAlreadyStarted{
 		Message:        st.Message(),
 		StartRequestId: errDetails.GetStartRequestId(),

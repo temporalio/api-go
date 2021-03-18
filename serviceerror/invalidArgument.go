@@ -62,7 +62,7 @@ func (e *InvalidArgument) Status() *status.Status {
 	return status.New(codes.InvalidArgument, e.Message)
 }
 
-func newInvalidArgument(st *status.Status) *InvalidArgument {
+func newInvalidArgument(st *status.Status) error {
 	return &InvalidArgument{
 		Message: st.Message(),
 		st:      st,

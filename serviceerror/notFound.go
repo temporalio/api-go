@@ -66,7 +66,7 @@ func (e *NotFound) Status() *status.Status {
 	return st
 }
 
-func newNotFound(st *status.Status, errDetails *errordetails.NotFoundFailure) *NotFound {
+func newNotFound(st *status.Status, errDetails *errordetails.NotFoundFailure) error {
 	return &NotFound{
 		Message:        st.Message(),
 		CurrentCluster: errDetails.GetCurrentCluster(),

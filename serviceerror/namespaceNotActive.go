@@ -78,7 +78,7 @@ func (e *NamespaceNotActive) Status() *status.Status {
 	return st
 }
 
-func newNamespaceNotActive(st *status.Status, errDetails *errordetails.NamespaceNotActiveFailure) *NamespaceNotActive {
+func newNamespaceNotActive(st *status.Status, errDetails *errordetails.NamespaceNotActiveFailure) error {
 	return &NamespaceNotActive{
 		Message:        st.Message(),
 		Namespace:      errDetails.GetNamespace(),

@@ -61,7 +61,7 @@ func (e *QueryFailed) Status() *status.Status {
 	return st
 }
 
-func newQueryFailed(st *status.Status) *QueryFailed {
+func newQueryFailed(st *status.Status) error {
 	return &QueryFailed{
 		Message: st.Message(),
 		st:      st,

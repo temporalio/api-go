@@ -55,7 +55,7 @@ func (e *PermissionDenied) Status() *status.Status {
 	return status.New(codes.PermissionDenied, e.Message)
 }
 
-func newPermissionDenied(st *status.Status) *PermissionDenied {
+func newPermissionDenied(st *status.Status) error {
 	return &PermissionDenied{
 		Message: st.Message(),
 		st:      st,

@@ -55,7 +55,7 @@ func (e *Canceled) Status() *status.Status {
 	return status.New(codes.Canceled, e.Message)
 }
 
-func newCanceled(st *status.Status) *Canceled {
+func newCanceled(st *status.Status) error {
 	return &Canceled{
 		Message: st.Message(),
 		st:      st,

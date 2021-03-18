@@ -70,7 +70,7 @@ func (e *ServerVersionNotSupported) Status() *status.Status {
 	return st
 }
 
-func newServerVersionNotSupported(st *status.Status, errDetails *errordetails.ServerVersionNotSupportedFailure) *ServerVersionNotSupported {
+func newServerVersionNotSupported(st *status.Status, errDetails *errordetails.ServerVersionNotSupportedFailure) error {
 	return &ServerVersionNotSupported{
 		Message:                       st.Message(),
 		ServerVersion:                 errDetails.GetServerVersion(),

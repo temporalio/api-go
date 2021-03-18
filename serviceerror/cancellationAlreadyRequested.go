@@ -61,7 +61,7 @@ func (e *CancellationAlreadyRequested) Status() *status.Status {
 	return st
 }
 
-func newCancellationAlreadyRequested(st *status.Status) *CancellationAlreadyRequested {
+func newCancellationAlreadyRequested(st *status.Status) error {
 	return &CancellationAlreadyRequested{
 		Message: st.Message(),
 		st:      st,

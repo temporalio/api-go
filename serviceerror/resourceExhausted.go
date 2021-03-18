@@ -55,7 +55,7 @@ func (e *ResourceExhausted) Status() *status.Status {
 	return status.New(codes.ResourceExhausted, e.Message)
 }
 
-func newResourceExhausted(st *status.Status) *ResourceExhausted {
+func newResourceExhausted(st *status.Status) error {
 	return &ResourceExhausted{
 		Message: st.Message(),
 		st:      st,

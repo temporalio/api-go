@@ -62,7 +62,7 @@ func (e *Internal) Status() *status.Status {
 	return status.New(codes.Internal, e.Message)
 }
 
-func newInternal(st *status.Status) *Internal {
+func newInternal(st *status.Status) error {
 	return &Internal{
 		Message: st.Message(),
 		st:      st,
