@@ -45,7 +45,7 @@ func NewInternal(message string) error {
 }
 
 // MessageArgs returns new Internal with Message formatted with passed args.
-func (e *Internal) MessageArgs(a ...interface{}) *Internal {
+func (e *Internal) MessageArgs(a ...interface{}) error {
 	return NewInternal(fmt.Sprintf(e.Message, a...))
 }
 

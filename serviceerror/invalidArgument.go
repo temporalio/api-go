@@ -45,7 +45,7 @@ func NewInvalidArgument(message string) error {
 }
 
 // MessageArgs returns new InvalidArgument with Message formatted with passed args.
-func (e *InvalidArgument) MessageArgs(a ...interface{}) *InvalidArgument {
+func (e *InvalidArgument) MessageArgs(a ...interface{}) error {
 	return NewInvalidArgument(fmt.Sprintf(e.Message, a...))
 }
 
