@@ -16,7 +16,7 @@ GOPATH := $(shell go env GOPATH)
 endif
 
 GOBIN := $(if $(shell go env GOBIN),$(shell go env GOBIN),$(GOPATH)/bin)
-export PATH := $(GOBIN):$(PATH)
+PATH := $(GOBIN):$(PATH)
 
 COLOR := "\e[1;36m%s\e[0m\n"
 
@@ -64,17 +64,17 @@ goimports:
 ##### Plugins & tools #####
 grpc-install: gogo-protobuf-install
 	printf $(COLOR) "Install/update gRPC plugins..."
-	cd && GO111MODULE=on go get google.golang.org/grpc@v1.34.0
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1.0
 
 gogo-protobuf-install: go-protobuf-install
 	GO111MODULE=off go get github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
 
 go-protobuf-install:
-	GO111MODULE=off go get github.com/golang/protobuf/protoc-gen-go
+	go install github.com/golang/protobuf/protoc-gen-go
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
-	cd && GO111MODULE=on go get github.com/golang/mock/mockgen@1fe605df5e5f07f453dc4f594cc3510c914dbdee
+	go install github.com/golang/mock/mockgen@1fe605df5e5f07f453dc4f594cc3510c914dbdee
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
