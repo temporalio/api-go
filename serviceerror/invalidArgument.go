@@ -23,8 +23,6 @@
 package serviceerror
 
 import (
-	"fmt"
-
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 )
@@ -42,11 +40,6 @@ func NewInvalidArgument(message string) error {
 	return &InvalidArgument{
 		Message: message,
 	}
-}
-
-// MessageArgs returns new InvalidArgument with Message formatted with passed args.
-func (e *InvalidArgument) MessageArgs(a ...interface{}) error {
-	return NewInvalidArgument(fmt.Sprintf(e.Message, a...))
 }
 
 // Error returns string message.
