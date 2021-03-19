@@ -74,7 +74,7 @@ go-protobuf-install:
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
-	go install github.com/golang/mock/mockgen@1fe605df5e5f07f453dc4f594cc3510c914dbdee
+	go install github.com/golang/mock/mockgen@v1.5.0
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
