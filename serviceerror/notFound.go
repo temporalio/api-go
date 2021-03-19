@@ -46,15 +46,6 @@ func NewNotFound(message string) error {
 	}
 }
 
-// NewNotFoundWithCluster returns new NotFound error with cluster information.
-func NewNotFoundWithCluster(message string, currentCluster, activeCluster string) error {
-	return &NotFound{
-		Message:        message,
-		CurrentCluster: currentCluster,
-		ActiveCluster:  activeCluster,
-	}
-}
-
 // Error returns string message.
 func (e *NotFound) Error() string {
 	return e.Message
