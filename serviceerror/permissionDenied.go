@@ -61,7 +61,6 @@ func (e *PermissionDenied) Status() *status.Status {
 			Reason: e.Reason,
 		},
 	)
-
 	return st
 }
 
