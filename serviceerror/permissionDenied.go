@@ -24,6 +24,7 @@ package serviceerror
 
 import (
 	"github.com/gogo/status"
+	"go.temporal.io/api/errordetails/v1"
 	"google.golang.org/grpc/codes"
 )
 
@@ -31,14 +32,16 @@ type (
 	// PermissionDenied represents permission denied error.
 	PermissionDenied struct {
 		Message string
+		Reason  string
 		st      *status.Status
 	}
 )
 
 // NewPermissionDenied returns new PermissionDenied error.
-func NewPermissionDenied(message string) error {
+func NewPermissionDenied(message, reason string) error {
 	return &PermissionDenied{
 		Message: message,
+		Reason:  reason,
 	}
 }
 
@@ -52,12 +55,19 @@ func (e *PermissionDenied) Status() *status.Status {
 		return e.st
 	}
 
-	return status.New(codes.PermissionDenied, e.Message)
+	st := status.New(codes.PermissionDenied, e.Message)
+	st, _ = st.WithDetails(
+		&errordetails.PermissionDeniedFailure{
+			Reason: e.Reason,
+		},
+	)
+	return st
 }
 
-func newPermissionDenied(st *status.Status) error {
+func newPermissionDenied(st *status.Status, errDetails *errordetails.PermissionDeniedFailure) error {
 	return &PermissionDenied{
 		Message: st.Message(),
+		Reason:  errDetails.GetReason(),
 		st:      st,
 	}
 }

@@ -71,8 +71,6 @@ func FromStatus(st *status.Status) error {
 		return newDataLoss(st)
 	case codes.ResourceExhausted:
 		return newResourceExhausted(st)
-	case codes.PermissionDenied:
-		return newPermissionDenied(st)
 	case codes.DeadlineExceeded:
 		return newDeadlineExceeded(st)
 	case codes.Canceled:
@@ -133,6 +131,12 @@ func FromStatus(st *status.Status) error {
 		case *errordetails.ServerVersionNotSupportedFailure:
 			return newServerVersionNotSupported(st, errDetails)
 		}
+	case codes.PermissionDenied:
+		switch errDetails := errDetails.(type) {
+		case *errordetails.PermissionDeniedFailure:
+			return newPermissionDenied(st, errDetails)
+		}
+		return newPermissionDenied(st, nil)
 	}
 
 	// st.Code() should have error details but it didn't (or error details are of a wrong type).
