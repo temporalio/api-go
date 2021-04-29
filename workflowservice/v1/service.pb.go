@@ -185,8 +185,10 @@ type WorkflowServiceClient interface {
 	// Application is expected to call 'RespondActivityTaskCompleted' or 'RespondActivityTaskFailed' once it is done
 	// processing the task.
 	// Application also needs to call 'RecordActivityTaskHeartbeat' API within 'heartbeatTimeoutSeconds' interval to
-	// prevent the task from getting timed out.  An event 'ActivityTaskStarted' event is also written to workflow execution
-	// history before the ActivityTask is dispatched to application worker.
+	// prevent the Task from getting timed out.  An in memory event 'ActivityTaskStarted' is also written to mutable state
+	// before the ActivityTask is dispatched to application Worker. 'ActivityTaskStarted' and Activity finish event:
+	// 'ActivityTaskCompleted' / 'ActivityTaskFailed' / 'ActivityTaskTimedout' will both be written to Workflow execution
+	// history when Activity is finished.
 	PollActivityTaskQueue(ctx context.Context, in *PollActivityTaskQueueRequest, opts ...grpc.CallOption) (*PollActivityTaskQueueResponse, error)
 	// RecordActivityTaskHeartbeat is called by application worker while it is processing an ActivityTask.  If worker fails
 	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timedout and
@@ -703,8 +705,10 @@ type WorkflowServiceServer interface {
 	// Application is expected to call 'RespondActivityTaskCompleted' or 'RespondActivityTaskFailed' once it is done
 	// processing the task.
 	// Application also needs to call 'RecordActivityTaskHeartbeat' API within 'heartbeatTimeoutSeconds' interval to
-	// prevent the task from getting timed out.  An event 'ActivityTaskStarted' event is also written to workflow execution
-	// history before the ActivityTask is dispatched to application worker.
+	// prevent the Task from getting timed out.  An in memory event 'ActivityTaskStarted' is also written to mutable state
+	// before the ActivityTask is dispatched to application Worker. 'ActivityTaskStarted' and Activity finish event:
+	// 'ActivityTaskCompleted' / 'ActivityTaskFailed' / 'ActivityTaskTimedout' will both be written to Workflow execution
+	// history when Activity is finished.
 	PollActivityTaskQueue(context.Context, *PollActivityTaskQueueRequest) (*PollActivityTaskQueueResponse, error)
 	// RecordActivityTaskHeartbeat is called by application worker while it is processing an ActivityTask.  If worker fails
 	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timedout and
