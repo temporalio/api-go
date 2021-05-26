@@ -126,6 +126,8 @@ func FromStatus(st *status.Status) error {
 		}
 	case codes.FailedPrecondition:
 		switch errDetails := errDetails.(type) {
+		case *errordetails.ServerConfigurationFailure:
+			return newServerConfiguration(st)
 		case *errordetails.NamespaceNotActiveFailure:
 			return newNamespaceNotActive(st, errDetails)
 		case *errordetails.ClientVersionNotSupportedFailure:
