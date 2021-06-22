@@ -20,6 +20,9 @@ PATH := $(GOBIN):$(PATH)
 
 COLOR := "\e[1;36m%s\e[0m\n"
 
+PINNED_DEPENDENCIES := \
+	github.com/golang/mock/mockgen@v1.5.0
+
 PROTO_ROOT := proto/api
 PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
@@ -88,8 +91,7 @@ copyright:
 ##### go.mod #####
 update-dependencies:
 	printf $(COLOR) "Update go dependencies..."
-	go get -u -t ./...
-	go get github.com/golang/mock/mockgen@v1.5.0
+	go get -u -t $(PINNED_DEPENDENCIES) ./...
 
 gomodtidy:
 	printf $(COLOR) "go mod tidy..."
