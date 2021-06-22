@@ -89,6 +89,7 @@ copyright:
 update-dependencies:
 	printf $(COLOR) "Update go dependencies..."
 	go get -u -t ./...
+	go get github.com/golang/mock/mockgen@v1.5.0
 
 gomodtidy:
 	printf $(COLOR) "go mod tidy..."
