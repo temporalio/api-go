@@ -21,7 +21,7 @@ PATH := $(GOBIN):$(PATH)
 COLOR := "\e[1;36m%s\e[0m\n"
 
 PINNED_DEPENDENCIES := \
-	github.com/golang/mock/mockgen@v1.5.0
+
 
 PROTO_ROOT := proto/api
 PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto")
@@ -67,21 +67,23 @@ goimports:
 ##### Plugins & tools #####
 grpc-install: gogo-protobuf-install
 	printf $(COLOR) "Install/update gRPC plugins..."
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1.0
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
 gogo-protobuf-install: go-protobuf-install
+	go install github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick@latest
+# This to download sources of gogo-protobuf which are required to build proto files.
 	GO111MODULE=off go get github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
 
 go-protobuf-install:
-	go install github.com/golang/protobuf/protoc-gen-go
+	go install github.com/golang/protobuf/protoc-gen-go@latest
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
-	go install github.com/golang/mock/mockgen@v1.5.0
+	go install github.com/golang/mock/mockgen@v1.6.0
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
-	cd && GO111MODULE=on go get golang.org/x/tools/cmd/goimports
+	go install golang.org/x/tools/cmd/goimports@v0.1.5
 
 ##### License header #####
 copyright:
