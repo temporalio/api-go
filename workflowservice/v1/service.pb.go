@@ -160,7 +160,7 @@ type WorkflowServiceClient interface {
 	// exists with same workflowId.
 	StartWorkflowExecution(ctx context.Context, in *StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartWorkflowExecutionResponse, error)
 	// GetWorkflowExecutionHistory returns the history of specified workflow execution.  It fails with 'NotFoundFailure' if specified workflow
-	// execution in unknown to the service.
+	// execution is unknown to the service.
 	GetWorkflowExecutionHistory(ctx context.Context, in *GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*GetWorkflowExecutionHistoryResponse, error)
 	// PollWorkflowTaskQueue is called by application worker to process WorkflowTask from a specific task queue.  A
 	// WorkflowTask is dispatched to callers for active workflow executions, with pending workflow tasks.
@@ -680,7 +680,7 @@ type WorkflowServiceServer interface {
 	// exists with same workflowId.
 	StartWorkflowExecution(context.Context, *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error)
 	// GetWorkflowExecutionHistory returns the history of specified workflow execution.  It fails with 'NotFoundFailure' if specified workflow
-	// execution in unknown to the service.
+	// execution is unknown to the service.
 	GetWorkflowExecutionHistory(context.Context, *GetWorkflowExecutionHistoryRequest) (*GetWorkflowExecutionHistoryResponse, error)
 	// PollWorkflowTaskQueue is called by application worker to process WorkflowTask from a specific task queue.  A
 	// WorkflowTask is dispatched to callers for active workflow executions, with pending workflow tasks.
