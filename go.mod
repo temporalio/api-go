@@ -7,9 +7,9 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/gogo/status v1.1.0
 	github.com/golang/mock v1.6.0
-	golang.org/x/net v0.0.0-20211101193420-4a448f8816b3 // indirect
-	golang.org/x/sys v0.0.0-20211031064116-611d5d643895 // indirect
+	golang.org/x/net v0.0.0-20211109214657-ef0fda0de508 // indirect
+	golang.org/x/sys v0.0.0-20211110154304-99a53858aa08 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	google.golang.org/genproto v0.0.0-20211101144312-62acf1d99145 // indirect
-	google.golang.org/grpc v1.41.0
+	google.golang.org/genproto v0.0.0-20211104193956-4c6863e31247 // indirect
+	google.golang.org/grpc v1.42.0
 )
