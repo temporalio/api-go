@@ -642,6 +642,7 @@ func (m *UpdateNamespaceResponse) GetIsGlobalNamespace() bool {
 	return false
 }
 
+// Deprecated.
 type DeprecateNamespaceRequest struct {
 	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	SecurityToken string `protobuf:"bytes,2,opt,name=security_token,json=securityToken,proto3" json:"security_token,omitempty"`
@@ -693,6 +694,7 @@ func (m *DeprecateNamespaceRequest) GetSecurityToken() string {
 	return ""
 }
 
+// Deprecated.
 type DeprecateNamespaceResponse struct {
 }
 

@@ -153,6 +153,7 @@ type WorkflowServiceClient interface {
 	// DeprecateNamespace is used to update state of a registered namespace to DEPRECATED.  Once the namespace is deprecated
 	// it cannot be used to start new workflow executions.  Existing workflow executions will continue to run on
 	// deprecated namespaces.
+	// Deprecated.
 	DeprecateNamespace(ctx context.Context, in *DeprecateNamespaceRequest, opts ...grpc.CallOption) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new long running workflow instance.  It will create the instance with
 	// 'WorkflowExecutionStarted' event in history and also schedule the first WorkflowTask for the worker to make the
@@ -673,6 +674,7 @@ type WorkflowServiceServer interface {
 	// DeprecateNamespace is used to update state of a registered namespace to DEPRECATED.  Once the namespace is deprecated
 	// it cannot be used to start new workflow executions.  Existing workflow executions will continue to run on
 	// deprecated namespaces.
+	// Deprecated.
 	DeprecateNamespace(context.Context, *DeprecateNamespaceRequest) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new long running workflow instance.  It will create the instance with
 	// 'WorkflowExecutionStarted' event in history and also schedule the first WorkflowTask for the worker to make the
