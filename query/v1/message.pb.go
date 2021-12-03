@@ -49,8 +49,11 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// See https://docs.temporal.io/docs/concepts/queries/
 type WorkflowQuery struct {
-	QueryType string       `protobuf:"bytes,1,opt,name=query_type,json=queryType,proto3" json:"query_type,omitempty"`
+	// The workflow-author-defined identifier of the query. Typically a function name.
+	QueryType string `protobuf:"bytes,1,opt,name=query_type,json=queryType,proto3" json:"query_type,omitempty"`
+	// Serialized arguments that will be provided to the query handler.
 	QueryArgs *v1.Payloads `protobuf:"bytes,2,opt,name=query_args,json=queryArgs,proto3" json:"query_args,omitempty"`
 	// Headers that were passed by the caller of the query and copied by temporal
 	// server into the workflow task.
@@ -110,10 +113,14 @@ func (m *WorkflowQuery) GetHeader() *v1.Header {
 	return nil
 }
 
+// Answer to a `WorkflowQuery`
 type WorkflowQueryResult struct {
-	ResultType   v11.QueryResultType `protobuf:"varint,1,opt,name=result_type,json=resultType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"result_type,omitempty"`
-	Answer       *v1.Payloads        `protobuf:"bytes,2,opt,name=answer,proto3" json:"answer,omitempty"`
-	ErrorMessage string              `protobuf:"bytes,3,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	// Did the query succeed or fail?
+	ResultType v11.QueryResultType `protobuf:"varint,1,opt,name=result_type,json=resultType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"result_type,omitempty"`
+	// Set when the query succeeds with the results
+	Answer *v1.Payloads `protobuf:"bytes,2,opt,name=answer,proto3" json:"answer,omitempty"`
+	// Mutually exclusive with `answer`. Set when the query fails.
+	ErrorMessage string `protobuf:"bytes,3,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 }
 
 func (m *WorkflowQueryResult) Reset()      { *m = WorkflowQueryResult{} }

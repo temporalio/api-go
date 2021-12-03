@@ -44,16 +44,19 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// Defines how new runs of a workflow with a particular ID may or may not be allowed. Note that
+// it is *never* valid to have two actively running instances of the same workflow id.
 type WorkflowIdReusePolicy int32
 
 const (
 	WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED WorkflowIdReusePolicy = 0
-	// Allow start a workflow execution using the same workflow Id, when workflow not running.
+	// Allow starting a workflow execution using the same workflow id.
 	WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE WorkflowIdReusePolicy = 1
-	// Allow start a workflow execution using the same workflow Id, when workflow not running, and the last execution close state is in
-	// [terminated, cancelled, timed out, failed].
+	// Allow starting a workflow execution using the same workflow id, only when the last
+	// execution's final state is one of [terminated, cancelled, timed out, failed].
 	WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY WorkflowIdReusePolicy = 2
-	// Do not allow start a workflow execution using the same workflow Id at all.
+	// Do not permit re-use of the workflow id for this workflow. Future start workflow requests
+	// could potentially change the policy, allowing re-use of the workflow id.
 	WORKFLOW_ID_REUSE_POLICY_REJECT_DUPLICATE WorkflowIdReusePolicy = 3
 )
 
@@ -75,15 +78,16 @@ func (WorkflowIdReusePolicy) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_939fa9511cc117f0, []int{0}
 }
 
+// Defines how child workflows will react to their parent completing
 type ParentClosePolicy int32
 
 const (
 	PARENT_CLOSE_POLICY_UNSPECIFIED ParentClosePolicy = 0
-	// Terminate means terminating the child workflow.
+	// The child workflow will also terminate
 	PARENT_CLOSE_POLICY_TERMINATE ParentClosePolicy = 1
-	// Abandon means not doing anything on the child workflow.
+	// The child workflow will do nothing
 	PARENT_CLOSE_POLICY_ABANDON ParentClosePolicy = 2
-	// Cancel means requesting cancellation on the child workflow.
+	// Cancellation will be requested of the child workflow
 	PARENT_CLOSE_POLICY_REQUEST_CANCEL ParentClosePolicy = 3
 )
 
@@ -108,9 +112,12 @@ func (ParentClosePolicy) EnumDescriptor() ([]byte, []int) {
 type ContinueAsNewInitiator int32
 
 const (
-	CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED   ContinueAsNewInitiator = 0
-	CONTINUE_AS_NEW_INITIATOR_WORKFLOW      ContinueAsNewInitiator = 1
-	CONTINUE_AS_NEW_INITIATOR_RETRY         ContinueAsNewInitiator = 2
+	CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED ContinueAsNewInitiator = 0
+	// The workflow itself requested to continue as new
+	CONTINUE_AS_NEW_INITIATOR_WORKFLOW ContinueAsNewInitiator = 1
+	// The workflow continued as new because it is retrying
+	CONTINUE_AS_NEW_INITIATOR_RETRY ContinueAsNewInitiator = 2
+	// The workflow continued as new because cron has triggered a new execution
 	CONTINUE_AS_NEW_INITIATOR_CRON_SCHEDULE ContinueAsNewInitiator = 3
 )
 

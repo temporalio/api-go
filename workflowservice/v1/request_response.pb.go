@@ -735,19 +735,23 @@ type StartWorkflowExecutionRequest struct {
 	WorkflowId   string            `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	WorkflowType *v13.WorkflowType `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	TaskQueue    *v14.TaskQueue    `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	Input        *v13.Payloads     `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
+	// Serialized arguments to the workflow. These are passed as arguments to the workflow function.
+	Input *v13.Payloads `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
 	// Total workflow execution timeout including retries and continue as new.
 	WorkflowExecutionTimeout *time.Duration `protobuf:"bytes,6,opt,name=workflow_execution_timeout,json=workflowExecutionTimeout,proto3,stdduration" json:"workflow_execution_timeout,omitempty"`
 	// Timeout of a single workflow run.
 	WorkflowRunTimeout *time.Duration `protobuf:"bytes,7,opt,name=workflow_run_timeout,json=workflowRunTimeout,proto3,stdduration" json:"workflow_run_timeout,omitempty"`
 	// Timeout of a single workflow task.
 	WorkflowTaskTimeout *time.Duration `protobuf:"bytes,8,opt,name=workflow_task_timeout,json=workflowTaskTimeout,proto3,stdduration" json:"workflow_task_timeout,omitempty"`
-	Identity            string         `protobuf:"bytes,9,opt,name=identity,proto3" json:"identity,omitempty"`
-	RequestId           string         `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// The identity of the client who initiated this request
+	Identity string `protobuf:"bytes,9,opt,name=identity,proto3" json:"identity,omitempty"`
+	// A unique identifier for this start request. Typically UUIDv4.
+	RequestId string `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
 	WorkflowIdReusePolicy v11.WorkflowIdReusePolicy `protobuf:"varint,11,opt,name=workflow_id_reuse_policy,json=workflowIdReusePolicy,proto3,enum=temporal.api.enums.v1.WorkflowIdReusePolicy" json:"workflow_id_reuse_policy,omitempty"`
-	// Retries up to workflow_execution_timeout_seconds.
-	RetryPolicy      *v13.RetryPolicy      `protobuf:"bytes,12,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	// The retry policy for the workflow. Will never exceed `workflow_execution_timeout`.
+	RetryPolicy *v13.RetryPolicy `protobuf:"bytes,12,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	// See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/
 	CronSchedule     string                `protobuf:"bytes,13,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
 	Memo             *v13.Memo             `protobuf:"bytes,14,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes *v13.SearchAttributes `protobuf:"bytes,15,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
@@ -945,8 +949,13 @@ type GetWorkflowExecutionHistoryRequest struct {
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution       *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,3,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
-	NextPageToken   []byte                 `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	WaitNewEvent    bool                   `protobuf:"varint,5,opt,name=wait_new_event,json=waitNewEvent,proto3" json:"wait_new_event,omitempty"`
+	// If a `GetWorkflowExecutionHistoryResponse` or a `PollWorkflowTaskQueueResponse` had one of
+	// these, it should be passed here to fetch the next page.
+	NextPageToken []byte `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	// If set to true, the RPC call will not resolve until there is a new event which matches
+	// the `history_event_filter_type`, or a timeout is hit.
+	WaitNewEvent bool `protobuf:"varint,5,opt,name=wait_new_event,json=waitNewEvent,proto3" json:"wait_new_event,omitempty"`
+	// Filter returned events such that they match the specified filter type.
 	// Default: HISTORY_EVENT_FILTER_TYPE_ALL_EVENT.
 	HistoryEventFilterType v11.HistoryEventFilterType `protobuf:"varint,6,opt,name=history_event_filter_type,json=historyEventFilterType,proto3,enum=temporal.api.enums.v1.HistoryEventFilterType" json:"history_event_filter_type,omitempty"`
 	SkipArchival           bool                       `protobuf:"varint,7,opt,name=skip_archival,json=skipArchival,proto3" json:"skip_archival,omitempty"`
@@ -1034,10 +1043,13 @@ func (m *GetWorkflowExecutionHistoryRequest) GetSkipArchival() bool {
 }
 
 type GetWorkflowExecutionHistoryResponse struct {
-	History       *v15.History    `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
-	RawHistory    []*v13.DataBlob `protobuf:"bytes,2,rep,name=raw_history,json=rawHistory,proto3" json:"raw_history,omitempty"`
-	NextPageToken []byte          `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	Archived      bool            `protobuf:"varint,4,opt,name=archived,proto3" json:"archived,omitempty"`
+	History *v15.History `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
+	// Raw history is an alternate representation of history that may be returned if configured on
+	// the frontend. This is not supported by all SDKs. Either this or `history` will be set.
+	RawHistory []*v13.DataBlob `protobuf:"bytes,2,rep,name=raw_history,json=rawHistory,proto3" json:"raw_history,omitempty"`
+	// Will be set if there are more history events than were included in this response
+	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	Archived      bool   `protobuf:"varint,4,opt,name=archived,proto3" json:"archived,omitempty"`
 }
 
 func (m *GetWorkflowExecutionHistoryResponse) Reset()      { *m = GetWorkflowExecutionHistoryResponse{} }
@@ -1101,10 +1113,12 @@ func (m *GetWorkflowExecutionHistoryResponse) GetArchived() bool {
 }
 
 type PollWorkflowTaskQueueRequest struct {
-	Namespace      string         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskQueue      *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	Identity       string         `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	BinaryChecksum string         `protobuf:"bytes,4,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
+	Namespace string         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	// The identity of the worker/client who is polling this task queue
+	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Each worker process should provide an ID unique to the specific set of code it is running
+	BinaryChecksum string `protobuf:"bytes,4,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
 }
 
 func (m *PollWorkflowTaskQueueRequest) Reset()      { *m = PollWorkflowTaskQueueRequest{} }
@@ -1168,20 +1182,43 @@ func (m *PollWorkflowTaskQueueRequest) GetBinaryChecksum() string {
 }
 
 type PollWorkflowTaskQueueResponse struct {
-	TaskToken                  []byte                        `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	WorkflowExecution          *v13.WorkflowExecution        `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	WorkflowType               *v13.WorkflowType             `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
-	PreviousStartedEventId     int64                         `protobuf:"varint,4,opt,name=previous_started_event_id,json=previousStartedEventId,proto3" json:"previous_started_event_id,omitempty"`
-	StartedEventId             int64                         `protobuf:"varint,5,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
-	Attempt                    int32                         `protobuf:"varint,6,opt,name=attempt,proto3" json:"attempt,omitempty"`
-	BacklogCountHint           int64                         `protobuf:"varint,7,opt,name=backlog_count_hint,json=backlogCountHint,proto3" json:"backlog_count_hint,omitempty"`
-	History                    *v15.History                  `protobuf:"bytes,8,opt,name=history,proto3" json:"history,omitempty"`
-	NextPageToken              []byte                        `protobuf:"bytes,9,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	Query                      *v16.WorkflowQuery            `protobuf:"bytes,10,opt,name=query,proto3" json:"query,omitempty"`
-	WorkflowExecutionTaskQueue *v14.TaskQueue                `protobuf:"bytes,11,opt,name=workflow_execution_task_queue,json=workflowExecutionTaskQueue,proto3" json:"workflow_execution_task_queue,omitempty"`
-	ScheduledTime              *time.Time                    `protobuf:"bytes,12,opt,name=scheduled_time,json=scheduledTime,proto3,stdtime" json:"scheduled_time,omitempty"`
-	StartedTime                *time.Time                    `protobuf:"bytes,13,opt,name=started_time,json=startedTime,proto3,stdtime" json:"started_time,omitempty"`
-	Queries                    map[string]*v16.WorkflowQuery `protobuf:"bytes,14,rep,name=queries,proto3" json:"queries,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// A unique identifier for this task
+	TaskToken         []byte                 `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
+	WorkflowType      *v13.WorkflowType      `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	// The last workflow task started event which was processed by some worker for this execution.
+	// Will be zero if no task has ever started.
+	PreviousStartedEventId int64 `protobuf:"varint,4,opt,name=previous_started_event_id,json=previousStartedEventId,proto3" json:"previous_started_event_id,omitempty"`
+	// The id of the most recent workflow task started event, which will have been generated as a
+	// result of this poll request being served.
+	StartedEventId int64 `protobuf:"varint,5,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
+	// Starting at 1, the number of attempts to complete this task by any worker.
+	Attempt int32 `protobuf:"varint,6,opt,name=attempt,proto3" json:"attempt,omitempty"`
+	// A hint that there are more tasks already present in this task queue. Can be used to
+	// prioritize draining a sticky queue before polling from a normal queue.
+	BacklogCountHint int64 `protobuf:"varint,7,opt,name=backlog_count_hint,json=backlogCountHint,proto3" json:"backlog_count_hint,omitempty"`
+	// The history for this workflow, which will either be complete or partial. Partial histories
+	// are sent to workers who have signaled that they are using a sticky queue when completing
+	// a workflow task.
+	History *v15.History `protobuf:"bytes,8,opt,name=history,proto3" json:"history,omitempty"`
+	// Will be set if there are more history events than were included in this response. Such events
+	// should be fetched via `GetWorkflowExecutionHistory`.
+	NextPageToken []byte `protobuf:"bytes,9,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	// Legacy queries appear in this field. The query must be responded to via
+	// `RespondQueryTaskCompleted`. If the workflow is already closed (queries are permitted on
+	// closed workflows) then the `history` field will be populated with the entire history. It
+	// may also be populated if this task originates on a non-sticky queue.
+	Query *v16.WorkflowQuery `protobuf:"bytes,10,opt,name=query,proto3" json:"query,omitempty"`
+	// The task queue this task originated from, which will always be the original non-sticky name
+	// for the queue, even if this response came from polling a sticky queue.
+	WorkflowExecutionTaskQueue *v14.TaskQueue `protobuf:"bytes,11,opt,name=workflow_execution_task_queue,json=workflowExecutionTaskQueue,proto3" json:"workflow_execution_task_queue,omitempty"`
+	// When this task was scheduled by the server
+	ScheduledTime *time.Time `protobuf:"bytes,12,opt,name=scheduled_time,json=scheduledTime,proto3,stdtime" json:"scheduled_time,omitempty"`
+	// When the current workflow task started event was generated, meaning the current attempt.
+	StartedTime *time.Time `protobuf:"bytes,13,opt,name=started_time,json=startedTime,proto3,stdtime" json:"started_time,omitempty"`
+	// Queries that should be executed after applying the history in this task. Responses should be
+	// attached to `RespondWorkflowTaskCompletedRequest::query_results`
+	Queries map[string]*v16.WorkflowQuery `protobuf:"bytes,14,rep,name=queries,proto3" json:"queries,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *PollWorkflowTaskQueueResponse) Reset()      { *m = PollWorkflowTaskQueueResponse{} }
@@ -1315,15 +1352,28 @@ func (m *PollWorkflowTaskQueueResponse) GetQueries() map[string]*v16.WorkflowQue
 }
 
 type RespondWorkflowTaskCompletedRequest struct {
-	TaskToken                  []byte                              `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	Commands                   []*v17.Command                      `protobuf:"bytes,2,rep,name=commands,proto3" json:"commands,omitempty"`
-	Identity                   string                              `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	StickyAttributes           *v14.StickyExecutionAttributes      `protobuf:"bytes,4,opt,name=sticky_attributes,json=stickyAttributes,proto3" json:"sticky_attributes,omitempty"`
-	ReturnNewWorkflowTask      bool                                `protobuf:"varint,5,opt,name=return_new_workflow_task,json=returnNewWorkflowTask,proto3" json:"return_new_workflow_task,omitempty"`
-	ForceCreateNewWorkflowTask bool                                `protobuf:"varint,6,opt,name=force_create_new_workflow_task,json=forceCreateNewWorkflowTask,proto3" json:"force_create_new_workflow_task,omitempty"`
-	BinaryChecksum             string                              `protobuf:"bytes,7,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
-	QueryResults               map[string]*v16.WorkflowQueryResult `protobuf:"bytes,8,rep,name=query_results,json=queryResults,proto3" json:"query_results,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Namespace                  string                              `protobuf:"bytes,9,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// The task token as received in `PollWorkflowTaskQueueResponse`
+	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	// A list of commands generated when driving the workflow code in response to the new task
+	Commands []*v17.Command `protobuf:"bytes,2,rep,name=commands,proto3" json:"commands,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	// May be set by workers to indicate that the worker desires future tasks to be provided with
+	// incremental history on a sticky queue.
+	StickyAttributes *v14.StickyExecutionAttributes `protobuf:"bytes,4,opt,name=sticky_attributes,json=stickyAttributes,proto3" json:"sticky_attributes,omitempty"`
+	// If set, the worker wishes to immediately receive the next workflow task as a response to
+	// this completion. This can save on polling round-trips.
+	ReturnNewWorkflowTask bool `protobuf:"varint,5,opt,name=return_new_workflow_task,json=returnNewWorkflowTask,proto3" json:"return_new_workflow_task,omitempty"`
+	// Can be used to *force* creation of a new workflow task, even if no commands have resolved or
+	// one would not otherwise have been generated. This is used when the worker knows it is doing
+	// something useful, but cannot complete it within the workflow task timeout. Local activities
+	// which run for longer than the task timeout being the prime example.
+	ForceCreateNewWorkflowTask bool `protobuf:"varint,6,opt,name=force_create_new_workflow_task,json=forceCreateNewWorkflowTask,proto3" json:"force_create_new_workflow_task,omitempty"`
+	// Worker process' unique binary id
+	BinaryChecksum string `protobuf:"bytes,7,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
+	// Responses to the `queries` field in the task being responded to
+	QueryResults map[string]*v16.WorkflowQueryResult `protobuf:"bytes,8,rep,name=query_results,json=queryResults,proto3" json:"query_results,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Namespace    string                              `protobuf:"bytes,9,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (m *RespondWorkflowTaskCompletedRequest) Reset()      { *m = RespondWorkflowTaskCompletedRequest{} }
@@ -1422,6 +1472,7 @@ func (m *RespondWorkflowTaskCompletedRequest) GetNamespace() string {
 }
 
 type RespondWorkflowTaskCompletedResponse struct {
+	// See `RespondWorkflowTaskCompletedResponse::return_new_workflow_task`
 	WorkflowTask *PollWorkflowTaskQueueResponse `protobuf:"bytes,1,opt,name=workflow_task,json=workflowTask,proto3" json:"workflow_task,omitempty"`
 }
 
@@ -1465,12 +1516,18 @@ func (m *RespondWorkflowTaskCompletedResponse) GetWorkflowTask() *PollWorkflowTa
 }
 
 type RespondWorkflowTaskFailedRequest struct {
-	TaskToken      []byte                      `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	Cause          v11.WorkflowTaskFailedCause `protobuf:"varint,2,opt,name=cause,proto3,enum=temporal.api.enums.v1.WorkflowTaskFailedCause" json:"cause,omitempty"`
-	Failure        *v18.Failure                `protobuf:"bytes,3,opt,name=failure,proto3" json:"failure,omitempty"`
-	Identity       string                      `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
-	BinaryChecksum string                      `protobuf:"bytes,5,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
-	Namespace      string                      `protobuf:"bytes,6,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// The task token as received in `PollWorkflowTaskQueueResponse`
+	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	// Why did the task fail? It's important to note that many of the variants in this enum cannot
+	// apply to worker responses. See the type's doc for more.
+	Cause v11.WorkflowTaskFailedCause `protobuf:"varint,2,opt,name=cause,proto3,enum=temporal.api.enums.v1.WorkflowTaskFailedCause" json:"cause,omitempty"`
+	// Failure details
+	Failure *v18.Failure `protobuf:"bytes,3,opt,name=failure,proto3" json:"failure,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Worker process' unique binary id
+	BinaryChecksum string `protobuf:"bytes,5,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
+	Namespace      string `protobuf:"bytes,6,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (m *RespondWorkflowTaskFailedRequest) Reset()      { *m = RespondWorkflowTaskFailedRequest{} }
@@ -1583,8 +1640,9 @@ func (m *RespondWorkflowTaskFailedResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondWorkflowTaskFailedResponse proto.InternalMessageInfo
 
 type PollActivityTaskQueueRequest struct {
-	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskQueue         *v14.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Namespace string         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	// The identity of the worker/client
 	Identity          string                 `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	TaskQueueMetadata *v14.TaskQueueMetadata `protobuf:"bytes,4,opt,name=task_queue_metadata,json=taskQueueMetadata,proto3" json:"task_queue_metadata,omitempty"`
 }
@@ -1650,30 +1708,50 @@ func (m *PollActivityTaskQueueRequest) GetTaskQueueMetadata() *v14.TaskQueueMeta
 }
 
 type PollActivityTaskQueueResponse struct {
-	TaskToken                   []byte                 `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	WorkflowNamespace           string                 `protobuf:"bytes,2,opt,name=workflow_namespace,json=workflowNamespace,proto3" json:"workflow_namespace,omitempty"`
-	WorkflowType                *v13.WorkflowType      `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
-	WorkflowExecution           *v13.WorkflowExecution `protobuf:"bytes,4,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	ActivityType                *v13.ActivityType      `protobuf:"bytes,5,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
-	ActivityId                  string                 `protobuf:"bytes,6,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	Header                      *v13.Header            `protobuf:"bytes,7,opt,name=header,proto3" json:"header,omitempty"`
-	Input                       *v13.Payloads          `protobuf:"bytes,8,opt,name=input,proto3" json:"input,omitempty"`
-	HeartbeatDetails            *v13.Payloads          `protobuf:"bytes,9,opt,name=heartbeat_details,json=heartbeatDetails,proto3" json:"heartbeat_details,omitempty"`
-	ScheduledTime               *time.Time             `protobuf:"bytes,10,opt,name=scheduled_time,json=scheduledTime,proto3,stdtime" json:"scheduled_time,omitempty"`
-	CurrentAttemptScheduledTime *time.Time             `protobuf:"bytes,11,opt,name=current_attempt_scheduled_time,json=currentAttemptScheduledTime,proto3,stdtime" json:"current_attempt_scheduled_time,omitempty"`
-	StartedTime                 *time.Time             `protobuf:"bytes,12,opt,name=started_time,json=startedTime,proto3,stdtime" json:"started_time,omitempty"`
-	Attempt                     int32                  `protobuf:"varint,13,opt,name=attempt,proto3" json:"attempt,omitempty"`
+	// A unique identifier for this task
+	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	// The namespace the workflow which requested this activity lives in
+	WorkflowNamespace string `protobuf:"bytes,2,opt,name=workflow_namespace,json=workflowNamespace,proto3" json:"workflow_namespace,omitempty"`
+	// Type of the requesting workflow
+	WorkflowType *v13.WorkflowType `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	// Execution info of the requesting workflow
+	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,4,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
+	ActivityType      *v13.ActivityType      `protobuf:"bytes,5,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
+	// The autogenerated or user specified identifier of this activity. Can be used to complete the
+	// activity via `RespondActivityTaskCompletedById`. May be re-used as long as the last usage
+	// has resolved, but unique IDs for every activity invocation is a good idea.
+	ActivityId string `protobuf:"bytes,6,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	// Headers specified by the scheduling workflow. Commonly used to propagate contextual info
+	// from the workflow to its activities. For example, tracing contexts.
+	Header *v13.Header `protobuf:"bytes,7,opt,name=header,proto3" json:"header,omitempty"`
+	// Arguments to the activity invocation
+	Input *v13.Payloads `protobuf:"bytes,8,opt,name=input,proto3" json:"input,omitempty"`
+	// Details of the last heartbeat that was recorded for this activity as of the time this task
+	// was delivered.
+	HeartbeatDetails *v13.Payloads `protobuf:"bytes,9,opt,name=heartbeat_details,json=heartbeatDetails,proto3" json:"heartbeat_details,omitempty"`
+	// When was this task first scheduled
+	ScheduledTime *time.Time `protobuf:"bytes,10,opt,name=scheduled_time,json=scheduledTime,proto3,stdtime" json:"scheduled_time,omitempty"`
+	// When was this task attempt scheduled
+	CurrentAttemptScheduledTime *time.Time `protobuf:"bytes,11,opt,name=current_attempt_scheduled_time,json=currentAttemptScheduledTime,proto3,stdtime" json:"current_attempt_scheduled_time,omitempty"`
+	// When was this task started (this attempt)
+	StartedTime *time.Time `protobuf:"bytes,12,opt,name=started_time,json=startedTime,proto3,stdtime" json:"started_time,omitempty"`
+	// Starting at 1, the number of attempts to perform this activity
+	Attempt int32 `protobuf:"varint,13,opt,name=attempt,proto3" json:"attempt,omitempty"`
+	// First scheduled -> final result reported timeout
+	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *time.Duration `protobuf:"bytes,14,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3,stdduration" json:"schedule_to_close_timeout,omitempty"`
+	// Current attempt start -> final result reported timeout
+	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *time.Duration `protobuf:"bytes,15,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3,stdduration" json:"start_to_close_timeout,omitempty"`
-	HeartbeatTimeout    *time.Duration `protobuf:"bytes,16,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3,stdduration" json:"heartbeat_timeout,omitempty"`
-	// This is an actual retry policy the service uses.
-	// It can be different from the one provided (or not) during activity scheduling
-	// as the service can override the provided one in case its values are not specified
-	// or exceed configured system limits.
+	// Window within which the activity must report a heartbeat, or be timed out.
+	HeartbeatTimeout *time.Duration `protobuf:"bytes,16,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3,stdduration" json:"heartbeat_timeout,omitempty"`
+	// This is the retry policy the service uses which may be different from the one provided
+	// (or not) during activity scheduling. The service can override the provided one if some
+	// values are not specified or exceed configured system limits.
 	RetryPolicy *v13.RetryPolicy `protobuf:"bytes,17,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 }
 
@@ -1829,10 +1907,13 @@ func (m *PollActivityTaskQueueResponse) GetRetryPolicy() *v13.RetryPolicy {
 }
 
 type RecordActivityTaskHeartbeatRequest struct {
-	TaskToken []byte        `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	Details   *v13.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
-	Identity  string        `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	Namespace string        `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// The task token as received in `PollActivityTaskQueueResponse`
+	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	// Arbitrary data, of which the most recent call is kept, to store for this activity
+	Details *v13.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	// The identity of the worker/client
+	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (m *RecordActivityTaskHeartbeatRequest) Reset()      { *m = RecordActivityTaskHeartbeatRequest{} }
@@ -1896,6 +1977,8 @@ func (m *RecordActivityTaskHeartbeatRequest) GetNamespace() string {
 }
 
 type RecordActivityTaskHeartbeatResponse struct {
+	// Will be set to true if the activity has been asked to cancel itself. The SDK should then
+	// notify the activity of cancellation if it is still running.
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancel_requested,json=cancelRequested,proto3" json:"cancel_requested,omitempty"`
 }
 
@@ -1939,12 +2022,18 @@ func (m *RecordActivityTaskHeartbeatResponse) GetCancelRequested() bool {
 }
 
 type RecordActivityTaskHeartbeatByIdRequest struct {
-	Namespace  string        `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId string        `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId      string        `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	ActivityId string        `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	Details    *v13.Payloads `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
-	Identity   string        `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Namespace of the workflow which scheduled this activity
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Id of the workflow which scheduled this activity
+	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	// Run Id of the workflow which scheduled this activity
+	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Id of the activity we're heartbeating
+	ActivityId string `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	// Arbitrary data, of which the most recent call is kept, to store for this activity
+	Details *v13.Payloads `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *RecordActivityTaskHeartbeatByIdRequest) Reset() {
@@ -2024,6 +2113,8 @@ func (m *RecordActivityTaskHeartbeatByIdRequest) GetIdentity() string {
 }
 
 type RecordActivityTaskHeartbeatByIdResponse struct {
+	// Will be set to true if the activity has been asked to cancel itself. The SDK should then
+	// notify the activity of cancellation if it is still running.
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancel_requested,json=cancelRequested,proto3" json:"cancel_requested,omitempty"`
 }
 
@@ -2069,10 +2160,13 @@ func (m *RecordActivityTaskHeartbeatByIdResponse) GetCancelRequested() bool {
 }
 
 type RespondActivityTaskCompletedRequest struct {
-	TaskToken []byte        `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	Result    *v13.Payloads `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`
-	Identity  string        `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	Namespace string        `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// The task token as received in `PollActivityTaskQueueResponse`
+	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	// The result of successfully executing the activity
+	Result *v13.Payloads `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`
+	// The identity of the worker/client
+	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (m *RespondActivityTaskCompletedRequest) Reset()      { *m = RespondActivityTaskCompletedRequest{} }
@@ -2171,12 +2265,18 @@ func (m *RespondActivityTaskCompletedResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskCompletedResponse proto.InternalMessageInfo
 
 type RespondActivityTaskCompletedByIdRequest struct {
-	Namespace  string        `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId string        `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId      string        `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	ActivityId string        `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	Result     *v13.Payloads `protobuf:"bytes,5,opt,name=result,proto3" json:"result,omitempty"`
-	Identity   string        `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Namespace of the workflow which scheduled this activity
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Id of the workflow which scheduled this activity
+	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	// Run Id of the workflow which scheduled this activity
+	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Id of the activity to complete
+	ActivityId string `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	// The serialized result of activity execution
+	Result *v13.Payloads `protobuf:"bytes,5,opt,name=result,proto3" json:"result,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *RespondActivityTaskCompletedByIdRequest) Reset() {
@@ -2293,10 +2393,13 @@ func (m *RespondActivityTaskCompletedByIdResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskCompletedByIdResponse proto.InternalMessageInfo
 
 type RespondActivityTaskFailedRequest struct {
-	TaskToken []byte       `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	Failure   *v18.Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
-	Identity  string       `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	Namespace string       `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// The task token as received in `PollActivityTaskQueueResponse`
+	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	// Detailed failure information
+	Failure *v18.Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
+	// The identity of the worker/client
+	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (m *RespondActivityTaskFailedRequest) Reset()      { *m = RespondActivityTaskFailedRequest{} }
@@ -2395,12 +2498,18 @@ func (m *RespondActivityTaskFailedResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskFailedResponse proto.InternalMessageInfo
 
 type RespondActivityTaskFailedByIdRequest struct {
-	Namespace  string       `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId string       `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId      string       `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	ActivityId string       `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	Failure    *v18.Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
-	Identity   string       `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Namespace of the workflow which scheduled this activity
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Id of the workflow which scheduled this activity
+	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	// Run Id of the workflow which scheduled this activity
+	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Id of the activity to fail
+	ActivityId string `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	// Detailed failure information
+	Failure *v18.Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *RespondActivityTaskFailedByIdRequest) Reset()      { *m = RespondActivityTaskFailedByIdRequest{} }
@@ -2513,10 +2622,13 @@ func (m *RespondActivityTaskFailedByIdResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskFailedByIdResponse proto.InternalMessageInfo
 
 type RespondActivityTaskCanceledRequest struct {
-	TaskToken []byte        `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	Details   *v13.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
-	Identity  string        `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	Namespace string        `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// The task token as received in `PollActivityTaskQueueResponse`
+	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	// Serialized additional information to attach to the cancellation
+	Details *v13.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	// The identity of the worker/client
+	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (m *RespondActivityTaskCanceledRequest) Reset()      { *m = RespondActivityTaskCanceledRequest{} }
@@ -2615,12 +2727,18 @@ func (m *RespondActivityTaskCanceledResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskCanceledResponse proto.InternalMessageInfo
 
 type RespondActivityTaskCanceledByIdRequest struct {
-	Namespace  string        `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId string        `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId      string        `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	ActivityId string        `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	Details    *v13.Payloads `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
-	Identity   string        `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Namespace of the workflow which scheduled this activity
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Id of the workflow which scheduled this activity
+	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	// Run Id of the workflow which scheduled this activity
+	RunId string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Id of the activity to confirm is cancelled
+	ActivityId string `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	// Serialized additional information to attach to the cancellation
+	Details *v13.Payloads `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (m *RespondActivityTaskCanceledByIdRequest) Reset() {
@@ -2737,11 +2855,14 @@ func (m *RespondActivityTaskCanceledByIdResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_RespondActivityTaskCanceledByIdResponse proto.InternalMessageInfo
 
 type RequestCancelWorkflowExecutionRequest struct {
-	Namespace           string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowExecution   *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	Identity            string                 `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	RequestId           string                 `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	FirstExecutionRunId string                 `protobuf:"bytes,5,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
+	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Used to de-dupe cancellation requests
+	RequestId string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// Should be removed. Appears unused.
+	FirstExecutionRunId string `protobuf:"bytes,5,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
 }
 
 func (m *RequestCancelWorkflowExecutionRequest) Reset()      { *m = RequestCancelWorkflowExecutionRequest{} }
@@ -2851,11 +2972,16 @@ var xxx_messageInfo_RequestCancelWorkflowExecutionResponse proto.InternalMessage
 type SignalWorkflowExecutionRequest struct {
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	SignalName        string                 `protobuf:"bytes,3,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
-	Input             *v13.Payloads          `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
-	Identity          string                 `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
-	RequestId         string                 `protobuf:"bytes,6,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	Control           string                 `protobuf:"bytes,7,opt,name=control,proto3" json:"control,omitempty"`
+	// The workflow author-defined name of the signal to send to the workflow
+	SignalName string `protobuf:"bytes,3,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
+	// Serialized value(s) to provide with the signal
+	Input *v13.Payloads `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Used to de-dupe sent signals
+	RequestId string `protobuf:"bytes,6,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// Deprecated
+	Control string `protobuf:"bytes,7,opt,name=control,proto3" json:"control,omitempty"`
 	// Headers that are passed with the signal to the processing workflow.
 	// These can include things like auth or tracing tokens.
 	Header *v13.Header `protobuf:"bytes,8,opt,name=header,proto3" json:"header,omitempty"`
@@ -2988,22 +3114,30 @@ type SignalWithStartWorkflowExecutionRequest struct {
 	Namespace    string            `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowId   string            `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	WorkflowType *v13.WorkflowType `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
-	TaskQueue    *v14.TaskQueue    `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	Input        *v13.Payloads     `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
+	// The task queue to start this workflow on, if it will be started
+	TaskQueue *v14.TaskQueue `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	// Serialized arguments to the workflow. These are passed as arguments to the workflow function.
+	Input *v13.Payloads `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
 	// Total workflow execution timeout including retries and continue as new
 	WorkflowExecutionTimeout *time.Duration `protobuf:"bytes,6,opt,name=workflow_execution_timeout,json=workflowExecutionTimeout,proto3,stdduration" json:"workflow_execution_timeout,omitempty"`
 	// Timeout of a single workflow run
 	WorkflowRunTimeout *time.Duration `protobuf:"bytes,7,opt,name=workflow_run_timeout,json=workflowRunTimeout,proto3,stdduration" json:"workflow_run_timeout,omitempty"`
 	// Timeout of a single workflow task
-	WorkflowTaskTimeout   *time.Duration            `protobuf:"bytes,8,opt,name=workflow_task_timeout,json=workflowTaskTimeout,proto3,stdduration" json:"workflow_task_timeout,omitempty"`
-	Identity              string                    `protobuf:"bytes,9,opt,name=identity,proto3" json:"identity,omitempty"`
+	WorkflowTaskTimeout *time.Duration `protobuf:"bytes,8,opt,name=workflow_task_timeout,json=workflowTaskTimeout,proto3,stdduration" json:"workflow_task_timeout,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,9,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Used to de-dupe signal w/ start requests
 	RequestId             string                    `protobuf:"bytes,10,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	WorkflowIdReusePolicy v11.WorkflowIdReusePolicy `protobuf:"varint,11,opt,name=workflow_id_reuse_policy,json=workflowIdReusePolicy,proto3,enum=temporal.api.enums.v1.WorkflowIdReusePolicy" json:"workflow_id_reuse_policy,omitempty"`
-	SignalName            string                    `protobuf:"bytes,12,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
-	SignalInput           *v13.Payloads             `protobuf:"bytes,13,opt,name=signal_input,json=signalInput,proto3" json:"signal_input,omitempty"`
-	Control               string                    `protobuf:"bytes,14,opt,name=control,proto3" json:"control,omitempty"`
-	// Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
-	RetryPolicy      *v13.RetryPolicy      `protobuf:"bytes,15,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	// The workflow author-defined name of the signal to send to the workflow
+	SignalName string `protobuf:"bytes,12,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
+	// Serialized value(s) to provide with the signal
+	SignalInput *v13.Payloads `protobuf:"bytes,13,opt,name=signal_input,json=signalInput,proto3" json:"signal_input,omitempty"`
+	// Deprecated
+	Control string `protobuf:"bytes,14,opt,name=control,proto3" json:"control,omitempty"`
+	// Retry policy for the workflow Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	RetryPolicy *v13.RetryPolicy `protobuf:"bytes,15,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	// See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/
 	CronSchedule     string                `protobuf:"bytes,16,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
 	Memo             *v13.Memo             `protobuf:"bytes,17,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes *v13.SearchAttributes `protobuf:"bytes,18,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
@@ -3223,12 +3357,16 @@ func (m *SignalWithStartWorkflowExecutionResponse) GetRunId() string {
 }
 
 type ResetWorkflowExecutionRequest struct {
-	Namespace                 string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowExecution         *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	Reason                    string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
-	WorkflowTaskFinishEventId int64                  `protobuf:"varint,4,opt,name=workflow_task_finish_event_id,json=workflowTaskFinishEventId,proto3" json:"workflow_task_finish_event_id,omitempty"`
-	RequestId                 string                 `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	ResetReapplyType          v11.ResetReapplyType   `protobuf:"varint,6,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
+	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
+	Reason            string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	// The id of a `WORKFLOW_TASK_COMPLETED`,`WORKFLOW_TASK_TIMED_OUT`, `WORKFLOW_TASK_FAILED`, or
+	// `WORKFLOW_TASK_STARTED` event to reset to.
+	WorkflowTaskFinishEventId int64 `protobuf:"varint,4,opt,name=workflow_task_finish_event_id,json=workflowTaskFinishEventId,proto3" json:"workflow_task_finish_event_id,omitempty"`
+	// Used to de-dupe reset requests
+	RequestId string `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// Should be removed. Appears unused.
+	ResetReapplyType v11.ResetReapplyType `protobuf:"varint,6,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
 }
 
 func (m *ResetWorkflowExecutionRequest) Reset()      { *m = ResetWorkflowExecutionRequest{} }
@@ -3349,12 +3487,15 @@ func (m *ResetWorkflowExecutionResponse) GetRunId() string {
 }
 
 type TerminateWorkflowExecutionRequest struct {
-	Namespace           string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowExecution   *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	Reason              string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
-	Details             *v13.Payloads          `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
-	Identity            string                 `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
-	FirstExecutionRunId string                 `protobuf:"bytes,6,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
+	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
+	Reason            string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
+	// Serialized additional information to attach to the termination event
+	Details *v13.Payloads `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Should be removed. Appears unused.
+	FirstExecutionRunId string `protobuf:"bytes,6,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
 }
 
 func (m *TerminateWorkflowExecutionRequest) Reset()      { *m = TerminateWorkflowExecutionRequest{} }
@@ -4347,7 +4488,6 @@ func (m *GetSearchAttributesResponse) GetKeys() map[string]v11.IndexedValueType 
 	return nil
 }
 
-// TODO:  deprecated APIs
 type RespondQueryTaskCompletedRequest struct {
 	TaskToken     []byte              `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	CompletedType v11.QueryResultType `protobuf:"varint,2,opt,name=completed_type,json=completedType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"completed_type,omitempty"`

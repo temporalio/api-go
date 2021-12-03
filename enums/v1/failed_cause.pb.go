@@ -44,10 +44,15 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// Workflow tasks can fail for various reasons. Note that some of these reasons can only originate
+// from the server, and some of them can only originate from the SDK/worker.
 type WorkflowTaskFailedCause int32
 
 const (
-	WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED                                               WorkflowTaskFailedCause = 0
+	WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED WorkflowTaskFailedCause = 0
+	// Between starting and completing the workflow task (with a workflow completion command), some
+	// new command (like a signal) was processed into workflow history. The outstanding task will be
+	// failed with this reason, and a worker must pick up a new task.
 	WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND                                         WorkflowTaskFailedCause = 1
 	WORKFLOW_TASK_FAILED_CAUSE_BAD_SCHEDULE_ACTIVITY_ATTRIBUTES                          WorkflowTaskFailedCause = 2
 	WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_ACTIVITY_ATTRIBUTES                    WorkflowTaskFailedCause = 3
@@ -60,18 +65,22 @@ const (
 	WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_ATTRIBUTES WorkflowTaskFailedCause = 10
 	WORKFLOW_TASK_FAILED_CAUSE_BAD_CONTINUE_AS_NEW_ATTRIBUTES                            WorkflowTaskFailedCause = 11
 	WORKFLOW_TASK_FAILED_CAUSE_START_TIMER_DUPLICATE_ID                                  WorkflowTaskFailedCause = 12
-	WORKFLOW_TASK_FAILED_CAUSE_RESET_STICKY_TASK_QUEUE                                   WorkflowTaskFailedCause = 13
-	WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_WORKER_UNHANDLED_FAILURE                         WorkflowTaskFailedCause = 14
-	WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_WORKFLOW_EXECUTION_ATTRIBUTES                  WorkflowTaskFailedCause = 15
-	WORKFLOW_TASK_FAILED_CAUSE_BAD_START_CHILD_EXECUTION_ATTRIBUTES                      WorkflowTaskFailedCause = 16
-	WORKFLOW_TASK_FAILED_CAUSE_FORCE_CLOSE_COMMAND                                       WorkflowTaskFailedCause = 17
-	WORKFLOW_TASK_FAILED_CAUSE_FAILOVER_CLOSE_COMMAND                                    WorkflowTaskFailedCause = 18
-	WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_INPUT_SIZE                                     WorkflowTaskFailedCause = 19
-	WORKFLOW_TASK_FAILED_CAUSE_RESET_WORKFLOW                                            WorkflowTaskFailedCause = 20
-	WORKFLOW_TASK_FAILED_CAUSE_BAD_BINARY                                                WorkflowTaskFailedCause = 21
-	WORKFLOW_TASK_FAILED_CAUSE_SCHEDULE_ACTIVITY_DUPLICATE_ID                            WorkflowTaskFailedCause = 22
-	WORKFLOW_TASK_FAILED_CAUSE_BAD_SEARCH_ATTRIBUTES                                     WorkflowTaskFailedCause = 23
-	WORKFLOW_TASK_FAILED_CAUSE_NON_DETERMINISTIC_ERROR                                   WorkflowTaskFailedCause = 24
+	// The worker wishes to fail the task and have the next one be generated on a normal, not sticky
+	// queue. Generally workers should prefer to use the explicit `ResetStickyTaskQueue` RPC call.
+	WORKFLOW_TASK_FAILED_CAUSE_RESET_STICKY_TASK_QUEUE                  WorkflowTaskFailedCause = 13
+	WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_WORKER_UNHANDLED_FAILURE        WorkflowTaskFailedCause = 14
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_WORKFLOW_EXECUTION_ATTRIBUTES WorkflowTaskFailedCause = 15
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_START_CHILD_EXECUTION_ATTRIBUTES     WorkflowTaskFailedCause = 16
+	WORKFLOW_TASK_FAILED_CAUSE_FORCE_CLOSE_COMMAND                      WorkflowTaskFailedCause = 17
+	WORKFLOW_TASK_FAILED_CAUSE_FAILOVER_CLOSE_COMMAND                   WorkflowTaskFailedCause = 18
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_INPUT_SIZE                    WorkflowTaskFailedCause = 19
+	WORKFLOW_TASK_FAILED_CAUSE_RESET_WORKFLOW                           WorkflowTaskFailedCause = 20
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_BINARY                               WorkflowTaskFailedCause = 21
+	WORKFLOW_TASK_FAILED_CAUSE_SCHEDULE_ACTIVITY_DUPLICATE_ID           WorkflowTaskFailedCause = 22
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_SEARCH_ATTRIBUTES                    WorkflowTaskFailedCause = 23
+	// The worker encountered a mismatch while replaying history between what was expected, and
+	// what the workflow code actually did.
+	WORKFLOW_TASK_FAILED_CAUSE_NON_DETERMINISTIC_ERROR WorkflowTaskFailedCause = 24
 )
 
 var WorkflowTaskFailedCause_name = map[int32]string{

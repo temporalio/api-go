@@ -135,139 +135,160 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type WorkflowServiceClient interface {
-	// RegisterNamespace creates a new namespace which can be used as a container for all resources.  Namespace is a top level
-	// entity within Temporal, used as a container for all resources like workflow executions, task queues, etc.  Namespace
-	// acts as a sandbox and provides isolation for all resources within the namespace.  All resources belongs to exactly one
+	// RegisterNamespace creates a new namespace which can be used as a container for all resources.
+	//
+	// A Namespace is a top level entity within Temporal, and is used as a container for resources
+	// like workflow executions, task queues, etc. A Namespace acts as a sandbox and provides
+	// isolation for all resources within the namespace. All resources belongs to exactly one
 	// namespace.
 	RegisterNamespace(ctx context.Context, in *RegisterNamespaceRequest, opts ...grpc.CallOption) (*RegisterNamespaceResponse, error)
 	// DescribeNamespace returns the information and configuration for a registered namespace.
 	DescribeNamespace(ctx context.Context, in *DescribeNamespaceRequest, opts ...grpc.CallOption) (*DescribeNamespaceResponse, error)
 	// ListNamespaces returns the information and configuration for all namespaces.
 	ListNamespaces(ctx context.Context, in *ListNamespacesRequest, opts ...grpc.CallOption) (*ListNamespacesResponse, error)
+	// UpdateNamespace is used to update the information and configuration of a registered
+	// namespace.
+	//
 	// (-- api-linter: core::0134::method-signature=disabled
 	//     aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
 	// (-- api-linter: core::0134::response-message-name=disabled
 	//     aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
-	// UpdateNamespace is used to update the information and configuration for a registered namespace.
 	UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...grpc.CallOption) (*UpdateNamespaceResponse, error)
-	// DeprecateNamespace is used to update state of a registered namespace to DEPRECATED.  Once the namespace is deprecated
-	// it cannot be used to start new workflow executions.  Existing workflow executions will continue to run on
-	// deprecated namespaces.
+	// DeprecateNamespace is used to update the state of a registered namespace to DEPRECATED.
+	//
+	// Once the namespace is deprecated it cannot be used to start new workflow executions. Existing
+	// workflow executions will continue to run on deprecated namespaces.
 	// Deprecated.
 	DeprecateNamespace(ctx context.Context, in *DeprecateNamespaceRequest, opts ...grpc.CallOption) (*DeprecateNamespaceResponse, error)
-	// StartWorkflowExecution starts a new long running workflow instance.  It will create the instance with
-	// 'WorkflowExecutionStarted' event in history and also schedule the first WorkflowTask for the worker to make the
-	// first command for this instance.  It will return 'WorkflowExecutionAlreadyStartedFailure', if an instance already
-	// exists with same workflowId.
+	// StartWorkflowExecution starts a new workflow execution.
+	//
+	// It will create the execution with a `WORKFLOW_EXECUTION_STARTED` event in its history and
+	// also schedule the first workflow task. Returns `WorkflowExecutionAlreadyStarted`, if an
+	// instance already exists with same workflow id.
 	StartWorkflowExecution(ctx context.Context, in *StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartWorkflowExecutionResponse, error)
-	// GetWorkflowExecutionHistory returns the history of specified workflow execution.  It fails with 'NotFoundFailure' if specified workflow
-	// execution is unknown to the service.
+	// GetWorkflowExecutionHistory returns the history of specified workflow execution. Fails with
+	// `NotFound` if the specified workflow execution is unknown to the service.
 	GetWorkflowExecutionHistory(ctx context.Context, in *GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*GetWorkflowExecutionHistoryResponse, error)
-	// PollWorkflowTaskQueue is called by application worker to process WorkflowTask from a specific task queue.  A
-	// WorkflowTask is dispatched to callers for active workflow executions, with pending workflow tasks.
-	// Application is then expected to call 'RespondWorkflowTaskCompleted' API when it is done processing the WorkflowTask.
-	// It will also create a 'WorkflowTaskStarted' event in the history for that session before handing off WorkflowTask to
-	// application worker.
+	// PollWorkflowTaskQueue is called by workers to make progress on workflows.
+	//
+	// A WorkflowTask is dispatched to callers for active workflow executions with pending workflow
+	// tasks. The worker is expected to call `RespondWorkflowTaskCompleted` when it is done
+	// processing the task. The service will create a `WorkflowTaskStarted` event in the history for
+	// this task before handing it to the worker.
 	PollWorkflowTaskQueue(ctx context.Context, in *PollWorkflowTaskQueueRequest, opts ...grpc.CallOption) (*PollWorkflowTaskQueueResponse, error)
-	// RespondWorkflowTaskCompleted is called by application worker to complete a WorkflowTask handed as a result of
-	// 'PollWorkflowTaskQueue' API call.  Completing a WorkflowTask will result in new events for the workflow execution and
-	// potentially new ActivityTask being created for corresponding commands.  It will also create a WorkflowTaskCompleted
-	// event in the history for that session.  Use the 'taskToken' provided as response of PollWorkflowTaskQueue API call
-	// for completing the WorkflowTask.
-	// The response could contain a new workflow task if there is one or if the request asking for one.
+	// RespondWorkflowTaskCompleted is called by workers to successfully complete workflow tasks
+	// they received from `PollWorkflowTaskQueue`.
+	//
+	// Completing a WorkflowTask will write a `WORKFLOW_TASK_COMPLETED` event to the workflow's
+	// history, along with events corresponding to whatever commands the SDK generated while
+	// executing the task (ex timer started, activity task scheduled, etc).
 	RespondWorkflowTaskCompleted(ctx context.Context, in *RespondWorkflowTaskCompletedRequest, opts ...grpc.CallOption) (*RespondWorkflowTaskCompletedResponse, error)
-	// RespondWorkflowTaskFailed is called by application worker to indicate failure.  This results in
-	// WorkflowTaskFailedEvent written to the history and a new WorkflowTask created.  This API can be used by client to
-	// either clear sticky task queue or report any panics during WorkflowTask processing.  Temporal will only append first
-	// WorkflowTaskFailed event to the history of workflow execution for consecutive failures.
+	// RespondWorkflowTaskFailed is called by workers to indicate the processing of a workflow task
+	// failed.
+	//
+	// This results in a `WORKFLOW_TASK_FAILED` event written to the history, and a new workflow
+	// task will be scheduled. This API can be used to report unhandled failures resulting from
+	// applying the workflow task.
+	//
+	// Temporal will only append first WorkflowTaskFailed event to the history of workflow execution
+	// for consecutive failures.
 	RespondWorkflowTaskFailed(ctx context.Context, in *RespondWorkflowTaskFailedRequest, opts ...grpc.CallOption) (*RespondWorkflowTaskFailedResponse, error)
-	// PollActivityTaskQueue is called by application worker to process ActivityTask from a specific task queue.  ActivityTask
-	// is dispatched to callers whenever a ScheduleTask command is made for a workflow execution.
-	// Application is expected to call 'RespondActivityTaskCompleted' or 'RespondActivityTaskFailed' once it is done
+	// PollActivityTaskQueue is called by workers to process activity tasks from a specific task
+	// queue.
+	//
+	// The worker is expected to call one of the `RespondActivityTaskXXX` methods when it is done
 	// processing the task.
-	// Application also needs to call 'RecordActivityTaskHeartbeat' API within 'heartbeatTimeoutSeconds' interval to
-	// prevent the Task from getting timed out.  An in memory event 'ActivityTaskStarted' is also written to mutable state
-	// before the ActivityTask is dispatched to application Worker. 'ActivityTaskStarted' and Activity finish event:
-	// 'ActivityTaskCompleted' / 'ActivityTaskFailed' / 'ActivityTaskTimedout' will both be written to Workflow execution
-	// history when Activity is finished.
+	//
+	// An activity task is dispatched whenever a `SCHEDULE_ACTIVITY_TASK` command is produced during
+	// workflow execution. An in memory `ACTIVITY_TASK_STARTED` event is written to mutable state
+	// before the task is dispatched to the worker. The started event, and the final event
+	// (`ACTIVITY_TASK_COMPLETED` / `ACTIVITY_TASK_FAILED` / `ACTIVITY_TASK_TIMED_OUT`) will both be
+	// written permanently to Workflow execution history when Activity is finished. This is done to
+	// avoid writing many events in the case of a failure/retry loop.
 	PollActivityTaskQueue(ctx context.Context, in *PollActivityTaskQueueRequest, opts ...grpc.CallOption) (*PollActivityTaskQueueResponse, error)
-	// RecordActivityTaskHeartbeat is called by application worker while it is processing an ActivityTask.  If worker fails
-	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timedout and
-	// 'ActivityTaskTimedOut' event will be written to the workflow history.  Calling 'RecordActivityTaskHeartbeat' will
-	// fail with 'NotFoundFailure' in such situations.  Use the 'taskToken' provided as response of
-	// PollActivityTaskQueue API call for heart beating.
+	// RecordActivityTaskHeartbeat is optionally called by workers while they execute activities.
+	//
+	// If worker fails to heartbeat within the `heartbeat_timeout` interval for the activity task,
+	// then it will be marked as timed out and an `ACTIVITY_TASK_TIMED_OUT` event will be written to
+	// the workflow history. Calling `RecordActivityTaskHeartbeat` will fail with `NotFound` in
+	// such situations, in that event, the SDK should request cancellation of the activity.
 	RecordActivityTaskHeartbeat(ctx context.Context, in *RecordActivityTaskHeartbeatRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatResponse, error)
+	// See `RecordActivityTaskHeartbeat`. This version allows clients to record heartbeats by
+	// namespace/workflow id/activity id instead of task token.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
-	// RecordActivityTaskHeartbeatById is called by application worker while it is processing an ActivityTask.  If worker fails
-	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timed out and
-	// 'ActivityTaskTimedOut' event will be written to the workflow history.  Calling 'RecordActivityTaskHeartbeatById' will
-	// fail with 'NotFoundFailure' in such situations.  Instead of using 'taskToken' like in RecordActivityTaskHeartbeat,
-	// use Namespace, WorkflowId and ActivityId
 	RecordActivityTaskHeartbeatById(ctx context.Context, in *RecordActivityTaskHeartbeatByIdRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatByIdResponse, error)
-	// RespondActivityTaskCompleted is called by application worker when it is done processing an ActivityTask.  It will
-	// result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow so new commands could be made.  Use the 'taskToken' provided as response of
-	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
-	// anymore due to activity timeout.
+	// RespondActivityTaskCompleted is called by workers when they successfully complete an activity
+	// task.
+	//
+	// This results in a new `ACTIVITY_TASK_COMPLETED` event being written to the workflow history
+	// and a new workflow task created for the workflow. Fails with `NotFound` if the task token is
+	// no longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskCompleted(ctx context.Context, in *RespondActivityTaskCompletedRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedResponse, error)
+	// See `RecordActivityTaskCompleted`. This version allows clients to record completions by
+	// namespace/workflow id/activity id instead of task token.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
-	// RespondActivityTaskCompletedById is called by application worker when it is done processing an ActivityTask.
-	// It will result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow so new commands could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
-	// WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
-	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskCompletedById(ctx context.Context, in *RespondActivityTaskCompletedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedByIdResponse, error)
-	// RespondActivityTaskFailed is called by application worker when it is done processing an ActivityTask.  It will
-	// result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made.  Use the 'taskToken' provided as response of
-	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
-	// anymore due to activity timeout.
+	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
+	//
+	// This results in a new `ACTIVITY_TASK_FAILED` event being written to the workflow history and
+	// a new workflow task created for the workflow. Fails with `NotFound` if the task token is no
+	// longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskFailed(ctx context.Context, in *RespondActivityTaskFailedRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedResponse, error)
+	// See `RecordActivityTaskFailed`. This version allows clients to record failures by
+	// namespace/workflow id/activity id instead of task token.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
-	// RespondActivityTaskFailedById is called by application worker when it is done processing an ActivityTask.
-	// It will result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskFailed but use
-	// Namespace, WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
-	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskFailedById(ctx context.Context, in *RespondActivityTaskFailedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedByIdResponse, error)
-	// RespondActivityTaskCanceled is called by application worker when it is successfully canceled an ActivityTask.  It will
-	// result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made.  Use the 'taskToken' provided as response of
-	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
-	// anymore due to activity timeout.
+	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
+	//
+	// This results in a new `ACTIVITY_TASK_CANCELED` event being written to the workflow history
+	// and a new workflow task created for the workflow. Fails with `NotFound` if the task token is
+	// no longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskCanceled(ctx context.Context, in *RespondActivityTaskCanceledRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledResponse, error)
+	// See `RecordActivityTaskCanceled`. This version allows clients to record failures by
+	// namespace/workflow id/activity id instead of task token.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
-	// RespondActivityTaskCanceledById is called by application worker when it is successfully canceled an ActivityTask.
-	// It will result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskCanceled but use
-	// Namespace, WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
-	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskCanceledById(ctx context.Context, in *RespondActivityTaskCanceledByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledByIdResponse, error)
-	// RequestCancelWorkflowExecution is called by application worker when it wants to request cancellation of a workflow instance.
-	// It will result in a new 'WorkflowExecutionCancelRequested' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made. It fails with 'NotFoundFailure' if the workflow is not valid
-	// anymore due to completion or doesn't exist.
+	// RequestCancelWorkflowExecution is called by workers when they want to request cancellation of
+	// a workflow execution.
+	//
+	// This result in a new `WORKFLOW_EXECUTION_CANCEL_REQUESTED` event being written to the
+	// workflow history and a new workflow task created for the workflow. Fails with `NotFound` if
+	// the workflow is already completed or doesn't exist.
 	RequestCancelWorkflowExecution(ctx context.Context, in *RequestCancelWorkflowExecutionRequest, opts ...grpc.CallOption) (*RequestCancelWorkflowExecutionResponse, error)
-	// SignalWorkflowExecution is used to send a signal event to running workflow execution.  This results in
-	// WorkflowExecutionSignaled event recorded in the history and a workflow task being created for the execution.
+	// SignalWorkflowExecution is used to send a signal to a running workflow execution.
+	//
+	// This results in a `WORKFLOW_EXECUTION_SIGNALED` event recorded in the history and a workflow
+	// task being created for the execution.
 	SignalWorkflowExecution(ctx context.Context, in *SignalWorkflowExecutionRequest, opts ...grpc.CallOption) (*SignalWorkflowExecutionResponse, error)
+	// SignalWithStartWorkflowExecution is used to ensure a signal is sent to a workflow, even if
+	// it isn't yet started.
+	//
+	// If the workflow is running, a `WORKFLOW_EXECUTION_SIGNALED` event is recorded in the history
+	// and a workflow task is generated.
+	//
+	// If the workflow is not running or not found, then the workflow is created with
+	// `WORKFLOW_EXECUTION_STARTED` and `WORKFLOW_EXECUTION_SIGNALED` events in its history, and a
+	// workflow task is generated.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "With" is used to indicate combined operation. --)
-	// SignalWithStartWorkflowExecution is used to ensure sending signal to a workflow.
-	// If the workflow is running, this results in WorkflowExecutionSignaled event being recorded in the history
-	// and a workflow task being created for the execution.
-	// If the workflow is not running or not found, this results in WorkflowExecutionStarted and WorkflowExecutionSignaled
-	// events being recorded in history, and a workflow task being created for the execution
 	SignalWithStartWorkflowExecution(ctx context.Context, in *SignalWithStartWorkflowExecutionRequest, opts ...grpc.CallOption) (*SignalWithStartWorkflowExecutionResponse, error)
-	// ResetWorkflowExecution reset an existing workflow execution to WorkflowTaskCompleted event(exclusive).
-	// And it will immediately terminating the current execution instance.
+	// ResetWorkflowExecution will reset an existing workflow execution to a specified
+	// `WORKFLOW_TASK_COMPLETED` event (exclusive). It will immediately terminate the current
+	// execution instance.
+	// TODO: Does exclusive here mean *just* the completed event, or also WFT started? Otherwise the task is doomed to time out?
 	ResetWorkflowExecution(ctx context.Context, in *ResetWorkflowExecutionRequest, opts ...grpc.CallOption) (*ResetWorkflowExecutionResponse, error)
-	// TerminateWorkflowExecution terminates an existing workflow execution by recording WorkflowExecutionTerminated event
-	// in the history and immediately terminating the execution instance.
+	// TerminateWorkflowExecution terminates an existing workflow execution by recording a
+	// `WORKFLOW_EXECUTION_TERMINATED` event in the history and immediately terminating the
+	// execution instance.
 	TerminateWorkflowExecution(ctx context.Context, in *TerminateWorkflowExecutionRequest, opts ...grpc.CallOption) (*TerminateWorkflowExecutionResponse, error)
 	// ListOpenWorkflowExecutions is a visibility API to list the open executions in a specific namespace.
 	ListOpenWorkflowExecutions(ctx context.Context, in *ListOpenWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListOpenWorkflowExecutionsResponse, error)
@@ -283,21 +304,25 @@ type WorkflowServiceClient interface {
 	CountWorkflowExecutions(ctx context.Context, in *CountWorkflowExecutionsRequest, opts ...grpc.CallOption) (*CountWorkflowExecutionsResponse, error)
 	// GetSearchAttributes is a visibility API to get all legal keys that could be used in list APIs
 	GetSearchAttributes(ctx context.Context, in *GetSearchAttributesRequest, opts ...grpc.CallOption) (*GetSearchAttributesResponse, error)
-	// RespondQueryTaskCompleted is called by application worker to complete a QueryTask (which is a WorkflowTask for query)
-	// as a result of 'PollWorkflowTaskQueue' API call. Completing a QueryTask will unblock the client call to 'QueryWorkflow'
-	// API and return the query result to client as a response to 'QueryWorkflow' API call.
+	// RespondQueryTaskCompleted is called by workers to complete queries which were delivered on
+	// the `query` (not `queries`) field of a `PollWorkflowTaskQueueResponse`.
+	//
+	// Completing the query will unblock the corresponding client call to `QueryWorkflow` and return
+	// the query result a response.
 	RespondQueryTaskCompleted(ctx context.Context, in *RespondQueryTaskCompletedRequest, opts ...grpc.CallOption) (*RespondQueryTaskCompletedResponse, error)
-	// ResetStickyTaskQueue resets the sticky task queue related information in mutable state of a given workflow.
+	// ResetStickyTaskQueue resets the sticky task queue related information in the mutable state of
+	// a given workflow. This is prudent for workers to perform if a workflow has been paged out of
+	// their cache.
+	//
 	// Things cleared are:
 	// 1. StickyTaskQueue
 	// 2. StickyScheduleToStartTimeout
 	ResetStickyTaskQueue(ctx context.Context, in *ResetStickyTaskQueueRequest, opts ...grpc.CallOption) (*ResetStickyTaskQueueResponse, error)
-	// QueryWorkflow returns query result for a specified workflow execution
+	// QueryWorkflow requests a query be executed for a specified workflow execution.
 	QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
 	// DescribeWorkflowExecution returns information about the specified workflow execution.
 	DescribeWorkflowExecution(ctx context.Context, in *DescribeWorkflowExecutionRequest, opts ...grpc.CallOption) (*DescribeWorkflowExecutionResponse, error)
-	// DescribeTaskQueue returns information about the target task queue, right now this API returns the
-	// pollers which polled this task queue in last few minutes.
+	// DescribeTaskQueue returns information about the target task queue.
 	DescribeTaskQueue(ctx context.Context, in *DescribeTaskQueueRequest, opts ...grpc.CallOption) (*DescribeTaskQueueResponse, error)
 	// GetClusterInfo returns information about temporal cluster
 	GetClusterInfo(ctx context.Context, in *GetClusterInfoRequest, opts ...grpc.CallOption) (*GetClusterInfoResponse, error)
@@ -656,139 +681,160 @@ func (c *workflowServiceClient) ListTaskQueuePartitions(ctx context.Context, in 
 
 // WorkflowServiceServer is the server API for WorkflowService service.
 type WorkflowServiceServer interface {
-	// RegisterNamespace creates a new namespace which can be used as a container for all resources.  Namespace is a top level
-	// entity within Temporal, used as a container for all resources like workflow executions, task queues, etc.  Namespace
-	// acts as a sandbox and provides isolation for all resources within the namespace.  All resources belongs to exactly one
+	// RegisterNamespace creates a new namespace which can be used as a container for all resources.
+	//
+	// A Namespace is a top level entity within Temporal, and is used as a container for resources
+	// like workflow executions, task queues, etc. A Namespace acts as a sandbox and provides
+	// isolation for all resources within the namespace. All resources belongs to exactly one
 	// namespace.
 	RegisterNamespace(context.Context, *RegisterNamespaceRequest) (*RegisterNamespaceResponse, error)
 	// DescribeNamespace returns the information and configuration for a registered namespace.
 	DescribeNamespace(context.Context, *DescribeNamespaceRequest) (*DescribeNamespaceResponse, error)
 	// ListNamespaces returns the information and configuration for all namespaces.
 	ListNamespaces(context.Context, *ListNamespacesRequest) (*ListNamespacesResponse, error)
+	// UpdateNamespace is used to update the information and configuration of a registered
+	// namespace.
+	//
 	// (-- api-linter: core::0134::method-signature=disabled
 	//     aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
 	// (-- api-linter: core::0134::response-message-name=disabled
 	//     aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
-	// UpdateNamespace is used to update the information and configuration for a registered namespace.
 	UpdateNamespace(context.Context, *UpdateNamespaceRequest) (*UpdateNamespaceResponse, error)
-	// DeprecateNamespace is used to update state of a registered namespace to DEPRECATED.  Once the namespace is deprecated
-	// it cannot be used to start new workflow executions.  Existing workflow executions will continue to run on
-	// deprecated namespaces.
+	// DeprecateNamespace is used to update the state of a registered namespace to DEPRECATED.
+	//
+	// Once the namespace is deprecated it cannot be used to start new workflow executions. Existing
+	// workflow executions will continue to run on deprecated namespaces.
 	// Deprecated.
 	DeprecateNamespace(context.Context, *DeprecateNamespaceRequest) (*DeprecateNamespaceResponse, error)
-	// StartWorkflowExecution starts a new long running workflow instance.  It will create the instance with
-	// 'WorkflowExecutionStarted' event in history and also schedule the first WorkflowTask for the worker to make the
-	// first command for this instance.  It will return 'WorkflowExecutionAlreadyStartedFailure', if an instance already
-	// exists with same workflowId.
+	// StartWorkflowExecution starts a new workflow execution.
+	//
+	// It will create the execution with a `WORKFLOW_EXECUTION_STARTED` event in its history and
+	// also schedule the first workflow task. Returns `WorkflowExecutionAlreadyStarted`, if an
+	// instance already exists with same workflow id.
 	StartWorkflowExecution(context.Context, *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error)
-	// GetWorkflowExecutionHistory returns the history of specified workflow execution.  It fails with 'NotFoundFailure' if specified workflow
-	// execution is unknown to the service.
+	// GetWorkflowExecutionHistory returns the history of specified workflow execution. Fails with
+	// `NotFound` if the specified workflow execution is unknown to the service.
 	GetWorkflowExecutionHistory(context.Context, *GetWorkflowExecutionHistoryRequest) (*GetWorkflowExecutionHistoryResponse, error)
-	// PollWorkflowTaskQueue is called by application worker to process WorkflowTask from a specific task queue.  A
-	// WorkflowTask is dispatched to callers for active workflow executions, with pending workflow tasks.
-	// Application is then expected to call 'RespondWorkflowTaskCompleted' API when it is done processing the WorkflowTask.
-	// It will also create a 'WorkflowTaskStarted' event in the history for that session before handing off WorkflowTask to
-	// application worker.
+	// PollWorkflowTaskQueue is called by workers to make progress on workflows.
+	//
+	// A WorkflowTask is dispatched to callers for active workflow executions with pending workflow
+	// tasks. The worker is expected to call `RespondWorkflowTaskCompleted` when it is done
+	// processing the task. The service will create a `WorkflowTaskStarted` event in the history for
+	// this task before handing it to the worker.
 	PollWorkflowTaskQueue(context.Context, *PollWorkflowTaskQueueRequest) (*PollWorkflowTaskQueueResponse, error)
-	// RespondWorkflowTaskCompleted is called by application worker to complete a WorkflowTask handed as a result of
-	// 'PollWorkflowTaskQueue' API call.  Completing a WorkflowTask will result in new events for the workflow execution and
-	// potentially new ActivityTask being created for corresponding commands.  It will also create a WorkflowTaskCompleted
-	// event in the history for that session.  Use the 'taskToken' provided as response of PollWorkflowTaskQueue API call
-	// for completing the WorkflowTask.
-	// The response could contain a new workflow task if there is one or if the request asking for one.
+	// RespondWorkflowTaskCompleted is called by workers to successfully complete workflow tasks
+	// they received from `PollWorkflowTaskQueue`.
+	//
+	// Completing a WorkflowTask will write a `WORKFLOW_TASK_COMPLETED` event to the workflow's
+	// history, along with events corresponding to whatever commands the SDK generated while
+	// executing the task (ex timer started, activity task scheduled, etc).
 	RespondWorkflowTaskCompleted(context.Context, *RespondWorkflowTaskCompletedRequest) (*RespondWorkflowTaskCompletedResponse, error)
-	// RespondWorkflowTaskFailed is called by application worker to indicate failure.  This results in
-	// WorkflowTaskFailedEvent written to the history and a new WorkflowTask created.  This API can be used by client to
-	// either clear sticky task queue or report any panics during WorkflowTask processing.  Temporal will only append first
-	// WorkflowTaskFailed event to the history of workflow execution for consecutive failures.
+	// RespondWorkflowTaskFailed is called by workers to indicate the processing of a workflow task
+	// failed.
+	//
+	// This results in a `WORKFLOW_TASK_FAILED` event written to the history, and a new workflow
+	// task will be scheduled. This API can be used to report unhandled failures resulting from
+	// applying the workflow task.
+	//
+	// Temporal will only append first WorkflowTaskFailed event to the history of workflow execution
+	// for consecutive failures.
 	RespondWorkflowTaskFailed(context.Context, *RespondWorkflowTaskFailedRequest) (*RespondWorkflowTaskFailedResponse, error)
-	// PollActivityTaskQueue is called by application worker to process ActivityTask from a specific task queue.  ActivityTask
-	// is dispatched to callers whenever a ScheduleTask command is made for a workflow execution.
-	// Application is expected to call 'RespondActivityTaskCompleted' or 'RespondActivityTaskFailed' once it is done
+	// PollActivityTaskQueue is called by workers to process activity tasks from a specific task
+	// queue.
+	//
+	// The worker is expected to call one of the `RespondActivityTaskXXX` methods when it is done
 	// processing the task.
-	// Application also needs to call 'RecordActivityTaskHeartbeat' API within 'heartbeatTimeoutSeconds' interval to
-	// prevent the Task from getting timed out.  An in memory event 'ActivityTaskStarted' is also written to mutable state
-	// before the ActivityTask is dispatched to application Worker. 'ActivityTaskStarted' and Activity finish event:
-	// 'ActivityTaskCompleted' / 'ActivityTaskFailed' / 'ActivityTaskTimedout' will both be written to Workflow execution
-	// history when Activity is finished.
+	//
+	// An activity task is dispatched whenever a `SCHEDULE_ACTIVITY_TASK` command is produced during
+	// workflow execution. An in memory `ACTIVITY_TASK_STARTED` event is written to mutable state
+	// before the task is dispatched to the worker. The started event, and the final event
+	// (`ACTIVITY_TASK_COMPLETED` / `ACTIVITY_TASK_FAILED` / `ACTIVITY_TASK_TIMED_OUT`) will both be
+	// written permanently to Workflow execution history when Activity is finished. This is done to
+	// avoid writing many events in the case of a failure/retry loop.
 	PollActivityTaskQueue(context.Context, *PollActivityTaskQueueRequest) (*PollActivityTaskQueueResponse, error)
-	// RecordActivityTaskHeartbeat is called by application worker while it is processing an ActivityTask.  If worker fails
-	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timedout and
-	// 'ActivityTaskTimedOut' event will be written to the workflow history.  Calling 'RecordActivityTaskHeartbeat' will
-	// fail with 'NotFoundFailure' in such situations.  Use the 'taskToken' provided as response of
-	// PollActivityTaskQueue API call for heart beating.
+	// RecordActivityTaskHeartbeat is optionally called by workers while they execute activities.
+	//
+	// If worker fails to heartbeat within the `heartbeat_timeout` interval for the activity task,
+	// then it will be marked as timed out and an `ACTIVITY_TASK_TIMED_OUT` event will be written to
+	// the workflow history. Calling `RecordActivityTaskHeartbeat` will fail with `NotFound` in
+	// such situations, in that event, the SDK should request cancellation of the activity.
 	RecordActivityTaskHeartbeat(context.Context, *RecordActivityTaskHeartbeatRequest) (*RecordActivityTaskHeartbeatResponse, error)
+	// See `RecordActivityTaskHeartbeat`. This version allows clients to record heartbeats by
+	// namespace/workflow id/activity id instead of task token.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
-	// RecordActivityTaskHeartbeatById is called by application worker while it is processing an ActivityTask.  If worker fails
-	// to heartbeat within 'heartbeatTimeoutSeconds' interval for the ActivityTask, then it will be marked as timed out and
-	// 'ActivityTaskTimedOut' event will be written to the workflow history.  Calling 'RecordActivityTaskHeartbeatById' will
-	// fail with 'NotFoundFailure' in such situations.  Instead of using 'taskToken' like in RecordActivityTaskHeartbeat,
-	// use Namespace, WorkflowId and ActivityId
 	RecordActivityTaskHeartbeatById(context.Context, *RecordActivityTaskHeartbeatByIdRequest) (*RecordActivityTaskHeartbeatByIdResponse, error)
-	// RespondActivityTaskCompleted is called by application worker when it is done processing an ActivityTask.  It will
-	// result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow so new commands could be made.  Use the 'taskToken' provided as response of
-	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
-	// anymore due to activity timeout.
+	// RespondActivityTaskCompleted is called by workers when they successfully complete an activity
+	// task.
+	//
+	// This results in a new `ACTIVITY_TASK_COMPLETED` event being written to the workflow history
+	// and a new workflow task created for the workflow. Fails with `NotFound` if the task token is
+	// no longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskCompleted(context.Context, *RespondActivityTaskCompletedRequest) (*RespondActivityTaskCompletedResponse, error)
+	// See `RecordActivityTaskCompleted`. This version allows clients to record completions by
+	// namespace/workflow id/activity id instead of task token.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
-	// RespondActivityTaskCompletedById is called by application worker when it is done processing an ActivityTask.
-	// It will result in a new 'ActivityTaskCompleted' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow so new commands could be made.  Similar to RespondActivityTaskCompleted but use Namespace,
-	// WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
-	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskCompletedById(context.Context, *RespondActivityTaskCompletedByIdRequest) (*RespondActivityTaskCompletedByIdResponse, error)
-	// RespondActivityTaskFailed is called by application worker when it is done processing an ActivityTask.  It will
-	// result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made.  Use the 'taskToken' provided as response of
-	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
-	// anymore due to activity timeout.
+	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
+	//
+	// This results in a new `ACTIVITY_TASK_FAILED` event being written to the workflow history and
+	// a new workflow task created for the workflow. Fails with `NotFound` if the task token is no
+	// longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskFailed(context.Context, *RespondActivityTaskFailedRequest) (*RespondActivityTaskFailedResponse, error)
+	// See `RecordActivityTaskFailed`. This version allows clients to record failures by
+	// namespace/workflow id/activity id instead of task token.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
-	// RespondActivityTaskFailedById is called by application worker when it is done processing an ActivityTask.
-	// It will result in a new 'ActivityTaskFailed' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskFailed but use
-	// Namespace, WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
-	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskFailedById(context.Context, *RespondActivityTaskFailedByIdRequest) (*RespondActivityTaskFailedByIdResponse, error)
-	// RespondActivityTaskCanceled is called by application worker when it is successfully canceled an ActivityTask.  It will
-	// result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made.  Use the 'taskToken' provided as response of
-	// PollActivityTaskQueue API call for completion. It fails with 'NotFoundFailure' if the taskToken is not valid
-	// anymore due to activity timeout.
+	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
+	//
+	// This results in a new `ACTIVITY_TASK_CANCELED` event being written to the workflow history
+	// and a new workflow task created for the workflow. Fails with `NotFound` if the task token is
+	// no longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskCanceled(context.Context, *RespondActivityTaskCanceledRequest) (*RespondActivityTaskCanceledResponse, error)
+	// See `RecordActivityTaskCanceled`. This version allows clients to record failures by
+	// namespace/workflow id/activity id instead of task token.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "By" is used to indicate request type. --)
-	// RespondActivityTaskCanceledById is called by application worker when it is successfully canceled an ActivityTask.
-	// It will result in a new 'ActivityTaskCanceled' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made.  Similar to RespondActivityTaskCanceled but use
-	// Namespace, WorkflowId and ActivityId instead of 'taskToken' for completion. It fails with 'NotFoundFailure'
-	// if the these Ids are not valid anymore due to activity timeout.
 	RespondActivityTaskCanceledById(context.Context, *RespondActivityTaskCanceledByIdRequest) (*RespondActivityTaskCanceledByIdResponse, error)
-	// RequestCancelWorkflowExecution is called by application worker when it wants to request cancellation of a workflow instance.
-	// It will result in a new 'WorkflowExecutionCancelRequested' event being written to the workflow history and a new WorkflowTask
-	// created for the workflow instance so new commands could be made. It fails with 'NotFoundFailure' if the workflow is not valid
-	// anymore due to completion or doesn't exist.
+	// RequestCancelWorkflowExecution is called by workers when they want to request cancellation of
+	// a workflow execution.
+	//
+	// This result in a new `WORKFLOW_EXECUTION_CANCEL_REQUESTED` event being written to the
+	// workflow history and a new workflow task created for the workflow. Fails with `NotFound` if
+	// the workflow is already completed or doesn't exist.
 	RequestCancelWorkflowExecution(context.Context, *RequestCancelWorkflowExecutionRequest) (*RequestCancelWorkflowExecutionResponse, error)
-	// SignalWorkflowExecution is used to send a signal event to running workflow execution.  This results in
-	// WorkflowExecutionSignaled event recorded in the history and a workflow task being created for the execution.
+	// SignalWorkflowExecution is used to send a signal to a running workflow execution.
+	//
+	// This results in a `WORKFLOW_EXECUTION_SIGNALED` event recorded in the history and a workflow
+	// task being created for the execution.
 	SignalWorkflowExecution(context.Context, *SignalWorkflowExecutionRequest) (*SignalWorkflowExecutionResponse, error)
+	// SignalWithStartWorkflowExecution is used to ensure a signal is sent to a workflow, even if
+	// it isn't yet started.
+	//
+	// If the workflow is running, a `WORKFLOW_EXECUTION_SIGNALED` event is recorded in the history
+	// and a workflow task is generated.
+	//
+	// If the workflow is not running or not found, then the workflow is created with
+	// `WORKFLOW_EXECUTION_STARTED` and `WORKFLOW_EXECUTION_SIGNALED` events in its history, and a
+	// workflow task is generated.
+	//
 	// (-- api-linter: core::0136::prepositions=disabled
 	//     aip.dev/not-precedent: "With" is used to indicate combined operation. --)
-	// SignalWithStartWorkflowExecution is used to ensure sending signal to a workflow.
-	// If the workflow is running, this results in WorkflowExecutionSignaled event being recorded in the history
-	// and a workflow task being created for the execution.
-	// If the workflow is not running or not found, this results in WorkflowExecutionStarted and WorkflowExecutionSignaled
-	// events being recorded in history, and a workflow task being created for the execution
 	SignalWithStartWorkflowExecution(context.Context, *SignalWithStartWorkflowExecutionRequest) (*SignalWithStartWorkflowExecutionResponse, error)
-	// ResetWorkflowExecution reset an existing workflow execution to WorkflowTaskCompleted event(exclusive).
-	// And it will immediately terminating the current execution instance.
+	// ResetWorkflowExecution will reset an existing workflow execution to a specified
+	// `WORKFLOW_TASK_COMPLETED` event (exclusive). It will immediately terminate the current
+	// execution instance.
+	// TODO: Does exclusive here mean *just* the completed event, or also WFT started? Otherwise the task is doomed to time out?
 	ResetWorkflowExecution(context.Context, *ResetWorkflowExecutionRequest) (*ResetWorkflowExecutionResponse, error)
-	// TerminateWorkflowExecution terminates an existing workflow execution by recording WorkflowExecutionTerminated event
-	// in the history and immediately terminating the execution instance.
+	// TerminateWorkflowExecution terminates an existing workflow execution by recording a
+	// `WORKFLOW_EXECUTION_TERMINATED` event in the history and immediately terminating the
+	// execution instance.
 	TerminateWorkflowExecution(context.Context, *TerminateWorkflowExecutionRequest) (*TerminateWorkflowExecutionResponse, error)
 	// ListOpenWorkflowExecutions is a visibility API to list the open executions in a specific namespace.
 	ListOpenWorkflowExecutions(context.Context, *ListOpenWorkflowExecutionsRequest) (*ListOpenWorkflowExecutionsResponse, error)
@@ -804,21 +850,25 @@ type WorkflowServiceServer interface {
 	CountWorkflowExecutions(context.Context, *CountWorkflowExecutionsRequest) (*CountWorkflowExecutionsResponse, error)
 	// GetSearchAttributes is a visibility API to get all legal keys that could be used in list APIs
 	GetSearchAttributes(context.Context, *GetSearchAttributesRequest) (*GetSearchAttributesResponse, error)
-	// RespondQueryTaskCompleted is called by application worker to complete a QueryTask (which is a WorkflowTask for query)
-	// as a result of 'PollWorkflowTaskQueue' API call. Completing a QueryTask will unblock the client call to 'QueryWorkflow'
-	// API and return the query result to client as a response to 'QueryWorkflow' API call.
+	// RespondQueryTaskCompleted is called by workers to complete queries which were delivered on
+	// the `query` (not `queries`) field of a `PollWorkflowTaskQueueResponse`.
+	//
+	// Completing the query will unblock the corresponding client call to `QueryWorkflow` and return
+	// the query result a response.
 	RespondQueryTaskCompleted(context.Context, *RespondQueryTaskCompletedRequest) (*RespondQueryTaskCompletedResponse, error)
-	// ResetStickyTaskQueue resets the sticky task queue related information in mutable state of a given workflow.
+	// ResetStickyTaskQueue resets the sticky task queue related information in the mutable state of
+	// a given workflow. This is prudent for workers to perform if a workflow has been paged out of
+	// their cache.
+	//
 	// Things cleared are:
 	// 1. StickyTaskQueue
 	// 2. StickyScheduleToStartTimeout
 	ResetStickyTaskQueue(context.Context, *ResetStickyTaskQueueRequest) (*ResetStickyTaskQueueResponse, error)
-	// QueryWorkflow returns query result for a specified workflow execution
+	// QueryWorkflow requests a query be executed for a specified workflow execution.
 	QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error)
 	// DescribeWorkflowExecution returns information about the specified workflow execution.
 	DescribeWorkflowExecution(context.Context, *DescribeWorkflowExecutionRequest) (*DescribeWorkflowExecutionResponse, error)
-	// DescribeTaskQueue returns information about the target task queue, right now this API returns the
-	// pollers which polled this task queue in last few minutes.
+	// DescribeTaskQueue returns information about the target task queue.
 	DescribeTaskQueue(context.Context, *DescribeTaskQueueRequest) (*DescribeTaskQueueResponse, error)
 	// GetClusterInfo returns information about temporal cluster
 	GetClusterInfo(context.Context, *GetClusterInfoRequest) (*GetClusterInfoResponse, error)

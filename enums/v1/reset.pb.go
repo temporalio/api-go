@@ -44,6 +44,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// TODO: What is this?
 type ResetReapplyType int32
 
 const (
