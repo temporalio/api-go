@@ -198,6 +198,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetSearchAttributes(ctx, in int
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSearchAttributes", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetSearchAttributes), varargs...)
 }
 
+// GetSystemInfo mocks base method.
+func (m *MockWorkflowServiceClient) GetSystemInfo(ctx context.Context, in *workflowservice.GetSystemInfoRequest, opts ...grpc.CallOption) (*workflowservice.GetSystemInfoResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetSystemInfo", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetSystemInfoResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetSystemInfo indicates an expected call of GetSystemInfo.
+func (mr *MockWorkflowServiceClientMockRecorder) GetSystemInfo(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSystemInfo", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetSystemInfo), varargs...)
+}
+
 // GetWorkflowExecutionHistory mocks base method.
 func (m *MockWorkflowServiceClient) GetWorkflowExecutionHistory(ctx context.Context, in *workflowservice.GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
 	m.ctrl.T.Helper()
@@ -944,6 +964,21 @@ func (m *MockWorkflowServiceServer) GetSearchAttributes(arg0 context.Context, ar
 func (mr *MockWorkflowServiceServerMockRecorder) GetSearchAttributes(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSearchAttributes", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetSearchAttributes), arg0, arg1)
+}
+
+// GetSystemInfo mocks base method.
+func (m *MockWorkflowServiceServer) GetSystemInfo(arg0 context.Context, arg1 *workflowservice.GetSystemInfoRequest) (*workflowservice.GetSystemInfoResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSystemInfo", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetSystemInfoResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetSystemInfo indicates an expected call of GetSystemInfo.
+func (mr *MockWorkflowServiceServerMockRecorder) GetSystemInfo(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSystemInfo", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetSystemInfo), arg0, arg1)
 }
 
 // GetWorkflowExecutionHistory mocks base method.
