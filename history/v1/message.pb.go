@@ -95,7 +95,8 @@ type WorkflowExecutionStartedEventAttributes struct {
 	WorkflowExecutionExpirationTime *time.Time `protobuf:"bytes,19,opt,name=workflow_execution_expiration_time,json=workflowExecutionExpirationTime,proto3,stdtime" json:"workflow_execution_expiration_time,omitempty"`
 	// If this workflow runs on a cron schedule, it will appear here
 	CronSchedule string `protobuf:"bytes,20,opt,name=cron_schedule,json=cronSchedule,proto3" json:"cron_schedule,omitempty"`
-	// TODO: What is this? Appears unused.
+	// For a cron workflow, this contains the amount of time between when this iteration of
+	// the cron workflow was scheduled and when it should run next per its cron_schedule.
 	FirstWorkflowTaskBackoff *time.Duration       `protobuf:"bytes,21,opt,name=first_workflow_task_backoff,json=firstWorkflowTaskBackoff,proto3,stdduration" json:"first_workflow_task_backoff,omitempty"`
 	Memo                     *v1.Memo             `protobuf:"bytes,22,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes         *v1.SearchAttributes `protobuf:"bytes,23,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
