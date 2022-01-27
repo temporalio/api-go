@@ -24,7 +24,7 @@ package serviceerror
 
 import (
 	"github.com/gogo/status"
-	"go.temporal.io/api/enums/v1"
+	enumspb "go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/errordetails/v1"
 	"google.golang.org/grpc/codes"
 )
@@ -32,14 +32,14 @@ import (
 type (
 	// ResourceExhausted represents resource exhausted error.
 	ResourceExhausted struct {
-		Cause   enums.ResourceExhaustedCause
+		Cause   enumspb.ResourceExhaustedCause
 		Message string
 		st      *status.Status
 	}
 )
 
 // NewResourceExhausted returns new ResourceExhausted error.
-func NewResourceExhausted(cause enums.ResourceExhaustedCause, message string) error {
+func NewResourceExhausted(cause enumspb.ResourceExhaustedCause, message string) error {
 	return &ResourceExhausted{
 		Cause:   cause,
 		Message: message,
@@ -67,7 +67,7 @@ func (e *ResourceExhausted) Status() *status.Status {
 
 func newResourceExhausted(st *status.Status, errDetails *errordetails.ResourceExhaustedFailure) error {
 	return &ResourceExhausted{
-		Cause:   errDetails.Cause,
+		Cause:   errDetails.GetCause(),
 		Message: st.Message(),
 		st:      st,
 	}
