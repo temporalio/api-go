@@ -69,8 +69,6 @@ func FromStatus(st *status.Status) error {
 		return newInternal(st)
 	case codes.DataLoss:
 		return newDataLoss(st)
-	case codes.ResourceExhausted:
-		return newResourceExhausted(st)
 	case codes.DeadlineExceeded:
 		return newDeadlineExceeded(st)
 	case codes.Canceled:
@@ -112,6 +110,14 @@ func FromStatus(st *status.Status) error {
 		switch errDetails.(type) {
 		case *errordetails.QueryFailedFailure:
 			return newQueryFailed(st)
+		}
+	case codes.ResourceExhausted:
+		if errDetails == nil {
+			return newResourceExhausted(st, nil)
+		}
+		switch errDetails := errDetails.(type) {
+		case *errordetails.ResourceExhaustedFailure:
+			return newResourceExhausted(st, errDetails)
 		}
 	case codes.AlreadyExists:
 		switch errDetails := errDetails.(type) {
