@@ -64,17 +64,21 @@ type ScheduleActivityTaskCommandAttributes struct {
 	TaskQueue    *v11.TaskQueue   `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	Header       *v1.Header       `protobuf:"bytes,5,opt,name=header,proto3" json:"header,omitempty"`
 	Input        *v1.Payloads     `protobuf:"bytes,6,opt,name=input,proto3" json:"input,omitempty"`
-	// Indicates how long the caller is willing to wait for activity completion. Limits how long
-	// retries will be attempted. Either this or `start_to_close_timeout` must be specified. When
-	// not specified, defaults to the workflow execution timeout.
+	// Indicates how long the caller is willing to wait for activity completion. The "schedule" time
+	// is when the activity is initially scheduled, not when the most recent retry is scheduled.
+	// Limits how long retries will be attempted. Either this or `start_to_close_timeout` must be
+	// specified. When not specified, defaults to the workflow execution timeout.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToCloseTimeout *time.Duration `protobuf:"bytes,7,opt,name=schedule_to_close_timeout,json=scheduleToCloseTimeout,proto3,stdduration" json:"schedule_to_close_timeout,omitempty"`
-	// Limits the time an activity task can stay in a task queue before a worker picks it up. This
-	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
-	// queue. Defaults to `schedule_to_close_timeout` or workflow execution timeout if that is not
-	// specified.
+	// Limits the time an activity task can stay in a task queue before a worker picks it up. The
+	// "schedule" time is when the most recent retry is scheduled. This timeout should usually not
+	// be set: it's useful in specific scenarios like worker-specific task queues. This timeout is
+	// always non retryable, as all a retry would achieve is to put it back into the same queue.
+	// Defaults to `schedule_to_close_timeout` or workflow execution timeout if that is not
+	// specified. More info:
+	// https://docs.temporal.io/docs/content/what-is-a-schedule-to-start-timeout/
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
