@@ -238,6 +238,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkflowExecutionHistory(ctx
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionHistory", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkflowExecutionHistory), varargs...)
 }
 
+// GetWorkflowExecutionHistoryReverse mocks base method.
+func (m *MockWorkflowServiceClient) GetWorkflowExecutionHistoryReverse(ctx context.Context, in *workflowservice.GetWorkflowExecutionHistoryReverseRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowExecutionHistoryReverseResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetWorkflowExecutionHistoryReverse", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionHistoryReverseResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkflowExecutionHistoryReverse indicates an expected call of GetWorkflowExecutionHistoryReverse.
+func (mr *MockWorkflowServiceClientMockRecorder) GetWorkflowExecutionHistoryReverse(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionHistoryReverse", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkflowExecutionHistoryReverse), varargs...)
+}
+
 // ListArchivedWorkflowExecutions mocks base method.
 func (m *MockWorkflowServiceClient) ListArchivedWorkflowExecutions(ctx context.Context, in *workflowservice.ListArchivedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.ListArchivedWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
@@ -994,6 +1014,21 @@ func (m *MockWorkflowServiceServer) GetWorkflowExecutionHistory(arg0 context.Con
 func (mr *MockWorkflowServiceServerMockRecorder) GetWorkflowExecutionHistory(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionHistory", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkflowExecutionHistory), arg0, arg1)
+}
+
+// GetWorkflowExecutionHistoryReverse mocks base method.
+func (m *MockWorkflowServiceServer) GetWorkflowExecutionHistoryReverse(arg0 context.Context, arg1 *workflowservice.GetWorkflowExecutionHistoryReverseRequest) (*workflowservice.GetWorkflowExecutionHistoryReverseResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWorkflowExecutionHistoryReverse", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionHistoryReverseResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkflowExecutionHistoryReverse indicates an expected call of GetWorkflowExecutionHistoryReverse.
+func (mr *MockWorkflowServiceServerMockRecorder) GetWorkflowExecutionHistoryReverse(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkflowExecutionHistoryReverse", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkflowExecutionHistoryReverse), arg0, arg1)
 }
 
 // ListArchivedWorkflowExecutions mocks base method.
