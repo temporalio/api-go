@@ -65,8 +65,6 @@ func FromStatus(st *status.Status) error {
 
 	// Simple case. Code to serviceerror is one to one mapping and there are no error details.
 	switch st.Code() {
-	case codes.Internal:
-		return newInternal(st)
 	case codes.DataLoss:
 		return newDataLoss(st)
 	case codes.DeadlineExceeded:
@@ -95,6 +93,14 @@ func FromStatus(st *status.Status) error {
 	}
 
 	switch st.Code() {
+	case codes.Internal:
+		if errDetails == nil {
+			return newInternal(st)
+		}
+		switch errDetails := errDetails.(type) {
+		case *errordetails.SystemWorkflowFailure:
+			return newSystemWorkflow(st, errDetails)
+		}
 	case codes.NotFound:
 		if errDetails == nil {
 			return newNotFound(st, nil)
