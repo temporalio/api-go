@@ -2984,7 +2984,9 @@ type RequestCancelWorkflowExecutionRequest struct {
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Used to de-dupe cancellation requests
 	RequestId string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	// Should be removed. Appears unused.
+	// If set, this call will error if the most recent (if no run id is set on
+	// `workflow_execution`), or specified (if it is) workflow execution is not part of the same
+	// execution chain as this id.
 	FirstExecutionRunId string `protobuf:"bytes,5,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
 }
 
@@ -3617,7 +3619,9 @@ type TerminateWorkflowExecutionRequest struct {
 	Details *v13.Payloads `protobuf:"bytes,4,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
-	// Should be removed. Appears unused.
+	// If set, this call will error if the most recent (if no run id is set on
+	// `workflow_execution`), or specified (if it is) workflow execution is not part of the same
+	// execution chain as this id.
 	FirstExecutionRunId string `protobuf:"bytes,6,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
 }
 
