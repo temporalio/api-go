@@ -91,7 +91,7 @@ type OperatorServiceClient interface {
 	// AddSearchAttributes add custom search attributes.
 	//
 	// If successful, returns AddSearchAttributesResponse.
-	// If fails, returns INTERNAL code with temporal.api.errordetails.v1.AddSearchAttributesFailure in Error Details
+	// If fails, returns INTERNAL code with temporal.api.errordetails.v1.SystemWorkflowFailure in Error Details
 	AddSearchAttributes(ctx context.Context, in *AddSearchAttributesRequest, opts ...grpc.CallOption) (*AddSearchAttributesResponse, error)
 	// RemoveSearchAttributes removes custom search attributes.
 	RemoveSearchAttributes(ctx context.Context, in *RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*RemoveSearchAttributesResponse, error)
@@ -139,7 +139,7 @@ type OperatorServiceServer interface {
 	// AddSearchAttributes add custom search attributes.
 	//
 	// If successful, returns AddSearchAttributesResponse.
-	// If fails, returns INTERNAL code with temporal.api.errordetails.v1.AddSearchAttributesFailure in Error Details
+	// If fails, returns INTERNAL code with temporal.api.errordetails.v1.SystemWorkflowFailure in Error Details
 	AddSearchAttributes(context.Context, *AddSearchAttributesRequest) (*AddSearchAttributesResponse, error)
 	// RemoveSearchAttributes removes custom search attributes.
 	RemoveSearchAttributes(context.Context, *RemoveSearchAttributesRequest) (*RemoveSearchAttributesResponse, error)

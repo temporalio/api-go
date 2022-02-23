@@ -9,6 +9,6 @@ require (
 	github.com/golang/mock v1.6.0
 	golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd // indirect
 	golang.org/x/sys v0.0.0-20220222200937-f2425489ef4c // indirect
-	google.golang.org/genproto v0.0.0-20220222154240-daf995802d7b // indirect
+	google.golang.org/genproto v0.0.0-20220222213610-43724f9ea8cf // indirect
 	google.golang.org/grpc v1.44.0
 )
