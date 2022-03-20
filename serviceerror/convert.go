@@ -78,6 +78,7 @@ func FromStatus(st *status.Status) error {
 	case codes.Unknown:
 		// Unwrap error message from unknown error.
 		return errors.New(st.Message())
+
 	// Unsupported codes.
 	case codes.OutOfRange,
 		codes.Unauthenticated:
@@ -126,6 +127,9 @@ func FromStatus(st *status.Status) error {
 			return newResourceExhausted(st, errDetails)
 		}
 	case codes.AlreadyExists:
+		if errDetails == nil {
+			return newAlreadyExists(st)
+		}
 		switch errDetails := errDetails.(type) {
 		case *errordetails.NamespaceAlreadyExistsFailure:
 			return newNamespaceAlreadyExists(st)
