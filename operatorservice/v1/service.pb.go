@@ -90,10 +90,12 @@ const _ = grpc.SupportPackageIsVersion4
 type OperatorServiceClient interface {
 	// AddSearchAttributes add custom search attributes.
 	//
-	// If successful, returns AddSearchAttributesResponse.
-	// If fails, returns INTERNAL code with temporal.api.errordetails.v1.SystemWorkflowFailure in Error Details
+	// Returns ALREADY_EXISTS status code if a Search Attribute with any of the specified names already exists
+	// Returns INTERNAL status code with temporal.api.errordetails.v1.SystemWorkflowFailure in Error Details if registration process fails,
 	AddSearchAttributes(ctx context.Context, in *AddSearchAttributesRequest, opts ...grpc.CallOption) (*AddSearchAttributesResponse, error)
 	// RemoveSearchAttributes removes custom search attributes.
+	//
+	// Returns NOT_FOUND status code if a Search Attribute with any of the specified names is not registered
 	RemoveSearchAttributes(ctx context.Context, in *RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*RemoveSearchAttributesResponse, error)
 	// GetSearchAttributes returns comprehensive information about search attributes.
 	ListSearchAttributes(ctx context.Context, in *ListSearchAttributesRequest, opts ...grpc.CallOption) (*ListSearchAttributesResponse, error)
@@ -138,10 +140,12 @@ func (c *operatorServiceClient) ListSearchAttributes(ctx context.Context, in *Li
 type OperatorServiceServer interface {
 	// AddSearchAttributes add custom search attributes.
 	//
-	// If successful, returns AddSearchAttributesResponse.
-	// If fails, returns INTERNAL code with temporal.api.errordetails.v1.SystemWorkflowFailure in Error Details
+	// Returns ALREADY_EXISTS status code if a Search Attribute with any of the specified names already exists
+	// Returns INTERNAL status code with temporal.api.errordetails.v1.SystemWorkflowFailure in Error Details if registration process fails,
 	AddSearchAttributes(context.Context, *AddSearchAttributesRequest) (*AddSearchAttributesResponse, error)
 	// RemoveSearchAttributes removes custom search attributes.
+	//
+	// Returns NOT_FOUND status code if a Search Attribute with any of the specified names is not registered
 	RemoveSearchAttributes(context.Context, *RemoveSearchAttributesRequest) (*RemoveSearchAttributesResponse, error)
 	// GetSearchAttributes returns comprehensive information about search attributes.
 	ListSearchAttributes(context.Context, *ListSearchAttributesRequest) (*ListSearchAttributesResponse, error)
