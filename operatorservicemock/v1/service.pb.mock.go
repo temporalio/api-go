@@ -78,6 +78,26 @@ func (mr *MockOperatorServiceClientMockRecorder) AddSearchAttributes(ctx, in int
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSearchAttributes", reflect.TypeOf((*MockOperatorServiceClient)(nil).AddSearchAttributes), varargs...)
 }
 
+// DeleteNamespace mocks base method.
+func (m *MockOperatorServiceClient) DeleteNamespace(ctx context.Context, in *operatorservice.DeleteNamespaceRequest, opts ...grpc.CallOption) (*operatorservice.DeleteNamespaceResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteNamespace", varargs...)
+	ret0, _ := ret[0].(*operatorservice.DeleteNamespaceResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteNamespace indicates an expected call of DeleteNamespace.
+func (mr *MockOperatorServiceClientMockRecorder) DeleteNamespace(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespace", reflect.TypeOf((*MockOperatorServiceClient)(nil).DeleteNamespace), varargs...)
+}
+
 // ListSearchAttributes mocks base method.
 func (m *MockOperatorServiceClient) ListSearchAttributes(ctx context.Context, in *operatorservice.ListSearchAttributesRequest, opts ...grpc.CallOption) (*operatorservice.ListSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
@@ -154,6 +174,21 @@ func (m *MockOperatorServiceServer) AddSearchAttributes(arg0 context.Context, ar
 func (mr *MockOperatorServiceServerMockRecorder) AddSearchAttributes(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSearchAttributes", reflect.TypeOf((*MockOperatorServiceServer)(nil).AddSearchAttributes), arg0, arg1)
+}
+
+// DeleteNamespace mocks base method.
+func (m *MockOperatorServiceServer) DeleteNamespace(arg0 context.Context, arg1 *operatorservice.DeleteNamespaceRequest) (*operatorservice.DeleteNamespaceResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteNamespace", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.DeleteNamespaceResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteNamespace indicates an expected call of DeleteNamespace.
+func (mr *MockOperatorServiceServerMockRecorder) DeleteNamespace(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespace", reflect.TypeOf((*MockOperatorServiceServer)(nil).DeleteNamespace), arg0, arg1)
 }
 
 // ListSearchAttributes mocks base method.
