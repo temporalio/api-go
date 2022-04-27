@@ -98,6 +98,26 @@ func (mr *MockOperatorServiceClientMockRecorder) DeleteNamespace(ctx, in interfa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespace", reflect.TypeOf((*MockOperatorServiceClient)(nil).DeleteNamespace), varargs...)
 }
 
+// DeleteWorkflowExecution mocks base method.
+func (m *MockOperatorServiceClient) DeleteWorkflowExecution(ctx context.Context, in *operatorservice.DeleteWorkflowExecutionRequest, opts ...grpc.CallOption) (*operatorservice.DeleteWorkflowExecutionResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteWorkflowExecution", varargs...)
+	ret0, _ := ret[0].(*operatorservice.DeleteWorkflowExecutionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteWorkflowExecution indicates an expected call of DeleteWorkflowExecution.
+func (mr *MockOperatorServiceClientMockRecorder) DeleteWorkflowExecution(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWorkflowExecution", reflect.TypeOf((*MockOperatorServiceClient)(nil).DeleteWorkflowExecution), varargs...)
+}
+
 // ListSearchAttributes mocks base method.
 func (m *MockOperatorServiceClient) ListSearchAttributes(ctx context.Context, in *operatorservice.ListSearchAttributesRequest, opts ...grpc.CallOption) (*operatorservice.ListSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
@@ -189,6 +209,21 @@ func (m *MockOperatorServiceServer) DeleteNamespace(arg0 context.Context, arg1 *
 func (mr *MockOperatorServiceServerMockRecorder) DeleteNamespace(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespace", reflect.TypeOf((*MockOperatorServiceServer)(nil).DeleteNamespace), arg0, arg1)
+}
+
+// DeleteWorkflowExecution mocks base method.
+func (m *MockOperatorServiceServer) DeleteWorkflowExecution(arg0 context.Context, arg1 *operatorservice.DeleteWorkflowExecutionRequest) (*operatorservice.DeleteWorkflowExecutionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteWorkflowExecution", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.DeleteWorkflowExecutionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteWorkflowExecution indicates an expected call of DeleteWorkflowExecution.
+func (mr *MockOperatorServiceServerMockRecorder) DeleteWorkflowExecution(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWorkflowExecution", reflect.TypeOf((*MockOperatorServiceServer)(nil).DeleteWorkflowExecution), arg0, arg1)
 }
 
 // ListSearchAttributes mocks base method.
