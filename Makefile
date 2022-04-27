@@ -67,7 +67,7 @@ goimports:
 ##### Plugins & tools #####
 grpc-install: gogo-protobuf-install
 	printf $(COLOR) "Install/update gRPC plugins..."
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2.0
 
 gogo-protobuf-install: go-protobuf-install
 	go install github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick@latest
@@ -83,7 +83,7 @@ mockgen-install:
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
-	go install golang.org/x/tools/cmd/goimports@v0.1.5
+	go install golang.org/x/tools/cmd/goimports@v0.1.10
 
 ##### License header #####
 copyright:
