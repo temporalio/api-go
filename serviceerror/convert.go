@@ -155,7 +155,7 @@ func FromStatus(st *status.Status) error {
 		return newPermissionDenied(st, nil)
 	}
 
-	// st.Code() should have error details but it didn't (or error details are of a wrong type).
+	// st.Code() should have error details, but it didn't (or error details are of a wrong type).
 	// Then use standard gRPC error representation ("rpc error: code = %s desc = %s").
 	return st.Err()
 }
