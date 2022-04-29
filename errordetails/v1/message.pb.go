@@ -212,6 +212,146 @@ func (m *NamespaceNotActiveFailure) GetActiveCluster() string {
 	return ""
 }
 
+type NamespaceInvalidStateFailure struct {
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// Current state of the requested namespace.
+	State v1.NamespaceState `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
+	// Allowed namespace states for requested operation.
+	// For example NAMESPACE_STATE_DELETED is forbidden for most operations but allowed for DescribeNamespace.
+	AllowedStates []v1.NamespaceState `protobuf:"varint,3,rep,packed,name=allowed_states,json=allowedStates,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"allowed_states,omitempty"`
+}
+
+func (m *NamespaceInvalidStateFailure) Reset()      { *m = NamespaceInvalidStateFailure{} }
+func (*NamespaceInvalidStateFailure) ProtoMessage() {}
+func (*NamespaceInvalidStateFailure) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2ed300ab0b02d291, []int{3}
+}
+func (m *NamespaceInvalidStateFailure) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *NamespaceInvalidStateFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_NamespaceInvalidStateFailure.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *NamespaceInvalidStateFailure) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceInvalidStateFailure.Merge(m, src)
+}
+func (m *NamespaceInvalidStateFailure) XXX_Size() int {
+	return m.Size()
+}
+func (m *NamespaceInvalidStateFailure) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceInvalidStateFailure.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NamespaceInvalidStateFailure proto.InternalMessageInfo
+
+func (m *NamespaceInvalidStateFailure) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+	}
+	return ""
+}
+
+func (m *NamespaceInvalidStateFailure) GetState() v1.NamespaceState {
+	if m != nil {
+		return m.State
+	}
+	return v1.NAMESPACE_STATE_UNSPECIFIED
+}
+
+func (m *NamespaceInvalidStateFailure) GetAllowedStates() []v1.NamespaceState {
+	if m != nil {
+		return m.AllowedStates
+	}
+	return nil
+}
+
+type NamespaceNotFoundFailure struct {
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+}
+
+func (m *NamespaceNotFoundFailure) Reset()      { *m = NamespaceNotFoundFailure{} }
+func (*NamespaceNotFoundFailure) ProtoMessage() {}
+func (*NamespaceNotFoundFailure) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2ed300ab0b02d291, []int{4}
+}
+func (m *NamespaceNotFoundFailure) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *NamespaceNotFoundFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_NamespaceNotFoundFailure.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *NamespaceNotFoundFailure) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceNotFoundFailure.Merge(m, src)
+}
+func (m *NamespaceNotFoundFailure) XXX_Size() int {
+	return m.Size()
+}
+func (m *NamespaceNotFoundFailure) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceNotFoundFailure.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NamespaceNotFoundFailure proto.InternalMessageInfo
+
+func (m *NamespaceNotFoundFailure) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+	}
+	return ""
+}
+
+type NamespaceAlreadyExistsFailure struct {
+}
+
+func (m *NamespaceAlreadyExistsFailure) Reset()      { *m = NamespaceAlreadyExistsFailure{} }
+func (*NamespaceAlreadyExistsFailure) ProtoMessage() {}
+func (*NamespaceAlreadyExistsFailure) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2ed300ab0b02d291, []int{5}
+}
+func (m *NamespaceAlreadyExistsFailure) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *NamespaceAlreadyExistsFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_NamespaceAlreadyExistsFailure.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *NamespaceAlreadyExistsFailure) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceAlreadyExistsFailure.Merge(m, src)
+}
+func (m *NamespaceAlreadyExistsFailure) XXX_Size() int {
+	return m.Size()
+}
+func (m *NamespaceAlreadyExistsFailure) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceAlreadyExistsFailure.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NamespaceAlreadyExistsFailure proto.InternalMessageInfo
+
 type ClientVersionNotSupportedFailure struct {
 	ClientVersion     string `protobuf:"bytes,1,opt,name=client_version,json=clientVersion,proto3" json:"client_version,omitempty"`
 	ClientName        string `protobuf:"bytes,2,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
@@ -221,7 +361,7 @@ type ClientVersionNotSupportedFailure struct {
 func (m *ClientVersionNotSupportedFailure) Reset()      { *m = ClientVersionNotSupportedFailure{} }
 func (*ClientVersionNotSupportedFailure) ProtoMessage() {}
 func (*ClientVersionNotSupportedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{3}
+	return fileDescriptor_2ed300ab0b02d291, []int{6}
 }
 func (m *ClientVersionNotSupportedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -279,7 +419,7 @@ type ServerVersionNotSupportedFailure struct {
 func (m *ServerVersionNotSupportedFailure) Reset()      { *m = ServerVersionNotSupportedFailure{} }
 func (*ServerVersionNotSupportedFailure) ProtoMessage() {}
 func (*ServerVersionNotSupportedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{4}
+	return fileDescriptor_2ed300ab0b02d291, []int{7}
 }
 func (m *ServerVersionNotSupportedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -322,48 +462,13 @@ func (m *ServerVersionNotSupportedFailure) GetClientSupportedServerVersions() st
 	return ""
 }
 
-type NamespaceAlreadyExistsFailure struct {
-}
-
-func (m *NamespaceAlreadyExistsFailure) Reset()      { *m = NamespaceAlreadyExistsFailure{} }
-func (*NamespaceAlreadyExistsFailure) ProtoMessage() {}
-func (*NamespaceAlreadyExistsFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{5}
-}
-func (m *NamespaceAlreadyExistsFailure) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *NamespaceAlreadyExistsFailure) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_NamespaceAlreadyExistsFailure.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *NamespaceAlreadyExistsFailure) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_NamespaceAlreadyExistsFailure.Merge(m, src)
-}
-func (m *NamespaceAlreadyExistsFailure) XXX_Size() int {
-	return m.Size()
-}
-func (m *NamespaceAlreadyExistsFailure) XXX_DiscardUnknown() {
-	xxx_messageInfo_NamespaceAlreadyExistsFailure.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_NamespaceAlreadyExistsFailure proto.InternalMessageInfo
-
 type CancellationAlreadyRequestedFailure struct {
 }
 
 func (m *CancellationAlreadyRequestedFailure) Reset()      { *m = CancellationAlreadyRequestedFailure{} }
 func (*CancellationAlreadyRequestedFailure) ProtoMessage() {}
 func (*CancellationAlreadyRequestedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{6}
+	return fileDescriptor_2ed300ab0b02d291, []int{8}
 }
 func (m *CancellationAlreadyRequestedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -398,7 +503,7 @@ type QueryFailedFailure struct {
 func (m *QueryFailedFailure) Reset()      { *m = QueryFailedFailure{} }
 func (*QueryFailedFailure) ProtoMessage() {}
 func (*QueryFailedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{7}
+	return fileDescriptor_2ed300ab0b02d291, []int{9}
 }
 func (m *QueryFailedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -434,7 +539,7 @@ type PermissionDeniedFailure struct {
 func (m *PermissionDeniedFailure) Reset()      { *m = PermissionDeniedFailure{} }
 func (*PermissionDeniedFailure) ProtoMessage() {}
 func (*PermissionDeniedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{8}
+	return fileDescriptor_2ed300ab0b02d291, []int{10}
 }
 func (m *PermissionDeniedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -477,7 +582,7 @@ type ResourceExhaustedFailure struct {
 func (m *ResourceExhaustedFailure) Reset()      { *m = ResourceExhaustedFailure{} }
 func (*ResourceExhaustedFailure) ProtoMessage() {}
 func (*ResourceExhaustedFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{9}
+	return fileDescriptor_2ed300ab0b02d291, []int{11}
 }
 func (m *ResourceExhaustedFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -524,7 +629,7 @@ type SystemWorkflowFailure struct {
 func (m *SystemWorkflowFailure) Reset()      { *m = SystemWorkflowFailure{} }
 func (*SystemWorkflowFailure) ProtoMessage() {}
 func (*SystemWorkflowFailure) Descriptor() ([]byte, []int) {
-	return fileDescriptor_2ed300ab0b02d291, []int{10}
+	return fileDescriptor_2ed300ab0b02d291, []int{12}
 }
 func (m *SystemWorkflowFailure) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -571,9 +676,11 @@ func init() {
 	proto.RegisterType((*NotFoundFailure)(nil), "temporal.api.errordetails.v1.NotFoundFailure")
 	proto.RegisterType((*WorkflowExecutionAlreadyStartedFailure)(nil), "temporal.api.errordetails.v1.WorkflowExecutionAlreadyStartedFailure")
 	proto.RegisterType((*NamespaceNotActiveFailure)(nil), "temporal.api.errordetails.v1.NamespaceNotActiveFailure")
+	proto.RegisterType((*NamespaceInvalidStateFailure)(nil), "temporal.api.errordetails.v1.NamespaceInvalidStateFailure")
+	proto.RegisterType((*NamespaceNotFoundFailure)(nil), "temporal.api.errordetails.v1.NamespaceNotFoundFailure")
+	proto.RegisterType((*NamespaceAlreadyExistsFailure)(nil), "temporal.api.errordetails.v1.NamespaceAlreadyExistsFailure")
 	proto.RegisterType((*ClientVersionNotSupportedFailure)(nil), "temporal.api.errordetails.v1.ClientVersionNotSupportedFailure")
 	proto.RegisterType((*ServerVersionNotSupportedFailure)(nil), "temporal.api.errordetails.v1.ServerVersionNotSupportedFailure")
-	proto.RegisterType((*NamespaceAlreadyExistsFailure)(nil), "temporal.api.errordetails.v1.NamespaceAlreadyExistsFailure")
 	proto.RegisterType((*CancellationAlreadyRequestedFailure)(nil), "temporal.api.errordetails.v1.CancellationAlreadyRequestedFailure")
 	proto.RegisterType((*QueryFailedFailure)(nil), "temporal.api.errordetails.v1.QueryFailedFailure")
 	proto.RegisterType((*PermissionDeniedFailure)(nil), "temporal.api.errordetails.v1.PermissionDeniedFailure")
@@ -586,51 +693,55 @@ func init() {
 }
 
 var fileDescriptor_2ed300ab0b02d291 = []byte{
-	// 691 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xcf, 0x4f, 0xd4, 0x5a,
-	0x14, 0x9e, 0x3b, 0x2f, 0x90, 0x70, 0x79, 0x0c, 0x8f, 0xe6, 0xf1, 0x1e, 0x12, 0xe8, 0x4c, 0xaa,
-	0x28, 0x9a, 0xd0, 0xc9, 0xe0, 0x6e, 0x5c, 0x0d, 0x03, 0x18, 0x16, 0x4e, 0x70, 0xc6, 0xa0, 0x71,
-	0xd3, 0x5c, 0xdb, 0x03, 0xde, 0xd8, 0xf6, 0xd6, 0xfb, 0x63, 0x80, 0x9d, 0x5b, 0x77, 0xc6, 0x95,
-	0xfe, 0x07, 0xc6, 0xbf, 0xc4, 0x25, 0x3b, 0x59, 0x4a, 0xd9, 0x18, 0x57, 0xfc, 0x09, 0xa6, 0xed,
-	0x6d, 0xa7, 0x03, 0x84, 0xb8, 0xec, 0x77, 0xbf, 0xf3, 0x7d, 0xdf, 0x49, 0xcf, 0x39, 0xf8, 0x81,
-	0x84, 0x20, 0x62, 0x9c, 0xf8, 0x4d, 0x12, 0xd1, 0x26, 0x70, 0xce, 0xb8, 0x07, 0x92, 0x50, 0x5f,
-	0x34, 0x87, 0xad, 0x66, 0x00, 0x42, 0x90, 0x03, 0xb0, 0x23, 0xce, 0x24, 0x33, 0x96, 0x72, 0xae,
-	0x4d, 0x22, 0x6a, 0x97, 0xb9, 0xf6, 0xb0, 0xb5, 0x78, 0x67, 0x4c, 0xc9, 0x65, 0x41, 0xc0, 0xc2,
-	0x2b, 0x1a, 0x8b, 0xab, 0xe3, 0x7e, 0xa1, 0x0a, 0x52, 0xa3, 0x7d, 0x42, 0x7d, 0xf0, 0x1c, 0x97,
-	0x28, 0xa1, 0x99, 0x16, 0xc1, 0xb3, 0x3d, 0x26, 0xb7, 0x99, 0x0a, 0xbd, 0x6d, 0x42, 0x7d, 0xc5,
-	0xc1, 0xb8, 0x87, 0x67, 0x5d, 0xc5, 0x39, 0x84, 0xd2, 0x71, 0x7d, 0x25, 0x24, 0xf0, 0x05, 0xd4,
-	0x40, 0xab, 0x53, 0xfd, 0x9a, 0x86, 0xbb, 0x19, 0x6a, 0xac, 0xe0, 0x1a, 0x71, 0x25, 0x1d, 0x42,
-	0xc1, 0xab, 0xa6, 0xbc, 0x99, 0x0c, 0xd5, 0x34, 0x8b, 0xe2, 0xbb, 0xcf, 0x19, 0x7f, 0xb3, 0xef,
-	0xb3, 0xc3, 0xad, 0x23, 0x70, 0x95, 0xa4, 0x2c, 0xec, 0xf8, 0x1c, 0x88, 0x77, 0x3c, 0x90, 0x84,
-	0x4b, 0x28, 0x9c, 0x57, 0xf1, 0x3f, 0x22, 0x41, 0x1c, 0x0e, 0x6f, 0x15, 0x08, 0xe9, 0x50, 0x2f,
-	0xb7, 0x4e, 0xf1, 0x7e, 0x06, 0xef, 0x78, 0xc6, 0x3c, 0x9e, 0xe4, 0x2a, 0x4c, 0xde, 0x33, 0xcb,
-	0x09, 0xae, 0xc2, 0x1d, 0xcf, 0x7a, 0x8f, 0xf0, 0xad, 0x1e, 0x09, 0x40, 0x44, 0xc4, 0x85, 0x1e,
-	0x93, 0x9d, 0x34, 0x48, 0x2e, 0xbf, 0x84, 0xa7, 0xc2, 0xfc, 0x51, 0xeb, 0x8e, 0x80, 0xeb, 0xda,
-	0xae, 0xfe, 0x61, 0xdb, 0x7f, 0x5d, 0xd7, 0xf6, 0x67, 0x84, 0x1b, 0x5d, 0x9f, 0x42, 0x28, 0xf7,
-	0x80, 0x0b, 0xca, 0xc2, 0x1e, 0x93, 0x03, 0x15, 0x45, 0xac, 0xdc, 0xf1, 0x0a, 0xae, 0xb9, 0x29,
-	0xc7, 0x19, 0x66, 0x24, 0x9d, 0x6b, 0xc6, 0x2d, 0x57, 0x1a, 0x75, 0x3c, 0xad, 0x69, 0x49, 0x5e,
-	0x9d, 0x0b, 0x67, 0x50, 0xd2, 0xaf, 0xb1, 0x86, 0x0d, 0x91, 0x6b, 0xe7, 0x52, 0x42, 0xe7, 0x9a,
-	0x2b, 0x5e, 0xb4, 0x9c, 0xb0, 0x3e, 0x22, 0xdc, 0x18, 0x00, 0x1f, 0x02, 0xbf, 0x39, 0x9b, 0x48,
-	0x39, 0x97, 0xb3, 0x89, 0x72, 0xa5, 0xf1, 0x18, 0x37, 0x74, 0xb6, 0x51, 0x82, 0xf1, 0x3a, 0xa1,
-	0x03, 0x2f, 0x67, 0xbc, 0xc2, 0x68, 0x2c, 0x81, 0xb0, 0xea, 0x78, 0xb9, 0xf8, 0x77, 0x7a, 0x3e,
-	0xb6, 0x8e, 0xa8, 0x90, 0x42, 0x07, 0xb2, 0x56, 0xf0, 0xed, 0x2e, 0x09, 0x5d, 0xf0, 0x7d, 0x52,
-	0x9a, 0x21, 0x3d, 0x14, 0x45, 0x6e, 0xeb, 0x5f, 0x6c, 0x3c, 0x55, 0xc0, 0x8f, 0xb7, 0xd3, 0x69,
-	0xcf, 0xd1, 0x16, 0xfe, 0x7f, 0x17, 0x78, 0x40, 0x45, 0x62, 0xb6, 0x09, 0x21, 0x1d, 0x35, 0xfa,
-	0x1f, 0x9e, 0xe4, 0x40, 0x44, 0xd1, 0xa0, 0xfe, 0xb2, 0x1c, 0xbc, 0xd0, 0x07, 0xc1, 0x14, 0x77,
-	0x61, 0xeb, 0xe8, 0x35, 0x51, 0x25, 0x13, 0xa3, 0x8b, 0x27, 0xd2, 0x35, 0x4a, 0x4b, 0x6a, 0xeb,
-	0x6b, 0xf6, 0xf8, 0xd6, 0x26, 0x1b, 0x67, 0x0f, 0x5b, 0xf6, 0x95, 0xfa, 0x6e, 0x52, 0xd4, 0xcf,
-	0x6a, 0xad, 0x4f, 0x08, 0xcf, 0x0f, 0x8e, 0x85, 0x84, 0x20, 0x5f, 0x90, 0x5c, 0xfe, 0x05, 0x36,
-	0x0e, 0x35, 0xe4, 0x40, 0xbe, 0x34, 0xa9, 0xd7, 0xf4, 0xfa, 0xfd, 0x71, 0xaf, 0xec, 0x06, 0x24,
-	0x66, 0x57, 0xb6, 0xac, 0x3f, 0x77, 0x78, 0x19, 0x4a, 0xfe, 0xea, 0x48, 0x39, 0x39, 0x2e, 0xf9,
-	0xd2, 0x16, 0xd4, 0x04, 0xdc, 0xf8, 0x8e, 0x4e, 0xce, 0xcc, 0xca, 0xe9, 0x99, 0x59, 0xb9, 0x38,
-	0x33, 0xd1, 0xbb, 0xd8, 0x44, 0x5f, 0x62, 0x13, 0x7d, 0x8b, 0x4d, 0x74, 0x12, 0x9b, 0xe8, 0x47,
-	0x6c, 0xa2, 0x9f, 0xb1, 0x59, 0xb9, 0x88, 0x4d, 0xf4, 0xe1, 0xdc, 0xac, 0x9c, 0x9c, 0x9b, 0x95,
-	0xd3, 0x73, 0xb3, 0x82, 0xeb, 0x94, 0xd9, 0x37, 0xdd, 0xaf, 0x8d, 0xbf, 0x9f, 0x64, 0x87, 0x6a,
-	0x37, 0xb9, 0x3e, 0xbb, 0xe8, 0x65, 0xf3, 0xa0, 0x54, 0x40, 0xd9, 0x75, 0xf7, 0xf1, 0x51, 0xf9,
-	0xfb, 0x6b, 0x75, 0xe9, 0x59, 0x4e, 0xef, 0x44, 0xd4, 0x4e, 0xd3, 0x6e, 0x6a, 0xfd, 0xbd, 0xd6,
-	0xaf, 0x6a, 0x3d, 0x7f, 0x6e, 0xb7, 0x3b, 0x11, 0x6d, 0xb7, 0xcb, 0x84, 0x76, 0x7b, 0xaf, 0xf5,
-	0x6a, 0x32, 0x3d, 0x7c, 0x0f, 0x7f, 0x07, 0x00, 0x00, 0xff, 0xff, 0xce, 0x77, 0x44, 0xb5, 0x94,
-	0x05, 0x00, 0x00,
+	// 766 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x55, 0x41, 0x4f, 0x13, 0x41,
+	0x18, 0xed, 0x94, 0x40, 0xc2, 0x20, 0x45, 0x36, 0xa2, 0x95, 0x94, 0x6d, 0xb3, 0x5a, 0x45, 0x13,
+	0xb6, 0x29, 0x5e, 0x4c, 0x39, 0x95, 0x02, 0x86, 0x44, 0x1b, 0x6c, 0x0d, 0x1a, 0x2f, 0x9b, 0x71,
+	0x77, 0xc0, 0x89, 0xbb, 0x3b, 0xeb, 0xcc, 0x6c, 0x0b, 0x37, 0xaf, 0xde, 0x8c, 0x27, 0xfd, 0x07,
+	0xc6, 0x3f, 0xa2, 0x47, 0x6e, 0x72, 0x94, 0x72, 0x31, 0x9e, 0xf8, 0x09, 0x66, 0x67, 0x67, 0xb7,
+	0x5b, 0xa8, 0x84, 0xe3, 0xbe, 0x7d, 0xdf, 0x7b, 0xef, 0xeb, 0xcc, 0xbe, 0xc2, 0x87, 0x02, 0x7b,
+	0x01, 0x65, 0xc8, 0xad, 0xa1, 0x80, 0xd4, 0x30, 0x63, 0x94, 0x39, 0x58, 0x20, 0xe2, 0xf2, 0x5a,
+	0xaf, 0x5e, 0xf3, 0x30, 0xe7, 0x68, 0x1f, 0x9b, 0x01, 0xa3, 0x82, 0x6a, 0xa5, 0x84, 0x6b, 0xa2,
+	0x80, 0x98, 0x59, 0xae, 0xd9, 0xab, 0x2f, 0xde, 0x1d, 0x51, 0xb2, 0xa9, 0xe7, 0x51, 0xff, 0x82,
+	0xc6, 0xe2, 0xf2, 0xa8, 0x9f, 0x1f, 0x7a, 0xd2, 0x68, 0x0f, 0x11, 0x17, 0x3b, 0x96, 0x8d, 0x42,
+	0x9e, 0x30, 0xab, 0xe3, 0x99, 0x3e, 0xf2, 0x30, 0x0f, 0x90, 0xad, 0x68, 0x06, 0x82, 0x73, 0x6d,
+	0x2a, 0xb6, 0x68, 0xe8, 0x3b, 0x5b, 0x88, 0xb8, 0x21, 0xc3, 0xda, 0x7d, 0x38, 0x67, 0x87, 0x8c,
+	0x61, 0x5f, 0x58, 0xb6, 0x1b, 0x72, 0x81, 0x59, 0x11, 0x54, 0xc0, 0xf2, 0x74, 0xa7, 0xa0, 0xe0,
+	0x56, 0x8c, 0x6a, 0x55, 0x58, 0x40, 0xb6, 0x20, 0x3d, 0x9c, 0xf2, 0xf2, 0x92, 0x37, 0x1b, 0xa3,
+	0x8a, 0x66, 0x10, 0x78, 0xef, 0x25, 0x65, 0xef, 0xf6, 0x5c, 0xda, 0xdf, 0x3c, 0xc0, 0x76, 0x28,
+	0x08, 0xf5, 0x9b, 0x2e, 0xc3, 0xc8, 0x39, 0xec, 0x0a, 0xc4, 0x04, 0x4e, 0x9d, 0x97, 0xe1, 0x75,
+	0x1e, 0x21, 0x16, 0xc3, 0xef, 0x43, 0xcc, 0x85, 0x45, 0x9c, 0xc4, 0x5a, 0xe2, 0x9d, 0x18, 0xde,
+	0x76, 0xb4, 0x05, 0x38, 0xc5, 0x42, 0x3f, 0x7a, 0x1f, 0x5b, 0x4e, 0xb2, 0xd0, 0xdf, 0x76, 0x8c,
+	0x8f, 0x00, 0xde, 0x6e, 0x27, 0x1b, 0xb6, 0xa9, 0x68, 0xca, 0x20, 0x89, 0x7c, 0x09, 0x4e, 0xa7,
+	0xeb, 0x2b, 0xdd, 0x21, 0x30, 0x6e, 0xed, 0xfc, 0x15, 0xd7, 0x9e, 0x18, 0xb7, 0xf6, 0x0f, 0x00,
+	0x4b, 0x69, 0x96, 0x6d, 0xbf, 0x87, 0x5c, 0xe2, 0x74, 0x05, 0x12, 0x57, 0x8c, 0xb3, 0x06, 0x27,
+	0x79, 0xc4, 0x96, 0x21, 0x0a, 0xab, 0x55, 0x73, 0xf4, 0xf6, 0x44, 0xe7, 0x69, 0xf6, 0xea, 0x66,
+	0xea, 0x20, 0xa5, 0x3b, 0xf1, 0x8c, 0xf6, 0x14, 0x16, 0x90, 0xeb, 0xd2, 0x3e, 0x76, 0x2c, 0x09,
+	0xf0, 0xe2, 0x44, 0x65, 0xe2, 0xea, 0x2a, 0xb3, 0x6a, 0x58, 0x3e, 0x71, 0xe3, 0x31, 0x2c, 0x66,
+	0x7f, 0xd4, 0x91, 0xcb, 0x72, 0xe9, 0x12, 0x46, 0x19, 0x2e, 0xa5, 0x93, 0xea, 0xc8, 0x37, 0x0f,
+	0x08, 0x17, 0x5c, 0x8d, 0x1b, 0x5f, 0x01, 0xac, 0xb4, 0x5c, 0x82, 0x7d, 0xb1, 0x8b, 0x19, 0x27,
+	0xd4, 0x6f, 0x53, 0xd1, 0x0d, 0x83, 0x80, 0x66, 0xaf, 0x45, 0x15, 0x16, 0x6c, 0xc9, 0xb1, 0x7a,
+	0x31, 0x49, 0x19, 0xcd, 0xda, 0xd9, 0x49, 0xad, 0x0c, 0x67, 0x14, 0x2d, 0x0a, 0xa0, 0x0e, 0x0f,
+	0xc6, 0x50, 0x94, 0x42, 0x5b, 0x81, 0x1a, 0x4f, 0xb4, 0x13, 0x29, 0xae, 0x0e, 0x6f, 0x3e, 0x7d,
+	0xa3, 0xe4, 0xb8, 0xf1, 0x19, 0xc0, 0x4a, 0x17, 0xb3, 0x1e, 0x66, 0x97, 0x67, 0xe3, 0x92, 0x73,
+	0x3e, 0x1b, 0xcf, 0x4e, 0x6a, 0x4f, 0x60, 0x45, 0x65, 0x1b, 0x26, 0x18, 0x9d, 0xe3, 0x2a, 0xf0,
+	0x52, 0xcc, 0x4b, 0x8d, 0x46, 0x12, 0x70, 0xa3, 0x0a, 0xef, 0xb4, 0x90, 0x6f, 0x63, 0xd7, 0x45,
+	0x99, 0xef, 0x48, 0x7d, 0x18, 0x69, 0x2c, 0xe3, 0x06, 0xd4, 0x9e, 0x87, 0x98, 0x1d, 0x6e, 0xc9,
+	0x62, 0x48, 0xd0, 0x3a, 0xbc, 0xb5, 0x83, 0x99, 0x47, 0x78, 0xa4, 0xb5, 0x81, 0x7d, 0x32, 0xdc,
+	0xe3, 0x26, 0x9c, 0x62, 0x18, 0xf1, 0x34, 0xbf, 0x7a, 0x32, 0x2c, 0x58, 0xec, 0x60, 0x4e, 0x43,
+	0x66, 0xe3, 0xcd, 0x83, 0xb7, 0x28, 0xcc, 0x98, 0x68, 0x2d, 0x38, 0x29, 0x1b, 0x47, 0x8e, 0x14,
+	0x56, 0x57, 0xfe, 0x73, 0xb9, 0x2e, 0xcc, 0xb7, 0xa2, 0xa1, 0x4e, 0x3c, 0x6b, 0x7c, 0x01, 0x70,
+	0xa1, 0x7b, 0xc8, 0x05, 0xf6, 0x92, 0x92, 0x48, 0xe4, 0x5f, 0x41, 0xad, 0xaf, 0x20, 0x0b, 0x27,
+	0xc5, 0x21, 0xbd, 0x66, 0x56, 0x1f, 0x8c, 0x7a, 0xc5, 0x75, 0x19, 0x99, 0x5d, 0x68, 0x9a, 0xce,
+	0x7c, 0xff, 0x3c, 0x14, 0x1d, 0xda, 0x50, 0x39, 0xea, 0xe1, 0xa4, 0xb8, 0x52, 0x6a, 0x04, 0xae,
+	0xff, 0x02, 0x47, 0x27, 0x7a, 0xee, 0xf8, 0x44, 0xcf, 0x9d, 0x9d, 0xe8, 0xe0, 0xc3, 0x40, 0x07,
+	0xdf, 0x06, 0x3a, 0xf8, 0x39, 0xd0, 0xc1, 0xd1, 0x40, 0x07, 0xbf, 0x07, 0x3a, 0xf8, 0x33, 0xd0,
+	0x73, 0x67, 0x03, 0x1d, 0x7c, 0x3a, 0xd5, 0x73, 0x47, 0xa7, 0x7a, 0xee, 0xf8, 0x54, 0xcf, 0xc1,
+	0x32, 0xa1, 0xe6, 0x65, 0x55, 0xbf, 0x7e, 0xed, 0x59, 0xdc, 0xe9, 0x3b, 0x51, 0x03, 0xef, 0x80,
+	0xd7, 0xb5, 0xfd, 0xcc, 0x00, 0xa1, 0xe3, 0xfe, 0x4a, 0xd6, 0xb2, 0xcf, 0xdf, 0xf3, 0xa5, 0x17,
+	0x09, 0xbd, 0x19, 0x10, 0x53, 0xa6, 0xdd, 0x50, 0xfa, 0xbb, 0xf5, 0xbf, 0xf9, 0x72, 0xf2, 0xba,
+	0xd1, 0x68, 0x06, 0xa4, 0xd1, 0xc8, 0x12, 0x1a, 0x8d, 0xdd, 0xfa, 0x9b, 0x29, 0x59, 0xfe, 0x8f,
+	0xfe, 0x05, 0x00, 0x00, 0xff, 0xff, 0x9b, 0xa4, 0xbd, 0xc4, 0xbf, 0x06, 0x00, 0x00,
 }
 
 func (this *NotFoundFailure) Equal(that interface{}) bool {
@@ -717,6 +828,86 @@ func (this *NamespaceNotActiveFailure) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *NamespaceInvalidStateFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*NamespaceInvalidStateFailure)
+	if !ok {
+		that2, ok := that.(NamespaceInvalidStateFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Namespace != that1.Namespace {
+		return false
+	}
+	if this.State != that1.State {
+		return false
+	}
+	if len(this.AllowedStates) != len(that1.AllowedStates) {
+		return false
+	}
+	for i := range this.AllowedStates {
+		if this.AllowedStates[i] != that1.AllowedStates[i] {
+			return false
+		}
+	}
+	return true
+}
+func (this *NamespaceNotFoundFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*NamespaceNotFoundFailure)
+	if !ok {
+		that2, ok := that.(NamespaceNotFoundFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Namespace != that1.Namespace {
+		return false
+	}
+	return true
+}
+func (this *NamespaceAlreadyExistsFailure) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*NamespaceAlreadyExistsFailure)
+	if !ok {
+		that2, ok := that.(NamespaceAlreadyExistsFailure)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
 func (this *ClientVersionNotSupportedFailure) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
@@ -770,27 +961,6 @@ func (this *ServerVersionNotSupportedFailure) Equal(that interface{}) bool {
 		return false
 	}
 	if this.ClientSupportedServerVersions != that1.ClientSupportedServerVersions {
-		return false
-	}
-	return true
-}
-func (this *NamespaceAlreadyExistsFailure) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*NamespaceAlreadyExistsFailure)
-	if !ok {
-		that2, ok := that.(NamespaceAlreadyExistsFailure)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
 		return false
 	}
 	return true
@@ -946,6 +1116,37 @@ func (this *NamespaceNotActiveFailure) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
+func (this *NamespaceInvalidStateFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 7)
+	s = append(s, "&errordetails.NamespaceInvalidStateFailure{")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
+	s = append(s, "State: "+fmt.Sprintf("%#v", this.State)+",\n")
+	s = append(s, "AllowedStates: "+fmt.Sprintf("%#v", this.AllowedStates)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *NamespaceNotFoundFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&errordetails.NamespaceNotFoundFailure{")
+	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *NamespaceAlreadyExistsFailure) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&errordetails.NamespaceAlreadyExistsFailure{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
 func (this *ClientVersionNotSupportedFailure) GoString() string {
 	if this == nil {
 		return "nil"
@@ -966,15 +1167,6 @@ func (this *ServerVersionNotSupportedFailure) GoString() string {
 	s = append(s, "&errordetails.ServerVersionNotSupportedFailure{")
 	s = append(s, "ServerVersion: "+fmt.Sprintf("%#v", this.ServerVersion)+",\n")
 	s = append(s, "ClientSupportedServerVersions: "+fmt.Sprintf("%#v", this.ClientSupportedServerVersions)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *NamespaceAlreadyExistsFailure) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 4)
-	s = append(s, "&errordetails.NamespaceAlreadyExistsFailure{")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1155,6 +1347,112 @@ func (m *NamespaceNotActiveFailure) MarshalToSizedBuffer(dAtA []byte) (int, erro
 	return len(dAtA) - i, nil
 }
 
+func (m *NamespaceInvalidStateFailure) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *NamespaceInvalidStateFailure) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *NamespaceInvalidStateFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.AllowedStates) > 0 {
+		dAtA2 := make([]byte, len(m.AllowedStates)*10)
+		var j1 int
+		for _, num := range m.AllowedStates {
+			for num >= 1<<7 {
+				dAtA2[j1] = uint8(uint64(num)&0x7f | 0x80)
+				num >>= 7
+				j1++
+			}
+			dAtA2[j1] = uint8(num)
+			j1++
+		}
+		i -= j1
+		copy(dAtA[i:], dAtA2[:j1])
+		i = encodeVarintMessage(dAtA, i, uint64(j1))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.State != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.State))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Namespace)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *NamespaceNotFoundFailure) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *NamespaceNotFoundFailure) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *NamespaceNotFoundFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Namespace)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *NamespaceAlreadyExistsFailure) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *NamespaceAlreadyExistsFailure) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *NamespaceAlreadyExistsFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func (m *ClientVersionNotSupportedFailure) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -1233,29 +1531,6 @@ func (m *ServerVersionNotSupportedFailure) MarshalToSizedBuffer(dAtA []byte) (in
 		i--
 		dAtA[i] = 0xa
 	}
-	return len(dAtA) - i, nil
-}
-
-func (m *NamespaceAlreadyExistsFailure) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *NamespaceAlreadyExistsFailure) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *NamespaceAlreadyExistsFailure) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
 	return len(dAtA) - i, nil
 }
 
@@ -1471,6 +1746,51 @@ func (m *NamespaceNotActiveFailure) Size() (n int) {
 	return n
 }
 
+func (m *NamespaceInvalidStateFailure) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.State != 0 {
+		n += 1 + sovMessage(uint64(m.State))
+	}
+	if len(m.AllowedStates) > 0 {
+		l = 0
+		for _, e := range m.AllowedStates {
+			l += sovMessage(uint64(e))
+		}
+		n += 1 + sovMessage(uint64(l)) + l
+	}
+	return n
+}
+
+func (m *NamespaceNotFoundFailure) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Namespace)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+
+func (m *NamespaceAlreadyExistsFailure) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
 func (m *ClientVersionNotSupportedFailure) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1506,15 +1826,6 @@ func (m *ServerVersionNotSupportedFailure) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
-	return n
-}
-
-func (m *NamespaceAlreadyExistsFailure) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
 	return n
 }
 
@@ -1618,6 +1929,37 @@ func (this *NamespaceNotActiveFailure) String() string {
 	}, "")
 	return s
 }
+func (this *NamespaceInvalidStateFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&NamespaceInvalidStateFailure{`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
+		`State:` + fmt.Sprintf("%v", this.State) + `,`,
+		`AllowedStates:` + fmt.Sprintf("%v", this.AllowedStates) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *NamespaceNotFoundFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&NamespaceNotFoundFailure{`,
+		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *NamespaceAlreadyExistsFailure) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&NamespaceAlreadyExistsFailure{`,
+		`}`,
+	}, "")
+	return s
+}
 func (this *ClientVersionNotSupportedFailure) String() string {
 	if this == nil {
 		return "nil"
@@ -1637,15 +1979,6 @@ func (this *ServerVersionNotSupportedFailure) String() string {
 	s := strings.Join([]string{`&ServerVersionNotSupportedFailure{`,
 		`ServerVersion:` + fmt.Sprintf("%v", this.ServerVersion) + `,`,
 		`ClientSupportedServerVersions:` + fmt.Sprintf("%v", this.ClientSupportedServerVersions) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *NamespaceAlreadyExistsFailure) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&NamespaceAlreadyExistsFailure{`,
 		`}`,
 	}, "")
 	return s
@@ -2090,6 +2423,317 @@ func (m *NamespaceNotActiveFailure) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *NamespaceInvalidStateFailure) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: NamespaceInvalidStateFailure: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: NamespaceInvalidStateFailure: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
+			}
+			m.State = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.State |= v1.NamespaceState(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType == 0 {
+				var v v1.NamespaceState
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowMessage
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= v1.NamespaceState(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				m.AllowedStates = append(m.AllowedStates, v)
+			} else if wireType == 2 {
+				var packedLen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return ErrIntOverflowMessage
+					}
+					if iNdEx >= l {
+						return io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					packedLen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if packedLen < 0 {
+					return ErrInvalidLengthMessage
+				}
+				postIndex := iNdEx + packedLen
+				if postIndex < 0 {
+					return ErrInvalidLengthMessage
+				}
+				if postIndex > l {
+					return io.ErrUnexpectedEOF
+				}
+				var elementCount int
+				if elementCount != 0 && len(m.AllowedStates) == 0 {
+					m.AllowedStates = make([]v1.NamespaceState, 0, elementCount)
+				}
+				for iNdEx < postIndex {
+					var v v1.NamespaceState
+					for shift := uint(0); ; shift += 7 {
+						if shift >= 64 {
+							return ErrIntOverflowMessage
+						}
+						if iNdEx >= l {
+							return io.ErrUnexpectedEOF
+						}
+						b := dAtA[iNdEx]
+						iNdEx++
+						v |= v1.NamespaceState(b&0x7F) << shift
+						if b < 0x80 {
+							break
+						}
+					}
+					m.AllowedStates = append(m.AllowedStates, v)
+				}
+			} else {
+				return fmt.Errorf("proto: wrong wireType = %d for field AllowedStates", wireType)
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *NamespaceNotFoundFailure) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: NamespaceNotFoundFailure: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: NamespaceNotFoundFailure: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Namespace", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Namespace = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *NamespaceAlreadyExistsFailure) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: NamespaceAlreadyExistsFailure: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: NamespaceAlreadyExistsFailure: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func (m *ClientVersionNotSupportedFailure) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2332,59 +2976,6 @@ func (m *ServerVersionNotSupportedFailure) Unmarshal(dAtA []byte) error {
 			}
 			m.ClientSupportedServerVersions = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipMessage(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthMessage
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *NamespaceAlreadyExistsFailure) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowMessage
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: NamespaceAlreadyExistsFailure: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: NamespaceAlreadyExistsFailure: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipMessage(dAtA[iNdEx:])
