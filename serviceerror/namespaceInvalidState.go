@@ -29,6 +29,7 @@ import (
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
+	enumspb "go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/errordetails/v1"
 )
 
@@ -37,19 +38,23 @@ type (
 	NamespaceInvalidState struct {
 		Message       string
 		Namespace     string
-		State         string
-		AllowedStates []string
+		State         enumspb.NamespaceState
+		AllowedStates []enumspb.NamespaceState
 		st            *status.Status
 	}
 )
 
 // NewNamespaceInvalidState returns new NamespaceInvalidState error.
-func NewNamespaceInvalidState(namespace string, state string, allowedStates []string) error {
+func NewNamespaceInvalidState(namespace string, state enumspb.NamespaceState, allowedStates []enumspb.NamespaceState) error {
+	var allowedStatesStr []string
+	for _, allowedState := range allowedStates {
+		allowedStatesStr = append(allowedStatesStr, allowedState.String())
+	}
 	return &NamespaceInvalidState{
 		Message: fmt.Sprintf(
 			"Namespace has invalid state: %s. Must be %s.",
 			state,
-			strings.Join(allowedStates, " or "),
+			strings.Join(allowedStatesStr, " or "),
 		),
 		Namespace:     namespace,
 		State:         state,

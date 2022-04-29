@@ -24,9 +24,10 @@ package serviceerror
 
 import (
 	"github.com/gogo/status"
+	"google.golang.org/grpc/codes"
+
 	enumspb "go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/errordetails/v1"
-	"google.golang.org/grpc/codes"
 )
 
 type (
