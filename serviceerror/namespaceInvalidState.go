@@ -23,6 +23,9 @@
 package serviceerror
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
@@ -31,45 +34,61 @@ import (
 )
 
 type (
-	// ResourceExhausted represents resource exhausted error.
-	ResourceExhausted struct {
-		Cause   enumspb.ResourceExhaustedCause
-		Message string
-		st      *status.Status
+	// NamespaceInvalidState represents namespace not active error.
+	NamespaceInvalidState struct {
+		Message       string
+		Namespace     string
+		State         enumspb.NamespaceState
+		AllowedStates []enumspb.NamespaceState
+		st            *status.Status
 	}
 )
 
-// NewResourceExhausted returns new ResourceExhausted error.
-func NewResourceExhausted(cause enumspb.ResourceExhaustedCause, message string) error {
-	return &ResourceExhausted{
-		Cause:   cause,
-		Message: message,
+// NewNamespaceInvalidState returns new NamespaceInvalidState error.
+func NewNamespaceInvalidState(namespace string, state enumspb.NamespaceState, allowedStates []enumspb.NamespaceState) error {
+	var allowedStatesStr []string
+	for _, allowedState := range allowedStates {
+		allowedStatesStr = append(allowedStatesStr, allowedState.String())
+	}
+	return &NamespaceInvalidState{
+		Message: fmt.Sprintf(
+			"Namespace has invalid state: %s. Must be %s.",
+			state,
+			strings.Join(allowedStatesStr, " or "),
+		),
+		Namespace:     namespace,
+		State:         state,
+		AllowedStates: allowedStates,
 	}
 }
 
 // Error returns string message.
-func (e *ResourceExhausted) Error() string {
+func (e *NamespaceInvalidState) Error() string {
 	return e.Message
 }
 
-func (e *ResourceExhausted) Status() *status.Status {
+func (e *NamespaceInvalidState) Status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.ResourceExhausted, e.Message)
+	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ResourceExhaustedFailure{
-			Cause: e.Cause,
+		&errordetails.NamespaceInvalidStateFailure{
+			Namespace:     e.Namespace,
+			State:         e.State,
+			AllowedStates: e.AllowedStates,
 		},
 	)
 	return st
 }
 
-func newResourceExhausted(st *status.Status, errDetails *errordetails.ResourceExhaustedFailure) error {
-	return &ResourceExhausted{
-		Cause:   errDetails.GetCause(),
-		Message: st.Message(),
-		st:      st,
+func newNamespaceInvalidState(st *status.Status, errDetails *errordetails.NamespaceInvalidStateFailure) error {
+	return &NamespaceInvalidState{
+		Message:       st.Message(),
+		Namespace:     errDetails.GetNamespace(),
+		State:         errDetails.GetState(),
+		AllowedStates: errDetails.GetAllowedStates(),
+		st:            st,
 	}
 }

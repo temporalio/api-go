@@ -23,53 +23,57 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
 
-	enumspb "go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/errordetails/v1"
 )
 
 type (
-	// ResourceExhausted represents resource exhausted error.
-	ResourceExhausted struct {
-		Cause   enumspb.ResourceExhaustedCause
-		Message string
-		st      *status.Status
+	// NamespaceNotFound represents namespace not found error.
+	NamespaceNotFound struct {
+		Message   string
+		Namespace string
+		st        *status.Status
 	}
 )
 
-// NewResourceExhausted returns new ResourceExhausted error.
-func NewResourceExhausted(cause enumspb.ResourceExhaustedCause, message string) error {
-	return &ResourceExhausted{
-		Cause:   cause,
-		Message: message,
+// NewNamespaceNotFound returns new NamespaceNotFound error.
+func NewNamespaceNotFound(namespace string) error {
+	return &NamespaceNotFound{
+		Message: fmt.Sprintf(
+			"Namespace %s is not found.",
+			namespace,
+		),
+		Namespace: namespace,
 	}
 }
 
 // Error returns string message.
-func (e *ResourceExhausted) Error() string {
+func (e *NamespaceNotFound) Error() string {
 	return e.Message
 }
 
-func (e *ResourceExhausted) Status() *status.Status {
+func (e *NamespaceNotFound) Status() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
 
-	st := status.New(codes.ResourceExhausted, e.Message)
+	st := status.New(codes.NotFound, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ResourceExhaustedFailure{
-			Cause: e.Cause,
+		&errordetails.NamespaceNotFoundFailure{
+			Namespace: e.Namespace,
 		},
 	)
 	return st
 }
 
-func newResourceExhausted(st *status.Status, errDetails *errordetails.ResourceExhaustedFailure) error {
-	return &ResourceExhausted{
-		Cause:   errDetails.GetCause(),
-		Message: st.Message(),
-		st:      st,
+func newNamespaceNotFound(st *status.Status, errDetails *errordetails.NamespaceNotFoundFailure) error {
+	return &NamespaceNotFound{
+		Message:   st.Message(),
+		Namespace: errDetails.GetNamespace(),
+		st:        st,
 	}
 }
