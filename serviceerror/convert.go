@@ -109,6 +109,8 @@ func FromStatus(st *status.Status) error {
 		switch errDetails := errDetails.(type) {
 		case *errordetails.NotFoundFailure:
 			return newNotFound(st, errDetails)
+		case *errordetails.NamespaceNotFoundFailure:
+			return newNamespaceNotFound(st, errDetails)
 		}
 	case codes.InvalidArgument:
 		if errDetails == nil {
@@ -142,6 +144,8 @@ func FromStatus(st *status.Status) error {
 		switch errDetails := errDetails.(type) {
 		case *errordetails.NamespaceNotActiveFailure:
 			return newNamespaceNotActive(st, errDetails)
+		case *errordetails.NamespaceInvalidStateFailure:
+			return newNamespaceInvalidState(st, errDetails)
 		case *errordetails.ClientVersionNotSupportedFailure:
 			return newClientVersionNotSupported(st, errDetails)
 		case *errordetails.ServerVersionNotSupportedFailure:
