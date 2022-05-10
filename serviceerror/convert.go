@@ -150,6 +150,8 @@ func FromStatus(st *status.Status) error {
 			return newClientVersionNotSupported(st, errDetails)
 		case *errordetails.ServerVersionNotSupportedFailure:
 			return newServerVersionNotSupported(st, errDetails)
+		case *errordetails.WorkflowNotReadyFailure:
+			return newWorkflowNotReady(st)
 		}
 	case codes.PermissionDenied:
 		switch errDetails := errDetails.(type) {
