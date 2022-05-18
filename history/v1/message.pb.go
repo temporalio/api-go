@@ -62,7 +62,9 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type WorkflowExecutionStartedEventAttributes struct {
 	WorkflowType *v1.WorkflowType `protobuf:"bytes,1,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	// If this workflow is a child, the namespace our parent lives in
-	ParentWorkflowNamespace string                `protobuf:"bytes,2,opt,name=parent_workflow_namespace,json=parentWorkflowNamespace,proto3" json:"parent_workflow_namespace,omitempty"`
+	ParentWorkflowNamespace string `protobuf:"bytes,2,opt,name=parent_workflow_namespace,json=parentWorkflowNamespace,proto3" json:"parent_workflow_namespace,omitempty"`
+	// Contains information about parent workflow execution that initiated the child workflow these attributes belong to.
+	// If the workflow these attributes belong to is not a child workflow of any other execution, this field will not be populated.
 	ParentWorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=parent_workflow_execution,json=parentWorkflowExecution,proto3" json:"parent_workflow_execution,omitempty"`
 	// EventID of the child execution initiated event in parent workflow
 	ParentInitiatedEventId int64          `protobuf:"varint,4,opt,name=parent_initiated_event_id,json=parentInitiatedEventId,proto3" json:"parent_initiated_event_id,omitempty"`
@@ -81,11 +83,13 @@ type WorkflowExecutionStartedEventAttributes struct {
 	Initiator               v12.ContinueAsNewInitiator `protobuf:"varint,11,opt,name=initiator,proto3,enum=temporal.api.enums.v1.ContinueAsNewInitiator" json:"initiator,omitempty"`
 	ContinuedFailure        *v13.Failure               `protobuf:"bytes,12,opt,name=continued_failure,json=continuedFailure,proto3" json:"continued_failure,omitempty"`
 	LastCompletionResult    *v1.Payloads               `protobuf:"bytes,13,opt,name=last_completion_result,json=lastCompletionResult,proto3" json:"last_completion_result,omitempty"`
-	// This is the run id when the WorkflowExecutionStarted event was written
+	// This is the run id when the WorkflowExecutionStarted event was written.
+	// A workflow reset changes the execution run_id, but preserves this field.
 	OriginalExecutionRunId string `protobuf:"bytes,14,opt,name=original_execution_run_id,json=originalExecutionRunId,proto3" json:"original_execution_run_id,omitempty"`
 	// Identity of the client who requested this execution
 	Identity string `protobuf:"bytes,15,opt,name=identity,proto3" json:"identity,omitempty"`
-	// This is the very first runId along the chain of ContinueAsNew and Reset.
+	// This is the very first runId along the chain of ContinueAsNew, Retry, Cron and Reset.
+	// Used to identify a chain.
 	FirstExecutionRunId string          `protobuf:"bytes,16,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
 	RetryPolicy         *v1.RetryPolicy `protobuf:"bytes,17,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 	// Starting at 1, the number of times we have tried to execute this workflow
