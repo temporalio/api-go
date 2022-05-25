@@ -273,9 +273,9 @@ type WorkflowServiceClient interface {
 	// RequestCancelWorkflowExecution is called by workers when they want to request cancellation of
 	// a workflow execution.
 	//
-	// This result in a new `WORKFLOW_EXECUTION_CANCEL_REQUESTED` event being written to the
-	// workflow history and a new workflow task created for the workflow. Fails with `NotFound` if
-	// the workflow is already completed or doesn't exist.
+	// This results in a new `WORKFLOW_EXECUTION_CANCEL_REQUESTED` event being written to the
+	// workflow history and a new workflow task created for the workflow. It returns success if the requested
+	// workflow is already closed. It fails with 'NotFound' if the requested workflow doesn't exist.
 	RequestCancelWorkflowExecution(ctx context.Context, in *RequestCancelWorkflowExecutionRequest, opts ...grpc.CallOption) (*RequestCancelWorkflowExecutionResponse, error)
 	// SignalWorkflowExecution is used to send a signal to a running workflow execution.
 	//
@@ -936,9 +936,9 @@ type WorkflowServiceServer interface {
 	// RequestCancelWorkflowExecution is called by workers when they want to request cancellation of
 	// a workflow execution.
 	//
-	// This result in a new `WORKFLOW_EXECUTION_CANCEL_REQUESTED` event being written to the
-	// workflow history and a new workflow task created for the workflow. Fails with `NotFound` if
-	// the workflow is already completed or doesn't exist.
+	// This results in a new `WORKFLOW_EXECUTION_CANCEL_REQUESTED` event being written to the
+	// workflow history and a new workflow task created for the workflow. It returns success if the requested
+	// workflow is already closed. It fails with 'NotFound' if the requested workflow doesn't exist.
 	RequestCancelWorkflowExecution(context.Context, *RequestCancelWorkflowExecutionRequest) (*RequestCancelWorkflowExecutionResponse, error)
 	// SignalWorkflowExecution is used to send a signal to a running workflow execution.
 	//
