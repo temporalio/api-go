@@ -329,6 +329,8 @@ type UpdateNamespaceInfo struct {
 	Description string `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
 	OwnerEmail  string `protobuf:"bytes,2,opt,name=owner_email,json=ownerEmail,proto3" json:"owner_email,omitempty"`
 	// A key-value map for any customized purpose.
+	// If data already exists on the namespace,
+	// this will merge with the existing key values.
 	Data map[string]string `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// New namespace state, server will reject if transition is not allowed.
 	// Allowed transitions are:
