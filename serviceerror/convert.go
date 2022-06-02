@@ -63,7 +63,7 @@ func FromStatus(st *status.Status) error {
 		return nil
 	}
 
-	// Simple case. Code to serviceerror is one to one mapping and there are no error details.
+	// Simple case. `st.Code()` to `serviceerror` is one to one mapping and there are no error details.
 	switch st.Code() {
 	case codes.DataLoss:
 		return newDataLoss(st)
@@ -87,51 +87,43 @@ func FromStatus(st *status.Status) error {
 	}
 
 	errDetails := extractErrorDetails(st)
-
-	// If there was an error during details extraction, it will go to errDetails.
-	if err, ok := errDetails.(error); ok {
-		return NewInvalidArgument(err.Error())
-	}
+	// If there was an error during details extraction, for example unknown message type,
+	// which can happen when new error details are added and getting read by old clients,
+	// then errDetails will be of type `error` with corresponding error inside.
+	// This error is ignored and `serviceerror` is built using `st.Code()` only.
 
 	switch st.Code() {
 	case codes.Internal:
-		if errDetails == nil {
-			return newInternal(st)
-		}
 		switch errDetails := errDetails.(type) {
 		case *errordetails.SystemWorkflowFailure:
 			return newSystemWorkflow(st, errDetails)
+		default:
+			return newInternal(st)
 		}
 	case codes.NotFound:
-		if errDetails == nil {
-			return newNotFound(st, nil)
-		}
 		switch errDetails := errDetails.(type) {
 		case *errordetails.NotFoundFailure:
 			return newNotFound(st, errDetails)
 		case *errordetails.NamespaceNotFoundFailure:
 			return newNamespaceNotFound(st, errDetails)
+		default:
+			return newNotFound(st, nil)
 		}
 	case codes.InvalidArgument:
-		if errDetails == nil {
-			return newInvalidArgument(st)
-		}
 		switch errDetails.(type) {
 		case *errordetails.QueryFailedFailure:
 			return newQueryFailed(st)
+		default:
+			return newInvalidArgument(st)
 		}
 	case codes.ResourceExhausted:
-		if errDetails == nil {
-			return newResourceExhausted(st, nil)
-		}
 		switch errDetails := errDetails.(type) {
 		case *errordetails.ResourceExhaustedFailure:
 			return newResourceExhausted(st, errDetails)
+		default:
+			return newResourceExhausted(st, nil)
 		}
 	case codes.AlreadyExists:
-		if errDetails == nil {
-			return newAlreadyExists(st)
-		}
 		switch errDetails := errDetails.(type) {
 		case *errordetails.NamespaceAlreadyExistsFailure:
 			return newNamespaceAlreadyExists(st)
@@ -139,6 +131,8 @@ func FromStatus(st *status.Status) error {
 			return newWorkflowExecutionAlreadyStarted(st, errDetails)
 		case *errordetails.CancellationAlreadyRequestedFailure:
 			return newCancellationAlreadyRequested(st)
+		default:
+			return newAlreadyExists(st)
 		}
 	case codes.FailedPrecondition:
 		switch errDetails := errDetails.(type) {
@@ -152,17 +146,20 @@ func FromStatus(st *status.Status) error {
 			return newServerVersionNotSupported(st, errDetails)
 		case *errordetails.WorkflowNotReadyFailure:
 			return newWorkflowNotReady(st)
+		default:
+			return newFailedPrecondition(st)
 		}
 	case codes.PermissionDenied:
 		switch errDetails := errDetails.(type) {
 		case *errordetails.PermissionDeniedFailure:
 			return newPermissionDenied(st, errDetails)
+		default:
+			return newPermissionDenied(st, nil)
 		}
-		return newPermissionDenied(st, nil)
 	}
 
-	// st.Code() should have error details, but it didn't (or error details are of a wrong type).
-	// Then use standard gRPC error representation ("rpc error: code = %s desc = %s").
+	// `st.Code()` has unknown value (should never happen).
+	// Use standard gRPC error representation "rpc error: code = %s desc = %s".
 	return st.Err()
 }
 
