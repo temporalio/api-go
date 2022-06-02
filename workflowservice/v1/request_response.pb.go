@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2020 Temporal Technologies Inc.  All rights reserved.
+// Copyright (c) 2022 Temporal Technologies Inc.  All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -3555,7 +3555,7 @@ type ResetWorkflowExecutionRequest struct {
 	WorkflowTaskFinishEventId int64 `protobuf:"varint,4,opt,name=workflow_task_finish_event_id,json=workflowTaskFinishEventId,proto3" json:"workflow_task_finish_event_id,omitempty"`
 	// Used to de-dupe reset requests
 	RequestId string `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	// Should be removed. Appears unused.
+	// Reset reapplay(replay) options.
 	ResetReapplyType v11.ResetReapplyType `protobuf:"varint,6,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
 }
 

@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2020 Temporal Technologies Inc.  All rights reserved.
+// Copyright (c) 2022 Temporal Technologies Inc.  All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// TODO: What is this?
+// Reset reapplay(replay) options
+// * RESET_REAPPLY_TYPE_SIGNAL (default) - Signals are reapplied when workflow is reset
+// * RESET_REAPPLY_TYPE_NONE - nothing is reapplied
 type ResetReapplyType int32
 
 const (
