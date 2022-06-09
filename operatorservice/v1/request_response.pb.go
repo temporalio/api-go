@@ -489,6 +489,170 @@ func (m *DeleteWorkflowExecutionResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_DeleteWorkflowExecutionResponse proto.InternalMessageInfo
 
+type AddOrUpdateRemoteClusterRequest struct {
+	FrontendAddress               string `protobuf:"bytes,1,opt,name=frontend_address,json=frontendAddress,proto3" json:"frontend_address,omitempty"`
+	EnableRemoteClusterConnection bool   `protobuf:"varint,2,opt,name=enable_remote_cluster_connection,json=enableRemoteClusterConnection,proto3" json:"enable_remote_cluster_connection,omitempty"`
+}
+
+func (m *AddOrUpdateRemoteClusterRequest) Reset()      { *m = AddOrUpdateRemoteClusterRequest{} }
+func (*AddOrUpdateRemoteClusterRequest) ProtoMessage() {}
+func (*AddOrUpdateRemoteClusterRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_43cdd5e82c482041, []int{10}
+}
+func (m *AddOrUpdateRemoteClusterRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *AddOrUpdateRemoteClusterRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_AddOrUpdateRemoteClusterRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *AddOrUpdateRemoteClusterRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddOrUpdateRemoteClusterRequest.Merge(m, src)
+}
+func (m *AddOrUpdateRemoteClusterRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *AddOrUpdateRemoteClusterRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddOrUpdateRemoteClusterRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AddOrUpdateRemoteClusterRequest proto.InternalMessageInfo
+
+func (m *AddOrUpdateRemoteClusterRequest) GetFrontendAddress() string {
+	if m != nil {
+		return m.FrontendAddress
+	}
+	return ""
+}
+
+func (m *AddOrUpdateRemoteClusterRequest) GetEnableRemoteClusterConnection() bool {
+	if m != nil {
+		return m.EnableRemoteClusterConnection
+	}
+	return false
+}
+
+type AddOrUpdateRemoteClusterResponse struct {
+}
+
+func (m *AddOrUpdateRemoteClusterResponse) Reset()      { *m = AddOrUpdateRemoteClusterResponse{} }
+func (*AddOrUpdateRemoteClusterResponse) ProtoMessage() {}
+func (*AddOrUpdateRemoteClusterResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_43cdd5e82c482041, []int{11}
+}
+func (m *AddOrUpdateRemoteClusterResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *AddOrUpdateRemoteClusterResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_AddOrUpdateRemoteClusterResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *AddOrUpdateRemoteClusterResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddOrUpdateRemoteClusterResponse.Merge(m, src)
+}
+func (m *AddOrUpdateRemoteClusterResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *AddOrUpdateRemoteClusterResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddOrUpdateRemoteClusterResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_AddOrUpdateRemoteClusterResponse proto.InternalMessageInfo
+
+type RemoveRemoteClusterRequest struct {
+	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+}
+
+func (m *RemoveRemoteClusterRequest) Reset()      { *m = RemoveRemoteClusterRequest{} }
+func (*RemoveRemoteClusterRequest) ProtoMessage() {}
+func (*RemoveRemoteClusterRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_43cdd5e82c482041, []int{12}
+}
+func (m *RemoveRemoteClusterRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RemoveRemoteClusterRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RemoveRemoteClusterRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RemoveRemoteClusterRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RemoveRemoteClusterRequest.Merge(m, src)
+}
+func (m *RemoveRemoteClusterRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *RemoveRemoteClusterRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_RemoveRemoteClusterRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RemoveRemoteClusterRequest proto.InternalMessageInfo
+
+func (m *RemoveRemoteClusterRequest) GetClusterName() string {
+	if m != nil {
+		return m.ClusterName
+	}
+	return ""
+}
+
+type RemoveRemoteClusterResponse struct {
+}
+
+func (m *RemoveRemoteClusterResponse) Reset()      { *m = RemoveRemoteClusterResponse{} }
+func (*RemoveRemoteClusterResponse) ProtoMessage() {}
+func (*RemoveRemoteClusterResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_43cdd5e82c482041, []int{13}
+}
+func (m *RemoveRemoteClusterResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RemoveRemoteClusterResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RemoveRemoteClusterResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RemoveRemoteClusterResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RemoveRemoteClusterResponse.Merge(m, src)
+}
+func (m *RemoveRemoteClusterResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *RemoveRemoteClusterResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_RemoveRemoteClusterResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RemoveRemoteClusterResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*AddSearchAttributesRequest)(nil), "temporal.api.operatorservice.v1.AddSearchAttributesRequest")
 	proto.RegisterMapType((map[string]v1.IndexedValueType)(nil), "temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry")
@@ -504,6 +668,10 @@ func init() {
 	proto.RegisterType((*DeleteNamespaceResponse)(nil), "temporal.api.operatorservice.v1.DeleteNamespaceResponse")
 	proto.RegisterType((*DeleteWorkflowExecutionRequest)(nil), "temporal.api.operatorservice.v1.DeleteWorkflowExecutionRequest")
 	proto.RegisterType((*DeleteWorkflowExecutionResponse)(nil), "temporal.api.operatorservice.v1.DeleteWorkflowExecutionResponse")
+	proto.RegisterType((*AddOrUpdateRemoteClusterRequest)(nil), "temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterRequest")
+	proto.RegisterType((*AddOrUpdateRemoteClusterResponse)(nil), "temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse")
+	proto.RegisterType((*RemoveRemoteClusterRequest)(nil), "temporal.api.operatorservice.v1.RemoveRemoteClusterRequest")
+	proto.RegisterType((*RemoveRemoteClusterResponse)(nil), "temporal.api.operatorservice.v1.RemoveRemoteClusterResponse")
 }
 
 func init() {
@@ -511,49 +679,56 @@ func init() {
 }
 
 var fileDescriptor_43cdd5e82c482041 = []byte{
-	// 659 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x55, 0xcf, 0x6b, 0x13, 0x4f,
-	0x14, 0xcf, 0xa4, 0xf4, 0x0b, 0x99, 0xf2, 0x2d, 0xcd, 0x52, 0x35, 0xa4, 0xed, 0x34, 0x2e, 0x82,
-	0x95, 0xc2, 0x86, 0x54, 0x2c, 0xb2, 0x22, 0x98, 0x6a, 0x05, 0xa1, 0x68, 0x4d, 0x4a, 0x15, 0x2f,
-	0x61, 0xba, 0x79, 0xb6, 0x4b, 0xb3, 0x3b, 0xeb, 0xcc, 0x64, 0xd3, 0x5c, 0xa4, 0x67, 0x4f, 0x1e,
-	0xfd, 0x13, 0xc4, 0x7f, 0xc1, 0x7f, 0xc0, 0x63, 0x8f, 0x3d, 0xda, 0xed, 0x45, 0x3c, 0x48, 0xff,
-	0x04, 0xd9, 0x5f, 0x35, 0xd9, 0x1f, 0x56, 0xd0, 0xde, 0x96, 0xf7, 0xde, 0xe7, 0xc7, 0x7b, 0xf3,
-	0x66, 0x07, 0xaf, 0x4a, 0xb0, 0x1c, 0xc6, 0x69, 0xaf, 0x4e, 0x1d, 0xb3, 0xce, 0x1c, 0xe0, 0x54,
-	0x32, 0x2e, 0x80, 0xbb, 0xa6, 0x01, 0x75, 0xb7, 0x51, 0xe7, 0xf0, 0xa6, 0x0f, 0x42, 0x76, 0x38,
-	0x08, 0x87, 0xd9, 0x02, 0x34, 0x87, 0x33, 0xc9, 0x94, 0xc5, 0x18, 0xa7, 0x51, 0xc7, 0xd4, 0x12,
-	0x38, 0xcd, 0x6d, 0x54, 0x6f, 0x8c, 0x11, 0x1b, 0xcc, 0xb2, 0x98, 0xed, 0xf3, 0x59, 0x20, 0x04,
-	0xdd, 0x8d, 0x68, 0xaa, 0xea, 0x58, 0x15, 0xd8, 0x7d, 0x4b, 0xf8, 0x45, 0x61, 0x79, 0x58, 0xa3,
-	0xbe, 0x2b, 0xe2, 0x6a, 0xb3, 0xdb, 0x6d, 0x03, 0xe5, 0xc6, 0x5e, 0x53, 0x4a, 0x6e, 0xee, 0xf4,
-	0x25, 0x88, 0x56, 0x68, 0x4c, 0x79, 0x8b, 0xcb, 0x22, 0x48, 0x75, 0xe8, 0x79, 0xae, 0x82, 0x6a,
-	0x13, 0x4b, 0x53, 0x2b, 0xcf, 0xb5, 0x0b, 0x5c, 0x6a, 0xf9, 0xbc, 0x5a, 0x32, 0xbe, 0x6e, 0x4b,
-	0x3e, 0x6c, 0xcd, 0x88, 0x44, 0xb8, 0xda, 0xc3, 0x57, 0x32, 0x4b, 0x95, 0x19, 0x3c, 0xb1, 0x0f,
-	0xc3, 0x0a, 0xaa, 0xa1, 0xa5, 0x52, 0xcb, 0xff, 0x54, 0xee, 0xe3, 0x49, 0x97, 0xf6, 0xfa, 0x50,
-	0x29, 0xd6, 0xd0, 0xd2, 0xf4, 0xca, 0xcd, 0x71, 0x7b, 0x41, 0xf7, 0xbe, 0xa9, 0x27, 0x76, 0x17,
-	0x0e, 0xa0, 0xbb, 0xed, 0x97, 0x6e, 0x0d, 0x1d, 0x68, 0x85, 0x28, 0xbd, 0x78, 0x17, 0xa9, 0x0b,
-	0x78, 0x2e, 0xd3, 0x73, 0x78, 0x38, 0xea, 0x06, 0x5e, 0x68, 0x81, 0xc5, 0x5c, 0xc8, 0x9b, 0xd6,
-	0x72, 0xde, 0xb4, 0x4a, 0xe9, 0xd6, 0xd4, 0x1a, 0x26, 0x79, 0x6c, 0x91, 0xde, 0x02, 0x9e, 0xdb,
-	0x30, 0x85, 0xcc, 0x51, 0x53, 0x3f, 0x4f, 0xe2, 0xf9, 0xec, 0x7c, 0x88, 0x57, 0x0e, 0x11, 0x2e,
-	0x1b, 0x7d, 0x21, 0x99, 0x95, 0x3e, 0xbd, 0xf6, 0x85, 0xa7, 0xf7, 0x3b, 0x6a, 0xed, 0x61, 0x40,
-	0x9b, 0x3a, 0x3f, 0x23, 0x11, 0x0e, 0x2c, 0x88, 0xa1, 0x90, 0x30, 0x66, 0xa1, 0xf8, 0x2f, 0x2c,
-	0xb4, 0x03, 0xda, 0xf4, 0x0a, 0x25, 0xc2, 0xca, 0x00, 0x4f, 0x0b, 0xc9, 0x38, 0xdd, 0x85, 0x8e,
-	0x30, 0xf6, 0xc0, 0xa2, 0x95, 0x89, 0x40, 0x7e, 0xf3, 0x2f, 0xe5, 0x43, 0xce, 0x76, 0x40, 0x19,
-	0x6a, 0xff, 0x2f, 0x46, 0x63, 0xfe, 0xee, 0x66, 0x8e, 0xe9, 0x52, 0x76, 0x37, 0xb8, 0x29, 0x59,
-	0x13, 0xb9, 0x1c, 0xb5, 0x07, 0x58, 0x49, 0x0f, 0x20, 0x43, 0x6a, 0x76, 0x54, 0xaa, 0x34, 0x7a,
-	0xd7, 0x56, 0xf1, 0xd5, 0x47, 0xd0, 0x03, 0x09, 0x4f, 0xa9, 0x05, 0xc2, 0xa1, 0x06, 0xc4, 0xb7,
-	0x68, 0x1e, 0x97, 0xec, 0x38, 0x16, 0x71, 0xfd, 0x0a, 0xa8, 0x8f, 0xf1, 0xb5, 0x14, 0x2e, 0xda,
-	0xf7, 0x65, 0x5c, 0xee, 0x06, 0xa9, 0x6e, 0x27, 0x49, 0x30, 0x13, 0x25, 0xce, 0x41, 0xea, 0x07,
-	0x84, 0x49, 0x48, 0xf4, 0x82, 0xf1, 0xfd, 0xd7, 0x3d, 0x36, 0x58, 0x3f, 0x00, 0xa3, 0x2f, 0x4d,
-	0x66, 0xff, 0x91, 0x11, 0xe5, 0x25, 0x56, 0x06, 0x11, 0xb2, 0x03, 0x31, 0x34, 0xe8, 0x73, 0x6a,
-	0xe5, 0xd6, 0xf8, 0x48, 0xa3, 0x3f, 0xae, 0xdb, 0xd0, 0xd2, 0x5a, 0xe5, 0x41, 0x32, 0xa4, 0x5e,
-	0xc7, 0x8b, 0xb9, 0xce, 0xc2, 0x56, 0xd7, 0x7e, 0xa0, 0xa3, 0x13, 0x52, 0x38, 0x3e, 0x21, 0x85,
-	0xb3, 0x13, 0x82, 0x0e, 0x3d, 0x82, 0x3e, 0x7a, 0x04, 0x7d, 0xf1, 0x08, 0x3a, 0xf2, 0x08, 0xfa,
-	0xea, 0x11, 0xf4, 0xcd, 0x23, 0x85, 0x33, 0x8f, 0xa0, 0xf7, 0xa7, 0xa4, 0x70, 0x74, 0x4a, 0x0a,
-	0xc7, 0xa7, 0xa4, 0x80, 0x55, 0x93, 0x5d, 0xb4, 0xf5, 0x6b, 0xb3, 0x51, 0xfb, 0xb1, 0xd6, 0xa6,
-	0xff, 0x4e, 0x6c, 0xa2, 0x57, 0x77, 0x76, 0x47, 0xb0, 0x26, 0xcb, 0x79, 0xd2, 0xee, 0x25, 0x42,
-	0x9f, 0x8a, 0x8b, 0x5b, 0x31, 0xa8, 0xe9, 0x98, 0xda, 0xb3, 0x28, 0xdd, 0x8e, 0x04, 0xb7, 0x1b,
-	0xdf, 0x8b, 0x6a, 0x5c, 0xa1, 0xeb, 0x4d, 0xc7, 0xd4, 0xf5, 0x44, 0x8d, 0xae, 0x6f, 0x37, 0x76,
-	0xfe, 0x0b, 0x9e, 0xab, 0xdb, 0x3f, 0x03, 0x00, 0x00, 0xff, 0xff, 0xf3, 0x05, 0xca, 0xec, 0x53,
-	0x07, 0x00, 0x00,
+	// 775 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x55, 0x41, 0x6f, 0xd3, 0x48,
+	0x14, 0xce, 0xa4, 0xea, 0x6a, 0x33, 0xdd, 0xed, 0x26, 0x56, 0x77, 0x37, 0x4a, 0x1b, 0x27, 0xb5,
+	0x56, 0xda, 0x56, 0x95, 0x1c, 0xa5, 0x88, 0x0a, 0x05, 0x21, 0x48, 0x4b, 0x41, 0x48, 0x15, 0x2d,
+	0x49, 0x29, 0x88, 0x8b, 0xe5, 0xda, 0xaf, 0xad, 0xd5, 0xd8, 0x63, 0x66, 0x26, 0x49, 0x73, 0x41,
+	0x3d, 0x73, 0xe2, 0x82, 0xc4, 0x4f, 0x40, 0xfc, 0x05, 0xfe, 0x00, 0xc7, 0x1e, 0x7b, 0xa4, 0xe9,
+	0x05, 0x71, 0x40, 0xfd, 0x09, 0xc8, 0xf6, 0x38, 0x24, 0x8e, 0x4d, 0x91, 0xa0, 0x37, 0xeb, 0x7b,
+	0xef, 0x7d, 0xdf, 0x37, 0xef, 0x8d, 0xdf, 0xe0, 0x15, 0x0e, 0xb6, 0x4b, 0xa8, 0xde, 0xaa, 0xe8,
+	0xae, 0x55, 0x21, 0x2e, 0x50, 0x9d, 0x13, 0xca, 0x80, 0x76, 0x2c, 0x03, 0x2a, 0x9d, 0x6a, 0x85,
+	0xc2, 0xf3, 0x36, 0x30, 0xae, 0x51, 0x60, 0x2e, 0x71, 0x18, 0xa8, 0x2e, 0x25, 0x9c, 0x48, 0xa5,
+	0xb0, 0x4e, 0xd5, 0x5d, 0x4b, 0x8d, 0xd4, 0xa9, 0x9d, 0x6a, 0xe1, 0xbf, 0x11, 0x62, 0x83, 0xd8,
+	0x36, 0x71, 0x3c, 0x3e, 0x1b, 0x18, 0xd3, 0xf7, 0x05, 0x4d, 0x41, 0x19, 0xc9, 0x02, 0xa7, 0x6d,
+	0x33, 0x2f, 0x29, 0x48, 0x0f, 0x72, 0x94, 0x97, 0x69, 0x5c, 0xa8, 0x9b, 0x66, 0x13, 0x74, 0x6a,
+	0x1c, 0xd4, 0x39, 0xa7, 0xd6, 0x6e, 0x9b, 0x03, 0x6b, 0x04, 0xc6, 0xa4, 0x17, 0x38, 0xc7, 0xfc,
+	0x90, 0xa6, 0x0f, 0x62, 0x79, 0x54, 0x9e, 0x58, 0x98, 0x5a, 0x7e, 0xa4, 0x5e, 0xe2, 0x52, 0x4d,
+	0xe6, 0x55, 0xa3, 0xf8, 0xba, 0xc3, 0x69, 0xaf, 0x91, 0x65, 0x11, 0xb8, 0xd0, 0xc2, 0x7f, 0xc7,
+	0xa6, 0x4a, 0x59, 0x3c, 0x71, 0x08, 0xbd, 0x3c, 0x2a, 0xa3, 0x85, 0x4c, 0xc3, 0xfb, 0x94, 0x6e,
+	0xe1, 0xc9, 0x8e, 0xde, 0x6a, 0x43, 0x3e, 0x5d, 0x46, 0x0b, 0xd3, 0xcb, 0xff, 0x8f, 0xda, 0xf3,
+	0x4f, 0xef, 0x99, 0x7a, 0xe0, 0x98, 0x70, 0x04, 0xe6, 0x8e, 0x97, 0xba, 0xdd, 0x73, 0xa1, 0x11,
+	0x54, 0xd5, 0xd2, 0x37, 0x90, 0x52, 0xc4, 0xb3, 0xb1, 0x9e, 0x83, 0xe1, 0x28, 0x1b, 0xb8, 0xd8,
+	0x00, 0x9b, 0x74, 0x20, 0xa9, 0x5b, 0x4b, 0x49, 0xdd, 0xca, 0x8c, 0x1f, 0x4d, 0x29, 0x63, 0x39,
+	0x89, 0x4d, 0xe8, 0x15, 0xf1, 0xec, 0x86, 0xc5, 0x78, 0x82, 0x9a, 0xf2, 0x7e, 0x12, 0xcf, 0xc5,
+	0xc7, 0x83, 0x7a, 0xe9, 0x18, 0xe1, 0x9c, 0xd1, 0x66, 0x9c, 0xd8, 0xe3, 0xd3, 0x6b, 0x5e, 0x3a,
+	0xbd, 0xef, 0x51, 0xab, 0x6b, 0x3e, 0xed, 0xd8, 0xfc, 0x8c, 0x08, 0xec, 0x5b, 0x60, 0x3d, 0xc6,
+	0x61, 0xc4, 0x42, 0xfa, 0x57, 0x58, 0x68, 0xfa, 0xb4, 0xe3, 0x57, 0x28, 0x02, 0x4b, 0x5d, 0x3c,
+	0xcd, 0x38, 0xa1, 0xfa, 0x3e, 0x68, 0xcc, 0x38, 0x00, 0x5b, 0xcf, 0x4f, 0xf8, 0xf2, 0x5b, 0x3f,
+	0x29, 0x1f, 0x70, 0x36, 0x7d, 0xca, 0x40, 0xfb, 0x4f, 0x36, 0x8c, 0x79, 0x77, 0x37, 0xb6, 0x4d,
+	0x57, 0x72, 0x77, 0xfd, 0x3f, 0x25, 0xae, 0x23, 0x57, 0xa3, 0x76, 0x07, 0x4b, 0xe3, 0x0d, 0x88,
+	0x91, 0x9a, 0x19, 0x96, 0xca, 0x0c, 0xff, 0x6b, 0x2b, 0xf8, 0x9f, 0xbb, 0xd0, 0x02, 0x0e, 0x0f,
+	0x75, 0x1b, 0x98, 0xab, 0x1b, 0x10, 0xfe, 0x45, 0x73, 0x38, 0xe3, 0x84, 0x98, 0xe0, 0xfa, 0x06,
+	0x28, 0xf7, 0xf0, 0xbf, 0x63, 0x75, 0xe2, 0xbe, 0x2f, 0xe1, 0x9c, 0xe9, 0x87, 0x4c, 0x2d, 0x4a,
+	0x90, 0x15, 0x81, 0x41, 0x91, 0xf2, 0x06, 0x61, 0x39, 0x20, 0x7a, 0x42, 0xe8, 0xe1, 0x5e, 0x8b,
+	0x74, 0xd7, 0x8f, 0xc0, 0x68, 0x73, 0x8b, 0x38, 0x3f, 0x64, 0x44, 0x7a, 0x8a, 0xa5, 0xae, 0xa8,
+	0xd4, 0x20, 0x2c, 0xf5, 0xcf, 0x39, 0xb5, 0xbc, 0x38, 0xda, 0x52, 0xb1, 0x71, 0x3b, 0x55, 0x75,
+	0x5c, 0x2b, 0xd7, 0x8d, 0x42, 0xca, 0x3c, 0x2e, 0x25, 0x3a, 0x13, 0xab, 0xe1, 0x35, 0xc2, 0xa5,
+	0xba, 0x69, 0x6e, 0xd2, 0xc7, 0xae, 0xa9, 0x73, 0xf0, 0x16, 0x09, 0x87, 0xb5, 0x56, 0x9b, 0x71,
+	0xa0, 0xa1, 0xfd, 0x45, 0x9c, 0xdd, 0xa3, 0xc4, 0xe1, 0xe0, 0x98, 0x9a, 0x6e, 0x9a, 0x14, 0x18,
+	0x13, 0xa7, 0xf8, 0x2b, 0xc4, 0xeb, 0x01, 0x2c, 0xdd, 0xc7, 0x65, 0x70, 0xf4, 0xdd, 0x16, 0x68,
+	0xd4, 0x67, 0xd2, 0x8c, 0x80, 0x4a, 0x33, 0x88, 0xe3, 0x80, 0x31, 0x38, 0xd9, 0xef, 0x8d, 0x62,
+	0x90, 0x37, 0x22, 0xb8, 0x36, 0x48, 0x52, 0x14, 0x5c, 0x4e, 0xb6, 0x25, 0xbc, 0xdf, 0xc6, 0x85,
+	0x60, 0xf1, 0xc5, 0xba, 0x9e, 0xc7, 0x7f, 0x84, 0xe2, 0x5e, 0xaf, 0x85, 0xe3, 0x29, 0x81, 0x79,
+	0xf3, 0xf3, 0xf6, 0x62, 0x2c, 0x41, 0xc0, 0xbf, 0xfa, 0x05, 0x9d, 0x9c, 0xc9, 0xa9, 0xd3, 0x33,
+	0x39, 0x75, 0x71, 0x26, 0xa3, 0xe3, 0xbe, 0x8c, 0xde, 0xf6, 0x65, 0xf4, 0xa1, 0x2f, 0xa3, 0x93,
+	0xbe, 0x8c, 0x3e, 0xf6, 0x65, 0xf4, 0xa9, 0x2f, 0xa7, 0x2e, 0xfa, 0x32, 0x7a, 0x75, 0x2e, 0xa7,
+	0x4e, 0xce, 0xe5, 0xd4, 0xe9, 0xb9, 0x9c, 0xc2, 0x8a, 0x45, 0x2e, 0xdb, 0x08, 0xab, 0x33, 0xc2,
+	0x65, 0xa8, 0xb5, 0xe5, 0xbd, 0xa1, 0x5b, 0xe8, 0xd9, 0xf5, 0xfd, 0xa1, 0x5a, 0x8b, 0x24, 0x3c,
+	0xf7, 0x37, 0x23, 0xd0, 0xbb, 0x74, 0x69, 0x3b, 0x2c, 0xaa, 0xbb, 0x96, 0xba, 0x29, 0xc2, 0x4d,
+	0x21, 0xb8, 0x53, 0xfd, 0x9c, 0x56, 0xc2, 0x8c, 0x5a, 0xad, 0xee, 0x5a, 0xb5, 0x5a, 0x24, 0xa7,
+	0x56, 0xdb, 0xa9, 0xee, 0xfe, 0xe6, 0x3f, 0xe5, 0xd7, 0xbe, 0x06, 0x00, 0x00, 0xff, 0xff, 0x5a,
+	0x72, 0x91, 0x3c, 0x6f, 0x08, 0x00, 0x00,
 }
 
 func (this *AddSearchAttributesRequest) Equal(that interface{}) bool {
@@ -818,6 +993,99 @@ func (this *DeleteWorkflowExecutionResponse) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *AddOrUpdateRemoteClusterRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*AddOrUpdateRemoteClusterRequest)
+	if !ok {
+		that2, ok := that.(AddOrUpdateRemoteClusterRequest)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.FrontendAddress != that1.FrontendAddress {
+		return false
+	}
+	if this.EnableRemoteClusterConnection != that1.EnableRemoteClusterConnection {
+		return false
+	}
+	return true
+}
+func (this *AddOrUpdateRemoteClusterResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*AddOrUpdateRemoteClusterResponse)
+	if !ok {
+		that2, ok := that.(AddOrUpdateRemoteClusterResponse)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *RemoveRemoteClusterRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*RemoveRemoteClusterRequest)
+	if !ok {
+		that2, ok := that.(RemoveRemoteClusterRequest)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.ClusterName != that1.ClusterName {
+		return false
+	}
+	return true
+}
+func (this *RemoveRemoteClusterResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*RemoveRemoteClusterResponse)
+	if !ok {
+		that2, ok := that.(RemoveRemoteClusterResponse)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
 func (this *AddSearchAttributesRequest) GoString() string {
 	if this == nil {
 		return "nil"
@@ -964,6 +1232,45 @@ func (this *DeleteWorkflowExecutionResponse) GoString() string {
 	}
 	s := make([]string, 0, 4)
 	s = append(s, "&operatorservice.DeleteWorkflowExecutionResponse{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *AddOrUpdateRemoteClusterRequest) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&operatorservice.AddOrUpdateRemoteClusterRequest{")
+	s = append(s, "FrontendAddress: "+fmt.Sprintf("%#v", this.FrontendAddress)+",\n")
+	s = append(s, "EnableRemoteClusterConnection: "+fmt.Sprintf("%#v", this.EnableRemoteClusterConnection)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *AddOrUpdateRemoteClusterResponse) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&operatorservice.AddOrUpdateRemoteClusterResponse{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *RemoveRemoteClusterRequest) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&operatorservice.RemoveRemoteClusterRequest{")
+	s = append(s, "ClusterName: "+fmt.Sprintf("%#v", this.ClusterName)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *RemoveRemoteClusterResponse) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&operatorservice.RemoveRemoteClusterResponse{")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1317,6 +1624,122 @@ func (m *DeleteWorkflowExecutionResponse) MarshalToSizedBuffer(dAtA []byte) (int
 	return len(dAtA) - i, nil
 }
 
+func (m *AddOrUpdateRemoteClusterRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *AddOrUpdateRemoteClusterRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *AddOrUpdateRemoteClusterRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.EnableRemoteClusterConnection {
+		i--
+		if m.EnableRemoteClusterConnection {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.FrontendAddress) > 0 {
+		i -= len(m.FrontendAddress)
+		copy(dAtA[i:], m.FrontendAddress)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.FrontendAddress)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *AddOrUpdateRemoteClusterResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *AddOrUpdateRemoteClusterResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *AddOrUpdateRemoteClusterResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *RemoveRemoteClusterRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RemoveRemoteClusterRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RemoveRemoteClusterRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ClusterName) > 0 {
+		i -= len(m.ClusterName)
+		copy(dAtA[i:], m.ClusterName)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.ClusterName)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RemoveRemoteClusterResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RemoveRemoteClusterResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RemoveRemoteClusterResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintRequestResponse(dAtA []byte, offset int, v uint64) int {
 	offset -= sovRequestResponse(v)
 	base := offset
@@ -1472,6 +1895,53 @@ func (m *DeleteWorkflowExecutionResponse) Size() (n int) {
 	return n
 }
 
+func (m *AddOrUpdateRemoteClusterRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.FrontendAddress)
+	if l > 0 {
+		n += 1 + l + sovRequestResponse(uint64(l))
+	}
+	if m.EnableRemoteClusterConnection {
+		n += 2
+	}
+	return n
+}
+
+func (m *AddOrUpdateRemoteClusterResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *RemoveRemoteClusterRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.ClusterName)
+	if l > 0 {
+		n += 1 + l + sovRequestResponse(uint64(l))
+	}
+	return n
+}
+
+func (m *RemoveRemoteClusterResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
 func sovRequestResponse(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
@@ -1613,6 +2083,45 @@ func (this *DeleteWorkflowExecutionResponse) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&DeleteWorkflowExecutionResponse{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *AddOrUpdateRemoteClusterRequest) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&AddOrUpdateRemoteClusterRequest{`,
+		`FrontendAddress:` + fmt.Sprintf("%v", this.FrontendAddress) + `,`,
+		`EnableRemoteClusterConnection:` + fmt.Sprintf("%v", this.EnableRemoteClusterConnection) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *AddOrUpdateRemoteClusterResponse) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&AddOrUpdateRemoteClusterResponse{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *RemoveRemoteClusterRequest) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&RemoveRemoteClusterRequest{`,
+		`ClusterName:` + fmt.Sprintf("%v", this.ClusterName) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *RemoveRemoteClusterResponse) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&RemoveRemoteClusterResponse{`,
 		`}`,
 	}, "")
 	return s
@@ -2759,6 +3268,302 @@ func (m *DeleteWorkflowExecutionResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: DeleteWorkflowExecutionResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRequestResponse(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *AddOrUpdateRemoteClusterRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRequestResponse
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: AddOrUpdateRemoteClusterRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: AddOrUpdateRemoteClusterRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FrontendAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRequestResponse
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FrontendAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field EnableRemoteClusterConnection", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRequestResponse
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.EnableRemoteClusterConnection = bool(v != 0)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRequestResponse(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *AddOrUpdateRemoteClusterResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRequestResponse
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: AddOrUpdateRemoteClusterResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: AddOrUpdateRemoteClusterResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRequestResponse(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RemoveRemoteClusterRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRequestResponse
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RemoveRemoteClusterRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RemoveRemoteClusterRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ClusterName", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowRequestResponse
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ClusterName = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipRequestResponse(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthRequestResponse
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RemoveRemoteClusterResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowRequestResponse
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RemoveRemoteClusterResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RemoveRemoteClusterResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

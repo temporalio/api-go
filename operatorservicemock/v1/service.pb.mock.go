@@ -58,6 +58,26 @@ func (m *MockOperatorServiceClient) EXPECT() *MockOperatorServiceClientMockRecor
 	return m.recorder
 }
 
+// AddOrUpdateRemoteCluster mocks base method.
+func (m *MockOperatorServiceClient) AddOrUpdateRemoteCluster(ctx context.Context, in *operatorservice.AddOrUpdateRemoteClusterRequest, opts ...grpc.CallOption) (*operatorservice.AddOrUpdateRemoteClusterResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddOrUpdateRemoteCluster", varargs...)
+	ret0, _ := ret[0].(*operatorservice.AddOrUpdateRemoteClusterResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddOrUpdateRemoteCluster indicates an expected call of AddOrUpdateRemoteCluster.
+func (mr *MockOperatorServiceClientMockRecorder) AddOrUpdateRemoteCluster(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddOrUpdateRemoteCluster", reflect.TypeOf((*MockOperatorServiceClient)(nil).AddOrUpdateRemoteCluster), varargs...)
+}
+
 // AddSearchAttributes mocks base method.
 func (m *MockOperatorServiceClient) AddSearchAttributes(ctx context.Context, in *operatorservice.AddSearchAttributesRequest, opts ...grpc.CallOption) (*operatorservice.AddSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
@@ -138,6 +158,26 @@ func (mr *MockOperatorServiceClientMockRecorder) ListSearchAttributes(ctx, in in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSearchAttributes", reflect.TypeOf((*MockOperatorServiceClient)(nil).ListSearchAttributes), varargs...)
 }
 
+// RemoveRemoteCluster mocks base method.
+func (m *MockOperatorServiceClient) RemoveRemoteCluster(ctx context.Context, in *operatorservice.RemoveRemoteClusterRequest, opts ...grpc.CallOption) (*operatorservice.RemoveRemoteClusterResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RemoveRemoteCluster", varargs...)
+	ret0, _ := ret[0].(*operatorservice.RemoveRemoteClusterResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// RemoveRemoteCluster indicates an expected call of RemoveRemoteCluster.
+func (mr *MockOperatorServiceClientMockRecorder) RemoveRemoteCluster(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveRemoteCluster", reflect.TypeOf((*MockOperatorServiceClient)(nil).RemoveRemoteCluster), varargs...)
+}
+
 // RemoveSearchAttributes mocks base method.
 func (m *MockOperatorServiceClient) RemoveSearchAttributes(ctx context.Context, in *operatorservice.RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*operatorservice.RemoveSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
@@ -179,6 +219,21 @@ func NewMockOperatorServiceServer(ctrl *gomock.Controller) *MockOperatorServiceS
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockOperatorServiceServer) EXPECT() *MockOperatorServiceServerMockRecorder {
 	return m.recorder
+}
+
+// AddOrUpdateRemoteCluster mocks base method.
+func (m *MockOperatorServiceServer) AddOrUpdateRemoteCluster(arg0 context.Context, arg1 *operatorservice.AddOrUpdateRemoteClusterRequest) (*operatorservice.AddOrUpdateRemoteClusterResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddOrUpdateRemoteCluster", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.AddOrUpdateRemoteClusterResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddOrUpdateRemoteCluster indicates an expected call of AddOrUpdateRemoteCluster.
+func (mr *MockOperatorServiceServerMockRecorder) AddOrUpdateRemoteCluster(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddOrUpdateRemoteCluster", reflect.TypeOf((*MockOperatorServiceServer)(nil).AddOrUpdateRemoteCluster), arg0, arg1)
 }
 
 // AddSearchAttributes mocks base method.
@@ -239,6 +294,21 @@ func (m *MockOperatorServiceServer) ListSearchAttributes(arg0 context.Context, a
 func (mr *MockOperatorServiceServerMockRecorder) ListSearchAttributes(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSearchAttributes", reflect.TypeOf((*MockOperatorServiceServer)(nil).ListSearchAttributes), arg0, arg1)
+}
+
+// RemoveRemoteCluster mocks base method.
+func (m *MockOperatorServiceServer) RemoveRemoteCluster(arg0 context.Context, arg1 *operatorservice.RemoveRemoteClusterRequest) (*operatorservice.RemoveRemoteClusterResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RemoveRemoteCluster", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.RemoveRemoteClusterResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// RemoveRemoteCluster indicates an expected call of RemoveRemoteCluster.
+func (mr *MockOperatorServiceServerMockRecorder) RemoveRemoteCluster(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveRemoteCluster", reflect.TypeOf((*MockOperatorServiceServer)(nil).RemoveRemoteCluster), arg0, arg1)
 }
 
 // RemoveSearchAttributes mocks base method.
