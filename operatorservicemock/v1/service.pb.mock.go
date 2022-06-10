@@ -138,6 +138,66 @@ func (mr *MockOperatorServiceClientMockRecorder) DeleteWorkflowExecution(ctx, in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWorkflowExecution", reflect.TypeOf((*MockOperatorServiceClient)(nil).DeleteWorkflowExecution), varargs...)
 }
 
+// DescribeCluster mocks base method.
+func (m *MockOperatorServiceClient) DescribeCluster(ctx context.Context, in *operatorservice.DescribeClusterRequest, opts ...grpc.CallOption) (*operatorservice.DescribeClusterResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DescribeCluster", varargs...)
+	ret0, _ := ret[0].(*operatorservice.DescribeClusterResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DescribeCluster indicates an expected call of DescribeCluster.
+func (mr *MockOperatorServiceClientMockRecorder) DescribeCluster(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeCluster", reflect.TypeOf((*MockOperatorServiceClient)(nil).DescribeCluster), varargs...)
+}
+
+// ListClusterMembers mocks base method.
+func (m *MockOperatorServiceClient) ListClusterMembers(ctx context.Context, in *operatorservice.ListClusterMembersRequest, opts ...grpc.CallOption) (*operatorservice.ListClusterMembersResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListClusterMembers", varargs...)
+	ret0, _ := ret[0].(*operatorservice.ListClusterMembersResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListClusterMembers indicates an expected call of ListClusterMembers.
+func (mr *MockOperatorServiceClientMockRecorder) ListClusterMembers(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListClusterMembers", reflect.TypeOf((*MockOperatorServiceClient)(nil).ListClusterMembers), varargs...)
+}
+
+// ListClusters mocks base method.
+func (m *MockOperatorServiceClient) ListClusters(ctx context.Context, in *operatorservice.ListClustersRequest, opts ...grpc.CallOption) (*operatorservice.ListClustersResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListClusters", varargs...)
+	ret0, _ := ret[0].(*operatorservice.ListClustersResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListClusters indicates an expected call of ListClusters.
+func (mr *MockOperatorServiceClientMockRecorder) ListClusters(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListClusters", reflect.TypeOf((*MockOperatorServiceClient)(nil).ListClusters), varargs...)
+}
+
 // ListSearchAttributes mocks base method.
 func (m *MockOperatorServiceClient) ListSearchAttributes(ctx context.Context, in *operatorservice.ListSearchAttributesRequest, opts ...grpc.CallOption) (*operatorservice.ListSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
@@ -279,6 +339,51 @@ func (m *MockOperatorServiceServer) DeleteWorkflowExecution(arg0 context.Context
 func (mr *MockOperatorServiceServerMockRecorder) DeleteWorkflowExecution(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteWorkflowExecution", reflect.TypeOf((*MockOperatorServiceServer)(nil).DeleteWorkflowExecution), arg0, arg1)
+}
+
+// DescribeCluster mocks base method.
+func (m *MockOperatorServiceServer) DescribeCluster(arg0 context.Context, arg1 *operatorservice.DescribeClusterRequest) (*operatorservice.DescribeClusterResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DescribeCluster", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.DescribeClusterResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DescribeCluster indicates an expected call of DescribeCluster.
+func (mr *MockOperatorServiceServerMockRecorder) DescribeCluster(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeCluster", reflect.TypeOf((*MockOperatorServiceServer)(nil).DescribeCluster), arg0, arg1)
+}
+
+// ListClusterMembers mocks base method.
+func (m *MockOperatorServiceServer) ListClusterMembers(arg0 context.Context, arg1 *operatorservice.ListClusterMembersRequest) (*operatorservice.ListClusterMembersResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListClusterMembers", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.ListClusterMembersResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListClusterMembers indicates an expected call of ListClusterMembers.
+func (mr *MockOperatorServiceServerMockRecorder) ListClusterMembers(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListClusterMembers", reflect.TypeOf((*MockOperatorServiceServer)(nil).ListClusterMembers), arg0, arg1)
+}
+
+// ListClusters mocks base method.
+func (m *MockOperatorServiceServer) ListClusters(arg0 context.Context, arg1 *operatorservice.ListClustersRequest) (*operatorservice.ListClustersResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListClusters", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.ListClustersResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListClusters indicates an expected call of ListClusters.
+func (mr *MockOperatorServiceServerMockRecorder) ListClusters(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListClusters", reflect.TypeOf((*MockOperatorServiceServer)(nil).ListClusters), arg0, arg1)
 }
 
 // ListSearchAttributes mocks base method.
