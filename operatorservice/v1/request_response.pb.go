@@ -404,14 +404,13 @@ func (m *DeleteNamespaceResponse) GetDeletedNamespace() string {
 	return ""
 }
 
-// This message is EXPERIMENTAL and may be changed or removed in a later release.
 // (-- api-linter: core::0135::request-unknown-fields=disabled
 //     aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 // (-- api-linter: core::0135::request-name-required=disabled
 //     aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 type DeleteWorkflowExecutionRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Workflow executions to delete. If run_id is not specified, last one is used.
+	// Workflow Execution to delete. If run_id is not specified, the latest one is used.
 	WorkflowExecution *v11.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 }
 
@@ -461,7 +460,6 @@ func (m *DeleteWorkflowExecutionRequest) GetWorkflowExecution() *v11.WorkflowExe
 	return nil
 }
 
-// This message is EXPERIMENTAL and may be changed or removed in a later release.
 type DeleteWorkflowExecutionResponse struct {
 }
 
