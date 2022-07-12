@@ -1038,6 +1038,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkerBuildIdOrdering(ctx
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerBuildIdOrdering", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkerBuildIdOrdering), varargs...)
 }
 
+// UpdateWorkflow mocks base method.
+func (m *MockWorkflowServiceClient) UpdateWorkflow(ctx context.Context, in *workflowservice.UpdateWorkflowRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkflowResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateWorkflow", varargs...)
+	ret0, _ := ret[0].(*workflowservice.UpdateWorkflowResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWorkflow indicates an expected call of UpdateWorkflow.
+func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkflow(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflow", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkflow), varargs...)
+}
+
 // MockWorkflowServiceServer is a mock of WorkflowServiceServer interface.
 type MockWorkflowServiceServer struct {
 	ctrl     *gomock.Controller
@@ -1794,4 +1814,19 @@ func (m *MockWorkflowServiceServer) UpdateWorkerBuildIdOrdering(arg0 context.Con
 func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkerBuildIdOrdering(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerBuildIdOrdering", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkerBuildIdOrdering), arg0, arg1)
+}
+
+// UpdateWorkflow mocks base method.
+func (m *MockWorkflowServiceServer) UpdateWorkflow(arg0 context.Context, arg1 *workflowservice.UpdateWorkflowRequest) (*workflowservice.UpdateWorkflowResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateWorkflow", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.UpdateWorkflowResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWorkflow indicates an expected call of UpdateWorkflow.
+func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkflow(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflow", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkflow), arg0, arg1)
 }
