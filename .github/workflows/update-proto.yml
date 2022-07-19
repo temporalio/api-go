@@ -6,6 +6,9 @@ on:
       commit_author:
         description: "Commit author username"
         required: true
+      commit_author_email:
+        description: "Commit author email"
+        required: true
       commit_message:
         description: "Commit message"
         required: true
@@ -38,9 +41,12 @@ jobs:
         run: |
           make install update-proto
       - name: Commit update
+        env:
+          GIT_AUTHOR_NAME: ${{ github.event.inputs.commit_author }}
+          GIT_AUTHOR_EMAIL: ${{ github.event.inputs.commit_author_email }}
+          GIT_COMMITTER_NAME: ${{ github.event.inputs.commit_author }}
+          GIT_COMMITTER_EMAIL: ${{ github.event.inputs.commit_author_email }}
         run: |
-          git config --local user.name 'Temporal Data (cicd)'
-          git config --local user.email 'commander-data@temporal.io'
           git remote set-url origin https://x-access-token:${{ secrets.COMMANDER_DATA_TOKEN }}@github.com/${{ github.repository }}
           git add .
-          GIT_COMMITTER_NAME=${{ github.event.inputs.commit_author }} git commit -m "${{ github.event.inputs.commit_message }}" && git push || echo "No changes to commit"
+          git commit -m "${{ github.event.inputs.commit_message }}" && git push || echo "No changes to commit"
