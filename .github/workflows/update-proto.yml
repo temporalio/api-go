@@ -1,11 +1,18 @@
-name: "Update Protos"
+name: "Update Proto"
 
 on:
   workflow_dispatch:
+    inputs:
+      commit_author:
+        description: "Commit author username"
+        required: true
+      commit_message:
+        description: "Commit message"
+        required: true
 
 jobs:
   sync:
-    name: "Update protos"
+    name: "Update proto"
     runs-on: ubuntu-latest
 
     defaults:
@@ -27,7 +34,7 @@ jobs:
         with:
           version: '3.x'
 
-      - name: Re-build protos
+      - name: Re-build proto
         run: |
           make install update-proto
       - name: Commit update
@@ -36,4 +43,4 @@ jobs:
           git config --local user.email 'commander-data@temporal.io'
           git remote set-url origin https://x-access-token:${{ secrets.COMMANDER_DATA_TOKEN }}@github.com/${{ github.repository }}
           git add .
-          git commit -m "Update api submodule" && git push || echo "No changes to commit"
+          GIT_COMMITTER_NAME=${{ github.event.inputs.commit_author }} git commit -m "${{ github.event.inputs.commit_message }}" && git push || echo "No changes to commit"
