@@ -29,7 +29,7 @@ jobs:
 
       - name: Re-build protos
         run: |
-          make install make-proto
+          make install update-proto
       - name: Commit update
         run: |
           git config --local user.name 'Temporal Data (cicd)'
