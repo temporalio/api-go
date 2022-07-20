@@ -32,8 +32,12 @@ import (
 	math_bits "math/bits"
 	reflect "reflect"
 	strings "strings"
+	time "time"
 
+	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
+	_ "github.com/gogo/protobuf/types"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	v1 "go.temporal.io/api/enums/v1"
 )
 
@@ -41,6 +45,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -95,6 +100,9 @@ type NamespaceReplicationConfig struct {
 	ActiveClusterName string                      `protobuf:"bytes,1,opt,name=active_cluster_name,json=activeClusterName,proto3" json:"active_cluster_name,omitempty"`
 	Clusters          []*ClusterReplicationConfig `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`
 	State             v1.ReplicationState         `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.ReplicationState" json:"state,omitempty"`
+	// Contains the historical state of failover_versions for the cluster, truncated to contain only the last N
+	// states to ensure that the list does not grow unbounded.
+	FailoverHistory []*FailoverStatus `protobuf:"bytes,4,rep,name=failover_history,json=failoverHistory,proto3" json:"failover_history,omitempty"`
 }
 
 func (m *NamespaceReplicationConfig) Reset()      { *m = NamespaceReplicationConfig{} }
@@ -150,9 +158,70 @@ func (m *NamespaceReplicationConfig) GetState() v1.ReplicationState {
 	return v1.REPLICATION_STATE_UNSPECIFIED
 }
 
+func (m *NamespaceReplicationConfig) GetFailoverHistory() []*FailoverStatus {
+	if m != nil {
+		return m.FailoverHistory
+	}
+	return nil
+}
+
+// Represents a historical replication status of a Namespace
+type FailoverStatus struct {
+	// Timestamp when the Cluster switched to the following failover_version
+	FailoverTime    *time.Time `protobuf:"bytes,1,opt,name=failover_time,json=failoverTime,proto3,stdtime" json:"failover_time,omitempty"`
+	FailoverVersion int64      `protobuf:"varint,2,opt,name=failover_version,json=failoverVersion,proto3" json:"failover_version,omitempty"`
+}
+
+func (m *FailoverStatus) Reset()      { *m = FailoverStatus{} }
+func (*FailoverStatus) ProtoMessage() {}
+func (*FailoverStatus) Descriptor() ([]byte, []int) {
+	return fileDescriptor_dd4566ff8a441e2e, []int{2}
+}
+func (m *FailoverStatus) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *FailoverStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_FailoverStatus.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *FailoverStatus) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_FailoverStatus.Merge(m, src)
+}
+func (m *FailoverStatus) XXX_Size() int {
+	return m.Size()
+}
+func (m *FailoverStatus) XXX_DiscardUnknown() {
+	xxx_messageInfo_FailoverStatus.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_FailoverStatus proto.InternalMessageInfo
+
+func (m *FailoverStatus) GetFailoverTime() *time.Time {
+	if m != nil {
+		return m.FailoverTime
+	}
+	return nil
+}
+
+func (m *FailoverStatus) GetFailoverVersion() int64 {
+	if m != nil {
+		return m.FailoverVersion
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*ClusterReplicationConfig)(nil), "temporal.api.replication.v1.ClusterReplicationConfig")
 	proto.RegisterType((*NamespaceReplicationConfig)(nil), "temporal.api.replication.v1.NamespaceReplicationConfig")
+	proto.RegisterType((*FailoverStatus)(nil), "temporal.api.replication.v1.FailoverStatus")
 }
 
 func init() {
@@ -160,30 +229,39 @@ func init() {
 }
 
 var fileDescriptor_dd4566ff8a441e2e = []byte{
-	// 356 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x91, 0xc1, 0x4e, 0xea, 0x40,
-	0x14, 0x86, 0x3b, 0x90, 0x7b, 0x73, 0xef, 0x40, 0x4c, 0xac, 0x9b, 0x06, 0x92, 0x13, 0x24, 0x31,
-	0xe2, 0xc2, 0x69, 0x8a, 0x71, 0x53, 0xc3, 0x02, 0x58, 0x4b, 0xb0, 0x1a, 0x16, 0x6e, 0xc8, 0xd8,
-	0x8c, 0x64, 0x12, 0xda, 0x4e, 0xda, 0x81, 0xb5, 0x8f, 0xe0, 0x63, 0x18, 0x9f, 0xc4, 0x25, 0x71,
-	0xc5, 0xca, 0xc8, 0xb0, 0x31, 0xae, 0x78, 0x04, 0x53, 0x4a, 0xa5, 0x44, 0x64, 0x39, 0xf3, 0x7f,
-	0xe7, 0xcb, 0x99, 0xf9, 0xf1, 0x89, 0x64, 0x9e, 0x08, 0x42, 0x3a, 0x34, 0xa9, 0xe0, 0x66, 0xc8,
-	0xc4, 0x90, 0xbb, 0x54, 0xf2, 0xc0, 0x37, 0xc7, 0x96, 0xe9, 0xb1, 0x28, 0xa2, 0x03, 0x46, 0x44,
-	0x18, 0xc8, 0x40, 0x2f, 0xa7, 0x28, 0xa1, 0x82, 0x93, 0x0c, 0x4a, 0xc6, 0x56, 0xe9, 0x68, 0xc3,
-	0xc3, 0xfc, 0x91, 0x17, 0xc5, 0x06, 0x9f, 0x7a, 0x2c, 0x12, 0xd4, 0x5d, 0x39, 0xaa, 0x0d, 0x6c,
-	0xb4, 0x87, 0xa3, 0x48, 0xb2, 0xd0, 0x59, 0xcf, 0xb7, 0x03, 0xff, 0x9e, 0x0f, 0xf4, 0x43, 0x5c,
-	0x74, 0x93, 0xac, 0x1f, 0x8f, 0x19, 0xa8, 0x82, 0x6a, 0xff, 0x9d, 0xc2, 0xea, 0xae, 0x43, 0x3d,
-	0x56, 0x7d, 0x43, 0xb8, 0xd4, 0x49, 0x95, 0x3f, 0x0d, 0x04, 0x1f, 0x50, 0x57, 0xf2, 0x31, 0xeb,
-	0x6f, 0x11, 0xed, 0x27, 0x51, 0x7b, 0xad, 0xd3, 0xaf, 0xf0, 0xbf, 0x15, 0x18, 0x19, 0xb9, 0x4a,
-	0xbe, 0x56, 0xa8, 0x9f, 0x93, 0x1d, 0x8f, 0x24, 0xbf, 0xad, 0xee, 0x7c, 0x6b, 0xf4, 0x06, 0xfe,
-	0x13, 0x49, 0x2a, 0x99, 0x91, 0xaf, 0xa0, 0xda, 0x5e, 0xfd, 0x78, 0xd3, 0xb7, 0xfc, 0x97, 0xd8,
-	0x94, 0x51, 0x5c, 0xc7, 0xb8, 0x93, 0x4c, 0xb5, 0x5e, 0xd1, 0x64, 0x06, 0xda, 0x74, 0x06, 0xda,
-	0x62, 0x06, 0xe8, 0x41, 0x01, 0x7a, 0x52, 0x80, 0x5e, 0x14, 0xa0, 0x89, 0x02, 0xf4, 0xae, 0x00,
-	0x7d, 0x28, 0xd0, 0x16, 0x0a, 0xd0, 0xe3, 0x1c, 0xb4, 0xc9, 0x1c, 0xb4, 0xe9, 0x1c, 0x34, 0x0c,
-	0x3c, 0xd8, 0xb5, 0x78, 0xab, 0x78, 0x99, 0x34, 0xd9, 0x8d, 0x4b, 0xe8, 0xa2, 0xdb, 0xd3, 0x41,
-	0x86, 0xe7, 0xc1, 0x96, 0xee, 0x2f, 0x32, 0xc7, 0xe7, 0x5c, 0xf9, 0x26, 0x85, 0x9b, 0x82, 0x67,
-	0x97, 0x27, 0x3d, 0xeb, 0x33, 0x07, 0x69, 0x6a, 0xdb, 0x4d, 0xc1, 0x6d, 0x3b, 0x93, 0xdb, 0x76,
-	0xcf, 0xba, 0xfb, 0xbb, 0xec, 0xfe, 0xec, 0x2b, 0x00, 0x00, 0xff, 0xff, 0x06, 0xd3, 0x08, 0x35,
-	0x6c, 0x02, 0x00, 0x00,
+	// 500 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x93, 0x4f, 0x6e, 0xd3, 0x40,
+	0x14, 0xc6, 0x3d, 0x49, 0x41, 0x30, 0x09, 0x05, 0xcc, 0xc6, 0x4a, 0xa5, 0x69, 0x1a, 0x09, 0x91,
+	0x0a, 0x31, 0x56, 0x82, 0xd8, 0x18, 0x75, 0xd1, 0x44, 0x20, 0x36, 0x54, 0xc5, 0x54, 0x59, 0xb0,
+	0x89, 0xa6, 0xe9, 0x8b, 0x19, 0xc9, 0xf6, 0x8c, 0x3c, 0x13, 0x4b, 0xec, 0x10, 0x27, 0xe8, 0x31,
+	0x10, 0x07, 0xe0, 0x0c, 0x2c, 0x23, 0x56, 0xdd, 0x41, 0x9c, 0x0d, 0x62, 0xd5, 0x23, 0x20, 0xff,
+	0x6b, 0x1c, 0xd1, 0x66, 0x67, 0xbf, 0xf7, 0x7d, 0x3f, 0x7f, 0x7e, 0xf3, 0x06, 0xef, 0x6b, 0x08,
+	0xa4, 0x88, 0x98, 0x6f, 0x33, 0xc9, 0xed, 0x08, 0xa4, 0xcf, 0x27, 0x4c, 0x73, 0x11, 0xda, 0x71,
+	0xcf, 0x0e, 0x40, 0x29, 0xe6, 0x01, 0x95, 0x91, 0xd0, 0xc2, 0xdc, 0x29, 0xa5, 0x94, 0x49, 0x4e,
+	0x2b, 0x52, 0x1a, 0xf7, 0x5a, 0xbb, 0x9e, 0x10, 0x9e, 0x0f, 0x76, 0x26, 0x3d, 0x9d, 0x4d, 0x6d,
+	0xcd, 0x03, 0x50, 0x9a, 0x05, 0x32, 0x77, 0xb7, 0xf6, 0xce, 0x40, 0x42, 0x78, 0x06, 0xe1, 0x84,
+	0x83, 0xb2, 0x3d, 0xe1, 0x89, 0xac, 0x9e, 0x3d, 0x15, 0x92, 0xc7, 0x6b, 0x59, 0x20, 0x9c, 0x05,
+	0x2a, 0x4d, 0x11, 0xb2, 0x00, 0x94, 0x64, 0x93, 0x22, 0x47, 0xe7, 0x00, 0x5b, 0x43, 0x7f, 0xa6,
+	0x34, 0x44, 0xee, 0x2a, 0xc3, 0x50, 0x84, 0x53, 0xee, 0x99, 0x7b, 0xb8, 0x39, 0xc9, 0x7b, 0xe3,
+	0xd4, 0x66, 0xa1, 0x36, 0xea, 0xde, 0x75, 0x1b, 0x45, 0xed, 0x88, 0x05, 0xd0, 0xf9, 0x5e, 0xc3,
+	0xad, 0xa3, 0x12, 0xf9, 0x3f, 0x81, 0xe2, 0x47, 0x6c, 0xa2, 0x79, 0x0c, 0xe3, 0x6b, 0x40, 0x0f,
+	0xf3, 0xd6, 0x70, 0x85, 0x33, 0xdf, 0xe1, 0x3b, 0x85, 0x50, 0x59, 0xb5, 0x76, 0xbd, 0xdb, 0xe8,
+	0xbf, 0xa0, 0x1b, 0x06, 0x45, 0x6f, 0x8a, 0xee, 0x5e, 0x61, 0xcc, 0x03, 0x7c, 0x4b, 0x69, 0xa6,
+	0xc1, 0xaa, 0xb7, 0x51, 0x77, 0xbb, 0xff, 0x64, 0x9d, 0x97, 0xcd, 0x25, 0x25, 0x55, 0x10, 0xef,
+	0x53, 0xb9, 0x9b, 0xbb, 0xcc, 0x11, 0x7e, 0x30, 0x65, 0xdc, 0x17, 0x31, 0x44, 0xe3, 0x8f, 0x5c,
+	0x69, 0x11, 0x7d, 0xb2, 0xb6, 0xb2, 0x64, 0x4f, 0x37, 0x26, 0x7b, 0x5d, 0x98, 0x52, 0xd8, 0x4c,
+	0xb9, 0xf7, 0x4b, 0xc8, 0x9b, 0x9c, 0xd1, 0xf9, 0x82, 0xf0, 0xf6, 0xba, 0xc6, 0x7c, 0x85, 0xef,
+	0x5d, 0x7d, 0x2a, 0x3d, 0xf0, 0x6c, 0x4c, 0x8d, 0x7e, 0x8b, 0xe6, 0xdb, 0x40, 0xcb, 0x6d, 0xa0,
+	0x27, 0xe5, 0x36, 0x0c, 0xb6, 0xce, 0x7f, 0xed, 0x22, 0xb7, 0x59, 0xda, 0xd2, 0x86, 0xb9, 0x5f,
+	0x49, 0x1c, 0x43, 0xa4, 0xb8, 0x08, 0xad, 0x5a, 0x1b, 0x75, 0xeb, 0xab, 0x10, 0xa3, 0xbc, 0x3c,
+	0xf8, 0x89, 0xe6, 0x0b, 0x62, 0x5c, 0x2c, 0x88, 0x71, 0xb9, 0x20, 0xe8, 0x73, 0x42, 0xd0, 0xd7,
+	0x84, 0xa0, 0x1f, 0x09, 0x41, 0xf3, 0x84, 0xa0, 0xdf, 0x09, 0x41, 0x7f, 0x12, 0x62, 0x5c, 0x26,
+	0x04, 0x9d, 0x2f, 0x89, 0x31, 0x5f, 0x12, 0xe3, 0x62, 0x49, 0x0c, 0x4c, 0xb8, 0xd8, 0xf4, 0xef,
+	0x83, 0xe6, 0xdb, 0x7c, 0xd5, 0x8f, 0xd3, 0xc0, 0xc7, 0xe8, 0xc3, 0x33, 0xaf, 0xa2, 0xe7, 0xe2,
+	0x9a, 0xcb, 0xf1, 0xb2, 0xf2, 0xfa, 0xad, 0xb6, 0x73, 0x52, 0x8a, 0x0f, 0x25, 0xaf, 0x9e, 0x0c,
+	0x1d, 0xf5, 0xfe, 0xd6, 0x48, 0xd9, 0x75, 0x9c, 0x43, 0xc9, 0x1d, 0xa7, 0xd2, 0x77, 0x9c, 0x51,
+	0xef, 0xf4, 0x76, 0x36, 0xa7, 0xe7, 0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xaf, 0x25, 0xf4, 0xe5,
+	0x8d, 0x03, 0x00, 0x00,
 }
 
 func (this *ClusterReplicationConfig) Equal(that interface{}) bool {
@@ -243,6 +321,45 @@ func (this *NamespaceReplicationConfig) Equal(that interface{}) bool {
 	if this.State != that1.State {
 		return false
 	}
+	if len(this.FailoverHistory) != len(that1.FailoverHistory) {
+		return false
+	}
+	for i := range this.FailoverHistory {
+		if !this.FailoverHistory[i].Equal(that1.FailoverHistory[i]) {
+			return false
+		}
+	}
+	return true
+}
+func (this *FailoverStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*FailoverStatus)
+	if !ok {
+		that2, ok := that.(FailoverStatus)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if that1.FailoverTime == nil {
+		if this.FailoverTime != nil {
+			return false
+		}
+	} else if !this.FailoverTime.Equal(*that1.FailoverTime) {
+		return false
+	}
+	if this.FailoverVersion != that1.FailoverVersion {
+		return false
+	}
 	return true
 }
 func (this *ClusterReplicationConfig) GoString() string {
@@ -259,13 +376,27 @@ func (this *NamespaceReplicationConfig) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 7)
+	s := make([]string, 0, 8)
 	s = append(s, "&replication.NamespaceReplicationConfig{")
 	s = append(s, "ActiveClusterName: "+fmt.Sprintf("%#v", this.ActiveClusterName)+",\n")
 	if this.Clusters != nil {
 		s = append(s, "Clusters: "+fmt.Sprintf("%#v", this.Clusters)+",\n")
 	}
 	s = append(s, "State: "+fmt.Sprintf("%#v", this.State)+",\n")
+	if this.FailoverHistory != nil {
+		s = append(s, "FailoverHistory: "+fmt.Sprintf("%#v", this.FailoverHistory)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *FailoverStatus) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 6)
+	s = append(s, "&replication.FailoverStatus{")
+	s = append(s, "FailoverTime: "+fmt.Sprintf("%#v", this.FailoverTime)+",\n")
+	s = append(s, "FailoverVersion: "+fmt.Sprintf("%#v", this.FailoverVersion)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -327,6 +458,20 @@ func (m *NamespaceReplicationConfig) MarshalToSizedBuffer(dAtA []byte) (int, err
 	_ = i
 	var l int
 	_ = l
+	if len(m.FailoverHistory) > 0 {
+		for iNdEx := len(m.FailoverHistory) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.FailoverHistory[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x22
+		}
+	}
 	if m.State != 0 {
 		i = encodeVarintMessage(dAtA, i, uint64(m.State))
 		i--
@@ -350,6 +495,44 @@ func (m *NamespaceReplicationConfig) MarshalToSizedBuffer(dAtA []byte) (int, err
 		i -= len(m.ActiveClusterName)
 		copy(dAtA[i:], m.ActiveClusterName)
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.ActiveClusterName)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *FailoverStatus) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *FailoverStatus) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *FailoverStatus) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.FailoverVersion != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.FailoverVersion))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.FailoverTime != nil {
+		n1, err1 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.FailoverTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.FailoverTime):])
+		if err1 != nil {
+			return 0, err1
+		}
+		i -= n1
+		i = encodeVarintMessage(dAtA, i, uint64(n1))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -399,6 +582,28 @@ func (m *NamespaceReplicationConfig) Size() (n int) {
 	if m.State != 0 {
 		n += 1 + sovMessage(uint64(m.State))
 	}
+	if len(m.FailoverHistory) > 0 {
+		for _, e := range m.FailoverHistory {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *FailoverStatus) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.FailoverTime != nil {
+		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.FailoverTime)
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	if m.FailoverVersion != 0 {
+		n += 1 + sovMessage(uint64(m.FailoverVersion))
+	}
 	return n
 }
 
@@ -427,10 +632,27 @@ func (this *NamespaceReplicationConfig) String() string {
 		repeatedStringForClusters += strings.Replace(f.String(), "ClusterReplicationConfig", "ClusterReplicationConfig", 1) + ","
 	}
 	repeatedStringForClusters += "}"
+	repeatedStringForFailoverHistory := "[]*FailoverStatus{"
+	for _, f := range this.FailoverHistory {
+		repeatedStringForFailoverHistory += strings.Replace(f.String(), "FailoverStatus", "FailoverStatus", 1) + ","
+	}
+	repeatedStringForFailoverHistory += "}"
 	s := strings.Join([]string{`&NamespaceReplicationConfig{`,
 		`ActiveClusterName:` + fmt.Sprintf("%v", this.ActiveClusterName) + `,`,
 		`Clusters:` + repeatedStringForClusters + `,`,
 		`State:` + fmt.Sprintf("%v", this.State) + `,`,
+		`FailoverHistory:` + repeatedStringForFailoverHistory + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *FailoverStatus) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&FailoverStatus{`,
+		`FailoverTime:` + strings.Replace(fmt.Sprintf("%v", this.FailoverTime), "Timestamp", "types.Timestamp", 1) + `,`,
+		`FailoverVersion:` + fmt.Sprintf("%v", this.FailoverVersion) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -638,6 +860,148 @@ func (m *NamespaceReplicationConfig) Unmarshal(dAtA []byte) error {
 				b := dAtA[iNdEx]
 				iNdEx++
 				m.State |= v1.ReplicationState(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FailoverHistory", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.FailoverHistory = append(m.FailoverHistory, &FailoverStatus{})
+			if err := m.FailoverHistory[len(m.FailoverHistory)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *FailoverStatus) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: FailoverStatus: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: FailoverStatus: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FailoverTime", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.FailoverTime == nil {
+				m.FailoverTime = new(time.Time)
+			}
+			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.FailoverTime, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FailoverVersion", wireType)
+			}
+			m.FailoverVersion = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.FailoverVersion |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
