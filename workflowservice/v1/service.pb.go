@@ -382,12 +382,15 @@ type WorkflowServiceClient interface {
 	DeleteSchedule(ctx context.Context, in *DeleteScheduleRequest, opts ...grpc.CallOption) (*DeleteScheduleResponse, error)
 	// List all schedules in a namespace.
 	ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error)
+	// Allows users to specify a graph of worker build id based versions on a
+	// per task queue basis. Versions are ordered, and may be either compatible
+	// with some extant version, or a new incompatible version.
 	// (-- api-linter: core::0134::response-message-name=disabled
 	//     aip.dev/not-precedent: UpdateWorkerBuildIdOrdering RPC doesn't follow Google API format. --)
 	// (-- api-linter: core::0134::method-signature=disabled
 	//     aip.dev/not-precedent: UpdateWorkerBuildIdOrdering RPC doesn't follow Google API format. --)
 	UpdateWorkerBuildIdOrdering(ctx context.Context, in *UpdateWorkerBuildIdOrderingRequest, opts ...grpc.CallOption) (*UpdateWorkerBuildIdOrderingResponse, error)
-	// This could / maybe should just be part of `DescribeTaskQueue`, but is broken out here to show easily.
+	// Fetches the worker build id versioning graph for some task queue.
 	GetWorkerBuildIdOrdering(ctx context.Context, in *GetWorkerBuildIdOrderingRequest, opts ...grpc.CallOption) (*GetWorkerBuildIdOrderingResponse, error)
 	// Invokes the specified update function on user workflow code.
 	// (-- api-linter: core::0134=disabled
@@ -1127,12 +1130,15 @@ type WorkflowServiceServer interface {
 	DeleteSchedule(context.Context, *DeleteScheduleRequest) (*DeleteScheduleResponse, error)
 	// List all schedules in a namespace.
 	ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error)
+	// Allows users to specify a graph of worker build id based versions on a
+	// per task queue basis. Versions are ordered, and may be either compatible
+	// with some extant version, or a new incompatible version.
 	// (-- api-linter: core::0134::response-message-name=disabled
 	//     aip.dev/not-precedent: UpdateWorkerBuildIdOrdering RPC doesn't follow Google API format. --)
 	// (-- api-linter: core::0134::method-signature=disabled
 	//     aip.dev/not-precedent: UpdateWorkerBuildIdOrdering RPC doesn't follow Google API format. --)
 	UpdateWorkerBuildIdOrdering(context.Context, *UpdateWorkerBuildIdOrderingRequest) (*UpdateWorkerBuildIdOrderingResponse, error)
-	// This could / maybe should just be part of `DescribeTaskQueue`, but is broken out here to show easily.
+	// Fetches the worker build id versioning graph for some task queue.
 	GetWorkerBuildIdOrdering(context.Context, *GetWorkerBuildIdOrderingRequest) (*GetWorkerBuildIdOrderingResponse, error)
 	// Invokes the specified update function on user workflow code.
 	// (-- api-linter: core::0134=disabled
