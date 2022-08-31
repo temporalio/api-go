@@ -9,7 +9,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.8.0
 	golang.org/x/net v0.0.0-20220826154423-83b083e8dc8b // indirect
-	golang.org/x/sys v0.0.0-20220825204002-c680a09ffe64 // indirect
-	google.golang.org/genproto v0.0.0-20220829144015-23454907ede3 // indirect
+	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
+	google.golang.org/genproto v0.0.0-20220829175752-36a9c930ecbf // indirect
 	google.golang.org/grpc v1.49.0
 )
