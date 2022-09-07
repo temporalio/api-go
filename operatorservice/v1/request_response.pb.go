@@ -33,23 +33,16 @@ import (
 	math_bits "math/bits"
 	reflect "reflect"
 	strings "strings"
-	time "time"
 
-	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	github_com_gogo_protobuf_sortkeys "github.com/gogo/protobuf/sortkeys"
-	_ "github.com/gogo/protobuf/types"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
-	v11 "go.temporal.io/api/cluster/v1"
 	v1 "go.temporal.io/api/enums/v1"
-	v12 "go.temporal.io/api/version/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
-var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -404,8 +397,10 @@ func (m *DeleteNamespaceResponse) GetDeletedNamespace() string {
 }
 
 type AddOrUpdateRemoteClusterRequest struct {
-	FrontendAddress               string `protobuf:"bytes,1,opt,name=frontend_address,json=frontendAddress,proto3" json:"frontend_address,omitempty"`
-	EnableRemoteClusterConnection bool   `protobuf:"varint,2,opt,name=enable_remote_cluster_connection,json=enableRemoteClusterConnection,proto3" json:"enable_remote_cluster_connection,omitempty"`
+	// Frontend Address is a cross cluster accessible address.
+	FrontendAddress string `protobuf:"bytes,1,opt,name=frontend_address,json=frontendAddress,proto3" json:"frontend_address,omitempty"`
+	// Flag to enable / disable the cross cluster connection.
+	EnableRemoteClusterConnection bool `protobuf:"varint,2,opt,name=enable_remote_cluster_connection,json=enableRemoteClusterConnection,proto3" json:"enable_remote_cluster_connection,omitempty"`
 }
 
 func (m *AddOrUpdateRemoteClusterRequest) Reset()      { *m = AddOrUpdateRemoteClusterRequest{} }
@@ -490,6 +485,7 @@ func (m *AddOrUpdateRemoteClusterResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_AddOrUpdateRemoteClusterResponse proto.InternalMessageInfo
 
 type RemoveRemoteClusterRequest struct {
+	// Remote cluster name to be removed.
 	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 }
 
@@ -567,180 +563,6 @@ func (m *RemoveRemoteClusterResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_RemoveRemoteClusterResponse proto.InternalMessageInfo
 
-type DescribeClusterRequest struct {
-	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
-}
-
-func (m *DescribeClusterRequest) Reset()      { *m = DescribeClusterRequest{} }
-func (*DescribeClusterRequest) ProtoMessage() {}
-func (*DescribeClusterRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_43cdd5e82c482041, []int{12}
-}
-func (m *DescribeClusterRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *DescribeClusterRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_DescribeClusterRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *DescribeClusterRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DescribeClusterRequest.Merge(m, src)
-}
-func (m *DescribeClusterRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *DescribeClusterRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_DescribeClusterRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DescribeClusterRequest proto.InternalMessageInfo
-
-func (m *DescribeClusterRequest) GetClusterName() string {
-	if m != nil {
-		return m.ClusterName
-	}
-	return ""
-}
-
-type DescribeClusterResponse struct {
-	SupportedClients         map[string]string   `protobuf:"bytes,1,rep,name=supported_clients,json=supportedClients,proto3" json:"supported_clients,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	ServerVersion            string              `protobuf:"bytes,2,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
-	MembershipInfo           *v11.MembershipInfo `protobuf:"bytes,3,opt,name=membership_info,json=membershipInfo,proto3" json:"membership_info,omitempty"`
-	ClusterId                string              `protobuf:"bytes,4,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
-	ClusterName              string              `protobuf:"bytes,5,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
-	HistoryShardCount        int32               `protobuf:"varint,6,opt,name=history_shard_count,json=historyShardCount,proto3" json:"history_shard_count,omitempty"`
-	PersistenceStore         string              `protobuf:"bytes,7,opt,name=persistence_store,json=persistenceStore,proto3" json:"persistence_store,omitempty"`
-	VisibilityStore          string              `protobuf:"bytes,8,opt,name=visibility_store,json=visibilityStore,proto3" json:"visibility_store,omitempty"`
-	VersionInfo              *v12.VersionInfo    `protobuf:"bytes,9,opt,name=version_info,json=versionInfo,proto3" json:"version_info,omitempty"`
-	FailoverVersionIncrement int64               `protobuf:"varint,10,opt,name=failover_version_increment,json=failoverVersionIncrement,proto3" json:"failover_version_increment,omitempty"`
-	InitialFailoverVersion   int64               `protobuf:"varint,11,opt,name=initial_failover_version,json=initialFailoverVersion,proto3" json:"initial_failover_version,omitempty"`
-	IsGlobalNamespaceEnabled bool                `protobuf:"varint,12,opt,name=is_global_namespace_enabled,json=isGlobalNamespaceEnabled,proto3" json:"is_global_namespace_enabled,omitempty"`
-}
-
-func (m *DescribeClusterResponse) Reset()      { *m = DescribeClusterResponse{} }
-func (*DescribeClusterResponse) ProtoMessage() {}
-func (*DescribeClusterResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_43cdd5e82c482041, []int{13}
-}
-func (m *DescribeClusterResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *DescribeClusterResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_DescribeClusterResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *DescribeClusterResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DescribeClusterResponse.Merge(m, src)
-}
-func (m *DescribeClusterResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *DescribeClusterResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_DescribeClusterResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DescribeClusterResponse proto.InternalMessageInfo
-
-func (m *DescribeClusterResponse) GetSupportedClients() map[string]string {
-	if m != nil {
-		return m.SupportedClients
-	}
-	return nil
-}
-
-func (m *DescribeClusterResponse) GetServerVersion() string {
-	if m != nil {
-		return m.ServerVersion
-	}
-	return ""
-}
-
-func (m *DescribeClusterResponse) GetMembershipInfo() *v11.MembershipInfo {
-	if m != nil {
-		return m.MembershipInfo
-	}
-	return nil
-}
-
-func (m *DescribeClusterResponse) GetClusterId() string {
-	if m != nil {
-		return m.ClusterId
-	}
-	return ""
-}
-
-func (m *DescribeClusterResponse) GetClusterName() string {
-	if m != nil {
-		return m.ClusterName
-	}
-	return ""
-}
-
-func (m *DescribeClusterResponse) GetHistoryShardCount() int32 {
-	if m != nil {
-		return m.HistoryShardCount
-	}
-	return 0
-}
-
-func (m *DescribeClusterResponse) GetPersistenceStore() string {
-	if m != nil {
-		return m.PersistenceStore
-	}
-	return ""
-}
-
-func (m *DescribeClusterResponse) GetVisibilityStore() string {
-	if m != nil {
-		return m.VisibilityStore
-	}
-	return ""
-}
-
-func (m *DescribeClusterResponse) GetVersionInfo() *v12.VersionInfo {
-	if m != nil {
-		return m.VersionInfo
-	}
-	return nil
-}
-
-func (m *DescribeClusterResponse) GetFailoverVersionIncrement() int64 {
-	if m != nil {
-		return m.FailoverVersionIncrement
-	}
-	return 0
-}
-
-func (m *DescribeClusterResponse) GetInitialFailoverVersion() int64 {
-	if m != nil {
-		return m.InitialFailoverVersion
-	}
-	return 0
-}
-
-func (m *DescribeClusterResponse) GetIsGlobalNamespaceEnabled() bool {
-	if m != nil {
-		return m.IsGlobalNamespaceEnabled
-	}
-	return false
-}
-
 type ListClustersRequest struct {
 	PageSize      int32  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -749,7 +571,7 @@ type ListClustersRequest struct {
 func (m *ListClustersRequest) Reset()      { *m = ListClustersRequest{} }
 func (*ListClustersRequest) ProtoMessage() {}
 func (*ListClustersRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_43cdd5e82c482041, []int{14}
+	return fileDescriptor_43cdd5e82c482041, []int{12}
 }
 func (m *ListClustersRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -793,14 +615,15 @@ func (m *ListClustersRequest) GetNextPageToken() []byte {
 }
 
 type ListClustersResponse struct {
-	Clusters      []*v11.ClusterMetadata `protobuf:"bytes,1,rep,name=clusters,proto3" json:"clusters,omitempty"`
-	NextPageToken []byte                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	// List of all cluster information
+	Clusters      []*ClusterMetadata `protobuf:"bytes,1,rep,name=clusters,proto3" json:"clusters,omitempty"`
+	NextPageToken []byte             `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 }
 
 func (m *ListClustersResponse) Reset()      { *m = ListClustersResponse{} }
 func (*ListClustersResponse) ProtoMessage() {}
 func (*ListClustersResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_43cdd5e82c482041, []int{15}
+	return fileDescriptor_43cdd5e82c482041, []int{13}
 }
 func (m *ListClustersResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -829,7 +652,7 @@ func (m *ListClustersResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ListClustersResponse proto.InternalMessageInfo
 
-func (m *ListClustersResponse) GetClusters() []*v11.ClusterMetadata {
+func (m *ListClustersResponse) GetClusters() []*ClusterMetadata {
 	if m != nil {
 		return m.Clusters
 	}
@@ -843,31 +666,32 @@ func (m *ListClustersResponse) GetNextPageToken() []byte {
 	return nil
 }
 
-type ListClusterMembersRequest struct {
-	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "within" is used to indicate a time range. --)
-	LastHeartbeatWithin *time.Duration       `protobuf:"bytes,1,opt,name=last_heartbeat_within,json=lastHeartbeatWithin,proto3,stdduration" json:"last_heartbeat_within,omitempty"`
-	RpcAddress          string               `protobuf:"bytes,2,opt,name=rpc_address,json=rpcAddress,proto3" json:"rpc_address,omitempty"`
-	HostId              string               `protobuf:"bytes,3,opt,name=host_id,json=hostId,proto3" json:"host_id,omitempty"`
-	Role                v1.ClusterMemberRole `protobuf:"varint,4,opt,name=role,proto3,enum=temporal.api.enums.v1.ClusterMemberRole" json:"role,omitempty"`
-	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "after" is used to indicate a time range. --)
-	SessionStartedAfterTime *time.Time `protobuf:"bytes,5,opt,name=session_started_after_time,json=sessionStartedAfterTime,proto3,stdtime" json:"session_started_after_time,omitempty"`
-	PageSize                int32      `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	NextPageToken           []byte     `protobuf:"bytes,7,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+type ClusterMetadata struct {
+	// Name of the cluster name.
+	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+	// Id of the cluster.
+	ClusterId string `protobuf:"bytes,2,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
+	// Cluster accessible address.
+	Address string `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
+	// A unique failover version across all connected clusters.
+	InitialFailoverVersion int64 `protobuf:"varint,4,opt,name=initial_failover_version,json=initialFailoverVersion,proto3" json:"initial_failover_version,omitempty"`
+	// History service shard number.
+	HistoryShardCount int32 `protobuf:"varint,5,opt,name=history_shard_count,json=historyShardCount,proto3" json:"history_shard_count,omitempty"`
+	// A flag to indicate if a connection is active.
+	IsConnectionEnabled bool `protobuf:"varint,6,opt,name=is_connection_enabled,json=isConnectionEnabled,proto3" json:"is_connection_enabled,omitempty"`
 }
 
-func (m *ListClusterMembersRequest) Reset()      { *m = ListClusterMembersRequest{} }
-func (*ListClusterMembersRequest) ProtoMessage() {}
-func (*ListClusterMembersRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_43cdd5e82c482041, []int{16}
+func (m *ClusterMetadata) Reset()      { *m = ClusterMetadata{} }
+func (*ClusterMetadata) ProtoMessage() {}
+func (*ClusterMetadata) Descriptor() ([]byte, []int) {
+	return fileDescriptor_43cdd5e82c482041, []int{14}
 }
-func (m *ListClusterMembersRequest) XXX_Unmarshal(b []byte) error {
+func (m *ClusterMetadata) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ListClusterMembersRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ClusterMetadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ListClusterMembersRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ClusterMetadata.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -877,116 +701,58 @@ func (m *ListClusterMembersRequest) XXX_Marshal(b []byte, deterministic bool) ([
 		return b[:n], nil
 	}
 }
-func (m *ListClusterMembersRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListClusterMembersRequest.Merge(m, src)
+func (m *ClusterMetadata) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ClusterMetadata.Merge(m, src)
 }
-func (m *ListClusterMembersRequest) XXX_Size() int {
+func (m *ClusterMetadata) XXX_Size() int {
 	return m.Size()
 }
-func (m *ListClusterMembersRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListClusterMembersRequest.DiscardUnknown(m)
+func (m *ClusterMetadata) XXX_DiscardUnknown() {
+	xxx_messageInfo_ClusterMetadata.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListClusterMembersRequest proto.InternalMessageInfo
+var xxx_messageInfo_ClusterMetadata proto.InternalMessageInfo
 
-func (m *ListClusterMembersRequest) GetLastHeartbeatWithin() *time.Duration {
+func (m *ClusterMetadata) GetClusterName() string {
 	if m != nil {
-		return m.LastHeartbeatWithin
-	}
-	return nil
-}
-
-func (m *ListClusterMembersRequest) GetRpcAddress() string {
-	if m != nil {
-		return m.RpcAddress
+		return m.ClusterName
 	}
 	return ""
 }
 
-func (m *ListClusterMembersRequest) GetHostId() string {
+func (m *ClusterMetadata) GetClusterId() string {
 	if m != nil {
-		return m.HostId
+		return m.ClusterId
 	}
 	return ""
 }
 
-func (m *ListClusterMembersRequest) GetRole() v1.ClusterMemberRole {
+func (m *ClusterMetadata) GetAddress() string {
 	if m != nil {
-		return m.Role
+		return m.Address
 	}
-	return v1.CLUSTER_MEMBER_ROLE_UNSPECIFIED
+	return ""
 }
 
-func (m *ListClusterMembersRequest) GetSessionStartedAfterTime() *time.Time {
+func (m *ClusterMetadata) GetInitialFailoverVersion() int64 {
 	if m != nil {
-		return m.SessionStartedAfterTime
-	}
-	return nil
-}
-
-func (m *ListClusterMembersRequest) GetPageSize() int32 {
-	if m != nil {
-		return m.PageSize
+		return m.InitialFailoverVersion
 	}
 	return 0
 }
 
-func (m *ListClusterMembersRequest) GetNextPageToken() []byte {
+func (m *ClusterMetadata) GetHistoryShardCount() int32 {
 	if m != nil {
-		return m.NextPageToken
+		return m.HistoryShardCount
 	}
-	return nil
+	return 0
 }
 
-type ListClusterMembersResponse struct {
-	ActiveMembers []*v11.ClusterMember `protobuf:"bytes,1,rep,name=active_members,json=activeMembers,proto3" json:"active_members,omitempty"`
-	NextPageToken []byte               `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-}
-
-func (m *ListClusterMembersResponse) Reset()      { *m = ListClusterMembersResponse{} }
-func (*ListClusterMembersResponse) ProtoMessage() {}
-func (*ListClusterMembersResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_43cdd5e82c482041, []int{17}
-}
-func (m *ListClusterMembersResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *ListClusterMembersResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_ListClusterMembersResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *ListClusterMembersResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListClusterMembersResponse.Merge(m, src)
-}
-func (m *ListClusterMembersResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *ListClusterMembersResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListClusterMembersResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ListClusterMembersResponse proto.InternalMessageInfo
-
-func (m *ListClusterMembersResponse) GetActiveMembers() []*v11.ClusterMember {
+func (m *ClusterMetadata) GetIsConnectionEnabled() bool {
 	if m != nil {
-		return m.ActiveMembers
+		return m.IsConnectionEnabled
 	}
-	return nil
-}
-
-func (m *ListClusterMembersResponse) GetNextPageToken() []byte {
-	if m != nil {
-		return m.NextPageToken
-	}
-	return nil
+	return false
 }
 
 func init() {
@@ -1006,13 +772,9 @@ func init() {
 	proto.RegisterType((*AddOrUpdateRemoteClusterResponse)(nil), "temporal.api.operatorservice.v1.AddOrUpdateRemoteClusterResponse")
 	proto.RegisterType((*RemoveRemoteClusterRequest)(nil), "temporal.api.operatorservice.v1.RemoveRemoteClusterRequest")
 	proto.RegisterType((*RemoveRemoteClusterResponse)(nil), "temporal.api.operatorservice.v1.RemoveRemoteClusterResponse")
-	proto.RegisterType((*DescribeClusterRequest)(nil), "temporal.api.operatorservice.v1.DescribeClusterRequest")
-	proto.RegisterType((*DescribeClusterResponse)(nil), "temporal.api.operatorservice.v1.DescribeClusterResponse")
-	proto.RegisterMapType((map[string]string)(nil), "temporal.api.operatorservice.v1.DescribeClusterResponse.SupportedClientsEntry")
 	proto.RegisterType((*ListClustersRequest)(nil), "temporal.api.operatorservice.v1.ListClustersRequest")
 	proto.RegisterType((*ListClustersResponse)(nil), "temporal.api.operatorservice.v1.ListClustersResponse")
-	proto.RegisterType((*ListClusterMembersRequest)(nil), "temporal.api.operatorservice.v1.ListClusterMembersRequest")
-	proto.RegisterType((*ListClusterMembersResponse)(nil), "temporal.api.operatorservice.v1.ListClusterMembersResponse")
+	proto.RegisterType((*ClusterMetadata)(nil), "temporal.api.operatorservice.v1.ClusterMetadata")
 }
 
 func init() {
@@ -1020,94 +782,64 @@ func init() {
 }
 
 var fileDescriptor_43cdd5e82c482041 = []byte{
-	// 1382 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x57, 0x4b, 0x6f, 0xdb, 0xc6,
-	0x16, 0x36, 0xfd, 0x8a, 0x3d, 0xb2, 0x1d, 0x9b, 0x79, 0x31, 0x72, 0x4c, 0x2b, 0xba, 0x37, 0xb9,
-	0xbe, 0x08, 0x40, 0xc3, 0x2e, 0x1a, 0x04, 0x4e, 0x82, 0x56, 0x76, 0x1e, 0x35, 0x90, 0x87, 0x4b,
-	0xb9, 0x2e, 0x10, 0xa0, 0x20, 0x46, 0xe4, 0xb1, 0x34, 0x08, 0xc9, 0x61, 0x67, 0x46, 0x4a, 0x9c,
-	0x02, 0x45, 0x16, 0x5d, 0x15, 0x5d, 0x04, 0x28, 0x0a, 0x74, 0xd5, 0x75, 0xd1, 0xbf, 0xd0, 0x3f,
-	0xd0, 0x65, 0x96, 0xd9, 0xb5, 0x51, 0x36, 0x45, 0x17, 0x45, 0x7e, 0x42, 0x31, 0xc3, 0xa1, 0x2c,
-	0x51, 0x52, 0x9d, 0x3e, 0xb2, 0x23, 0xcf, 0xe3, 0x3b, 0x67, 0xbe, 0xf3, 0x18, 0x12, 0x5d, 0x16,
-	0x10, 0x25, 0x94, 0xe1, 0x70, 0x15, 0x27, 0x64, 0x95, 0x26, 0xc0, 0xb0, 0xa0, 0x8c, 0x03, 0x6b,
-	0x11, 0x1f, 0x56, 0x5b, 0x6b, 0xab, 0x0c, 0x3e, 0x6d, 0x02, 0x17, 0x1e, 0x03, 0x9e, 0xd0, 0x98,
-	0x83, 0x93, 0x30, 0x2a, 0xa8, 0xb9, 0x9c, 0xf9, 0x39, 0x38, 0x21, 0x4e, 0xce, 0xcf, 0x69, 0xad,
-	0x15, 0xcf, 0x07, 0x90, 0x40, 0x1c, 0x40, 0xec, 0x13, 0xe0, 0xab, 0x75, 0x5a, 0xa7, 0xca, 0x51,
-	0x3d, 0xa5, 0x18, 0xc5, 0xe5, 0x3a, 0xa5, 0xf5, 0x10, 0x56, 0xd5, 0x5b, 0xad, 0xb9, 0xbf, 0x2a,
-	0x48, 0x04, 0x5c, 0xe0, 0x28, 0xd1, 0x06, 0x76, 0xde, 0x20, 0x68, 0x32, 0x2c, 0x08, 0x8d, 0xb5,
-	0xfe, 0x42, 0x4f, 0xf2, 0x7e, 0xd8, 0xe4, 0x02, 0x98, 0x4c, 0x3a, 0x02, 0xce, 0x71, 0x5d, 0xe7,
-	0x5a, 0xfc, 0x4f, 0x8f, 0x19, 0xc4, 0xcd, 0x88, 0x4b, 0x23, 0x6d, 0xaf, 0x8d, 0xca, 0x43, 0x8c,
-	0x68, 0x14, 0x0d, 0x89, 0xd7, 0x02, 0xc6, 0x09, 0x8d, 0xfb, 0xe2, 0x95, 0xbf, 0x1c, 0x45, 0xc5,
-	0x4a, 0x10, 0x54, 0x01, 0x33, 0xbf, 0x51, 0x11, 0x82, 0x91, 0x5a, 0x53, 0x00, 0x77, 0x53, 0x26,
-	0xcd, 0xcf, 0xd1, 0x02, 0x57, 0x2a, 0x0f, 0x77, 0x74, 0x96, 0x51, 0x1a, 0x5b, 0x29, 0xac, 0x7f,
-	0xe8, 0x1c, 0x41, 0xab, 0x33, 0x1c, 0xd7, 0xc9, 0xcb, 0x6f, 0xc6, 0x82, 0x1d, 0xb8, 0xf3, 0x3c,
-	0x27, 0x2e, 0x86, 0xe8, 0xd4, 0x40, 0x53, 0x73, 0x1e, 0x8d, 0x3d, 0x84, 0x03, 0xcb, 0x28, 0x19,
-	0x2b, 0xd3, 0xae, 0x7c, 0x34, 0xaf, 0xa3, 0x89, 0x16, 0x0e, 0x9b, 0x60, 0x8d, 0x96, 0x8c, 0x95,
-	0xb9, 0xf5, 0xff, 0xf5, 0xa6, 0xa7, 0x48, 0x92, 0x49, 0x6d, 0xc7, 0x01, 0x3c, 0x86, 0x60, 0x4f,
-	0x9a, 0xee, 0x1e, 0x24, 0xe0, 0xa6, 0x5e, 0x1b, 0xa3, 0x57, 0x8c, 0xf2, 0x12, 0x5a, 0x1c, 0x98,
-	0x73, 0xda, 0x4d, 0xe5, 0x3b, 0x68, 0xc9, 0x85, 0x88, 0xb6, 0x60, 0x18, 0x5b, 0x97, 0x86, 0xb1,
-	0x35, 0xdd, 0x7f, 0xb4, 0x72, 0x09, 0xd9, 0xc3, 0xd0, 0x74, 0xbc, 0x25, 0xb4, 0x78, 0x87, 0x70,
-	0x31, 0x24, 0x5a, 0xf9, 0xc7, 0x09, 0x74, 0x6e, 0xb0, 0x3e, 0xf5, 0x37, 0x9f, 0x1a, 0x68, 0xc1,
-	0x6f, 0x72, 0x41, 0xa3, 0xfe, 0xea, 0x55, 0x8f, 0xac, 0xde, 0x9f, 0x41, 0x3b, 0x5b, 0x0a, 0xb6,
-	0xaf, 0x7e, 0x7e, 0x4e, 0xac, 0x52, 0xe0, 0x07, 0x5c, 0x40, 0x4f, 0x0a, 0xa3, 0xff, 0x46, 0x0a,
-	0x55, 0x05, 0xdb, 0xdf, 0x42, 0x39, 0xb1, 0xf9, 0x08, 0xcd, 0x71, 0x41, 0x19, 0xae, 0x83, 0xc7,
-	0xfd, 0x06, 0x44, 0xd8, 0x1a, 0x53, 0xe1, 0x77, 0xfe, 0x61, 0xf8, 0x14, 0xb3, 0xaa, 0x20, 0xd3,
-	0xd8, 0xb3, 0xbc, 0x5b, 0x26, 0x7b, 0x77, 0x20, 0x4d, 0x6f, 0xa5, 0x77, 0xd5, 0xa4, 0x0c, 0x62,
-	0xe4, 0xed, 0x44, 0x7b, 0x1f, 0x99, 0xfd, 0x04, 0x0c, 0x08, 0x75, 0xb2, 0x3b, 0xd4, 0x74, 0xf7,
-	0xac, 0x5d, 0x46, 0xa7, 0x6f, 0x40, 0x08, 0x02, 0xee, 0xe1, 0x08, 0x78, 0x82, 0x7d, 0xc8, 0xa6,
-	0xe8, 0x1c, 0x9a, 0x8e, 0x33, 0x99, 0xc6, 0x3a, 0x14, 0x94, 0x6f, 0xa1, 0x33, 0x7d, 0x7e, 0xba,
-	0xdf, 0x2f, 0xa1, 0x85, 0x40, 0xa9, 0x02, 0x2f, 0x0f, 0x30, 0xaf, 0x15, 0x1d, 0xa7, 0xf2, 0x37,
-	0x06, 0x5a, 0xae, 0x04, 0xc1, 0x7d, 0xf6, 0x51, 0x12, 0x60, 0x01, 0x72, 0x14, 0x05, 0x6c, 0xa5,
-	0x6b, 0x36, 0xcb, 0xe4, 0xff, 0x68, 0x7e, 0x9f, 0xd1, 0x58, 0x40, 0x1c, 0x78, 0x38, 0x08, 0x18,
-	0x70, 0xae, 0xf1, 0x8e, 0x67, 0xf2, 0x4a, 0x2a, 0x36, 0x6f, 0xa3, 0x12, 0xc4, 0xb8, 0x16, 0x82,
-	0xc7, 0x14, 0x92, 0xa7, 0x37, 0xb6, 0xe7, 0xd3, 0x38, 0x06, 0x5f, 0x5e, 0x04, 0x8a, 0x83, 0x29,
-	0x77, 0x29, 0xb5, 0xeb, 0x09, 0xb8, 0xd5, 0x31, 0x2a, 0x97, 0x51, 0x69, 0x78, 0x5a, 0x7a, 0x31,
-	0xbc, 0x87, 0x8a, 0xe9, 0xea, 0x18, 0x98, 0xf5, 0x79, 0x34, 0x93, 0x05, 0x97, 0x34, 0xe8, 0x8c,
-	0x0b, 0x5a, 0x26, 0x19, 0x90, 0x9b, 0x65, 0x20, 0x80, 0xc6, 0xbf, 0x2a, 0x6b, 0xc3, 0x7d, 0x46,
-	0x6a, 0x7f, 0x03, 0xfb, 0xbb, 0x49, 0x59, 0xa1, 0x9c, 0xb7, 0xae, 0xd0, 0x67, 0x68, 0x81, 0x37,
-	0x93, 0x84, 0x32, 0x59, 0x23, 0x3f, 0x24, 0x10, 0x8b, 0x6c, 0x21, 0xdd, 0x3b, 0x72, 0x1c, 0x87,
-	0x80, 0x3a, 0xd5, 0x0c, 0x71, 0x2b, 0x05, 0xcc, 0x16, 0x41, 0x4e, 0x6c, 0x5e, 0x40, 0x73, 0x12,
-	0x0d, 0x98, 0xa7, 0x6f, 0x43, 0xdd, 0x94, 0xb3, 0xa9, 0x74, 0x2f, 0x15, 0x9a, 0x3b, 0xe8, 0x78,
-	0x04, 0x51, 0x0d, 0x18, 0x6f, 0x90, 0xc4, 0x23, 0xf1, 0x3e, 0xb5, 0xc6, 0x4a, 0xc6, 0x4a, 0x21,
-	0x3f, 0x27, 0xd9, 0x95, 0xdc, 0x5a, 0x73, 0xee, 0x76, 0xec, 0xb7, 0xe3, 0x7d, 0xea, 0xce, 0x45,
-	0x3d, 0xef, 0xe6, 0x12, 0x42, 0x19, 0x69, 0x24, 0xb0, 0xc6, 0xd3, 0x8e, 0xd6, 0x92, 0xed, 0xa0,
-	0x8f, 0xd3, 0x89, 0x3e, 0x4e, 0x4d, 0x07, 0x9d, 0x68, 0x10, 0xb9, 0x5d, 0x0e, 0x3c, 0xde, 0xc0,
-	0x2c, 0xf0, 0x7c, 0xda, 0x8c, 0x85, 0x35, 0x59, 0x32, 0x56, 0x26, 0xdc, 0x05, 0xad, 0xaa, 0x4a,
-	0xcd, 0x96, 0x54, 0xc8, 0x49, 0x48, 0xe4, 0x71, 0xb8, 0x80, 0xd8, 0x07, 0x4f, 0xaa, 0xc1, 0x3a,
-	0x96, 0x4e, 0x42, 0x97, 0x42, 0x8e, 0x30, 0xc8, 0x2e, 0x6f, 0x11, 0x4e, 0x6a, 0x24, 0x24, 0xe2,
-	0x40, 0xdb, 0x4e, 0xa5, 0x5d, 0x7e, 0x28, 0x4f, 0x4d, 0x6f, 0xa3, 0x19, 0xcd, 0x5d, 0x4a, 0xcc,
-	0xb4, 0x22, 0xe6, 0xbf, 0xbd, 0xc4, 0x68, 0x0b, 0x49, 0x8c, 0xe6, 0x54, 0xb1, 0x52, 0x68, 0x1d,
-	0xbe, 0x98, 0xd7, 0x50, 0x71, 0x1f, 0x93, 0x90, 0x76, 0x55, 0xc3, 0x23, 0xb1, 0xcf, 0x20, 0x82,
-	0x58, 0x58, 0xa8, 0x64, 0xac, 0x8c, 0xb9, 0x56, 0x66, 0xd1, 0x41, 0xd1, 0x7a, 0xf3, 0x0a, 0xb2,
-	0x48, 0x4c, 0x04, 0xc1, 0xa1, 0x97, 0x47, 0xb1, 0x0a, 0xca, 0xf7, 0xb4, 0xd6, 0xdf, 0xea, 0x85,
-	0x30, 0xaf, 0xa3, 0x45, 0xc2, 0xbd, 0x7a, 0x48, 0x6b, 0x38, 0x3c, 0x5c, 0x12, 0x5e, 0x3a, 0x92,
-	0x81, 0x35, 0xa3, 0x26, 0xd4, 0x22, 0xfc, 0xb6, 0xb2, 0xe8, 0x6c, 0x8b, 0x9b, 0xa9, 0xbe, 0xb8,
-	0x85, 0x4e, 0x0d, 0xec, 0xb6, 0xbf, 0xb4, 0xf9, 0x1e, 0xa0, 0x13, 0xf2, 0x66, 0xd1, 0x6d, 0xdc,
-	0xf9, 0x78, 0x58, 0x44, 0xd3, 0x89, 0xba, 0xa4, 0xc8, 0x93, 0x74, 0xae, 0x26, 0xdc, 0x29, 0x29,
-	0xa8, 0x92, 0x27, 0x60, 0x5e, 0x44, 0xc7, 0x63, 0x78, 0x2c, 0x3c, 0x65, 0x21, 0xe8, 0x43, 0x48,
-	0x9b, 0x77, 0xc6, 0x9d, 0x95, 0xe2, 0x1d, 0x5c, 0x87, 0x5d, 0x29, 0x2c, 0x7f, 0x61, 0xa0, 0x93,
-	0xbd, 0xe0, 0x7a, 0xf2, 0x6e, 0xa0, 0x29, 0xdd, 0x50, 0xd9, 0xc0, 0xad, 0x0c, 0x6d, 0x67, 0xed,
-	0x7c, 0x17, 0x04, 0x0e, 0xb0, 0xc0, 0x6e, 0xc7, 0xf3, 0x8d, 0xd3, 0xf8, 0x6a, 0x0c, 0x9d, 0xed,
-	0x4a, 0x43, 0xcf, 0x47, 0x76, 0xd2, 0x2a, 0x3a, 0x15, 0x62, 0x2e, 0xbc, 0x06, 0x60, 0x26, 0x6a,
-	0x80, 0x85, 0xf7, 0x88, 0x88, 0x06, 0x89, 0xd5, 0xa9, 0x0b, 0xeb, 0x67, 0x9d, 0xf4, 0x53, 0xda,
-	0xc9, 0x3e, 0xa5, 0x9d, 0x1b, 0xfa, 0x53, 0x7a, 0x73, 0xfc, 0xdb, 0x9f, 0x97, 0x0d, 0xf7, 0x84,
-	0xf4, 0xfe, 0x20, 0x73, 0xfe, 0x58, 0xf9, 0x9a, 0xcb, 0xa8, 0xc0, 0x12, 0xbf, 0xb3, 0xa6, 0x53,
-	0xd6, 0x11, 0x4b, 0xfc, 0x6c, 0x43, 0x9f, 0x41, 0xc7, 0x1a, 0x94, 0x0b, 0x39, 0x82, 0x63, 0x4a,
-	0x39, 0x29, 0x5f, 0xb7, 0x03, 0xf3, 0x1a, 0x1a, 0x67, 0x34, 0x04, 0x35, 0x98, 0x73, 0x79, 0x5a,
-	0x3a, 0xb7, 0x61, 0xcf, 0x51, 0x5c, 0x1a, 0x82, 0xab, 0xbc, 0xcc, 0x4f, 0x50, 0x91, 0x03, 0x57,
-	0x0d, 0xcc, 0x05, 0x56, 0x8b, 0x0d, 0xef, 0xcb, 0x59, 0x96, 0x3f, 0x08, 0x6a, 0x96, 0x0b, 0xeb,
-	0xc5, 0xbe, 0x13, 0xed, 0x66, 0x7f, 0x0f, 0x9b, 0xe3, 0xcf, 0xe4, 0x91, 0xce, 0x68, 0x8c, 0x6a,
-	0x0a, 0x51, 0x91, 0x08, 0xd2, 0xa6, 0xb7, 0x2b, 0x26, 0x8f, 0xee, 0x8a, 0x63, 0x83, 0xca, 0xf1,
-	0xb5, 0x81, 0x8a, 0x83, 0xca, 0xa1, 0x7b, 0xe3, 0x2e, 0x9a, 0xc3, 0xbe, 0x20, 0x2d, 0xf0, 0xf4,
-	0xe2, 0xd2, 0x1d, 0x72, 0xf1, 0xe8, 0x0e, 0x51, 0x64, 0xcc, 0xa6, 0xde, 0x1a, 0xf6, 0x4d, 0x9b,
-	0x64, 0xf3, 0x77, 0xe3, 0xf9, 0x4b, 0x7b, 0xe4, 0xc5, 0x4b, 0x7b, 0xe4, 0xf5, 0x4b, 0xdb, 0x78,
-	0xda, 0xb6, 0x8d, 0xef, 0xdb, 0xb6, 0xf1, 0x53, 0xdb, 0x36, 0x9e, 0xb7, 0x6d, 0xe3, 0x97, 0xb6,
-	0x6d, 0xfc, 0xda, 0xb6, 0x47, 0x5e, 0xb7, 0x6d, 0xe3, 0xd9, 0x2b, 0x7b, 0xe4, 0xf9, 0x2b, 0x7b,
-	0xe4, 0xc5, 0x2b, 0x7b, 0x04, 0x95, 0x09, 0x3d, 0xea, 0xaa, 0xd8, 0x3c, 0xa9, 0x5b, 0x2d, 0x3b,
-	0xe2, 0x8e, 0xe4, 0x7d, 0xc7, 0x78, 0xf0, 0x6e, 0xbd, 0xcb, 0x97, 0xd0, 0x21, 0xff, 0x91, 0x57,
-	0x73, 0xa2, 0x1f, 0x46, 0x97, 0x77, 0x33, 0xa7, 0x4a, 0x42, 0x9c, 0xfb, 0x5a, 0x5d, 0xd5, 0x01,
-	0xf7, 0xd6, 0x7e, 0x1b, 0x2d, 0x67, 0x16, 0x1b, 0x1b, 0x95, 0x84, 0x6c, 0x6c, 0xe4, 0x6c, 0x36,
-	0x36, 0xf6, 0xd6, 0x6a, 0x93, 0xaa, 0xfc, 0xef, 0xfc, 0x11, 0x00, 0x00, 0xff, 0xff, 0x24, 0x75,
-	0x0f, 0x66, 0xc8, 0x0e, 0x00, 0x00,
+	// 909 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x56, 0x4f, 0x6f, 0x1b, 0x45,
+	0x14, 0xf7, 0xda, 0xa4, 0xc4, 0xaf, 0x7f, 0x92, 0x6c, 0xd2, 0x62, 0x25, 0xf5, 0xc6, 0xec, 0x01,
+	0x82, 0x2a, 0x6d, 0x48, 0x10, 0x55, 0x65, 0x84, 0xc0, 0x0d, 0x2d, 0xaa, 0x14, 0x68, 0x58, 0x87,
+	0x1c, 0x7a, 0x59, 0x4d, 0x76, 0x5f, 0x93, 0x51, 0xed, 0x9d, 0x65, 0x66, 0x6c, 0xea, 0x1e, 0x50,
+	0xcf, 0xc0, 0x81, 0x0b, 0xdf, 0x01, 0xf1, 0x15, 0xf8, 0x02, 0x1c, 0x73, 0xec, 0x91, 0x38, 0x17,
+	0xc4, 0x01, 0xf5, 0x23, 0xa0, 0x99, 0x9d, 0x75, 0xed, 0xf5, 0x9a, 0x20, 0xd1, 0xdc, 0xec, 0xdf,
+	0xef, 0xbd, 0xdf, 0xfb, 0xed, 0x7b, 0x6f, 0x46, 0x03, 0xb7, 0x25, 0x76, 0x13, 0xc6, 0x49, 0x67,
+	0x93, 0x24, 0x74, 0x93, 0x25, 0xc8, 0x89, 0x64, 0x5c, 0x20, 0xef, 0xd3, 0x10, 0x37, 0xfb, 0x5b,
+	0x9b, 0x1c, 0xbf, 0xe9, 0xa1, 0x90, 0x01, 0x47, 0x91, 0xb0, 0x58, 0xa0, 0x97, 0x70, 0x26, 0x99,
+	0xbd, 0x9e, 0xe5, 0x79, 0x24, 0xa1, 0x5e, 0x2e, 0xcf, 0xeb, 0x6f, 0xad, 0xba, 0x13, 0xc2, 0x18,
+	0xf7, 0xba, 0x42, 0xc9, 0x85, 0xac, 0xdb, 0x65, 0x71, 0x2a, 0xe2, 0x7e, 0x5f, 0x86, 0xd5, 0x56,
+	0x14, 0xb5, 0x91, 0xf0, 0xf0, 0xb8, 0x25, 0x25, 0xa7, 0x87, 0x3d, 0x89, 0xc2, 0x4f, 0x4b, 0xda,
+	0xdf, 0xc1, 0x92, 0xd0, 0x54, 0x40, 0x46, 0x5c, 0xcd, 0x6a, 0x54, 0x36, 0x2e, 0x6f, 0x7f, 0xe5,
+	0x9d, 0x53, 0xdf, 0x9b, 0xad, 0xeb, 0xe5, 0xf1, 0x7b, 0xb1, 0xe4, 0x03, 0x7f, 0x51, 0xe4, 0xe0,
+	0xd5, 0x0e, 0x5c, 0x2f, 0x0c, 0xb5, 0x17, 0xa1, 0xf2, 0x04, 0x07, 0x35, 0xab, 0x61, 0x6d, 0x54,
+	0x7d, 0xf5, 0xd3, 0xfe, 0x18, 0xe6, 0xfa, 0xa4, 0xd3, 0xc3, 0x5a, 0xb9, 0x61, 0x6d, 0x5c, 0xdb,
+	0x7e, 0x77, 0xd2, 0x9e, 0xfe, 0x7a, 0x65, 0xea, 0x41, 0x1c, 0xe1, 0x53, 0x8c, 0x0e, 0x54, 0xe8,
+	0xfe, 0x20, 0x41, 0x3f, 0xcd, 0x6a, 0x96, 0xef, 0x58, 0x6e, 0x1d, 0xd6, 0x0a, 0x3d, 0xa7, 0x6d,
+	0x77, 0x77, 0xa1, 0xee, 0x63, 0x97, 0xf5, 0x71, 0x56, 0xb7, 0x6e, 0xcd, 0xea, 0x56, 0x75, 0xfa,
+	0xd3, 0xdc, 0x06, 0x38, 0xb3, 0xd4, 0x4c, 0xbd, 0x3a, 0xac, 0xed, 0x52, 0x21, 0x67, 0x54, 0x73,
+	0x7f, 0x9b, 0x83, 0x9b, 0xc5, 0x7c, 0x9a, 0x6f, 0x3f, 0xb7, 0x60, 0x29, 0xec, 0x09, 0xc9, 0xba,
+	0xd3, 0xd3, 0x6b, 0x9f, 0x3b, 0xbd, 0x7f, 0x93, 0xf6, 0x76, 0xb4, 0xec, 0xd4, 0xfc, 0xc2, 0x1c,
+	0xac, 0x2d, 0x88, 0x81, 0x90, 0x38, 0x61, 0xa1, 0xfc, 0x3a, 0x2c, 0xb4, 0xb5, 0xec, 0xf4, 0x0a,
+	0xe5, 0x60, 0xfb, 0x5b, 0xb8, 0x26, 0x24, 0xe3, 0xe4, 0x08, 0x03, 0x11, 0x1e, 0x63, 0x97, 0xd4,
+	0x2a, 0xba, 0xfc, 0xde, 0xff, 0x2c, 0x9f, 0x6a, 0xb6, 0xb5, 0x64, 0x5a, 0xfb, 0xaa, 0x18, 0xc7,
+	0xd4, 0xee, 0x16, 0xb6, 0xe9, 0x42, 0x76, 0x57, 0x9f, 0x94, 0xa2, 0x8e, 0x5c, 0x4c, 0xb5, 0x4f,
+	0xc1, 0x9e, 0x6e, 0x40, 0x41, 0xa9, 0x95, 0xf1, 0x52, 0xd5, 0xf1, 0xb3, 0x76, 0x1b, 0x6e, 0x7c,
+	0x86, 0x1d, 0x94, 0xf8, 0x25, 0xe9, 0xa2, 0x48, 0x48, 0x88, 0xd9, 0x29, 0xba, 0x09, 0xd5, 0x38,
+	0xc3, 0x8c, 0xd6, 0x2b, 0xc0, 0xbd, 0x0f, 0x6f, 0x4d, 0xe5, 0x99, 0x7d, 0xbf, 0x05, 0x4b, 0x91,
+	0xa6, 0xa2, 0x20, 0x2f, 0xb0, 0x68, 0x88, 0x51, 0x92, 0xfb, 0xb3, 0x05, 0xeb, 0xad, 0x28, 0x7a,
+	0xc8, 0xbf, 0x4e, 0x22, 0x22, 0x51, 0x1d, 0x45, 0x89, 0x3b, 0x9d, 0x9e, 0x90, 0xc8, 0x33, 0x27,
+	0xef, 0xc1, 0xe2, 0x63, 0xce, 0x62, 0x89, 0x71, 0x14, 0x90, 0x28, 0xe2, 0x28, 0x84, 0xd1, 0x5b,
+	0xc8, 0xf0, 0x56, 0x0a, 0xdb, 0x9f, 0x43, 0x03, 0x63, 0x72, 0xd8, 0xc1, 0x80, 0x6b, 0xa5, 0x20,
+	0x4c, 0xa5, 0x82, 0x90, 0xc5, 0x31, 0x86, 0x92, 0xb2, 0x58, 0xf7, 0x60, 0xde, 0xaf, 0xa7, 0x71,
+	0x13, 0x05, 0x77, 0x46, 0x41, 0xae, 0x0b, 0x8d, 0xd9, 0xb6, 0xcc, 0xc5, 0xf0, 0x09, 0xac, 0xa6,
+	0x57, 0x47, 0xa1, 0xeb, 0xb7, 0xe1, 0x4a, 0x56, 0x5c, 0xb5, 0xc1, 0x38, 0xbe, 0x6c, 0x30, 0xd5,
+	0x01, 0x75, 0xb3, 0x14, 0x0a, 0x18, 0xfd, 0x47, 0xb0, 0xac, 0x76, 0xdf, 0xc0, 0xa3, 0xeb, 0x6d,
+	0x0d, 0xaa, 0x89, 0x3e, 0x46, 0xf4, 0x59, 0xaa, 0x3a, 0xe7, 0xcf, 0x2b, 0xa0, 0x4d, 0x9f, 0xa1,
+	0xfd, 0x0e, 0x2c, 0xc4, 0xf8, 0x54, 0x06, 0x3a, 0x42, 0xb2, 0x27, 0x98, 0x7e, 0xef, 0x15, 0xff,
+	0xaa, 0x82, 0xf7, 0xc8, 0x11, 0xee, 0x2b, 0xd0, 0xfd, 0xd1, 0x82, 0x95, 0x49, 0x71, 0x33, 0xbd,
+	0x5d, 0x98, 0x37, 0x16, 0xb3, 0x3b, 0xea, 0xfd, 0x73, 0x4f, 0xa8, 0x11, 0xf9, 0x02, 0x25, 0x89,
+	0x88, 0x24, 0xfe, 0x48, 0xa1, 0xc8, 0xce, 0x1b, 0x45, 0x76, 0x7e, 0x28, 0xc3, 0x42, 0x4e, 0xe5,
+	0x3f, 0x34, 0xd0, 0xae, 0x03, 0x64, 0x21, 0x34, 0x32, 0xcb, 0x5d, 0x35, 0xc8, 0x83, 0xc8, 0xae,
+	0xc1, 0x9b, 0xd9, 0xbe, 0x54, 0x34, 0x97, 0xfd, 0xb5, 0xef, 0x40, 0x8d, 0xc6, 0x54, 0x52, 0xd2,
+	0x09, 0x1e, 0x13, 0xda, 0x61, 0x7d, 0xe4, 0x41, 0x1f, 0xb9, 0x50, 0xfb, 0xa1, 0x0c, 0x56, 0xfc,
+	0x1b, 0x86, 0xbf, 0x6f, 0xe8, 0x83, 0x94, 0xb5, 0x3d, 0x58, 0x3e, 0xa6, 0xea, 0x86, 0x19, 0x04,
+	0xe2, 0x98, 0xf0, 0x28, 0x08, 0x59, 0x2f, 0x96, 0xb5, 0x39, 0x3d, 0x87, 0x25, 0x43, 0xb5, 0x15,
+	0xb3, 0xa3, 0x08, 0x7b, 0x1b, 0xae, 0x53, 0x31, 0xb6, 0x7e, 0x41, 0xba, 0x77, 0x51, 0xed, 0x92,
+	0x5e, 0xc3, 0x65, 0x2a, 0x5e, 0x6d, 0xdd, 0xbd, 0x94, 0xba, 0xfb, 0xb7, 0x75, 0x72, 0xea, 0x94,
+	0x5e, 0x9c, 0x3a, 0xa5, 0x97, 0xa7, 0x8e, 0xf5, 0x7c, 0xe8, 0x58, 0xbf, 0x0c, 0x1d, 0xeb, 0xf7,
+	0xa1, 0x63, 0x9d, 0x0c, 0x1d, 0xeb, 0x8f, 0xa1, 0x63, 0xfd, 0x39, 0x74, 0x4a, 0x2f, 0x87, 0x8e,
+	0xf5, 0xd3, 0x99, 0x53, 0x3a, 0x39, 0x73, 0x4a, 0x2f, 0xce, 0x9c, 0x12, 0xb8, 0x94, 0x9d, 0x37,
+	0xaa, 0xbb, 0x2b, 0x66, 0x8b, 0xb2, 0x79, 0xef, 0xa9, 0xe7, 0xc7, 0x9e, 0xf5, 0xe8, 0xc3, 0xa3,
+	0xb1, 0x5c, 0xca, 0x66, 0xbc, 0x81, 0x3e, 0xca, 0x41, 0xbf, 0x96, 0xd7, 0xf7, 0xb3, 0xa4, 0x56,
+	0x42, 0xbd, 0x87, 0x86, 0x6e, 0x9b, 0x82, 0x07, 0x5b, 0x7f, 0x95, 0xdd, 0x2c, 0xa2, 0xd9, 0x6c,
+	0x25, 0xb4, 0xd9, 0xcc, 0xc5, 0x34, 0x9b, 0x07, 0x5b, 0x87, 0x97, 0xf4, 0x2b, 0xe8, 0x83, 0x7f,
+	0x02, 0x00, 0x00, 0xff, 0xff, 0xd8, 0x9d, 0xe5, 0x2d, 0x84, 0x09, 0x00, 0x00,
 }
 
 func (this *AddSearchAttributesRequest) Equal(that interface{}) bool {
@@ -1417,92 +1149,6 @@ func (this *RemoveRemoteClusterResponse) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *DescribeClusterRequest) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DescribeClusterRequest)
-	if !ok {
-		that2, ok := that.(DescribeClusterRequest)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if this.ClusterName != that1.ClusterName {
-		return false
-	}
-	return true
-}
-func (this *DescribeClusterResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*DescribeClusterResponse)
-	if !ok {
-		that2, ok := that.(DescribeClusterResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.SupportedClients) != len(that1.SupportedClients) {
-		return false
-	}
-	for i := range this.SupportedClients {
-		if this.SupportedClients[i] != that1.SupportedClients[i] {
-			return false
-		}
-	}
-	if this.ServerVersion != that1.ServerVersion {
-		return false
-	}
-	if !this.MembershipInfo.Equal(that1.MembershipInfo) {
-		return false
-	}
-	if this.ClusterId != that1.ClusterId {
-		return false
-	}
-	if this.ClusterName != that1.ClusterName {
-		return false
-	}
-	if this.HistoryShardCount != that1.HistoryShardCount {
-		return false
-	}
-	if this.PersistenceStore != that1.PersistenceStore {
-		return false
-	}
-	if this.VisibilityStore != that1.VisibilityStore {
-		return false
-	}
-	if !this.VersionInfo.Equal(that1.VersionInfo) {
-		return false
-	}
-	if this.FailoverVersionIncrement != that1.FailoverVersionIncrement {
-		return false
-	}
-	if this.InitialFailoverVersion != that1.InitialFailoverVersion {
-		return false
-	}
-	if this.IsGlobalNamespaceEnabled != that1.IsGlobalNamespaceEnabled {
-		return false
-	}
-	return true
-}
 func (this *ListClustersRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
@@ -1562,14 +1208,14 @@ func (this *ListClustersResponse) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *ListClusterMembersRequest) Equal(that interface{}) bool {
+func (this *ClusterMetadata) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*ListClusterMembersRequest)
+	that1, ok := that.(*ClusterMetadata)
 	if !ok {
-		that2, ok := that.(ListClusterMembersRequest)
+		that2, ok := that.(ClusterMetadata)
 		if ok {
 			that1 = &that2
 		} else {
@@ -1581,67 +1227,22 @@ func (this *ListClusterMembersRequest) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
-	if this.LastHeartbeatWithin != nil && that1.LastHeartbeatWithin != nil {
-		if *this.LastHeartbeatWithin != *that1.LastHeartbeatWithin {
-			return false
-		}
-	} else if this.LastHeartbeatWithin != nil {
-		return false
-	} else if that1.LastHeartbeatWithin != nil {
+	if this.ClusterName != that1.ClusterName {
 		return false
 	}
-	if this.RpcAddress != that1.RpcAddress {
+	if this.ClusterId != that1.ClusterId {
 		return false
 	}
-	if this.HostId != that1.HostId {
+	if this.Address != that1.Address {
 		return false
 	}
-	if this.Role != that1.Role {
+	if this.InitialFailoverVersion != that1.InitialFailoverVersion {
 		return false
 	}
-	if that1.SessionStartedAfterTime == nil {
-		if this.SessionStartedAfterTime != nil {
-			return false
-		}
-	} else if !this.SessionStartedAfterTime.Equal(*that1.SessionStartedAfterTime) {
+	if this.HistoryShardCount != that1.HistoryShardCount {
 		return false
 	}
-	if this.PageSize != that1.PageSize {
-		return false
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
-		return false
-	}
-	return true
-}
-func (this *ListClusterMembersResponse) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	that1, ok := that.(*ListClusterMembersResponse)
-	if !ok {
-		that2, ok := that.(ListClusterMembersResponse)
-		if ok {
-			that1 = &that2
-		} else {
-			return false
-		}
-	}
-	if that1 == nil {
-		return this == nil
-	} else if this == nil {
-		return false
-	}
-	if len(this.ActiveMembers) != len(that1.ActiveMembers) {
-		return false
-	}
-	for i := range this.ActiveMembers {
-		if !this.ActiveMembers[i].Equal(that1.ActiveMembers[i]) {
-			return false
-		}
-	}
-	if !bytes.Equal(this.NextPageToken, that1.NextPageToken) {
+	if this.IsConnectionEnabled != that1.IsConnectionEnabled {
 		return false
 	}
 	return true
@@ -1812,53 +1413,6 @@ func (this *RemoveRemoteClusterResponse) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *DescribeClusterRequest) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 5)
-	s = append(s, "&operatorservice.DescribeClusterRequest{")
-	s = append(s, "ClusterName: "+fmt.Sprintf("%#v", this.ClusterName)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *DescribeClusterResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 16)
-	s = append(s, "&operatorservice.DescribeClusterResponse{")
-	keysForSupportedClients := make([]string, 0, len(this.SupportedClients))
-	for k, _ := range this.SupportedClients {
-		keysForSupportedClients = append(keysForSupportedClients, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForSupportedClients)
-	mapStringForSupportedClients := "map[string]string{"
-	for _, k := range keysForSupportedClients {
-		mapStringForSupportedClients += fmt.Sprintf("%#v: %#v,", k, this.SupportedClients[k])
-	}
-	mapStringForSupportedClients += "}"
-	if this.SupportedClients != nil {
-		s = append(s, "SupportedClients: "+mapStringForSupportedClients+",\n")
-	}
-	s = append(s, "ServerVersion: "+fmt.Sprintf("%#v", this.ServerVersion)+",\n")
-	if this.MembershipInfo != nil {
-		s = append(s, "MembershipInfo: "+fmt.Sprintf("%#v", this.MembershipInfo)+",\n")
-	}
-	s = append(s, "ClusterId: "+fmt.Sprintf("%#v", this.ClusterId)+",\n")
-	s = append(s, "ClusterName: "+fmt.Sprintf("%#v", this.ClusterName)+",\n")
-	s = append(s, "HistoryShardCount: "+fmt.Sprintf("%#v", this.HistoryShardCount)+",\n")
-	s = append(s, "PersistenceStore: "+fmt.Sprintf("%#v", this.PersistenceStore)+",\n")
-	s = append(s, "VisibilityStore: "+fmt.Sprintf("%#v", this.VisibilityStore)+",\n")
-	if this.VersionInfo != nil {
-		s = append(s, "VersionInfo: "+fmt.Sprintf("%#v", this.VersionInfo)+",\n")
-	}
-	s = append(s, "FailoverVersionIncrement: "+fmt.Sprintf("%#v", this.FailoverVersionIncrement)+",\n")
-	s = append(s, "InitialFailoverVersion: "+fmt.Sprintf("%#v", this.InitialFailoverVersion)+",\n")
-	s = append(s, "IsGlobalNamespaceEnabled: "+fmt.Sprintf("%#v", this.IsGlobalNamespaceEnabled)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
 func (this *ListClustersRequest) GoString() string {
 	if this == nil {
 		return "nil"
@@ -1883,32 +1437,18 @@ func (this *ListClustersResponse) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *ListClusterMembersRequest) GoString() string {
+func (this *ClusterMetadata) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 11)
-	s = append(s, "&operatorservice.ListClusterMembersRequest{")
-	s = append(s, "LastHeartbeatWithin: "+fmt.Sprintf("%#v", this.LastHeartbeatWithin)+",\n")
-	s = append(s, "RpcAddress: "+fmt.Sprintf("%#v", this.RpcAddress)+",\n")
-	s = append(s, "HostId: "+fmt.Sprintf("%#v", this.HostId)+",\n")
-	s = append(s, "Role: "+fmt.Sprintf("%#v", this.Role)+",\n")
-	s = append(s, "SessionStartedAfterTime: "+fmt.Sprintf("%#v", this.SessionStartedAfterTime)+",\n")
-	s = append(s, "PageSize: "+fmt.Sprintf("%#v", this.PageSize)+",\n")
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
-	s = append(s, "}")
-	return strings.Join(s, "")
-}
-func (this *ListClusterMembersResponse) GoString() string {
-	if this == nil {
-		return "nil"
-	}
-	s := make([]string, 0, 6)
-	s = append(s, "&operatorservice.ListClusterMembersResponse{")
-	if this.ActiveMembers != nil {
-		s = append(s, "ActiveMembers: "+fmt.Sprintf("%#v", this.ActiveMembers)+",\n")
-	}
-	s = append(s, "NextPageToken: "+fmt.Sprintf("%#v", this.NextPageToken)+",\n")
+	s := make([]string, 0, 10)
+	s = append(s, "&operatorservice.ClusterMetadata{")
+	s = append(s, "ClusterName: "+fmt.Sprintf("%#v", this.ClusterName)+",\n")
+	s = append(s, "ClusterId: "+fmt.Sprintf("%#v", this.ClusterId)+",\n")
+	s = append(s, "Address: "+fmt.Sprintf("%#v", this.Address)+",\n")
+	s = append(s, "InitialFailoverVersion: "+fmt.Sprintf("%#v", this.InitialFailoverVersion)+",\n")
+	s = append(s, "HistoryShardCount: "+fmt.Sprintf("%#v", this.HistoryShardCount)+",\n")
+	s = append(s, "IsConnectionEnabled: "+fmt.Sprintf("%#v", this.IsConnectionEnabled)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -2313,162 +1853,6 @@ func (m *RemoveRemoteClusterResponse) MarshalToSizedBuffer(dAtA []byte) (int, er
 	return len(dAtA) - i, nil
 }
 
-func (m *DescribeClusterRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *DescribeClusterRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *DescribeClusterRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.ClusterName) > 0 {
-		i -= len(m.ClusterName)
-		copy(dAtA[i:], m.ClusterName)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.ClusterName)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *DescribeClusterResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *DescribeClusterResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *DescribeClusterResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.IsGlobalNamespaceEnabled {
-		i--
-		if m.IsGlobalNamespaceEnabled {
-			dAtA[i] = 1
-		} else {
-			dAtA[i] = 0
-		}
-		i--
-		dAtA[i] = 0x60
-	}
-	if m.InitialFailoverVersion != 0 {
-		i = encodeVarintRequestResponse(dAtA, i, uint64(m.InitialFailoverVersion))
-		i--
-		dAtA[i] = 0x58
-	}
-	if m.FailoverVersionIncrement != 0 {
-		i = encodeVarintRequestResponse(dAtA, i, uint64(m.FailoverVersionIncrement))
-		i--
-		dAtA[i] = 0x50
-	}
-	if m.VersionInfo != nil {
-		{
-			size, err := m.VersionInfo.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintRequestResponse(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x4a
-	}
-	if len(m.VisibilityStore) > 0 {
-		i -= len(m.VisibilityStore)
-		copy(dAtA[i:], m.VisibilityStore)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.VisibilityStore)))
-		i--
-		dAtA[i] = 0x42
-	}
-	if len(m.PersistenceStore) > 0 {
-		i -= len(m.PersistenceStore)
-		copy(dAtA[i:], m.PersistenceStore)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.PersistenceStore)))
-		i--
-		dAtA[i] = 0x3a
-	}
-	if m.HistoryShardCount != 0 {
-		i = encodeVarintRequestResponse(dAtA, i, uint64(m.HistoryShardCount))
-		i--
-		dAtA[i] = 0x30
-	}
-	if len(m.ClusterName) > 0 {
-		i -= len(m.ClusterName)
-		copy(dAtA[i:], m.ClusterName)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.ClusterName)))
-		i--
-		dAtA[i] = 0x2a
-	}
-	if len(m.ClusterId) > 0 {
-		i -= len(m.ClusterId)
-		copy(dAtA[i:], m.ClusterId)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.ClusterId)))
-		i--
-		dAtA[i] = 0x22
-	}
-	if m.MembershipInfo != nil {
-		{
-			size, err := m.MembershipInfo.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintRequestResponse(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.ServerVersion) > 0 {
-		i -= len(m.ServerVersion)
-		copy(dAtA[i:], m.ServerVersion)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.ServerVersion)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.SupportedClients) > 0 {
-		for k := range m.SupportedClients {
-			v := m.SupportedClients[k]
-			baseI := i
-			i -= len(v)
-			copy(dAtA[i:], v)
-			i = encodeVarintRequestResponse(dAtA, i, uint64(len(v)))
-			i--
-			dAtA[i] = 0x12
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintRequestResponse(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintRequestResponse(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
 func (m *ListClustersRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -2529,7 +1913,7 @@ func (m *ListClustersResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		copy(dAtA[i:], m.NextPageToken)
 		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.NextPageToken)))
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x22
 	}
 	if len(m.Clusters) > 0 {
 		for iNdEx := len(m.Clusters) - 1; iNdEx >= 0; iNdEx-- {
@@ -2548,7 +1932,7 @@ func (m *ListClustersResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *ListClusterMembersRequest) Marshal() (dAtA []byte, err error) {
+func (m *ClusterMetadata) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -2558,110 +1942,56 @@ func (m *ListClusterMembersRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ListClusterMembersRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *ClusterMetadata) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ListClusterMembersRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *ClusterMetadata) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.NextPageToken) > 0 {
-		i -= len(m.NextPageToken)
-		copy(dAtA[i:], m.NextPageToken)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.NextPageToken)))
+	if m.IsConnectionEnabled {
 		i--
-		dAtA[i] = 0x3a
-	}
-	if m.PageSize != 0 {
-		i = encodeVarintRequestResponse(dAtA, i, uint64(m.PageSize))
+		if m.IsConnectionEnabled {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
 		i--
 		dAtA[i] = 0x30
 	}
-	if m.SessionStartedAfterTime != nil {
-		n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(*m.SessionStartedAfterTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(*m.SessionStartedAfterTime):])
-		if err3 != nil {
-			return 0, err3
-		}
-		i -= n3
-		i = encodeVarintRequestResponse(dAtA, i, uint64(n3))
+	if m.HistoryShardCount != 0 {
+		i = encodeVarintRequestResponse(dAtA, i, uint64(m.HistoryShardCount))
 		i--
-		dAtA[i] = 0x2a
+		dAtA[i] = 0x28
 	}
-	if m.Role != 0 {
-		i = encodeVarintRequestResponse(dAtA, i, uint64(m.Role))
+	if m.InitialFailoverVersion != 0 {
+		i = encodeVarintRequestResponse(dAtA, i, uint64(m.InitialFailoverVersion))
 		i--
 		dAtA[i] = 0x20
 	}
-	if len(m.HostId) > 0 {
-		i -= len(m.HostId)
-		copy(dAtA[i:], m.HostId)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.HostId)))
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.Address)))
 		i--
 		dAtA[i] = 0x1a
 	}
-	if len(m.RpcAddress) > 0 {
-		i -= len(m.RpcAddress)
-		copy(dAtA[i:], m.RpcAddress)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.RpcAddress)))
+	if len(m.ClusterId) > 0 {
+		i -= len(m.ClusterId)
+		copy(dAtA[i:], m.ClusterId)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.ClusterId)))
 		i--
 		dAtA[i] = 0x12
 	}
-	if m.LastHeartbeatWithin != nil {
-		n4, err4 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.LastHeartbeatWithin, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.LastHeartbeatWithin):])
-		if err4 != nil {
-			return 0, err4
-		}
-		i -= n4
-		i = encodeVarintRequestResponse(dAtA, i, uint64(n4))
+	if len(m.ClusterName) > 0 {
+		i -= len(m.ClusterName)
+		copy(dAtA[i:], m.ClusterName)
+		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.ClusterName)))
 		i--
 		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *ListClusterMembersResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *ListClusterMembersResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *ListClusterMembersResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.NextPageToken) > 0 {
-		i -= len(m.NextPageToken)
-		copy(dAtA[i:], m.NextPageToken)
-		i = encodeVarintRequestResponse(dAtA, i, uint64(len(m.NextPageToken)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.ActiveMembers) > 0 {
-		for iNdEx := len(m.ActiveMembers) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.ActiveMembers[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintRequestResponse(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0xa
-		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -2842,76 +2172,6 @@ func (m *RemoveRemoteClusterResponse) Size() (n int) {
 	return n
 }
 
-func (m *DescribeClusterRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.ClusterName)
-	if l > 0 {
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	return n
-}
-
-func (m *DescribeClusterResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.SupportedClients) > 0 {
-		for k, v := range m.SupportedClients {
-			_ = k
-			_ = v
-			mapEntrySize := 1 + len(k) + sovRequestResponse(uint64(len(k))) + 1 + len(v) + sovRequestResponse(uint64(len(v)))
-			n += mapEntrySize + 1 + sovRequestResponse(uint64(mapEntrySize))
-		}
-	}
-	l = len(m.ServerVersion)
-	if l > 0 {
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	if m.MembershipInfo != nil {
-		l = m.MembershipInfo.Size()
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	l = len(m.ClusterId)
-	if l > 0 {
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	l = len(m.ClusterName)
-	if l > 0 {
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	if m.HistoryShardCount != 0 {
-		n += 1 + sovRequestResponse(uint64(m.HistoryShardCount))
-	}
-	l = len(m.PersistenceStore)
-	if l > 0 {
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	l = len(m.VisibilityStore)
-	if l > 0 {
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	if m.VersionInfo != nil {
-		l = m.VersionInfo.Size()
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	if m.FailoverVersionIncrement != 0 {
-		n += 1 + sovRequestResponse(uint64(m.FailoverVersionIncrement))
-	}
-	if m.InitialFailoverVersion != 0 {
-		n += 1 + sovRequestResponse(uint64(m.InitialFailoverVersion))
-	}
-	if m.IsGlobalNamespaceEnabled {
-		n += 2
-	}
-	return n
-}
-
 func (m *ListClustersRequest) Size() (n int) {
 	if m == nil {
 		return 0
@@ -2947,56 +2207,32 @@ func (m *ListClustersResponse) Size() (n int) {
 	return n
 }
 
-func (m *ListClusterMembersRequest) Size() (n int) {
+func (m *ClusterMetadata) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if m.LastHeartbeatWithin != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdDuration(*m.LastHeartbeatWithin)
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	l = len(m.RpcAddress)
+	l = len(m.ClusterName)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
-	l = len(m.HostId)
+	l = len(m.ClusterId)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
-	if m.Role != 0 {
-		n += 1 + sovRequestResponse(uint64(m.Role))
-	}
-	if m.SessionStartedAfterTime != nil {
-		l = github_com_gogo_protobuf_types.SizeOfStdTime(*m.SessionStartedAfterTime)
-		n += 1 + l + sovRequestResponse(uint64(l))
-	}
-	if m.PageSize != 0 {
-		n += 1 + sovRequestResponse(uint64(m.PageSize))
-	}
-	l = len(m.NextPageToken)
+	l = len(m.Address)
 	if l > 0 {
 		n += 1 + l + sovRequestResponse(uint64(l))
 	}
-	return n
-}
-
-func (m *ListClusterMembersResponse) Size() (n int) {
-	if m == nil {
-		return 0
+	if m.InitialFailoverVersion != 0 {
+		n += 1 + sovRequestResponse(uint64(m.InitialFailoverVersion))
 	}
-	var l int
-	_ = l
-	if len(m.ActiveMembers) > 0 {
-		for _, e := range m.ActiveMembers {
-			l = e.Size()
-			n += 1 + l + sovRequestResponse(uint64(l))
-		}
+	if m.HistoryShardCount != 0 {
+		n += 1 + sovRequestResponse(uint64(m.HistoryShardCount))
 	}
-	l = len(m.NextPageToken)
-	if l > 0 {
-		n += 1 + l + sovRequestResponse(uint64(l))
+	if m.IsConnectionEnabled {
+		n += 2
 	}
 	return n
 }
@@ -3165,47 +2401,6 @@ func (this *RemoveRemoteClusterResponse) String() string {
 	}, "")
 	return s
 }
-func (this *DescribeClusterRequest) String() string {
-	if this == nil {
-		return "nil"
-	}
-	s := strings.Join([]string{`&DescribeClusterRequest{`,
-		`ClusterName:` + fmt.Sprintf("%v", this.ClusterName) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *DescribeClusterResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	keysForSupportedClients := make([]string, 0, len(this.SupportedClients))
-	for k, _ := range this.SupportedClients {
-		keysForSupportedClients = append(keysForSupportedClients, k)
-	}
-	github_com_gogo_protobuf_sortkeys.Strings(keysForSupportedClients)
-	mapStringForSupportedClients := "map[string]string{"
-	for _, k := range keysForSupportedClients {
-		mapStringForSupportedClients += fmt.Sprintf("%v: %v,", k, this.SupportedClients[k])
-	}
-	mapStringForSupportedClients += "}"
-	s := strings.Join([]string{`&DescribeClusterResponse{`,
-		`SupportedClients:` + mapStringForSupportedClients + `,`,
-		`ServerVersion:` + fmt.Sprintf("%v", this.ServerVersion) + `,`,
-		`MembershipInfo:` + strings.Replace(fmt.Sprintf("%v", this.MembershipInfo), "MembershipInfo", "v11.MembershipInfo", 1) + `,`,
-		`ClusterId:` + fmt.Sprintf("%v", this.ClusterId) + `,`,
-		`ClusterName:` + fmt.Sprintf("%v", this.ClusterName) + `,`,
-		`HistoryShardCount:` + fmt.Sprintf("%v", this.HistoryShardCount) + `,`,
-		`PersistenceStore:` + fmt.Sprintf("%v", this.PersistenceStore) + `,`,
-		`VisibilityStore:` + fmt.Sprintf("%v", this.VisibilityStore) + `,`,
-		`VersionInfo:` + strings.Replace(fmt.Sprintf("%v", this.VersionInfo), "VersionInfo", "v12.VersionInfo", 1) + `,`,
-		`FailoverVersionIncrement:` + fmt.Sprintf("%v", this.FailoverVersionIncrement) + `,`,
-		`InitialFailoverVersion:` + fmt.Sprintf("%v", this.InitialFailoverVersion) + `,`,
-		`IsGlobalNamespaceEnabled:` + fmt.Sprintf("%v", this.IsGlobalNamespaceEnabled) + `,`,
-		`}`,
-	}, "")
-	return s
-}
 func (this *ListClustersRequest) String() string {
 	if this == nil {
 		return "nil"
@@ -3223,7 +2418,7 @@ func (this *ListClustersResponse) String() string {
 	}
 	repeatedStringForClusters := "[]*ClusterMetadata{"
 	for _, f := range this.Clusters {
-		repeatedStringForClusters += strings.Replace(fmt.Sprintf("%v", f), "ClusterMetadata", "v11.ClusterMetadata", 1) + ","
+		repeatedStringForClusters += strings.Replace(f.String(), "ClusterMetadata", "ClusterMetadata", 1) + ","
 	}
 	repeatedStringForClusters += "}"
 	s := strings.Join([]string{`&ListClustersResponse{`,
@@ -3233,34 +2428,17 @@ func (this *ListClustersResponse) String() string {
 	}, "")
 	return s
 }
-func (this *ListClusterMembersRequest) String() string {
+func (this *ClusterMetadata) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&ListClusterMembersRequest{`,
-		`LastHeartbeatWithin:` + strings.Replace(fmt.Sprintf("%v", this.LastHeartbeatWithin), "Duration", "types.Duration", 1) + `,`,
-		`RpcAddress:` + fmt.Sprintf("%v", this.RpcAddress) + `,`,
-		`HostId:` + fmt.Sprintf("%v", this.HostId) + `,`,
-		`Role:` + fmt.Sprintf("%v", this.Role) + `,`,
-		`SessionStartedAfterTime:` + strings.Replace(fmt.Sprintf("%v", this.SessionStartedAfterTime), "Timestamp", "types.Timestamp", 1) + `,`,
-		`PageSize:` + fmt.Sprintf("%v", this.PageSize) + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
-		`}`,
-	}, "")
-	return s
-}
-func (this *ListClusterMembersResponse) String() string {
-	if this == nil {
-		return "nil"
-	}
-	repeatedStringForActiveMembers := "[]*ClusterMember{"
-	for _, f := range this.ActiveMembers {
-		repeatedStringForActiveMembers += strings.Replace(fmt.Sprintf("%v", f), "ClusterMember", "v11.ClusterMember", 1) + ","
-	}
-	repeatedStringForActiveMembers += "}"
-	s := strings.Join([]string{`&ListClusterMembersResponse{`,
-		`ActiveMembers:` + repeatedStringForActiveMembers + `,`,
-		`NextPageToken:` + fmt.Sprintf("%v", this.NextPageToken) + `,`,
+	s := strings.Join([]string{`&ClusterMetadata{`,
+		`ClusterName:` + fmt.Sprintf("%v", this.ClusterName) + `,`,
+		`ClusterId:` + fmt.Sprintf("%v", this.ClusterId) + `,`,
+		`Address:` + fmt.Sprintf("%v", this.Address) + `,`,
+		`InitialFailoverVersion:` + fmt.Sprintf("%v", this.InitialFailoverVersion) + `,`,
+		`HistoryShardCount:` + fmt.Sprintf("%v", this.HistoryShardCount) + `,`,
+		`IsConnectionEnabled:` + fmt.Sprintf("%v", this.IsConnectionEnabled) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4555,580 +3733,6 @@ func (m *RemoveRemoteClusterResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *DescribeClusterRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowRequestResponse
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: DescribeClusterRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DescribeClusterRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ClusterName", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ClusterName = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipRequestResponse(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *DescribeClusterResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowRequestResponse
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: DescribeClusterResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DescribeClusterResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SupportedClients", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.SupportedClients == nil {
-				m.SupportedClients = make(map[string]string)
-			}
-			var mapkey string
-			var mapvalue string
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowRequestResponse
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowRequestResponse
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthRequestResponse
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthRequestResponse
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var stringLenmapvalue uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowRequestResponse
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapvalue |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapvalue := int(stringLenmapvalue)
-					if intStringLenmapvalue < 0 {
-						return ErrInvalidLengthRequestResponse
-					}
-					postStringIndexmapvalue := iNdEx + intStringLenmapvalue
-					if postStringIndexmapvalue < 0 {
-						return ErrInvalidLengthRequestResponse
-					}
-					if postStringIndexmapvalue > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = string(dAtA[iNdEx:postStringIndexmapvalue])
-					iNdEx = postStringIndexmapvalue
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipRequestResponse(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if skippy < 0 {
-						return ErrInvalidLengthRequestResponse
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.SupportedClients[mapkey] = mapvalue
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ServerVersion", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ServerVersion = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field MembershipInfo", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.MembershipInfo == nil {
-				m.MembershipInfo = &v11.MembershipInfo{}
-			}
-			if err := m.MembershipInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ClusterId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ClusterId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ClusterName", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ClusterName = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 6:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HistoryShardCount", wireType)
-			}
-			m.HistoryShardCount = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.HistoryShardCount |= int32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 7:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PersistenceStore", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.PersistenceStore = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 8:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VisibilityStore", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.VisibilityStore = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 9:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VersionInfo", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.VersionInfo == nil {
-				m.VersionInfo = &v12.VersionInfo{}
-			}
-			if err := m.VersionInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 10:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field FailoverVersionIncrement", wireType)
-			}
-			m.FailoverVersionIncrement = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.FailoverVersionIncrement |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 11:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field InitialFailoverVersion", wireType)
-			}
-			m.InitialFailoverVersion = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.InitialFailoverVersion |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 12:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IsGlobalNamespaceEnabled", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.IsGlobalNamespaceEnabled = bool(v != 0)
-		default:
-			iNdEx = preIndex
-			skippy, err := skipRequestResponse(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
 func (m *ListClustersRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -5293,12 +3897,12 @@ func (m *ListClustersResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Clusters = append(m.Clusters, &v11.ClusterMetadata{})
+			m.Clusters = append(m.Clusters, &ClusterMetadata{})
 			if err := m.Clusters[len(m.Clusters)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
-		case 2:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field NextPageToken", wireType)
 			}
@@ -5356,7 +3960,7 @@ func (m *ListClustersResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ListClusterMembersRequest) Unmarshal(dAtA []byte) error {
+func (m *ClusterMetadata) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -5379,17 +3983,17 @@ func (m *ListClusterMembersRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ListClusterMembersRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: ClusterMetadata: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ListClusterMembersRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ClusterMetadata: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field LastHeartbeatWithin", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ClusterName", wireType)
 			}
-			var msglen int
+			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowRequestResponse
@@ -5399,31 +4003,27 @@ func (m *ListClusterMembersRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				stringLen |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthRequestResponse
 			}
-			postIndex := iNdEx + msglen
+			postIndex := iNdEx + intStringLen
 			if postIndex < 0 {
 				return ErrInvalidLengthRequestResponse
 			}
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.LastHeartbeatWithin == nil {
-				m.LastHeartbeatWithin = new(time.Duration)
-			}
-			if err := github_com_gogo_protobuf_types.StdDurationUnmarshal(m.LastHeartbeatWithin, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
+			m.ClusterName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field RpcAddress", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ClusterId", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -5451,11 +4051,11 @@ func (m *ListClusterMembersRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RpcAddress = string(dAtA[iNdEx:postIndex])
+			m.ClusterId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HostId", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -5483,13 +4083,13 @@ func (m *ListClusterMembersRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.HostId = string(dAtA[iNdEx:postIndex])
+			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 4:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Role", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field InitialFailoverVersion", wireType)
 			}
-			m.Role = 0
+			m.InitialFailoverVersion = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowRequestResponse
@@ -5499,16 +4099,16 @@ func (m *ListClusterMembersRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.Role |= v1.ClusterMemberRole(b&0x7F) << shift
+				m.InitialFailoverVersion |= int64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
 		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SessionStartedAfterTime", wireType)
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field HistoryShardCount", wireType)
 			}
-			var msglen int
+			m.HistoryShardCount = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowRequestResponse
@@ -5518,33 +4118,16 @@ func (m *ListClusterMembersRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				msglen |= int(b&0x7F) << shift
+				m.HistoryShardCount |= int32(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			if msglen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.SessionStartedAfterTime == nil {
-				m.SessionStartedAfterTime = new(time.Time)
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(m.SessionStartedAfterTime, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
 		case 6:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PageSize", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field IsConnectionEnabled", wireType)
 			}
-			m.PageSize = 0
+			var v int
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowRequestResponse
@@ -5554,166 +4137,12 @@ func (m *ListClusterMembersRequest) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.PageSize |= int32(b&0x7F) << shift
+				v |= int(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		case 7:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NextPageToken", wireType)
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				byteLen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if byteLen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + byteLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.NextPageToken = append(m.NextPageToken[:0], dAtA[iNdEx:postIndex]...)
-			if m.NextPageToken == nil {
-				m.NextPageToken = []byte{}
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipRequestResponse(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if skippy < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if (iNdEx + skippy) < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *ListClusterMembersResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowRequestResponse
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: ListClusterMembersResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ListClusterMembersResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ActiveMembers", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ActiveMembers = append(m.ActiveMembers, &v11.ClusterMember{})
-			if err := m.ActiveMembers[len(m.ActiveMembers)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NextPageToken", wireType)
-			}
-			var byteLen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowRequestResponse
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				byteLen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if byteLen < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			postIndex := iNdEx + byteLen
-			if postIndex < 0 {
-				return ErrInvalidLengthRequestResponse
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.NextPageToken = append(m.NextPageToken[:0], dAtA[iNdEx:postIndex]...)
-			if m.NextPageToken == nil {
-				m.NextPageToken = []byte{}
-			}
-			iNdEx = postIndex
+			m.IsConnectionEnabled = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipRequestResponse(dAtA[iNdEx:])
