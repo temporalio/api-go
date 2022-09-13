@@ -6025,6 +6025,9 @@ func (m *DescribeScheduleRequest) GetScheduleId() string {
 type DescribeScheduleResponse struct {
 	// The complete current schedule details. This may not match the schedule as
 	// created because:
+	// - some types of schedule specs may get compiled into others (e.g.
+	//   CronString into StructuredCalendarSpec)
+	// - some unspecified fields may be replaced by defaults
 	// - some fields in the state are modified automatically
 	// - the schedule may have been modified by UpdateSchedule or PatchSchedule
 	Schedule *v112.Schedule `protobuf:"bytes,1,opt,name=schedule,proto3" json:"schedule,omitempty"`

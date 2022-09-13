@@ -57,7 +57,8 @@ var _ = time.Kitchen
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // CalendarSpec describes an event specification relative to the calendar,
-// similar to a traditional cron specification. Each field can be one of:
+// similar to a traditional cron specification, but with labeled fields. Each
+// field can be one of:
 //   *: matches always
 //   x: matches when the field equals x
 //   x/y : matches when the field equals x+n*y where n is an integer
@@ -65,13 +66,14 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 //   w,x,y,...: matches when the field is one of the listed values
 // Each x, y, z, ... is either a decimal integer, or a month or day of week name
 // or abbreviation (in the appropriate fields).
-// A second in time matches if all fields match.
+// A timestamp matches if all fields match.
+// Note that fields have different default values, for convenience.
 // Note that the special case that some cron implementations have for treating
 // day_of_month and day_of_week as "or" instead of "and" when both are set is
 // not implemented.
 // day_of_week can accept 0 or 7 as Sunday
-// TODO: add relative-to-end-of-month
-// TODO: add nth day-of-week in month
+// CalendarSpec gets compiled into StructuredCalendarSpec, which is what will be
+// returned if you describe the schedule.
 type CalendarSpec struct {
 	// Expression to match seconds. Default: 0
 	Second string `protobuf:"bytes,1,opt,name=second,proto3" json:"second,omitempty"`
@@ -89,6 +91,8 @@ type CalendarSpec struct {
 	Year string `protobuf:"bytes,6,opt,name=year,proto3" json:"year,omitempty"`
 	// Expression to match days of the week. Default: *
 	DayOfWeek string `protobuf:"bytes,7,opt,name=day_of_week,json=dayOfWeek,proto3" json:"day_of_week,omitempty"`
+	// Free-form comment describing the intention of this spec.
+	Comment string `protobuf:"bytes,8,opt,name=comment,proto3" json:"comment,omitempty"`
 }
 
 func (m *CalendarSpec) Reset()      { *m = CalendarSpec{} }
@@ -172,6 +176,197 @@ func (m *CalendarSpec) GetDayOfWeek() string {
 	return ""
 }
 
+func (m *CalendarSpec) GetComment() string {
+	if m != nil {
+		return m.Comment
+	}
+	return ""
+}
+
+// Range represents a set of integer values, used to match fields of a calendar
+// time in StructuredCalendarSpec. If end < start, then end is interpreted as
+// equal to start. This means you can use a Range with start set to a value, and
+// end and step unset (defaulting to 0) to represent a single value.
+type Range struct {
+	// Start of range (inclusive).
+	Start int32 `protobuf:"varint,1,opt,name=start,proto3" json:"start,omitempty"`
+	// End of range (inclusive).
+	End int32 `protobuf:"varint,2,opt,name=end,proto3" json:"end,omitempty"`
+	// Step (optional, default 1).
+	Step int32 `protobuf:"varint,3,opt,name=step,proto3" json:"step,omitempty"`
+}
+
+func (m *Range) Reset()      { *m = Range{} }
+func (*Range) ProtoMessage() {}
+func (*Range) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e6aeef3f4b308dee, []int{1}
+}
+func (m *Range) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Range) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Range.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Range) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Range.Merge(m, src)
+}
+func (m *Range) XXX_Size() int {
+	return m.Size()
+}
+func (m *Range) XXX_DiscardUnknown() {
+	xxx_messageInfo_Range.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Range proto.InternalMessageInfo
+
+func (m *Range) GetStart() int32 {
+	if m != nil {
+		return m.Start
+	}
+	return 0
+}
+
+func (m *Range) GetEnd() int32 {
+	if m != nil {
+		return m.End
+	}
+	return 0
+}
+
+func (m *Range) GetStep() int32 {
+	if m != nil {
+		return m.Step
+	}
+	return 0
+}
+
+// StructuredCalendarSpec describes an event specification relative to the
+// calendar, in a form that's easy to work with programmatically. Each field can
+// be one or more ranges.
+// A timestamp matches if at least one range of each field matches the
+// corresponding fields of the timestamp, except for year: if year is missing,
+// that means all years match. For all fields besides year, at least one Range
+// must be present to match anything.
+// TODO: add relative-to-end-of-month
+// TODO: add nth day-of-week in month
+type StructuredCalendarSpec struct {
+	// Match seconds (0-59)
+	Second []*Range `protobuf:"bytes,1,rep,name=second,proto3" json:"second,omitempty"`
+	// Match minutes (0-59)
+	Minute []*Range `protobuf:"bytes,2,rep,name=minute,proto3" json:"minute,omitempty"`
+	// Match hours (0-23)
+	Hour []*Range `protobuf:"bytes,3,rep,name=hour,proto3" json:"hour,omitempty"`
+	// Match days of the month (1-31)
+	// (-- api-linter: core::0140::prepositions=disabled
+	//     aip.dev/not-precedent: standard name of field --)
+	DayOfMonth []*Range `protobuf:"bytes,4,rep,name=day_of_month,json=dayOfMonth,proto3" json:"day_of_month,omitempty"`
+	// Match months (1-12)
+	Month []*Range `protobuf:"bytes,5,rep,name=month,proto3" json:"month,omitempty"`
+	// Match years.
+	Year []*Range `protobuf:"bytes,6,rep,name=year,proto3" json:"year,omitempty"`
+	// Match days of the week (0-6; 0 is Sunday).
+	DayOfWeek []*Range `protobuf:"bytes,7,rep,name=day_of_week,json=dayOfWeek,proto3" json:"day_of_week,omitempty"`
+	// Free-form comment describing the intention of this spec.
+	Comment string `protobuf:"bytes,8,opt,name=comment,proto3" json:"comment,omitempty"`
+}
+
+func (m *StructuredCalendarSpec) Reset()      { *m = StructuredCalendarSpec{} }
+func (*StructuredCalendarSpec) ProtoMessage() {}
+func (*StructuredCalendarSpec) Descriptor() ([]byte, []int) {
+	return fileDescriptor_e6aeef3f4b308dee, []int{2}
+}
+func (m *StructuredCalendarSpec) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *StructuredCalendarSpec) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_StructuredCalendarSpec.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *StructuredCalendarSpec) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_StructuredCalendarSpec.Merge(m, src)
+}
+func (m *StructuredCalendarSpec) XXX_Size() int {
+	return m.Size()
+}
+func (m *StructuredCalendarSpec) XXX_DiscardUnknown() {
+	xxx_messageInfo_StructuredCalendarSpec.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_StructuredCalendarSpec proto.InternalMessageInfo
+
+func (m *StructuredCalendarSpec) GetSecond() []*Range {
+	if m != nil {
+		return m.Second
+	}
+	return nil
+}
+
+func (m *StructuredCalendarSpec) GetMinute() []*Range {
+	if m != nil {
+		return m.Minute
+	}
+	return nil
+}
+
+func (m *StructuredCalendarSpec) GetHour() []*Range {
+	if m != nil {
+		return m.Hour
+	}
+	return nil
+}
+
+func (m *StructuredCalendarSpec) GetDayOfMonth() []*Range {
+	if m != nil {
+		return m.DayOfMonth
+	}
+	return nil
+}
+
+func (m *StructuredCalendarSpec) GetMonth() []*Range {
+	if m != nil {
+		return m.Month
+	}
+	return nil
+}
+
+func (m *StructuredCalendarSpec) GetYear() []*Range {
+	if m != nil {
+		return m.Year
+	}
+	return nil
+}
+
+func (m *StructuredCalendarSpec) GetDayOfWeek() []*Range {
+	if m != nil {
+		return m.DayOfWeek
+	}
+	return nil
+}
+
+func (m *StructuredCalendarSpec) GetComment() string {
+	if m != nil {
+		return m.Comment
+	}
+	return ""
+}
+
 // IntervalSpec matches times that can be expressed as:
 // epoch + n * interval + phase
 // where n is an integer.
@@ -191,7 +386,7 @@ type IntervalSpec struct {
 func (m *IntervalSpec) Reset()      { *m = IntervalSpec{} }
 func (*IntervalSpec) ProtoMessage() {}
 func (*IntervalSpec) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{1}
+	return fileDescriptor_e6aeef3f4b308dee, []int{3}
 }
 func (m *IntervalSpec) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -240,23 +435,55 @@ func (m *IntervalSpec) GetPhase() *time.Duration {
 // definition of a time zone can change over time (most commonly, when daylight
 // saving time policy changes for an area). To create a totally self-contained
 // ScheduleSpec, use UTC or include timezone_data.
+//
+// For input, you can provide zero or more of: structured_calendar, calendar,
+// cron_string, interval, and exclude_structured_calendar, and all of them will
+// be used (the schedule will take action at the union of all of their times,
+// minus the ones that match exclude_structured_calendar).
+//
+// On input, calendar and cron_string fields will be compiled into
+// structured_calendar (and maybe interval and timezone_name), so if you
+// Describe a schedule, you'll see only structured_calendar, interval, etc.
 type ScheduleSpec struct {
+	// Calendar-based specifications of times.
+	StructuredCalendar []*StructuredCalendarSpec `protobuf:"bytes,7,rep,name=structured_calendar,json=structuredCalendar,proto3" json:"structured_calendar,omitempty"`
+	// cron_string holds a traditional cron specification as a string. It
+	// accepts 5, 6, or 7 fields, separated by spaces, and interprets them the
+	// same way as CalendarSpec.
+	// 5 fields:         minute, hour, day_of_month, month, day_of_week
+	// 6 fields:         minute, hour, day_of_month, month, day_of_week, year
+	// 7 fields: second, minute, hour, day_of_month, month, day_of_week, year
+	// If year is not given, it defaults to *. If second is not given, it
+	// defaults to 0.
+	// Shorthands @yearly, @monthly, @weekly, @daily, and @hourly are also
+	// accepted instead of the 5-7 time fields.
+	// Optionally, the string can be preceded by CRON_TZ=<timezone name> or
+	// TZ=<timezone name>, which will get copied to timezone_name. (There must
+	// not also be a timezone_name present.)
+	// Optionally "#" followed by a comment can appear at the end of the string.
+	// Note that the special case that some cron implementations have for
+	// treating day_of_month and day_of_week as "or" instead of "and" when both
+	// are set is not implemented.
+	// @every <interval>[/<phase>] is accepted and gets compiled into an
+	// IntervalSpec instead. <interval> and <phase> should be a decimal integer
+	// with a unit suffix s, m, h, or d.
+	CronString []string `protobuf:"bytes,8,rep,name=cron_string,json=cronString,proto3" json:"cron_string,omitempty"`
 	// Calendar-based specifications of times.
 	Calendar []*CalendarSpec `protobuf:"bytes,1,rep,name=calendar,proto3" json:"calendar,omitempty"`
 	// Interval-based specifications of times.
 	Interval []*IntervalSpec `protobuf:"bytes,2,rep,name=interval,proto3" json:"interval,omitempty"`
-	// Any timestamps matching any of the exclude_calendar specs will be
-	// skipped.
-	ExcludeCalendar []*CalendarSpec `protobuf:"bytes,3,rep,name=exclude_calendar,json=excludeCalendar,proto3" json:"exclude_calendar,omitempty"`
-	// Any timestamps before start_time will be skipped. Together, start_time
-	// and end_time make an inclusive interval.
+	// Any timestamps matching any of exclude_* will be skipped.
+	ExcludeCalendar           []*CalendarSpec           `protobuf:"bytes,3,rep,name=exclude_calendar,json=excludeCalendar,proto3" json:"exclude_calendar,omitempty"` // Deprecated: Do not use.
+	ExcludeStructuredCalendar []*StructuredCalendarSpec `protobuf:"bytes,9,rep,name=exclude_structured_calendar,json=excludeStructuredCalendar,proto3" json:"exclude_structured_calendar,omitempty"`
+	// If start_time is set, any timestamps before start_time will be skipped.
+	// (Together, start_time and end_time make an inclusive interval.)
 	StartTime *time.Time `protobuf:"bytes,4,opt,name=start_time,json=startTime,proto3,stdtime" json:"start_time,omitempty"`
-	// Any timestamps after end_time will be skipped.
+	// If end_time is set, any timestamps after end_time will be skipped.
 	EndTime *time.Time `protobuf:"bytes,5,opt,name=end_time,json=endTime,proto3,stdtime" json:"end_time,omitempty"`
 	// All timestamps will be incremented by a random value from 0 to this
-	// amount of jitter. Default: 1 second
+	// amount of jitter. Default: 0
 	Jitter *time.Duration `protobuf:"bytes,6,opt,name=jitter,proto3,stdduration" json:"jitter,omitempty"`
-	// Time zone to interpret all CalendarSpecs in.
+	// Time zone to interpret all calendar-based specs in.
 	//
 	// If unset, defaults to UTC. We recommend using UTC for your application if
 	// at all possible, to avoid various surprising properties of time zones.
@@ -276,6 +503,8 @@ type ScheduleSpec struct {
 	// at 2:30am and specify a time zone that follows DST, that action will not
 	// be triggered on the day that has no 2:30am. Similarly, an action that
 	// fires at 1:30am will be triggered twice on the day that has two 1:30s.
+	//
+	// Also note that no actions are taken on leap-seconds (e.g. 23:59:60 UTC).
 	TimezoneName string `protobuf:"bytes,10,opt,name=timezone_name,json=timezoneName,proto3" json:"timezone_name,omitempty"`
 	TimezoneData []byte `protobuf:"bytes,11,opt,name=timezone_data,json=timezoneData,proto3" json:"timezone_data,omitempty"`
 }
@@ -283,7 +512,7 @@ type ScheduleSpec struct {
 func (m *ScheduleSpec) Reset()      { *m = ScheduleSpec{} }
 func (*ScheduleSpec) ProtoMessage() {}
 func (*ScheduleSpec) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{2}
+	return fileDescriptor_e6aeef3f4b308dee, []int{4}
 }
 func (m *ScheduleSpec) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -312,6 +541,20 @@ func (m *ScheduleSpec) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ScheduleSpec proto.InternalMessageInfo
 
+func (m *ScheduleSpec) GetStructuredCalendar() []*StructuredCalendarSpec {
+	if m != nil {
+		return m.StructuredCalendar
+	}
+	return nil
+}
+
+func (m *ScheduleSpec) GetCronString() []string {
+	if m != nil {
+		return m.CronString
+	}
+	return nil
+}
+
 func (m *ScheduleSpec) GetCalendar() []*CalendarSpec {
 	if m != nil {
 		return m.Calendar
@@ -326,9 +569,17 @@ func (m *ScheduleSpec) GetInterval() []*IntervalSpec {
 	return nil
 }
 
+// Deprecated: Do not use.
 func (m *ScheduleSpec) GetExcludeCalendar() []*CalendarSpec {
 	if m != nil {
 		return m.ExcludeCalendar
+	}
+	return nil
+}
+
+func (m *ScheduleSpec) GetExcludeStructuredCalendar() []*StructuredCalendarSpec {
+	if m != nil {
+		return m.ExcludeStructuredCalendar
 	}
 	return nil
 }
@@ -370,15 +621,9 @@ func (m *ScheduleSpec) GetTimezoneData() []byte {
 
 type SchedulePolicies struct {
 	// Policy for overlaps.
-	// Note that this can be changed after a schedule has taken some actions, and we can't
-	// provide 100% sensible semantics for all changes. The most confusing case would be
-	// changes to/from ALLOW_ALL: with that policy multiple scheduled workflows can run
-	// concurrently, but for all other policies only one can run at a time. Changing
-	// between these two classes will leave all workflows with the other class alone.
-	// E.g., if changing from ALLOW_ALL to CANCEL_OTHER, and there are workflows running,
-	// those workflows will not be cancelled. If changing from ALLOW_ALL to SKIP with
-	// workflows running, the running workflows will not cause the next action to be
-	// skipped.
+	// Note that this can be changed after a schedule has taken some actions,
+	// and some changes might produce unintuitive results. In general, the later
+	// policy overrides the earlier policy.
 	OverlapPolicy v1.ScheduleOverlapPolicy `protobuf:"varint,1,opt,name=overlap_policy,json=overlapPolicy,proto3,enum=temporal.api.enums.v1.ScheduleOverlapPolicy" json:"overlap_policy,omitempty"`
 	// Policy for catchups:
 	// If the Temporal server misses an action due to one or more components
@@ -395,7 +640,7 @@ type SchedulePolicies struct {
 func (m *SchedulePolicies) Reset()      { *m = SchedulePolicies{} }
 func (*SchedulePolicies) ProtoMessage() {}
 func (*SchedulePolicies) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{3}
+	return fileDescriptor_e6aeef3f4b308dee, []int{5}
 }
 func (m *SchedulePolicies) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -454,7 +699,7 @@ type ScheduleAction struct {
 func (m *ScheduleAction) Reset()      { *m = ScheduleAction{} }
 func (*ScheduleAction) ProtoMessage() {}
 func (*ScheduleAction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{4}
+	return fileDescriptor_e6aeef3f4b308dee, []int{6}
 }
 func (m *ScheduleAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -529,7 +774,7 @@ type ScheduleActionResult struct {
 func (m *ScheduleActionResult) Reset()      { *m = ScheduleActionResult{} }
 func (*ScheduleActionResult) ProtoMessage() {}
 func (*ScheduleActionResult) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{5}
+	return fileDescriptor_e6aeef3f4b308dee, []int{7}
 }
 func (m *ScheduleActionResult) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -586,10 +831,11 @@ type ScheduleState struct {
 	Notes string `protobuf:"bytes,1,opt,name=notes,proto3" json:"notes,omitempty"`
 	// If true, do not take any actions based on the schedule spec.
 	Paused bool `protobuf:"varint,2,opt,name=paused,proto3" json:"paused,omitempty"`
-	// If limited_actions is true, decrement remaining_actions after each action, and do
-	// not take any more scheduled actions if remaining_actions is zero. Actions may still
-	// be taken by explicit request. Skipped actions (due to overlap policy) do not count
-	// against remaining actions.
+	// If limited_actions is true, decrement remaining_actions after each
+	// action, and do not take any more scheduled actions if remaining_actions
+	// is zero. Actions may still be taken by explicit request (i.e. trigger
+	// immediately or backfill). Skipped actions (due to overlap policy) do not
+	// count against remaining actions.
 	LimitedActions   bool  `protobuf:"varint,3,opt,name=limited_actions,json=limitedActions,proto3" json:"limited_actions,omitempty"`
 	RemainingActions int64 `protobuf:"varint,4,opt,name=remaining_actions,json=remainingActions,proto3" json:"remaining_actions,omitempty"`
 }
@@ -597,7 +843,7 @@ type ScheduleState struct {
 func (m *ScheduleState) Reset()      { *m = ScheduleState{} }
 func (*ScheduleState) ProtoMessage() {}
 func (*ScheduleState) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{6}
+	return fileDescriptor_e6aeef3f4b308dee, []int{8}
 }
 func (m *ScheduleState) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -662,7 +908,7 @@ type TriggerImmediatelyRequest struct {
 func (m *TriggerImmediatelyRequest) Reset()      { *m = TriggerImmediatelyRequest{} }
 func (*TriggerImmediatelyRequest) ProtoMessage() {}
 func (*TriggerImmediatelyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{7}
+	return fileDescriptor_e6aeef3f4b308dee, []int{9}
 }
 func (m *TriggerImmediatelyRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -709,7 +955,7 @@ type BackfillRequest struct {
 func (m *BackfillRequest) Reset()      { *m = BackfillRequest{} }
 func (*BackfillRequest) ProtoMessage() {}
 func (*BackfillRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{8}
+	return fileDescriptor_e6aeef3f4b308dee, []int{10}
 }
 func (m *BackfillRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -775,7 +1021,7 @@ type SchedulePatch struct {
 func (m *SchedulePatch) Reset()      { *m = SchedulePatch{} }
 func (*SchedulePatch) ProtoMessage() {}
 func (*SchedulePatch) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{9}
+	return fileDescriptor_e6aeef3f4b308dee, []int{11}
 }
 func (m *SchedulePatch) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -850,16 +1096,15 @@ type ScheduleInfo struct {
 	// Next ten scheduled action times.
 	FutureActionTimes []*time.Time `protobuf:"bytes,5,rep,name=future_action_times,json=futureActionTimes,proto3,stdtime" json:"future_action_times,omitempty"`
 	// Timestamps of schedule creation and last update.
-	CreateTime *time.Time `protobuf:"bytes,6,opt,name=create_time,json=createTime,proto3,stdtime" json:"create_time,omitempty"`
-	UpdateTime *time.Time `protobuf:"bytes,7,opt,name=update_time,json=updateTime,proto3,stdtime" json:"update_time,omitempty"`
-	// Error for invalid schedule. If this is set, no actions will be taken.
-	InvalidScheduleError string `protobuf:"bytes,8,opt,name=invalid_schedule_error,json=invalidScheduleError,proto3" json:"invalid_schedule_error,omitempty"`
+	CreateTime           *time.Time `protobuf:"bytes,6,opt,name=create_time,json=createTime,proto3,stdtime" json:"create_time,omitempty"`
+	UpdateTime           *time.Time `protobuf:"bytes,7,opt,name=update_time,json=updateTime,proto3,stdtime" json:"update_time,omitempty"`
+	InvalidScheduleError string     `protobuf:"bytes,8,opt,name=invalid_schedule_error,json=invalidScheduleError,proto3" json:"invalid_schedule_error,omitempty"` // Deprecated: Do not use.
 }
 
 func (m *ScheduleInfo) Reset()      { *m = ScheduleInfo{} }
 func (*ScheduleInfo) ProtoMessage() {}
 func (*ScheduleInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{10}
+	return fileDescriptor_e6aeef3f4b308dee, []int{12}
 }
 func (m *ScheduleInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -944,6 +1189,7 @@ func (m *ScheduleInfo) GetUpdateTime() *time.Time {
 	return nil
 }
 
+// Deprecated: Do not use.
 func (m *ScheduleInfo) GetInvalidScheduleError() string {
 	if m != nil {
 		return m.InvalidScheduleError
@@ -961,7 +1207,7 @@ type Schedule struct {
 func (m *Schedule) Reset()      { *m = Schedule{} }
 func (*Schedule) ProtoMessage() {}
 func (*Schedule) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{11}
+	return fileDescriptor_e6aeef3f4b308dee, []int{13}
 }
 func (m *Schedule) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1022,8 +1268,7 @@ func (m *Schedule) GetState() *ScheduleState {
 // that's returned in ListSchedules.
 type ScheduleListInfo struct {
 	// From spec:
-	// Some fields are too large/unimportant for the purpose of listing, so we'll clear them
-	// from this copy of spec: exclude_calendar, jitter, timezone_data.
+	// Some fields are dropped from this copy of spec: timezone_data
 	Spec *ScheduleSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	// From action:
 	// Action is a oneof field, but we need to encode this in JSON and oneof fields don't work
@@ -1040,7 +1285,7 @@ type ScheduleListInfo struct {
 func (m *ScheduleListInfo) Reset()      { *m = ScheduleListInfo{} }
 func (*ScheduleListInfo) ProtoMessage() {}
 func (*ScheduleListInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{12}
+	return fileDescriptor_e6aeef3f4b308dee, []int{14}
 }
 func (m *ScheduleListInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1122,7 +1367,7 @@ type ScheduleListEntry struct {
 func (m *ScheduleListEntry) Reset()      { *m = ScheduleListEntry{} }
 func (*ScheduleListEntry) ProtoMessage() {}
 func (*ScheduleListEntry) Descriptor() ([]byte, []int) {
-	return fileDescriptor_e6aeef3f4b308dee, []int{13}
+	return fileDescriptor_e6aeef3f4b308dee, []int{15}
 }
 func (m *ScheduleListEntry) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1181,6 +1426,8 @@ func (m *ScheduleListEntry) GetInfo() *ScheduleListInfo {
 
 func init() {
 	proto.RegisterType((*CalendarSpec)(nil), "temporal.api.schedule.v1.CalendarSpec")
+	proto.RegisterType((*Range)(nil), "temporal.api.schedule.v1.Range")
+	proto.RegisterType((*StructuredCalendarSpec)(nil), "temporal.api.schedule.v1.StructuredCalendarSpec")
 	proto.RegisterType((*IntervalSpec)(nil), "temporal.api.schedule.v1.IntervalSpec")
 	proto.RegisterType((*ScheduleSpec)(nil), "temporal.api.schedule.v1.ScheduleSpec")
 	proto.RegisterType((*SchedulePolicies)(nil), "temporal.api.schedule.v1.SchedulePolicies")
@@ -1201,99 +1448,110 @@ func init() {
 }
 
 var fileDescriptor_e6aeef3f4b308dee = []byte{
-	// 1471 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x57, 0xcb, 0x6f, 0x1b, 0x45,
-	0x18, 0xcf, 0xfa, 0x91, 0x38, 0x9f, 0xed, 0x3c, 0x26, 0x69, 0xe5, 0xb6, 0x68, 0x9b, 0x9a, 0xaa,
-	0x49, 0x01, 0x39, 0xc4, 0x05, 0x21, 0xa5, 0xe2, 0x91, 0xb4, 0xa9, 0x88, 0x44, 0xdb, 0xb0, 0x49,
-	0x5b, 0x09, 0x84, 0x56, 0x93, 0xdd, 0xb1, 0x33, 0x64, 0x77, 0x67, 0xd9, 0x9d, 0x8d, 0x6b, 0x4e,
-	0x88, 0x7f, 0x80, 0x4a, 0x5c, 0xf8, 0x13, 0x10, 0x7f, 0x04, 0x17, 0x2e, 0x48, 0x5c, 0x7a, 0x2c,
-	0x27, 0x68, 0xca, 0x01, 0xf5, 0xd4, 0x3b, 0x42, 0xa0, 0x9d, 0xc7, 0xc6, 0x4e, 0x62, 0xe2, 0x52,
-	0xf5, 0xb6, 0xf3, 0x3d, 0x7e, 0x33, 0xdf, 0xef, 0x7b, 0xcc, 0x2c, 0x5c, 0xe2, 0xc4, 0x0f, 0x59,
-	0x84, 0xbd, 0x45, 0x1c, 0xd2, 0xc5, 0xd8, 0xd9, 0x21, 0x6e, 0xe2, 0x91, 0xc5, 0xbd, 0xa5, 0x45,
-	0x9f, 0xc4, 0x31, 0x6e, 0x93, 0x46, 0x18, 0x31, 0xce, 0x50, 0x4d, 0xdb, 0x35, 0x70, 0x48, 0x1b,
-	0xda, 0xae, 0xb1, 0xb7, 0x74, 0xd6, 0x6c, 0x33, 0xd6, 0xf6, 0xc8, 0xa2, 0xb0, 0xdb, 0x4e, 0x5a,
-	0x8b, 0x6e, 0x12, 0x61, 0x4e, 0x59, 0x20, 0x3d, 0xcf, 0x9e, 0x3f, 0xac, 0xe7, 0xd4, 0x27, 0x31,
-	0xc7, 0x7e, 0xa8, 0x0c, 0x2e, 0xb8, 0x24, 0x24, 0x81, 0x4b, 0x02, 0x87, 0x92, 0x78, 0xb1, 0xcd,
-	0xda, 0x4c, 0xc8, 0xc5, 0x97, 0x32, 0xb9, 0xd8, 0x77, 0x4a, 0x87, 0xf9, 0x3e, 0x0b, 0x8e, 0x9c,
-	0xf1, 0x90, 0x15, 0x09, 0x12, 0x3f, 0x4e, 0x8d, 0xb2, 0xc3, 0x4a, 0xab, 0xfe, 0x88, 0x3b, 0x2c,
-	0xda, 0x6d, 0x79, 0xac, 0x73, 0x04, 0xad, 0xfe, 0xa3, 0x01, 0x95, 0x6b, 0xd8, 0x23, 0x81, 0x8b,
-	0xa3, 0xcd, 0x90, 0x38, 0xe8, 0x34, 0x8c, 0xc6, 0xc4, 0x61, 0x81, 0x5b, 0x33, 0xe6, 0x8c, 0x85,
-	0x71, 0x4b, 0xad, 0x52, 0xb9, 0x4f, 0x83, 0x84, 0x93, 0x5a, 0x4e, 0xca, 0xe5, 0x0a, 0x21, 0x28,
-	0xec, 0xb0, 0x24, 0xaa, 0xe5, 0x85, 0x54, 0x7c, 0xa3, 0x39, 0xa8, 0xb8, 0xb8, 0x6b, 0xb3, 0x96,
-	0xed, 0xb3, 0x80, 0xef, 0xd4, 0x0a, 0x42, 0x07, 0x2e, 0xee, 0xde, 0x6e, 0xdd, 0x4c, 0x25, 0x68,
-	0x16, 0x8a, 0x52, 0x55, 0x14, 0x2a, 0xb9, 0x48, 0xb1, 0xba, 0x04, 0x47, 0xb5, 0x51, 0x89, 0x95,
-	0x7e, 0x23, 0x13, 0xca, 0x0a, 0xab, 0x43, 0xc8, 0x6e, 0x6d, 0x4c, 0xa8, 0xc6, 0x05, 0xd4, 0x3d,
-	0x42, 0x76, 0xeb, 0x5f, 0x1b, 0x50, 0x59, 0x0f, 0x38, 0x89, 0xf6, 0xb0, 0x27, 0x02, 0xb8, 0x0a,
-	0x25, 0xaa, 0xd6, 0x22, 0x84, 0x72, 0xf3, 0x4c, 0x43, 0x26, 0xa7, 0xa1, 0x93, 0xd3, 0xb8, 0xae,
-	0x92, 0xb7, 0x5a, 0xf8, 0xee, 0xb7, 0xf3, 0x86, 0x95, 0x39, 0xa0, 0xb7, 0xa1, 0x18, 0xee, 0xe0,
-	0x58, 0x06, 0x39, 0x84, 0xa7, 0xb4, 0xae, 0x3f, 0xcd, 0x43, 0x65, 0x53, 0x25, 0x40, 0x1c, 0x62,
-	0x15, 0x4a, 0x8e, 0x62, 0xb5, 0x66, 0xcc, 0xe5, 0x17, 0xca, 0xcd, 0x4b, 0x8d, 0x41, 0xb5, 0xd5,
-	0xe8, 0xe5, 0xdf, 0xca, 0xfc, 0x52, 0x8c, 0x2c, 0x90, 0xdc, 0x49, 0x18, 0xbd, 0x14, 0xf4, 0xc4,
-	0xf3, 0x31, 0x4c, 0x91, 0xfb, 0x8e, 0x97, 0xb8, 0xc4, 0xce, 0xce, 0x93, 0x7f, 0xae, 0xf3, 0x4c,
-	0x2a, 0x7f, 0x2d, 0x44, 0xef, 0x03, 0xc4, 0x1c, 0x47, 0xdc, 0x4e, 0x2b, 0x5c, 0xa4, 0xb6, 0xdc,
-	0x3c, 0x7b, 0x84, 0xa7, 0x2d, 0x5d, 0xfe, 0xab, 0x85, 0x07, 0x29, 0x51, 0xe3, 0xc2, 0x27, 0x95,
-	0xa6, 0x09, 0x22, 0x81, 0x2b, 0xdd, 0x8b, 0x43, 0xba, 0x8f, 0x91, 0xc0, 0x15, 0xce, 0xef, 0xc0,
-	0xe8, 0xe7, 0x94, 0x73, 0x22, 0x8b, 0x64, 0x88, 0x0c, 0x29, 0x73, 0xf4, 0x2a, 0x54, 0xd3, 0x1d,
-	0xbf, 0x64, 0x01, 0xb1, 0x03, 0xec, 0x93, 0x1a, 0x88, 0x4a, 0xaa, 0x68, 0xe1, 0x2d, 0xec, 0x93,
-	0x3e, 0x23, 0x17, 0x73, 0x5c, 0x2b, 0xcf, 0x19, 0x0b, 0x95, 0x03, 0xa3, 0xeb, 0x98, 0xe3, 0xfa,
-	0xaf, 0x06, 0x4c, 0xe9, 0x64, 0x6f, 0x30, 0x8f, 0xa6, 0x0d, 0x8d, 0x36, 0x61, 0x82, 0xed, 0x91,
-	0xc8, 0xc3, 0xa1, 0x1d, 0xa6, 0xb2, 0xae, 0xa8, 0xbd, 0x89, 0xe6, 0x1b, 0xfd, 0x34, 0x8b, 0x76,
-	0x4d, 0x39, 0xd6, 0x00, 0xb7, 0xa5, 0x93, 0xc0, 0xe9, 0x5a, 0x55, 0xd6, 0xbb, 0x44, 0x37, 0x60,
-	0xc2, 0xc1, 0xdc, 0xd9, 0x49, 0x42, 0xbb, 0x43, 0x03, 0x97, 0x75, 0x86, 0x2d, 0xcb, 0xaa, 0x72,
-	0xbb, 0x27, 0xbc, 0xd0, 0x02, 0x4c, 0x85, 0x38, 0x89, 0x89, 0xcd, 0x02, 0xbb, 0x85, 0xa9, 0x97,
-	0x44, 0x44, 0xf4, 0x6b, 0xc9, 0x9a, 0x10, 0xf2, 0xdb, 0xc1, 0x0d, 0x29, 0xad, 0x77, 0x60, 0x42,
-	0x9f, 0x6c, 0xc5, 0x49, 0x01, 0xd1, 0xa7, 0x30, 0x21, 0xd3, 0xad, 0x67, 0x88, 0x6a, 0xaa, 0x66,
-	0x7f, 0x60, 0x5a, 0x9b, 0xc6, 0x76, 0x8b, 0x74, 0xee, 0xa9, 0xe5, 0xda, 0x7d, 0xe2, 0x24, 0x29,
-	0xce, 0x7a, 0xd0, 0x62, 0x1f, 0x8e, 0x58, 0x55, 0x81, 0xa5, 0xb5, 0xab, 0x25, 0x18, 0xc5, 0x62,
-	0x9b, 0xfa, 0x3f, 0x06, 0xcc, 0xf6, 0xef, 0x6c, 0x91, 0x38, 0xf1, 0x38, 0x5a, 0x83, 0xaa, 0xae,
-	0x4d, 0x59, 0x32, 0xc6, 0x90, 0x25, 0x53, 0xd1, 0x6e, 0xa2, 0x6e, 0x56, 0xa0, 0x8c, 0x1d, 0x9e,
-	0x60, 0x4f, 0x82, 0xe4, 0x86, 0x04, 0x01, 0xe9, 0x24, 0x20, 0x3e, 0x83, 0x53, 0xfd, 0x4c, 0xd8,
-	0x91, 0x38, 0xa2, 0x28, 0x92, 0x72, 0xf3, 0x72, 0x3f, 0x21, 0x72, 0x7c, 0xa7, 0x74, 0x1c, 0xe1,
-	0xc2, 0x9a, 0xe9, 0x63, 0x41, 0x06, 0x5a, 0xff, 0xd6, 0x80, 0x6a, 0x36, 0x43, 0x38, 0xe6, 0x24,
-	0x1d, 0x92, 0x01, 0xe3, 0x24, 0x56, 0x93, 0x58, 0x2e, 0xd2, 0x41, 0x2c, 0x92, 0xe6, 0x8a, 0x20,
-	0x4a, 0x96, 0x5a, 0xa1, 0x79, 0x98, 0xf4, 0xa8, 0x4f, 0x39, 0x71, 0x6d, 0xc9, 0x69, 0xac, 0x73,
-	0xac, 0xc4, 0x92, 0xd6, 0x18, 0xbd, 0x0e, 0xd3, 0x11, 0xf1, 0x31, 0x0d, 0x68, 0xd0, 0xce, 0x4c,
-	0xd3, 0x3e, 0xce, 0x5b, 0x53, 0x99, 0x42, 0x19, 0xd7, 0x43, 0x38, 0xb3, 0x15, 0xd1, 0x76, 0x9b,
-	0x44, 0xeb, 0xbe, 0x4f, 0x5c, 0x8a, 0x39, 0xf1, 0xba, 0x16, 0xf9, 0x22, 0x21, 0x31, 0x7f, 0x29,
-	0x45, 0x5f, 0xff, 0xc3, 0x80, 0xc9, 0x55, 0xec, 0xec, 0xb6, 0xa8, 0xe7, 0xe9, 0x8d, 0xfa, 0x67,
-	0x8e, 0xf1, 0x62, 0x33, 0x27, 0xf7, 0xbc, 0x33, 0xe7, 0x68, 0x98, 0xf9, 0x17, 0x0f, 0xf3, 0xaf,
-	0x9e, 0x74, 0x6f, 0xa4, 0xdd, 0x8a, 0x5c, 0x98, 0xe1, 0x92, 0x6a, 0x9b, 0x1e, 0x70, 0xad, 0xa2,
-	0xbd, 0x32, 0x78, 0x5c, 0x0f, 0xcc, 0x8f, 0x85, 0xf8, 0x11, 0x15, 0xda, 0x82, 0xa9, 0x6d, 0xc5,
-	0xae, 0x1d, 0x49, 0x3b, 0x75, 0xbb, 0x5c, 0x1e, 0xbc, 0xc5, 0xa1, 0x7c, 0x58, 0x93, 0xdb, 0x87,
-	0x12, 0x34, 0x0b, 0x45, 0x51, 0x86, 0xea, 0x19, 0x20, 0x17, 0xa8, 0x06, 0x63, 0x49, 0x20, 0xe5,
-	0xf2, 0x09, 0xa0, 0x97, 0xf5, 0x5f, 0x0a, 0x07, 0x17, 0x66, 0x3a, 0x1a, 0xd0, 0x05, 0xa8, 0xc8,
-	0x52, 0xb4, 0x1d, 0x96, 0x04, 0x5c, 0x44, 0x9d, 0xb7, 0xca, 0x52, 0x76, 0x2d, 0x15, 0xa1, 0x26,
-	0x9c, 0xf2, 0x69, 0x1c, 0x13, 0xd7, 0x3e, 0x66, 0x28, 0xe6, 0xad, 0x19, 0xa9, 0xbc, 0xd6, 0x37,
-	0xf9, 0xe6, 0x61, 0x52, 0xa7, 0x2e, 0xde, 0xa5, 0x61, 0x48, 0x5c, 0x71, 0xc2, 0xbc, 0xa5, 0x33,
-	0xba, 0x29, 0xa5, 0xe8, 0x2e, 0x4c, 0x47, 0x49, 0x20, 0x5a, 0x42, 0xb7, 0x77, 0x5c, 0x1b, 0x3f,
-	0x8e, 0x97, 0xff, 0x6a, 0xec, 0x29, 0x85, 0xa1, 0x35, 0x31, 0xba, 0x03, 0x13, 0x11, 0x71, 0x48,
-	0xc0, 0x7b, 0x3a, 0x2d, 0x05, 0x6d, 0x0c, 0x26, 0xfb, 0xb8, 0x31, 0x68, 0x55, 0x25, 0x8a, 0xee,
-	0xe1, 0x0d, 0x98, 0x69, 0x25, 0x3c, 0x89, 0x88, 0x82, 0x15, 0x95, 0x1d, 0xd7, 0x8a, 0x02, 0xfb,
-	0xe4, 0xd2, 0x9e, 0x96, 0xce, 0x12, 0x4d, 0x28, 0xd3, 0x01, 0xe9, 0x44, 0x04, 0x73, 0x35, 0x65,
-	0x47, 0x87, 0x1d, 0x90, 0xd2, 0x49, 0xcf, 0xd8, 0x24, 0x74, 0x33, 0x88, 0xb1, 0x61, 0x21, 0xa4,
-	0x93, 0x80, 0x78, 0x0b, 0x4e, 0xd3, 0x60, 0x0f, 0x7b, 0xd4, 0xb5, 0xb3, 0xa9, 0x4f, 0xa2, 0x88,
-	0x45, 0xb5, 0x92, 0x28, 0xa0, 0x59, 0xa5, 0xd5, 0x1c, 0xad, 0xa5, 0xba, 0xfa, 0x37, 0x39, 0x28,
-	0x69, 0x09, 0x5a, 0x86, 0x42, 0x1c, 0x12, 0x47, 0xf5, 0xcd, 0xa5, 0x93, 0x79, 0x16, 0xcf, 0x1c,
-	0xe1, 0x83, 0x3e, 0xd0, 0xf7, 0x91, 0x1a, 0x12, 0x0b, 0x43, 0x67, 0x49, 0xf9, 0xa1, 0x1b, 0x50,
-	0x0a, 0xd5, 0x9b, 0x40, 0x54, 0x5a, 0xb9, 0xf9, 0xda, 0xc9, 0x18, 0xfa, 0x15, 0x61, 0x65, 0xbe,
-	0xe8, 0x5d, 0x28, 0xc6, 0xe9, 0x25, 0xa0, 0x1e, 0x58, 0xf3, 0x43, 0x84, 0x91, 0x9a, 0x5b, 0xd2,
-	0xab, 0xfe, 0x2c, 0x77, 0xf0, 0x46, 0xf9, 0x88, 0xc6, 0x5c, 0xf4, 0xd8, 0x8b, 0x30, 0xb3, 0x0e,
-	0xd5, 0xec, 0xda, 0xe3, 0xdd, 0x50, 0x4f, 0xd1, 0x8b, 0x27, 0xf5, 0xc6, 0x56, 0x37, 0x24, 0x56,
-	0xa5, 0xd3, 0xb3, 0x3a, 0xb8, 0xd6, 0xf2, 0xc7, 0x5f, 0x6b, 0x85, 0xbe, 0x6b, 0xed, 0x68, 0x03,
-	0x15, 0x5f, 0x62, 0x03, 0x8d, 0xfe, 0xef, 0x06, 0xaa, 0xff, 0x6d, 0xc0, 0x74, 0x2f, 0xe5, 0x6b,
-	0x01, 0x8f, 0xba, 0xe8, 0x3c, 0x94, 0xb3, 0x42, 0xa6, 0xfa, 0x9f, 0x0a, 0xb4, 0x68, 0xdd, 0x45,
-	0x6f, 0x42, 0xc1, 0x27, 0x3e, 0x53, 0x7c, 0xbe, 0x32, 0x88, 0xcf, 0x9b, 0xc4, 0x67, 0x96, 0xb0,
-	0x44, 0x77, 0x60, 0x3a, 0x26, 0x38, 0x72, 0x76, 0x6c, 0xcc, 0x79, 0x44, 0xb7, 0x13, 0x9e, 0xd5,
-	0xda, 0xc2, 0x20, 0xf7, 0x4d, 0xe1, 0xb0, 0x92, 0xd9, 0x5b, 0x53, 0xf1, 0x21, 0x09, 0x7a, 0x0f,
-	0x0a, 0x34, 0x68, 0x31, 0x55, 0x70, 0x43, 0x54, 0xad, 0xae, 0x2b, 0x4b, 0xf8, 0xad, 0xfe, 0x64,
-	0x3c, 0x7c, 0x6c, 0x8e, 0x3c, 0x7a, 0x6c, 0x8e, 0x3c, 0x7b, 0x6c, 0x1a, 0x5f, 0xed, 0x9b, 0xc6,
-	0xf7, 0xfb, 0xa6, 0xf1, 0xf3, 0xbe, 0x69, 0x3c, 0xdc, 0x37, 0x8d, 0xdf, 0xf7, 0x4d, 0xe3, 0xcf,
-	0x7d, 0x73, 0xe4, 0xd9, 0xbe, 0x69, 0x3c, 0x78, 0x62, 0x8e, 0x3c, 0x7c, 0x62, 0x8e, 0x3c, 0x7a,
-	0x62, 0x8e, 0xc0, 0x39, 0xca, 0x06, 0x6e, 0xb5, 0x5a, 0xb9, 0x29, 0x7f, 0x56, 0x37, 0xd2, 0x3c,
-	0x6c, 0x18, 0x9f, 0xcc, 0xb7, 0x7b, 0x8c, 0x29, 0x3b, 0xfc, 0x37, 0x7f, 0x55, 0x7f, 0xff, 0x90,
-	0xab, 0x6d, 0x69, 0xb3, 0x95, 0x90, 0x66, 0x47, 0x6e, 0xdc, 0x5d, 0x7a, 0x9a, 0x3b, 0xa7, 0x55,
-	0xcb, 0xcb, 0x2b, 0x21, 0x5d, 0x5e, 0xd6, 0xca, 0xe5, 0xe5, 0xbb, 0x4b, 0xdb, 0xa3, 0x22, 0xe5,
-	0x57, 0xfe, 0x0d, 0x00, 0x00, 0xff, 0xff, 0xc7, 0xec, 0xca, 0x23, 0x32, 0x10, 0x00, 0x00,
+	// 1647 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xb4, 0x58, 0x4d, 0x6f, 0x1b, 0x4d,
+	0x1d, 0xcf, 0xfa, 0x25, 0x71, 0xc6, 0x76, 0xe2, 0x4c, 0xf2, 0x54, 0x6e, 0x8b, 0x9c, 0x3c, 0xa6,
+	0x6a, 0x52, 0x40, 0x4e, 0xe3, 0x08, 0x15, 0xa5, 0x82, 0x12, 0xa7, 0xa9, 0x88, 0x44, 0xdb, 0x68,
+	0x93, 0xb6, 0x12, 0x08, 0xad, 0x26, 0xbb, 0x63, 0x67, 0xc8, 0xee, 0xcc, 0xb2, 0x3b, 0x1b, 0xd7,
+	0x9c, 0x10, 0x5f, 0x80, 0x4a, 0x5c, 0xf8, 0x08, 0x88, 0xaf, 0xc1, 0x05, 0x4e, 0xf4, 0x58, 0x4e,
+	0xd0, 0xb4, 0x07, 0xc4, 0xa9, 0x77, 0x84, 0x40, 0xf3, 0xb6, 0xb1, 0xe3, 0xf8, 0xc9, 0xb6, 0x55,
+	0x6f, 0x3b, 0xff, 0xb7, 0x99, 0xff, 0xef, 0xff, 0x6a, 0x83, 0xdb, 0x1c, 0x07, 0x21, 0x8b, 0x90,
+	0xbf, 0x8e, 0x42, 0xb2, 0x1e, 0xbb, 0xc7, 0xd8, 0x4b, 0x7c, 0xbc, 0x7e, 0xba, 0xb1, 0x1e, 0xe0,
+	0x38, 0x46, 0x3d, 0xdc, 0x0a, 0x23, 0xc6, 0x19, 0xac, 0x1b, 0xb9, 0x16, 0x0a, 0x49, 0xcb, 0xc8,
+	0xb5, 0x4e, 0x37, 0x6e, 0x34, 0x7a, 0x8c, 0xf5, 0x7c, 0xbc, 0x2e, 0xe5, 0x8e, 0x92, 0xee, 0xba,
+	0x97, 0x44, 0x88, 0x13, 0x46, 0x95, 0xe6, 0x8d, 0xe5, 0x8b, 0x7c, 0x4e, 0x02, 0x1c, 0x73, 0x14,
+	0x84, 0x5a, 0xe0, 0x6b, 0x0f, 0x87, 0x98, 0x7a, 0x98, 0xba, 0x04, 0xc7, 0xeb, 0x3d, 0xd6, 0x63,
+	0x92, 0x2e, 0xbf, 0xb4, 0xc8, 0xad, 0x91, 0x57, 0xba, 0x2c, 0x08, 0x18, 0x1d, 0x7b, 0xe3, 0x05,
+	0x29, 0x4c, 0x93, 0x20, 0x16, 0x42, 0xe9, 0x63, 0x95, 0xd4, 0xa8, 0xc7, 0x7d, 0x16, 0x9d, 0x74,
+	0x7d, 0xd6, 0x1f, 0xb3, 0xd6, 0x7c, 0x63, 0x81, 0xca, 0x0e, 0xf2, 0x31, 0xf5, 0x50, 0x74, 0x10,
+	0x62, 0x17, 0x5e, 0x03, 0xd3, 0x31, 0x76, 0x19, 0xf5, 0xea, 0xd6, 0x8a, 0xb5, 0x36, 0x6b, 0xeb,
+	0x93, 0xa0, 0x07, 0x84, 0x26, 0x1c, 0xd7, 0x73, 0x8a, 0xae, 0x4e, 0x10, 0x82, 0xc2, 0x31, 0x4b,
+	0xa2, 0x7a, 0x5e, 0x52, 0xe5, 0x37, 0x5c, 0x01, 0x15, 0x0f, 0x0d, 0x1c, 0xd6, 0x75, 0x02, 0x46,
+	0xf9, 0x71, 0xbd, 0x20, 0x79, 0xc0, 0x43, 0x83, 0xa7, 0xdd, 0xc7, 0x82, 0x02, 0x97, 0x40, 0x51,
+	0xb1, 0x8a, 0x92, 0xa5, 0x0e, 0xc2, 0xd6, 0x00, 0xa3, 0xa8, 0x3e, 0xad, 0x6c, 0x89, 0x6f, 0xd8,
+	0x00, 0x65, 0x6d, 0xab, 0x8f, 0xf1, 0x49, 0x7d, 0x46, 0xb2, 0x66, 0xa5, 0xa9, 0x17, 0x18, 0x9f,
+	0xc0, 0x3a, 0x98, 0x11, 0x48, 0x61, 0xca, 0xeb, 0x25, 0xc9, 0x33, 0xc7, 0xe6, 0x0e, 0x28, 0xda,
+	0x88, 0xf6, 0xb0, 0xb8, 0x2c, 0xe6, 0x28, 0xe2, 0xd2, 0xa3, 0xa2, 0xad, 0x0e, 0xb0, 0x06, 0xf2,
+	0x98, 0x7a, 0xd2, 0x9b, 0xa2, 0x2d, 0x3e, 0xc5, 0xf5, 0x31, 0xc7, 0xa1, 0x74, 0xa5, 0x68, 0xcb,
+	0xef, 0xe6, 0x5f, 0xf3, 0xe0, 0xda, 0x01, 0x8f, 0x12, 0x97, 0x27, 0x11, 0xf6, 0x46, 0x90, 0xba,
+	0x37, 0x84, 0x54, 0x7e, 0xad, 0xdc, 0x5e, 0x6e, 0x4d, 0xca, 0x9e, 0x96, 0x7c, 0x47, 0x0a, 0xe5,
+	0xbd, 0x21, 0x28, 0xb3, 0x29, 0x6a, 0xac, 0x37, 0x53, 0xac, 0x33, 0xa9, 0xa9, 0x60, 0x6c, 0x8f,
+	0x05, 0x23, 0x93, 0xf2, 0x70, 0xb4, 0xbe, 0x7f, 0x1e, 0xad, 0x4c, 0xba, 0x3a, 0x9c, 0x9b, 0x69,
+	0x38, 0xb3, 0x3d, 0x57, 0xc6, 0xfb, 0xc1, 0xc5, 0x78, 0x67, 0xd2, 0xcd, 0x94, 0x10, 0xbf, 0xb5,
+	0x40, 0x65, 0x8f, 0x72, 0x1c, 0x9d, 0x22, 0x5f, 0x46, 0xf0, 0x3e, 0x28, 0x11, 0x7d, 0x96, 0xb9,
+	0x51, 0x6e, 0x5f, 0x6f, 0xa9, 0x3a, 0x6e, 0x99, 0x3a, 0x6e, 0x3d, 0xd4, 0x75, 0xde, 0x29, 0xfc,
+	0xe1, 0x1f, 0xcb, 0x96, 0x9d, 0x2a, 0x08, 0x50, 0xc2, 0x63, 0x14, 0xab, 0x7a, 0xc8, 0xa0, 0xa9,
+	0xa4, 0x9b, 0xef, 0x8b, 0xa0, 0x72, 0xa0, 0xdf, 0x2f, 0x1f, 0x81, 0xc0, 0x62, 0x9c, 0x26, 0x98,
+	0xe3, 0xea, 0x0c, 0xd3, 0x8e, 0xdf, 0x9d, 0xec, 0xf8, 0xe5, 0x59, 0x69, 0xc3, 0x78, 0x8c, 0x0e,
+	0x97, 0x41, 0xd9, 0x8d, 0x18, 0x75, 0x62, 0x1e, 0x11, 0xda, 0xab, 0x97, 0x56, 0xf2, 0xa2, 0x1c,
+	0x05, 0xe9, 0x40, 0x52, 0x60, 0x07, 0x94, 0xd2, 0x8b, 0x55, 0x32, 0xdf, 0x9e, 0x7c, 0xf1, 0xc8,
+	0x75, 0xa9, 0x9e, 0xb0, 0x91, 0x82, 0x99, 0xbb, 0xca, 0xc6, 0x70, 0x18, 0x86, 0x30, 0x7d, 0x06,
+	0x6a, 0xf8, 0xa5, 0xeb, 0x27, 0x1e, 0x3e, 0x07, 0x22, 0xff, 0x31, 0xef, 0xe9, 0xe4, 0xea, 0x96,
+	0x3d, 0xaf, 0x6d, 0xa4, 0xfe, 0x87, 0xe0, 0xa6, 0x31, 0x7b, 0x19, 0xd4, 0xb3, 0x9f, 0x08, 0xf5,
+	0x75, 0x6d, 0x74, 0x9c, 0x0d, 0x1f, 0x00, 0x20, 0xbb, 0x8c, 0x23, 0xc6, 0x80, 0xec, 0x7f, 0xe5,
+	0xf6, 0x8d, 0xb1, 0x0c, 0x39, 0x34, 0x33, 0xa2, 0x53, 0x78, 0x25, 0x52, 0x64, 0x56, 0xea, 0x08,
+	0xaa, 0x48, 0x4d, 0x4c, 0x3d, 0xa5, 0x5e, 0xcc, 0xa8, 0x3e, 0x83, 0xa9, 0x27, 0x95, 0xef, 0x81,
+	0xe9, 0x5f, 0x12, 0xce, 0xb1, 0xea, 0xa4, 0x19, 0x72, 0x53, 0x8b, 0xc3, 0x6f, 0x83, 0xaa, 0xb8,
+	0xf1, 0xd7, 0x8c, 0x62, 0x87, 0xa2, 0x00, 0xd7, 0x81, 0xac, 0xa0, 0x8a, 0x21, 0x3e, 0x41, 0x01,
+	0x1e, 0x11, 0xf2, 0x10, 0x47, 0xf5, 0xf2, 0x8a, 0xb5, 0x56, 0x39, 0x17, 0x7a, 0x88, 0x38, 0x6a,
+	0xfe, 0xdd, 0x02, 0x35, 0x93, 0xe6, 0xfb, 0xcc, 0x27, 0x62, 0xea, 0xc1, 0x03, 0x30, 0xc7, 0x4e,
+	0x71, 0xe4, 0xa3, 0xd0, 0x09, 0x05, 0x6d, 0x20, 0xab, 0x6e, 0xae, 0xfd, 0xbd, 0x51, 0xe8, 0xe5,
+	0x4c, 0x93, 0xb8, 0x6b, 0x03, 0x4f, 0x95, 0x92, 0xb4, 0x33, 0xb0, 0xab, 0x6c, 0xf8, 0x08, 0x1f,
+	0x81, 0x39, 0x17, 0x71, 0xf7, 0x38, 0x09, 0x9d, 0x3e, 0xa1, 0x1e, 0xeb, 0x67, 0x2d, 0xc8, 0xaa,
+	0x56, 0x7b, 0x21, 0xb5, 0xe0, 0x1a, 0xa8, 0x85, 0x28, 0x89, 0xb1, 0xc3, 0xa8, 0xd3, 0x45, 0xc4,
+	0x4f, 0x22, 0x2c, 0x27, 0x41, 0xc9, 0x9e, 0x93, 0xf4, 0xa7, 0xf4, 0x91, 0xa2, 0x36, 0xfb, 0x60,
+	0xce, 0xbc, 0x6c, 0xdb, 0x15, 0x06, 0xe1, 0xcf, 0xc1, 0x9c, 0x0a, 0xb7, 0x19, 0xb4, 0xba, 0x9d,
+	0xb4, 0x47, 0x1d, 0x33, 0x5c, 0xe1, 0xdb, 0x13, 0xdc, 0x7f, 0xa1, 0x8f, 0xbb, 0x2f, 0xb1, 0x9b,
+	0x08, 0x3b, 0x7b, 0xb4, 0xcb, 0x7e, 0x32, 0x65, 0x57, 0xa5, 0x2d, 0xc3, 0xed, 0x94, 0xc0, 0x34,
+	0x92, 0xd7, 0x34, 0xff, 0x67, 0x81, 0xa5, 0xd1, 0x9b, 0x6d, 0x1c, 0x27, 0x3e, 0x87, 0xbb, 0xa0,
+	0x6a, 0xf2, 0x55, 0xa5, 0x8c, 0x95, 0x31, 0x65, 0x2a, 0x46, 0x4d, 0xe6, 0xcd, 0x36, 0x28, 0x23,
+	0x97, 0x27, 0xc8, 0x57, 0x46, 0x72, 0x19, 0x8d, 0x00, 0xa5, 0x24, 0x4d, 0xfc, 0x02, 0x7c, 0x35,
+	0x8a, 0x84, 0x13, 0xc9, 0x27, 0xca, 0x24, 0x29, 0xb7, 0xef, 0x8c, 0x02, 0xa2, 0x76, 0x1c, 0x01,
+	0xc7, 0x18, 0x16, 0xf6, 0xe2, 0x08, 0x0a, 0xca, 0xd1, 0xe6, 0xef, 0x2d, 0x50, 0x4d, 0xbb, 0x27,
+	0x47, 0x5c, 0x0e, 0x77, 0xca, 0x38, 0x8e, 0xf5, 0xba, 0xa2, 0x0e, 0x62, 0x5b, 0x91, 0x41, 0x53,
+	0xf3, 0xbd, 0x64, 0xeb, 0x13, 0x5c, 0x05, 0xf3, 0x3e, 0x09, 0x08, 0xc7, 0x9e, 0xa3, 0x30, 0x8d,
+	0x4d, 0x8c, 0x35, 0x59, 0xc1, 0x1a, 0xc3, 0xef, 0x82, 0x85, 0x08, 0x07, 0x88, 0x50, 0x42, 0x7b,
+	0xa9, 0xa8, 0xa8, 0xe3, 0xbc, 0x5d, 0x4b, 0x19, 0x5a, 0xb8, 0x19, 0x82, 0xeb, 0x87, 0x11, 0xe9,
+	0xf5, 0x70, 0xb4, 0x17, 0x04, 0xd8, 0x23, 0x88, 0x63, 0x7f, 0x60, 0xe3, 0x5f, 0x25, 0x38, 0xe6,
+	0x5f, 0x24, 0xe9, 0x9b, 0xef, 0x2d, 0x30, 0xdf, 0x41, 0xee, 0x49, 0x97, 0xf8, 0xbe, 0xb9, 0x68,
+	0xb4, 0xe7, 0x58, 0x9f, 0xd7, 0x73, 0x72, 0x1f, 0xdb, 0x73, 0xc6, 0xdd, 0xcc, 0x7f, 0xbe, 0x9b,
+	0xff, 0x19, 0x0a, 0xf7, 0xbe, 0xa8, 0x56, 0xe8, 0x81, 0x45, 0xae, 0xa0, 0x76, 0xc8, 0x39, 0xd6,
+	0xda, 0xdb, 0xcd, 0xc9, 0x2d, 0x7c, 0x62, 0x7c, 0x6c, 0xc8, 0xc7, 0x58, 0xf0, 0x10, 0xd4, 0x8e,
+	0x34, 0xba, 0x4e, 0xa4, 0xe4, 0xf4, 0x4c, 0xbb, 0x33, 0xf9, 0x8a, 0x0b, 0xf1, 0xb0, 0xe7, 0x8f,
+	0x2e, 0x04, 0x68, 0x09, 0x14, 0x65, 0x1a, 0xea, 0x5d, 0x59, 0x1d, 0xc4, 0xbe, 0x92, 0x50, 0x45,
+	0x57, 0x7b, 0xb2, 0x39, 0x36, 0xff, 0x56, 0x38, 0x5f, 0x15, 0x44, 0x6b, 0x80, 0x5f, 0x83, 0x8a,
+	0x4a, 0x45, 0xc7, 0x65, 0x09, 0x55, 0xfb, 0x6c, 0xde, 0x2e, 0x2b, 0xda, 0x8e, 0x20, 0xc1, 0x36,
+	0xf8, 0x2a, 0x20, 0x71, 0x2c, 0xc7, 0xdb, 0x58, 0x53, 0xcc, 0xdb, 0x8b, 0x8a, 0xb9, 0x33, 0xd2,
+	0xf9, 0x56, 0xc1, 0xbc, 0x09, 0x5d, 0x7c, 0x42, 0xc2, 0x10, 0x7b, 0xf2, 0x85, 0x79, 0xdb, 0x44,
+	0xf4, 0x40, 0x51, 0xe1, 0x73, 0xb0, 0x10, 0x25, 0x54, 0x96, 0x84, 0x29, 0xef, 0x58, 0x4f, 0xcf,
+	0x8f, 0x28, 0xec, 0x9a, 0xb6, 0x61, 0x38, 0x31, 0x7c, 0x06, 0xe6, 0x22, 0xec, 0x62, 0xca, 0x87,
+	0x2a, 0x4d, 0x18, 0x6d, 0x7d, 0xc3, 0x48, 0xbe, 0xa4, 0x0d, 0xda, 0x55, 0x65, 0xc5, 0xd4, 0xf0,
+	0x3e, 0x58, 0xec, 0x26, 0x62, 0x2e, 0x6b, 0xb3, 0x32, 0xb3, 0x63, 0xbd, 0xc4, 0x5e, 0x9d, 0xda,
+	0x0b, 0x4a, 0x59, 0x59, 0x93, 0x4c, 0xd1, 0x20, 0xdd, 0x08, 0x23, 0xae, 0xbb, 0xec, 0x74, 0xd6,
+	0x06, 0xa9, 0x94, 0x4c, 0x8f, 0x4d, 0x42, 0x2f, 0x35, 0x31, 0x93, 0xd5, 0x84, 0x52, 0x92, 0x26,
+	0x7e, 0x00, 0xae, 0x11, 0x7a, 0x8a, 0x7c, 0xe2, 0x39, 0x69, 0xd7, 0xc7, 0x51, 0xc4, 0x22, 0xb5,
+	0xf0, 0xca, 0x1d, 0x68, 0x49, 0x4b, 0x18, 0x9c, 0x76, 0x05, 0xbf, 0xf9, 0xbb, 0x1c, 0x28, 0x19,
+	0x0a, 0xdc, 0x02, 0x85, 0x38, 0xc4, 0xae, 0xae, 0x9d, 0xdb, 0x57, 0x63, 0x2d, 0x97, 0x1e, 0xa9,
+	0x03, 0x7f, 0x6c, 0x66, 0x92, 0x6e, 0x14, 0x6b, 0x99, 0x23, 0xa5, 0xf5, 0xe0, 0x23, 0x50, 0x0a,
+	0xf5, 0x5e, 0x20, 0xb3, 0xad, 0xdc, 0xfe, 0xce, 0xd5, 0x36, 0xcc, 0x26, 0x61, 0xa7, 0xba, 0xf0,
+	0x87, 0xf2, 0xc7, 0x1d, 0x37, 0x4b, 0xd6, 0x6a, 0x06, 0x37, 0x84, 0xb8, 0xad, 0xb4, 0x9a, 0x1f,
+	0x72, 0xe7, 0x7b, 0xca, 0x4f, 0x49, 0xcc, 0x65, 0x9d, 0x7d, 0x0e, 0x32, 0x7b, 0xa0, 0x9a, 0x8e,
+	0x3e, 0x3e, 0x08, 0x4d, 0x27, 0xbd, 0x75, 0x55, 0x7d, 0x1c, 0x0e, 0x42, 0x6c, 0x57, 0xfa, 0x43,
+	0xa7, 0xf3, 0xd1, 0x96, 0xbf, 0x7c, 0xb4, 0x15, 0x46, 0x46, 0xdb, 0x78, 0x11, 0x15, 0xbf, 0x60,
+	0x11, 0x4d, 0x7f, 0x72, 0x11, 0x35, 0xff, 0x6b, 0x81, 0x85, 0x61, 0xc8, 0x77, 0x29, 0x8f, 0x06,
+	0xe2, 0x37, 0x4a, 0x9a, 0xcc, 0xc4, 0xfc, 0xf9, 0x00, 0x0c, 0x69, 0xcf, 0x83, 0x77, 0x41, 0x21,
+	0xc0, 0x01, 0xd3, 0x78, 0x7e, 0x6b, 0x12, 0x9e, 0x8f, 0x71, 0xc0, 0x6c, 0x29, 0x09, 0x9f, 0x81,
+	0x85, 0x18, 0xa3, 0xc8, 0x3d, 0x76, 0x10, 0xe7, 0x11, 0x39, 0x4a, 0x78, 0x9a, 0x6b, 0x6b, 0x93,
+	0xd4, 0x0f, 0xa4, 0xc2, 0x76, 0x2a, 0x6f, 0xd7, 0xe2, 0x0b, 0x14, 0xf8, 0x23, 0x50, 0x20, 0xb4,
+	0xcb, 0x74, 0xc2, 0x65, 0xc8, 0x5a, 0x93, 0x57, 0xb6, 0xd4, 0xeb, 0xfc, 0xd9, 0x7a, 0xfd, 0xb6,
+	0x31, 0xf5, 0xe6, 0x6d, 0x63, 0xea, 0xc3, 0xdb, 0x86, 0xf5, 0x9b, 0xb3, 0x86, 0xf5, 0xc7, 0xb3,
+	0x86, 0xf5, 0x97, 0xb3, 0x86, 0xf5, 0xfa, 0xac, 0x61, 0xfd, 0xf3, 0xac, 0x61, 0xfd, 0xeb, 0xac,
+	0x31, 0xf5, 0xe1, 0xac, 0x61, 0xbd, 0x7a, 0xd7, 0x98, 0x7a, 0xfd, 0xae, 0x31, 0xf5, 0xe6, 0x5d,
+	0x63, 0x0a, 0xdc, 0x24, 0x6c, 0xe2, 0x55, 0x9d, 0xca, 0x63, 0xf5, 0xaf, 0xce, 0xbe, 0x88, 0xc3,
+	0xbe, 0xf5, 0xb3, 0xd5, 0xde, 0x90, 0x30, 0x61, 0x17, 0xff, 0xf6, 0xba, 0x6f, 0xbe, 0xff, 0x94,
+	0xab, 0x1f, 0x1a, 0xb1, 0xed, 0x90, 0xa4, 0x4f, 0x6e, 0x3d, 0xdf, 0xf8, 0x77, 0xee, 0xa6, 0x61,
+	0x6d, 0x6d, 0x6d, 0x87, 0x64, 0x6b, 0xcb, 0x30, 0xb7, 0xb6, 0x9e, 0x6f, 0x1c, 0x4d, 0xcb, 0x90,
+	0x6f, 0xfe, 0x3f, 0x00, 0x00, 0xff, 0xff, 0x0f, 0x37, 0x75, 0x0c, 0x5b, 0x13, 0x00, 0x00,
 }
 
 func (this *CalendarSpec) Equal(that interface{}) bool {
@@ -1334,6 +1592,119 @@ func (this *CalendarSpec) Equal(that interface{}) bool {
 		return false
 	}
 	if this.DayOfWeek != that1.DayOfWeek {
+		return false
+	}
+	if this.Comment != that1.Comment {
+		return false
+	}
+	return true
+}
+func (this *Range) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Range)
+	if !ok {
+		that2, ok := that.(Range)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Start != that1.Start {
+		return false
+	}
+	if this.End != that1.End {
+		return false
+	}
+	if this.Step != that1.Step {
+		return false
+	}
+	return true
+}
+func (this *StructuredCalendarSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*StructuredCalendarSpec)
+	if !ok {
+		that2, ok := that.(StructuredCalendarSpec)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if len(this.Second) != len(that1.Second) {
+		return false
+	}
+	for i := range this.Second {
+		if !this.Second[i].Equal(that1.Second[i]) {
+			return false
+		}
+	}
+	if len(this.Minute) != len(that1.Minute) {
+		return false
+	}
+	for i := range this.Minute {
+		if !this.Minute[i].Equal(that1.Minute[i]) {
+			return false
+		}
+	}
+	if len(this.Hour) != len(that1.Hour) {
+		return false
+	}
+	for i := range this.Hour {
+		if !this.Hour[i].Equal(that1.Hour[i]) {
+			return false
+		}
+	}
+	if len(this.DayOfMonth) != len(that1.DayOfMonth) {
+		return false
+	}
+	for i := range this.DayOfMonth {
+		if !this.DayOfMonth[i].Equal(that1.DayOfMonth[i]) {
+			return false
+		}
+	}
+	if len(this.Month) != len(that1.Month) {
+		return false
+	}
+	for i := range this.Month {
+		if !this.Month[i].Equal(that1.Month[i]) {
+			return false
+		}
+	}
+	if len(this.Year) != len(that1.Year) {
+		return false
+	}
+	for i := range this.Year {
+		if !this.Year[i].Equal(that1.Year[i]) {
+			return false
+		}
+	}
+	if len(this.DayOfWeek) != len(that1.DayOfWeek) {
+		return false
+	}
+	for i := range this.DayOfWeek {
+		if !this.DayOfWeek[i].Equal(that1.DayOfWeek[i]) {
+			return false
+		}
+	}
+	if this.Comment != that1.Comment {
 		return false
 	}
 	return true
@@ -1396,6 +1767,22 @@ func (this *ScheduleSpec) Equal(that interface{}) bool {
 	} else if this == nil {
 		return false
 	}
+	if len(this.StructuredCalendar) != len(that1.StructuredCalendar) {
+		return false
+	}
+	for i := range this.StructuredCalendar {
+		if !this.StructuredCalendar[i].Equal(that1.StructuredCalendar[i]) {
+			return false
+		}
+	}
+	if len(this.CronString) != len(that1.CronString) {
+		return false
+	}
+	for i := range this.CronString {
+		if this.CronString[i] != that1.CronString[i] {
+			return false
+		}
+	}
 	if len(this.Calendar) != len(that1.Calendar) {
 		return false
 	}
@@ -1417,6 +1804,14 @@ func (this *ScheduleSpec) Equal(that interface{}) bool {
 	}
 	for i := range this.ExcludeCalendar {
 		if !this.ExcludeCalendar[i].Equal(that1.ExcludeCalendar[i]) {
+			return false
+		}
+	}
+	if len(this.ExcludeStructuredCalendar) != len(that1.ExcludeStructuredCalendar) {
+		return false
+	}
+	for i := range this.ExcludeStructuredCalendar {
+		if !this.ExcludeStructuredCalendar[i].Equal(that1.ExcludeStructuredCalendar[i]) {
 			return false
 		}
 	}
@@ -1902,7 +2297,7 @@ func (this *CalendarSpec) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 11)
+	s := make([]string, 0, 12)
 	s = append(s, "&schedule.CalendarSpec{")
 	s = append(s, "Second: "+fmt.Sprintf("%#v", this.Second)+",\n")
 	s = append(s, "Minute: "+fmt.Sprintf("%#v", this.Minute)+",\n")
@@ -1911,6 +2306,50 @@ func (this *CalendarSpec) GoString() string {
 	s = append(s, "Month: "+fmt.Sprintf("%#v", this.Month)+",\n")
 	s = append(s, "Year: "+fmt.Sprintf("%#v", this.Year)+",\n")
 	s = append(s, "DayOfWeek: "+fmt.Sprintf("%#v", this.DayOfWeek)+",\n")
+	s = append(s, "Comment: "+fmt.Sprintf("%#v", this.Comment)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *Range) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 7)
+	s = append(s, "&schedule.Range{")
+	s = append(s, "Start: "+fmt.Sprintf("%#v", this.Start)+",\n")
+	s = append(s, "End: "+fmt.Sprintf("%#v", this.End)+",\n")
+	s = append(s, "Step: "+fmt.Sprintf("%#v", this.Step)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *StructuredCalendarSpec) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 12)
+	s = append(s, "&schedule.StructuredCalendarSpec{")
+	if this.Second != nil {
+		s = append(s, "Second: "+fmt.Sprintf("%#v", this.Second)+",\n")
+	}
+	if this.Minute != nil {
+		s = append(s, "Minute: "+fmt.Sprintf("%#v", this.Minute)+",\n")
+	}
+	if this.Hour != nil {
+		s = append(s, "Hour: "+fmt.Sprintf("%#v", this.Hour)+",\n")
+	}
+	if this.DayOfMonth != nil {
+		s = append(s, "DayOfMonth: "+fmt.Sprintf("%#v", this.DayOfMonth)+",\n")
+	}
+	if this.Month != nil {
+		s = append(s, "Month: "+fmt.Sprintf("%#v", this.Month)+",\n")
+	}
+	if this.Year != nil {
+		s = append(s, "Year: "+fmt.Sprintf("%#v", this.Year)+",\n")
+	}
+	if this.DayOfWeek != nil {
+		s = append(s, "DayOfWeek: "+fmt.Sprintf("%#v", this.DayOfWeek)+",\n")
+	}
+	s = append(s, "Comment: "+fmt.Sprintf("%#v", this.Comment)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -1929,8 +2368,12 @@ func (this *ScheduleSpec) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 12)
+	s := make([]string, 0, 15)
 	s = append(s, "&schedule.ScheduleSpec{")
+	if this.StructuredCalendar != nil {
+		s = append(s, "StructuredCalendar: "+fmt.Sprintf("%#v", this.StructuredCalendar)+",\n")
+	}
+	s = append(s, "CronString: "+fmt.Sprintf("%#v", this.CronString)+",\n")
 	if this.Calendar != nil {
 		s = append(s, "Calendar: "+fmt.Sprintf("%#v", this.Calendar)+",\n")
 	}
@@ -1939,6 +2382,9 @@ func (this *ScheduleSpec) GoString() string {
 	}
 	if this.ExcludeCalendar != nil {
 		s = append(s, "ExcludeCalendar: "+fmt.Sprintf("%#v", this.ExcludeCalendar)+",\n")
+	}
+	if this.ExcludeStructuredCalendar != nil {
+		s = append(s, "ExcludeStructuredCalendar: "+fmt.Sprintf("%#v", this.ExcludeStructuredCalendar)+",\n")
 	}
 	s = append(s, "StartTime: "+fmt.Sprintf("%#v", this.StartTime)+",\n")
 	s = append(s, "EndTime: "+fmt.Sprintf("%#v", this.EndTime)+",\n")
@@ -2157,6 +2603,13 @@ func (m *CalendarSpec) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if len(m.Comment) > 0 {
+		i -= len(m.Comment)
+		copy(dAtA[i:], m.Comment)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Comment)))
+		i--
+		dAtA[i] = 0x42
+	}
 	if len(m.DayOfWeek) > 0 {
 		i -= len(m.DayOfWeek)
 		copy(dAtA[i:], m.DayOfWeek)
@@ -2205,6 +2658,172 @@ func (m *CalendarSpec) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.Second)))
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Range) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Range) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Range) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Step != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.Step))
+		i--
+		dAtA[i] = 0x18
+	}
+	if m.End != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.End))
+		i--
+		dAtA[i] = 0x10
+	}
+	if m.Start != 0 {
+		i = encodeVarintMessage(dAtA, i, uint64(m.Start))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *StructuredCalendarSpec) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *StructuredCalendarSpec) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *StructuredCalendarSpec) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Comment) > 0 {
+		i -= len(m.Comment)
+		copy(dAtA[i:], m.Comment)
+		i = encodeVarintMessage(dAtA, i, uint64(len(m.Comment)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if len(m.DayOfWeek) > 0 {
+		for iNdEx := len(m.DayOfWeek) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.DayOfWeek[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x3a
+		}
+	}
+	if len(m.Year) > 0 {
+		for iNdEx := len(m.Year) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Year[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x32
+		}
+	}
+	if len(m.Month) > 0 {
+		for iNdEx := len(m.Month) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Month[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x2a
+		}
+	}
+	if len(m.DayOfMonth) > 0 {
+		for iNdEx := len(m.DayOfMonth) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.DayOfMonth[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x22
+		}
+	}
+	if len(m.Hour) > 0 {
+		for iNdEx := len(m.Hour) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Hour[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x1a
+		}
+	}
+	if len(m.Minute) > 0 {
+		for iNdEx := len(m.Minute) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Minute[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if len(m.Second) > 0 {
+		for iNdEx := len(m.Second) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Second[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -2285,6 +2904,43 @@ func (m *ScheduleSpec) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintMessage(dAtA, i, uint64(len(m.TimezoneName)))
 		i--
 		dAtA[i] = 0x52
+	}
+	if len(m.ExcludeStructuredCalendar) > 0 {
+		for iNdEx := len(m.ExcludeStructuredCalendar) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.ExcludeStructuredCalendar[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x4a
+		}
+	}
+	if len(m.CronString) > 0 {
+		for iNdEx := len(m.CronString) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.CronString[iNdEx])
+			copy(dAtA[i:], m.CronString[iNdEx])
+			i = encodeVarintMessage(dAtA, i, uint64(len(m.CronString[iNdEx])))
+			i--
+			dAtA[i] = 0x42
+		}
+	}
+	if len(m.StructuredCalendar) > 0 {
+		for iNdEx := len(m.StructuredCalendar) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.StructuredCalendar[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintMessage(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x3a
+		}
 	}
 	if m.Jitter != nil {
 		n3, err3 := github_com_gogo_protobuf_types.StdDurationMarshalTo(*m.Jitter, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Jitter):])
@@ -3088,6 +3744,83 @@ func (m *CalendarSpec) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovMessage(uint64(l))
 	}
+	l = len(m.Comment)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
+	return n
+}
+
+func (m *Range) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Start != 0 {
+		n += 1 + sovMessage(uint64(m.Start))
+	}
+	if m.End != 0 {
+		n += 1 + sovMessage(uint64(m.End))
+	}
+	if m.Step != 0 {
+		n += 1 + sovMessage(uint64(m.Step))
+	}
+	return n
+}
+
+func (m *StructuredCalendarSpec) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Second) > 0 {
+		for _, e := range m.Second {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	if len(m.Minute) > 0 {
+		for _, e := range m.Minute {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	if len(m.Hour) > 0 {
+		for _, e := range m.Hour {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	if len(m.DayOfMonth) > 0 {
+		for _, e := range m.DayOfMonth {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	if len(m.Month) > 0 {
+		for _, e := range m.Month {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	if len(m.Year) > 0 {
+		for _, e := range m.Year {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	if len(m.DayOfWeek) > 0 {
+		for _, e := range m.DayOfWeek {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	l = len(m.Comment)
+	if l > 0 {
+		n += 1 + l + sovMessage(uint64(l))
+	}
 	return n
 }
 
@@ -3143,6 +3876,24 @@ func (m *ScheduleSpec) Size() (n int) {
 	if m.Jitter != nil {
 		l = github_com_gogo_protobuf_types.SizeOfStdDuration(*m.Jitter)
 		n += 1 + l + sovMessage(uint64(l))
+	}
+	if len(m.StructuredCalendar) > 0 {
+		for _, e := range m.StructuredCalendar {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	if len(m.CronString) > 0 {
+		for _, s := range m.CronString {
+			l = len(s)
+			n += 1 + l + sovMessage(uint64(l))
+		}
+	}
+	if len(m.ExcludeStructuredCalendar) > 0 {
+		for _, e := range m.ExcludeStructuredCalendar {
+			l = e.Size()
+			n += 1 + l + sovMessage(uint64(l))
+		}
 	}
 	l = len(m.TimezoneName)
 	if l > 0 {
@@ -3452,6 +4203,71 @@ func (this *CalendarSpec) String() string {
 		`Month:` + fmt.Sprintf("%v", this.Month) + `,`,
 		`Year:` + fmt.Sprintf("%v", this.Year) + `,`,
 		`DayOfWeek:` + fmt.Sprintf("%v", this.DayOfWeek) + `,`,
+		`Comment:` + fmt.Sprintf("%v", this.Comment) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Range) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Range{`,
+		`Start:` + fmt.Sprintf("%v", this.Start) + `,`,
+		`End:` + fmt.Sprintf("%v", this.End) + `,`,
+		`Step:` + fmt.Sprintf("%v", this.Step) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *StructuredCalendarSpec) String() string {
+	if this == nil {
+		return "nil"
+	}
+	repeatedStringForSecond := "[]*Range{"
+	for _, f := range this.Second {
+		repeatedStringForSecond += strings.Replace(f.String(), "Range", "Range", 1) + ","
+	}
+	repeatedStringForSecond += "}"
+	repeatedStringForMinute := "[]*Range{"
+	for _, f := range this.Minute {
+		repeatedStringForMinute += strings.Replace(f.String(), "Range", "Range", 1) + ","
+	}
+	repeatedStringForMinute += "}"
+	repeatedStringForHour := "[]*Range{"
+	for _, f := range this.Hour {
+		repeatedStringForHour += strings.Replace(f.String(), "Range", "Range", 1) + ","
+	}
+	repeatedStringForHour += "}"
+	repeatedStringForDayOfMonth := "[]*Range{"
+	for _, f := range this.DayOfMonth {
+		repeatedStringForDayOfMonth += strings.Replace(f.String(), "Range", "Range", 1) + ","
+	}
+	repeatedStringForDayOfMonth += "}"
+	repeatedStringForMonth := "[]*Range{"
+	for _, f := range this.Month {
+		repeatedStringForMonth += strings.Replace(f.String(), "Range", "Range", 1) + ","
+	}
+	repeatedStringForMonth += "}"
+	repeatedStringForYear := "[]*Range{"
+	for _, f := range this.Year {
+		repeatedStringForYear += strings.Replace(f.String(), "Range", "Range", 1) + ","
+	}
+	repeatedStringForYear += "}"
+	repeatedStringForDayOfWeek := "[]*Range{"
+	for _, f := range this.DayOfWeek {
+		repeatedStringForDayOfWeek += strings.Replace(f.String(), "Range", "Range", 1) + ","
+	}
+	repeatedStringForDayOfWeek += "}"
+	s := strings.Join([]string{`&StructuredCalendarSpec{`,
+		`Second:` + repeatedStringForSecond + `,`,
+		`Minute:` + repeatedStringForMinute + `,`,
+		`Hour:` + repeatedStringForHour + `,`,
+		`DayOfMonth:` + repeatedStringForDayOfMonth + `,`,
+		`Month:` + repeatedStringForMonth + `,`,
+		`Year:` + repeatedStringForYear + `,`,
+		`DayOfWeek:` + repeatedStringForDayOfWeek + `,`,
+		`Comment:` + fmt.Sprintf("%v", this.Comment) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3486,6 +4302,16 @@ func (this *ScheduleSpec) String() string {
 		repeatedStringForExcludeCalendar += strings.Replace(f.String(), "CalendarSpec", "CalendarSpec", 1) + ","
 	}
 	repeatedStringForExcludeCalendar += "}"
+	repeatedStringForStructuredCalendar := "[]*StructuredCalendarSpec{"
+	for _, f := range this.StructuredCalendar {
+		repeatedStringForStructuredCalendar += strings.Replace(f.String(), "StructuredCalendarSpec", "StructuredCalendarSpec", 1) + ","
+	}
+	repeatedStringForStructuredCalendar += "}"
+	repeatedStringForExcludeStructuredCalendar := "[]*StructuredCalendarSpec{"
+	for _, f := range this.ExcludeStructuredCalendar {
+		repeatedStringForExcludeStructuredCalendar += strings.Replace(f.String(), "StructuredCalendarSpec", "StructuredCalendarSpec", 1) + ","
+	}
+	repeatedStringForExcludeStructuredCalendar += "}"
 	s := strings.Join([]string{`&ScheduleSpec{`,
 		`Calendar:` + repeatedStringForCalendar + `,`,
 		`Interval:` + repeatedStringForInterval + `,`,
@@ -3493,6 +4319,9 @@ func (this *ScheduleSpec) String() string {
 		`StartTime:` + strings.Replace(fmt.Sprintf("%v", this.StartTime), "Timestamp", "types.Timestamp", 1) + `,`,
 		`EndTime:` + strings.Replace(fmt.Sprintf("%v", this.EndTime), "Timestamp", "types.Timestamp", 1) + `,`,
 		`Jitter:` + strings.Replace(fmt.Sprintf("%v", this.Jitter), "Duration", "types.Duration", 1) + `,`,
+		`StructuredCalendar:` + repeatedStringForStructuredCalendar + `,`,
+		`CronString:` + fmt.Sprintf("%v", this.CronString) + `,`,
+		`ExcludeStructuredCalendar:` + repeatedStringForExcludeStructuredCalendar + `,`,
 		`TimezoneName:` + fmt.Sprintf("%v", this.TimezoneName) + `,`,
 		`TimezoneData:` + fmt.Sprintf("%v", this.TimezoneData) + `,`,
 		`}`,
@@ -3941,6 +4770,471 @@ func (m *CalendarSpec) Unmarshal(dAtA []byte) error {
 			}
 			m.DayOfWeek = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Comment", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Comment = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Range) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Range: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Range: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Start", wireType)
+			}
+			m.Start = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Start |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field End", wireType)
+			}
+			m.End = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.End |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Step", wireType)
+			}
+			m.Step = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Step |= int32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipMessage(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *StructuredCalendarSpec) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowMessage
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: StructuredCalendarSpec: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: StructuredCalendarSpec: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Second", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Second = append(m.Second, &Range{})
+			if err := m.Second[len(m.Second)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Minute", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Minute = append(m.Minute, &Range{})
+			if err := m.Minute[len(m.Minute)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Hour", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Hour = append(m.Hour, &Range{})
+			if err := m.Hour[len(m.Hour)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DayOfMonth", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.DayOfMonth = append(m.DayOfMonth, &Range{})
+			if err := m.DayOfMonth[len(m.DayOfMonth)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Month", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Month = append(m.Month, &Range{})
+			if err := m.Month[len(m.Month)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Year", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Year = append(m.Year, &Range{})
+			if err := m.Year[len(m.Year)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field DayOfWeek", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.DayOfWeek = append(m.DayOfWeek, &Range{})
+			if err := m.DayOfWeek[len(m.DayOfWeek)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Comment", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Comment = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipMessage(dAtA[iNdEx:])
@@ -4326,6 +5620,106 @@ func (m *ScheduleSpec) Unmarshal(dAtA []byte) error {
 				m.Jitter = new(time.Duration)
 			}
 			if err := github_com_gogo_protobuf_types.StdDurationUnmarshal(m.Jitter, dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 7:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StructuredCalendar", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.StructuredCalendar = append(m.StructuredCalendar, &StructuredCalendarSpec{})
+			if err := m.StructuredCalendar[len(m.StructuredCalendar)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CronString", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CronString = append(m.CronString, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		case 9:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ExcludeStructuredCalendar", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowMessage
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthMessage
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthMessage
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ExcludeStructuredCalendar = append(m.ExcludeStructuredCalendar, &StructuredCalendarSpec{})
+			if err := m.ExcludeStructuredCalendar[len(m.ExcludeStructuredCalendar)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
