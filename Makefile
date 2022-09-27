@@ -27,7 +27,7 @@ PROTO_ROOT := proto/api
 PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_OUT := .
-PROTO_IMPORT := $(PROTO_ROOT):$(GOPATH)/src/github.com/temporalio/gogo-protobuf/protobuf
+PROTO_IMPORTS = -I=$(PROTO_ROOT) -I=$(shell go list -modfile build/go.mod -m -f '{{.Dir}}' github.com/temporalio/gogo-protobuf)/protobuf
 
 $(PROTO_OUT):
 	mkdir $(PROTO_OUT)
@@ -42,11 +42,11 @@ grpc: gogo-grpc fix-path
 
 go-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for go-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --fatal_warnings --proto_path=$(PROTO_IMPORT) --go_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --fatal_warnings $(PROTO_IMPORTS) --go_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
 gogo-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for gogo-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --fatal_warnings --proto_path=$(PROTO_IMPORT) --gogoslick_out=Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --fatal_warnings $(PROTO_IMPORTS) --gogoslick_out=Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
 
 fix-path:
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
@@ -67,12 +67,11 @@ goimports:
 ##### Plugins & tools #####
 grpc-install: gogo-protobuf-install
 	printf $(COLOR) "Install/update gRPC plugins..."
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2.0
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
 gogo-protobuf-install: go-protobuf-install
 	go install github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick@latest
-# This to download sources of gogo-protobuf which are required to build proto files.
-	GO111MODULE=off go get github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
+	go install -modfile build/go.mod github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
 
 go-protobuf-install:
 	go install github.com/golang/protobuf/protoc-gen-go@latest
@@ -83,7 +82,7 @@ mockgen-install:
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
-	go install golang.org/x/tools/cmd/goimports@v0.1.10
+	go install golang.org/x/tools/cmd/goimports@latest
 
 ##### License header #####
 copyright:
