@@ -9,6 +9,6 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/net v0.2.0 // indirect
-	google.golang.org/genproto v0.0.0-20221107162902-2d387536bcdd // indirect
+	google.golang.org/genproto v0.0.0-20221109142239-94d6d90a7d66 // indirect
 	google.golang.org/grpc v1.50.1
 )
