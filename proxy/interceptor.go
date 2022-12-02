@@ -32,6 +32,8 @@ import (
 
 	"google.golang.org/grpc"
 
+	proto "github.com/gogo/protobuf/proto"
+
 	batchpb "go.temporal.io/api/batch/v1"
 	commandpb "go.temporal.io/api/command/v1"
 	commonpb "go.temporal.io/api/common/v1"
@@ -46,7 +48,7 @@ import (
 
 type VisitPayloadsContext struct {
 	context.Context
-	Parent interface{}
+	Parent proto.Message
 	// If true, a single payload is given and a single payload must be returned
 	SinglePayloadRequired bool
 }
@@ -58,7 +60,7 @@ type VisitPayloadsOptions struct {
 	SkipSearchAttributes bool
 }
 
-func VisitPayloads(ctx context.Context, msg interface{}, options VisitPayloadsOptions) error {
+func VisitPayloads(ctx context.Context, msg proto.Message, options VisitPayloadsOptions) error {
 	visitCtx := VisitPayloadsContext{Context: ctx, Parent: msg}
 
 	return visitPayloads(&visitCtx, &options, msg)
@@ -120,6 +122,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -134,6 +137,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -147,6 +151,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -160,6 +165,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -180,6 +186,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -205,6 +212,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -218,6 +226,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -231,6 +240,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -249,6 +259,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -262,6 +273,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -275,6 +287,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -290,6 +303,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -303,6 +317,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -317,6 +332,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -331,6 +347,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -347,6 +364,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -360,6 +378,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -373,6 +392,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -390,6 +410,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -403,6 +424,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -416,6 +438,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -436,6 +459,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -454,6 +478,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -467,6 +492,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -480,6 +506,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -493,6 +520,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -506,6 +534,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -519,6 +548,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -533,6 +563,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -546,6 +577,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -559,6 +591,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -572,6 +605,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -585,6 +619,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -598,6 +633,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -611,6 +647,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -631,6 +668,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -670,6 +708,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -685,6 +724,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -699,6 +739,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -715,6 +756,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -728,6 +770,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -741,6 +784,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -754,6 +798,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -772,6 +817,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -785,6 +831,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -799,6 +846,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -817,6 +865,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -830,6 +879,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -843,6 +893,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -856,6 +907,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -869,6 +921,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -882,6 +935,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -895,6 +949,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -908,6 +963,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -929,6 +985,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -942,6 +999,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -964,6 +1022,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -985,6 +1044,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -998,6 +1058,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1011,6 +1072,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1031,6 +1093,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1045,6 +1108,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1068,6 +1132,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1089,6 +1154,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1103,6 +1169,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1118,6 +1185,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1133,6 +1201,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1147,6 +1216,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1160,6 +1230,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1173,6 +1244,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1186,6 +1258,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1199,6 +1272,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1212,6 +1286,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1225,6 +1300,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1245,6 +1321,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1260,6 +1337,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1276,6 +1354,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1289,6 +1368,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1302,6 +1382,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1315,6 +1396,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1328,6 +1410,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1341,6 +1424,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1354,6 +1438,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1367,6 +1452,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1380,6 +1466,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1394,6 +1481,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1407,6 +1495,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1421,6 +1510,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1434,6 +1524,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1447,6 +1538,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1461,6 +1553,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1475,6 +1568,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1488,6 +1582,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1501,6 +1596,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1518,6 +1614,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1532,6 +1629,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1546,6 +1644,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1562,6 +1661,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1575,6 +1675,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1588,6 +1689,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1601,6 +1703,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1617,16 +1720,22 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
 	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-		err := VisitPayloads(ctx, req, *options.Outbound)
+		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
+			err := VisitPayloads(ctx, reqMsg, *options.Outbound)
+			if err != nil {
+				return err
+			}
+		}
+
+		err := invoker(ctx, method, req, response, cc, opts...)
 		if err != nil {
 			return err
 		}
 
-		err = invoker(ctx, method, req, response, cc, opts...)
-		if err != nil {
-			return err
+		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
+			return VisitPayloads(ctx, resMsg, *options.Inbound)
 		}
 
-		return VisitPayloads(ctx, response, *options.Inbound)
+		return nil
 	}, nil
 }
