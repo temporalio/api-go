@@ -106,7 +106,7 @@ gomodtidy:
 ##### Test #####
 
 test:
-	go run test ./proxy
+	go run test ./proxy ./serviceerror
 
 ##### Check #####
 
