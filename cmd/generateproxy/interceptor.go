@@ -28,7 +28,6 @@ import (
 	"go/format"
 	"go/types"
 	"html/template"
-	"log"
 	"os"
 	"strings"
 
@@ -307,18 +306,18 @@ func walk(desired []types.Type, typ types.Type) bool {
 	return record.Matches
 }
 
-func generateInterceptor(cfg config) {
+func generateInterceptor(cfg config) error {
 	conf := &packages.Config{Mode: packages.NeedImports | packages.NeedTypes | packages.NeedTypesInfo}
 	pkgs, err := packages.Load(conf, "go.temporal.io/api/workflowservice/v1")
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	servicePkg := pkgs[0]
 
 	pkgs, err = packages.Load(conf, "go.temporal.io/api/common/v1")
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	commonPkg := pkgs[0]
@@ -348,34 +347,31 @@ func generateInterceptor(cfg config) {
 
 	err = interceptorTemplate.Execute(buf, pruneRecords(records))
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	src, err := imports.Process(interceptorFile, buf.Bytes(), nil)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	src, err = format.Source(src)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	if cfg.verifyOnly {
 		currentSrc, err := os.ReadFile(interceptorFile)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 
 		if !bytes.Equal(src, currentSrc) {
-			log.Fatal(fmt.Errorf("generated file does not match existing file: %s", interceptorFile))
+			return fmt.Errorf("generated file does not match existing file: %s", interceptorFile)
 		}
 
-		return
+		return nil
 	}
 
-	err = os.WriteFile(interceptorFile, src, 0666)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return os.WriteFile(interceptorFile, src, 0666)
 }

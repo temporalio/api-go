@@ -27,7 +27,6 @@ import (
 	"fmt"
 	"go/format"
 	"go/types"
-	"log"
 	"os"
 	"strings"
 
@@ -70,7 +69,7 @@ func NewWorkflowServiceProxyServer(options WorkflowServiceProxyOptions) (workflo
 }
 `
 
-func generateService(cfg config) {
+func generateService(cfg config) error {
 	buf := &bytes.Buffer{}
 
 	fmt.Fprint(buf, ServiceHeader)
@@ -78,12 +77,12 @@ func generateService(cfg config) {
 	conf := &packages.Config{Mode: packages.NeedImports | packages.NeedTypes | packages.NeedTypesInfo}
 	pkgs, err := packages.Load(conf, "go.temporal.io/api/workflowservice/v1")
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	pkg := pkgs[0]
 	if len(pkg.Errors) > 0 {
-		log.Fatalf("unable to load workflowservice: %v", pkg.Errors)
+		return fmt.Errorf("unable to load workflowservice: %v", pkg.Errors)
 	}
 
 	qual := func(other *types.Package) string {
@@ -114,24 +113,21 @@ func generateService(cfg config) {
 
 	src, err := format.Source(buf.Bytes())
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	if cfg.verifyOnly {
 		currentSrc, err := os.ReadFile(serviceFile)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 
 		if !bytes.Equal(src, currentSrc) {
-			log.Fatal(fmt.Errorf("generated file does not match existing file: %s", serviceFile))
+			return fmt.Errorf("generated file does not match existing file: %s", serviceFile)
 		}
 
-		return
+		return nil
 	}
 
-	err = os.WriteFile(serviceFile, src, 0666)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return os.WriteFile(serviceFile, src, 0666)
 }

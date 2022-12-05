@@ -26,6 +26,8 @@ package main
 
 import (
 	"flag"
+	"log"
+	"os"
 )
 
 const Header = `// The MIT License
@@ -65,6 +67,16 @@ func main() {
 		"don't write to the filesystem, just verify output has not changed")
 	flag.Parse()
 
-	generateService(cfg)
-	generateInterceptor(cfg)
+	serviceErr := generateService(cfg)
+	if serviceErr != nil {
+		log.Print(serviceErr)
+	}
+	interceptorErr := generateInterceptor(cfg)
+	if interceptorErr != nil {
+		log.Print(interceptorErr)
+	}
+
+	if serviceErr != nil || interceptorErr != nil {
+		os.Exit(1)
+	}
 }
