@@ -123,7 +123,7 @@ func generateService(cfg config) {
 			log.Fatal(err)
 		}
 
-		if bytes.Compare(src, currentSrc) != 0 {
+		if !bytes.Equal(src, currentSrc) {
 			log.Fatal(fmt.Errorf("generated file does not match existing file: %s", serviceFile))
 		}
 

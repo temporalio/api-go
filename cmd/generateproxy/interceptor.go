@@ -25,6 +25,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"go/format"
 	"go/types"
 	"html/template"
 	"log"
@@ -349,7 +350,13 @@ func generateInterceptor(cfg config) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	src, err := imports.Process(interceptorFile, buf.Bytes(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	src, err = format.Source(src)
 	if err != nil {
 		log.Fatal(err)
 	}
