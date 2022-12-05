@@ -103,6 +103,11 @@ gomodtidy:
 	printf $(COLOR) "go mod tidy..."
 	go mod tidy
 
+##### Test #####
+
+test:
+	go run test ./proxy
+
 ##### Check #####
 
 generatorcheck:
