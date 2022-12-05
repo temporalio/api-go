@@ -103,6 +103,14 @@ gomodtidy:
 	printf $(COLOR) "go mod tidy..."
 	go mod tidy
 
+##### Check #####
+
+generatorcheck:
+	printf $(COLOR) "Check generated code is not stale..."
+	(cd ./cmd/generateproxy && go run ./ -verifyOnly)
+
+check: generatorcheck
+
 ##### Clean #####
 clean:
 	printf $(COLOR) "Deleting generated go files..."
