@@ -30,20 +30,18 @@ import (
 	"context"
 	"fmt"
 
-	"google.golang.org/grpc"
-
 	proto "github.com/gogo/protobuf/proto"
-
-	batchpb "go.temporal.io/api/batch/v1"
-	commandpb "go.temporal.io/api/command/v1"
-	commonpb "go.temporal.io/api/common/v1"
-	failurepb "go.temporal.io/api/failure/v1"
-	historypb "go.temporal.io/api/history/v1"
-	interactionpb "go.temporal.io/api/interaction/v1"
-	querypb "go.temporal.io/api/query/v1"
-	schedulepb "go.temporal.io/api/schedule/v1"
-	workflowpb "go.temporal.io/api/workflow/v1"
-	workflowservicepb "go.temporal.io/api/workflowservice/v1"
+	"go.temporal.io/api/batch/v1"
+	"go.temporal.io/api/command/v1"
+	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/failure/v1"
+	"go.temporal.io/api/history/v1"
+	"go.temporal.io/api/interaction/v1"
+	"go.temporal.io/api/query/v1"
+	"go.temporal.io/api/schedule/v1"
+	"go.temporal.io/api/workflow/v1"
+	"go.temporal.io/api/workflowservice/v1"
+	"google.golang.org/grpc"
 )
 
 type VisitPayloadsContext struct {
@@ -56,7 +54,7 @@ type VisitPayloadsContext struct {
 type VisitPayloadsOptions struct {
 	// Context is the same for every call of a visit, callers should not store it. This must never
 	// return an empty set of payloads.
-	Visitor              func(*VisitPayloadsContext, []*commonpb.Payload) ([]*commonpb.Payload, error)
+	Visitor              func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error)
 	SkipSearchAttributes bool
 }
 
@@ -71,10 +69,10 @@ type PayloadVisitorInterceptorOptions struct {
 	Inbound  *VisitPayloadsOptions
 }
 
-func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *commonpb.Payload) error {
+func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) error {
 	ctx.SinglePayloadRequired = true
 
-	newPayloads, err := options.Visitor(ctx, []*commonpb.Payload{msg})
+	newPayloads, err := options.Visitor(ctx, []*common.Payload{msg})
 	if err != nil {
 		return err
 	}
@@ -93,7 +91,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 		ctx.SinglePayloadRequired = false
 
 		switch o := obj.(type) {
-		case *commonpb.Payload:
+		case *common.Payload:
 			if o == nil {
 				continue
 			}
@@ -101,13 +99,13 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if err != nil {
 				return err
 			}
-		case map[string]*commonpb.Payload:
+		case map[string]*common.Payload:
 			for _, x := range o {
 				if err := visitPayload(ctx, options, x); err != nil {
 					return err
 				}
 			}
-		case *commonpb.Payloads:
+		case *common.Payloads:
 			if o == nil {
 				continue
 			}
@@ -117,7 +115,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			}
 			o.Payloads = newPayloads
 
-		case *batchpb.BatchOperationSignal:
+		case *batch.BatchOperationSignal:
 
 			if o == nil {
 				continue
@@ -132,7 +130,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *batchpb.BatchOperationTermination:
+		case *batch.BatchOperationTermination:
 
 			if o == nil {
 				continue
@@ -146,7 +144,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.AcceptWorkflowUpdateCommandAttributes:
+		case *command.AcceptWorkflowUpdateCommandAttributes:
 
 			if o == nil {
 				continue
@@ -160,7 +158,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.CancelWorkflowExecutionCommandAttributes:
+		case *command.CancelWorkflowExecutionCommandAttributes:
 
 			if o == nil {
 				continue
@@ -174,14 +172,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case []*commandpb.Command:
+		case []*command.Command:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *commandpb.Command:
+		case *command.Command:
 
 			if o == nil {
 				continue
@@ -207,7 +205,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.CompleteWorkflowExecutionCommandAttributes:
+		case *command.CompleteWorkflowExecutionCommandAttributes:
 
 			if o == nil {
 				continue
@@ -221,7 +219,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.CompleteWorkflowUpdateCommandAttributes:
+		case *command.CompleteWorkflowUpdateCommandAttributes:
 
 			if o == nil {
 				continue
@@ -235,7 +233,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.ContinueAsNewWorkflowExecutionCommandAttributes:
+		case *command.ContinueAsNewWorkflowExecutionCommandAttributes:
 
 			if o == nil {
 				continue
@@ -254,7 +252,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.FailWorkflowExecutionCommandAttributes:
+		case *command.FailWorkflowExecutionCommandAttributes:
 
 			if o == nil {
 				continue
@@ -268,7 +266,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.ModifyWorkflowPropertiesCommandAttributes:
+		case *command.ModifyWorkflowPropertiesCommandAttributes:
 
 			if o == nil {
 				continue
@@ -282,7 +280,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.RecordMarkerCommandAttributes:
+		case *command.RecordMarkerCommandAttributes:
 
 			if o == nil {
 				continue
@@ -298,7 +296,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.RejectWorkflowUpdateCommandAttributes:
+		case *command.RejectWorkflowUpdateCommandAttributes:
 
 			if o == nil {
 				continue
@@ -312,7 +310,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.ScheduleActivityTaskCommandAttributes:
+		case *command.ScheduleActivityTaskCommandAttributes:
 
 			if o == nil {
 				continue
@@ -327,7 +325,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.SignalExternalWorkflowExecutionCommandAttributes:
+		case *command.SignalExternalWorkflowExecutionCommandAttributes:
 
 			if o == nil {
 				continue
@@ -342,7 +340,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.StartChildWorkflowExecutionCommandAttributes:
+		case *command.StartChildWorkflowExecutionCommandAttributes:
 
 			if o == nil {
 				continue
@@ -359,7 +357,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commandpb.UpsertWorkflowSearchAttributesCommandAttributes:
+		case *command.UpsertWorkflowSearchAttributesCommandAttributes:
 
 			if o == nil {
 				continue
@@ -373,7 +371,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commonpb.Header:
+		case *common.Header:
 
 			if o == nil {
 				continue
@@ -387,7 +385,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commonpb.Memo:
+		case *common.Memo:
 
 			if o == nil {
 				continue
@@ -401,7 +399,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *commonpb.SearchAttributes:
+		case *common.SearchAttributes:
 
 			if options.SkipSearchAttributes {
 				continue
@@ -419,7 +417,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *failurepb.ApplicationFailureInfo:
+		case *failure.ApplicationFailureInfo:
 
 			if o == nil {
 				continue
@@ -433,7 +431,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *failurepb.CanceledFailureInfo:
+		case *failure.CanceledFailureInfo:
 
 			if o == nil {
 				continue
@@ -447,14 +445,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case []*failurepb.Failure:
+		case []*failure.Failure:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *failurepb.Failure:
+		case *failure.Failure:
 
 			if o == nil {
 				continue
@@ -473,7 +471,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *failurepb.ResetWorkflowFailureInfo:
+		case *failure.ResetWorkflowFailureInfo:
 
 			if o == nil {
 				continue
@@ -487,7 +485,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *failurepb.TimeoutFailureInfo:
+		case *failure.TimeoutFailureInfo:
 
 			if o == nil {
 				continue
@@ -501,7 +499,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ActivityTaskCanceledEventAttributes:
+		case *history.ActivityTaskCanceledEventAttributes:
 
 			if o == nil {
 				continue
@@ -515,7 +513,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ActivityTaskCompletedEventAttributes:
+		case *history.ActivityTaskCompletedEventAttributes:
 
 			if o == nil {
 				continue
@@ -529,7 +527,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ActivityTaskFailedEventAttributes:
+		case *history.ActivityTaskFailedEventAttributes:
 
 			if o == nil {
 				continue
@@ -543,7 +541,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ActivityTaskScheduledEventAttributes:
+		case *history.ActivityTaskScheduledEventAttributes:
 
 			if o == nil {
 				continue
@@ -558,7 +556,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ActivityTaskStartedEventAttributes:
+		case *history.ActivityTaskStartedEventAttributes:
 
 			if o == nil {
 				continue
@@ -572,7 +570,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ActivityTaskTimedOutEventAttributes:
+		case *history.ActivityTaskTimedOutEventAttributes:
 
 			if o == nil {
 				continue
@@ -586,7 +584,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ChildWorkflowExecutionCanceledEventAttributes:
+		case *history.ChildWorkflowExecutionCanceledEventAttributes:
 
 			if o == nil {
 				continue
@@ -600,7 +598,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ChildWorkflowExecutionCompletedEventAttributes:
+		case *history.ChildWorkflowExecutionCompletedEventAttributes:
 
 			if o == nil {
 				continue
@@ -614,7 +612,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ChildWorkflowExecutionFailedEventAttributes:
+		case *history.ChildWorkflowExecutionFailedEventAttributes:
 
 			if o == nil {
 				continue
@@ -628,7 +626,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.ChildWorkflowExecutionStartedEventAttributes:
+		case *history.ChildWorkflowExecutionStartedEventAttributes:
 
 			if o == nil {
 				continue
@@ -642,7 +640,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.History:
+		case *history.History:
 
 			if o == nil {
 				continue
@@ -656,14 +654,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case []*historypb.HistoryEvent:
+		case []*history.HistoryEvent:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *historypb.HistoryEvent:
+		case *history.HistoryEvent:
 
 			if o == nil {
 				continue
@@ -703,7 +701,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.MarkerRecordedEventAttributes:
+		case *history.MarkerRecordedEventAttributes:
 
 			if o == nil {
 				continue
@@ -719,7 +717,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.SignalExternalWorkflowExecutionInitiatedEventAttributes:
+		case *history.SignalExternalWorkflowExecutionInitiatedEventAttributes:
 
 			if o == nil {
 				continue
@@ -734,7 +732,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.StartChildWorkflowExecutionInitiatedEventAttributes:
+		case *history.StartChildWorkflowExecutionInitiatedEventAttributes:
 
 			if o == nil {
 				continue
@@ -751,7 +749,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.UpsertWorkflowSearchAttributesEventAttributes:
+		case *history.UpsertWorkflowSearchAttributesEventAttributes:
 
 			if o == nil {
 				continue
@@ -765,7 +763,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowExecutionCanceledEventAttributes:
+		case *history.WorkflowExecutionCanceledEventAttributes:
 
 			if o == nil {
 				continue
@@ -779,7 +777,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowExecutionCompletedEventAttributes:
+		case *history.WorkflowExecutionCompletedEventAttributes:
 
 			if o == nil {
 				continue
@@ -793,7 +791,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowExecutionContinuedAsNewEventAttributes:
+		case *history.WorkflowExecutionContinuedAsNewEventAttributes:
 
 			if o == nil {
 				continue
@@ -812,7 +810,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowExecutionFailedEventAttributes:
+		case *history.WorkflowExecutionFailedEventAttributes:
 
 			if o == nil {
 				continue
@@ -826,7 +824,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowExecutionSignaledEventAttributes:
+		case *history.WorkflowExecutionSignaledEventAttributes:
 
 			if o == nil {
 				continue
@@ -841,7 +839,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowExecutionStartedEventAttributes:
+		case *history.WorkflowExecutionStartedEventAttributes:
 
 			if o == nil {
 				continue
@@ -860,7 +858,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowExecutionTerminatedEventAttributes:
+		case *history.WorkflowExecutionTerminatedEventAttributes:
 
 			if o == nil {
 				continue
@@ -874,7 +872,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowPropertiesModifiedEventAttributes:
+		case *history.WorkflowPropertiesModifiedEventAttributes:
 
 			if o == nil {
 				continue
@@ -888,7 +886,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowPropertiesModifiedExternallyEventAttributes:
+		case *history.WorkflowPropertiesModifiedExternallyEventAttributes:
 
 			if o == nil {
 				continue
@@ -902,7 +900,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowTaskFailedEventAttributes:
+		case *history.WorkflowTaskFailedEventAttributes:
 
 			if o == nil {
 				continue
@@ -916,7 +914,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowUpdateAcceptedEventAttributes:
+		case *history.WorkflowUpdateAcceptedEventAttributes:
 
 			if o == nil {
 				continue
@@ -930,7 +928,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowUpdateCompletedEventAttributes:
+		case *history.WorkflowUpdateCompletedEventAttributes:
 
 			if o == nil {
 				continue
@@ -944,7 +942,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *historypb.WorkflowUpdateRejectedEventAttributes:
+		case *history.WorkflowUpdateRejectedEventAttributes:
 
 			if o == nil {
 				continue
@@ -958,7 +956,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *interactionpb.Input:
+		case *interaction.Input:
 
 			if o == nil {
 				continue
@@ -973,14 +971,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case []*interactionpb.Invocation:
+		case []*interaction.Invocation:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *interactionpb.Invocation:
+		case *interaction.Invocation:
 
 			if o == nil {
 				continue
@@ -994,7 +992,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *interactionpb.Output:
+		case *interaction.Output:
 
 			if o == nil {
 				continue
@@ -1010,14 +1008,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case map[string]*querypb.WorkflowQuery:
+		case map[string]*query.WorkflowQuery:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *querypb.WorkflowQuery:
+		case *query.WorkflowQuery:
 
 			if o == nil {
 				continue
@@ -1032,14 +1030,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case map[string]*querypb.WorkflowQueryResult:
+		case map[string]*query.WorkflowQueryResult:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *querypb.WorkflowQueryResult:
+		case *query.WorkflowQueryResult:
 
 			if o == nil {
 				continue
@@ -1053,7 +1051,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *schedulepb.Schedule:
+		case *schedule.Schedule:
 
 			if o == nil {
 				continue
@@ -1067,7 +1065,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *schedulepb.ScheduleAction:
+		case *schedule.ScheduleAction:
 
 			if o == nil {
 				continue
@@ -1081,14 +1079,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case []*schedulepb.ScheduleListEntry:
+		case []*schedule.ScheduleListEntry:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *schedulepb.ScheduleListEntry:
+		case *schedule.ScheduleListEntry:
 
 			if o == nil {
 				continue
@@ -1103,7 +1101,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowpb.NewWorkflowExecutionInfo:
+		case *workflow.NewWorkflowExecutionInfo:
 
 			if o == nil {
 				continue
@@ -1120,14 +1118,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case []*workflowpb.PendingActivityInfo:
+		case []*workflow.PendingActivityInfo:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *workflowpb.PendingActivityInfo:
+		case *workflow.PendingActivityInfo:
 
 			if o == nil {
 				continue
@@ -1142,14 +1140,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case []*workflowpb.WorkflowExecutionInfo:
+		case []*workflow.WorkflowExecutionInfo:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *workflowpb.WorkflowExecutionInfo:
+		case *workflow.WorkflowExecutionInfo:
 
 			if o == nil {
 				continue
@@ -1164,23 +1162,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.CreateScheduleRequest:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetMemo(),
-				o.GetSchedule(),
-				o.GetSearchAttributes(),
-			); err != nil {
-				return err
-			}
-
-		case *workflowservicepb.DescribeScheduleResponse:
+		case *workflowservice.CreateScheduleRequest:
 
 			if o == nil {
 				continue
@@ -1196,7 +1178,23 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.DescribeWorkflowExecutionResponse:
+		case *workflowservice.DescribeScheduleResponse:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetMemo(),
+				o.GetSchedule(),
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.DescribeWorkflowExecutionResponse:
 
 			if o == nil {
 				continue
@@ -1211,7 +1209,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.GetWorkflowExecutionHistoryResponse:
+		case *workflowservice.GetWorkflowExecutionHistoryResponse:
 
 			if o == nil {
 				continue
@@ -1225,7 +1223,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.GetWorkflowExecutionHistoryReverseResponse:
+		case *workflowservice.GetWorkflowExecutionHistoryReverseResponse:
 
 			if o == nil {
 				continue
@@ -1239,7 +1237,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.ListArchivedWorkflowExecutionsResponse:
+		case *workflowservice.ListArchivedWorkflowExecutionsResponse:
 
 			if o == nil {
 				continue
@@ -1253,7 +1251,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.ListClosedWorkflowExecutionsResponse:
+		case *workflowservice.ListClosedWorkflowExecutionsResponse:
 
 			if o == nil {
 				continue
@@ -1267,7 +1265,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.ListOpenWorkflowExecutionsResponse:
+		case *workflowservice.ListOpenWorkflowExecutionsResponse:
 
 			if o == nil {
 				continue
@@ -1281,7 +1279,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.ListSchedulesResponse:
+		case *workflowservice.ListSchedulesResponse:
 
 			if o == nil {
 				continue
@@ -1295,7 +1293,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.ListWorkflowExecutionsResponse:
+		case *workflowservice.ListWorkflowExecutionsResponse:
 
 			if o == nil {
 				continue
@@ -1309,14 +1307,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case []*workflowservicepb.PollActivityTaskQueueResponse:
+		case []*workflowservice.PollActivityTaskQueueResponse:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
 					return err
 				}
 			}
 
-		case *workflowservicepb.PollActivityTaskQueueResponse:
+		case *workflowservice.PollActivityTaskQueueResponse:
 
 			if o == nil {
 				continue
@@ -1332,7 +1330,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.PollWorkflowTaskQueueResponse:
+		case *workflowservice.PollWorkflowTaskQueueResponse:
 
 			if o == nil {
 				continue
@@ -1349,7 +1347,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.QueryWorkflowRequest:
+		case *workflowservice.QueryWorkflowRequest:
 
 			if o == nil {
 				continue
@@ -1363,7 +1361,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.QueryWorkflowResponse:
+		case *workflowservice.QueryWorkflowResponse:
 
 			if o == nil {
 				continue
@@ -1377,7 +1375,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RecordActivityTaskHeartbeatByIdRequest:
+		case *workflowservice.RecordActivityTaskHeartbeatByIdRequest:
 
 			if o == nil {
 				continue
@@ -1391,7 +1389,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RecordActivityTaskHeartbeatRequest:
+		case *workflowservice.RecordActivityTaskHeartbeatRequest:
 
 			if o == nil {
 				continue
@@ -1405,7 +1403,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondActivityTaskCanceledByIdRequest:
+		case *workflowservice.RespondActivityTaskCanceledByIdRequest:
 
 			if o == nil {
 				continue
@@ -1419,7 +1417,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondActivityTaskCanceledRequest:
+		case *workflowservice.RespondActivityTaskCanceledRequest:
 
 			if o == nil {
 				continue
@@ -1433,7 +1431,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondActivityTaskCompletedByIdRequest:
+		case *workflowservice.RespondActivityTaskCompletedByIdRequest:
 
 			if o == nil {
 				continue
@@ -1447,7 +1445,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondActivityTaskCompletedRequest:
+		case *workflowservice.RespondActivityTaskCompletedRequest:
 
 			if o == nil {
 				continue
@@ -1461,7 +1459,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondActivityTaskFailedByIdRequest:
+		case *workflowservice.RespondActivityTaskFailedByIdRequest:
 
 			if o == nil {
 				continue
@@ -1476,7 +1474,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondActivityTaskFailedByIdResponse:
+		case *workflowservice.RespondActivityTaskFailedByIdResponse:
 
 			if o == nil {
 				continue
@@ -1490,7 +1488,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondActivityTaskFailedRequest:
+		case *workflowservice.RespondActivityTaskFailedRequest:
 
 			if o == nil {
 				continue
@@ -1505,7 +1503,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondActivityTaskFailedResponse:
+		case *workflowservice.RespondActivityTaskFailedResponse:
 
 			if o == nil {
 				continue
@@ -1519,7 +1517,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondQueryTaskCompletedRequest:
+		case *workflowservice.RespondQueryTaskCompletedRequest:
 
 			if o == nil {
 				continue
@@ -1533,7 +1531,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondWorkflowTaskCompletedRequest:
+		case *workflowservice.RespondWorkflowTaskCompletedRequest:
 
 			if o == nil {
 				continue
@@ -1548,7 +1546,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondWorkflowTaskCompletedResponse:
+		case *workflowservice.RespondWorkflowTaskCompletedResponse:
 
 			if o == nil {
 				continue
@@ -1563,7 +1561,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.RespondWorkflowTaskFailedRequest:
+		case *workflowservice.RespondWorkflowTaskFailedRequest:
 
 			if o == nil {
 				continue
@@ -1577,7 +1575,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.ScanWorkflowExecutionsResponse:
+		case *workflowservice.ScanWorkflowExecutionsResponse:
 
 			if o == nil {
 				continue
@@ -1591,7 +1589,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.SignalWithStartWorkflowExecutionRequest:
+		case *workflowservice.SignalWithStartWorkflowExecutionRequest:
 
 			if o == nil {
 				continue
@@ -1609,7 +1607,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.SignalWorkflowExecutionRequest:
+		case *workflowservice.SignalWorkflowExecutionRequest:
 
 			if o == nil {
 				continue
@@ -1624,7 +1622,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.StartBatchOperationRequest:
+		case *workflowservice.StartBatchOperationRequest:
 
 			if o == nil {
 				continue
@@ -1639,7 +1637,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.StartWorkflowExecutionRequest:
+		case *workflowservice.StartWorkflowExecutionRequest:
 
 			if o == nil {
 				continue
@@ -1656,7 +1654,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.TerminateWorkflowExecutionRequest:
+		case *workflowservice.TerminateWorkflowExecutionRequest:
 
 			if o == nil {
 				continue
@@ -1670,7 +1668,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.UpdateScheduleRequest:
+		case *workflowservice.UpdateScheduleRequest:
 
 			if o == nil {
 				continue
@@ -1684,7 +1682,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.UpdateWorkflowRequest:
+		case *workflowservice.UpdateWorkflowRequest:
 
 			if o == nil {
 				continue
@@ -1698,7 +1696,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservicepb.UpdateWorkflowResponse:
+		case *workflowservice.UpdateWorkflowResponse:
 
 			if o == nil {
 				continue

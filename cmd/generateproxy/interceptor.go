@@ -25,7 +25,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"go/format"
 	"go/types"
 	"html/template"
 	"log"
@@ -34,6 +33,7 @@ import (
 
 	"golang.org/x/tools/go/packages"
 	"golang.org/x/tools/go/types/typeutil"
+	"golang.org/x/tools/imports"
 )
 
 const interceptorFile = "../../proxy/interceptor.go"
@@ -46,19 +46,7 @@ import (
 	"fmt"
 
 	"google.golang.org/grpc"
-	
 	proto "github.com/gogo/protobuf/proto"
-
-	batchpb "go.temporal.io/api/batch/v1"
-	commonpb "go.temporal.io/api/common/v1"
-	historypb "go.temporal.io/api/history/v1"
-	commandpb "go.temporal.io/api/command/v1"
-	failurepb "go.temporal.io/api/failure/v1"
-	interactionpb "go.temporal.io/api/interaction/v1"
-	workflowpb "go.temporal.io/api/workflow/v1"
-	querypb "go.temporal.io/api/query/v1"
-	schedulepb "go.temporal.io/api/schedule/v1"
-	workflowservicepb "go.temporal.io/api/workflowservice/v1"
 )
 
 type VisitPayloadsContext struct {
@@ -71,7 +59,7 @@ type VisitPayloadsContext struct {
 type VisitPayloadsOptions struct {
 	// Context is the same for every call of a visit, callers should not store it. This must never
 	// return an empty set of payloads.
-	Visitor func(*VisitPayloadsContext, []*commonpb.Payload) ([]*commonpb.Payload, error)
+	Visitor func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error)
 	SkipSearchAttributes bool
 }
 
@@ -86,10 +74,10 @@ type PayloadVisitorInterceptorOptions struct {
 	Inbound *VisitPayloadsOptions
 }
 
-func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *commonpb.Payload) error {
+func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) error {
 	ctx.SinglePayloadRequired = true
 
-	newPayloads, err := options.Visitor(ctx, []*commonpb.Payload{msg})
+	newPayloads, err := options.Visitor(ctx, []*common.Payload{msg})
 	if err != nil {
 		return err
 	}
@@ -108,13 +96,13 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 		ctx.SinglePayloadRequired = false
 
 		switch o := obj.(type) {
-			case *commonpb.Payload:
+			case *common.Payload:
 				if o == nil { continue }
 				err := visitPayload(ctx, options, o)
 				if err != nil { return err }
-			case map[string]*commonpb.Payload:
+			case map[string]*common.Payload:
 				for _, x := range o { if err := visitPayload(ctx, options, x); err != nil { return err } }
-			case *commonpb.Payloads:
+			case *common.Payloads:
 				if o == nil { continue }
 				newPayloads, err := options.Visitor(ctx, o.Payloads)
 				if err != nil { return err }
@@ -129,7 +117,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				for _, x := range o { if err := visitPayloads(ctx, options, x); err != nil { return err } }
 		{{end}}
 			case {{$type}}:
-				{{if eq $type "*commonpb.SearchAttributes"}}
+				{{if eq $type "*common.SearchAttributes"}}
 				if options.SkipSearchAttributes { continue }
 				{{end}}
 				if o == nil { continue }
@@ -215,7 +203,7 @@ func elemType(t types.Type) types.Type {
 // typeName returns a normalized path for a type
 func typeName(t types.Type) string {
 	return types.TypeString(elemType(t), func(p *types.Package) string {
-		return p.Name() + "pb"
+		return p.Name()
 	})
 }
 
@@ -361,7 +349,7 @@ func generateInterceptor(cfg config) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	src, err := format.Source(buf.Bytes())
+	src, err := imports.Process(interceptorFile, buf.Bytes(), nil)
 	if err != nil {
 		log.Fatal(err)
 	}
