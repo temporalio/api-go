@@ -81,7 +81,7 @@ func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg 
 		return fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true")
 	}
 
-	msg = newPayloads[0]
+	*msg = *newPayloads[0]
 
 	return nil
 }
