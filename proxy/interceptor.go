@@ -44,29 +44,37 @@ import (
 	"google.golang.org/grpc"
 )
 
+// VisitPayloadsContext provides Payload context for visitor functions.
 type VisitPayloadsContext struct {
 	context.Context
+	// The parent message for this payload.
 	Parent proto.Message
-	// If true, a single payload is given and a single payload must be returned
+	// If true, a single payload is given and a single payload must be returned.
 	SinglePayloadRequired bool
 }
 
+// VisitPayloadsOptions configure visitor behaviour.
 type VisitPayloadsOptions struct {
 	// Context is the same for every call of a visit, callers should not store it. This must never
 	// return an empty set of payloads.
-	Visitor              func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error)
+	Visitor func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error)
+	// Don't visit search attribute payloads.
 	SkipSearchAttributes bool
 }
 
+// VisitPayloads calls the options.Visitor function for every Payload proto within msg.
 func VisitPayloads(ctx context.Context, msg proto.Message, options VisitPayloadsOptions) error {
 	visitCtx := VisitPayloadsContext{Context: ctx, Parent: msg}
 
 	return visitPayloads(&visitCtx, &options, msg)
 }
 
+// PayloadVisitorInterceptorOptions configures outbound/inbound interception of Payloads within msgs.
 type PayloadVisitorInterceptorOptions struct {
+	// Visit options for outbound messages
 	Outbound *VisitPayloadsOptions
-	Inbound  *VisitPayloadsOptions
+	// Visit options for inbound messages
+	Inbound *VisitPayloadsOptions
 }
 
 func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) error {
@@ -1716,6 +1724,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 	return nil
 }
 
+// NewPayloadVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
 func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
 	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
