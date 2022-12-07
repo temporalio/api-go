@@ -77,6 +77,81 @@ type PayloadVisitorInterceptorOptions struct {
 	Inbound *VisitPayloadsOptions
 }
 
+// NewPayloadVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
+func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
+	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
+			err := VisitPayloads(ctx, reqMsg, *options.Outbound)
+			if err != nil {
+				return err
+			}
+		}
+
+		err := invoker(ctx, method, req, response, cc, opts...)
+		if err != nil {
+			return err
+		}
+
+		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
+			return VisitPayloads(ctx, resMsg, *options.Inbound)
+		}
+
+		return nil
+	}, nil
+}
+
+// VisitFailuresContext provides Failure context for visitor functions.
+type VisitFailuresContext struct {
+	context.Context
+	// The parent message for this failure.
+	Parent proto.Message
+}
+
+// VisitFailuresOptions configure visitor behaviour.
+type VisitFailuresOptions struct {
+	// Context is the same for every call of a visit, callers should not store it. This must never
+	// return an empty set of payloads.
+	Visitor func(*VisitFailuresContext, *failure.Failure) (*failure.Failure, error)
+}
+
+// VisitFailures calls the options.Visitor function for every Failure proto within msg.
+func VisitFailures(ctx context.Context, msg proto.Message, options VisitFailuresOptions) error {
+	visitCtx := VisitFailuresContext{Context: ctx, Parent: msg}
+
+	return visitFailures(&visitCtx, &options, msg)
+}
+
+// FailureVisitorInterceptorOptions configures outbound/inbound interception of Failures within msgs.
+type FailureVisitorInterceptorOptions struct {
+	// Visit options for outbound messages
+	Outbound *VisitFailuresOptions
+	// Visit options for inbound messages
+	Inbound *VisitFailuresOptions
+}
+
+// NewFailureVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
+func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
+	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
+			err := VisitFailures(ctx, reqMsg, *options.Outbound)
+			if err != nil {
+				return err
+			}
+		}
+
+		err := invoker(ctx, method, req, response, cc, opts...)
+		if err != nil {
+			return err
+		}
+
+		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
+			return VisitFailures(ctx, resMsg, *options.Inbound)
+		}
+
+		return nil
+	}, nil
+}
+
 func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) error {
 	ctx.SinglePayloadRequired = true
 
@@ -1724,25 +1799,484 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 	return nil
 }
 
-// NewPayloadVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
-func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
-	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
-			err := VisitPayloads(ctx, reqMsg, *options.Outbound)
+func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, objs ...interface{}) error {
+	for _, obj := range objs {
+		switch o := obj.(type) {
+		case *failure.Failure:
+			if o == nil {
+				continue
+			}
+			err := visitFailures(ctx, options, o)
 			if err != nil {
 				return err
 			}
-		}
 
-		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil {
-			return err
-		}
+		case []*command.Command:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
 
-		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
-			return VisitPayloads(ctx, resMsg, *options.Inbound)
-		}
+		case *command.Command:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCompleteWorkflowUpdateCommandAttributes(),
+				o.GetContinueAsNewWorkflowExecutionCommandAttributes(),
+				o.GetFailWorkflowExecutionCommandAttributes(),
+				o.GetRecordMarkerCommandAttributes(),
+				o.GetRejectWorkflowUpdateCommandAttributes(),
+			); err != nil {
+				return err
+			}
 
-		return nil
-	}, nil
+		case *command.CompleteWorkflowUpdateCommandAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutput(),
+			); err != nil {
+				return err
+			}
+
+		case *command.ContinueAsNewWorkflowExecutionCommandAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *command.FailWorkflowExecutionCommandAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *command.RecordMarkerCommandAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *command.RejectWorkflowUpdateCommandAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.ActivityTaskFailedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.ActivityTaskStartedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.ActivityTaskTimedOutEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.ChildWorkflowExecutionFailedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.History:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetEvents(),
+			); err != nil {
+				return err
+			}
+
+		case []*history.HistoryEvent:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *history.HistoryEvent:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetActivityTaskFailedEventAttributes(),
+				o.GetActivityTaskStartedEventAttributes(),
+				o.GetActivityTaskTimedOutEventAttributes(),
+				o.GetChildWorkflowExecutionFailedEventAttributes(),
+				o.GetMarkerRecordedEventAttributes(),
+				o.GetWorkflowExecutionContinuedAsNewEventAttributes(),
+				o.GetWorkflowExecutionFailedEventAttributes(),
+				o.GetWorkflowExecutionStartedEventAttributes(),
+				o.GetWorkflowTaskFailedEventAttributes(),
+				o.GetWorkflowUpdateCompletedEventAttributes(),
+				o.GetWorkflowUpdateRejectedEventAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *history.MarkerRecordedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowExecutionContinuedAsNewEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowExecutionFailedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowExecutionStartedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetContinuedFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowTaskFailedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowUpdateCompletedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutput(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowUpdateRejectedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *interaction.Output:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflow.PendingActivityInfo:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflow.PendingActivityInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.DescribeWorkflowExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetPendingActivities(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.GetWorkflowExecutionHistoryResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetHistory(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.GetWorkflowExecutionHistoryReverseResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetHistory(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollWorkflowTaskQueueResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetHistory(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondActivityTaskFailedByIdRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondActivityTaskFailedByIdResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailures(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondActivityTaskFailedRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondActivityTaskFailedResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailures(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondWorkflowTaskCompletedRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCommands(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondWorkflowTaskCompletedResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetWorkflowTask(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondWorkflowTaskFailedRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.UpdateWorkflowResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutput(),
+			); err != nil {
+				return err
+			}
+
+		}
+	}
+
+	return nil
 }

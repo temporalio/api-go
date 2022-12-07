@@ -82,6 +82,81 @@ type PayloadVisitorInterceptorOptions struct {
 	Inbound *VisitPayloadsOptions
 }
 
+// NewPayloadVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
+func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
+	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
+			err := VisitPayloads(ctx, reqMsg, *options.Outbound)
+			if err != nil {
+				return err
+			}	
+		}
+
+		err := invoker(ctx, method, req, response, cc, opts...)
+		if err != nil {
+			return err
+		}
+
+		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
+			return VisitPayloads(ctx, resMsg, *options.Inbound)	
+		}
+		
+		return nil
+	}, nil
+}
+
+// VisitFailuresContext provides Failure context for visitor functions.
+type VisitFailuresContext struct {
+	context.Context
+	// The parent message for this failure.
+	Parent proto.Message
+}
+
+// VisitFailuresOptions configure visitor behaviour.
+type VisitFailuresOptions struct {
+	// Context is the same for every call of a visit, callers should not store it. This must never
+	// return an empty set of payloads.
+	Visitor func(*VisitFailuresContext, *failure.Failure) (*failure.Failure, error)
+}
+
+// VisitFailures calls the options.Visitor function for every Failure proto within msg.
+func VisitFailures(ctx context.Context, msg proto.Message, options VisitFailuresOptions) error {
+	visitCtx := VisitFailuresContext{Context: ctx, Parent: msg}
+
+	return visitFailures(&visitCtx, &options, msg)
+}
+
+// FailureVisitorInterceptorOptions configures outbound/inbound interception of Failures within msgs.
+type FailureVisitorInterceptorOptions struct {
+	// Visit options for outbound messages
+	Outbound *VisitFailuresOptions
+	// Visit options for inbound messages
+	Inbound *VisitFailuresOptions
+}
+
+// NewFailureVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
+func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
+	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
+			err := VisitFailures(ctx, reqMsg, *options.Outbound)
+			if err != nil {
+				return err
+			}	
+		}
+
+		err := invoker(ctx, method, req, response, cc, opts...)
+		if err != nil {
+			return err
+		}
+
+		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
+			return VisitFailures(ctx, resMsg, *options.Inbound)	
+		}
+		
+		return nil
+	}, nil
+}
+
 func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) error {
 	ctx.SinglePayloadRequired = true
 
@@ -115,7 +190,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				newPayloads, err := options.Visitor(ctx, o.Payloads)
 				if err != nil { return err }
 				o.Payloads = newPayloads
-{{range $type, $record := .}}
+{{range $type, $record := .PayloadTypes}}
 		{{if $record.Slice}}
 			case []{{$type}}:
 				for _, x := range o { if err := visitPayloads(ctx, options, x); err != nil { return err } }
@@ -144,27 +219,37 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 	return nil
 }
 
-// NewPayloadVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
-func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
-	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
-			err := VisitPayloads(ctx, reqMsg, *options.Outbound)
-			if err != nil {
-				return err
-			}	
+func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, objs ...interface{}) error {
+	for _, obj := range objs {
+		switch o := obj.(type) {
+			case *failure.Failure:
+				if o == nil { continue }
+				err := visitFailures(ctx, options, o)
+				if err != nil { return err }
+{{range $type, $record := .FailureTypes}}
+		{{if $record.Slice}}
+			case []{{$type}}:
+				for _, x := range o { if err := visitFailures(ctx, options, x); err != nil { return err } }
+		{{end}}
+		{{if $record.Map}}
+			case map[string]{{$type}}:
+				for _, x := range o { if err := visitFailures(ctx, options, x); err != nil { return err } }
+		{{end}}
+			case {{$type}}:
+				if o == nil { continue }
+				ctx.Parent = o
+				if err := visitFailures(
+					ctx,
+					options,
+					{{range $record.Methods -}}
+						o.{{.}}(),
+					{{end}}
+				); err != nil { return err }
+{{end}}
 		}
+	}
 
-		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil {
-			return err
-		}
-
-		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
-			return VisitPayloads(ctx, resMsg, *options.Inbound)	
-		}
-		
-		return nil
-	}, nil
+	return nil
 }
 `
 
@@ -177,8 +262,6 @@ type TypeRecord struct {
 	Map     bool     // The API refers to maps with this type as the value
 	Matches bool     // We found methods on this type that can eventually lead to Payload(s)
 }
-
-var records = map[string]*TypeRecord{}
 
 // isSlice returns true if a type is slice, false otherwise
 func isSlice(t types.Type) bool {
@@ -259,32 +342,36 @@ func pruneRecords(input map[string]*TypeRecord) map[string]*TypeRecord {
 
 // walk iterates the methods on a type and returns whether any of them can eventually lead to Payload(s)
 // The return type for each method on this type is walked recursively to decide which methods can lead to Payload(s)
-func walk(desired []types.Type, typ types.Type) bool {
+func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord) bool {
+	typeName := typeName(typ)
+
 	// If this type is a slice then walk the underlying type and then make a note we need to encode slices of this type
 	if isSlice(typ) {
-		result := walk(desired, elemType(typ))
-		record := records[typeName(typ)]
-		record.Slice = true
+		result := walk(desired, elemType(typ), records)
+		if result {
+			record := (*records)[typeName]
+			record.Slice = true
+		}
 		return result
 	}
 
 	// If this type is a map then walk the underlying type and then make a note we need to encode maps with values of this type
 	if isMap(typ) {
-		result := walk(desired, elemType(typ))
-		record := records[typeName(typ)]
-		record.Map = true
+		result := walk(desired, elemType(typ), records)
+		if result {
+			record := (*records)[typeName]
+			record.Map = true
+		}
 		return result
 	}
 
-	typeName := typeName(typ)
-
 	// If we've walked this type before, return the previous result
-	if record, ok := records[typeName]; ok {
+	if record, ok := (*records)[typeName]; ok {
 		return record.Matches
 	}
 
 	record := TypeRecord{}
-	records[typeName] = &record
+	(*records)[typeName] = &record
 
 	for _, meth := range typeutil.IntuitiveMethodSet(elemType(typ), nil) {
 		// Ignore non-exported methods
@@ -304,7 +391,7 @@ func walk(desired []types.Type, typ types.Type) bool {
 		resultType := sig.Results().At(0).Type()
 
 		// Check if this method returns a Payload(s) or if it leads (eventually) to a Type which refers to a Payload(s)
-		if typeMatches(resultType, desired...) || walk(desired, resultType) {
+		if typeMatches(resultType, desired...) || walk(desired, resultType, records) {
 			record.Matches = true
 			record.Methods = append(record.Methods, methodName)
 		}
@@ -315,46 +402,64 @@ func walk(desired []types.Type, typ types.Type) bool {
 	return record.Matches
 }
 
-func generateInterceptor(cfg config) error {
+func lookupTypes(pkgName string, typeNames []string) ([]types.Type, error) {
 	conf := &packages.Config{Mode: packages.NeedImports | packages.NeedTypes | packages.NeedTypesInfo}
-	pkgs, err := packages.Load(conf, "go.temporal.io/api/workflowservice/v1")
+	result := []types.Type{}
+
+	pkgs, err := packages.Load(conf, pkgName)
+	if err != nil {
+		return result, err
+	}
+	scope := pkgs[0].Types.Scope()
+
+	for _, t := range typeNames {
+		result = append(result, scope.Lookup(t).Type())
+	}
+
+	return result, nil
+}
+
+func generateInterceptor(cfg config) error {
+	payloadTypes, err := lookupTypes("go.temporal.io/api/common/v1", []string{"Payloads", "Payload"})
 	if err != nil {
 		return err
 	}
 
-	servicePkg := pkgs[0]
-
-	pkgs, err = packages.Load(conf, "go.temporal.io/api/common/v1")
+	failureTypes, err := lookupTypes("go.temporal.io/api/failure/v1", []string{"Failure"})
 	if err != nil {
 		return err
 	}
 
-	commonPkg := pkgs[0]
-	scope := commonPkg.Types.Scope()
-	payloadTypes := []types.Type{
-		scope.Lookup("Payloads").Type(),
-		scope.Lookup("Payload").Type(),
-	}
-
-	scope = servicePkg.Types.Scope()
 	// UnimplementedWorkflowServiceServer is auto-generated via our API package
 	// The methods on this type refer to all possible Request/Response types so we can use this to walk through all of our protobuf types
-	service := scope.Lookup("UnimplementedWorkflowServiceServer")
-	if _, ok := service.(*types.TypeName); ok {
-		for _, meth := range typeutil.IntuitiveMethodSet(service.Type(), nil) {
-			if !meth.Obj().Exported() {
-				continue
-			}
-
-			sig := meth.Obj().Type().(*types.Signature)
-			walk(payloadTypes, sig.Params().At(1).Type())
-			walk(payloadTypes, sig.Results().At(0).Type())
-		}
+	serviceTypes, err := lookupTypes("go.temporal.io/api/workflowservice/v1", []string{"UnimplementedWorkflowServiceServer"})
+	if err != nil {
+		return err
 	}
+
+	service := serviceTypes[0]
+
+	payloadRecords := map[string]*TypeRecord{}
+	failureRecords := map[string]*TypeRecord{}
+
+	for _, meth := range typeutil.IntuitiveMethodSet(service, nil) {
+		if !meth.Obj().Exported() {
+			continue
+		}
+
+		sig := meth.Obj().Type().(*types.Signature)
+		walk(payloadTypes, sig.Params().At(1).Type(), &payloadRecords)
+		walk(failureTypes, sig.Params().At(1).Type(), &failureRecords)
+		walk(payloadTypes, sig.Results().At(0).Type(), &payloadRecords)
+		walk(failureTypes, sig.Results().At(0).Type(), &failureRecords)
+	}
+
+	payloadRecords = pruneRecords(payloadRecords)
+	failureRecords = pruneRecords(failureRecords)
 
 	buf := &bytes.Buffer{}
 
-	err = interceptorTemplate.Execute(buf, pruneRecords(records))
+	err = interceptorTemplate.Execute(buf, map[string]map[string]*TypeRecord{"PayloadTypes": payloadRecords, "FailureTypes": failureRecords})
 	if err != nil {
 		return err
 	}
