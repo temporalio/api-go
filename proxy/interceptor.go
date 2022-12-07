@@ -111,7 +111,8 @@ type VisitFailuresContext struct {
 type VisitFailuresOptions struct {
 	// Context is the same for every call of a visit, callers should not store it. This must never
 	// return an empty set of payloads.
-	Visitor func(*VisitFailuresContext, *failure.Failure) (*failure.Failure, error)
+	// Visitor is free to mutate the passed failure struct.
+	Visitor func(*VisitFailuresContext, *failure.Failure) error
 }
 
 // VisitFailures calls the options.Visitor function for every Failure proto within msg.
@@ -1806,8 +1807,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if o == nil {
 				continue
 			}
-			err := visitFailures(ctx, options, o)
-			if err != nil {
+			if err := options.Visitor(ctx, o); err != nil {
 				return err
 			}
 
