@@ -226,6 +226,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			case *failure.Failure:
 				if o == nil { continue }
 				if err := options.Visitor(ctx, o); err != nil { return err }
+				if err := visitFailures(ctx, options, o.GetCause()); err != nil { return err }
 {{range $type, $record := .FailureTypes}}
 		{{if $record.Slice}}
 			case []{{$type}}:

@@ -1810,6 +1810,9 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := options.Visitor(ctx, o); err != nil {
 				return err
 			}
+			if err := visitFailures(ctx, options, o.GetCause()); err != nil {
+				return err
+			}
 
 		case []*command.Command:
 			for _, x := range o {

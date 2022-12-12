@@ -34,22 +34,100 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func inputPayloads() common.Payloads {
-	return common.Payloads{
+func inputPayloads() *common.Payloads {
+	return &common.Payloads{
 		Payloads: []*common.Payload{
-			{
-				Metadata: map[string][]byte{
-					"encoding": []byte("plain/json"),
-				},
-				Data: []byte("test"),
-			},
+			inputPayload(),
 		},
 	}
+}
+
+func inputPayload() *common.Payload {
+	return &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("plain/json"),
+		},
+		Data: []byte("test"),
+	}
+}
+
+func TestVisitPayloads(t *testing.T) {
+	require := require.New(t)
+
+	err := VisitPayloads(
+		context.Background(),
+		&workflowservice.StartWorkflowExecutionRequest{
+			Input: inputPayloads(),
+		},
+		VisitPayloadsOptions{
+			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				require.False(vpc.SinglePayloadRequired)
+				return p, nil
+			},
+		},
+	)
+	require.NoError(err)
+
+	err = VisitPayloads(
+		context.Background(),
+		&workflowservice.StartWorkflowExecutionRequest{
+			Header: &common.Header{
+				Fields: map[string]*common.Payload{"test": inputPayload()},
+			},
+		},
+		VisitPayloadsOptions{
+			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				require.True(vpc.SinglePayloadRequired)
+				return p, nil
+			},
+		},
+	)
+	require.NoError(err)
+
+}
+
+func TestVisitFailures(t *testing.T) {
+	require := require.New(t)
+
+	fail := &failure.Failure{}
+
+	err := VisitFailures(
+		context.Background(),
+		&workflowservice.RespondActivityTaskFailedRequest{
+			Failure: fail,
+		},
+		VisitFailuresOptions{
+			Visitor: func(vfc *VisitFailuresContext, f *failure.Failure) error {
+				require.Equal(fail, f)
+				return nil
+			},
+		},
+	)
+	require.NoError(err)
+
+	nestedFailure := &failure.Failure{Cause: fail}
+	failureCount := 0
+
+	err = VisitFailures(
+		context.Background(),
+		&workflowservice.RespondActivityTaskFailedRequest{
+			Failure: nestedFailure,
+		},
+		VisitFailuresOptions{
+			Visitor: func(vfc *VisitFailuresContext, f *failure.Failure) error {
+				failureCount += 1
+				return nil
+			},
+		},
+	)
+	require.NoError(err)
+	require.Equal(2, failureCount)
 }
 
 func TestClientInterceptor(t *testing.T) {
@@ -92,7 +170,7 @@ func TestClientInterceptor(t *testing.T) {
 	_, err = client.StartWorkflowExecution(
 		context.Background(),
 		&workflowservice.StartWorkflowExecutionRequest{
-			Input: &inputs,
+			Input: inputPayloads(),
 		},
 	)
 	require.NoError(err)
@@ -175,8 +253,7 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 	ctx context.Context,
 	req *workflowservice.PollActivityTaskQueueRequest,
 ) (*workflowservice.PollActivityTaskQueueResponse, error) {
-	inputs := inputPayloads()
 	return &workflowservice.PollActivityTaskQueueResponse{
-		Input: &inputs,
+		Input: inputPayloads(),
 	}, nil
 }
