@@ -109,8 +109,7 @@ type VisitFailuresContext struct {
 
 // VisitFailuresOptions configure visitor behaviour.
 type VisitFailuresOptions struct {
-	// Context is the same for every call of a visit, callers should not store it. This must never
-	// return an empty set of payloads.
+	// Context is the same for every call of a visit, callers should not store it.
 	// Visitor is free to mutate the passed failure struct.
 	Visitor func(*VisitFailuresContext, *failure.Failure) error
 }
