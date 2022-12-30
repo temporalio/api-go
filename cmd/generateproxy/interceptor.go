@@ -190,6 +190,8 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				newPayloads, err := options.Visitor(ctx, o.Payloads)
 				if err != nil { return err }
 				o.Payloads = newPayloads
+			case map[string]*common.Payloads:
+				for _, x := range o { if err := visitPayloads(ctx, options, x); err != nil { return err } }
 {{range $type, $record := .PayloadTypes}}
 		{{if $record.Slice}}
 			case []{{$type}}:

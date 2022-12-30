@@ -197,6 +197,12 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 			o.Payloads = newPayloads
+		case map[string]*common.Payloads:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, x); err != nil {
+					return err
+				}
+			}
 
 		case *batch.BatchOperationSignal:
 
