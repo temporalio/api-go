@@ -462,6 +462,7 @@ func generateInterceptor(cfg config) error {
 	failureRecords = pruneRecords(failureRecords)
 
 	buf := &bytes.Buffer{}
+	fmt.Fprint(buf, cfg.license)
 
 	err = interceptorTemplate.Execute(buf, map[string]map[string]*TypeRecord{"PayloadTypes": payloadRecords, "FailureTypes": failureRecords})
 	if err != nil {

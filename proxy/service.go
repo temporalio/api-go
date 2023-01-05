@@ -51,222 +51,222 @@ func NewWorkflowServiceProxyServer(options WorkflowServiceProxyOptions) (workflo
 	}, nil
 }
 
-func (wh *workflowServiceProxyServer) CountWorkflowExecutions(ctx context.Context, req *workflowservice.CountWorkflowExecutionsRequest) (*workflowservice.CountWorkflowExecutionsResponse, error) {
-	return wh.client.CountWorkflowExecutions(ctx, req)
+func (s *workflowServiceProxyServer) CountWorkflowExecutions(ctx context.Context, req *workflowservice.CountWorkflowExecutionsRequest) (*workflowservice.CountWorkflowExecutionsResponse, error) {
+	return s.client.CountWorkflowExecutions(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) CreateSchedule(ctx context.Context, req *workflowservice.CreateScheduleRequest) (*workflowservice.CreateScheduleResponse, error) {
-	return wh.client.CreateSchedule(ctx, req)
+func (s *workflowServiceProxyServer) CreateSchedule(ctx context.Context, req *workflowservice.CreateScheduleRequest) (*workflowservice.CreateScheduleResponse, error) {
+	return s.client.CreateSchedule(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) DeleteSchedule(ctx context.Context, req *workflowservice.DeleteScheduleRequest) (*workflowservice.DeleteScheduleResponse, error) {
-	return wh.client.DeleteSchedule(ctx, req)
+func (s *workflowServiceProxyServer) DeleteSchedule(ctx context.Context, req *workflowservice.DeleteScheduleRequest) (*workflowservice.DeleteScheduleResponse, error) {
+	return s.client.DeleteSchedule(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) DeleteWorkflowExecution(ctx context.Context, req *workflowservice.DeleteWorkflowExecutionRequest) (*workflowservice.DeleteWorkflowExecutionResponse, error) {
-	return wh.client.DeleteWorkflowExecution(ctx, req)
+func (s *workflowServiceProxyServer) DeleteWorkflowExecution(ctx context.Context, req *workflowservice.DeleteWorkflowExecutionRequest) (*workflowservice.DeleteWorkflowExecutionResponse, error) {
+	return s.client.DeleteWorkflowExecution(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) DeprecateNamespace(ctx context.Context, req *workflowservice.DeprecateNamespaceRequest) (*workflowservice.DeprecateNamespaceResponse, error) {
-	return wh.client.DeprecateNamespace(ctx, req)
+func (s *workflowServiceProxyServer) DeprecateNamespace(ctx context.Context, req *workflowservice.DeprecateNamespaceRequest) (*workflowservice.DeprecateNamespaceResponse, error) {
+	return s.client.DeprecateNamespace(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) DescribeBatchOperation(ctx context.Context, req *workflowservice.DescribeBatchOperationRequest) (*workflowservice.DescribeBatchOperationResponse, error) {
-	return wh.client.DescribeBatchOperation(ctx, req)
+func (s *workflowServiceProxyServer) DescribeBatchOperation(ctx context.Context, req *workflowservice.DescribeBatchOperationRequest) (*workflowservice.DescribeBatchOperationResponse, error) {
+	return s.client.DescribeBatchOperation(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) DescribeNamespace(ctx context.Context, req *workflowservice.DescribeNamespaceRequest) (*workflowservice.DescribeNamespaceResponse, error) {
-	return wh.client.DescribeNamespace(ctx, req)
+func (s *workflowServiceProxyServer) DescribeNamespace(ctx context.Context, req *workflowservice.DescribeNamespaceRequest) (*workflowservice.DescribeNamespaceResponse, error) {
+	return s.client.DescribeNamespace(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) DescribeSchedule(ctx context.Context, req *workflowservice.DescribeScheduleRequest) (*workflowservice.DescribeScheduleResponse, error) {
-	return wh.client.DescribeSchedule(ctx, req)
+func (s *workflowServiceProxyServer) DescribeSchedule(ctx context.Context, req *workflowservice.DescribeScheduleRequest) (*workflowservice.DescribeScheduleResponse, error) {
+	return s.client.DescribeSchedule(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) DescribeTaskQueue(ctx context.Context, req *workflowservice.DescribeTaskQueueRequest) (*workflowservice.DescribeTaskQueueResponse, error) {
-	return wh.client.DescribeTaskQueue(ctx, req)
+func (s *workflowServiceProxyServer) DescribeTaskQueue(ctx context.Context, req *workflowservice.DescribeTaskQueueRequest) (*workflowservice.DescribeTaskQueueResponse, error) {
+	return s.client.DescribeTaskQueue(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) DescribeWorkflowExecution(ctx context.Context, req *workflowservice.DescribeWorkflowExecutionRequest) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
-	return wh.client.DescribeWorkflowExecution(ctx, req)
+func (s *workflowServiceProxyServer) DescribeWorkflowExecution(ctx context.Context, req *workflowservice.DescribeWorkflowExecutionRequest) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
+	return s.client.DescribeWorkflowExecution(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) GetClusterInfo(ctx context.Context, req *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
-	return wh.client.GetClusterInfo(ctx, req)
+func (s *workflowServiceProxyServer) GetClusterInfo(ctx context.Context, req *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
+	return s.client.GetClusterInfo(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) GetSearchAttributes(ctx context.Context, req *workflowservice.GetSearchAttributesRequest) (*workflowservice.GetSearchAttributesResponse, error) {
-	return wh.client.GetSearchAttributes(ctx, req)
+func (s *workflowServiceProxyServer) GetSearchAttributes(ctx context.Context, req *workflowservice.GetSearchAttributesRequest) (*workflowservice.GetSearchAttributesResponse, error) {
+	return s.client.GetSearchAttributes(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) GetSystemInfo(ctx context.Context, req *workflowservice.GetSystemInfoRequest) (*workflowservice.GetSystemInfoResponse, error) {
-	return wh.client.GetSystemInfo(ctx, req)
+func (s *workflowServiceProxyServer) GetSystemInfo(ctx context.Context, req *workflowservice.GetSystemInfoRequest) (*workflowservice.GetSystemInfoResponse, error) {
+	return s.client.GetSystemInfo(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) GetWorkerBuildIdOrdering(ctx context.Context, req *workflowservice.GetWorkerBuildIdOrderingRequest) (*workflowservice.GetWorkerBuildIdOrderingResponse, error) {
-	return wh.client.GetWorkerBuildIdOrdering(ctx, req)
+func (s *workflowServiceProxyServer) GetWorkerBuildIdOrdering(ctx context.Context, req *workflowservice.GetWorkerBuildIdOrderingRequest) (*workflowservice.GetWorkerBuildIdOrderingResponse, error) {
+	return s.client.GetWorkerBuildIdOrdering(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) GetWorkflowExecutionHistory(ctx context.Context, req *workflowservice.GetWorkflowExecutionHistoryRequest) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
-	return wh.client.GetWorkflowExecutionHistory(ctx, req)
+func (s *workflowServiceProxyServer) GetWorkflowExecutionHistory(ctx context.Context, req *workflowservice.GetWorkflowExecutionHistoryRequest) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
+	return s.client.GetWorkflowExecutionHistory(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) GetWorkflowExecutionHistoryReverse(ctx context.Context, req *workflowservice.GetWorkflowExecutionHistoryReverseRequest) (*workflowservice.GetWorkflowExecutionHistoryReverseResponse, error) {
-	return wh.client.GetWorkflowExecutionHistoryReverse(ctx, req)
+func (s *workflowServiceProxyServer) GetWorkflowExecutionHistoryReverse(ctx context.Context, req *workflowservice.GetWorkflowExecutionHistoryReverseRequest) (*workflowservice.GetWorkflowExecutionHistoryReverseResponse, error) {
+	return s.client.GetWorkflowExecutionHistoryReverse(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListArchivedWorkflowExecutions(ctx context.Context, req *workflowservice.ListArchivedWorkflowExecutionsRequest) (*workflowservice.ListArchivedWorkflowExecutionsResponse, error) {
-	return wh.client.ListArchivedWorkflowExecutions(ctx, req)
+func (s *workflowServiceProxyServer) ListArchivedWorkflowExecutions(ctx context.Context, req *workflowservice.ListArchivedWorkflowExecutionsRequest) (*workflowservice.ListArchivedWorkflowExecutionsResponse, error) {
+	return s.client.ListArchivedWorkflowExecutions(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListBatchOperations(ctx context.Context, req *workflowservice.ListBatchOperationsRequest) (*workflowservice.ListBatchOperationsResponse, error) {
-	return wh.client.ListBatchOperations(ctx, req)
+func (s *workflowServiceProxyServer) ListBatchOperations(ctx context.Context, req *workflowservice.ListBatchOperationsRequest) (*workflowservice.ListBatchOperationsResponse, error) {
+	return s.client.ListBatchOperations(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListClosedWorkflowExecutions(ctx context.Context, req *workflowservice.ListClosedWorkflowExecutionsRequest) (*workflowservice.ListClosedWorkflowExecutionsResponse, error) {
-	return wh.client.ListClosedWorkflowExecutions(ctx, req)
+func (s *workflowServiceProxyServer) ListClosedWorkflowExecutions(ctx context.Context, req *workflowservice.ListClosedWorkflowExecutionsRequest) (*workflowservice.ListClosedWorkflowExecutionsResponse, error) {
+	return s.client.ListClosedWorkflowExecutions(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListNamespaces(ctx context.Context, req *workflowservice.ListNamespacesRequest) (*workflowservice.ListNamespacesResponse, error) {
-	return wh.client.ListNamespaces(ctx, req)
+func (s *workflowServiceProxyServer) ListNamespaces(ctx context.Context, req *workflowservice.ListNamespacesRequest) (*workflowservice.ListNamespacesResponse, error) {
+	return s.client.ListNamespaces(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListOpenWorkflowExecutions(ctx context.Context, req *workflowservice.ListOpenWorkflowExecutionsRequest) (*workflowservice.ListOpenWorkflowExecutionsResponse, error) {
-	return wh.client.ListOpenWorkflowExecutions(ctx, req)
+func (s *workflowServiceProxyServer) ListOpenWorkflowExecutions(ctx context.Context, req *workflowservice.ListOpenWorkflowExecutionsRequest) (*workflowservice.ListOpenWorkflowExecutionsResponse, error) {
+	return s.client.ListOpenWorkflowExecutions(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListScheduleMatchingTimes(ctx context.Context, req *workflowservice.ListScheduleMatchingTimesRequest) (*workflowservice.ListScheduleMatchingTimesResponse, error) {
-	return wh.client.ListScheduleMatchingTimes(ctx, req)
+func (s *workflowServiceProxyServer) ListScheduleMatchingTimes(ctx context.Context, req *workflowservice.ListScheduleMatchingTimesRequest) (*workflowservice.ListScheduleMatchingTimesResponse, error) {
+	return s.client.ListScheduleMatchingTimes(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListSchedules(ctx context.Context, req *workflowservice.ListSchedulesRequest) (*workflowservice.ListSchedulesResponse, error) {
-	return wh.client.ListSchedules(ctx, req)
+func (s *workflowServiceProxyServer) ListSchedules(ctx context.Context, req *workflowservice.ListSchedulesRequest) (*workflowservice.ListSchedulesResponse, error) {
+	return s.client.ListSchedules(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListTaskQueuePartitions(ctx context.Context, req *workflowservice.ListTaskQueuePartitionsRequest) (*workflowservice.ListTaskQueuePartitionsResponse, error) {
-	return wh.client.ListTaskQueuePartitions(ctx, req)
+func (s *workflowServiceProxyServer) ListTaskQueuePartitions(ctx context.Context, req *workflowservice.ListTaskQueuePartitionsRequest) (*workflowservice.ListTaskQueuePartitionsResponse, error) {
+	return s.client.ListTaskQueuePartitions(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ListWorkflowExecutions(ctx context.Context, req *workflowservice.ListWorkflowExecutionsRequest) (*workflowservice.ListWorkflowExecutionsResponse, error) {
-	return wh.client.ListWorkflowExecutions(ctx, req)
+func (s *workflowServiceProxyServer) ListWorkflowExecutions(ctx context.Context, req *workflowservice.ListWorkflowExecutionsRequest) (*workflowservice.ListWorkflowExecutionsResponse, error) {
+	return s.client.ListWorkflowExecutions(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) PatchSchedule(ctx context.Context, req *workflowservice.PatchScheduleRequest) (*workflowservice.PatchScheduleResponse, error) {
-	return wh.client.PatchSchedule(ctx, req)
+func (s *workflowServiceProxyServer) PatchSchedule(ctx context.Context, req *workflowservice.PatchScheduleRequest) (*workflowservice.PatchScheduleResponse, error) {
+	return s.client.PatchSchedule(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) PollActivityTaskQueue(ctx context.Context, req *workflowservice.PollActivityTaskQueueRequest) (*workflowservice.PollActivityTaskQueueResponse, error) {
-	return wh.client.PollActivityTaskQueue(ctx, req)
+func (s *workflowServiceProxyServer) PollActivityTaskQueue(ctx context.Context, req *workflowservice.PollActivityTaskQueueRequest) (*workflowservice.PollActivityTaskQueueResponse, error) {
+	return s.client.PollActivityTaskQueue(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) PollWorkflowTaskQueue(ctx context.Context, req *workflowservice.PollWorkflowTaskQueueRequest) (*workflowservice.PollWorkflowTaskQueueResponse, error) {
-	return wh.client.PollWorkflowTaskQueue(ctx, req)
+func (s *workflowServiceProxyServer) PollWorkflowTaskQueue(ctx context.Context, req *workflowservice.PollWorkflowTaskQueueRequest) (*workflowservice.PollWorkflowTaskQueueResponse, error) {
+	return s.client.PollWorkflowTaskQueue(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) QueryWorkflow(ctx context.Context, req *workflowservice.QueryWorkflowRequest) (*workflowservice.QueryWorkflowResponse, error) {
-	return wh.client.QueryWorkflow(ctx, req)
+func (s *workflowServiceProxyServer) QueryWorkflow(ctx context.Context, req *workflowservice.QueryWorkflowRequest) (*workflowservice.QueryWorkflowResponse, error) {
+	return s.client.QueryWorkflow(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RecordActivityTaskHeartbeat(ctx context.Context, req *workflowservice.RecordActivityTaskHeartbeatRequest) (*workflowservice.RecordActivityTaskHeartbeatResponse, error) {
-	return wh.client.RecordActivityTaskHeartbeat(ctx, req)
+func (s *workflowServiceProxyServer) RecordActivityTaskHeartbeat(ctx context.Context, req *workflowservice.RecordActivityTaskHeartbeatRequest) (*workflowservice.RecordActivityTaskHeartbeatResponse, error) {
+	return s.client.RecordActivityTaskHeartbeat(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RecordActivityTaskHeartbeatById(ctx context.Context, req *workflowservice.RecordActivityTaskHeartbeatByIdRequest) (*workflowservice.RecordActivityTaskHeartbeatByIdResponse, error) {
-	return wh.client.RecordActivityTaskHeartbeatById(ctx, req)
+func (s *workflowServiceProxyServer) RecordActivityTaskHeartbeatById(ctx context.Context, req *workflowservice.RecordActivityTaskHeartbeatByIdRequest) (*workflowservice.RecordActivityTaskHeartbeatByIdResponse, error) {
+	return s.client.RecordActivityTaskHeartbeatById(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RegisterNamespace(ctx context.Context, req *workflowservice.RegisterNamespaceRequest) (*workflowservice.RegisterNamespaceResponse, error) {
-	return wh.client.RegisterNamespace(ctx, req)
+func (s *workflowServiceProxyServer) RegisterNamespace(ctx context.Context, req *workflowservice.RegisterNamespaceRequest) (*workflowservice.RegisterNamespaceResponse, error) {
+	return s.client.RegisterNamespace(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RequestCancelWorkflowExecution(ctx context.Context, req *workflowservice.RequestCancelWorkflowExecutionRequest) (*workflowservice.RequestCancelWorkflowExecutionResponse, error) {
-	return wh.client.RequestCancelWorkflowExecution(ctx, req)
+func (s *workflowServiceProxyServer) RequestCancelWorkflowExecution(ctx context.Context, req *workflowservice.RequestCancelWorkflowExecutionRequest) (*workflowservice.RequestCancelWorkflowExecutionResponse, error) {
+	return s.client.RequestCancelWorkflowExecution(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ResetStickyTaskQueue(ctx context.Context, req *workflowservice.ResetStickyTaskQueueRequest) (*workflowservice.ResetStickyTaskQueueResponse, error) {
-	return wh.client.ResetStickyTaskQueue(ctx, req)
+func (s *workflowServiceProxyServer) ResetStickyTaskQueue(ctx context.Context, req *workflowservice.ResetStickyTaskQueueRequest) (*workflowservice.ResetStickyTaskQueueResponse, error) {
+	return s.client.ResetStickyTaskQueue(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ResetWorkflowExecution(ctx context.Context, req *workflowservice.ResetWorkflowExecutionRequest) (*workflowservice.ResetWorkflowExecutionResponse, error) {
-	return wh.client.ResetWorkflowExecution(ctx, req)
+func (s *workflowServiceProxyServer) ResetWorkflowExecution(ctx context.Context, req *workflowservice.ResetWorkflowExecutionRequest) (*workflowservice.ResetWorkflowExecutionResponse, error) {
+	return s.client.ResetWorkflowExecution(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondActivityTaskCanceled(ctx context.Context, req *workflowservice.RespondActivityTaskCanceledRequest) (*workflowservice.RespondActivityTaskCanceledResponse, error) {
-	return wh.client.RespondActivityTaskCanceled(ctx, req)
+func (s *workflowServiceProxyServer) RespondActivityTaskCanceled(ctx context.Context, req *workflowservice.RespondActivityTaskCanceledRequest) (*workflowservice.RespondActivityTaskCanceledResponse, error) {
+	return s.client.RespondActivityTaskCanceled(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondActivityTaskCanceledById(ctx context.Context, req *workflowservice.RespondActivityTaskCanceledByIdRequest) (*workflowservice.RespondActivityTaskCanceledByIdResponse, error) {
-	return wh.client.RespondActivityTaskCanceledById(ctx, req)
+func (s *workflowServiceProxyServer) RespondActivityTaskCanceledById(ctx context.Context, req *workflowservice.RespondActivityTaskCanceledByIdRequest) (*workflowservice.RespondActivityTaskCanceledByIdResponse, error) {
+	return s.client.RespondActivityTaskCanceledById(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondActivityTaskCompleted(ctx context.Context, req *workflowservice.RespondActivityTaskCompletedRequest) (*workflowservice.RespondActivityTaskCompletedResponse, error) {
-	return wh.client.RespondActivityTaskCompleted(ctx, req)
+func (s *workflowServiceProxyServer) RespondActivityTaskCompleted(ctx context.Context, req *workflowservice.RespondActivityTaskCompletedRequest) (*workflowservice.RespondActivityTaskCompletedResponse, error) {
+	return s.client.RespondActivityTaskCompleted(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondActivityTaskCompletedById(ctx context.Context, req *workflowservice.RespondActivityTaskCompletedByIdRequest) (*workflowservice.RespondActivityTaskCompletedByIdResponse, error) {
-	return wh.client.RespondActivityTaskCompletedById(ctx, req)
+func (s *workflowServiceProxyServer) RespondActivityTaskCompletedById(ctx context.Context, req *workflowservice.RespondActivityTaskCompletedByIdRequest) (*workflowservice.RespondActivityTaskCompletedByIdResponse, error) {
+	return s.client.RespondActivityTaskCompletedById(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondActivityTaskFailed(ctx context.Context, req *workflowservice.RespondActivityTaskFailedRequest) (*workflowservice.RespondActivityTaskFailedResponse, error) {
-	return wh.client.RespondActivityTaskFailed(ctx, req)
+func (s *workflowServiceProxyServer) RespondActivityTaskFailed(ctx context.Context, req *workflowservice.RespondActivityTaskFailedRequest) (*workflowservice.RespondActivityTaskFailedResponse, error) {
+	return s.client.RespondActivityTaskFailed(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondActivityTaskFailedById(ctx context.Context, req *workflowservice.RespondActivityTaskFailedByIdRequest) (*workflowservice.RespondActivityTaskFailedByIdResponse, error) {
-	return wh.client.RespondActivityTaskFailedById(ctx, req)
+func (s *workflowServiceProxyServer) RespondActivityTaskFailedById(ctx context.Context, req *workflowservice.RespondActivityTaskFailedByIdRequest) (*workflowservice.RespondActivityTaskFailedByIdResponse, error) {
+	return s.client.RespondActivityTaskFailedById(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondQueryTaskCompleted(ctx context.Context, req *workflowservice.RespondQueryTaskCompletedRequest) (*workflowservice.RespondQueryTaskCompletedResponse, error) {
-	return wh.client.RespondQueryTaskCompleted(ctx, req)
+func (s *workflowServiceProxyServer) RespondQueryTaskCompleted(ctx context.Context, req *workflowservice.RespondQueryTaskCompletedRequest) (*workflowservice.RespondQueryTaskCompletedResponse, error) {
+	return s.client.RespondQueryTaskCompleted(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondWorkflowTaskCompleted(ctx context.Context, req *workflowservice.RespondWorkflowTaskCompletedRequest) (*workflowservice.RespondWorkflowTaskCompletedResponse, error) {
-	return wh.client.RespondWorkflowTaskCompleted(ctx, req)
+func (s *workflowServiceProxyServer) RespondWorkflowTaskCompleted(ctx context.Context, req *workflowservice.RespondWorkflowTaskCompletedRequest) (*workflowservice.RespondWorkflowTaskCompletedResponse, error) {
+	return s.client.RespondWorkflowTaskCompleted(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) RespondWorkflowTaskFailed(ctx context.Context, req *workflowservice.RespondWorkflowTaskFailedRequest) (*workflowservice.RespondWorkflowTaskFailedResponse, error) {
-	return wh.client.RespondWorkflowTaskFailed(ctx, req)
+func (s *workflowServiceProxyServer) RespondWorkflowTaskFailed(ctx context.Context, req *workflowservice.RespondWorkflowTaskFailedRequest) (*workflowservice.RespondWorkflowTaskFailedResponse, error) {
+	return s.client.RespondWorkflowTaskFailed(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) ScanWorkflowExecutions(ctx context.Context, req *workflowservice.ScanWorkflowExecutionsRequest) (*workflowservice.ScanWorkflowExecutionsResponse, error) {
-	return wh.client.ScanWorkflowExecutions(ctx, req)
+func (s *workflowServiceProxyServer) ScanWorkflowExecutions(ctx context.Context, req *workflowservice.ScanWorkflowExecutionsRequest) (*workflowservice.ScanWorkflowExecutionsResponse, error) {
+	return s.client.ScanWorkflowExecutions(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) SignalWithStartWorkflowExecution(ctx context.Context, req *workflowservice.SignalWithStartWorkflowExecutionRequest) (*workflowservice.SignalWithStartWorkflowExecutionResponse, error) {
-	return wh.client.SignalWithStartWorkflowExecution(ctx, req)
+func (s *workflowServiceProxyServer) SignalWithStartWorkflowExecution(ctx context.Context, req *workflowservice.SignalWithStartWorkflowExecutionRequest) (*workflowservice.SignalWithStartWorkflowExecutionResponse, error) {
+	return s.client.SignalWithStartWorkflowExecution(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) SignalWorkflowExecution(ctx context.Context, req *workflowservice.SignalWorkflowExecutionRequest) (*workflowservice.SignalWorkflowExecutionResponse, error) {
-	return wh.client.SignalWorkflowExecution(ctx, req)
+func (s *workflowServiceProxyServer) SignalWorkflowExecution(ctx context.Context, req *workflowservice.SignalWorkflowExecutionRequest) (*workflowservice.SignalWorkflowExecutionResponse, error) {
+	return s.client.SignalWorkflowExecution(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) StartBatchOperation(ctx context.Context, req *workflowservice.StartBatchOperationRequest) (*workflowservice.StartBatchOperationResponse, error) {
-	return wh.client.StartBatchOperation(ctx, req)
+func (s *workflowServiceProxyServer) StartBatchOperation(ctx context.Context, req *workflowservice.StartBatchOperationRequest) (*workflowservice.StartBatchOperationResponse, error) {
+	return s.client.StartBatchOperation(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) StartWorkflowExecution(ctx context.Context, req *workflowservice.StartWorkflowExecutionRequest) (*workflowservice.StartWorkflowExecutionResponse, error) {
-	return wh.client.StartWorkflowExecution(ctx, req)
+func (s *workflowServiceProxyServer) StartWorkflowExecution(ctx context.Context, req *workflowservice.StartWorkflowExecutionRequest) (*workflowservice.StartWorkflowExecutionResponse, error) {
+	return s.client.StartWorkflowExecution(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) StopBatchOperation(ctx context.Context, req *workflowservice.StopBatchOperationRequest) (*workflowservice.StopBatchOperationResponse, error) {
-	return wh.client.StopBatchOperation(ctx, req)
+func (s *workflowServiceProxyServer) StopBatchOperation(ctx context.Context, req *workflowservice.StopBatchOperationRequest) (*workflowservice.StopBatchOperationResponse, error) {
+	return s.client.StopBatchOperation(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) TerminateWorkflowExecution(ctx context.Context, req *workflowservice.TerminateWorkflowExecutionRequest) (*workflowservice.TerminateWorkflowExecutionResponse, error) {
-	return wh.client.TerminateWorkflowExecution(ctx, req)
+func (s *workflowServiceProxyServer) TerminateWorkflowExecution(ctx context.Context, req *workflowservice.TerminateWorkflowExecutionRequest) (*workflowservice.TerminateWorkflowExecutionResponse, error) {
+	return s.client.TerminateWorkflowExecution(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) UpdateNamespace(ctx context.Context, req *workflowservice.UpdateNamespaceRequest) (*workflowservice.UpdateNamespaceResponse, error) {
-	return wh.client.UpdateNamespace(ctx, req)
+func (s *workflowServiceProxyServer) UpdateNamespace(ctx context.Context, req *workflowservice.UpdateNamespaceRequest) (*workflowservice.UpdateNamespaceResponse, error) {
+	return s.client.UpdateNamespace(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) UpdateSchedule(ctx context.Context, req *workflowservice.UpdateScheduleRequest) (*workflowservice.UpdateScheduleResponse, error) {
-	return wh.client.UpdateSchedule(ctx, req)
+func (s *workflowServiceProxyServer) UpdateSchedule(ctx context.Context, req *workflowservice.UpdateScheduleRequest) (*workflowservice.UpdateScheduleResponse, error) {
+	return s.client.UpdateSchedule(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) UpdateWorkerBuildIdOrdering(ctx context.Context, req *workflowservice.UpdateWorkerBuildIdOrderingRequest) (*workflowservice.UpdateWorkerBuildIdOrderingResponse, error) {
-	return wh.client.UpdateWorkerBuildIdOrdering(ctx, req)
+func (s *workflowServiceProxyServer) UpdateWorkerBuildIdOrdering(ctx context.Context, req *workflowservice.UpdateWorkerBuildIdOrderingRequest) (*workflowservice.UpdateWorkerBuildIdOrderingResponse, error) {
+	return s.client.UpdateWorkerBuildIdOrdering(ctx, req)
 }
 
-func (wh *workflowServiceProxyServer) UpdateWorkflow(ctx context.Context, req *workflowservice.UpdateWorkflowRequest) (*workflowservice.UpdateWorkflowResponse, error) {
-	return wh.client.UpdateWorkflow(ctx, req)
+func (s *workflowServiceProxyServer) UpdateWorkflow(ctx context.Context, req *workflowservice.UpdateWorkflowRequest) (*workflowservice.UpdateWorkflowResponse, error) {
+	return s.client.UpdateWorkflow(ctx, req)
 }

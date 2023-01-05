@@ -73,7 +73,7 @@ func NewWorkflowServiceProxyServer(options WorkflowServiceProxyOptions) (workflo
 
 func generateService(cfg config) error {
 	buf := &bytes.Buffer{}
-
+	fmt.Fprint(buf, cfg.license)
 	fmt.Fprint(buf, ServiceHeader)
 
 	conf := &packages.Config{Mode: packages.NeedImports | packages.NeedTypes | packages.NeedTypesInfo}
@@ -103,12 +103,12 @@ func generateService(cfg config) error {
 
 			name := meth.Obj().Name()
 			sig := meth.Obj().Type().(*types.Signature)
-			fmt.Fprintf(buf, "\nfunc (wh *workflowServiceProxyServer) %s %s %s {\n", name, types.TypeString(sig.Params(), qual), types.TypeString(sig.Results(), qual))
+			fmt.Fprintf(buf, "\nfunc (s *workflowServiceProxyServer) %s %s %s {\n", name, types.TypeString(sig.Params(), qual), types.TypeString(sig.Results(), qual))
 			params := make([]string, sig.Params().Len())
 			for i := 0; i < sig.Params().Len(); i++ {
 				params[i] = sig.Params().At(i).Name()
 			}
-			fmt.Fprintf(buf, "\treturn wh.client.%s(%s)\n", name, strings.Join(params, ", "))
+			fmt.Fprintf(buf, "\treturn s.client.%s(%s)\n", name, strings.Join(params, ", "))
 			fmt.Fprintf(buf, "}\n")
 		}
 	}
