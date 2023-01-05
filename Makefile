@@ -4,7 +4,7 @@ $(VERBOSE).SILENT:
 install: grpc-install mockgen-install goimports-install update-proto
 
 # Compile proto files.
-proto: grpc goimports grpc-mock copyright
+proto: grpc goimports proxy grpc-mock copyright
 
 # Update submodule and compile proto files.
 update-proto: update-proto-submodule proto update-dependencies gomodtidy
@@ -60,6 +60,11 @@ grpc-mock:
 	printf $(COLOR) "Generate gRPC mocks..."
 	$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call service_name,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call mock_file_name,$(PROTO_GRPC_SERVICE))$(NEWLINE) )
 
+.PHONY: proxy
+proxy:
+	printf $(COLOR) "Generate proxy code..."
+	(cd ./cmd/proxygenerator && go run ./)
+
 goimports:
 	printf $(COLOR) "Run goimports..."
 	goimports -w $(PROTO_OUT)
@@ -97,6 +102,19 @@ update-dependencies:
 gomodtidy:
 	printf $(COLOR) "go mod tidy..."
 	go mod tidy
+
+##### Test #####
+
+test:
+	go test ./proxy ./serviceerror
+
+##### Check #####
+
+generatorcheck:
+	printf $(COLOR) "Check generated code is not stale..."
+	(cd ./cmd/proxygenerator && go run ./ -verifyOnly)
+
+check: generatorcheck
 
 ##### Clean #####
 clean:

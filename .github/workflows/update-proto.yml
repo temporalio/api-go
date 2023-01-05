@@ -39,7 +39,7 @@ jobs:
 
       - name: Re-build proto
         run: |
-          make install update-proto
+          make install update-proto test
       - name: Commit update
         env:
           GIT_AUTHOR_NAME: ${{ github.event.inputs.commit_author }}
