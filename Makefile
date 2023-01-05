@@ -63,7 +63,7 @@ grpc-mock:
 .PHONY: proxy
 proxy:
 	printf $(COLOR) "Generate proxy code..."
-	(cd ./cmd/generateproxy && go run ./)
+	(cd ./cmd/proxygenerator && go run ./)
 
 goimports:
 	printf $(COLOR) "Run goimports..."
@@ -112,7 +112,7 @@ test:
 
 generatorcheck:
 	printf $(COLOR) "Check generated code is not stale..."
-	(cd ./cmd/generateproxy && go run ./ -verifyOnly)
+	(cd ./cmd/proxygenerator && go run ./ -verifyOnly)
 
 check: generatorcheck
 

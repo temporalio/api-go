@@ -1,4 +1,4 @@
-module go.temporal.io/api/cmd/generateproxy
+module go.temporal.io/api/cmd/proxygenerator
 
 go 1.18
 
