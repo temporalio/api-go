@@ -48,7 +48,7 @@ import (
 	"fmt"
 
 	"google.golang.org/grpc"
-	proto "github.com/gogo/protobuf/proto"
+	"github.com/gogo/protobuf/proto"
 )
 
 // VisitPayloadsContext provides Payload context for visitor functions.
