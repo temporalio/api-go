@@ -84,7 +84,7 @@ type PayloadVisitorInterceptorOptions struct {
 	Inbound *VisitPayloadsOptions
 }
 
-// NewPayloadVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
+// NewPayloadVisitorInterceptor creates a new gRPC interceptor for workflowservice messages.
 func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
 	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
@@ -136,7 +136,7 @@ type FailureVisitorInterceptorOptions struct {
 	Inbound *VisitFailuresOptions
 }
 
-// NewFailureVisitorInterceptor creates a new GRPC interceptor for workflowservice messages.
+// NewFailureVisitorInterceptor creates a new gRPC interceptor for workflowservice messages.
 func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
 	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
