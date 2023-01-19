@@ -145,7 +145,8 @@ func (ContinueAsNewInitiator) EnumDescriptor() ([]byte, []int) {
 }
 
 // (-- api-linter: core::0216::synonyms=disabled
-//     aip.dev/not-precedent: There is WorkflowExecutionState already in another package. --)
+//
+//	aip.dev/not-precedent: There is WorkflowExecutionState already in another package. --)
 type WorkflowExecutionStatus int32
 
 const (

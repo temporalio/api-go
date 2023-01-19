@@ -1741,6 +1741,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *workflowservice.StartWorkflowExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetEagerWorkflowTask(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.TerminateWorkflowExecutionRequest:
 
 			if o == nil {
@@ -2264,6 +2278,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.StartWorkflowExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetEagerWorkflowTask(),
 			); err != nil {
 				return err
 			}
