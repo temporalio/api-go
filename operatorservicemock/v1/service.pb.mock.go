@@ -31,7 +31,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	operatorservice "go.temporal.io/api/operatorservice/v1"
+	v1 "go.temporal.io/api/operatorservice/v1"
 	grpc "google.golang.org/grpc"
 )
 
@@ -59,14 +59,14 @@ func (m *MockOperatorServiceClient) EXPECT() *MockOperatorServiceClientMockRecor
 }
 
 // AddOrUpdateRemoteCluster mocks base method.
-func (m *MockOperatorServiceClient) AddOrUpdateRemoteCluster(ctx context.Context, in *operatorservice.AddOrUpdateRemoteClusterRequest, opts ...grpc.CallOption) (*operatorservice.AddOrUpdateRemoteClusterResponse, error) {
+func (m *MockOperatorServiceClient) AddOrUpdateRemoteCluster(ctx context.Context, in *v1.AddOrUpdateRemoteClusterRequest, opts ...grpc.CallOption) (*v1.AddOrUpdateRemoteClusterResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "AddOrUpdateRemoteCluster", varargs...)
-	ret0, _ := ret[0].(*operatorservice.AddOrUpdateRemoteClusterResponse)
+	ret0, _ := ret[0].(*v1.AddOrUpdateRemoteClusterResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -79,14 +79,14 @@ func (mr *MockOperatorServiceClientMockRecorder) AddOrUpdateRemoteCluster(ctx, i
 }
 
 // AddSearchAttributes mocks base method.
-func (m *MockOperatorServiceClient) AddSearchAttributes(ctx context.Context, in *operatorservice.AddSearchAttributesRequest, opts ...grpc.CallOption) (*operatorservice.AddSearchAttributesResponse, error) {
+func (m *MockOperatorServiceClient) AddSearchAttributes(ctx context.Context, in *v1.AddSearchAttributesRequest, opts ...grpc.CallOption) (*v1.AddSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "AddSearchAttributes", varargs...)
-	ret0, _ := ret[0].(*operatorservice.AddSearchAttributesResponse)
+	ret0, _ := ret[0].(*v1.AddSearchAttributesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -99,14 +99,14 @@ func (mr *MockOperatorServiceClientMockRecorder) AddSearchAttributes(ctx, in int
 }
 
 // DeleteNamespace mocks base method.
-func (m *MockOperatorServiceClient) DeleteNamespace(ctx context.Context, in *operatorservice.DeleteNamespaceRequest, opts ...grpc.CallOption) (*operatorservice.DeleteNamespaceResponse, error) {
+func (m *MockOperatorServiceClient) DeleteNamespace(ctx context.Context, in *v1.DeleteNamespaceRequest, opts ...grpc.CallOption) (*v1.DeleteNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DeleteNamespace", varargs...)
-	ret0, _ := ret[0].(*operatorservice.DeleteNamespaceResponse)
+	ret0, _ := ret[0].(*v1.DeleteNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -119,14 +119,14 @@ func (mr *MockOperatorServiceClientMockRecorder) DeleteNamespace(ctx, in interfa
 }
 
 // ListClusters mocks base method.
-func (m *MockOperatorServiceClient) ListClusters(ctx context.Context, in *operatorservice.ListClustersRequest, opts ...grpc.CallOption) (*operatorservice.ListClustersResponse, error) {
+func (m *MockOperatorServiceClient) ListClusters(ctx context.Context, in *v1.ListClustersRequest, opts ...grpc.CallOption) (*v1.ListClustersResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListClusters", varargs...)
-	ret0, _ := ret[0].(*operatorservice.ListClustersResponse)
+	ret0, _ := ret[0].(*v1.ListClustersResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -139,14 +139,14 @@ func (mr *MockOperatorServiceClientMockRecorder) ListClusters(ctx, in interface{
 }
 
 // ListSearchAttributes mocks base method.
-func (m *MockOperatorServiceClient) ListSearchAttributes(ctx context.Context, in *operatorservice.ListSearchAttributesRequest, opts ...grpc.CallOption) (*operatorservice.ListSearchAttributesResponse, error) {
+func (m *MockOperatorServiceClient) ListSearchAttributes(ctx context.Context, in *v1.ListSearchAttributesRequest, opts ...grpc.CallOption) (*v1.ListSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListSearchAttributes", varargs...)
-	ret0, _ := ret[0].(*operatorservice.ListSearchAttributesResponse)
+	ret0, _ := ret[0].(*v1.ListSearchAttributesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -159,14 +159,14 @@ func (mr *MockOperatorServiceClientMockRecorder) ListSearchAttributes(ctx, in in
 }
 
 // RemoveRemoteCluster mocks base method.
-func (m *MockOperatorServiceClient) RemoveRemoteCluster(ctx context.Context, in *operatorservice.RemoveRemoteClusterRequest, opts ...grpc.CallOption) (*operatorservice.RemoveRemoteClusterResponse, error) {
+func (m *MockOperatorServiceClient) RemoveRemoteCluster(ctx context.Context, in *v1.RemoveRemoteClusterRequest, opts ...grpc.CallOption) (*v1.RemoveRemoteClusterResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RemoveRemoteCluster", varargs...)
-	ret0, _ := ret[0].(*operatorservice.RemoveRemoteClusterResponse)
+	ret0, _ := ret[0].(*v1.RemoveRemoteClusterResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -179,14 +179,14 @@ func (mr *MockOperatorServiceClientMockRecorder) RemoveRemoteCluster(ctx, in int
 }
 
 // RemoveSearchAttributes mocks base method.
-func (m *MockOperatorServiceClient) RemoveSearchAttributes(ctx context.Context, in *operatorservice.RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*operatorservice.RemoveSearchAttributesResponse, error) {
+func (m *MockOperatorServiceClient) RemoveSearchAttributes(ctx context.Context, in *v1.RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*v1.RemoveSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RemoveSearchAttributes", varargs...)
-	ret0, _ := ret[0].(*operatorservice.RemoveSearchAttributesResponse)
+	ret0, _ := ret[0].(*v1.RemoveSearchAttributesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -222,10 +222,10 @@ func (m *MockOperatorServiceServer) EXPECT() *MockOperatorServiceServerMockRecor
 }
 
 // AddOrUpdateRemoteCluster mocks base method.
-func (m *MockOperatorServiceServer) AddOrUpdateRemoteCluster(arg0 context.Context, arg1 *operatorservice.AddOrUpdateRemoteClusterRequest) (*operatorservice.AddOrUpdateRemoteClusterResponse, error) {
+func (m *MockOperatorServiceServer) AddOrUpdateRemoteCluster(arg0 context.Context, arg1 *v1.AddOrUpdateRemoteClusterRequest) (*v1.AddOrUpdateRemoteClusterResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AddOrUpdateRemoteCluster", arg0, arg1)
-	ret0, _ := ret[0].(*operatorservice.AddOrUpdateRemoteClusterResponse)
+	ret0, _ := ret[0].(*v1.AddOrUpdateRemoteClusterResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -237,10 +237,10 @@ func (mr *MockOperatorServiceServerMockRecorder) AddOrUpdateRemoteCluster(arg0, 
 }
 
 // AddSearchAttributes mocks base method.
-func (m *MockOperatorServiceServer) AddSearchAttributes(arg0 context.Context, arg1 *operatorservice.AddSearchAttributesRequest) (*operatorservice.AddSearchAttributesResponse, error) {
+func (m *MockOperatorServiceServer) AddSearchAttributes(arg0 context.Context, arg1 *v1.AddSearchAttributesRequest) (*v1.AddSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AddSearchAttributes", arg0, arg1)
-	ret0, _ := ret[0].(*operatorservice.AddSearchAttributesResponse)
+	ret0, _ := ret[0].(*v1.AddSearchAttributesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -252,10 +252,10 @@ func (mr *MockOperatorServiceServerMockRecorder) AddSearchAttributes(arg0, arg1 
 }
 
 // DeleteNamespace mocks base method.
-func (m *MockOperatorServiceServer) DeleteNamespace(arg0 context.Context, arg1 *operatorservice.DeleteNamespaceRequest) (*operatorservice.DeleteNamespaceResponse, error) {
+func (m *MockOperatorServiceServer) DeleteNamespace(arg0 context.Context, arg1 *v1.DeleteNamespaceRequest) (*v1.DeleteNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteNamespace", arg0, arg1)
-	ret0, _ := ret[0].(*operatorservice.DeleteNamespaceResponse)
+	ret0, _ := ret[0].(*v1.DeleteNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -267,10 +267,10 @@ func (mr *MockOperatorServiceServerMockRecorder) DeleteNamespace(arg0, arg1 inte
 }
 
 // ListClusters mocks base method.
-func (m *MockOperatorServiceServer) ListClusters(arg0 context.Context, arg1 *operatorservice.ListClustersRequest) (*operatorservice.ListClustersResponse, error) {
+func (m *MockOperatorServiceServer) ListClusters(arg0 context.Context, arg1 *v1.ListClustersRequest) (*v1.ListClustersResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListClusters", arg0, arg1)
-	ret0, _ := ret[0].(*operatorservice.ListClustersResponse)
+	ret0, _ := ret[0].(*v1.ListClustersResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -282,10 +282,10 @@ func (mr *MockOperatorServiceServerMockRecorder) ListClusters(arg0, arg1 interfa
 }
 
 // ListSearchAttributes mocks base method.
-func (m *MockOperatorServiceServer) ListSearchAttributes(arg0 context.Context, arg1 *operatorservice.ListSearchAttributesRequest) (*operatorservice.ListSearchAttributesResponse, error) {
+func (m *MockOperatorServiceServer) ListSearchAttributes(arg0 context.Context, arg1 *v1.ListSearchAttributesRequest) (*v1.ListSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListSearchAttributes", arg0, arg1)
-	ret0, _ := ret[0].(*operatorservice.ListSearchAttributesResponse)
+	ret0, _ := ret[0].(*v1.ListSearchAttributesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -297,10 +297,10 @@ func (mr *MockOperatorServiceServerMockRecorder) ListSearchAttributes(arg0, arg1
 }
 
 // RemoveRemoteCluster mocks base method.
-func (m *MockOperatorServiceServer) RemoveRemoteCluster(arg0 context.Context, arg1 *operatorservice.RemoveRemoteClusterRequest) (*operatorservice.RemoveRemoteClusterResponse, error) {
+func (m *MockOperatorServiceServer) RemoveRemoteCluster(arg0 context.Context, arg1 *v1.RemoveRemoteClusterRequest) (*v1.RemoveRemoteClusterResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RemoveRemoteCluster", arg0, arg1)
-	ret0, _ := ret[0].(*operatorservice.RemoveRemoteClusterResponse)
+	ret0, _ := ret[0].(*v1.RemoveRemoteClusterResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -312,10 +312,10 @@ func (mr *MockOperatorServiceServerMockRecorder) RemoveRemoteCluster(arg0, arg1 
 }
 
 // RemoveSearchAttributes mocks base method.
-func (m *MockOperatorServiceServer) RemoveSearchAttributes(arg0 context.Context, arg1 *operatorservice.RemoveSearchAttributesRequest) (*operatorservice.RemoveSearchAttributesResponse, error) {
+func (m *MockOperatorServiceServer) RemoveSearchAttributes(arg0 context.Context, arg1 *v1.RemoveSearchAttributesRequest) (*v1.RemoveSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RemoveSearchAttributes", arg0, arg1)
-	ret0, _ := ret[0].(*operatorservice.RemoveSearchAttributesResponse)
+	ret0, _ := ret[0].(*v1.RemoveSearchAttributesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
