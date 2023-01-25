@@ -306,12 +306,9 @@ func (m *ListSearchAttributesResponse) GetStorageSchema() map[string]string {
 }
 
 // (-- api-linter: core::0135::request-unknown-fields=disabled
-//
-//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
-//
+//     aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 // (-- api-linter: core::0135::request-name-required=disabled
-//
-//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
+//     aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 type DeleteNamespaceRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }

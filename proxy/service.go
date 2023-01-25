@@ -267,6 +267,6 @@ func (s *workflowServiceProxyServer) UpdateWorkerBuildIdOrdering(ctx context.Con
 	return s.client.UpdateWorkerBuildIdOrdering(ctx, req)
 }
 
-func (s *workflowServiceProxyServer) UpdateWorkflow(ctx context.Context, req *workflowservice.UpdateWorkflowRequest) (*workflowservice.UpdateWorkflowResponse, error) {
-	return s.client.UpdateWorkflow(ctx, req)
+func (s *workflowServiceProxyServer) UpdateWorkflowExecution(ctx context.Context, req *workflowservice.UpdateWorkflowExecutionRequest) (*workflowservice.UpdateWorkflowExecutionResponse, error) {
+	return s.client.UpdateWorkflowExecution(ctx, req)
 }

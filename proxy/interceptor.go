@@ -34,9 +34,9 @@ import (
 	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
-	"go.temporal.io/api/interaction/v1"
 	"go.temporal.io/api/query/v1"
 	"go.temporal.io/api/schedule/v1"
+	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
@@ -231,20 +231,6 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *command.AcceptWorkflowUpdateCommandAttributes:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetInput(),
-			); err != nil {
-				return err
-			}
-
 		case *command.CancelWorkflowExecutionCommandAttributes:
 
 			if o == nil {
@@ -275,15 +261,12 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if err := visitPayloads(
 				ctx,
 				options,
-				o.GetAcceptWorkflowUpdateCommandAttributes(),
 				o.GetCancelWorkflowExecutionCommandAttributes(),
 				o.GetCompleteWorkflowExecutionCommandAttributes(),
-				o.GetCompleteWorkflowUpdateCommandAttributes(),
 				o.GetContinueAsNewWorkflowExecutionCommandAttributes(),
 				o.GetFailWorkflowExecutionCommandAttributes(),
 				o.GetModifyWorkflowPropertiesCommandAttributes(),
 				o.GetRecordMarkerCommandAttributes(),
-				o.GetRejectWorkflowUpdateCommandAttributes(),
 				o.GetScheduleActivityTaskCommandAttributes(),
 				o.GetSignalExternalWorkflowExecutionCommandAttributes(),
 				o.GetStartChildWorkflowExecutionCommandAttributes(),
@@ -302,20 +285,6 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetResult(),
-			); err != nil {
-				return err
-			}
-
-		case *command.CompleteWorkflowUpdateCommandAttributes:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetOutput(),
 			); err != nil {
 				return err
 			}
@@ -379,20 +348,6 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetDetails(),
 				o.GetFailure(),
 				o.GetHeader(),
-			); err != nil {
-				return err
-			}
-
-		case *command.RejectWorkflowUpdateCommandAttributes:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -778,12 +733,12 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetWorkflowExecutionSignaledEventAttributes(),
 				o.GetWorkflowExecutionStartedEventAttributes(),
 				o.GetWorkflowExecutionTerminatedEventAttributes(),
+				o.GetWorkflowExecutionUpdateAcceptedEventAttributes(),
+				o.GetWorkflowExecutionUpdateCompletedEventAttributes(),
+				o.GetWorkflowExecutionUpdateRejectedEventAttributes(),
 				o.GetWorkflowPropertiesModifiedEventAttributes(),
 				o.GetWorkflowPropertiesModifiedExternallyEventAttributes(),
 				o.GetWorkflowTaskFailedEventAttributes(),
-				o.GetWorkflowUpdateAcceptedEventAttributes(),
-				o.GetWorkflowUpdateCompletedEventAttributes(),
-				o.GetWorkflowUpdateRejectedEventAttributes(),
 			); err != nil {
 				return err
 			}
@@ -959,6 +914,49 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *history.WorkflowExecutionUpdateAcceptedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetAcceptedRequest(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowExecutionUpdateCompletedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowExecutionUpdateRejectedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetFailure(),
+				o.GetRejectedRequest(),
+			); err != nil {
+				return err
+			}
+
 		case *history.WorkflowPropertiesModifiedEventAttributes:
 
 			if o == nil {
@@ -997,100 +995,6 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
-			); err != nil {
-				return err
-			}
-
-		case *history.WorkflowUpdateAcceptedEventAttributes:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetInput(),
-			); err != nil {
-				return err
-			}
-
-		case *history.WorkflowUpdateCompletedEventAttributes:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetOutput(),
-			); err != nil {
-				return err
-			}
-
-		case *history.WorkflowUpdateRejectedEventAttributes:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetFailure(),
-			); err != nil {
-				return err
-			}
-
-		case *interaction.Input:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetArgs(),
-				o.GetHeader(),
-			); err != nil {
-				return err
-			}
-
-		case []*interaction.Invocation:
-			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
-					return err
-				}
-			}
-
-		case *interaction.Invocation:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetInput(),
-			); err != nil {
-				return err
-			}
-
-		case *interaction.Output:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetFailure(),
-				o.GetHeader(),
-				o.GetSuccess(),
 			); err != nil {
 				return err
 			}
@@ -1184,6 +1088,50 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				options,
 				o.GetMemo(),
 				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *update.Input:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetArgs(),
+				o.GetHeader(),
+			); err != nil {
+				return err
+			}
+
+		case *update.Outcome:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetFailure(),
+				o.GetSuccess(),
+			); err != nil {
+				return err
+			}
+
+		case *update.Request:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetInput(),
 			); err != nil {
 				return err
 			}
@@ -1427,7 +1375,6 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetHistory(),
-				o.GetInteractions(),
 				o.GetQueries(),
 				o.GetQuery(),
 			); err != nil {
@@ -1783,7 +1730,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
-		case *workflowservice.UpdateWorkflowRequest:
+		case *workflowservice.UpdateWorkflowExecutionRequest:
 
 			if o == nil {
 				continue
@@ -1792,12 +1739,12 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if err := visitPayloads(
 				ctx,
 				options,
-				o.GetInput(),
+				o.GetRequest(),
 			); err != nil {
 				return err
 			}
 
-		case *workflowservice.UpdateWorkflowResponse:
+		case *workflowservice.UpdateWorkflowExecutionResponse:
 
 			if o == nil {
 				continue
@@ -1806,7 +1753,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if err := visitPayloads(
 				ctx,
 				options,
-				o.GetOutput(),
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}
@@ -1846,24 +1793,9 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
-				o.GetCompleteWorkflowUpdateCommandAttributes(),
 				o.GetContinueAsNewWorkflowExecutionCommandAttributes(),
 				o.GetFailWorkflowExecutionCommandAttributes(),
 				o.GetRecordMarkerCommandAttributes(),
-				o.GetRejectWorkflowUpdateCommandAttributes(),
-			); err != nil {
-				return err
-			}
-
-		case *command.CompleteWorkflowUpdateCommandAttributes:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetOutput(),
 			); err != nil {
 				return err
 			}
@@ -1895,19 +1827,6 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *command.RecordMarkerCommandAttributes:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetFailure(),
-			); err != nil {
-				return err
-			}
-
-		case *command.RejectWorkflowUpdateCommandAttributes:
 			if o == nil {
 				continue
 			}
@@ -2008,9 +1927,9 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				o.GetWorkflowExecutionContinuedAsNewEventAttributes(),
 				o.GetWorkflowExecutionFailedEventAttributes(),
 				o.GetWorkflowExecutionStartedEventAttributes(),
+				o.GetWorkflowExecutionUpdateCompletedEventAttributes(),
+				o.GetWorkflowExecutionUpdateRejectedEventAttributes(),
 				o.GetWorkflowTaskFailedEventAttributes(),
-				o.GetWorkflowUpdateCompletedEventAttributes(),
-				o.GetWorkflowUpdateRejectedEventAttributes(),
 			); err != nil {
 				return err
 			}
@@ -2067,6 +1986,32 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *history.WorkflowExecutionUpdateCompletedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
+		case *history.WorkflowExecutionUpdateRejectedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *history.WorkflowTaskFailedEventAttributes:
 			if o == nil {
 				continue
@@ -2080,33 +2025,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *history.WorkflowUpdateCompletedEventAttributes:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetOutput(),
-			); err != nil {
-				return err
-			}
-
-		case *history.WorkflowUpdateRejectedEventAttributes:
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitFailures(
-				ctx,
-				options,
-				o.GetFailure(),
-			); err != nil {
-				return err
-			}
-
-		case *interaction.Output:
+		case *update.Outcome:
 			if o == nil {
 				continue
 			}
@@ -2295,7 +2214,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *workflowservice.UpdateWorkflowResponse:
+		case *workflowservice.UpdateWorkflowExecutionResponse:
 			if o == nil {
 				continue
 			}
@@ -2303,7 +2222,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
-				o.GetOutput(),
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}
