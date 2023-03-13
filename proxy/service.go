@@ -103,8 +103,8 @@ func (s *workflowServiceProxyServer) GetSystemInfo(ctx context.Context, req *wor
 	return s.client.GetSystemInfo(ctx, req)
 }
 
-func (s *workflowServiceProxyServer) GetWorkerBuildIdOrdering(ctx context.Context, req *workflowservice.GetWorkerBuildIdOrderingRequest) (*workflowservice.GetWorkerBuildIdOrderingResponse, error) {
-	return s.client.GetWorkerBuildIdOrdering(ctx, req)
+func (s *workflowServiceProxyServer) GetWorkerBuildIdCompatability(ctx context.Context, req *workflowservice.GetWorkerBuildIdCompatabilityRequest) (*workflowservice.GetWorkerBuildIdCompatabilityResponse, error) {
+	return s.client.GetWorkerBuildIdCompatability(ctx, req)
 }
 
 func (s *workflowServiceProxyServer) GetWorkflowExecutionHistory(ctx context.Context, req *workflowservice.GetWorkflowExecutionHistoryRequest) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
@@ -263,8 +263,8 @@ func (s *workflowServiceProxyServer) UpdateSchedule(ctx context.Context, req *wo
 	return s.client.UpdateSchedule(ctx, req)
 }
 
-func (s *workflowServiceProxyServer) UpdateWorkerBuildIdOrdering(ctx context.Context, req *workflowservice.UpdateWorkerBuildIdOrderingRequest) (*workflowservice.UpdateWorkerBuildIdOrderingResponse, error) {
-	return s.client.UpdateWorkerBuildIdOrdering(ctx, req)
+func (s *workflowServiceProxyServer) UpdateWorkerBuildIdCompatability(ctx context.Context, req *workflowservice.UpdateWorkerBuildIdCompatabilityRequest) (*workflowservice.UpdateWorkerBuildIdCompatabilityResponse, error) {
+	return s.client.UpdateWorkerBuildIdCompatability(ctx, req)
 }
 
 func (s *workflowServiceProxyServer) UpdateWorkflowExecution(ctx context.Context, req *workflowservice.UpdateWorkflowExecutionRequest) (*workflowservice.UpdateWorkflowExecutionResponse, error) {
