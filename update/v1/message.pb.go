@@ -50,8 +50,8 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Sepcifies to the gRPC server how the client wants the UpdateWorkflowExecution
-// call to wait before returning control to the caller.
+// Specifies to the gRPC server how long the client wants the an update-related
+// RPC call to wait before returning control to the caller.
 type WaitPolicy struct {
 	// Indicates the update lifecycle stage that the gRPC call should wait for
 	// before returning.

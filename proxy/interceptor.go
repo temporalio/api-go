@@ -1365,6 +1365,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *workflowservice.PollWorkflowExecutionUpdateResponse:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.PollWorkflowTaskQueueResponse:
 
 			if o == nil {
@@ -2095,6 +2109,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetHistory(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollWorkflowExecutionUpdateResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}

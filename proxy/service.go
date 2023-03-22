@@ -159,6 +159,10 @@ func (s *workflowServiceProxyServer) PollActivityTaskQueue(ctx context.Context, 
 	return s.client.PollActivityTaskQueue(ctx, req)
 }
 
+func (s *workflowServiceProxyServer) PollWorkflowExecutionUpdate(ctx context.Context, req *workflowservice.PollWorkflowExecutionUpdateRequest) (*workflowservice.PollWorkflowExecutionUpdateResponse, error) {
+	return s.client.PollWorkflowExecutionUpdate(ctx, req)
+}
+
 func (s *workflowServiceProxyServer) PollWorkflowTaskQueue(ctx context.Context, req *workflowservice.PollWorkflowTaskQueueRequest) (*workflowservice.PollWorkflowTaskQueueResponse, error) {
 	return s.client.PollWorkflowTaskQueue(ctx, req)
 }
