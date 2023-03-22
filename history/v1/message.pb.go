@@ -847,7 +847,7 @@ type WorkflowTaskCompletedEventAttributes struct {
 	BinaryChecksum string `protobuf:"bytes,4,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
 	// Version info of the worker who processed this workflow task, or missing if worker is not
 	// using versioning. If present, the `build_id` field within is also used as `binary_checksum`,
-	// which may be omitted in that case (it may also be populated to preserve compatability).
+	// which may be omitted in that case (it may also be populated to preserve compatibility).
 	WorkerVersion *v1.WorkerVersionStamp `protobuf:"bytes,5,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
 	// Data the SDK wishes to record for itself, but server need not interpret, and does not
 	// directly impact workflow state.

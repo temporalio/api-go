@@ -1322,7 +1322,7 @@ type PollWorkflowTaskQueueRequest struct {
 	BinaryChecksum string `protobuf:"bytes,4,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
 	// If set, the worker is opting in to versioning and wishes to only
 	// receive tasks that are considered compatible with the version capabilities provided.
-	// Doing so only makes sense in conjunction with the `UpdateWorkerBuildIdOrdering` API.
+	// Doing so only makes sense in conjunction with the `UpdateWorkerBuildIdCompatibility` API.
 	// When this field has a `worker_build_id`, and `binary_checksum` is not
 	// set, that value should also be considered as the `binary_checksum`.
 	WorkerVersionCapabilities *v13.WorkerVersionCapabilities `protobuf:"bytes,5,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
@@ -1937,7 +1937,7 @@ type PollActivityTaskQueueRequest struct {
 	TaskQueueMetadata *v14.TaskQueueMetadata `protobuf:"bytes,4,opt,name=task_queue_metadata,json=taskQueueMetadata,proto3" json:"task_queue_metadata,omitempty"`
 	// If set, the worker is opting in to versioning and wishes to only
 	// receive tasks that are considered compatible with the capabilities provided.
-	// Doing so only makes sense in conjunction with the `UpdateWorkerBuildIdOrdering` API.
+	// Doing so only makes sense in conjunction with the `UpdateWorkerBuildIdCompatibility` API.
 	WorkerVersionCapabilities *v13.WorkerVersionCapabilities `protobuf:"bytes,5,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
 }
 
@@ -6843,36 +6843,36 @@ func (m *ListSchedulesResponse) GetNextPageToken() []byte {
 }
 
 // (-- api-linter: core::0134::request-mask-required=disabled
-//     aip.dev/not-precedent: UpdateWorkerBuildIdOrderingRequest doesn't follow Google API format --)
+//     aip.dev/not-precedent: UpdateWorkerBuildIdCompatibilityRequest doesn't follow Google API format --)
 // (-- api-linter: core::0134::request-resource-required=disabled
-//     aip.dev/not-precedent: UpdateWorkerBuildIdOrderingRequest RPC doesn't follow Google API format. --)
-type UpdateWorkerBuildIdCompatabilityRequest struct {
+//     aip.dev/not-precedent: UpdateWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
+type UpdateWorkerBuildIdCompatibilityRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Must be set, the task queue to apply changes to. Because all workers on a given task queue
 	// must have the same set of workflow & activity implementations, there is no reason to specify
 	// a task queue type here.
 	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Types that are valid to be assigned to Operation:
-	//	*UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet
-	//	*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId
-	//	*UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId
-	//	*UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet
-	Operation isUpdateWorkerBuildIdCompatabilityRequest_Operation `protobuf_oneof:"operation"`
+	//	*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet
+	//	*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId
+	//	*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId
+	//	*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet
+	Operation isUpdateWorkerBuildIdCompatibilityRequest_Operation `protobuf_oneof:"operation"`
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) Reset() {
-	*m = UpdateWorkerBuildIdCompatabilityRequest{}
+func (m *UpdateWorkerBuildIdCompatibilityRequest) Reset() {
+	*m = UpdateWorkerBuildIdCompatibilityRequest{}
 }
-func (*UpdateWorkerBuildIdCompatabilityRequest) ProtoMessage() {}
-func (*UpdateWorkerBuildIdCompatabilityRequest) Descriptor() ([]byte, []int) {
+func (*UpdateWorkerBuildIdCompatibilityRequest) ProtoMessage() {}
+func (*UpdateWorkerBuildIdCompatibilityRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2c30b34f996ae016, []int{96}
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest) XXX_Unmarshal(b []byte) error {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_UpdateWorkerBuildIdCompatabilityRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_UpdateWorkerBuildIdCompatibilityRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -6882,107 +6882,107 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) XXX_Marshal(b []byte, determin
 		return b[:n], nil
 	}
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateWorkerBuildIdCompatabilityRequest.Merge(m, src)
+func (m *UpdateWorkerBuildIdCompatibilityRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateWorkerBuildIdCompatibilityRequest.Merge(m, src)
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest) XXX_Size() int {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateWorkerBuildIdCompatabilityRequest.DiscardUnknown(m)
+func (m *UpdateWorkerBuildIdCompatibilityRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateWorkerBuildIdCompatibilityRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_UpdateWorkerBuildIdCompatabilityRequest proto.InternalMessageInfo
+var xxx_messageInfo_UpdateWorkerBuildIdCompatibilityRequest proto.InternalMessageInfo
 
-type isUpdateWorkerBuildIdCompatabilityRequest_Operation interface {
-	isUpdateWorkerBuildIdCompatabilityRequest_Operation()
+type isUpdateWorkerBuildIdCompatibilityRequest_Operation interface {
+	isUpdateWorkerBuildIdCompatibilityRequest_Operation()
 	Equal(interface{}) bool
 	MarshalTo([]byte) (int, error)
 	Size() int
 }
 
-type UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet struct {
+type UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet struct {
 	AddNewBuildIdInNewDefaultSet string `protobuf:"bytes,3,opt,name=add_new_build_id_in_new_default_set,json=addNewBuildIdInNewDefaultSet,proto3,oneof" json:"add_new_build_id_in_new_default_set,omitempty"`
 }
-type UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId struct {
-	AddNewCompatibleBuildId *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion `protobuf:"bytes,4,opt,name=add_new_compatible_build_id,json=addNewCompatibleBuildId,proto3,oneof" json:"add_new_compatible_build_id,omitempty"`
+type UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId struct {
+	AddNewCompatibleBuildId *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion `protobuf:"bytes,4,opt,name=add_new_compatible_build_id,json=addNewCompatibleBuildId,proto3,oneof" json:"add_new_compatible_build_id,omitempty"`
 }
-type UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId struct {
+type UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId struct {
 	PromoteSetByBuildId string `protobuf:"bytes,5,opt,name=promote_set_by_build_id,json=promoteSetByBuildId,proto3,oneof" json:"promote_set_by_build_id,omitempty"`
 }
-type UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet struct {
+type UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet struct {
 	PromoteBuildIdWithinSet string `protobuf:"bytes,6,opt,name=promote_build_id_within_set,json=promoteBuildIdWithinSet,proto3,oneof" json:"promote_build_id_within_set,omitempty"`
 }
 
-func (*UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) isUpdateWorkerBuildIdCompatabilityRequest_Operation() {
+func (*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet) isUpdateWorkerBuildIdCompatibilityRequest_Operation() {
 }
-func (*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) isUpdateWorkerBuildIdCompatabilityRequest_Operation() {
+func (*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId) isUpdateWorkerBuildIdCompatibilityRequest_Operation() {
 }
-func (*UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) isUpdateWorkerBuildIdCompatabilityRequest_Operation() {
+func (*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId) isUpdateWorkerBuildIdCompatibilityRequest_Operation() {
 }
-func (*UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) isUpdateWorkerBuildIdCompatabilityRequest_Operation() {
+func (*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet) isUpdateWorkerBuildIdCompatibilityRequest_Operation() {
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) GetOperation() isUpdateWorkerBuildIdCompatabilityRequest_Operation {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) GetOperation() isUpdateWorkerBuildIdCompatibilityRequest_Operation {
 	if m != nil {
 		return m.Operation
 	}
 	return nil
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) GetNamespace() string {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) GetNamespace() string {
 	if m != nil {
 		return m.Namespace
 	}
 	return ""
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) GetTaskQueue() string {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) GetTaskQueue() string {
 	if m != nil {
 		return m.TaskQueue
 	}
 	return ""
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) GetAddNewBuildIdInNewDefaultSet() string {
-	if x, ok := m.GetOperation().(*UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet); ok {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) GetAddNewBuildIdInNewDefaultSet() string {
+	if x, ok := m.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet); ok {
 		return x.AddNewBuildIdInNewDefaultSet
 	}
 	return ""
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) GetAddNewCompatibleBuildId() *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion {
-	if x, ok := m.GetOperation().(*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId); ok {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) GetAddNewCompatibleBuildId() *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion {
+	if x, ok := m.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId); ok {
 		return x.AddNewCompatibleBuildId
 	}
 	return nil
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) GetPromoteSetByBuildId() string {
-	if x, ok := m.GetOperation().(*UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId); ok {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) GetPromoteSetByBuildId() string {
+	if x, ok := m.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId); ok {
 		return x.PromoteSetByBuildId
 	}
 	return ""
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) GetPromoteBuildIdWithinSet() string {
-	if x, ok := m.GetOperation().(*UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet); ok {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) GetPromoteBuildIdWithinSet() string {
+	if x, ok := m.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet); ok {
 		return x.PromoteBuildIdWithinSet
 	}
 	return ""
 }
 
 // XXX_OneofWrappers is for the internal use of the proto package.
-func (*UpdateWorkerBuildIdCompatabilityRequest) XXX_OneofWrappers() []interface{} {
+func (*UpdateWorkerBuildIdCompatibilityRequest) XXX_OneofWrappers() []interface{} {
 	return []interface{}{
-		(*UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet)(nil),
-		(*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId)(nil),
-		(*UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId)(nil),
-		(*UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet)(nil),
+		(*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet)(nil),
+		(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId)(nil),
+		(*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId)(nil),
+		(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet)(nil),
 	}
 }
 
-type UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion struct {
+type UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion struct {
 	// A new id to be added to an existing compatible set.
 	NewBuildId string `protobuf:"bytes,1,opt,name=new_build_id,json=newBuildId,proto3" json:"new_build_id,omitempty"`
 	// A build id which must already exist in the version sets known by the task queue. The new
@@ -6995,19 +6995,19 @@ type UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion struct {
 	MakeSetDefault bool `protobuf:"varint,3,opt,name=make_set_default,json=makeSetDefault,proto3" json:"make_set_default,omitempty"`
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Reset() {
-	*m = UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion{}
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Reset() {
+	*m = UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion{}
 }
-func (*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) ProtoMessage() {}
-func (*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Descriptor() ([]byte, []int) {
+func (*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) ProtoMessage() {}
+func (*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2c30b34f996ae016, []int{96, 0}
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) XXX_Unmarshal(b []byte) error {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion.Marshal(b, m, deterministic)
+		return xxx_messageInfo_UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -7017,58 +7017,58 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) XXX_Ma
 		return b[:n], nil
 	}
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion.Merge(m, src)
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion.Merge(m, src)
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) XXX_Size() int {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) XXX_Size() int {
 	return m.Size()
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion.DiscardUnknown(m)
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion proto.InternalMessageInfo
+var xxx_messageInfo_UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion proto.InternalMessageInfo
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) GetNewBuildId() string {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) GetNewBuildId() string {
 	if m != nil {
 		return m.NewBuildId
 	}
 	return ""
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) GetExistingCompatibleBuildId() string {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) GetExistingCompatibleBuildId() string {
 	if m != nil {
 		return m.ExistingCompatibleBuildId
 	}
 	return ""
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) GetMakeSetDefault() bool {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) GetMakeSetDefault() bool {
 	if m != nil {
 		return m.MakeSetDefault
 	}
 	return false
 }
 
-type UpdateWorkerBuildIdCompatabilityResponse struct {
+type UpdateWorkerBuildIdCompatibilityResponse struct {
 	// The id of the compatible set that the updated version was added to, or exists in. Users don't
 	// need to understand or care about this value, but it has value for debugging purposes.
 	VersionSetId string `protobuf:"bytes,1,opt,name=version_set_id,json=versionSetId,proto3" json:"version_set_id,omitempty"`
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityResponse) Reset() {
-	*m = UpdateWorkerBuildIdCompatabilityResponse{}
+func (m *UpdateWorkerBuildIdCompatibilityResponse) Reset() {
+	*m = UpdateWorkerBuildIdCompatibilityResponse{}
 }
-func (*UpdateWorkerBuildIdCompatabilityResponse) ProtoMessage() {}
-func (*UpdateWorkerBuildIdCompatabilityResponse) Descriptor() ([]byte, []int) {
+func (*UpdateWorkerBuildIdCompatibilityResponse) ProtoMessage() {}
+func (*UpdateWorkerBuildIdCompatibilityResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2c30b34f996ae016, []int{97}
 }
-func (m *UpdateWorkerBuildIdCompatabilityResponse) XXX_Unmarshal(b []byte) error {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *UpdateWorkerBuildIdCompatabilityResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_UpdateWorkerBuildIdCompatabilityResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_UpdateWorkerBuildIdCompatibilityResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -7078,19 +7078,19 @@ func (m *UpdateWorkerBuildIdCompatabilityResponse) XXX_Marshal(b []byte, determi
 		return b[:n], nil
 	}
 }
-func (m *UpdateWorkerBuildIdCompatabilityResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_UpdateWorkerBuildIdCompatabilityResponse.Merge(m, src)
+func (m *UpdateWorkerBuildIdCompatibilityResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateWorkerBuildIdCompatibilityResponse.Merge(m, src)
 }
-func (m *UpdateWorkerBuildIdCompatabilityResponse) XXX_Size() int {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *UpdateWorkerBuildIdCompatabilityResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_UpdateWorkerBuildIdCompatabilityResponse.DiscardUnknown(m)
+func (m *UpdateWorkerBuildIdCompatibilityResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateWorkerBuildIdCompatibilityResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_UpdateWorkerBuildIdCompatabilityResponse proto.InternalMessageInfo
+var xxx_messageInfo_UpdateWorkerBuildIdCompatibilityResponse proto.InternalMessageInfo
 
-func (m *UpdateWorkerBuildIdCompatabilityResponse) GetVersionSetId() string {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) GetVersionSetId() string {
 	if m != nil {
 		return m.VersionSetId
 	}
@@ -7098,10 +7098,10 @@ func (m *UpdateWorkerBuildIdCompatabilityResponse) GetVersionSetId() string {
 }
 
 // (-- api-linter: core::0134::request-resource-required=disabled
-//     aip.dev/not-precedent: GetWorkerBuildIdOrderingRequest RPC doesn't follow Google API format. --)
-type GetWorkerBuildIdCompatabilityRequest struct {
+//     aip.dev/not-precedent: GetWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
+type GetWorkerBuildIdCompatibilityRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Must be set, the task queue to interrogate about worker id ordering
+	// Must be set, the task queue to interrogate about worker id compatibility.
 	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Limits how many compatible sets will be returned. Specify 1 to only return the current
 	// default major version set. 0 returns all sets.
@@ -7111,20 +7111,20 @@ type GetWorkerBuildIdCompatabilityRequest struct {
 	IncludeRetirementCandidates bool `protobuf:"varint,4,opt,name=include_retirement_candidates,json=includeRetirementCandidates,proto3" json:"include_retirement_candidates,omitempty"`
 	// If set, the response will include information about which versions have open workflows, and
 	// whether or not there are currently polling workers who are compatible with those versions.
-	IncludePollerCompatability bool `protobuf:"varint,5,opt,name=include_poller_compatability,json=includePollerCompatability,proto3" json:"include_poller_compatability,omitempty"`
+	IncludePollerCompatibility bool `protobuf:"varint,5,opt,name=include_poller_compatibility,json=includePollerCompatibility,proto3" json:"include_poller_compatibility,omitempty"`
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) Reset()      { *m = GetWorkerBuildIdCompatabilityRequest{} }
-func (*GetWorkerBuildIdCompatabilityRequest) ProtoMessage() {}
-func (*GetWorkerBuildIdCompatabilityRequest) Descriptor() ([]byte, []int) {
+func (m *GetWorkerBuildIdCompatibilityRequest) Reset()      { *m = GetWorkerBuildIdCompatibilityRequest{} }
+func (*GetWorkerBuildIdCompatibilityRequest) ProtoMessage() {}
+func (*GetWorkerBuildIdCompatibilityRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2c30b34f996ae016, []int{98}
 }
-func (m *GetWorkerBuildIdCompatabilityRequest) XXX_Unmarshal(b []byte) error {
+func (m *GetWorkerBuildIdCompatibilityRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetWorkerBuildIdCompatabilityRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetWorkerBuildIdCompatibilityRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetWorkerBuildIdCompatabilityRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetWorkerBuildIdCompatibilityRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -7134,54 +7134,54 @@ func (m *GetWorkerBuildIdCompatabilityRequest) XXX_Marshal(b []byte, determinist
 		return b[:n], nil
 	}
 }
-func (m *GetWorkerBuildIdCompatabilityRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetWorkerBuildIdCompatabilityRequest.Merge(m, src)
+func (m *GetWorkerBuildIdCompatibilityRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetWorkerBuildIdCompatibilityRequest.Merge(m, src)
 }
-func (m *GetWorkerBuildIdCompatabilityRequest) XXX_Size() int {
+func (m *GetWorkerBuildIdCompatibilityRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetWorkerBuildIdCompatabilityRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetWorkerBuildIdCompatabilityRequest.DiscardUnknown(m)
+func (m *GetWorkerBuildIdCompatibilityRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetWorkerBuildIdCompatibilityRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetWorkerBuildIdCompatabilityRequest proto.InternalMessageInfo
+var xxx_messageInfo_GetWorkerBuildIdCompatibilityRequest proto.InternalMessageInfo
 
-func (m *GetWorkerBuildIdCompatabilityRequest) GetNamespace() string {
+func (m *GetWorkerBuildIdCompatibilityRequest) GetNamespace() string {
 	if m != nil {
 		return m.Namespace
 	}
 	return ""
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) GetTaskQueue() string {
+func (m *GetWorkerBuildIdCompatibilityRequest) GetTaskQueue() string {
 	if m != nil {
 		return m.TaskQueue
 	}
 	return ""
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) GetMaxSets() int32 {
+func (m *GetWorkerBuildIdCompatibilityRequest) GetMaxSets() int32 {
 	if m != nil {
 		return m.MaxSets
 	}
 	return 0
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) GetIncludeRetirementCandidates() bool {
+func (m *GetWorkerBuildIdCompatibilityRequest) GetIncludeRetirementCandidates() bool {
 	if m != nil {
 		return m.IncludeRetirementCandidates
 	}
 	return false
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) GetIncludePollerCompatability() bool {
+func (m *GetWorkerBuildIdCompatibilityRequest) GetIncludePollerCompatibility() bool {
 	if m != nil {
-		return m.IncludePollerCompatability
+		return m.IncludePollerCompatibility
 	}
 	return false
 }
 
-type GetWorkerBuildIdCompatabilityResponse struct {
+type GetWorkerBuildIdCompatibilityResponse struct {
 	// Major version sets, in order from oldest to newest. The last element of the list will always
 	// be the current default major version. IE: New workflows will target the most recent version
 	// in that version set.
@@ -7190,23 +7190,23 @@ type GetWorkerBuildIdCompatabilityResponse struct {
 	MajorVersionSets []*v14.CompatibleVersionSet `protobuf:"bytes,1,rep,name=major_version_sets,json=majorVersionSets,proto3" json:"major_version_sets,omitempty"`
 	// A list of workers who are still live and polling the task queue, but may no longer be needed
 	// to make progress on open workflows.
-	RetirementCandidates []*GetWorkerBuildIdCompatabilityResponse_RetirementCandidate `protobuf:"bytes,2,rep,name=retirement_candidates,json=retirementCandidates,proto3" json:"retirement_candidates,omitempty"`
+	RetirementCandidates []*GetWorkerBuildIdCompatibilityResponse_RetirementCandidate `protobuf:"bytes,2,rep,name=retirement_candidates,json=retirementCandidates,proto3" json:"retirement_candidates,omitempty"`
 	// A list of versions and pollers who are capable of processing tasks at that version (if any)
 	// for which there are currently open workflows.
-	ActiveVersionsAndPollers []*GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers `protobuf:"bytes,3,rep,name=active_versions_and_pollers,json=activeVersionsAndPollers,proto3" json:"active_versions_and_pollers,omitempty"`
+	ActiveVersionsAndPollers []*GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers `protobuf:"bytes,3,rep,name=active_versions_and_pollers,json=activeVersionsAndPollers,proto3" json:"active_versions_and_pollers,omitempty"`
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse) Reset()      { *m = GetWorkerBuildIdCompatabilityResponse{} }
-func (*GetWorkerBuildIdCompatabilityResponse) ProtoMessage() {}
-func (*GetWorkerBuildIdCompatabilityResponse) Descriptor() ([]byte, []int) {
+func (m *GetWorkerBuildIdCompatibilityResponse) Reset()      { *m = GetWorkerBuildIdCompatibilityResponse{} }
+func (*GetWorkerBuildIdCompatibilityResponse) ProtoMessage() {}
+func (*GetWorkerBuildIdCompatibilityResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2c30b34f996ae016, []int{99}
 }
-func (m *GetWorkerBuildIdCompatabilityResponse) XXX_Unmarshal(b []byte) error {
+func (m *GetWorkerBuildIdCompatibilityResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetWorkerBuildIdCompatabilityResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -7216,40 +7216,40 @@ func (m *GetWorkerBuildIdCompatabilityResponse) XXX_Marshal(b []byte, determinis
 		return b[:n], nil
 	}
 }
-func (m *GetWorkerBuildIdCompatabilityResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse.Merge(m, src)
+func (m *GetWorkerBuildIdCompatibilityResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse.Merge(m, src)
 }
-func (m *GetWorkerBuildIdCompatabilityResponse) XXX_Size() int {
+func (m *GetWorkerBuildIdCompatibilityResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetWorkerBuildIdCompatabilityResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse.DiscardUnknown(m)
+func (m *GetWorkerBuildIdCompatibilityResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse proto.InternalMessageInfo
+var xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse proto.InternalMessageInfo
 
-func (m *GetWorkerBuildIdCompatabilityResponse) GetMajorVersionSets() []*v14.CompatibleVersionSet {
+func (m *GetWorkerBuildIdCompatibilityResponse) GetMajorVersionSets() []*v14.CompatibleVersionSet {
 	if m != nil {
 		return m.MajorVersionSets
 	}
 	return nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse) GetRetirementCandidates() []*GetWorkerBuildIdCompatabilityResponse_RetirementCandidate {
+func (m *GetWorkerBuildIdCompatibilityResponse) GetRetirementCandidates() []*GetWorkerBuildIdCompatibilityResponse_RetirementCandidate {
 	if m != nil {
 		return m.RetirementCandidates
 	}
 	return nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse) GetActiveVersionsAndPollers() []*GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers {
+func (m *GetWorkerBuildIdCompatibilityResponse) GetActiveVersionsAndPollers() []*GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers {
 	if m != nil {
 		return m.ActiveVersionsAndPollers
 	}
 	return nil
 }
 
-type GetWorkerBuildIdCompatabilityResponse_RetirementCandidate struct {
+type GetWorkerBuildIdCompatibilityResponse_RetirementCandidate struct {
 	// The worker build id which is ready for retirement
 	BuildId string `protobuf:"bytes,1,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// If true, there are no open *or* closed workflows, meaning there is no reason at all
@@ -7260,19 +7260,19 @@ type GetWorkerBuildIdCompatabilityResponse_RetirementCandidate struct {
 	Pollers []*v14.PollerInfo `protobuf:"bytes,3,rep,name=pollers,proto3" json:"pollers,omitempty"`
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Reset() {
-	*m = GetWorkerBuildIdCompatabilityResponse_RetirementCandidate{}
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) Reset() {
+	*m = GetWorkerBuildIdCompatibilityResponse_RetirementCandidate{}
 }
-func (*GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) ProtoMessage() {}
-func (*GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Descriptor() ([]byte, []int) {
+func (*GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) ProtoMessage() {}
+func (*GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2c30b34f996ae016, []int{99, 0}
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) XXX_Unmarshal(b []byte) error {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse_RetirementCandidate.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse_RetirementCandidate.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -7282,59 +7282,59 @@ func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) XXX_Marshal(
 		return b[:n], nil
 	}
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse_RetirementCandidate.Merge(m, src)
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse_RetirementCandidate.Merge(m, src)
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) XXX_Size() int {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse_RetirementCandidate.DiscardUnknown(m)
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse_RetirementCandidate.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse_RetirementCandidate proto.InternalMessageInfo
+var xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse_RetirementCandidate proto.InternalMessageInfo
 
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) GetBuildId() string {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) GetBuildId() string {
 	if m != nil {
 		return m.BuildId
 	}
 	return ""
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) GetAllWorkflowsAreArchived() bool {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) GetAllWorkflowsAreArchived() bool {
 	if m != nil {
 		return m.AllWorkflowsAreArchived
 	}
 	return false
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) GetPollers() []*v14.PollerInfo {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) GetPollers() []*v14.PollerInfo {
 	if m != nil {
 		return m.Pollers
 	}
 	return nil
 }
 
-type GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers struct {
+type GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers struct {
 	// The latest build id which completed a workflow task on some open workflow
 	MostRecentBuildId string `protobuf:"bytes,1,opt,name=most_recent_build_id,json=mostRecentBuildId,proto3" json:"most_recent_build_id,omitempty"`
 	// Currently polling workers who are compatible with `most_recent_build_id`.
 	Pollers []*v14.PollerInfo `protobuf:"bytes,2,rep,name=pollers,proto3" json:"pollers,omitempty"`
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) Reset() {
-	*m = GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers{}
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) Reset() {
+	*m = GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers{}
 }
-func (*GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) ProtoMessage() {}
-func (*GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) Descriptor() ([]byte, []int) {
+func (*GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) ProtoMessage() {}
+func (*GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2c30b34f996ae016, []int{99, 1}
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) XXX_Unmarshal(b []byte) error {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -7344,26 +7344,26 @@ func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) XX
 		return b[:n], nil
 	}
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers.Merge(m, src)
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers.Merge(m, src)
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) XXX_Size() int {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers.DiscardUnknown(m)
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers proto.InternalMessageInfo
+var xxx_messageInfo_GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers proto.InternalMessageInfo
 
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) GetMostRecentBuildId() string {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) GetMostRecentBuildId() string {
 	if m != nil {
 		return m.MostRecentBuildId
 	}
 	return ""
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) GetPollers() []*v14.PollerInfo {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) GetPollers() []*v14.PollerInfo {
 	if m != nil {
 		return m.Pollers
 	}
@@ -8330,13 +8330,13 @@ func init() {
 	proto.RegisterType((*DeleteScheduleResponse)(nil), "temporal.api.workflowservice.v1.DeleteScheduleResponse")
 	proto.RegisterType((*ListSchedulesRequest)(nil), "temporal.api.workflowservice.v1.ListSchedulesRequest")
 	proto.RegisterType((*ListSchedulesResponse)(nil), "temporal.api.workflowservice.v1.ListSchedulesResponse")
-	proto.RegisterType((*UpdateWorkerBuildIdCompatabilityRequest)(nil), "temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatabilityRequest")
-	proto.RegisterType((*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion)(nil), "temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatabilityRequest.AddNewCompatibleVersion")
-	proto.RegisterType((*UpdateWorkerBuildIdCompatabilityResponse)(nil), "temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatabilityResponse")
-	proto.RegisterType((*GetWorkerBuildIdCompatabilityRequest)(nil), "temporal.api.workflowservice.v1.GetWorkerBuildIdCompatabilityRequest")
-	proto.RegisterType((*GetWorkerBuildIdCompatabilityResponse)(nil), "temporal.api.workflowservice.v1.GetWorkerBuildIdCompatabilityResponse")
-	proto.RegisterType((*GetWorkerBuildIdCompatabilityResponse_RetirementCandidate)(nil), "temporal.api.workflowservice.v1.GetWorkerBuildIdCompatabilityResponse.RetirementCandidate")
-	proto.RegisterType((*GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers)(nil), "temporal.api.workflowservice.v1.GetWorkerBuildIdCompatabilityResponse.VersionsWithCompatiblePollers")
+	proto.RegisterType((*UpdateWorkerBuildIdCompatibilityRequest)(nil), "temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest")
+	proto.RegisterType((*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion)(nil), "temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.AddNewCompatibleVersion")
+	proto.RegisterType((*UpdateWorkerBuildIdCompatibilityResponse)(nil), "temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityResponse")
+	proto.RegisterType((*GetWorkerBuildIdCompatibilityRequest)(nil), "temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityRequest")
+	proto.RegisterType((*GetWorkerBuildIdCompatibilityResponse)(nil), "temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse")
+	proto.RegisterType((*GetWorkerBuildIdCompatibilityResponse_RetirementCandidate)(nil), "temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse.RetirementCandidate")
+	proto.RegisterType((*GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers)(nil), "temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse.VersionsWithCompatiblePollers")
 	proto.RegisterType((*UpdateWorkflowExecutionRequest)(nil), "temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest")
 	proto.RegisterType((*UpdateWorkflowExecutionResponse)(nil), "temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse")
 	proto.RegisterType((*StartBatchOperationRequest)(nil), "temporal.api.workflowservice.v1.StartBatchOperationRequest")
@@ -8356,7 +8356,7 @@ func init() {
 }
 
 var fileDescriptor_2c30b34f996ae016 = []byte{
-	// 6422 bytes of a gzipped FileDescriptorProto
+	// 6419 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x7d, 0x4d, 0x6c, 0x24, 0xc7,
 	0x75, 0x30, 0x7b, 0x7e, 0xc8, 0xe1, 0xe3, 0xf0, 0xaf, 0xf9, 0xb3, 0xc3, 0xe1, 0xee, 0x70, 0xb7,
 	0x77, 0xb5, 0xe2, 0xae, 0xac, 0x59, 0xed, 0xea, 0x93, 0x64, 0xd1, 0x96, 0x25, 0x92, 0x2b, 0x2d,
@@ -8684,81 +8684,81 @@ var fileDescriptor_2c30b34f996ae016 = []byte{
 	0xac, 0xc0, 0xc9, 0x3e, 0x99, 0x54, 0x7f, 0x4b, 0x81, 0x69, 0x79, 0xd0, 0x8f, 0xef, 0x34, 0x57,
 	0xfb, 0x1d, 0xf6, 0x82, 0xb3, 0x44, 0x0a, 0xe3, 0xf9, 0x3a, 0x0c, 0x47, 0x0e, 0xac, 0x92, 0xf6,
 	0x7e, 0x6d, 0xda, 0x8c, 0xc0, 0xb8, 0x68, 0xdc, 0x18, 0xb5, 0xee, 0xf9, 0xa4, 0xe2, 0x0b, 0x79,
-	0x78, 0x92, 0xce, 0x79, 0x7a, 0x13, 0x78, 0x85, 0xfa, 0xae, 0xab, 0x5e, 0xbd, 0x61, 0x86, 0x34,
-	0x5a, 0xe8, 0xf1, 0x81, 0xb5, 0x0b, 0x2d, 0x7e, 0xe2, 0xb0, 0xbc, 0x63, 0xf1, 0x3a, 0x5c, 0x36,
-	0x6d, 0x9b, 0x3c, 0x89, 0x21, 0x1c, 0x68, 0x87, 0xbe, 0xb0, 0x61, 0xa3, 0x1d, 0xb3, 0x59, 0x0b,
-	0x8d, 0x00, 0x51, 0x9f, 0x7f, 0x78, 0x6d, 0x40, 0x3f, 0x6f, 0xda, 0xf6, 0x9b, 0xe8, 0x90, 0x91,
-	0xb3, 0xee, 0xbe, 0x89, 0x0e, 0x6f, 0x53, 0xb0, 0x4d, 0x14, 0xaa, 0xdf, 0x50, 0x60, 0x9e, 0x63,
-	0xb3, 0x08, 0xa9, 0xce, 0x76, 0x0d, 0x09, 0xc4, 0x6c, 0x4a, 0xbc, 0xdf, 0x35, 0x8c, 0xea, 0x71,
-	0xe4, 0xd5, 0x65, 0x42, 0xcc, 0xaa, 0xe8, 0x89, 0x79, 0xf5, 0x6b, 0x03, 0xfa, 0x39, 0x33, 0x51,
-	0xc5, 0xd0, 0xa8, 0xcf, 0xc3, 0x39, 0xfe, 0x62, 0x6d, 0x80, 0x42, 0x63, 0xfb, 0x28, 0xa2, 0x2e,
-	0xcf, 0xc6, 0x38, 0xc5, 0x00, 0x36, 0x51, 0xb8, 0x72, 0xc4, 0xdb, 0x7d, 0x0a, 0xe6, 0x79, 0x3b,
-	0xc1, 0xa7, 0x43, 0x27, 0xdc, 0x73, 0x5c, 0xc2, 0x9f, 0x41, 0xd6, 0x96, 0x23, 0x67, 0xcd, 0xde,
-	0x21, 0x10, 0x9b, 0x28, 0x2c, 0xff, 0xa9, 0x02, 0xe7, 0xda, 0x90, 0xab, 0x5e, 0x84, 0xa2, 0xcc,
-	0x7f, 0x26, 0x43, 0x70, 0x05, 0x9f, 0xd5, 0x97, 0xe1, 0x3c, 0x7a, 0xe8, 0x04, 0x21, 0xd9, 0x9f,
-	0x4b, 0x61, 0x2c, 0x15, 0xeb, 0x1c, 0x87, 0x69, 0x1d, 0xf6, 0x22, 0x4c, 0xd4, 0xcd, 0x7d, 0x3a,
-	0x66, 0x26, 0x57, 0x16, 0xc7, 0x8d, 0xe1, 0xf2, 0x4d, 0x14, 0x32, 0x31, 0xae, 0x8c, 0xc0, 0xb0,
-	0xf8, 0x9b, 0x11, 0x6d, 0x03, 0x16, 0xbb, 0xcb, 0x82, 0xcd, 0x92, 0x2b, 0x30, 0x26, 0x9e, 0x15,
-	0x41, 0x61, 0x34, 0x0e, 0xbe, 0xb7, 0xb1, 0x89, 0xb0, 0x7d, 0xff, 0x42, 0x06, 0xae, 0xb0, 0x97,
-	0xcc, 0x7e, 0x81, 0x5a, 0x3d, 0x07, 0x85, 0xba, 0xf9, 0x10, 0xd3, 0x11, 0xb0, 0xa7, 0xd7, 0x86,
-	0xea, 0xe6, 0xc3, 0x4d, 0x14, 0x06, 0xea, 0x0a, 0x5c, 0xe0, 0x21, 0xad, 0x8f, 0x42, 0xc7, 0x47,
-	0x75, 0xe4, 0x86, 0x86, 0x65, 0xba, 0xb6, 0x83, 0x07, 0xca, 0x23, 0xd4, 0x79, 0x06, 0xa4, 0x0b,
-	0x98, 0x55, 0x01, 0xa2, 0xbe, 0x02, 0xe7, 0x39, 0x0e, 0xba, 0x23, 0xc6, 0x84, 0xc2, 0x86, 0xc0,
-	0xa2, 0xd5, 0x32, 0x83, 0xa1, 0x1b, 0x68, 0xb1, 0x41, 0x6a, 0x9f, 0x1f, 0x84, 0x27, 0xba, 0xb0,
-	0x81, 0xb1, 0xf5, 0x33, 0xa0, 0xd6, 0xcd, 0x0f, 0x3c, 0xe9, 0xcd, 0x16, 0x14, 0xb6, 0x39, 0x34,
-	0x8d, 0x85, 0x3d, 0x2d, 0x6a, 0xb6, 0x89, 0x42, 0x7d, 0x82, 0xa0, 0x8a, 0x0a, 0x02, 0xf5, 0x8b,
-	0x0a, 0xcc, 0xa4, 0xf3, 0x81, 0x46, 0x56, 0xef, 0xf6, 0xb2, 0xe7, 0xd1, 0x7d, 0x18, 0xd5, 0x14,
-	0x3e, 0xea, 0xd3, 0x7e, 0x1a, 0x73, 0xff, 0x04, 0x1b, 0x11, 0xfa, 0x47, 0x0d, 0x6c, 0xc8, 0x01,
-	0xd9, 0x0b, 0xe1, 0x3b, 0x96, 0x74, 0xcb, 0xdb, 0x3e, 0x25, 0xba, 0x18, 0x2f, 0x02, 0x3c, 0x53,
-	0x23, 0x96, 0x51, 0x91, 0x05, 0x7a, 0x89, 0x12, 0xc2, 0x81, 0x96, 0x5d, 0x9b, 0xd5, 0x94, 0xff,
-	0x42, 0x81, 0xa9, 0x94, 0x31, 0x61, 0xcd, 0x4b, 0xcc, 0xe3, 0x21, 0xb6, 0xef, 0xa0, 0x7e, 0x02,
-	0xca, 0x66, 0xad, 0x26, 0x76, 0x11, 0x02, 0xc3, 0xf4, 0x91, 0x21, 0xde, 0x36, 0xa4, 0xfb, 0x33,
-	0xe7, 0xcc, 0xe8, 0x21, 0x96, 0x60, 0xd9, 0x47, 0x3c, 0x09, 0x41, 0xde, 0xb2, 0xcd, 0x1e, 0x67,
-	0xcb, 0xb6, 0xfc, 0xbb, 0x0a, 0x5c, 0xe8, 0x38, 0x58, 0xf5, 0x06, 0x4c, 0xd7, 0x3d, 0xf2, 0x97,
-	0x45, 0x16, 0x56, 0x85, 0xc4, 0x30, 0x26, 0x71, 0x9d, 0x4e, 0xaa, 0x22, 0xab, 0x24, 0x68, 0xca,
-	0x1c, 0x87, 0x26, 0xed, 0xbb, 0x19, 0xa8, 0x44, 0xf6, 0xe5, 0x4c, 0xe5, 0x90, 0xb6, 0xcf, 0xe9,
-	0xcc, 0xb6, 0xbf, 0x3d, 0xb4, 0x0a, 0x23, 0xe4, 0xbd, 0x50, 0x96, 0xbb, 0x9e, 0x4b, 0x8b, 0x26,
-	0xe8, 0xe3, 0xf1, 0x84, 0x0e, 0xd3, 0x09, 0x59, 0xea, 0x3a, 0x1c, 0x8a, 0xdf, 0xea, 0x8b, 0x30,
-	0xc4, 0xdc, 0x61, 0x76, 0x38, 0xb2, 0xd0, 0x0e, 0x01, 0xe3, 0x91, 0xce, 0xe1, 0xb5, 0xaf, 0x2b,
-	0xb0, 0xd0, 0x96, 0x9f, 0xcc, 0x9e, 0xbc, 0x02, 0xec, 0xfd, 0x7a, 0xc3, 0x47, 0x3b, 0x2c, 0xea,
-	0xbc, 0xd4, 0xae, 0x07, 0x8a, 0x4c, 0x47, 0x3b, 0xfa, 0x70, 0x93, 0xff, 0xc4, 0x04, 0x7a, 0xcd,
-	0xd0, 0xf2, 0xea, 0x7c, 0xdb, 0xa9, 0x2d, 0x81, 0x6f, 0x51, 0x30, 0x9d, 0xc3, 0x6b, 0xff, 0x9d,
-	0x83, 0x32, 0xd9, 0x22, 0x5b, 0xc1, 0xce, 0xed, 0x5b, 0x7c, 0x9d, 0xe9, 0x4d, 0xd8, 0xf1, 0xdd,
-	0x65, 0x39, 0x11, 0x43, 0xda, 0x5d, 0x26, 0x9b, 0xa2, 0xea, 0x0c, 0x0c, 0x7e, 0xe0, 0x6d, 0x4b,
-	0x77, 0xf2, 0x3e, 0xf0, 0xb6, 0x63, 0xb7, 0xbb, 0x72, 0xb1, 0xc4, 0xe0, 0xf5, 0x58, 0x42, 0x0a,
-	0xfd, 0xbf, 0x99, 0x3e, 0xd4, 0x47, 0x4e, 0x45, 0xd9, 0x85, 0x99, 0x90, 0xa5, 0xf5, 0x62, 0x9d,
-	0x11, 0x4b, 0x29, 0x7b, 0x4a, 0xe3, 0x99, 0x38, 0x56, 0xf2, 0x0f, 0x44, 0x18, 0x69, 0x9c, 0x1f,
-	0x5b, 0x11, 0x86, 0xb5, 0x01, 0x7d, 0x5a, 0x42, 0x28, 0x40, 0xd4, 0x4f, 0xc3, 0x04, 0xdb, 0x28,
-	0x8e, 0xfa, 0xa0, 0xaf, 0x6a, 0x3c, 0xd5, 0x53, 0x1f, 0x34, 0x4b, 0x7f, 0x6d, 0x40, 0x1f, 0xa7,
-	0x68, 0x22, 0xcc, 0x1f, 0xc0, 0x2c, 0xbd, 0x64, 0x5f, 0x4b, 0x8e, 0xa1, 0x98, 0x76, 0x58, 0xd7,
-	0x06, 0xff, 0xaa, 0x84, 0x62, 0x6d, 0x40, 0x9f, 0x91, 0x51, 0x46, 0x7d, 0x7d, 0x16, 0x54, 0xf2,
-	0x9f, 0x02, 0xf1, 0x7e, 0xe8, 0x9d, 0x92, 0xa7, 0x7b, 0xea, 0xe7, 0x36, 0x6b, 0xbe, 0x36, 0xa0,
-	0x4f, 0x72, 0x54, 0xa2, 0x32, 0xee, 0xcd, 0x5c, 0x80, 0xf9, 0x54, 0xe5, 0x8b, 0x92, 0x29, 0xe6,
-	0x36, 0x43, 0xaf, 0x71, 0x1c, 0xdd, 0x8c, 0x14, 0x2e, 0x93, 0xae, 0x70, 0xf1, 0x4c, 0xf4, 0x0e,
-	0x01, 0xb2, 0x76, 0x1e, 0x4f, 0x91, 0x56, 0x2a, 0x18, 0x91, 0x5b, 0x70, 0x81, 0x6f, 0x27, 0x9d,
-	0x1e, 0x9d, 0xda, 0x87, 0x39, 0xa8, 0xb4, 0x43, 0xcb, 0xec, 0xc6, 0x06, 0x8c, 0x09, 0x4e, 0xd2,
-	0x93, 0x4d, 0x85, 0x9c, 0x6c, 0x5e, 0x6b, 0x73, 0xb2, 0x99, 0xd0, 0x68, 0x72, 0xbc, 0xe9, 0xc9,
-	0x9f, 0xed, 0x78, 0xf6, 0x0a, 0xe4, 0xe9, 0xbf, 0x04, 0xd1, 0x93, 0xd3, 0xeb, 0x3d, 0xe1, 0xa7,
-	0xff, 0x15, 0x44, 0x1b, 0x26, 0x62, 0xe4, 0x5c, 0xff, 0x61, 0xfc, 0xcb, 0x00, 0xd1, 0xa3, 0x2c,
-	0xcc, 0x0a, 0xf7, 0x80, 0xc0, 0xe2, 0x6f, 0xb1, 0xa8, 0xb7, 0x60, 0x26, 0xf4, 0x42, 0x79, 0x6e,
-	0x4a, 0xe7, 0x6c, 0x59, 0x7d, 0x8a, 0x54, 0x46, 0x53, 0x85, 0x9c, 0xb4, 0x7d, 0x1c, 0x4a, 0xe2,
-	0xff, 0xc5, 0x92, 0xcd, 0xe8, 0xab, 0xa5, 0xb3, 0xbc, 0x3e, 0xd1, 0xf2, 0x79, 0x38, 0xc7, 0x8f,
-	0x4c, 0x92, 0x0d, 0x0b, 0xa4, 0xe1, 0x0c, 0xab, 0x4e, 0xb4, 0xeb, 0x74, 0x1b, 0x2d, 0xd2, 0x5c,
-	0x88, 0x5d, 0x84, 0xfd, 0x75, 0x28, 0xe3, 0xc0, 0x36, 0xce, 0xfd, 0x5f, 0x62, 0xd6, 0xa1, 0xf6,
-	0xfb, 0x0a, 0xcc, 0xa7, 0x52, 0x90, 0xa6, 0xa7, 0xec, 0x9f, 0x44, 0x52, 0xec, 0x79, 0x1b, 0x6b,
-	0x42, 0xff, 0x4a, 0xc4, 0x93, 0x3f, 0x7b, 0x8e, 0xd9, 0x7f, 0xac, 0x80, 0x26, 0x3f, 0xa4, 0x27,
-	0x16, 0x08, 0xbe, 0x8a, 0xf6, 0xc2, 0xa3, 0xf8, 0xf2, 0x9c, 0x39, 0xc6, 0xf2, 0xdc, 0xe9, 0xca,
-	0xf4, 0x69, 0x38, 0x28, 0xda, 0xfb, 0x70, 0xb9, 0xe3, 0x30, 0x99, 0x20, 0x24, 0x37, 0x41, 0xe9,
-	0xcf, 0x4d, 0x58, 0xf9, 0x77, 0xe5, 0x7b, 0x3f, 0xac, 0x0c, 0x7c, 0xff, 0x87, 0x95, 0x81, 0x9f,
-	0xfe, 0xb0, 0xa2, 0xfc, 0xc6, 0xa3, 0x8a, 0xf2, 0xcd, 0x47, 0x15, 0xe5, 0xef, 0x1e, 0x55, 0x94,
-	0xef, 0x3d, 0xaa, 0x28, 0xff, 0xf4, 0xa8, 0xa2, 0xfc, 0xe4, 0x51, 0x65, 0xe0, 0xa7, 0x8f, 0x2a,
-	0xca, 0x97, 0x7e, 0x54, 0x19, 0xf8, 0xde, 0x8f, 0x2a, 0x03, 0xdf, 0xff, 0x51, 0x65, 0x00, 0x34,
-	0xc7, 0xeb, 0x16, 0x15, 0xac, 0x4c, 0x73, 0xa7, 0x89, 0x91, 0xb9, 0x81, 0x67, 0xf3, 0x86, 0xf2,
-	0xee, 0x73, 0xbb, 0x52, 0x5b, 0xc7, 0x6b, 0xf3, 0xb7, 0x9e, 0x9f, 0x48, 0x14, 0xfd, 0x79, 0xe6,
-	0xd2, 0x16, 0x6b, 0xe4, 0x78, 0xd5, 0xe5, 0x86, 0x23, 0xbc, 0x83, 0x4d, 0xd6, 0xe5, 0xfd, 0x9b,
-	0xff, 0x9a, 0xb9, 0x12, 0xc1, 0x2c, 0x2d, 0x2d, 0x37, 0x9c, 0xa5, 0xa5, 0x04, 0xd4, 0xd2, 0xd2,
-	0xfd, 0x9b, 0xdb, 0x83, 0xc4, 0xb0, 0x3c, 0xfb, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x88, 0xea,
-	0xe9, 0xf0, 0x5b, 0x74, 0x00, 0x00,
+	0x78, 0x92, 0xce, 0x79, 0x7a, 0x13, 0x78, 0x85, 0xfa, 0xae, 0xab, 0x5e, 0xbd, 0x61, 0x86, 0x2c,
+	0x90, 0xea, 0x8d, 0x55, 0x17, 0x5a, 0xfc, 0xc4, 0x61, 0x79, 0xc7, 0xe2, 0x75, 0xb8, 0x6c, 0xda,
+	0x36, 0x79, 0x12, 0x43, 0x38, 0xd0, 0x0e, 0x7d, 0x61, 0xc3, 0x46, 0x3b, 0x66, 0xb3, 0x16, 0x1a,
+	0x01, 0xa2, 0x3e, 0xff, 0xf0, 0xda, 0x80, 0x7e, 0xde, 0xb4, 0xed, 0x37, 0xd1, 0x21, 0x23, 0x67,
+	0xdd, 0x7d, 0x13, 0x1d, 0xde, 0xa6, 0x60, 0x9b, 0x28, 0x54, 0xbf, 0xa1, 0xc0, 0x3c, 0xc7, 0x66,
+	0x31, 0x52, 0x6b, 0x48, 0x20, 0x66, 0x53, 0xe2, 0xfd, 0xae, 0x61, 0x54, 0x8f, 0x23, 0xaf, 0x2e,
+	0x13, 0x62, 0x56, 0x45, 0x4f, 0xcc, 0xab, 0x5f, 0x1b, 0xd0, 0xcf, 0x99, 0x89, 0x2a, 0x86, 0x46,
+	0x7d, 0x1e, 0xce, 0xf1, 0x17, 0x6b, 0x03, 0x14, 0x1a, 0xdb, 0x47, 0x11, 0x75, 0x79, 0x36, 0xc6,
+	0x29, 0x06, 0xb0, 0x89, 0xc2, 0x95, 0x23, 0xde, 0xee, 0x53, 0x30, 0xcf, 0xdb, 0x09, 0x3e, 0x1d,
+	0x3a, 0xe1, 0x9e, 0xe3, 0x12, 0xfe, 0x0c, 0xb2, 0xb6, 0x1c, 0x39, 0x6b, 0xf6, 0x0e, 0x81, 0xd8,
+	0x44, 0x61, 0xf9, 0x4f, 0x15, 0x38, 0xd7, 0x86, 0x5c, 0xf5, 0x22, 0x14, 0x65, 0xfe, 0x33, 0x19,
+	0x82, 0x2b, 0xf8, 0xac, 0xbe, 0x0c, 0xe7, 0xd1, 0x43, 0x27, 0x08, 0xc9, 0xfe, 0x5c, 0x0a, 0x63,
+	0xa9, 0x58, 0xe7, 0x38, 0x4c, 0xeb, 0xb0, 0x17, 0x61, 0xa2, 0x6e, 0xee, 0xd3, 0x31, 0x33, 0xb9,
+	0xb2, 0x38, 0x6e, 0x0c, 0x97, 0x6f, 0xa2, 0x90, 0x89, 0x71, 0x65, 0x04, 0x86, 0xc5, 0xdf, 0x8c,
+	0x68, 0x1b, 0xb0, 0xd8, 0x5d, 0x16, 0x6c, 0x96, 0x5c, 0x81, 0x31, 0xf1, 0xac, 0x08, 0x0a, 0xa3,
+	0x71, 0xf0, 0xbd, 0x8d, 0x4d, 0x84, 0xed, 0xfb, 0x17, 0x32, 0x70, 0x85, 0xbd, 0x64, 0xf6, 0x0b,
+	0xd4, 0xea, 0x39, 0x28, 0xd4, 0xcd, 0x87, 0x98, 0x8e, 0x80, 0x3d, 0xbd, 0x36, 0x54, 0x37, 0x1f,
+	0x6e, 0xa2, 0x30, 0x50, 0x57, 0xe0, 0x02, 0x0f, 0x69, 0x7d, 0x14, 0x3a, 0x3e, 0xaa, 0x23, 0x37,
+	0x34, 0x2c, 0xd3, 0xb5, 0x1d, 0x3c, 0x50, 0x1e, 0xa1, 0xce, 0x33, 0x20, 0x5d, 0xc0, 0xac, 0x0a,
+	0x10, 0xf5, 0x15, 0x38, 0xcf, 0x71, 0xd0, 0x1d, 0x31, 0x21, 0x14, 0x32, 0x04, 0x16, 0xad, 0x96,
+	0x19, 0x0c, 0xdd, 0x40, 0x8b, 0x0d, 0x52, 0xfb, 0xfc, 0x20, 0x3c, 0xd1, 0x85, 0x0d, 0x8c, 0xad,
+	0x9f, 0x01, 0xb5, 0x6e, 0x7e, 0xe0, 0x49, 0x6f, 0xb6, 0xa0, 0xb0, 0xcd, 0xa1, 0x69, 0x2c, 0xec,
+	0x69, 0x51, 0xb3, 0x4d, 0x14, 0xea, 0x13, 0x04, 0x55, 0x54, 0x10, 0xa8, 0x5f, 0x54, 0x60, 0x26,
+	0x9d, 0x0f, 0x34, 0xb2, 0x7a, 0xb7, 0x97, 0x3d, 0x8f, 0xee, 0xc3, 0xa8, 0xa6, 0xf0, 0x51, 0x9f,
+	0xf6, 0xd3, 0x98, 0xfb, 0x27, 0xd8, 0x88, 0xd0, 0x3f, 0x6a, 0x60, 0x43, 0x0e, 0xc8, 0x5e, 0x08,
+	0xdf, 0xb1, 0xa4, 0x5b, 0xde, 0xf6, 0x29, 0xd1, 0xc5, 0x78, 0x11, 0xe0, 0x99, 0x1a, 0xb1, 0x8c,
+	0x8a, 0x2c, 0xd0, 0x4b, 0x94, 0x10, 0x0e, 0xb4, 0xec, 0xda, 0xac, 0xa6, 0xfc, 0x17, 0x0a, 0x4c,
+	0xa5, 0x8c, 0x09, 0x6b, 0x5e, 0x62, 0x1e, 0x0f, 0xb1, 0x7d, 0x07, 0xf5, 0x13, 0x50, 0x36, 0x6b,
+	0x35, 0xb1, 0x8b, 0x10, 0x18, 0xa6, 0x8f, 0x0c, 0xf1, 0xb6, 0x21, 0xdd, 0x9f, 0x39, 0x67, 0x46,
+	0x0f, 0xb1, 0x04, 0xcb, 0x3e, 0xe2, 0x49, 0x08, 0xf2, 0x96, 0x6d, 0xf6, 0x38, 0x5b, 0xb6, 0xe5,
+	0xdf, 0x55, 0xe0, 0x42, 0xc7, 0xc1, 0xaa, 0x37, 0x60, 0xba, 0xee, 0x91, 0xbf, 0x2c, 0xb2, 0xb0,
+	0x2a, 0x24, 0x86, 0x31, 0x89, 0xeb, 0x74, 0x52, 0x15, 0x59, 0x25, 0x41, 0x53, 0xe6, 0x38, 0x34,
+	0x69, 0xdf, 0xcd, 0x40, 0x25, 0xb2, 0x2f, 0x67, 0x2a, 0x87, 0xb4, 0x7d, 0x4e, 0x67, 0xb6, 0xfd,
+	0xed, 0xa1, 0x55, 0x18, 0x21, 0xef, 0x85, 0xb2, 0xdc, 0xf5, 0x5c, 0x5a, 0x34, 0x41, 0x1f, 0x8f,
+	0x27, 0x74, 0x98, 0x4e, 0xc8, 0x52, 0xd7, 0xe1, 0x50, 0xfc, 0x56, 0x5f, 0x84, 0x21, 0xe6, 0x0e,
+	0xb3, 0xc3, 0x91, 0x85, 0x76, 0x08, 0x18, 0x8f, 0x74, 0x0e, 0xaf, 0x7d, 0x5d, 0x81, 0x85, 0xb6,
+	0xfc, 0x64, 0xf6, 0xe4, 0x15, 0x60, 0xef, 0xd7, 0x1b, 0x3e, 0xda, 0x61, 0x51, 0xe7, 0xa5, 0x76,
+	0x3d, 0x50, 0x64, 0x3a, 0xda, 0xd1, 0x87, 0x9b, 0xfc, 0x27, 0x26, 0xd0, 0x6b, 0x86, 0x96, 0x57,
+	0xe7, 0xdb, 0x4e, 0x6d, 0x09, 0x7c, 0x8b, 0x82, 0xe9, 0x1c, 0x5e, 0xfb, 0xef, 0x1c, 0x94, 0xc9,
+	0x16, 0xd9, 0x0a, 0x76, 0x6e, 0xdf, 0xe2, 0xeb, 0x4c, 0x6f, 0xc2, 0x8e, 0xef, 0x2e, 0xcb, 0x89,
+	0x18, 0xd2, 0xee, 0x32, 0xd9, 0x14, 0x55, 0x67, 0x60, 0xf0, 0x03, 0x6f, 0x5b, 0xba, 0x93, 0xf7,
+	0x81, 0xb7, 0x1d, 0xbb, 0xdd, 0x95, 0x8b, 0x25, 0x06, 0xaf, 0xc7, 0x12, 0x52, 0xe8, 0xff, 0xcd,
+	0xf4, 0xa1, 0x3e, 0x72, 0x2a, 0xca, 0x2e, 0xcc, 0x84, 0x2c, 0xad, 0x17, 0xeb, 0x8c, 0x58, 0x4a,
+	0xd9, 0x53, 0x1a, 0xcf, 0xc4, 0xb1, 0x92, 0x7f, 0x20, 0xc2, 0x48, 0xe3, 0xfc, 0xd8, 0x8a, 0x30,
+	0xac, 0x0d, 0xe8, 0xd3, 0x12, 0x42, 0x01, 0xa2, 0x7e, 0x1a, 0x26, 0xd8, 0x46, 0x71, 0xd4, 0x07,
+	0x7d, 0x55, 0xe3, 0xa9, 0x9e, 0xfa, 0xa0, 0x59, 0xfa, 0x6b, 0x03, 0xfa, 0x38, 0x45, 0x13, 0x61,
+	0xfe, 0x00, 0x66, 0xe9, 0x25, 0xfb, 0x5a, 0x72, 0x0c, 0xc5, 0xb4, 0xc3, 0xba, 0x36, 0xf8, 0x57,
+	0x25, 0x14, 0x6b, 0x03, 0xfa, 0x8c, 0x8c, 0x32, 0xea, 0xeb, 0xb3, 0xa0, 0x92, 0xff, 0x14, 0x88,
+	0xf7, 0x43, 0xef, 0x94, 0x3c, 0xdd, 0x53, 0x3f, 0xb7, 0x59, 0xf3, 0xb5, 0x01, 0x7d, 0x92, 0xa3,
+	0x12, 0x95, 0x71, 0x6f, 0xe6, 0x02, 0xcc, 0xa7, 0x2a, 0x5f, 0x94, 0x4c, 0x31, 0xb7, 0x19, 0x7a,
+	0x8d, 0xe3, 0xe8, 0x66, 0xa4, 0x70, 0x99, 0x74, 0x85, 0x8b, 0x67, 0xa2, 0x77, 0x08, 0x90, 0xb5,
+	0xf3, 0x78, 0x8a, 0xb4, 0x52, 0xc1, 0x88, 0xdc, 0x82, 0x0b, 0x7c, 0x3b, 0xe9, 0xf4, 0xe8, 0xd4,
+	0x3e, 0xcc, 0x41, 0xa5, 0x1d, 0x5a, 0x66, 0x37, 0x36, 0x60, 0x4c, 0x70, 0x92, 0x9e, 0x6c, 0x2a,
+	0xe4, 0x64, 0xf3, 0x5a, 0x9b, 0x93, 0xcd, 0x84, 0x46, 0x93, 0xe3, 0x4d, 0x4f, 0xfe, 0x6c, 0xc7,
+	0xb3, 0x57, 0x20, 0x4f, 0xff, 0x25, 0x88, 0x9e, 0x9c, 0x5e, 0xef, 0x09, 0x3f, 0xfd, 0xaf, 0x20,
+	0xda, 0x30, 0x11, 0x23, 0xe7, 0xfa, 0x0f, 0xe3, 0x5f, 0x06, 0x88, 0x1e, 0x65, 0x61, 0x56, 0xb8,
+	0x07, 0x04, 0x16, 0x7f, 0x8b, 0x45, 0xbd, 0x05, 0x33, 0xa1, 0x17, 0xca, 0x73, 0x53, 0x3a, 0x67,
+	0xcb, 0xea, 0x53, 0xa4, 0x32, 0x9a, 0x2a, 0xe4, 0xa4, 0xed, 0xe3, 0x50, 0x12, 0xff, 0x2f, 0x96,
+	0x6c, 0x46, 0x5f, 0x2d, 0x9d, 0xe5, 0xf5, 0x89, 0x96, 0xcf, 0xc3, 0x39, 0x7e, 0x64, 0x92, 0x6c,
+	0x58, 0x20, 0x0d, 0x67, 0x58, 0x75, 0xa2, 0x5d, 0xa7, 0xdb, 0x68, 0x91, 0xe6, 0x42, 0xec, 0x22,
+	0xec, 0xaf, 0x43, 0x19, 0x07, 0xb6, 0x71, 0xee, 0xff, 0x12, 0xb3, 0x0e, 0xb5, 0xdf, 0x57, 0x60,
+	0x3e, 0x95, 0x82, 0x34, 0x3d, 0x65, 0xff, 0x24, 0x92, 0x62, 0xcf, 0xdb, 0x58, 0x13, 0xfa, 0x57,
+	0x22, 0x9e, 0xfc, 0xd9, 0x73, 0xcc, 0xfe, 0x63, 0x05, 0x34, 0xf9, 0x21, 0x3d, 0xb1, 0x40, 0xf0,
+	0x55, 0xb4, 0x17, 0x1e, 0xc5, 0x97, 0xe7, 0xcc, 0x31, 0x96, 0xe7, 0x4e, 0x57, 0xa6, 0x4f, 0xc3,
+	0x41, 0xd1, 0xde, 0x87, 0xcb, 0x1d, 0x87, 0xc9, 0x04, 0x21, 0xb9, 0x09, 0x4a, 0x7f, 0x6e, 0xc2,
+	0xca, 0xbf, 0x2b, 0xdf, 0xfb, 0x61, 0x65, 0xe0, 0xfb, 0x3f, 0xac, 0x0c, 0xfc, 0xf4, 0x87, 0x15,
+	0xe5, 0x37, 0x1e, 0x55, 0x94, 0x6f, 0x3e, 0xaa, 0x28, 0x7f, 0xf7, 0xa8, 0xa2, 0x7c, 0xef, 0x51,
+	0x45, 0xf9, 0xa7, 0x47, 0x15, 0xe5, 0x27, 0x8f, 0x2a, 0x03, 0x3f, 0x7d, 0x54, 0x51, 0xbe, 0xf4,
+	0xa3, 0xca, 0xc0, 0xf7, 0x7e, 0x54, 0x19, 0xf8, 0xfe, 0x8f, 0x2a, 0x03, 0xa0, 0x39, 0x5e, 0xb7,
+	0xa8, 0x60, 0x65, 0x9a, 0x3b, 0x4d, 0x8c, 0xcc, 0x0d, 0x3c, 0x9b, 0x37, 0x94, 0x77, 0x9f, 0xdb,
+	0x95, 0xda, 0x3a, 0x5e, 0x9b, 0xbf, 0xf5, 0xfc, 0x44, 0xa2, 0xe8, 0xcf, 0x33, 0x97, 0xb6, 0x58,
+	0x23, 0xc7, 0xab, 0x2e, 0x37, 0x1c, 0xe1, 0x1d, 0x6c, 0xb2, 0x2e, 0xef, 0xdf, 0xfc, 0xd7, 0xcc,
+	0x95, 0x08, 0x66, 0x69, 0x69, 0xb9, 0xe1, 0x2c, 0x2d, 0x25, 0xa0, 0x96, 0x96, 0xee, 0xdf, 0xdc,
+	0x1e, 0x24, 0x86, 0xe5, 0xd9, 0xff, 0x0d, 0x00, 0x00, 0xff, 0xff, 0x87, 0x04, 0xac, 0x10, 0x5b,
+	0x74, 0x00, 0x00,
 }
 
 func (this *RegisterNamespaceRequest) Equal(that interface{}) bool {
@@ -12271,14 +12271,14 @@ func (this *ListSchedulesResponse) Equal(that interface{}) bool {
 	}
 	return true
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest) Equal(that interface{}) bool {
+func (this *UpdateWorkerBuildIdCompatibilityRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateWorkerBuildIdCompatabilityRequest)
+	that1, ok := that.(*UpdateWorkerBuildIdCompatibilityRequest)
 	if !ok {
-		that2, ok := that.(UpdateWorkerBuildIdCompatabilityRequest)
+		that2, ok := that.(UpdateWorkerBuildIdCompatibilityRequest)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12307,14 +12307,14 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest) Equal(that interface{}) boo
 	}
 	return true
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) Equal(that interface{}) bool {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet)
+	that1, ok := that.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet)
 	if !ok {
-		that2, ok := that.(UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet)
+		that2, ok := that.(UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12331,14 +12331,14 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet
 	}
 	return true
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) Equal(that interface{}) bool {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId)
+	that1, ok := that.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId)
 	if !ok {
-		that2, ok := that.(UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId)
+		that2, ok := that.(UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12355,14 +12355,14 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) Equ
 	}
 	return true
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) Equal(that interface{}) bool {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId)
+	that1, ok := that.(*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId)
 	if !ok {
-		that2, ok := that.(UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId)
+		that2, ok := that.(UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12379,14 +12379,14 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) Equal(t
 	}
 	return true
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) Equal(that interface{}) bool {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet)
+	that1, ok := that.(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet)
 	if !ok {
-		that2, ok := that.(UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet)
+		that2, ok := that.(UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12403,14 +12403,14 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) Equ
 	}
 	return true
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Equal(that interface{}) bool {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion)
+	that1, ok := that.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion)
 	if !ok {
-		that2, ok := that.(UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion)
+		that2, ok := that.(UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12433,14 +12433,14 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Equ
 	}
 	return true
 }
-func (this *UpdateWorkerBuildIdCompatabilityResponse) Equal(that interface{}) bool {
+func (this *UpdateWorkerBuildIdCompatibilityResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*UpdateWorkerBuildIdCompatabilityResponse)
+	that1, ok := that.(*UpdateWorkerBuildIdCompatibilityResponse)
 	if !ok {
-		that2, ok := that.(UpdateWorkerBuildIdCompatabilityResponse)
+		that2, ok := that.(UpdateWorkerBuildIdCompatibilityResponse)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12457,14 +12457,14 @@ func (this *UpdateWorkerBuildIdCompatabilityResponse) Equal(that interface{}) bo
 	}
 	return true
 }
-func (this *GetWorkerBuildIdCompatabilityRequest) Equal(that interface{}) bool {
+func (this *GetWorkerBuildIdCompatibilityRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*GetWorkerBuildIdCompatabilityRequest)
+	that1, ok := that.(*GetWorkerBuildIdCompatibilityRequest)
 	if !ok {
-		that2, ok := that.(GetWorkerBuildIdCompatabilityRequest)
+		that2, ok := that.(GetWorkerBuildIdCompatibilityRequest)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12488,19 +12488,19 @@ func (this *GetWorkerBuildIdCompatabilityRequest) Equal(that interface{}) bool {
 	if this.IncludeRetirementCandidates != that1.IncludeRetirementCandidates {
 		return false
 	}
-	if this.IncludePollerCompatability != that1.IncludePollerCompatability {
+	if this.IncludePollerCompatibility != that1.IncludePollerCompatibility {
 		return false
 	}
 	return true
 }
-func (this *GetWorkerBuildIdCompatabilityResponse) Equal(that interface{}) bool {
+func (this *GetWorkerBuildIdCompatibilityResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*GetWorkerBuildIdCompatabilityResponse)
+	that1, ok := that.(*GetWorkerBuildIdCompatibilityResponse)
 	if !ok {
-		that2, ok := that.(GetWorkerBuildIdCompatabilityResponse)
+		that2, ok := that.(GetWorkerBuildIdCompatibilityResponse)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12538,14 +12538,14 @@ func (this *GetWorkerBuildIdCompatabilityResponse) Equal(that interface{}) bool 
 	}
 	return true
 }
-func (this *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Equal(that interface{}) bool {
+func (this *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*GetWorkerBuildIdCompatabilityResponse_RetirementCandidate)
+	that1, ok := that.(*GetWorkerBuildIdCompatibilityResponse_RetirementCandidate)
 	if !ok {
-		that2, ok := that.(GetWorkerBuildIdCompatabilityResponse_RetirementCandidate)
+		that2, ok := that.(GetWorkerBuildIdCompatibilityResponse_RetirementCandidate)
 		if ok {
 			that1 = &that2
 		} else {
@@ -12573,14 +12573,14 @@ func (this *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Equal(tha
 	}
 	return true
 }
-func (this *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) Equal(that interface{}) bool {
+func (this *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers)
+	that1, ok := that.(*GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers)
 	if !ok {
-		that2, ok := that.(GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers)
+		that2, ok := that.(GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers)
 		if ok {
 			that1 = &that2
 		} else {
@@ -14682,12 +14682,12 @@ func (this *ListSchedulesResponse) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest) GoString() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 10)
-	s = append(s, "&workflowservice.UpdateWorkerBuildIdCompatabilityRequest{")
+	s = append(s, "&workflowservice.UpdateWorkerBuildIdCompatibilityRequest{")
 	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "TaskQueue: "+fmt.Sprintf("%#v", this.TaskQueue)+",\n")
 	if this.Operation != nil {
@@ -14696,80 +14696,80 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) GoString() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&workflowservice.UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet{` +
+	s := strings.Join([]string{`&workflowservice.UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet{` +
 		`AddNewBuildIdInNewDefaultSet:` + fmt.Sprintf("%#v", this.AddNewBuildIdInNewDefaultSet) + `}`}, ", ")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) GoString() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&workflowservice.UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId{` +
+	s := strings.Join([]string{`&workflowservice.UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId{` +
 		`AddNewCompatibleBuildId:` + fmt.Sprintf("%#v", this.AddNewCompatibleBuildId) + `}`}, ", ")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) GoString() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&workflowservice.UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId{` +
+	s := strings.Join([]string{`&workflowservice.UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId{` +
 		`PromoteSetByBuildId:` + fmt.Sprintf("%#v", this.PromoteSetByBuildId) + `}`}, ", ")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) GoString() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&workflowservice.UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet{` +
+	s := strings.Join([]string{`&workflowservice.UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet{` +
 		`PromoteBuildIdWithinSet:` + fmt.Sprintf("%#v", this.PromoteBuildIdWithinSet) + `}`}, ", ")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) GoString() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 7)
-	s = append(s, "&workflowservice.UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion{")
+	s = append(s, "&workflowservice.UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion{")
 	s = append(s, "NewBuildId: "+fmt.Sprintf("%#v", this.NewBuildId)+",\n")
 	s = append(s, "ExistingCompatibleBuildId: "+fmt.Sprintf("%#v", this.ExistingCompatibleBuildId)+",\n")
 	s = append(s, "MakeSetDefault: "+fmt.Sprintf("%#v", this.MakeSetDefault)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *UpdateWorkerBuildIdCompatabilityResponse) GoString() string {
+func (this *UpdateWorkerBuildIdCompatibilityResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 5)
-	s = append(s, "&workflowservice.UpdateWorkerBuildIdCompatabilityResponse{")
+	s = append(s, "&workflowservice.UpdateWorkerBuildIdCompatibilityResponse{")
 	s = append(s, "VersionSetId: "+fmt.Sprintf("%#v", this.VersionSetId)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *GetWorkerBuildIdCompatabilityRequest) GoString() string {
+func (this *GetWorkerBuildIdCompatibilityRequest) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 9)
-	s = append(s, "&workflowservice.GetWorkerBuildIdCompatabilityRequest{")
+	s = append(s, "&workflowservice.GetWorkerBuildIdCompatibilityRequest{")
 	s = append(s, "Namespace: "+fmt.Sprintf("%#v", this.Namespace)+",\n")
 	s = append(s, "TaskQueue: "+fmt.Sprintf("%#v", this.TaskQueue)+",\n")
 	s = append(s, "MaxSets: "+fmt.Sprintf("%#v", this.MaxSets)+",\n")
 	s = append(s, "IncludeRetirementCandidates: "+fmt.Sprintf("%#v", this.IncludeRetirementCandidates)+",\n")
-	s = append(s, "IncludePollerCompatability: "+fmt.Sprintf("%#v", this.IncludePollerCompatability)+",\n")
+	s = append(s, "IncludePollerCompatibility: "+fmt.Sprintf("%#v", this.IncludePollerCompatibility)+",\n")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *GetWorkerBuildIdCompatabilityResponse) GoString() string {
+func (this *GetWorkerBuildIdCompatibilityResponse) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 7)
-	s = append(s, "&workflowservice.GetWorkerBuildIdCompatabilityResponse{")
+	s = append(s, "&workflowservice.GetWorkerBuildIdCompatibilityResponse{")
 	if this.MajorVersionSets != nil {
 		s = append(s, "MajorVersionSets: "+fmt.Sprintf("%#v", this.MajorVersionSets)+",\n")
 	}
@@ -14782,12 +14782,12 @@ func (this *GetWorkerBuildIdCompatabilityResponse) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) GoString() string {
+func (this *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 7)
-	s = append(s, "&workflowservice.GetWorkerBuildIdCompatabilityResponse_RetirementCandidate{")
+	s = append(s, "&workflowservice.GetWorkerBuildIdCompatibilityResponse_RetirementCandidate{")
 	s = append(s, "BuildId: "+fmt.Sprintf("%#v", this.BuildId)+",\n")
 	s = append(s, "AllWorkflowsAreArchived: "+fmt.Sprintf("%#v", this.AllWorkflowsAreArchived)+",\n")
 	if this.Pollers != nil {
@@ -14796,12 +14796,12 @@ func (this *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) GoString(
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func (this *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) GoString() string {
+func (this *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 6)
-	s = append(s, "&workflowservice.GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers{")
+	s = append(s, "&workflowservice.GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers{")
 	s = append(s, "MostRecentBuildId: "+fmt.Sprintf("%#v", this.MostRecentBuildId)+",\n")
 	if this.Pollers != nil {
 		s = append(s, "Pollers: "+fmt.Sprintf("%#v", this.Pollers)+",\n")
@@ -20753,7 +20753,7 @@ func (m *ListSchedulesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) Marshal() (dAtA []byte, err error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -20763,12 +20763,12 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) Marshal() (dAtA []byte, err er
 	return dAtA[:n], nil
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -20799,12 +20799,12 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) MarshalToSizedBuffer(dAtA []by
 	return len(dAtA) - i, nil
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	i -= len(m.AddNewBuildIdInNewDefaultSet)
 	copy(dAtA[i:], m.AddNewBuildIdInNewDefaultSet)
@@ -20813,12 +20813,12 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) M
 	dAtA[i] = 0x1a
 	return len(dAtA) - i, nil
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	if m.AddNewCompatibleBuildId != nil {
 		{
@@ -20834,12 +20834,12 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) Marsha
 	}
 	return len(dAtA) - i, nil
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	i -= len(m.PromoteSetByBuildId)
 	copy(dAtA[i:], m.PromoteSetByBuildId)
@@ -20848,12 +20848,12 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) MarshalToS
 	dAtA[i] = 0x2a
 	return len(dAtA) - i, nil
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	i -= len(m.PromoteBuildIdWithinSet)
 	copy(dAtA[i:], m.PromoteBuildIdWithinSet)
@@ -20862,7 +20862,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) Marsha
 	dAtA[i] = 0x32
 	return len(dAtA) - i, nil
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Marshal() (dAtA []byte, err error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -20872,12 +20872,12 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Marsha
 	return dAtA[:n], nil
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -20909,7 +20909,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Marsha
 	return len(dAtA) - i, nil
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityResponse) Marshal() (dAtA []byte, err error) {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -20919,12 +20919,12 @@ func (m *UpdateWorkerBuildIdCompatabilityResponse) Marshal() (dAtA []byte, err e
 	return dAtA[:n], nil
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -20939,7 +20939,7 @@ func (m *UpdateWorkerBuildIdCompatabilityResponse) MarshalToSizedBuffer(dAtA []b
 	return len(dAtA) - i, nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) Marshal() (dAtA []byte, err error) {
+func (m *GetWorkerBuildIdCompatibilityRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -20949,19 +20949,19 @@ func (m *GetWorkerBuildIdCompatabilityRequest) Marshal() (dAtA []byte, err error
 	return dAtA[:n], nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetWorkerBuildIdCompatibilityRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetWorkerBuildIdCompatibilityRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.IncludePollerCompatability {
+	if m.IncludePollerCompatibility {
 		i--
-		if m.IncludePollerCompatability {
+		if m.IncludePollerCompatibility {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
@@ -21001,7 +21001,7 @@ func (m *GetWorkerBuildIdCompatabilityRequest) MarshalToSizedBuffer(dAtA []byte)
 	return len(dAtA) - i, nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse) Marshal() (dAtA []byte, err error) {
+func (m *GetWorkerBuildIdCompatibilityResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -21011,12 +21011,12 @@ func (m *GetWorkerBuildIdCompatabilityResponse) Marshal() (dAtA []byte, err erro
 	return dAtA[:n], nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -21066,7 +21066,7 @@ func (m *GetWorkerBuildIdCompatabilityResponse) MarshalToSizedBuffer(dAtA []byte
 	return len(dAtA) - i, nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Marshal() (dAtA []byte, err error) {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -21076,12 +21076,12 @@ func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Marshal() (d
 	return dAtA[:n], nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -21120,7 +21120,7 @@ func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) MarshalToSiz
 	return len(dAtA) - i, nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) Marshal() (dAtA []byte, err error) {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -21130,12 +21130,12 @@ func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) Ma
 	return dAtA[:n], nil
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -24279,7 +24279,7 @@ func (m *ListSchedulesResponse) Size() (n int) {
 	return n
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest) Size() (n int) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24299,7 +24299,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) Size() (n int) {
 	return n
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) Size() (n int) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24309,7 +24309,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) S
 	n += 1 + l + sovRequestResponse(uint64(l))
 	return n
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) Size() (n int) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24321,7 +24321,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) Size()
 	}
 	return n
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) Size() (n int) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24331,7 +24331,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) Size() (n 
 	n += 1 + l + sovRequestResponse(uint64(l))
 	return n
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) Size() (n int) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24341,7 +24341,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) Size()
 	n += 1 + l + sovRequestResponse(uint64(l))
 	return n
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Size() (n int) {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24361,7 +24361,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Size()
 	return n
 }
 
-func (m *UpdateWorkerBuildIdCompatabilityResponse) Size() (n int) {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24374,7 +24374,7 @@ func (m *UpdateWorkerBuildIdCompatabilityResponse) Size() (n int) {
 	return n
 }
 
-func (m *GetWorkerBuildIdCompatabilityRequest) Size() (n int) {
+func (m *GetWorkerBuildIdCompatibilityRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24394,13 +24394,13 @@ func (m *GetWorkerBuildIdCompatabilityRequest) Size() (n int) {
 	if m.IncludeRetirementCandidates {
 		n += 2
 	}
-	if m.IncludePollerCompatability {
+	if m.IncludePollerCompatibility {
 		n += 2
 	}
 	return n
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse) Size() (n int) {
+func (m *GetWorkerBuildIdCompatibilityResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24427,7 +24427,7 @@ func (m *GetWorkerBuildIdCompatabilityResponse) Size() (n int) {
 	return n
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Size() (n int) {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -24449,7 +24449,7 @@ func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Size() (n in
 	return n
 }
 
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) Size() (n int) {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -26238,11 +26238,11 @@ func (this *ListSchedulesResponse) String() string {
 	}, "")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest) String() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatabilityRequest{`,
+	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatibilityRequest{`,
 		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`TaskQueue:` + fmt.Sprintf("%v", this.TaskQueue) + `,`,
 		`Operation:` + fmt.Sprintf("%v", this.Operation) + `,`,
@@ -26250,51 +26250,51 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest) String() string {
 	}, "")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet) String() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet{`,
+	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet{`,
 		`AddNewBuildIdInNewDefaultSet:` + fmt.Sprintf("%v", this.AddNewBuildIdInNewDefaultSet) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId) String() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId{`,
-		`AddNewCompatibleBuildId:` + strings.Replace(fmt.Sprintf("%v", this.AddNewCompatibleBuildId), "UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion", "UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion", 1) + `,`,
+	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId{`,
+		`AddNewCompatibleBuildId:` + strings.Replace(fmt.Sprintf("%v", this.AddNewCompatibleBuildId), "UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion", "UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion", 1) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId) String() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId{`,
+	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId{`,
 		`PromoteSetByBuildId:` + fmt.Sprintf("%v", this.PromoteSetByBuildId) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet) String() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet{`,
+	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet{`,
 		`PromoteBuildIdWithinSet:` + fmt.Sprintf("%v", this.PromoteBuildIdWithinSet) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) String() string {
+func (this *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion{`,
+	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion{`,
 		`NewBuildId:` + fmt.Sprintf("%v", this.NewBuildId) + `,`,
 		`ExistingCompatibleBuildId:` + fmt.Sprintf("%v", this.ExistingCompatibleBuildId) + `,`,
 		`MakeSetDefault:` + fmt.Sprintf("%v", this.MakeSetDefault) + `,`,
@@ -26302,31 +26302,31 @@ func (this *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Str
 	}, "")
 	return s
 }
-func (this *UpdateWorkerBuildIdCompatabilityResponse) String() string {
+func (this *UpdateWorkerBuildIdCompatibilityResponse) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatabilityResponse{`,
+	s := strings.Join([]string{`&UpdateWorkerBuildIdCompatibilityResponse{`,
 		`VersionSetId:` + fmt.Sprintf("%v", this.VersionSetId) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *GetWorkerBuildIdCompatabilityRequest) String() string {
+func (this *GetWorkerBuildIdCompatibilityRequest) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&GetWorkerBuildIdCompatabilityRequest{`,
+	s := strings.Join([]string{`&GetWorkerBuildIdCompatibilityRequest{`,
 		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`TaskQueue:` + fmt.Sprintf("%v", this.TaskQueue) + `,`,
 		`MaxSets:` + fmt.Sprintf("%v", this.MaxSets) + `,`,
 		`IncludeRetirementCandidates:` + fmt.Sprintf("%v", this.IncludeRetirementCandidates) + `,`,
-		`IncludePollerCompatability:` + fmt.Sprintf("%v", this.IncludePollerCompatability) + `,`,
+		`IncludePollerCompatibility:` + fmt.Sprintf("%v", this.IncludePollerCompatibility) + `,`,
 		`}`,
 	}, "")
 	return s
 }
-func (this *GetWorkerBuildIdCompatabilityResponse) String() string {
+func (this *GetWorkerBuildIdCompatibilityResponse) String() string {
 	if this == nil {
 		return "nil"
 	}
@@ -26335,17 +26335,17 @@ func (this *GetWorkerBuildIdCompatabilityResponse) String() string {
 		repeatedStringForMajorVersionSets += strings.Replace(fmt.Sprintf("%v", f), "CompatibleVersionSet", "v14.CompatibleVersionSet", 1) + ","
 	}
 	repeatedStringForMajorVersionSets += "}"
-	repeatedStringForRetirementCandidates := "[]*GetWorkerBuildIdCompatabilityResponse_RetirementCandidate{"
+	repeatedStringForRetirementCandidates := "[]*GetWorkerBuildIdCompatibilityResponse_RetirementCandidate{"
 	for _, f := range this.RetirementCandidates {
-		repeatedStringForRetirementCandidates += strings.Replace(fmt.Sprintf("%v", f), "GetWorkerBuildIdCompatabilityResponse_RetirementCandidate", "GetWorkerBuildIdCompatabilityResponse_RetirementCandidate", 1) + ","
+		repeatedStringForRetirementCandidates += strings.Replace(fmt.Sprintf("%v", f), "GetWorkerBuildIdCompatibilityResponse_RetirementCandidate", "GetWorkerBuildIdCompatibilityResponse_RetirementCandidate", 1) + ","
 	}
 	repeatedStringForRetirementCandidates += "}"
-	repeatedStringForActiveVersionsAndPollers := "[]*GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers{"
+	repeatedStringForActiveVersionsAndPollers := "[]*GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers{"
 	for _, f := range this.ActiveVersionsAndPollers {
-		repeatedStringForActiveVersionsAndPollers += strings.Replace(fmt.Sprintf("%v", f), "GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers", "GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers", 1) + ","
+		repeatedStringForActiveVersionsAndPollers += strings.Replace(fmt.Sprintf("%v", f), "GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers", "GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers", 1) + ","
 	}
 	repeatedStringForActiveVersionsAndPollers += "}"
-	s := strings.Join([]string{`&GetWorkerBuildIdCompatabilityResponse{`,
+	s := strings.Join([]string{`&GetWorkerBuildIdCompatibilityResponse{`,
 		`MajorVersionSets:` + repeatedStringForMajorVersionSets + `,`,
 		`RetirementCandidates:` + repeatedStringForRetirementCandidates + `,`,
 		`ActiveVersionsAndPollers:` + repeatedStringForActiveVersionsAndPollers + `,`,
@@ -26353,7 +26353,7 @@ func (this *GetWorkerBuildIdCompatabilityResponse) String() string {
 	}, "")
 	return s
 }
-func (this *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) String() string {
+func (this *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) String() string {
 	if this == nil {
 		return "nil"
 	}
@@ -26362,7 +26362,7 @@ func (this *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) String() 
 		repeatedStringForPollers += strings.Replace(fmt.Sprintf("%v", f), "PollerInfo", "v14.PollerInfo", 1) + ","
 	}
 	repeatedStringForPollers += "}"
-	s := strings.Join([]string{`&GetWorkerBuildIdCompatabilityResponse_RetirementCandidate{`,
+	s := strings.Join([]string{`&GetWorkerBuildIdCompatibilityResponse_RetirementCandidate{`,
 		`BuildId:` + fmt.Sprintf("%v", this.BuildId) + `,`,
 		`AllWorkflowsAreArchived:` + fmt.Sprintf("%v", this.AllWorkflowsAreArchived) + `,`,
 		`Pollers:` + repeatedStringForPollers + `,`,
@@ -26370,7 +26370,7 @@ func (this *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) String() 
 	}, "")
 	return s
 }
-func (this *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) String() string {
+func (this *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) String() string {
 	if this == nil {
 		return "nil"
 	}
@@ -26379,7 +26379,7 @@ func (this *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers)
 		repeatedStringForPollers += strings.Replace(fmt.Sprintf("%v", f), "PollerInfo", "v14.PollerInfo", 1) + ","
 	}
 	repeatedStringForPollers += "}"
-	s := strings.Join([]string{`&GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers{`,
+	s := strings.Join([]string{`&GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers{`,
 		`MostRecentBuildId:` + fmt.Sprintf("%v", this.MostRecentBuildId) + `,`,
 		`Pollers:` + repeatedStringForPollers + `,`,
 		`}`,
@@ -43958,7 +43958,7 @@ func (m *ListSchedulesResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
+func (m *UpdateWorkerBuildIdCompatibilityRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -43981,10 +43981,10 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: UpdateWorkerBuildIdCompatabilityRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: UpdateWorkerBuildIdCompatibilityRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: UpdateWorkerBuildIdCompatabilityRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: UpdateWorkerBuildIdCompatibilityRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -44081,7 +44081,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Operation = &UpdateWorkerBuildIdCompatabilityRequest_AddNewBuildIdInNewDefaultSet{string(dAtA[iNdEx:postIndex])}
+			m.Operation = &UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet{string(dAtA[iNdEx:postIndex])}
 			iNdEx = postIndex
 		case 4:
 			if wireType != 2 {
@@ -44112,11 +44112,11 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v := &UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion{}
+			v := &UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion{}
 			if err := v.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
-			m.Operation = &UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleBuildId{v}
+			m.Operation = &UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId{v}
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
@@ -44148,7 +44148,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Operation = &UpdateWorkerBuildIdCompatabilityRequest_PromoteSetByBuildId{string(dAtA[iNdEx:postIndex])}
+			m.Operation = &UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId{string(dAtA[iNdEx:postIndex])}
 			iNdEx = postIndex
 		case 6:
 			if wireType != 2 {
@@ -44180,7 +44180,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Operation = &UpdateWorkerBuildIdCompatabilityRequest_PromoteBuildIdWithinSet{string(dAtA[iNdEx:postIndex])}
+			m.Operation = &UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet{string(dAtA[iNdEx:postIndex])}
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -44206,7 +44206,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Unmarshal(dAtA []byte) error {
+func (m *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -44343,7 +44343,7 @@ func (m *UpdateWorkerBuildIdCompatabilityRequest_AddNewCompatibleVersion) Unmars
 	}
 	return nil
 }
-func (m *UpdateWorkerBuildIdCompatabilityResponse) Unmarshal(dAtA []byte) error {
+func (m *UpdateWorkerBuildIdCompatibilityResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -44366,10 +44366,10 @@ func (m *UpdateWorkerBuildIdCompatabilityResponse) Unmarshal(dAtA []byte) error 
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: UpdateWorkerBuildIdCompatabilityResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: UpdateWorkerBuildIdCompatibilityResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: UpdateWorkerBuildIdCompatabilityResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: UpdateWorkerBuildIdCompatibilityResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -44428,7 +44428,7 @@ func (m *UpdateWorkerBuildIdCompatabilityResponse) Unmarshal(dAtA []byte) error 
 	}
 	return nil
 }
-func (m *GetWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
+func (m *GetWorkerBuildIdCompatibilityRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -44451,10 +44451,10 @@ func (m *GetWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetWorkerBuildIdCompatabilityRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetWorkerBuildIdCompatibilityRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetWorkerBuildIdCompatabilityRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetWorkerBuildIdCompatibilityRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -44562,7 +44562,7 @@ func (m *GetWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 			m.IncludeRetirementCandidates = bool(v != 0)
 		case 5:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field IncludePollerCompatability", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field IncludePollerCompatibility", wireType)
 			}
 			var v int
 			for shift := uint(0); ; shift += 7 {
@@ -44579,7 +44579,7 @@ func (m *GetWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-			m.IncludePollerCompatability = bool(v != 0)
+			m.IncludePollerCompatibility = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipRequestResponse(dAtA[iNdEx:])
@@ -44604,7 +44604,7 @@ func (m *GetWorkerBuildIdCompatabilityRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetWorkerBuildIdCompatabilityResponse) Unmarshal(dAtA []byte) error {
+func (m *GetWorkerBuildIdCompatibilityResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -44627,10 +44627,10 @@ func (m *GetWorkerBuildIdCompatabilityResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetWorkerBuildIdCompatabilityResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetWorkerBuildIdCompatibilityResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetWorkerBuildIdCompatabilityResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetWorkerBuildIdCompatibilityResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -44696,7 +44696,7 @@ func (m *GetWorkerBuildIdCompatabilityResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.RetirementCandidates = append(m.RetirementCandidates, &GetWorkerBuildIdCompatabilityResponse_RetirementCandidate{})
+			m.RetirementCandidates = append(m.RetirementCandidates, &GetWorkerBuildIdCompatibilityResponse_RetirementCandidate{})
 			if err := m.RetirementCandidates[len(m.RetirementCandidates)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -44730,7 +44730,7 @@ func (m *GetWorkerBuildIdCompatabilityResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.ActiveVersionsAndPollers = append(m.ActiveVersionsAndPollers, &GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers{})
+			m.ActiveVersionsAndPollers = append(m.ActiveVersionsAndPollers, &GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers{})
 			if err := m.ActiveVersionsAndPollers[len(m.ActiveVersionsAndPollers)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -44759,7 +44759,7 @@ func (m *GetWorkerBuildIdCompatabilityResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Unmarshal(dAtA []byte) error {
+func (m *GetWorkerBuildIdCompatibilityResponse_RetirementCandidate) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -44898,7 +44898,7 @@ func (m *GetWorkerBuildIdCompatabilityResponse_RetirementCandidate) Unmarshal(dA
 	}
 	return nil
 }
-func (m *GetWorkerBuildIdCompatabilityResponse_VersionsWithCompatiblePollers) Unmarshal(dAtA []byte) error {
+func (m *GetWorkerBuildIdCompatibilityResponse_VersionsWithCompatiblePollers) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
