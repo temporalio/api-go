@@ -261,7 +261,8 @@ type StartTimerCommandAttributes struct {
 	// How long until the timer fires, producing a `TIMER_FIRED` event.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToFireTimeout *time.Duration `protobuf:"bytes,2,opt,name=start_to_fire_timeout,json=startToFireTimeout,proto3,stdduration" json:"start_to_fire_timeout,omitempty"`
 }
 
@@ -1215,6 +1216,7 @@ func (m *ProtocolMessageCommandAttributes) GetMessageId() string {
 type Command struct {
 	CommandType v13.CommandType `protobuf:"varint,1,opt,name=command_type,json=commandType,proto3,enum=temporal.api.enums.v1.CommandType" json:"command_type,omitempty"`
 	// Types that are valid to be assigned to Attributes:
+	//
 	//	*Command_ScheduleActivityTaskCommandAttributes
 	//	*Command_StartTimerCommandAttributes
 	//	*Command_CompleteWorkflowExecutionCommandAttributes

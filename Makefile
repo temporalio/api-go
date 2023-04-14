@@ -35,7 +35,8 @@ $(PROTO_OUT):
 ##### git submodule for proto files #####
 update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
-	git submodule update --init --force --remote $(PROTO_ROOT)
+	# TODO: uncomment me before merging to master 👇
+	# git submodule update --init --force --remote $(PROTO_ROOT)
 
 ##### Compile proto files for go #####
 grpc: gogo-grpc fix-path
