@@ -495,9 +495,12 @@ func (m *DescribeNamespaceResponse) GetFailoverHistory() []*v1.FailoverStatus {
 }
 
 // (-- api-linter: core::0134::request-mask-required=disabled
-//     aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
+//
+//	aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
+//
 // (-- api-linter: core::0134::request-resource-required=disabled
-//     aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
+//
+//	aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
 type UpdateNamespaceRequest struct {
 	Namespace         string                         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	UpdateInfo        *v12.UpdateNamespaceInfo       `protobuf:"bytes,2,opt,name=update_info,json=updateInfo,proto3" json:"update_info,omitempty"`
@@ -4033,9 +4036,12 @@ func (m *TerminateWorkflowExecutionResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_TerminateWorkflowExecutionResponse proto.InternalMessageInfo
 
 // (-- api-linter: core::0135::request-unknown-fields=disabled
-//     aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
+//
+//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
+//
 // (-- api-linter: core::0135::request-name-required=disabled
-//     aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
+//
+//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 type DeleteWorkflowExecutionRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Workflow Execution to delete. If run_id is not specified, the latest one is used.
@@ -4129,6 +4135,7 @@ type ListOpenWorkflowExecutionsRequest struct {
 	NextPageToken   []byte                `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	StartTimeFilter *v111.StartTimeFilter `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
 	// Types that are valid to be assigned to Filters:
+	//
 	//	*ListOpenWorkflowExecutionsRequest_ExecutionFilter
 	//	*ListOpenWorkflowExecutionsRequest_TypeFilter
 	Filters isListOpenWorkflowExecutionsRequest_Filters `protobuf_oneof:"filters"`
@@ -4298,6 +4305,7 @@ type ListClosedWorkflowExecutionsRequest struct {
 	NextPageToken   []byte                `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	StartTimeFilter *v111.StartTimeFilter `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
 	// Types that are valid to be assigned to Filters:
+	//
 	//	*ListClosedWorkflowExecutionsRequest_ExecutionFilter
 	//	*ListClosedWorkflowExecutionsRequest_TypeFilter
 	//	*ListClosedWorkflowExecutionsRequest_StatusFilter
@@ -6016,13 +6024,20 @@ func (m *ListTaskQueuePartitionsResponse) GetWorkflowTaskQueuePartitions() []*v1
 }
 
 // (-- api-linter: core::0133::request-parent-required=disabled
-//     aip.dev/not-precedent: CreateSchedule doesn't follow Google API format --)
+//
+//	aip.dev/not-precedent: CreateSchedule doesn't follow Google API format --)
+//
 // (-- api-linter: core::0133::request-unknown-fields=disabled
-//     aip.dev/not-precedent: CreateSchedule doesn't follow Google API format --)
+//
+//	aip.dev/not-precedent: CreateSchedule doesn't follow Google API format --)
+//
 // (-- api-linter: core::0133::request-resource-behavior=disabled
-//     aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
+//
+//	aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
+//
 // (-- api-linter: core::0203::optional=disabled
-//     aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
+//
+//	aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
 type CreateScheduleRequest struct {
 	// The namespace the schedule should be created in.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -6228,11 +6243,11 @@ func (m *DescribeScheduleRequest) GetScheduleId() string {
 type DescribeScheduleResponse struct {
 	// The complete current schedule details. This may not match the schedule as
 	// created because:
-	// - some types of schedule specs may get compiled into others (e.g.
-	//   CronString into StructuredCalendarSpec)
-	// - some unspecified fields may be replaced by defaults
-	// - some fields in the state are modified automatically
-	// - the schedule may have been modified by UpdateSchedule or PatchSchedule
+	//   - some types of schedule specs may get compiled into others (e.g.
+	//     CronString into StructuredCalendarSpec)
+	//   - some unspecified fields may be replaced by defaults
+	//   - some fields in the state are modified automatically
+	//   - the schedule may have been modified by UpdateSchedule or PatchSchedule
 	Schedule *v114.Schedule `protobuf:"bytes,1,opt,name=schedule,proto3" json:"schedule,omitempty"`
 	// Extra schedule state info.
 	Info *v114.ScheduleInfo `protobuf:"bytes,2,opt,name=info,proto3" json:"info,omitempty"`
@@ -6313,7 +6328,8 @@ func (m *DescribeScheduleResponse) GetConflictToken() []byte {
 }
 
 // (-- api-linter: core::0134::request-mask-required=disabled
-//     aip.dev/not-precedent: UpdateSchedule doesn't follow Google API format --)
+//
+//	aip.dev/not-precedent: UpdateSchedule doesn't follow Google API format --)
 type UpdateScheduleRequest struct {
 	// The namespace of the schedule to update.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -6670,9 +6686,12 @@ func (m *ListScheduleMatchingTimesResponse) GetStartTime() []*time.Time {
 }
 
 // (-- api-linter: core::0135::request-name-required=disabled
-//     aip.dev/not-precedent: DeleteSchedule doesn't follow Google API format --)
+//
+//	aip.dev/not-precedent: DeleteSchedule doesn't follow Google API format --)
+//
 // (-- api-linter: core::0135::request-unknown-fields=disabled
-//     aip.dev/not-precedent: DeleteSchedule doesn't follow Google API format --)
+//
+//	aip.dev/not-precedent: DeleteSchedule doesn't follow Google API format --)
 type DeleteScheduleRequest struct {
 	// The namespace of the schedule to delete.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -6884,9 +6903,12 @@ func (m *ListSchedulesResponse) GetNextPageToken() []byte {
 }
 
 // (-- api-linter: core::0134::request-mask-required=disabled
-//     aip.dev/not-precedent: UpdateWorkerBuildIdCompatibilityRequest doesn't follow Google API format --)
+//
+//	aip.dev/not-precedent: UpdateWorkerBuildIdCompatibilityRequest doesn't follow Google API format --)
+//
 // (-- api-linter: core::0134::request-resource-required=disabled
-//     aip.dev/not-precedent: UpdateWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
+//
+//	aip.dev/not-precedent: UpdateWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
 type UpdateWorkerBuildIdCompatibilityRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Must be set, the task queue to apply changes to. Because all workers on a given task queue
@@ -6894,6 +6916,7 @@ type UpdateWorkerBuildIdCompatibilityRequest struct {
 	// a task queue type here.
 	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Types that are valid to be assigned to Operation:
+	//
 	//	*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet
 	//	*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId
 	//	*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId
@@ -7139,7 +7162,8 @@ func (m *UpdateWorkerBuildIdCompatibilityResponse) GetVersionSetId() string {
 }
 
 // (-- api-linter: core::0134::request-resource-required=disabled
-//     aip.dev/not-precedent: GetWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
+//
+//	aip.dev/not-precedent: GetWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
 type GetWorkerBuildIdCompatibilityRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Must be set, the task queue to interrogate about worker id compatibility.
@@ -7385,13 +7409,15 @@ func (m *GetWorkerTaskReachabilityResponse) GetBuildIdReachability() []*v14.Buil
 }
 
 // (-- api-linter: core::0134=disabled
-//     aip.dev/not-precedent: Update RPCs don't follow Google API format. --)
+//
+//	aip.dev/not-precedent: Update RPCs don't follow Google API format. --)
 type UpdateWorkflowExecutionRequest struct {
 	// The namespace name of the target workflow
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target workflow id and (optionally) a specific run thereof
 	// (-- api-linter: core::0203::optional=disabled
-	//     aip.dev/not-precedent: false positive triggered by the word "optional" --)
+	//
+	//	aip.dev/not-precedent: false positive triggered by the word "optional" --)
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// If set, this call will error if the most recent (if no run id is set on
 	// `workflow_execution`), or specified (if it is) workflow execution is not
@@ -7543,6 +7569,7 @@ type StartBatchOperationRequest struct {
 	// Operation input
 	//
 	// Types that are valid to be assigned to Operation:
+	//
 	//	*StartBatchOperationRequest_TerminationOperation
 	//	*StartBatchOperationRequest_SignalOperation
 	//	*StartBatchOperationRequest_CancellationOperation
