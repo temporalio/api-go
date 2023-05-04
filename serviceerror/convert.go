@@ -80,7 +80,7 @@ func FromStatus(st *status.Status) error {
 		return errors.New(st.Message())
 
 	// Unsupported codes.
-	case codes.OutOfRange,
+	case codes.Aborted,
 		codes.Unauthenticated:
 		// Use standard gRPC error representation for unsupported codes ("rpc error: code = %s desc = %s").
 		return st.Err()
@@ -155,6 +155,13 @@ func FromStatus(st *status.Status) error {
 			return newPermissionDenied(st, errDetails)
 		default:
 			return newPermissionDenied(st, nil)
+		}
+	case codes.OutOfRange:
+		switch errDetails := errDetails.(type) {
+		case *errordetails.NewerBuildExistsFailure:
+			return newNewerBuildExists(st, errDetails)
+		default:
+			// fall through to st.Err()
 		}
 	}
 
