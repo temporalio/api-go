@@ -402,7 +402,8 @@ func (m *PollerInfo) GetWorkerVersionCapabilities() *v11.WorkerVersionCapabiliti
 type StickyExecutionAttributes struct {
 	WorkerTaskQueue *TaskQueue `protobuf:"bytes,1,opt,name=worker_task_queue,json=workerTaskQueue,proto3" json:"worker_task_queue,omitempty"`
 	// (-- api-linter: core::0140::prepositions=disabled
-	//     aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *time.Duration `protobuf:"bytes,2,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3,stdduration" json:"schedule_to_start_timeout,omitempty"`
 }
 

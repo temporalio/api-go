@@ -576,7 +576,8 @@ type MeteringMetadata struct {
 	// purposes, and does not affect workflow state.
 	//
 	// (-- api-linter: core::0141::forbidden-types=disabled
-	//     aip.dev/not-precedent: Negative values make no sense to represent. --)
+	//
+	//	aip.dev/not-precedent: Negative values make no sense to represent. --)
 	NonfirstLocalActivityExecutionAttempts uint32 `protobuf:"varint,13,opt,name=nonfirst_local_activity_execution_attempts,json=nonfirstLocalActivityExecutionAttempts,proto3" json:"nonfirst_local_activity_execution_attempts,omitempty"`
 }
 

@@ -49,7 +49,8 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // (-- api-linter: core::0146::any=disabled
-//     aip.dev/not-precedent: We want runtime extensibility for the body field --)
+//
+//	aip.dev/not-precedent: We want runtime extensibility for the body field --)
 type Message struct {
 	// An ID for this specific message.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`

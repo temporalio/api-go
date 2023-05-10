@@ -353,8 +353,10 @@ type UpdateNamespaceInfo struct {
 	Data map[string]string `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// New namespace state, server will reject if transition is not allowed.
 	// Allowed transitions are:
-	//  Registered -> [ Deleted | Deprecated | Handover ]
-	//  Handover -> [ Registered ]
+	//
+	//	Registered -> [ Deleted | Deprecated | Handover ]
+	//	Handover -> [ Registered ]
+	//
 	// Default is NAMESPACE_STATE_UNSPECIFIED which is do not change state.
 	State v1.NamespaceState `protobuf:"varint,4,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
 }
