@@ -617,8 +617,12 @@ func (m *ResetPoints) GetPoints() []*ResetPointInfo {
 }
 
 type ResetPointInfo struct {
-	BinaryChecksum               string     `protobuf:"bytes,1,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
-	RunId                        string     `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// A worker binary version identifier, will be deprecated and superseded by a newer concept of
+	// build_id.
+	BinaryChecksum string `protobuf:"bytes,1,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
+	// The first run ID in the execution chain that was touched by this worker build.
+	RunId string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	// Event ID of the first WorkflowTaskCompleted event processed by this worker build.
 	FirstWorkflowTaskCompletedId int64      `protobuf:"varint,3,opt,name=first_workflow_task_completed_id,json=firstWorkflowTaskCompletedId,proto3" json:"first_workflow_task_completed_id,omitempty"`
 	CreateTime                   *time.Time `protobuf:"bytes,4,opt,name=create_time,json=createTime,proto3,stdtime" json:"create_time,omitempty"`
 	// (-- api-linter: core::0214::resource-expiry=disabled

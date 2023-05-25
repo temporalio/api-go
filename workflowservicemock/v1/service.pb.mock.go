@@ -338,6 +338,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkerBuildIdCompatibility(c
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerBuildIdCompatibility", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkerBuildIdCompatibility), varargs...)
 }
 
+// GetWorkerTaskReachability mocks base method.
+func (m *MockWorkflowServiceClient) GetWorkerTaskReachability(ctx context.Context, in *workflowservice.GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkerTaskReachabilityResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetWorkerTaskReachability", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetWorkerTaskReachabilityResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkerTaskReachability indicates an expected call of GetWorkerTaskReachability.
+func (mr *MockWorkflowServiceClientMockRecorder) GetWorkerTaskReachability(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerTaskReachability", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkerTaskReachability), varargs...)
+}
+
 // GetWorkflowExecutionHistory mocks base method.
 func (m *MockWorkflowServiceClient) GetWorkflowExecutionHistory(ctx context.Context, in *workflowservice.GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
 	m.ctrl.T.Helper()
@@ -1409,6 +1429,21 @@ func (m *MockWorkflowServiceServer) GetWorkerBuildIdCompatibility(arg0 context.C
 func (mr *MockWorkflowServiceServerMockRecorder) GetWorkerBuildIdCompatibility(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerBuildIdCompatibility", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkerBuildIdCompatibility), arg0, arg1)
+}
+
+// GetWorkerTaskReachability mocks base method.
+func (m *MockWorkflowServiceServer) GetWorkerTaskReachability(arg0 context.Context, arg1 *workflowservice.GetWorkerTaskReachabilityRequest) (*workflowservice.GetWorkerTaskReachabilityResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWorkerTaskReachability", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetWorkerTaskReachabilityResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkerTaskReachability indicates an expected call of GetWorkerTaskReachability.
+func (mr *MockWorkflowServiceServerMockRecorder) GetWorkerTaskReachability(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerTaskReachability", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkerTaskReachability), arg0, arg1)
 }
 
 // GetWorkflowExecutionHistory mocks base method.

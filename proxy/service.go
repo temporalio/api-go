@@ -107,6 +107,10 @@ func (s *workflowServiceProxyServer) GetWorkerBuildIdCompatibility(ctx context.C
 	return s.client.GetWorkerBuildIdCompatibility(ctx, req)
 }
 
+func (s *workflowServiceProxyServer) GetWorkerTaskReachability(ctx context.Context, req *workflowservice.GetWorkerTaskReachabilityRequest) (*workflowservice.GetWorkerTaskReachabilityResponse, error) {
+	return s.client.GetWorkerTaskReachability(ctx, req)
+}
+
 func (s *workflowServiceProxyServer) GetWorkflowExecutionHistory(ctx context.Context, req *workflowservice.GetWorkflowExecutionHistoryRequest) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
 	return s.client.GetWorkflowExecutionHistory(ctx, req)
 }
