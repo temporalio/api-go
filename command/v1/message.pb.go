@@ -1247,7 +1247,6 @@ func (m *ProtocolMessageCommandAttributes) GetMessageId() string {
 type Command struct {
 	CommandType v13.CommandType `protobuf:"varint,1,opt,name=command_type,json=commandType,proto3,enum=temporal.api.enums.v1.CommandType" json:"command_type,omitempty"`
 	// Types that are valid to be assigned to Attributes:
-	//
 	//	*Command_ScheduleActivityTaskCommandAttributes
 	//	*Command_StartTimerCommandAttributes
 	//	*Command_CompleteWorkflowExecutionCommandAttributes
