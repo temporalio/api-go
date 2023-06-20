@@ -27,7 +27,10 @@ PROTO_ROOT := proto/api
 PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_OUT := .
-PROTO_IMPORTS = -I=$(PROTO_ROOT) -I=$(shell go list -modfile build/go.mod -m -f '{{.Dir}}' github.com/temporalio/gogo-protobuf)/protobuf
+PROTO_IMPORTS = \
+	-I=$(PROTO_ROOT) \
+	-I=$(shell go list -modfile build/go.mod -m -f '{{.Dir}}' github.com/temporalio/gogo-protobuf)/protobuf \
+	-I=$(shell go list -m -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway)/third_party/googleapis
 
 $(PROTO_OUT):
 	mkdir $(PROTO_OUT)
@@ -40,16 +43,18 @@ update-proto-submodule:
 ##### Compile proto files for go #####
 grpc: gogo-grpc fix-path
 
-go-grpc: clean $(PROTO_OUT)
-	printf $(COLOR) "Compiling for go-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --fatal_warnings $(PROTO_IMPORTS) --go_out=plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
-
 gogo-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for gogo-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),protoc --fatal_warnings $(PROTO_IMPORTS) --gogoslick_out=Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) $(PROTO_DIR)*.proto;)
+	$(foreach PROTO_DIR,$(PROTO_DIRS),\
+		protoc --fatal_warnings $(PROTO_IMPORTS) \
+			--gogoslick_out=Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) \
+			--grpc-gateway_out=allow_patch_feature=false,paths=source_relative:$(PROTO_OUT) \
+		$(PROTO_DIR)*.proto;)
 
 fix-path:
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
+	# Also copy the payload JSON helper
+	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
 
 # All generated service files pathes relative to PROTO_OUT.
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.go"))
@@ -77,6 +82,7 @@ grpc-install: gogo-protobuf-install
 gogo-protobuf-install: go-protobuf-install
 	go install github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick@latest
 	go install -modfile build/go.mod github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
+	go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@latest
 
 go-protobuf-install:
 	go install github.com/golang/protobuf/protoc-gen-go@latest
