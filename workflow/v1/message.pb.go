@@ -626,7 +626,9 @@ type ResetPointInfo struct {
 	FirstWorkflowTaskCompletedId int64      `protobuf:"varint,3,opt,name=first_workflow_task_completed_id,json=firstWorkflowTaskCompletedId,proto3" json:"first_workflow_task_completed_id,omitempty"`
 	CreateTime                   *time.Time `protobuf:"bytes,4,opt,name=create_time,json=createTime,proto3,stdtime" json:"create_time,omitempty"`
 	// (-- api-linter: core::0214::resource-expiry=disabled
-	//     aip.dev/not-precedent: TTL is not defined for ResetPointInfo. --)
+	//
+	//	aip.dev/not-precedent: TTL is not defined for ResetPointInfo. --)
+	//
 	// The time that the run is deleted due to retention.
 	ExpireTime *time.Time `protobuf:"bytes,5,opt,name=expire_time,json=expireTime,proto3,stdtime" json:"expire_time,omitempty"`
 	// false if the reset point has pending childWFs/reqCancels/signalExternals.
