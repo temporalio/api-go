@@ -513,7 +513,6 @@ type Failure struct {
 	EncodedAttributes *v1.Payload `protobuf:"bytes,20,opt,name=encoded_attributes,json=encodedAttributes,proto3" json:"encoded_attributes,omitempty"`
 	Cause             *Failure    `protobuf:"bytes,4,opt,name=cause,proto3" json:"cause,omitempty"`
 	// Types that are valid to be assigned to FailureInfo:
-	//
 	//	*Failure_ApplicationFailureInfo
 	//	*Failure_TimeoutFailureInfo
 	//	*Failure_CanceledFailureInfo
