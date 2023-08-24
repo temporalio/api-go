@@ -47,6 +47,6 @@ jobs:
           GIT_COMMITTER_NAME: ${{ github.event.inputs.commit_author }}
           GIT_COMMITTER_EMAIL: ${{ github.event.inputs.commit_author_email }}
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.COMMANDER_DATA_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.COMMANDER_DATA_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git add .
           git commit -m "${{ github.event.inputs.commit_message }}" && git push || echo "No changes to commit"
