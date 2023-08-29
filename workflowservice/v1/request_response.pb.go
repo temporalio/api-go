@@ -5515,8 +5515,9 @@ func (m *DescribeWorkflowExecutionResponse) GetPendingWorkflowTask() *v112.Pendi
 }
 
 type DescribeTaskQueueRequest struct {
-	Namespace              string            `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskQueue              *v14.TaskQueue    `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Namespace string         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	// If unspecified (TASK_QUEUE_TYPE_UNSPECIFIED), then default value (TASK_QUEUE_TYPE_WORKFLOW) will be used.
 	TaskQueueType          v11.TaskQueueType `protobuf:"varint,3,opt,name=task_queue_type,json=taskQueueType,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"task_queue_type,omitempty"`
 	IncludeTaskQueueStatus bool              `protobuf:"varint,4,opt,name=include_task_queue_status,json=includeTaskQueueStatus,proto3" json:"include_task_queue_status,omitempty"`
 }
