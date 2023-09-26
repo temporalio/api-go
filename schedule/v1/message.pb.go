@@ -444,6 +444,9 @@ func (m *IntervalSpec) GetPhase() *time.Duration {
 // On input, calendar and cron_string fields will be compiled into
 // structured_calendar (and maybe interval and timezone_name), so if you
 // Describe a schedule, you'll see only structured_calendar, interval, etc.
+//
+// If a spec has no matching times after the current time, then the schedule
+// will be subject to automatic deletion (after several days).
 type ScheduleSpec struct {
 	// Calendar-based specifications of times.
 	StructuredCalendar []*StructuredCalendarSpec `protobuf:"bytes,7,rep,name=structured_calendar,json=structuredCalendar,proto3" json:"structured_calendar,omitempty"`
@@ -629,7 +632,7 @@ type SchedulePolicies struct {
 	// If the Temporal server misses an action due to one or more components
 	// being down, and comes back up, the action will be run if the scheduled
 	// time is within this window from the current time.
-	// This value defaults to 60 seconds, and can't be less than 10 seconds.
+	// This value defaults to one year, and can't be less than 10 seconds.
 	CatchupWindow *time.Duration `protobuf:"bytes,2,opt,name=catchup_window,json=catchupWindow,proto3,stdduration" json:"catchup_window,omitempty"`
 	// If true, and a workflow run fails or times out, turn on "paused".
 	// This applies after retry policies: the full chain of retries must fail to
@@ -836,6 +839,8 @@ type ScheduleState struct {
 	// is zero. Actions may still be taken by explicit request (i.e. trigger
 	// immediately or backfill). Skipped actions (due to overlap policy) do not
 	// count against remaining actions.
+	// If a schedule has no more remaining actions, then the schedule will be
+	// subject to automatic deletion (after several days).
 	LimitedActions   bool  `protobuf:"varint,3,opt,name=limited_actions,json=limitedActions,proto3" json:"limited_actions,omitempty"`
 	RemainingActions int64 `protobuf:"varint,4,opt,name=remaining_actions,json=remainingActions,proto3" json:"remaining_actions,omitempty"`
 }
@@ -901,7 +906,7 @@ func (m *ScheduleState) GetRemainingActions() int64 {
 }
 
 type TriggerImmediatelyRequest struct {
-	// Override overlap policy for this one request.
+	// If set, override overlap policy for this one request.
 	OverlapPolicy v1.ScheduleOverlapPolicy `protobuf:"varint,1,opt,name=overlap_policy,json=overlapPolicy,proto3,enum=temporal.api.enums.v1.ScheduleOverlapPolicy" json:"overlap_policy,omitempty"`
 }
 
@@ -945,10 +950,15 @@ func (m *TriggerImmediatelyRequest) GetOverlapPolicy() v1.ScheduleOverlapPolicy 
 }
 
 type BackfillRequest struct {
-	// Time range to evaluate schedule in.
+	// Time range to evaluate schedule in. Currently, this time range is
+	// exclusive on start_time and inclusive on end_time. (This is admittedly
+	// counterintuitive and it may change in the future, so to be safe, use a
+	// start time strictly before a scheduled time.) Also note that an action
+	// nominally scheduled in the interval but with jitter that pushes it after
+	// end_time will not be included.
 	StartTime *time.Time `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3,stdtime" json:"start_time,omitempty"`
 	EndTime   *time.Time `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3,stdtime" json:"end_time,omitempty"`
-	// Override overlap policy for this request.
+	// If set, override overlap policy for this request.
 	OverlapPolicy v1.ScheduleOverlapPolicy `protobuf:"varint,3,opt,name=overlap_policy,json=overlapPolicy,proto3,enum=temporal.api.enums.v1.ScheduleOverlapPolicy" json:"overlap_policy,omitempty"`
 }
 
