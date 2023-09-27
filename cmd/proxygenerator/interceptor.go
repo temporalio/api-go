@@ -48,7 +48,7 @@ import (
 	"fmt"
 
 	"google.golang.org/grpc"
-	"github.com/gogo/protobuf/proto"
+    "google.golang.org/protobuf/proto"
 )
 
 // VisitPayloadsContext provides Payload context for visitor functions.
@@ -412,7 +412,7 @@ func lookupTypes(pkgName string, typeNames []string) ([]types.Type, error) {
 
 	pkgs, err := packages.Load(conf, pkgName)
 	if err != nil {
-		return result, err
+		return result, fmt.Errorf("failed to load package %s: %w", pkgName, err)
 	}
 	scope := pkgs[0].Types.Scope()
 
@@ -471,18 +471,18 @@ func generateInterceptor(cfg config) error {
 
 	src, err := imports.Process(interceptorFile, buf.Bytes(), nil)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to process interceptor imports: %w", err)
 	}
 
 	src, err = format.Source(src)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to format interceptor: %w", err)
 	}
 
 	if cfg.verifyOnly {
 		currentSrc, err := os.ReadFile(interceptorFile)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to read previously generated interceptor: %w", err)
 		}
 
 		if !bytes.Equal(src, currentSrc) {
@@ -492,5 +492,9 @@ func generateInterceptor(cfg config) error {
 		return nil
 	}
 
-	return os.WriteFile(interceptorFile, src, 0666)
+	if err := os.WriteFile(interceptorFile, src, 0666); err != nil {
+		return fmt.Errorf("failed to write generated interceptor: %w", err)
+	}
+
+	return nil
 }

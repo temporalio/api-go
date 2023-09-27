@@ -27,6 +27,7 @@ import (
 	"fmt"
 	"go/format"
 	"go/types"
+	"log"
 	"os"
 	"strings"
 
@@ -79,12 +80,12 @@ func generateService(cfg config) error {
 	conf := &packages.Config{Mode: packages.NeedImports | packages.NeedTypes | packages.NeedTypesInfo}
 	pkgs, err := packages.Load(conf, "go.temporal.io/api/workflowservice/v1")
 	if err != nil {
-		return err
+		return fmt.Errorf("unable to load workflowservice: %w", err)
 	}
 
 	pkg := pkgs[0]
 	if len(pkg.Errors) > 0 {
-		return fmt.Errorf("unable to load workflowservice: %v", pkg.Errors)
+		return fmt.Errorf("unable to load workflowservice: %w", pkg.Errors)
 	}
 
 	qual := func(other *types.Package) string {
@@ -105,8 +106,17 @@ func generateService(cfg config) error {
 			sig := meth.Obj().Type().(*types.Signature)
 			fmt.Fprintf(buf, "\nfunc (s *workflowServiceProxyServer) %s %s %s {\n", name, types.TypeString(sig.Params(), qual), types.TypeString(sig.Results(), qual))
 			params := make([]string, sig.Params().Len())
+
+			// at some point the parsed type signature stopped carrying the variable's names, so we need to manually name them
+			counter := 0
 			for i := 0; i < sig.Params().Len(); i++ {
-				params[i] = sig.Params().At(i).Name()
+				typ := sig.Params().At(i).Type().String()
+				if typ == "context.Context" {
+					params[i] = "ctx"
+				} else {
+					params[i] = fmt.Sprintf("in%d", counter)
+					counter += 1
+				}
 			}
 			fmt.Fprintf(buf, "\treturn s.client.%s(%s)\n", name, strings.Join(params, ", "))
 			fmt.Fprintf(buf, "}\n")
@@ -115,7 +125,8 @@ func generateService(cfg config) error {
 
 	src, err := format.Source(buf.Bytes())
 	if err != nil {
-		return err
+		log.Println(buf.String())
+		return fmt.Errorf("failed to format generated workflowservice: %w", err)
 	}
 
 	if cfg.verifyOnly {
@@ -131,5 +142,9 @@ func generateService(cfg config) error {
 		return nil
 	}
 
-	return os.WriteFile(serviceFile, src, 0666)
+	if err := os.WriteFile(serviceFile, src, 0666); err != nil {
+		return fmt.Errorf("failed to save generated service file: %w", err)
+	}
+
+	return nil
 }

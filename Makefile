@@ -83,7 +83,7 @@ grpc-install: go-protobuf-install
 
 go-protobuf-install:
 	go install -modfile=build/go.mod google.golang.org/protobuf/cmd/protoc-gen-go
-	go install -modfile=build/go.mod github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway
+	go install -modfile=build/go.mod github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
