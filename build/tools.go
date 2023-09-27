@@ -22,8 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+//go:build tools
+
 package build
 
 import (
-	_ "github.com/temporalio/gogo-protobuf/gogoproto" // gogoproto is just a random package name for module.
+	_ "github.com/golang/mock/mockgen"
+	_ "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway"
+	_ "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
+	_ "google.golang.org/protobuf/cmd/protoc-gen-go"
 )
