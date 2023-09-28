@@ -22,14 +22,8 @@ COLOR := "\e[1;36m%s\e[0m\n"
 
 PINNED_DEPENDENCIES := \
 
-
 PROTO_ROOT := proto/api
-PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto")
-PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_OUT := .
-PROTO_IMPORTS = \
-	-I=$(PROTO_ROOT) \
-	-I=$(shell go list -m -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway)/third_party/googleapis
 
 $(PROTO_OUT):
 	mkdir $(PROTO_OUT)
@@ -40,19 +34,13 @@ update-proto-submodule:
 	git submodule update --init --force --remote $(PROTO_ROOT)
 
 
-
 ##### Compile proto files for go #####
 grpc: go-grpc fix-path
 
 go-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for go-gRPC..."
-	make -f proto/api/Makefile grpc-install go-grpc
-	# $(foreach PROTO_DIR,$(PROTO_DIRS),\
-	# 	protoc --fatal_warnings $(PROTO_IMPORTS) \
-	# 		--go_out=paths=source_relative:$(PROTO_OUT) \
-	# 		--go-grpc_out=paths=source_relative:$(PROTO_OUT)\
-	# 		--grpc-gateway_out=allow_patch_feature=false,paths=source_relative:$(PROTO_OUT) \
-	# 	$(PROTO_DIR)*.proto;)
+	# Relative to PROTO_ROOT
+	PROTO_OUT=../.. make -C $(PROTO_ROOT) go-grpc
 
 fix-path:
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
@@ -78,14 +66,6 @@ goimports:
 	goimports -w $(PROTO_OUT)
 
 ##### Plugins & tools #####
-grpc-install: go-protobuf-install
-	printf $(COLOR) "Install/update gRPC plugins..."
-	go install -modfile=build/go.mod google.golang.org/grpc/cmd/protoc-gen-go-grpc
-
-go-protobuf-install:
-	go install -modfile=build/go.mod google.golang.org/protobuf/cmd/protoc-gen-go
-	go install -modfile=build/go.mod github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway
-
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
 	go install -modfile=build/go.mod github.com/golang/mock/mockgen
@@ -125,4 +105,4 @@ check: generatorcheck
 clean:
 	printf $(COLOR) "Deleting generated go files..."
 	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
-	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf
+	find . \( -name "*.pb.go" -o -name "*.mock.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf
