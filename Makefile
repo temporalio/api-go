@@ -46,12 +46,13 @@ grpc: go-grpc fix-path
 
 go-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for go-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),\
-		protoc --fatal_warnings $(PROTO_IMPORTS) \
-			--go_out=paths=source_relative:$(PROTO_OUT) \
-			--go-grpc_out=paths=source_relative:$(PROTO_OUT)\
-			--grpc-gateway_out=allow_patch_feature=false,paths=source_relative:$(PROTO_OUT) \
-		$(PROTO_DIR)*.proto;)
+	make -f proto/api/Makefile grpc-install go-grpc
+	# $(foreach PROTO_DIR,$(PROTO_DIRS),\
+	# 	protoc --fatal_warnings $(PROTO_IMPORTS) \
+	# 		--go_out=paths=source_relative:$(PROTO_OUT) \
+	# 		--go-grpc_out=paths=source_relative:$(PROTO_OUT)\
+	# 		--grpc-gateway_out=allow_patch_feature=false,paths=source_relative:$(PROTO_OUT) \
+	# 	$(PROTO_DIR)*.proto;)
 
 fix-path:
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
