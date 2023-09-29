@@ -159,49 +159,66 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 	}, nil
 }
 
-func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) error {
+func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) (*common.Payload, error) {
 	ctx.SinglePayloadRequired = true
 
 	newPayloads, err := options.Visitor(ctx, []*common.Payload{msg})
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if len(newPayloads) != 1 {
-		return fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true")
+		return nil, fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true")
 	}
 
-	*msg = *newPayloads[0]
-
-	return nil
+	return newPayloads[0], nil
 }
 
 func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, objs ...interface{}) error {
-	for _, obj := range objs {
+	for i, obj := range objs {
 		ctx.SinglePayloadRequired = false
 
 		switch o := obj.(type) {
 			case *common.Payload:
 				if o == nil { continue }
-				err := visitPayload(ctx, options, o)
+				no, err := visitPayload(ctx, options, o)
 				if err != nil { return err }
+                objs[i] = no
 			case map[string]*common.Payload:
-				for _, x := range o { if err := visitPayload(ctx, options, x); err != nil { return err } }
+				for ix, x := range o {
+                    if nx, err := visitPayload(ctx, options, x); err != nil {
+                        return err
+                    } else {
+                        o[ix] = nx
+	                }
+                }
 			case *common.Payloads:
 				if o == nil { continue }
 				newPayloads, err := options.Visitor(ctx, o.Payloads)
 				if err != nil { return err }
 				o.Payloads = newPayloads
 			case map[string]*common.Payloads:
-				for _, x := range o { if err := visitPayloads(ctx, options, x); err != nil { return err } }
+				for _, x := range o {
+                    if err := visitPayloads(ctx, options, x); err != nil {
+                        return err
+                    }
+                }
 {{range $type, $record := .PayloadTypes}}
 		{{if $record.Slice}}
 			case []{{$type}}:
-				for _, x := range o { if err := visitPayloads(ctx, options, x); err != nil { return err } }
+				for _, x := range o {
+                    if err := visitPayloads(ctx, options, x); err != nil {
+                        return err
+                    }
+                }
 		{{end}}
 		{{if $record.Map}}
 			case map[string]{{$type}}:
-				for _, x := range o { if err := visitPayloads(ctx, options, x); err != nil { return err } }
+				for _, x := range o {
+                    if err := visitPayloads(ctx, options, x); err != nil {
+                        return err
+                    }
+                }
 		{{end}}
 			case {{$type}}:
 				{{if eq $type "*common.SearchAttributes"}}
