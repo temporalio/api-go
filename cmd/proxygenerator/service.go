@@ -104,20 +104,23 @@ func generateService(cfg config) error {
 
 			name := meth.Obj().Name()
 			sig := meth.Obj().Type().(*types.Signature)
-			fmt.Fprintf(buf, "\nfunc (s *workflowServiceProxyServer) %s %s %s {\n", name, types.TypeString(sig.Params(), qual), types.TypeString(sig.Results(), qual))
 			params := make([]string, sig.Params().Len())
 
 			// at some point the parsed type signature stopped carrying the variable's names, so we need to manually name them
 			counter := 0
+			paramDecl := make([]string, sig.Params().Len())
 			for i := 0; i < sig.Params().Len(); i++ {
-				typ := sig.Params().At(i).Type().String()
-				if typ == "context.Context" {
+				typ := sig.Params().At(i).Type()
+				typeName := typ.String()
+				if typeName == "context.Context" {
 					params[i] = "ctx"
 				} else {
 					params[i] = fmt.Sprintf("in%d", counter)
 					counter += 1
 				}
+				paramDecl[i] = fmt.Sprintf("%s %s", params[i], types.TypeString(typ, qual))
 			}
+			fmt.Fprintf(buf, "\nfunc (s *workflowServiceProxyServer) %s(%s) %s {\n", name, strings.Join(paramDecl, ", "), types.TypeString(sig.Results(), qual))
 			fmt.Fprintf(buf, "\treturn s.client.%s(%s)\n", name, strings.Join(params, ", "))
 			fmt.Fprintf(buf, "}\n")
 		}
