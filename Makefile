@@ -23,6 +23,7 @@ COLOR := "\e[1;36m%s\e[0m\n"
 PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
+PROTO_ENUMS := $(shell grep -R '^enum ' $(PROTO_ROOT) | cut -d ' ' -f2)
 PROTO_OUT := .
 
 $(PROTO_OUT):
@@ -35,17 +36,26 @@ update-proto-submodule:
 
 
 ##### Compile proto files for go #####
-grpc: go-grpc fix-path
+grpc: go-grpc fix-path fix-enums
 
 go-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for go-gRPC..."
 	# Relative to PROTO_ROOT
 	PROTO_OUT=../.. make -C $(PROTO_ROOT) go-grpc
 
-fix-path:
+fix-path: go-grpc
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 	# Also copy the payload JSON helper
 	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
+
+# The generated enums are go are just plain terrible, so we fix them
+# by removing the typename prefixes. We already made good choices with our enum
+# names, so this shouldn't be an issue
+fix-enums: fix-path
+	printf $(COLOR) "Fixing enum naming..."
+    # NOTE: we can speed this up by doing this in parallel or using multiple sed expressions
+	$(foreach PROTO_ENUM,$(PROTO_ENUMS),\
+      $(shell grep -Rl "$(PROTO_ENUM)" | xargs sed -i "" -e "s/$(PROTO_ENUM)_\(.*\) $(PROTO_ENUM)/\1 $(PROTO_ENUM)/g"))
 
 # All generated service files pathes relative to PROTO_OUT.
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.go"))

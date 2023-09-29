@@ -46,10 +46,10 @@ const (
 type NamespaceState int32
 
 const (
-	NamespaceState_NAMESPACE_STATE_UNSPECIFIED NamespaceState = 0
-	NamespaceState_NAMESPACE_STATE_REGISTERED  NamespaceState = 1
-	NamespaceState_NAMESPACE_STATE_DEPRECATED  NamespaceState = 2
-	NamespaceState_NAMESPACE_STATE_DELETED     NamespaceState = 3
+	NAMESPACE_STATE_UNSPECIFIED NamespaceState = 0
+	NAMESPACE_STATE_REGISTERED  NamespaceState = 1
+	NAMESPACE_STATE_DEPRECATED  NamespaceState = 2
+	NAMESPACE_STATE_DELETED     NamespaceState = 3
 )
 
 // Enum value maps for NamespaceState.
@@ -98,9 +98,9 @@ func (NamespaceState) EnumDescriptor() ([]byte, []int) {
 type ArchivalState int32
 
 const (
-	ArchivalState_ARCHIVAL_STATE_UNSPECIFIED ArchivalState = 0
-	ArchivalState_ARCHIVAL_STATE_DISABLED    ArchivalState = 1
-	ArchivalState_ARCHIVAL_STATE_ENABLED     ArchivalState = 2
+	ARCHIVAL_STATE_UNSPECIFIED ArchivalState = 0
+	ARCHIVAL_STATE_DISABLED    ArchivalState = 1
+	ARCHIVAL_STATE_ENABLED     ArchivalState = 2
 )
 
 // Enum value maps for ArchivalState.
@@ -147,9 +147,9 @@ func (ArchivalState) EnumDescriptor() ([]byte, []int) {
 type ReplicationState int32
 
 const (
-	ReplicationState_REPLICATION_STATE_UNSPECIFIED ReplicationState = 0
-	ReplicationState_REPLICATION_STATE_NORMAL      ReplicationState = 1
-	ReplicationState_REPLICATION_STATE_HANDOVER    ReplicationState = 2
+	REPLICATION_STATE_UNSPECIFIED ReplicationState = 0
+	REPLICATION_STATE_NORMAL      ReplicationState = 1
+	REPLICATION_STATE_HANDOVER    ReplicationState = 2
 )
 
 // Enum value maps for ReplicationState.

@@ -46,13 +46,13 @@ const (
 type TaskQueueKind int32
 
 const (
-	TaskQueueKind_TASK_QUEUE_KIND_UNSPECIFIED TaskQueueKind = 0
+	TASK_QUEUE_KIND_UNSPECIFIED TaskQueueKind = 0
 	// Tasks from a normal workflow task queue always include complete workflow history
 	//
 	// The task queue specified by the user is always a normal task queue. There can be as many
 	// workers as desired for a single normal task queue. All those workers may pick up tasks from
 	// that queue.
-	TaskQueueKind_TASK_QUEUE_KIND_NORMAL TaskQueueKind = 1
+	TASK_QUEUE_KIND_NORMAL TaskQueueKind = 1
 	// A sticky queue only includes new history since the last workflow task, and they are
 	// per-worker.
 	//
@@ -61,7 +61,7 @@ const (
 	// the worker that created the sticky queue.
 	//
 	// Sticky queues are only for workflow tasks. There are no sticky task queues for activities.
-	TaskQueueKind_TASK_QUEUE_KIND_STICKY TaskQueueKind = 2
+	TASK_QUEUE_KIND_STICKY TaskQueueKind = 2
 )
 
 // Enum value maps for TaskQueueKind.
@@ -108,11 +108,11 @@ func (TaskQueueKind) EnumDescriptor() ([]byte, []int) {
 type TaskQueueType int32
 
 const (
-	TaskQueueType_TASK_QUEUE_TYPE_UNSPECIFIED TaskQueueType = 0
+	TASK_QUEUE_TYPE_UNSPECIFIED TaskQueueType = 0
 	// Workflow type of task queue.
-	TaskQueueType_TASK_QUEUE_TYPE_WORKFLOW TaskQueueType = 1
+	TASK_QUEUE_TYPE_WORKFLOW TaskQueueType = 1
 	// Activity type of task queue.
-	TaskQueueType_TASK_QUEUE_TYPE_ACTIVITY TaskQueueType = 2
+	TASK_QUEUE_TYPE_ACTIVITY TaskQueueType = 2
 )
 
 // Enum value maps for TaskQueueType.
@@ -161,19 +161,19 @@ func (TaskQueueType) EnumDescriptor() ([]byte, []int) {
 type TaskReachability int32
 
 const (
-	TaskReachability_TASK_REACHABILITY_UNSPECIFIED TaskReachability = 0
+	TASK_REACHABILITY_UNSPECIFIED TaskReachability = 0
 	// There's a possiblity for a worker to receive new workflow tasks. Workers should *not* be retired.
-	TaskReachability_TASK_REACHABILITY_NEW_WORKFLOWS TaskReachability = 1
+	TASK_REACHABILITY_NEW_WORKFLOWS TaskReachability = 1
 	// There's a possiblity for a worker to receive existing workflow and activity tasks from existing workflows. Workers
 	// should *not* be retired.
 	// This enum value does not distinguish between open and closed workflows.
-	TaskReachability_TASK_REACHABILITY_EXISTING_WORKFLOWS TaskReachability = 2
+	TASK_REACHABILITY_EXISTING_WORKFLOWS TaskReachability = 2
 	// There's a possiblity for a worker to receive existing workflow and activity tasks from open workflows. Workers
 	// should *not* be retired.
-	TaskReachability_TASK_REACHABILITY_OPEN_WORKFLOWS TaskReachability = 3
+	TASK_REACHABILITY_OPEN_WORKFLOWS TaskReachability = 3
 	// There's a possiblity for a worker to receive existing workflow tasks from closed workflows. Workers may be
 	// retired dependending on application requirements. For example, if there's no need to query closed workflows.
-	TaskReachability_TASK_REACHABILITY_CLOSED_WORKFLOWS TaskReachability = 4
+	TASK_REACHABILITY_CLOSED_WORKFLOWS TaskReachability = 4
 )
 
 // Enum value maps for TaskReachability.

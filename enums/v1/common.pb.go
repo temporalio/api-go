@@ -46,9 +46,9 @@ const (
 type EncodingType int32
 
 const (
-	EncodingType_ENCODING_TYPE_UNSPECIFIED EncodingType = 0
-	EncodingType_ENCODING_TYPE_PROTO3      EncodingType = 1
-	EncodingType_ENCODING_TYPE_JSON        EncodingType = 2
+	ENCODING_TYPE_UNSPECIFIED EncodingType = 0
+	ENCODING_TYPE_PROTO3      EncodingType = 1
+	ENCODING_TYPE_JSON        EncodingType = 2
 )
 
 // Enum value maps for EncodingType.
@@ -95,14 +95,14 @@ func (EncodingType) EnumDescriptor() ([]byte, []int) {
 type IndexedValueType int32
 
 const (
-	IndexedValueType_INDEXED_VALUE_TYPE_UNSPECIFIED  IndexedValueType = 0
-	IndexedValueType_INDEXED_VALUE_TYPE_TEXT         IndexedValueType = 1
-	IndexedValueType_INDEXED_VALUE_TYPE_KEYWORD      IndexedValueType = 2
-	IndexedValueType_INDEXED_VALUE_TYPE_INT          IndexedValueType = 3
-	IndexedValueType_INDEXED_VALUE_TYPE_DOUBLE       IndexedValueType = 4
-	IndexedValueType_INDEXED_VALUE_TYPE_BOOL         IndexedValueType = 5
-	IndexedValueType_INDEXED_VALUE_TYPE_DATETIME     IndexedValueType = 6
-	IndexedValueType_INDEXED_VALUE_TYPE_KEYWORD_LIST IndexedValueType = 7
+	INDEXED_VALUE_TYPE_UNSPECIFIED  IndexedValueType = 0
+	INDEXED_VALUE_TYPE_TEXT         IndexedValueType = 1
+	INDEXED_VALUE_TYPE_KEYWORD      IndexedValueType = 2
+	INDEXED_VALUE_TYPE_INT          IndexedValueType = 3
+	INDEXED_VALUE_TYPE_DOUBLE       IndexedValueType = 4
+	INDEXED_VALUE_TYPE_BOOL         IndexedValueType = 5
+	INDEXED_VALUE_TYPE_DATETIME     IndexedValueType = 6
+	INDEXED_VALUE_TYPE_KEYWORD_LIST IndexedValueType = 7
 )
 
 // Enum value maps for IndexedValueType.
@@ -159,10 +159,10 @@ func (IndexedValueType) EnumDescriptor() ([]byte, []int) {
 type Severity int32
 
 const (
-	Severity_SEVERITY_UNSPECIFIED Severity = 0
-	Severity_SEVERITY_HIGH        Severity = 1
-	Severity_SEVERITY_MEDIUM      Severity = 2
-	Severity_SEVERITY_LOW         Severity = 3
+	SEVERITY_UNSPECIFIED Severity = 0
+	SEVERITY_HIGH        Severity = 1
+	SEVERITY_MEDIUM      Severity = 2
+	SEVERITY_LOW         Severity = 3
 )
 
 // Enum value maps for Severity.

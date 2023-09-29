@@ -48,28 +48,28 @@ const (
 type ScheduleOverlapPolicy int32
 
 const (
-	ScheduleOverlapPolicy_SCHEDULE_OVERLAP_POLICY_UNSPECIFIED ScheduleOverlapPolicy = 0
+	SCHEDULE_OVERLAP_POLICY_UNSPECIFIED ScheduleOverlapPolicy = 0
 	// SCHEDULE_OVERLAP_POLICY_SKIP (default) means don't start anything. When the
 	// workflow completes, the next scheduled event after that time will be considered.
-	ScheduleOverlapPolicy_SCHEDULE_OVERLAP_POLICY_SKIP ScheduleOverlapPolicy = 1
+	SCHEDULE_OVERLAP_POLICY_SKIP ScheduleOverlapPolicy = 1
 	// SCHEDULE_OVERLAP_POLICY_BUFFER_ONE means start the workflow again soon as the
 	// current one completes, but only buffer one start in this way. If another start is
 	// supposed to happen when the workflow is running, and one is already buffered, then
 	// only the first one will be started after the running workflow finishes.
-	ScheduleOverlapPolicy_SCHEDULE_OVERLAP_POLICY_BUFFER_ONE ScheduleOverlapPolicy = 2
+	SCHEDULE_OVERLAP_POLICY_BUFFER_ONE ScheduleOverlapPolicy = 2
 	// SCHEDULE_OVERLAP_POLICY_BUFFER_ALL means buffer up any number of starts to all
 	// happen sequentially, immediately after the running workflow completes.
-	ScheduleOverlapPolicy_SCHEDULE_OVERLAP_POLICY_BUFFER_ALL ScheduleOverlapPolicy = 3
+	SCHEDULE_OVERLAP_POLICY_BUFFER_ALL ScheduleOverlapPolicy = 3
 	// SCHEDULE_OVERLAP_POLICY_CANCEL_OTHER means that if there is another workflow
 	// running, cancel it, and start the new one after the old one completes cancellation.
-	ScheduleOverlapPolicy_SCHEDULE_OVERLAP_POLICY_CANCEL_OTHER ScheduleOverlapPolicy = 4
+	SCHEDULE_OVERLAP_POLICY_CANCEL_OTHER ScheduleOverlapPolicy = 4
 	// SCHEDULE_OVERLAP_POLICY_TERMINATE_OTHER means that if there is another workflow
 	// running, terminate it and start the new one immediately.
-	ScheduleOverlapPolicy_SCHEDULE_OVERLAP_POLICY_TERMINATE_OTHER ScheduleOverlapPolicy = 5
+	SCHEDULE_OVERLAP_POLICY_TERMINATE_OTHER ScheduleOverlapPolicy = 5
 	// SCHEDULE_OVERLAP_POLICY_ALLOW_ALL means start any number of concurrent workflows.
 	// Note that with this policy, last completion result and last failure will not be
 	// available since workflows are not sequential.
-	ScheduleOverlapPolicy_SCHEDULE_OVERLAP_POLICY_ALLOW_ALL ScheduleOverlapPolicy = 6
+	SCHEDULE_OVERLAP_POLICY_ALLOW_ALL ScheduleOverlapPolicy = 6
 )
 
 // Enum value maps for ScheduleOverlapPolicy.

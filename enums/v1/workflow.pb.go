@@ -48,18 +48,18 @@ const (
 type WorkflowIdReusePolicy int32
 
 const (
-	WorkflowIdReusePolicy_WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED WorkflowIdReusePolicy = 0
+	WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED WorkflowIdReusePolicy = 0
 	// Allow starting a workflow execution using the same workflow id.
-	WorkflowIdReusePolicy_WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE WorkflowIdReusePolicy = 1
+	WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE WorkflowIdReusePolicy = 1
 	// Allow starting a workflow execution using the same workflow id, only when the last
 	// execution's final state is one of [terminated, cancelled, timed out, failed].
-	WorkflowIdReusePolicy_WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY WorkflowIdReusePolicy = 2
+	WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY WorkflowIdReusePolicy = 2
 	// Do not permit re-use of the workflow id for this workflow. Future start workflow requests
 	// could potentially change the policy, allowing re-use of the workflow id.
-	WorkflowIdReusePolicy_WORKFLOW_ID_REUSE_POLICY_REJECT_DUPLICATE WorkflowIdReusePolicy = 3
+	WORKFLOW_ID_REUSE_POLICY_REJECT_DUPLICATE WorkflowIdReusePolicy = 3
 	// If a workflow is running using the same workflow ID, terminate it and start a new one.
 	// If no running workflow, then the behavior is the same as ALLOW_DUPLICATE
-	WorkflowIdReusePolicy_WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING WorkflowIdReusePolicy = 4
+	WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING WorkflowIdReusePolicy = 4
 )
 
 // Enum value maps for WorkflowIdReusePolicy.
@@ -111,13 +111,13 @@ func (WorkflowIdReusePolicy) EnumDescriptor() ([]byte, []int) {
 type ParentClosePolicy int32
 
 const (
-	ParentClosePolicy_PARENT_CLOSE_POLICY_UNSPECIFIED ParentClosePolicy = 0
+	PARENT_CLOSE_POLICY_UNSPECIFIED ParentClosePolicy = 0
 	// The child workflow will also terminate
-	ParentClosePolicy_PARENT_CLOSE_POLICY_TERMINATE ParentClosePolicy = 1
+	PARENT_CLOSE_POLICY_TERMINATE ParentClosePolicy = 1
 	// The child workflow will do nothing
-	ParentClosePolicy_PARENT_CLOSE_POLICY_ABANDON ParentClosePolicy = 2
+	PARENT_CLOSE_POLICY_ABANDON ParentClosePolicy = 2
 	// Cancellation will be requested of the child workflow
-	ParentClosePolicy_PARENT_CLOSE_POLICY_REQUEST_CANCEL ParentClosePolicy = 3
+	PARENT_CLOSE_POLICY_REQUEST_CANCEL ParentClosePolicy = 3
 )
 
 // Enum value maps for ParentClosePolicy.
@@ -166,13 +166,13 @@ func (ParentClosePolicy) EnumDescriptor() ([]byte, []int) {
 type ContinueAsNewInitiator int32
 
 const (
-	ContinueAsNewInitiator_CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED ContinueAsNewInitiator = 0
+	CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED ContinueAsNewInitiator = 0
 	// The workflow itself requested to continue as new
-	ContinueAsNewInitiator_CONTINUE_AS_NEW_INITIATOR_WORKFLOW ContinueAsNewInitiator = 1
+	CONTINUE_AS_NEW_INITIATOR_WORKFLOW ContinueAsNewInitiator = 1
 	// The workflow continued as new because it is retrying
-	ContinueAsNewInitiator_CONTINUE_AS_NEW_INITIATOR_RETRY ContinueAsNewInitiator = 2
+	CONTINUE_AS_NEW_INITIATOR_RETRY ContinueAsNewInitiator = 2
 	// The workflow continued as new because cron has triggered a new execution
-	ContinueAsNewInitiator_CONTINUE_AS_NEW_INITIATOR_CRON_SCHEDULE ContinueAsNewInitiator = 3
+	CONTINUE_AS_NEW_INITIATOR_CRON_SCHEDULE ContinueAsNewInitiator = 3
 )
 
 // Enum value maps for ContinueAsNewInitiator.
@@ -224,15 +224,15 @@ func (ContinueAsNewInitiator) EnumDescriptor() ([]byte, []int) {
 type WorkflowExecutionStatus int32
 
 const (
-	WorkflowExecutionStatus_WORKFLOW_EXECUTION_STATUS_UNSPECIFIED WorkflowExecutionStatus = 0
+	WORKFLOW_EXECUTION_STATUS_UNSPECIFIED WorkflowExecutionStatus = 0
 	// Value 1 is hardcoded in SQL persistence.
-	WorkflowExecutionStatus_WORKFLOW_EXECUTION_STATUS_RUNNING          WorkflowExecutionStatus = 1
-	WorkflowExecutionStatus_WORKFLOW_EXECUTION_STATUS_COMPLETED        WorkflowExecutionStatus = 2
-	WorkflowExecutionStatus_WORKFLOW_EXECUTION_STATUS_FAILED           WorkflowExecutionStatus = 3
-	WorkflowExecutionStatus_WORKFLOW_EXECUTION_STATUS_CANCELED         WorkflowExecutionStatus = 4
-	WorkflowExecutionStatus_WORKFLOW_EXECUTION_STATUS_TERMINATED       WorkflowExecutionStatus = 5
-	WorkflowExecutionStatus_WORKFLOW_EXECUTION_STATUS_CONTINUED_AS_NEW WorkflowExecutionStatus = 6
-	WorkflowExecutionStatus_WORKFLOW_EXECUTION_STATUS_TIMED_OUT        WorkflowExecutionStatus = 7
+	WORKFLOW_EXECUTION_STATUS_RUNNING          WorkflowExecutionStatus = 1
+	WORKFLOW_EXECUTION_STATUS_COMPLETED        WorkflowExecutionStatus = 2
+	WORKFLOW_EXECUTION_STATUS_FAILED           WorkflowExecutionStatus = 3
+	WORKFLOW_EXECUTION_STATUS_CANCELED         WorkflowExecutionStatus = 4
+	WORKFLOW_EXECUTION_STATUS_TERMINATED       WorkflowExecutionStatus = 5
+	WORKFLOW_EXECUTION_STATUS_CONTINUED_AS_NEW WorkflowExecutionStatus = 6
+	WORKFLOW_EXECUTION_STATUS_TIMED_OUT        WorkflowExecutionStatus = 7
 )
 
 // Enum value maps for WorkflowExecutionStatus.
@@ -289,10 +289,10 @@ func (WorkflowExecutionStatus) EnumDescriptor() ([]byte, []int) {
 type PendingActivityState int32
 
 const (
-	PendingActivityState_PENDING_ACTIVITY_STATE_UNSPECIFIED      PendingActivityState = 0
-	PendingActivityState_PENDING_ACTIVITY_STATE_SCHEDULED        PendingActivityState = 1
-	PendingActivityState_PENDING_ACTIVITY_STATE_STARTED          PendingActivityState = 2
-	PendingActivityState_PENDING_ACTIVITY_STATE_CANCEL_REQUESTED PendingActivityState = 3
+	PENDING_ACTIVITY_STATE_UNSPECIFIED      PendingActivityState = 0
+	PENDING_ACTIVITY_STATE_SCHEDULED        PendingActivityState = 1
+	PENDING_ACTIVITY_STATE_STARTED          PendingActivityState = 2
+	PENDING_ACTIVITY_STATE_CANCEL_REQUESTED PendingActivityState = 3
 )
 
 // Enum value maps for PendingActivityState.
@@ -341,9 +341,9 @@ func (PendingActivityState) EnumDescriptor() ([]byte, []int) {
 type PendingWorkflowTaskState int32
 
 const (
-	PendingWorkflowTaskState_PENDING_WORKFLOW_TASK_STATE_UNSPECIFIED PendingWorkflowTaskState = 0
-	PendingWorkflowTaskState_PENDING_WORKFLOW_TASK_STATE_SCHEDULED   PendingWorkflowTaskState = 1
-	PendingWorkflowTaskState_PENDING_WORKFLOW_TASK_STATE_STARTED     PendingWorkflowTaskState = 2
+	PENDING_WORKFLOW_TASK_STATE_UNSPECIFIED PendingWorkflowTaskState = 0
+	PENDING_WORKFLOW_TASK_STATE_SCHEDULED   PendingWorkflowTaskState = 1
+	PENDING_WORKFLOW_TASK_STATE_STARTED     PendingWorkflowTaskState = 2
 )
 
 // Enum value maps for PendingWorkflowTaskState.
@@ -390,9 +390,9 @@ func (PendingWorkflowTaskState) EnumDescriptor() ([]byte, []int) {
 type HistoryEventFilterType int32
 
 const (
-	HistoryEventFilterType_HISTORY_EVENT_FILTER_TYPE_UNSPECIFIED HistoryEventFilterType = 0
-	HistoryEventFilterType_HISTORY_EVENT_FILTER_TYPE_ALL_EVENT   HistoryEventFilterType = 1
-	HistoryEventFilterType_HISTORY_EVENT_FILTER_TYPE_CLOSE_EVENT HistoryEventFilterType = 2
+	HISTORY_EVENT_FILTER_TYPE_UNSPECIFIED HistoryEventFilterType = 0
+	HISTORY_EVENT_FILTER_TYPE_ALL_EVENT   HistoryEventFilterType = 1
+	HISTORY_EVENT_FILTER_TYPE_CLOSE_EVENT HistoryEventFilterType = 2
 )
 
 // Enum value maps for HistoryEventFilterType.
@@ -439,14 +439,14 @@ func (HistoryEventFilterType) EnumDescriptor() ([]byte, []int) {
 type RetryState int32
 
 const (
-	RetryState_RETRY_STATE_UNSPECIFIED              RetryState = 0
-	RetryState_RETRY_STATE_IN_PROGRESS              RetryState = 1
-	RetryState_RETRY_STATE_NON_RETRYABLE_FAILURE    RetryState = 2
-	RetryState_RETRY_STATE_TIMEOUT                  RetryState = 3
-	RetryState_RETRY_STATE_MAXIMUM_ATTEMPTS_REACHED RetryState = 4
-	RetryState_RETRY_STATE_RETRY_POLICY_NOT_SET     RetryState = 5
-	RetryState_RETRY_STATE_INTERNAL_SERVER_ERROR    RetryState = 6
-	RetryState_RETRY_STATE_CANCEL_REQUESTED         RetryState = 7
+	RETRY_STATE_UNSPECIFIED              RetryState = 0
+	RETRY_STATE_IN_PROGRESS              RetryState = 1
+	RETRY_STATE_NON_RETRYABLE_FAILURE    RetryState = 2
+	RETRY_STATE_TIMEOUT                  RetryState = 3
+	RETRY_STATE_MAXIMUM_ATTEMPTS_REACHED RetryState = 4
+	RETRY_STATE_RETRY_POLICY_NOT_SET     RetryState = 5
+	RETRY_STATE_INTERNAL_SERVER_ERROR    RetryState = 6
+	RETRY_STATE_CANCEL_REQUESTED         RetryState = 7
 )
 
 // Enum value maps for RetryState.
@@ -503,11 +503,11 @@ func (RetryState) EnumDescriptor() ([]byte, []int) {
 type TimeoutType int32
 
 const (
-	TimeoutType_TIMEOUT_TYPE_UNSPECIFIED       TimeoutType = 0
-	TimeoutType_TIMEOUT_TYPE_START_TO_CLOSE    TimeoutType = 1
-	TimeoutType_TIMEOUT_TYPE_SCHEDULE_TO_START TimeoutType = 2
-	TimeoutType_TIMEOUT_TYPE_SCHEDULE_TO_CLOSE TimeoutType = 3
-	TimeoutType_TIMEOUT_TYPE_HEARTBEAT         TimeoutType = 4
+	TIMEOUT_TYPE_UNSPECIFIED       TimeoutType = 0
+	TIMEOUT_TYPE_START_TO_CLOSE    TimeoutType = 1
+	TIMEOUT_TYPE_SCHEDULE_TO_START TimeoutType = 2
+	TIMEOUT_TYPE_SCHEDULE_TO_CLOSE TimeoutType = 3
+	TIMEOUT_TYPE_HEARTBEAT         TimeoutType = 4
 )
 
 // Enum value maps for TimeoutType.

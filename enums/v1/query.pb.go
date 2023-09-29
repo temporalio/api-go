@@ -46,9 +46,9 @@ const (
 type QueryResultType int32
 
 const (
-	QueryResultType_QUERY_RESULT_TYPE_UNSPECIFIED QueryResultType = 0
-	QueryResultType_QUERY_RESULT_TYPE_ANSWERED    QueryResultType = 1
-	QueryResultType_QUERY_RESULT_TYPE_FAILED      QueryResultType = 2
+	QUERY_RESULT_TYPE_UNSPECIFIED QueryResultType = 0
+	QUERY_RESULT_TYPE_ANSWERED    QueryResultType = 1
+	QUERY_RESULT_TYPE_FAILED      QueryResultType = 2
 )
 
 // Enum value maps for QueryResultType.
@@ -95,13 +95,13 @@ func (QueryResultType) EnumDescriptor() ([]byte, []int) {
 type QueryRejectCondition int32
 
 const (
-	QueryRejectCondition_QUERY_REJECT_CONDITION_UNSPECIFIED QueryRejectCondition = 0
+	QUERY_REJECT_CONDITION_UNSPECIFIED QueryRejectCondition = 0
 	// None indicates that query should not be rejected.
-	QueryRejectCondition_QUERY_REJECT_CONDITION_NONE QueryRejectCondition = 1
+	QUERY_REJECT_CONDITION_NONE QueryRejectCondition = 1
 	// NotOpen indicates that query should be rejected if workflow is not open.
-	QueryRejectCondition_QUERY_REJECT_CONDITION_NOT_OPEN QueryRejectCondition = 2
+	QUERY_REJECT_CONDITION_NOT_OPEN QueryRejectCondition = 2
 	// NotCompletedCleanly indicates that query should be rejected if workflow did not complete cleanly.
-	QueryRejectCondition_QUERY_REJECT_CONDITION_NOT_COMPLETED_CLEANLY QueryRejectCondition = 3
+	QUERY_REJECT_CONDITION_NOT_COMPLETED_CLEANLY QueryRejectCondition = 3
 )
 
 // Enum value maps for QueryRejectCondition.

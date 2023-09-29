@@ -46,12 +46,12 @@ const (
 type BatchOperationType int32
 
 const (
-	BatchOperationType_BATCH_OPERATION_TYPE_UNSPECIFIED BatchOperationType = 0
-	BatchOperationType_BATCH_OPERATION_TYPE_TERMINATE   BatchOperationType = 1
-	BatchOperationType_BATCH_OPERATION_TYPE_CANCEL      BatchOperationType = 2
-	BatchOperationType_BATCH_OPERATION_TYPE_SIGNAL      BatchOperationType = 3
-	BatchOperationType_BATCH_OPERATION_TYPE_DELETE      BatchOperationType = 4
-	BatchOperationType_BATCH_OPERATION_TYPE_RESET       BatchOperationType = 5
+	BATCH_OPERATION_TYPE_UNSPECIFIED BatchOperationType = 0
+	BATCH_OPERATION_TYPE_TERMINATE   BatchOperationType = 1
+	BATCH_OPERATION_TYPE_CANCEL      BatchOperationType = 2
+	BATCH_OPERATION_TYPE_SIGNAL      BatchOperationType = 3
+	BATCH_OPERATION_TYPE_DELETE      BatchOperationType = 4
+	BATCH_OPERATION_TYPE_RESET       BatchOperationType = 5
 )
 
 // Enum value maps for BatchOperationType.
@@ -104,10 +104,10 @@ func (BatchOperationType) EnumDescriptor() ([]byte, []int) {
 type BatchOperationState int32
 
 const (
-	BatchOperationState_BATCH_OPERATION_STATE_UNSPECIFIED BatchOperationState = 0
-	BatchOperationState_BATCH_OPERATION_STATE_RUNNING     BatchOperationState = 1
-	BatchOperationState_BATCH_OPERATION_STATE_COMPLETED   BatchOperationState = 2
-	BatchOperationState_BATCH_OPERATION_STATE_FAILED      BatchOperationState = 3
+	BATCH_OPERATION_STATE_UNSPECIFIED BatchOperationState = 0
+	BATCH_OPERATION_STATE_RUNNING     BatchOperationState = 1
+	BATCH_OPERATION_STATE_COMPLETED   BatchOperationState = 2
+	BATCH_OPERATION_STATE_FAILED      BatchOperationState = 3
 )
 
 // Enum value maps for BatchOperationState.

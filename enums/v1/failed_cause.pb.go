@@ -48,39 +48,39 @@ const (
 type WorkflowTaskFailedCause int32
 
 const (
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED WorkflowTaskFailedCause = 0
+	WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED WorkflowTaskFailedCause = 0
 	// Between starting and completing the workflow task (with a workflow completion command), some
 	// new command (like a signal) was processed into workflow history. The outstanding task will be
 	// failed with this reason, and a worker must pick up a new task.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND                                         WorkflowTaskFailedCause = 1
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_SCHEDULE_ACTIVITY_ATTRIBUTES                          WorkflowTaskFailedCause = 2
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_ACTIVITY_ATTRIBUTES                    WorkflowTaskFailedCause = 3
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_START_TIMER_ATTRIBUTES                                WorkflowTaskFailedCause = 4
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_CANCEL_TIMER_ATTRIBUTES                               WorkflowTaskFailedCause = 5
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_RECORD_MARKER_ATTRIBUTES                              WorkflowTaskFailedCause = 6
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_COMPLETE_WORKFLOW_EXECUTION_ATTRIBUTES                WorkflowTaskFailedCause = 7
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_FAIL_WORKFLOW_EXECUTION_ATTRIBUTES                    WorkflowTaskFailedCause = 8
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_CANCEL_WORKFLOW_EXECUTION_ATTRIBUTES                  WorkflowTaskFailedCause = 9
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_ATTRIBUTES WorkflowTaskFailedCause = 10
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_CONTINUE_AS_NEW_ATTRIBUTES                            WorkflowTaskFailedCause = 11
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_START_TIMER_DUPLICATE_ID                                  WorkflowTaskFailedCause = 12
+	WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND                                         WorkflowTaskFailedCause = 1
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_SCHEDULE_ACTIVITY_ATTRIBUTES                          WorkflowTaskFailedCause = 2
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_ACTIVITY_ATTRIBUTES                    WorkflowTaskFailedCause = 3
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_START_TIMER_ATTRIBUTES                                WorkflowTaskFailedCause = 4
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_CANCEL_TIMER_ATTRIBUTES                               WorkflowTaskFailedCause = 5
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_RECORD_MARKER_ATTRIBUTES                              WorkflowTaskFailedCause = 6
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_COMPLETE_WORKFLOW_EXECUTION_ATTRIBUTES                WorkflowTaskFailedCause = 7
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_FAIL_WORKFLOW_EXECUTION_ATTRIBUTES                    WorkflowTaskFailedCause = 8
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_CANCEL_WORKFLOW_EXECUTION_ATTRIBUTES                  WorkflowTaskFailedCause = 9
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_ATTRIBUTES WorkflowTaskFailedCause = 10
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_CONTINUE_AS_NEW_ATTRIBUTES                            WorkflowTaskFailedCause = 11
+	WORKFLOW_TASK_FAILED_CAUSE_START_TIMER_DUPLICATE_ID                                  WorkflowTaskFailedCause = 12
 	// The worker wishes to fail the task and have the next one be generated on a normal, not sticky
 	// queue. Generally workers should prefer to use the explicit `ResetStickyTaskQueue` RPC call.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_RESET_STICKY_TASK_QUEUE                  WorkflowTaskFailedCause = 13
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_WORKER_UNHANDLED_FAILURE        WorkflowTaskFailedCause = 14
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_WORKFLOW_EXECUTION_ATTRIBUTES WorkflowTaskFailedCause = 15
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_START_CHILD_EXECUTION_ATTRIBUTES     WorkflowTaskFailedCause = 16
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_FORCE_CLOSE_COMMAND                      WorkflowTaskFailedCause = 17
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_FAILOVER_CLOSE_COMMAND                   WorkflowTaskFailedCause = 18
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_INPUT_SIZE                    WorkflowTaskFailedCause = 19
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_RESET_WORKFLOW                           WorkflowTaskFailedCause = 20
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_BINARY                               WorkflowTaskFailedCause = 21
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_SCHEDULE_ACTIVITY_DUPLICATE_ID           WorkflowTaskFailedCause = 22
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_SEARCH_ATTRIBUTES                    WorkflowTaskFailedCause = 23
+	WORKFLOW_TASK_FAILED_CAUSE_RESET_STICKY_TASK_QUEUE                  WorkflowTaskFailedCause = 13
+	WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_WORKER_UNHANDLED_FAILURE        WorkflowTaskFailedCause = 14
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_WORKFLOW_EXECUTION_ATTRIBUTES WorkflowTaskFailedCause = 15
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_START_CHILD_EXECUTION_ATTRIBUTES     WorkflowTaskFailedCause = 16
+	WORKFLOW_TASK_FAILED_CAUSE_FORCE_CLOSE_COMMAND                      WorkflowTaskFailedCause = 17
+	WORKFLOW_TASK_FAILED_CAUSE_FAILOVER_CLOSE_COMMAND                   WorkflowTaskFailedCause = 18
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_INPUT_SIZE                    WorkflowTaskFailedCause = 19
+	WORKFLOW_TASK_FAILED_CAUSE_RESET_WORKFLOW                           WorkflowTaskFailedCause = 20
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_BINARY                               WorkflowTaskFailedCause = 21
+	WORKFLOW_TASK_FAILED_CAUSE_SCHEDULE_ACTIVITY_DUPLICATE_ID           WorkflowTaskFailedCause = 22
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_SEARCH_ATTRIBUTES                    WorkflowTaskFailedCause = 23
 	// The worker encountered a mismatch while replaying history between what was expected, and
 	// what the workflow code actually did.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_NON_DETERMINISTIC_ERROR                   WorkflowTaskFailedCause = 24
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_MODIFY_WORKFLOW_PROPERTIES_ATTRIBUTES WorkflowTaskFailedCause = 25
+	WORKFLOW_TASK_FAILED_CAUSE_NON_DETERMINISTIC_ERROR                   WorkflowTaskFailedCause = 24
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_MODIFY_WORKFLOW_PROPERTIES_ATTRIBUTES WorkflowTaskFailedCause = 25
 	// We send the below error codes to users when their requests would violate a size constraint
 	// of their workflow. We do this to ensure that the state of their workflow does not become too
 	// large because that can cause severe performance degradation. You can modify the thresholds for
@@ -88,21 +88,21 @@ const (
 	//
 	// Spawning a new child workflow would cause this workflow to exceed its limit of pending child
 	// workflows.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_PENDING_CHILD_WORKFLOWS_LIMIT_EXCEEDED WorkflowTaskFailedCause = 26
+	WORKFLOW_TASK_FAILED_CAUSE_PENDING_CHILD_WORKFLOWS_LIMIT_EXCEEDED WorkflowTaskFailedCause = 26
 	// Starting a new activity would cause this workflow to exceed its limit of pending activities
 	// that we track.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_PENDING_ACTIVITIES_LIMIT_EXCEEDED WorkflowTaskFailedCause = 27
+	WORKFLOW_TASK_FAILED_CAUSE_PENDING_ACTIVITIES_LIMIT_EXCEEDED WorkflowTaskFailedCause = 27
 	// A workflow has a buffer of signals that have not yet reached their destination. We return this
 	// error when sending a new signal would exceed the capacity of this buffer.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_PENDING_SIGNALS_LIMIT_EXCEEDED WorkflowTaskFailedCause = 28
+	WORKFLOW_TASK_FAILED_CAUSE_PENDING_SIGNALS_LIMIT_EXCEEDED WorkflowTaskFailedCause = 28
 	// Similarly, we have a buffer of pending requests to cancel other workflows. We return this error
 	// when our capacity for pending cancel requests is already reached.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_PENDING_REQUEST_CANCEL_LIMIT_EXCEEDED WorkflowTaskFailedCause = 29
+	WORKFLOW_TASK_FAILED_CAUSE_PENDING_REQUEST_CANCEL_LIMIT_EXCEEDED WorkflowTaskFailedCause = 29
 	// Workflow execution update message (update.Acceptance, update.Rejection, or update.Response)
 	// has wrong format, or missing required fields.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_BAD_UPDATE_WORKFLOW_EXECUTION_MESSAGE WorkflowTaskFailedCause = 30
+	WORKFLOW_TASK_FAILED_CAUSE_BAD_UPDATE_WORKFLOW_EXECUTION_MESSAGE WorkflowTaskFailedCause = 30
 	// Similar to WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND, but for updates.
-	WorkflowTaskFailedCause_WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_UPDATE WorkflowTaskFailedCause = 31
+	WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_UPDATE WorkflowTaskFailedCause = 31
 )
 
 // Enum value maps for WorkflowTaskFailedCause.
@@ -207,9 +207,9 @@ func (WorkflowTaskFailedCause) EnumDescriptor() ([]byte, []int) {
 type StartChildWorkflowExecutionFailedCause int32
 
 const (
-	StartChildWorkflowExecutionFailedCause_START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED             StartChildWorkflowExecutionFailedCause = 0
-	StartChildWorkflowExecutionFailedCause_START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_WORKFLOW_ALREADY_EXISTS StartChildWorkflowExecutionFailedCause = 1
-	StartChildWorkflowExecutionFailedCause_START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND     StartChildWorkflowExecutionFailedCause = 2
+	START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED             StartChildWorkflowExecutionFailedCause = 0
+	START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_WORKFLOW_ALREADY_EXISTS StartChildWorkflowExecutionFailedCause = 1
+	START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND     StartChildWorkflowExecutionFailedCause = 2
 )
 
 // Enum value maps for StartChildWorkflowExecutionFailedCause.
@@ -256,9 +256,9 @@ func (StartChildWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
 type CancelExternalWorkflowExecutionFailedCause int32
 
 const (
-	CancelExternalWorkflowExecutionFailedCause_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED                           CancelExternalWorkflowExecutionFailedCause = 0
-	CancelExternalWorkflowExecutionFailedCause_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND CancelExternalWorkflowExecutionFailedCause = 1
-	CancelExternalWorkflowExecutionFailedCause_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND                   CancelExternalWorkflowExecutionFailedCause = 2
+	CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED                           CancelExternalWorkflowExecutionFailedCause = 0
+	CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND CancelExternalWorkflowExecutionFailedCause = 1
+	CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND                   CancelExternalWorkflowExecutionFailedCause = 2
 )
 
 // Enum value maps for CancelExternalWorkflowExecutionFailedCause.
@@ -305,11 +305,11 @@ func (CancelExternalWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []in
 type SignalExternalWorkflowExecutionFailedCause int32
 
 const (
-	SignalExternalWorkflowExecutionFailedCause_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED                           SignalExternalWorkflowExecutionFailedCause = 0
-	SignalExternalWorkflowExecutionFailedCause_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND SignalExternalWorkflowExecutionFailedCause = 1
-	SignalExternalWorkflowExecutionFailedCause_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND                   SignalExternalWorkflowExecutionFailedCause = 2
+	SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED                           SignalExternalWorkflowExecutionFailedCause = 0
+	SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND SignalExternalWorkflowExecutionFailedCause = 1
+	SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND                   SignalExternalWorkflowExecutionFailedCause = 2
 	// Signal count limit is per workflow and controlled by server dynamic config "history.maximumSignalsPerExecution"
-	SignalExternalWorkflowExecutionFailedCause_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_SIGNAL_COUNT_LIMIT_EXCEEDED SignalExternalWorkflowExecutionFailedCause = 3
+	SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_SIGNAL_COUNT_LIMIT_EXCEEDED SignalExternalWorkflowExecutionFailedCause = 3
 )
 
 // Enum value maps for SignalExternalWorkflowExecutionFailedCause.
@@ -358,19 +358,19 @@ func (SignalExternalWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []in
 type ResourceExhaustedCause int32
 
 const (
-	ResourceExhaustedCause_RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED ResourceExhaustedCause = 0
+	RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED ResourceExhaustedCause = 0
 	// Caller exceeds request per second limit.
-	ResourceExhaustedCause_RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT ResourceExhaustedCause = 1
+	RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT ResourceExhaustedCause = 1
 	// Caller exceeds max concurrent request limit.
-	ResourceExhaustedCause_RESOURCE_EXHAUSTED_CAUSE_CONCURRENT_LIMIT ResourceExhaustedCause = 2
+	RESOURCE_EXHAUSTED_CAUSE_CONCURRENT_LIMIT ResourceExhaustedCause = 2
 	// System overloaded.
-	ResourceExhaustedCause_RESOURCE_EXHAUSTED_CAUSE_SYSTEM_OVERLOADED ResourceExhaustedCause = 3
+	RESOURCE_EXHAUSTED_CAUSE_SYSTEM_OVERLOADED ResourceExhaustedCause = 3
 	// Namespace exceeds persistence rate limit.
-	ResourceExhaustedCause_RESOURCE_EXHAUSTED_CAUSE_PERSISTENCE_LIMIT ResourceExhaustedCause = 4
+	RESOURCE_EXHAUSTED_CAUSE_PERSISTENCE_LIMIT ResourceExhaustedCause = 4
 	// Workflow is busy
-	ResourceExhaustedCause_RESOURCE_EXHAUSTED_CAUSE_BUSY_WORKFLOW ResourceExhaustedCause = 5
+	RESOURCE_EXHAUSTED_CAUSE_BUSY_WORKFLOW ResourceExhaustedCause = 5
 	// Caller exceeds action per second limit.
-	ResourceExhaustedCause_RESOURCE_EXHAUSTED_CAUSE_APS_LIMIT ResourceExhaustedCause = 6
+	RESOURCE_EXHAUSTED_CAUSE_APS_LIMIT ResourceExhaustedCause = 6
 )
 
 // Enum value maps for ResourceExhaustedCause.

@@ -54,19 +54,19 @@ type UpdateWorkflowExecutionLifecycleStage int32
 
 const (
 	// An unspecified vale for this enum.
-	UpdateWorkflowExecutionLifecycleStage_UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED UpdateWorkflowExecutionLifecycleStage = 0
+	UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED UpdateWorkflowExecutionLifecycleStage = 0
 	// The gRPC call will not return until the update request has been admitted
 	// by the server - it may be the case that due to a considerations like load
 	// or resource limits that an update is made to wait before the server will
 	// indicate that it has been received and will be processed. This value
 	// does not wait for any sort of acknowledgement from a worker.
-	UpdateWorkflowExecutionLifecycleStage_UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ADMITTED UpdateWorkflowExecutionLifecycleStage = 1
+	UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ADMITTED UpdateWorkflowExecutionLifecycleStage = 1
 	// The gRPC call will not return until the update has passed validation on
 	// a worker.
-	UpdateWorkflowExecutionLifecycleStage_UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED UpdateWorkflowExecutionLifecycleStage = 2
+	UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED UpdateWorkflowExecutionLifecycleStage = 2
 	// The gRPC call will not return until the update has executed to completion
 	// on a worker and has either been rejected or returned a value or an error.
-	UpdateWorkflowExecutionLifecycleStage_UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_COMPLETED UpdateWorkflowExecutionLifecycleStage = 3
+	UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_COMPLETED UpdateWorkflowExecutionLifecycleStage = 3
 )
 
 // Enum value maps for UpdateWorkflowExecutionLifecycleStage.

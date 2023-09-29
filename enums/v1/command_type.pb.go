@@ -47,22 +47,22 @@ const (
 type CommandType int32
 
 const (
-	CommandType_COMMAND_TYPE_UNSPECIFIED                                CommandType = 0
-	CommandType_COMMAND_TYPE_SCHEDULE_ACTIVITY_TASK                     CommandType = 1
-	CommandType_COMMAND_TYPE_REQUEST_CANCEL_ACTIVITY_TASK               CommandType = 2
-	CommandType_COMMAND_TYPE_START_TIMER                                CommandType = 3
-	CommandType_COMMAND_TYPE_COMPLETE_WORKFLOW_EXECUTION                CommandType = 4
-	CommandType_COMMAND_TYPE_FAIL_WORKFLOW_EXECUTION                    CommandType = 5
-	CommandType_COMMAND_TYPE_CANCEL_TIMER                               CommandType = 6
-	CommandType_COMMAND_TYPE_CANCEL_WORKFLOW_EXECUTION                  CommandType = 7
-	CommandType_COMMAND_TYPE_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION CommandType = 8
-	CommandType_COMMAND_TYPE_RECORD_MARKER                              CommandType = 9
-	CommandType_COMMAND_TYPE_CONTINUE_AS_NEW_WORKFLOW_EXECUTION         CommandType = 10
-	CommandType_COMMAND_TYPE_START_CHILD_WORKFLOW_EXECUTION             CommandType = 11
-	CommandType_COMMAND_TYPE_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION         CommandType = 12
-	CommandType_COMMAND_TYPE_UPSERT_WORKFLOW_SEARCH_ATTRIBUTES          CommandType = 13
-	CommandType_COMMAND_TYPE_PROTOCOL_MESSAGE                           CommandType = 14
-	CommandType_COMMAND_TYPE_MODIFY_WORKFLOW_PROPERTIES                 CommandType = 16
+	COMMAND_TYPE_UNSPECIFIED                                CommandType = 0
+	COMMAND_TYPE_SCHEDULE_ACTIVITY_TASK                     CommandType = 1
+	COMMAND_TYPE_REQUEST_CANCEL_ACTIVITY_TASK               CommandType = 2
+	COMMAND_TYPE_START_TIMER                                CommandType = 3
+	COMMAND_TYPE_COMPLETE_WORKFLOW_EXECUTION                CommandType = 4
+	COMMAND_TYPE_FAIL_WORKFLOW_EXECUTION                    CommandType = 5
+	COMMAND_TYPE_CANCEL_TIMER                               CommandType = 6
+	COMMAND_TYPE_CANCEL_WORKFLOW_EXECUTION                  CommandType = 7
+	COMMAND_TYPE_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION CommandType = 8
+	COMMAND_TYPE_RECORD_MARKER                              CommandType = 9
+	COMMAND_TYPE_CONTINUE_AS_NEW_WORKFLOW_EXECUTION         CommandType = 10
+	COMMAND_TYPE_START_CHILD_WORKFLOW_EXECUTION             CommandType = 11
+	COMMAND_TYPE_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION         CommandType = 12
+	COMMAND_TYPE_UPSERT_WORKFLOW_SEARCH_ATTRIBUTES          CommandType = 13
+	COMMAND_TYPE_PROTOCOL_MESSAGE                           CommandType = 14
+	COMMAND_TYPE_MODIFY_WORKFLOW_PROPERTIES                 CommandType = 16
 )
 
 // Enum value maps for CommandType.

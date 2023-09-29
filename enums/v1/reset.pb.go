@@ -49,9 +49,9 @@ const (
 type ResetReapplyType int32
 
 const (
-	ResetReapplyType_RESET_REAPPLY_TYPE_UNSPECIFIED ResetReapplyType = 0
-	ResetReapplyType_RESET_REAPPLY_TYPE_SIGNAL      ResetReapplyType = 1
-	ResetReapplyType_RESET_REAPPLY_TYPE_NONE        ResetReapplyType = 2
+	RESET_REAPPLY_TYPE_UNSPECIFIED ResetReapplyType = 0
+	RESET_REAPPLY_TYPE_SIGNAL      ResetReapplyType = 1
+	RESET_REAPPLY_TYPE_NONE        ResetReapplyType = 2
 )
 
 // Enum value maps for ResetReapplyType.
@@ -99,11 +99,11 @@ func (ResetReapplyType) EnumDescriptor() ([]byte, []int) {
 type ResetType int32
 
 const (
-	ResetType_RESET_TYPE_UNSPECIFIED ResetType = 0
+	RESET_TYPE_UNSPECIFIED ResetType = 0
 	// Resets to event of the first workflow task completed, or if it does not exist, the event after task scheduled.
-	ResetType_RESET_TYPE_FIRST_WORKFLOW_TASK ResetType = 1
+	RESET_TYPE_FIRST_WORKFLOW_TASK ResetType = 1
 	// Resets to event of the last workflow task completed, or if it does not exist, the event after task scheduled.
-	ResetType_RESET_TYPE_LAST_WORKFLOW_TASK ResetType = 2
+	RESET_TYPE_LAST_WORKFLOW_TASK ResetType = 2
 )
 
 // Enum value maps for ResetType.
