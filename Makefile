@@ -1,7 +1,7 @@
 $(VERBOSE).SILENT:
 ############################# Main targets #############################
 # Install everything, update submodule, and compile proto files.
-install: grpc-install mockgen-install goimports-install update-proto
+install: mockgen-install goimports-install update-proto
 
 # Compile proto files.
 proto: grpc goimports proxy grpc-mock copyright
@@ -58,7 +58,7 @@ fix-enums: fix-path
       $(shell grep -Rl "$(PROTO_ENUM)" | xargs sed -i "" -e "s/$(PROTO_ENUM)_\(.*\) $(PROTO_ENUM)/\1 $(PROTO_ENUM)/g"))
 
 # All generated service files pathes relative to PROTO_OUT.
-PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.go"))
+PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service_grpc.pb.go"))
 service_name = $(firstword $(subst /, ,$(1)))
 mock_file_name = $(call service_name,$(1))mock/$(subst $(call service_name,$(1))/,,$(1:go=mock.go))
 
