@@ -45,8 +45,9 @@ go-grpc: clean $(PROTO_OUT)
 
 fix-path: go-grpc
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
-	# Also copy the payload JSON helper
+	# Also copy the payload and history JSON helpers
 	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
+	cp $(PROTO_OUT)/internal/temporalhistoryv1/load*.go $(PROTO_OUT)/history/v1/
 
 # The generated enums are go are just plain terrible, so we fix them
 # by removing the typename prefixes. We already made good choices with our enum
@@ -101,7 +102,7 @@ gomodtidy:
 ##### Test #####
 
 test:
-	go test ./serviceerror ./proxy
+	go test ./serviceerror/... ./proxy/... ./history/...
 
 ##### Check #####
 
@@ -115,4 +116,4 @@ check: generatorcheck
 clean:
 	printf $(COLOR) "Deleting generated go files..."
 	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
-	find . \( -name "*.pb.go" -o -name "*.mock.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf
+	find . \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf
