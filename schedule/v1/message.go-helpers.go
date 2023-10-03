@@ -32,6 +32,10 @@ func (val *CalendarSpec) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *CalendarSpec) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two CalendarSpec values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *Range) Marshal() ([]byte, error) {
 
 func (val *Range) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Range) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Range values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *StructuredCalendarSpec) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *StructuredCalendarSpec) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two StructuredCalendarSpec values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *IntervalSpec) Marshal() ([]byte, error) {
 
 func (val *IntervalSpec) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *IntervalSpec) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two IntervalSpec values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *ScheduleSpec) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ScheduleSpec) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ScheduleSpec values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *SchedulePolicies) Marshal() ([]byte, error) {
 
 func (val *SchedulePolicies) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *SchedulePolicies) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two SchedulePolicies values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *ScheduleAction) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ScheduleAction) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ScheduleAction values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *ScheduleActionResult) Marshal() ([]byte, error) {
 
 func (val *ScheduleActionResult) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ScheduleActionResult) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ScheduleActionResult values are equivalent by recursively
@@ -264,6 +296,10 @@ func (val *ScheduleState) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ScheduleState) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ScheduleState values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -291,6 +327,10 @@ func (val *TriggerImmediatelyRequest) Marshal() ([]byte, error) {
 
 func (val *TriggerImmediatelyRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *TriggerImmediatelyRequest) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two TriggerImmediatelyRequest values are equivalent by recursively
@@ -322,6 +362,10 @@ func (val *BackfillRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *BackfillRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two BackfillRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -349,6 +393,10 @@ func (val *SchedulePatch) Marshal() ([]byte, error) {
 
 func (val *SchedulePatch) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *SchedulePatch) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two SchedulePatch values are equivalent by recursively
@@ -380,6 +428,10 @@ func (val *ScheduleInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ScheduleInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ScheduleInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -407,6 +459,10 @@ func (val *Schedule) Marshal() ([]byte, error) {
 
 func (val *Schedule) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Schedule) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Schedule values are equivalent by recursively
@@ -438,6 +494,10 @@ func (val *ScheduleListInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ScheduleListInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ScheduleListInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -465,6 +525,10 @@ func (val *ScheduleListEntry) Marshal() ([]byte, error) {
 
 func (val *ScheduleListEntry) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ScheduleListEntry) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ScheduleListEntry values are equivalent by recursively

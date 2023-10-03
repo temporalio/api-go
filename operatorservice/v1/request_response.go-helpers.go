@@ -32,6 +32,10 @@ func (val *AddSearchAttributesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *AddSearchAttributesRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two AddSearchAttributesRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *AddSearchAttributesResponse) Marshal() ([]byte, error) {
 
 func (val *AddSearchAttributesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *AddSearchAttributesResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two AddSearchAttributesResponse values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *RemoveSearchAttributesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RemoveSearchAttributesRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RemoveSearchAttributesRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *RemoveSearchAttributesResponse) Marshal() ([]byte, error) {
 
 func (val *RemoveSearchAttributesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RemoveSearchAttributesResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RemoveSearchAttributesResponse values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *ListSearchAttributesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListSearchAttributesRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListSearchAttributesRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *ListSearchAttributesResponse) Marshal() ([]byte, error) {
 
 func (val *ListSearchAttributesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListSearchAttributesResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListSearchAttributesResponse values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *DeleteNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DeleteNamespaceRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DeleteNamespaceRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *DeleteNamespaceResponse) Marshal() ([]byte, error) {
 
 func (val *DeleteNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DeleteNamespaceResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DeleteNamespaceResponse values are equivalent by recursively
@@ -264,6 +296,10 @@ func (val *AddOrUpdateRemoteClusterRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *AddOrUpdateRemoteClusterRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two AddOrUpdateRemoteClusterRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -291,6 +327,10 @@ func (val *AddOrUpdateRemoteClusterResponse) Marshal() ([]byte, error) {
 
 func (val *AddOrUpdateRemoteClusterResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *AddOrUpdateRemoteClusterResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two AddOrUpdateRemoteClusterResponse values are equivalent by recursively
@@ -322,6 +362,10 @@ func (val *RemoveRemoteClusterRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RemoveRemoteClusterRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RemoveRemoteClusterRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -349,6 +393,10 @@ func (val *RemoveRemoteClusterResponse) Marshal() ([]byte, error) {
 
 func (val *RemoveRemoteClusterResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RemoveRemoteClusterResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RemoveRemoteClusterResponse values are equivalent by recursively
@@ -380,6 +428,10 @@ func (val *ListClustersRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListClustersRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListClustersRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -409,6 +461,10 @@ func (val *ListClustersResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListClustersResponse) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListClustersResponse values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -436,6 +492,10 @@ func (val *ClusterMetadata) Marshal() ([]byte, error) {
 
 func (val *ClusterMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ClusterMetadata) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ClusterMetadata values are equivalent by recursively

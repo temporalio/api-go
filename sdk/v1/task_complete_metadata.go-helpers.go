@@ -32,6 +32,10 @@ func (val *WorkflowTaskCompletedMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowTaskCompletedMetadata) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowTaskCompletedMetadata values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for

@@ -32,6 +32,10 @@ func (val *NotFoundFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *NotFoundFailure) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two NotFoundFailure values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *WorkflowExecutionAlreadyStartedFailure) Marshal() ([]byte, error) {
 
 func (val *WorkflowExecutionAlreadyStartedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowExecutionAlreadyStartedFailure) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowExecutionAlreadyStartedFailure values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *NamespaceNotActiveFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *NamespaceNotActiveFailure) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two NamespaceNotActiveFailure values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *NamespaceInvalidStateFailure) Marshal() ([]byte, error) {
 
 func (val *NamespaceInvalidStateFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *NamespaceInvalidStateFailure) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two NamespaceInvalidStateFailure values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *NamespaceNotFoundFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *NamespaceNotFoundFailure) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two NamespaceNotFoundFailure values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *NamespaceAlreadyExistsFailure) Marshal() ([]byte, error) {
 
 func (val *NamespaceAlreadyExistsFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *NamespaceAlreadyExistsFailure) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two NamespaceAlreadyExistsFailure values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *ClientVersionNotSupportedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ClientVersionNotSupportedFailure) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ClientVersionNotSupportedFailure values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *ServerVersionNotSupportedFailure) Marshal() ([]byte, error) {
 
 func (val *ServerVersionNotSupportedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ServerVersionNotSupportedFailure) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ServerVersionNotSupportedFailure values are equivalent by recursively
@@ -264,6 +296,10 @@ func (val *CancellationAlreadyRequestedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *CancellationAlreadyRequestedFailure) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two CancellationAlreadyRequestedFailure values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -291,6 +327,10 @@ func (val *QueryFailedFailure) Marshal() ([]byte, error) {
 
 func (val *QueryFailedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *QueryFailedFailure) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two QueryFailedFailure values are equivalent by recursively
@@ -322,6 +362,10 @@ func (val *PermissionDeniedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *PermissionDeniedFailure) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two PermissionDeniedFailure values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -349,6 +393,10 @@ func (val *ResourceExhaustedFailure) Marshal() ([]byte, error) {
 
 func (val *ResourceExhaustedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ResourceExhaustedFailure) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ResourceExhaustedFailure values are equivalent by recursively
@@ -380,6 +428,10 @@ func (val *SystemWorkflowFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *SystemWorkflowFailure) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two SystemWorkflowFailure values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -409,6 +461,10 @@ func (val *WorkflowNotReadyFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowNotReadyFailure) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowNotReadyFailure values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -436,6 +492,10 @@ func (val *NewerBuildExistsFailure) Marshal() ([]byte, error) {
 
 func (val *NewerBuildExistsFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *NewerBuildExistsFailure) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two NewerBuildExistsFailure values are equivalent by recursively

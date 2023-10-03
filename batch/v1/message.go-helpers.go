@@ -32,6 +32,10 @@ func (val *BatchOperationInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *BatchOperationInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two BatchOperationInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *BatchOperationTermination) Marshal() ([]byte, error) {
 
 func (val *BatchOperationTermination) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *BatchOperationTermination) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two BatchOperationTermination values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *BatchOperationSignal) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *BatchOperationSignal) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two BatchOperationSignal values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *BatchOperationCancellation) Marshal() ([]byte, error) {
 
 func (val *BatchOperationCancellation) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *BatchOperationCancellation) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two BatchOperationCancellation values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *BatchOperationDeletion) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *BatchOperationDeletion) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two BatchOperationDeletion values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *BatchOperationReset) Marshal() ([]byte, error) {
 
 func (val *BatchOperationReset) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *BatchOperationReset) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two BatchOperationReset values are equivalent by recursively

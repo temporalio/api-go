@@ -32,6 +32,10 @@ func (val *TaskQueue) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *TaskQueue) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two TaskQueue values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *TaskQueueMetadata) Marshal() ([]byte, error) {
 
 func (val *TaskQueueMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *TaskQueueMetadata) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two TaskQueueMetadata values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *TaskQueueStatus) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *TaskQueueStatus) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two TaskQueueStatus values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *TaskIdBlock) Marshal() ([]byte, error) {
 
 func (val *TaskIdBlock) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *TaskIdBlock) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two TaskIdBlock values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *TaskQueuePartitionMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *TaskQueuePartitionMetadata) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two TaskQueuePartitionMetadata values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *PollerInfo) Marshal() ([]byte, error) {
 
 func (val *PollerInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *PollerInfo) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two PollerInfo values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *StickyExecutionAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *StickyExecutionAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two StickyExecutionAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *CompatibleVersionSet) Marshal() ([]byte, error) {
 
 func (val *CompatibleVersionSet) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *CompatibleVersionSet) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two CompatibleVersionSet values are equivalent by recursively
@@ -264,6 +296,10 @@ func (val *TaskQueueReachability) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *TaskQueueReachability) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two TaskQueueReachability values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -291,6 +327,10 @@ func (val *BuildIdReachability) Marshal() ([]byte, error) {
 
 func (val *BuildIdReachability) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *BuildIdReachability) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two BuildIdReachability values are equivalent by recursively

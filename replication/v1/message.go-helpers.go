@@ -32,6 +32,10 @@ func (val *ClusterReplicationConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ClusterReplicationConfig) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ClusterReplicationConfig values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -61,6 +65,10 @@ func (val *NamespaceReplicationConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *NamespaceReplicationConfig) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two NamespaceReplicationConfig values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -88,6 +96,10 @@ func (val *FailoverStatus) Marshal() ([]byte, error) {
 
 func (val *FailoverStatus) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *FailoverStatus) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two FailoverStatus values are equivalent by recursively

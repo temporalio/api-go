@@ -32,6 +32,10 @@ func (val *WaitPolicy) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WaitPolicy) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WaitPolicy values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *UpdateRef) Marshal() ([]byte, error) {
 
 func (val *UpdateRef) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *UpdateRef) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two UpdateRef values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *Outcome) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *Outcome) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two Outcome values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *Meta) Marshal() ([]byte, error) {
 
 func (val *Meta) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Meta) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Meta values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *Input) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *Input) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two Input values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *Request) Marshal() ([]byte, error) {
 
 func (val *Request) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Request) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Request values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *Rejection) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *Rejection) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two Rejection values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -235,6 +263,10 @@ func (val *Acceptance) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *Acceptance) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two Acceptance values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -262,6 +294,10 @@ func (val *Response) Marshal() ([]byte, error) {
 
 func (val *Response) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Response) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Response values are equivalent by recursively

@@ -32,6 +32,10 @@ func (val *WorkflowQuery) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowQuery) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowQuery values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -61,6 +65,10 @@ func (val *WorkflowQueryResult) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowQueryResult) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowQueryResult values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -88,6 +96,10 @@ func (val *QueryRejected) Marshal() ([]byte, error) {
 
 func (val *QueryRejected) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *QueryRejected) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two QueryRejected values are equivalent by recursively

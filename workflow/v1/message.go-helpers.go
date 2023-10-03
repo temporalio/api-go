@@ -32,6 +32,10 @@ func (val *WorkflowExecutionInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecutionInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecutionInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *WorkflowExecutionConfig) Marshal() ([]byte, error) {
 
 func (val *WorkflowExecutionConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowExecutionConfig) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowExecutionConfig values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *PendingActivityInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *PendingActivityInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two PendingActivityInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *PendingChildExecutionInfo) Marshal() ([]byte, error) {
 
 func (val *PendingChildExecutionInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *PendingChildExecutionInfo) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two PendingChildExecutionInfo values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *PendingWorkflowTaskInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *PendingWorkflowTaskInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two PendingWorkflowTaskInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *ResetPoints) Marshal() ([]byte, error) {
 
 func (val *ResetPoints) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ResetPoints) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ResetPoints values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *ResetPointInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ResetPointInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ResetPointInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *NewWorkflowExecutionInfo) Marshal() ([]byte, error) {
 
 func (val *NewWorkflowExecutionInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *NewWorkflowExecutionInfo) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two NewWorkflowExecutionInfo values are equivalent by recursively

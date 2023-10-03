@@ -32,6 +32,10 @@ func (val *RegisterNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RegisterNamespaceRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RegisterNamespaceRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *RegisterNamespaceResponse) Marshal() ([]byte, error) {
 
 func (val *RegisterNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RegisterNamespaceResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RegisterNamespaceResponse values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *ListNamespacesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListNamespacesRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListNamespacesRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *ListNamespacesResponse) Marshal() ([]byte, error) {
 
 func (val *ListNamespacesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListNamespacesResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListNamespacesResponse values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *DescribeNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DescribeNamespaceRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DescribeNamespaceRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *DescribeNamespaceResponse) Marshal() ([]byte, error) {
 
 func (val *DescribeNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DescribeNamespaceResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DescribeNamespaceResponse values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *UpdateNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *UpdateNamespaceRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two UpdateNamespaceRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *UpdateNamespaceResponse) Marshal() ([]byte, error) {
 
 func (val *UpdateNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *UpdateNamespaceResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two UpdateNamespaceResponse values are equivalent by recursively
@@ -264,6 +296,10 @@ func (val *DeprecateNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DeprecateNamespaceRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DeprecateNamespaceRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -291,6 +327,10 @@ func (val *DeprecateNamespaceResponse) Marshal() ([]byte, error) {
 
 func (val *DeprecateNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DeprecateNamespaceResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DeprecateNamespaceResponse values are equivalent by recursively
@@ -322,6 +362,10 @@ func (val *StartWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *StartWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two StartWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -349,6 +393,10 @@ func (val *StartWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *StartWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *StartWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two StartWorkflowExecutionResponse values are equivalent by recursively
@@ -380,6 +428,10 @@ func (val *GetWorkflowExecutionHistoryRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *GetWorkflowExecutionHistoryRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two GetWorkflowExecutionHistoryRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -407,6 +459,10 @@ func (val *GetWorkflowExecutionHistoryResponse) Marshal() ([]byte, error) {
 
 func (val *GetWorkflowExecutionHistoryResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *GetWorkflowExecutionHistoryResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two GetWorkflowExecutionHistoryResponse values are equivalent by recursively
@@ -438,6 +494,10 @@ func (val *GetWorkflowExecutionHistoryReverseRequest) Unmarshal(buf []byte) erro
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *GetWorkflowExecutionHistoryReverseRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two GetWorkflowExecutionHistoryReverseRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -465,6 +525,10 @@ func (val *GetWorkflowExecutionHistoryReverseResponse) Marshal() ([]byte, error)
 
 func (val *GetWorkflowExecutionHistoryReverseResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *GetWorkflowExecutionHistoryReverseResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two GetWorkflowExecutionHistoryReverseResponse values are equivalent by recursively
@@ -496,6 +560,10 @@ func (val *PollWorkflowTaskQueueRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *PollWorkflowTaskQueueRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two PollWorkflowTaskQueueRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -523,6 +591,10 @@ func (val *PollWorkflowTaskQueueResponse) Marshal() ([]byte, error) {
 
 func (val *PollWorkflowTaskQueueResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *PollWorkflowTaskQueueResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two PollWorkflowTaskQueueResponse values are equivalent by recursively
@@ -554,6 +626,10 @@ func (val *RespondWorkflowTaskCompletedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondWorkflowTaskCompletedRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondWorkflowTaskCompletedRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -581,6 +657,10 @@ func (val *RespondWorkflowTaskCompletedResponse) Marshal() ([]byte, error) {
 
 func (val *RespondWorkflowTaskCompletedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondWorkflowTaskCompletedResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondWorkflowTaskCompletedResponse values are equivalent by recursively
@@ -612,6 +692,10 @@ func (val *RespondWorkflowTaskFailedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondWorkflowTaskFailedRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondWorkflowTaskFailedRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -639,6 +723,10 @@ func (val *RespondWorkflowTaskFailedResponse) Marshal() ([]byte, error) {
 
 func (val *RespondWorkflowTaskFailedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondWorkflowTaskFailedResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondWorkflowTaskFailedResponse values are equivalent by recursively
@@ -670,6 +758,10 @@ func (val *PollActivityTaskQueueRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *PollActivityTaskQueueRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two PollActivityTaskQueueRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -697,6 +789,10 @@ func (val *PollActivityTaskQueueResponse) Marshal() ([]byte, error) {
 
 func (val *PollActivityTaskQueueResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *PollActivityTaskQueueResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two PollActivityTaskQueueResponse values are equivalent by recursively
@@ -728,6 +824,10 @@ func (val *RecordActivityTaskHeartbeatRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RecordActivityTaskHeartbeatRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RecordActivityTaskHeartbeatRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -755,6 +855,10 @@ func (val *RecordActivityTaskHeartbeatResponse) Marshal() ([]byte, error) {
 
 func (val *RecordActivityTaskHeartbeatResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RecordActivityTaskHeartbeatResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RecordActivityTaskHeartbeatResponse values are equivalent by recursively
@@ -786,6 +890,10 @@ func (val *RecordActivityTaskHeartbeatByIdRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RecordActivityTaskHeartbeatByIdRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RecordActivityTaskHeartbeatByIdRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -813,6 +921,10 @@ func (val *RecordActivityTaskHeartbeatByIdResponse) Marshal() ([]byte, error) {
 
 func (val *RecordActivityTaskHeartbeatByIdResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RecordActivityTaskHeartbeatByIdResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RecordActivityTaskHeartbeatByIdResponse values are equivalent by recursively
@@ -844,6 +956,10 @@ func (val *RespondActivityTaskCompletedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondActivityTaskCompletedRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondActivityTaskCompletedRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -871,6 +987,10 @@ func (val *RespondActivityTaskCompletedResponse) Marshal() ([]byte, error) {
 
 func (val *RespondActivityTaskCompletedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondActivityTaskCompletedResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondActivityTaskCompletedResponse values are equivalent by recursively
@@ -902,6 +1022,10 @@ func (val *RespondActivityTaskCompletedByIdRequest) Unmarshal(buf []byte) error 
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondActivityTaskCompletedByIdRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondActivityTaskCompletedByIdRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -929,6 +1053,10 @@ func (val *RespondActivityTaskCompletedByIdResponse) Marshal() ([]byte, error) {
 
 func (val *RespondActivityTaskCompletedByIdResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondActivityTaskCompletedByIdResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondActivityTaskCompletedByIdResponse values are equivalent by recursively
@@ -960,6 +1088,10 @@ func (val *RespondActivityTaskFailedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondActivityTaskFailedRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondActivityTaskFailedRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -987,6 +1119,10 @@ func (val *RespondActivityTaskFailedResponse) Marshal() ([]byte, error) {
 
 func (val *RespondActivityTaskFailedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondActivityTaskFailedResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondActivityTaskFailedResponse values are equivalent by recursively
@@ -1018,6 +1154,10 @@ func (val *RespondActivityTaskFailedByIdRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondActivityTaskFailedByIdRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondActivityTaskFailedByIdRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1045,6 +1185,10 @@ func (val *RespondActivityTaskFailedByIdResponse) Marshal() ([]byte, error) {
 
 func (val *RespondActivityTaskFailedByIdResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondActivityTaskFailedByIdResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondActivityTaskFailedByIdResponse values are equivalent by recursively
@@ -1076,6 +1220,10 @@ func (val *RespondActivityTaskCanceledRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondActivityTaskCanceledRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondActivityTaskCanceledRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1103,6 +1251,10 @@ func (val *RespondActivityTaskCanceledResponse) Marshal() ([]byte, error) {
 
 func (val *RespondActivityTaskCanceledResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondActivityTaskCanceledResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondActivityTaskCanceledResponse values are equivalent by recursively
@@ -1134,6 +1286,10 @@ func (val *RespondActivityTaskCanceledByIdRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondActivityTaskCanceledByIdRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondActivityTaskCanceledByIdRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1161,6 +1317,10 @@ func (val *RespondActivityTaskCanceledByIdResponse) Marshal() ([]byte, error) {
 
 func (val *RespondActivityTaskCanceledByIdResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondActivityTaskCanceledByIdResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondActivityTaskCanceledByIdResponse values are equivalent by recursively
@@ -1192,6 +1352,10 @@ func (val *RequestCancelWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RequestCancelWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RequestCancelWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1219,6 +1383,10 @@ func (val *RequestCancelWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *RequestCancelWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RequestCancelWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RequestCancelWorkflowExecutionResponse values are equivalent by recursively
@@ -1250,6 +1418,10 @@ func (val *SignalWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *SignalWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two SignalWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1277,6 +1449,10 @@ func (val *SignalWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *SignalWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *SignalWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two SignalWorkflowExecutionResponse values are equivalent by recursively
@@ -1308,6 +1484,10 @@ func (val *SignalWithStartWorkflowExecutionRequest) Unmarshal(buf []byte) error 
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *SignalWithStartWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two SignalWithStartWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1335,6 +1515,10 @@ func (val *SignalWithStartWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *SignalWithStartWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *SignalWithStartWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two SignalWithStartWorkflowExecutionResponse values are equivalent by recursively
@@ -1366,6 +1550,10 @@ func (val *ResetWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ResetWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ResetWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1393,6 +1581,10 @@ func (val *ResetWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *ResetWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ResetWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ResetWorkflowExecutionResponse values are equivalent by recursively
@@ -1424,6 +1616,10 @@ func (val *TerminateWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *TerminateWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two TerminateWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1451,6 +1647,10 @@ func (val *TerminateWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *TerminateWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *TerminateWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two TerminateWorkflowExecutionResponse values are equivalent by recursively
@@ -1482,6 +1682,10 @@ func (val *DeleteWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DeleteWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DeleteWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1509,6 +1713,10 @@ func (val *DeleteWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *DeleteWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DeleteWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DeleteWorkflowExecutionResponse values are equivalent by recursively
@@ -1540,6 +1748,10 @@ func (val *ListOpenWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListOpenWorkflowExecutionsRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListOpenWorkflowExecutionsRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1567,6 +1779,10 @@ func (val *ListOpenWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 
 func (val *ListOpenWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListOpenWorkflowExecutionsResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListOpenWorkflowExecutionsResponse values are equivalent by recursively
@@ -1598,6 +1814,10 @@ func (val *ListClosedWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListClosedWorkflowExecutionsRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListClosedWorkflowExecutionsRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1625,6 +1845,10 @@ func (val *ListClosedWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 
 func (val *ListClosedWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListClosedWorkflowExecutionsResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListClosedWorkflowExecutionsResponse values are equivalent by recursively
@@ -1656,6 +1880,10 @@ func (val *ListWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListWorkflowExecutionsRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListWorkflowExecutionsRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1683,6 +1911,10 @@ func (val *ListWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 
 func (val *ListWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListWorkflowExecutionsResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListWorkflowExecutionsResponse values are equivalent by recursively
@@ -1714,6 +1946,10 @@ func (val *ListArchivedWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListArchivedWorkflowExecutionsRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListArchivedWorkflowExecutionsRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1741,6 +1977,10 @@ func (val *ListArchivedWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 
 func (val *ListArchivedWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListArchivedWorkflowExecutionsResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListArchivedWorkflowExecutionsResponse values are equivalent by recursively
@@ -1772,6 +2012,10 @@ func (val *ScanWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ScanWorkflowExecutionsRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ScanWorkflowExecutionsRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1799,6 +2043,10 @@ func (val *ScanWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 
 func (val *ScanWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ScanWorkflowExecutionsResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ScanWorkflowExecutionsResponse values are equivalent by recursively
@@ -1830,6 +2078,10 @@ func (val *CountWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *CountWorkflowExecutionsRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two CountWorkflowExecutionsRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1857,6 +2109,10 @@ func (val *CountWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 
 func (val *CountWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *CountWorkflowExecutionsResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two CountWorkflowExecutionsResponse values are equivalent by recursively
@@ -1888,6 +2144,10 @@ func (val *GetSearchAttributesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *GetSearchAttributesRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two GetSearchAttributesRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1915,6 +2175,10 @@ func (val *GetSearchAttributesResponse) Marshal() ([]byte, error) {
 
 func (val *GetSearchAttributesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *GetSearchAttributesResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two GetSearchAttributesResponse values are equivalent by recursively
@@ -1946,6 +2210,10 @@ func (val *RespondQueryTaskCompletedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RespondQueryTaskCompletedRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RespondQueryTaskCompletedRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1973,6 +2241,10 @@ func (val *RespondQueryTaskCompletedResponse) Marshal() ([]byte, error) {
 
 func (val *RespondQueryTaskCompletedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RespondQueryTaskCompletedResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RespondQueryTaskCompletedResponse values are equivalent by recursively
@@ -2004,6 +2276,10 @@ func (val *ResetStickyTaskQueueRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ResetStickyTaskQueueRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ResetStickyTaskQueueRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2031,6 +2307,10 @@ func (val *ResetStickyTaskQueueResponse) Marshal() ([]byte, error) {
 
 func (val *ResetStickyTaskQueueResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ResetStickyTaskQueueResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ResetStickyTaskQueueResponse values are equivalent by recursively
@@ -2062,6 +2342,10 @@ func (val *QueryWorkflowRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *QueryWorkflowRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two QueryWorkflowRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2089,6 +2373,10 @@ func (val *QueryWorkflowResponse) Marshal() ([]byte, error) {
 
 func (val *QueryWorkflowResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *QueryWorkflowResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two QueryWorkflowResponse values are equivalent by recursively
@@ -2120,6 +2408,10 @@ func (val *DescribeWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DescribeWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DescribeWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2147,6 +2439,10 @@ func (val *DescribeWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *DescribeWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DescribeWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DescribeWorkflowExecutionResponse values are equivalent by recursively
@@ -2178,6 +2474,10 @@ func (val *DescribeTaskQueueRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DescribeTaskQueueRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DescribeTaskQueueRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2205,6 +2505,10 @@ func (val *DescribeTaskQueueResponse) Marshal() ([]byte, error) {
 
 func (val *DescribeTaskQueueResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DescribeTaskQueueResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DescribeTaskQueueResponse values are equivalent by recursively
@@ -2236,6 +2540,10 @@ func (val *GetClusterInfoRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *GetClusterInfoRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two GetClusterInfoRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2263,6 +2571,10 @@ func (val *GetClusterInfoResponse) Marshal() ([]byte, error) {
 
 func (val *GetClusterInfoResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *GetClusterInfoResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two GetClusterInfoResponse values are equivalent by recursively
@@ -2294,6 +2606,10 @@ func (val *GetSystemInfoRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *GetSystemInfoRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two GetSystemInfoRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2321,6 +2637,10 @@ func (val *GetSystemInfoResponse) Marshal() ([]byte, error) {
 
 func (val *GetSystemInfoResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *GetSystemInfoResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two GetSystemInfoResponse values are equivalent by recursively
@@ -2352,6 +2672,10 @@ func (val *ListTaskQueuePartitionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListTaskQueuePartitionsRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListTaskQueuePartitionsRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2379,6 +2703,10 @@ func (val *ListTaskQueuePartitionsResponse) Marshal() ([]byte, error) {
 
 func (val *ListTaskQueuePartitionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListTaskQueuePartitionsResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListTaskQueuePartitionsResponse values are equivalent by recursively
@@ -2410,6 +2738,10 @@ func (val *CreateScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *CreateScheduleRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two CreateScheduleRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2437,6 +2769,10 @@ func (val *CreateScheduleResponse) Marshal() ([]byte, error) {
 
 func (val *CreateScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *CreateScheduleResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two CreateScheduleResponse values are equivalent by recursively
@@ -2468,6 +2804,10 @@ func (val *DescribeScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DescribeScheduleRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DescribeScheduleRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2495,6 +2835,10 @@ func (val *DescribeScheduleResponse) Marshal() ([]byte, error) {
 
 func (val *DescribeScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DescribeScheduleResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DescribeScheduleResponse values are equivalent by recursively
@@ -2526,6 +2870,10 @@ func (val *UpdateScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *UpdateScheduleRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two UpdateScheduleRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2553,6 +2901,10 @@ func (val *UpdateScheduleResponse) Marshal() ([]byte, error) {
 
 func (val *UpdateScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *UpdateScheduleResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two UpdateScheduleResponse values are equivalent by recursively
@@ -2584,6 +2936,10 @@ func (val *PatchScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *PatchScheduleRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two PatchScheduleRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2611,6 +2967,10 @@ func (val *PatchScheduleResponse) Marshal() ([]byte, error) {
 
 func (val *PatchScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *PatchScheduleResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two PatchScheduleResponse values are equivalent by recursively
@@ -2642,6 +3002,10 @@ func (val *ListScheduleMatchingTimesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListScheduleMatchingTimesRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListScheduleMatchingTimesRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2669,6 +3033,10 @@ func (val *ListScheduleMatchingTimesResponse) Marshal() ([]byte, error) {
 
 func (val *ListScheduleMatchingTimesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListScheduleMatchingTimesResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListScheduleMatchingTimesResponse values are equivalent by recursively
@@ -2700,6 +3068,10 @@ func (val *DeleteScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DeleteScheduleRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DeleteScheduleRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2727,6 +3099,10 @@ func (val *DeleteScheduleResponse) Marshal() ([]byte, error) {
 
 func (val *DeleteScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DeleteScheduleResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DeleteScheduleResponse values are equivalent by recursively
@@ -2758,6 +3134,10 @@ func (val *ListSchedulesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListSchedulesRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListSchedulesRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2785,6 +3165,10 @@ func (val *ListSchedulesResponse) Marshal() ([]byte, error) {
 
 func (val *ListSchedulesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListSchedulesResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListSchedulesResponse values are equivalent by recursively
@@ -2816,6 +3200,10 @@ func (val *UpdateWorkerBuildIdCompatibilityRequest) Unmarshal(buf []byte) error 
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *UpdateWorkerBuildIdCompatibilityRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two UpdateWorkerBuildIdCompatibilityRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2843,6 +3231,10 @@ func (val *UpdateWorkerBuildIdCompatibilityResponse) Marshal() ([]byte, error) {
 
 func (val *UpdateWorkerBuildIdCompatibilityResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *UpdateWorkerBuildIdCompatibilityResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two UpdateWorkerBuildIdCompatibilityResponse values are equivalent by recursively
@@ -2874,6 +3266,10 @@ func (val *GetWorkerBuildIdCompatibilityRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *GetWorkerBuildIdCompatibilityRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two GetWorkerBuildIdCompatibilityRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2901,6 +3297,10 @@ func (val *GetWorkerBuildIdCompatibilityResponse) Marshal() ([]byte, error) {
 
 func (val *GetWorkerBuildIdCompatibilityResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *GetWorkerBuildIdCompatibilityResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two GetWorkerBuildIdCompatibilityResponse values are equivalent by recursively
@@ -2932,6 +3332,10 @@ func (val *GetWorkerTaskReachabilityRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *GetWorkerTaskReachabilityRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two GetWorkerTaskReachabilityRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -2959,6 +3363,10 @@ func (val *GetWorkerTaskReachabilityResponse) Marshal() ([]byte, error) {
 
 func (val *GetWorkerTaskReachabilityResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *GetWorkerTaskReachabilityResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two GetWorkerTaskReachabilityResponse values are equivalent by recursively
@@ -2990,6 +3398,10 @@ func (val *UpdateWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *UpdateWorkflowExecutionRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two UpdateWorkflowExecutionRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -3017,6 +3429,10 @@ func (val *UpdateWorkflowExecutionResponse) Marshal() ([]byte, error) {
 
 func (val *UpdateWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *UpdateWorkflowExecutionResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two UpdateWorkflowExecutionResponse values are equivalent by recursively
@@ -3048,6 +3464,10 @@ func (val *StartBatchOperationRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *StartBatchOperationRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two StartBatchOperationRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -3075,6 +3495,10 @@ func (val *StartBatchOperationResponse) Marshal() ([]byte, error) {
 
 func (val *StartBatchOperationResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *StartBatchOperationResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two StartBatchOperationResponse values are equivalent by recursively
@@ -3106,6 +3530,10 @@ func (val *StopBatchOperationRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *StopBatchOperationRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two StopBatchOperationRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -3133,6 +3561,10 @@ func (val *StopBatchOperationResponse) Marshal() ([]byte, error) {
 
 func (val *StopBatchOperationResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *StopBatchOperationResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two StopBatchOperationResponse values are equivalent by recursively
@@ -3164,6 +3596,10 @@ func (val *DescribeBatchOperationRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DescribeBatchOperationRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DescribeBatchOperationRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -3191,6 +3627,10 @@ func (val *DescribeBatchOperationResponse) Marshal() ([]byte, error) {
 
 func (val *DescribeBatchOperationResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *DescribeBatchOperationResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two DescribeBatchOperationResponse values are equivalent by recursively
@@ -3222,6 +3662,10 @@ func (val *ListBatchOperationsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ListBatchOperationsRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ListBatchOperationsRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -3249,6 +3693,10 @@ func (val *ListBatchOperationsResponse) Marshal() ([]byte, error) {
 
 func (val *ListBatchOperationsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ListBatchOperationsResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ListBatchOperationsResponse values are equivalent by recursively
@@ -3280,6 +3728,10 @@ func (val *PollWorkflowExecutionUpdateRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *PollWorkflowExecutionUpdateRequest) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two PollWorkflowExecutionUpdateRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -3307,6 +3759,10 @@ func (val *PollWorkflowExecutionUpdateResponse) Marshal() ([]byte, error) {
 
 func (val *PollWorkflowExecutionUpdateResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *PollWorkflowExecutionUpdateResponse) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two PollWorkflowExecutionUpdateResponse values are equivalent by recursively

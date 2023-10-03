@@ -32,6 +32,10 @@ func (val *DataBlob) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *DataBlob) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two DataBlob values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *Payloads) Marshal() ([]byte, error) {
 
 func (val *Payloads) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Payloads) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Payloads values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *Payload) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *Payload) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two Payload values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *SearchAttributes) Marshal() ([]byte, error) {
 
 func (val *SearchAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *SearchAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two SearchAttributes values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *Memo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *Memo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two Memo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *Header) Marshal() ([]byte, error) {
 
 func (val *Header) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Header) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Header values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *WorkflowExecution) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecution) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecution values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *WorkflowType) Marshal() ([]byte, error) {
 
 func (val *WorkflowType) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowType) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowType values are equivalent by recursively
@@ -264,6 +296,10 @@ func (val *ActivityType) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ActivityType) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ActivityType values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -291,6 +327,10 @@ func (val *RetryPolicy) Marshal() ([]byte, error) {
 
 func (val *RetryPolicy) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RetryPolicy) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RetryPolicy values are equivalent by recursively
@@ -322,6 +362,10 @@ func (val *MeteringMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *MeteringMetadata) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two MeteringMetadata values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -351,6 +395,10 @@ func (val *WorkerVersionStamp) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkerVersionStamp) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkerVersionStamp values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -378,6 +426,10 @@ func (val *WorkerVersionCapabilities) Marshal() ([]byte, error) {
 
 func (val *WorkerVersionCapabilities) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkerVersionCapabilities) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkerVersionCapabilities values are equivalent by recursively

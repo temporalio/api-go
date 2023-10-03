@@ -32,6 +32,10 @@ func (val *ApplicationFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ApplicationFailureInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ApplicationFailureInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *TimeoutFailureInfo) Marshal() ([]byte, error) {
 
 func (val *TimeoutFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *TimeoutFailureInfo) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two TimeoutFailureInfo values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *CanceledFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *CanceledFailureInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two CanceledFailureInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *TerminatedFailureInfo) Marshal() ([]byte, error) {
 
 func (val *TerminatedFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *TerminatedFailureInfo) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two TerminatedFailureInfo values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *ServerFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ServerFailureInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ServerFailureInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *ResetWorkflowFailureInfo) Marshal() ([]byte, error) {
 
 func (val *ResetWorkflowFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ResetWorkflowFailureInfo) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ResetWorkflowFailureInfo values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *ActivityFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ActivityFailureInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ActivityFailureInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -235,6 +263,10 @@ func (val *ChildWorkflowExecutionFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ChildWorkflowExecutionFailureInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ChildWorkflowExecutionFailureInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -262,6 +294,10 @@ func (val *Failure) Marshal() ([]byte, error) {
 
 func (val *Failure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Failure) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Failure values are equivalent by recursively

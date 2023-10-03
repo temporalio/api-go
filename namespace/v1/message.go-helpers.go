@@ -32,6 +32,10 @@ func (val *NamespaceInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *NamespaceInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two NamespaceInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *NamespaceConfig) Marshal() ([]byte, error) {
 
 func (val *NamespaceConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *NamespaceConfig) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two NamespaceConfig values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *BadBinaries) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *BadBinaries) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two BadBinaries values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *BadBinaryInfo) Marshal() ([]byte, error) {
 
 func (val *BadBinaryInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *BadBinaryInfo) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two BadBinaryInfo values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *UpdateNamespaceInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *UpdateNamespaceInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two UpdateNamespaceInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *NamespaceFilter) Marshal() ([]byte, error) {
 
 func (val *NamespaceFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *NamespaceFilter) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two NamespaceFilter values are equivalent by recursively

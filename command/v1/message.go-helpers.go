@@ -32,6 +32,10 @@ func (val *ScheduleActivityTaskCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ScheduleActivityTaskCommandAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ScheduleActivityTaskCommandAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *RequestCancelActivityTaskCommandAttributes) Marshal() ([]byte, error)
 
 func (val *RequestCancelActivityTaskCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RequestCancelActivityTaskCommandAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RequestCancelActivityTaskCommandAttributes values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *StartTimerCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *StartTimerCommandAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two StartTimerCommandAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *CompleteWorkflowExecutionCommandAttributes) Marshal() ([]byte, error)
 
 func (val *CompleteWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *CompleteWorkflowExecutionCommandAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two CompleteWorkflowExecutionCommandAttributes values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *FailWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *FailWorkflowExecutionCommandAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two FailWorkflowExecutionCommandAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *CancelTimerCommandAttributes) Marshal() ([]byte, error) {
 
 func (val *CancelTimerCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *CancelTimerCommandAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two CancelTimerCommandAttributes values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *CancelWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *CancelWorkflowExecutionCommandAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two CancelWorkflowExecutionCommandAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *RequestCancelExternalWorkflowExecutionCommandAttributes) Marshal() ([
 
 func (val *RequestCancelExternalWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RequestCancelExternalWorkflowExecutionCommandAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RequestCancelExternalWorkflowExecutionCommandAttributes values are equivalent by recursively
@@ -264,6 +296,10 @@ func (val *SignalExternalWorkflowExecutionCommandAttributes) Unmarshal(buf []byt
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *SignalExternalWorkflowExecutionCommandAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two SignalExternalWorkflowExecutionCommandAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -291,6 +327,10 @@ func (val *UpsertWorkflowSearchAttributesCommandAttributes) Marshal() ([]byte, e
 
 func (val *UpsertWorkflowSearchAttributesCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *UpsertWorkflowSearchAttributesCommandAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two UpsertWorkflowSearchAttributesCommandAttributes values are equivalent by recursively
@@ -322,6 +362,10 @@ func (val *ModifyWorkflowPropertiesCommandAttributes) Unmarshal(buf []byte) erro
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ModifyWorkflowPropertiesCommandAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ModifyWorkflowPropertiesCommandAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -349,6 +393,10 @@ func (val *RecordMarkerCommandAttributes) Marshal() ([]byte, error) {
 
 func (val *RecordMarkerCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RecordMarkerCommandAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RecordMarkerCommandAttributes values are equivalent by recursively
@@ -380,6 +428,10 @@ func (val *ContinueAsNewWorkflowExecutionCommandAttributes) Unmarshal(buf []byte
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ContinueAsNewWorkflowExecutionCommandAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ContinueAsNewWorkflowExecutionCommandAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -407,6 +459,10 @@ func (val *StartChildWorkflowExecutionCommandAttributes) Marshal() ([]byte, erro
 
 func (val *StartChildWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *StartChildWorkflowExecutionCommandAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two StartChildWorkflowExecutionCommandAttributes values are equivalent by recursively
@@ -438,6 +494,10 @@ func (val *ProtocolMessageCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ProtocolMessageCommandAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ProtocolMessageCommandAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -465,6 +525,10 @@ func (val *Command) Marshal() ([]byte, error) {
 
 func (val *Command) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *Command) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two Command values are equivalent by recursively

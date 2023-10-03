@@ -32,6 +32,10 @@ func (val *ReleaseInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ReleaseInfo) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ReleaseInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -61,6 +65,10 @@ func (val *Alert) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *Alert) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two Alert values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -88,6 +96,10 @@ func (val *VersionInfo) Marshal() ([]byte, error) {
 
 func (val *VersionInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *VersionInfo) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two VersionInfo values are equivalent by recursively

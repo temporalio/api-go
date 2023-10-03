@@ -32,6 +32,10 @@ func (val *WorkflowExecutionStartedEventAttributes) Unmarshal(buf []byte) error 
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecutionStartedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecutionStartedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *WorkflowExecutionCompletedEventAttributes) Marshal() ([]byte, error) 
 
 func (val *WorkflowExecutionCompletedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowExecutionCompletedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowExecutionCompletedEventAttributes values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *WorkflowExecutionFailedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecutionFailedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecutionFailedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *WorkflowExecutionTimedOutEventAttributes) Marshal() ([]byte, error) {
 
 func (val *WorkflowExecutionTimedOutEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowExecutionTimedOutEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowExecutionTimedOutEventAttributes values are equivalent by recursively
@@ -148,6 +164,10 @@ func (val *WorkflowExecutionContinuedAsNewEventAttributes) Unmarshal(buf []byte)
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecutionContinuedAsNewEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecutionContinuedAsNewEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -175,6 +195,10 @@ func (val *WorkflowTaskScheduledEventAttributes) Marshal() ([]byte, error) {
 
 func (val *WorkflowTaskScheduledEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowTaskScheduledEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowTaskScheduledEventAttributes values are equivalent by recursively
@@ -206,6 +230,10 @@ func (val *WorkflowTaskStartedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowTaskStartedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowTaskStartedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -233,6 +261,10 @@ func (val *WorkflowTaskCompletedEventAttributes) Marshal() ([]byte, error) {
 
 func (val *WorkflowTaskCompletedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowTaskCompletedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowTaskCompletedEventAttributes values are equivalent by recursively
@@ -264,6 +296,10 @@ func (val *WorkflowTaskTimedOutEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowTaskTimedOutEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowTaskTimedOutEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -291,6 +327,10 @@ func (val *WorkflowTaskFailedEventAttributes) Marshal() ([]byte, error) {
 
 func (val *WorkflowTaskFailedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowTaskFailedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowTaskFailedEventAttributes values are equivalent by recursively
@@ -322,6 +362,10 @@ func (val *ActivityTaskScheduledEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ActivityTaskScheduledEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ActivityTaskScheduledEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -349,6 +393,10 @@ func (val *ActivityTaskStartedEventAttributes) Marshal() ([]byte, error) {
 
 func (val *ActivityTaskStartedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ActivityTaskStartedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ActivityTaskStartedEventAttributes values are equivalent by recursively
@@ -380,6 +428,10 @@ func (val *ActivityTaskCompletedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ActivityTaskCompletedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ActivityTaskCompletedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -407,6 +459,10 @@ func (val *ActivityTaskFailedEventAttributes) Marshal() ([]byte, error) {
 
 func (val *ActivityTaskFailedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ActivityTaskFailedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ActivityTaskFailedEventAttributes values are equivalent by recursively
@@ -438,6 +494,10 @@ func (val *ActivityTaskTimedOutEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ActivityTaskTimedOutEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ActivityTaskTimedOutEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -465,6 +525,10 @@ func (val *ActivityTaskCancelRequestedEventAttributes) Marshal() ([]byte, error)
 
 func (val *ActivityTaskCancelRequestedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ActivityTaskCancelRequestedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ActivityTaskCancelRequestedEventAttributes values are equivalent by recursively
@@ -496,6 +560,10 @@ func (val *ActivityTaskCanceledEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ActivityTaskCanceledEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ActivityTaskCanceledEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -523,6 +591,10 @@ func (val *TimerStartedEventAttributes) Marshal() ([]byte, error) {
 
 func (val *TimerStartedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *TimerStartedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two TimerStartedEventAttributes values are equivalent by recursively
@@ -554,6 +626,10 @@ func (val *TimerFiredEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *TimerFiredEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two TimerFiredEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -581,6 +657,10 @@ func (val *TimerCanceledEventAttributes) Marshal() ([]byte, error) {
 
 func (val *TimerCanceledEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *TimerCanceledEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two TimerCanceledEventAttributes values are equivalent by recursively
@@ -612,6 +692,10 @@ func (val *WorkflowExecutionCancelRequestedEventAttributes) Unmarshal(buf []byte
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecutionCancelRequestedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecutionCancelRequestedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -639,6 +723,10 @@ func (val *WorkflowExecutionCanceledEventAttributes) Marshal() ([]byte, error) {
 
 func (val *WorkflowExecutionCanceledEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowExecutionCanceledEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowExecutionCanceledEventAttributes values are equivalent by recursively
@@ -670,6 +758,10 @@ func (val *MarkerRecordedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *MarkerRecordedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two MarkerRecordedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -697,6 +789,10 @@ func (val *WorkflowExecutionSignaledEventAttributes) Marshal() ([]byte, error) {
 
 func (val *WorkflowExecutionSignaledEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowExecutionSignaledEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowExecutionSignaledEventAttributes values are equivalent by recursively
@@ -728,6 +824,10 @@ func (val *WorkflowExecutionTerminatedEventAttributes) Unmarshal(buf []byte) err
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecutionTerminatedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecutionTerminatedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -755,6 +855,10 @@ func (val *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) Marsh
 
 func (val *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two RequestCancelExternalWorkflowExecutionInitiatedEventAttributes values are equivalent by recursively
@@ -786,6 +890,10 @@ func (val *RequestCancelExternalWorkflowExecutionFailedEventAttributes) Unmarsha
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *RequestCancelExternalWorkflowExecutionFailedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two RequestCancelExternalWorkflowExecutionFailedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -813,6 +921,10 @@ func (val *ExternalWorkflowExecutionCancelRequestedEventAttributes) Marshal() ([
 
 func (val *ExternalWorkflowExecutionCancelRequestedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ExternalWorkflowExecutionCancelRequestedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ExternalWorkflowExecutionCancelRequestedEventAttributes values are equivalent by recursively
@@ -844,6 +956,10 @@ func (val *SignalExternalWorkflowExecutionInitiatedEventAttributes) Unmarshal(bu
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *SignalExternalWorkflowExecutionInitiatedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two SignalExternalWorkflowExecutionInitiatedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -871,6 +987,10 @@ func (val *SignalExternalWorkflowExecutionFailedEventAttributes) Marshal() ([]by
 
 func (val *SignalExternalWorkflowExecutionFailedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *SignalExternalWorkflowExecutionFailedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two SignalExternalWorkflowExecutionFailedEventAttributes values are equivalent by recursively
@@ -902,6 +1022,10 @@ func (val *ExternalWorkflowExecutionSignaledEventAttributes) Unmarshal(buf []byt
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ExternalWorkflowExecutionSignaledEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ExternalWorkflowExecutionSignaledEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -929,6 +1053,10 @@ func (val *UpsertWorkflowSearchAttributesEventAttributes) Marshal() ([]byte, err
 
 func (val *UpsertWorkflowSearchAttributesEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *UpsertWorkflowSearchAttributesEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two UpsertWorkflowSearchAttributesEventAttributes values are equivalent by recursively
@@ -960,6 +1088,10 @@ func (val *WorkflowPropertiesModifiedEventAttributes) Unmarshal(buf []byte) erro
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowPropertiesModifiedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowPropertiesModifiedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -987,6 +1119,10 @@ func (val *StartChildWorkflowExecutionInitiatedEventAttributes) Marshal() ([]byt
 
 func (val *StartChildWorkflowExecutionInitiatedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *StartChildWorkflowExecutionInitiatedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two StartChildWorkflowExecutionInitiatedEventAttributes values are equivalent by recursively
@@ -1018,6 +1154,10 @@ func (val *StartChildWorkflowExecutionFailedEventAttributes) Unmarshal(buf []byt
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *StartChildWorkflowExecutionFailedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two StartChildWorkflowExecutionFailedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1045,6 +1185,10 @@ func (val *ChildWorkflowExecutionStartedEventAttributes) Marshal() ([]byte, erro
 
 func (val *ChildWorkflowExecutionStartedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ChildWorkflowExecutionStartedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ChildWorkflowExecutionStartedEventAttributes values are equivalent by recursively
@@ -1076,6 +1220,10 @@ func (val *ChildWorkflowExecutionCompletedEventAttributes) Unmarshal(buf []byte)
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ChildWorkflowExecutionCompletedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ChildWorkflowExecutionCompletedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1103,6 +1251,10 @@ func (val *ChildWorkflowExecutionFailedEventAttributes) Marshal() ([]byte, error
 
 func (val *ChildWorkflowExecutionFailedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ChildWorkflowExecutionFailedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ChildWorkflowExecutionFailedEventAttributes values are equivalent by recursively
@@ -1134,6 +1286,10 @@ func (val *ChildWorkflowExecutionCanceledEventAttributes) Unmarshal(buf []byte) 
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ChildWorkflowExecutionCanceledEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ChildWorkflowExecutionCanceledEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1161,6 +1317,10 @@ func (val *ChildWorkflowExecutionTimedOutEventAttributes) Marshal() ([]byte, err
 
 func (val *ChildWorkflowExecutionTimedOutEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *ChildWorkflowExecutionTimedOutEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two ChildWorkflowExecutionTimedOutEventAttributes values are equivalent by recursively
@@ -1192,6 +1352,10 @@ func (val *ChildWorkflowExecutionTerminatedEventAttributes) Unmarshal(buf []byte
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ChildWorkflowExecutionTerminatedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ChildWorkflowExecutionTerminatedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1219,6 +1383,10 @@ func (val *WorkflowPropertiesModifiedExternallyEventAttributes) Marshal() ([]byt
 
 func (val *WorkflowPropertiesModifiedExternallyEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowPropertiesModifiedExternallyEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowPropertiesModifiedExternallyEventAttributes values are equivalent by recursively
@@ -1250,6 +1418,10 @@ func (val *ActivityPropertiesModifiedExternallyEventAttributes) Unmarshal(buf []
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *ActivityPropertiesModifiedExternallyEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two ActivityPropertiesModifiedExternallyEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1277,6 +1449,10 @@ func (val *WorkflowExecutionUpdateAcceptedEventAttributes) Marshal() ([]byte, er
 
 func (val *WorkflowExecutionUpdateAcceptedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowExecutionUpdateAcceptedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowExecutionUpdateAcceptedEventAttributes values are equivalent by recursively
@@ -1308,6 +1484,10 @@ func (val *WorkflowExecutionUpdateCompletedEventAttributes) Unmarshal(buf []byte
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecutionUpdateCompletedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecutionUpdateCompletedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1335,6 +1515,10 @@ func (val *WorkflowExecutionUpdateRejectedEventAttributes) Marshal() ([]byte, er
 
 func (val *WorkflowExecutionUpdateRejectedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowExecutionUpdateRejectedEventAttributes) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowExecutionUpdateRejectedEventAttributes values are equivalent by recursively
@@ -1366,6 +1550,10 @@ func (val *HistoryEvent) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *HistoryEvent) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two HistoryEvent values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -1393,6 +1581,10 @@ func (val *History) Marshal() ([]byte, error) {
 
 func (val *History) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *History) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two History values are equivalent by recursively

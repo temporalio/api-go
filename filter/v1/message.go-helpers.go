@@ -32,6 +32,10 @@ func (val *WorkflowExecutionFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *WorkflowExecutionFilter) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two WorkflowExecutionFilter values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -59,6 +63,10 @@ func (val *WorkflowTypeFilter) Marshal() ([]byte, error) {
 
 func (val *WorkflowTypeFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *WorkflowTypeFilter) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two WorkflowTypeFilter values are equivalent by recursively
@@ -90,6 +98,10 @@ func (val *StartTimeFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+func (val *StartTimeFilter) Size() int {
+	return proto.Size(val)
+}
+
 // Equal returns whether two StartTimeFilter values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
@@ -117,6 +129,10 @@ func (val *StatusFilter) Marshal() ([]byte, error) {
 
 func (val *StatusFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
+}
+
+func (val *StatusFilter) Size() int {
+	return proto.Size(val)
 }
 
 // Equal returns whether two StatusFilter values are equivalent by recursively
