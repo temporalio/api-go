@@ -54,9 +54,8 @@ fix-path: go-grpc
 # names, so this shouldn't be an issue
 fix-enums: fix-path
 	printf $(COLOR) "Fixing enum naming..."
-    # NOTE: we can speed this up by doing this in parallel or using multiple sed expressions
 	$(foreach PROTO_ENUM,$(PROTO_ENUMS),\
-      $(shell grep -Rl "$(PROTO_ENUM)" | xargs sed -i "" -e "s/$(PROTO_ENUM)_\(.*\) $(PROTO_ENUM)/\1 $(PROTO_ENUM)/g"))
+      $(shell grep -Rl "$(PROTO_ENUM)" | xargs -P 8 sed -i "" -e "s/$(PROTO_ENUM)_\(.*\) $(PROTO_ENUM)/\1 $(PROTO_ENUM)/g"))
 
 # All generated service files pathes relative to PROTO_OUT.
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service_grpc.pb.go"))

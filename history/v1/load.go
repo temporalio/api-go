@@ -103,28 +103,11 @@ func visitAndFix(val interface{}, path string, fixes map[string]string) {
 	}
 }
 
-type LoadOptions struct {
-	LastEventID int64
-}
-
-type LoadOption = func(*LoadOptions)
-
-func WithLastEventID(i int64) LoadOption {
-	return func(opts *LoadOptions) {
-		opts.LastEventID = i
-	}
-}
-
 // LoadFromJSON deserializes history from a reader of JSON bytes. This does
 // not close the reader if it is closeable. This function is compatible both
 // with the "correct" SCREAMING_SNAKE enums of protojson as well as the old
 // PascalCase enums of Temporal's older history exports.
-func LoadFromJSON(r io.Reader, options ...LoadOption) (*History, error) {
-	var loadOpts LoadOptions
-	for i := range options {
-		options[i](&loadOpts)
-	}
-
+func LoadFromJSON(r io.Reader, lastEventID int64) (*History, error) {
 	prepareFixes.Do(func() {
 		var hist History
 
@@ -165,9 +148,9 @@ func LoadFromJSON(r io.Reader, options ...LoadOption) (*History, error) {
 	}
 
 	// If there is a last event ID, slice the rest off
-	if loadOpts.LastEventID > 0 {
+	if lastEventID > 0 {
 		for i, event := range hist.Events {
-			if event.EventId == loadOpts.LastEventID {
+			if event.EventId == lastEventID {
 				// Inclusive
 				hist.Events = hist.Events[:i+1]
 				break

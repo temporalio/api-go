@@ -281,7 +281,7 @@ func TestLoadHistoryFromJSON_LastEventID(t *testing.T) {
 		t.Errorf("Expected 11 history events, found %d", len(hist.Events))
 	}
 
-	hist5, err := history.LoadFromJSON(strings.NewReader(longHistory), history.WithLastEventID(5))
+	hist5, err := history.LoadFromJSON(strings.NewReader(longHistory), int64(5))
 	if err != nil {
 		t.Errorf("Unexpected error loading history json: %s", err)
 	}
