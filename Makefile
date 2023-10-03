@@ -1,4 +1,5 @@
 $(VERBOSE).SILENT:
+all: install test
 ############################# Main targets #############################
 # Install everything, update submodule, and compile proto files.
 install: mockgen-install goimports-install update-proto
@@ -36,7 +37,7 @@ update-proto-submodule:
 
 
 ##### Compile proto files for go #####
-grpc: go-grpc fix-path fix-enums
+grpc: go-grpc fix-path fix-enums copy-helpers
 
 go-grpc: clean $(PROTO_OUT)
 	printf $(COLOR) "Compiling for go-gRPC..."
@@ -45,6 +46,8 @@ go-grpc: clean $(PROTO_OUT)
 
 fix-path: go-grpc
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
+
+copy-helpers:
 	# Also copy the payload and history JSON helpers
 	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
 	cp $(PROTO_OUT)/internal/temporalhistoryv1/load*.go $(PROTO_OUT)/history/v1/
@@ -100,7 +103,7 @@ gomodtidy:
 
 ##### Test #####
 
-test:
+test: copy-helpers
 	go test ./serviceerror/... ./proxy/... ./history/...
 
 ##### Check #####

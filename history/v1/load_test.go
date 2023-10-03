@@ -255,11 +255,11 @@ type testCase struct {
 func TestLoadHistoryFromJSON_Compatible(t *testing.T) {
 	t.Parallel()
 	// Ensure both new and old enums deserialize the same way
-	oldHist, err := history.LoadFromJSON(strings.NewReader(oldEnums))
+	oldHist, err := history.LoadFromJSON(strings.NewReader(oldEnums), int64(0))
 	if err != nil {
 		t.Errorf("Unexpected error loading old history json: %s", err)
 	}
-	newHist, err := history.LoadFromJSON(strings.NewReader(oldEnums))
+	newHist, err := history.LoadFromJSON(strings.NewReader(oldEnums), int64(0))
 	if err != nil {
 		t.Errorf("Unexpected error loading new history json: %s", err)
 	}
@@ -271,7 +271,7 @@ func TestLoadHistoryFromJSON_Compatible(t *testing.T) {
 func TestLoadHistoryFromJSON_LastEventID(t *testing.T) {
 	t.Parallel()
 
-	hist, err := history.LoadFromJSON(strings.NewReader(longHistory))
+	hist, err := history.LoadFromJSON(strings.NewReader(longHistory), int64(0))
 	if err != nil {
 		t.Errorf("Unexpected error loading history json: %s", err)
 	}
