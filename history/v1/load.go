@@ -115,6 +115,10 @@ func WithLastEventID(i int64) LoadOption {
 	}
 }
 
+// LoadFromJSON deserializes history from a reader of JSON bytes. This does
+// not close the reader if it is closeable. This function is compatible both
+// with the "correct" SCREAMING_SNAKE enums of protojson as well as the old
+// PascalCase enums of Temporal's older history exports.
 func LoadFromJSON(r io.Reader, options ...LoadOption) (*History, error) {
 	var loadOpts LoadOptions
 	for i := range options {
