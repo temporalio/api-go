@@ -40,7 +40,6 @@ update-proto-submodule:
 grpc: go-grpc fix-path fix-enums copy-helpers
 
 go-grpc: clean $(PROTO_OUT)
-	printf $(COLOR) "Compiling for go-gRPC..."
 	# Relative to PROTO_ROOT
 	PROTO_OUT=../.. make -C $(PROTO_ROOT) go-grpc
 
