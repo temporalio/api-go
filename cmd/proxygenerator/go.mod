@@ -2,6 +2,8 @@ module go.temporal.io/api/cmd/proxygenerator
 
 go 1.18
 
+replace go.temporal.io/api => ../../
+
 require (
 	go.temporal.io/api v1.14.0
 	golang.org/x/tools v0.10.0
@@ -21,5 +23,3 @@ require (
 	google.golang.org/grpc v1.58.2 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
 )
-
-replace go.temporal.io/api => ../../
