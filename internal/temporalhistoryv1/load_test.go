@@ -248,7 +248,6 @@ var longHistory = `
 type testCase struct {
 	Name  string
 	Input []byte
-	Opts  []history.LoadOption
 	Want  *history.History
 	Error error
 }
