@@ -42,3 +42,8 @@ func Value(t *timestamppb.Timestamp) time.Time {
 func Proto(t time.Time) *timestamppb.Timestamp {
 	return timestamppb.New(t)
 }
+
+// Ptr returns a pointer to a time object
+func Ptr(t time.Time) *time.Time {
+	return &t
+}

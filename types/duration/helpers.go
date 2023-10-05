@@ -51,3 +51,8 @@ func MinProto(d1 *durationpb.Duration, d2 *durationpb.Duration) *durationpb.Dura
 func Proto(d time.Duration) *durationpb.Duration {
 	return durationpb.New(d)
 }
+
+// Ptr returns a pointer to a duration object
+func Ptr(d time.Duration) *time.Duration {
+	return &d
+}
