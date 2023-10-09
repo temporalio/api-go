@@ -85,7 +85,7 @@ func generateService(cfg config) error {
 
 	pkg := pkgs[0]
 	if len(pkg.Errors) > 0 {
-		return fmt.Errorf("unable to load workflowservice: %w", pkg.Errors)
+		return fmt.Errorf("unable to load workflowservice: %v", pkg.Errors)
 	}
 
 	qual := func(other *types.Package) string {

@@ -2,7 +2,7 @@ $(VERBOSE).SILENT:
 all: install test
 ############################# Main targets #############################
 # Install everything, update submodule, and compile proto files.
-install: mockgen-install goimports-install update-proto
+install: grpc-install mockgen-install goimports-install update-proto
 
 # Compile proto files.
 proto: grpc goimports proxy grpc-mock copyright
@@ -25,7 +25,7 @@ PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
 HELPER_FILES = $(shell find protoc-gen-go-helpers)
-PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto")
+PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto" -not -path "$(PROTO_ROOT)/google/*")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_ENUMS := $(shell grep -R '^enum ' $(PROTO_ROOT) | cut -d ' ' -f2)
 PROTO_OUT := .
@@ -94,6 +94,12 @@ goimports:
 	goimports -w $(PROTO_OUT)
 
 ##### Plugins & tools #####
+grpc-install:
+	@printf $(COLOR) "Install/update grpc and plugins..."
+	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest 
+	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
 	go install -modfile=build/go.mod github.com/golang/mock/mockgen
