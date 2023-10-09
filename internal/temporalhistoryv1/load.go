@@ -37,67 +37,99 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
-const pathSep = "."
-
-type enumFix struct {
-	Path       string
-	TypePrefix string
+type fixSpec struct {
+	TypeName protoreflect.FullName
+	Enums    map[string]string
+	// Paths that correspond to other fixable types
+	Messages map[string]protoreflect.FullName
 }
 
-// Map of JSON path to SCREAMING_CASE type prefix for proto enums
+type fixRegistry map[protoreflect.FullName]fixSpec
+
+// Add a type to the registry, returning whether or not it already existed
+func (f fixRegistry) Add(t protoreflect.FullName) (fixSpec, bool) {
+	if _, exists := f[t]; exists {
+		return fixSpec{}, true
+	}
+
+	spec := fixSpec{
+		TypeName: t,
+		Enums:    make(map[string]string),
+		Messages: make(map[string]protoreflect.FullName),
+	}
+	f[t] = spec
+	return spec, false
+}
+
+func (f fixRegistry) Lookup(spec fixSpec, name string) (fixSpec, bool) {
+	pType, found := spec.Messages[name]
+	if !found {
+		return fixSpec{}, false
+	}
+	tSpec, found := f[pType]
+	return tSpec, found
+}
+
 // Not initialized until prepareFixes.Do(...) has been called
-var historyPathsToFix = make(map[string]string)
+var failureFullName string
+var registry fixRegistry
+var historySpec fixSpec
 var prepareFixes sync.Once
 
-// Recursively walk the protoreflect descriptions for the History object
-// collecting all enum paths for later fixing
-func collectPaths(path []string, fd protoreflect.FieldDescriptor) {
-	if fe := fd.Enum(); fe != nil {
-		for i := 0; i < fe.Values().Len(); i++ {
-			fullPath := strings.Join(append(path, fd.JSONName()), pathSep)
-			historyPathsToFix[fullPath] = strcase.ToScreamingSnake(string(fe.Name()))
-		}
-	}
-
-	if fm := fd.Message(); fm != nil {
-		path = append(path, fd.JSONName())
-		for i := 0; i < fm.Fields().Len(); i++ {
-			cd := fm.Fields().Get(i)
-			// Avoid blowing the stack when a proto may contain itself
-			// I'm looking at you temporal.api.failure.v1.Failure...
-			if cd.Name() == fd.Name() {
+// Recursively walk the protoreflect descriptors for the provided object,
+// collecting all enum paths for later fixing. We keep a global map of fixes
+// per proto type
+func findFixes(md protoreflect.MessageDescriptor, spec fixSpec) {
+	for i := 0; i < md.Fields().Len(); i++ {
+		cd := md.Fields().Get(i)
+		switch cd.Kind() {
+		case protoreflect.EnumKind:
+			ed := cd.Enum()
+			spec.Enums[cd.JSONName()] = strcase.ToScreamingSnake(string(ed.Name()))
+		case protoreflect.MessageKind:
+			spec.Messages[cd.JSONName()] = cd.FullName()
+			mSpec, exists := registry.Add(cd.FullName())
+			if exists {
 				continue
 			}
-			collectPaths(path, fm.Fields().Get(i))
+			findFixes(cd.Message(), mSpec)
 		}
-
 	}
 }
 
-func visitAndFix(val interface{}, path string, fixes map[string]string) {
-	switch v := val.(type) {
-	case []interface{}:
-		for i := range v {
-			if vv, ok := v[i].(map[string]interface{}); ok {
-				visitAndFix(vv, path, fixes)
-			}
+func fixupString(val string, name string, spec fixSpec) string {
+	if typePrefix, ok := spec.Enums[name]; ok {
+		newVal := strcase.ToScreamingSnake(val)
+		if !strings.HasPrefix(newVal, typePrefix) {
+			return fmt.Sprintf("%s_%s", typePrefix, newVal)
 		}
-	case map[string]interface{}:
-		for kk, vv := range v {
-			fullPath := fmt.Sprintf("%s.%s", path, kk)
-			switch vvv := vv.(type) {
-			case string:
-				if typePrefix, ok := fixes[fullPath]; ok {
-					newVal := strcase.ToScreamingSnake(vvv)
-					if !strings.HasPrefix(newVal, typePrefix) {
-						newVal = fmt.Sprintf("%s_%s", typePrefix, newVal)
-					}
-					v[kk] = newVal
+	}
+	return val
+}
+
+func fixupMsg(msg map[string]interface{}, spec fixSpec) {
+	for k, v := range msg {
+		switch vv := v.(type) {
+		case string:
+			msg[k] = fixupString(vv, k, spec)
+		case map[string]interface{}:
+			spec, found := registry.Lookup(spec, k)
+			if !found {
+				continue
+			}
+			fixupMsg(vv, spec)
+		case []interface{}:
+			spec, found := registry.Lookup(spec, k)
+			if !found {
+				continue
+			}
+			for i := 0; i < len(vv); i++ {
+				switch vvv := vv[i].(type) {
+				case string:
+					vv[i] = fixupString(vvv, k, spec)
+				case map[string]interface{}:
+					fixupMsg(vvv, spec)
 				}
-			case []interface{}:
-				visitAndFix(vvv, fullPath, fixes)
-			case map[string]interface{}:
-				visitAndFix(vvv, fullPath, fixes)
 			}
 		}
 	}
@@ -107,13 +139,31 @@ func visitAndFix(val interface{}, path string, fixes map[string]string) {
 // not close the reader if it is closeable. This function is compatible both
 // with the "correct" SCREAMING_SNAKE enums of protojson as well as the old
 // PascalCase enums of Temporal's older history exports.
-func LoadFromJSON(r io.Reader, lastEventID int64) (*History, error) {
+func LoadFromJSON(r io.Reader) (*History, error) {
 	prepareFixes.Do(func() {
 		var hist History
-
+		registry = make(fixRegistry)
 		desc := hist.ProtoReflect().Type().Descriptor()
-		for i := 0; i < desc.Fields().Len(); i++ {
-			collectPaths(nil, desc.Fields().Get(i))
+		historySpec, _ = registry.Add(desc.FullName())
+		findFixes(desc, historySpec)
+
+		// Iteratively prune empty specs from the registry.
+		removed := make(map[protoreflect.FullName]struct{})
+		changing := true
+		for changing {
+			changing = false
+			for typ, spec := range registry {
+				for k, mt := range spec.Messages {
+					if _, rmed := removed[mt]; rmed {
+						delete(spec.Messages, k)
+					}
+				}
+				if len(spec.Enums) == 0 && len(spec.Messages) == 0 {
+					changing = true
+					removed[typ] = struct{}{}
+					delete(registry, typ)
+				}
+			}
 		}
 	})
 
@@ -122,16 +172,14 @@ func LoadFromJSON(r io.Reader, lastEventID int64) (*History, error) {
 		return nil, fmt.Errorf("failed to read input: %w", err)
 	}
 
-	blob := make(map[string]interface{})
-	if err := json.Unmarshal(bs, &blob); err != nil {
+	msg := make(map[string]interface{})
+	if err := json.Unmarshal(bs, &msg); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal history: %w", err)
 	}
 
-	for k, v := range blob {
-		visitAndFix(v, k, historyPathsToFix)
-	}
+	fixupMsg(msg, historySpec)
 
-	out, err := json.Marshal(blob)
+	out, err := json.Marshal(msg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal fixed history: %w", err)
 	}
@@ -145,17 +193,6 @@ func LoadFromJSON(r io.Reader, lastEventID int64) (*History, error) {
 	var hist History
 	if err := opts.Unmarshal(out, &hist); err != nil {
 		return nil, fmt.Errorf("failed to fix history: %w", err)
-	}
-
-	// If there is a last event ID, slice the rest off
-	if lastEventID > 0 {
-		for i, event := range hist.Events {
-			if event.EventId == lastEventID {
-				// Inclusive
-				hist.Events = hist.Events[:i+1]
-				break
-			}
-		}
 	}
 
 	return &hist, nil

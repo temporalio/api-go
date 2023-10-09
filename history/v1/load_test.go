@@ -27,8 +27,11 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	history "go.temporal.io/api/history/v1"
+	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/testing/protocmp"
+
+	enums "go.temporal.io/api/enums/v1"
+	history "go.temporal.io/api/history/v1"
 )
 
 var oldEnums = `
@@ -92,174 +95,49 @@ var newEnums = `
             }
         }
     ]
-}
-`
+}`
 
-var longHistory = `
+var newNestedFailure = `
 {
-  "events": [
-    {
-      "eventId": 1,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "WorkflowExecutionStarted",
-      "workflowExecutionStartedEventAttributes": {
-        "workflowType": {
-          "name": "testReplayWorkflowFromFile"
-        },
-        "taskQueue": {
-          "name": "taskQueue1"
-        },
-        "workflowRunTimeout": "60s",
-        "workflowTaskTimeout": "60s",
-        "identity": "temporal-cli@user-C02WC08UHTDG"
-      }
-    },
-    {
-      "eventId": 2,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "WorkflowTaskScheduled",
-      "workflowTaskScheduledEventAttributes": {
-        "taskQueue": {
-          "name": "taskQueue1"
-        },
-        "startToCloseTimeout": "60s",
-        "attempt": 1
-      }
-    },
-    {
-      "eventId": 3,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "WorkflowTaskStarted",
-      "workflowTaskStartedEventAttributes": {
-        "scheduledEventId": 2,
-        "identity": "50114@user-C02WC08UHTDG@taskQueue1",
-        "requestId": "b7403b35-b4b1-432f-84ff-01d66d060a87"
-      }
-    },
-    {
-      "eventId": 4,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "WorkflowTaskCompleted",
-      "workflowTaskCompletedEventAttributes": {
-        "scheduledEventId": 2,
-        "startedEventId": 3,
-        "identity": "50114@user-C02WC08UHTDG@taskQueue1"
-      }
-    },
-    {
-      "eventId": 5,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "ActivityTaskScheduled",
-      "activityTaskScheduledEventAttributes": {
-        "activityId": "5",
-        "activityType": {
-          "name": "testActivityMultipleArgs"
-        },
-        "taskQueue": {
-          "name": "taskQueue1"
-        },
-        "input": null,
-        "scheduleToCloseTimeout": "120s",
-        "scheduleToStartTimeout": "60s",
-        "startToCloseTimeout": "60s",
-        "heartbeatTimeout": "20s",
-        "workflowTaskCompletedEventId": 4
-      }
-    },
-    {
-      "eventId": 6,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "ActivityTaskStarted",
-      "version": -24,
-      "taskId": 33554446,
-      "activityTaskStartedEventAttributes": {
-        "scheduledEventId": 5,
-        "identity": "50114@user-C02WC08UHTDG@taskQueue1",
-        "requestId": "45c4006a-ae7c-4392-baa6-c090857f884b",
-        "attempt": 1
-      }
-    },
-    {
-      "eventId": 7,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "ActivityTaskCompleted",
-      "version": -24,
-      "taskId": 33554447,
-      "activityTaskCompletedEventAttributes": {
-        "result": null,
-        "scheduledEventId": 5,
-        "startedEventId": 6,
-        "identity": "50114@user-C02WC08UHTDG@taskQueue1"
-      }
-    },
-    {
-      "eventId": 8,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "WorkflowTaskScheduled",
-      "version": -24,
-      "taskId": 33554450,
-      "workflowTaskScheduledEventAttributes": {
-        "taskQueue": {
-          "name": "longer-C02V60N3HTDG:33ab3ada-4636-4386-8575-81dd8dc02e9a"
-        },
-        "startToCloseTimeout": "10s",
-        "attempt": 1
-      }
-    },
-    {
-      "eventId": 9,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "WorkflowTaskStarted",
-      "version": -24,
-      "taskId": 33554454,
-      "workflowTaskStartedEventAttributes": {
-        "scheduledEventId": 8,
-        "identity": "50114@user-C02WC08UHTDG@taskQueue1",
-        "requestId": "cb1fdadf-f46b-4840-9b97-863f4b3b6b11"
-      }
-    },
-    {
-      "eventId": 10,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "WorkflowTaskCompleted",
-      "version": -24,
-      "taskId": 33554457,
-      "workflowTaskCompletedEventAttributes": {
-        "scheduledEventId": 8,
-        "startedEventId": 9,
-        "identity": "50114@user-C02WC08UHTDG@taskQueue1",
-        "binaryChecksum": "b2e32759177ccbb3e67ad7694aec233c"
-      }
-    },
-    {
-      "eventId": 11,
-      "eventTime": "2020-07-30T00:30:02.971655189Z",
-      "eventType": "WorkflowExecutionCompleted",
-      "version": -24,
-      "taskId": 33554458,
-      "workflowExecutionCompletedEventAttributes": {
-        "workflowTaskCompletedEventId": 10
-      }
-    }
-  ]
-}
-`
+    "events": [
+        {
+            "eventId": "1",
+            "eventTime": "2020-12-10T22:18:41.248154805Z",
+            "eventType": "EVENT_TYPE_WORKFLOW_EXECUTION_FAILED",
+            "taskId": "4195749",
+            "workflowExecutionFailedEventAttributes": {
+                "failure": {
+                    "message": "Outer failure",
+                    "cause": {
+                        "message": "Nested failure"
+                    }
+                }
+            }
+        }
+    ]
+}`
 
-type testCase struct {
-	Name  string
-	Input []byte
-	Want  *history.History
-	Error error
+func TestLoadHistoryFromJSON(t *testing.T) {
+	t.Parallel()
+	require := require.New(t)
+	hist, err := history.LoadFromJSON(strings.NewReader(newEnums))
+	require.NoError(err)
+	require.NotNil(hist)
+	require.Len(hist.Events, 1)
+
+	ev := hist.Events[0]
+	require.Equal(ev.EventType, enums.EVENT_TYPE_WORKFLOW_EXECUTION_STARTED)
+	require.Equal(ev.GetWorkflowExecutionStartedEventAttributes().TaskQueue.Kind, enums.TASK_QUEUE_KIND_NORMAL)
 }
 
 func TestLoadHistoryFromJSON_Compatible(t *testing.T) {
 	t.Parallel()
 	// Ensure both new and old enums deserialize the same way
-	oldHist, err := history.LoadFromJSON(strings.NewReader(oldEnums), int64(0))
+	oldHist, err := history.LoadFromJSON(strings.NewReader(oldEnums))
 	if err != nil {
 		t.Errorf("Unexpected error loading old history json: %s", err)
 	}
-	newHist, err := history.LoadFromJSON(strings.NewReader(oldEnums), int64(0))
+	newHist, err := history.LoadFromJSON(strings.NewReader(newEnums))
 	if err != nil {
 		t.Errorf("Unexpected error loading new history json: %s", err)
 	}
@@ -268,24 +146,22 @@ func TestLoadHistoryFromJSON_Compatible(t *testing.T) {
 	}
 }
 
-func TestLoadHistoryFromJSON_LastEventID(t *testing.T) {
+func TestLoadHistoryFromJSON_NestedType(t *testing.T) {
 	t.Parallel()
 
-	hist, err := history.LoadFromJSON(strings.NewReader(longHistory), int64(0))
+	require := require.New(t)
+	newHist, err := history.LoadFromJSON(strings.NewReader(newNestedFailure))
 	if err != nil {
-		t.Errorf("Unexpected error loading history json: %s", err)
+		t.Errorf("Unexpected error loading old history json: %s", err)
 	}
 
-	if len(hist.Events) != 11 {
-		t.Errorf("Expected 11 history events, found %d", len(hist.Events))
-	}
+	require.NoError(err)
+	require.Len(newHist.Events, 1)
 
-	hist5, err := history.LoadFromJSON(strings.NewReader(longHistory), int64(5))
-	if err != nil {
-		t.Errorf("Unexpected error loading history json: %s", err)
-	}
-
-	if len(hist5.Events) != 5 {
-		t.Errorf("Expected 5 history events, found %d", len(hist5.Events))
-	}
+	wfFail := newHist.Events[0].GetWorkflowExecutionFailedEventAttributes()
+	require.NotNil(wfFail, "Expected workflow execution failure event, found %s", newHist.Events[0].EventType)
+	require.NotNil(wfFail.Failure)
+	require.Equal(wfFail.Failure.Message, "Outer failure")
+	require.NotNil(wfFail.Failure.Cause)
+	require.NotNil(wfFail.Failure.Cause.Message, "Inner failure")
 }
