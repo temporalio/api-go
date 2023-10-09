@@ -11,7 +11,7 @@ require (
 
 require (
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/iancoleman/strcase v0.3.0 // indirect
 	golang.org/x/mod v0.11.0 // indirect
 	golang.org/x/net v0.15.0 // indirect

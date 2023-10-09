@@ -24,8 +24,14 @@ COLOR := "\e[1;36m%s\e[0m\n"
 PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
+HELPER_FILES = $(shell find protoc-gen-go-helpers)
+PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto")
+PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_ENUMS := $(shell grep -R '^enum ' $(PROTO_ROOT) | cut -d ' ' -f2)
 PROTO_OUT := .
+PROTO_IMPORTS = \
+	-I=$(PROTO_ROOT)
+PROTO_PATHS = paths=source_relative:$(PROTO_OUT)
 
 $(PROTO_OUT):
 	mkdir $(PROTO_OUT)
@@ -39,9 +45,19 @@ update-proto-submodule:
 ##### Compile proto files for go #####
 grpc: go-grpc fix-path fix-enums copy-helpers
 
-go-grpc: clean $(PROTO_OUT)
-	# Relative to PROTO_ROOT
-	PROTO_OUT=../.. make -C $(PROTO_ROOT) go-grpc
+# Only install helper when its source has changed
+.go-helpers-installed: $(HELPER_FILES)
+	@go install ./protoc-gen-go-helpers
+
+go-grpc: clean .go-helpers-installed $(PROTO_OUT)
+	printf $(COLOR) "Compile for go-gRPC..."
+	$(foreach PROTO_DIR,$(PROTO_DIRS),\
+		protoc --fatal_warnings $(PROTO_IMPORTS) \
+		 	--go_out=$(PROTO_PATHS) \
+			--go-grpc_out=$(PROTO_PATHS) \
+            --grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
+			--go-helpers_out=$(PROTO_PATHS) \
+			$(PROTO_DIR)*.proto;)
 
 fix-path: go-grpc
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
