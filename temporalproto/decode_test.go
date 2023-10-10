@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package jsonpb_test
+package temporalproto_test
 
 import (
 	"bytes"
@@ -32,7 +32,7 @@ import (
 
 	enums "go.temporal.io/api/enums/v1"
 	historypb "go.temporal.io/api/history/v1"
-	"go.temporal.io/api/jsonpb"
+	"go.temporal.io/api/temporalproto"
 )
 
 var oldEnums = `
@@ -122,7 +122,7 @@ func TestUnmarshal(t *testing.T) {
 	t.Parallel()
 	require := require.New(t)
 	var hist historypb.History
-	require.NoError(jsonpb.Unmarshal([]byte(newEnums), &hist))
+	require.NoError(temporalproto.Unmarshal([]byte(newEnums), &hist))
 	require.Len(hist.Events, 1)
 
 	ev := hist.Events[0]
@@ -134,8 +134,8 @@ func TestUnmarshal_Compatible(t *testing.T) {
 	t.Parallel()
 	// Ensure both new and old enums deserialize the same way
 	var oldHist, newHist historypb.History
-	require.NoError(t, jsonpb.Unmarshal([]byte(newEnums), &oldHist))
-	require.NoError(t, jsonpb.Unmarshal([]byte(newEnums), &newHist))
+	require.NoError(t, temporalproto.Unmarshal([]byte(newEnums), &oldHist))
+	require.NoError(t, temporalproto.Unmarshal([]byte(newEnums), &newHist))
 	if !proto.Equal(&oldHist, &newHist) {
 		t.Errorf("LoadFromJSON() mismatch between old and new enum formats\n%v\n%v", &oldHist, &newHist)
 	}
@@ -146,7 +146,7 @@ func TestUnmarshal_NestedType(t *testing.T) {
 
 	require := require.New(t)
 	var newHist historypb.History
-	require.NoError(jsonpb.Unmarshal([]byte(newNestedFailure), &newHist))
+	require.NoError(temporalproto.Unmarshal([]byte(newNestedFailure), &newHist))
 	require.Len(newHist.Events, 1)
 
 	wfFail := newHist.Events[0].GetWorkflowExecutionFailedEventAttributes()
@@ -163,7 +163,7 @@ func TestDecode(t *testing.T) {
 	input := fmt.Sprintf("%s%s", newEnums, oldEnums)
 	var hist historypb.History
 	rdr := bytes.NewReader([]byte(input))
-	dec := jsonpb.NewDecoder(rdr)
+	dec := temporalproto.NewDecoder(rdr)
 	require.NoError(dec.Decode(&hist))
 	require.Len(hist.Events, 1)
 
