@@ -22,16 +22,21 @@
 
 package batch
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type BatchOperationInfo to the protobuf v3 wire format
 func (val *BatchOperationInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BatchOperationInfo from the protobuf v3 wire format
 func (val *BatchOperationInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BatchOperationInfo) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *BatchOperationInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BatchOperationTermination to the protobuf v3 wire format
 func (val *BatchOperationTermination) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BatchOperationTermination from the protobuf v3 wire format
 func (val *BatchOperationTermination) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BatchOperationTermination) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *BatchOperationTermination) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BatchOperationSignal to the protobuf v3 wire format
 func (val *BatchOperationSignal) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BatchOperationSignal from the protobuf v3 wire format
 func (val *BatchOperationSignal) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BatchOperationSignal) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *BatchOperationSignal) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BatchOperationCancellation to the protobuf v3 wire format
 func (val *BatchOperationCancellation) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BatchOperationCancellation from the protobuf v3 wire format
 func (val *BatchOperationCancellation) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BatchOperationCancellation) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *BatchOperationCancellation) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BatchOperationDeletion to the protobuf v3 wire format
 func (val *BatchOperationDeletion) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BatchOperationDeletion from the protobuf v3 wire format
 func (val *BatchOperationDeletion) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BatchOperationDeletion) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *BatchOperationDeletion) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BatchOperationReset to the protobuf v3 wire format
 func (val *BatchOperationReset) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BatchOperationReset from the protobuf v3 wire format
 func (val *BatchOperationReset) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BatchOperationReset) Size() int {
 	return proto.Size(val)
 }

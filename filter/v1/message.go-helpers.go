@@ -22,16 +22,21 @@
 
 package filter
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type WorkflowExecutionFilter to the protobuf v3 wire format
 func (val *WorkflowExecutionFilter) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowExecutionFilter from the protobuf v3 wire format
 func (val *WorkflowExecutionFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowExecutionFilter) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *WorkflowExecutionFilter) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkflowTypeFilter to the protobuf v3 wire format
 func (val *WorkflowTypeFilter) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowTypeFilter from the protobuf v3 wire format
 func (val *WorkflowTypeFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowTypeFilter) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *WorkflowTypeFilter) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StartTimeFilter to the protobuf v3 wire format
 func (val *StartTimeFilter) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StartTimeFilter from the protobuf v3 wire format
 func (val *StartTimeFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StartTimeFilter) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *StartTimeFilter) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StatusFilter to the protobuf v3 wire format
 func (val *StatusFilter) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StatusFilter from the protobuf v3 wire format
 func (val *StatusFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StatusFilter) Size() int {
 	return proto.Size(val)
 }

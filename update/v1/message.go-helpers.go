@@ -22,16 +22,21 @@
 
 package update
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type WaitPolicy to the protobuf v3 wire format
 func (val *WaitPolicy) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WaitPolicy from the protobuf v3 wire format
 func (val *WaitPolicy) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WaitPolicy) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *WaitPolicy) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateRef to the protobuf v3 wire format
 func (val *UpdateRef) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateRef from the protobuf v3 wire format
 func (val *UpdateRef) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateRef) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *UpdateRef) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Outcome to the protobuf v3 wire format
 func (val *Outcome) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Outcome from the protobuf v3 wire format
 func (val *Outcome) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Outcome) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *Outcome) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Meta to the protobuf v3 wire format
 func (val *Meta) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Meta from the protobuf v3 wire format
 func (val *Meta) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Meta) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *Meta) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Input to the protobuf v3 wire format
 func (val *Input) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Input from the protobuf v3 wire format
 func (val *Input) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Input) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *Input) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Request to the protobuf v3 wire format
 func (val *Request) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Request from the protobuf v3 wire format
 func (val *Request) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Request) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *Request) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Rejection to the protobuf v3 wire format
 func (val *Rejection) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Rejection from the protobuf v3 wire format
 func (val *Rejection) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Rejection) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *Rejection) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Acceptance to the protobuf v3 wire format
 func (val *Acceptance) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Acceptance from the protobuf v3 wire format
 func (val *Acceptance) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Acceptance) Size() int {
 	return proto.Size(val)
 }
@@ -288,14 +321,18 @@ func (this *Acceptance) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Response to the protobuf v3 wire format
 func (val *Response) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Response from the protobuf v3 wire format
 func (val *Response) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Response) Size() int {
 	return proto.Size(val)
 }

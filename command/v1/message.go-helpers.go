@@ -22,16 +22,21 @@
 
 package command
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type ScheduleActivityTaskCommandAttributes to the protobuf v3 wire format
 func (val *ScheduleActivityTaskCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ScheduleActivityTaskCommandAttributes from the protobuf v3 wire format
 func (val *ScheduleActivityTaskCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ScheduleActivityTaskCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *ScheduleActivityTaskCommandAttributes) Equal(that interface{}) bool 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RequestCancelActivityTaskCommandAttributes to the protobuf v3 wire format
 func (val *RequestCancelActivityTaskCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RequestCancelActivityTaskCommandAttributes from the protobuf v3 wire format
 func (val *RequestCancelActivityTaskCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RequestCancelActivityTaskCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *RequestCancelActivityTaskCommandAttributes) Equal(that interface{}) 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StartTimerCommandAttributes to the protobuf v3 wire format
 func (val *StartTimerCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StartTimerCommandAttributes from the protobuf v3 wire format
 func (val *StartTimerCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StartTimerCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *StartTimerCommandAttributes) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CompleteWorkflowExecutionCommandAttributes to the protobuf v3 wire format
 func (val *CompleteWorkflowExecutionCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CompleteWorkflowExecutionCommandAttributes from the protobuf v3 wire format
 func (val *CompleteWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CompleteWorkflowExecutionCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *CompleteWorkflowExecutionCommandAttributes) Equal(that interface{}) 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type FailWorkflowExecutionCommandAttributes to the protobuf v3 wire format
 func (val *FailWorkflowExecutionCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type FailWorkflowExecutionCommandAttributes from the protobuf v3 wire format
 func (val *FailWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *FailWorkflowExecutionCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *FailWorkflowExecutionCommandAttributes) Equal(that interface{}) bool
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CancelTimerCommandAttributes to the protobuf v3 wire format
 func (val *CancelTimerCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CancelTimerCommandAttributes from the protobuf v3 wire format
 func (val *CancelTimerCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CancelTimerCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *CancelTimerCommandAttributes) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CancelWorkflowExecutionCommandAttributes to the protobuf v3 wire format
 func (val *CancelWorkflowExecutionCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CancelWorkflowExecutionCommandAttributes from the protobuf v3 wire format
 func (val *CancelWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CancelWorkflowExecutionCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *CancelWorkflowExecutionCommandAttributes) Equal(that interface{}) bo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RequestCancelExternalWorkflowExecutionCommandAttributes to the protobuf v3 wire format
 func (val *RequestCancelExternalWorkflowExecutionCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RequestCancelExternalWorkflowExecutionCommandAttributes from the protobuf v3 wire format
 func (val *RequestCancelExternalWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RequestCancelExternalWorkflowExecutionCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -288,14 +321,18 @@ func (this *RequestCancelExternalWorkflowExecutionCommandAttributes) Equal(that 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type SignalExternalWorkflowExecutionCommandAttributes to the protobuf v3 wire format
 func (val *SignalExternalWorkflowExecutionCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type SignalExternalWorkflowExecutionCommandAttributes from the protobuf v3 wire format
 func (val *SignalExternalWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *SignalExternalWorkflowExecutionCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -321,14 +358,18 @@ func (this *SignalExternalWorkflowExecutionCommandAttributes) Equal(that interfa
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpsertWorkflowSearchAttributesCommandAttributes to the protobuf v3 wire format
 func (val *UpsertWorkflowSearchAttributesCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpsertWorkflowSearchAttributesCommandAttributes from the protobuf v3 wire format
 func (val *UpsertWorkflowSearchAttributesCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpsertWorkflowSearchAttributesCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -354,14 +395,18 @@ func (this *UpsertWorkflowSearchAttributesCommandAttributes) Equal(that interfac
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ModifyWorkflowPropertiesCommandAttributes to the protobuf v3 wire format
 func (val *ModifyWorkflowPropertiesCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ModifyWorkflowPropertiesCommandAttributes from the protobuf v3 wire format
 func (val *ModifyWorkflowPropertiesCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ModifyWorkflowPropertiesCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -387,14 +432,18 @@ func (this *ModifyWorkflowPropertiesCommandAttributes) Equal(that interface{}) b
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RecordMarkerCommandAttributes to the protobuf v3 wire format
 func (val *RecordMarkerCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RecordMarkerCommandAttributes from the protobuf v3 wire format
 func (val *RecordMarkerCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RecordMarkerCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -420,14 +469,18 @@ func (this *RecordMarkerCommandAttributes) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ContinueAsNewWorkflowExecutionCommandAttributes to the protobuf v3 wire format
 func (val *ContinueAsNewWorkflowExecutionCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ContinueAsNewWorkflowExecutionCommandAttributes from the protobuf v3 wire format
 func (val *ContinueAsNewWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ContinueAsNewWorkflowExecutionCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -453,14 +506,18 @@ func (this *ContinueAsNewWorkflowExecutionCommandAttributes) Equal(that interfac
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StartChildWorkflowExecutionCommandAttributes to the protobuf v3 wire format
 func (val *StartChildWorkflowExecutionCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StartChildWorkflowExecutionCommandAttributes from the protobuf v3 wire format
 func (val *StartChildWorkflowExecutionCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StartChildWorkflowExecutionCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -486,14 +543,18 @@ func (this *StartChildWorkflowExecutionCommandAttributes) Equal(that interface{}
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ProtocolMessageCommandAttributes to the protobuf v3 wire format
 func (val *ProtocolMessageCommandAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ProtocolMessageCommandAttributes from the protobuf v3 wire format
 func (val *ProtocolMessageCommandAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ProtocolMessageCommandAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -519,14 +580,18 @@ func (this *ProtocolMessageCommandAttributes) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Command to the protobuf v3 wire format
 func (val *Command) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Command from the protobuf v3 wire format
 func (val *Command) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Command) Size() int {
 	return proto.Size(val)
 }

@@ -22,16 +22,21 @@
 
 package operatorservice
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type AddSearchAttributesRequest to the protobuf v3 wire format
 func (val *AddSearchAttributesRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type AddSearchAttributesRequest from the protobuf v3 wire format
 func (val *AddSearchAttributesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *AddSearchAttributesRequest) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *AddSearchAttributesRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type AddSearchAttributesResponse to the protobuf v3 wire format
 func (val *AddSearchAttributesResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type AddSearchAttributesResponse from the protobuf v3 wire format
 func (val *AddSearchAttributesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *AddSearchAttributesResponse) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *AddSearchAttributesResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RemoveSearchAttributesRequest to the protobuf v3 wire format
 func (val *RemoveSearchAttributesRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RemoveSearchAttributesRequest from the protobuf v3 wire format
 func (val *RemoveSearchAttributesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RemoveSearchAttributesRequest) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *RemoveSearchAttributesRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RemoveSearchAttributesResponse to the protobuf v3 wire format
 func (val *RemoveSearchAttributesResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RemoveSearchAttributesResponse from the protobuf v3 wire format
 func (val *RemoveSearchAttributesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RemoveSearchAttributesResponse) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *RemoveSearchAttributesResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListSearchAttributesRequest to the protobuf v3 wire format
 func (val *ListSearchAttributesRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListSearchAttributesRequest from the protobuf v3 wire format
 func (val *ListSearchAttributesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListSearchAttributesRequest) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *ListSearchAttributesRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListSearchAttributesResponse to the protobuf v3 wire format
 func (val *ListSearchAttributesResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListSearchAttributesResponse from the protobuf v3 wire format
 func (val *ListSearchAttributesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListSearchAttributesResponse) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *ListSearchAttributesResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DeleteNamespaceRequest to the protobuf v3 wire format
 func (val *DeleteNamespaceRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DeleteNamespaceRequest from the protobuf v3 wire format
 func (val *DeleteNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DeleteNamespaceRequest) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *DeleteNamespaceRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DeleteNamespaceResponse to the protobuf v3 wire format
 func (val *DeleteNamespaceResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DeleteNamespaceResponse from the protobuf v3 wire format
 func (val *DeleteNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DeleteNamespaceResponse) Size() int {
 	return proto.Size(val)
 }
@@ -288,14 +321,18 @@ func (this *DeleteNamespaceResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type AddOrUpdateRemoteClusterRequest to the protobuf v3 wire format
 func (val *AddOrUpdateRemoteClusterRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type AddOrUpdateRemoteClusterRequest from the protobuf v3 wire format
 func (val *AddOrUpdateRemoteClusterRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *AddOrUpdateRemoteClusterRequest) Size() int {
 	return proto.Size(val)
 }
@@ -321,14 +358,18 @@ func (this *AddOrUpdateRemoteClusterRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type AddOrUpdateRemoteClusterResponse to the protobuf v3 wire format
 func (val *AddOrUpdateRemoteClusterResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type AddOrUpdateRemoteClusterResponse from the protobuf v3 wire format
 func (val *AddOrUpdateRemoteClusterResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *AddOrUpdateRemoteClusterResponse) Size() int {
 	return proto.Size(val)
 }
@@ -354,14 +395,18 @@ func (this *AddOrUpdateRemoteClusterResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RemoveRemoteClusterRequest to the protobuf v3 wire format
 func (val *RemoveRemoteClusterRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RemoveRemoteClusterRequest from the protobuf v3 wire format
 func (val *RemoveRemoteClusterRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RemoveRemoteClusterRequest) Size() int {
 	return proto.Size(val)
 }
@@ -387,14 +432,18 @@ func (this *RemoveRemoteClusterRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RemoveRemoteClusterResponse to the protobuf v3 wire format
 func (val *RemoveRemoteClusterResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RemoveRemoteClusterResponse from the protobuf v3 wire format
 func (val *RemoveRemoteClusterResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RemoveRemoteClusterResponse) Size() int {
 	return proto.Size(val)
 }
@@ -420,14 +469,18 @@ func (this *RemoveRemoteClusterResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListClustersRequest to the protobuf v3 wire format
 func (val *ListClustersRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListClustersRequest from the protobuf v3 wire format
 func (val *ListClustersRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListClustersRequest) Size() int {
 	return proto.Size(val)
 }
@@ -453,14 +506,18 @@ func (this *ListClustersRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListClustersResponse to the protobuf v3 wire format
 func (val *ListClustersResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListClustersResponse from the protobuf v3 wire format
 func (val *ListClustersResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListClustersResponse) Size() int {
 	return proto.Size(val)
 }
@@ -486,14 +543,18 @@ func (this *ListClustersResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ClusterMetadata to the protobuf v3 wire format
 func (val *ClusterMetadata) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ClusterMetadata from the protobuf v3 wire format
 func (val *ClusterMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ClusterMetadata) Size() int {
 	return proto.Size(val)
 }

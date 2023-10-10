@@ -22,16 +22,21 @@
 
 package namespace
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type NamespaceInfo to the protobuf v3 wire format
 func (val *NamespaceInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NamespaceInfo from the protobuf v3 wire format
 func (val *NamespaceInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NamespaceInfo) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *NamespaceInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NamespaceConfig to the protobuf v3 wire format
 func (val *NamespaceConfig) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NamespaceConfig from the protobuf v3 wire format
 func (val *NamespaceConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NamespaceConfig) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *NamespaceConfig) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BadBinaries to the protobuf v3 wire format
 func (val *BadBinaries) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BadBinaries from the protobuf v3 wire format
 func (val *BadBinaries) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BadBinaries) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *BadBinaries) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BadBinaryInfo to the protobuf v3 wire format
 func (val *BadBinaryInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BadBinaryInfo from the protobuf v3 wire format
 func (val *BadBinaryInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BadBinaryInfo) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *BadBinaryInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateNamespaceInfo to the protobuf v3 wire format
 func (val *UpdateNamespaceInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateNamespaceInfo from the protobuf v3 wire format
 func (val *UpdateNamespaceInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateNamespaceInfo) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *UpdateNamespaceInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NamespaceFilter to the protobuf v3 wire format
 func (val *NamespaceFilter) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NamespaceFilter from the protobuf v3 wire format
 func (val *NamespaceFilter) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NamespaceFilter) Size() int {
 	return proto.Size(val)
 }

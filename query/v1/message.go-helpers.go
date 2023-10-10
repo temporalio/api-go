@@ -22,16 +22,21 @@
 
 package query
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type WorkflowQuery to the protobuf v3 wire format
 func (val *WorkflowQuery) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowQuery from the protobuf v3 wire format
 func (val *WorkflowQuery) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowQuery) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *WorkflowQuery) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkflowQueryResult to the protobuf v3 wire format
 func (val *WorkflowQueryResult) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowQueryResult from the protobuf v3 wire format
 func (val *WorkflowQueryResult) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowQueryResult) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *WorkflowQueryResult) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type QueryRejected to the protobuf v3 wire format
 func (val *QueryRejected) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type QueryRejected from the protobuf v3 wire format
 func (val *QueryRejected) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *QueryRejected) Size() int {
 	return proto.Size(val)
 }

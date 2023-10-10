@@ -22,16 +22,21 @@
 
 package common
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type DataBlob to the protobuf v3 wire format
 func (val *DataBlob) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DataBlob from the protobuf v3 wire format
 func (val *DataBlob) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DataBlob) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *DataBlob) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Payloads to the protobuf v3 wire format
 func (val *Payloads) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Payloads from the protobuf v3 wire format
 func (val *Payloads) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Payloads) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *Payloads) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Payload to the protobuf v3 wire format
 func (val *Payload) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Payload from the protobuf v3 wire format
 func (val *Payload) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Payload) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *Payload) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type SearchAttributes to the protobuf v3 wire format
 func (val *SearchAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type SearchAttributes from the protobuf v3 wire format
 func (val *SearchAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *SearchAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *SearchAttributes) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Memo to the protobuf v3 wire format
 func (val *Memo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Memo from the protobuf v3 wire format
 func (val *Memo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Memo) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *Memo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Header to the protobuf v3 wire format
 func (val *Header) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Header from the protobuf v3 wire format
 func (val *Header) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Header) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *Header) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkflowExecution to the protobuf v3 wire format
 func (val *WorkflowExecution) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowExecution from the protobuf v3 wire format
 func (val *WorkflowExecution) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowExecution) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *WorkflowExecution) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkflowType to the protobuf v3 wire format
 func (val *WorkflowType) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowType from the protobuf v3 wire format
 func (val *WorkflowType) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowType) Size() int {
 	return proto.Size(val)
 }
@@ -288,14 +321,18 @@ func (this *WorkflowType) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ActivityType to the protobuf v3 wire format
 func (val *ActivityType) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ActivityType from the protobuf v3 wire format
 func (val *ActivityType) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ActivityType) Size() int {
 	return proto.Size(val)
 }
@@ -321,14 +358,18 @@ func (this *ActivityType) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RetryPolicy to the protobuf v3 wire format
 func (val *RetryPolicy) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RetryPolicy from the protobuf v3 wire format
 func (val *RetryPolicy) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RetryPolicy) Size() int {
 	return proto.Size(val)
 }
@@ -354,14 +395,18 @@ func (this *RetryPolicy) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type MeteringMetadata to the protobuf v3 wire format
 func (val *MeteringMetadata) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type MeteringMetadata from the protobuf v3 wire format
 func (val *MeteringMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *MeteringMetadata) Size() int {
 	return proto.Size(val)
 }
@@ -387,14 +432,18 @@ func (this *MeteringMetadata) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkerVersionStamp to the protobuf v3 wire format
 func (val *WorkerVersionStamp) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkerVersionStamp from the protobuf v3 wire format
 func (val *WorkerVersionStamp) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkerVersionStamp) Size() int {
 	return proto.Size(val)
 }
@@ -420,14 +469,18 @@ func (this *WorkerVersionStamp) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkerVersionCapabilities to the protobuf v3 wire format
 func (val *WorkerVersionCapabilities) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkerVersionCapabilities from the protobuf v3 wire format
 func (val *WorkerVersionCapabilities) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkerVersionCapabilities) Size() int {
 	return proto.Size(val)
 }

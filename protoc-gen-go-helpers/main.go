@@ -26,31 +26,58 @@ import (
 	"bytes"
 	"fmt"
 	"go/format"
+	"io"
 	"strings"
 	"text/template"
 
+	"github.com/iancoleman/strcase"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
-type tmplInput struct {
-	Type string
-}
+type (
+	headerInput struct {
+		Pkg     string
+		Imports []string
+	}
 
-const header = `
-package %s
+	msgInput struct {
+		Type string
+	}
 
-import "google.golang.org/protobuf/proto"
+	shortValue struct {
+		Num int32
+		Str string
+	}
+
+	enumInput struct {
+		Type        string
+		ShortValues []shortValue
+	}
+)
+
+const (
+	msgImport  = "google.golang.org/protobuf/proto"
+	enumImport = "fmt"
+	headerTmpl = `
+package {{.Pkg}}
+
+import  ({{range .Imports}}
+    "{{.}}"{{end}}
+)
 `
 
-const helperTmpl = `
+	msgTmplStr = `
+// Marshal an object of type {{.Type}} to the protobuf v3 wire format
 func (val *{{.Type}}) Marshal() ([]byte, error) {
     return proto.Marshal(val)
 }
 
+// Unmarshal an object of type {{.Type}} from the protobuf v3 wire format
 func (val *{{.Type}}) Unmarshal(buf []byte) error {
     return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *{{.Type}}) Size() int {
     return proto.Size(val)
 }
@@ -77,34 +104,93 @@ func (this *{{.Type}}) Equal(that interface{}) bool {
     return proto.Equal(this, that1)
 }`
 
+	enumTmplStr = `
+var (
+    {{.Type}}_shortNameValue = map[string]int32{ {{range .ShortValues}}
+        "{{.Str}}": {{.Num}},{{end}}
+    }
+)
+
+// {{.Type}}FromString parses a {{.Type}} value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to {{.Type}}
+func {{.Type}}FromString(s string) ({{.Type}}, error) {
+    if v, ok := {{.Type}}_value[s]; ok {
+        return {{.Type}}(v), nil
+    } else if v, ok := {{.Type}}_shortNameValue[s]; ok {
+        return {{.Type}}(v), nil
+    }
+    return {{.Type}}(0), fmt.Errorf("Invalid value for {{.Type}}: %s", s)
+}`
+)
+
 // NOTE: If our implementation of Equal is too slow (its reflection-based) it doesn't look too
 // hard to generate unrolled versions...
 func main() {
 	opts := protogen.Options{}
 	opts.Run(func(plugin *protogen.Plugin) error {
-		t, err := template.New("helpers").Parse(helperTmpl)
+		header, err := template.New("header").Parse(headerTmpl)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to parse header template: %w", err)
+		}
+		msgTmpl, err := template.New("message").Parse(msgTmplStr)
+		if err != nil {
+			return fmt.Errorf("failed to parse message template: %w", err)
+		}
+
+		enumTmpl, err := template.New("enum").Parse(enumTmplStr)
+		if err != nil {
+			return fmt.Errorf("failed to parse enum template: %w", err)
 		}
 
 		for _, file := range plugin.Files {
-			// Skip protos that aren't ours
-			if !file.Generate || !strings.Contains(string(file.GoImportPath), "go.temporal.io") || len(file.Proto.MessageType) == 0 {
+			if !file.Generate || !strings.Contains(string(file.GoImportPath), "go.temporal.io") || (len(file.Proto.MessageType) == 0 && len(file.Proto.EnumType) == 0) {
 				continue
 			}
+			hi := headerInput{
+				Pkg: string(file.GoPackageName),
+			}
 
-			var buf bytes.Buffer
-			buf.Write([]byte(fmt.Sprintf(header, file.GoPackageName)))
+			var body bytes.Buffer
 
+			if len(file.Proto.MessageType) > 0 {
+				hi.Imports = append(hi.Imports, msgImport)
+			}
 			for _, msg := range file.Proto.MessageType {
-				if err := t.Execute(&buf, tmplInput{Type: *msg.Name}); err != nil {
-					return fmt.Errorf("failed to execute template on type %s: %s", *msg.Name, err)
+				if err := msgTmpl.Execute(&body, msgInput{Type: *msg.Name}); err != nil {
+					return fmt.Errorf("failed to execute message template on type %s: %w", *msg.Name, err)
 				}
 			}
 
-			fmtd, err := format.Source(buf.Bytes())
+			if len(file.Proto.EnumType) > 0 {
+				hi.Imports = append(hi.Imports, enumImport)
+			}
+			for _, enum := range file.Proto.EnumType {
+				// Preprocess enum to create the mapping
+				input := enumInput{
+					Type: *enum.Name,
+				}
+				pfx := strcase.ToScreamingSnake(*enum.Name)
+				for _, val := range enum.Value {
+					input.ShortValues = append(input.ShortValues, shortValue{
+						Num: *val.Number,
+						Str: strcase.ToCamel(strings.TrimPrefix(val.GetName(), pfx)),
+					})
+				}
+				if err := enumTmpl.Execute(&body, input); err != nil {
+					return fmt.Errorf("failed to execute enum template on type %s: %w", *enum.Name, err)
+				}
+			}
+
+			// Prepend header
+			var src bytes.Buffer
+			if err := header.Execute(&src, hi); err != nil {
+				return fmt.Errorf("failed to execute header template: %w", err)
+			}
+
+			io.Copy(&src, &body)
+			fmtd, err := format.Source(src.Bytes())
 			if err != nil {
-				return fmt.Errorf("failed to format generated source: %w", err)
+				return fmt.Errorf("failed to format generated source: \n%s\n%w", src.String(), err)
 			}
 
 			gf := plugin.NewGeneratedFile(fmt.Sprintf("%s.go-helpers.go", file.GeneratedFilenamePrefix), ".")

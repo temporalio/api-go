@@ -22,16 +22,21 @@
 
 package workflowservice
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type RegisterNamespaceRequest to the protobuf v3 wire format
 func (val *RegisterNamespaceRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RegisterNamespaceRequest from the protobuf v3 wire format
 func (val *RegisterNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RegisterNamespaceRequest) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *RegisterNamespaceRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RegisterNamespaceResponse to the protobuf v3 wire format
 func (val *RegisterNamespaceResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RegisterNamespaceResponse from the protobuf v3 wire format
 func (val *RegisterNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RegisterNamespaceResponse) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *RegisterNamespaceResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListNamespacesRequest to the protobuf v3 wire format
 func (val *ListNamespacesRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListNamespacesRequest from the protobuf v3 wire format
 func (val *ListNamespacesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListNamespacesRequest) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *ListNamespacesRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListNamespacesResponse to the protobuf v3 wire format
 func (val *ListNamespacesResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListNamespacesResponse from the protobuf v3 wire format
 func (val *ListNamespacesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListNamespacesResponse) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *ListNamespacesResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeNamespaceRequest to the protobuf v3 wire format
 func (val *DescribeNamespaceRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeNamespaceRequest from the protobuf v3 wire format
 func (val *DescribeNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeNamespaceRequest) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *DescribeNamespaceRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeNamespaceResponse to the protobuf v3 wire format
 func (val *DescribeNamespaceResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeNamespaceResponse from the protobuf v3 wire format
 func (val *DescribeNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeNamespaceResponse) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *DescribeNamespaceResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateNamespaceRequest to the protobuf v3 wire format
 func (val *UpdateNamespaceRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateNamespaceRequest from the protobuf v3 wire format
 func (val *UpdateNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateNamespaceRequest) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *UpdateNamespaceRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateNamespaceResponse to the protobuf v3 wire format
 func (val *UpdateNamespaceResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateNamespaceResponse from the protobuf v3 wire format
 func (val *UpdateNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateNamespaceResponse) Size() int {
 	return proto.Size(val)
 }
@@ -288,14 +321,18 @@ func (this *UpdateNamespaceResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DeprecateNamespaceRequest to the protobuf v3 wire format
 func (val *DeprecateNamespaceRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DeprecateNamespaceRequest from the protobuf v3 wire format
 func (val *DeprecateNamespaceRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DeprecateNamespaceRequest) Size() int {
 	return proto.Size(val)
 }
@@ -321,14 +358,18 @@ func (this *DeprecateNamespaceRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DeprecateNamespaceResponse to the protobuf v3 wire format
 func (val *DeprecateNamespaceResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DeprecateNamespaceResponse from the protobuf v3 wire format
 func (val *DeprecateNamespaceResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DeprecateNamespaceResponse) Size() int {
 	return proto.Size(val)
 }
@@ -354,14 +395,18 @@ func (this *DeprecateNamespaceResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StartWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *StartWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StartWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *StartWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StartWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -387,14 +432,18 @@ func (this *StartWorkflowExecutionRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StartWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *StartWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StartWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *StartWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StartWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -420,14 +469,18 @@ func (this *StartWorkflowExecutionResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetWorkflowExecutionHistoryRequest to the protobuf v3 wire format
 func (val *GetWorkflowExecutionHistoryRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetWorkflowExecutionHistoryRequest from the protobuf v3 wire format
 func (val *GetWorkflowExecutionHistoryRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetWorkflowExecutionHistoryRequest) Size() int {
 	return proto.Size(val)
 }
@@ -453,14 +506,18 @@ func (this *GetWorkflowExecutionHistoryRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetWorkflowExecutionHistoryResponse to the protobuf v3 wire format
 func (val *GetWorkflowExecutionHistoryResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetWorkflowExecutionHistoryResponse from the protobuf v3 wire format
 func (val *GetWorkflowExecutionHistoryResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetWorkflowExecutionHistoryResponse) Size() int {
 	return proto.Size(val)
 }
@@ -486,14 +543,18 @@ func (this *GetWorkflowExecutionHistoryResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetWorkflowExecutionHistoryReverseRequest to the protobuf v3 wire format
 func (val *GetWorkflowExecutionHistoryReverseRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetWorkflowExecutionHistoryReverseRequest from the protobuf v3 wire format
 func (val *GetWorkflowExecutionHistoryReverseRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetWorkflowExecutionHistoryReverseRequest) Size() int {
 	return proto.Size(val)
 }
@@ -519,14 +580,18 @@ func (this *GetWorkflowExecutionHistoryReverseRequest) Equal(that interface{}) b
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetWorkflowExecutionHistoryReverseResponse to the protobuf v3 wire format
 func (val *GetWorkflowExecutionHistoryReverseResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetWorkflowExecutionHistoryReverseResponse from the protobuf v3 wire format
 func (val *GetWorkflowExecutionHistoryReverseResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetWorkflowExecutionHistoryReverseResponse) Size() int {
 	return proto.Size(val)
 }
@@ -552,14 +617,18 @@ func (this *GetWorkflowExecutionHistoryReverseResponse) Equal(that interface{}) 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PollWorkflowTaskQueueRequest to the protobuf v3 wire format
 func (val *PollWorkflowTaskQueueRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PollWorkflowTaskQueueRequest from the protobuf v3 wire format
 func (val *PollWorkflowTaskQueueRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PollWorkflowTaskQueueRequest) Size() int {
 	return proto.Size(val)
 }
@@ -585,14 +654,18 @@ func (this *PollWorkflowTaskQueueRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PollWorkflowTaskQueueResponse to the protobuf v3 wire format
 func (val *PollWorkflowTaskQueueResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PollWorkflowTaskQueueResponse from the protobuf v3 wire format
 func (val *PollWorkflowTaskQueueResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PollWorkflowTaskQueueResponse) Size() int {
 	return proto.Size(val)
 }
@@ -618,14 +691,18 @@ func (this *PollWorkflowTaskQueueResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondWorkflowTaskCompletedRequest to the protobuf v3 wire format
 func (val *RespondWorkflowTaskCompletedRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondWorkflowTaskCompletedRequest from the protobuf v3 wire format
 func (val *RespondWorkflowTaskCompletedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondWorkflowTaskCompletedRequest) Size() int {
 	return proto.Size(val)
 }
@@ -651,14 +728,18 @@ func (this *RespondWorkflowTaskCompletedRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondWorkflowTaskCompletedResponse to the protobuf v3 wire format
 func (val *RespondWorkflowTaskCompletedResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondWorkflowTaskCompletedResponse from the protobuf v3 wire format
 func (val *RespondWorkflowTaskCompletedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondWorkflowTaskCompletedResponse) Size() int {
 	return proto.Size(val)
 }
@@ -684,14 +765,18 @@ func (this *RespondWorkflowTaskCompletedResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondWorkflowTaskFailedRequest to the protobuf v3 wire format
 func (val *RespondWorkflowTaskFailedRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondWorkflowTaskFailedRequest from the protobuf v3 wire format
 func (val *RespondWorkflowTaskFailedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondWorkflowTaskFailedRequest) Size() int {
 	return proto.Size(val)
 }
@@ -717,14 +802,18 @@ func (this *RespondWorkflowTaskFailedRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondWorkflowTaskFailedResponse to the protobuf v3 wire format
 func (val *RespondWorkflowTaskFailedResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondWorkflowTaskFailedResponse from the protobuf v3 wire format
 func (val *RespondWorkflowTaskFailedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondWorkflowTaskFailedResponse) Size() int {
 	return proto.Size(val)
 }
@@ -750,14 +839,18 @@ func (this *RespondWorkflowTaskFailedResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PollActivityTaskQueueRequest to the protobuf v3 wire format
 func (val *PollActivityTaskQueueRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PollActivityTaskQueueRequest from the protobuf v3 wire format
 func (val *PollActivityTaskQueueRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PollActivityTaskQueueRequest) Size() int {
 	return proto.Size(val)
 }
@@ -783,14 +876,18 @@ func (this *PollActivityTaskQueueRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PollActivityTaskQueueResponse to the protobuf v3 wire format
 func (val *PollActivityTaskQueueResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PollActivityTaskQueueResponse from the protobuf v3 wire format
 func (val *PollActivityTaskQueueResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PollActivityTaskQueueResponse) Size() int {
 	return proto.Size(val)
 }
@@ -816,14 +913,18 @@ func (this *PollActivityTaskQueueResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RecordActivityTaskHeartbeatRequest to the protobuf v3 wire format
 func (val *RecordActivityTaskHeartbeatRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RecordActivityTaskHeartbeatRequest from the protobuf v3 wire format
 func (val *RecordActivityTaskHeartbeatRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RecordActivityTaskHeartbeatRequest) Size() int {
 	return proto.Size(val)
 }
@@ -849,14 +950,18 @@ func (this *RecordActivityTaskHeartbeatRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RecordActivityTaskHeartbeatResponse to the protobuf v3 wire format
 func (val *RecordActivityTaskHeartbeatResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RecordActivityTaskHeartbeatResponse from the protobuf v3 wire format
 func (val *RecordActivityTaskHeartbeatResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RecordActivityTaskHeartbeatResponse) Size() int {
 	return proto.Size(val)
 }
@@ -882,14 +987,18 @@ func (this *RecordActivityTaskHeartbeatResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RecordActivityTaskHeartbeatByIdRequest to the protobuf v3 wire format
 func (val *RecordActivityTaskHeartbeatByIdRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RecordActivityTaskHeartbeatByIdRequest from the protobuf v3 wire format
 func (val *RecordActivityTaskHeartbeatByIdRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RecordActivityTaskHeartbeatByIdRequest) Size() int {
 	return proto.Size(val)
 }
@@ -915,14 +1024,18 @@ func (this *RecordActivityTaskHeartbeatByIdRequest) Equal(that interface{}) bool
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RecordActivityTaskHeartbeatByIdResponse to the protobuf v3 wire format
 func (val *RecordActivityTaskHeartbeatByIdResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RecordActivityTaskHeartbeatByIdResponse from the protobuf v3 wire format
 func (val *RecordActivityTaskHeartbeatByIdResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RecordActivityTaskHeartbeatByIdResponse) Size() int {
 	return proto.Size(val)
 }
@@ -948,14 +1061,18 @@ func (this *RecordActivityTaskHeartbeatByIdResponse) Equal(that interface{}) boo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskCompletedRequest to the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskCompletedRequest from the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskCompletedRequest) Size() int {
 	return proto.Size(val)
 }
@@ -981,14 +1098,18 @@ func (this *RespondActivityTaskCompletedRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskCompletedResponse to the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskCompletedResponse from the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskCompletedResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1014,14 +1135,18 @@ func (this *RespondActivityTaskCompletedResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskCompletedByIdRequest to the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedByIdRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskCompletedByIdRequest from the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedByIdRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskCompletedByIdRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1047,14 +1172,18 @@ func (this *RespondActivityTaskCompletedByIdRequest) Equal(that interface{}) boo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskCompletedByIdResponse to the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedByIdResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskCompletedByIdResponse from the protobuf v3 wire format
 func (val *RespondActivityTaskCompletedByIdResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskCompletedByIdResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1080,14 +1209,18 @@ func (this *RespondActivityTaskCompletedByIdResponse) Equal(that interface{}) bo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskFailedRequest to the protobuf v3 wire format
 func (val *RespondActivityTaskFailedRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskFailedRequest from the protobuf v3 wire format
 func (val *RespondActivityTaskFailedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskFailedRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1113,14 +1246,18 @@ func (this *RespondActivityTaskFailedRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskFailedResponse to the protobuf v3 wire format
 func (val *RespondActivityTaskFailedResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskFailedResponse from the protobuf v3 wire format
 func (val *RespondActivityTaskFailedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskFailedResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1146,14 +1283,18 @@ func (this *RespondActivityTaskFailedResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskFailedByIdRequest to the protobuf v3 wire format
 func (val *RespondActivityTaskFailedByIdRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskFailedByIdRequest from the protobuf v3 wire format
 func (val *RespondActivityTaskFailedByIdRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskFailedByIdRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1179,14 +1320,18 @@ func (this *RespondActivityTaskFailedByIdRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskFailedByIdResponse to the protobuf v3 wire format
 func (val *RespondActivityTaskFailedByIdResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskFailedByIdResponse from the protobuf v3 wire format
 func (val *RespondActivityTaskFailedByIdResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskFailedByIdResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1212,14 +1357,18 @@ func (this *RespondActivityTaskFailedByIdResponse) Equal(that interface{}) bool 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskCanceledRequest to the protobuf v3 wire format
 func (val *RespondActivityTaskCanceledRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskCanceledRequest from the protobuf v3 wire format
 func (val *RespondActivityTaskCanceledRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskCanceledRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1245,14 +1394,18 @@ func (this *RespondActivityTaskCanceledRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskCanceledResponse to the protobuf v3 wire format
 func (val *RespondActivityTaskCanceledResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskCanceledResponse from the protobuf v3 wire format
 func (val *RespondActivityTaskCanceledResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskCanceledResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1278,14 +1431,18 @@ func (this *RespondActivityTaskCanceledResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskCanceledByIdRequest to the protobuf v3 wire format
 func (val *RespondActivityTaskCanceledByIdRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskCanceledByIdRequest from the protobuf v3 wire format
 func (val *RespondActivityTaskCanceledByIdRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskCanceledByIdRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1311,14 +1468,18 @@ func (this *RespondActivityTaskCanceledByIdRequest) Equal(that interface{}) bool
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondActivityTaskCanceledByIdResponse to the protobuf v3 wire format
 func (val *RespondActivityTaskCanceledByIdResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondActivityTaskCanceledByIdResponse from the protobuf v3 wire format
 func (val *RespondActivityTaskCanceledByIdResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondActivityTaskCanceledByIdResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1344,14 +1505,18 @@ func (this *RespondActivityTaskCanceledByIdResponse) Equal(that interface{}) boo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RequestCancelWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *RequestCancelWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RequestCancelWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *RequestCancelWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RequestCancelWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1377,14 +1542,18 @@ func (this *RequestCancelWorkflowExecutionRequest) Equal(that interface{}) bool 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RequestCancelWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *RequestCancelWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RequestCancelWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *RequestCancelWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RequestCancelWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1410,14 +1579,18 @@ func (this *RequestCancelWorkflowExecutionResponse) Equal(that interface{}) bool
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type SignalWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *SignalWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type SignalWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *SignalWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *SignalWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1443,14 +1616,18 @@ func (this *SignalWorkflowExecutionRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type SignalWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *SignalWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type SignalWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *SignalWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *SignalWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1476,14 +1653,18 @@ func (this *SignalWorkflowExecutionResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type SignalWithStartWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *SignalWithStartWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type SignalWithStartWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *SignalWithStartWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *SignalWithStartWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1509,14 +1690,18 @@ func (this *SignalWithStartWorkflowExecutionRequest) Equal(that interface{}) boo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type SignalWithStartWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *SignalWithStartWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type SignalWithStartWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *SignalWithStartWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *SignalWithStartWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1542,14 +1727,18 @@ func (this *SignalWithStartWorkflowExecutionResponse) Equal(that interface{}) bo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ResetWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *ResetWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ResetWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *ResetWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ResetWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1575,14 +1764,18 @@ func (this *ResetWorkflowExecutionRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ResetWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *ResetWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ResetWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *ResetWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ResetWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1608,14 +1801,18 @@ func (this *ResetWorkflowExecutionResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TerminateWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *TerminateWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TerminateWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *TerminateWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TerminateWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1641,14 +1838,18 @@ func (this *TerminateWorkflowExecutionRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TerminateWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *TerminateWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TerminateWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *TerminateWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TerminateWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1674,14 +1875,18 @@ func (this *TerminateWorkflowExecutionResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DeleteWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *DeleteWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DeleteWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *DeleteWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DeleteWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1707,14 +1912,18 @@ func (this *DeleteWorkflowExecutionRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DeleteWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *DeleteWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DeleteWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *DeleteWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DeleteWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1740,14 +1949,18 @@ func (this *DeleteWorkflowExecutionResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListOpenWorkflowExecutionsRequest to the protobuf v3 wire format
 func (val *ListOpenWorkflowExecutionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListOpenWorkflowExecutionsRequest from the protobuf v3 wire format
 func (val *ListOpenWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListOpenWorkflowExecutionsRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1773,14 +1986,18 @@ func (this *ListOpenWorkflowExecutionsRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListOpenWorkflowExecutionsResponse to the protobuf v3 wire format
 func (val *ListOpenWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListOpenWorkflowExecutionsResponse from the protobuf v3 wire format
 func (val *ListOpenWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListOpenWorkflowExecutionsResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1806,14 +2023,18 @@ func (this *ListOpenWorkflowExecutionsResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListClosedWorkflowExecutionsRequest to the protobuf v3 wire format
 func (val *ListClosedWorkflowExecutionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListClosedWorkflowExecutionsRequest from the protobuf v3 wire format
 func (val *ListClosedWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListClosedWorkflowExecutionsRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1839,14 +2060,18 @@ func (this *ListClosedWorkflowExecutionsRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListClosedWorkflowExecutionsResponse to the protobuf v3 wire format
 func (val *ListClosedWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListClosedWorkflowExecutionsResponse from the protobuf v3 wire format
 func (val *ListClosedWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListClosedWorkflowExecutionsResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1872,14 +2097,18 @@ func (this *ListClosedWorkflowExecutionsResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListWorkflowExecutionsRequest to the protobuf v3 wire format
 func (val *ListWorkflowExecutionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListWorkflowExecutionsRequest from the protobuf v3 wire format
 func (val *ListWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListWorkflowExecutionsRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1905,14 +2134,18 @@ func (this *ListWorkflowExecutionsRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListWorkflowExecutionsResponse to the protobuf v3 wire format
 func (val *ListWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListWorkflowExecutionsResponse from the protobuf v3 wire format
 func (val *ListWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListWorkflowExecutionsResponse) Size() int {
 	return proto.Size(val)
 }
@@ -1938,14 +2171,18 @@ func (this *ListWorkflowExecutionsResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListArchivedWorkflowExecutionsRequest to the protobuf v3 wire format
 func (val *ListArchivedWorkflowExecutionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListArchivedWorkflowExecutionsRequest from the protobuf v3 wire format
 func (val *ListArchivedWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListArchivedWorkflowExecutionsRequest) Size() int {
 	return proto.Size(val)
 }
@@ -1971,14 +2208,18 @@ func (this *ListArchivedWorkflowExecutionsRequest) Equal(that interface{}) bool 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListArchivedWorkflowExecutionsResponse to the protobuf v3 wire format
 func (val *ListArchivedWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListArchivedWorkflowExecutionsResponse from the protobuf v3 wire format
 func (val *ListArchivedWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListArchivedWorkflowExecutionsResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2004,14 +2245,18 @@ func (this *ListArchivedWorkflowExecutionsResponse) Equal(that interface{}) bool
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ScanWorkflowExecutionsRequest to the protobuf v3 wire format
 func (val *ScanWorkflowExecutionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ScanWorkflowExecutionsRequest from the protobuf v3 wire format
 func (val *ScanWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ScanWorkflowExecutionsRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2037,14 +2282,18 @@ func (this *ScanWorkflowExecutionsRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ScanWorkflowExecutionsResponse to the protobuf v3 wire format
 func (val *ScanWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ScanWorkflowExecutionsResponse from the protobuf v3 wire format
 func (val *ScanWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ScanWorkflowExecutionsResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2070,14 +2319,18 @@ func (this *ScanWorkflowExecutionsResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CountWorkflowExecutionsRequest to the protobuf v3 wire format
 func (val *CountWorkflowExecutionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CountWorkflowExecutionsRequest from the protobuf v3 wire format
 func (val *CountWorkflowExecutionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CountWorkflowExecutionsRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2103,14 +2356,18 @@ func (this *CountWorkflowExecutionsRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CountWorkflowExecutionsResponse to the protobuf v3 wire format
 func (val *CountWorkflowExecutionsResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CountWorkflowExecutionsResponse from the protobuf v3 wire format
 func (val *CountWorkflowExecutionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CountWorkflowExecutionsResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2136,14 +2393,18 @@ func (this *CountWorkflowExecutionsResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetSearchAttributesRequest to the protobuf v3 wire format
 func (val *GetSearchAttributesRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetSearchAttributesRequest from the protobuf v3 wire format
 func (val *GetSearchAttributesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetSearchAttributesRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2169,14 +2430,18 @@ func (this *GetSearchAttributesRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetSearchAttributesResponse to the protobuf v3 wire format
 func (val *GetSearchAttributesResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetSearchAttributesResponse from the protobuf v3 wire format
 func (val *GetSearchAttributesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetSearchAttributesResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2202,14 +2467,18 @@ func (this *GetSearchAttributesResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondQueryTaskCompletedRequest to the protobuf v3 wire format
 func (val *RespondQueryTaskCompletedRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondQueryTaskCompletedRequest from the protobuf v3 wire format
 func (val *RespondQueryTaskCompletedRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondQueryTaskCompletedRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2235,14 +2504,18 @@ func (this *RespondQueryTaskCompletedRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type RespondQueryTaskCompletedResponse to the protobuf v3 wire format
 func (val *RespondQueryTaskCompletedResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type RespondQueryTaskCompletedResponse from the protobuf v3 wire format
 func (val *RespondQueryTaskCompletedResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *RespondQueryTaskCompletedResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2268,14 +2541,18 @@ func (this *RespondQueryTaskCompletedResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ResetStickyTaskQueueRequest to the protobuf v3 wire format
 func (val *ResetStickyTaskQueueRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ResetStickyTaskQueueRequest from the protobuf v3 wire format
 func (val *ResetStickyTaskQueueRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ResetStickyTaskQueueRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2301,14 +2578,18 @@ func (this *ResetStickyTaskQueueRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ResetStickyTaskQueueResponse to the protobuf v3 wire format
 func (val *ResetStickyTaskQueueResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ResetStickyTaskQueueResponse from the protobuf v3 wire format
 func (val *ResetStickyTaskQueueResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ResetStickyTaskQueueResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2334,14 +2615,18 @@ func (this *ResetStickyTaskQueueResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type QueryWorkflowRequest to the protobuf v3 wire format
 func (val *QueryWorkflowRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type QueryWorkflowRequest from the protobuf v3 wire format
 func (val *QueryWorkflowRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *QueryWorkflowRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2367,14 +2652,18 @@ func (this *QueryWorkflowRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type QueryWorkflowResponse to the protobuf v3 wire format
 func (val *QueryWorkflowResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type QueryWorkflowResponse from the protobuf v3 wire format
 func (val *QueryWorkflowResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *QueryWorkflowResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2400,14 +2689,18 @@ func (this *QueryWorkflowResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *DescribeWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *DescribeWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2433,14 +2726,18 @@ func (this *DescribeWorkflowExecutionRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *DescribeWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *DescribeWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2466,14 +2763,18 @@ func (this *DescribeWorkflowExecutionResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeTaskQueueRequest to the protobuf v3 wire format
 func (val *DescribeTaskQueueRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeTaskQueueRequest from the protobuf v3 wire format
 func (val *DescribeTaskQueueRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeTaskQueueRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2499,14 +2800,18 @@ func (this *DescribeTaskQueueRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeTaskQueueResponse to the protobuf v3 wire format
 func (val *DescribeTaskQueueResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeTaskQueueResponse from the protobuf v3 wire format
 func (val *DescribeTaskQueueResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeTaskQueueResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2532,14 +2837,18 @@ func (this *DescribeTaskQueueResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetClusterInfoRequest to the protobuf v3 wire format
 func (val *GetClusterInfoRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetClusterInfoRequest from the protobuf v3 wire format
 func (val *GetClusterInfoRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetClusterInfoRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2565,14 +2874,18 @@ func (this *GetClusterInfoRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetClusterInfoResponse to the protobuf v3 wire format
 func (val *GetClusterInfoResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetClusterInfoResponse from the protobuf v3 wire format
 func (val *GetClusterInfoResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetClusterInfoResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2598,14 +2911,18 @@ func (this *GetClusterInfoResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetSystemInfoRequest to the protobuf v3 wire format
 func (val *GetSystemInfoRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetSystemInfoRequest from the protobuf v3 wire format
 func (val *GetSystemInfoRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetSystemInfoRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2631,14 +2948,18 @@ func (this *GetSystemInfoRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetSystemInfoResponse to the protobuf v3 wire format
 func (val *GetSystemInfoResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetSystemInfoResponse from the protobuf v3 wire format
 func (val *GetSystemInfoResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetSystemInfoResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2664,14 +2985,18 @@ func (this *GetSystemInfoResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListTaskQueuePartitionsRequest to the protobuf v3 wire format
 func (val *ListTaskQueuePartitionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListTaskQueuePartitionsRequest from the protobuf v3 wire format
 func (val *ListTaskQueuePartitionsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListTaskQueuePartitionsRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2697,14 +3022,18 @@ func (this *ListTaskQueuePartitionsRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListTaskQueuePartitionsResponse to the protobuf v3 wire format
 func (val *ListTaskQueuePartitionsResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListTaskQueuePartitionsResponse from the protobuf v3 wire format
 func (val *ListTaskQueuePartitionsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListTaskQueuePartitionsResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2730,14 +3059,18 @@ func (this *ListTaskQueuePartitionsResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CreateScheduleRequest to the protobuf v3 wire format
 func (val *CreateScheduleRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CreateScheduleRequest from the protobuf v3 wire format
 func (val *CreateScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CreateScheduleRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2763,14 +3096,18 @@ func (this *CreateScheduleRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CreateScheduleResponse to the protobuf v3 wire format
 func (val *CreateScheduleResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CreateScheduleResponse from the protobuf v3 wire format
 func (val *CreateScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CreateScheduleResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2796,14 +3133,18 @@ func (this *CreateScheduleResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeScheduleRequest to the protobuf v3 wire format
 func (val *DescribeScheduleRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeScheduleRequest from the protobuf v3 wire format
 func (val *DescribeScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeScheduleRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2829,14 +3170,18 @@ func (this *DescribeScheduleRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeScheduleResponse to the protobuf v3 wire format
 func (val *DescribeScheduleResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeScheduleResponse from the protobuf v3 wire format
 func (val *DescribeScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeScheduleResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2862,14 +3207,18 @@ func (this *DescribeScheduleResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateScheduleRequest to the protobuf v3 wire format
 func (val *UpdateScheduleRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateScheduleRequest from the protobuf v3 wire format
 func (val *UpdateScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateScheduleRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2895,14 +3244,18 @@ func (this *UpdateScheduleRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateScheduleResponse to the protobuf v3 wire format
 func (val *UpdateScheduleResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateScheduleResponse from the protobuf v3 wire format
 func (val *UpdateScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateScheduleResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2928,14 +3281,18 @@ func (this *UpdateScheduleResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PatchScheduleRequest to the protobuf v3 wire format
 func (val *PatchScheduleRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PatchScheduleRequest from the protobuf v3 wire format
 func (val *PatchScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PatchScheduleRequest) Size() int {
 	return proto.Size(val)
 }
@@ -2961,14 +3318,18 @@ func (this *PatchScheduleRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PatchScheduleResponse to the protobuf v3 wire format
 func (val *PatchScheduleResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PatchScheduleResponse from the protobuf v3 wire format
 func (val *PatchScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PatchScheduleResponse) Size() int {
 	return proto.Size(val)
 }
@@ -2994,14 +3355,18 @@ func (this *PatchScheduleResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListScheduleMatchingTimesRequest to the protobuf v3 wire format
 func (val *ListScheduleMatchingTimesRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListScheduleMatchingTimesRequest from the protobuf v3 wire format
 func (val *ListScheduleMatchingTimesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListScheduleMatchingTimesRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3027,14 +3392,18 @@ func (this *ListScheduleMatchingTimesRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListScheduleMatchingTimesResponse to the protobuf v3 wire format
 func (val *ListScheduleMatchingTimesResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListScheduleMatchingTimesResponse from the protobuf v3 wire format
 func (val *ListScheduleMatchingTimesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListScheduleMatchingTimesResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3060,14 +3429,18 @@ func (this *ListScheduleMatchingTimesResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DeleteScheduleRequest to the protobuf v3 wire format
 func (val *DeleteScheduleRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DeleteScheduleRequest from the protobuf v3 wire format
 func (val *DeleteScheduleRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DeleteScheduleRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3093,14 +3466,18 @@ func (this *DeleteScheduleRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DeleteScheduleResponse to the protobuf v3 wire format
 func (val *DeleteScheduleResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DeleteScheduleResponse from the protobuf v3 wire format
 func (val *DeleteScheduleResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DeleteScheduleResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3126,14 +3503,18 @@ func (this *DeleteScheduleResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListSchedulesRequest to the protobuf v3 wire format
 func (val *ListSchedulesRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListSchedulesRequest from the protobuf v3 wire format
 func (val *ListSchedulesRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListSchedulesRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3159,14 +3540,18 @@ func (this *ListSchedulesRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListSchedulesResponse to the protobuf v3 wire format
 func (val *ListSchedulesResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListSchedulesResponse from the protobuf v3 wire format
 func (val *ListSchedulesResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListSchedulesResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3192,14 +3577,18 @@ func (this *ListSchedulesResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateWorkerBuildIdCompatibilityRequest to the protobuf v3 wire format
 func (val *UpdateWorkerBuildIdCompatibilityRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateWorkerBuildIdCompatibilityRequest from the protobuf v3 wire format
 func (val *UpdateWorkerBuildIdCompatibilityRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateWorkerBuildIdCompatibilityRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3225,14 +3614,18 @@ func (this *UpdateWorkerBuildIdCompatibilityRequest) Equal(that interface{}) boo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateWorkerBuildIdCompatibilityResponse to the protobuf v3 wire format
 func (val *UpdateWorkerBuildIdCompatibilityResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateWorkerBuildIdCompatibilityResponse from the protobuf v3 wire format
 func (val *UpdateWorkerBuildIdCompatibilityResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateWorkerBuildIdCompatibilityResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3258,14 +3651,18 @@ func (this *UpdateWorkerBuildIdCompatibilityResponse) Equal(that interface{}) bo
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetWorkerBuildIdCompatibilityRequest to the protobuf v3 wire format
 func (val *GetWorkerBuildIdCompatibilityRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetWorkerBuildIdCompatibilityRequest from the protobuf v3 wire format
 func (val *GetWorkerBuildIdCompatibilityRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetWorkerBuildIdCompatibilityRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3291,14 +3688,18 @@ func (this *GetWorkerBuildIdCompatibilityRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetWorkerBuildIdCompatibilityResponse to the protobuf v3 wire format
 func (val *GetWorkerBuildIdCompatibilityResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetWorkerBuildIdCompatibilityResponse from the protobuf v3 wire format
 func (val *GetWorkerBuildIdCompatibilityResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetWorkerBuildIdCompatibilityResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3324,14 +3725,18 @@ func (this *GetWorkerBuildIdCompatibilityResponse) Equal(that interface{}) bool 
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetWorkerTaskReachabilityRequest to the protobuf v3 wire format
 func (val *GetWorkerTaskReachabilityRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetWorkerTaskReachabilityRequest from the protobuf v3 wire format
 func (val *GetWorkerTaskReachabilityRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetWorkerTaskReachabilityRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3357,14 +3762,18 @@ func (this *GetWorkerTaskReachabilityRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetWorkerTaskReachabilityResponse to the protobuf v3 wire format
 func (val *GetWorkerTaskReachabilityResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type GetWorkerTaskReachabilityResponse from the protobuf v3 wire format
 func (val *GetWorkerTaskReachabilityResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *GetWorkerTaskReachabilityResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3390,14 +3799,18 @@ func (this *GetWorkerTaskReachabilityResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateWorkflowExecutionRequest to the protobuf v3 wire format
 func (val *UpdateWorkflowExecutionRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateWorkflowExecutionRequest from the protobuf v3 wire format
 func (val *UpdateWorkflowExecutionRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateWorkflowExecutionRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3423,14 +3836,18 @@ func (this *UpdateWorkflowExecutionRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateWorkflowExecutionResponse to the protobuf v3 wire format
 func (val *UpdateWorkflowExecutionResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type UpdateWorkflowExecutionResponse from the protobuf v3 wire format
 func (val *UpdateWorkflowExecutionResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *UpdateWorkflowExecutionResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3456,14 +3873,18 @@ func (this *UpdateWorkflowExecutionResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StartBatchOperationRequest to the protobuf v3 wire format
 func (val *StartBatchOperationRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StartBatchOperationRequest from the protobuf v3 wire format
 func (val *StartBatchOperationRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StartBatchOperationRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3489,14 +3910,18 @@ func (this *StartBatchOperationRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StartBatchOperationResponse to the protobuf v3 wire format
 func (val *StartBatchOperationResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StartBatchOperationResponse from the protobuf v3 wire format
 func (val *StartBatchOperationResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StartBatchOperationResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3522,14 +3947,18 @@ func (this *StartBatchOperationResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StopBatchOperationRequest to the protobuf v3 wire format
 func (val *StopBatchOperationRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StopBatchOperationRequest from the protobuf v3 wire format
 func (val *StopBatchOperationRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StopBatchOperationRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3555,14 +3984,18 @@ func (this *StopBatchOperationRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StopBatchOperationResponse to the protobuf v3 wire format
 func (val *StopBatchOperationResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StopBatchOperationResponse from the protobuf v3 wire format
 func (val *StopBatchOperationResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StopBatchOperationResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3588,14 +4021,18 @@ func (this *StopBatchOperationResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeBatchOperationRequest to the protobuf v3 wire format
 func (val *DescribeBatchOperationRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeBatchOperationRequest from the protobuf v3 wire format
 func (val *DescribeBatchOperationRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeBatchOperationRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3621,14 +4058,18 @@ func (this *DescribeBatchOperationRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type DescribeBatchOperationResponse to the protobuf v3 wire format
 func (val *DescribeBatchOperationResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type DescribeBatchOperationResponse from the protobuf v3 wire format
 func (val *DescribeBatchOperationResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *DescribeBatchOperationResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3654,14 +4095,18 @@ func (this *DescribeBatchOperationResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListBatchOperationsRequest to the protobuf v3 wire format
 func (val *ListBatchOperationsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListBatchOperationsRequest from the protobuf v3 wire format
 func (val *ListBatchOperationsRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListBatchOperationsRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3687,14 +4132,18 @@ func (this *ListBatchOperationsRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ListBatchOperationsResponse to the protobuf v3 wire format
 func (val *ListBatchOperationsResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ListBatchOperationsResponse from the protobuf v3 wire format
 func (val *ListBatchOperationsResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ListBatchOperationsResponse) Size() int {
 	return proto.Size(val)
 }
@@ -3720,14 +4169,18 @@ func (this *ListBatchOperationsResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PollWorkflowExecutionUpdateRequest to the protobuf v3 wire format
 func (val *PollWorkflowExecutionUpdateRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PollWorkflowExecutionUpdateRequest from the protobuf v3 wire format
 func (val *PollWorkflowExecutionUpdateRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PollWorkflowExecutionUpdateRequest) Size() int {
 	return proto.Size(val)
 }
@@ -3753,14 +4206,18 @@ func (this *PollWorkflowExecutionUpdateRequest) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PollWorkflowExecutionUpdateResponse to the protobuf v3 wire format
 func (val *PollWorkflowExecutionUpdateResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PollWorkflowExecutionUpdateResponse from the protobuf v3 wire format
 func (val *PollWorkflowExecutionUpdateResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PollWorkflowExecutionUpdateResponse) Size() int {
 	return proto.Size(val)
 }

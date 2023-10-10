@@ -22,16 +22,21 @@
 
 package failure
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type ApplicationFailureInfo to the protobuf v3 wire format
 func (val *ApplicationFailureInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ApplicationFailureInfo from the protobuf v3 wire format
 func (val *ApplicationFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ApplicationFailureInfo) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *ApplicationFailureInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TimeoutFailureInfo to the protobuf v3 wire format
 func (val *TimeoutFailureInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TimeoutFailureInfo from the protobuf v3 wire format
 func (val *TimeoutFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TimeoutFailureInfo) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *TimeoutFailureInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CanceledFailureInfo to the protobuf v3 wire format
 func (val *CanceledFailureInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CanceledFailureInfo from the protobuf v3 wire format
 func (val *CanceledFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CanceledFailureInfo) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *CanceledFailureInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TerminatedFailureInfo to the protobuf v3 wire format
 func (val *TerminatedFailureInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TerminatedFailureInfo from the protobuf v3 wire format
 func (val *TerminatedFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TerminatedFailureInfo) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *TerminatedFailureInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ServerFailureInfo to the protobuf v3 wire format
 func (val *ServerFailureInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ServerFailureInfo from the protobuf v3 wire format
 func (val *ServerFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ServerFailureInfo) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *ServerFailureInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ResetWorkflowFailureInfo to the protobuf v3 wire format
 func (val *ResetWorkflowFailureInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ResetWorkflowFailureInfo from the protobuf v3 wire format
 func (val *ResetWorkflowFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ResetWorkflowFailureInfo) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *ResetWorkflowFailureInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ActivityFailureInfo to the protobuf v3 wire format
 func (val *ActivityFailureInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ActivityFailureInfo from the protobuf v3 wire format
 func (val *ActivityFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ActivityFailureInfo) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *ActivityFailureInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ChildWorkflowExecutionFailureInfo to the protobuf v3 wire format
 func (val *ChildWorkflowExecutionFailureInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ChildWorkflowExecutionFailureInfo from the protobuf v3 wire format
 func (val *ChildWorkflowExecutionFailureInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ChildWorkflowExecutionFailureInfo) Size() int {
 	return proto.Size(val)
 }
@@ -288,14 +321,18 @@ func (this *ChildWorkflowExecutionFailureInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type Failure to the protobuf v3 wire format
 func (val *Failure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type Failure from the protobuf v3 wire format
 func (val *Failure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *Failure) Size() int {
 	return proto.Size(val)
 }

@@ -8,7 +8,7 @@ install: grpc-install mockgen-install goimports-install update-proto
 proto: grpc goimports proxy grpc-mock copyright
 
 # Update submodule and compile proto files.
-update-proto: update-proto-submodule gomodtidy proto update-dependencies 
+update-proto: update-proto-submodule proto update-dependencies gomodtidy
 ########################################################################
 
 ##### Variables ######
@@ -47,6 +47,7 @@ grpc: go-grpc fix-path fix-enums copy-helpers
 
 # Only install helper when its source has changed
 .go-helpers-installed: $(HELPER_FILES)
+	printf $(COLOR) "Installing protoc plugin"
 	@go install ./protoc-gen-go-helpers
 
 go-grpc: clean .go-helpers-installed $(PROTO_OUT)

@@ -22,16 +22,21 @@
 
 package replication
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type ClusterReplicationConfig to the protobuf v3 wire format
 func (val *ClusterReplicationConfig) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ClusterReplicationConfig from the protobuf v3 wire format
 func (val *ClusterReplicationConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ClusterReplicationConfig) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *ClusterReplicationConfig) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NamespaceReplicationConfig to the protobuf v3 wire format
 func (val *NamespaceReplicationConfig) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NamespaceReplicationConfig from the protobuf v3 wire format
 func (val *NamespaceReplicationConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NamespaceReplicationConfig) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *NamespaceReplicationConfig) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type FailoverStatus to the protobuf v3 wire format
 func (val *FailoverStatus) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type FailoverStatus from the protobuf v3 wire format
 func (val *FailoverStatus) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *FailoverStatus) Size() int {
 	return proto.Size(val)
 }

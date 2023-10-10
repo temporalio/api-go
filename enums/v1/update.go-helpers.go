@@ -20,45 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package protocol
+package enums
 
 import (
-	"google.golang.org/protobuf/proto"
+	"fmt"
 )
 
-// Marshal an object of type Message to the protobuf v3 wire format
-func (val *Message) Marshal() ([]byte, error) {
-	return proto.Marshal(val)
-}
-
-// Unmarshal an object of type Message from the protobuf v3 wire format
-func (val *Message) Unmarshal(buf []byte) error {
-	return proto.Unmarshal(buf, val)
-}
-
-// Size returns the size of the object, in bytes, once serialized
-func (val *Message) Size() int {
-	return proto.Size(val)
-}
-
-// Equal returns whether two Message values are equivalent by recursively
-// comparing the message's fields.
-// For more information see the documentation for
-// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *Message) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
+var (
+	UpdateWorkflowExecutionLifecycleStage_shortNameValue = map[string]int32{
+		"Unspecified": 0,
+		"Admitted":    1,
+		"Accepted":    2,
+		"Completed":   3,
 	}
+)
 
-	var that1 *Message
-	switch t := that.(type) {
-	case *Message:
-		that1 = t
-	case Message:
-		that1 = &t
-	default:
-		return false
+// UpdateWorkflowExecutionLifecycleStageFromString parses a UpdateWorkflowExecutionLifecycleStage value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to UpdateWorkflowExecutionLifecycleStage
+func UpdateWorkflowExecutionLifecycleStageFromString(s string) (UpdateWorkflowExecutionLifecycleStage, error) {
+	if v, ok := UpdateWorkflowExecutionLifecycleStage_value[s]; ok {
+		return UpdateWorkflowExecutionLifecycleStage(v), nil
+	} else if v, ok := UpdateWorkflowExecutionLifecycleStage_shortNameValue[s]; ok {
+		return UpdateWorkflowExecutionLifecycleStage(v), nil
 	}
-
-	return proto.Equal(this, that1)
+	return UpdateWorkflowExecutionLifecycleStage(0), fmt.Errorf("Invalid value for UpdateWorkflowExecutionLifecycleStage: %s", s)
 }

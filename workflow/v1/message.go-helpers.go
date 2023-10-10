@@ -22,16 +22,21 @@
 
 package workflow
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type WorkflowExecutionInfo to the protobuf v3 wire format
 func (val *WorkflowExecutionInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowExecutionInfo from the protobuf v3 wire format
 func (val *WorkflowExecutionInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowExecutionInfo) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *WorkflowExecutionInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkflowExecutionConfig to the protobuf v3 wire format
 func (val *WorkflowExecutionConfig) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowExecutionConfig from the protobuf v3 wire format
 func (val *WorkflowExecutionConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowExecutionConfig) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *WorkflowExecutionConfig) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PendingActivityInfo to the protobuf v3 wire format
 func (val *PendingActivityInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PendingActivityInfo from the protobuf v3 wire format
 func (val *PendingActivityInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PendingActivityInfo) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *PendingActivityInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PendingChildExecutionInfo to the protobuf v3 wire format
 func (val *PendingChildExecutionInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PendingChildExecutionInfo from the protobuf v3 wire format
 func (val *PendingChildExecutionInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PendingChildExecutionInfo) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *PendingChildExecutionInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PendingWorkflowTaskInfo to the protobuf v3 wire format
 func (val *PendingWorkflowTaskInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PendingWorkflowTaskInfo from the protobuf v3 wire format
 func (val *PendingWorkflowTaskInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PendingWorkflowTaskInfo) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *PendingWorkflowTaskInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ResetPoints to the protobuf v3 wire format
 func (val *ResetPoints) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ResetPoints from the protobuf v3 wire format
 func (val *ResetPoints) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ResetPoints) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *ResetPoints) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ResetPointInfo to the protobuf v3 wire format
 func (val *ResetPointInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ResetPointInfo from the protobuf v3 wire format
 func (val *ResetPointInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ResetPointInfo) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *ResetPointInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NewWorkflowExecutionInfo to the protobuf v3 wire format
 func (val *NewWorkflowExecutionInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NewWorkflowExecutionInfo from the protobuf v3 wire format
 func (val *NewWorkflowExecutionInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NewWorkflowExecutionInfo) Size() int {
 	return proto.Size(val)
 }

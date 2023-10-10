@@ -22,16 +22,21 @@
 
 package taskqueue
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type TaskQueue to the protobuf v3 wire format
 func (val *TaskQueue) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TaskQueue from the protobuf v3 wire format
 func (val *TaskQueue) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TaskQueue) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *TaskQueue) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TaskQueueMetadata to the protobuf v3 wire format
 func (val *TaskQueueMetadata) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TaskQueueMetadata from the protobuf v3 wire format
 func (val *TaskQueueMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TaskQueueMetadata) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *TaskQueueMetadata) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TaskQueueStatus to the protobuf v3 wire format
 func (val *TaskQueueStatus) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TaskQueueStatus from the protobuf v3 wire format
 func (val *TaskQueueStatus) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TaskQueueStatus) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *TaskQueueStatus) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TaskIdBlock to the protobuf v3 wire format
 func (val *TaskIdBlock) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TaskIdBlock from the protobuf v3 wire format
 func (val *TaskIdBlock) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TaskIdBlock) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *TaskIdBlock) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TaskQueuePartitionMetadata to the protobuf v3 wire format
 func (val *TaskQueuePartitionMetadata) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TaskQueuePartitionMetadata from the protobuf v3 wire format
 func (val *TaskQueuePartitionMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TaskQueuePartitionMetadata) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *TaskQueuePartitionMetadata) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PollerInfo to the protobuf v3 wire format
 func (val *PollerInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PollerInfo from the protobuf v3 wire format
 func (val *PollerInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PollerInfo) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *PollerInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type StickyExecutionAttributes to the protobuf v3 wire format
 func (val *StickyExecutionAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type StickyExecutionAttributes from the protobuf v3 wire format
 func (val *StickyExecutionAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *StickyExecutionAttributes) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *StickyExecutionAttributes) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CompatibleVersionSet to the protobuf v3 wire format
 func (val *CompatibleVersionSet) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CompatibleVersionSet from the protobuf v3 wire format
 func (val *CompatibleVersionSet) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CompatibleVersionSet) Size() int {
 	return proto.Size(val)
 }
@@ -288,14 +321,18 @@ func (this *CompatibleVersionSet) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TaskQueueReachability to the protobuf v3 wire format
 func (val *TaskQueueReachability) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type TaskQueueReachability from the protobuf v3 wire format
 func (val *TaskQueueReachability) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *TaskQueueReachability) Size() int {
 	return proto.Size(val)
 }
@@ -321,14 +358,18 @@ func (this *TaskQueueReachability) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type BuildIdReachability to the protobuf v3 wire format
 func (val *BuildIdReachability) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type BuildIdReachability from the protobuf v3 wire format
 func (val *BuildIdReachability) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *BuildIdReachability) Size() int {
 	return proto.Size(val)
 }

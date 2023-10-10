@@ -22,16 +22,21 @@
 
 package errordetails
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type NotFoundFailure to the protobuf v3 wire format
 func (val *NotFoundFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NotFoundFailure from the protobuf v3 wire format
 func (val *NotFoundFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NotFoundFailure) Size() int {
 	return proto.Size(val)
 }
@@ -57,14 +62,18 @@ func (this *NotFoundFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkflowExecutionAlreadyStartedFailure to the protobuf v3 wire format
 func (val *WorkflowExecutionAlreadyStartedFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowExecutionAlreadyStartedFailure from the protobuf v3 wire format
 func (val *WorkflowExecutionAlreadyStartedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowExecutionAlreadyStartedFailure) Size() int {
 	return proto.Size(val)
 }
@@ -90,14 +99,18 @@ func (this *WorkflowExecutionAlreadyStartedFailure) Equal(that interface{}) bool
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NamespaceNotActiveFailure to the protobuf v3 wire format
 func (val *NamespaceNotActiveFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NamespaceNotActiveFailure from the protobuf v3 wire format
 func (val *NamespaceNotActiveFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NamespaceNotActiveFailure) Size() int {
 	return proto.Size(val)
 }
@@ -123,14 +136,18 @@ func (this *NamespaceNotActiveFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NamespaceInvalidStateFailure to the protobuf v3 wire format
 func (val *NamespaceInvalidStateFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NamespaceInvalidStateFailure from the protobuf v3 wire format
 func (val *NamespaceInvalidStateFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NamespaceInvalidStateFailure) Size() int {
 	return proto.Size(val)
 }
@@ -156,14 +173,18 @@ func (this *NamespaceInvalidStateFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NamespaceNotFoundFailure to the protobuf v3 wire format
 func (val *NamespaceNotFoundFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NamespaceNotFoundFailure from the protobuf v3 wire format
 func (val *NamespaceNotFoundFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NamespaceNotFoundFailure) Size() int {
 	return proto.Size(val)
 }
@@ -189,14 +210,18 @@ func (this *NamespaceNotFoundFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NamespaceAlreadyExistsFailure to the protobuf v3 wire format
 func (val *NamespaceAlreadyExistsFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NamespaceAlreadyExistsFailure from the protobuf v3 wire format
 func (val *NamespaceAlreadyExistsFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NamespaceAlreadyExistsFailure) Size() int {
 	return proto.Size(val)
 }
@@ -222,14 +247,18 @@ func (this *NamespaceAlreadyExistsFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ClientVersionNotSupportedFailure to the protobuf v3 wire format
 func (val *ClientVersionNotSupportedFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ClientVersionNotSupportedFailure from the protobuf v3 wire format
 func (val *ClientVersionNotSupportedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ClientVersionNotSupportedFailure) Size() int {
 	return proto.Size(val)
 }
@@ -255,14 +284,18 @@ func (this *ClientVersionNotSupportedFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ServerVersionNotSupportedFailure to the protobuf v3 wire format
 func (val *ServerVersionNotSupportedFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ServerVersionNotSupportedFailure from the protobuf v3 wire format
 func (val *ServerVersionNotSupportedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ServerVersionNotSupportedFailure) Size() int {
 	return proto.Size(val)
 }
@@ -288,14 +321,18 @@ func (this *ServerVersionNotSupportedFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CancellationAlreadyRequestedFailure to the protobuf v3 wire format
 func (val *CancellationAlreadyRequestedFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type CancellationAlreadyRequestedFailure from the protobuf v3 wire format
 func (val *CancellationAlreadyRequestedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *CancellationAlreadyRequestedFailure) Size() int {
 	return proto.Size(val)
 }
@@ -321,14 +358,18 @@ func (this *CancellationAlreadyRequestedFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type QueryFailedFailure to the protobuf v3 wire format
 func (val *QueryFailedFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type QueryFailedFailure from the protobuf v3 wire format
 func (val *QueryFailedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *QueryFailedFailure) Size() int {
 	return proto.Size(val)
 }
@@ -354,14 +395,18 @@ func (this *QueryFailedFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PermissionDeniedFailure to the protobuf v3 wire format
 func (val *PermissionDeniedFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type PermissionDeniedFailure from the protobuf v3 wire format
 func (val *PermissionDeniedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *PermissionDeniedFailure) Size() int {
 	return proto.Size(val)
 }
@@ -387,14 +432,18 @@ func (this *PermissionDeniedFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type ResourceExhaustedFailure to the protobuf v3 wire format
 func (val *ResourceExhaustedFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type ResourceExhaustedFailure from the protobuf v3 wire format
 func (val *ResourceExhaustedFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *ResourceExhaustedFailure) Size() int {
 	return proto.Size(val)
 }
@@ -420,14 +469,18 @@ func (this *ResourceExhaustedFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type SystemWorkflowFailure to the protobuf v3 wire format
 func (val *SystemWorkflowFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type SystemWorkflowFailure from the protobuf v3 wire format
 func (val *SystemWorkflowFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *SystemWorkflowFailure) Size() int {
 	return proto.Size(val)
 }
@@ -453,14 +506,18 @@ func (this *SystemWorkflowFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkflowNotReadyFailure to the protobuf v3 wire format
 func (val *WorkflowNotReadyFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowNotReadyFailure from the protobuf v3 wire format
 func (val *WorkflowNotReadyFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowNotReadyFailure) Size() int {
 	return proto.Size(val)
 }
@@ -486,14 +543,18 @@ func (this *WorkflowNotReadyFailure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NewerBuildExistsFailure to the protobuf v3 wire format
 func (val *NewerBuildExistsFailure) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type NewerBuildExistsFailure from the protobuf v3 wire format
 func (val *NewerBuildExistsFailure) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *NewerBuildExistsFailure) Size() int {
 	return proto.Size(val)
 }

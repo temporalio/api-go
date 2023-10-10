@@ -22,16 +22,21 @@
 
 package sdk
 
-import "google.golang.org/protobuf/proto"
+import (
+	"google.golang.org/protobuf/proto"
+)
 
+// Marshal an object of type WorkflowTaskCompletedMetadata to the protobuf v3 wire format
 func (val *WorkflowTaskCompletedMetadata) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
+// Unmarshal an object of type WorkflowTaskCompletedMetadata from the protobuf v3 wire format
 func (val *WorkflowTaskCompletedMetadata) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
+// Size returns the size of the object, in bytes, once serialized
 func (val *WorkflowTaskCompletedMetadata) Size() int {
 	return proto.Size(val)
 }

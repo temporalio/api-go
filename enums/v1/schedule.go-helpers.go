@@ -20,45 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package protocol
+package enums
 
 import (
-	"google.golang.org/protobuf/proto"
+	"fmt"
 )
 
-// Marshal an object of type Message to the protobuf v3 wire format
-func (val *Message) Marshal() ([]byte, error) {
-	return proto.Marshal(val)
-}
-
-// Unmarshal an object of type Message from the protobuf v3 wire format
-func (val *Message) Unmarshal(buf []byte) error {
-	return proto.Unmarshal(buf, val)
-}
-
-// Size returns the size of the object, in bytes, once serialized
-func (val *Message) Size() int {
-	return proto.Size(val)
-}
-
-// Equal returns whether two Message values are equivalent by recursively
-// comparing the message's fields.
-// For more information see the documentation for
-// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *Message) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
+var (
+	ScheduleOverlapPolicy_shortNameValue = map[string]int32{
+		"Unspecified":    0,
+		"Skip":           1,
+		"BufferOne":      2,
+		"BufferAll":      3,
+		"CancelOther":    4,
+		"TerminateOther": 5,
+		"AllowAll":       6,
 	}
+)
 
-	var that1 *Message
-	switch t := that.(type) {
-	case *Message:
-		that1 = t
-	case Message:
-		that1 = &t
-	default:
-		return false
+// ScheduleOverlapPolicyFromString parses a ScheduleOverlapPolicy value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ScheduleOverlapPolicy
+func ScheduleOverlapPolicyFromString(s string) (ScheduleOverlapPolicy, error) {
+	if v, ok := ScheduleOverlapPolicy_value[s]; ok {
+		return ScheduleOverlapPolicy(v), nil
+	} else if v, ok := ScheduleOverlapPolicy_shortNameValue[s]; ok {
+		return ScheduleOverlapPolicy(v), nil
 	}
-
-	return proto.Equal(this, that1)
+	return ScheduleOverlapPolicy(0), fmt.Errorf("Invalid value for ScheduleOverlapPolicy: %s", s)
 }
