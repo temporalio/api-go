@@ -118,11 +118,11 @@ var newNestedFailure = `
     ]
 }`
 
-func TestUnmarshal(t *testing.T) {
+func TestUnmarshalJSON(t *testing.T) {
 	t.Parallel()
 	require := require.New(t)
 	var hist historypb.History
-	require.NoError(temporalproto.Unmarshal([]byte(newEnums), &hist))
+	require.NoError(temporalproto.UnmarshalJSON([]byte(newEnums), &hist))
 	require.Len(hist.Events, 1)
 
 	ev := hist.Events[0]
@@ -130,23 +130,23 @@ func TestUnmarshal(t *testing.T) {
 	require.Equal(ev.GetWorkflowExecutionStartedEventAttributes().TaskQueue.Kind, enums.TASK_QUEUE_KIND_NORMAL)
 }
 
-func TestUnmarshal_Compatible(t *testing.T) {
+func TestUnmarshalJSON_Compatible(t *testing.T) {
 	t.Parallel()
 	// Ensure both new and old enums deserialize the same way
 	var oldHist, newHist historypb.History
-	require.NoError(t, temporalproto.Unmarshal([]byte(newEnums), &oldHist))
-	require.NoError(t, temporalproto.Unmarshal([]byte(newEnums), &newHist))
+	require.NoError(t, temporalproto.UnmarshalJSON([]byte(newEnums), &oldHist))
+	require.NoError(t, temporalproto.UnmarshalJSON([]byte(newEnums), &newHist))
 	if !proto.Equal(&oldHist, &newHist) {
 		t.Errorf("LoadFromJSON() mismatch between old and new enum formats\n%v\n%v", &oldHist, &newHist)
 	}
 }
 
-func TestUnmarshal_NestedType(t *testing.T) {
+func TestUnmarshalJSON_NestedType(t *testing.T) {
 	t.Parallel()
 
 	require := require.New(t)
 	var newHist historypb.History
-	require.NoError(temporalproto.Unmarshal([]byte(newNestedFailure), &newHist))
+	require.NoError(temporalproto.UnmarshalJSON([]byte(newNestedFailure), &newHist))
 	require.Len(newHist.Events, 1)
 
 	wfFail := newHist.Events[0].GetWorkflowExecutionFailedEventAttributes()
@@ -157,13 +157,13 @@ func TestUnmarshal_NestedType(t *testing.T) {
 	require.NotNil(wfFail.Failure.Cause.Message, "Inner failure")
 }
 
-func TestDecode(t *testing.T) {
+func TestJSONDecoder(t *testing.T) {
 	t.Parallel()
 	require := require.New(t)
 	input := fmt.Sprintf("%s%s", newEnums, oldEnums)
 	var hist historypb.History
 	rdr := bytes.NewReader([]byte(input))
-	dec := temporalproto.NewDecoder(rdr)
+	dec := temporalproto.NewJSONDecoder(rdr)
 	require.NoError(dec.Decode(&hist))
 	require.Len(hist.Events, 1)
 

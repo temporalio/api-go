@@ -36,7 +36,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
-type Decoder struct {
+type JSONDecoder struct {
 	json *json.Decoder
 }
 
@@ -205,7 +205,7 @@ func fixupMsg(msg map[string]interface{}, spec *fixSpec) {
 // as the PascalCase enums of earlier releases.
 //
 // This does **not** support slices of proto objects.
-func Unmarshal(bs []byte, m proto.Message) error {
+func UnmarshalJSON(bs []byte, m proto.Message) error {
 	spec := registry.Ensure(m.ProtoReflect().Descriptor())
 
 	msg := make(map[string]interface{})
@@ -229,8 +229,8 @@ func Unmarshal(bs []byte, m proto.Message) error {
 	return opts.Unmarshal(out, m)
 }
 
-func NewDecoder(r io.Reader) *Decoder {
-	return &Decoder{
+func NewJSONDecoder(r io.Reader) *JSONDecoder {
+	return &JSONDecoder{
 		json: json.NewDecoder(r),
 	}
 }
@@ -239,10 +239,10 @@ func NewDecoder(r io.Reader) *Decoder {
 // not close the reader if it is closeable. This function is compatible both
 // with the "correct" SCREAMING_SNAKE enums of protojson as well as the old
 // PascalCase enums of Temporal's older history exports.
-func (dec *Decoder) Decode(m proto.Message) error {
+func (dec *JSONDecoder) Decode(m proto.Message) error {
 	var obj json.RawMessage
 	if err := dec.json.Decode(&obj); err != nil {
 		return err
 	}
-	return Unmarshal([]byte(obj), m)
+	return UnmarshalJSON([]byte(obj), m)
 }
