@@ -65,7 +65,6 @@ fix-path: go-grpc
 copy-helpers:
 	# Also copy the payload and history JSON helpers
 	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
-	cp $(PROTO_OUT)/internal/temporalhistoryv1/load*.go $(PROTO_OUT)/history/v1/
 
 # The generated enums are go are just plain terrible, so we fix them
 # by removing the typename prefixes. We already made good choices with our enum
@@ -125,7 +124,7 @@ gomodtidy:
 ##### Test #####
 
 test: copy-helpers
-	go test ./serviceerror/... ./proxy/... ./history/...
+	go test ./...
 
 ##### Check #####
 

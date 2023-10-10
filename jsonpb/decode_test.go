@@ -20,17 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package history_test
+package jsonpb_test
 
 import (
-	"strings"
+	"bytes"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/proto"
 
 	enums "go.temporal.io/api/enums/v1"
-	history "go.temporal.io/api/history/v1"
+	historypb "go.temporal.io/api/history/v1"
+	"go.temporal.io/api/jsonpb"
 )
 
 var oldEnums = `
@@ -116,12 +118,11 @@ var newNestedFailure = `
     ]
 }`
 
-func TestLoadHistoryFromJSON(t *testing.T) {
+func TestUnmarshal(t *testing.T) {
 	t.Parallel()
 	require := require.New(t)
-	hist, err := history.LoadFromJSON(strings.NewReader(newEnums))
-	require.NoError(err)
-	require.NotNil(hist)
+	var hist historypb.History
+	require.NoError(jsonpb.Unmarshal([]byte(newEnums), &hist))
 	require.Len(hist.Events, 1)
 
 	ev := hist.Events[0]
@@ -129,32 +130,23 @@ func TestLoadHistoryFromJSON(t *testing.T) {
 	require.Equal(ev.GetWorkflowExecutionStartedEventAttributes().TaskQueue.Kind, enums.TASK_QUEUE_KIND_NORMAL)
 }
 
-func TestLoadHistoryFromJSON_Compatible(t *testing.T) {
+func TestUnmarshal_Compatible(t *testing.T) {
 	t.Parallel()
 	// Ensure both new and old enums deserialize the same way
-	oldHist, err := history.LoadFromJSON(strings.NewReader(oldEnums))
-	if err != nil {
-		t.Errorf("Unexpected error loading old history json: %s", err)
-	}
-	newHist, err := history.LoadFromJSON(strings.NewReader(newEnums))
-	if err != nil {
-		t.Errorf("Unexpected error loading new history json: %s", err)
-	}
-	if !proto.Equal(oldHist, newHist) {
-		t.Errorf("LoadFromJSON() mismatch between old and new enum formats\n%v\n%v", oldHist, newHist)
+	var oldHist, newHist historypb.History
+	require.NoError(t, jsonpb.Unmarshal([]byte(newEnums), &oldHist))
+	require.NoError(t, jsonpb.Unmarshal([]byte(newEnums), &newHist))
+	if !proto.Equal(&oldHist, &newHist) {
+		t.Errorf("LoadFromJSON() mismatch between old and new enum formats\n%v\n%v", &oldHist, &newHist)
 	}
 }
 
-func TestLoadHistoryFromJSON_NestedType(t *testing.T) {
+func TestUnmarshal_NestedType(t *testing.T) {
 	t.Parallel()
 
 	require := require.New(t)
-	newHist, err := history.LoadFromJSON(strings.NewReader(newNestedFailure))
-	if err != nil {
-		t.Errorf("Unexpected error loading old history json: %s", err)
-	}
-
-	require.NoError(err)
+	var newHist historypb.History
+	require.NoError(jsonpb.Unmarshal([]byte(newNestedFailure), &newHist))
 	require.Len(newHist.Events, 1)
 
 	wfFail := newHist.Events[0].GetWorkflowExecutionFailedEventAttributes()
@@ -163,4 +155,18 @@ func TestLoadHistoryFromJSON_NestedType(t *testing.T) {
 	require.Equal(wfFail.Failure.Message, "Outer failure")
 	require.NotNil(wfFail.Failure.Cause)
 	require.NotNil(wfFail.Failure.Cause.Message, "Inner failure")
+}
+
+func TestDecode(t *testing.T) {
+	t.Parallel()
+	require := require.New(t)
+	input := fmt.Sprintf("%s%s", newEnums, oldEnums)
+	var hist historypb.History
+	rdr := bytes.NewReader([]byte(input))
+	dec := jsonpb.NewDecoder(rdr)
+	require.NoError(dec.Decode(&hist))
+	require.Len(hist.Events, 1)
+
+	require.NoError(dec.Decode(&hist))
+	require.Len(hist.Events, 1)
 }
