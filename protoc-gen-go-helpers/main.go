@@ -106,8 +106,11 @@ func (this *{{.Type}}) Equal(that interface{}) bool {
 
 	enumTmplStr = `
 var (
-    {{.Type}}_shortNameValue = map[string]int32{ {{range .ShortValues}}
+    {{.Type}}_shorthandValue = map[string]int32{ {{range .ShortValues}}
         "{{.Str}}": {{.Num}},{{end}}
+    }
+    {{.Type}}_shorthandName = map[int32]string{ {{range .ShortValues}}
+        {{.Num}}: "{{.Str}}",{{end}}
     }
 )
 
@@ -116,10 +119,21 @@ var (
 func {{.Type}}FromString(s string) ({{.Type}}, error) {
     if v, ok := {{.Type}}_value[s]; ok {
         return {{.Type}}(v), nil
-    } else if v, ok := {{.Type}}_shortNameValue[s]; ok {
+    } else if v, ok := {{.Type}}_shorthandValue[s]; ok {
         return {{.Type}}(v), nil
     }
     return {{.Type}}(0), fmt.Errorf("%s is not a valid {{.Type}}", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//     {{.Type}}(-1).Shorthand() // will return "", false
+func (e {{.Type}}) Shorthand() (string, bool) {
+    if s, ok := {{.Type}}_shorthandName[int32(e)]; ok {
+        return s, true
+    }
+	return "", false
 }`
 )
 

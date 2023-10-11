@@ -27,7 +27,7 @@ import (
 )
 
 var (
-	CommandType_shortNameValue = map[string]int32{
+	CommandType_shorthandValue = map[string]int32{
 		"Unspecified":                            0,
 		"ScheduleActivityTask":                   1,
 		"RequestCancelActivityTask":              2,
@@ -45,6 +45,24 @@ var (
 		"ProtocolMessage":                        14,
 		"ModifyWorkflowProperties":               16,
 	}
+	CommandType_shorthandName = map[int32]string{
+		0:  "Unspecified",
+		1:  "ScheduleActivityTask",
+		2:  "RequestCancelActivityTask",
+		3:  "StartTimer",
+		4:  "CompleteWorkflowExecution",
+		5:  "FailWorkflowExecution",
+		6:  "CancelTimer",
+		7:  "CancelWorkflowExecution",
+		8:  "RequestCancelExternalWorkflowExecution",
+		9:  "RecordMarker",
+		10: "ContinueAsNewWorkflowExecution",
+		11: "StartChildWorkflowExecution",
+		12: "SignalExternalWorkflowExecution",
+		13: "UpsertWorkflowSearchAttributes",
+		14: "ProtocolMessage",
+		16: "ModifyWorkflowProperties",
+	}
 )
 
 // CommandTypeFromString parses a CommandType value from  either the protojson
@@ -52,8 +70,20 @@ var (
 func CommandTypeFromString(s string) (CommandType, error) {
 	if v, ok := CommandType_value[s]; ok {
 		return CommandType(v), nil
-	} else if v, ok := CommandType_shortNameValue[s]; ok {
+	} else if v, ok := CommandType_shorthandValue[s]; ok {
 		return CommandType(v), nil
 	}
 	return CommandType(0), fmt.Errorf("%s is not a valid CommandType", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	CommandType(-1).Shorthand() // will return "", false
+func (e CommandType) Shorthand() (string, bool) {
+	if s, ok := CommandType_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
 }

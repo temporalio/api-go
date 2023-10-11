@@ -27,10 +27,15 @@ import (
 )
 
 var (
-	ResetReapplyType_shortNameValue = map[string]int32{
+	ResetReapplyType_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Signal":      1,
 		"None":        2,
+	}
+	ResetReapplyType_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "Signal",
+		2: "None",
 	}
 )
 
@@ -39,17 +44,34 @@ var (
 func ResetReapplyTypeFromString(s string) (ResetReapplyType, error) {
 	if v, ok := ResetReapplyType_value[s]; ok {
 		return ResetReapplyType(v), nil
-	} else if v, ok := ResetReapplyType_shortNameValue[s]; ok {
+	} else if v, ok := ResetReapplyType_shorthandValue[s]; ok {
 		return ResetReapplyType(v), nil
 	}
 	return ResetReapplyType(0), fmt.Errorf("%s is not a valid ResetReapplyType", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	ResetReapplyType(-1).Shorthand() // will return "", false
+func (e ResetReapplyType) Shorthand() (string, bool) {
+	if s, ok := ResetReapplyType_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	ResetType_shortNameValue = map[string]int32{
+	ResetType_shorthandValue = map[string]int32{
 		"Unspecified":       0,
 		"FirstWorkflowTask": 1,
 		"LastWorkflowTask":  2,
+	}
+	ResetType_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "FirstWorkflowTask",
+		2: "LastWorkflowTask",
 	}
 )
 
@@ -58,8 +80,20 @@ var (
 func ResetTypeFromString(s string) (ResetType, error) {
 	if v, ok := ResetType_value[s]; ok {
 		return ResetType(v), nil
-	} else if v, ok := ResetType_shortNameValue[s]; ok {
+	} else if v, ok := ResetType_shorthandValue[s]; ok {
 		return ResetType(v), nil
 	}
 	return ResetType(0), fmt.Errorf("%s is not a valid ResetType", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	ResetType(-1).Shorthand() // will return "", false
+func (e ResetType) Shorthand() (string, bool) {
+	if s, ok := ResetType_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
 }

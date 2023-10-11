@@ -27,7 +27,7 @@ import (
 )
 
 var (
-	WorkflowTaskFailedCause_shortNameValue = map[string]int32{
+	WorkflowTaskFailedCause_shorthandValue = map[string]int32{
 		"Unspecified":                                         0,
 		"UnhandledCommand":                                    1,
 		"BadScheduleActivityAttributes":                       2,
@@ -61,6 +61,40 @@ var (
 		"BadUpdateWorkflowExecutionMessage":                   30,
 		"UnhandledUpdate":                                     31,
 	}
+	WorkflowTaskFailedCause_shorthandName = map[int32]string{
+		0:  "Unspecified",
+		1:  "UnhandledCommand",
+		2:  "BadScheduleActivityAttributes",
+		3:  "BadRequestCancelActivityAttributes",
+		4:  "BadStartTimerAttributes",
+		5:  "BadCancelTimerAttributes",
+		6:  "BadRecordMarkerAttributes",
+		7:  "BadCompleteWorkflowExecutionAttributes",
+		8:  "BadFailWorkflowExecutionAttributes",
+		9:  "BadCancelWorkflowExecutionAttributes",
+		10: "BadRequestCancelExternalWorkflowExecutionAttributes",
+		11: "BadContinueAsNewAttributes",
+		12: "StartTimerDuplicateId",
+		13: "ResetStickyTaskQueue",
+		14: "WorkflowWorkerUnhandledFailure",
+		15: "BadSignalWorkflowExecutionAttributes",
+		16: "BadStartChildExecutionAttributes",
+		17: "ForceCloseCommand",
+		18: "FailoverCloseCommand",
+		19: "BadSignalInputSize",
+		20: "ResetWorkflow",
+		21: "BadBinary",
+		22: "ScheduleActivityDuplicateId",
+		23: "BadSearchAttributes",
+		24: "NonDeterministicError",
+		25: "BadModifyWorkflowPropertiesAttributes",
+		26: "PendingChildWorkflowsLimitExceeded",
+		27: "PendingActivitiesLimitExceeded",
+		28: "PendingSignalsLimitExceeded",
+		29: "PendingRequestCancelLimitExceeded",
+		30: "BadUpdateWorkflowExecutionMessage",
+		31: "UnhandledUpdate",
+	}
 )
 
 // WorkflowTaskFailedCauseFromString parses a WorkflowTaskFailedCause value from  either the protojson
@@ -68,17 +102,34 @@ var (
 func WorkflowTaskFailedCauseFromString(s string) (WorkflowTaskFailedCause, error) {
 	if v, ok := WorkflowTaskFailedCause_value[s]; ok {
 		return WorkflowTaskFailedCause(v), nil
-	} else if v, ok := WorkflowTaskFailedCause_shortNameValue[s]; ok {
+	} else if v, ok := WorkflowTaskFailedCause_shorthandValue[s]; ok {
 		return WorkflowTaskFailedCause(v), nil
 	}
 	return WorkflowTaskFailedCause(0), fmt.Errorf("%s is not a valid WorkflowTaskFailedCause", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	WorkflowTaskFailedCause(-1).Shorthand() // will return "", false
+func (e WorkflowTaskFailedCause) Shorthand() (string, bool) {
+	if s, ok := WorkflowTaskFailedCause_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	StartChildWorkflowExecutionFailedCause_shortNameValue = map[string]int32{
+	StartChildWorkflowExecutionFailedCause_shorthandValue = map[string]int32{
 		"Unspecified":           0,
 		"WorkflowAlreadyExists": 1,
 		"NamespaceNotFound":     2,
+	}
+	StartChildWorkflowExecutionFailedCause_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "WorkflowAlreadyExists",
+		2: "NamespaceNotFound",
 	}
 )
 
@@ -87,17 +138,34 @@ var (
 func StartChildWorkflowExecutionFailedCauseFromString(s string) (StartChildWorkflowExecutionFailedCause, error) {
 	if v, ok := StartChildWorkflowExecutionFailedCause_value[s]; ok {
 		return StartChildWorkflowExecutionFailedCause(v), nil
-	} else if v, ok := StartChildWorkflowExecutionFailedCause_shortNameValue[s]; ok {
+	} else if v, ok := StartChildWorkflowExecutionFailedCause_shorthandValue[s]; ok {
 		return StartChildWorkflowExecutionFailedCause(v), nil
 	}
 	return StartChildWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid StartChildWorkflowExecutionFailedCause", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	StartChildWorkflowExecutionFailedCause(-1).Shorthand() // will return "", false
+func (e StartChildWorkflowExecutionFailedCause) Shorthand() (string, bool) {
+	if s, ok := StartChildWorkflowExecutionFailedCause_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	CancelExternalWorkflowExecutionFailedCause_shortNameValue = map[string]int32{
+	CancelExternalWorkflowExecutionFailedCause_shorthandValue = map[string]int32{
 		"Unspecified":                       0,
 		"ExternalWorkflowExecutionNotFound": 1,
 		"NamespaceNotFound":                 2,
+	}
+	CancelExternalWorkflowExecutionFailedCause_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "ExternalWorkflowExecutionNotFound",
+		2: "NamespaceNotFound",
 	}
 )
 
@@ -106,18 +174,36 @@ var (
 func CancelExternalWorkflowExecutionFailedCauseFromString(s string) (CancelExternalWorkflowExecutionFailedCause, error) {
 	if v, ok := CancelExternalWorkflowExecutionFailedCause_value[s]; ok {
 		return CancelExternalWorkflowExecutionFailedCause(v), nil
-	} else if v, ok := CancelExternalWorkflowExecutionFailedCause_shortNameValue[s]; ok {
+	} else if v, ok := CancelExternalWorkflowExecutionFailedCause_shorthandValue[s]; ok {
 		return CancelExternalWorkflowExecutionFailedCause(v), nil
 	}
 	return CancelExternalWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid CancelExternalWorkflowExecutionFailedCause", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	CancelExternalWorkflowExecutionFailedCause(-1).Shorthand() // will return "", false
+func (e CancelExternalWorkflowExecutionFailedCause) Shorthand() (string, bool) {
+	if s, ok := CancelExternalWorkflowExecutionFailedCause_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	SignalExternalWorkflowExecutionFailedCause_shortNameValue = map[string]int32{
+	SignalExternalWorkflowExecutionFailedCause_shorthandValue = map[string]int32{
 		"Unspecified":                       0,
 		"ExternalWorkflowExecutionNotFound": 1,
 		"NamespaceNotFound":                 2,
 		"SignalCountLimitExceeded":          3,
+	}
+	SignalExternalWorkflowExecutionFailedCause_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "ExternalWorkflowExecutionNotFound",
+		2: "NamespaceNotFound",
+		3: "SignalCountLimitExceeded",
 	}
 )
 
@@ -126,14 +212,26 @@ var (
 func SignalExternalWorkflowExecutionFailedCauseFromString(s string) (SignalExternalWorkflowExecutionFailedCause, error) {
 	if v, ok := SignalExternalWorkflowExecutionFailedCause_value[s]; ok {
 		return SignalExternalWorkflowExecutionFailedCause(v), nil
-	} else if v, ok := SignalExternalWorkflowExecutionFailedCause_shortNameValue[s]; ok {
+	} else if v, ok := SignalExternalWorkflowExecutionFailedCause_shorthandValue[s]; ok {
 		return SignalExternalWorkflowExecutionFailedCause(v), nil
 	}
 	return SignalExternalWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid SignalExternalWorkflowExecutionFailedCause", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	SignalExternalWorkflowExecutionFailedCause(-1).Shorthand() // will return "", false
+func (e SignalExternalWorkflowExecutionFailedCause) Shorthand() (string, bool) {
+	if s, ok := SignalExternalWorkflowExecutionFailedCause_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	ResourceExhaustedCause_shortNameValue = map[string]int32{
+	ResourceExhaustedCause_shorthandValue = map[string]int32{
 		"Unspecified":      0,
 		"RpsLimit":         1,
 		"ConcurrentLimit":  2,
@@ -142,6 +240,15 @@ var (
 		"BusyWorkflow":     5,
 		"ApsLimit":         6,
 	}
+	ResourceExhaustedCause_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "RpsLimit",
+		2: "ConcurrentLimit",
+		3: "SystemOverloaded",
+		4: "PersistenceLimit",
+		5: "BusyWorkflow",
+		6: "ApsLimit",
+	}
 )
 
 // ResourceExhaustedCauseFromString parses a ResourceExhaustedCause value from  either the protojson
@@ -149,8 +256,20 @@ var (
 func ResourceExhaustedCauseFromString(s string) (ResourceExhaustedCause, error) {
 	if v, ok := ResourceExhaustedCause_value[s]; ok {
 		return ResourceExhaustedCause(v), nil
-	} else if v, ok := ResourceExhaustedCause_shortNameValue[s]; ok {
+	} else if v, ok := ResourceExhaustedCause_shorthandValue[s]; ok {
 		return ResourceExhaustedCause(v), nil
 	}
 	return ResourceExhaustedCause(0), fmt.Errorf("%s is not a valid ResourceExhaustedCause", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	ResourceExhaustedCause(-1).Shorthand() // will return "", false
+func (e ResourceExhaustedCause) Shorthand() (string, bool) {
+	if s, ok := ResourceExhaustedCause_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
 }

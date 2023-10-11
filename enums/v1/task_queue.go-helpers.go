@@ -27,10 +27,15 @@ import (
 )
 
 var (
-	TaskQueueKind_shortNameValue = map[string]int32{
+	TaskQueueKind_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Normal":      1,
 		"Sticky":      2,
+	}
+	TaskQueueKind_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "Normal",
+		2: "Sticky",
 	}
 )
 
@@ -39,17 +44,34 @@ var (
 func TaskQueueKindFromString(s string) (TaskQueueKind, error) {
 	if v, ok := TaskQueueKind_value[s]; ok {
 		return TaskQueueKind(v), nil
-	} else if v, ok := TaskQueueKind_shortNameValue[s]; ok {
+	} else if v, ok := TaskQueueKind_shorthandValue[s]; ok {
 		return TaskQueueKind(v), nil
 	}
 	return TaskQueueKind(0), fmt.Errorf("%s is not a valid TaskQueueKind", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	TaskQueueKind(-1).Shorthand() // will return "", false
+func (e TaskQueueKind) Shorthand() (string, bool) {
+	if s, ok := TaskQueueKind_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	TaskQueueType_shortNameValue = map[string]int32{
+	TaskQueueType_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Workflow":    1,
 		"Activity":    2,
+	}
+	TaskQueueType_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "Workflow",
+		2: "Activity",
 	}
 )
 
@@ -58,19 +80,38 @@ var (
 func TaskQueueTypeFromString(s string) (TaskQueueType, error) {
 	if v, ok := TaskQueueType_value[s]; ok {
 		return TaskQueueType(v), nil
-	} else if v, ok := TaskQueueType_shortNameValue[s]; ok {
+	} else if v, ok := TaskQueueType_shorthandValue[s]; ok {
 		return TaskQueueType(v), nil
 	}
 	return TaskQueueType(0), fmt.Errorf("%s is not a valid TaskQueueType", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	TaskQueueType(-1).Shorthand() // will return "", false
+func (e TaskQueueType) Shorthand() (string, bool) {
+	if s, ok := TaskQueueType_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	TaskReachability_shortNameValue = map[string]int32{
+	TaskReachability_shorthandValue = map[string]int32{
 		"Unspecified":       0,
 		"NewWorkflows":      1,
 		"ExistingWorkflows": 2,
 		"OpenWorkflows":     3,
 		"ClosedWorkflows":   4,
+	}
+	TaskReachability_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "NewWorkflows",
+		2: "ExistingWorkflows",
+		3: "OpenWorkflows",
+		4: "ClosedWorkflows",
 	}
 )
 
@@ -79,8 +120,20 @@ var (
 func TaskReachabilityFromString(s string) (TaskReachability, error) {
 	if v, ok := TaskReachability_value[s]; ok {
 		return TaskReachability(v), nil
-	} else if v, ok := TaskReachability_shortNameValue[s]; ok {
+	} else if v, ok := TaskReachability_shorthandValue[s]; ok {
 		return TaskReachability(v), nil
 	}
 	return TaskReachability(0), fmt.Errorf("%s is not a valid TaskReachability", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	TaskReachability(-1).Shorthand() // will return "", false
+func (e TaskReachability) Shorthand() (string, bool) {
+	if s, ok := TaskReachability_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
 }

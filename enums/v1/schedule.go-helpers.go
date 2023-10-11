@@ -27,7 +27,7 @@ import (
 )
 
 var (
-	ScheduleOverlapPolicy_shortNameValue = map[string]int32{
+	ScheduleOverlapPolicy_shorthandValue = map[string]int32{
 		"Unspecified":    0,
 		"Skip":           1,
 		"BufferOne":      2,
@@ -36,6 +36,15 @@ var (
 		"TerminateOther": 5,
 		"AllowAll":       6,
 	}
+	ScheduleOverlapPolicy_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "Skip",
+		2: "BufferOne",
+		3: "BufferAll",
+		4: "CancelOther",
+		5: "TerminateOther",
+		6: "AllowAll",
+	}
 )
 
 // ScheduleOverlapPolicyFromString parses a ScheduleOverlapPolicy value from  either the protojson
@@ -43,8 +52,20 @@ var (
 func ScheduleOverlapPolicyFromString(s string) (ScheduleOverlapPolicy, error) {
 	if v, ok := ScheduleOverlapPolicy_value[s]; ok {
 		return ScheduleOverlapPolicy(v), nil
-	} else if v, ok := ScheduleOverlapPolicy_shortNameValue[s]; ok {
+	} else if v, ok := ScheduleOverlapPolicy_shorthandValue[s]; ok {
 		return ScheduleOverlapPolicy(v), nil
 	}
 	return ScheduleOverlapPolicy(0), fmt.Errorf("%s is not a valid ScheduleOverlapPolicy", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	ScheduleOverlapPolicy(-1).Shorthand() // will return "", false
+func (e ScheduleOverlapPolicy) Shorthand() (string, bool) {
+	if s, ok := ScheduleOverlapPolicy_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
 }

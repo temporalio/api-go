@@ -27,10 +27,15 @@ import (
 )
 
 var (
-	QueryResultType_shortNameValue = map[string]int32{
+	QueryResultType_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Answered":    1,
 		"Failed":      2,
+	}
+	QueryResultType_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "Answered",
+		2: "Failed",
 	}
 )
 
@@ -39,18 +44,36 @@ var (
 func QueryResultTypeFromString(s string) (QueryResultType, error) {
 	if v, ok := QueryResultType_value[s]; ok {
 		return QueryResultType(v), nil
-	} else if v, ok := QueryResultType_shortNameValue[s]; ok {
+	} else if v, ok := QueryResultType_shorthandValue[s]; ok {
 		return QueryResultType(v), nil
 	}
 	return QueryResultType(0), fmt.Errorf("%s is not a valid QueryResultType", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	QueryResultType(-1).Shorthand() // will return "", false
+func (e QueryResultType) Shorthand() (string, bool) {
+	if s, ok := QueryResultType_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	QueryRejectCondition_shortNameValue = map[string]int32{
+	QueryRejectCondition_shorthandValue = map[string]int32{
 		"Unspecified":         0,
 		"None":                1,
 		"NotOpen":             2,
 		"NotCompletedCleanly": 3,
+	}
+	QueryRejectCondition_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "None",
+		2: "NotOpen",
+		3: "NotCompletedCleanly",
 	}
 )
 
@@ -59,8 +82,20 @@ var (
 func QueryRejectConditionFromString(s string) (QueryRejectCondition, error) {
 	if v, ok := QueryRejectCondition_value[s]; ok {
 		return QueryRejectCondition(v), nil
-	} else if v, ok := QueryRejectCondition_shortNameValue[s]; ok {
+	} else if v, ok := QueryRejectCondition_shorthandValue[s]; ok {
 		return QueryRejectCondition(v), nil
 	}
 	return QueryRejectCondition(0), fmt.Errorf("%s is not a valid QueryRejectCondition", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	QueryRejectCondition(-1).Shorthand() // will return "", false
+func (e QueryRejectCondition) Shorthand() (string, bool) {
+	if s, ok := QueryRejectCondition_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
 }

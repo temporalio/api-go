@@ -27,11 +27,17 @@ import (
 )
 
 var (
-	NamespaceState_shortNameValue = map[string]int32{
+	NamespaceState_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Registered":  1,
 		"Deprecated":  2,
 		"Deleted":     3,
+	}
+	NamespaceState_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "Registered",
+		2: "Deprecated",
+		3: "Deleted",
 	}
 )
 
@@ -40,17 +46,34 @@ var (
 func NamespaceStateFromString(s string) (NamespaceState, error) {
 	if v, ok := NamespaceState_value[s]; ok {
 		return NamespaceState(v), nil
-	} else if v, ok := NamespaceState_shortNameValue[s]; ok {
+	} else if v, ok := NamespaceState_shorthandValue[s]; ok {
 		return NamespaceState(v), nil
 	}
 	return NamespaceState(0), fmt.Errorf("%s is not a valid NamespaceState", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	NamespaceState(-1).Shorthand() // will return "", false
+func (e NamespaceState) Shorthand() (string, bool) {
+	if s, ok := NamespaceState_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	ArchivalState_shortNameValue = map[string]int32{
+	ArchivalState_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Disabled":    1,
 		"Enabled":     2,
+	}
+	ArchivalState_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "Disabled",
+		2: "Enabled",
 	}
 )
 
@@ -59,17 +82,34 @@ var (
 func ArchivalStateFromString(s string) (ArchivalState, error) {
 	if v, ok := ArchivalState_value[s]; ok {
 		return ArchivalState(v), nil
-	} else if v, ok := ArchivalState_shortNameValue[s]; ok {
+	} else if v, ok := ArchivalState_shorthandValue[s]; ok {
 		return ArchivalState(v), nil
 	}
 	return ArchivalState(0), fmt.Errorf("%s is not a valid ArchivalState", s)
 }
 
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	ArchivalState(-1).Shorthand() // will return "", false
+func (e ArchivalState) Shorthand() (string, bool) {
+	if s, ok := ArchivalState_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
+}
+
 var (
-	ReplicationState_shortNameValue = map[string]int32{
+	ReplicationState_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Normal":      1,
 		"Handover":    2,
+	}
+	ReplicationState_shorthandName = map[int32]string{
+		0: "Unspecified",
+		1: "Normal",
+		2: "Handover",
 	}
 )
 
@@ -78,8 +118,20 @@ var (
 func ReplicationStateFromString(s string) (ReplicationState, error) {
 	if v, ok := ReplicationState_value[s]; ok {
 		return ReplicationState(v), nil
-	} else if v, ok := ReplicationState_shortNameValue[s]; ok {
+	} else if v, ok := ReplicationState_shorthandValue[s]; ok {
 		return ReplicationState(v), nil
 	}
 	return ReplicationState(0), fmt.Errorf("%s is not a valid ReplicationState", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	ReplicationState(-1).Shorthand() // will return "", false
+func (e ReplicationState) Shorthand() (string, bool) {
+	if s, ok := ReplicationState_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
 }

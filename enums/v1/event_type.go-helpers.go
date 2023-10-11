@@ -27,7 +27,7 @@ import (
 )
 
 var (
-	EventType_shortNameValue = map[string]int32{
+	EventType_shorthandValue = map[string]int32{
 		"Unspecified":                                     0,
 		"WorkflowExecutionStarted":                        1,
 		"WorkflowExecutionCompleted":                      2,
@@ -76,6 +76,55 @@ var (
 		"ActivityPropertiesModifiedExternally":            45,
 		"WorkflowPropertiesModified":                      46,
 	}
+	EventType_shorthandName = map[int32]string{
+		0:  "Unspecified",
+		1:  "WorkflowExecutionStarted",
+		2:  "WorkflowExecutionCompleted",
+		3:  "WorkflowExecutionFailed",
+		4:  "WorkflowExecutionTimedOut",
+		5:  "WorkflowTaskScheduled",
+		6:  "WorkflowTaskStarted",
+		7:  "WorkflowTaskCompleted",
+		8:  "WorkflowTaskTimedOut",
+		9:  "WorkflowTaskFailed",
+		10: "ActivityTaskScheduled",
+		11: "ActivityTaskStarted",
+		12: "ActivityTaskCompleted",
+		13: "ActivityTaskFailed",
+		14: "ActivityTaskTimedOut",
+		15: "ActivityTaskCancelRequested",
+		16: "ActivityTaskCanceled",
+		17: "TimerStarted",
+		18: "TimerFired",
+		19: "TimerCanceled",
+		20: "WorkflowExecutionCancelRequested",
+		21: "WorkflowExecutionCanceled",
+		22: "RequestCancelExternalWorkflowExecutionInitiated",
+		23: "RequestCancelExternalWorkflowExecutionFailed",
+		24: "ExternalWorkflowExecutionCancelRequested",
+		25: "MarkerRecorded",
+		26: "WorkflowExecutionSignaled",
+		27: "WorkflowExecutionTerminated",
+		28: "WorkflowExecutionContinuedAsNew",
+		29: "StartChildWorkflowExecutionInitiated",
+		30: "StartChildWorkflowExecutionFailed",
+		31: "ChildWorkflowExecutionStarted",
+		32: "ChildWorkflowExecutionCompleted",
+		33: "ChildWorkflowExecutionFailed",
+		34: "ChildWorkflowExecutionCanceled",
+		35: "ChildWorkflowExecutionTimedOut",
+		36: "ChildWorkflowExecutionTerminated",
+		37: "SignalExternalWorkflowExecutionInitiated",
+		38: "SignalExternalWorkflowExecutionFailed",
+		39: "ExternalWorkflowExecutionSignaled",
+		40: "UpsertWorkflowSearchAttributes",
+		41: "WorkflowExecutionUpdateAccepted",
+		42: "WorkflowExecutionUpdateRejected",
+		43: "WorkflowExecutionUpdateCompleted",
+		44: "WorkflowPropertiesModifiedExternally",
+		45: "ActivityPropertiesModifiedExternally",
+		46: "WorkflowPropertiesModified",
+	}
 )
 
 // EventTypeFromString parses a EventType value from  either the protojson
@@ -83,8 +132,20 @@ var (
 func EventTypeFromString(s string) (EventType, error) {
 	if v, ok := EventType_value[s]; ok {
 		return EventType(v), nil
-	} else if v, ok := EventType_shortNameValue[s]; ok {
+	} else if v, ok := EventType_shorthandValue[s]; ok {
 		return EventType(v), nil
 	}
 	return EventType(0), fmt.Errorf("%s is not a valid EventType", s)
+}
+
+// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
+// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
+// This also returns whether the value is valid to prevent bugs caused by invalid casts:
+//
+//	EventType(-1).Shorthand() // will return "", false
+func (e EventType) Shorthand() (string, bool) {
+	if s, ok := EventType_shorthandName[int32(e)]; ok {
+		return s, true
+	}
+	return "", false
 }
