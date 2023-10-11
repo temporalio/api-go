@@ -50,18 +50,6 @@ func ResetReapplyTypeFromString(s string) (ResetReapplyType, error) {
 	return ResetReapplyType(0), fmt.Errorf("%s is not a valid ResetReapplyType", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	ResetReapplyType(-1).Shorthand() // will return "", false
-func (e ResetReapplyType) Shorthand() (string, bool) {
-	if s, ok := ResetReapplyType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	ResetType_shorthandValue = map[string]int32{
 		"Unspecified":       0,
@@ -84,16 +72,4 @@ func ResetTypeFromString(s string) (ResetType, error) {
 		return ResetType(v), nil
 	}
 	return ResetType(0), fmt.Errorf("%s is not a valid ResetType", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	ResetType(-1).Shorthand() // will return "", false
-func (e ResetType) Shorthand() (string, bool) {
-	if s, ok := ResetType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }

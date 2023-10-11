@@ -50,18 +50,6 @@ func EncodingTypeFromString(s string) (EncodingType, error) {
 	return EncodingType(0), fmt.Errorf("%s is not a valid EncodingType", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	EncodingType(-1).Shorthand() // will return "", false
-func (e EncodingType) Shorthand() (string, bool) {
-	if s, ok := EncodingType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	IndexedValueType_shorthandValue = map[string]int32{
 		"Unspecified": 0,
@@ -96,18 +84,6 @@ func IndexedValueTypeFromString(s string) (IndexedValueType, error) {
 	return IndexedValueType(0), fmt.Errorf("%s is not a valid IndexedValueType", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	IndexedValueType(-1).Shorthand() // will return "", false
-func (e IndexedValueType) Shorthand() (string, bool) {
-	if s, ok := IndexedValueType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	Severity_shorthandValue = map[string]int32{
 		"Unspecified": 0,
@@ -132,16 +108,4 @@ func SeverityFromString(s string) (Severity, error) {
 		return Severity(v), nil
 	}
 	return Severity(0), fmt.Errorf("%s is not a valid Severity", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	Severity(-1).Shorthand() // will return "", false
-func (e Severity) Shorthand() (string, bool) {
-	if s, ok := Severity_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }

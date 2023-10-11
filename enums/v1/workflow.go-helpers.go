@@ -54,18 +54,6 @@ func WorkflowIdReusePolicyFromString(s string) (WorkflowIdReusePolicy, error) {
 	return WorkflowIdReusePolicy(0), fmt.Errorf("%s is not a valid WorkflowIdReusePolicy", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	WorkflowIdReusePolicy(-1).Shorthand() // will return "", false
-func (e WorkflowIdReusePolicy) Shorthand() (string, bool) {
-	if s, ok := WorkflowIdReusePolicy_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	ParentClosePolicy_shorthandValue = map[string]int32{
 		"Unspecified":   0,
@@ -92,18 +80,6 @@ func ParentClosePolicyFromString(s string) (ParentClosePolicy, error) {
 	return ParentClosePolicy(0), fmt.Errorf("%s is not a valid ParentClosePolicy", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	ParentClosePolicy(-1).Shorthand() // will return "", false
-func (e ParentClosePolicy) Shorthand() (string, bool) {
-	if s, ok := ParentClosePolicy_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	ContinueAsNewInitiator_shorthandValue = map[string]int32{
 		"Unspecified":  0,
@@ -128,18 +104,6 @@ func ContinueAsNewInitiatorFromString(s string) (ContinueAsNewInitiator, error) 
 		return ContinueAsNewInitiator(v), nil
 	}
 	return ContinueAsNewInitiator(0), fmt.Errorf("%s is not a valid ContinueAsNewInitiator", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	ContinueAsNewInitiator(-1).Shorthand() // will return "", false
-func (e ContinueAsNewInitiator) Shorthand() (string, bool) {
-	if s, ok := ContinueAsNewInitiator_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }
 
 var (
@@ -176,18 +140,6 @@ func WorkflowExecutionStatusFromString(s string) (WorkflowExecutionStatus, error
 	return WorkflowExecutionStatus(0), fmt.Errorf("%s is not a valid WorkflowExecutionStatus", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	WorkflowExecutionStatus(-1).Shorthand() // will return "", false
-func (e WorkflowExecutionStatus) Shorthand() (string, bool) {
-	if s, ok := WorkflowExecutionStatus_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	PendingActivityState_shorthandValue = map[string]int32{
 		"Unspecified":     0,
@@ -214,18 +166,6 @@ func PendingActivityStateFromString(s string) (PendingActivityState, error) {
 	return PendingActivityState(0), fmt.Errorf("%s is not a valid PendingActivityState", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	PendingActivityState(-1).Shorthand() // will return "", false
-func (e PendingActivityState) Shorthand() (string, bool) {
-	if s, ok := PendingActivityState_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	PendingWorkflowTaskState_shorthandValue = map[string]int32{
 		"Unspecified": 0,
@@ -250,18 +190,6 @@ func PendingWorkflowTaskStateFromString(s string) (PendingWorkflowTaskState, err
 	return PendingWorkflowTaskState(0), fmt.Errorf("%s is not a valid PendingWorkflowTaskState", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	PendingWorkflowTaskState(-1).Shorthand() // will return "", false
-func (e PendingWorkflowTaskState) Shorthand() (string, bool) {
-	if s, ok := PendingWorkflowTaskState_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	HistoryEventFilterType_shorthandValue = map[string]int32{
 		"Unspecified": 0,
@@ -284,18 +212,6 @@ func HistoryEventFilterTypeFromString(s string) (HistoryEventFilterType, error) 
 		return HistoryEventFilterType(v), nil
 	}
 	return HistoryEventFilterType(0), fmt.Errorf("%s is not a valid HistoryEventFilterType", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	HistoryEventFilterType(-1).Shorthand() // will return "", false
-func (e HistoryEventFilterType) Shorthand() (string, bool) {
-	if s, ok := HistoryEventFilterType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }
 
 var (
@@ -332,18 +248,6 @@ func RetryStateFromString(s string) (RetryState, error) {
 	return RetryState(0), fmt.Errorf("%s is not a valid RetryState", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	RetryState(-1).Shorthand() // will return "", false
-func (e RetryState) Shorthand() (string, bool) {
-	if s, ok := RetryState_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	TimeoutType_shorthandValue = map[string]int32{
 		"Unspecified":     0,
@@ -370,16 +274,4 @@ func TimeoutTypeFromString(s string) (TimeoutType, error) {
 		return TimeoutType(v), nil
 	}
 	return TimeoutType(0), fmt.Errorf("%s is not a valid TimeoutType", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	TimeoutType(-1).Shorthand() // will return "", false
-func (e TimeoutType) Shorthand() (string, bool) {
-	if s, ok := TimeoutType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }

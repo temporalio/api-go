@@ -137,15 +137,3 @@ func EventTypeFromString(s string) (EventType, error) {
 	}
 	return EventType(0), fmt.Errorf("%s is not a valid EventType", s)
 }
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	EventType(-1).Shorthand() // will return "", false
-func (e EventType) Shorthand() (string, bool) {
-	if s, ok := EventType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}

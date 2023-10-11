@@ -56,18 +56,6 @@ func BatchOperationTypeFromString(s string) (BatchOperationType, error) {
 	return BatchOperationType(0), fmt.Errorf("%s is not a valid BatchOperationType", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	BatchOperationType(-1).Shorthand() // will return "", false
-func (e BatchOperationType) Shorthand() (string, bool) {
-	if s, ok := BatchOperationType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	BatchOperationState_shorthandValue = map[string]int32{
 		"Unspecified": 0,
@@ -92,16 +80,4 @@ func BatchOperationStateFromString(s string) (BatchOperationState, error) {
 		return BatchOperationState(v), nil
 	}
 	return BatchOperationState(0), fmt.Errorf("%s is not a valid BatchOperationState", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	BatchOperationState(-1).Shorthand() // will return "", false
-func (e BatchOperationState) Shorthand() (string, bool) {
-	if s, ok := BatchOperationState_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }

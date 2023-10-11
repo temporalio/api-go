@@ -75,15 +75,3 @@ func CommandTypeFromString(s string) (CommandType, error) {
 	}
 	return CommandType(0), fmt.Errorf("%s is not a valid CommandType", s)
 }
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	CommandType(-1).Shorthand() // will return "", false
-func (e CommandType) Shorthand() (string, bool) {
-	if s, ok := CommandType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}

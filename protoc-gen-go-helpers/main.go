@@ -123,17 +123,6 @@ func {{.Type}}FromString(s string) ({{.Type}}, error) {
         return {{.Type}}(v), nil
     }
     return {{.Type}}(0), fmt.Errorf("%s is not a valid {{.Type}}", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//     {{.Type}}(-1).Shorthand() // will return "", false
-func (e {{.Type}}) Shorthand() (string, bool) {
-    if s, ok := {{.Type}}_shorthandName[int32(e)]; ok {
-        return s, true
-    }
-	return "", false
 }`
 )
 

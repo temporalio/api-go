@@ -50,18 +50,6 @@ func TaskQueueKindFromString(s string) (TaskQueueKind, error) {
 	return TaskQueueKind(0), fmt.Errorf("%s is not a valid TaskQueueKind", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	TaskQueueKind(-1).Shorthand() // will return "", false
-func (e TaskQueueKind) Shorthand() (string, bool) {
-	if s, ok := TaskQueueKind_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	TaskQueueType_shorthandValue = map[string]int32{
 		"Unspecified": 0,
@@ -84,18 +72,6 @@ func TaskQueueTypeFromString(s string) (TaskQueueType, error) {
 		return TaskQueueType(v), nil
 	}
 	return TaskQueueType(0), fmt.Errorf("%s is not a valid TaskQueueType", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	TaskQueueType(-1).Shorthand() // will return "", false
-func (e TaskQueueType) Shorthand() (string, bool) {
-	if s, ok := TaskQueueType_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }
 
 var (
@@ -124,16 +100,4 @@ func TaskReachabilityFromString(s string) (TaskReachability, error) {
 		return TaskReachability(v), nil
 	}
 	return TaskReachability(0), fmt.Errorf("%s is not a valid TaskReachability", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	TaskReachability(-1).Shorthand() // will return "", false
-func (e TaskReachability) Shorthand() (string, bool) {
-	if s, ok := TaskReachability_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }

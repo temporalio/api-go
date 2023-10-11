@@ -108,18 +108,6 @@ func WorkflowTaskFailedCauseFromString(s string) (WorkflowTaskFailedCause, error
 	return WorkflowTaskFailedCause(0), fmt.Errorf("%s is not a valid WorkflowTaskFailedCause", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	WorkflowTaskFailedCause(-1).Shorthand() // will return "", false
-func (e WorkflowTaskFailedCause) Shorthand() (string, bool) {
-	if s, ok := WorkflowTaskFailedCause_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	StartChildWorkflowExecutionFailedCause_shorthandValue = map[string]int32{
 		"Unspecified":           0,
@@ -142,18 +130,6 @@ func StartChildWorkflowExecutionFailedCauseFromString(s string) (StartChildWorkf
 		return StartChildWorkflowExecutionFailedCause(v), nil
 	}
 	return StartChildWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid StartChildWorkflowExecutionFailedCause", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	StartChildWorkflowExecutionFailedCause(-1).Shorthand() // will return "", false
-func (e StartChildWorkflowExecutionFailedCause) Shorthand() (string, bool) {
-	if s, ok := StartChildWorkflowExecutionFailedCause_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }
 
 var (
@@ -180,18 +156,6 @@ func CancelExternalWorkflowExecutionFailedCauseFromString(s string) (CancelExter
 	return CancelExternalWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid CancelExternalWorkflowExecutionFailedCause", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	CancelExternalWorkflowExecutionFailedCause(-1).Shorthand() // will return "", false
-func (e CancelExternalWorkflowExecutionFailedCause) Shorthand() (string, bool) {
-	if s, ok := CancelExternalWorkflowExecutionFailedCause_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	SignalExternalWorkflowExecutionFailedCause_shorthandValue = map[string]int32{
 		"Unspecified":                       0,
@@ -216,18 +180,6 @@ func SignalExternalWorkflowExecutionFailedCauseFromString(s string) (SignalExter
 		return SignalExternalWorkflowExecutionFailedCause(v), nil
 	}
 	return SignalExternalWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid SignalExternalWorkflowExecutionFailedCause", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	SignalExternalWorkflowExecutionFailedCause(-1).Shorthand() // will return "", false
-func (e SignalExternalWorkflowExecutionFailedCause) Shorthand() (string, bool) {
-	if s, ok := SignalExternalWorkflowExecutionFailedCause_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }
 
 var (
@@ -260,16 +212,4 @@ func ResourceExhaustedCauseFromString(s string) (ResourceExhaustedCause, error) 
 		return ResourceExhaustedCause(v), nil
 	}
 	return ResourceExhaustedCause(0), fmt.Errorf("%s is not a valid ResourceExhaustedCause", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	ResourceExhaustedCause(-1).Shorthand() // will return "", false
-func (e ResourceExhaustedCause) Shorthand() (string, bool) {
-	if s, ok := ResourceExhaustedCause_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }

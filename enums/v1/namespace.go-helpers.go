@@ -52,18 +52,6 @@ func NamespaceStateFromString(s string) (NamespaceState, error) {
 	return NamespaceState(0), fmt.Errorf("%s is not a valid NamespaceState", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	NamespaceState(-1).Shorthand() // will return "", false
-func (e NamespaceState) Shorthand() (string, bool) {
-	if s, ok := NamespaceState_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	ArchivalState_shorthandValue = map[string]int32{
 		"Unspecified": 0,
@@ -88,18 +76,6 @@ func ArchivalStateFromString(s string) (ArchivalState, error) {
 	return ArchivalState(0), fmt.Errorf("%s is not a valid ArchivalState", s)
 }
 
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	ArchivalState(-1).Shorthand() // will return "", false
-func (e ArchivalState) Shorthand() (string, bool) {
-	if s, ok := ArchivalState_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
-}
-
 var (
 	ReplicationState_shorthandValue = map[string]int32{
 		"Unspecified": 0,
@@ -122,16 +98,4 @@ func ReplicationStateFromString(s string) (ReplicationState, error) {
 		return ReplicationState(v), nil
 	}
 	return ReplicationState(0), fmt.Errorf("%s is not a valid ReplicationState", s)
-}
-
-// Shorthand returns the shorthand temporal PascalCase variant of this enum's string representation.
-// For example, CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED will return as "Unspecified".
-// This also returns whether the value is valid to prevent bugs caused by invalid casts:
-//
-//	ReplicationState(-1).Shorthand() // will return "", false
-func (e ReplicationState) Shorthand() (string, bool) {
-	if s, ok := ReplicationState_shorthandName[int32(e)]; ok {
-		return s, true
-	}
-	return "", false
 }
