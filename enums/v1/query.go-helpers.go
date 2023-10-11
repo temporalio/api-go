@@ -42,7 +42,7 @@ func QueryResultTypeFromString(s string) (QueryResultType, error) {
 	} else if v, ok := QueryResultType_shortNameValue[s]; ok {
 		return QueryResultType(v), nil
 	}
-	return QueryResultType(0), fmt.Errorf("Invalid value for QueryResultType: %s", s)
+	return QueryResultType(0), fmt.Errorf("%s is not a valid QueryResultType", s)
 }
 
 var (
@@ -62,5 +62,5 @@ func QueryRejectConditionFromString(s string) (QueryRejectCondition, error) {
 	} else if v, ok := QueryRejectCondition_shortNameValue[s]; ok {
 		return QueryRejectCondition(v), nil
 	}
-	return QueryRejectCondition(0), fmt.Errorf("Invalid value for QueryRejectCondition: %s", s)
+	return QueryRejectCondition(0), fmt.Errorf("%s is not a valid QueryRejectCondition", s)
 }

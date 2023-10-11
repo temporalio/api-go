@@ -45,7 +45,7 @@ func BatchOperationTypeFromString(s string) (BatchOperationType, error) {
 	} else if v, ok := BatchOperationType_shortNameValue[s]; ok {
 		return BatchOperationType(v), nil
 	}
-	return BatchOperationType(0), fmt.Errorf("Invalid value for BatchOperationType: %s", s)
+	return BatchOperationType(0), fmt.Errorf("%s is not a valid BatchOperationType", s)
 }
 
 var (
@@ -65,5 +65,5 @@ func BatchOperationStateFromString(s string) (BatchOperationState, error) {
 	} else if v, ok := BatchOperationState_shortNameValue[s]; ok {
 		return BatchOperationState(v), nil
 	}
-	return BatchOperationState(0), fmt.Errorf("Invalid value for BatchOperationState: %s", s)
+	return BatchOperationState(0), fmt.Errorf("%s is not a valid BatchOperationState", s)
 }

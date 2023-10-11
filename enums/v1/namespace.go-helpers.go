@@ -43,7 +43,7 @@ func NamespaceStateFromString(s string) (NamespaceState, error) {
 	} else if v, ok := NamespaceState_shortNameValue[s]; ok {
 		return NamespaceState(v), nil
 	}
-	return NamespaceState(0), fmt.Errorf("Invalid value for NamespaceState: %s", s)
+	return NamespaceState(0), fmt.Errorf("%s is not a valid NamespaceState", s)
 }
 
 var (
@@ -62,7 +62,7 @@ func ArchivalStateFromString(s string) (ArchivalState, error) {
 	} else if v, ok := ArchivalState_shortNameValue[s]; ok {
 		return ArchivalState(v), nil
 	}
-	return ArchivalState(0), fmt.Errorf("Invalid value for ArchivalState: %s", s)
+	return ArchivalState(0), fmt.Errorf("%s is not a valid ArchivalState", s)
 }
 
 var (
@@ -81,5 +81,5 @@ func ReplicationStateFromString(s string) (ReplicationState, error) {
 	} else if v, ok := ReplicationState_shortNameValue[s]; ok {
 		return ReplicationState(v), nil
 	}
-	return ReplicationState(0), fmt.Errorf("Invalid value for ReplicationState: %s", s)
+	return ReplicationState(0), fmt.Errorf("%s is not a valid ReplicationState", s)
 }

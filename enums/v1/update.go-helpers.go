@@ -43,5 +43,5 @@ func UpdateWorkflowExecutionLifecycleStageFromString(s string) (UpdateWorkflowEx
 	} else if v, ok := UpdateWorkflowExecutionLifecycleStage_shortNameValue[s]; ok {
 		return UpdateWorkflowExecutionLifecycleStage(v), nil
 	}
-	return UpdateWorkflowExecutionLifecycleStage(0), fmt.Errorf("Invalid value for UpdateWorkflowExecutionLifecycleStage: %s", s)
+	return UpdateWorkflowExecutionLifecycleStage(0), fmt.Errorf("%s is not a valid UpdateWorkflowExecutionLifecycleStage", s)
 }

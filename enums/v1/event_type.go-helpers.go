@@ -86,5 +86,5 @@ func EventTypeFromString(s string) (EventType, error) {
 	} else if v, ok := EventType_shortNameValue[s]; ok {
 		return EventType(v), nil
 	}
-	return EventType(0), fmt.Errorf("Invalid value for EventType: %s", s)
+	return EventType(0), fmt.Errorf("%s is not a valid EventType", s)
 }

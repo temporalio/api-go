@@ -42,7 +42,7 @@ func EncodingTypeFromString(s string) (EncodingType, error) {
 	} else if v, ok := EncodingType_shortNameValue[s]; ok {
 		return EncodingType(v), nil
 	}
-	return EncodingType(0), fmt.Errorf("Invalid value for EncodingType: %s", s)
+	return EncodingType(0), fmt.Errorf("%s is not a valid EncodingType", s)
 }
 
 var (
@@ -66,7 +66,7 @@ func IndexedValueTypeFromString(s string) (IndexedValueType, error) {
 	} else if v, ok := IndexedValueType_shortNameValue[s]; ok {
 		return IndexedValueType(v), nil
 	}
-	return IndexedValueType(0), fmt.Errorf("Invalid value for IndexedValueType: %s", s)
+	return IndexedValueType(0), fmt.Errorf("%s is not a valid IndexedValueType", s)
 }
 
 var (
@@ -86,5 +86,5 @@ func SeverityFromString(s string) (Severity, error) {
 	} else if v, ok := Severity_shortNameValue[s]; ok {
 		return Severity(v), nil
 	}
-	return Severity(0), fmt.Errorf("Invalid value for Severity: %s", s)
+	return Severity(0), fmt.Errorf("%s is not a valid Severity", s)
 }

@@ -71,7 +71,7 @@ func WorkflowTaskFailedCauseFromString(s string) (WorkflowTaskFailedCause, error
 	} else if v, ok := WorkflowTaskFailedCause_shortNameValue[s]; ok {
 		return WorkflowTaskFailedCause(v), nil
 	}
-	return WorkflowTaskFailedCause(0), fmt.Errorf("Invalid value for WorkflowTaskFailedCause: %s", s)
+	return WorkflowTaskFailedCause(0), fmt.Errorf("%s is not a valid WorkflowTaskFailedCause", s)
 }
 
 var (
@@ -90,7 +90,7 @@ func StartChildWorkflowExecutionFailedCauseFromString(s string) (StartChildWorkf
 	} else if v, ok := StartChildWorkflowExecutionFailedCause_shortNameValue[s]; ok {
 		return StartChildWorkflowExecutionFailedCause(v), nil
 	}
-	return StartChildWorkflowExecutionFailedCause(0), fmt.Errorf("Invalid value for StartChildWorkflowExecutionFailedCause: %s", s)
+	return StartChildWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid StartChildWorkflowExecutionFailedCause", s)
 }
 
 var (
@@ -109,7 +109,7 @@ func CancelExternalWorkflowExecutionFailedCauseFromString(s string) (CancelExter
 	} else if v, ok := CancelExternalWorkflowExecutionFailedCause_shortNameValue[s]; ok {
 		return CancelExternalWorkflowExecutionFailedCause(v), nil
 	}
-	return CancelExternalWorkflowExecutionFailedCause(0), fmt.Errorf("Invalid value for CancelExternalWorkflowExecutionFailedCause: %s", s)
+	return CancelExternalWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid CancelExternalWorkflowExecutionFailedCause", s)
 }
 
 var (
@@ -129,7 +129,7 @@ func SignalExternalWorkflowExecutionFailedCauseFromString(s string) (SignalExter
 	} else if v, ok := SignalExternalWorkflowExecutionFailedCause_shortNameValue[s]; ok {
 		return SignalExternalWorkflowExecutionFailedCause(v), nil
 	}
-	return SignalExternalWorkflowExecutionFailedCause(0), fmt.Errorf("Invalid value for SignalExternalWorkflowExecutionFailedCause: %s", s)
+	return SignalExternalWorkflowExecutionFailedCause(0), fmt.Errorf("%s is not a valid SignalExternalWorkflowExecutionFailedCause", s)
 }
 
 var (
@@ -152,5 +152,5 @@ func ResourceExhaustedCauseFromString(s string) (ResourceExhaustedCause, error) 
 	} else if v, ok := ResourceExhaustedCause_shortNameValue[s]; ok {
 		return ResourceExhaustedCause(v), nil
 	}
-	return ResourceExhaustedCause(0), fmt.Errorf("Invalid value for ResourceExhaustedCause: %s", s)
+	return ResourceExhaustedCause(0), fmt.Errorf("%s is not a valid ResourceExhaustedCause", s)
 }

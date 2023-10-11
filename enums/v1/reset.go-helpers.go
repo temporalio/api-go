@@ -42,7 +42,7 @@ func ResetReapplyTypeFromString(s string) (ResetReapplyType, error) {
 	} else if v, ok := ResetReapplyType_shortNameValue[s]; ok {
 		return ResetReapplyType(v), nil
 	}
-	return ResetReapplyType(0), fmt.Errorf("Invalid value for ResetReapplyType: %s", s)
+	return ResetReapplyType(0), fmt.Errorf("%s is not a valid ResetReapplyType", s)
 }
 
 var (
@@ -61,5 +61,5 @@ func ResetTypeFromString(s string) (ResetType, error) {
 	} else if v, ok := ResetType_shortNameValue[s]; ok {
 		return ResetType(v), nil
 	}
-	return ResetType(0), fmt.Errorf("Invalid value for ResetType: %s", s)
+	return ResetType(0), fmt.Errorf("%s is not a valid ResetType", s)
 }

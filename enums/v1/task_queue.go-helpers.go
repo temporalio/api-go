@@ -42,7 +42,7 @@ func TaskQueueKindFromString(s string) (TaskQueueKind, error) {
 	} else if v, ok := TaskQueueKind_shortNameValue[s]; ok {
 		return TaskQueueKind(v), nil
 	}
-	return TaskQueueKind(0), fmt.Errorf("Invalid value for TaskQueueKind: %s", s)
+	return TaskQueueKind(0), fmt.Errorf("%s is not a valid TaskQueueKind", s)
 }
 
 var (
@@ -61,7 +61,7 @@ func TaskQueueTypeFromString(s string) (TaskQueueType, error) {
 	} else if v, ok := TaskQueueType_shortNameValue[s]; ok {
 		return TaskQueueType(v), nil
 	}
-	return TaskQueueType(0), fmt.Errorf("Invalid value for TaskQueueType: %s", s)
+	return TaskQueueType(0), fmt.Errorf("%s is not a valid TaskQueueType", s)
 }
 
 var (
@@ -82,5 +82,5 @@ func TaskReachabilityFromString(s string) (TaskReachability, error) {
 	} else if v, ok := TaskReachability_shortNameValue[s]; ok {
 		return TaskReachability(v), nil
 	}
-	return TaskReachability(0), fmt.Errorf("Invalid value for TaskReachability: %s", s)
+	return TaskReachability(0), fmt.Errorf("%s is not a valid TaskReachability", s)
 }

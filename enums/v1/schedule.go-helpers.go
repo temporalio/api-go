@@ -46,5 +46,5 @@ func ScheduleOverlapPolicyFromString(s string) (ScheduleOverlapPolicy, error) {
 	} else if v, ok := ScheduleOverlapPolicy_shortNameValue[s]; ok {
 		return ScheduleOverlapPolicy(v), nil
 	}
-	return ScheduleOverlapPolicy(0), fmt.Errorf("Invalid value for ScheduleOverlapPolicy: %s", s)
+	return ScheduleOverlapPolicy(0), fmt.Errorf("%s is not a valid ScheduleOverlapPolicy", s)
 }

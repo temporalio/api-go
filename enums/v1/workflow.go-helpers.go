@@ -44,7 +44,7 @@ func WorkflowIdReusePolicyFromString(s string) (WorkflowIdReusePolicy, error) {
 	} else if v, ok := WorkflowIdReusePolicy_shortNameValue[s]; ok {
 		return WorkflowIdReusePolicy(v), nil
 	}
-	return WorkflowIdReusePolicy(0), fmt.Errorf("Invalid value for WorkflowIdReusePolicy: %s", s)
+	return WorkflowIdReusePolicy(0), fmt.Errorf("%s is not a valid WorkflowIdReusePolicy", s)
 }
 
 var (
@@ -64,7 +64,7 @@ func ParentClosePolicyFromString(s string) (ParentClosePolicy, error) {
 	} else if v, ok := ParentClosePolicy_shortNameValue[s]; ok {
 		return ParentClosePolicy(v), nil
 	}
-	return ParentClosePolicy(0), fmt.Errorf("Invalid value for ParentClosePolicy: %s", s)
+	return ParentClosePolicy(0), fmt.Errorf("%s is not a valid ParentClosePolicy", s)
 }
 
 var (
@@ -84,7 +84,7 @@ func ContinueAsNewInitiatorFromString(s string) (ContinueAsNewInitiator, error) 
 	} else if v, ok := ContinueAsNewInitiator_shortNameValue[s]; ok {
 		return ContinueAsNewInitiator(v), nil
 	}
-	return ContinueAsNewInitiator(0), fmt.Errorf("Invalid value for ContinueAsNewInitiator: %s", s)
+	return ContinueAsNewInitiator(0), fmt.Errorf("%s is not a valid ContinueAsNewInitiator", s)
 }
 
 var (
@@ -108,7 +108,7 @@ func WorkflowExecutionStatusFromString(s string) (WorkflowExecutionStatus, error
 	} else if v, ok := WorkflowExecutionStatus_shortNameValue[s]; ok {
 		return WorkflowExecutionStatus(v), nil
 	}
-	return WorkflowExecutionStatus(0), fmt.Errorf("Invalid value for WorkflowExecutionStatus: %s", s)
+	return WorkflowExecutionStatus(0), fmt.Errorf("%s is not a valid WorkflowExecutionStatus", s)
 }
 
 var (
@@ -128,7 +128,7 @@ func PendingActivityStateFromString(s string) (PendingActivityState, error) {
 	} else if v, ok := PendingActivityState_shortNameValue[s]; ok {
 		return PendingActivityState(v), nil
 	}
-	return PendingActivityState(0), fmt.Errorf("Invalid value for PendingActivityState: %s", s)
+	return PendingActivityState(0), fmt.Errorf("%s is not a valid PendingActivityState", s)
 }
 
 var (
@@ -147,7 +147,7 @@ func PendingWorkflowTaskStateFromString(s string) (PendingWorkflowTaskState, err
 	} else if v, ok := PendingWorkflowTaskState_shortNameValue[s]; ok {
 		return PendingWorkflowTaskState(v), nil
 	}
-	return PendingWorkflowTaskState(0), fmt.Errorf("Invalid value for PendingWorkflowTaskState: %s", s)
+	return PendingWorkflowTaskState(0), fmt.Errorf("%s is not a valid PendingWorkflowTaskState", s)
 }
 
 var (
@@ -166,7 +166,7 @@ func HistoryEventFilterTypeFromString(s string) (HistoryEventFilterType, error) 
 	} else if v, ok := HistoryEventFilterType_shortNameValue[s]; ok {
 		return HistoryEventFilterType(v), nil
 	}
-	return HistoryEventFilterType(0), fmt.Errorf("Invalid value for HistoryEventFilterType: %s", s)
+	return HistoryEventFilterType(0), fmt.Errorf("%s is not a valid HistoryEventFilterType", s)
 }
 
 var (
@@ -190,7 +190,7 @@ func RetryStateFromString(s string) (RetryState, error) {
 	} else if v, ok := RetryState_shortNameValue[s]; ok {
 		return RetryState(v), nil
 	}
-	return RetryState(0), fmt.Errorf("Invalid value for RetryState: %s", s)
+	return RetryState(0), fmt.Errorf("%s is not a valid RetryState", s)
 }
 
 var (
@@ -211,5 +211,5 @@ func TimeoutTypeFromString(s string) (TimeoutType, error) {
 	} else if v, ok := TimeoutType_shortNameValue[s]; ok {
 		return TimeoutType(v), nil
 	}
-	return TimeoutType(0), fmt.Errorf("Invalid value for TimeoutType: %s", s)
+	return TimeoutType(0), fmt.Errorf("%s is not a valid TimeoutType", s)
 }

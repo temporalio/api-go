@@ -55,5 +55,5 @@ func CommandTypeFromString(s string) (CommandType, error) {
 	} else if v, ok := CommandType_shortNameValue[s]; ok {
 		return CommandType(v), nil
 	}
-	return CommandType(0), fmt.Errorf("Invalid value for CommandType: %s", s)
+	return CommandType(0), fmt.Errorf("%s is not a valid CommandType", s)
 }

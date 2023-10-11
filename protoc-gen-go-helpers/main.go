@@ -119,7 +119,7 @@ func {{.Type}}FromString(s string) ({{.Type}}, error) {
     } else if v, ok := {{.Type}}_shortNameValue[s]; ok {
         return {{.Type}}(v), nil
     }
-    return {{.Type}}(0), fmt.Errorf("invalid value for {{.Type}}: %s", s)
+    return {{.Type}}(0), fmt.Errorf("%s is not a valid {{.Type}}", s)
 }`
 )
 
