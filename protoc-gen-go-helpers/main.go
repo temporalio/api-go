@@ -109,9 +109,6 @@ var (
     {{.Type}}_shorthandValue = map[string]int32{ {{range .ShortValues}}
         "{{.Str}}": {{.Num}},{{end}}
     }
-    {{.Type}}_shorthandName = map[int32]string{ {{range .ShortValues}}
-        {{.Num}}: "{{.Str}}",{{end}}
-    }
 )
 
 // {{.Type}}FromString parses a {{.Type}} value from  either the protojson
