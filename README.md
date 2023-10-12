@@ -2,7 +2,7 @@
 
 Generated Go files from Temporal [api](https://github.com/temporalio/api) repository.
 
-_Note that any changes merged to [api](https://github.com/temporalio/api) will automatically trigger a [GitHub workflow](https://github.com/temporalio/api-go/blob/master/.github/workflows/update-proto.yml) that recompiles the proto files and commits them to master._
+_Note that any changes merged to [api](https://github.com/temporalio/api) will automatically trigger a [GitHub workflow](https://github.com/temporalio/api-go/blob/master/.github/workflows/update-proto.yml) that recompiles the proto files and commits the results to master._
 
 ## How to use
 
