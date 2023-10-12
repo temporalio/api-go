@@ -1,6 +1,6 @@
 module go.temporal.io/api/cmd/proxygenerator
 
-go 1.18
+go 1.20
 
 require (
 	go.temporal.io/api v1.14.0

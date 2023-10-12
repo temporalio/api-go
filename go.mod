@@ -1,6 +1,6 @@
 module go.temporal.io/api
 
-go 1.16
+go 1.20
 
 require (
 	github.com/gogo/googleapis v1.4.1
