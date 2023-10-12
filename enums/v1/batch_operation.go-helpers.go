@@ -35,14 +35,6 @@ var (
 		"Delete":      4,
 		"Reset":       5,
 	}
-	BatchOperationType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Terminate",
-		2: "Cancel",
-		3: "Signal",
-		4: "Delete",
-		5: "Reset",
-	}
 )
 
 // BatchOperationTypeFromString parses a BatchOperationType value from  either the protojson
@@ -62,12 +54,6 @@ var (
 		"Running":     1,
 		"Completed":   2,
 		"Failed":      3,
-	}
-	BatchOperationState_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Running",
-		2: "Completed",
-		3: "Failed",
 	}
 )
 

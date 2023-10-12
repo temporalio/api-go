@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -292,7 +293,107 @@ func (x EventType) Enum() *EventType {
 }
 
 func (x EventType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case EVENT_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_STARTED:
+		return "WorkflowExecutionStarted"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_COMPLETED:
+		return "WorkflowExecutionCompleted"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_FAILED:
+		return "WorkflowExecutionFailed"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_TIMED_OUT:
+		return "WorkflowExecutionTimedOut"
+	case EVENT_TYPE_WORKFLOW_TASK_SCHEDULED:
+		return "WorkflowTaskScheduled"
+	case EVENT_TYPE_WORKFLOW_TASK_STARTED:
+
+		// Deprecated: Use EventType.Descriptor instead.
+		return "WorkflowTaskStarted"
+	case EVENT_TYPE_WORKFLOW_TASK_COMPLETED:
+		return "WorkflowTaskCompleted"
+	case EVENT_TYPE_WORKFLOW_TASK_TIMED_OUT:
+		return "WorkflowTaskTimedOut"
+	case EVENT_TYPE_WORKFLOW_TASK_FAILED:
+		return "WorkflowTaskFailed"
+	case EVENT_TYPE_ACTIVITY_TASK_SCHEDULED:
+		return "ActivityTaskScheduled"
+	case EVENT_TYPE_ACTIVITY_TASK_STARTED:
+		return "ActivityTaskStarted"
+	case EVENT_TYPE_ACTIVITY_TASK_COMPLETED:
+		return "ActivityTaskCompleted"
+	case EVENT_TYPE_ACTIVITY_TASK_FAILED:
+		return "ActivityTaskFailed"
+	case EVENT_TYPE_ACTIVITY_TASK_TIMED_OUT:
+		return "ActivityTaskTimedOut"
+	case EVENT_TYPE_ACTIVITY_TASK_CANCEL_REQUESTED:
+		return "ActivityTaskCancelRequested"
+	case EVENT_TYPE_ACTIVITY_TASK_CANCELED:
+		return "ActivityTaskCanceled"
+	case EVENT_TYPE_TIMER_STARTED:
+		return "TimerStarted"
+	case EVENT_TYPE_TIMER_FIRED:
+		return "TimerFired"
+	case EVENT_TYPE_TIMER_CANCELED:
+		return "TimerCanceled"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_CANCEL_REQUESTED:
+		return "WorkflowExecutionCancelRequested"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_CANCELED:
+		return "WorkflowExecutionCanceled"
+	case EVENT_TYPE_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED:
+		return "RequestCancelExternalWorkflowExecutionInitiated"
+	case EVENT_TYPE_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED:
+		return "RequestCancelExternalWorkflowExecutionFailed"
+	case EVENT_TYPE_EXTERNAL_WORKFLOW_EXECUTION_CANCEL_REQUESTED:
+		return "ExternalWorkflowExecutionCancelRequested"
+	case EVENT_TYPE_MARKER_RECORDED:
+		return "MarkerRecorded"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_SIGNALED:
+		return "WorkflowExecutionSignaled"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_TERMINATED:
+		return "WorkflowExecutionTerminated"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_CONTINUED_AS_NEW:
+		return "WorkflowExecutionContinuedAsNew"
+	case EVENT_TYPE_START_CHILD_WORKFLOW_EXECUTION_INITIATED:
+		return "StartChildWorkflowExecutionInitiated"
+	case EVENT_TYPE_START_CHILD_WORKFLOW_EXECUTION_FAILED:
+		return "StartChildWorkflowExecutionFailed"
+	case EVENT_TYPE_CHILD_WORKFLOW_EXECUTION_STARTED:
+		return "ChildWorkflowExecutionStarted"
+	case EVENT_TYPE_CHILD_WORKFLOW_EXECUTION_COMPLETED:
+		return "ChildWorkflowExecutionCompleted"
+	case EVENT_TYPE_CHILD_WORKFLOW_EXECUTION_FAILED:
+		return "ChildWorkflowExecutionFailed"
+	case EVENT_TYPE_CHILD_WORKFLOW_EXECUTION_CANCELED:
+		return "ChildWorkflowExecutionCanceled"
+	case EVENT_TYPE_CHILD_WORKFLOW_EXECUTION_TIMED_OUT:
+		return "ChildWorkflowExecutionTimedOut"
+	case EVENT_TYPE_CHILD_WORKFLOW_EXECUTION_TERMINATED:
+		return "ChildWorkflowExecutionTerminated"
+	case EVENT_TYPE_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED:
+		return "SignalExternalWorkflowExecutionInitiated"
+	case EVENT_TYPE_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED:
+		return "SignalExternalWorkflowExecutionFailed"
+	case EVENT_TYPE_EXTERNAL_WORKFLOW_EXECUTION_SIGNALED:
+		return "ExternalWorkflowExecutionSignaled"
+	case EVENT_TYPE_UPSERT_WORKFLOW_SEARCH_ATTRIBUTES:
+		return "UpsertWorkflowSearchAttributes"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_UPDATE_ACCEPTED:
+		return "WorkflowExecutionUpdateAccepted"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_UPDATE_REJECTED:
+		return "WorkflowExecutionUpdateRejected"
+	case EVENT_TYPE_WORKFLOW_EXECUTION_UPDATE_COMPLETED:
+		return "WorkflowExecutionUpdateCompleted"
+	case EVENT_TYPE_WORKFLOW_PROPERTIES_MODIFIED_EXTERNALLY:
+		return "WorkflowPropertiesModifiedExternally"
+	case EVENT_TYPE_ACTIVITY_PROPERTIES_MODIFIED_EXTERNALLY:
+		return "ActivityPropertiesModifiedExternally"
+	case EVENT_TYPE_WORKFLOW_PROPERTIES_MODIFIED:
+		return "WorkflowPropertiesModified"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (EventType) Descriptor() protoreflect.EnumDescriptor {
@@ -307,7 +408,6 @@ func (x EventType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use EventType.Descriptor instead.
 func (EventType) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_event_type_proto_rawDescGZIP(), []int{0}
 }

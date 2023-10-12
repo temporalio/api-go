@@ -32,11 +32,6 @@ var (
 		"Proto3":      1,
 		"Json":        2,
 	}
-	EncodingType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Proto3",
-		2: "Json",
-	}
 )
 
 // EncodingTypeFromString parses a EncodingType value from  either the protojson
@@ -61,16 +56,6 @@ var (
 		"Datetime":    6,
 		"KeywordList": 7,
 	}
-	IndexedValueType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Text",
-		2: "Keyword",
-		3: "Int",
-		4: "Double",
-		5: "Bool",
-		6: "Datetime",
-		7: "KeywordList",
-	}
 )
 
 // IndexedValueTypeFromString parses a IndexedValueType value from  either the protojson
@@ -90,12 +75,6 @@ var (
 		"High":        1,
 		"Medium":      2,
 		"Low":         3,
-	}
-	Severity_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "High",
-		2: "Medium",
-		3: "Low",
 	}
 )
 

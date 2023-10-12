@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -85,7 +86,17 @@ func (x TaskQueueKind) Enum() *TaskQueueKind {
 }
 
 func (x TaskQueueKind) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case TASK_QUEUE_KIND_UNSPECIFIED:
+		return "Unspecified"
+	case TASK_QUEUE_KIND_NORMAL:
+		return "Normal"
+	case TASK_QUEUE_KIND_STICKY:
+		return "Sticky"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (TaskQueueKind) Descriptor() protoreflect.EnumDescriptor {
@@ -136,7 +147,17 @@ func (x TaskQueueType) Enum() *TaskQueueType {
 }
 
 func (x TaskQueueType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case TASK_QUEUE_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case TASK_QUEUE_TYPE_WORKFLOW:
+		return "Workflow"
+	case TASK_QUEUE_TYPE_ACTIVITY:
+		return "Activity"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (TaskQueueType) Descriptor() protoreflect.EnumDescriptor {
@@ -201,7 +222,21 @@ func (x TaskReachability) Enum() *TaskReachability {
 }
 
 func (x TaskReachability) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case TASK_REACHABILITY_UNSPECIFIED:
+		return "Unspecified"
+	case TASK_REACHABILITY_NEW_WORKFLOWS:
+		return "NewWorkflows"
+	case TASK_REACHABILITY_EXISTING_WORKFLOWS:
+		return "ExistingWorkflows"
+	case TASK_REACHABILITY_OPEN_WORKFLOWS:
+		return "OpenWorkflows"
+	case TASK_REACHABILITY_CLOSED_WORKFLOWS:
+		return "ClosedWorkflows"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (TaskReachability) Descriptor() protoreflect.EnumDescriptor {

@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -72,7 +73,17 @@ func (x EncodingType) Enum() *EncodingType {
 }
 
 func (x EncodingType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case ENCODING_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case ENCODING_TYPE_PROTO3:
+		return "Proto3"
+	case ENCODING_TYPE_JSON:
+		return "Json"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (EncodingType) Descriptor() protoreflect.EnumDescriptor {
@@ -136,7 +147,27 @@ func (x IndexedValueType) Enum() *IndexedValueType {
 }
 
 func (x IndexedValueType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case INDEXED_VALUE_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case INDEXED_VALUE_TYPE_TEXT:
+		return "Text"
+	case INDEXED_VALUE_TYPE_KEYWORD:
+		return "Keyword"
+	case INDEXED_VALUE_TYPE_INT:
+		return "Int"
+	case INDEXED_VALUE_TYPE_DOUBLE:
+		return "Double"
+	case INDEXED_VALUE_TYPE_BOOL:
+		return "Bool"
+	case INDEXED_VALUE_TYPE_DATETIME:
+		return "Datetime"
+	case INDEXED_VALUE_TYPE_KEYWORD_LIST:
+		return "KeywordList"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (IndexedValueType) Descriptor() protoreflect.EnumDescriptor {
@@ -188,7 +219,19 @@ func (x Severity) Enum() *Severity {
 }
 
 func (x Severity) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case SEVERITY_UNSPECIFIED:
+		return "Unspecified"
+	case SEVERITY_HIGH:
+		return "High"
+	case SEVERITY_MEDIUM:
+		return "Medium"
+	case SEVERITY_LOW:
+		return "Low"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (Severity) Descriptor() protoreflect.EnumDescriptor {

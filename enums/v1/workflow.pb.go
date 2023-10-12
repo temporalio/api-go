@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -87,7 +88,21 @@ func (x WorkflowIdReusePolicy) Enum() *WorkflowIdReusePolicy {
 }
 
 func (x WorkflowIdReusePolicy) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED:
+		return "Unspecified"
+	case WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE:
+		return "AllowDuplicate"
+	case WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY:
+		return "AllowDuplicateFailedOnly"
+	case WORKFLOW_ID_REUSE_POLICY_REJECT_DUPLICATE:
+		return "RejectDuplicate"
+	case WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING:
+		return "TerminateIfRunning"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (WorkflowIdReusePolicy) Descriptor() protoreflect.EnumDescriptor {
@@ -143,7 +158,19 @@ func (x ParentClosePolicy) Enum() *ParentClosePolicy {
 }
 
 func (x ParentClosePolicy) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case PARENT_CLOSE_POLICY_UNSPECIFIED:
+		return "Unspecified"
+	case PARENT_CLOSE_POLICY_TERMINATE:
+		return "Terminate"
+	case PARENT_CLOSE_POLICY_ABANDON:
+		return "Abandon"
+	case PARENT_CLOSE_POLICY_REQUEST_CANCEL:
+		return "RequestCancel"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (ParentClosePolicy) Descriptor() protoreflect.EnumDescriptor {
@@ -198,7 +225,19 @@ func (x ContinueAsNewInitiator) Enum() *ContinueAsNewInitiator {
 }
 
 func (x ContinueAsNewInitiator) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED:
+		return "Unspecified"
+	case CONTINUE_AS_NEW_INITIATOR_WORKFLOW:
+		return "Workflow"
+	case CONTINUE_AS_NEW_INITIATOR_RETRY:
+		return "Retry"
+	case CONTINUE_AS_NEW_INITIATOR_CRON_SCHEDULE:
+		return "CronSchedule"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (ContinueAsNewInitiator) Descriptor() protoreflect.EnumDescriptor {
@@ -266,7 +305,30 @@ func (x WorkflowExecutionStatus) Enum() *WorkflowExecutionStatus {
 }
 
 func (x WorkflowExecutionStatus) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case WORKFLOW_EXECUTION_STATUS_UNSPECIFIED:
+		return "Unspecified"
+	case WORKFLOW_EXECUTION_STATUS_RUNNING:
+		return "Running"
+	case WORKFLOW_EXECUTION_STATUS_COMPLETED:
+		return "Completed"
+	case WORKFLOW_EXECUTION_STATUS_FAILED:
+		return "Failed"
+	case WORKFLOW_EXECUTION_STATUS_CANCELED:
+		return "Canceled"
+	case WORKFLOW_EXECUTION_STATUS_TERMINATED:
+		return "Terminated"
+	case WORKFLOW_EXECUTION_STATUS_CONTINUED_AS_NEW:
+		return "ContinuedAsNew"
+	case WORKFLOW_EXECUTION_STATUS_TIMED_OUT:
+		return "TimedOut"
+	default
+
+	// Deprecated: Use WorkflowExecutionStatus.Descriptor instead.
+	:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (WorkflowExecutionStatus) Descriptor() protoreflect.EnumDescriptor {
@@ -281,7 +343,6 @@ func (x WorkflowExecutionStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use WorkflowExecutionStatus.Descriptor instead.
 func (WorkflowExecutionStatus) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{3}
 }
@@ -318,7 +379,19 @@ func (x PendingActivityState) Enum() *PendingActivityState {
 }
 
 func (x PendingActivityState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case PENDING_ACTIVITY_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case PENDING_ACTIVITY_STATE_SCHEDULED:
+		return "Scheduled"
+	case PENDING_ACTIVITY_STATE_STARTED:
+		return "Started"
+	case PENDING_ACTIVITY_STATE_CANCEL_REQUESTED:
+		return "CancelRequested"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (PendingActivityState) Descriptor() protoreflect.EnumDescriptor {
@@ -367,7 +440,17 @@ func (x PendingWorkflowTaskState) Enum() *PendingWorkflowTaskState {
 }
 
 func (x PendingWorkflowTaskState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case PENDING_WORKFLOW_TASK_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case PENDING_WORKFLOW_TASK_STATE_SCHEDULED:
+		return "Scheduled"
+	case PENDING_WORKFLOW_TASK_STATE_STARTED:
+		return "Started"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (PendingWorkflowTaskState) Descriptor() protoreflect.EnumDescriptor {
@@ -416,7 +499,17 @@ func (x HistoryEventFilterType) Enum() *HistoryEventFilterType {
 }
 
 func (x HistoryEventFilterType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case HISTORY_EVENT_FILTER_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case HISTORY_EVENT_FILTER_TYPE_ALL_EVENT:
+		return "AllEvent"
+	case HISTORY_EVENT_FILTER_TYPE_CLOSE_EVENT:
+		return "CloseEvent"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (HistoryEventFilterType) Descriptor() protoreflect.EnumDescriptor {
@@ -480,7 +573,29 @@ func (x RetryState) Enum() *RetryState {
 }
 
 func (x RetryState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case RETRY_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case RETRY_STATE_IN_PROGRESS:
+		return "InProgress"
+	case RETRY_STATE_NON_RETRYABLE_FAILURE:
+		return "NonRetryableFailure"
+	case RETRY_STATE_TIMEOUT:
+		return "Timeout"
+	case RETRY_STATE_MAXIMUM_ATTEMPTS_REACHED:
+		return "MaximumAttemptsReached"
+	case RETRY_STATE_RETRY_POLICY_NOT_SET:
+		return "RetryPolicyNotSet"
+	case RETRY_STATE_INTERNAL_SERVER_ERROR:
+		return "InternalServerError"
+	case RETRY_STATE_CANCEL_REQUESTED:
+
+		// Deprecated: Use RetryState.Descriptor instead.
+		return "CancelRequested"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (RetryState) Descriptor() protoreflect.EnumDescriptor {
@@ -495,7 +610,6 @@ func (x RetryState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use RetryState.Descriptor instead.
 func (RetryState) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{7}
 }
@@ -535,7 +649,21 @@ func (x TimeoutType) Enum() *TimeoutType {
 }
 
 func (x TimeoutType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case TIMEOUT_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case TIMEOUT_TYPE_START_TO_CLOSE:
+		return "StartToClose"
+	case TIMEOUT_TYPE_SCHEDULE_TO_START:
+		return "ScheduleToStart"
+	case TIMEOUT_TYPE_SCHEDULE_TO_CLOSE:
+		return "ScheduleToClose"
+	case TIMEOUT_TYPE_HEARTBEAT:
+		return "Heartbeat"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (TimeoutType) Descriptor() protoreflect.EnumDescriptor {

@@ -32,11 +32,6 @@ var (
 		"Signal":      1,
 		"None":        2,
 	}
-	ResetReapplyType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Signal",
-		2: "None",
-	}
 )
 
 // ResetReapplyTypeFromString parses a ResetReapplyType value from  either the protojson
@@ -55,11 +50,6 @@ var (
 		"Unspecified":       0,
 		"FirstWorkflowTask": 1,
 		"LastWorkflowTask":  2,
-	}
-	ResetType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "FirstWorkflowTask",
-		2: "LastWorkflowTask",
 	}
 )
 

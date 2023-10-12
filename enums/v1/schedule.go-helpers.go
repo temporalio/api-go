@@ -36,15 +36,6 @@ var (
 		"TerminateOther": 5,
 		"AllowAll":       6,
 	}
-	ScheduleOverlapPolicy_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Skip",
-		2: "BufferOne",
-		3: "BufferAll",
-		4: "CancelOther",
-		5: "TerminateOther",
-		6: "AllowAll",
-	}
 )
 
 // ScheduleOverlapPolicyFromString parses a ScheduleOverlapPolicy value from  either the protojson

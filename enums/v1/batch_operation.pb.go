@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -81,7 +82,23 @@ func (x BatchOperationType) Enum() *BatchOperationType {
 }
 
 func (x BatchOperationType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case BATCH_OPERATION_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case BATCH_OPERATION_TYPE_TERMINATE:
+		return "Terminate"
+	case BATCH_OPERATION_TYPE_CANCEL:
+		return "Cancel"
+	case BATCH_OPERATION_TYPE_SIGNAL:
+		return "Signal"
+	case BATCH_OPERATION_TYPE_DELETE:
+		return "Delete"
+	case BATCH_OPERATION_TYPE_RESET:
+		return "Reset"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (BatchOperationType) Descriptor() protoreflect.EnumDescriptor {
@@ -133,7 +150,19 @@ func (x BatchOperationState) Enum() *BatchOperationState {
 }
 
 func (x BatchOperationState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case BATCH_OPERATION_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case BATCH_OPERATION_STATE_RUNNING:
+		return "Running"
+	case BATCH_OPERATION_STATE_COMPLETED:
+		return "Completed"
+	case BATCH_OPERATION_STATE_FAILED:
+		return "Failed"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (BatchOperationState) Descriptor() protoreflect.EnumDescriptor {

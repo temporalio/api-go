@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -112,7 +113,45 @@ func (x CommandType) Enum() *CommandType {
 }
 
 func (x CommandType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case COMMAND_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case COMMAND_TYPE_SCHEDULE_ACTIVITY_TASK:
+		return "ScheduleActivityTask"
+	case COMMAND_TYPE_REQUEST_CANCEL_ACTIVITY_TASK:
+		return "RequestCancelActivityTask"
+	case COMMAND_TYPE_START_TIMER:
+		return "StartTimer"
+	case COMMAND_TYPE_COMPLETE_WORKFLOW_EXECUTION:
+		return "CompleteWorkflowExecution"
+	case COMMAND_TYPE_FAIL_WORKFLOW_EXECUTION:
+		return "FailWorkflowExecution"
+	case COMMAND_TYPE_CANCEL_TIMER:
+		return "CancelTimer"
+
+		// Deprecated: Use CommandType.Descriptor instead.
+	case COMMAND_TYPE_CANCEL_WORKFLOW_EXECUTION:
+		return "CancelWorkflowExecution"
+	case COMMAND_TYPE_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION:
+		return "RequestCancelExternalWorkflowExecution"
+	case COMMAND_TYPE_RECORD_MARKER:
+		return "RecordMarker"
+	case COMMAND_TYPE_CONTINUE_AS_NEW_WORKFLOW_EXECUTION:
+		return "ContinueAsNewWorkflowExecution"
+	case COMMAND_TYPE_START_CHILD_WORKFLOW_EXECUTION:
+		return "StartChildWorkflowExecution"
+	case COMMAND_TYPE_SIGNAL_EXTERNAL_WORKFLOW_EXECUTION:
+		return "SignalExternalWorkflowExecution"
+	case COMMAND_TYPE_UPSERT_WORKFLOW_SEARCH_ATTRIBUTES:
+		return "UpsertWorkflowSearchAttributes"
+	case COMMAND_TYPE_PROTOCOL_MESSAGE:
+		return "ProtocolMessage"
+	case COMMAND_TYPE_MODIFY_WORKFLOW_PROPERTIES:
+		return "ModifyWorkflowProperties"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (CommandType) Descriptor() protoreflect.EnumDescriptor {
@@ -127,7 +166,6 @@ func (x CommandType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use CommandType.Descriptor instead.
 func (CommandType) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_command_type_proto_rawDescGZIP(), []int{0}
 }

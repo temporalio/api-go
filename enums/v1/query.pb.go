@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -72,7 +73,17 @@ func (x QueryResultType) Enum() *QueryResultType {
 }
 
 func (x QueryResultType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case QUERY_RESULT_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case QUERY_RESULT_TYPE_ANSWERED:
+		return "Answered"
+	case QUERY_RESULT_TYPE_FAILED:
+		return "Failed"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (QueryResultType) Descriptor() protoreflect.EnumDescriptor {
@@ -127,7 +138,19 @@ func (x QueryRejectCondition) Enum() *QueryRejectCondition {
 }
 
 func (x QueryRejectCondition) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case QUERY_REJECT_CONDITION_UNSPECIFIED:
+		return "Unspecified"
+	case QUERY_REJECT_CONDITION_NONE:
+		return "None"
+	case QUERY_REJECT_CONDITION_NOT_OPEN:
+		return "NotOpen"
+	case QUERY_REJECT_CONDITION_NOT_COMPLETED_CLEANLY:
+		return "NotCompletedCleanly"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (QueryRejectCondition) Descriptor() protoreflect.EnumDescriptor {

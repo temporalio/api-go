@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -75,7 +76,17 @@ func (x ResetReapplyType) Enum() *ResetReapplyType {
 }
 
 func (x ResetReapplyType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case RESET_REAPPLY_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case RESET_REAPPLY_TYPE_SIGNAL:
+		return "Signal"
+	case RESET_REAPPLY_TYPE_NONE:
+		return "None"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (ResetReapplyType) Descriptor() protoreflect.EnumDescriptor {
@@ -127,7 +138,17 @@ func (x ResetType) Enum() *ResetType {
 }
 
 func (x ResetType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case RESET_TYPE_UNSPECIFIED:
+		return "Unspecified"
+	case RESET_TYPE_FIRST_WORKFLOW_TASK:
+		return "FirstWorkflowTask"
+	case RESET_TYPE_LAST_WORKFLOW_TASK:
+		return "LastWorkflowTask"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (ResetType) Descriptor() protoreflect.EnumDescriptor {

@@ -33,12 +33,6 @@ var (
 		"Deprecated":  2,
 		"Deleted":     3,
 	}
-	NamespaceState_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Registered",
-		2: "Deprecated",
-		3: "Deleted",
-	}
 )
 
 // NamespaceStateFromString parses a NamespaceState value from  either the protojson
@@ -58,11 +52,6 @@ var (
 		"Disabled":    1,
 		"Enabled":     2,
 	}
-	ArchivalState_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Disabled",
-		2: "Enabled",
-	}
 )
 
 // ArchivalStateFromString parses a ArchivalState value from  either the protojson
@@ -81,11 +70,6 @@ var (
 		"Unspecified": 0,
 		"Normal":      1,
 		"Handover":    2,
-	}
-	ReplicationState_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Normal",
-		2: "Handover",
 	}
 )
 

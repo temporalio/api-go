@@ -32,11 +32,6 @@ var (
 		"Normal":      1,
 		"Sticky":      2,
 	}
-	TaskQueueKind_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Normal",
-		2: "Sticky",
-	}
 )
 
 // TaskQueueKindFromString parses a TaskQueueKind value from  either the protojson
@@ -55,11 +50,6 @@ var (
 		"Unspecified": 0,
 		"Workflow":    1,
 		"Activity":    2,
-	}
-	TaskQueueType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Workflow",
-		2: "Activity",
 	}
 )
 
@@ -81,13 +71,6 @@ var (
 		"ExistingWorkflows": 2,
 		"OpenWorkflows":     3,
 		"ClosedWorkflows":   4,
-	}
-	TaskReachability_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "NewWorkflows",
-		2: "ExistingWorkflows",
-		3: "OpenWorkflows",
-		4: "ClosedWorkflows",
 	}
 )
 

@@ -32,11 +32,6 @@ var (
 		"Answered":    1,
 		"Failed":      2,
 	}
-	QueryResultType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Answered",
-		2: "Failed",
-	}
 )
 
 // QueryResultTypeFromString parses a QueryResultType value from  either the protojson
@@ -56,12 +51,6 @@ var (
 		"None":                1,
 		"NotOpen":             2,
 		"NotCompletedCleanly": 3,
-	}
-	QueryRejectCondition_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "None",
-		2: "NotOpen",
-		3: "NotCompletedCleanly",
 	}
 )
 

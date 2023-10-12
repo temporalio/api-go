@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -92,7 +93,19 @@ func (x UpdateWorkflowExecutionLifecycleStage) Enum() *UpdateWorkflowExecutionLi
 }
 
 func (x UpdateWorkflowExecutionLifecycleStage) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED:
+		return "Unspecified"
+	case UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ADMITTED:
+		return "Admitted"
+	case UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED:
+		return "Accepted"
+	case UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_COMPLETED:
+		return "Completed"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (UpdateWorkflowExecutionLifecycleStage) Descriptor() protoreflect.EnumDescriptor {

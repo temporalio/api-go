@@ -34,13 +34,6 @@ var (
 		"RejectDuplicate":          3,
 		"TerminateIfRunning":       4,
 	}
-	WorkflowIdReusePolicy_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "AllowDuplicate",
-		2: "AllowDuplicateFailedOnly",
-		3: "RejectDuplicate",
-		4: "TerminateIfRunning",
-	}
 )
 
 // WorkflowIdReusePolicyFromString parses a WorkflowIdReusePolicy value from  either the protojson
@@ -61,12 +54,6 @@ var (
 		"Abandon":       2,
 		"RequestCancel": 3,
 	}
-	ParentClosePolicy_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Terminate",
-		2: "Abandon",
-		3: "RequestCancel",
-	}
 )
 
 // ParentClosePolicyFromString parses a ParentClosePolicy value from  either the protojson
@@ -86,12 +73,6 @@ var (
 		"Workflow":     1,
 		"Retry":        2,
 		"CronSchedule": 3,
-	}
-	ContinueAsNewInitiator_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Workflow",
-		2: "Retry",
-		3: "CronSchedule",
 	}
 )
 
@@ -117,16 +98,6 @@ var (
 		"ContinuedAsNew": 6,
 		"TimedOut":       7,
 	}
-	WorkflowExecutionStatus_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Running",
-		2: "Completed",
-		3: "Failed",
-		4: "Canceled",
-		5: "Terminated",
-		6: "ContinuedAsNew",
-		7: "TimedOut",
-	}
 )
 
 // WorkflowExecutionStatusFromString parses a WorkflowExecutionStatus value from  either the protojson
@@ -147,12 +118,6 @@ var (
 		"Started":         2,
 		"CancelRequested": 3,
 	}
-	PendingActivityState_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Scheduled",
-		2: "Started",
-		3: "CancelRequested",
-	}
 )
 
 // PendingActivityStateFromString parses a PendingActivityState value from  either the protojson
@@ -172,11 +137,6 @@ var (
 		"Scheduled":   1,
 		"Started":     2,
 	}
-	PendingWorkflowTaskState_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Scheduled",
-		2: "Started",
-	}
 )
 
 // PendingWorkflowTaskStateFromString parses a PendingWorkflowTaskState value from  either the protojson
@@ -195,11 +155,6 @@ var (
 		"Unspecified": 0,
 		"AllEvent":    1,
 		"CloseEvent":  2,
-	}
-	HistoryEventFilterType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "AllEvent",
-		2: "CloseEvent",
 	}
 )
 
@@ -225,16 +180,6 @@ var (
 		"InternalServerError":    6,
 		"CancelRequested":        7,
 	}
-	RetryState_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "InProgress",
-		2: "NonRetryableFailure",
-		3: "Timeout",
-		4: "MaximumAttemptsReached",
-		5: "RetryPolicyNotSet",
-		6: "InternalServerError",
-		7: "CancelRequested",
-	}
 )
 
 // RetryStateFromString parses a RetryState value from  either the protojson
@@ -255,13 +200,6 @@ var (
 		"ScheduleToStart": 2,
 		"ScheduleToClose": 3,
 		"Heartbeat":       4,
-	}
-	TimeoutType_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "StartToClose",
-		2: "ScheduleToStart",
-		3: "ScheduleToClose",
-		4: "Heartbeat",
 	}
 )
 

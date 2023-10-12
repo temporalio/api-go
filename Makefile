@@ -43,7 +43,7 @@ update-proto-submodule:
 
 
 ##### Compile proto files for go #####
-grpc: go-grpc fix-path fix-enums copy-helpers
+grpc: go-grpc fix-path fix-enums fix-enum-string copy-helpers
 
 # Only install helper when its source has changed
 .go-helpers-installed: $(HELPER_FILES)
@@ -64,7 +64,7 @@ fix-path: go-grpc
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
 copy-helpers:
-	# Also copy the payload and history JSON helpers
+	# Copy the payload helpers
 	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
 
 # The generated enums are go are just plain terrible, so we fix them
@@ -74,6 +74,12 @@ fix-enums: fix-path
 	printf $(COLOR) "Fixing enum naming..."
 	$(foreach PROTO_ENUM,$(PROTO_ENUMS),\
       $(shell grep -Rl "$(PROTO_ENUM)" $(PROTO_OUT) | grep -E "\.go" | xargs -P 8 sed -i "" -e "s/$(PROTO_ENUM)_\(.*\) $(PROTO_ENUM)/\1 $(PROTO_ENUM)/g;s/\.$(PROTO_ENUM)_\(.*\)/.\1/g"))
+
+# We rely on the old temporal CamelCase JSON enums for presentation, so we rewrite the String method
+# on all generated enums
+fix-enum-string: fix-enums
+	printf $(COLOR) "Rewriting enum String methods"
+	$(shell find . -name "*.pb.go" | xargs go run ./enum-rewriter/main.go -- )
 
 # All generated service files pathes relative to PROTO_OUT.
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service_grpc.pb.go"))

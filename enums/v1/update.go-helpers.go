@@ -33,12 +33,6 @@ var (
 		"Accepted":    2,
 		"Completed":   3,
 	}
-	UpdateWorkflowExecutionLifecycleStage_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "Admitted",
-		2: "Accepted",
-		3: "Completed",
-	}
 )
 
 // UpdateWorkflowExecutionLifecycleStageFromString parses a UpdateWorkflowExecutionLifecycleStage value from  either the protojson

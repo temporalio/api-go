@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -75,7 +76,19 @@ func (x NamespaceState) Enum() *NamespaceState {
 }
 
 func (x NamespaceState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case NAMESPACE_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case NAMESPACE_STATE_REGISTERED:
+		return "Registered"
+	case NAMESPACE_STATE_DEPRECATED:
+		return "Deprecated"
+	case NAMESPACE_STATE_DELETED:
+		return "Deleted"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (NamespaceState) Descriptor() protoreflect.EnumDescriptor {
@@ -124,7 +137,17 @@ func (x ArchivalState) Enum() *ArchivalState {
 }
 
 func (x ArchivalState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case ARCHIVAL_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case ARCHIVAL_STATE_DISABLED:
+		return "Disabled"
+	case ARCHIVAL_STATE_ENABLED:
+		return "Enabled"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (ArchivalState) Descriptor() protoreflect.EnumDescriptor {
@@ -173,7 +196,17 @@ func (x ReplicationState) Enum() *ReplicationState {
 }
 
 func (x ReplicationState) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case REPLICATION_STATE_UNSPECIFIED:
+		return "Unspecified"
+	case REPLICATION_STATE_NORMAL:
+		return "Normal"
+	case REPLICATION_STATE_HANDOVER:
+		return "Handover"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (ReplicationState) Descriptor() protoreflect.EnumDescriptor {

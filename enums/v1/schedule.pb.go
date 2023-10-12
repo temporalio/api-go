@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -101,7 +102,25 @@ func (x ScheduleOverlapPolicy) Enum() *ScheduleOverlapPolicy {
 }
 
 func (x ScheduleOverlapPolicy) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case SCHEDULE_OVERLAP_POLICY_UNSPECIFIED:
+		return "Unspecified"
+	case SCHEDULE_OVERLAP_POLICY_SKIP:
+		return "Skip"
+	case SCHEDULE_OVERLAP_POLICY_BUFFER_ONE:
+		return "BufferOne"
+	case SCHEDULE_OVERLAP_POLICY_BUFFER_ALL:
+		return "BufferAll"
+	case SCHEDULE_OVERLAP_POLICY_CANCEL_OTHER:
+		return "CancelOther"
+	case SCHEDULE_OVERLAP_POLICY_TERMINATE_OTHER:
+		return "TerminateOther"
+	case SCHEDULE_OVERLAP_POLICY_ALLOW_ALL:
+		return "AllowAll"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (ScheduleOverlapPolicy) Descriptor() protoreflect.EnumDescriptor {

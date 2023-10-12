@@ -30,6 +30,7 @@ package enums
 
 import (
 	reflect "reflect"
+	"strconv"
 	sync "sync"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -184,7 +185,81 @@ func (x WorkflowTaskFailedCause) Enum() *WorkflowTaskFailedCause {
 }
 
 func (x WorkflowTaskFailedCause) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED:
+		return "Unspecified"
+	case WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND:
+		return "UnhandledCommand"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_SCHEDULE_ACTIVITY_ATTRIBUTES:
+		return "BadScheduleActivityAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_ACTIVITY_ATTRIBUTES:
+		return "BadRequestCancelActivityAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_START_TIMER_ATTRIBUTES:
+		return "BadStartTimerAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_CANCEL_TIMER_ATTRIBUTES:
+
+		// Deprecated: Use WorkflowTaskFailedCause.Descriptor instead.
+		return "BadCancelTimerAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_RECORD_MARKER_ATTRIBUTES:
+		return "BadRecordMarkerAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_COMPLETE_WORKFLOW_EXECUTION_ATTRIBUTES:
+		return "BadCompleteWorkflowExecutionAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_FAIL_WORKFLOW_EXECUTION_ATTRIBUTES:
+		return "BadFailWorkflowExecutionAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_CANCEL_WORKFLOW_EXECUTION_ATTRIBUTES:
+		return "BadCancelWorkflowExecutionAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_ATTRIBUTES:
+		return "BadRequestCancelExternalWorkflowExecutionAttributes"
+
+		// Enum value maps for StartChildWorkflowExecutionFailedCause.
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_CONTINUE_AS_NEW_ATTRIBUTES:
+		return "BadContinueAsNewAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_START_TIMER_DUPLICATE_ID:
+		return "StartTimerDuplicateId"
+	case WORKFLOW_TASK_FAILED_CAUSE_RESET_STICKY_TASK_QUEUE:
+		return "ResetStickyTaskQueue"
+	case WORKFLOW_TASK_FAILED_CAUSE_WORKFLOW_WORKER_UNHANDLED_FAILURE:
+		return "WorkflowWorkerUnhandledFailure"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_WORKFLOW_EXECUTION_ATTRIBUTES:
+		return "BadSignalWorkflowExecutionAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_START_CHILD_EXECUTION_ATTRIBUTES:
+		return "BadStartChildExecutionAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_FORCE_CLOSE_COMMAND:
+		return "ForceCloseCommand"
+	case WORKFLOW_TASK_FAILED_CAUSE_FAILOVER_CLOSE_COMMAND:
+		return "FailoverCloseCommand"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_SIGNAL_INPUT_SIZE:
+		return "BadSignalInputSize"
+	case WORKFLOW_TASK_FAILED_CAUSE_RESET_WORKFLOW:
+		return "ResetWorkflow"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_BINARY:
+		return "BadBinary"
+	case WORKFLOW_TASK_FAILED_CAUSE_SCHEDULE_ACTIVITY_DUPLICATE_ID:
+		return "ScheduleActivityDuplicateId"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_SEARCH_ATTRIBUTES:
+		return "BadSearchAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_NON_DETERMINISTIC_ERROR:
+		return "NonDeterministicError"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_MODIFY_WORKFLOW_PROPERTIES_ATTRIBUTES:
+		return "BadModifyWorkflowPropertiesAttributes"
+	case WORKFLOW_TASK_FAILED_CAUSE_PENDING_CHILD_WORKFLOWS_LIMIT_EXCEEDED:
+
+		// Deprecated: Use StartChildWorkflowExecutionFailedCause.Descriptor instead.
+		return "PendingChildWorkflowsLimitExceeded"
+	case WORKFLOW_TASK_FAILED_CAUSE_PENDING_ACTIVITIES_LIMIT_EXCEEDED:
+		return "PendingActivitiesLimitExceeded"
+	case WORKFLOW_TASK_FAILED_CAUSE_PENDING_SIGNALS_LIMIT_EXCEEDED:
+		return "PendingSignalsLimitExceeded"
+	case WORKFLOW_TASK_FAILED_CAUSE_PENDING_REQUEST_CANCEL_LIMIT_EXCEEDED:
+		return "PendingRequestCancelLimitExceeded"
+	case WORKFLOW_TASK_FAILED_CAUSE_BAD_UPDATE_WORKFLOW_EXECUTION_MESSAGE:
+		return "BadUpdateWorkflowExecutionMessage"
+	case WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_UPDATE:
+		return "UnhandledUpdate"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (WorkflowTaskFailedCause) Descriptor() protoreflect.EnumDescriptor {
@@ -199,7 +274,6 @@ func (x WorkflowTaskFailedCause) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use WorkflowTaskFailedCause.Descriptor instead.
 func (WorkflowTaskFailedCause) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{0}
 }
@@ -212,7 +286,6 @@ const (
 	START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND     StartChildWorkflowExecutionFailedCause = 2
 )
 
-// Enum value maps for StartChildWorkflowExecutionFailedCause.
 var (
 	StartChildWorkflowExecutionFailedCause_name = map[int32]string{
 		0: "START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED",
@@ -233,7 +306,17 @@ func (x StartChildWorkflowExecutionFailedCause) Enum() *StartChildWorkflowExecut
 }
 
 func (x StartChildWorkflowExecutionFailedCause) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED:
+		return "Unspecified"
+	case START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_WORKFLOW_ALREADY_EXISTS:
+		return "WorkflowAlreadyExists"
+	case START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND:
+		return "NamespaceNotFound"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (StartChildWorkflowExecutionFailedCause) Descriptor() protoreflect.EnumDescriptor {
@@ -248,7 +331,6 @@ func (x StartChildWorkflowExecutionFailedCause) Number() protoreflect.EnumNumber
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use StartChildWorkflowExecutionFailedCause.Descriptor instead.
 func (StartChildWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{1}
 }
@@ -282,7 +364,17 @@ func (x CancelExternalWorkflowExecutionFailedCause) Enum() *CancelExternalWorkfl
 }
 
 func (x CancelExternalWorkflowExecutionFailedCause) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED:
+		return "Unspecified"
+	case CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND:
+		return "ExternalWorkflowExecutionNotFound"
+	case CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND:
+		return "NamespaceNotFound"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (CancelExternalWorkflowExecutionFailedCause) Descriptor() protoreflect.EnumDescriptor {
@@ -335,7 +427,19 @@ func (x SignalExternalWorkflowExecutionFailedCause) Enum() *SignalExternalWorkfl
 }
 
 func (x SignalExternalWorkflowExecutionFailedCause) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED:
+		return "Unspecified"
+	case SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND:
+		return "ExternalWorkflowExecutionNotFound"
+	case SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND:
+		return "NamespaceNotFound"
+	case SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_SIGNAL_COUNT_LIMIT_EXCEEDED:
+		return "SignalCountLimitExceeded"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 func (SignalExternalWorkflowExecutionFailedCause) Descriptor() protoreflect.EnumDescriptor {
@@ -402,7 +506,28 @@ func (x ResourceExhaustedCause) Enum() *ResourceExhaustedCause {
 }
 
 func (x ResourceExhaustedCause) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+	switch x {
+	case RESOURCE_EXHAUSTED_CAUSE_UNSPECIFIED:
+		return "Unspecified"
+	case RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT:
+		return "RpsLimit"
+	case RESOURCE_EXHAUSTED_CAUSE_CONCURRENT_LIMIT:
+		return "ConcurrentLimit"
+	case RESOURCE_EXHAUSTED_CAUSE_SYSTEM_OVERLOADED:
+		return "SystemOverloaded"
+	case RESOURCE_EXHAUSTED_CAUSE_PERSISTENCE_LIMIT:
+		return "PersistenceLimit"
+	case RESOURCE_EXHAUSTED_CAUSE_BUSY_WORKFLOW:
+		return "BusyWorkflow"
+	case RESOURCE_EXHAUSTED_CAUSE_APS_LIMIT:
+		return "ApsLimit"
+	default:
+		return strconv.Itoa(
+
+			// Deprecated: Use ResourceExhaustedCause.Descriptor instead.
+			int(x))
+	}
+
 }
 
 func (ResourceExhaustedCause) Descriptor() protoreflect.EnumDescriptor {
@@ -417,7 +542,6 @@ func (x ResourceExhaustedCause) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ResourceExhaustedCause.Descriptor instead.
 func (ResourceExhaustedCause) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{4}
 }

@@ -61,40 +61,6 @@ var (
 		"BadUpdateWorkflowExecutionMessage":                   30,
 		"UnhandledUpdate":                                     31,
 	}
-	WorkflowTaskFailedCause_shorthandName = map[int32]string{
-		0:  "Unspecified",
-		1:  "UnhandledCommand",
-		2:  "BadScheduleActivityAttributes",
-		3:  "BadRequestCancelActivityAttributes",
-		4:  "BadStartTimerAttributes",
-		5:  "BadCancelTimerAttributes",
-		6:  "BadRecordMarkerAttributes",
-		7:  "BadCompleteWorkflowExecutionAttributes",
-		8:  "BadFailWorkflowExecutionAttributes",
-		9:  "BadCancelWorkflowExecutionAttributes",
-		10: "BadRequestCancelExternalWorkflowExecutionAttributes",
-		11: "BadContinueAsNewAttributes",
-		12: "StartTimerDuplicateId",
-		13: "ResetStickyTaskQueue",
-		14: "WorkflowWorkerUnhandledFailure",
-		15: "BadSignalWorkflowExecutionAttributes",
-		16: "BadStartChildExecutionAttributes",
-		17: "ForceCloseCommand",
-		18: "FailoverCloseCommand",
-		19: "BadSignalInputSize",
-		20: "ResetWorkflow",
-		21: "BadBinary",
-		22: "ScheduleActivityDuplicateId",
-		23: "BadSearchAttributes",
-		24: "NonDeterministicError",
-		25: "BadModifyWorkflowPropertiesAttributes",
-		26: "PendingChildWorkflowsLimitExceeded",
-		27: "PendingActivitiesLimitExceeded",
-		28: "PendingSignalsLimitExceeded",
-		29: "PendingRequestCancelLimitExceeded",
-		30: "BadUpdateWorkflowExecutionMessage",
-		31: "UnhandledUpdate",
-	}
 )
 
 // WorkflowTaskFailedCauseFromString parses a WorkflowTaskFailedCause value from  either the protojson
@@ -113,11 +79,6 @@ var (
 		"Unspecified":           0,
 		"WorkflowAlreadyExists": 1,
 		"NamespaceNotFound":     2,
-	}
-	StartChildWorkflowExecutionFailedCause_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "WorkflowAlreadyExists",
-		2: "NamespaceNotFound",
 	}
 )
 
@@ -138,11 +99,6 @@ var (
 		"ExternalWorkflowExecutionNotFound": 1,
 		"NamespaceNotFound":                 2,
 	}
-	CancelExternalWorkflowExecutionFailedCause_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "ExternalWorkflowExecutionNotFound",
-		2: "NamespaceNotFound",
-	}
 )
 
 // CancelExternalWorkflowExecutionFailedCauseFromString parses a CancelExternalWorkflowExecutionFailedCause value from  either the protojson
@@ -162,12 +118,6 @@ var (
 		"ExternalWorkflowExecutionNotFound": 1,
 		"NamespaceNotFound":                 2,
 		"SignalCountLimitExceeded":          3,
-	}
-	SignalExternalWorkflowExecutionFailedCause_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "ExternalWorkflowExecutionNotFound",
-		2: "NamespaceNotFound",
-		3: "SignalCountLimitExceeded",
 	}
 )
 
@@ -191,15 +141,6 @@ var (
 		"PersistenceLimit": 4,
 		"BusyWorkflow":     5,
 		"ApsLimit":         6,
-	}
-	ResourceExhaustedCause_shorthandName = map[int32]string{
-		0: "Unspecified",
-		1: "RpsLimit",
-		2: "ConcurrentLimit",
-		3: "SystemOverloaded",
-		4: "PersistenceLimit",
-		5: "BusyWorkflow",
-		6: "ApsLimit",
 	}
 )
 

@@ -45,24 +45,6 @@ var (
 		"ProtocolMessage":                        14,
 		"ModifyWorkflowProperties":               16,
 	}
-	CommandType_shorthandName = map[int32]string{
-		0:  "Unspecified",
-		1:  "ScheduleActivityTask",
-		2:  "RequestCancelActivityTask",
-		3:  "StartTimer",
-		4:  "CompleteWorkflowExecution",
-		5:  "FailWorkflowExecution",
-		6:  "CancelTimer",
-		7:  "CancelWorkflowExecution",
-		8:  "RequestCancelExternalWorkflowExecution",
-		9:  "RecordMarker",
-		10: "ContinueAsNewWorkflowExecution",
-		11: "StartChildWorkflowExecution",
-		12: "SignalExternalWorkflowExecution",
-		13: "UpsertWorkflowSearchAttributes",
-		14: "ProtocolMessage",
-		16: "ModifyWorkflowProperties",
-	}
 )
 
 // CommandTypeFromString parses a CommandType value from  either the protojson
