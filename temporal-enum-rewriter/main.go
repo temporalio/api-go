@@ -238,9 +238,13 @@ func rewriteFile(fileName string) error {
 }
 
 func main() {
-	// Why 2? You need to run with `go run enum-rewriter/main.go -- other.go`
-	// otherwise Go will think you're trying to execute both files...
-	for _, fileName := range os.Args[2:] {
+	for _, fileName := range os.Args[1:] {
+		// When using `go run` you must provide this before your files
+		// otherwise Go will think you're trying to execute both files...
+		// ex: `go run enum-rewriter/main.go -- other.go`
+		if fileName == "--" {
+			continue
+		}
 		if err := rewriteFile(fileName); err != nil {
 			log.Fatalf("Failed to rewrite %s: %s", fileName, err)
 		}

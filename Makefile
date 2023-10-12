@@ -79,7 +79,7 @@ fix-enums: fix-path
 # on all generated enums
 fix-enum-string: fix-enums
 	printf $(COLOR) "Rewriting enum String methods"
-	$(shell find . -name "*.pb.go" | xargs go run ./enum-rewriter/main.go -- )
+	$(shell find . -name "*.pb.go" | xargs go run ./temporal-enum-rewriter/main.go -- )
 
 # All generated service files pathes relative to PROTO_OUT.
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service_grpc.pb.go"))
