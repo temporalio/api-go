@@ -24,7 +24,7 @@ COLOR := "\e[1;36m%s\e[0m\n"
 PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
-HELPER_FILES = $(shell find protoc-gen-go-helpers)
+HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto" -not -path "$(PROTO_ROOT)/google/*")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_ENUMS := $(shell grep -R '^enum ' $(PROTO_ROOT) | cut -d ' ' -f2)
@@ -48,7 +48,7 @@ grpc: go-grpc fix-path fix-enums fix-enum-string copy-helpers
 # Only install helper when its source has changed
 .go-helpers-installed: $(HELPER_FILES)
 	printf $(COLOR) "Installing protoc plugin"
-	@go install ./protoc-gen-go-helpers
+	@go install ./cmd/protoc-gen-go-helpers
 
 go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
@@ -79,7 +79,7 @@ fix-enums: fix-path
 # on all generated enums
 fix-enum-string: fix-enums
 	printf $(COLOR) "Rewriting enum String methods"
-	$(shell find . -name "*.pb.go" | xargs go run ./temporal-enum-rewriter/main.go -- )
+	$(shell find . -name "*.pb.go" | xargs go run ./cmd/enumrewriter/main.go -- )
 
 # All generated service files pathes relative to PROTO_OUT.
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service_grpc.pb.go"))
