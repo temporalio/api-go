@@ -1,11 +1,11 @@
-package temporalreflect_test
+package temporalproto_test
 
 import (
 	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"go.temporal.io/api/temporalreflect"
+	"go.temporal.io/api/temporalproto"
 )
 
 type publicIface interface {
@@ -46,7 +46,7 @@ func TestPublicMethods(t *testing.T) {
 		Expect: []string{"A", "C"},
 	}} {
 		var methods []string
-		temporalreflect.PublicMethods(tc.Given, func(m reflect.Method) {
+		temporalproto.PublicMethods(tc.Given, func(m reflect.Method) {
 			methods = append(methods, m.Name)
 		})
 

@@ -6,7 +6,7 @@
 // This is deeply hacky as we're not inside of the reflect package; this will not
 // be as performant as reflect.DeepEqual but will handle proto objects at any point
 // in an object hierarchy
-package temporalreflect
+package temporalproto
 
 import (
 	"reflect"
@@ -23,6 +23,13 @@ type visit struct {
 	a1  unsafe.Pointer
 	a2  unsafe.Pointer
 	typ reflect.Type
+}
+
+func pointerTo(v reflect.Value) unsafe.Pointer {
+	if v.CanAddr() {
+		return v.Addr().UnsafePointer()
+	}
+	return v.UnsafePointer()
 }
 
 // Tests for deep equality using reflected types. The map argument tracks
@@ -50,8 +57,8 @@ func deepValueEqual(v1, v2 reflect.Value, visited map[visit]bool) bool {
 	}
 
 	if hard(v1, v2) {
-		addr1 := v1.UnsafePointer()
-		addr2 := v2.UnsafePointer()
+		addr1 := pointerTo(v1)
+		addr2 := pointerTo(v2)
 		if uintptr(addr1) > uintptr(addr2) {
 			// Canonicalize order to reduce number of entries in visited.
 			// Assumes non-moving garbage collector.
@@ -162,57 +169,13 @@ func deepValueEqual(v1, v2 reflect.Value, visited map[visit]bool) bool {
 	}
 }
 
-// DeepEqual reports whether x and y are “deeply equal,” defined as follows.
-// Two values of identical type are deeply equal if one of the following cases applies.
-// Values of distinct types are never deeply equal.
+// DeepEqual behaves as reflect.DeepEqual except:
+// 1. Proto structs will be compared using proto.Equal when encountered
+// 2. Only public member variables will be compared
 //
-// Array values are deeply equal when their corresponding elements are deeply equal.
-//
-// Struct values are deeply equal if their corresponding fields,
-// both exported and unexported, are deeply equal.
-//
-// Func values are deeply equal if both are nil; otherwise they are not deeply equal.
-//
-// Interface values are deeply equal if they hold deeply equal concrete values.
-//
-// Map values are deeply equal when all of the following are true:
-// they are both nil or both non-nil, they have the same length,
-// and either they are the same map object or their corresponding keys
-// (matched using Go equality) map to deeply equal values.
-//
-// Pointer values are deeply equal if they are equal using Go's == operator
-// or if they point to deeply equal values.
-//
-// Slice values are deeply equal when all of the following are true:
-// they are both nil or both non-nil, they have the same length,
-// and either they point to the same initial entry of the same underlying array
-// (that is, &x[0] == &y[0]) or their corresponding elements (up to length) are deeply equal.
-// Note that a non-nil empty slice and a nil slice (for example, []byte{} and []byte(nil))
-// are not deeply equal.
-//
-// Other values - numbers, bools, strings, and channels - are deeply equal
-// if they are equal using Go's == operator.
-//
-// In general DeepEqual is a recursive relaxation of Go's == operator.
-// However, this idea is impossible to implement without some inconsistency.
-// Specifically, it is possible for a value to be unequal to itself,
-// either because it is of func type (uncomparable in general)
-// or because it is a floating-point NaN value (not equal to itself in floating-point comparison),
-// or because it is an array, struct, or interface containing
-// such a value.
-// On the other hand, pointer values are always equal to themselves,
-// even if they point at or contain such problematic values,
-// because they compare equal using Go's == operator, and that
-// is a sufficient condition to be deeply equal, regardless of content.
-// DeepEqual has been defined so that the same short-cut applies
-// to slices and maps: if x and y are the same slice or the same map,
-// they are deeply equal regardless of content.
-//
-// As DeepEqual traverses the data values it may find a cycle. The
-// second and subsequent times that DeepEqual compares two pointer
-// values that have been compared before, it treats the values as
-// equal rather than examining the values to which they point.
-// This ensures that DeepEqual terminates.
+// DeepEqual should _only_ be used when proto.Equal or reflect.DeepEqual
+// aren't useable, such as when comparing normal Go structs that have
+// proto structs as members
 func DeepEqual(x, y any) bool {
 	if x == nil || y == nil {
 		return x == y

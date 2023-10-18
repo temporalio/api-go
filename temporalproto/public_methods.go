@@ -1,4 +1,4 @@
-package temporalreflect
+package temporalproto
 
 import (
 	"reflect"

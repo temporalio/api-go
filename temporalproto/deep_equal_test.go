@@ -1,10 +1,10 @@
-package temporalreflect_test
+package temporalproto_test
 
 import (
 	"testing"
 
 	commonpb "go.temporal.io/api/common/v1"
-	"go.temporal.io/api/temporalreflect"
+	"go.temporal.io/api/temporalproto"
 	workflowpb "go.temporal.io/api/workflow/v1"
 )
 
@@ -83,7 +83,7 @@ func TestDeepEqual_Equal(t *testing.T) {
 		A:    true,
 		B:    true,
 	}} {
-		if !temporalreflect.DeepEqual(tc.A, tc.B) {
+		if !temporalproto.DeepEqual(tc.A, tc.B) {
 			t.Errorf("%s: expected equality", tc.Name)
 		}
 	}
@@ -119,7 +119,7 @@ func TestDeepProtoEqual_NotEqual(t *testing.T) {
 				continue
 			}
 
-			if temporalreflect.DeepEqual(objects[i], objects[j]) {
+			if temporalproto.DeepEqual(objects[i], objects[j]) {
 				t.Errorf("Values should not be equal: %v, %v", objects[i], objects[j])
 			}
 		}
