@@ -8,6 +8,11 @@ import (
 	"go.temporal.io/api/temporalreflect"
 )
 
+type publicIface interface {
+	A()
+	C()
+}
+
 type noPublic struct {
 }
 
@@ -22,6 +27,7 @@ func (s somePublic) C() {}
 
 func TestPublicMethods(t *testing.T) {
 	require := require.New(t)
+	var iface publicIface
 	for _, tc := range []struct {
 		Name   string
 		Given  any
@@ -34,12 +40,16 @@ func TestPublicMethods(t *testing.T) {
 		Name:   "Some public methods",
 		Given:  somePublic{},
 		Expect: []string{"A", "C"},
+	}, {
+		Name:   "Interface with methods",
+		Given:  &iface,
+		Expect: []string{"A", "C"},
 	}} {
 		var methods []string
 		temporalreflect.PublicMethods(tc.Given, func(m reflect.Method) {
 			methods = append(methods, m.Name)
 		})
 
-		require.Equal(tc.Expect, methods)
+		require.Equal(tc.Expect, methods, tc.Name)
 	}
 }
