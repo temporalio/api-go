@@ -1,7 +1,6 @@
 package temporalreflect
 
 import (
-	"fmt"
 	"reflect"
 	"regexp"
 )
@@ -15,7 +14,6 @@ var publicMethodRgx = regexp.MustCompile("^[A-Z]")
 func PublicMethods(obj any, cb func(reflect.Method)) {
 	t := reflect.ValueOf(obj).Type()
 	for i := 0; i < t.NumMethod(); i++ {
-		fmt.Println(t.Method(i).Name)
 		if publicMethodRgx.MatchString(t.Method(i).Name) {
 			cb(t.Method(i))
 		}
