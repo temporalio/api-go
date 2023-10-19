@@ -24,7 +24,7 @@ PINNED_DEPENDENCIES := \
 
 
 PROTO_ROOT := proto/api
-PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto")
+PROTO_FILES = $(shell find $(PROTO_ROOT)/temporal -name "*.proto")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_OUT := .
 PROTO_IMPORTS = \
