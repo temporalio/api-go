@@ -59,11 +59,13 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 // CalendarSpec describes an event specification relative to the calendar,
 // similar to a traditional cron specification, but with labeled fields. Each
 // field can be one of:
-//   *: matches always
-//   x: matches when the field equals x
-//   x/y : matches when the field equals x+n*y where n is an integer
-//   x-z: matches when the field is between x and z inclusive
-//   w,x,y,...: matches when the field is one of the listed values
+//
+//	*: matches always
+//	x: matches when the field equals x
+//	x/y : matches when the field equals x+n*y where n is an integer
+//	x-z: matches when the field is between x and z inclusive
+//	w,x,y,...: matches when the field is one of the listed values
+//
 // Each x, y, z, ... is either a decimal integer, or a month or day of week name
 // or abbreviation (in the appropriate fields).
 // A timestamp matches if all fields match.
