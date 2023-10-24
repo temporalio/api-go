@@ -127,7 +127,7 @@ type WorkflowServiceClient interface {
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
-	//	aip.dev/not-precedent: Deprecated. --)
+	//	aip.dev/not-precedent: Deprecated --)
 	DeprecateNamespace(ctx context.Context, in *DeprecateNamespaceRequest, opts ...grpc.CallOption) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new workflow execution.
 	//
@@ -391,10 +391,6 @@ type WorkflowServiceClient interface {
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(ctx context.Context, in *UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*UpdateWorkerBuildIdCompatibilityResponse, error)
 	// Fetches the worker build id versioning sets for a task queue.
-	//
-	// (-- api-linter: core::0127::http-annotation=disabled
-	//
-	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	GetWorkerBuildIdCompatibility(ctx context.Context, in *GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
@@ -408,10 +404,6 @@ type WorkflowServiceClient interface {
 	//
 	// Open source users can adjust this limit by setting the server's dynamic config value for
 	// `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store.
-	//
-	// (-- api-linter: core::0127::http-annotation=disabled
-	//
-	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	GetWorkerTaskReachability(ctx context.Context, in *GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*GetWorkerTaskReachabilityResponse, error)
 	// Invokes the specified update function on user workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
@@ -981,7 +973,7 @@ type WorkflowServiceServer interface {
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
-	//	aip.dev/not-precedent: Deprecated. --)
+	//	aip.dev/not-precedent: Deprecated --)
 	DeprecateNamespace(context.Context, *DeprecateNamespaceRequest) (*DeprecateNamespaceResponse, error)
 	// StartWorkflowExecution starts a new workflow execution.
 	//
@@ -1245,10 +1237,6 @@ type WorkflowServiceServer interface {
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(context.Context, *UpdateWorkerBuildIdCompatibilityRequest) (*UpdateWorkerBuildIdCompatibilityResponse, error)
 	// Fetches the worker build id versioning sets for a task queue.
-	//
-	// (-- api-linter: core::0127::http-annotation=disabled
-	//
-	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	GetWorkerBuildIdCompatibility(context.Context, *GetWorkerBuildIdCompatibilityRequest) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
@@ -1262,10 +1250,6 @@ type WorkflowServiceServer interface {
 	//
 	// Open source users can adjust this limit by setting the server's dynamic config value for
 	// `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store.
-	//
-	// (-- api-linter: core::0127::http-annotation=disabled
-	//
-	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error)
 	// Invokes the specified update function on user workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)

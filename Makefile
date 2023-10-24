@@ -25,7 +25,7 @@ PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
-PROTO_FILES = $(shell find $(PROTO_ROOT) -name "*.proto" -not -path "$(PROTO_ROOT)/google/*")
+PROTO_FILES = $(shell find $(PROTO_ROOT)/temporal -name "*.proto")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_ENUMS := $(shell grep -R '^enum ' $(PROTO_ROOT) | cut -d ' ' -f2)
 PROTO_OUT := .
@@ -145,4 +145,4 @@ check: generatorcheck
 clean:
 	printf $(COLOR) "Deleting generated go files..."
 	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
-	find . \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf
+	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf
