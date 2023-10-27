@@ -3,6 +3,7 @@ module go.temporal.io/api
 go 1.20
 
 require (
+	github.com/golang/mock v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0
 	github.com/iancoleman/strcase v0.3.0
 	github.com/stretchr/testify v1.8.4
