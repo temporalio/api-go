@@ -32,6 +32,7 @@ package temporalproto
 
 import (
 	"reflect"
+	"regexp"
 	"unsafe"
 
 	"google.golang.org/protobuf/proto"
@@ -46,6 +47,8 @@ type visit struct {
 	a2  unsafe.Pointer
 	typ reflect.Type
 }
+
+var publicMethodRgx = regexp.MustCompile("^[A-Z]")
 
 func pointerTo(v reflect.Value) unsafe.Pointer {
 	if v.CanAddr() {
