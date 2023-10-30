@@ -234,8 +234,6 @@ func (j JSONUnmarshaller) Unmarshal(bs []byte, m proto.Message) error {
 // Unmarshal a single proto object from the provided slice of bytes. This function
 // is compatible both with the "correct" SCREAMING_SNAKE enums of protojson as well
 // as the PascalCase enums of earlier releases.
-//
-// This does not support decoding slices of proto objects. To do that use the Decoder in a loop.
 func UnmarshalJSON(bs []byte, m proto.Message) error {
 	return JSONUnmarshaller{}.Unmarshal(bs, m)
 }
