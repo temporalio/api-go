@@ -121,8 +121,12 @@ var newNestedFailure = `
 func TestUnmarshalJSON(t *testing.T) {
 	t.Parallel()
 	require := require.New(t)
+
+	u := temporalproto.JSONUnmarshaller{
+		DiscardUnknown: true,
+	}
 	var hist historypb.History
-	require.NoError(temporalproto.UnmarshalJSON([]byte(newEnums), &hist))
+	require.NoError(u.Unmarshal([]byte(newEnums), &hist))
 	require.Len(hist.Events, 1)
 
 	ev := hist.Events[0]
@@ -132,10 +136,13 @@ func TestUnmarshalJSON(t *testing.T) {
 
 func TestUnmarshalJSON_Compatible(t *testing.T) {
 	t.Parallel()
+	u := temporalproto.JSONUnmarshaller{
+		DiscardUnknown: true,
+	}
 	// Ensure both new and old enums deserialize the same way
 	var oldHist, newHist historypb.History
-	require.NoError(t, temporalproto.UnmarshalJSON([]byte(newEnums), &oldHist))
-	require.NoError(t, temporalproto.UnmarshalJSON([]byte(newEnums), &newHist))
+	require.NoError(t, u.Unmarshal([]byte(newEnums), &oldHist))
+	require.NoError(t, u.Unmarshal([]byte(newEnums), &newHist))
 	if !proto.Equal(&oldHist, &newHist) {
 		t.Errorf("LoadFromJSON() mismatch between old and new enum formats\n%v\n%v", &oldHist, &newHist)
 	}
@@ -144,9 +151,12 @@ func TestUnmarshalJSON_Compatible(t *testing.T) {
 func TestUnmarshalJSON_NestedType(t *testing.T) {
 	t.Parallel()
 
+	u := temporalproto.JSONUnmarshaller{
+		DiscardUnknown: true,
+	}
 	require := require.New(t)
 	var newHist historypb.History
-	require.NoError(temporalproto.UnmarshalJSON([]byte(newNestedFailure), &newHist))
+	require.NoError(u.Unmarshal([]byte(newNestedFailure), &newHist))
 	require.Len(newHist.Events, 1)
 
 	wfFail := newHist.Events[0].GetWorkflowExecutionFailedEventAttributes()
@@ -163,7 +173,7 @@ func TestJSONDecoder(t *testing.T) {
 	input := fmt.Sprintf("%s%s", newEnums, oldEnums)
 	var hist historypb.History
 	rdr := bytes.NewReader([]byte(input))
-	dec := temporalproto.NewJSONDecoder(rdr)
+	dec := temporalproto.NewJSONDecoder(rdr, true)
 	require.NoError(dec.Decode(&hist))
 	require.Len(hist.Events, 1)
 

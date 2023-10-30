@@ -36,8 +36,17 @@ import (
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
+// JSONUnmarshaller unmarshals proto structs from either the old temporal-style JSON with camelCase enums
+// or the protojson canonical format (SCREAMING_SNAKE enums).
+type JSONUnmarshaller struct {
+	DiscardUnknown bool
+}
+
+// JSONDecoders decodes proto structs from either the old temporal-style JSON with camelCase enums
+// or the protojson canonical format (SCREAMING_SNAKE enums).
 type JSONDecoder struct {
-	json *json.Decoder
+	unmarshaller JSONUnmarshaller
+	json         *json.Decoder
 }
 
 type fixSpec struct {
@@ -200,17 +209,12 @@ func fixupMsg(msg map[string]interface{}, spec *fixSpec) {
 	}
 }
 
-// Unmarshal a single proto object from the provided slice of bytes. This function
-// is compatible both with the "correct" SCREAMING_SNAKE enums of protojson as well
-// as the PascalCase enums of earlier releases.
-//
-// This does **not** support slices of proto objects.
-func UnmarshalJSON(bs []byte, m proto.Message) error {
+func (j JSONUnmarshaller) Unmarshal(bs []byte, m proto.Message) error {
 	spec := registry.Ensure(m.ProtoReflect().Descriptor())
 
-	msg := make(map[string]interface{})
+	var msg map[string]any
 	if err := json.Unmarshal(bs, &msg); err != nil {
-		return fmt.Errorf("failed to unmarshal object: %w", err)
+		return err
 	}
 
 	fixupMsg(msg, spec)
@@ -221,17 +225,27 @@ func UnmarshalJSON(bs []byte, m proto.Message) error {
 	}
 
 	opts := protojson.UnmarshalOptions{
-		// Ignore unknown fields because if the histroy was generated with a different version of the proto
-		// fields may have been added/removed.
-		DiscardUnknown: true,
+		DiscardUnknown: j.DiscardUnknown,
 	}
 
 	return opts.Unmarshal(out, m)
 }
 
-func NewJSONDecoder(r io.Reader) *JSONDecoder {
+// Unmarshal a single proto object from the provided slice of bytes. This function
+// is compatible both with the "correct" SCREAMING_SNAKE enums of protojson as well
+// as the PascalCase enums of earlier releases.
+//
+// This does not support decoding slices of proto objects. To do that use the Decoder in a loop.
+func UnmarshalJSON(bs []byte, m proto.Message) error {
+	return JSONUnmarshaller{}.Unmarshal(bs, m)
+}
+
+func NewJSONDecoder(r io.Reader, discardUnknown bool) *JSONDecoder {
 	return &JSONDecoder{
 		json: json.NewDecoder(r),
+		unmarshaller: JSONUnmarshaller{
+			DiscardUnknown: discardUnknown,
+		},
 	}
 }
 
@@ -244,5 +258,6 @@ func (dec *JSONDecoder) Decode(m proto.Message) error {
 	if err := dec.json.Decode(&obj); err != nil {
 		return err
 	}
-	return UnmarshalJSON([]byte(obj), m)
+
+	return dec.unmarshaller.Unmarshal(obj, m)
 }

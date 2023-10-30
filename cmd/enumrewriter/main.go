@@ -47,7 +47,6 @@ type enumVariant struct {
 	Value string
 }
 
-// return fmt.Sprintf("InvalidTYPENAME(%d)", SELF)
 func defaultClause(enumTypeName, selfVar string) *ast.CaseClause {
 	return &ast.CaseClause{
 		Body: []ast.Stmt{
@@ -102,7 +101,7 @@ func rewriteFile(fileName string) error {
 		case *ast.GenDecl:
 			switch n.Tok {
 			case token.IMPORT:
-				// We'll add fmt later if needed
+				// We'll add strconv later if needed
 				imports = n
 			case token.TYPE:
 				// Enums are just 32-bit ints
@@ -183,7 +182,6 @@ func rewriteFile(fileName string) error {
 	if len(possibleEnums) == 0 || len(stringMethods) == 0 {
 		return nil
 	}
-	// prepend fmt so we can create the string rep of invalid enum variants
 	imports.Specs = append([]ast.Spec{&ast.ImportSpec{
 		Path: &ast.BasicLit{
 			Kind:  token.STRING,
