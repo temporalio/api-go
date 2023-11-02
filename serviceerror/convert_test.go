@@ -24,6 +24,7 @@ package serviceerror_test
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 	"time"
 
@@ -94,4 +95,19 @@ func TestToStatus_NotServiceError(t *testing.T) {
 	require.Equal(t, codes.Unknown, st1.Code())
 	require.Equal(t, "some error", st1.Message())
 	require.Len(t, st1.Details(), 0)
+}
+
+func TestFromWrapped(t *testing.T) {
+	err := &serviceerror.PermissionDenied{
+		Message: "x is not allowed",
+		Reason:  "arbitrary reason",
+	}
+	wrapped := fmt.Errorf("wrapped error: %w", err)
+	s := serviceerror.ToStatus(wrapped)
+	require.Equal(t, codes.PermissionDenied, s.Code())
+	require.Equal(t, "wrapped error: x is not allowed", s.Message())
+	require.Equal(t,
+		&errordetails.PermissionDeniedFailure{Reason: "arbitrary reason"},
+		s.Details()[0],
+	)
 }
