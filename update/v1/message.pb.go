@@ -97,7 +97,7 @@ func (m *WaitPolicy) GetLifecycleStage() v1.UpdateWorkflowExecutionLifecycleStag
 	return v1.UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED
 }
 
-// The data needed by a client to refer to an previously invoked workflow
+// The data needed by a client to refer to a previously invoked workflow
 // execution update process.
 type UpdateRef struct {
 	WorkflowExecution *v11.WorkflowExecution `protobuf:"bytes,1,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
