@@ -44,7 +44,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Reset reapplay(replay) options
+// Reset reapply (replay) options
 // * RESET_REAPPLY_TYPE_SIGNAL (default) - Signals are reapplied when workflow is reset
 // * RESET_REAPPLY_TYPE_NONE - nothing is reapplied
 type ResetReapplyType int32
