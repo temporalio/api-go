@@ -1406,7 +1406,9 @@ type PollWorkflowTaskQueueResponse struct {
 	// Will be zero if no task has ever started.
 	PreviousStartedEventId int64 `protobuf:"varint,4,opt,name=previous_started_event_id,json=previousStartedEventId,proto3" json:"previous_started_event_id,omitempty"`
 	// The id of the most recent workflow task started event, which will have been generated as a
-	// result of this poll request being served.
+	// result of this poll request being served. Will be zero if the task
+	// does not contain any events which would advance history (no new WFT started).
+	// Currently this can happen for queries.
 	StartedEventId int64 `protobuf:"varint,5,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
 	// Starting at 1, the number of attempts to complete this task by any worker.
 	Attempt int32 `protobuf:"varint,6,opt,name=attempt,proto3" json:"attempt,omitempty"`
