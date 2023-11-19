@@ -97,7 +97,7 @@ func (x *WaitPolicy) GetLifecycleStage() v1.UpdateWorkflowExecutionLifecycleStag
 	return v1.UpdateWorkflowExecutionLifecycleStage(0)
 }
 
-// The data needed by a client to refer to an previously invoked workflow
+// The data needed by a client to refer to a previously invoked workflow
 // execution update process.
 type UpdateRef struct {
 	state         protoimpl.MessageState

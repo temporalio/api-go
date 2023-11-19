@@ -44,7 +44,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Reset reapplay(replay) options
+// Reset reapply (replay) options
 // * RESET_REAPPLY_TYPE_SIGNAL (default) - Signals are reapplied when workflow is reset
 // * RESET_REAPPLY_TYPE_NONE - nothing is reapplied
 type ResetReapplyType int32
