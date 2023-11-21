@@ -30,10 +30,11 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
+
+	"go.temporal.io/api/internal/strcase"
 )
 
 // JSONUnmarshaller unmarshals proto structs from either the old temporal-style JSON with camelCase enums

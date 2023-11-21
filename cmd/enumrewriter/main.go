@@ -32,7 +32,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/iancoleman/strcase"
+	"go.temporal.io/api/internal/strcase"
 )
 
 type method struct {

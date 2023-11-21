@@ -30,8 +30,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/protobuf/compiler/protogen"
+
+	"go.temporal.io/api/internal/strcase"
 )
 
 type (
