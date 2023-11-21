@@ -57,7 +57,7 @@ const licenseHeaderPrefix = "// The MIT License"
 
 var (
 	// directories to be excluded
-	dirBlacklist = []string{".gen/", ".git/", ".vscode/", ".idea/"}
+	dirBlacklist = []string{".gen/", ".git/", ".vscode/", ".idea/", "proto/api"}
 	// default perms for the newly created files
 	defaultFilePerms = os.FileMode(0644)
 )
@@ -88,7 +88,7 @@ func newAddLicenseHeaderTask(cfg *config) *addLicenseHeaderTask {
 }
 
 func (task *addLicenseHeaderTask) run() error {
-	data, err := ioutil.ReadFile(task.config.rootDir + "/" + licenseFileName)
+	data, err := os.ReadFile(task.config.rootDir + "/" + licenseFileName)
 	if err != nil {
 		return fmt.Errorf("error reading license file, errr=%v", err.Error())
 	}

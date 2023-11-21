@@ -20,27 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// This code taken from the bottom of
-// https://github.com/grpc-ecosystem/grpc-gateway/blob/v1.16.0/runtime/query.go.
-
-package temporalgateway
+package enums
 
 import (
-	"reflect"
-
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"fmt"
 )
 
 var (
-	convFromType = map[reflect.Kind]reflect.Value{
-		reflect.String:  reflect.ValueOf(runtime.String),
-		reflect.Bool:    reflect.ValueOf(runtime.Bool),
-		reflect.Float64: reflect.ValueOf(runtime.Float64),
-		reflect.Float32: reflect.ValueOf(runtime.Float32),
-		reflect.Int64:   reflect.ValueOf(runtime.Int64),
-		reflect.Int32:   reflect.ValueOf(runtime.Int32),
-		reflect.Uint64:  reflect.ValueOf(runtime.Uint64),
-		reflect.Uint32:  reflect.ValueOf(runtime.Uint32),
-		reflect.Slice:   reflect.ValueOf(runtime.Bytes),
+	UpdateWorkflowExecutionLifecycleStage_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Admitted":    1,
+		"Accepted":    2,
+		"Completed":   3,
 	}
 )
+
+// UpdateWorkflowExecutionLifecycleStageFromString parses a UpdateWorkflowExecutionLifecycleStage value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to UpdateWorkflowExecutionLifecycleStage
+func UpdateWorkflowExecutionLifecycleStageFromString(s string) (UpdateWorkflowExecutionLifecycleStage, error) {
+	if v, ok := UpdateWorkflowExecutionLifecycleStage_value[s]; ok {
+		return UpdateWorkflowExecutionLifecycleStage(v), nil
+	} else if v, ok := UpdateWorkflowExecutionLifecycleStage_shorthandValue[s]; ok {
+		return UpdateWorkflowExecutionLifecycleStage(v), nil
+	}
+	return UpdateWorkflowExecutionLifecycleStage(0), fmt.Errorf("%s is not a valid UpdateWorkflowExecutionLifecycleStage", s)
+}

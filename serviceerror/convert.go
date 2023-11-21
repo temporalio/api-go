@@ -26,13 +26,13 @@ import (
 	"context"
 	"errors"
 
-	"github.com/gogo/status"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"go.temporal.io/api/errordetails/v1"
 )
 
-// ToStatus converts service error to gogo gRPC Status.
+// ToStatus converts service error to gRPC Status.
 // If error is not a service error it returns status with code Unknown.
 func ToStatus(err error) *status.Status {
 	if err == nil {
@@ -52,12 +52,12 @@ func ToStatus(err error) *status.Status {
 	}
 
 	// Internal logic of status.Convert is:
-	//   - if err is already gogo Status or gRPC Status, then just return it (this should never happen though).
+	//   - if err is already Status or gRPC Status, then just return it (this should never happen though).
 	//   - otherwise returns codes.Unknown with message from err.Error() (this might happen if some generic go error reach to this point).
 	return status.Convert(err)
 }
 
-// FromStatus converts gogo gRPC Status to service error.
+// FromStatus converts gRPC Status to service error.
 func FromStatus(st *status.Status) error {
 	if st == nil || st.Code() == codes.OK {
 		return nil

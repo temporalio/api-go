@@ -20,23 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package jsonpb
+package enums
 
-// JSONPBMaybeMarshaler is implemented by any proto struct that wants to
-// customize optional Temporal-specific JSON conversion.
-type JSONPBMaybeMarshaler interface {
-	// MaybeMarshalJSONPB is for formatting the proto message as JSON. If the
-	// "handled" result value is false, "b" and "err" are ignored and the default
-	// proto JSON behavior occurs. currIndent is the current prefix depth but
-	// should not be applied if m.Indent is empty.
-	MaybeMarshalJSONPB(m *Marshaler, currIndent string) (handled bool, b []byte, err error)
-}
+import (
+	"fmt"
+)
 
-// JSONPBMaybeUnmarshaler is implemented by any proto struct that wants to
-// customize optional Temporal-specific JSON conversion.
-type JSONPBMaybeUnmarshaler interface {
-	// MaybeUnmarshalJSONPB is for parsing the given JSON into the proto message.
-	// If the "handled" result value is false, "err" is ignored and the default
-	// behavior proto JSON occurs.
-	MaybeUnmarshalJSONPB(u *Unmarshaler, b []byte) (handled bool, err error)
+var (
+	ScheduleOverlapPolicy_shorthandValue = map[string]int32{
+		"Unspecified":    0,
+		"Skip":           1,
+		"BufferOne":      2,
+		"BufferAll":      3,
+		"CancelOther":    4,
+		"TerminateOther": 5,
+		"AllowAll":       6,
+	}
+)
+
+// ScheduleOverlapPolicyFromString parses a ScheduleOverlapPolicy value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ScheduleOverlapPolicy
+func ScheduleOverlapPolicyFromString(s string) (ScheduleOverlapPolicy, error) {
+	if v, ok := ScheduleOverlapPolicy_value[s]; ok {
+		return ScheduleOverlapPolicy(v), nil
+	} else if v, ok := ScheduleOverlapPolicy_shorthandValue[s]; ok {
+		return ScheduleOverlapPolicy(v), nil
+	}
+	return ScheduleOverlapPolicy(0), fmt.Errorf("%s is not a valid ScheduleOverlapPolicy", s)
 }

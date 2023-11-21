@@ -28,7 +28,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gogo/protobuf/proto"
 	"go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
@@ -40,6 +39,7 @@ import (
 	"go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/proto"
 )
 
 // VisitPayloadsContext provides Payload context for visitor functions.
@@ -150,25 +150,23 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 	}, nil
 }
 
-func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) error {
+func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) (*common.Payload, error) {
 	ctx.SinglePayloadRequired = true
 
 	newPayloads, err := options.Visitor(ctx, []*common.Payload{msg})
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if len(newPayloads) != 1 {
-		return fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true")
+		return nil, fmt.Errorf("visitor func must return 1 payload when SinglePayloadRequired = true")
 	}
 
-	*msg = *newPayloads[0]
-
-	return nil
+	return newPayloads[0], nil
 }
 
 func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, objs ...interface{}) error {
-	for _, obj := range objs {
+	for i, obj := range objs {
 		ctx.SinglePayloadRequired = false
 
 		switch o := obj.(type) {
@@ -176,14 +174,17 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			err := visitPayload(ctx, options, o)
+			no, err := visitPayload(ctx, options, o)
 			if err != nil {
 				return err
 			}
+			objs[i] = no
 		case map[string]*common.Payload:
-			for _, x := range o {
-				if err := visitPayload(ctx, options, x); err != nil {
+			for ix, x := range o {
+				if nx, err := visitPayload(ctx, options, x); err != nil {
 					return err
+				} else {
+					o[ix] = nx
 				}
 			}
 		case *common.Payloads:

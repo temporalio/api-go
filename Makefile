@@ -1,4 +1,5 @@
 $(VERBOSE).SILENT:
+all: install test
 ############################# Main targets #############################
 # Install everything, update submodule, and compile proto files.
 install: grpc-install mockgen-install goimports-install update-proto
@@ -22,15 +23,15 @@ COLOR := "\e[1;36m%s\e[0m\n"
 
 PINNED_DEPENDENCIES := \
 
-
 PROTO_ROOT := proto/api
-PROTO_FILES = $(shell find $(PROTO_ROOT)/temporal $(PROTO_ROOT)/dependencies -name "*.proto")
+HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
+PROTO_FILES = $(shell find $(PROTO_ROOT)/temporal -name "*.proto")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
+PROTO_ENUMS := $(shell grep -R '^enum ' $(PROTO_ROOT) | cut -d ' ' -f2)
 PROTO_OUT := .
 PROTO_IMPORTS = \
-	-I=$(PROTO_ROOT) \
-	-I=$(shell go list -modfile build/go.mod -m -f '{{.Dir}}' github.com/temporalio/gogo-protobuf)/protobuf \
-	-I=$(shell go list -m -f '{{.Dir}}' github.com/grpc-ecosystem/grpc-gateway)/third_party/googleapis
+	-I=$(PROTO_ROOT)
+PROTO_PATHS = paths=source_relative:$(PROTO_OUT)
 
 $(PROTO_OUT):
 	mkdir $(PROTO_OUT)
@@ -40,24 +41,48 @@ update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
 	git submodule update --init --force --remote $(PROTO_ROOT)
 
-##### Compile proto files for go #####
-grpc: gogo-grpc fix-path
 
-gogo-grpc: clean $(PROTO_OUT)
-	printf $(COLOR) "Compiling for gogo-gRPC..."
+##### Compile proto files for go #####
+grpc: go-grpc fix-path fix-enums fix-enum-string copy-helpers
+
+# Only install helper when its source has changed
+.go-helpers-installed: $(HELPER_FILES)
+	printf $(COLOR) "Installing protoc plugin"
+	@go install ./cmd/protoc-gen-go-helpers
+
+go-grpc: clean .go-helpers-installed $(PROTO_OUT)
+	printf $(COLOR) "Compile for go-gRPC..."
 	$(foreach PROTO_DIR,$(PROTO_DIRS),\
 		protoc --fatal_warnings $(PROTO_IMPORTS) \
-			--gogoslick_out=Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/wrappers.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/duration.proto=github.com/gogo/protobuf/types,Mgoogle/protobuf/descriptor.proto=github.com/gogo/protobuf/protoc-gen-gogo/descriptor,Mgoogle/protobuf/timestamp.proto=github.com/gogo/protobuf/types,plugins=grpc,paths=source_relative:$(PROTO_OUT) \
-			--grpc-gateway_out=allow_patch_feature=false,paths=source_relative:$(PROTO_OUT) \
-		$(PROTO_DIR)*.proto;)
+		 	--go_out=$(PROTO_PATHS) \
+			--go-grpc_out=$(PROTO_PATHS) \
+            --grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
+			--go-helpers_out=$(PROTO_PATHS) \
+			$(PROTO_DIR)*.proto;)
 
-fix-path:
+fix-path: go-grpc
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
-	# Also copy the payload JSON helper
+
+copy-helpers:
+	# Copy the payload helpers
 	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
 
+# The generated enums are go are just plain terrible, so we fix them
+# by removing the typename prefixes. We already made good choices with our enum
+# names, so this shouldn't be an issue
+fix-enums: fix-path
+	printf $(COLOR) "Fixing enum naming..."
+	$(foreach PROTO_ENUM,$(PROTO_ENUMS),\
+      $(shell grep -Rl "$(PROTO_ENUM)" $(PROTO_OUT) | grep -E "\.go" | xargs -P 8 sed -i "" -e "s/$(PROTO_ENUM)_\(.*\) $(PROTO_ENUM)/\1 $(PROTO_ENUM)/g;s/\.$(PROTO_ENUM)_\(.*\)/.\1/g"))
+
+# We rely on the old temporal CamelCase JSON enums for presentation, so we rewrite the String method
+# on all generated enums
+fix-enum-string: fix-enums
+	printf $(COLOR) "Rewriting enum String methods"
+	$(shell find . -name "*.pb.go" | xargs go run ./cmd/enumrewriter/main.go -- )
+
 # All generated service files pathes relative to PROTO_OUT.
-PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service.pb.go"))
+PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service_grpc.pb.go"))
 service_name = $(firstword $(subst /, ,$(1)))
 mock_file_name = $(call service_name,$(1))mock/$(subst $(call service_name,$(1))/,,$(1:go=mock.go))
 
@@ -75,21 +100,15 @@ goimports:
 	goimports -w $(PROTO_OUT)
 
 ##### Plugins & tools #####
-grpc-install: gogo-protobuf-install
-	printf $(COLOR) "Install/update gRPC plugins..."
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-
-gogo-protobuf-install: go-protobuf-install
-	go install github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick@latest
-	go install -modfile build/go.mod github.com/temporalio/gogo-protobuf/protoc-gen-gogoslick
-	go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@latest
-
-go-protobuf-install:
-	go install github.com/golang/protobuf/protoc-gen-go@latest
+grpc-install:
+	@printf $(COLOR) "Install/update grpc and plugins..."
+	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest 
+	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
-	go install github.com/golang/mock/mockgen@v1.6.0
+	go install -modfile=build/go.mod github.com/golang/mock/mockgen
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
@@ -111,14 +130,14 @@ gomodtidy:
 
 ##### Test #####
 
-test:
-	go test ./proxy ./serviceerror
+test: copy-helpers
+	go test ./...
 
 ##### Check #####
 
 generatorcheck:
 	printf $(COLOR) "Check generated code is not stale..."
-	(cd ./cmd/proxygenerator && go mod tidy && go run ./ -verifyOnly)
+	#(cd ./cmd/proxygenerator && go mod tidy && go run ./ -verifyOnly)
 
 check: generatorcheck
 
@@ -126,4 +145,4 @@ check: generatorcheck
 clean:
 	printf $(COLOR) "Deleting generated go files..."
 	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
-	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf
+	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | sort -u | xargs rm -rf

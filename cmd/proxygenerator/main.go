@@ -26,7 +26,6 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -45,7 +44,7 @@ func main() {
 		"don't write to the filesystem, just verify output has not changed")
 	flag.Parse()
 
-	data, err := ioutil.ReadFile(cfg.licenseFile)
+	data, err := os.ReadFile(cfg.licenseFile)
 	if err != nil {
 		log.Fatalf("error reading license file, err=%v", err.Error())
 	}
@@ -59,6 +58,7 @@ func main() {
 	if serviceErr != nil {
 		log.Print(serviceErr)
 	}
+
 	interceptorErr := generateInterceptor(cfg)
 	if interceptorErr != nil {
 		log.Print(interceptorErr)
