@@ -31,7 +31,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	workflowservice "go.temporal.io/api/workflowservice/v1"
+	v1 "go.temporal.io/api/workflowservice/v1"
 	grpc "google.golang.org/grpc"
 )
 
@@ -59,14 +59,14 @@ func (m *MockWorkflowServiceClient) EXPECT() *MockWorkflowServiceClientMockRecor
 }
 
 // CountWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceClient) CountWorkflowExecutions(ctx context.Context, in *workflowservice.CountWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.CountWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceClient) CountWorkflowExecutions(ctx context.Context, in *v1.CountWorkflowExecutionsRequest, opts ...grpc.CallOption) (*v1.CountWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CountWorkflowExecutions", varargs...)
-	ret0, _ := ret[0].(*workflowservice.CountWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.CountWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -79,14 +79,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) CountWorkflowExecutions(ctx, in
 }
 
 // CreateSchedule mocks base method.
-func (m *MockWorkflowServiceClient) CreateSchedule(ctx context.Context, in *workflowservice.CreateScheduleRequest, opts ...grpc.CallOption) (*workflowservice.CreateScheduleResponse, error) {
+func (m *MockWorkflowServiceClient) CreateSchedule(ctx context.Context, in *v1.CreateScheduleRequest, opts ...grpc.CallOption) (*v1.CreateScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "CreateSchedule", varargs...)
-	ret0, _ := ret[0].(*workflowservice.CreateScheduleResponse)
+	ret0, _ := ret[0].(*v1.CreateScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -99,14 +99,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) CreateSchedule(ctx, in interfac
 }
 
 // DeleteSchedule mocks base method.
-func (m *MockWorkflowServiceClient) DeleteSchedule(ctx context.Context, in *workflowservice.DeleteScheduleRequest, opts ...grpc.CallOption) (*workflowservice.DeleteScheduleResponse, error) {
+func (m *MockWorkflowServiceClient) DeleteSchedule(ctx context.Context, in *v1.DeleteScheduleRequest, opts ...grpc.CallOption) (*v1.DeleteScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DeleteSchedule", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DeleteScheduleResponse)
+	ret0, _ := ret[0].(*v1.DeleteScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -119,14 +119,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) DeleteSchedule(ctx, in interfac
 }
 
 // DeleteWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) DeleteWorkflowExecution(ctx context.Context, in *workflowservice.DeleteWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.DeleteWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) DeleteWorkflowExecution(ctx context.Context, in *v1.DeleteWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.DeleteWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DeleteWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DeleteWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.DeleteWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -139,14 +139,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) DeleteWorkflowExecution(ctx, in
 }
 
 // DeprecateNamespace mocks base method.
-func (m *MockWorkflowServiceClient) DeprecateNamespace(ctx context.Context, in *workflowservice.DeprecateNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.DeprecateNamespaceResponse, error) {
+func (m *MockWorkflowServiceClient) DeprecateNamespace(ctx context.Context, in *v1.DeprecateNamespaceRequest, opts ...grpc.CallOption) (*v1.DeprecateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DeprecateNamespace", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DeprecateNamespaceResponse)
+	ret0, _ := ret[0].(*v1.DeprecateNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -159,14 +159,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) DeprecateNamespace(ctx, in inte
 }
 
 // DescribeBatchOperation mocks base method.
-func (m *MockWorkflowServiceClient) DescribeBatchOperation(ctx context.Context, in *workflowservice.DescribeBatchOperationRequest, opts ...grpc.CallOption) (*workflowservice.DescribeBatchOperationResponse, error) {
+func (m *MockWorkflowServiceClient) DescribeBatchOperation(ctx context.Context, in *v1.DescribeBatchOperationRequest, opts ...grpc.CallOption) (*v1.DescribeBatchOperationResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DescribeBatchOperation", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DescribeBatchOperationResponse)
+	ret0, _ := ret[0].(*v1.DescribeBatchOperationResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -179,14 +179,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) DescribeBatchOperation(ctx, in 
 }
 
 // DescribeNamespace mocks base method.
-func (m *MockWorkflowServiceClient) DescribeNamespace(ctx context.Context, in *workflowservice.DescribeNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.DescribeNamespaceResponse, error) {
+func (m *MockWorkflowServiceClient) DescribeNamespace(ctx context.Context, in *v1.DescribeNamespaceRequest, opts ...grpc.CallOption) (*v1.DescribeNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DescribeNamespace", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DescribeNamespaceResponse)
+	ret0, _ := ret[0].(*v1.DescribeNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -199,14 +199,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) DescribeNamespace(ctx, in inter
 }
 
 // DescribeSchedule mocks base method.
-func (m *MockWorkflowServiceClient) DescribeSchedule(ctx context.Context, in *workflowservice.DescribeScheduleRequest, opts ...grpc.CallOption) (*workflowservice.DescribeScheduleResponse, error) {
+func (m *MockWorkflowServiceClient) DescribeSchedule(ctx context.Context, in *v1.DescribeScheduleRequest, opts ...grpc.CallOption) (*v1.DescribeScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DescribeSchedule", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DescribeScheduleResponse)
+	ret0, _ := ret[0].(*v1.DescribeScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -219,14 +219,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) DescribeSchedule(ctx, in interf
 }
 
 // DescribeTaskQueue mocks base method.
-func (m *MockWorkflowServiceClient) DescribeTaskQueue(ctx context.Context, in *workflowservice.DescribeTaskQueueRequest, opts ...grpc.CallOption) (*workflowservice.DescribeTaskQueueResponse, error) {
+func (m *MockWorkflowServiceClient) DescribeTaskQueue(ctx context.Context, in *v1.DescribeTaskQueueRequest, opts ...grpc.CallOption) (*v1.DescribeTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DescribeTaskQueue", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DescribeTaskQueueResponse)
+	ret0, _ := ret[0].(*v1.DescribeTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -239,14 +239,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) DescribeTaskQueue(ctx, in inter
 }
 
 // DescribeWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) DescribeWorkflowExecution(ctx context.Context, in *workflowservice.DescribeWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) DescribeWorkflowExecution(ctx context.Context, in *v1.DescribeWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.DescribeWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "DescribeWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DescribeWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.DescribeWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -259,14 +259,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) DescribeWorkflowExecution(ctx, 
 }
 
 // GetClusterInfo mocks base method.
-func (m *MockWorkflowServiceClient) GetClusterInfo(ctx context.Context, in *workflowservice.GetClusterInfoRequest, opts ...grpc.CallOption) (*workflowservice.GetClusterInfoResponse, error) {
+func (m *MockWorkflowServiceClient) GetClusterInfo(ctx context.Context, in *v1.GetClusterInfoRequest, opts ...grpc.CallOption) (*v1.GetClusterInfoResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetClusterInfo", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetClusterInfoResponse)
+	ret0, _ := ret[0].(*v1.GetClusterInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -279,14 +279,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetClusterInfo(ctx, in interfac
 }
 
 // GetSearchAttributes mocks base method.
-func (m *MockWorkflowServiceClient) GetSearchAttributes(ctx context.Context, in *workflowservice.GetSearchAttributesRequest, opts ...grpc.CallOption) (*workflowservice.GetSearchAttributesResponse, error) {
+func (m *MockWorkflowServiceClient) GetSearchAttributes(ctx context.Context, in *v1.GetSearchAttributesRequest, opts ...grpc.CallOption) (*v1.GetSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetSearchAttributes", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetSearchAttributesResponse)
+	ret0, _ := ret[0].(*v1.GetSearchAttributesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -299,14 +299,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetSearchAttributes(ctx, in int
 }
 
 // GetSystemInfo mocks base method.
-func (m *MockWorkflowServiceClient) GetSystemInfo(ctx context.Context, in *workflowservice.GetSystemInfoRequest, opts ...grpc.CallOption) (*workflowservice.GetSystemInfoResponse, error) {
+func (m *MockWorkflowServiceClient) GetSystemInfo(ctx context.Context, in *v1.GetSystemInfoRequest, opts ...grpc.CallOption) (*v1.GetSystemInfoResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetSystemInfo", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetSystemInfoResponse)
+	ret0, _ := ret[0].(*v1.GetSystemInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -319,14 +319,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetSystemInfo(ctx, in interface
 }
 
 // GetWorkerBuildIdCompatibility mocks base method.
-func (m *MockWorkflowServiceClient) GetWorkerBuildIdCompatibility(ctx context.Context, in *workflowservice.GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkerBuildIdCompatibilityResponse, error) {
+func (m *MockWorkflowServiceClient) GetWorkerBuildIdCompatibility(ctx context.Context, in *v1.GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*v1.GetWorkerBuildIdCompatibilityResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetWorkerBuildIdCompatibility", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetWorkerBuildIdCompatibilityResponse)
+	ret0, _ := ret[0].(*v1.GetWorkerBuildIdCompatibilityResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -339,14 +339,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkerBuildIdCompatibility(c
 }
 
 // GetWorkerTaskReachability mocks base method.
-func (m *MockWorkflowServiceClient) GetWorkerTaskReachability(ctx context.Context, in *workflowservice.GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkerTaskReachabilityResponse, error) {
+func (m *MockWorkflowServiceClient) GetWorkerTaskReachability(ctx context.Context, in *v1.GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*v1.GetWorkerTaskReachabilityResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetWorkerTaskReachability", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetWorkerTaskReachabilityResponse)
+	ret0, _ := ret[0].(*v1.GetWorkerTaskReachabilityResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -359,14 +359,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkerTaskReachability(ctx, 
 }
 
 // GetWorkflowExecutionHistory mocks base method.
-func (m *MockWorkflowServiceClient) GetWorkflowExecutionHistory(ctx context.Context, in *workflowservice.GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
+func (m *MockWorkflowServiceClient) GetWorkflowExecutionHistory(ctx context.Context, in *v1.GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*v1.GetWorkflowExecutionHistoryResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetWorkflowExecutionHistory", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionHistoryResponse)
+	ret0, _ := ret[0].(*v1.GetWorkflowExecutionHistoryResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -379,14 +379,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkflowExecutionHistory(ctx
 }
 
 // GetWorkflowExecutionHistoryReverse mocks base method.
-func (m *MockWorkflowServiceClient) GetWorkflowExecutionHistoryReverse(ctx context.Context, in *workflowservice.GetWorkflowExecutionHistoryReverseRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowExecutionHistoryReverseResponse, error) {
+func (m *MockWorkflowServiceClient) GetWorkflowExecutionHistoryReverse(ctx context.Context, in *v1.GetWorkflowExecutionHistoryReverseRequest, opts ...grpc.CallOption) (*v1.GetWorkflowExecutionHistoryReverseResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "GetWorkflowExecutionHistoryReverse", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionHistoryReverseResponse)
+	ret0, _ := ret[0].(*v1.GetWorkflowExecutionHistoryReverseResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -399,14 +399,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkflowExecutionHistoryReve
 }
 
 // ListArchivedWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceClient) ListArchivedWorkflowExecutions(ctx context.Context, in *workflowservice.ListArchivedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.ListArchivedWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceClient) ListArchivedWorkflowExecutions(ctx context.Context, in *v1.ListArchivedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*v1.ListArchivedWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListArchivedWorkflowExecutions", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListArchivedWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ListArchivedWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -419,14 +419,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListArchivedWorkflowExecutions(
 }
 
 // ListBatchOperations mocks base method.
-func (m *MockWorkflowServiceClient) ListBatchOperations(ctx context.Context, in *workflowservice.ListBatchOperationsRequest, opts ...grpc.CallOption) (*workflowservice.ListBatchOperationsResponse, error) {
+func (m *MockWorkflowServiceClient) ListBatchOperations(ctx context.Context, in *v1.ListBatchOperationsRequest, opts ...grpc.CallOption) (*v1.ListBatchOperationsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListBatchOperations", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListBatchOperationsResponse)
+	ret0, _ := ret[0].(*v1.ListBatchOperationsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -439,14 +439,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListBatchOperations(ctx, in int
 }
 
 // ListClosedWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceClient) ListClosedWorkflowExecutions(ctx context.Context, in *workflowservice.ListClosedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.ListClosedWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceClient) ListClosedWorkflowExecutions(ctx context.Context, in *v1.ListClosedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*v1.ListClosedWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListClosedWorkflowExecutions", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListClosedWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ListClosedWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -459,14 +459,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListClosedWorkflowExecutions(ct
 }
 
 // ListNamespaces mocks base method.
-func (m *MockWorkflowServiceClient) ListNamespaces(ctx context.Context, in *workflowservice.ListNamespacesRequest, opts ...grpc.CallOption) (*workflowservice.ListNamespacesResponse, error) {
+func (m *MockWorkflowServiceClient) ListNamespaces(ctx context.Context, in *v1.ListNamespacesRequest, opts ...grpc.CallOption) (*v1.ListNamespacesResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListNamespaces", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListNamespacesResponse)
+	ret0, _ := ret[0].(*v1.ListNamespacesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -479,14 +479,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListNamespaces(ctx, in interfac
 }
 
 // ListOpenWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceClient) ListOpenWorkflowExecutions(ctx context.Context, in *workflowservice.ListOpenWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.ListOpenWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceClient) ListOpenWorkflowExecutions(ctx context.Context, in *v1.ListOpenWorkflowExecutionsRequest, opts ...grpc.CallOption) (*v1.ListOpenWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListOpenWorkflowExecutions", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListOpenWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ListOpenWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -499,14 +499,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListOpenWorkflowExecutions(ctx,
 }
 
 // ListScheduleMatchingTimes mocks base method.
-func (m *MockWorkflowServiceClient) ListScheduleMatchingTimes(ctx context.Context, in *workflowservice.ListScheduleMatchingTimesRequest, opts ...grpc.CallOption) (*workflowservice.ListScheduleMatchingTimesResponse, error) {
+func (m *MockWorkflowServiceClient) ListScheduleMatchingTimes(ctx context.Context, in *v1.ListScheduleMatchingTimesRequest, opts ...grpc.CallOption) (*v1.ListScheduleMatchingTimesResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListScheduleMatchingTimes", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListScheduleMatchingTimesResponse)
+	ret0, _ := ret[0].(*v1.ListScheduleMatchingTimesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -519,14 +519,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListScheduleMatchingTimes(ctx, 
 }
 
 // ListSchedules mocks base method.
-func (m *MockWorkflowServiceClient) ListSchedules(ctx context.Context, in *workflowservice.ListSchedulesRequest, opts ...grpc.CallOption) (*workflowservice.ListSchedulesResponse, error) {
+func (m *MockWorkflowServiceClient) ListSchedules(ctx context.Context, in *v1.ListSchedulesRequest, opts ...grpc.CallOption) (*v1.ListSchedulesResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListSchedules", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListSchedulesResponse)
+	ret0, _ := ret[0].(*v1.ListSchedulesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -539,14 +539,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListSchedules(ctx, in interface
 }
 
 // ListTaskQueuePartitions mocks base method.
-func (m *MockWorkflowServiceClient) ListTaskQueuePartitions(ctx context.Context, in *workflowservice.ListTaskQueuePartitionsRequest, opts ...grpc.CallOption) (*workflowservice.ListTaskQueuePartitionsResponse, error) {
+func (m *MockWorkflowServiceClient) ListTaskQueuePartitions(ctx context.Context, in *v1.ListTaskQueuePartitionsRequest, opts ...grpc.CallOption) (*v1.ListTaskQueuePartitionsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListTaskQueuePartitions", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListTaskQueuePartitionsResponse)
+	ret0, _ := ret[0].(*v1.ListTaskQueuePartitionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -559,14 +559,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListTaskQueuePartitions(ctx, in
 }
 
 // ListWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceClient) ListWorkflowExecutions(ctx context.Context, in *workflowservice.ListWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.ListWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceClient) ListWorkflowExecutions(ctx context.Context, in *v1.ListWorkflowExecutionsRequest, opts ...grpc.CallOption) (*v1.ListWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ListWorkflowExecutions", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ListWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ListWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -579,14 +579,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListWorkflowExecutions(ctx, in 
 }
 
 // PatchSchedule mocks base method.
-func (m *MockWorkflowServiceClient) PatchSchedule(ctx context.Context, in *workflowservice.PatchScheduleRequest, opts ...grpc.CallOption) (*workflowservice.PatchScheduleResponse, error) {
+func (m *MockWorkflowServiceClient) PatchSchedule(ctx context.Context, in *v1.PatchScheduleRequest, opts ...grpc.CallOption) (*v1.PatchScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PatchSchedule", varargs...)
-	ret0, _ := ret[0].(*workflowservice.PatchScheduleResponse)
+	ret0, _ := ret[0].(*v1.PatchScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -599,14 +599,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) PatchSchedule(ctx, in interface
 }
 
 // PollActivityTaskQueue mocks base method.
-func (m *MockWorkflowServiceClient) PollActivityTaskQueue(ctx context.Context, in *workflowservice.PollActivityTaskQueueRequest, opts ...grpc.CallOption) (*workflowservice.PollActivityTaskQueueResponse, error) {
+func (m *MockWorkflowServiceClient) PollActivityTaskQueue(ctx context.Context, in *v1.PollActivityTaskQueueRequest, opts ...grpc.CallOption) (*v1.PollActivityTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PollActivityTaskQueue", varargs...)
-	ret0, _ := ret[0].(*workflowservice.PollActivityTaskQueueResponse)
+	ret0, _ := ret[0].(*v1.PollActivityTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -619,14 +619,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) PollActivityTaskQueue(ctx, in i
 }
 
 // PollWorkflowExecutionUpdate mocks base method.
-func (m *MockWorkflowServiceClient) PollWorkflowExecutionUpdate(ctx context.Context, in *workflowservice.PollWorkflowExecutionUpdateRequest, opts ...grpc.CallOption) (*workflowservice.PollWorkflowExecutionUpdateResponse, error) {
+func (m *MockWorkflowServiceClient) PollWorkflowExecutionUpdate(ctx context.Context, in *v1.PollWorkflowExecutionUpdateRequest, opts ...grpc.CallOption) (*v1.PollWorkflowExecutionUpdateResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PollWorkflowExecutionUpdate", varargs...)
-	ret0, _ := ret[0].(*workflowservice.PollWorkflowExecutionUpdateResponse)
+	ret0, _ := ret[0].(*v1.PollWorkflowExecutionUpdateResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -639,14 +639,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) PollWorkflowExecutionUpdate(ctx
 }
 
 // PollWorkflowTaskQueue mocks base method.
-func (m *MockWorkflowServiceClient) PollWorkflowTaskQueue(ctx context.Context, in *workflowservice.PollWorkflowTaskQueueRequest, opts ...grpc.CallOption) (*workflowservice.PollWorkflowTaskQueueResponse, error) {
+func (m *MockWorkflowServiceClient) PollWorkflowTaskQueue(ctx context.Context, in *v1.PollWorkflowTaskQueueRequest, opts ...grpc.CallOption) (*v1.PollWorkflowTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "PollWorkflowTaskQueue", varargs...)
-	ret0, _ := ret[0].(*workflowservice.PollWorkflowTaskQueueResponse)
+	ret0, _ := ret[0].(*v1.PollWorkflowTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -659,14 +659,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) PollWorkflowTaskQueue(ctx, in i
 }
 
 // QueryWorkflow mocks base method.
-func (m *MockWorkflowServiceClient) QueryWorkflow(ctx context.Context, in *workflowservice.QueryWorkflowRequest, opts ...grpc.CallOption) (*workflowservice.QueryWorkflowResponse, error) {
+func (m *MockWorkflowServiceClient) QueryWorkflow(ctx context.Context, in *v1.QueryWorkflowRequest, opts ...grpc.CallOption) (*v1.QueryWorkflowResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "QueryWorkflow", varargs...)
-	ret0, _ := ret[0].(*workflowservice.QueryWorkflowResponse)
+	ret0, _ := ret[0].(*v1.QueryWorkflowResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -679,14 +679,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) QueryWorkflow(ctx, in interface
 }
 
 // RecordActivityTaskHeartbeat mocks base method.
-func (m *MockWorkflowServiceClient) RecordActivityTaskHeartbeat(ctx context.Context, in *workflowservice.RecordActivityTaskHeartbeatRequest, opts ...grpc.CallOption) (*workflowservice.RecordActivityTaskHeartbeatResponse, error) {
+func (m *MockWorkflowServiceClient) RecordActivityTaskHeartbeat(ctx context.Context, in *v1.RecordActivityTaskHeartbeatRequest, opts ...grpc.CallOption) (*v1.RecordActivityTaskHeartbeatResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RecordActivityTaskHeartbeat", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RecordActivityTaskHeartbeatResponse)
+	ret0, _ := ret[0].(*v1.RecordActivityTaskHeartbeatResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -699,14 +699,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RecordActivityTaskHeartbeat(ctx
 }
 
 // RecordActivityTaskHeartbeatById mocks base method.
-func (m *MockWorkflowServiceClient) RecordActivityTaskHeartbeatById(ctx context.Context, in *workflowservice.RecordActivityTaskHeartbeatByIdRequest, opts ...grpc.CallOption) (*workflowservice.RecordActivityTaskHeartbeatByIdResponse, error) {
+func (m *MockWorkflowServiceClient) RecordActivityTaskHeartbeatById(ctx context.Context, in *v1.RecordActivityTaskHeartbeatByIdRequest, opts ...grpc.CallOption) (*v1.RecordActivityTaskHeartbeatByIdResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RecordActivityTaskHeartbeatById", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RecordActivityTaskHeartbeatByIdResponse)
+	ret0, _ := ret[0].(*v1.RecordActivityTaskHeartbeatByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -719,14 +719,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RecordActivityTaskHeartbeatById
 }
 
 // RegisterNamespace mocks base method.
-func (m *MockWorkflowServiceClient) RegisterNamespace(ctx context.Context, in *workflowservice.RegisterNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.RegisterNamespaceResponse, error) {
+func (m *MockWorkflowServiceClient) RegisterNamespace(ctx context.Context, in *v1.RegisterNamespaceRequest, opts ...grpc.CallOption) (*v1.RegisterNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RegisterNamespace", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RegisterNamespaceResponse)
+	ret0, _ := ret[0].(*v1.RegisterNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -739,14 +739,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RegisterNamespace(ctx, in inter
 }
 
 // RequestCancelWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) RequestCancelWorkflowExecution(ctx context.Context, in *workflowservice.RequestCancelWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.RequestCancelWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) RequestCancelWorkflowExecution(ctx context.Context, in *v1.RequestCancelWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.RequestCancelWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RequestCancelWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RequestCancelWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.RequestCancelWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -759,14 +759,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RequestCancelWorkflowExecution(
 }
 
 // ResetStickyTaskQueue mocks base method.
-func (m *MockWorkflowServiceClient) ResetStickyTaskQueue(ctx context.Context, in *workflowservice.ResetStickyTaskQueueRequest, opts ...grpc.CallOption) (*workflowservice.ResetStickyTaskQueueResponse, error) {
+func (m *MockWorkflowServiceClient) ResetStickyTaskQueue(ctx context.Context, in *v1.ResetStickyTaskQueueRequest, opts ...grpc.CallOption) (*v1.ResetStickyTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ResetStickyTaskQueue", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ResetStickyTaskQueueResponse)
+	ret0, _ := ret[0].(*v1.ResetStickyTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -779,14 +779,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ResetStickyTaskQueue(ctx, in in
 }
 
 // ResetWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) ResetWorkflowExecution(ctx context.Context, in *workflowservice.ResetWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.ResetWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) ResetWorkflowExecution(ctx context.Context, in *v1.ResetWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.ResetWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ResetWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ResetWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.ResetWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -799,14 +799,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ResetWorkflowExecution(ctx, in 
 }
 
 // RespondActivityTaskCanceled mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskCanceled(ctx context.Context, in *workflowservice.RespondActivityTaskCanceledRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskCanceledResponse, error) {
+func (m *MockWorkflowServiceClient) RespondActivityTaskCanceled(ctx context.Context, in *v1.RespondActivityTaskCanceledRequest, opts ...grpc.CallOption) (*v1.RespondActivityTaskCanceledResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondActivityTaskCanceled", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCanceledResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskCanceledResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -819,14 +819,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCanceled(ctx
 }
 
 // RespondActivityTaskCanceledById mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskCanceledById(ctx context.Context, in *workflowservice.RespondActivityTaskCanceledByIdRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskCanceledByIdResponse, error) {
+func (m *MockWorkflowServiceClient) RespondActivityTaskCanceledById(ctx context.Context, in *v1.RespondActivityTaskCanceledByIdRequest, opts ...grpc.CallOption) (*v1.RespondActivityTaskCanceledByIdResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondActivityTaskCanceledById", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCanceledByIdResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskCanceledByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -839,14 +839,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCanceledById
 }
 
 // RespondActivityTaskCompleted mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskCompleted(ctx context.Context, in *workflowservice.RespondActivityTaskCompletedRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskCompletedResponse, error) {
+func (m *MockWorkflowServiceClient) RespondActivityTaskCompleted(ctx context.Context, in *v1.RespondActivityTaskCompletedRequest, opts ...grpc.CallOption) (*v1.RespondActivityTaskCompletedResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondActivityTaskCompleted", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCompletedResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskCompletedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -859,14 +859,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCompleted(ct
 }
 
 // RespondActivityTaskCompletedById mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskCompletedById(ctx context.Context, in *workflowservice.RespondActivityTaskCompletedByIdRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskCompletedByIdResponse, error) {
+func (m *MockWorkflowServiceClient) RespondActivityTaskCompletedById(ctx context.Context, in *v1.RespondActivityTaskCompletedByIdRequest, opts ...grpc.CallOption) (*v1.RespondActivityTaskCompletedByIdResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondActivityTaskCompletedById", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCompletedByIdResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskCompletedByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -879,14 +879,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskCompletedByI
 }
 
 // RespondActivityTaskFailed mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskFailed(ctx context.Context, in *workflowservice.RespondActivityTaskFailedRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskFailedResponse, error) {
+func (m *MockWorkflowServiceClient) RespondActivityTaskFailed(ctx context.Context, in *v1.RespondActivityTaskFailedRequest, opts ...grpc.CallOption) (*v1.RespondActivityTaskFailedResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondActivityTaskFailed", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskFailedResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskFailedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -899,14 +899,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskFailed(ctx, 
 }
 
 // RespondActivityTaskFailedById mocks base method.
-func (m *MockWorkflowServiceClient) RespondActivityTaskFailedById(ctx context.Context, in *workflowservice.RespondActivityTaskFailedByIdRequest, opts ...grpc.CallOption) (*workflowservice.RespondActivityTaskFailedByIdResponse, error) {
+func (m *MockWorkflowServiceClient) RespondActivityTaskFailedById(ctx context.Context, in *v1.RespondActivityTaskFailedByIdRequest, opts ...grpc.CallOption) (*v1.RespondActivityTaskFailedByIdResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondActivityTaskFailedById", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskFailedByIdResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskFailedByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -919,14 +919,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondActivityTaskFailedById(c
 }
 
 // RespondQueryTaskCompleted mocks base method.
-func (m *MockWorkflowServiceClient) RespondQueryTaskCompleted(ctx context.Context, in *workflowservice.RespondQueryTaskCompletedRequest, opts ...grpc.CallOption) (*workflowservice.RespondQueryTaskCompletedResponse, error) {
+func (m *MockWorkflowServiceClient) RespondQueryTaskCompleted(ctx context.Context, in *v1.RespondQueryTaskCompletedRequest, opts ...grpc.CallOption) (*v1.RespondQueryTaskCompletedResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondQueryTaskCompleted", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondQueryTaskCompletedResponse)
+	ret0, _ := ret[0].(*v1.RespondQueryTaskCompletedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -939,14 +939,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondQueryTaskCompleted(ctx, 
 }
 
 // RespondWorkflowTaskCompleted mocks base method.
-func (m *MockWorkflowServiceClient) RespondWorkflowTaskCompleted(ctx context.Context, in *workflowservice.RespondWorkflowTaskCompletedRequest, opts ...grpc.CallOption) (*workflowservice.RespondWorkflowTaskCompletedResponse, error) {
+func (m *MockWorkflowServiceClient) RespondWorkflowTaskCompleted(ctx context.Context, in *v1.RespondWorkflowTaskCompletedRequest, opts ...grpc.CallOption) (*v1.RespondWorkflowTaskCompletedResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondWorkflowTaskCompleted", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondWorkflowTaskCompletedResponse)
+	ret0, _ := ret[0].(*v1.RespondWorkflowTaskCompletedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -959,14 +959,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondWorkflowTaskCompleted(ct
 }
 
 // RespondWorkflowTaskFailed mocks base method.
-func (m *MockWorkflowServiceClient) RespondWorkflowTaskFailed(ctx context.Context, in *workflowservice.RespondWorkflowTaskFailedRequest, opts ...grpc.CallOption) (*workflowservice.RespondWorkflowTaskFailedResponse, error) {
+func (m *MockWorkflowServiceClient) RespondWorkflowTaskFailed(ctx context.Context, in *v1.RespondWorkflowTaskFailedRequest, opts ...grpc.CallOption) (*v1.RespondWorkflowTaskFailedResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "RespondWorkflowTaskFailed", varargs...)
-	ret0, _ := ret[0].(*workflowservice.RespondWorkflowTaskFailedResponse)
+	ret0, _ := ret[0].(*v1.RespondWorkflowTaskFailedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -979,14 +979,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) RespondWorkflowTaskFailed(ctx, 
 }
 
 // ScanWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceClient) ScanWorkflowExecutions(ctx context.Context, in *workflowservice.ScanWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.ScanWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceClient) ScanWorkflowExecutions(ctx context.Context, in *v1.ScanWorkflowExecutionsRequest, opts ...grpc.CallOption) (*v1.ScanWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "ScanWorkflowExecutions", varargs...)
-	ret0, _ := ret[0].(*workflowservice.ScanWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ScanWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -999,14 +999,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) ScanWorkflowExecutions(ctx, in 
 }
 
 // SignalWithStartWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) SignalWithStartWorkflowExecution(ctx context.Context, in *workflowservice.SignalWithStartWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.SignalWithStartWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) SignalWithStartWorkflowExecution(ctx context.Context, in *v1.SignalWithStartWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.SignalWithStartWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SignalWithStartWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.SignalWithStartWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.SignalWithStartWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1019,14 +1019,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) SignalWithStartWorkflowExecutio
 }
 
 // SignalWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) SignalWorkflowExecution(ctx context.Context, in *workflowservice.SignalWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.SignalWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) SignalWorkflowExecution(ctx context.Context, in *v1.SignalWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.SignalWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "SignalWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.SignalWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.SignalWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1039,14 +1039,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) SignalWorkflowExecution(ctx, in
 }
 
 // StartBatchOperation mocks base method.
-func (m *MockWorkflowServiceClient) StartBatchOperation(ctx context.Context, in *workflowservice.StartBatchOperationRequest, opts ...grpc.CallOption) (*workflowservice.StartBatchOperationResponse, error) {
+func (m *MockWorkflowServiceClient) StartBatchOperation(ctx context.Context, in *v1.StartBatchOperationRequest, opts ...grpc.CallOption) (*v1.StartBatchOperationResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "StartBatchOperation", varargs...)
-	ret0, _ := ret[0].(*workflowservice.StartBatchOperationResponse)
+	ret0, _ := ret[0].(*v1.StartBatchOperationResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1059,14 +1059,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) StartBatchOperation(ctx, in int
 }
 
 // StartWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) StartWorkflowExecution(ctx context.Context, in *workflowservice.StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.StartWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) StartWorkflowExecution(ctx context.Context, in *v1.StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.StartWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "StartWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.StartWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.StartWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1079,14 +1079,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) StartWorkflowExecution(ctx, in 
 }
 
 // StopBatchOperation mocks base method.
-func (m *MockWorkflowServiceClient) StopBatchOperation(ctx context.Context, in *workflowservice.StopBatchOperationRequest, opts ...grpc.CallOption) (*workflowservice.StopBatchOperationResponse, error) {
+func (m *MockWorkflowServiceClient) StopBatchOperation(ctx context.Context, in *v1.StopBatchOperationRequest, opts ...grpc.CallOption) (*v1.StopBatchOperationResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "StopBatchOperation", varargs...)
-	ret0, _ := ret[0].(*workflowservice.StopBatchOperationResponse)
+	ret0, _ := ret[0].(*v1.StopBatchOperationResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1099,14 +1099,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) StopBatchOperation(ctx, in inte
 }
 
 // TerminateWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) TerminateWorkflowExecution(ctx context.Context, in *workflowservice.TerminateWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.TerminateWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) TerminateWorkflowExecution(ctx context.Context, in *v1.TerminateWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.TerminateWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "TerminateWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.TerminateWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.TerminateWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1119,14 +1119,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) TerminateWorkflowExecution(ctx,
 }
 
 // UpdateNamespace mocks base method.
-func (m *MockWorkflowServiceClient) UpdateNamespace(ctx context.Context, in *workflowservice.UpdateNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.UpdateNamespaceResponse, error) {
+func (m *MockWorkflowServiceClient) UpdateNamespace(ctx context.Context, in *v1.UpdateNamespaceRequest, opts ...grpc.CallOption) (*v1.UpdateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "UpdateNamespace", varargs...)
-	ret0, _ := ret[0].(*workflowservice.UpdateNamespaceResponse)
+	ret0, _ := ret[0].(*v1.UpdateNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1139,14 +1139,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateNamespace(ctx, in interfa
 }
 
 // UpdateSchedule mocks base method.
-func (m *MockWorkflowServiceClient) UpdateSchedule(ctx context.Context, in *workflowservice.UpdateScheduleRequest, opts ...grpc.CallOption) (*workflowservice.UpdateScheduleResponse, error) {
+func (m *MockWorkflowServiceClient) UpdateSchedule(ctx context.Context, in *v1.UpdateScheduleRequest, opts ...grpc.CallOption) (*v1.UpdateScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "UpdateSchedule", varargs...)
-	ret0, _ := ret[0].(*workflowservice.UpdateScheduleResponse)
+	ret0, _ := ret[0].(*v1.UpdateScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1159,14 +1159,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateSchedule(ctx, in interfac
 }
 
 // UpdateWorkerBuildIdCompatibility mocks base method.
-func (m *MockWorkflowServiceClient) UpdateWorkerBuildIdCompatibility(ctx context.Context, in *workflowservice.UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkerBuildIdCompatibilityResponse, error) {
+func (m *MockWorkflowServiceClient) UpdateWorkerBuildIdCompatibility(ctx context.Context, in *v1.UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*v1.UpdateWorkerBuildIdCompatibilityResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "UpdateWorkerBuildIdCompatibility", varargs...)
-	ret0, _ := ret[0].(*workflowservice.UpdateWorkerBuildIdCompatibilityResponse)
+	ret0, _ := ret[0].(*v1.UpdateWorkerBuildIdCompatibilityResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1179,14 +1179,14 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkerBuildIdCompatibilit
 }
 
 // UpdateWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *workflowservice.UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *v1.UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*v1.UpdateWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
 	ret := m.ctrl.Call(m, "UpdateWorkflowExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.UpdateWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.UpdateWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1222,10 +1222,10 @@ func (m *MockWorkflowServiceServer) EXPECT() *MockWorkflowServiceServerMockRecor
 }
 
 // CountWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceServer) CountWorkflowExecutions(arg0 context.Context, arg1 *workflowservice.CountWorkflowExecutionsRequest) (*workflowservice.CountWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceServer) CountWorkflowExecutions(arg0 context.Context, arg1 *v1.CountWorkflowExecutionsRequest) (*v1.CountWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CountWorkflowExecutions", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.CountWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.CountWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1237,10 +1237,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) CountWorkflowExecutions(arg0, a
 }
 
 // CreateSchedule mocks base method.
-func (m *MockWorkflowServiceServer) CreateSchedule(arg0 context.Context, arg1 *workflowservice.CreateScheduleRequest) (*workflowservice.CreateScheduleResponse, error) {
+func (m *MockWorkflowServiceServer) CreateSchedule(arg0 context.Context, arg1 *v1.CreateScheduleRequest) (*v1.CreateScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateSchedule", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.CreateScheduleResponse)
+	ret0, _ := ret[0].(*v1.CreateScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1252,10 +1252,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) CreateSchedule(arg0, arg1 inter
 }
 
 // DeleteSchedule mocks base method.
-func (m *MockWorkflowServiceServer) DeleteSchedule(arg0 context.Context, arg1 *workflowservice.DeleteScheduleRequest) (*workflowservice.DeleteScheduleResponse, error) {
+func (m *MockWorkflowServiceServer) DeleteSchedule(arg0 context.Context, arg1 *v1.DeleteScheduleRequest) (*v1.DeleteScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteSchedule", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DeleteScheduleResponse)
+	ret0, _ := ret[0].(*v1.DeleteScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1267,10 +1267,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) DeleteSchedule(arg0, arg1 inter
 }
 
 // DeleteWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) DeleteWorkflowExecution(arg0 context.Context, arg1 *workflowservice.DeleteWorkflowExecutionRequest) (*workflowservice.DeleteWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) DeleteWorkflowExecution(arg0 context.Context, arg1 *v1.DeleteWorkflowExecutionRequest) (*v1.DeleteWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DeleteWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.DeleteWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1282,10 +1282,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) DeleteWorkflowExecution(arg0, a
 }
 
 // DeprecateNamespace mocks base method.
-func (m *MockWorkflowServiceServer) DeprecateNamespace(arg0 context.Context, arg1 *workflowservice.DeprecateNamespaceRequest) (*workflowservice.DeprecateNamespaceResponse, error) {
+func (m *MockWorkflowServiceServer) DeprecateNamespace(arg0 context.Context, arg1 *v1.DeprecateNamespaceRequest) (*v1.DeprecateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeprecateNamespace", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DeprecateNamespaceResponse)
+	ret0, _ := ret[0].(*v1.DeprecateNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1297,10 +1297,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) DeprecateNamespace(arg0, arg1 i
 }
 
 // DescribeBatchOperation mocks base method.
-func (m *MockWorkflowServiceServer) DescribeBatchOperation(arg0 context.Context, arg1 *workflowservice.DescribeBatchOperationRequest) (*workflowservice.DescribeBatchOperationResponse, error) {
+func (m *MockWorkflowServiceServer) DescribeBatchOperation(arg0 context.Context, arg1 *v1.DescribeBatchOperationRequest) (*v1.DescribeBatchOperationResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DescribeBatchOperation", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DescribeBatchOperationResponse)
+	ret0, _ := ret[0].(*v1.DescribeBatchOperationResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1312,10 +1312,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) DescribeBatchOperation(arg0, ar
 }
 
 // DescribeNamespace mocks base method.
-func (m *MockWorkflowServiceServer) DescribeNamespace(arg0 context.Context, arg1 *workflowservice.DescribeNamespaceRequest) (*workflowservice.DescribeNamespaceResponse, error) {
+func (m *MockWorkflowServiceServer) DescribeNamespace(arg0 context.Context, arg1 *v1.DescribeNamespaceRequest) (*v1.DescribeNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DescribeNamespace", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DescribeNamespaceResponse)
+	ret0, _ := ret[0].(*v1.DescribeNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1327,10 +1327,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) DescribeNamespace(arg0, arg1 in
 }
 
 // DescribeSchedule mocks base method.
-func (m *MockWorkflowServiceServer) DescribeSchedule(arg0 context.Context, arg1 *workflowservice.DescribeScheduleRequest) (*workflowservice.DescribeScheduleResponse, error) {
+func (m *MockWorkflowServiceServer) DescribeSchedule(arg0 context.Context, arg1 *v1.DescribeScheduleRequest) (*v1.DescribeScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DescribeSchedule", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DescribeScheduleResponse)
+	ret0, _ := ret[0].(*v1.DescribeScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1342,10 +1342,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) DescribeSchedule(arg0, arg1 int
 }
 
 // DescribeTaskQueue mocks base method.
-func (m *MockWorkflowServiceServer) DescribeTaskQueue(arg0 context.Context, arg1 *workflowservice.DescribeTaskQueueRequest) (*workflowservice.DescribeTaskQueueResponse, error) {
+func (m *MockWorkflowServiceServer) DescribeTaskQueue(arg0 context.Context, arg1 *v1.DescribeTaskQueueRequest) (*v1.DescribeTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DescribeTaskQueue", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DescribeTaskQueueResponse)
+	ret0, _ := ret[0].(*v1.DescribeTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1357,10 +1357,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) DescribeTaskQueue(arg0, arg1 in
 }
 
 // DescribeWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) DescribeWorkflowExecution(arg0 context.Context, arg1 *workflowservice.DescribeWorkflowExecutionRequest) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) DescribeWorkflowExecution(arg0 context.Context, arg1 *v1.DescribeWorkflowExecutionRequest) (*v1.DescribeWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DescribeWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DescribeWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.DescribeWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1372,10 +1372,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) DescribeWorkflowExecution(arg0,
 }
 
 // GetClusterInfo mocks base method.
-func (m *MockWorkflowServiceServer) GetClusterInfo(arg0 context.Context, arg1 *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
+func (m *MockWorkflowServiceServer) GetClusterInfo(arg0 context.Context, arg1 *v1.GetClusterInfoRequest) (*v1.GetClusterInfoResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetClusterInfo", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetClusterInfoResponse)
+	ret0, _ := ret[0].(*v1.GetClusterInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1387,10 +1387,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetClusterInfo(arg0, arg1 inter
 }
 
 // GetSearchAttributes mocks base method.
-func (m *MockWorkflowServiceServer) GetSearchAttributes(arg0 context.Context, arg1 *workflowservice.GetSearchAttributesRequest) (*workflowservice.GetSearchAttributesResponse, error) {
+func (m *MockWorkflowServiceServer) GetSearchAttributes(arg0 context.Context, arg1 *v1.GetSearchAttributesRequest) (*v1.GetSearchAttributesResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSearchAttributes", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetSearchAttributesResponse)
+	ret0, _ := ret[0].(*v1.GetSearchAttributesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1402,10 +1402,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetSearchAttributes(arg0, arg1 
 }
 
 // GetSystemInfo mocks base method.
-func (m *MockWorkflowServiceServer) GetSystemInfo(arg0 context.Context, arg1 *workflowservice.GetSystemInfoRequest) (*workflowservice.GetSystemInfoResponse, error) {
+func (m *MockWorkflowServiceServer) GetSystemInfo(arg0 context.Context, arg1 *v1.GetSystemInfoRequest) (*v1.GetSystemInfoResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSystemInfo", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetSystemInfoResponse)
+	ret0, _ := ret[0].(*v1.GetSystemInfoResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1417,10 +1417,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetSystemInfo(arg0, arg1 interf
 }
 
 // GetWorkerBuildIdCompatibility mocks base method.
-func (m *MockWorkflowServiceServer) GetWorkerBuildIdCompatibility(arg0 context.Context, arg1 *workflowservice.GetWorkerBuildIdCompatibilityRequest) (*workflowservice.GetWorkerBuildIdCompatibilityResponse, error) {
+func (m *MockWorkflowServiceServer) GetWorkerBuildIdCompatibility(arg0 context.Context, arg1 *v1.GetWorkerBuildIdCompatibilityRequest) (*v1.GetWorkerBuildIdCompatibilityResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetWorkerBuildIdCompatibility", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetWorkerBuildIdCompatibilityResponse)
+	ret0, _ := ret[0].(*v1.GetWorkerBuildIdCompatibilityResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1432,10 +1432,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetWorkerBuildIdCompatibility(a
 }
 
 // GetWorkerTaskReachability mocks base method.
-func (m *MockWorkflowServiceServer) GetWorkerTaskReachability(arg0 context.Context, arg1 *workflowservice.GetWorkerTaskReachabilityRequest) (*workflowservice.GetWorkerTaskReachabilityResponse, error) {
+func (m *MockWorkflowServiceServer) GetWorkerTaskReachability(arg0 context.Context, arg1 *v1.GetWorkerTaskReachabilityRequest) (*v1.GetWorkerTaskReachabilityResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetWorkerTaskReachability", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetWorkerTaskReachabilityResponse)
+	ret0, _ := ret[0].(*v1.GetWorkerTaskReachabilityResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1447,10 +1447,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetWorkerTaskReachability(arg0,
 }
 
 // GetWorkflowExecutionHistory mocks base method.
-func (m *MockWorkflowServiceServer) GetWorkflowExecutionHistory(arg0 context.Context, arg1 *workflowservice.GetWorkflowExecutionHistoryRequest) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
+func (m *MockWorkflowServiceServer) GetWorkflowExecutionHistory(arg0 context.Context, arg1 *v1.GetWorkflowExecutionHistoryRequest) (*v1.GetWorkflowExecutionHistoryResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetWorkflowExecutionHistory", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionHistoryResponse)
+	ret0, _ := ret[0].(*v1.GetWorkflowExecutionHistoryResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1462,10 +1462,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetWorkflowExecutionHistory(arg
 }
 
 // GetWorkflowExecutionHistoryReverse mocks base method.
-func (m *MockWorkflowServiceServer) GetWorkflowExecutionHistoryReverse(arg0 context.Context, arg1 *workflowservice.GetWorkflowExecutionHistoryReverseRequest) (*workflowservice.GetWorkflowExecutionHistoryReverseResponse, error) {
+func (m *MockWorkflowServiceServer) GetWorkflowExecutionHistoryReverse(arg0 context.Context, arg1 *v1.GetWorkflowExecutionHistoryReverseRequest) (*v1.GetWorkflowExecutionHistoryReverseResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetWorkflowExecutionHistoryReverse", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetWorkflowExecutionHistoryReverseResponse)
+	ret0, _ := ret[0].(*v1.GetWorkflowExecutionHistoryReverseResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1477,10 +1477,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetWorkflowExecutionHistoryReve
 }
 
 // ListArchivedWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceServer) ListArchivedWorkflowExecutions(arg0 context.Context, arg1 *workflowservice.ListArchivedWorkflowExecutionsRequest) (*workflowservice.ListArchivedWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceServer) ListArchivedWorkflowExecutions(arg0 context.Context, arg1 *v1.ListArchivedWorkflowExecutionsRequest) (*v1.ListArchivedWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListArchivedWorkflowExecutions", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListArchivedWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ListArchivedWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1492,10 +1492,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListArchivedWorkflowExecutions(
 }
 
 // ListBatchOperations mocks base method.
-func (m *MockWorkflowServiceServer) ListBatchOperations(arg0 context.Context, arg1 *workflowservice.ListBatchOperationsRequest) (*workflowservice.ListBatchOperationsResponse, error) {
+func (m *MockWorkflowServiceServer) ListBatchOperations(arg0 context.Context, arg1 *v1.ListBatchOperationsRequest) (*v1.ListBatchOperationsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListBatchOperations", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListBatchOperationsResponse)
+	ret0, _ := ret[0].(*v1.ListBatchOperationsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1507,10 +1507,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListBatchOperations(arg0, arg1 
 }
 
 // ListClosedWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceServer) ListClosedWorkflowExecutions(arg0 context.Context, arg1 *workflowservice.ListClosedWorkflowExecutionsRequest) (*workflowservice.ListClosedWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceServer) ListClosedWorkflowExecutions(arg0 context.Context, arg1 *v1.ListClosedWorkflowExecutionsRequest) (*v1.ListClosedWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListClosedWorkflowExecutions", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListClosedWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ListClosedWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1522,10 +1522,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListClosedWorkflowExecutions(ar
 }
 
 // ListNamespaces mocks base method.
-func (m *MockWorkflowServiceServer) ListNamespaces(arg0 context.Context, arg1 *workflowservice.ListNamespacesRequest) (*workflowservice.ListNamespacesResponse, error) {
+func (m *MockWorkflowServiceServer) ListNamespaces(arg0 context.Context, arg1 *v1.ListNamespacesRequest) (*v1.ListNamespacesResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListNamespaces", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListNamespacesResponse)
+	ret0, _ := ret[0].(*v1.ListNamespacesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1537,10 +1537,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListNamespaces(arg0, arg1 inter
 }
 
 // ListOpenWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceServer) ListOpenWorkflowExecutions(arg0 context.Context, arg1 *workflowservice.ListOpenWorkflowExecutionsRequest) (*workflowservice.ListOpenWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceServer) ListOpenWorkflowExecutions(arg0 context.Context, arg1 *v1.ListOpenWorkflowExecutionsRequest) (*v1.ListOpenWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListOpenWorkflowExecutions", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListOpenWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ListOpenWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1552,10 +1552,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListOpenWorkflowExecutions(arg0
 }
 
 // ListScheduleMatchingTimes mocks base method.
-func (m *MockWorkflowServiceServer) ListScheduleMatchingTimes(arg0 context.Context, arg1 *workflowservice.ListScheduleMatchingTimesRequest) (*workflowservice.ListScheduleMatchingTimesResponse, error) {
+func (m *MockWorkflowServiceServer) ListScheduleMatchingTimes(arg0 context.Context, arg1 *v1.ListScheduleMatchingTimesRequest) (*v1.ListScheduleMatchingTimesResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListScheduleMatchingTimes", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListScheduleMatchingTimesResponse)
+	ret0, _ := ret[0].(*v1.ListScheduleMatchingTimesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1567,10 +1567,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListScheduleMatchingTimes(arg0,
 }
 
 // ListSchedules mocks base method.
-func (m *MockWorkflowServiceServer) ListSchedules(arg0 context.Context, arg1 *workflowservice.ListSchedulesRequest) (*workflowservice.ListSchedulesResponse, error) {
+func (m *MockWorkflowServiceServer) ListSchedules(arg0 context.Context, arg1 *v1.ListSchedulesRequest) (*v1.ListSchedulesResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListSchedules", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListSchedulesResponse)
+	ret0, _ := ret[0].(*v1.ListSchedulesResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1582,10 +1582,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListSchedules(arg0, arg1 interf
 }
 
 // ListTaskQueuePartitions mocks base method.
-func (m *MockWorkflowServiceServer) ListTaskQueuePartitions(arg0 context.Context, arg1 *workflowservice.ListTaskQueuePartitionsRequest) (*workflowservice.ListTaskQueuePartitionsResponse, error) {
+func (m *MockWorkflowServiceServer) ListTaskQueuePartitions(arg0 context.Context, arg1 *v1.ListTaskQueuePartitionsRequest) (*v1.ListTaskQueuePartitionsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListTaskQueuePartitions", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListTaskQueuePartitionsResponse)
+	ret0, _ := ret[0].(*v1.ListTaskQueuePartitionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1597,10 +1597,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListTaskQueuePartitions(arg0, a
 }
 
 // ListWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceServer) ListWorkflowExecutions(arg0 context.Context, arg1 *workflowservice.ListWorkflowExecutionsRequest) (*workflowservice.ListWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceServer) ListWorkflowExecutions(arg0 context.Context, arg1 *v1.ListWorkflowExecutionsRequest) (*v1.ListWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListWorkflowExecutions", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ListWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ListWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1612,10 +1612,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ListWorkflowExecutions(arg0, ar
 }
 
 // PatchSchedule mocks base method.
-func (m *MockWorkflowServiceServer) PatchSchedule(arg0 context.Context, arg1 *workflowservice.PatchScheduleRequest) (*workflowservice.PatchScheduleResponse, error) {
+func (m *MockWorkflowServiceServer) PatchSchedule(arg0 context.Context, arg1 *v1.PatchScheduleRequest) (*v1.PatchScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PatchSchedule", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.PatchScheduleResponse)
+	ret0, _ := ret[0].(*v1.PatchScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1627,10 +1627,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) PatchSchedule(arg0, arg1 interf
 }
 
 // PollActivityTaskQueue mocks base method.
-func (m *MockWorkflowServiceServer) PollActivityTaskQueue(arg0 context.Context, arg1 *workflowservice.PollActivityTaskQueueRequest) (*workflowservice.PollActivityTaskQueueResponse, error) {
+func (m *MockWorkflowServiceServer) PollActivityTaskQueue(arg0 context.Context, arg1 *v1.PollActivityTaskQueueRequest) (*v1.PollActivityTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PollActivityTaskQueue", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.PollActivityTaskQueueResponse)
+	ret0, _ := ret[0].(*v1.PollActivityTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1642,10 +1642,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) PollActivityTaskQueue(arg0, arg
 }
 
 // PollWorkflowExecutionUpdate mocks base method.
-func (m *MockWorkflowServiceServer) PollWorkflowExecutionUpdate(arg0 context.Context, arg1 *workflowservice.PollWorkflowExecutionUpdateRequest) (*workflowservice.PollWorkflowExecutionUpdateResponse, error) {
+func (m *MockWorkflowServiceServer) PollWorkflowExecutionUpdate(arg0 context.Context, arg1 *v1.PollWorkflowExecutionUpdateRequest) (*v1.PollWorkflowExecutionUpdateResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PollWorkflowExecutionUpdate", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.PollWorkflowExecutionUpdateResponse)
+	ret0, _ := ret[0].(*v1.PollWorkflowExecutionUpdateResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1657,10 +1657,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) PollWorkflowExecutionUpdate(arg
 }
 
 // PollWorkflowTaskQueue mocks base method.
-func (m *MockWorkflowServiceServer) PollWorkflowTaskQueue(arg0 context.Context, arg1 *workflowservice.PollWorkflowTaskQueueRequest) (*workflowservice.PollWorkflowTaskQueueResponse, error) {
+func (m *MockWorkflowServiceServer) PollWorkflowTaskQueue(arg0 context.Context, arg1 *v1.PollWorkflowTaskQueueRequest) (*v1.PollWorkflowTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "PollWorkflowTaskQueue", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.PollWorkflowTaskQueueResponse)
+	ret0, _ := ret[0].(*v1.PollWorkflowTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1672,10 +1672,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) PollWorkflowTaskQueue(arg0, arg
 }
 
 // QueryWorkflow mocks base method.
-func (m *MockWorkflowServiceServer) QueryWorkflow(arg0 context.Context, arg1 *workflowservice.QueryWorkflowRequest) (*workflowservice.QueryWorkflowResponse, error) {
+func (m *MockWorkflowServiceServer) QueryWorkflow(arg0 context.Context, arg1 *v1.QueryWorkflowRequest) (*v1.QueryWorkflowResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "QueryWorkflow", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.QueryWorkflowResponse)
+	ret0, _ := ret[0].(*v1.QueryWorkflowResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1687,10 +1687,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) QueryWorkflow(arg0, arg1 interf
 }
 
 // RecordActivityTaskHeartbeat mocks base method.
-func (m *MockWorkflowServiceServer) RecordActivityTaskHeartbeat(arg0 context.Context, arg1 *workflowservice.RecordActivityTaskHeartbeatRequest) (*workflowservice.RecordActivityTaskHeartbeatResponse, error) {
+func (m *MockWorkflowServiceServer) RecordActivityTaskHeartbeat(arg0 context.Context, arg1 *v1.RecordActivityTaskHeartbeatRequest) (*v1.RecordActivityTaskHeartbeatResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RecordActivityTaskHeartbeat", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RecordActivityTaskHeartbeatResponse)
+	ret0, _ := ret[0].(*v1.RecordActivityTaskHeartbeatResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1702,10 +1702,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RecordActivityTaskHeartbeat(arg
 }
 
 // RecordActivityTaskHeartbeatById mocks base method.
-func (m *MockWorkflowServiceServer) RecordActivityTaskHeartbeatById(arg0 context.Context, arg1 *workflowservice.RecordActivityTaskHeartbeatByIdRequest) (*workflowservice.RecordActivityTaskHeartbeatByIdResponse, error) {
+func (m *MockWorkflowServiceServer) RecordActivityTaskHeartbeatById(arg0 context.Context, arg1 *v1.RecordActivityTaskHeartbeatByIdRequest) (*v1.RecordActivityTaskHeartbeatByIdResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RecordActivityTaskHeartbeatById", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RecordActivityTaskHeartbeatByIdResponse)
+	ret0, _ := ret[0].(*v1.RecordActivityTaskHeartbeatByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1717,10 +1717,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RecordActivityTaskHeartbeatById
 }
 
 // RegisterNamespace mocks base method.
-func (m *MockWorkflowServiceServer) RegisterNamespace(arg0 context.Context, arg1 *workflowservice.RegisterNamespaceRequest) (*workflowservice.RegisterNamespaceResponse, error) {
+func (m *MockWorkflowServiceServer) RegisterNamespace(arg0 context.Context, arg1 *v1.RegisterNamespaceRequest) (*v1.RegisterNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RegisterNamespace", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RegisterNamespaceResponse)
+	ret0, _ := ret[0].(*v1.RegisterNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1732,10 +1732,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RegisterNamespace(arg0, arg1 in
 }
 
 // RequestCancelWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) RequestCancelWorkflowExecution(arg0 context.Context, arg1 *workflowservice.RequestCancelWorkflowExecutionRequest) (*workflowservice.RequestCancelWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) RequestCancelWorkflowExecution(arg0 context.Context, arg1 *v1.RequestCancelWorkflowExecutionRequest) (*v1.RequestCancelWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RequestCancelWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RequestCancelWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.RequestCancelWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1747,10 +1747,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RequestCancelWorkflowExecution(
 }
 
 // ResetStickyTaskQueue mocks base method.
-func (m *MockWorkflowServiceServer) ResetStickyTaskQueue(arg0 context.Context, arg1 *workflowservice.ResetStickyTaskQueueRequest) (*workflowservice.ResetStickyTaskQueueResponse, error) {
+func (m *MockWorkflowServiceServer) ResetStickyTaskQueue(arg0 context.Context, arg1 *v1.ResetStickyTaskQueueRequest) (*v1.ResetStickyTaskQueueResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ResetStickyTaskQueue", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ResetStickyTaskQueueResponse)
+	ret0, _ := ret[0].(*v1.ResetStickyTaskQueueResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1762,10 +1762,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ResetStickyTaskQueue(arg0, arg1
 }
 
 // ResetWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) ResetWorkflowExecution(arg0 context.Context, arg1 *workflowservice.ResetWorkflowExecutionRequest) (*workflowservice.ResetWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) ResetWorkflowExecution(arg0 context.Context, arg1 *v1.ResetWorkflowExecutionRequest) (*v1.ResetWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ResetWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ResetWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.ResetWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1777,10 +1777,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ResetWorkflowExecution(arg0, ar
 }
 
 // RespondActivityTaskCanceled mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskCanceled(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskCanceledRequest) (*workflowservice.RespondActivityTaskCanceledResponse, error) {
+func (m *MockWorkflowServiceServer) RespondActivityTaskCanceled(arg0 context.Context, arg1 *v1.RespondActivityTaskCanceledRequest) (*v1.RespondActivityTaskCanceledResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondActivityTaskCanceled", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCanceledResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskCanceledResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1792,10 +1792,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCanceled(arg
 }
 
 // RespondActivityTaskCanceledById mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskCanceledById(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskCanceledByIdRequest) (*workflowservice.RespondActivityTaskCanceledByIdResponse, error) {
+func (m *MockWorkflowServiceServer) RespondActivityTaskCanceledById(arg0 context.Context, arg1 *v1.RespondActivityTaskCanceledByIdRequest) (*v1.RespondActivityTaskCanceledByIdResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondActivityTaskCanceledById", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCanceledByIdResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskCanceledByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1807,10 +1807,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCanceledById
 }
 
 // RespondActivityTaskCompleted mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskCompleted(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskCompletedRequest) (*workflowservice.RespondActivityTaskCompletedResponse, error) {
+func (m *MockWorkflowServiceServer) RespondActivityTaskCompleted(arg0 context.Context, arg1 *v1.RespondActivityTaskCompletedRequest) (*v1.RespondActivityTaskCompletedResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondActivityTaskCompleted", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCompletedResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskCompletedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1822,10 +1822,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCompleted(ar
 }
 
 // RespondActivityTaskCompletedById mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskCompletedById(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskCompletedByIdRequest) (*workflowservice.RespondActivityTaskCompletedByIdResponse, error) {
+func (m *MockWorkflowServiceServer) RespondActivityTaskCompletedById(arg0 context.Context, arg1 *v1.RespondActivityTaskCompletedByIdRequest) (*v1.RespondActivityTaskCompletedByIdResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondActivityTaskCompletedById", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskCompletedByIdResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskCompletedByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1837,10 +1837,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskCompletedByI
 }
 
 // RespondActivityTaskFailed mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskFailed(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskFailedRequest) (*workflowservice.RespondActivityTaskFailedResponse, error) {
+func (m *MockWorkflowServiceServer) RespondActivityTaskFailed(arg0 context.Context, arg1 *v1.RespondActivityTaskFailedRequest) (*v1.RespondActivityTaskFailedResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondActivityTaskFailed", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskFailedResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskFailedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1852,10 +1852,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskFailed(arg0,
 }
 
 // RespondActivityTaskFailedById mocks base method.
-func (m *MockWorkflowServiceServer) RespondActivityTaskFailedById(arg0 context.Context, arg1 *workflowservice.RespondActivityTaskFailedByIdRequest) (*workflowservice.RespondActivityTaskFailedByIdResponse, error) {
+func (m *MockWorkflowServiceServer) RespondActivityTaskFailedById(arg0 context.Context, arg1 *v1.RespondActivityTaskFailedByIdRequest) (*v1.RespondActivityTaskFailedByIdResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondActivityTaskFailedById", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondActivityTaskFailedByIdResponse)
+	ret0, _ := ret[0].(*v1.RespondActivityTaskFailedByIdResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1867,10 +1867,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondActivityTaskFailedById(a
 }
 
 // RespondQueryTaskCompleted mocks base method.
-func (m *MockWorkflowServiceServer) RespondQueryTaskCompleted(arg0 context.Context, arg1 *workflowservice.RespondQueryTaskCompletedRequest) (*workflowservice.RespondQueryTaskCompletedResponse, error) {
+func (m *MockWorkflowServiceServer) RespondQueryTaskCompleted(arg0 context.Context, arg1 *v1.RespondQueryTaskCompletedRequest) (*v1.RespondQueryTaskCompletedResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondQueryTaskCompleted", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondQueryTaskCompletedResponse)
+	ret0, _ := ret[0].(*v1.RespondQueryTaskCompletedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1882,10 +1882,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondQueryTaskCompleted(arg0,
 }
 
 // RespondWorkflowTaskCompleted mocks base method.
-func (m *MockWorkflowServiceServer) RespondWorkflowTaskCompleted(arg0 context.Context, arg1 *workflowservice.RespondWorkflowTaskCompletedRequest) (*workflowservice.RespondWorkflowTaskCompletedResponse, error) {
+func (m *MockWorkflowServiceServer) RespondWorkflowTaskCompleted(arg0 context.Context, arg1 *v1.RespondWorkflowTaskCompletedRequest) (*v1.RespondWorkflowTaskCompletedResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondWorkflowTaskCompleted", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondWorkflowTaskCompletedResponse)
+	ret0, _ := ret[0].(*v1.RespondWorkflowTaskCompletedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1897,10 +1897,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondWorkflowTaskCompleted(ar
 }
 
 // RespondWorkflowTaskFailed mocks base method.
-func (m *MockWorkflowServiceServer) RespondWorkflowTaskFailed(arg0 context.Context, arg1 *workflowservice.RespondWorkflowTaskFailedRequest) (*workflowservice.RespondWorkflowTaskFailedResponse, error) {
+func (m *MockWorkflowServiceServer) RespondWorkflowTaskFailed(arg0 context.Context, arg1 *v1.RespondWorkflowTaskFailedRequest) (*v1.RespondWorkflowTaskFailedResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RespondWorkflowTaskFailed", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.RespondWorkflowTaskFailedResponse)
+	ret0, _ := ret[0].(*v1.RespondWorkflowTaskFailedResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1912,10 +1912,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) RespondWorkflowTaskFailed(arg0,
 }
 
 // ScanWorkflowExecutions mocks base method.
-func (m *MockWorkflowServiceServer) ScanWorkflowExecutions(arg0 context.Context, arg1 *workflowservice.ScanWorkflowExecutionsRequest) (*workflowservice.ScanWorkflowExecutionsResponse, error) {
+func (m *MockWorkflowServiceServer) ScanWorkflowExecutions(arg0 context.Context, arg1 *v1.ScanWorkflowExecutionsRequest) (*v1.ScanWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ScanWorkflowExecutions", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.ScanWorkflowExecutionsResponse)
+	ret0, _ := ret[0].(*v1.ScanWorkflowExecutionsResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1927,10 +1927,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) ScanWorkflowExecutions(arg0, ar
 }
 
 // SignalWithStartWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) SignalWithStartWorkflowExecution(arg0 context.Context, arg1 *workflowservice.SignalWithStartWorkflowExecutionRequest) (*workflowservice.SignalWithStartWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) SignalWithStartWorkflowExecution(arg0 context.Context, arg1 *v1.SignalWithStartWorkflowExecutionRequest) (*v1.SignalWithStartWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SignalWithStartWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.SignalWithStartWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.SignalWithStartWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1942,10 +1942,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) SignalWithStartWorkflowExecutio
 }
 
 // SignalWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) SignalWorkflowExecution(arg0 context.Context, arg1 *workflowservice.SignalWorkflowExecutionRequest) (*workflowservice.SignalWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) SignalWorkflowExecution(arg0 context.Context, arg1 *v1.SignalWorkflowExecutionRequest) (*v1.SignalWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SignalWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.SignalWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.SignalWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1957,10 +1957,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) SignalWorkflowExecution(arg0, a
 }
 
 // StartBatchOperation mocks base method.
-func (m *MockWorkflowServiceServer) StartBatchOperation(arg0 context.Context, arg1 *workflowservice.StartBatchOperationRequest) (*workflowservice.StartBatchOperationResponse, error) {
+func (m *MockWorkflowServiceServer) StartBatchOperation(arg0 context.Context, arg1 *v1.StartBatchOperationRequest) (*v1.StartBatchOperationResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "StartBatchOperation", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.StartBatchOperationResponse)
+	ret0, _ := ret[0].(*v1.StartBatchOperationResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1972,10 +1972,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) StartBatchOperation(arg0, arg1 
 }
 
 // StartWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) StartWorkflowExecution(arg0 context.Context, arg1 *workflowservice.StartWorkflowExecutionRequest) (*workflowservice.StartWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) StartWorkflowExecution(arg0 context.Context, arg1 *v1.StartWorkflowExecutionRequest) (*v1.StartWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "StartWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.StartWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.StartWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -1987,10 +1987,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) StartWorkflowExecution(arg0, ar
 }
 
 // StopBatchOperation mocks base method.
-func (m *MockWorkflowServiceServer) StopBatchOperation(arg0 context.Context, arg1 *workflowservice.StopBatchOperationRequest) (*workflowservice.StopBatchOperationResponse, error) {
+func (m *MockWorkflowServiceServer) StopBatchOperation(arg0 context.Context, arg1 *v1.StopBatchOperationRequest) (*v1.StopBatchOperationResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "StopBatchOperation", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.StopBatchOperationResponse)
+	ret0, _ := ret[0].(*v1.StopBatchOperationResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -2002,10 +2002,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) StopBatchOperation(arg0, arg1 i
 }
 
 // TerminateWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) TerminateWorkflowExecution(arg0 context.Context, arg1 *workflowservice.TerminateWorkflowExecutionRequest) (*workflowservice.TerminateWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) TerminateWorkflowExecution(arg0 context.Context, arg1 *v1.TerminateWorkflowExecutionRequest) (*v1.TerminateWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TerminateWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.TerminateWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.TerminateWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -2017,10 +2017,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) TerminateWorkflowExecution(arg0
 }
 
 // UpdateNamespace mocks base method.
-func (m *MockWorkflowServiceServer) UpdateNamespace(arg0 context.Context, arg1 *workflowservice.UpdateNamespaceRequest) (*workflowservice.UpdateNamespaceResponse, error) {
+func (m *MockWorkflowServiceServer) UpdateNamespace(arg0 context.Context, arg1 *v1.UpdateNamespaceRequest) (*v1.UpdateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateNamespace", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.UpdateNamespaceResponse)
+	ret0, _ := ret[0].(*v1.UpdateNamespaceResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -2032,10 +2032,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) UpdateNamespace(arg0, arg1 inte
 }
 
 // UpdateSchedule mocks base method.
-func (m *MockWorkflowServiceServer) UpdateSchedule(arg0 context.Context, arg1 *workflowservice.UpdateScheduleRequest) (*workflowservice.UpdateScheduleResponse, error) {
+func (m *MockWorkflowServiceServer) UpdateSchedule(arg0 context.Context, arg1 *v1.UpdateScheduleRequest) (*v1.UpdateScheduleResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateSchedule", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.UpdateScheduleResponse)
+	ret0, _ := ret[0].(*v1.UpdateScheduleResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -2047,10 +2047,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) UpdateSchedule(arg0, arg1 inter
 }
 
 // UpdateWorkerBuildIdCompatibility mocks base method.
-func (m *MockWorkflowServiceServer) UpdateWorkerBuildIdCompatibility(arg0 context.Context, arg1 *workflowservice.UpdateWorkerBuildIdCompatibilityRequest) (*workflowservice.UpdateWorkerBuildIdCompatibilityResponse, error) {
+func (m *MockWorkflowServiceServer) UpdateWorkerBuildIdCompatibility(arg0 context.Context, arg1 *v1.UpdateWorkerBuildIdCompatibilityRequest) (*v1.UpdateWorkerBuildIdCompatibilityResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateWorkerBuildIdCompatibility", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.UpdateWorkerBuildIdCompatibilityResponse)
+	ret0, _ := ret[0].(*v1.UpdateWorkerBuildIdCompatibilityResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -2062,10 +2062,10 @@ func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkerBuildIdCompatibilit
 }
 
 // UpdateWorkflowExecution mocks base method.
-func (m *MockWorkflowServiceServer) UpdateWorkflowExecution(arg0 context.Context, arg1 *workflowservice.UpdateWorkflowExecutionRequest) (*workflowservice.UpdateWorkflowExecutionResponse, error) {
+func (m *MockWorkflowServiceServer) UpdateWorkflowExecution(arg0 context.Context, arg1 *v1.UpdateWorkflowExecutionRequest) (*v1.UpdateWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateWorkflowExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.UpdateWorkflowExecutionResponse)
+	ret0, _ := ret[0].(*v1.UpdateWorkflowExecutionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
