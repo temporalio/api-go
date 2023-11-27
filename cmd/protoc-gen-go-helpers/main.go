@@ -195,7 +195,7 @@ func main() {
 				return fmt.Errorf("failed to format generated source: \n%s\n%w", src.String(), err)
 			}
 
-			gf := plugin.NewGeneratedFile(fmt.Sprintf("%s.go-helpers.go", file.GeneratedFilenamePrefix), ".")
+			gf := plugin.NewGeneratedFile(fmt.Sprintf("%s.go-helpers.pb.go", file.GeneratedFilenamePrefix), ".")
 			gf.Write(fmtd)
 		}
 
