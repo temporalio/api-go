@@ -43,6 +43,7 @@ const (
 	payloadMetadataKey      = "metadata"
 	payloadDataKey          = "data"
 	shorthandMessageTypeKey = "_protoMessageType"
+	binaryNullBase64        = "YmluYXJ5L251bGw="
 )
 
 var _ protojson.ProtoJSONMaybeMarshaler = (*Payload)(nil)
@@ -55,7 +56,7 @@ var _ protojson.ProtoJSONMaybeUnmarshaler = (*Payloads)(nil)
 func marshalSingular(enc *json.Encoder, value interface{}) error {
 	switch vv := value.(type) {
 	case string:
-		enc.WriteString(vv)
+		return enc.WriteString(vv)
 	case bool:
 		enc.WriteBool(vv)
 	case int:
@@ -221,13 +222,29 @@ func marshalValue(enc *json.Encoder, vv reflect.Value) error {
 }
 
 func marshal(enc *json.Encoder, value interface{}) error {
+	if value == nil {
+		// nil data means we send the binary/null encoding
+		enc.StartObject()
+		defer enc.EndObject()
+		if err := enc.WriteName("metadata"); err != nil {
+			return err
+		}
+
+		enc.StartObject()
+		defer enc.EndObject()
+		if err := enc.WriteName("encoding"); err != nil {
+			return err
+		}
+		// base64(binary/null)
+		return enc.WriteString(binaryNullBase64)
+	}
 	return marshalValue(enc, reflect.ValueOf(value))
 }
 
-// Key on the marshaler metadata specifying whether shorthand is disabled.
+// Key on the marshaler metadata specifying whether shorthand is enabled.
 //
 // WARNING: This is internal API and should not be called externally.
-const DisablePayloadShorthandMetadataKey = "__temporal_disable_payload_shorthand"
+const EnablePayloadShorthandMetadataKey = "__temporal_enable_payload_shorthand"
 
 // MaybeMarshalProtoJSON implements
 // [go.temporal.io/api/internal/temporaljsonpb.ProtoJSONMaybeMarshaler.MaybeMarshalProtoJSON].
@@ -238,8 +255,9 @@ func (p *Payloads) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.
 	if p == nil {
 		return false, nil
 	}
-	// If shorthand is disabled, ignore
-	if disabled, _ := meta[DisablePayloadShorthandMetadataKey].(bool); disabled {
+
+	// Skip unless explicitly enabled
+	if _, enabled := meta[EnablePayloadShorthandMetadataKey].(bool); !enabled {
 		return false, nil
 	}
 
@@ -272,8 +290,8 @@ func (p *Payloads) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *jso
 	if p == nil {
 		return false, nil
 	}
-	// If shorthand is disabled, ignore
-	if disabled, _ := meta[DisablePayloadShorthandMetadataKey].(bool); disabled {
+	// Skip unless explicitly enabled
+	if _, enabled := meta[EnablePayloadShorthandMetadataKey].(bool); !enabled {
 		return false, nil
 	}
 	tok, err := dec.Peek()
@@ -314,8 +332,8 @@ func (p *Payload) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.E
 	if p == nil {
 		return false, nil
 	}
-	// If shorthand is disabled, ignore
-	if disabled, _ := meta[DisablePayloadShorthandMetadataKey].(bool); disabled {
+	// Skip unless explicitly enabled
+	if _, enabled := meta[EnablePayloadShorthandMetadataKey].(bool); !enabled {
 		return false, nil
 	}
 	// If any are not handled or there is an error, return
@@ -335,8 +353,8 @@ func (p *Payload) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *json
 	if p == nil {
 		return false, nil
 	}
-	// If shorthand is disabled, ignore
-	if disabled, _ := meta[DisablePayloadShorthandMetadataKey].(bool); disabled {
+	// Skip unless explicitly enabled
+	if _, enabled := meta[EnablePayloadShorthandMetadataKey].(bool); !enabled {
 		return false, nil
 	}
 	// Always considered handled, unmarshaler ignored (unknown fields always
@@ -376,6 +394,8 @@ func (p *Payload) toJSONShorthand() (handled bool, value interface{}, err error)
 			valueMap[shorthandMessageTypeKey] = msgType
 		}
 		value = valueMap
+	default:
+		return false, nil, fmt.Errorf("unsupported encoding %s", string(p.Metadata["encoding"]))
 	}
 	return
 }
@@ -493,7 +513,10 @@ func (p *Payload) unmarshalPayload(valueMap map[string]interface{}) bool {
 
 	d, dataOk := valueMap[payloadDataKey]
 	// It's ok to have no data key if the encoding is binary/null
-	if mdOk && !dataOk && enc == "binary/null" {
+	if mdOk && !dataOk && enc == binaryNullBase64 {
+		p.Metadata = map[string][]byte{
+			"encoding": []byte("binary/null"),
+		}
 		return true
 	} else if !mdOk && !dataOk {
 		return false
