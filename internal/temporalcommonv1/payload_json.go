@@ -241,10 +241,10 @@ func marshal(enc *json.Encoder, value interface{}) error {
 	return marshalValue(enc, reflect.ValueOf(value))
 }
 
-// Key on the marshaler metadata specifying whether shorthand is disabled.
+// Key on the marshaler metadata specifying whether shorthand is enabled.
 //
 // WARNING: This is internal API and should not be called externally.
-const DisablePayloadShorthandMetadataKey = "__temporal_disable_payload_shorthand"
+const EnablePayloadShorthandMetadataKey = "__temporal_enable_payload_shorthand"
 
 // MaybeMarshalProtoJSON implements
 // [go.temporal.io/api/internal/temporaljsonpb.ProtoJSONMaybeMarshaler.MaybeMarshalProtoJSON].
@@ -255,8 +255,9 @@ func (p *Payloads) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.
 	if p == nil {
 		return false, nil
 	}
-	// If shorthand is disabled, ignore
-	if disabled, _ := meta[DisablePayloadShorthandMetadataKey].(bool); disabled {
+
+	// Skip unless explicitly enabled
+	if _, enabled := meta[EnablePayloadShorthandMetadataKey].(bool); !enabled {
 		return false, nil
 	}
 
@@ -289,8 +290,8 @@ func (p *Payloads) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *jso
 	if p == nil {
 		return false, nil
 	}
-	// If shorthand is disabled, ignore
-	if disabled, _ := meta[DisablePayloadShorthandMetadataKey].(bool); disabled {
+	// Skip unless explicitly enabled
+	if _, enabled := meta[EnablePayloadShorthandMetadataKey].(bool); !enabled {
 		return false, nil
 	}
 	tok, err := dec.Peek()
@@ -331,8 +332,8 @@ func (p *Payload) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.E
 	if p == nil {
 		return false, nil
 	}
-	// If shorthand is disabled, ignore
-	if disabled, _ := meta[DisablePayloadShorthandMetadataKey].(bool); disabled {
+	// Skip unless explicitly enabled
+	if _, enabled := meta[EnablePayloadShorthandMetadataKey].(bool); !enabled {
 		return false, nil
 	}
 	// If any are not handled or there is an error, return
@@ -352,8 +353,8 @@ func (p *Payload) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *json
 	if p == nil {
 		return false, nil
 	}
-	// If shorthand is disabled, ignore
-	if disabled, _ := meta[DisablePayloadShorthandMetadataKey].(bool); disabled {
+	// Skip unless explicitly enabled
+	if _, enabled := meta[EnablePayloadShorthandMetadataKey].(bool); !enabled {
 		return false, nil
 	}
 	// Always considered handled, unmarshaler ignored (unknown fields always

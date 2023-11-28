@@ -33,12 +33,14 @@ import (
 )
 
 var tests = []struct {
-	name string
-	pb   proto.Message
-	json string
+	name          string
+	pb            proto.Message
+	longformJSON  string
+	shorthandJSON string
 }{{
-	name: "json/plain",
-	json: `{"_protoMessageType": "temporal.api.common.v1.WorkflowType", "name": "workflow-name"}`,
+	name:          "json/plain",
+	longformJSON:  `{"metadata":{"encoding":"anNvbi9wcm90b2J1Zg==","messageType":"dGVtcG9yYWwuYXBpLmNvbW1vbi52MS5Xb3JrZmxvd1R5cGU="},"data":"eyJuYW1lIjoid29ya2Zsb3ctbmFtZSJ9"}`,
+	shorthandJSON: `{"_protoMessageType": "temporal.api.common.v1.WorkflowType", "name": "workflow-name"}`,
 	pb: &common.Payload{
 		Metadata: map[string][]byte{
 			"encoding":    []byte("json/protobuf"),
@@ -47,8 +49,9 @@ var tests = []struct {
 		Data: []byte(`{"name":"workflow-name"}`),
 	},
 }, {
-	name: "binary/null",
-	json: `{"metadata":{"encoding":"YmluYXJ5L251bGw="}}`,
+	name:          "binary/null",
+	longformJSON:  `{"metadata":{"encoding":"YmluYXJ5L251bGw="}}`,
+	shorthandJSON: `{"metadata":{"encoding":"YmluYXJ5L251bGw="}}`,
 	pb: &common.Payload{
 		Metadata: map[string][]byte{
 			"encoding": []byte("binary/null"),
@@ -56,7 +59,10 @@ var tests = []struct {
 	},
 }, {
 	name: "memo with varying fields",
-	json: `{"fields": {
+	longformJSON: `{"fields":{
+                      "some-string":{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"InN0cmluZyI="},
+                      "some-array":{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"WyJmb28iLDEyMyxmYWxzZV0="}}}`,
+	shorthandJSON: `{"fields": {
                       "some-string": "string",
 			          "some-array": ["foo", 123, false]}}`,
 	pb: &common.Memo{
@@ -78,24 +84,56 @@ var tests = []struct {
 	},
 }}
 
-func TestMaybeMarshal(t *testing.T) {
+func TestMaybeMarshal_ShorthandEnabled(t *testing.T) {
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			opts := temporalproto.CustomJSONMarshalOptions{
+				Metadata: map[string]interface{}{
+					common.EnablePayloadShorthandMetadataKey: true,
+				},
+			}
+			got, err := opts.Marshal(tt.pb)
+			require.NoError(t, err)
+			t.Logf("%s", string(got))
+			require.JSONEq(t, tt.shorthandJSON, string(got))
+		})
+	}
+}
+
+func TestMaybeMarshal_ShorthandDisabled(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var opts temporalproto.CustomJSONMarshalOptions
 			got, err := opts.Marshal(tt.pb)
 			require.NoError(t, err)
 			t.Logf("%s", string(got))
-			require.JSONEq(t, tt.json, string(got), tt.pb)
+			require.JSONEq(t, tt.longformJSON, string(got))
 		})
 	}
 }
 
-func TestMaybeUnmarshal(t *testing.T) {
+func TestMaybeUnmarshal_Shorthand(t *testing.T) {
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var out = tt.pb.ProtoReflect().New().Interface()
+			opts := temporalproto.CustomJSONUnmarshalOptions{
+				Metadata: map[string]interface{}{
+					common.EnablePayloadShorthandMetadataKey: true,
+				},
+			}
+			err := opts.Unmarshal([]byte(tt.shorthandJSON), out)
+			require.NoError(t, err)
+			require.True(t, proto.Equal(tt.pb, out))
+		})
+	}
+}
+
+func TestMaybeUnmarshal_Longform(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var out = tt.pb.ProtoReflect().New().Interface()
 			var opts temporalproto.CustomJSONUnmarshalOptions
-			err := opts.Unmarshal([]byte(tt.json), out)
+			err := opts.Unmarshal([]byte(tt.longformJSON), out)
 			require.NoError(t, err)
 			require.True(t, proto.Equal(tt.pb, out))
 		})
