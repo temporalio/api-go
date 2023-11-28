@@ -15,7 +15,8 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// jsonMarshalOptions is a configurable JSON format marshaler.
+// CustomJSONUnmarshalOptions is a configurable JSON format marshaler that supports
+// both TYPE_PREFIXED_SCREAMING_SNAKE enums as well as camelCase enums.
 type CustomJSONUnmarshalOptions struct {
 	// Metadata is used for storing request metadata, such as whether shorthand
 	// payloads are disabled

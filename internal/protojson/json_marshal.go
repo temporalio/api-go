@@ -41,7 +41,7 @@ import (
 
 const defaultIndent = "  "
 
-// jsonMarshalOptions is a configurable JSON format marshaler.
+// MarshalOptions is a configurable JSON format marshaler.
 type MarshalOptions struct {
 	// Metadata is used for storing request metadata, such as whether shorthand
 	// payloads are disabled

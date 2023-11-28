@@ -16,7 +16,8 @@ import (
 	"go.temporal.io/api/internal/protojson"
 )
 
-// jsonMarshalOptions is a configurable JSON format marshaler.
+// CustomJSONMarshalOptions is a configurable JSON format marshaler that supports
+// both TYPE_PREFIXED_SCREAMING_SNAKE enums as well as camelCase enums.
 type CustomJSONMarshalOptions struct {
 	// Metadata is used for storing request metadata, such as whether shorthand
 	// payloads are disabled
