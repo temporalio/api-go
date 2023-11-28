@@ -11,8 +11,6 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/google/go-cmp/cmp"
-
 	"go.temporal.io/api/internal/protojson/json"
 )
 
@@ -1332,7 +1330,7 @@ func TestDecoder(t *testing.T) {
 					return
 				}
 				checkToken(t, tok, i, want, tc.in)
-				if !cmp.Equal(tok, peekTok, cmp.Comparer(json.TokenEquals)) {
+				if !json.TokenEquals(tok, peekTok) {
 					errorf(t, tc.in, "want#%d: Peek() %+v != Read() token %+v", i, peekTok, tok)
 				}
 				if err != peekErr {

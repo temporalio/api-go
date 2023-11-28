@@ -9,7 +9,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
+	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
 
@@ -113,11 +113,7 @@ func TestFieldOrder(t *testing.T) {
 			sort.Slice(got, func(i, j int) bool {
 				return tt.order(got[i], got[j])
 			})
-			if diff := cmp.Diff(want, got,
-				cmp.Comparer(func(x, y fieldDesc) bool { return x == y }),
-			); diff != "" {
-				t.Errorf("order mismatch (-want +got):\n%s", diff)
-			}
+			require.Equal(t, want, got, "order mismatch")
 		})
 	}
 }
@@ -166,9 +162,10 @@ func TestKeyOrder(t *testing.T) {
 			sort.Slice(got, func(i, j int) bool {
 				return tt.order(got[i], got[j])
 			})
-			if diff := cmp.Diff(want, got, cmp.Transformer("", protoreflect.MapKey.Interface)); diff != "" {
-				t.Errorf("order mismatch (-want +got):\n%s", diff)
-			}
+			require.Equal(t, want, got, "order mismpatch")
+			// if diff := cmp.Diff(want, got, cmp.Transformer("", protoreflect.MapKey.Interface)); diff != "" {
+			// 	t.Errorf("order mismatch (-want +got):\n%s", diff)
+			// }
 		})
 	}
 }

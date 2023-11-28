@@ -6,19 +6,10 @@ package json_test
 
 import (
 	"math"
-	"strings"
 	"testing"
-
-	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
 
 	"go.temporal.io/api/internal/protojson/json"
 )
-
-// splitLines is a cmpopts.Option for comparing strings with line breaks.
-var splitLines = cmpopts.AcyclicTransformer("SplitLines", func(s string) []string {
-	return strings.Split(s, "\n")
-})
 
 func TestEncoder(t *testing.T) {
 	tests := []struct {
@@ -370,8 +361,8 @@ func TestEncoder(t *testing.T) {
 				tc.write(enc)
 				got, want := string(enc.Bytes()), tc.wantOutIndent
 				if got != want {
-					t.Errorf("%s(indent):\n<got>:\n%v\n<want>\n%v\n<diff -want +got>\n%v\n",
-						tc.desc, got, want, cmp.Diff(want, got, splitLines))
+					t.Errorf("%s(indent):\n<got>:\n%v\n<want>\n%v\n",
+						tc.desc, got, want)
 				}
 			}
 		})
