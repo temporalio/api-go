@@ -45,10 +45,10 @@ const (
 	shorthandMessageTypeKey = "_protoMessageType"
 )
 
-var _ temporalproto.JSONPBMaybeMarshaler = (*Payload)(nil)
-var _ temporalproto.JSONPBMaybeMarshaler = (*Payloads)(nil)
-var _ temporalproto.JSONPBMaybeUnmarshaler = (*Payload)(nil)
-var _ temporalproto.JSONPBMaybeUnmarshaler = (*Payloads)(nil)
+var _ temporalproto.ProtoJSONMaybeMarshaler = (*Payload)(nil)
+var _ temporalproto.ProtoJSONMaybeMarshaler = (*Payloads)(nil)
+var _ temporalproto.ProtoJSONMaybeUnmarshaler = (*Payload)(nil)
+var _ temporalproto.ProtoJSONMaybeUnmarshaler = (*Payloads)(nil)
 
 // !!! This file is copied from internal/temporalcommonv1 to common/v1.
 // !!! DO NOT EDIT at common/v1/payload_json.go.
@@ -229,11 +229,11 @@ func marshal(enc *json.Encoder, value interface{}) error {
 // WARNING: This is internal API and should not be called externally.
 const DisablePayloadShorthandMetadataKey = "__temporal_disable_payload_shorthand"
 
-// MaybeMarshalJSONPB implements
-// [go.temporal.io/api/internal/temporaljsonpb.JSONPBMaybeMarshaler.MaybeMarshalJSONPB].
+// MaybeMarshalProtoJSON implements
+// [go.temporal.io/api/internal/temporaljsonpb.ProtoJSONMaybeMarshaler.MaybeMarshalProtoJSON].
 //
 // WARNING: This is internal API and should not be called externally.
-func (p *Payloads) MaybeMarshalJSONPB(meta map[string]interface{}, enc *json.Encoder) (handled bool, err error) {
+func (p *Payloads) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.Encoder) (handled bool, err error) {
 	// If this is nil, ignore
 	if p == nil {
 		return false, nil
@@ -263,11 +263,11 @@ func (p *Payloads) MaybeMarshalJSONPB(meta map[string]interface{}, enc *json.Enc
 	return true, err
 }
 
-// MaybeUnmarshalJSONPB implements
-// [go.temporal.io/api/internal/temporaljsonpb.JSONPBMaybeUnmarshaler.MaybeUnmarshalJSONPB].
+// MaybeUnmarshalProtoJSON implements
+// [go.temporal.io/api/internal/temporaljsonpb.ProtoJSONMaybeUnmarshaler.MaybeUnmarshalProtoJSON].
 //
 // WARNING: This is internal API and should not be called externally.
-func (p *Payloads) MaybeUnmarshalJSONPB(meta map[string]interface{}, dec *json.Decoder) (handled bool, err error) {
+func (p *Payloads) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *json.Decoder) (handled bool, err error) {
 	// If this is nil, ignore (should never be)
 	if p == nil {
 		return false, nil
@@ -305,11 +305,11 @@ func (p *Payloads) MaybeUnmarshalJSONPB(meta map[string]interface{}, dec *json.D
 	return true, nil
 }
 
-// MaybeMarshalJSONPB implements
-// [go.temporal.io/api/internal/temporaljsonpb.JSONPBMaybeMarshaler.MaybeMarshalJSONPB].
+// MaybeMarshalProtoJSON implements
+// [go.temporal.io/api/internal/temporaljsonpb.ProtoJSONMaybeMarshaler.MaybeMarshalProtoJSON].
 //
 // WARNING: This is internal API and should not be called externally.
-func (p *Payload) MaybeMarshalJSONPB(meta map[string]interface{}, enc *json.Encoder) (handled bool, err error) {
+func (p *Payload) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.Encoder) (handled bool, err error) {
 	// If this is nil, ignore
 	if p == nil {
 		return false, nil
@@ -326,11 +326,11 @@ func (p *Payload) MaybeMarshalJSONPB(meta map[string]interface{}, enc *json.Enco
 	return true, marshal(enc, val)
 }
 
-// MaybeUnmarshalJSONPB implements
-// [go.temporal.io/api/internal/temporaljsonpb.JSONPBMaybeUnmarshaler.MaybeUnmarshalJSONPB].
+// MaybeUnmarshalProtoJSON implements
+// [go.temporal.io/api/internal/temporaljsonpb.ProtoJSONMaybeUnmarshaler.MaybeUnmarshalProtoJSON].
 //
 // WARNING: This is internal API and should not be called externally.
-func (p *Payload) MaybeUnmarshalJSONPB(meta map[string]interface{}, dec *json.Decoder) (handled bool, err error) {
+func (p *Payload) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *json.Decoder) (handled bool, err error) {
 	// If this is nil, ignore (should never be)
 	if p == nil {
 		return false, nil

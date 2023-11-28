@@ -24,21 +24,20 @@ package temporalproto
 
 import "go.temporal.io/api/internal/protojson/json"
 
-// JSONPBMaybeMarshaler is implemented by any proto struct that wants to
+// ProtoJSONMaybeMarshaler is implemented by any proto struct that wants to
 // customize optional Temporal-specific JSON conversion.
-type JSONPBMaybeMarshaler interface {
-	// MaybeMarshalJSONPB is for formatting the proto message as JSON. If the
-	// "handled" result value is false, "b" and "err" are ignored and the default
-	// proto JSON behavior occurs. currIndent is the current prefix depth but
-	// should not be applied if m.Indent is empty.
-	MaybeMarshalJSONPB(meta map[string]interface{}, enc *json.Encoder) (handled bool, err error)
+type ProtoJSONMaybeMarshaler interface {
+	// MaybeMarshalProtoJSON is for formatting the proto message as JSON. If the
+	// "handled" result value is false, "err" are ignored and the default
+	// protojson behavior occurs.
+	MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.Encoder) (handled bool, err error)
 }
 
-// JSONPBMaybeUnmarshaler is implemented by any proto struct that wants to
+// ProtoJSONMaybeUnmarshaler is implemented by any proto struct that wants to
 // customize optional Temporal-specific JSON conversion.
-type JSONPBMaybeUnmarshaler interface {
-	// MaybeUnmarshalJSONPB is for parsing the given JSON into the proto message.
+type ProtoJSONMaybeUnmarshaler interface {
+	// MaybeUnmarshalProtoJSON is for parsing the given JSON into the proto message.
 	// If the "handled" result value is false, "err" is ignored and the default
-	// behavior proto JSON occurs.
-	MaybeUnmarshalJSONPB(meta map[string]interface{}, dec *json.Decoder) (handled bool, err error)
+	// protojson unmarshaling proceeds
+	MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *json.Decoder) (handled bool, err error)
 }

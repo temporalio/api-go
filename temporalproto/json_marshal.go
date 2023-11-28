@@ -231,10 +231,10 @@ func (e encoder) marshalMessage(m protoreflect.Message, typeURL string) error {
 	if marshal := wellKnownTypeMarshaler(m.Descriptor().FullName()); marshal != nil {
 		return marshal(e, m)
 	}
-	if jsu, ok := m.Interface().(JSONPBMaybeMarshaler); ok {
-		if handled, err := jsu.MaybeMarshalJSONPB(e.opts.Metadata, e.Encoder); handled {
+	if jsu, ok := m.Interface().(ProtoJSONMaybeMarshaler); ok {
+		if handled, err := jsu.MaybeMarshalProtoJSON(e.opts.Metadata, e.Encoder); handled {
 			if err != nil {
-				return fmt.Errorf("MaybeMarshalJSONPB impl for %T failed: %w", jsu, err)
+				return fmt.Errorf("MaybeMarshalProtoJSON impl for %T failed: %w", jsu, err)
 			}
 			return nil
 		}

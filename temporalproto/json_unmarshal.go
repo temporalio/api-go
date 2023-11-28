@@ -145,8 +145,8 @@ func (d decoder) syntaxError(pos int, f string, x ...interface{}) error {
 
 // unmarshalMessage unmarshals a message into the given protoreflect.Message.
 func (d decoder) unmarshalMessage(m protoreflect.Message, skipTypeURL bool) error {
-	if jsu, ok := m.Interface().(JSONPBMaybeUnmarshaler); ok {
-		if handled, err := jsu.MaybeUnmarshalJSONPB(d.opts.Metadata, d.Decoder); handled || err != nil {
+	if jsu, ok := m.Interface().(ProtoJSONMaybeUnmarshaler); ok {
+		if handled, err := jsu.MaybeUnmarshalProtoJSON(d.opts.Metadata, d.Decoder); handled || err != nil {
 			return err
 		}
 	}
