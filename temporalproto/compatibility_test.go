@@ -25,8 +25,9 @@ package temporalproto_test
 import (
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/testing/protocmp"
 
 	enums "go.temporal.io/api/enums/v1"
 	historypb "go.temporal.io/api/history/v1"
@@ -139,10 +140,10 @@ func TestUnmarshalJSON_Compatible(t *testing.T) {
 	}
 	// Ensure both new and old enums deserialize the same way
 	var oldHist, newHist historypb.History
-	require.NoError(t, u.Unmarshal([]byte(newEnums), &oldHist))
+	require.NoError(t, u.Unmarshal([]byte(oldEnums), &oldHist))
 	require.NoError(t, u.Unmarshal([]byte(newEnums), &newHist))
-	if !proto.Equal(&oldHist, &newHist) {
-		t.Errorf("LoadFromJSON() mismatch between old and new enum formats\n%v\n%v", &oldHist, &newHist)
+	if diff := cmp.Diff(&oldHist, &newHist, protocmp.Transform()); diff != "" {
+		t.Errorf("LoadFromJSON() mismatch between old (-) and new (+) enum formats:\n%s", diff)
 	}
 }
 

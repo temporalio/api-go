@@ -42,6 +42,7 @@ import (
 	"go.temporal.io/api/internal/protojson/genid"
 	"go.temporal.io/api/internal/protojson/json"
 	"go.temporal.io/api/internal/protojson/set"
+	"go.temporal.io/api/internal/strcase"
 )
 
 // UnmarshalJSON reads the given []byte into the given [proto.Message].
@@ -502,6 +503,12 @@ func unmarshalBytes(tok json.Token) (protoreflect.Value, bool) {
 	return protoreflect.ValueOfBytes(b), true
 }
 
+var logfunc func(msg string, args ...any) (int, error) = fmt.Printf
+
+func SetLogfunc(f func(msg string, args ...any) (int, error)) {
+	logfunc = f
+}
+
 func unmarshalEnum(tok json.Token, fd protoreflect.FieldDescriptor, discardUnknown bool) (protoreflect.Value, bool) {
 	switch tok.Kind() {
 	case json.String:
@@ -512,6 +519,13 @@ func unmarshalEnum(tok json.Token, fd protoreflect.FieldDescriptor, discardUnkno
 		if enumVal := fd.Enum().Values().ByName(protoreflect.Name(s)); enumVal != nil {
 			return protoreflect.ValueOfEnum(enumVal.Number()), true
 		}
+
+		// If not found we'll assume it's old-style and prepend TYPE_PREFIX_
+		s = strcase.ToScreamingSnake(fmt.Sprintf("%s_%s", string(fd.Enum().Name()), s))
+		if enumVal := fd.Enum().Values().ByName(protoreflect.Name(s)); enumVal != nil {
+			return protoreflect.ValueOfEnum(enumVal.Number()), true
+		}
+
 		if discardUnknown {
 			return protoreflect.Value{}, true
 		}
