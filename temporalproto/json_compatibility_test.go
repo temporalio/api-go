@@ -23,8 +23,6 @@
 package temporalproto_test
 
 import (
-	"bytes"
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -122,7 +120,7 @@ func TestUnmarshalJSON(t *testing.T) {
 	t.Parallel()
 	require := require.New(t)
 
-	u := temporalproto.JSONUnmarshaller{
+	u := temporalproto.CustomJSONUnmarshalOptions{
 		DiscardUnknown: true,
 	}
 	var hist historypb.History
@@ -136,22 +134,22 @@ func TestUnmarshalJSON(t *testing.T) {
 
 func TestUnmarshalJSON_Compatible(t *testing.T) {
 	t.Parallel()
-	u := temporalproto.JSONUnmarshaller{
+	u := temporalproto.CustomJSONUnmarshalOptions{
 		DiscardUnknown: true,
 	}
 	// Ensure both new and old enums deserialize the same way
 	var oldHist, newHist historypb.History
-	require.NoError(t, u.Unmarshal([]byte(newEnums), &oldHist))
+	require.NoError(t, u.Unmarshal([]byte(oldEnums), &oldHist))
 	require.NoError(t, u.Unmarshal([]byte(newEnums), &newHist))
 	if !proto.Equal(&oldHist, &newHist) {
-		t.Errorf("LoadFromJSON() mismatch between old and new enum formats\n%v\n%v", &oldHist, &newHist)
+		t.Errorf("LoadFromJSON() mismatch between old and new enum formats:\n%#v\n%#v", &oldHist, &newHist)
 	}
 }
 
 func TestUnmarshalJSON_NestedType(t *testing.T) {
 	t.Parallel()
 
-	u := temporalproto.JSONUnmarshaller{
+	u := temporalproto.CustomJSONUnmarshalOptions{
 		DiscardUnknown: true,
 	}
 	require := require.New(t)
@@ -165,18 +163,4 @@ func TestUnmarshalJSON_NestedType(t *testing.T) {
 	require.Equal(wfFail.Failure.Message, "Outer failure")
 	require.NotNil(wfFail.Failure.Cause)
 	require.NotNil(wfFail.Failure.Cause.Message, "Inner failure")
-}
-
-func TestJSONDecoder(t *testing.T) {
-	t.Parallel()
-	require := require.New(t)
-	input := fmt.Sprintf("%s%s", newEnums, oldEnums)
-	var hist historypb.History
-	rdr := bytes.NewReader([]byte(input))
-	dec := temporalproto.NewJSONDecoder(rdr, true)
-	require.NoError(dec.Decode(&hist))
-	require.Len(hist.Events, 1)
-
-	require.NoError(dec.Decode(&hist))
-	require.Len(hist.Events, 1)
 }
