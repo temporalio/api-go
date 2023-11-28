@@ -31,8 +31,6 @@ import (
 	"math"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
-
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoregistry"
 	"google.golang.org/protobuf/testing/protopack"
@@ -2480,9 +2478,6 @@ func TestMarshal(t *testing.T) {
 			got := string(b)
 			if got != tt.want {
 				t.Errorf("Marshal()\n<got>\n%v\n<want>\n%v\n", got, tt.want)
-				if diff := cmp.Diff(tt.want, got); diff != "" {
-					t.Errorf("Marshal() diff -want +got\n%v\n", diff)
-				}
 			}
 		})
 	}
