@@ -25,10 +25,8 @@ package common_test
 import (
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/testing/protocmp"
 
 	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/temporalproto"
@@ -99,9 +97,7 @@ func TestMaybeUnmarshal(t *testing.T) {
 			var opts temporalproto.CustomJSONUnmarshalOptions
 			err := opts.Unmarshal([]byte(tt.json), out)
 			require.NoError(t, err)
-			if diff := cmp.Diff(tt.pb, out, protocmp.Transform()); diff != "" {
-				t.Errorf("Mismatch (-want, +got)\n%s", diff)
-			}
+			require.True(t, proto.Equal(tt.pb, out))
 		})
 	}
 }
