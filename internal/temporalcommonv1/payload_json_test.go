@@ -83,7 +83,7 @@ var tests = []struct {
 func TestMaybeMarshal(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var opts temporalproto.JSONMarshalOptions
+			var opts temporalproto.CustomJSONMarshalOptions
 			got, err := opts.Marshal(tt.pb)
 			require.NoError(t, err)
 			require.JSONEq(t, tt.json, string(got), tt.pb)
@@ -95,7 +95,7 @@ func TestMaybeUnmarshal(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var out = tt.pb.ProtoReflect().New().Interface()
-			var opts temporalproto.JSONUnmarshalOptions
+			var opts temporalproto.CustomJSONUnmarshalOptions
 			err := opts.Unmarshal([]byte(tt.json), out)
 			require.NoError(t, err)
 			if diff := cmp.Diff(tt.pb, out, protocmp.Transform()); diff != "" {

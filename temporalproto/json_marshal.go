@@ -41,23 +41,19 @@ import (
 
 const defaultIndent = "  "
 
-// Format formats the message as a multiline string.
-// This function is only intended for human consumption and ignores errors.
+// MarshalJSON writes the given [proto.Message] in JSON format using default options.
 // Do not depend on the output being stable. It may change over time across
 // different versions of the program.
-func Format(m proto.Message) string {
-	return JSONMarshalOptions{Multiline: true}.Format(m)
+func MarshalCustomJSON(m proto.Message) ([]byte, error) {
+	return CustomJSONMarshalOptions{}.Marshal(m)
 }
 
-// Marshal writes the given [proto.Message] in JSON format using default options.
-// Do not depend on the output being stable. It may change over time across
-// different versions of the program.
-func Marshal(m proto.Message) ([]byte, error) {
-	return JSONMarshalOptions{}.Marshal(m)
-}
+// jsonMarshalOptions is a configurable JSON format marshaler.
+type CustomJSONMarshalOptions struct {
+	// Metadata is used for storing request metadata, such as whether shorthand
+	// payloads are disabled
+	Metadata map[string]interface{}
 
-// JSONMarshalOptions is a configurable JSON format marshaler.
-type JSONMarshalOptions struct {
 	// Multiline specifies whether the marshaler should format the output in
 	// indented-form with every textual element on a new line.
 	// If Indent is an empty string, then an arbitrary indent is chosen.
@@ -122,42 +118,25 @@ type JSONMarshalOptions struct {
 		protoregistry.ExtensionTypeResolver
 		protoregistry.MessageTypeResolver
 	}
-
-	// Metadata is used for storing request metadata, such as whether shorthand
-	// payloads are disabled
-	Metadata map[string]interface{}
-}
-
-// Format formats the message as a string.
-// This method is only intended for human consumption and ignores errors.
-// Do not depend on the output being stable. It may change over time across
-// different versions of the program.
-func (o JSONMarshalOptions) Format(m proto.Message) string {
-	if m == nil || !m.ProtoReflect().IsValid() {
-		return "<nil>" // invalid syntax, but okay since this is for debugging
-	}
-	o.AllowPartial = true
-	b, _ := o.Marshal(m)
-	return string(b)
 }
 
 // Marshal marshals the given [proto.Message] in the JSON format using options in
 // MarshalOptions. Do not depend on the output being stable. It may change over
 // time across different versions of the program.
-func (o JSONMarshalOptions) Marshal(m proto.Message) ([]byte, error) {
+func (o CustomJSONMarshalOptions) Marshal(m proto.Message) ([]byte, error) {
 	return o.marshal(nil, m)
 }
 
 // MarshalAppend appends the JSON format encoding of m to b,
 // returning the result.
-func (o JSONMarshalOptions) MarshalAppend(b []byte, m proto.Message) ([]byte, error) {
+func (o CustomJSONMarshalOptions) MarshalAppend(b []byte, m proto.Message) ([]byte, error) {
 	return o.marshal(b, m)
 }
 
 // marshal is a centralized function that all marshal operations go through.
 // For profiling purposes, avoid changing the name of this function or
 // introducing other code paths for marshal that do not go through this.
-func (o JSONMarshalOptions) marshal(b []byte, m proto.Message) ([]byte, error) {
+func (o CustomJSONMarshalOptions) marshal(b []byte, m proto.Message) ([]byte, error) {
 	if o.Multiline && o.Indent == "" {
 		o.Indent = defaultIndent
 	}
@@ -189,7 +168,7 @@ func (o JSONMarshalOptions) marshal(b []byte, m proto.Message) ([]byte, error) {
 
 type encoder struct {
 	*json.Encoder
-	opts JSONMarshalOptions
+	opts CustomJSONMarshalOptions
 }
 
 // unpopulatedFieldRanger wraps a protoreflect.Message and modifies its Range

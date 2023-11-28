@@ -45,14 +45,18 @@ import (
 	"go.temporal.io/api/internal/strcase"
 )
 
-// UnmarshalJSON reads the given []byte into the given [proto.Message].
+// UnmarshalCustomJSON reads the given []byte into the given [proto.Message].
 // The provided message must be mutable (e.g., a non-nil pointer to a message).
-func UnmarshalJSON(b []byte, m proto.Message) error {
-	return JSONUnmarshalOptions{}.Unmarshal(b, m)
+func UnmarshalCustomJSON(b []byte, m proto.Message) error {
+	return CustomJSONUnmarshalOptions{}.Unmarshal(b, m)
 }
 
-// JSONUnmarshalOptions is a configurable JSON format parser.
-type JSONUnmarshalOptions struct {
+// CustomJSONUnmarshalOptions is a configurable JSON format parser.
+type CustomJSONUnmarshalOptions struct {
+	// Metadata is used for storing request metadata, such as whether shorthand
+	// payloads are disabled
+	Metadata map[string]interface{}
+
 	// If AllowPartial is set, input for messages that will result in missing
 	// required fields will not return an error.
 	AllowPartial bool
@@ -67,10 +71,6 @@ type JSONUnmarshalOptions struct {
 		protoregistry.MessageTypeResolver
 		protoregistry.ExtensionTypeResolver
 	}
-
-	// Metadata is used for storing request metadata, such as whether shorthand
-	// payloads are disabled
-	Metadata map[string]interface{}
 }
 
 // Unmarshal reads the given []byte and populates the given [proto.Message]
@@ -78,14 +78,14 @@ type JSONUnmarshalOptions struct {
 // It will clear the message first before setting the fields.
 // If it returns an error, the given message may be partially set.
 // The provided message must be mutable (e.g., a non-nil pointer to a message).
-func (o JSONUnmarshalOptions) Unmarshal(b []byte, m proto.Message) error {
+func (o CustomJSONUnmarshalOptions) Unmarshal(b []byte, m proto.Message) error {
 	return o.unmarshal(b, m)
 }
 
 // unmarshal is a centralized function that all unmarshal operations go through.
 // For profiling purposes, avoid changing the name of this function or
 // introducing other code paths for unmarshal that do not go through this.
-func (o JSONUnmarshalOptions) unmarshal(b []byte, m proto.Message) error {
+func (o CustomJSONUnmarshalOptions) unmarshal(b []byte, m proto.Message) error {
 	proto.Reset(m)
 
 	if o.Resolver == nil {
@@ -114,7 +114,7 @@ func (o JSONUnmarshalOptions) unmarshal(b []byte, m proto.Message) error {
 
 type decoder struct {
 	*json.Decoder
-	opts JSONUnmarshalOptions
+	opts CustomJSONUnmarshalOptions
 }
 
 // newError returns an error object with position info.

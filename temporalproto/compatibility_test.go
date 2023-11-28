@@ -121,7 +121,7 @@ func TestUnmarshalJSON(t *testing.T) {
 	t.Parallel()
 	require := require.New(t)
 
-	u := temporalproto.JSONUnmarshalOptions{
+	u := temporalproto.CustomJSONUnmarshalOptions{
 		DiscardUnknown: true,
 	}
 	var hist historypb.History
@@ -135,7 +135,7 @@ func TestUnmarshalJSON(t *testing.T) {
 
 func TestUnmarshalJSON_Compatible(t *testing.T) {
 	t.Parallel()
-	u := temporalproto.JSONUnmarshalOptions{
+	u := temporalproto.CustomJSONUnmarshalOptions{
 		DiscardUnknown: true,
 	}
 	// Ensure both new and old enums deserialize the same way
@@ -150,7 +150,7 @@ func TestUnmarshalJSON_Compatible(t *testing.T) {
 func TestUnmarshalJSON_NestedType(t *testing.T) {
 	t.Parallel()
 
-	u := temporalproto.JSONUnmarshalOptions{
+	u := temporalproto.CustomJSONUnmarshalOptions{
 		DiscardUnknown: true,
 	}
 	require := require.New(t)

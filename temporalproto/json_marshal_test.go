@@ -52,7 +52,7 @@ import (
 func TestMarshal(t *testing.T) {
 	tests := []struct {
 		desc    string
-		mo      temporalproto.JSONMarshalOptions
+		mo      temporalproto.CustomJSONMarshalOptions
 		input   proto.Message
 		want    string
 		wantErr bool // TODO: Verify error message substring.
@@ -766,7 +766,7 @@ func TestMarshal(t *testing.T) {
 		wantErr: true,
 	}, {
 		desc: "required fields not set with AllowPartial",
-		mo:   temporalproto.JSONMarshalOptions{AllowPartial: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{AllowPartial: true},
 		input: &pb2.Requireds{
 			ReqBool:     proto.Bool(false),
 			ReqSfixed64: proto.Int64(0),
@@ -810,7 +810,7 @@ func TestMarshal(t *testing.T) {
 		wantErr: true,
 	}, {
 		desc: "indirect required field with AllowPartial",
-		mo:   temporalproto.JSONMarshalOptions{AllowPartial: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{AllowPartial: true},
 		input: &pb2.IndirectRequired{
 			OptNested: &pb2.NestedWithRequired{},
 		},
@@ -838,7 +838,7 @@ func TestMarshal(t *testing.T) {
 		wantErr: true,
 	}, {
 		desc: "indirect required field in repeated with AllowPartial",
-		mo:   temporalproto.JSONMarshalOptions{AllowPartial: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{AllowPartial: true},
 		input: &pb2.IndirectRequired{
 			RptNested: []*pb2.NestedWithRequired{
 				&pb2.NestedWithRequired{},
@@ -870,7 +870,7 @@ func TestMarshal(t *testing.T) {
 		wantErr: true,
 	}, {
 		desc: "indirect required field in map with AllowPartial",
-		mo:   temporalproto.JSONMarshalOptions{AllowPartial: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{AllowPartial: true},
 		input: &pb2.IndirectRequired{
 			StrToNested: map[string]*pb2.NestedWithRequired{
 				"fail": &pb2.NestedWithRequired{},
@@ -894,7 +894,7 @@ func TestMarshal(t *testing.T) {
 		wantErr: true,
 	}, {
 		desc: "indirect required field in oneof with AllowPartial",
-		mo:   temporalproto.JSONMarshalOptions{AllowPartial: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{AllowPartial: true},
 		input: &pb2.IndirectRequired{
 			Union: &pb2.IndirectRequired_OneofNested{
 				OneofNested: &pb2.NestedWithRequired{},
@@ -1545,7 +1545,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:    "Any without registered type",
-		mo:      temporalproto.JSONMarshalOptions{Resolver: new(protoregistry.Types)},
+		mo:      temporalproto.CustomJSONMarshalOptions{Resolver: new(protoregistry.Types)},
 		input:   &anypb.Any{TypeUrl: "foo/pb2.Nested"},
 		wantErr: true,
 	}, {
@@ -1572,7 +1572,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "Any with partial required and AllowPartial",
-		mo: temporalproto.JSONMarshalOptions{
+		mo: temporalproto.CustomJSONMarshalOptions{
 			AllowPartial: true,
 		},
 		input: func() proto.Message {
@@ -1597,7 +1597,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "Any with EmitUnpopulated",
-		mo: temporalproto.JSONMarshalOptions{
+		mo: temporalproto.CustomJSONMarshalOptions{
 			EmitUnpopulated: true,
 		},
 		input: func() proto.Message {
@@ -1894,7 +1894,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: proto2 optional scalars",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb2.Scalars{},
 		want: `{
   "optBool": null,
@@ -1915,7 +1915,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: proto3 scalars",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb3.Scalars{},
 		want: `{
   "sBool": false,
@@ -1936,7 +1936,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: proto2 enum",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb2.Enums{},
 		want: `{
   "optEnum": null,
@@ -1946,7 +1946,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: proto3 enum",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb3.Enums{},
 		want: `{
   "sEnum": "ZERO",
@@ -1954,7 +1954,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: proto2 message and group fields",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb2.Nests{},
 		want: `{
   "optNested": null,
@@ -1964,14 +1964,14 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: proto3 message field",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb3.Nests{},
 		want: `{
   "sNested": null
 }`,
 	}, {
 		desc: "EmitUnpopulated: proto2 empty message and group fields",
-		mo:   temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb2.Nests{
 			OptNested: &pb2.Nested{},
 			Optgroup:  &pb2.Nests_OptGroup{},
@@ -1991,7 +1991,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitUnpopulated: proto3 empty message field",
-		mo:   temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb3.Nests{
 			SNested: &pb3.Nested{},
 		},
@@ -2003,7 +2003,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitUnpopulated: proto2 required fields",
-		mo: temporalproto.JSONMarshalOptions{
+		mo: temporalproto.CustomJSONMarshalOptions{
 			AllowPartial:    true,
 			EmitUnpopulated: true,
 		},
@@ -2018,7 +2018,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: repeated fields",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb2.Repeats{},
 		want: `{
   "rptBool": [],
@@ -2033,7 +2033,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitUnpopulated: repeated containing empty message",
-		mo:   temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb2.Nests{
 			RptNested: []*pb2.Nested{nil, {}},
 		},
@@ -2054,7 +2054,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: map fields",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb3.Maps{},
 		want: `{
   "int32ToStr": {},
@@ -2065,7 +2065,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitUnpopulated: map containing empty message",
-		mo:   temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb3.Maps{
 			StrToNested: map[string]*pb3.Nested{
 				"nested": &pb3.Nested{},
@@ -2090,12 +2090,12 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitUnpopulated: oneof fields",
-		mo:    temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb3.Oneofs{},
 		want:  `{}`,
 	}, {
 		desc: "EmitUnpopulated: extensions",
-		mo:   temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: func() proto.Message {
 			m := &pb2.Extensions{}
 			proto.SetExtension(m, pb2.E_OptExtNested, &pb2.Nested{})
@@ -2126,7 +2126,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitUnpopulated: with populated fields",
-		mo:   temporalproto.JSONMarshalOptions{EmitUnpopulated: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true},
 		input: &pb2.Scalars{
 			OptInt32:    proto.Int32(0xff),
 			OptUint32:   proto.Uint32(47),
@@ -2155,7 +2155,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitUnpopulated overrides EmitDefaultValues",
-		mo:   temporalproto.JSONMarshalOptions{EmitUnpopulated: true, EmitDefaultValues: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitUnpopulated: true, EmitDefaultValues: true},
 		input: &pb2.Nests{
 			RptNested: []*pb2.Nested{nil, {}},
 		},
@@ -2176,12 +2176,12 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitDefaultValues: proto2 optional scalars",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb2.Scalars{},
 		want:  `{}`,
 	}, {
 		desc:  "EmitDefaultValues: proto3 scalars",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb3.Scalars{},
 		want: `{
   "sBool": false,
@@ -2202,7 +2202,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitDefaultValues: proto2 enum",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb2.Enums{},
 		want: `{
   "rptEnum": [],
@@ -2210,7 +2210,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitDefaultValues: proto3 enum",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb3.Enums{},
 		want: `{
   "sEnum": "ZERO",
@@ -2218,7 +2218,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitDefaultValues: proto2 message and group fields",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb2.Nests{},
 		want: `{
   "rptNested": [],
@@ -2226,12 +2226,12 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitDefaultValues: proto3 message field",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb3.Nests{},
 		want:  `{}`,
 	}, {
 		desc: "EmitDefaultValues: proto2 empty message and group fields",
-		mo:   temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb2.Nests{
 			OptNested: &pb2.Nested{},
 			Optgroup:  &pb2.Nests_OptGroup{},
@@ -2244,7 +2244,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitDefaultValues: proto3 empty message field",
-		mo:   temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb3.Nests{
 			SNested: &pb3.Nested{},
 		},
@@ -2255,7 +2255,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitDefaultValues: proto2 required fields",
-		mo: temporalproto.JSONMarshalOptions{
+		mo: temporalproto.CustomJSONMarshalOptions{
 			AllowPartial:      true,
 			EmitDefaultValues: true,
 		},
@@ -2263,7 +2263,7 @@ func TestMarshal(t *testing.T) {
 		want:  `{}`,
 	}, {
 		desc:  "EmitDefaultValues: repeated fields",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb2.Repeats{},
 		want: `{
   "rptBool": [],
@@ -2278,7 +2278,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitDefaultValues: repeated containing empty message",
-		mo:   temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb2.Nests{
 			RptNested: []*pb2.Nested{nil, {}},
 		},
@@ -2291,7 +2291,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitDefaultValues: map fields",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb3.Maps{},
 		want: `{
   "int32ToStr": {},
@@ -2302,7 +2302,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitDefaultValues: map containing empty message",
-		mo:   temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb3.Maps{
 			StrToNested: map[string]*pb3.Nested{
 				"nested": &pb3.Nested{},
@@ -2326,12 +2326,12 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc:  "EmitDefaultValues: oneof fields",
-		mo:    temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:    temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb3.Oneofs{},
 		want:  `{}`,
 	}, {
 		desc: "EmitDefaultValues: extensions",
-		mo:   temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: func() proto.Message {
 			m := &pb2.Extensions{}
 			proto.SetExtension(m, pb2.E_OptExtNested, &pb2.Nested{})
@@ -2350,7 +2350,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "EmitDefaultValues: with populated fields",
-		mo:   temporalproto.JSONMarshalOptions{EmitDefaultValues: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{EmitDefaultValues: true},
 		input: &pb2.Scalars{
 			OptInt32:    proto.Int32(0xff),
 			OptUint32:   proto.Uint32(47),
@@ -2371,7 +2371,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "UseEnumNumbers in singular field",
-		mo:   temporalproto.JSONMarshalOptions{UseEnumNumbers: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{UseEnumNumbers: true},
 		input: &pb2.Enums{
 			OptEnum:       pb2.Enum_ONE.Enum(),
 			OptNestedEnum: pb2.Enums_UNO.Enum(),
@@ -2382,7 +2382,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "UseEnumNumbers in repeated field",
-		mo:   temporalproto.JSONMarshalOptions{UseEnumNumbers: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{UseEnumNumbers: true},
 		input: &pb2.Enums{
 			RptEnum:       []pb2.Enum{pb2.Enum_ONE, 2, pb2.Enum_TEN, 42},
 			RptNestedEnum: []pb2.Enums_NestedEnum{pb2.Enums_UNO, pb2.Enums_DOS, 47},
@@ -2402,7 +2402,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "UseEnumNumbers in map field",
-		mo:   temporalproto.JSONMarshalOptions{UseEnumNumbers: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{UseEnumNumbers: true},
 		input: &pb3.Maps{
 			Uint64ToEnum: map[uint64]pb3.Enum{
 				1:  pb3.Enum_ONE,
@@ -2421,7 +2421,7 @@ func TestMarshal(t *testing.T) {
 }`,
 	}, {
 		desc: "UseProtoNames",
-		mo:   temporalproto.JSONMarshalOptions{UseProtoNames: true},
+		mo:   temporalproto.CustomJSONMarshalOptions{UseProtoNames: true},
 		input: &pb2.Nests{
 			OptNested: &pb2.Nested{},
 			Optgroup: &pb2.Nests_OptGroup{
@@ -2490,7 +2490,7 @@ func TestMarshal(t *testing.T) {
 func TestEncodeAppend(t *testing.T) {
 	want := []byte("prefix")
 	got := append([]byte(nil), want...)
-	got, err := temporalproto.JSONMarshalOptions{}.MarshalAppend(got, &pb3.Scalars{
+	got, err := temporalproto.CustomJSONMarshalOptions{}.MarshalAppend(got, &pb3.Scalars{
 		SString: "value",
 	})
 	if err != nil {
@@ -2508,7 +2508,7 @@ func TestMarshalAppendAllocations(t *testing.T) {
 	b := make([]byte, size)
 	// AllocsPerRun returns an integral value.
 	marshalAllocs := testing.AllocsPerRun(count, func() {
-		_, err := temporalproto.JSONMarshalOptions{}.MarshalAppend(b[:0], m)
+		_, err := temporalproto.CustomJSONMarshalOptions{}.MarshalAppend(b[:0], m)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -2516,7 +2516,7 @@ func TestMarshalAppendAllocations(t *testing.T) {
 	b = nil
 	marshalAppendAllocs := testing.AllocsPerRun(count, func() {
 		var err error
-		b, err = temporalproto.JSONMarshalOptions{}.MarshalAppend(b, m)
+		b, err = temporalproto.CustomJSONMarshalOptions{}.MarshalAppend(b, m)
 		if err != nil {
 			t.Fatal(err)
 		}
