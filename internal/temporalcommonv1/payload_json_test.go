@@ -25,8 +25,10 @@ package common_test
 import (
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/testing/protocmp"
 
 	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/temporalproto"
@@ -37,14 +39,6 @@ var tests = []struct {
 	pb   proto.Message
 	json string
 }{{
-	name: "binary/plain",
-	pb: &common.Payload{
-		Metadata: map[string][]byte{
-			"encoding": []byte("binary/plain"),
-		},
-		Data: []byte("bytes")},
-	json: `{"metadata": {"encoding": "YmluYXJ5L3BsYWlu"}, "data": "Ynl0ZXM="}`,
-}, {
 	name: "json/plain",
 	json: `{"_protoMessageType": "temporal.api.common.v1.WorkflowType", "name": "workflow-name"}`,
 	pb: &common.Payload{
@@ -55,19 +49,27 @@ var tests = []struct {
 		Data: []byte(`{"name":"workflow-name"}`),
 	},
 }, {
+	name: "binary/null",
+	json: `{"metadata":{"encoding":"YmluYXJ5L251bGw="}}`,
+	pb: &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("binary/null"),
+		},
+	},
+}, {
 	name: "memo with varying fields",
 	json: `{"fields": {
                       "some-string": "string",
 			          "some-array": ["foo", 123, false]}}`,
 	pb: &common.Memo{
 		Fields: map[string]*common.Payload{
-			"some-string": &common.Payload{
+			"some-string": {
 				Metadata: map[string][]byte{
 					"encoding": []byte("json/plain"),
 				},
 				Data: []byte(`"string"`),
 			},
-			"some-array": &common.Payload{
+			"some-array": {
 				Metadata: map[string][]byte{
 					"encoding": []byte("json/plain"),
 				},
@@ -84,6 +86,7 @@ func TestMaybeMarshal(t *testing.T) {
 			var opts temporalproto.CustomJSONMarshalOptions
 			got, err := opts.Marshal(tt.pb)
 			require.NoError(t, err)
+			t.Logf("%s", string(got))
 			require.JSONEq(t, tt.json, string(got), tt.pb)
 		})
 	}
@@ -96,8 +99,8 @@ func TestMaybeUnmarshal(t *testing.T) {
 			var opts temporalproto.CustomJSONUnmarshalOptions
 			err := opts.Unmarshal([]byte(tt.json), out)
 			require.NoError(t, err)
-			if !proto.Equal(tt.pb, out) {
-				t.Errorf("protos mismatched\n%#v\n%#v", tt.pb, out)
+			if diff := cmp.Diff(tt.pb, out, protocmp.Transform()); diff != "" {
+				t.Errorf("Mismatch (-want, +got)\n%s", diff)
 			}
 		})
 	}

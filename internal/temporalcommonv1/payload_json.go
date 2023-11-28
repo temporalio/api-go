@@ -43,6 +43,7 @@ const (
 	payloadMetadataKey      = "metadata"
 	payloadDataKey          = "data"
 	shorthandMessageTypeKey = "_protoMessageType"
+	binaryNullBase64        = "YmluYXJ5L251bGw="
 )
 
 var _ protojson.ProtoJSONMaybeMarshaler = (*Payload)(nil)
@@ -55,7 +56,7 @@ var _ protojson.ProtoJSONMaybeUnmarshaler = (*Payloads)(nil)
 func marshalSingular(enc *json.Encoder, value interface{}) error {
 	switch vv := value.(type) {
 	case string:
-		enc.WriteString(vv)
+		return enc.WriteString(vv)
 	case bool:
 		enc.WriteBool(vv)
 	case int:
@@ -221,6 +222,22 @@ func marshalValue(enc *json.Encoder, vv reflect.Value) error {
 }
 
 func marshal(enc *json.Encoder, value interface{}) error {
+	if value == nil {
+		// nil data means we send the binary/null encoding
+		enc.StartObject()
+		defer enc.EndObject()
+		if err := enc.WriteName("metadata"); err != nil {
+			return err
+		}
+
+		enc.StartObject()
+		defer enc.EndObject()
+		if err := enc.WriteName("encoding"); err != nil {
+			return err
+		}
+		// base64(binary/null)
+		return enc.WriteString(binaryNullBase64)
+	}
 	return marshalValue(enc, reflect.ValueOf(value))
 }
 
@@ -376,6 +393,8 @@ func (p *Payload) toJSONShorthand() (handled bool, value interface{}, err error)
 			valueMap[shorthandMessageTypeKey] = msgType
 		}
 		value = valueMap
+	default:
+		return false, nil, fmt.Errorf("unsupported encoding %s", string(p.Metadata["encoding"]))
 	}
 	return
 }
@@ -493,7 +512,10 @@ func (p *Payload) unmarshalPayload(valueMap map[string]interface{}) bool {
 
 	d, dataOk := valueMap[payloadDataKey]
 	// It's ok to have no data key if the encoding is binary/null
-	if mdOk && !dataOk && enc == "binary/null" {
+	if mdOk && !dataOk && enc == binaryNullBase64 {
+		p.Metadata = map[string][]byte{
+			"encoding": []byte("binary/null"),
+		}
 		return true
 	} else if !mdOk && !dataOk {
 		return false
