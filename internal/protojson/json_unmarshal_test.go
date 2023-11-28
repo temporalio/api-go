@@ -24,7 +24,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package temporalproto_test
+package protojson_test
 
 import (
 	"math"
@@ -41,15 +41,15 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 
+	"go.temporal.io/api/internal/protojson"
 	pb2 "go.temporal.io/api/internal/protojson/testprotos/textpb2"
 	pb3 "go.temporal.io/api/internal/protojson/testprotos/textpb3"
-	"go.temporal.io/api/temporalproto"
 )
 
 func TestUnmarshal(t *testing.T) {
 	tests := []struct {
 		desc         string
-		umo          temporalproto.CustomJSONUnmarshalOptions
+		umo          protojson.UnmarshalOptions
 		inputMessage proto.Message
 		inputText    string
 		wantMessage  proto.Message
@@ -1086,7 +1086,7 @@ func TestUnmarshal(t *testing.T) {
 		wantErr: "required field pb2.Requireds.req_double not set",
 	}, {
 		desc:         "required fields partially set with AllowPartial",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{AllowPartial: true},
+		umo:          protojson.UnmarshalOptions{AllowPartial: true},
 		inputMessage: &pb2.Requireds{},
 		inputText: `{
   "reqBool": false,
@@ -1131,7 +1131,7 @@ func TestUnmarshal(t *testing.T) {
 		wantErr: "required field pb2.NestedWithRequired.req_string not set",
 	}, {
 		desc:         "indirect required field with AllowPartial",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{AllowPartial: true},
+		umo:          protojson.UnmarshalOptions{AllowPartial: true},
 		inputMessage: &pb2.IndirectRequired{},
 		inputText: `{
   "optNested": {}
@@ -1159,7 +1159,7 @@ func TestUnmarshal(t *testing.T) {
 		wantErr: "required field pb2.NestedWithRequired.req_string not set",
 	}, {
 		desc:         "indirect required field in repeated with AllowPartial",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{AllowPartial: true},
+		umo:          protojson.UnmarshalOptions{AllowPartial: true},
 		inputMessage: &pb2.IndirectRequired{},
 		inputText: `{
   "rptNested": [
@@ -1197,7 +1197,7 @@ func TestUnmarshal(t *testing.T) {
 		wantErr: "required field pb2.NestedWithRequired.req_string not set",
 	}, {
 		desc:         "indirect required field in map with AllowPartial",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{AllowPartial: true},
+		umo:          protojson.UnmarshalOptions{AllowPartial: true},
 		inputMessage: &pb2.IndirectRequired{},
 		inputText: `{
   "strToNested": {
@@ -1229,7 +1229,7 @@ func TestUnmarshal(t *testing.T) {
 		wantErr: "required field pb2.NestedWithRequired.req_string not set",
 	}, {
 		desc:         "indirect required field in oneof with AllowPartial",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{AllowPartial: true},
+		umo:          protojson.UnmarshalOptions{AllowPartial: true},
 		inputMessage: &pb2.IndirectRequired{},
 		inputText: `{
   "oneofNested": {}
@@ -1932,7 +1932,7 @@ func TestUnmarshal(t *testing.T) {
 		wantMessage:  &anypb.Any{TypeUrl: "foo/pb2.Nested"},
 	}, {
 		desc:         "Any without registered type",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{Resolver: new(protoregistry.Types)},
+		umo:          protojson.UnmarshalOptions{Resolver: new(protoregistry.Types)},
 		inputMessage: &anypb.Any{},
 		inputText:    `{"@type": "foo/pb2.Nested"}`,
 		wantErr:      `(line 1:11): unable to resolve "foo/pb2.Nested":`,
@@ -1961,7 +1961,7 @@ func TestUnmarshal(t *testing.T) {
 		}(),
 	}, {
 		desc: "Any with partial required and AllowPartial",
-		umo: temporalproto.CustomJSONUnmarshalOptions{
+		umo: protojson.UnmarshalOptions{
 			AllowPartial: true,
 		},
 		inputMessage: &anypb.Any{},
@@ -2156,7 +2156,7 @@ func TestUnmarshal(t *testing.T) {
 		}(),
 	}, {
 		desc:         "Any with missing @type",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{},
+		umo:          protojson.UnmarshalOptions{},
 		inputMessage: &anypb.Any{},
 		inputText: `{
   "value": {}
@@ -2285,7 +2285,7 @@ func TestUnmarshal(t *testing.T) {
 		},
 	}, {
 		desc:         "DiscardUnknown: regular messages",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo:          protojson.UnmarshalOptions{DiscardUnknown: true},
 		inputMessage: &pb3.Nests{},
 		inputText: `{
   "sNested": {
@@ -2299,7 +2299,7 @@ func TestUnmarshal(t *testing.T) {
 		wantMessage: &pb3.Nests{SNested: &pb3.Nested{}},
 	}, {
 		desc:         "DiscardUnknown: repeated",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo:          protojson.UnmarshalOptions{DiscardUnknown: true},
 		inputMessage: &pb2.Nests{},
 		inputText: `{
   "rptNested": [
@@ -2315,7 +2315,7 @@ func TestUnmarshal(t *testing.T) {
 		},
 	}, {
 		desc:         "DiscardUnknown: map",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo:          protojson.UnmarshalOptions{DiscardUnknown: true},
 		inputMessage: &pb3.Maps{},
 		inputText: `{
   "strToNested": {
@@ -2331,7 +2331,7 @@ func TestUnmarshal(t *testing.T) {
 		},
 	}, {
 		desc:         "DiscardUnknown: extension",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo:          protojson.UnmarshalOptions{DiscardUnknown: true},
 		inputMessage: &pb2.Extensions{},
 		inputText: `{
   "[pb2.opt_ext_nested]": {
@@ -2345,13 +2345,13 @@ func TestUnmarshal(t *testing.T) {
 		}(),
 	}, {
 		desc:         "DiscardUnknown: Empty",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo:          protojson.UnmarshalOptions{DiscardUnknown: true},
 		inputMessage: &emptypb.Empty{},
 		inputText:    `{"unknown": "something"}`,
 		wantMessage:  &emptypb.Empty{},
 	}, {
 		desc:         "DiscardUnknown: Any without type",
-		umo:          temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo:          protojson.UnmarshalOptions{DiscardUnknown: true},
 		inputMessage: &anypb.Any{},
 		inputText: `{
   "value": {"foo": "bar"},
@@ -2360,7 +2360,7 @@ func TestUnmarshal(t *testing.T) {
 		wantMessage: &anypb.Any{},
 	}, {
 		desc: "DiscardUnknown: Any",
-		umo: temporalproto.CustomJSONUnmarshalOptions{
+		umo: protojson.UnmarshalOptions{
 			DiscardUnknown: true,
 		},
 		inputMessage: &anypb.Any{},
@@ -2373,7 +2373,7 @@ func TestUnmarshal(t *testing.T) {
 		},
 	}, {
 		desc: "DiscardUnknown: Any with Empty",
-		umo: temporalproto.CustomJSONUnmarshalOptions{
+		umo: protojson.UnmarshalOptions{
 			DiscardUnknown: true,
 		},
 		inputMessage: &anypb.Any{},
@@ -2390,7 +2390,7 @@ func TestUnmarshal(t *testing.T) {
 		inputText: `{
   "sEnum": "UNNAMED"
 }`,
-		umo:         temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo:         protojson.UnmarshalOptions{DiscardUnknown: true},
 		wantMessage: &pb3.Enums{},
 	}, {
 		desc:         "DiscardUnknown: repeated enum unknown name",
@@ -2398,7 +2398,7 @@ func TestUnmarshal(t *testing.T) {
 		inputText: `{
   "rptEnum"      : ["TEN", 1, 42, "UNNAMED"]
 }`,
-		umo: temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo: protojson.UnmarshalOptions{DiscardUnknown: true},
 		wantMessage: &pb2.Enums{
 			RptEnum: []pb2.Enum{pb2.Enum_TEN, pb2.Enum_ONE, 42},
 		},
@@ -2413,7 +2413,7 @@ func TestUnmarshal(t *testing.T) {
 	"3": "UNNAMED"
   }
 }`,
-		umo: temporalproto.CustomJSONUnmarshalOptions{DiscardUnknown: true},
+		umo: protojson.UnmarshalOptions{DiscardUnknown: true},
 		wantMessage: &pb3.Maps{
 			Uint64ToEnum: map[uint64]pb3.Enum{
 				1:  pb3.Enum_ONE,

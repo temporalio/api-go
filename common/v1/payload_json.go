@@ -34,8 +34,8 @@ import (
 	"strconv"
 	"strings"
 
+	"go.temporal.io/api/internal/protojson"
 	"go.temporal.io/api/internal/protojson/json"
-	"go.temporal.io/api/temporalproto"
 	//	"google.golang.org/protobuf/encoding/protojson"
 )
 
@@ -45,10 +45,10 @@ const (
 	shorthandMessageTypeKey = "_protoMessageType"
 )
 
-var _ temporalproto.ProtoJSONMaybeMarshaler = (*Payload)(nil)
-var _ temporalproto.ProtoJSONMaybeMarshaler = (*Payloads)(nil)
-var _ temporalproto.ProtoJSONMaybeUnmarshaler = (*Payload)(nil)
-var _ temporalproto.ProtoJSONMaybeUnmarshaler = (*Payloads)(nil)
+var _ protojson.ProtoJSONMaybeMarshaler = (*Payload)(nil)
+var _ protojson.ProtoJSONMaybeMarshaler = (*Payloads)(nil)
+var _ protojson.ProtoJSONMaybeUnmarshaler = (*Payload)(nil)
+var _ protojson.ProtoJSONMaybeUnmarshaler = (*Payloads)(nil)
 
 // !!! This file is copied from internal/temporalcommonv1 to common/v1.
 // !!! DO NOT EDIT at common/v1/payload_json.go.
