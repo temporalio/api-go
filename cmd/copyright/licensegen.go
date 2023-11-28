@@ -52,11 +52,9 @@ type (
 // licenseFileName is the name of the license file
 const licenseFileName = "LICENSE"
 
-// unique prefix that identifies a license header
-var licenseRgx = regexp.MustCompile("^//")
-
-const licenseHeaderPrefix = "// The MIT License"
-const goLicensePrefix = "// Copyright"
+// unique prefix that identifies a license header. It matches both our
+// MIT license and the BSD_style license of the vendored Go code
+var licenseRgx = regexp.MustCompile("^// (Copyright|The MIT License)")
 
 var (
 	// directories to be excluded
