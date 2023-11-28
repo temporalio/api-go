@@ -45,12 +45,6 @@ const (
 	shorthandMessageTypeKey = "_protoMessageType"
 )
 
-var logfunc func(msg string, args ...any) (int, error) = fmt.Printf
-
-func SetLogfunc(f func(msg string, args ...any) (int, error)) {
-	logfunc = f
-}
-
 var _ temporalproto.JSONPBMaybeMarshaler = (*Payload)(nil)
 var _ temporalproto.JSONPBMaybeMarshaler = (*Payloads)(nil)
 var _ temporalproto.JSONPBMaybeUnmarshaler = (*Payload)(nil)
@@ -450,7 +444,6 @@ func unmarshalMap(dec *json.Decoder, out map[string]interface{}) error {
 			return nil
 		case json.Name:
 			key := tok.Name()
-			logfunc("unmarshal map value for key %q", key)
 			tok, err = dec.Read()
 			if err != nil {
 				return fmt.Errorf("unexpected error unmarshalling value for map key %q: %w", key, err)
@@ -519,7 +512,6 @@ func (p *Payload) unmarshalPayload(valueMap map[string]interface{}) bool {
 		return false
 	}
 
-	logfunc("reencoded data bytes %v", ds)
 	dataBytes, ok := unmarshalBytes(ds)
 	if !ok {
 		return false
@@ -563,7 +555,6 @@ func (p *Payload) fromJSONMaybeShorthand(dec *json.Decoder) error {
 	default:
 		// take it as-is
 		p.Metadata = map[string][]byte{"encoding": []byte("json/plain")}
-		logfunc("reencoded %T %v", val, val)
 		p.Data, err = gojson.Marshal(val)
 		return err
 	case nil:
@@ -592,7 +583,6 @@ func (p *Payload) fromJSONMaybeShorthand(dec *json.Decoder) error {
 			// did not have same field order), but that is acceptable when going
 			// from shorthand to non-shorthand.
 			p.Data, _ = gojson.Marshal(tv)
-			logfunc("reencoded %v", tv)
 			p.Metadata = map[string][]byte{
 				"encoding":    []byte("json/protobuf"),
 				"messageType": []byte(msgType),
@@ -600,7 +590,6 @@ func (p *Payload) fromJSONMaybeShorthand(dec *json.Decoder) error {
 		} else {
 			p.Metadata = map[string][]byte{"encoding": []byte("json/plain")}
 			p.Data, err = gojson.Marshal(val)
-			logfunc("reencoded %v", val)
 			return err
 		}
 		return nil

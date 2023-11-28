@@ -503,12 +503,6 @@ func unmarshalBytes(tok json.Token) (protoreflect.Value, bool) {
 	return protoreflect.ValueOfBytes(b), true
 }
 
-var logfunc func(msg string, args ...any) (int, error) = fmt.Printf
-
-func SetLogfunc(f func(msg string, args ...any) (int, error)) {
-	logfunc = f
-}
-
 func unmarshalEnum(tok json.Token, fd protoreflect.FieldDescriptor, discardUnknown bool) (protoreflect.Value, bool) {
 	switch tok.Kind() {
 	case json.String:
