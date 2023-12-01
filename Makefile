@@ -24,7 +24,6 @@ COLOR := "\e[1;36m%s\e[0m\n"
 PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
-HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 PROTO_FILES = $(shell find $(PROTO_ROOT)/temporal -name "*.proto")
 PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
 PROTO_ENUMS := $(shell grep -R '^enum ' $(PROTO_ROOT) | cut -d ' ' -f2)
@@ -41,26 +40,29 @@ update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
 	git submodule update --init --force --remote $(PROTO_ROOT)
 
-
 ##### Compile proto files for go #####
-grpc: go-grpc fix-path fix-enums fix-enum-string copy-helpers
+grpc: go-grpc copy-helpers
 
 # Only install helper when its source has changed
+HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 .go-helpers-installed: $(HELPER_FILES)
 	printf $(COLOR) "Installing protoc plugin"
 	@go install ./cmd/protoc-gen-go-helpers
+	@touch $@
 
 go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
-	$(foreach PROTO_DIR,$(PROTO_DIRS),\
-		protoc --fatal_warnings $(PROTO_IMPORTS) \
-		 	--go_out=$(PROTO_PATHS) \
-			--go-grpc_out=$(PROTO_PATHS) \
-            --grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
-			--go-helpers_out=$(PROTO_PATHS) \
-			$(PROTO_DIR)*.proto;)
+	(cd cmd/protogen && go install .)
+	protogen \
+		--root=$(PROTO_ROOT) \
+		--output=$(PROTO_OUT) \
+		--exclude=internal \
+		--exclude=proto/api/google \
+		-I $(PROTO_ROOT) \
+		-p go-grpc_out=$(PROTO_PATHS) \
+		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
+		-p go-helpers_out=$(PROTO_PATHS)
 
-fix-path: go-grpc
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
 # Copy the payload helpers
@@ -68,20 +70,6 @@ copy-helpers:
 	chmod +w $(PROTO_OUT)/common/v1/payload_json.go 2>/dev/null || true
 	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
 	chmod -w $(PROTO_OUT)/common/v1/payload_json.go
-
-# The generated enums are go are just plain terrible, so we fix them
-# by removing the typename prefixes. We already made good choices with our enum
-# names, so this shouldn't be an issue
-fix-enums: fix-path
-	printf $(COLOR) "Fixing enum naming..."
-	$(foreach PROTO_ENUM,$(PROTO_ENUMS),\
-      $(shell grep -Rl "$(PROTO_ENUM)" $(PROTO_OUT) | grep -E "\.go" | xargs -P 8 sed -i "" -e "s/$(PROTO_ENUM)_\(.*\) $(PROTO_ENUM)/\1 $(PROTO_ENUM)/g;s/\.$(PROTO_ENUM)_\(.*\)/.\1/g"))
-
-# We rely on the old temporal CamelCase JSON enums for presentation, so we rewrite the String method
-# on all generated enums
-fix-enum-string: fix-enums
-	printf $(COLOR) "Rewriting enum String methods"
-	$(shell find . -name "*.pb.go" | xargs go run ./cmd/enumrewriter/main.go -- )
 
 # All generated service files pathes relative to PROTO_OUT.
 PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service_grpc.pb.go"))
