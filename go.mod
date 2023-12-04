@@ -27,4 +27,5 @@ require (
 
 retract (
     v1.26.1 // Published prematurely
+    v1.26.2 // Contains retractions only.
 )
