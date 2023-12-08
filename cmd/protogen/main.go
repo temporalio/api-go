@@ -70,6 +70,10 @@ type genConfig struct {
 	includes    []string
 	plugins     []string
 	enums       map[string]string
+	// Post-processors
+	rewriteString bool
+	rewriteEnums  bool
+	stripVersions bool
 }
 
 // walkExtension walks the directory starting from root and calls the provided callback on all files that
@@ -218,11 +222,22 @@ func rewriteFile(fileName string, postProcessors ...postProcessor) error {
 
 // Post-process generated protobuf go files for useability
 func postProcess(ctx context.Context, eg *errgroup.Group, cfg genConfig) error {
+	if !cfg.rewriteEnums && !cfg.rewriteString && !cfg.stripVersions {
+		// nothing to do
+		return nil
+	}
 	return walkExtension(ctx, cfg.outputDir, ".pb.go", cfg.excludeDirs, func(path string) error {
-		return rewriteFile(path,
-			version.NewRemover(),
-			enum.NewConstRewriter(cfg.enums),
-			enum.NewStringRewriter())
+		var postProcessors []postProcessor
+		if cfg.rewriteEnums {
+			postProcessors = append(postProcessors, enum.NewConstRewriter(cfg.enums))
+		}
+		if cfg.rewriteString {
+			postProcessors = append(postProcessors, enum.NewStringRewriter())
+		}
+		if cfg.stripVersions {
+			postProcessors = append(postProcessors, version.NewRemover())
+		}
+		return rewriteFile(path, postProcessors...)
 	})
 }
 
@@ -272,6 +287,7 @@ func sliceContains[S ~[]E, E comparable](haystack S, needle E) bool {
 func main() {
 	var protoRootDir, outputDir, enumPrefixPairs string
 	var protoPlugins, protoIncludes, excludeDirs stringArr
+	var noRewriteString, noRewriteEnum, noStripVersion bool
 	var concurrency int
 	flag.StringVar(&protoRootDir, "root", "proto", "Root directory containing the protos to generate code for")
 	flag.StringVar(&outputDir, "output", "api", "Base directory in which to output generated proto files")
@@ -281,6 +297,9 @@ func main() {
 	flag.StringVar(&enumPrefixPairs, "rewrite-enum", "",
 		"Comma-separated list of additional EnumType:CodePrefix pairs to remove when rewriting golang enums. Example: BuildId_State:BuildId")
 	flag.IntVar(&concurrency, "concurrency", 0, "Maximum number of goroutines to run. Defaults to 0, meaning unlimited")
+	flag.BoolVar(&noRewriteEnum, "no-rewrite-enum-const", false, "Don't rewrite enum constants")
+	flag.BoolVar(&noRewriteString, "no-rewrite-enum-string", false, "Don't rewrite enum String methods")
+	flag.BoolVar(&noStripVersion, "no-strip-version", false, "Don't remove protoc plugin versions from generated files")
 	flag.Parse()
 
 	if protoRootDir == "" {
@@ -310,12 +329,15 @@ func main() {
 		}
 	}
 	err := compileProtos(ctx, genConfig{
-		rootDir:     protoRootDir,
-		outputDir:   outputDir,
-		excludeDirs: excludeDirs,
-		includes:    protoIncludes,
-		plugins:     protoPlugins,
-		enums:       enums,
+		rootDir:       protoRootDir,
+		outputDir:     outputDir,
+		excludeDirs:   excludeDirs,
+		includes:      protoIncludes,
+		plugins:       protoPlugins,
+		enums:         enums,
+		rewriteString: !noRewriteString,
+		rewriteEnums:  !noRewriteEnum,
+		stripVersions: !noStripVersion,
 	})
 	if err != nil {
 		fail(err.Error())
