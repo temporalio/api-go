@@ -1,7 +1,10 @@
+### Protogen
 
-### Enum Rewriter
+We put in a lot of work to post-process the protobuf-generated files to meet our needs. This tool amalgamates all of that so we don't need to keep our various makefiles in sync.
 
-This tool exists to rewrite the `String()` methods of all proto-generated enums to be compatible with temporal's current CLI, UI, etc APIs. It walks the AST of generated files and replaces the contents of all String() methods define on enumerated types with a switch statement returning a "shorthand" value: given an enum like `ENCODING_TYPE_PROTO3` this will rewrite the string method to return `Proto3`.
+This includes:
+- rewriting generated `String()` methods for enums to be compatible with our old protos
+- rewriting generated enums constants to remove the typename prefix that google/protobuf adds
 
 ### protoc-gen-go-helpers
 
