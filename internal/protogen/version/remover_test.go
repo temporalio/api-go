@@ -30,7 +30,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"go.temporal.io/api/cmd/protogen/internal/version"
+	"go.temporal.io/api/internal/protogen/version"
 )
 
 const given = `// Blah blah MIT License

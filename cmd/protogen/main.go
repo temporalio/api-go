@@ -41,10 +41,10 @@ import (
 	"slices"
 	"strings"
 
-	"golang.org/x/sync/errgroup"
+	"go.temporal.io/api/internal/errgroup"
 
-	"go.temporal.io/api/cmd/protogen/internal/enum"
-	"go.temporal.io/api/cmd/protogen/internal/version"
+	"go.temporal.io/api/internal/protogen/enum"
+	"go.temporal.io/api/internal/protogen/version"
 )
 
 var enumRgx = regexp.MustCompile(`^enum\s+(\w+)`)
