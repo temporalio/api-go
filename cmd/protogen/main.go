@@ -41,9 +41,6 @@ import (
 	"strings"
 
 	"go.temporal.io/api/internal/errgroup"
-
-	"go.temporal.io/api/internal/protogen/enum"
-	"go.temporal.io/api/internal/protogen/version"
 )
 
 var enumRgx = regexp.MustCompile(`^enum\s+(\w+)`)
@@ -229,13 +226,13 @@ func postProcess(ctx context.Context, eg *errgroup.Group, cfg genConfig) error {
 	return walkExtension(ctx, cfg.outputDir, ".pb.go", cfg.excludeDirs, func(path string) error {
 		var postProcessors []postProcessor
 		if cfg.rewriteEnums {
-			postProcessors = append(postProcessors, enum.NewConstRewriter(cfg.enums))
+			postProcessors = append(postProcessors, NewConstRewriter(cfg.enums))
 		}
 		if cfg.rewriteString {
-			postProcessors = append(postProcessors, enum.NewStringRewriter())
+			postProcessors = append(postProcessors, NewStringRewriter())
 		}
 		if cfg.stripVersions {
-			postProcessors = append(postProcessors, version.NewRemover())
+			postProcessors = append(postProcessors, NewVersionRemover())
 		}
 		return rewriteFile(path, postProcessors...)
 	})

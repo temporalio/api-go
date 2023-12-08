@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package enum_test
+package main_test
 
 import (
 	"go/format"
@@ -30,7 +30,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"go.temporal.io/api/internal/protogen/enum"
+	protogen "go.temporal.io/api/cmd/protogen"
 )
 
 const given = `package persistence
@@ -139,7 +139,7 @@ func TestRewriteConstEnums(t *testing.T) {
 		t.FailNow()
 	}
 
-	cr := enum.NewConstRewriter(map[string]string{
+	cr := protogen.NewConstRewriter(map[string]string{
 		// Add a single special case. EncodingType should be discovered
 		// by the tool itself
 		"BuildId_State": "BuildId",

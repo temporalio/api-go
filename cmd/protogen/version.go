@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package version
+package main
 
 import (
 	"go/ast"
@@ -35,7 +35,7 @@ var rgx = regexp.MustCompile(`(//\s+(- )?protoc[-\w]*\s+)([\w.]+)`)
 // comments added by protoc that contain plugin versions.
 // Our CI servers may run a different version of protoc than our local boxes
 // (alpine is woefully out of date) and we don't want that to fail our buids.
-func NewRemover() versionRemover {
+func NewVersionRemover() versionRemover {
 	return versionRemover{}
 }
 

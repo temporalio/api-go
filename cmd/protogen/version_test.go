@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package version_test
+package main_test
 
 import (
 	"go/format"
@@ -30,7 +30,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"go.temporal.io/api/internal/protogen/version"
+	protogen "go.temporal.io/api/cmd/protogen"
 )
 
 const given = `// Blah blah MIT License
@@ -85,7 +85,7 @@ func TestVersionRemover(t *testing.T) {
 		t.FailNow()
 	}
 
-	cr := version.NewRemover()
+	cr := protogen.NewVersionRemover()
 	cr.Process(f)
 
 	var b strings.Builder
