@@ -183,7 +183,7 @@ func runProtoc(ctx context.Context, eg *errgroup.Group, cfg genConfig, protoDirs
 					return err
 				}
 				stderrstr := strings.TrimSpace(stderr.String())
-				return fmt.Errorf("failed to run `protoc %s`: %w\n", strings.Join(args, " "), err, stderrstr)
+				return fmt.Errorf("failed to run `protoc %s`: %w\n%s", strings.Join(args, " "), err, stderrstr)
 			}
 			return nil
 		})

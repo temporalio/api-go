@@ -29,7 +29,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
+	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/cmd/protogen/internal/enum"
 )
 
@@ -106,7 +106,5 @@ func TestRewriteStringMethods(t *testing.T) {
 		t.Errorf("Failed to format AST: %s", err)
 		t.FailNow()
 	}
-	if diff := cmp.Diff(stringSwitchStmt, b.String()); diff != "" {
-		t.Errorf("Process() mismatch: (-want, +got)\n%s", diff)
-	}
+	require.Equal(t, stringSwitchStmt, b.String())
 }
