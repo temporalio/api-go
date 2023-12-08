@@ -39,8 +39,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-
-	"go.temporal.io/api/internal/errgroup"
 )
 
 var enumRgx = regexp.MustCompile(`^enum\s+(\w+)`)
@@ -100,94 +98,72 @@ func walkExtension(ctx context.Context, root string, extension string, exclusion
 
 // Walk the file tree and collect all enum definitions we find
 // so we can post-process the go code we're generating
-func findEnums(ctx context.Context, eg *errgroup.Group, cfg genConfig, dirs chan<- string) []string {
+func findEnums(ctx context.Context, cfg genConfig) ([]string, []string, error) {
 	seen := map[string]struct{}{}
 	var enums []string
-	enumsFound := make(chan string)
-	eg.Go(func() error {
-		defer close(enumsFound)
-		defer close(dirs)
-		return walkExtension(ctx, cfg.rootDir, ".proto", cfg.excludeDirs, func(path string) error {
-			// Emit unique directories containing proto files
-			dir := filepath.Dir(path)
-			if _, ok := seen[dir]; !ok {
-				seen[dir] = struct{}{}
-				select {
-				case dirs <- dir:
-				case <-ctx.Done():
-					return ctx.Err()
-				}
-			}
+	var dirs []string
+	err := walkExtension(ctx, cfg.rootDir, ".proto", cfg.excludeDirs, func(path string) error {
+		// Emit unique directories containing proto files
+		dir := filepath.Dir(path)
+		if _, ok := seen[dir]; !ok {
+			seen[dir] = struct{}{}
+			dirs = append(dirs, dir)
+		}
 
-			// process the file and find enums, placing them in the enum channel
-			eg.Go(func() error {
-				// There isn't a good way to iteratively find matches using an io.Reader
-				// so we need to pull the whole thing into memory. We could do it line by line
-				// but I doubt this will take enough memory to matter
-				bs, err := os.ReadFile(path)
-				if err != nil {
-					return err
-				}
-				matches := enumRgx.FindAllStringSubmatch(string(bs), -1)
-				for i := 0; i < len(matches); i++ {
-					// group 0 is the full match, group 1 has the enum's name
-					select {
-					case <-ctx.Done():
-						return ctx.Err()
-					case enumsFound <- matches[i][1]:
-					}
-				}
-				return nil
-			})
-			return nil
-		})
+		// There isn't a good way to iteratively find matches using an io.Reader
+		// so we need to pull the whole thing into memory. We could do it line by line
+		// but I doubt this will take enough memory to matter
+		bs, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		matches := enumRgx.FindAllStringSubmatch(string(bs), -1)
+		for i := 0; i < len(matches); i++ {
+			enums = append(enums, matches[i][1])
+		}
+		return nil
 	})
-	for enum := range enumsFound {
-		enums = append(enums, enum)
-	}
-	return enums
+	return enums, dirs, err
 }
 
 // Run protoc in parallel on all proto dirs we discover under the root directory
 // It returns the list of unique directories contai
-func runProtoc(ctx context.Context, eg *errgroup.Group, cfg genConfig, protoDirs <-chan string) {
-	for dir := range protoDirs {
-		dir := dir
+func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
+	for i := 0; i < len(protoDirs); i++ {
+		dir := protoDirs[i]
 		// Run protoc on each directory individually
-		eg.Go(func() error {
-			args := []string{
-				"--fatal_warnings",
-				fmt.Sprintf("--go_out=paths=source_relative:%s", cfg.outputDir),
-			}
-			for _, include := range cfg.includes {
-				args = append(args, fmt.Sprintf("-I=%s", include))
-			}
+		args := []string{
+			"--fatal_warnings",
+			fmt.Sprintf("--go_out=paths=source_relative:%s", cfg.outputDir),
+		}
+		for _, include := range cfg.includes {
+			args = append(args, fmt.Sprintf("-I=%s", include))
+		}
 
-			// If we need more complex plugin handling, such as per-plugin options, we can add that later.
-			// For now we use the same args everywhere
-			for _, plugin := range cfg.plugins {
-				args = append(args, fmt.Sprintf("--%s", plugin))
-			}
-			files, err := filepath.Glob(filepath.Join(dir, "*"))
-			if err != nil {
+		// If we need more complex plugin handling, such as per-plugin options, we can add that later.
+		// For now we use the same args everywhere
+		for _, plugin := range cfg.plugins {
+			args = append(args, fmt.Sprintf("--%s", plugin))
+		}
+		files, err := filepath.Glob(filepath.Join(dir, "*"))
+		if err != nil {
+			return err
+		}
+		args = append(args, files...)
+
+		var stderr bytes.Buffer
+		protoc := exec.CommandContext(ctx, "protoc", args...)
+		protoc.Stderr = &stderr
+		protoc.Stdout = os.Stdout
+		if err := protoc.Run(); err != nil {
+			if errors.Is(err, context.Canceled) {
 				return err
 			}
-			args = append(args, files...)
-
-			var stderr bytes.Buffer
-			protoc := exec.CommandContext(ctx, "protoc", args...)
-			protoc.Stderr = &stderr
-			protoc.Stdout = os.Stdout
-			if err := protoc.Run(); err != nil {
-				if errors.Is(err, context.Canceled) {
-					return err
-				}
-				stderrstr := strings.TrimSpace(stderr.String())
-				return fmt.Errorf("failed to run `protoc %s`: %w\n%s", strings.Join(args, " "), err, stderrstr)
-			}
-			return nil
-		})
+			stderrstr := strings.TrimSpace(stderr.String())
+			return fmt.Errorf("failed to run `protoc %s`: %w\n%s", strings.Join(args, " "), err, stderrstr)
+		}
 	}
+	return nil
 }
 
 func rewriteFile(fileName string, postProcessors ...postProcessor) error {
@@ -218,7 +194,7 @@ func rewriteFile(fileName string, postProcessors ...postProcessor) error {
 }
 
 // Post-process generated protobuf go files for useability
-func postProcess(ctx context.Context, eg *errgroup.Group, cfg genConfig) error {
+func postProcess(ctx context.Context, cfg genConfig) error {
 	if !cfg.rewriteEnums && !cfg.rewriteString && !cfg.stripVersions {
 		// nothing to do
 		return nil
@@ -239,20 +215,12 @@ func postProcess(ctx context.Context, eg *errgroup.Group, cfg genConfig) error {
 }
 
 func compileProtos(ctx context.Context, cfg genConfig) error {
-	eg, ectx := errgroup.WithContext(ctx)
-	var enums []string
-	dirCh := make(chan string)
-	eg.Go(func() error {
-		enums = findEnums(ctx, eg, cfg, dirCh)
-		return nil
-	})
+	enums, dirs, err := findEnums(ctx, cfg)
+	if err != nil {
+		return err
+	}
 
-	eg.Go(func() error {
-		runProtoc(ectx, eg, cfg, dirCh)
-		return nil
-	})
-
-	if err := eg.Wait(); err != nil {
+	if err := runProtoc(ctx, cfg, dirs); err != nil {
 		return err
 	}
 
@@ -263,7 +231,7 @@ func compileProtos(ctx context.Context, cfg genConfig) error {
 			cfg.enums[e] = e
 		}
 	}
-	return postProcess(ctx, eg, cfg)
+	return postProcess(ctx, cfg)
 }
 
 func fail(msg string, args ...any) {
@@ -297,6 +265,7 @@ func main() {
 	flag.BoolVar(&noRewriteEnum, "no-rewrite-enum-const", false, "Don't rewrite enum constants")
 	flag.BoolVar(&noRewriteString, "no-rewrite-enum-string", false, "Don't rewrite enum String methods")
 	flag.BoolVar(&noStripVersion, "no-strip-version", false, "Don't remove protoc plugin versions from generated files")
+
 	flag.Parse()
 
 	if protoRootDir == "" {
