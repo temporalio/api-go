@@ -38,7 +38,6 @@ import (
 	"os/signal"
 	"path/filepath"
 	"regexp"
-	"slices"
 	"strings"
 
 	"go.temporal.io/api/internal/errgroup"
@@ -260,6 +259,16 @@ func fail(msg string, args ...any) {
 	os.Exit(1)
 }
 
+// Contains reports whether v is present in s.
+func sliceContains[S ~[]E, E comparable](haystack S, needle E) bool {
+	for i := 0; i < len(haystack); i++ {
+		if needle == haystack[i] {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	var protoRootDir, outputDir, enumPrefixPairs string
 	var protoPlugins, protoIncludes, excludeDirs stringArr
@@ -282,7 +291,7 @@ func main() {
 	}
 
 	// Always include the root dir
-	if !slices.Contains(protoIncludes, protoRootDir) {
+	if !sliceContains(protoIncludes, protoRootDir) {
 		protoIncludes = append(protoIncludes, protoRootDir)
 	}
 	// Cancel everything if we receive SIGINT or SIGSTOP
