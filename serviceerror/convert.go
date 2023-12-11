@@ -43,7 +43,7 @@ func ToStatus(err error) *status.Status {
 		return svcerr.Status()
 	}
 	// err does not implement ServiceError directly, but check if it wraps it.
-	// This path does more copying so prefer to return a ServiceError directly if possible.
+	// This path does more allocation so prefer to return a ServiceError directly if possible.
 	var svcerr ServiceError
 	if errors.As(err, &svcerr) {
 		s := svcerr.Status().Proto()
