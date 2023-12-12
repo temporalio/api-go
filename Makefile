@@ -38,7 +38,7 @@ $(PROTO_OUT):
 ##### git submodule for proto files #####
 update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
-	git submodule update --init --force --remote $(PROTO_ROOT)
+	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_ROOT)
 
 ##### Compile proto files for go #####
 grpc: go-grpc copy-helpers
