@@ -42,6 +42,14 @@ func ToStatus(err error) *status.Status {
 	if svcerr, ok := err.(ServiceError); ok {
 		return svcerr.Status()
 	}
+	// err does not implement ServiceError directly, but check if it wraps it.
+	// This path does more allocation so prefer to return a ServiceError directly if possible.
+	var svcerr ServiceError
+	if errors.As(err, &svcerr) {
+		s := svcerr.Status().Proto()
+		s.Message = err.Error() // don't lose the wrapped message
+		return status.FromProto(s)
+	}
 
 	// Special case for context.DeadlineExceeded and context.Canceled because they can happen in unpredictable places.
 	if errors.Is(err, context.DeadlineExceeded) {

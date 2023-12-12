@@ -24,6 +24,7 @@ package serviceerror_test
 
 import (
 	"errors"
+	"fmt"
 	"testing"
 	"time"
 
@@ -31,6 +32,7 @@ import (
 	rpc "google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/anypb"
 	"google.golang.org/protobuf/types/known/durationpb"
 
@@ -94,4 +96,18 @@ func TestToStatus_NotServiceError(t *testing.T) {
 	require.Equal(t, codes.Unknown, st1.Code())
 	require.Equal(t, "some error", st1.Message())
 	require.Len(t, st1.Details(), 0)
+}
+
+func TestFromWrapped(t *testing.T) {
+	err := &serviceerror.PermissionDenied{
+		Message: "x is not allowed",
+		Reason:  "arbitrary reason",
+	}
+	wrapped := fmt.Errorf("wrapped error: %w", err)
+	s := serviceerror.ToStatus(wrapped)
+	require.Equal(t, codes.PermissionDenied, s.Code())
+	require.Equal(t, "wrapped error: x is not allowed", s.Message())
+	require.True(t, proto.Equal(
+		&errordetails.PermissionDeniedFailure{Reason: "arbitrary reason"},
+		s.Details()[0].(*errordetails.PermissionDeniedFailure)))
 }
