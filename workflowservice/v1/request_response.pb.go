@@ -7462,6 +7462,371 @@ func (x *GetWorkerBuildIdCompatibilityResponse) GetMajorVersionSets() []*v14.Com
 	return nil
 }
 
+// (-- api-linter: core::0134::request-mask-required=disabled
+//
+//	aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
+//
+// (-- api-linter: core::0134::request-resource-required=disabled
+//
+//	aip.dev/not-precedent: GetWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
+type UpdateWorkerVersioningRulesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	// This can be the value of conflict_token from the previous
+	// ListWorkerVersioningRulesResponse or UpdateWorkerVersioningRulesResponse
+	// which will cause this request to fail if the rules have been modified
+	// for this Task Queue between the previous and current operation.
+	// If missing, the rules will be updated unconditionally.
+	ConflictToken []byte `protobuf:"bytes,3,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
+	// Types that are assignable to Operation:
+	//
+	//	*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule
+	//	*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule
+	//	*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule
+	//	*UpdateWorkerVersioningRulesRequest_InsertCompatibleRedirectRule
+	//	*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule
+	//	*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule
+	//	*UpdateWorkerVersioningRulesRequest_CommitBuildId_
+	Operation isUpdateWorkerVersioningRulesRequest_Operation `protobuf_oneof:"operation"`
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) Reset() {
+	*x = UpdateWorkerVersioningRulesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesRequest) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesRequest.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetTaskQueue() string {
+	if x != nil {
+		return x.TaskQueue
+	}
+	return ""
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetConflictToken() []byte {
+	if x != nil {
+		return x.ConflictToken
+	}
+	return nil
+}
+
+func (m *UpdateWorkerVersioningRulesRequest) GetOperation() isUpdateWorkerVersioningRulesRequest_Operation {
+	if m != nil {
+		return m.Operation
+	}
+	return nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetInsertAssignmentRule() *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule {
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule); ok {
+		return x.InsertAssignmentRule
+	}
+	return nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetReplaceAssignmentRule() *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule {
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule); ok {
+		return x.ReplaceAssignmentRule
+	}
+	return nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetDeleteAssignmentRule() *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule {
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule); ok {
+		return x.DeleteAssignmentRule
+	}
+	return nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetInsertCompatibleRedirectRule() *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule {
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_InsertCompatibleRedirectRule); ok {
+		return x.InsertCompatibleRedirectRule
+	}
+	return nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetReplaceCompatibleRedirectRule() *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule {
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule); ok {
+		return x.ReplaceCompatibleRedirectRule
+	}
+	return nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetDeleteCompatibleRedirectRule() *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule {
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule); ok {
+		return x.DeleteCompatibleRedirectRule
+	}
+	return nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) GetCommitBuildId() *UpdateWorkerVersioningRulesRequest_CommitBuildId {
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_CommitBuildId_); ok {
+		return x.CommitBuildId
+	}
+	return nil
+}
+
+type isUpdateWorkerVersioningRulesRequest_Operation interface {
+	isUpdateWorkerVersioningRulesRequest_Operation()
+}
+
+type UpdateWorkerVersioningRulesRequest_InsertAssignmentRule struct {
+	InsertAssignmentRule *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule `protobuf:"bytes,4,opt,name=insert_assignment_rule,json=insertAssignmentRule,proto3,oneof"`
+}
+
+type UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule struct {
+	ReplaceAssignmentRule *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule `protobuf:"bytes,5,opt,name=replace_assignment_rule,json=replaceAssignmentRule,proto3,oneof"`
+}
+
+type UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule struct {
+	DeleteAssignmentRule *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule `protobuf:"bytes,6,opt,name=delete_assignment_rule,json=deleteAssignmentRule,proto3,oneof"`
+}
+
+type UpdateWorkerVersioningRulesRequest_InsertCompatibleRedirectRule struct {
+	InsertCompatibleRedirectRule *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule `protobuf:"bytes,7,opt,name=insert_compatible_redirect_rule,json=insertCompatibleRedirectRule,proto3,oneof"`
+}
+
+type UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule struct {
+	ReplaceCompatibleRedirectRule *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule `protobuf:"bytes,8,opt,name=replace_compatible_redirect_rule,json=replaceCompatibleRedirectRule,proto3,oneof"`
+}
+
+type UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule struct {
+	DeleteCompatibleRedirectRule *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule `protobuf:"bytes,9,opt,name=delete_compatible_redirect_rule,json=deleteCompatibleRedirectRule,proto3,oneof"`
+}
+
+type UpdateWorkerVersioningRulesRequest_CommitBuildId_ struct {
+	CommitBuildId *UpdateWorkerVersioningRulesRequest_CommitBuildId `protobuf:"bytes,10,opt,name=commit_build_id,json=commitBuildId,proto3,oneof"`
+}
+
+func (*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule) isUpdateWorkerVersioningRulesRequest_Operation() {
+}
+
+func (*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule) isUpdateWorkerVersioningRulesRequest_Operation() {
+}
+
+func (*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule) isUpdateWorkerVersioningRulesRequest_Operation() {
+}
+
+func (*UpdateWorkerVersioningRulesRequest_InsertCompatibleRedirectRule) isUpdateWorkerVersioningRulesRequest_Operation() {
+}
+
+func (*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule) isUpdateWorkerVersioningRulesRequest_Operation() {
+}
+
+func (*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule) isUpdateWorkerVersioningRulesRequest_Operation() {
+}
+
+func (*UpdateWorkerVersioningRulesRequest_CommitBuildId_) isUpdateWorkerVersioningRulesRequest_Operation() {
+}
+
+type UpdateWorkerVersioningRulesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// This value can be passed back to UpdateWorkerVersioningRulesRequest to
+	// ensure that the rules were not modified between the two updates, which
+	// could lead to lost updates and other confusion.
+	ConflictToken []byte `protobuf:"bytes,1,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
+}
+
+func (x *UpdateWorkerVersioningRulesResponse) Reset() {
+	*x = UpdateWorkerVersioningRulesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[101]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesResponse) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[101]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesResponse.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{101}
+}
+
+func (x *UpdateWorkerVersioningRulesResponse) GetConflictToken() []byte {
+	if x != nil {
+		return x.ConflictToken
+	}
+	return nil
+}
+
+type ListWorkerVersioningRulesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+}
+
+func (x *ListWorkerVersioningRulesRequest) Reset() {
+	*x = ListWorkerVersioningRulesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[102]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListWorkerVersioningRulesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListWorkerVersioningRulesRequest) ProtoMessage() {}
+
+func (x *ListWorkerVersioningRulesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[102]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListWorkerVersioningRulesRequest.ProtoReflect.Descriptor instead.
+func (*ListWorkerVersioningRulesRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102}
+}
+
+func (x *ListWorkerVersioningRulesRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *ListWorkerVersioningRulesRequest) GetTaskQueue() string {
+	if x != nil {
+		return x.TaskQueue
+	}
+	return ""
+}
+
+type ListWorkerVersioningRulesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AssignmentRules         []*v14.BuildIdAssignmentRule         `protobuf:"bytes,1,rep,name=assignment_rules,json=assignmentRules,proto3" json:"assignment_rules,omitempty"`
+	CompatibleRedirectRules []*v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,2,rep,name=compatible_redirect_rules,json=compatibleRedirectRules,proto3" json:"compatible_redirect_rules,omitempty"`
+	// This value can be passed back to UpdateWorkerVersioningRulesRequest to
+	// ensure that the rules were not modified between this List and the Update,
+	// which could lead to lost updates and other confusion.
+	ConflictToken []byte `protobuf:"bytes,3,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
+}
+
+func (x *ListWorkerVersioningRulesResponse) Reset() {
+	*x = ListWorkerVersioningRulesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[103]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ListWorkerVersioningRulesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListWorkerVersioningRulesResponse) ProtoMessage() {}
+
+func (x *ListWorkerVersioningRulesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[103]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListWorkerVersioningRulesResponse.ProtoReflect.Descriptor instead.
+func (*ListWorkerVersioningRulesResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{103}
+}
+
+func (x *ListWorkerVersioningRulesResponse) GetAssignmentRules() []*v14.BuildIdAssignmentRule {
+	if x != nil {
+		return x.AssignmentRules
+	}
+	return nil
+}
+
+func (x *ListWorkerVersioningRulesResponse) GetCompatibleRedirectRules() []*v14.CompatibleBuildIdRedirectRule {
+	if x != nil {
+		return x.CompatibleRedirectRules
+	}
+	return nil
+}
+
+func (x *ListWorkerVersioningRulesResponse) GetConflictToken() []byte {
+	if x != nil {
+		return x.ConflictToken
+	}
+	return nil
+}
+
 type GetWorkerTaskReachabilityRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -7491,7 +7856,7 @@ type GetWorkerTaskReachabilityRequest struct {
 func (x *GetWorkerTaskReachabilityRequest) Reset() {
 	*x = GetWorkerTaskReachabilityRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[104]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -7504,7 +7869,7 @@ func (x *GetWorkerTaskReachabilityRequest) String() string {
 func (*GetWorkerTaskReachabilityRequest) ProtoMessage() {}
 
 func (x *GetWorkerTaskReachabilityRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[104]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7517,7 +7882,7 @@ func (x *GetWorkerTaskReachabilityRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWorkerTaskReachabilityRequest.ProtoReflect.Descriptor instead.
 func (*GetWorkerTaskReachabilityRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{104}
 }
 
 func (x *GetWorkerTaskReachabilityRequest) GetNamespace() string {
@@ -7568,7 +7933,7 @@ type GetWorkerTaskReachabilityResponse struct {
 func (x *GetWorkerTaskReachabilityResponse) Reset() {
 	*x = GetWorkerTaskReachabilityResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[101]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[105]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -7581,7 +7946,7 @@ func (x *GetWorkerTaskReachabilityResponse) String() string {
 func (*GetWorkerTaskReachabilityResponse) ProtoMessage() {}
 
 func (x *GetWorkerTaskReachabilityResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[101]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[105]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7594,7 +7959,7 @@ func (x *GetWorkerTaskReachabilityResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use GetWorkerTaskReachabilityResponse.ProtoReflect.Descriptor instead.
 func (*GetWorkerTaskReachabilityResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{101}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{105}
 }
 
 func (x *GetWorkerTaskReachabilityResponse) GetBuildIdReachability() []*v14.BuildIdReachability {
@@ -7634,7 +7999,7 @@ type UpdateWorkflowExecutionRequest struct {
 func (x *UpdateWorkflowExecutionRequest) Reset() {
 	*x = UpdateWorkflowExecutionRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[102]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[106]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -7647,7 +8012,7 @@ func (x *UpdateWorkflowExecutionRequest) String() string {
 func (*UpdateWorkflowExecutionRequest) ProtoMessage() {}
 
 func (x *UpdateWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[102]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[106]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7660,7 +8025,7 @@ func (x *UpdateWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
 func (*UpdateWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{106}
 }
 
 func (x *UpdateWorkflowExecutionRequest) GetNamespace() string {
@@ -7725,7 +8090,7 @@ type UpdateWorkflowExecutionResponse struct {
 func (x *UpdateWorkflowExecutionResponse) Reset() {
 	*x = UpdateWorkflowExecutionResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[103]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[107]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -7738,7 +8103,7 @@ func (x *UpdateWorkflowExecutionResponse) String() string {
 func (*UpdateWorkflowExecutionResponse) ProtoMessage() {}
 
 func (x *UpdateWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[103]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[107]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7751,7 +8116,7 @@ func (x *UpdateWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
 func (*UpdateWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{103}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{107}
 }
 
 func (x *UpdateWorkflowExecutionResponse) GetUpdateRef() *v115.UpdateRef {
@@ -7814,7 +8179,7 @@ type StartBatchOperationRequest struct {
 func (x *StartBatchOperationRequest) Reset() {
 	*x = StartBatchOperationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[104]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -7827,7 +8192,7 @@ func (x *StartBatchOperationRequest) String() string {
 func (*StartBatchOperationRequest) ProtoMessage() {}
 
 func (x *StartBatchOperationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[104]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7840,7 +8205,7 @@ func (x *StartBatchOperationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartBatchOperationRequest.ProtoReflect.Descriptor instead.
 func (*StartBatchOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{104}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{108}
 }
 
 func (x *StartBatchOperationRequest) GetNamespace() string {
@@ -7970,7 +8335,7 @@ type StartBatchOperationResponse struct {
 func (x *StartBatchOperationResponse) Reset() {
 	*x = StartBatchOperationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[105]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[109]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -7983,7 +8348,7 @@ func (x *StartBatchOperationResponse) String() string {
 func (*StartBatchOperationResponse) ProtoMessage() {}
 
 func (x *StartBatchOperationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[105]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[109]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -7996,7 +8361,7 @@ func (x *StartBatchOperationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StartBatchOperationResponse.ProtoReflect.Descriptor instead.
 func (*StartBatchOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{105}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{109}
 }
 
 type StopBatchOperationRequest struct {
@@ -8017,7 +8382,7 @@ type StopBatchOperationRequest struct {
 func (x *StopBatchOperationRequest) Reset() {
 	*x = StopBatchOperationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[106]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[110]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8030,7 +8395,7 @@ func (x *StopBatchOperationRequest) String() string {
 func (*StopBatchOperationRequest) ProtoMessage() {}
 
 func (x *StopBatchOperationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[106]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[110]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8043,7 +8408,7 @@ func (x *StopBatchOperationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StopBatchOperationRequest.ProtoReflect.Descriptor instead.
 func (*StopBatchOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{106}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{110}
 }
 
 func (x *StopBatchOperationRequest) GetNamespace() string {
@@ -8083,7 +8448,7 @@ type StopBatchOperationResponse struct {
 func (x *StopBatchOperationResponse) Reset() {
 	*x = StopBatchOperationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[107]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[111]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8096,7 +8461,7 @@ func (x *StopBatchOperationResponse) String() string {
 func (*StopBatchOperationResponse) ProtoMessage() {}
 
 func (x *StopBatchOperationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[107]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[111]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8109,7 +8474,7 @@ func (x *StopBatchOperationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StopBatchOperationResponse.ProtoReflect.Descriptor instead.
 func (*StopBatchOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{107}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{111}
 }
 
 type DescribeBatchOperationRequest struct {
@@ -8126,7 +8491,7 @@ type DescribeBatchOperationRequest struct {
 func (x *DescribeBatchOperationRequest) Reset() {
 	*x = DescribeBatchOperationRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[112]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8139,7 +8504,7 @@ func (x *DescribeBatchOperationRequest) String() string {
 func (*DescribeBatchOperationRequest) ProtoMessage() {}
 
 func (x *DescribeBatchOperationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[112]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8152,7 +8517,7 @@ func (x *DescribeBatchOperationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeBatchOperationRequest.ProtoReflect.Descriptor instead.
 func (*DescribeBatchOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{108}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{112}
 }
 
 func (x *DescribeBatchOperationRequest) GetNamespace() string {
@@ -8199,7 +8564,7 @@ type DescribeBatchOperationResponse struct {
 func (x *DescribeBatchOperationResponse) Reset() {
 	*x = DescribeBatchOperationResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[109]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[113]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8212,7 +8577,7 @@ func (x *DescribeBatchOperationResponse) String() string {
 func (*DescribeBatchOperationResponse) ProtoMessage() {}
 
 func (x *DescribeBatchOperationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[109]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[113]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8225,7 +8590,7 @@ func (x *DescribeBatchOperationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DescribeBatchOperationResponse.ProtoReflect.Descriptor instead.
 func (*DescribeBatchOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{109}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{113}
 }
 
 func (x *DescribeBatchOperationResponse) GetOperationType() v11.BatchOperationType {
@@ -8314,7 +8679,7 @@ type ListBatchOperationsRequest struct {
 func (x *ListBatchOperationsRequest) Reset() {
 	*x = ListBatchOperationsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[110]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[114]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8327,7 +8692,7 @@ func (x *ListBatchOperationsRequest) String() string {
 func (*ListBatchOperationsRequest) ProtoMessage() {}
 
 func (x *ListBatchOperationsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[110]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[114]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8340,7 +8705,7 @@ func (x *ListBatchOperationsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBatchOperationsRequest.ProtoReflect.Descriptor instead.
 func (*ListBatchOperationsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{110}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{114}
 }
 
 func (x *ListBatchOperationsRequest) GetNamespace() string {
@@ -8377,7 +8742,7 @@ type ListBatchOperationsResponse struct {
 func (x *ListBatchOperationsResponse) Reset() {
 	*x = ListBatchOperationsResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[111]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[115]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8390,7 +8755,7 @@ func (x *ListBatchOperationsResponse) String() string {
 func (*ListBatchOperationsResponse) ProtoMessage() {}
 
 func (x *ListBatchOperationsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[111]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[115]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8403,7 +8768,7 @@ func (x *ListBatchOperationsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBatchOperationsResponse.ProtoReflect.Descriptor instead.
 func (*ListBatchOperationsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{111}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{115}
 }
 
 func (x *ListBatchOperationsResponse) GetOperationInfo() []*v116.BatchOperationInfo {
@@ -8441,7 +8806,7 @@ type PollWorkflowExecutionUpdateRequest struct {
 func (x *PollWorkflowExecutionUpdateRequest) Reset() {
 	*x = PollWorkflowExecutionUpdateRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[112]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[116]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8454,7 +8819,7 @@ func (x *PollWorkflowExecutionUpdateRequest) String() string {
 func (*PollWorkflowExecutionUpdateRequest) ProtoMessage() {}
 
 func (x *PollWorkflowExecutionUpdateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[112]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[116]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8467,7 +8832,7 @@ func (x *PollWorkflowExecutionUpdateRequest) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use PollWorkflowExecutionUpdateRequest.ProtoReflect.Descriptor instead.
 func (*PollWorkflowExecutionUpdateRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{112}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{116}
 }
 
 func (x *PollWorkflowExecutionUpdateRequest) GetNamespace() string {
@@ -8527,7 +8892,7 @@ type PollWorkflowExecutionUpdateResponse struct {
 func (x *PollWorkflowExecutionUpdateResponse) Reset() {
 	*x = PollWorkflowExecutionUpdateResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[113]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[117]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8540,7 +8905,7 @@ func (x *PollWorkflowExecutionUpdateResponse) String() string {
 func (*PollWorkflowExecutionUpdateResponse) ProtoMessage() {}
 
 func (x *PollWorkflowExecutionUpdateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[113]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[117]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8553,7 +8918,7 @@ func (x *PollWorkflowExecutionUpdateResponse) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use PollWorkflowExecutionUpdateResponse.ProtoReflect.Descriptor instead.
 func (*PollWorkflowExecutionUpdateResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{113}
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{117}
 }
 
 func (x *PollWorkflowExecutionUpdateResponse) GetOutcome() *v115.Outcome {
@@ -8589,7 +8954,7 @@ type CountWorkflowExecutionsResponse_AggregationGroup struct {
 func (x *CountWorkflowExecutionsResponse_AggregationGroup) Reset() {
 	*x = CountWorkflowExecutionsResponse_AggregationGroup{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[117]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[121]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8602,7 +8967,7 @@ func (x *CountWorkflowExecutionsResponse_AggregationGroup) String() string {
 func (*CountWorkflowExecutionsResponse_AggregationGroup) ProtoMessage() {}
 
 func (x *CountWorkflowExecutionsResponse_AggregationGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[117]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[121]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8671,7 +9036,7 @@ type GetSystemInfoResponse_Capabilities struct {
 func (x *GetSystemInfoResponse_Capabilities) Reset() {
 	*x = GetSystemInfoResponse_Capabilities{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[120]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[124]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8684,7 +9049,7 @@ func (x *GetSystemInfoResponse_Capabilities) String() string {
 func (*GetSystemInfoResponse_Capabilities) ProtoMessage() {}
 
 func (x *GetSystemInfoResponse_Capabilities) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[120]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[124]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8790,7 +9155,7 @@ type UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion struct {
 func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Reset() {
 	*x = UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[121]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[125]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8803,7 +9168,7 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) String
 func (*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) ProtoMessage() {}
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[121]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[125]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8854,7 +9219,7 @@ type UpdateWorkerBuildIdCompatibilityRequest_MergeSets struct {
 func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) Reset() {
 	*x = UpdateWorkerBuildIdCompatibilityRequest_MergeSets{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[122]
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[126]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -8867,7 +9232,7 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) String() string {
 func (*UpdateWorkerBuildIdCompatibilityRequest_MergeSets) ProtoMessage() {}
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[122]
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[126]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -8895,6 +9260,411 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) GetSecondarySetBuild
 		return x.SecondarySetBuildId
 	}
 	return ""
+}
+
+// Inserts the rule to the list of assignment rules for this Task Queue.
+// The rules are evaluated in order, starting from index 0. The first
+// applicable rule will be applied and the rest will be ignored.
+type UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Use this option to insert the rule in a particular index. By
+	// default, the new rule is inserted at the beginning of the list
+	// (index 0). If the given index is too larger the rule will be
+	// inserted at the end of the list.
+	RuleIndex int32                      `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
+	Rule      *v14.BuildIdAssignmentRule `protobuf:"bytes,2,opt,name=rule,proto3" json:"rule,omitempty"`
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) Reset() {
+	*x = UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[127]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[127]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100, 0}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) GetRuleIndex() int32 {
+	if x != nil {
+		return x.RuleIndex
+	}
+	return 0
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) GetRule() *v14.BuildIdAssignmentRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
+// Replaces the assignment rule at a given index.
+type UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RuleIndex int32                      `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
+	Rule      *v14.BuildIdAssignmentRule `protobuf:"bytes,2,opt,name=rule,proto3" json:"rule,omitempty"`
+	// By default presence of one unconditional rule is enforced, otherwise
+	// the replace operation will be rejected. Set `force` to true to
+	// bypass this validation. An unconditional assignment rule:
+	//   - Has no hint filter
+	//   - Has no ramp
+	Force bool `protobuf:"varint,3,opt,name=force,proto3" json:"force,omitempty"`
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) Reset() {
+	*x = UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[128]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[128]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100, 1}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) GetRuleIndex() int32 {
+	if x != nil {
+		return x.RuleIndex
+	}
+	return 0
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) GetRule() *v14.BuildIdAssignmentRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) GetForce() bool {
+	if x != nil {
+		return x.Force
+	}
+	return false
+}
+
+type UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RuleIndex int32 `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
+	// By default presence of one unconditional rule is enforced, otherwise
+	// the delete operation will be rejected. Set `force` to true to
+	// bypass this validation. An unconditional assignment rule:
+	//   - Has no hint filter
+	//   - Has no ramp
+	Force bool `protobuf:"varint,2,opt,name=force,proto3" json:"force,omitempty"`
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) Reset() {
+	*x = UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[129]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[129]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100, 2}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) GetRuleIndex() int32 {
+	if x != nil {
+		return x.RuleIndex
+	}
+	return 0
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) GetForce() bool {
+	if x != nil {
+		return x.Force
+	}
+	return false
+}
+
+// Adds the rule to the list of redirect rules for this Task Queue. There
+// can be at most one redirect rule for each distinct Source Build ID.
+type UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Rule *v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) Reset() {
+	*x = UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[130]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[130]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100, 3}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) GetRule() *v14.CompatibleBuildIdRedirectRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
+// Replaces the routing rule with the given source Build ID.
+type UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Rule *v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) Reset() {
+	*x = UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[131]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[131]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100, 4}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) GetRule() *v14.CompatibleBuildIdRedirectRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
+type UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SourceBuildId string `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) Reset() {
+	*x = UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[132]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[132]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100, 5}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) GetSourceBuildId() string {
+	if x != nil {
+		return x.SourceBuildId
+	}
+	return ""
+}
+
+// This command is intended to be used to complete the rollout of a Build
+// ID and cleanup unnecessary rules possibly created during a gradual
+// rollout. Specifically, this command will make the following changes
+// atomically:
+//  1. Adds an unconditional assignment rule for the target Build ID at the
+//     end of the list. An unconditional assignment rule:
+//     - Has no hint filter
+//     - Has no ramp
+//  2. Removes all previously added assignment rules to the given target
+//     Build ID (if any).
+//  3. Removes any *unconditional* assignment rule for other Build IDs.
+//  4. Removes the ramp of any incoming redirect rules to this Build ID.
+type UpdateWorkerVersioningRulesRequest_CommitBuildId struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TargetBuildId string `protobuf:"bytes,1,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
+	// To prevent committing invalid Build IDs, we reject the request if no
+	// pollers has been seen recently for this Build ID. Use the `force`
+	// option to disable this validation.
+	Force bool `protobuf:"varint,2,opt,name=force,proto3" json:"force,omitempty"`
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) Reset() {
+	*x = UpdateWorkerVersioningRulesRequest_CommitBuildId{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[133]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerVersioningRulesRequest_CommitBuildId) ProtoMessage() {}
+
+func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[133]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerVersioningRulesRequest_CommitBuildId.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerVersioningRulesRequest_CommitBuildId) Descriptor() ([]byte, []int) {
+	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100, 6}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) GetTargetBuildId() string {
+	if x != nil {
+		return x.TargetBuildId
+	}
+	return ""
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) GetForce() bool {
+	if x != nil {
+		return x.Force
+	}
+	return false
 }
 
 var File_temporal_api_workflowservice_v1_request_response_proto protoreflect.FileDescriptor
@@ -10585,225 +11355,382 @@ var file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = []byte
 	0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6f,
 	0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x53,
 	0x65, 0x74, 0x52, 0x10, 0x6d, 0x61, 0x6a, 0x6f, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e,
-	0x53, 0x65, 0x74, 0x73, 0x22, 0xcb, 0x01, 0x0a, 0x20, 0x47, 0x65, 0x74, 0x57, 0x6f, 0x72, 0x6b,
-	0x65, 0x72, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69,
-	0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d,
-	0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61,
-	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x62, 0x75, 0x69, 0x6c, 0x64,
-	0x5f, 0x69, 0x64, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x08, 0x62, 0x75, 0x69, 0x6c,
-	0x64, 0x49, 0x64, 0x73, 0x12, 0x1f, 0x0a, 0x0b, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x71, 0x75, 0x65,
-	0x75, 0x65, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0a, 0x74, 0x61, 0x73, 0x6b, 0x51,
-	0x75, 0x65, 0x75, 0x65, 0x73, 0x12, 0x4b, 0x0a, 0x0c, 0x72, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62,
-	0x69, 0x6c, 0x69, 0x74, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x27, 0x2e, 0x74, 0x65,
-	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73,
-	0x2e, 0x76, 0x31, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69,
-	0x6c, 0x69, 0x74, 0x79, 0x52, 0x0c, 0x72, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69,
-	0x74, 0x79, 0x22, 0x87, 0x01, 0x0a, 0x21, 0x47, 0x65, 0x74, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72,
-	0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x62, 0x0a, 0x15, 0x62, 0x75, 0x69, 0x6c,
-	0x64, 0x5f, 0x69, 0x64, 0x5f, 0x72, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74,
-	0x79, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65,
-	0x2e, 0x76, 0x31, 0x2e, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x52, 0x65, 0x61, 0x63, 0x68,
-	0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x52, 0x13, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64,
-	0x52, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x22, 0xcd, 0x02, 0x0a,
-	0x1e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45,
-	0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x58, 0x0a,
-	0x12, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x5f, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74,
-	0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x74, 0x65, 0x6d, 0x70,
-	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e,
-	0x76, 0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75,
-	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x11, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78,
-	0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x33, 0x0a, 0x16, 0x66, 0x69, 0x72, 0x73, 0x74,
-	0x5f, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x72, 0x75, 0x6e, 0x5f, 0x69,
-	0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x13, 0x66, 0x69, 0x72, 0x73, 0x74, 0x45, 0x78,
-	0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x75, 0x6e, 0x49, 0x64, 0x12, 0x43, 0x0a, 0x0b,
-	0x77, 0x61, 0x69, 0x74, 0x5f, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x22, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x69, 0x74, 0x50,
-	0x6f, 0x6c, 0x69, 0x63, 0x79, 0x52, 0x0a, 0x77, 0x61, 0x69, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63,
-	0x79, 0x12, 0x39, 0x0a, 0x07, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x52, 0x07, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0xf2, 0x01, 0x0a,
-	0x1f, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45,
-	0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x40, 0x0a, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x66, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
-	0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x66, 0x52, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52,
-	0x65, 0x66, 0x12, 0x39, 0x0a, 0x07, 0x6f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4f, 0x75, 0x74,
-	0x63, 0x6f, 0x6d, 0x65, 0x52, 0x07, 0x6f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x12, 0x52, 0x0a,
-	0x05, 0x73, 0x74, 0x61, 0x67, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x3c, 0x2e, 0x74,
-	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d,
-	0x73, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x66,
-	0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x66, 0x65,
-	0x63, 0x79, 0x63, 0x6c, 0x65, 0x53, 0x74, 0x61, 0x67, 0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x67,
-	0x65, 0x22, 0x8d, 0x06, 0x0a, 0x1a, 0x53, 0x74, 0x61, 0x72, 0x74, 0x42, 0x61, 0x74, 0x63, 0x68,
-	0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x29,
-	0x0a, 0x10, 0x76, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x5f, 0x71, 0x75, 0x65,
-	0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x76, 0x69, 0x73, 0x69, 0x62, 0x69,
-	0x6c, 0x69, 0x74, 0x79, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62,
-	0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64,
-	0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x49, 0x0a, 0x0a, 0x65, 0x78, 0x65, 0x63,
-	0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x74,
-	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
-	0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78,
-	0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0a, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x12, 0x39, 0x0a, 0x19, 0x6d, 0x61, 0x78, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x5f, 0x70, 0x65, 0x72, 0x5f, 0x73, 0x65, 0x63, 0x6f, 0x6e, 0x64,
-	0x18, 0x06, 0x20, 0x01, 0x28, 0x02, 0x52, 0x16, 0x6d, 0x61, 0x78, 0x4f, 0x70, 0x65, 0x72, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x50, 0x65, 0x72, 0x53, 0x65, 0x63, 0x6f, 0x6e, 0x64, 0x12, 0x67,
-	0x0a, 0x15, 0x74, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6f, 0x70,
-	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x30, 0x2e,
-	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74,
-	0x63, 0x68, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x54, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48,
-	0x00, 0x52, 0x14, 0x74, 0x65, 0x72, 0x6d, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70,
-	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x58, 0x0a, 0x10, 0x73, 0x69, 0x67, 0x6e, 0x61,
-	0x6c, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0b, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x2b, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x48, 0x00,
-	0x52, 0x0f, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x12, 0x6a, 0x0a, 0x16, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0c, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x31, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x48, 0x00, 0x52, 0x15, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x5e, 0x0a,
-	0x12, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x74, 0x65, 0x6d, 0x70,
-	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76,
-	0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x44, 0x65, 0x6c, 0x65, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x00, 0x52, 0x11, 0x64, 0x65, 0x6c, 0x65,
-	0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x55, 0x0a,
-	0x0f, 0x72, 0x65, 0x73, 0x65, 0x74, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x18, 0x0e, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x2e, 0x42,
-	0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73,
-	0x65, 0x74, 0x48, 0x00, 0x52, 0x0e, 0x72, 0x65, 0x73, 0x65, 0x74, 0x4f, 0x70, 0x65, 0x72, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0b, 0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x22, 0x1d, 0x0a, 0x1b, 0x53, 0x74, 0x61, 0x72, 0x74, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x84, 0x01, 0x0a, 0x19, 0x53, 0x74, 0x6f, 0x70, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70,
-	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c,
-	0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x15, 0x0a, 0x06,
-	0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6a, 0x6f,
-	0x62, 0x49, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x03, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x69,
-	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x69,
-	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x22, 0x1c, 0x0a, 0x1a, 0x53, 0x74, 0x6f, 0x70, 0x42,
-	0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x54, 0x0a, 0x1d, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62,
-	0x65, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70,
-	0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x12, 0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64, 0x22, 0x9b, 0x04, 0x0a, 0x1e,
-	0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65,
-	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x50,
-	0x0a, 0x0e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x74, 0x79, 0x70, 0x65,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x29, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x42,
-	0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70,
-	0x65, 0x52, 0x0d, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65,
-	0x12, 0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64, 0x12, 0x40, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x42,
-	0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61,
-	0x74, 0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x12, 0x39, 0x0a, 0x0a, 0x73, 0x74, 0x61,
-	0x72, 0x74, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
-	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
-	0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x73, 0x74, 0x61, 0x72, 0x74,
-	0x54, 0x69, 0x6d, 0x65, 0x12, 0x39, 0x0a, 0x0a, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x5f, 0x74, 0x69,
-	0x6d, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
-	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73,
-	0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x12,
-	0x32, 0x0a, 0x15, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x03, 0x52, 0x13,
-	0x74, 0x6f, 0x74, 0x61, 0x6c, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f,
-	0x75, 0x6e, 0x74, 0x12, 0x38, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x5f,
-	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18,
-	0x07, 0x20, 0x01, 0x28, 0x03, 0x52, 0x16, 0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x36, 0x0a,
-	0x17, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x03, 0x52, 0x15,
-	0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
-	0x79, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74,
-	0x79, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x0a, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x22, 0x7f, 0x0a, 0x1a, 0x4c, 0x69, 0x73,
-	0x74, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73,
-	0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65,
-	0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69,
-	0x7a, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69,
-	0x7a, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f,
-	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x6e, 0x65, 0x78,
-	0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x97, 0x01, 0x0a, 0x1b, 0x4c,
-	0x69, 0x73, 0x74, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x50, 0x0a, 0x0e, 0x6f, 0x70,
-	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x01, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x29, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68,
-	0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x0d, 0x6f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x26, 0x0a, 0x0f,
-	0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54,
-	0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xe5, 0x01, 0x0a, 0x22, 0x50, 0x6f, 0x6c, 0x6c, 0x57, 0x6f, 0x72,
-	0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e,
+	0x53, 0x65, 0x74, 0x73, 0x22, 0xf7, 0x0f, 0x0a, 0x22, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57,
+	0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67, 0x52,
+	0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e,
 	0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
-	0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x40, 0x0a, 0x0a, 0x75, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x66, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e,
+	0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x74, 0x61, 0x73,
+	0x6b, 0x5f, 0x71, 0x75, 0x65, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x74,
+	0x61, 0x73, 0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x63, 0x6f, 0x6e, 0x66,
+	0x6c, 0x69, 0x63, 0x74, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c,
+	0x52, 0x0d, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12,
+	0x97, 0x01, 0x0a, 0x16, 0x69, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x5f, 0x61, 0x73, 0x73, 0x69, 0x67,
+	0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x72, 0x75, 0x6c, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x5f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56,
+	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x49, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x42, 0x75, 0x69, 0x6c,
+	0x64, 0x49, 0x64, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c,
+	0x65, 0x48, 0x00, 0x52, 0x14, 0x69, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x41, 0x73, 0x73, 0x69, 0x67,
+	0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x9a, 0x01, 0x0a, 0x17, 0x72, 0x65,
+	0x70, 0x6c, 0x61, 0x63, 0x65, 0x5f, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74,
+	0x5f, 0x72, 0x75, 0x6c, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x60, 0x2e, 0x74, 0x65,
+	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x77, 0x6f, 0x72, 0x6b, 0x66,
+	0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
+	0x6e, 0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x2e, 0x52, 0x65, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x41,
+	0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x48, 0x00, 0x52,
+	0x15, 0x72, 0x65, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65,
+	0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x97, 0x01, 0x0a, 0x16, 0x64, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x5f, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x5f, 0x72, 0x75, 0x6c,
+	0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x5f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x73,
+	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67,
+	0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x44, 0x65, 0x6c,
+	0x65, 0x74, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e,
+	0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x48, 0x00, 0x52, 0x14, 0x64, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65,
+	0x12, 0xad, 0x01, 0x0a, 0x1f, 0x69, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x5f, 0x63, 0x6f, 0x6d, 0x70,
+	0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x5f,
+	0x72, 0x75, 0x6c, 0x65, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x64, 0x2e, 0x74, 0x65, 0x6d,
+	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c,
+	0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e,
+	0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e,
+	0x41, 0x64, 0x64, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x42, 0x75, 0x69,
+	0x6c, 0x64, 0x49, 0x64, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65,
+	0x48, 0x00, 0x52, 0x1c, 0x69, 0x6e, 0x73, 0x65, 0x72, 0x74, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74,
+	0x69, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65,
+	0x12, 0xb3, 0x01, 0x0a, 0x20, 0x72, 0x65, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x5f, 0x63, 0x6f, 0x6d,
+	0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74,
+	0x5f, 0x72, 0x75, 0x6c, 0x65, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x68, 0x2e, 0x74, 0x65,
+	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x77, 0x6f, 0x72, 0x6b, 0x66,
+	0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
+	0x6e, 0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x2e, 0x52, 0x65, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62,
+	0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63,
+	0x74, 0x52, 0x75, 0x6c, 0x65, 0x48, 0x00, 0x52, 0x1d, 0x72, 0x65, 0x70, 0x6c, 0x61, 0x63, 0x65,
+	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65,
+	0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0xb0, 0x01, 0x0a, 0x1f, 0x64, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x5f, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x5f, 0x72, 0x65, 0x64,
+	0x69, 0x72, 0x65, 0x63, 0x74, 0x5f, 0x72, 0x75, 0x6c, 0x65, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x67, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56,
+	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x70,
+	0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x52, 0x65, 0x64,
+	0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x48, 0x00, 0x52, 0x1c, 0x64, 0x65, 0x6c,
+	0x65, 0x74, 0x65, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x64,
+	0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x7b, 0x0a, 0x0f, 0x63, 0x6f, 0x6d,
+	0x6d, 0x69, 0x74, 0x5f, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x0a, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x51, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x65,
+	0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x42, 0x75,
+	0x69, 0x6c, 0x64, 0x49, 0x64, 0x48, 0x00, 0x52, 0x0d, 0x63, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x42,
+	0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x1a, 0x82, 0x01, 0x0a, 0x1b, 0x49, 0x6e, 0x73, 0x65, 0x72,
+	0x74, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65,
+	0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x72, 0x75, 0x6c, 0x65, 0x5f, 0x69,
+	0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x72, 0x75, 0x6c, 0x65,
+	0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x44, 0x0a, 0x04, 0x72, 0x75, 0x6c, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x30, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e,
+	0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e,
+	0x74, 0x52, 0x75, 0x6c, 0x65, 0x52, 0x04, 0x72, 0x75, 0x6c, 0x65, 0x1a, 0x99, 0x01, 0x0a, 0x1c,
+	0x52, 0x65, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x41, 0x73,
+	0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x1d, 0x0a, 0x0a,
+	0x72, 0x75, 0x6c, 0x65, 0x5f, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x09, 0x72, 0x75, 0x6c, 0x65, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x44, 0x0a, 0x04, 0x72,
+	0x75, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x30, 0x2e, 0x74, 0x65, 0x6d, 0x70,
+	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65,
+	0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x41, 0x73, 0x73,
+	0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x52, 0x04, 0x72, 0x75, 0x6c,
+	0x65, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08,
+	0x52, 0x05, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x1a, 0x52, 0x0a, 0x1b, 0x44, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65,
+	0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x72, 0x75, 0x6c, 0x65, 0x5f, 0x69,
+	0x6e, 0x64, 0x65, 0x78, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x72, 0x75, 0x6c, 0x65,
+	0x49, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x66, 0x6f, 0x72, 0x63, 0x65, 0x1a, 0x70, 0x0a, 0x20, 0x41,
+	0x64, 0x64, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c,
+	0x64, 0x49, 0x64, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12,
+	0x4c, 0x0a, 0x04, 0x72, 0x75, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x38, 0x2e,
+	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x61, 0x73,
+	0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74,
+	0x69, 0x62, 0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x52, 0x65, 0x64, 0x69, 0x72,
+	0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x52, 0x04, 0x72, 0x75, 0x6c, 0x65, 0x1a, 0x74, 0x0a,
+	0x24, 0x52, 0x65, 0x70, 0x6c, 0x61, 0x63, 0x65, 0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62,
+	0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63,
+	0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x4c, 0x0a, 0x04, 0x72, 0x75, 0x6c, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x38, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e,
+	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49,
+	0x64, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x52, 0x04, 0x72,
+	0x75, 0x6c, 0x65, 0x1a, 0x4d, 0x0a, 0x23, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x43, 0x6f, 0x6d,
+	0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x52, 0x65,
+	0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x73, 0x6f,
+	0x75, 0x72, 0x63, 0x65, 0x5f, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0d, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64,
+	0x49, 0x64, 0x1a, 0x4d, 0x0a, 0x0d, 0x43, 0x6f, 0x6d, 0x6d, 0x69, 0x74, 0x42, 0x75, 0x69, 0x6c,
+	0x64, 0x49, 0x64, 0x12, 0x26, 0x0a, 0x0f, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x5f, 0x62, 0x75,
+	0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x74, 0x61,
+	0x72, 0x67, 0x65, 0x74, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x66,
+	0x6f, 0x72, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x66, 0x6f, 0x72, 0x63,
+	0x65, 0x42, 0x0b, 0x0a, 0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x4c,
+	0x0a, 0x23, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65,
+	0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63,
+	0x74, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x63,
+	0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x5f, 0x0a, 0x20,
+	0x4c, 0x69, 0x73, 0x74, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
+	0x6e, 0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x1d,
+	0x0a, 0x0a, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x71, 0x75, 0x65, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x09, 0x74, 0x61, 0x73, 0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x22, 0x9d, 0x02,
+	0x0a, 0x21, 0x4c, 0x69, 0x73, 0x74, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73,
+	0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x5b, 0x0a, 0x10, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e,
+	0x74, 0x5f, 0x72, 0x75, 0x6c, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x30, 0x2e,
+	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x61, 0x73,
+	0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49,
+	0x64, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x52,
+	0x0f, 0x61, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x73,
+	0x12, 0x74, 0x0a, 0x19, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x5f, 0x72,
+	0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x5f, 0x72, 0x75, 0x6c, 0x65, 0x73, 0x18, 0x02, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x38, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e,
+	0x43, 0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49,
+	0x64, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x52, 0x17, 0x63,
+	0x6f, 0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x64, 0x69, 0x72, 0x65, 0x63,
+	0x74, 0x52, 0x75, 0x6c, 0x65, 0x73, 0x12, 0x25, 0x0a, 0x0e, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69,
+	0x63, 0x74, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d,
+	0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xcb, 0x01,
+	0x0a, 0x20, 0x47, 0x65, 0x74, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x54, 0x61, 0x73, 0x6b, 0x52,
+	0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65,
+	0x12, 0x1b, 0x0a, 0x09, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x73, 0x18, 0x02, 0x20,
+	0x03, 0x28, 0x09, 0x52, 0x08, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x73, 0x12, 0x1f, 0x0a,
+	0x0b, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x71, 0x75, 0x65, 0x75, 0x65, 0x73, 0x18, 0x03, 0x20, 0x03,
+	0x28, 0x09, 0x52, 0x0a, 0x74, 0x61, 0x73, 0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x73, 0x12, 0x4b,
+	0x0a, 0x0c, 0x72, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x0e, 0x32, 0x27, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x61, 0x73,
+	0x6b, 0x52, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x52, 0x0c, 0x72,
+	0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x22, 0x87, 0x01, 0x0a, 0x21,
+	0x47, 0x65, 0x74, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x54, 0x61, 0x73, 0x6b, 0x52, 0x65, 0x61,
+	0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x62, 0x0a, 0x15, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x5f, 0x72, 0x65,
+	0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x2e, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x75, 0x69,
+	0x6c, 0x64, 0x49, 0x64, 0x52, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79,
+	0x52, 0x13, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x52, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62,
+	0x69, 0x6c, 0x69, 0x74, 0x79, 0x22, 0xcd, 0x02, 0x0a, 0x1e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65,
+	0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d,
+	0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x58, 0x0a, 0x12, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c,
+	0x6f, 0x77, 0x5f, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x29, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b,
+	0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x11, 0x77,
+	0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x12, 0x33, 0x0a, 0x16, 0x66, 0x69, 0x72, 0x73, 0x74, 0x5f, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74,
+	0x69, 0x6f, 0x6e, 0x5f, 0x72, 0x75, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x13, 0x66, 0x69, 0x72, 0x73, 0x74, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x75, 0x6e, 0x49, 0x64, 0x12, 0x43, 0x0a, 0x0b, 0x77, 0x61, 0x69, 0x74, 0x5f, 0x70, 0x6f,
+	0x6c, 0x69, 0x63, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x74, 0x65, 0x6d,
+	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x69, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x52, 0x0a,
+	0x77, 0x61, 0x69, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x12, 0x39, 0x0a, 0x07, 0x72, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65,
+	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x07, 0x72, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0xf2, 0x01, 0x0a, 0x1f, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x40, 0x0a, 0x0a, 0x75, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x66, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e,
 	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64,
 	0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x66,
-	0x52, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x66, 0x12, 0x1a, 0x0a, 0x08, 0x69,
-	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x69,
-	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x43, 0x0a, 0x0b, 0x77, 0x61, 0x69, 0x74, 0x5f,
-	0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x74,
+	0x52, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x66, 0x12, 0x39, 0x0a, 0x07, 0x6f,
+	0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74,
 	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x61, 0x69, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79,
-	0x52, 0x0a, 0x77, 0x61, 0x69, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x22, 0xf6, 0x01, 0x0a,
-	0x23, 0x50, 0x6f, 0x6c, 0x6c, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65,
-	0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a, 0x07, 0x6f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
-	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4f,
-	0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x52, 0x07, 0x6f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x12,
-	0x52, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x3c,
-	0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e,
-	0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72,
-	0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69,
-	0x66, 0x65, 0x63, 0x79, 0x63, 0x6c, 0x65, 0x53, 0x74, 0x61, 0x67, 0x65, 0x52, 0x05, 0x73, 0x74,
-	0x61, 0x67, 0x65, 0x12, 0x40, 0x0a, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65,
-	0x66, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31,
-	0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x66, 0x52, 0x09, 0x75, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x52, 0x65, 0x66, 0x42, 0xbe, 0x01, 0x0a, 0x22, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d,
-	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c,
-	0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x42, 0x14, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x50, 0x72, 0x6f,
-	0x74, 0x6f, 0x50, 0x01, 0x5a, 0x35, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f,
-	0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x76, 0x31, 0x3b, 0x77, 0x6f, 0x72, 0x6b,
-	0x66, 0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0xaa, 0x02, 0x21, 0x54, 0x65,
-	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x57, 0x6f, 0x72,
-	0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x56, 0x31, 0xea,
-	0x02, 0x24, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70,
-	0x69, 0x3a, 0x3a, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x53, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x52, 0x07, 0x6f,
+	0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x12, 0x52, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x67, 0x65, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x3c, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63,
+	0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x66, 0x65, 0x63, 0x79, 0x63, 0x6c, 0x65, 0x53, 0x74,
+	0x61, 0x67, 0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x67, 0x65, 0x22, 0x8d, 0x06, 0x0a, 0x1a, 0x53,
+	0x74, 0x61, 0x72, 0x74, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d,
+	0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61,
+	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x29, 0x0a, 0x10, 0x76, 0x69, 0x73, 0x69, 0x62,
+	0x69, 0x6c, 0x69, 0x74, 0x79, 0x5f, 0x71, 0x75, 0x65, 0x72, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0f, 0x76, 0x69, 0x73, 0x69, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x12, 0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x61,
+	0x73, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73, 0x6f,
+	0x6e, 0x12, 0x49, 0x0a, 0x0a, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18,
+	0x05, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x57,
+	0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x0a, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x39, 0x0a, 0x19,
+	0x6d, 0x61, 0x78, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x5f, 0x70,
+	0x65, 0x72, 0x5f, 0x73, 0x65, 0x63, 0x6f, 0x6e, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x02, 0x52,
+	0x16, 0x6d, 0x61, 0x78, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x50, 0x65,
+	0x72, 0x53, 0x65, 0x63, 0x6f, 0x6e, 0x64, 0x12, 0x67, 0x0a, 0x15, 0x74, 0x65, 0x72, 0x6d, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x0a, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x30, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
+	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x2e, 0x42,
+	0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x65, 0x72,
+	0x6d, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x00, 0x52, 0x14, 0x74, 0x65, 0x72, 0x6d,
+	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x12, 0x58, 0x0a, 0x10, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x74, 0x65, 0x6d,
+	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e,
+	0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x53, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x48, 0x00, 0x52, 0x0f, 0x73, 0x69, 0x67, 0x6e, 0x61,
+	0x6c, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x6a, 0x0a, 0x16, 0x63, 0x61,
+	0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x31, 0x2e, 0x74, 0x65, 0x6d,
+	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e,
+	0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x00, 0x52,
+	0x15, 0x63, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x5e, 0x0a, 0x12, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0d, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68,
+	0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x69, 0x6f,
+	0x6e, 0x48, 0x00, 0x52, 0x11, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x55, 0x0a, 0x0f, 0x72, 0x65, 0x73, 0x65, 0x74, 0x5f,
+	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x2a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62,
+	0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x65, 0x74, 0x48, 0x00, 0x52, 0x0e, 0x72,
+	0x65, 0x73, 0x65, 0x74, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0b, 0x0a,
+	0x09, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x1d, 0x0a, 0x1b, 0x53, 0x74,
+	0x61, 0x72, 0x74, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x84, 0x01, 0x0a, 0x19, 0x53, 0x74,
+	0x6f, 0x70, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73,
+	0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65,
+	0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64, 0x12, 0x16, 0x0a, 0x06,
+	0x72, 0x65, 0x61, 0x73, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65,
+	0x61, 0x73, 0x6f, 0x6e, 0x12, 0x1a, 0x0a, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x22, 0x1c, 0x0a, 0x1a, 0x53, 0x74, 0x6f, 0x70, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x54,
+	0x0a, 0x1d, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x15, 0x0a,
+	0x06, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6a,
+	0x6f, 0x62, 0x49, 0x64, 0x22, 0x9b, 0x04, 0x0a, 0x1e, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x62,
+	0x65, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x50, 0x0a, 0x0e, 0x6f, 0x70, 0x65, 0x72, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32,
+	0x29, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65,
+	0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x52, 0x0d, 0x6f, 0x70, 0x65, 0x72,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x15, 0x0a, 0x06, 0x6a, 0x6f, 0x62,
+	0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6a, 0x6f, 0x62, 0x49, 0x64,
+	0x12, 0x40, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0e, 0x32,
+	0x2a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65,
+	0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x05, 0x73, 0x74, 0x61,
+	0x74, 0x65, 0x12, 0x39, 0x0a, 0x0a, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f, 0x74, 0x69, 0x6d, 0x65,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61,
+	0x6d, 0x70, 0x52, 0x09, 0x73, 0x74, 0x61, 0x72, 0x74, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x39, 0x0a,
+	0x0a, 0x63, 0x6c, 0x6f, 0x73, 0x65, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x63,
+	0x6c, 0x6f, 0x73, 0x65, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x32, 0x0a, 0x15, 0x74, 0x6f, 0x74, 0x61,
+	0x6c, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e,
+	0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x03, 0x52, 0x13, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x4f, 0x70,
+	0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x38, 0x0a, 0x18,
+	0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x03, 0x52, 0x16,
+	0x63, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x36, 0x0a, 0x17, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72,
+	0x65, 0x5f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x63, 0x6f, 0x75, 0x6e,
+	0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x03, 0x52, 0x15, 0x66, 0x61, 0x69, 0x6c, 0x75, 0x72, 0x65,
+	0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x1a,
+	0x0a, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65,
+	0x61, 0x73, 0x6f, 0x6e, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x61, 0x73,
+	0x6f, 0x6e, 0x22, 0x7f, 0x0a, 0x1a, 0x4c, 0x69, 0x73, 0x74, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f,
+	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x1b,
+	0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x6e,
+	0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f,
+	0x6b, 0x65, 0x6e, 0x22, 0x97, 0x01, 0x0a, 0x1b, 0x4c, 0x69, 0x73, 0x74, 0x42, 0x61, 0x74, 0x63,
+	0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x50, 0x0a, 0x0e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x29, 0x2e, 0x74, 0x65,
+	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68,
+	0x2e, 0x76, 0x31, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x0d, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x26, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61,
+	0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d,
+	0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xe5, 0x01,
+	0x0a, 0x22, 0x50, 0x6f, 0x6c, 0x6c, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78,
+	0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61,
+	0x63, 0x65, 0x12, 0x40, 0x0a, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x66,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
+	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x66, 0x52, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x52, 0x65, 0x66, 0x12, 0x1a, 0x0a, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
+	0x12, 0x43, 0x0a, 0x0b, 0x77, 0x61, 0x69, 0x74, 0x5f, 0x70, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x18,
+	0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
+	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x57,
+	0x61, 0x69, 0x74, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x52, 0x0a, 0x77, 0x61, 0x69, 0x74, 0x50,
+	0x6f, 0x6c, 0x69, 0x63, 0x79, 0x22, 0xf6, 0x01, 0x0a, 0x23, 0x50, 0x6f, 0x6c, 0x6c, 0x57, 0x6f,
+	0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x39, 0x0a,
+	0x07, 0x6f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f,
+	0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x75, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x52,
+	0x07, 0x6f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x12, 0x52, 0x0a, 0x05, 0x73, 0x74, 0x61, 0x67,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x3c, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78,
+	0x65, 0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x4c, 0x69, 0x66, 0x65, 0x63, 0x79, 0x63, 0x6c, 0x65,
+	0x53, 0x74, 0x61, 0x67, 0x65, 0x52, 0x05, 0x73, 0x74, 0x61, 0x67, 0x65, 0x12, 0x40, 0x0a, 0x0a,
+	0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x72, 0x65, 0x66, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x21, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x52, 0x65, 0x66, 0x52, 0x09, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x66, 0x42, 0xbe,
+	0x01, 0x0a, 0x22, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x2e, 0x76, 0x31, 0x42, 0x14, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x35, 0x67,
+	0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x2f, 0x76, 0x31, 0x3b, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0xaa, 0x02, 0x21, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69,
+	0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x53, 0x65,
+	0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x24, 0x54, 0x65, 0x6d, 0x70, 0x6f,
+	0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x57, 0x6f, 0x72, 0x6b,
+	0x66, 0x6c, 0x6f, 0x77, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -10818,7 +11745,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP() [
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescData
 }
 
-var file_temporal_api_workflowservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 123)
+var file_temporal_api_workflowservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 134)
 var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []interface{}{
 	(*RegisterNamespaceRequest)(nil),                   // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest
 	(*RegisterNamespaceResponse)(nil),                  // 1: temporal.api.workflowservice.v1.RegisterNamespaceResponse
@@ -10920,310 +11847,336 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []inte
 	(*UpdateWorkerBuildIdCompatibilityResponse)(nil),   // 97: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityResponse
 	(*GetWorkerBuildIdCompatibilityRequest)(nil),       // 98: temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityRequest
 	(*GetWorkerBuildIdCompatibilityResponse)(nil),      // 99: temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse
-	(*GetWorkerTaskReachabilityRequest)(nil),           // 100: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityRequest
-	(*GetWorkerTaskReachabilityResponse)(nil),          // 101: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse
-	(*UpdateWorkflowExecutionRequest)(nil),             // 102: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
-	(*UpdateWorkflowExecutionResponse)(nil),            // 103: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
-	(*StartBatchOperationRequest)(nil),                 // 104: temporal.api.workflowservice.v1.StartBatchOperationRequest
-	(*StartBatchOperationResponse)(nil),                // 105: temporal.api.workflowservice.v1.StartBatchOperationResponse
-	(*StopBatchOperationRequest)(nil),                  // 106: temporal.api.workflowservice.v1.StopBatchOperationRequest
-	(*StopBatchOperationResponse)(nil),                 // 107: temporal.api.workflowservice.v1.StopBatchOperationResponse
-	(*DescribeBatchOperationRequest)(nil),              // 108: temporal.api.workflowservice.v1.DescribeBatchOperationRequest
-	(*DescribeBatchOperationResponse)(nil),             // 109: temporal.api.workflowservice.v1.DescribeBatchOperationResponse
-	(*ListBatchOperationsRequest)(nil),                 // 110: temporal.api.workflowservice.v1.ListBatchOperationsRequest
-	(*ListBatchOperationsResponse)(nil),                // 111: temporal.api.workflowservice.v1.ListBatchOperationsResponse
-	(*PollWorkflowExecutionUpdateRequest)(nil),         // 112: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest
-	(*PollWorkflowExecutionUpdateResponse)(nil),        // 113: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse
-	nil, // 114: temporal.api.workflowservice.v1.RegisterNamespaceRequest.DataEntry
-	nil, // 115: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry
-	nil, // 116: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry
-	(*CountWorkflowExecutionsResponse_AggregationGroup)(nil), // 117: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup
-	nil, // 118: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry
-	nil, // 119: temporal.api.workflowservice.v1.GetClusterInfoResponse.SupportedClientsEntry
-	(*GetSystemInfoResponse_Capabilities)(nil),                              // 120: temporal.api.workflowservice.v1.GetSystemInfoResponse.Capabilities
-	(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion)(nil), // 121: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.AddNewCompatibleVersion
-	(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets)(nil),               // 122: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.MergeSets
-	(*durationpb.Duration)(nil),                                             // 123: google.protobuf.Duration
-	(*v1.ClusterReplicationConfig)(nil),                                     // 124: temporal.api.replication.v1.ClusterReplicationConfig
-	(v11.ArchivalState)(0),                                                  // 125: temporal.api.enums.v1.ArchivalState
-	(*v12.NamespaceFilter)(nil),                                             // 126: temporal.api.namespace.v1.NamespaceFilter
-	(*v12.NamespaceInfo)(nil),                                               // 127: temporal.api.namespace.v1.NamespaceInfo
-	(*v12.NamespaceConfig)(nil),                                             // 128: temporal.api.namespace.v1.NamespaceConfig
-	(*v1.NamespaceReplicationConfig)(nil),                                   // 129: temporal.api.replication.v1.NamespaceReplicationConfig
-	(*v1.FailoverStatus)(nil),                                               // 130: temporal.api.replication.v1.FailoverStatus
-	(*v12.UpdateNamespaceInfo)(nil),                                         // 131: temporal.api.namespace.v1.UpdateNamespaceInfo
-	(*v13.WorkflowType)(nil),                                                // 132: temporal.api.common.v1.WorkflowType
-	(*v14.TaskQueue)(nil),                                                   // 133: temporal.api.taskqueue.v1.TaskQueue
-	(*v13.Payloads)(nil),                                                    // 134: temporal.api.common.v1.Payloads
-	(v11.WorkflowIdReusePolicy)(0),                                          // 135: temporal.api.enums.v1.WorkflowIdReusePolicy
-	(*v13.RetryPolicy)(nil),                                                 // 136: temporal.api.common.v1.RetryPolicy
-	(*v13.Memo)(nil),                                                        // 137: temporal.api.common.v1.Memo
-	(*v13.SearchAttributes)(nil),                                            // 138: temporal.api.common.v1.SearchAttributes
-	(*v13.Header)(nil),                                                      // 139: temporal.api.common.v1.Header
-	(*v15.Failure)(nil),                                                     // 140: temporal.api.failure.v1.Failure
-	(*v13.WorkflowExecution)(nil),                                           // 141: temporal.api.common.v1.WorkflowExecution
-	(v11.HistoryEventFilterType)(0),                                         // 142: temporal.api.enums.v1.HistoryEventFilterType
-	(*v16.History)(nil),                                                     // 143: temporal.api.history.v1.History
-	(*v13.DataBlob)(nil),                                                    // 144: temporal.api.common.v1.DataBlob
-	(*v13.WorkerVersionCapabilities)(nil),                                   // 145: temporal.api.common.v1.WorkerVersionCapabilities
-	(*v17.WorkflowQuery)(nil),                                               // 146: temporal.api.query.v1.WorkflowQuery
-	(*timestamppb.Timestamp)(nil),                                           // 147: google.protobuf.Timestamp
-	(*v18.Message)(nil),                                                     // 148: temporal.api.protocol.v1.Message
-	(*v19.Command)(nil),                                                     // 149: temporal.api.command.v1.Command
-	(*v14.StickyExecutionAttributes)(nil),                                   // 150: temporal.api.taskqueue.v1.StickyExecutionAttributes
-	(*v13.WorkerVersionStamp)(nil),                                          // 151: temporal.api.common.v1.WorkerVersionStamp
-	(*v110.WorkflowTaskCompletedMetadata)(nil),                              // 152: temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
-	(*v13.MeteringMetadata)(nil),                                            // 153: temporal.api.common.v1.MeteringMetadata
-	(v11.WorkflowTaskFailedCause)(0),                                        // 154: temporal.api.enums.v1.WorkflowTaskFailedCause
-	(*v14.TaskQueueMetadata)(nil),                                           // 155: temporal.api.taskqueue.v1.TaskQueueMetadata
-	(*v13.ActivityType)(nil),                                                // 156: temporal.api.common.v1.ActivityType
-	(v11.ResetReapplyType)(0),                                               // 157: temporal.api.enums.v1.ResetReapplyType
-	(*v111.StartTimeFilter)(nil),                                            // 158: temporal.api.filter.v1.StartTimeFilter
-	(*v111.WorkflowExecutionFilter)(nil),                                    // 159: temporal.api.filter.v1.WorkflowExecutionFilter
-	(*v111.WorkflowTypeFilter)(nil),                                         // 160: temporal.api.filter.v1.WorkflowTypeFilter
-	(*v112.WorkflowExecutionInfo)(nil),                                      // 161: temporal.api.workflow.v1.WorkflowExecutionInfo
-	(*v111.StatusFilter)(nil),                                               // 162: temporal.api.filter.v1.StatusFilter
-	(v11.QueryResultType)(0),                                                // 163: temporal.api.enums.v1.QueryResultType
-	(v11.QueryRejectCondition)(0),                                           // 164: temporal.api.enums.v1.QueryRejectCondition
-	(*v17.QueryRejected)(nil),                                               // 165: temporal.api.query.v1.QueryRejected
-	(*v112.WorkflowExecutionConfig)(nil),                                    // 166: temporal.api.workflow.v1.WorkflowExecutionConfig
-	(*v112.PendingActivityInfo)(nil),                                        // 167: temporal.api.workflow.v1.PendingActivityInfo
-	(*v112.PendingChildExecutionInfo)(nil),                                  // 168: temporal.api.workflow.v1.PendingChildExecutionInfo
-	(*v112.PendingWorkflowTaskInfo)(nil),                                    // 169: temporal.api.workflow.v1.PendingWorkflowTaskInfo
-	(v11.TaskQueueType)(0),                                                  // 170: temporal.api.enums.v1.TaskQueueType
-	(*v14.PollerInfo)(nil),                                                  // 171: temporal.api.taskqueue.v1.PollerInfo
-	(*v14.TaskQueueStatus)(nil),                                             // 172: temporal.api.taskqueue.v1.TaskQueueStatus
-	(*v113.VersionInfo)(nil),                                                // 173: temporal.api.version.v1.VersionInfo
-	(*v14.TaskQueuePartitionMetadata)(nil),                                  // 174: temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
-	(*v114.Schedule)(nil),                                                   // 175: temporal.api.schedule.v1.Schedule
-	(*v114.SchedulePatch)(nil),                                              // 176: temporal.api.schedule.v1.SchedulePatch
-	(*v114.ScheduleInfo)(nil),                                               // 177: temporal.api.schedule.v1.ScheduleInfo
-	(*v114.ScheduleListEntry)(nil),                                          // 178: temporal.api.schedule.v1.ScheduleListEntry
-	(*v14.CompatibleVersionSet)(nil),                                        // 179: temporal.api.taskqueue.v1.CompatibleVersionSet
-	(v11.TaskReachability)(0),                                               // 180: temporal.api.enums.v1.TaskReachability
-	(*v14.BuildIdReachability)(nil),                                         // 181: temporal.api.taskqueue.v1.BuildIdReachability
-	(*v115.WaitPolicy)(nil),                                                 // 182: temporal.api.update.v1.WaitPolicy
-	(*v115.Request)(nil),                                                    // 183: temporal.api.update.v1.Request
-	(*v115.UpdateRef)(nil),                                                  // 184: temporal.api.update.v1.UpdateRef
-	(*v115.Outcome)(nil),                                                    // 185: temporal.api.update.v1.Outcome
-	(v11.UpdateWorkflowExecutionLifecycleStage)(0),                          // 186: temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
-	(*v116.BatchOperationTermination)(nil),                                  // 187: temporal.api.batch.v1.BatchOperationTermination
-	(*v116.BatchOperationSignal)(nil),                                       // 188: temporal.api.batch.v1.BatchOperationSignal
-	(*v116.BatchOperationCancellation)(nil),                                 // 189: temporal.api.batch.v1.BatchOperationCancellation
-	(*v116.BatchOperationDeletion)(nil),                                     // 190: temporal.api.batch.v1.BatchOperationDeletion
-	(*v116.BatchOperationReset)(nil),                                        // 191: temporal.api.batch.v1.BatchOperationReset
-	(v11.BatchOperationType)(0),                                             // 192: temporal.api.enums.v1.BatchOperationType
-	(v11.BatchOperationState)(0),                                            // 193: temporal.api.enums.v1.BatchOperationState
-	(*v116.BatchOperationInfo)(nil),                                         // 194: temporal.api.batch.v1.BatchOperationInfo
-	(*v17.WorkflowQueryResult)(nil),                                         // 195: temporal.api.query.v1.WorkflowQueryResult
-	(*v13.Payload)(nil),                                                     // 196: temporal.api.common.v1.Payload
-	(v11.IndexedValueType)(0),                                               // 197: temporal.api.enums.v1.IndexedValueType
+	(*UpdateWorkerVersioningRulesRequest)(nil),         // 100: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest
+	(*UpdateWorkerVersioningRulesResponse)(nil),        // 101: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse
+	(*ListWorkerVersioningRulesRequest)(nil),           // 102: temporal.api.workflowservice.v1.ListWorkerVersioningRulesRequest
+	(*ListWorkerVersioningRulesResponse)(nil),          // 103: temporal.api.workflowservice.v1.ListWorkerVersioningRulesResponse
+	(*GetWorkerTaskReachabilityRequest)(nil),           // 104: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityRequest
+	(*GetWorkerTaskReachabilityResponse)(nil),          // 105: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse
+	(*UpdateWorkflowExecutionRequest)(nil),             // 106: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
+	(*UpdateWorkflowExecutionResponse)(nil),            // 107: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
+	(*StartBatchOperationRequest)(nil),                 // 108: temporal.api.workflowservice.v1.StartBatchOperationRequest
+	(*StartBatchOperationResponse)(nil),                // 109: temporal.api.workflowservice.v1.StartBatchOperationResponse
+	(*StopBatchOperationRequest)(nil),                  // 110: temporal.api.workflowservice.v1.StopBatchOperationRequest
+	(*StopBatchOperationResponse)(nil),                 // 111: temporal.api.workflowservice.v1.StopBatchOperationResponse
+	(*DescribeBatchOperationRequest)(nil),              // 112: temporal.api.workflowservice.v1.DescribeBatchOperationRequest
+	(*DescribeBatchOperationResponse)(nil),             // 113: temporal.api.workflowservice.v1.DescribeBatchOperationResponse
+	(*ListBatchOperationsRequest)(nil),                 // 114: temporal.api.workflowservice.v1.ListBatchOperationsRequest
+	(*ListBatchOperationsResponse)(nil),                // 115: temporal.api.workflowservice.v1.ListBatchOperationsResponse
+	(*PollWorkflowExecutionUpdateRequest)(nil),         // 116: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest
+	(*PollWorkflowExecutionUpdateResponse)(nil),        // 117: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse
+	nil, // 118: temporal.api.workflowservice.v1.RegisterNamespaceRequest.DataEntry
+	nil, // 119: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry
+	nil, // 120: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry
+	(*CountWorkflowExecutionsResponse_AggregationGroup)(nil), // 121: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup
+	nil, // 122: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry
+	nil, // 123: temporal.api.workflowservice.v1.GetClusterInfoResponse.SupportedClientsEntry
+	(*GetSystemInfoResponse_Capabilities)(nil),                                      // 124: temporal.api.workflowservice.v1.GetSystemInfoResponse.Capabilities
+	(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion)(nil),         // 125: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.AddNewCompatibleVersion
+	(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets)(nil),                       // 126: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.MergeSets
+	(*UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule)(nil),          // 127: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule
+	(*UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule)(nil),         // 128: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule
+	(*UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule)(nil),          // 129: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.DeleteBuildIdAssignmentRule
+	(*UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule)(nil),     // 130: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule
+	(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule)(nil), // 131: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule
+	(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule)(nil),  // 132: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.DeleteCompatibleBuildIdRedirectRule
+	(*UpdateWorkerVersioningRulesRequest_CommitBuildId)(nil),                        // 133: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.CommitBuildId
+	(*durationpb.Duration)(nil),                                                     // 134: google.protobuf.Duration
+	(*v1.ClusterReplicationConfig)(nil),                                             // 135: temporal.api.replication.v1.ClusterReplicationConfig
+	(v11.ArchivalState)(0),                                                          // 136: temporal.api.enums.v1.ArchivalState
+	(*v12.NamespaceFilter)(nil),                                                     // 137: temporal.api.namespace.v1.NamespaceFilter
+	(*v12.NamespaceInfo)(nil),                                                       // 138: temporal.api.namespace.v1.NamespaceInfo
+	(*v12.NamespaceConfig)(nil),                                                     // 139: temporal.api.namespace.v1.NamespaceConfig
+	(*v1.NamespaceReplicationConfig)(nil),                                           // 140: temporal.api.replication.v1.NamespaceReplicationConfig
+	(*v1.FailoverStatus)(nil),                                                       // 141: temporal.api.replication.v1.FailoverStatus
+	(*v12.UpdateNamespaceInfo)(nil),                                                 // 142: temporal.api.namespace.v1.UpdateNamespaceInfo
+	(*v13.WorkflowType)(nil),                                                        // 143: temporal.api.common.v1.WorkflowType
+	(*v14.TaskQueue)(nil),                                                           // 144: temporal.api.taskqueue.v1.TaskQueue
+	(*v13.Payloads)(nil),                                                            // 145: temporal.api.common.v1.Payloads
+	(v11.WorkflowIdReusePolicy)(0),                                                  // 146: temporal.api.enums.v1.WorkflowIdReusePolicy
+	(*v13.RetryPolicy)(nil),                                                         // 147: temporal.api.common.v1.RetryPolicy
+	(*v13.Memo)(nil),                                                                // 148: temporal.api.common.v1.Memo
+	(*v13.SearchAttributes)(nil),                                                    // 149: temporal.api.common.v1.SearchAttributes
+	(*v13.Header)(nil),                                                              // 150: temporal.api.common.v1.Header
+	(*v15.Failure)(nil),                                                             // 151: temporal.api.failure.v1.Failure
+	(*v13.WorkflowExecution)(nil),                                                   // 152: temporal.api.common.v1.WorkflowExecution
+	(v11.HistoryEventFilterType)(0),                                                 // 153: temporal.api.enums.v1.HistoryEventFilterType
+	(*v16.History)(nil),                                                             // 154: temporal.api.history.v1.History
+	(*v13.DataBlob)(nil),                                                            // 155: temporal.api.common.v1.DataBlob
+	(*v13.WorkerVersionCapabilities)(nil),                                           // 156: temporal.api.common.v1.WorkerVersionCapabilities
+	(*v17.WorkflowQuery)(nil),                                                       // 157: temporal.api.query.v1.WorkflowQuery
+	(*timestamppb.Timestamp)(nil),                                                   // 158: google.protobuf.Timestamp
+	(*v18.Message)(nil),                                                             // 159: temporal.api.protocol.v1.Message
+	(*v19.Command)(nil),                                                             // 160: temporal.api.command.v1.Command
+	(*v14.StickyExecutionAttributes)(nil),                                           // 161: temporal.api.taskqueue.v1.StickyExecutionAttributes
+	(*v13.WorkerVersionStamp)(nil),                                                  // 162: temporal.api.common.v1.WorkerVersionStamp
+	(*v110.WorkflowTaskCompletedMetadata)(nil),                                      // 163: temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
+	(*v13.MeteringMetadata)(nil),                                                    // 164: temporal.api.common.v1.MeteringMetadata
+	(v11.WorkflowTaskFailedCause)(0),                                                // 165: temporal.api.enums.v1.WorkflowTaskFailedCause
+	(*v14.TaskQueueMetadata)(nil),                                                   // 166: temporal.api.taskqueue.v1.TaskQueueMetadata
+	(*v13.ActivityType)(nil),                                                        // 167: temporal.api.common.v1.ActivityType
+	(v11.ResetReapplyType)(0),                                                       // 168: temporal.api.enums.v1.ResetReapplyType
+	(*v111.StartTimeFilter)(nil),                                                    // 169: temporal.api.filter.v1.StartTimeFilter
+	(*v111.WorkflowExecutionFilter)(nil),                                            // 170: temporal.api.filter.v1.WorkflowExecutionFilter
+	(*v111.WorkflowTypeFilter)(nil),                                                 // 171: temporal.api.filter.v1.WorkflowTypeFilter
+	(*v112.WorkflowExecutionInfo)(nil),                                              // 172: temporal.api.workflow.v1.WorkflowExecutionInfo
+	(*v111.StatusFilter)(nil),                                                       // 173: temporal.api.filter.v1.StatusFilter
+	(v11.QueryResultType)(0),                                                        // 174: temporal.api.enums.v1.QueryResultType
+	(v11.QueryRejectCondition)(0),                                                   // 175: temporal.api.enums.v1.QueryRejectCondition
+	(*v17.QueryRejected)(nil),                                                       // 176: temporal.api.query.v1.QueryRejected
+	(*v112.WorkflowExecutionConfig)(nil),                                            // 177: temporal.api.workflow.v1.WorkflowExecutionConfig
+	(*v112.PendingActivityInfo)(nil),                                                // 178: temporal.api.workflow.v1.PendingActivityInfo
+	(*v112.PendingChildExecutionInfo)(nil),                                          // 179: temporal.api.workflow.v1.PendingChildExecutionInfo
+	(*v112.PendingWorkflowTaskInfo)(nil),                                            // 180: temporal.api.workflow.v1.PendingWorkflowTaskInfo
+	(v11.TaskQueueType)(0),                                                          // 181: temporal.api.enums.v1.TaskQueueType
+	(*v14.PollerInfo)(nil),                                                          // 182: temporal.api.taskqueue.v1.PollerInfo
+	(*v14.TaskQueueStatus)(nil),                                                     // 183: temporal.api.taskqueue.v1.TaskQueueStatus
+	(*v113.VersionInfo)(nil),                                                        // 184: temporal.api.version.v1.VersionInfo
+	(*v14.TaskQueuePartitionMetadata)(nil),                                          // 185: temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
+	(*v114.Schedule)(nil),                                                           // 186: temporal.api.schedule.v1.Schedule
+	(*v114.SchedulePatch)(nil),                                                      // 187: temporal.api.schedule.v1.SchedulePatch
+	(*v114.ScheduleInfo)(nil),                                                       // 188: temporal.api.schedule.v1.ScheduleInfo
+	(*v114.ScheduleListEntry)(nil),                                                  // 189: temporal.api.schedule.v1.ScheduleListEntry
+	(*v14.CompatibleVersionSet)(nil),                                                // 190: temporal.api.taskqueue.v1.CompatibleVersionSet
+	(*v14.BuildIdAssignmentRule)(nil),                                               // 191: temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	(*v14.CompatibleBuildIdRedirectRule)(nil),                                       // 192: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	(v11.TaskReachability)(0),                                                       // 193: temporal.api.enums.v1.TaskReachability
+	(*v14.BuildIdReachability)(nil),                                                 // 194: temporal.api.taskqueue.v1.BuildIdReachability
+	(*v115.WaitPolicy)(nil),                                                         // 195: temporal.api.update.v1.WaitPolicy
+	(*v115.Request)(nil),                                                            // 196: temporal.api.update.v1.Request
+	(*v115.UpdateRef)(nil),                                                          // 197: temporal.api.update.v1.UpdateRef
+	(*v115.Outcome)(nil),                                                            // 198: temporal.api.update.v1.Outcome
+	(v11.UpdateWorkflowExecutionLifecycleStage)(0),                                  // 199: temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
+	(*v116.BatchOperationTermination)(nil),                                          // 200: temporal.api.batch.v1.BatchOperationTermination
+	(*v116.BatchOperationSignal)(nil),                                               // 201: temporal.api.batch.v1.BatchOperationSignal
+	(*v116.BatchOperationCancellation)(nil),                                         // 202: temporal.api.batch.v1.BatchOperationCancellation
+	(*v116.BatchOperationDeletion)(nil),                                             // 203: temporal.api.batch.v1.BatchOperationDeletion
+	(*v116.BatchOperationReset)(nil),                                                // 204: temporal.api.batch.v1.BatchOperationReset
+	(v11.BatchOperationType)(0),                                                     // 205: temporal.api.enums.v1.BatchOperationType
+	(v11.BatchOperationState)(0),                                                    // 206: temporal.api.enums.v1.BatchOperationState
+	(*v116.BatchOperationInfo)(nil),                                                 // 207: temporal.api.batch.v1.BatchOperationInfo
+	(*v17.WorkflowQueryResult)(nil),                                                 // 208: temporal.api.query.v1.WorkflowQueryResult
+	(*v13.Payload)(nil),                                                             // 209: temporal.api.common.v1.Payload
+	(v11.IndexedValueType)(0),                                                       // 210: temporal.api.enums.v1.IndexedValueType
 }
 var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int32{
-	123, // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest.workflow_execution_retention_period:type_name -> google.protobuf.Duration
-	124, // 1: temporal.api.workflowservice.v1.RegisterNamespaceRequest.clusters:type_name -> temporal.api.replication.v1.ClusterReplicationConfig
-	114, // 2: temporal.api.workflowservice.v1.RegisterNamespaceRequest.data:type_name -> temporal.api.workflowservice.v1.RegisterNamespaceRequest.DataEntry
-	125, // 3: temporal.api.workflowservice.v1.RegisterNamespaceRequest.history_archival_state:type_name -> temporal.api.enums.v1.ArchivalState
-	125, // 4: temporal.api.workflowservice.v1.RegisterNamespaceRequest.visibility_archival_state:type_name -> temporal.api.enums.v1.ArchivalState
-	126, // 5: temporal.api.workflowservice.v1.ListNamespacesRequest.namespace_filter:type_name -> temporal.api.namespace.v1.NamespaceFilter
+	134, // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest.workflow_execution_retention_period:type_name -> google.protobuf.Duration
+	135, // 1: temporal.api.workflowservice.v1.RegisterNamespaceRequest.clusters:type_name -> temporal.api.replication.v1.ClusterReplicationConfig
+	118, // 2: temporal.api.workflowservice.v1.RegisterNamespaceRequest.data:type_name -> temporal.api.workflowservice.v1.RegisterNamespaceRequest.DataEntry
+	136, // 3: temporal.api.workflowservice.v1.RegisterNamespaceRequest.history_archival_state:type_name -> temporal.api.enums.v1.ArchivalState
+	136, // 4: temporal.api.workflowservice.v1.RegisterNamespaceRequest.visibility_archival_state:type_name -> temporal.api.enums.v1.ArchivalState
+	137, // 5: temporal.api.workflowservice.v1.ListNamespacesRequest.namespace_filter:type_name -> temporal.api.namespace.v1.NamespaceFilter
 	5,   // 6: temporal.api.workflowservice.v1.ListNamespacesResponse.namespaces:type_name -> temporal.api.workflowservice.v1.DescribeNamespaceResponse
-	127, // 7: temporal.api.workflowservice.v1.DescribeNamespaceResponse.namespace_info:type_name -> temporal.api.namespace.v1.NamespaceInfo
-	128, // 8: temporal.api.workflowservice.v1.DescribeNamespaceResponse.config:type_name -> temporal.api.namespace.v1.NamespaceConfig
-	129, // 9: temporal.api.workflowservice.v1.DescribeNamespaceResponse.replication_config:type_name -> temporal.api.replication.v1.NamespaceReplicationConfig
-	130, // 10: temporal.api.workflowservice.v1.DescribeNamespaceResponse.failover_history:type_name -> temporal.api.replication.v1.FailoverStatus
-	131, // 11: temporal.api.workflowservice.v1.UpdateNamespaceRequest.update_info:type_name -> temporal.api.namespace.v1.UpdateNamespaceInfo
-	128, // 12: temporal.api.workflowservice.v1.UpdateNamespaceRequest.config:type_name -> temporal.api.namespace.v1.NamespaceConfig
-	129, // 13: temporal.api.workflowservice.v1.UpdateNamespaceRequest.replication_config:type_name -> temporal.api.replication.v1.NamespaceReplicationConfig
-	127, // 14: temporal.api.workflowservice.v1.UpdateNamespaceResponse.namespace_info:type_name -> temporal.api.namespace.v1.NamespaceInfo
-	128, // 15: temporal.api.workflowservice.v1.UpdateNamespaceResponse.config:type_name -> temporal.api.namespace.v1.NamespaceConfig
-	129, // 16: temporal.api.workflowservice.v1.UpdateNamespaceResponse.replication_config:type_name -> temporal.api.replication.v1.NamespaceReplicationConfig
-	132, // 17: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	133, // 18: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	134, // 19: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
-	123, // 20: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_execution_timeout:type_name -> google.protobuf.Duration
-	123, // 21: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_run_timeout:type_name -> google.protobuf.Duration
-	123, // 22: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_task_timeout:type_name -> google.protobuf.Duration
-	135, // 23: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_id_reuse_policy:type_name -> temporal.api.enums.v1.WorkflowIdReusePolicy
-	136, // 24: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	137, // 25: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.memo:type_name -> temporal.api.common.v1.Memo
-	138, // 26: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	139, // 27: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
-	140, // 28: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.continued_failure:type_name -> temporal.api.failure.v1.Failure
-	134, // 29: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.last_completion_result:type_name -> temporal.api.common.v1.Payloads
-	123, // 30: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_start_delay:type_name -> google.protobuf.Duration
+	138, // 7: temporal.api.workflowservice.v1.DescribeNamespaceResponse.namespace_info:type_name -> temporal.api.namespace.v1.NamespaceInfo
+	139, // 8: temporal.api.workflowservice.v1.DescribeNamespaceResponse.config:type_name -> temporal.api.namespace.v1.NamespaceConfig
+	140, // 9: temporal.api.workflowservice.v1.DescribeNamespaceResponse.replication_config:type_name -> temporal.api.replication.v1.NamespaceReplicationConfig
+	141, // 10: temporal.api.workflowservice.v1.DescribeNamespaceResponse.failover_history:type_name -> temporal.api.replication.v1.FailoverStatus
+	142, // 11: temporal.api.workflowservice.v1.UpdateNamespaceRequest.update_info:type_name -> temporal.api.namespace.v1.UpdateNamespaceInfo
+	139, // 12: temporal.api.workflowservice.v1.UpdateNamespaceRequest.config:type_name -> temporal.api.namespace.v1.NamespaceConfig
+	140, // 13: temporal.api.workflowservice.v1.UpdateNamespaceRequest.replication_config:type_name -> temporal.api.replication.v1.NamespaceReplicationConfig
+	138, // 14: temporal.api.workflowservice.v1.UpdateNamespaceResponse.namespace_info:type_name -> temporal.api.namespace.v1.NamespaceInfo
+	139, // 15: temporal.api.workflowservice.v1.UpdateNamespaceResponse.config:type_name -> temporal.api.namespace.v1.NamespaceConfig
+	140, // 16: temporal.api.workflowservice.v1.UpdateNamespaceResponse.replication_config:type_name -> temporal.api.replication.v1.NamespaceReplicationConfig
+	143, // 17: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	144, // 18: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	145, // 19: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
+	134, // 20: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_execution_timeout:type_name -> google.protobuf.Duration
+	134, // 21: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_run_timeout:type_name -> google.protobuf.Duration
+	134, // 22: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_task_timeout:type_name -> google.protobuf.Duration
+	146, // 23: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_id_reuse_policy:type_name -> temporal.api.enums.v1.WorkflowIdReusePolicy
+	147, // 24: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	148, // 25: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.memo:type_name -> temporal.api.common.v1.Memo
+	149, // 26: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	150, // 27: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
+	151, // 28: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.continued_failure:type_name -> temporal.api.failure.v1.Failure
+	145, // 29: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.last_completion_result:type_name -> temporal.api.common.v1.Payloads
+	134, // 30: temporal.api.workflowservice.v1.StartWorkflowExecutionRequest.workflow_start_delay:type_name -> google.protobuf.Duration
 	17,  // 31: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse.eager_workflow_task:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
-	141, // 32: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	142, // 33: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest.history_event_filter_type:type_name -> temporal.api.enums.v1.HistoryEventFilterType
-	143, // 34: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.history:type_name -> temporal.api.history.v1.History
-	144, // 35: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.raw_history:type_name -> temporal.api.common.v1.DataBlob
-	141, // 36: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	143, // 37: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse.history:type_name -> temporal.api.history.v1.History
-	133, // 38: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	145, // 39: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
-	141, // 40: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	132, // 41: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	143, // 42: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.history:type_name -> temporal.api.history.v1.History
-	146, // 43: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.query:type_name -> temporal.api.query.v1.WorkflowQuery
-	133, // 44: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_execution_task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	147, // 45: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.scheduled_time:type_name -> google.protobuf.Timestamp
-	147, // 46: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.started_time:type_name -> google.protobuf.Timestamp
-	115, // 47: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.queries:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry
-	148, // 48: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.messages:type_name -> temporal.api.protocol.v1.Message
-	149, // 49: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.commands:type_name -> temporal.api.command.v1.Command
-	150, // 50: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.sticky_attributes:type_name -> temporal.api.taskqueue.v1.StickyExecutionAttributes
-	116, // 51: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.query_results:type_name -> temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry
-	151, // 52: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.worker_version_stamp:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	148, // 53: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.messages:type_name -> temporal.api.protocol.v1.Message
-	152, // 54: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.sdk_metadata:type_name -> temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
-	153, // 55: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.metering_metadata:type_name -> temporal.api.common.v1.MeteringMetadata
+	152, // 32: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	153, // 33: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryRequest.history_event_filter_type:type_name -> temporal.api.enums.v1.HistoryEventFilterType
+	154, // 34: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.history:type_name -> temporal.api.history.v1.History
+	155, // 35: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse.raw_history:type_name -> temporal.api.common.v1.DataBlob
+	152, // 36: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	154, // 37: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse.history:type_name -> temporal.api.history.v1.History
+	144, // 38: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	156, // 39: temporal.api.workflowservice.v1.PollWorkflowTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
+	152, // 40: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	143, // 41: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	154, // 42: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.history:type_name -> temporal.api.history.v1.History
+	157, // 43: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.query:type_name -> temporal.api.query.v1.WorkflowQuery
+	144, // 44: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.workflow_execution_task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	158, // 45: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.scheduled_time:type_name -> google.protobuf.Timestamp
+	158, // 46: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.started_time:type_name -> google.protobuf.Timestamp
+	119, // 47: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.queries:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry
+	159, // 48: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.messages:type_name -> temporal.api.protocol.v1.Message
+	160, // 49: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.commands:type_name -> temporal.api.command.v1.Command
+	161, // 50: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.sticky_attributes:type_name -> temporal.api.taskqueue.v1.StickyExecutionAttributes
+	120, // 51: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.query_results:type_name -> temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry
+	162, // 52: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.worker_version_stamp:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	159, // 53: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.messages:type_name -> temporal.api.protocol.v1.Message
+	163, // 54: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.sdk_metadata:type_name -> temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
+	164, // 55: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.metering_metadata:type_name -> temporal.api.common.v1.MeteringMetadata
 	17,  // 56: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse.workflow_task:type_name -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
 	23,  // 57: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse.activity_tasks:type_name -> temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
-	154, // 58: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.cause:type_name -> temporal.api.enums.v1.WorkflowTaskFailedCause
-	140, // 59: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
-	148, // 60: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.messages:type_name -> temporal.api.protocol.v1.Message
-	151, // 61: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	133, // 62: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	155, // 63: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.task_queue_metadata:type_name -> temporal.api.taskqueue.v1.TaskQueueMetadata
-	145, // 64: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
-	132, // 65: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	141, // 66: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	156, // 67: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	139, // 68: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.header:type_name -> temporal.api.common.v1.Header
-	134, // 69: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.input:type_name -> temporal.api.common.v1.Payloads
-	134, // 70: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	147, // 71: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.scheduled_time:type_name -> google.protobuf.Timestamp
-	147, // 72: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.current_attempt_scheduled_time:type_name -> google.protobuf.Timestamp
-	147, // 73: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.started_time:type_name -> google.protobuf.Timestamp
-	123, // 74: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.schedule_to_close_timeout:type_name -> google.protobuf.Duration
-	123, // 75: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.start_to_close_timeout:type_name -> google.protobuf.Duration
-	123, // 76: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.heartbeat_timeout:type_name -> google.protobuf.Duration
-	136, // 77: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	134, // 78: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatRequest.details:type_name -> temporal.api.common.v1.Payloads
-	134, // 79: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdRequest.details:type_name -> temporal.api.common.v1.Payloads
-	134, // 80: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.result:type_name -> temporal.api.common.v1.Payloads
-	151, // 81: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	134, // 82: temporal.api.workflowservice.v1.RespondActivityTaskCompletedByIdRequest.result:type_name -> temporal.api.common.v1.Payloads
-	140, // 83: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
-	134, // 84: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	151, // 85: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	123, // 86: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.next_retry_delay:type_name -> google.protobuf.Duration
-	140, // 87: temporal.api.workflowservice.v1.RespondActivityTaskFailedResponse.failures:type_name -> temporal.api.failure.v1.Failure
-	140, // 88: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.failure:type_name -> temporal.api.failure.v1.Failure
-	134, // 89: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	140, // 90: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdResponse.failures:type_name -> temporal.api.failure.v1.Failure
-	134, // 91: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.details:type_name -> temporal.api.common.v1.Payloads
-	151, // 92: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
-	134, // 93: temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdRequest.details:type_name -> temporal.api.common.v1.Payloads
-	141, // 94: temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	141, // 95: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	134, // 96: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
-	139, // 97: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
-	132, // 98: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	133, // 99: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	134, // 100: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
-	123, // 101: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_execution_timeout:type_name -> google.protobuf.Duration
-	123, // 102: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_run_timeout:type_name -> google.protobuf.Duration
-	123, // 103: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_task_timeout:type_name -> google.protobuf.Duration
-	135, // 104: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_id_reuse_policy:type_name -> temporal.api.enums.v1.WorkflowIdReusePolicy
-	134, // 105: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.signal_input:type_name -> temporal.api.common.v1.Payloads
-	136, // 106: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	137, // 107: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.memo:type_name -> temporal.api.common.v1.Memo
-	138, // 108: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	139, // 109: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
-	123, // 110: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_start_delay:type_name -> google.protobuf.Duration
-	141, // 111: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	157, // 112: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
-	141, // 113: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	134, // 114: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.details:type_name -> temporal.api.common.v1.Payloads
-	141, // 115: temporal.api.workflowservice.v1.DeleteWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	158, // 116: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.start_time_filter:type_name -> temporal.api.filter.v1.StartTimeFilter
-	159, // 117: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.execution_filter:type_name -> temporal.api.filter.v1.WorkflowExecutionFilter
-	160, // 118: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.type_filter:type_name -> temporal.api.filter.v1.WorkflowTypeFilter
-	161, // 119: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	158, // 120: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.start_time_filter:type_name -> temporal.api.filter.v1.StartTimeFilter
-	159, // 121: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.execution_filter:type_name -> temporal.api.filter.v1.WorkflowExecutionFilter
-	160, // 122: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.type_filter:type_name -> temporal.api.filter.v1.WorkflowTypeFilter
-	162, // 123: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.status_filter:type_name -> temporal.api.filter.v1.StatusFilter
-	161, // 124: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	161, // 125: temporal.api.workflowservice.v1.ListWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	161, // 126: temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	161, // 127: temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	117, // 128: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup
-	118, // 129: temporal.api.workflowservice.v1.GetSearchAttributesResponse.keys:type_name -> temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry
-	163, // 130: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.completed_type:type_name -> temporal.api.enums.v1.QueryResultType
-	134, // 131: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.query_result:type_name -> temporal.api.common.v1.Payloads
-	141, // 132: temporal.api.workflowservice.v1.ResetStickyTaskQueueRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	141, // 133: temporal.api.workflowservice.v1.QueryWorkflowRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	146, // 134: temporal.api.workflowservice.v1.QueryWorkflowRequest.query:type_name -> temporal.api.query.v1.WorkflowQuery
-	164, // 135: temporal.api.workflowservice.v1.QueryWorkflowRequest.query_reject_condition:type_name -> temporal.api.enums.v1.QueryRejectCondition
-	134, // 136: temporal.api.workflowservice.v1.QueryWorkflowResponse.query_result:type_name -> temporal.api.common.v1.Payloads
-	165, // 137: temporal.api.workflowservice.v1.QueryWorkflowResponse.query_rejected:type_name -> temporal.api.query.v1.QueryRejected
-	141, // 138: temporal.api.workflowservice.v1.DescribeWorkflowExecutionRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	166, // 139: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.execution_config:type_name -> temporal.api.workflow.v1.WorkflowExecutionConfig
-	161, // 140: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.workflow_execution_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
-	167, // 141: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_activities:type_name -> temporal.api.workflow.v1.PendingActivityInfo
-	168, // 142: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_children:type_name -> temporal.api.workflow.v1.PendingChildExecutionInfo
-	169, // 143: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_workflow_task:type_name -> temporal.api.workflow.v1.PendingWorkflowTaskInfo
-	133, // 144: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	170, // 145: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue_type:type_name -> temporal.api.enums.v1.TaskQueueType
-	171, // 146: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.pollers:type_name -> temporal.api.taskqueue.v1.PollerInfo
-	172, // 147: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.task_queue_status:type_name -> temporal.api.taskqueue.v1.TaskQueueStatus
-	119, // 148: temporal.api.workflowservice.v1.GetClusterInfoResponse.supported_clients:type_name -> temporal.api.workflowservice.v1.GetClusterInfoResponse.SupportedClientsEntry
-	173, // 149: temporal.api.workflowservice.v1.GetClusterInfoResponse.version_info:type_name -> temporal.api.version.v1.VersionInfo
-	120, // 150: temporal.api.workflowservice.v1.GetSystemInfoResponse.capabilities:type_name -> temporal.api.workflowservice.v1.GetSystemInfoResponse.Capabilities
-	133, // 151: temporal.api.workflowservice.v1.ListTaskQueuePartitionsRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	174, // 152: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse.activity_task_queue_partitions:type_name -> temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
-	174, // 153: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse.workflow_task_queue_partitions:type_name -> temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
-	175, // 154: temporal.api.workflowservice.v1.CreateScheduleRequest.schedule:type_name -> temporal.api.schedule.v1.Schedule
-	176, // 155: temporal.api.workflowservice.v1.CreateScheduleRequest.initial_patch:type_name -> temporal.api.schedule.v1.SchedulePatch
-	137, // 156: temporal.api.workflowservice.v1.CreateScheduleRequest.memo:type_name -> temporal.api.common.v1.Memo
-	138, // 157: temporal.api.workflowservice.v1.CreateScheduleRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	175, // 158: temporal.api.workflowservice.v1.DescribeScheduleResponse.schedule:type_name -> temporal.api.schedule.v1.Schedule
-	177, // 159: temporal.api.workflowservice.v1.DescribeScheduleResponse.info:type_name -> temporal.api.schedule.v1.ScheduleInfo
-	137, // 160: temporal.api.workflowservice.v1.DescribeScheduleResponse.memo:type_name -> temporal.api.common.v1.Memo
-	138, // 161: temporal.api.workflowservice.v1.DescribeScheduleResponse.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	175, // 162: temporal.api.workflowservice.v1.UpdateScheduleRequest.schedule:type_name -> temporal.api.schedule.v1.Schedule
-	176, // 163: temporal.api.workflowservice.v1.PatchScheduleRequest.patch:type_name -> temporal.api.schedule.v1.SchedulePatch
-	147, // 164: temporal.api.workflowservice.v1.ListScheduleMatchingTimesRequest.start_time:type_name -> google.protobuf.Timestamp
-	147, // 165: temporal.api.workflowservice.v1.ListScheduleMatchingTimesRequest.end_time:type_name -> google.protobuf.Timestamp
-	147, // 166: temporal.api.workflowservice.v1.ListScheduleMatchingTimesResponse.start_time:type_name -> google.protobuf.Timestamp
-	178, // 167: temporal.api.workflowservice.v1.ListSchedulesResponse.schedules:type_name -> temporal.api.schedule.v1.ScheduleListEntry
-	121, // 168: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.add_new_compatible_build_id:type_name -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.AddNewCompatibleVersion
-	122, // 169: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.merge_sets:type_name -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.MergeSets
-	179, // 170: temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse.major_version_sets:type_name -> temporal.api.taskqueue.v1.CompatibleVersionSet
-	180, // 171: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityRequest.reachability:type_name -> temporal.api.enums.v1.TaskReachability
-	181, // 172: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse.build_id_reachability:type_name -> temporal.api.taskqueue.v1.BuildIdReachability
-	141, // 173: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	182, // 174: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.wait_policy:type_name -> temporal.api.update.v1.WaitPolicy
-	183, // 175: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.request:type_name -> temporal.api.update.v1.Request
-	184, // 176: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.update_ref:type_name -> temporal.api.update.v1.UpdateRef
-	185, // 177: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.outcome:type_name -> temporal.api.update.v1.Outcome
-	186, // 178: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
-	141, // 179: temporal.api.workflowservice.v1.StartBatchOperationRequest.executions:type_name -> temporal.api.common.v1.WorkflowExecution
-	187, // 180: temporal.api.workflowservice.v1.StartBatchOperationRequest.termination_operation:type_name -> temporal.api.batch.v1.BatchOperationTermination
-	188, // 181: temporal.api.workflowservice.v1.StartBatchOperationRequest.signal_operation:type_name -> temporal.api.batch.v1.BatchOperationSignal
-	189, // 182: temporal.api.workflowservice.v1.StartBatchOperationRequest.cancellation_operation:type_name -> temporal.api.batch.v1.BatchOperationCancellation
-	190, // 183: temporal.api.workflowservice.v1.StartBatchOperationRequest.deletion_operation:type_name -> temporal.api.batch.v1.BatchOperationDeletion
-	191, // 184: temporal.api.workflowservice.v1.StartBatchOperationRequest.reset_operation:type_name -> temporal.api.batch.v1.BatchOperationReset
-	192, // 185: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.operation_type:type_name -> temporal.api.enums.v1.BatchOperationType
-	193, // 186: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.state:type_name -> temporal.api.enums.v1.BatchOperationState
-	147, // 187: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.start_time:type_name -> google.protobuf.Timestamp
-	147, // 188: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.close_time:type_name -> google.protobuf.Timestamp
-	194, // 189: temporal.api.workflowservice.v1.ListBatchOperationsResponse.operation_info:type_name -> temporal.api.batch.v1.BatchOperationInfo
-	184, // 190: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest.update_ref:type_name -> temporal.api.update.v1.UpdateRef
-	182, // 191: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest.wait_policy:type_name -> temporal.api.update.v1.WaitPolicy
-	185, // 192: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.outcome:type_name -> temporal.api.update.v1.Outcome
-	186, // 193: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
-	184, // 194: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.update_ref:type_name -> temporal.api.update.v1.UpdateRef
-	146, // 195: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
-	195, // 196: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
-	196, // 197: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
-	197, // 198: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	199, // [199:199] is the sub-list for method output_type
-	199, // [199:199] is the sub-list for method input_type
-	199, // [199:199] is the sub-list for extension type_name
-	199, // [199:199] is the sub-list for extension extendee
-	0,   // [0:199] is the sub-list for field type_name
+	165, // 58: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.cause:type_name -> temporal.api.enums.v1.WorkflowTaskFailedCause
+	151, // 59: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
+	159, // 60: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.messages:type_name -> temporal.api.protocol.v1.Message
+	162, // 61: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	144, // 62: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	166, // 63: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.task_queue_metadata:type_name -> temporal.api.taskqueue.v1.TaskQueueMetadata
+	156, // 64: temporal.api.workflowservice.v1.PollActivityTaskQueueRequest.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
+	143, // 65: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	152, // 66: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	167, // 67: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	150, // 68: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.header:type_name -> temporal.api.common.v1.Header
+	145, // 69: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.input:type_name -> temporal.api.common.v1.Payloads
+	145, // 70: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	158, // 71: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.scheduled_time:type_name -> google.protobuf.Timestamp
+	158, // 72: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.current_attempt_scheduled_time:type_name -> google.protobuf.Timestamp
+	158, // 73: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.started_time:type_name -> google.protobuf.Timestamp
+	134, // 74: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.schedule_to_close_timeout:type_name -> google.protobuf.Duration
+	134, // 75: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.start_to_close_timeout:type_name -> google.protobuf.Duration
+	134, // 76: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.heartbeat_timeout:type_name -> google.protobuf.Duration
+	147, // 77: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	145, // 78: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatRequest.details:type_name -> temporal.api.common.v1.Payloads
+	145, // 79: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdRequest.details:type_name -> temporal.api.common.v1.Payloads
+	145, // 80: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.result:type_name -> temporal.api.common.v1.Payloads
+	162, // 81: temporal.api.workflowservice.v1.RespondActivityTaskCompletedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	145, // 82: temporal.api.workflowservice.v1.RespondActivityTaskCompletedByIdRequest.result:type_name -> temporal.api.common.v1.Payloads
+	151, // 83: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.failure:type_name -> temporal.api.failure.v1.Failure
+	145, // 84: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	162, // 85: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	134, // 86: temporal.api.workflowservice.v1.RespondActivityTaskFailedRequest.next_retry_delay:type_name -> google.protobuf.Duration
+	151, // 87: temporal.api.workflowservice.v1.RespondActivityTaskFailedResponse.failures:type_name -> temporal.api.failure.v1.Failure
+	151, // 88: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.failure:type_name -> temporal.api.failure.v1.Failure
+	145, // 89: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdRequest.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	151, // 90: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdResponse.failures:type_name -> temporal.api.failure.v1.Failure
+	145, // 91: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.details:type_name -> temporal.api.common.v1.Payloads
+	162, // 92: temporal.api.workflowservice.v1.RespondActivityTaskCanceledRequest.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
+	145, // 93: temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdRequest.details:type_name -> temporal.api.common.v1.Payloads
+	152, // 94: temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	152, // 95: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	145, // 96: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
+	150, // 97: temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
+	143, // 98: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	144, // 99: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	145, // 100: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.input:type_name -> temporal.api.common.v1.Payloads
+	134, // 101: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_execution_timeout:type_name -> google.protobuf.Duration
+	134, // 102: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_run_timeout:type_name -> google.protobuf.Duration
+	134, // 103: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_task_timeout:type_name -> google.protobuf.Duration
+	146, // 104: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_id_reuse_policy:type_name -> temporal.api.enums.v1.WorkflowIdReusePolicy
+	145, // 105: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.signal_input:type_name -> temporal.api.common.v1.Payloads
+	147, // 106: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
+	148, // 107: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.memo:type_name -> temporal.api.common.v1.Memo
+	149, // 108: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	150, // 109: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.header:type_name -> temporal.api.common.v1.Header
+	134, // 110: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionRequest.workflow_start_delay:type_name -> google.protobuf.Duration
+	152, // 111: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	168, // 112: temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
+	152, // 113: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	145, // 114: temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.details:type_name -> temporal.api.common.v1.Payloads
+	152, // 115: temporal.api.workflowservice.v1.DeleteWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	169, // 116: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.start_time_filter:type_name -> temporal.api.filter.v1.StartTimeFilter
+	170, // 117: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.execution_filter:type_name -> temporal.api.filter.v1.WorkflowExecutionFilter
+	171, // 118: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsRequest.type_filter:type_name -> temporal.api.filter.v1.WorkflowTypeFilter
+	172, // 119: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	169, // 120: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.start_time_filter:type_name -> temporal.api.filter.v1.StartTimeFilter
+	170, // 121: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.execution_filter:type_name -> temporal.api.filter.v1.WorkflowExecutionFilter
+	171, // 122: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.type_filter:type_name -> temporal.api.filter.v1.WorkflowTypeFilter
+	173, // 123: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsRequest.status_filter:type_name -> temporal.api.filter.v1.StatusFilter
+	172, // 124: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	172, // 125: temporal.api.workflowservice.v1.ListWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	172, // 126: temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	172, // 127: temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse.executions:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	121, // 128: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup
+	122, // 129: temporal.api.workflowservice.v1.GetSearchAttributesResponse.keys:type_name -> temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry
+	174, // 130: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.completed_type:type_name -> temporal.api.enums.v1.QueryResultType
+	145, // 131: temporal.api.workflowservice.v1.RespondQueryTaskCompletedRequest.query_result:type_name -> temporal.api.common.v1.Payloads
+	152, // 132: temporal.api.workflowservice.v1.ResetStickyTaskQueueRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	152, // 133: temporal.api.workflowservice.v1.QueryWorkflowRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	157, // 134: temporal.api.workflowservice.v1.QueryWorkflowRequest.query:type_name -> temporal.api.query.v1.WorkflowQuery
+	175, // 135: temporal.api.workflowservice.v1.QueryWorkflowRequest.query_reject_condition:type_name -> temporal.api.enums.v1.QueryRejectCondition
+	145, // 136: temporal.api.workflowservice.v1.QueryWorkflowResponse.query_result:type_name -> temporal.api.common.v1.Payloads
+	176, // 137: temporal.api.workflowservice.v1.QueryWorkflowResponse.query_rejected:type_name -> temporal.api.query.v1.QueryRejected
+	152, // 138: temporal.api.workflowservice.v1.DescribeWorkflowExecutionRequest.execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	177, // 139: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.execution_config:type_name -> temporal.api.workflow.v1.WorkflowExecutionConfig
+	172, // 140: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.workflow_execution_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionInfo
+	178, // 141: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_activities:type_name -> temporal.api.workflow.v1.PendingActivityInfo
+	179, // 142: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_children:type_name -> temporal.api.workflow.v1.PendingChildExecutionInfo
+	180, // 143: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse.pending_workflow_task:type_name -> temporal.api.workflow.v1.PendingWorkflowTaskInfo
+	144, // 144: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	181, // 145: temporal.api.workflowservice.v1.DescribeTaskQueueRequest.task_queue_type:type_name -> temporal.api.enums.v1.TaskQueueType
+	182, // 146: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.pollers:type_name -> temporal.api.taskqueue.v1.PollerInfo
+	183, // 147: temporal.api.workflowservice.v1.DescribeTaskQueueResponse.task_queue_status:type_name -> temporal.api.taskqueue.v1.TaskQueueStatus
+	123, // 148: temporal.api.workflowservice.v1.GetClusterInfoResponse.supported_clients:type_name -> temporal.api.workflowservice.v1.GetClusterInfoResponse.SupportedClientsEntry
+	184, // 149: temporal.api.workflowservice.v1.GetClusterInfoResponse.version_info:type_name -> temporal.api.version.v1.VersionInfo
+	124, // 150: temporal.api.workflowservice.v1.GetSystemInfoResponse.capabilities:type_name -> temporal.api.workflowservice.v1.GetSystemInfoResponse.Capabilities
+	144, // 151: temporal.api.workflowservice.v1.ListTaskQueuePartitionsRequest.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	185, // 152: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse.activity_task_queue_partitions:type_name -> temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
+	185, // 153: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse.workflow_task_queue_partitions:type_name -> temporal.api.taskqueue.v1.TaskQueuePartitionMetadata
+	186, // 154: temporal.api.workflowservice.v1.CreateScheduleRequest.schedule:type_name -> temporal.api.schedule.v1.Schedule
+	187, // 155: temporal.api.workflowservice.v1.CreateScheduleRequest.initial_patch:type_name -> temporal.api.schedule.v1.SchedulePatch
+	148, // 156: temporal.api.workflowservice.v1.CreateScheduleRequest.memo:type_name -> temporal.api.common.v1.Memo
+	149, // 157: temporal.api.workflowservice.v1.CreateScheduleRequest.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	186, // 158: temporal.api.workflowservice.v1.DescribeScheduleResponse.schedule:type_name -> temporal.api.schedule.v1.Schedule
+	188, // 159: temporal.api.workflowservice.v1.DescribeScheduleResponse.info:type_name -> temporal.api.schedule.v1.ScheduleInfo
+	148, // 160: temporal.api.workflowservice.v1.DescribeScheduleResponse.memo:type_name -> temporal.api.common.v1.Memo
+	149, // 161: temporal.api.workflowservice.v1.DescribeScheduleResponse.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	186, // 162: temporal.api.workflowservice.v1.UpdateScheduleRequest.schedule:type_name -> temporal.api.schedule.v1.Schedule
+	187, // 163: temporal.api.workflowservice.v1.PatchScheduleRequest.patch:type_name -> temporal.api.schedule.v1.SchedulePatch
+	158, // 164: temporal.api.workflowservice.v1.ListScheduleMatchingTimesRequest.start_time:type_name -> google.protobuf.Timestamp
+	158, // 165: temporal.api.workflowservice.v1.ListScheduleMatchingTimesRequest.end_time:type_name -> google.protobuf.Timestamp
+	158, // 166: temporal.api.workflowservice.v1.ListScheduleMatchingTimesResponse.start_time:type_name -> google.protobuf.Timestamp
+	189, // 167: temporal.api.workflowservice.v1.ListSchedulesResponse.schedules:type_name -> temporal.api.schedule.v1.ScheduleListEntry
+	125, // 168: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.add_new_compatible_build_id:type_name -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.AddNewCompatibleVersion
+	126, // 169: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.merge_sets:type_name -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityRequest.MergeSets
+	190, // 170: temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse.major_version_sets:type_name -> temporal.api.taskqueue.v1.CompatibleVersionSet
+	127, // 171: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.insert_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule
+	128, // 172: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.replace_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule
+	129, // 173: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.delete_assignment_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.DeleteBuildIdAssignmentRule
+	130, // 174: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.insert_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule
+	131, // 175: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.replace_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule
+	132, // 176: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.delete_compatible_redirect_rule:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.DeleteCompatibleBuildIdRedirectRule
+	133, // 177: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.commit_build_id:type_name -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.CommitBuildId
+	191, // 178: temporal.api.workflowservice.v1.ListWorkerVersioningRulesResponse.assignment_rules:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	192, // 179: temporal.api.workflowservice.v1.ListWorkerVersioningRulesResponse.compatible_redirect_rules:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	193, // 180: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityRequest.reachability:type_name -> temporal.api.enums.v1.TaskReachability
+	194, // 181: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse.build_id_reachability:type_name -> temporal.api.taskqueue.v1.BuildIdReachability
+	152, // 182: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	195, // 183: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.wait_policy:type_name -> temporal.api.update.v1.WaitPolicy
+	196, // 184: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest.request:type_name -> temporal.api.update.v1.Request
+	197, // 185: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.update_ref:type_name -> temporal.api.update.v1.UpdateRef
+	198, // 186: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.outcome:type_name -> temporal.api.update.v1.Outcome
+	199, // 187: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse.stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
+	152, // 188: temporal.api.workflowservice.v1.StartBatchOperationRequest.executions:type_name -> temporal.api.common.v1.WorkflowExecution
+	200, // 189: temporal.api.workflowservice.v1.StartBatchOperationRequest.termination_operation:type_name -> temporal.api.batch.v1.BatchOperationTermination
+	201, // 190: temporal.api.workflowservice.v1.StartBatchOperationRequest.signal_operation:type_name -> temporal.api.batch.v1.BatchOperationSignal
+	202, // 191: temporal.api.workflowservice.v1.StartBatchOperationRequest.cancellation_operation:type_name -> temporal.api.batch.v1.BatchOperationCancellation
+	203, // 192: temporal.api.workflowservice.v1.StartBatchOperationRequest.deletion_operation:type_name -> temporal.api.batch.v1.BatchOperationDeletion
+	204, // 193: temporal.api.workflowservice.v1.StartBatchOperationRequest.reset_operation:type_name -> temporal.api.batch.v1.BatchOperationReset
+	205, // 194: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.operation_type:type_name -> temporal.api.enums.v1.BatchOperationType
+	206, // 195: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.state:type_name -> temporal.api.enums.v1.BatchOperationState
+	158, // 196: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.start_time:type_name -> google.protobuf.Timestamp
+	158, // 197: temporal.api.workflowservice.v1.DescribeBatchOperationResponse.close_time:type_name -> google.protobuf.Timestamp
+	207, // 198: temporal.api.workflowservice.v1.ListBatchOperationsResponse.operation_info:type_name -> temporal.api.batch.v1.BatchOperationInfo
+	197, // 199: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest.update_ref:type_name -> temporal.api.update.v1.UpdateRef
+	195, // 200: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest.wait_policy:type_name -> temporal.api.update.v1.WaitPolicy
+	198, // 201: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.outcome:type_name -> temporal.api.update.v1.Outcome
+	199, // 202: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.stage:type_name -> temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
+	197, // 203: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse.update_ref:type_name -> temporal.api.update.v1.UpdateRef
+	157, // 204: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
+	208, // 205: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest.QueryResultsEntry.value:type_name -> temporal.api.query.v1.WorkflowQueryResult
+	209, // 206: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup.group_values:type_name -> temporal.api.common.v1.Payload
+	210, // 207: temporal.api.workflowservice.v1.GetSearchAttributesResponse.KeysEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	191, // 208: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.InsertBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	191, // 209: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	192, // 210: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.AddCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	192, // 211: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesRequest.ReplaceCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	212, // [212:212] is the sub-list for method output_type
+	212, // [212:212] is the sub-list for method input_type
+	212, // [212:212] is the sub-list for extension type_name
+	212, // [212:212] is the sub-list for extension extendee
+	0,   // [0:212] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_workflowservice_v1_request_response_proto_init() }
@@ -12433,7 +13386,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWorkerTaskReachabilityRequest); i {
+			switch v := v.(*UpdateWorkerVersioningRulesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12445,7 +13398,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[101].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetWorkerTaskReachabilityResponse); i {
+			switch v := v.(*UpdateWorkerVersioningRulesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12457,7 +13410,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[102].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateWorkflowExecutionRequest); i {
+			switch v := v.(*ListWorkerVersioningRulesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12469,7 +13422,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[103].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateWorkflowExecutionResponse); i {
+			switch v := v.(*ListWorkerVersioningRulesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12481,7 +13434,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[104].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StartBatchOperationRequest); i {
+			switch v := v.(*GetWorkerTaskReachabilityRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12493,7 +13446,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[105].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StartBatchOperationResponse); i {
+			switch v := v.(*GetWorkerTaskReachabilityResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12505,7 +13458,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[106].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StopBatchOperationRequest); i {
+			switch v := v.(*UpdateWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12517,7 +13470,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[107].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*StopBatchOperationResponse); i {
+			switch v := v.(*UpdateWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12529,7 +13482,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DescribeBatchOperationRequest); i {
+			switch v := v.(*StartBatchOperationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12541,7 +13494,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[109].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DescribeBatchOperationResponse); i {
+			switch v := v.(*StartBatchOperationResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12553,7 +13506,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[110].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListBatchOperationsRequest); i {
+			switch v := v.(*StopBatchOperationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12565,7 +13518,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[111].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListBatchOperationsResponse); i {
+			switch v := v.(*StopBatchOperationResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12577,7 +13530,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[112].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PollWorkflowExecutionUpdateRequest); i {
+			switch v := v.(*DescribeBatchOperationRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12589,7 +13542,43 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[113].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PollWorkflowExecutionUpdateResponse); i {
+			switch v := v.(*DescribeBatchOperationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[114].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListBatchOperationsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[115].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListBatchOperationsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[116].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PollWorkflowExecutionUpdateRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12601,19 +13590,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[117].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CountWorkflowExecutionsResponse_AggregationGroup); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[120].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetSystemInfoResponse_Capabilities); i {
+			switch v := v.(*PollWorkflowExecutionUpdateResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12625,6 +13602,30 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[121].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CountWorkflowExecutionsResponse_AggregationGroup); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[124].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSystemInfoResponse_Capabilities); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[125].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion); i {
 			case 0:
 				return &v.state
@@ -12636,8 +13637,92 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[122].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[126].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[127].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[128].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[129].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[130].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[131].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[132].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[133].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateWorkerVersioningRulesRequest_CommitBuildId); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -12665,7 +13750,16 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 		(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet)(nil),
 		(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_)(nil),
 	}
-	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[104].OneofWrappers = []interface{}{
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100].OneofWrappers = []interface{}{
+		(*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule)(nil),
+		(*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule)(nil),
+		(*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule)(nil),
+		(*UpdateWorkerVersioningRulesRequest_InsertCompatibleRedirectRule)(nil),
+		(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule)(nil),
+		(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule)(nil),
+		(*UpdateWorkerVersioningRulesRequest_CommitBuildId_)(nil),
+	}
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108].OneofWrappers = []interface{}{
 		(*StartBatchOperationRequest_TerminationOperation)(nil),
 		(*StartBatchOperationRequest_SignalOperation)(nil),
 		(*StartBatchOperationRequest_CancellationOperation)(nil),
@@ -12678,7 +13772,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_temporal_api_workflowservice_v1_request_response_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   123,
+			NumMessages:   134,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

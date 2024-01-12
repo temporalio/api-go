@@ -651,6 +651,367 @@ func (x *BuildIdReachability) GetTaskQueueReachability() []*TaskQueueReachabilit
 	return nil
 }
 
+type RampByPercentage struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Acceptable range is [0,100].
+	RampPercentage float32 `protobuf:"fixed32,1,opt,name=ramp_percentage,json=rampPercentage,proto3" json:"ramp_percentage,omitempty"`
+}
+
+func (x *RampByPercentage) Reset() {
+	*x = RampByPercentage{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RampByPercentage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RampByPercentage) ProtoMessage() {}
+
+func (x *RampByPercentage) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RampByPercentage.ProtoReflect.Descriptor instead.
+func (*RampByPercentage) Descriptor() ([]byte, []int) {
+	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RampByPercentage) GetRampPercentage() float32 {
+	if x != nil {
+		return x.RampPercentage
+	}
+	return 0
+}
+
+type RampByWorkerRatio struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *RampByWorkerRatio) Reset() {
+	*x = RampByWorkerRatio{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RampByWorkerRatio) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RampByWorkerRatio) ProtoMessage() {}
+
+func (x *RampByWorkerRatio) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RampByWorkerRatio.ProtoReflect.Descriptor instead.
+func (*RampByWorkerRatio) Descriptor() ([]byte, []int) {
+	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{11}
+}
+
+// These rules assign a Build ID to Unassigned Workflow Executions and
+// Activities.
+//
+// Specifically, assignment rules are applied to the following Executions or
+// Activities when they are scheduled in a Task Queue:
+//   - Generally, any new Workflow Execution, except:
+//   - Child Workflows started without overriding their Task Queue or
+//     assignment status.
+//   - Continue-As-New Executions started without overriding assignment
+//     status.
+//   - Workflow Executions started Eagerly.
+//   - An Activity that is scheduled on a Task Queue different from the one
+//     their Workflow runs on, without overriding assignment status.
+//
+// In absence of (applicable) redirect rules (`CompatibleBuildIdRedirectRule`s)
+// the task will be dispatched to Workers of the Build ID determined by the
+// assignment rules. Otherwise, the final Build ID will be determined by the
+// redirect rules.
+//
+// When using Worker Versioning, in the steady state, for a given Task Queue,
+// there should typically be exactly one assignment rule to send all Unassigned
+// tasks to the latest Build ID. Existence of at least one such "unconditional"
+// rule at all times is enforce by the system, unless the `force` flag is used
+// by the user when replacing/deleting these rules (for exceptional cases).
+//
+// During a deployment, one or more additional rules can be added to assign a
+// subset of the tasks to a new Build ID.
+//
+// The subset is defined by:
+//   - Filtering based on a particular value of the `VersioningHint` Search
+//     Attribute. This is useful for Canary deployments, for example, when
+//     only the executions with `VersioningHint="canary"` should be sent to
+//     the new Build ID.
+//   - And/or setting a "ramp". This is useful for gradual shift of the
+//     traffic To the new Build ID. An assignment rule can have one of the
+//     following ramps:
+//   - Ramp by percentage: suitable for Blue/Green and similar deployments,
+//     when you want to send a certain percentage of traffic to the new
+//     Build ID.
+//   - Ramp by worker ratio: suitable for rolling deployments, when you want
+//     to shift more traffic to the new Build ID as the workers being
+//     gradually upgraded.
+//
+// When there are multiple assignment rules for a Task Queue, the rules are
+// evaluated in order, starting from index 0. The first applicable rule will be
+// applied and the rest will be ignored.
+//
+// In the event that no assignment rule is applicable on a task (or the Task
+// Queue is simply not versioned), the tasks will be sent to unversioned
+// workers, if available. Otherwise, they remain Unassigned, and will be
+// retried for assignment, or dispatch to unversioned workers, at a later time
+// depending on the availability of workers.
+type BuildIdAssignmentRule struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TargetBuildId string `protobuf:"bytes,1,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
+	// Filter executions based on the "VersioningHint" Search Attribute set by
+	// the Starter or parent Workflow.
+	HintFilter string `protobuf:"bytes,2,opt,name=hint_filter,json=hintFilter,proto3" json:"hint_filter,omitempty"`
+	// If a ramp is provided, the tasks that match the hint filter will be
+	// subject to the given ramp.
+	// This option can be used only on "terminal" Build IDs (the ones not used
+	// as source in any redirect rules).
+	//
+	// Types that are assignable to Ramp:
+	//
+	//	*BuildIdAssignmentRule_PercentageRamp
+	//	*BuildIdAssignmentRule_WorkerRatioRamp
+	Ramp isBuildIdAssignmentRule_Ramp `protobuf_oneof:"ramp"`
+}
+
+func (x *BuildIdAssignmentRule) Reset() {
+	*x = BuildIdAssignmentRule{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BuildIdAssignmentRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BuildIdAssignmentRule) ProtoMessage() {}
+
+func (x *BuildIdAssignmentRule) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BuildIdAssignmentRule.ProtoReflect.Descriptor instead.
+func (*BuildIdAssignmentRule) Descriptor() ([]byte, []int) {
+	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *BuildIdAssignmentRule) GetTargetBuildId() string {
+	if x != nil {
+		return x.TargetBuildId
+	}
+	return ""
+}
+
+func (x *BuildIdAssignmentRule) GetHintFilter() string {
+	if x != nil {
+		return x.HintFilter
+	}
+	return ""
+}
+
+func (m *BuildIdAssignmentRule) GetRamp() isBuildIdAssignmentRule_Ramp {
+	if m != nil {
+		return m.Ramp
+	}
+	return nil
+}
+
+func (x *BuildIdAssignmentRule) GetPercentageRamp() *RampByPercentage {
+	if x, ok := x.GetRamp().(*BuildIdAssignmentRule_PercentageRamp); ok {
+		return x.PercentageRamp
+	}
+	return nil
+}
+
+func (x *BuildIdAssignmentRule) GetWorkerRatioRamp() *RampByWorkerRatio {
+	if x, ok := x.GetRamp().(*BuildIdAssignmentRule_WorkerRatioRamp); ok {
+		return x.WorkerRatioRamp
+	}
+	return nil
+}
+
+type isBuildIdAssignmentRule_Ramp interface {
+	isBuildIdAssignmentRule_Ramp()
+}
+
+type BuildIdAssignmentRule_PercentageRamp struct {
+	// This ramp is useful for gradual Blue/Green deployments (and similar)
+	// where you want to send a certain portion of the traffic to the target
+	// Build ID.
+	PercentageRamp *RampByPercentage `protobuf:"bytes,3,opt,name=percentage_ramp,json=percentageRamp,proto3,oneof"`
+}
+
+type BuildIdAssignmentRule_WorkerRatioRamp struct {
+	// This option is intended for rolling deployments. The ramp percentage
+	// is automatically set as the ratio of the target Build ID's active
+	// workers over all active workers for any Build ID used in the
+	// assignment rules.
+	WorkerRatioRamp *RampByWorkerRatio `protobuf:"bytes,4,opt,name=worker_ratio_ramp,json=workerRatioRamp,proto3,oneof"`
+}
+
+func (*BuildIdAssignmentRule_PercentageRamp) isBuildIdAssignmentRule_Ramp() {}
+
+func (*BuildIdAssignmentRule_WorkerRatioRamp) isBuildIdAssignmentRule_Ramp() {}
+
+// These rules apply to tasks assigned to a particular Build ID
+// (`source_build_id`) to redirect them to another *compatible* Build ID
+// (`target_build_id`).
+//
+// It is user's responsibility to ensure that the target Build ID is compatible
+// with the source Build ID (e.g. by using the Patching API).
+//
+// Most deployments are not expected to need these rules, however following
+// situations can greatly benefit from redirects:
+//   - Need to move long-running Workflow Executions from an old Build ID to a
+//     newer one.
+//   - Need to hotfix some broken or stuck Workflow Executions.
+//
+// Similar to assignment rule, redirect rules support ramp by worker ratio.
+// They do not currently support ramp by percentage.
+//
+// In steady state, redirect rules are beneficial when dealing with old
+// Executions ran on now-decommissioned Build IDs:
+//   - To redirecting the Workflow Queries to the current (compatible) Build ID.
+//   - To be able to Reset an old Execution so it can run on the current
+//     (compatible) Build ID.
+//
+// Redirect rules can be chained, but only the last rule in the chain can have
+// a ramp.
+type CompatibleBuildIdRedirectRule struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SourceBuildId string `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
+	TargetBuildId string `protobuf:"bytes,2,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
+	// Only the last redirect rule in a chain can have a ramp.
+	//
+	// Types that are assignable to Ramp:
+	//
+	//	*CompatibleBuildIdRedirectRule_WorkerRatioRamp
+	Ramp isCompatibleBuildIdRedirectRule_Ramp `protobuf_oneof:"ramp"`
+}
+
+func (x *CompatibleBuildIdRedirectRule) Reset() {
+	*x = CompatibleBuildIdRedirectRule{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CompatibleBuildIdRedirectRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompatibleBuildIdRedirectRule) ProtoMessage() {}
+
+func (x *CompatibleBuildIdRedirectRule) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
+func (*CompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
+	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *CompatibleBuildIdRedirectRule) GetSourceBuildId() string {
+	if x != nil {
+		return x.SourceBuildId
+	}
+	return ""
+}
+
+func (x *CompatibleBuildIdRedirectRule) GetTargetBuildId() string {
+	if x != nil {
+		return x.TargetBuildId
+	}
+	return ""
+}
+
+func (m *CompatibleBuildIdRedirectRule) GetRamp() isCompatibleBuildIdRedirectRule_Ramp {
+	if m != nil {
+		return m.Ramp
+	}
+	return nil
+}
+
+func (x *CompatibleBuildIdRedirectRule) GetWorkerRatioRamp() *RampByWorkerRatio {
+	if x, ok := x.GetRamp().(*CompatibleBuildIdRedirectRule_WorkerRatioRamp); ok {
+		return x.WorkerRatioRamp
+	}
+	return nil
+}
+
+type isCompatibleBuildIdRedirectRule_Ramp interface {
+	isCompatibleBuildIdRedirectRule_Ramp()
+}
+
+type CompatibleBuildIdRedirectRule_WorkerRatioRamp struct {
+	// This option is intended for rolling deployments. When this field is
+	// provided, we redirect a fraction of tasks proportional to the ratio
+	// of the target Build ID's active workers over the .
+	WorkerRatioRamp *RampByWorkerRatio `protobuf:"bytes,3,opt,name=worker_ratio_ramp,json=workerRatioRamp,proto3,oneof"`
+}
+
+func (*CompatibleBuildIdRedirectRule_WorkerRatioRamp) isCompatibleBuildIdRedirectRule_Ramp() {}
+
 var File_temporal_api_taskqueue_v1_message_proto protoreflect.FileDescriptor
 
 var file_temporal_api_taskqueue_v1_message_proto_rawDesc = []byte{
@@ -758,17 +1119,54 @@ var file_temporal_api_taskqueue_v1_message_proto_rawDesc = []byte{
 	0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x61, 0x73, 0x6b,
 	0x51, 0x75, 0x65, 0x75, 0x65, 0x52, 0x65, 0x61, 0x63, 0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74,
 	0x79, 0x52, 0x15, 0x74, 0x61, 0x73, 0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x52, 0x65, 0x61, 0x63,
-	0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x42, 0x98, 0x01, 0x0a, 0x1c, 0x69, 0x6f, 0x2e,
-	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x61, 0x73,
-	0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x29, 0x67, 0x6f, 0x2e, 0x74, 0x65,
-	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x74, 0x61,
-	0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2f, 0x76, 0x31, 0x3b, 0x74, 0x61, 0x73, 0x6b, 0x71,
-	0x75, 0x65, 0x75, 0x65, 0xaa, 0x02, 0x1b, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69,
-	0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73, 0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x2e,
-	0x56, 0x31, 0xea, 0x02, 0x1e, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a,
-	0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x54, 0x61, 0x73, 0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x3a,
-	0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x68, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x22, 0x3b, 0x0a, 0x10, 0x52, 0x61, 0x6d, 0x70,
+	0x42, 0x79, 0x50, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74, 0x61, 0x67, 0x65, 0x12, 0x27, 0x0a, 0x0f,
+	0x72, 0x61, 0x6d, 0x70, 0x5f, 0x70, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74, 0x61, 0x67, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x02, 0x52, 0x0e, 0x72, 0x61, 0x6d, 0x70, 0x50, 0x65, 0x72, 0x63, 0x65,
+	0x6e, 0x74, 0x61, 0x67, 0x65, 0x22, 0x13, 0x0a, 0x11, 0x52, 0x61, 0x6d, 0x70, 0x42, 0x79, 0x57,
+	0x6f, 0x72, 0x6b, 0x65, 0x72, 0x52, 0x61, 0x74, 0x69, 0x6f, 0x22, 0x9c, 0x02, 0x0a, 0x15, 0x42,
+	0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x41, 0x73, 0x73, 0x69, 0x67, 0x6e, 0x6d, 0x65, 0x6e, 0x74,
+	0x52, 0x75, 0x6c, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x5f, 0x62,
+	0x75, 0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x74,
+	0x61, 0x72, 0x67, 0x65, 0x74, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x12, 0x1f, 0x0a, 0x0b,
+	0x68, 0x69, 0x6e, 0x74, 0x5f, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0a, 0x68, 0x69, 0x6e, 0x74, 0x46, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x56, 0x0a,
+	0x0f, 0x70, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74, 0x61, 0x67, 0x65, 0x5f, 0x72, 0x61, 0x6d, 0x70,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
+	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x52, 0x61, 0x6d, 0x70, 0x42, 0x79, 0x50, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74,
+	0x61, 0x67, 0x65, 0x48, 0x00, 0x52, 0x0e, 0x70, 0x65, 0x72, 0x63, 0x65, 0x6e, 0x74, 0x61, 0x67,
+	0x65, 0x52, 0x61, 0x6d, 0x70, 0x12, 0x5a, 0x0a, 0x11, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x5f,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x5f, 0x72, 0x61, 0x6d, 0x70, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x2c, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x61, 0x6d,
+	0x70, 0x42, 0x79, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x52, 0x61, 0x74, 0x69, 0x6f, 0x48, 0x00,
+	0x52, 0x0f, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x52, 0x61, 0x74, 0x69, 0x6f, 0x52, 0x61, 0x6d,
+	0x70, 0x42, 0x06, 0x0a, 0x04, 0x72, 0x61, 0x6d, 0x70, 0x22, 0xd3, 0x01, 0x0a, 0x1d, 0x43, 0x6f,
+	0x6d, 0x70, 0x61, 0x74, 0x69, 0x62, 0x6c, 0x65, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x52,
+	0x65, 0x64, 0x69, 0x72, 0x65, 0x63, 0x74, 0x52, 0x75, 0x6c, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x73,
+	0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x42, 0x75, 0x69, 0x6c,
+	0x64, 0x49, 0x64, 0x12, 0x26, 0x0a, 0x0f, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x5f, 0x62, 0x75,
+	0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x74, 0x61,
+	0x72, 0x67, 0x65, 0x74, 0x42, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x12, 0x5a, 0x0a, 0x11, 0x77,
+	0x6f, 0x72, 0x6b, 0x65, 0x72, 0x5f, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x5f, 0x72, 0x61, 0x6d, 0x70,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2c, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
+	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e,
+	0x76, 0x31, 0x2e, 0x52, 0x61, 0x6d, 0x70, 0x42, 0x79, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x52,
+	0x61, 0x74, 0x69, 0x6f, 0x48, 0x00, 0x52, 0x0f, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x52, 0x61,
+	0x74, 0x69, 0x6f, 0x52, 0x61, 0x6d, 0x70, 0x42, 0x06, 0x0a, 0x04, 0x72, 0x61, 0x6d, 0x70, 0x42,
+	0x98, 0x01, 0x0a, 0x1c, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x76, 0x31,
+	0x42, 0x0c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
+	0x5a, 0x29, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f,
+	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0x2f, 0x76,
+	0x31, 0x3b, 0x74, 0x61, 0x73, 0x6b, 0x71, 0x75, 0x65, 0x75, 0x65, 0xaa, 0x02, 0x1b, 0x54, 0x65,
+	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x54, 0x61, 0x73,
+	0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x1e, 0x54, 0x65, 0x6d, 0x70,
+	0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x54, 0x61, 0x73,
+	0x6b, 0x51, 0x75, 0x65, 0x75, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -783,7 +1181,7 @@ func file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_taskqueue_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_taskqueue_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_temporal_api_taskqueue_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_temporal_api_taskqueue_v1_message_proto_goTypes = []interface{}{
 	(*TaskQueue)(nil),                     // 0: temporal.api.taskqueue.v1.TaskQueue
 	(*TaskQueueMetadata)(nil),             // 1: temporal.api.taskqueue.v1.TaskQueueMetadata
@@ -795,28 +1193,35 @@ var file_temporal_api_taskqueue_v1_message_proto_goTypes = []interface{}{
 	(*CompatibleVersionSet)(nil),          // 7: temporal.api.taskqueue.v1.CompatibleVersionSet
 	(*TaskQueueReachability)(nil),         // 8: temporal.api.taskqueue.v1.TaskQueueReachability
 	(*BuildIdReachability)(nil),           // 9: temporal.api.taskqueue.v1.BuildIdReachability
-	(v1.TaskQueueKind)(0),                 // 10: temporal.api.enums.v1.TaskQueueKind
-	(*wrapperspb.DoubleValue)(nil),        // 11: google.protobuf.DoubleValue
-	(*timestamppb.Timestamp)(nil),         // 12: google.protobuf.Timestamp
-	(*v11.WorkerVersionCapabilities)(nil), // 13: temporal.api.common.v1.WorkerVersionCapabilities
-	(*durationpb.Duration)(nil),           // 14: google.protobuf.Duration
-	(v1.TaskReachability)(0),              // 15: temporal.api.enums.v1.TaskReachability
+	(*RampByPercentage)(nil),              // 10: temporal.api.taskqueue.v1.RampByPercentage
+	(*RampByWorkerRatio)(nil),             // 11: temporal.api.taskqueue.v1.RampByWorkerRatio
+	(*BuildIdAssignmentRule)(nil),         // 12: temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	(*CompatibleBuildIdRedirectRule)(nil), // 13: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	(v1.TaskQueueKind)(0),                 // 14: temporal.api.enums.v1.TaskQueueKind
+	(*wrapperspb.DoubleValue)(nil),        // 15: google.protobuf.DoubleValue
+	(*timestamppb.Timestamp)(nil),         // 16: google.protobuf.Timestamp
+	(*v11.WorkerVersionCapabilities)(nil), // 17: temporal.api.common.v1.WorkerVersionCapabilities
+	(*durationpb.Duration)(nil),           // 18: google.protobuf.Duration
+	(v1.TaskReachability)(0),              // 19: temporal.api.enums.v1.TaskReachability
 }
 var file_temporal_api_taskqueue_v1_message_proto_depIdxs = []int32{
-	10, // 0: temporal.api.taskqueue.v1.TaskQueue.kind:type_name -> temporal.api.enums.v1.TaskQueueKind
-	11, // 1: temporal.api.taskqueue.v1.TaskQueueMetadata.max_tasks_per_second:type_name -> google.protobuf.DoubleValue
+	14, // 0: temporal.api.taskqueue.v1.TaskQueue.kind:type_name -> temporal.api.enums.v1.TaskQueueKind
+	15, // 1: temporal.api.taskqueue.v1.TaskQueueMetadata.max_tasks_per_second:type_name -> google.protobuf.DoubleValue
 	3,  // 2: temporal.api.taskqueue.v1.TaskQueueStatus.task_id_block:type_name -> temporal.api.taskqueue.v1.TaskIdBlock
-	12, // 3: temporal.api.taskqueue.v1.PollerInfo.last_access_time:type_name -> google.protobuf.Timestamp
-	13, // 4: temporal.api.taskqueue.v1.PollerInfo.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
+	16, // 3: temporal.api.taskqueue.v1.PollerInfo.last_access_time:type_name -> google.protobuf.Timestamp
+	17, // 4: temporal.api.taskqueue.v1.PollerInfo.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
 	0,  // 5: temporal.api.taskqueue.v1.StickyExecutionAttributes.worker_task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	14, // 6: temporal.api.taskqueue.v1.StickyExecutionAttributes.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	15, // 7: temporal.api.taskqueue.v1.TaskQueueReachability.reachability:type_name -> temporal.api.enums.v1.TaskReachability
+	18, // 6: temporal.api.taskqueue.v1.StickyExecutionAttributes.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	19, // 7: temporal.api.taskqueue.v1.TaskQueueReachability.reachability:type_name -> temporal.api.enums.v1.TaskReachability
 	8,  // 8: temporal.api.taskqueue.v1.BuildIdReachability.task_queue_reachability:type_name -> temporal.api.taskqueue.v1.TaskQueueReachability
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	10, // 9: temporal.api.taskqueue.v1.BuildIdAssignmentRule.percentage_ramp:type_name -> temporal.api.taskqueue.v1.RampByPercentage
+	11, // 10: temporal.api.taskqueue.v1.BuildIdAssignmentRule.worker_ratio_ramp:type_name -> temporal.api.taskqueue.v1.RampByWorkerRatio
+	11, // 11: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule.worker_ratio_ramp:type_name -> temporal.api.taskqueue.v1.RampByWorkerRatio
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_taskqueue_v1_message_proto_init() }
@@ -945,6 +1350,61 @@ func file_temporal_api_taskqueue_v1_message_proto_init() {
 				return nil
 			}
 		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RampByPercentage); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RampByWorkerRatio); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BuildIdAssignmentRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CompatibleBuildIdRedirectRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_taskqueue_v1_message_proto_msgTypes[12].OneofWrappers = []interface{}{
+		(*BuildIdAssignmentRule_PercentageRamp)(nil),
+		(*BuildIdAssignmentRule_WorkerRatioRamp)(nil),
+	}
+	file_temporal_api_taskqueue_v1_message_proto_msgTypes[13].OneofWrappers = []interface{}{
+		(*CompatibleBuildIdRedirectRule_WorkerRatioRamp)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -952,7 +1412,7 @@ func file_temporal_api_taskqueue_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_temporal_api_taskqueue_v1_message_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

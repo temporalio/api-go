@@ -151,6 +151,10 @@ func (s *workflowServiceProxyServer) ListTaskQueuePartitions(ctx context.Context
 	return s.client.ListTaskQueuePartitions(ctx, in0)
 }
 
+func (s *workflowServiceProxyServer) ListWorkerVersioningRules(ctx context.Context, in0 *workflowservice.ListWorkerVersioningRulesRequest) (*workflowservice.ListWorkerVersioningRulesResponse, error) {
+	return s.client.ListWorkerVersioningRules(ctx, in0)
+}
+
 func (s *workflowServiceProxyServer) ListWorkflowExecutions(ctx context.Context, in0 *workflowservice.ListWorkflowExecutionsRequest) (*workflowservice.ListWorkflowExecutionsResponse, error) {
 	return s.client.ListWorkflowExecutions(ctx, in0)
 }
@@ -273,6 +277,10 @@ func (s *workflowServiceProxyServer) UpdateSchedule(ctx context.Context, in0 *wo
 
 func (s *workflowServiceProxyServer) UpdateWorkerBuildIdCompatibility(ctx context.Context, in0 *workflowservice.UpdateWorkerBuildIdCompatibilityRequest) (*workflowservice.UpdateWorkerBuildIdCompatibilityResponse, error) {
 	return s.client.UpdateWorkerBuildIdCompatibility(ctx, in0)
+}
+
+func (s *workflowServiceProxyServer) UpdateWorkerVersioningRules(ctx context.Context, in0 *workflowservice.UpdateWorkerVersioningRulesRequest) (*workflowservice.UpdateWorkerVersioningRulesResponse, error) {
+	return s.client.UpdateWorkerVersioningRules(ctx, in0)
 }
 
 func (s *workflowServiceProxyServer) UpdateWorkflowExecution(ctx context.Context, in0 *workflowservice.UpdateWorkflowExecutionRequest) (*workflowservice.UpdateWorkflowExecutionResponse, error) {
