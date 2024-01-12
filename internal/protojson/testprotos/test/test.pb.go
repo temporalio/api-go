@@ -8,12 +8,13 @@
 package test
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	enums "go.temporal.io/api/internal/protojson/testprotos/enums"
 	proto "google.golang.org/protobuf/proto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 type ForeignEnum int32
