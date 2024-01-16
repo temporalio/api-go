@@ -43,7 +43,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// The name of the query to retrieve this information is `__temporal_getWorkflowMetadata`.
+// The name of the query to retrieve this information is `__temporal_workflow_metadata`.
 type WorkflowMetadata struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
