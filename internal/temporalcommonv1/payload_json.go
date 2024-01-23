@@ -108,7 +108,7 @@ Loop:
 		if err := enc.WriteName(name); err != nil {
 			return fmt.Errorf("unable to write name %s: %w", name, err)
 		}
-		if err := marshalSingular(enc, f); err != nil {
+		if err := marshalSingular(enc, f.Interface()); err != nil {
 			return fmt.Errorf("unable to marshal value for name %s: %w", name, err)
 		}
 	}
@@ -117,7 +117,7 @@ Loop:
 
 type keyVal struct {
 	k string
-	v interface{}
+	v reflect.Value
 }
 
 // Map keys must be either strings or integers. We don't use encoding.TextMarshaler so we don't care
@@ -129,7 +129,7 @@ func marshalMap(enc *json.Encoder, vv reflect.Value) error {
 	iter := vv.MapRange()
 	for i := 0; iter.Next(); i++ {
 		k := iter.Key()
-		sv[i].v = iter.Value().Interface()
+		sv[i].v = iter.Value()
 
 		if k.Kind() == reflect.String {
 			sv[i].k = k.String()
@@ -162,7 +162,7 @@ func marshalMap(enc *json.Encoder, vv reflect.Value) error {
 		if err := enc.WriteName(sv[i].k); err != nil {
 			return fmt.Errorf("unable to write name %s: %w", sv[i].k, err)
 		}
-		if err := marshalSingular(enc, sv[i].v); err != nil {
+		if err := marshalValue(enc, sv[i].v); err != nil {
 			return fmt.Errorf("unable to marshal value for name %s: %w", sv[i].k, err)
 		}
 	}
@@ -192,7 +192,8 @@ func marshalValue(enc *json.Encoder, vv reflect.Value) error {
 		marshalStruct(enc, vv)
 	case reflect.Map:
 		if vv.IsNil() || vv.Len() == 0 {
-			enc.WriteNull()
+			enc.StartObject()
+			enc.EndObject()
 			return nil
 		}
 		marshalMap(enc, vv)
