@@ -92,6 +92,16 @@ var tests = []struct {
 		},
 		Data: []byte(`{"greeting":{}}`),
 	},
+}, {
+	name:          "json/plain with nested object",
+	longformJSON:  `{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"eyJncmVldGluZyI6eyJuYW1lIjp7fX19"}`,
+	shorthandJSON: `{"greeting": {"name": {}}}`,
+	pb: &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("json/plain"),
+		},
+		Data: []byte(`{"greeting":{"name":{}}}`),
+	},
 }}
 
 func TestMaybeMarshal_ShorthandEnabled(t *testing.T) {
