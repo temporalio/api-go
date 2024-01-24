@@ -28,10 +28,29 @@ import (
 )
 
 var (
+	ResetReapplyExcludeType_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Signal":      1,
+	}
+)
+
+// ResetReapplyExcludeTypeFromString parses a ResetReapplyExcludeType value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ResetReapplyExcludeType
+func ResetReapplyExcludeTypeFromString(s string) (ResetReapplyExcludeType, error) {
+	if v, ok := ResetReapplyExcludeType_value[s]; ok {
+		return ResetReapplyExcludeType(v), nil
+	} else if v, ok := ResetReapplyExcludeType_shorthandValue[s]; ok {
+		return ResetReapplyExcludeType(v), nil
+	}
+	return ResetReapplyExcludeType(0), fmt.Errorf("%s is not a valid ResetReapplyExcludeType", s)
+}
+
+var (
 	ResetReapplyType_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Signal":      1,
 		"None":        2,
+		"AllEligible": 3,
 	}
 )
 
