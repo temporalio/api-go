@@ -31,6 +31,7 @@ var (
 	ResetReapplyExcludeType_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Signal":      1,
+		"Update":      2,
 	}
 )
 
