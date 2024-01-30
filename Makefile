@@ -41,7 +41,7 @@ update-proto-submodule:
 	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_ROOT)
 
 ##### Compile proto files for go #####
-grpc: go-grpc copy-helpers
+grpc: http-api-docs go-grpc copy-helpers
 
 # Only install helper when its source has changed
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
@@ -61,9 +61,17 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 		-I $(PROTO_ROOT) \
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
-		-p go-helpers_out=$(PROTO_PATHS)
+		-p go-helpers_out=$(PROTO_PATHS) \
+		-p openapiv2_out=. \
+        -p openapiv2_opt=allow_merge=true,merge_file_name=openapi/openapiv2
 
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
+
+# We need to rewrite bits of this to support our shorthand payload format
+http-api-docs: go-grpc
+	jq --rawfile desc openapi/payload_description.txt < openapi/openapiv2.swagger.json '.definitions.v1Payload={description: $$desc}' > openapi/v2.tmp
+	mv -f openapi/v2.tmp openapi/openapiv2.swagger.json
+
 
 # Copy the payload helpers
 copy-helpers:
@@ -95,6 +103,7 @@ grpc-install:
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest 
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
