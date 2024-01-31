@@ -33,6 +33,7 @@ import (
 	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
+	"go.temporal.io/api/nexus/v1"
 	"go.temporal.io/api/query/v1"
 	"go.temporal.io/api/schedule/v1"
 	"go.temporal.io/api/update/v1"
@@ -1015,6 +1016,76 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *nexus.Request:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetStartOperation(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.Response:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetStartOperation(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.StartOperationRequest:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetPayload(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.StartOperationResponse:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetSyncSuccess(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.StartOperationResponse_Sync:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetPayload(),
+			); err != nil {
+				return err
+			}
+
 		case map[string]*query.WorkflowQuery:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
@@ -1148,6 +1219,27 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflow.CallbackInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflow.CallbackInfo:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
 			}
@@ -1289,6 +1381,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if err := visitPayloads(
 				ctx,
 				options,
+				o.GetCallbacks(),
 				o.GetPendingActivities(),
 				o.GetWorkflowExecutionInfo(),
 			); err != nil {
@@ -1412,6 +1505,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetHeader(),
 				o.GetHeartbeatDetails(),
 				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollNexusTaskQueueResponse:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetRequest(),
 			); err != nil {
 				return err
 			}
@@ -1612,6 +1719,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetFailures(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondNexusTaskCompletedRequest:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetResponse(),
 			); err != nil {
 				return err
 			}
@@ -2105,6 +2226,26 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case []*workflow.CallbackInfo:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflow.CallbackInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
 		case []*workflow.PendingActivityInfo:
 			for _, x := range o {
 				if err := visitFailures(ctx, options, x); err != nil {
@@ -2133,6 +2274,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
+				o.GetCallbacks(),
 				o.GetPendingActivities(),
 			); err != nil {
 				return err

@@ -99,6 +99,9 @@ const (
 	WorkflowService_StopBatchOperation_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation"
 	WorkflowService_DescribeBatchOperation_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation"
 	WorkflowService_ListBatchOperations_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/ListBatchOperations"
+	WorkflowService_PollNexusTaskQueue_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollNexusTaskQueue"
+	WorkflowService_RespondNexusTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskCompleted"
+	WorkflowService_RespondNexusTaskFailed_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskFailed"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -424,6 +427,21 @@ type WorkflowServiceClient interface {
 	DescribeBatchOperation(ctx context.Context, in *DescribeBatchOperationRequest, opts ...grpc.CallOption) (*DescribeBatchOperationResponse, error)
 	// ListBatchOperations returns a list of batch operations
 	ListBatchOperations(ctx context.Context, in *ListBatchOperationsRequest, opts ...grpc.CallOption) (*ListBatchOperationsResponse, error)
+	// PollNexusTaskQueue is a long poll call used by workers to receive Nexus tasks.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	PollNexusTaskQueue(ctx context.Context, in *PollNexusTaskQueueRequest, opts ...grpc.CallOption) (*PollNexusTaskQueueResponse, error)
+	// RespondNexusTaskCompleted is called by workers to respond to Nexus tasks received via PollNexusTaskQueue.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	RespondNexusTaskCompleted(ctx context.Context, in *RespondNexusTaskCompletedRequest, opts ...grpc.CallOption) (*RespondNexusTaskCompletedResponse, error)
+	// RespondNexusTaskFailed is called by workers to fail Nexus tasks received via PollNexusTaskQueue.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	RespondNexusTaskFailed(ctx context.Context, in *RespondNexusTaskFailedRequest, opts ...grpc.CallOption) (*RespondNexusTaskFailedResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -947,6 +965,33 @@ func (c *workflowServiceClient) ListBatchOperations(ctx context.Context, in *Lis
 	return out, nil
 }
 
+func (c *workflowServiceClient) PollNexusTaskQueue(ctx context.Context, in *PollNexusTaskQueueRequest, opts ...grpc.CallOption) (*PollNexusTaskQueueResponse, error) {
+	out := new(PollNexusTaskQueueResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PollNexusTaskQueue_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) RespondNexusTaskCompleted(ctx context.Context, in *RespondNexusTaskCompletedRequest, opts ...grpc.CallOption) (*RespondNexusTaskCompletedResponse, error) {
+	out := new(RespondNexusTaskCompletedResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondNexusTaskCompleted_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) RespondNexusTaskFailed(ctx context.Context, in *RespondNexusTaskFailedRequest, opts ...grpc.CallOption) (*RespondNexusTaskFailedResponse, error) {
+	out := new(RespondNexusTaskFailedResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondNexusTaskFailed_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility
@@ -1270,6 +1315,21 @@ type WorkflowServiceServer interface {
 	DescribeBatchOperation(context.Context, *DescribeBatchOperationRequest) (*DescribeBatchOperationResponse, error)
 	// ListBatchOperations returns a list of batch operations
 	ListBatchOperations(context.Context, *ListBatchOperationsRequest) (*ListBatchOperationsResponse, error)
+	// PollNexusTaskQueue is a long poll call used by workers to receive Nexus tasks.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	PollNexusTaskQueue(context.Context, *PollNexusTaskQueueRequest) (*PollNexusTaskQueueResponse, error)
+	// RespondNexusTaskCompleted is called by workers to respond to Nexus tasks received via PollNexusTaskQueue.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	RespondNexusTaskCompleted(context.Context, *RespondNexusTaskCompletedRequest) (*RespondNexusTaskCompletedResponse, error)
+	// RespondNexusTaskFailed is called by workers to fail Nexus tasks received via PollNexusTaskQueue.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -1447,6 +1507,15 @@ func (UnimplementedWorkflowServiceServer) DescribeBatchOperation(context.Context
 }
 func (UnimplementedWorkflowServiceServer) ListBatchOperations(context.Context, *ListBatchOperationsRequest) (*ListBatchOperationsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListBatchOperations not implemented")
+}
+func (UnimplementedWorkflowServiceServer) PollNexusTaskQueue(context.Context, *PollNexusTaskQueueRequest) (*PollNexusTaskQueueResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PollNexusTaskQueue not implemented")
+}
+func (UnimplementedWorkflowServiceServer) RespondNexusTaskCompleted(context.Context, *RespondNexusTaskCompletedRequest) (*RespondNexusTaskCompletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RespondNexusTaskCompleted not implemented")
+}
+func (UnimplementedWorkflowServiceServer) RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RespondNexusTaskFailed not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 
@@ -2487,6 +2556,60 @@ func _WorkflowService_ListBatchOperations_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_PollNexusTaskQueue_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PollNexusTaskQueueRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).PollNexusTaskQueue(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_PollNexusTaskQueue_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).PollNexusTaskQueue(ctx, req.(*PollNexusTaskQueueRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_RespondNexusTaskCompleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RespondNexusTaskCompletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).RespondNexusTaskCompleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_RespondNexusTaskCompleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).RespondNexusTaskCompleted(ctx, req.(*RespondNexusTaskCompletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_RespondNexusTaskFailed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RespondNexusTaskFailedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).RespondNexusTaskFailed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_RespondNexusTaskFailed_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).RespondNexusTaskFailed(ctx, req.(*RespondNexusTaskFailedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2721,6 +2844,18 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListBatchOperations",
 			Handler:    _WorkflowService_ListBatchOperations_Handler,
+		},
+		{
+			MethodName: "PollNexusTaskQueue",
+			Handler:    _WorkflowService_PollNexusTaskQueue_Handler,
+		},
+		{
+			MethodName: "RespondNexusTaskCompleted",
+			Handler:    _WorkflowService_RespondNexusTaskCompleted_Handler,
+		},
+		{
+			MethodName: "RespondNexusTaskFailed",
+			Handler:    _WorkflowService_RespondNexusTaskFailed_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
