@@ -5,7 +5,7 @@ all: install test
 install: grpc-install mockgen-install goimports-install update-proto
 
 # Compile proto files.
-proto: grpc goimports proxy grpc-mock copyright
+proto: http-api-docs grpc goimports proxy grpc-mock copyright
 
 # Update submodule and compile proto files.
 update-proto: update-proto-submodule proto update-dependencies gomodtidy
@@ -62,16 +62,21 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
 		-p go-helpers_out=$(PROTO_PATHS) \
-		-p openapiv2_out=. \
-        -p openapiv2_opt=allow_merge=true,merge_file_name=openapi/openapiv2
+		-p openapi_out=openapi \
+		-p openapi_opt=enum_type=string \
+		-p openapiv2_out=openapi \
+        -p openapiv2_opt=allow_merge=true,merge_file_name=openapiv2
 
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
 
+OAPI3_PATH := .components.schemas.Payload
 # We need to rewrite bits of this to support our shorthand payload format
+# We use both yq and jq here as they preserve comments and the ordering of the original
+# document
 http-api-docs: go-grpc
 	jq --rawfile desc openapi/payload_description.txt < openapi/openapiv2.swagger.json '.definitions.v1Payload={description: $$desc}' > openapi/v2.tmp
 	mv -f openapi/v2.tmp openapi/openapiv2.swagger.json
-
+	DESC=$$(cat openapi/payload_description.txt) yq e -i '$(OAPIV3_PATH).description = strenv(DESC) | del($(OAPI3_PATH).type) | del($(OAPI3_PATH).properties)' openapi/openapi.yaml
 
 # Copy the payload helpers
 copy-helpers:
@@ -104,6 +109,8 @@ grpc-install:
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
 	@go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+	@go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
+	@go install github.com/mikefarah/yq/v4@latest
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."

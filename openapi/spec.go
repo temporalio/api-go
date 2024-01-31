@@ -25,5 +25,9 @@ package main
 import _ "embed"
 
 // OpenAPI v2 "swagger" specification of the Temporal HTTP API
-// go:embed api.swagger.json
+// go:embed openapiv2.swagger.json
 var OpenAPIV2Spec []byte
+
+// OpenAPI v3 specification of the Temporal HTTP API
+// go:embed openapi.yaml
+var OpenAPIV3Spec []byte
