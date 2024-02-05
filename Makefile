@@ -77,6 +77,12 @@ http-api-docs: go-grpc
 	jq --rawfile desc openapi/payload_description.txt < openapi/openapiv2.swagger.json '.definitions.v1Payload={description: $$desc}' > openapi/v2.tmp
 	mv -f openapi/v2.tmp openapi/openapiv2.swagger.json
 	DESC=$$(cat openapi/payload_description.txt) yq e -i '$(OAPIV3_PATH).description = strenv(DESC) | del($(OAPI3_PATH).type) | del($(OAPI3_PATH).properties)' openapi/openapi.yaml
+	go run cmd/encode-openapi-spec/main.go \
+		-v2=openapi/openapiv2.swagger.json \
+		-v2-out=openapi/swagger.go \
+		-v3=openapi/openapi.yaml \
+		-v3-out=openapi/openapiv3.go
+	rm -f openapi/openapiv2.swagger.json openapi/openapi.yaml
 
 # Copy the payload helpers
 copy-helpers:

@@ -20,9 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package main
-
-import _ "embed"
+// The OpenAPI package embeds compressed copies of Temporal's OpenAPI v2 (swagger) and v3
+// specifications.
+//
+// Do not import this package unless you need to: it will bloat your binary's size by
+// around 83KB
+package openapi
 
 // OpenAPI v2 "swagger" specification of the Temporal HTTP API
 // go:embed openapiv2.swagger.json
