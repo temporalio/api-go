@@ -32,6 +32,9 @@ PROTO_IMPORTS = \
 	-I=$(PROTO_ROOT)
 PROTO_PATHS = paths=source_relative:$(PROTO_OUT)
 
+OAPI_ROOT := $(PROTO_ROOT)/openapi
+OAPI_OUT := temporalproto/openapi
+
 $(PROTO_OUT):
 	mkdir $(PROTO_OUT)
 
@@ -67,10 +70,10 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 
 http-api-docs: go-grpc
 	go run cmd/encode-openapi-spec/main.go \
-		-v2=$(PROTO_ROOT)/openapi/openapiv2.json \
-		-v2-out=openapi/openapiv2.go \
-		-v3=$(PROTO_ROOT)/openapi/openapiv3.yaml \
-		-v3-out=openapi/openapiv3.go
+		-v2=$(OAPI_ROOT)/openapiv2.json \
+		-v2-out=$(OAPI_OUT)/openapiv2.go \
+		-v3=$(OAPI_ROOT)/openapiv3.yaml \
+		-v3-out=$(OAPI_OUT)/openapiv3.go
 
 # Copy the payload helpers
 copy-helpers:
