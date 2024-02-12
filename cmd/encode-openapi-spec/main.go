@@ -43,8 +43,8 @@ type templateInput struct {
 
 const tmpl = `package openapi
 
-// OpenAPIV{{.Version}}Spec contains a gzip-compressed {{.Format}} file specifying the Temporal HTTP API
-var OpenAPIV{{.Version}}Spec = {{.Spec}}`
+// OpenAPIV{{.Version}}{{.Format}}Spec contains a gzip-compressed {{.Format}} file specifying the Temporal HTTP API
+var OpenAPIV{{.Version}}{{.Format}}Spec = {{.Spec}}`
 
 func die(msg string, args ...any) {
 	fmt.Fprintf(os.Stderr, msg+"\n", args...)
@@ -72,7 +72,7 @@ func prepareSpec(version int, input, output string) {
 	t := template.Must(template.New("spec").Parse(tmpl))
 	t.Execute(&src, templateInput{
 		Version: version,
-		Format:  extension,
+		Format:  strings.ToTitle(extension),
 		Spec:    fmt.Sprintf("%#v", b.Bytes()),
 	})
 
