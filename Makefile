@@ -67,11 +67,10 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 
 http-api-docs: go-grpc
 	go run cmd/encode-openapi-spec/main.go \
-		-v2=$(PROTO_ROOT)/openapi/openapiv2.swagger.json \
+		-v2=$(PROTO_ROOT)/openapi/openapiv2.json \
 		-v2-out=openapi/swagger.go \
-		-v3=$(PROTO_ROOT)/openapi/openapi.yaml \
+		-v3=$(PROTO_ROOT)/openapi/openapiv3.yaml \
 		-v3-out=openapi/openapiv3.go
-	rm -f openapi/openapiv2.swagger.json openapi/openapi.yaml
 
 # Copy the payload helpers
 copy-helpers:
