@@ -68,7 +68,7 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 http-api-docs: go-grpc
 	go run cmd/encode-openapi-spec/main.go \
 		-v2=$(PROTO_ROOT)/openapi/openapiv2.json \
-		-v2-out=openapi/swagger.go \
+		-v2-out=openapi/openapiv2.go \
 		-v3=$(PROTO_ROOT)/openapi/openapiv3.yaml \
 		-v3-out=openapi/openapiv3.go
 

@@ -43,8 +43,8 @@ type templateInput struct {
 
 const tmpl = `package openapi
 
-// OpenAPIv{{.Version}}Spec contains a gzip-compressed {{.Format}} file specifying the Temporal HTTP API
-var OpenAPIv{{.Version}}Spec = {{.Spec}}`
+// OpenAPIV{{.Version}}Spec contains a gzip-compressed {{.Format}} file specifying the Temporal HTTP API
+var OpenAPIV{{.Version}}Spec = {{.Spec}}`
 
 func die(msg string, args ...any) {
 	fmt.Fprintf(os.Stderr, msg+"\n", args...)
