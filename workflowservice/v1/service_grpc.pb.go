@@ -102,6 +102,12 @@ const (
 	WorkflowService_PollNexusTaskQueue_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollNexusTaskQueue"
 	WorkflowService_RespondNexusTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskCompleted"
 	WorkflowService_RespondNexusTaskFailed_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskFailed"
+	WorkflowService_CreateTopActivity_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/CreateTopActivity"
+	WorkflowService_GetTopActivityTask_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/GetTopActivityTask"
+	WorkflowService_RespondTopActivityCompleted_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RespondTopActivityCompleted"
+	WorkflowService_RespondTopActivityFailed_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/RespondTopActivityFailed"
+	WorkflowService_DescribeTopActivity_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/DescribeTopActivity"
+	WorkflowService_GetTopActivityHistory_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/GetTopActivityHistory"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -442,6 +448,12 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(ctx context.Context, in *RespondNexusTaskFailedRequest, opts ...grpc.CallOption) (*RespondNexusTaskFailedResponse, error)
+	CreateTopActivity(ctx context.Context, in *CreateTopActivityRequest, opts ...grpc.CallOption) (*CreateTopActivityResponse, error)
+	GetTopActivityTask(ctx context.Context, in *GetTopActivityTaskRequest, opts ...grpc.CallOption) (*GetTopActivityTaskResponse, error)
+	RespondTopActivityCompleted(ctx context.Context, in *RespondTopActivityCompletedRequest, opts ...grpc.CallOption) (*RespondTopActivityCompletedResponse, error)
+	RespondTopActivityFailed(ctx context.Context, in *RespondTopActivityFailedRequest, opts ...grpc.CallOption) (*RespondTopActivityFailedResponse, error)
+	DescribeTopActivity(ctx context.Context, in *DescribeTopActivityRequest, opts ...grpc.CallOption) (*DescribeTopActivityResponse, error)
+	GetTopActivityHistory(ctx context.Context, in *GetTopActivityHistoryRequest, opts ...grpc.CallOption) (*GetTopActivityHistoryResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -992,6 +1004,60 @@ func (c *workflowServiceClient) RespondNexusTaskFailed(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *workflowServiceClient) CreateTopActivity(ctx context.Context, in *CreateTopActivityRequest, opts ...grpc.CallOption) (*CreateTopActivityResponse, error) {
+	out := new(CreateTopActivityResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_CreateTopActivity_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) GetTopActivityTask(ctx context.Context, in *GetTopActivityTaskRequest, opts ...grpc.CallOption) (*GetTopActivityTaskResponse, error) {
+	out := new(GetTopActivityTaskResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetTopActivityTask_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) RespondTopActivityCompleted(ctx context.Context, in *RespondTopActivityCompletedRequest, opts ...grpc.CallOption) (*RespondTopActivityCompletedResponse, error) {
+	out := new(RespondTopActivityCompletedResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondTopActivityCompleted_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) RespondTopActivityFailed(ctx context.Context, in *RespondTopActivityFailedRequest, opts ...grpc.CallOption) (*RespondTopActivityFailedResponse, error) {
+	out := new(RespondTopActivityFailedResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondTopActivityFailed_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) DescribeTopActivity(ctx context.Context, in *DescribeTopActivityRequest, opts ...grpc.CallOption) (*DescribeTopActivityResponse, error) {
+	out := new(DescribeTopActivityResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeTopActivity_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) GetTopActivityHistory(ctx context.Context, in *GetTopActivityHistoryRequest, opts ...grpc.CallOption) (*GetTopActivityHistoryResponse, error) {
+	out := new(GetTopActivityHistoryResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetTopActivityHistory_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility
@@ -1330,6 +1396,12 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error)
+	CreateTopActivity(context.Context, *CreateTopActivityRequest) (*CreateTopActivityResponse, error)
+	GetTopActivityTask(context.Context, *GetTopActivityTaskRequest) (*GetTopActivityTaskResponse, error)
+	RespondTopActivityCompleted(context.Context, *RespondTopActivityCompletedRequest) (*RespondTopActivityCompletedResponse, error)
+	RespondTopActivityFailed(context.Context, *RespondTopActivityFailedRequest) (*RespondTopActivityFailedResponse, error)
+	DescribeTopActivity(context.Context, *DescribeTopActivityRequest) (*DescribeTopActivityResponse, error)
+	GetTopActivityHistory(context.Context, *GetTopActivityHistoryRequest) (*GetTopActivityHistoryResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -1516,6 +1588,24 @@ func (UnimplementedWorkflowServiceServer) RespondNexusTaskCompleted(context.Cont
 }
 func (UnimplementedWorkflowServiceServer) RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RespondNexusTaskFailed not implemented")
+}
+func (UnimplementedWorkflowServiceServer) CreateTopActivity(context.Context, *CreateTopActivityRequest) (*CreateTopActivityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateTopActivity not implemented")
+}
+func (UnimplementedWorkflowServiceServer) GetTopActivityTask(context.Context, *GetTopActivityTaskRequest) (*GetTopActivityTaskResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopActivityTask not implemented")
+}
+func (UnimplementedWorkflowServiceServer) RespondTopActivityCompleted(context.Context, *RespondTopActivityCompletedRequest) (*RespondTopActivityCompletedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RespondTopActivityCompleted not implemented")
+}
+func (UnimplementedWorkflowServiceServer) RespondTopActivityFailed(context.Context, *RespondTopActivityFailedRequest) (*RespondTopActivityFailedResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RespondTopActivityFailed not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DescribeTopActivity(context.Context, *DescribeTopActivityRequest) (*DescribeTopActivityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeTopActivity not implemented")
+}
+func (UnimplementedWorkflowServiceServer) GetTopActivityHistory(context.Context, *GetTopActivityHistoryRequest) (*GetTopActivityHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopActivityHistory not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 
@@ -2610,6 +2700,114 @@ func _WorkflowService_RespondNexusTaskFailed_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_CreateTopActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateTopActivityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).CreateTopActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_CreateTopActivity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).CreateTopActivity(ctx, req.(*CreateTopActivityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_GetTopActivityTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopActivityTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).GetTopActivityTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_GetTopActivityTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).GetTopActivityTask(ctx, req.(*GetTopActivityTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_RespondTopActivityCompleted_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RespondTopActivityCompletedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).RespondTopActivityCompleted(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_RespondTopActivityCompleted_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).RespondTopActivityCompleted(ctx, req.(*RespondTopActivityCompletedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_RespondTopActivityFailed_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RespondTopActivityFailedRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).RespondTopActivityFailed(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_RespondTopActivityFailed_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).RespondTopActivityFailed(ctx, req.(*RespondTopActivityFailedRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_DescribeTopActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeTopActivityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DescribeTopActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DescribeTopActivity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DescribeTopActivity(ctx, req.(*DescribeTopActivityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_GetTopActivityHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopActivityHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).GetTopActivityHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_GetTopActivityHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).GetTopActivityHistory(ctx, req.(*GetTopActivityHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -2856,6 +3054,30 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RespondNexusTaskFailed",
 			Handler:    _WorkflowService_RespondNexusTaskFailed_Handler,
+		},
+		{
+			MethodName: "CreateTopActivity",
+			Handler:    _WorkflowService_CreateTopActivity_Handler,
+		},
+		{
+			MethodName: "GetTopActivityTask",
+			Handler:    _WorkflowService_GetTopActivityTask_Handler,
+		},
+		{
+			MethodName: "RespondTopActivityCompleted",
+			Handler:    _WorkflowService_RespondTopActivityCompleted_Handler,
+		},
+		{
+			MethodName: "RespondTopActivityFailed",
+			Handler:    _WorkflowService_RespondTopActivityFailed_Handler,
+		},
+		{
+			MethodName: "DescribeTopActivity",
+			Handler:    _WorkflowService_DescribeTopActivity_Handler,
+		},
+		{
+			MethodName: "GetTopActivityHistory",
+			Handler:    _WorkflowService_GetTopActivityHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

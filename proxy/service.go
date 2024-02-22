@@ -59,6 +59,10 @@ func (s *workflowServiceProxyServer) CreateSchedule(ctx context.Context, in0 *wo
 	return s.client.CreateSchedule(ctx, in0)
 }
 
+func (s *workflowServiceProxyServer) CreateTopActivity(ctx context.Context, in0 *workflowservice.CreateTopActivityRequest) (*workflowservice.CreateTopActivityResponse, error) {
+	return s.client.CreateTopActivity(ctx, in0)
+}
+
 func (s *workflowServiceProxyServer) DeleteSchedule(ctx context.Context, in0 *workflowservice.DeleteScheduleRequest) (*workflowservice.DeleteScheduleResponse, error) {
 	return s.client.DeleteSchedule(ctx, in0)
 }
@@ -87,6 +91,10 @@ func (s *workflowServiceProxyServer) DescribeTaskQueue(ctx context.Context, in0 
 	return s.client.DescribeTaskQueue(ctx, in0)
 }
 
+func (s *workflowServiceProxyServer) DescribeTopActivity(ctx context.Context, in0 *workflowservice.DescribeTopActivityRequest) (*workflowservice.DescribeTopActivityResponse, error) {
+	return s.client.DescribeTopActivity(ctx, in0)
+}
+
 func (s *workflowServiceProxyServer) DescribeWorkflowExecution(ctx context.Context, in0 *workflowservice.DescribeWorkflowExecutionRequest) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
 	return s.client.DescribeWorkflowExecution(ctx, in0)
 }
@@ -101,6 +109,14 @@ func (s *workflowServiceProxyServer) GetSearchAttributes(ctx context.Context, in
 
 func (s *workflowServiceProxyServer) GetSystemInfo(ctx context.Context, in0 *workflowservice.GetSystemInfoRequest) (*workflowservice.GetSystemInfoResponse, error) {
 	return s.client.GetSystemInfo(ctx, in0)
+}
+
+func (s *workflowServiceProxyServer) GetTopActivityHistory(ctx context.Context, in0 *workflowservice.GetTopActivityHistoryRequest) (*workflowservice.GetTopActivityHistoryResponse, error) {
+	return s.client.GetTopActivityHistory(ctx, in0)
+}
+
+func (s *workflowServiceProxyServer) GetTopActivityTask(ctx context.Context, in0 *workflowservice.GetTopActivityTaskRequest) (*workflowservice.GetTopActivityTaskResponse, error) {
+	return s.client.GetTopActivityTask(ctx, in0)
 }
 
 func (s *workflowServiceProxyServer) GetWorkerBuildIdCompatibility(ctx context.Context, in0 *workflowservice.GetWorkerBuildIdCompatibilityRequest) (*workflowservice.GetWorkerBuildIdCompatibilityResponse, error) {
@@ -237,6 +253,14 @@ func (s *workflowServiceProxyServer) RespondNexusTaskFailed(ctx context.Context,
 
 func (s *workflowServiceProxyServer) RespondQueryTaskCompleted(ctx context.Context, in0 *workflowservice.RespondQueryTaskCompletedRequest) (*workflowservice.RespondQueryTaskCompletedResponse, error) {
 	return s.client.RespondQueryTaskCompleted(ctx, in0)
+}
+
+func (s *workflowServiceProxyServer) RespondTopActivityCompleted(ctx context.Context, in0 *workflowservice.RespondTopActivityCompletedRequest) (*workflowservice.RespondTopActivityCompletedResponse, error) {
+	return s.client.RespondTopActivityCompleted(ctx, in0)
+}
+
+func (s *workflowServiceProxyServer) RespondTopActivityFailed(ctx context.Context, in0 *workflowservice.RespondTopActivityFailedRequest) (*workflowservice.RespondTopActivityFailedResponse, error) {
+	return s.client.RespondTopActivityFailed(ctx, in0)
 }
 
 func (s *workflowServiceProxyServer) RespondWorkflowTaskCompleted(ctx context.Context, in0 *workflowservice.RespondWorkflowTaskCompletedRequest) (*workflowservice.RespondWorkflowTaskCompletedResponse, error) {

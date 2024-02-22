@@ -1839,3 +1839,262 @@ func (this *History) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TopActivityEvent to the protobuf v3 wire format
+func (val *TopActivityEvent) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TopActivityEvent from the protobuf v3 wire format
+func (val *TopActivityEvent) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TopActivityEvent) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TopActivityEvent values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TopActivityEvent) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TopActivityEvent
+	switch t := that.(type) {
+	case *TopActivityEvent:
+		that1 = t
+	case TopActivityEvent:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TopActivityCreatedEventAttributes to the protobuf v3 wire format
+func (val *TopActivityCreatedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TopActivityCreatedEventAttributes from the protobuf v3 wire format
+func (val *TopActivityCreatedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TopActivityCreatedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TopActivityCreatedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TopActivityCreatedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TopActivityCreatedEventAttributes
+	switch t := that.(type) {
+	case *TopActivityCreatedEventAttributes:
+		that1 = t
+	case TopActivityCreatedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TopActivityScheduledEventAttributes to the protobuf v3 wire format
+func (val *TopActivityScheduledEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TopActivityScheduledEventAttributes from the protobuf v3 wire format
+func (val *TopActivityScheduledEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TopActivityScheduledEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TopActivityScheduledEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TopActivityScheduledEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TopActivityScheduledEventAttributes
+	switch t := that.(type) {
+	case *TopActivityScheduledEventAttributes:
+		that1 = t
+	case TopActivityScheduledEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TopActivityStartedEventAttributes to the protobuf v3 wire format
+func (val *TopActivityStartedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TopActivityStartedEventAttributes from the protobuf v3 wire format
+func (val *TopActivityStartedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TopActivityStartedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TopActivityStartedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TopActivityStartedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TopActivityStartedEventAttributes
+	switch t := that.(type) {
+	case *TopActivityStartedEventAttributes:
+		that1 = t
+	case TopActivityStartedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TopActivityCompletedEventAttributes to the protobuf v3 wire format
+func (val *TopActivityCompletedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TopActivityCompletedEventAttributes from the protobuf v3 wire format
+func (val *TopActivityCompletedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TopActivityCompletedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TopActivityCompletedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TopActivityCompletedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TopActivityCompletedEventAttributes
+	switch t := that.(type) {
+	case *TopActivityCompletedEventAttributes:
+		that1 = t
+	case TopActivityCompletedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TopActivityFailedEventAttributes to the protobuf v3 wire format
+func (val *TopActivityFailedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TopActivityFailedEventAttributes from the protobuf v3 wire format
+func (val *TopActivityFailedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TopActivityFailedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TopActivityFailedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TopActivityFailedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TopActivityFailedEventAttributes
+	switch t := that.(type) {
+	case *TopActivityFailedEventAttributes:
+		that1 = t
+	case TopActivityFailedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TopActivityTimedOutEventAttributes to the protobuf v3 wire format
+func (val *TopActivityTimedOutEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TopActivityTimedOutEventAttributes from the protobuf v3 wire format
+func (val *TopActivityTimedOutEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TopActivityTimedOutEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TopActivityTimedOutEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TopActivityTimedOutEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TopActivityTimedOutEventAttributes
+	switch t := that.(type) {
+	case *TopActivityTimedOutEventAttributes:
+		that1 = t
+	case TopActivityTimedOutEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}

@@ -4466,3 +4466,447 @@ func (this *RespondNexusTaskFailedResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CreateTopActivityRequest to the protobuf v3 wire format
+func (val *CreateTopActivityRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CreateTopActivityRequest from the protobuf v3 wire format
+func (val *CreateTopActivityRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CreateTopActivityRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CreateTopActivityRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CreateTopActivityRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CreateTopActivityRequest
+	switch t := that.(type) {
+	case *CreateTopActivityRequest:
+		that1 = t
+	case CreateTopActivityRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CreateTopActivityResponse to the protobuf v3 wire format
+func (val *CreateTopActivityResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CreateTopActivityResponse from the protobuf v3 wire format
+func (val *CreateTopActivityResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CreateTopActivityResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CreateTopActivityResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CreateTopActivityResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CreateTopActivityResponse
+	switch t := that.(type) {
+	case *CreateTopActivityResponse:
+		that1 = t
+	case CreateTopActivityResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type GetTopActivityTaskRequest to the protobuf v3 wire format
+func (val *GetTopActivityTaskRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetTopActivityTaskRequest from the protobuf v3 wire format
+func (val *GetTopActivityTaskRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetTopActivityTaskRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetTopActivityTaskRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetTopActivityTaskRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetTopActivityTaskRequest
+	switch t := that.(type) {
+	case *GetTopActivityTaskRequest:
+		that1 = t
+	case GetTopActivityTaskRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type GetTopActivityTaskResponse to the protobuf v3 wire format
+func (val *GetTopActivityTaskResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetTopActivityTaskResponse from the protobuf v3 wire format
+func (val *GetTopActivityTaskResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetTopActivityTaskResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetTopActivityTaskResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetTopActivityTaskResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetTopActivityTaskResponse
+	switch t := that.(type) {
+	case *GetTopActivityTaskResponse:
+		that1 = t
+	case GetTopActivityTaskResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RespondTopActivityCompletedRequest to the protobuf v3 wire format
+func (val *RespondTopActivityCompletedRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RespondTopActivityCompletedRequest from the protobuf v3 wire format
+func (val *RespondTopActivityCompletedRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RespondTopActivityCompletedRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RespondTopActivityCompletedRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RespondTopActivityCompletedRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RespondTopActivityCompletedRequest
+	switch t := that.(type) {
+	case *RespondTopActivityCompletedRequest:
+		that1 = t
+	case RespondTopActivityCompletedRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RespondTopActivityCompletedResponse to the protobuf v3 wire format
+func (val *RespondTopActivityCompletedResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RespondTopActivityCompletedResponse from the protobuf v3 wire format
+func (val *RespondTopActivityCompletedResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RespondTopActivityCompletedResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RespondTopActivityCompletedResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RespondTopActivityCompletedResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RespondTopActivityCompletedResponse
+	switch t := that.(type) {
+	case *RespondTopActivityCompletedResponse:
+		that1 = t
+	case RespondTopActivityCompletedResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RespondTopActivityFailedRequest to the protobuf v3 wire format
+func (val *RespondTopActivityFailedRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RespondTopActivityFailedRequest from the protobuf v3 wire format
+func (val *RespondTopActivityFailedRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RespondTopActivityFailedRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RespondTopActivityFailedRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RespondTopActivityFailedRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RespondTopActivityFailedRequest
+	switch t := that.(type) {
+	case *RespondTopActivityFailedRequest:
+		that1 = t
+	case RespondTopActivityFailedRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RespondTopActivityFailedResponse to the protobuf v3 wire format
+func (val *RespondTopActivityFailedResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RespondTopActivityFailedResponse from the protobuf v3 wire format
+func (val *RespondTopActivityFailedResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RespondTopActivityFailedResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RespondTopActivityFailedResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RespondTopActivityFailedResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RespondTopActivityFailedResponse
+	switch t := that.(type) {
+	case *RespondTopActivityFailedResponse:
+		that1 = t
+	case RespondTopActivityFailedResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type DescribeTopActivityRequest to the protobuf v3 wire format
+func (val *DescribeTopActivityRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DescribeTopActivityRequest from the protobuf v3 wire format
+func (val *DescribeTopActivityRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DescribeTopActivityRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DescribeTopActivityRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DescribeTopActivityRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DescribeTopActivityRequest
+	switch t := that.(type) {
+	case *DescribeTopActivityRequest:
+		that1 = t
+	case DescribeTopActivityRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type DescribeTopActivityResponse to the protobuf v3 wire format
+func (val *DescribeTopActivityResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DescribeTopActivityResponse from the protobuf v3 wire format
+func (val *DescribeTopActivityResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DescribeTopActivityResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DescribeTopActivityResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DescribeTopActivityResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DescribeTopActivityResponse
+	switch t := that.(type) {
+	case *DescribeTopActivityResponse:
+		that1 = t
+	case DescribeTopActivityResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type GetTopActivityHistoryRequest to the protobuf v3 wire format
+func (val *GetTopActivityHistoryRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetTopActivityHistoryRequest from the protobuf v3 wire format
+func (val *GetTopActivityHistoryRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetTopActivityHistoryRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetTopActivityHistoryRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetTopActivityHistoryRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetTopActivityHistoryRequest
+	switch t := that.(type) {
+	case *GetTopActivityHistoryRequest:
+		that1 = t
+	case GetTopActivityHistoryRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type GetTopActivityHistoryResponse to the protobuf v3 wire format
+func (val *GetTopActivityHistoryResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetTopActivityHistoryResponse from the protobuf v3 wire format
+func (val *GetTopActivityHistoryResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetTopActivityHistoryResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetTopActivityHistoryResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetTopActivityHistoryResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetTopActivityHistoryResponse
+	switch t := that.(type) {
+	case *GetTopActivityHistoryResponse:
+		that1 = t
+	case GetTopActivityHistoryResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}

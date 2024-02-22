@@ -794,6 +794,71 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *history.TopActivityCompletedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetResult(),
+			); err != nil {
+				return err
+			}
+
+		case *history.TopActivityCreatedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
+		case []*history.TopActivityEvent:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *history.TopActivityEvent:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetTopActivityCompletedEventAttributes(),
+				o.GetTopActivityCreatedEventAttributes(),
+				o.GetTopActivityFailedEventAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *history.TopActivityFailedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *history.UpsertWorkflowSearchAttributesEventAttributes:
 
 			if o == nil {
@@ -1356,6 +1421,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *workflowservice.CreateTopActivityRequest:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeScheduleResponse:
 
 			if o == nil {
@@ -1384,6 +1463,34 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetCallbacks(),
 				o.GetPendingActivities(),
 				o.GetWorkflowExecutionInfo(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.GetTopActivityHistoryResponse:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetEvents(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.GetTopActivityTaskResponse:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetInput(),
 			); err != nil {
 				return err
 			}
@@ -1747,6 +1854,34 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetQueryResult(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondTopActivityCompletedRequest:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetResult(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondTopActivityFailedRequest:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -2135,6 +2270,39 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case []*history.TopActivityEvent:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *history.TopActivityEvent:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetTopActivityFailedEventAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *history.TopActivityFailedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *history.WorkflowExecutionContinuedAsNewEventAttributes:
 			if o == nil {
 				continue
@@ -2280,6 +2448,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *workflowservice.GetTopActivityHistoryResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetEvents(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.GetWorkflowExecutionHistoryResponse:
 			if o == nil {
 				continue
@@ -2380,6 +2561,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailures(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondTopActivityFailedRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
