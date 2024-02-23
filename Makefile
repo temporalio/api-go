@@ -5,7 +5,7 @@ all: install test
 install: grpc-install mockgen-install goimports-install update-proto
 
 # Compile proto files.
-proto: grpc goimports proxy grpc-mock copyright
+proto: http-api-docs grpc goimports proxy grpc-mock copyright
 
 # Update submodule and compile proto files.
 update-proto: update-proto-submodule proto update-dependencies gomodtidy
@@ -32,6 +32,9 @@ PROTO_IMPORTS = \
 	-I=$(PROTO_ROOT)
 PROTO_PATHS = paths=source_relative:$(PROTO_OUT)
 
+OAPI_ROOT := $(PROTO_ROOT)/openapi
+OAPI_OUT := temporalproto/openapi
+
 $(PROTO_OUT):
 	mkdir $(PROTO_OUT)
 
@@ -41,7 +44,7 @@ update-proto-submodule:
 	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_ROOT)
 
 ##### Compile proto files for go #####
-grpc: go-grpc copy-helpers
+grpc: http-api-docs go-grpc copy-helpers
 
 # Only install helper when its source has changed
 HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
@@ -64,6 +67,13 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 		-p go-helpers_out=$(PROTO_PATHS)
 
 	mv -f $(PROTO_OUT)/temporal/api/* $(PROTO_OUT) && rm -rf $(PROTO_OUT)/temporal
+
+http-api-docs: go-grpc
+	go run cmd/encode-openapi-spec/main.go \
+		-v2=$(OAPI_ROOT)/openapiv2.json \
+		-v2-out=$(OAPI_OUT)/openapiv2.go \
+		-v3=$(OAPI_ROOT)/openapiv3.yaml \
+		-v3-out=$(OAPI_OUT)/openapiv3.go
 
 # Copy the payload helpers
 copy-helpers:
