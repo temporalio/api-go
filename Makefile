@@ -55,8 +55,7 @@ HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 
 go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
-	(cd cmd/protogen && go install .)
-	protogen \
+	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
