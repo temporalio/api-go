@@ -132,7 +132,7 @@ gomodtidy:
 
 # We need to ensure protos are up to date to test our UTF-8 post-processing
 test: proto copy-helpers
-	go test ./...
+	go test -tags protolegacy ./...
 
 ##### Check #####
 
