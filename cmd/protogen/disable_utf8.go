@@ -39,13 +39,14 @@ type xform struct {
 	xforms  map[protowire.Number]*xform
 }
 
+// https://github.com/protocolbuffers/protobuf/blob/66ef7bc1330df93c760d52480582efeaed5fe11e/src/google/protobuf/descriptor.proto#L93
 var xformFileDescriptorProto = &xform{
 	xforms: map[protowire.Number]*xform{
-		4: &xform{
+		4: &xform{ // repeated DescriptorProto message_type = 4;
 			xforms: map[protowire.Number]*xform{
-				2: &xform{
+				2: &xform{ // repeated FieldDescriptorProto field = 2;
 					filters: map[protowire.Number]func([]byte) []byte{
-						8: processFieldOptionsProto,
+						8: processFieldOptionsProto, // optional FieldOptions options = 8;
 					},
 				},
 			},
@@ -148,9 +149,12 @@ func transform(b []byte, xf *xform) []byte {
 }
 
 func processFieldOptionsProto(b []byte) []byte {
+	// https://github.com/protocolbuffers/protobuf-go/blob/6bec1ef16eb06f8ce937476e908ea31f2f6028f5/internal/filedesc/desc_lazy.go#L496
+	const FieldOptions_EnforceUTF8 = 13
+
 	out := make([]byte, len(b), len(b)+2)
 	copy(out, b)
-	out = protowire.AppendTag(out, 13, protowire.VarintType)
-	out = protowire.AppendVarint(out, 0)
+	out = protowire.AppendTag(out, FieldOptions_EnforceUTF8, protowire.VarintType)
+	out = protowire.AppendVarint(out, protowire.EncodeBool(false))
 	return out
 }
