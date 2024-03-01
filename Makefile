@@ -55,8 +55,7 @@ HELPER_FILES = $(shell find ./cmd/protoc-gen-go-helpers)
 
 go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
-	(cd cmd/protogen && go install .)
-	protogen \
+	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
@@ -130,7 +129,8 @@ gomodtidy:
 
 ##### Test #####
 
-test: copy-helpers
+# We need to ensure protos are up to date to test our UTF-8 post-processing
+test: proto copy-helpers
 	go test ./...
 
 ##### Check #####
