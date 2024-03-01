@@ -40,18 +40,30 @@ type xform struct {
 }
 
 // https://github.com/protocolbuffers/protobuf/blob/66ef7bc1330df93c760d52480582efeaed5fe11e/src/google/protobuf/descriptor.proto#L93
-var xformFileDescriptorProto = &xform{
-	xforms: map[protowire.Number]*xform{
-		4: &xform{ // repeated DescriptorProto message_type = 4;
-			xforms: map[protowire.Number]*xform{
-				2: &xform{ // repeated FieldDescriptorProto field = 2;
-					filters: map[protowire.Number]func([]byte) []byte{
-						8: processFieldOptionsProto, // optional FieldOptions options = 8;
-					},
-				},
-			},
+var (
+	xformFileDescriptorProto = &xform{
+		xforms: map[protowire.Number]*xform{
+			4: xformDescriptorProto, // repeated DescriptorProto message_type = 4;
 		},
-	},
+	}
+
+	xformDescriptorProto = &xform{
+		xforms: map[protowire.Number]*xform{
+			2: xformFieldDescriptorProto, // repeated FieldDescriptorProto field = 2;
+			// 3: xformDescriptorProto, // repeated DescriptorProto nested_type = 3; // cycle, create in init()
+		},
+	}
+
+	xformFieldDescriptorProto = &xform{
+		filters: map[protowire.Number]func([]byte) []byte{
+			8: processFieldOptionsProto, // optional FieldOptions options = 8;
+		},
+	}
+)
+
+func init() {
+	// create cycle for processing nested types
+	xformDescriptorProto.xforms[3] = xformDescriptorProto
 }
 
 func NewDisableUtf8Validation() *disableUtf8Validation {
