@@ -23,38 +23,78 @@
 package test
 
 import (
-	"encoding/base64"
+	"reflect"
 	"testing"
+	"unicode/utf8"
 
 	"github.com/stretchr/testify/require"
-	namespacepb "go.temporal.io/api/namespace/v1"
-	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/protobuf/proto"
+
+	namespacepb "go.temporal.io/api/namespace/v1"
+	taskqueuepb "go.temporal.io/api/taskqueue/v1"
+	"go.temporal.io/api/workflowservice/v1"
 )
 
-const serializedNSWithInvalidUTF8 = "CrUBKrIBChtfX3RlbXBvcmFsLXN0b3JhZ2UtbWV0YWRhdGESkgEKjwEKDmFwLW5vcnRoZWFzdC0xEn0IAVp5Cg5hcC1ub3J0aGVhc3QtMRIjbnMtc3RvcmFnZS1wcm9kLWFwLW5vcnRoZWFzdC0xLTM2ZTQaQmFybjphd3M6aWFtOjo1MTEwMjI4MjM1NTQ6cm9sZS9ucy1zdG9yYWdlLXByb2QtYXAtbm9ydGhlYXN0LTEtMzZlNA=="
+// 0x8f01 is invalid UTF-8
+const invalidUTF8 = "\n\x8f\x01\n\x0ejunk\x12data"
 
-var nsWithInvalidUTF8 = &workflowservice.DescribeNamespaceResponse{
-	NamespaceInfo: &namespacepb.NamespaceInfo{
-		Data: map[string]string{
-			// 0x8f01 is invalid UTF-8
-			"metadata": "\n\x8f\x01\n\x0ejunk\x12data",
+// Let's just be sure
+func TestInvalidUTF_Sample_IsActuallyInvalid(t *testing.T) {
+	if utf8.ValidString(invalidUTF8) {
+		t.Fatalf("Invalid UTF8 sample is actually valid")
+	}
+}
+
+func TestProto_AllowsInvalidUTF8_InStrings(t *testing.T) {
+	for _, tc := range []struct {
+		name  string
+		input proto.Message
+	}{{
+		name: "Invalid UTF-8 in map value",
+		input: &namespacepb.NamespaceInfo{
+			Data: map[string]string{
+				"valid UTF8": invalidUTF8,
+			},
 		},
-	},
-}
-
-func TestUnmarshalNamespaceInfo_AllowsInvalidUTF8(t *testing.T) {
-	require := require.New(t)
-	ns := &workflowservice.DescribeNamespaceResponse{}
-	bs, err := base64.StdEncoding.DecodeString(serializedNSWithInvalidUTF8)
-	require.NoError(err, "unable to decode serialized ns info")
-	require.NoError(proto.Unmarshal(bs, ns), "unable to unmarshal namespace detail containing invalid UTF-8")
-	require.True(proto.Equal(nsWithInvalidUTF8, ns), "unmarshaled namespace detail does not match expectation")
-}
-
-func TestMarshalNamespaceInfo_AllowsInvalidUTF8(t *testing.T) {
-	require := require.New(t)
-	bs, err := proto.Marshal(nsWithInvalidUTF8)
-	require.NoError(err, "unable to marshal namespace detail containing invalid UTF-8")
-	require.Equal(serializedNSWithInvalidUTF8, base64.StdEncoding.EncodeToString(bs), "marshaled namespace detail does not match expectation")
+	}, {
+		name: "Invalid UTF-8 in map key",
+		input: &namespacepb.NamespaceInfo{
+			Data: map[string]string{
+				// 0x8f01 is invalid UTF-8
+				invalidUTF8: "valid utf8",
+			},
+		},
+	}, {
+		name: "Invalid UTF-8 in struct field",
+		input: &namespacepb.NamespaceInfo{
+			Name: invalidUTF8,
+		},
+	}, {
+		name: "Invalid UTF-8 in repeated string",
+		input: &taskqueuepb.CompatibleVersionSet{
+			BuildIds: []string{
+				"valid utf-8",
+				invalidUTF8,
+			},
+		},
+	}, {
+		name: "Invalid UTF-8 in nested message",
+		input: &workflowservice.DescribeNamespaceResponse{
+			NamespaceInfo: &namespacepb.NamespaceInfo{
+				Name: invalidUTF8,
+				Data: map[string]string{
+					invalidUTF8: invalidUTF8,
+				},
+			},
+		},
+	}} {
+		t.Run(tc.name, func(t *testing.T) {
+			require := require.New(t)
+			out := reflect.New(reflect.TypeOf(tc.input).Elem()).Interface().(proto.Message)
+			bs, err := proto.Marshal(tc.input)
+			require.NoError(err, "unable to marshal proto containing invalid UTF-8")
+			require.NoError(proto.Unmarshal(bs, out), "unable to unmarshal proto containing invalid UTF-8")
+			require.True(proto.Equal(tc.input, out), "unmarshaled proto does not match input")
+		})
+	}
 }
