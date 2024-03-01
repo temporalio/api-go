@@ -34,52 +34,76 @@ import (
 
 type disableUtf8Validation struct{}
 
+type xform struct {
+	filters map[protowire.Number]func([]byte) []byte
+	xforms  map[protowire.Number]*xform
+}
+
+var xformFileDescriptorProto = &xform{
+	xforms: map[protowire.Number]*xform{
+		4: &xform{
+			xforms: map[protowire.Number]*xform{
+				2: &xform{
+					filters: map[protowire.Number]func([]byte) []byte{
+						8: processFieldOptionsProto,
+					},
+				},
+			},
+		},
+	},
+}
+
 func NewDisableUtf8Validation() *disableUtf8Validation {
 	return &disableUtf8Validation{}
 }
 
 func (v *disableUtf8Validation) Process(f *ast.File) {
-	ast.Inspect(f, func(n ast.Node) bool {
-		switch n := n.(type) {
-		case *ast.File:
-			return true
-		case *ast.GenDecl:
-			if n.Tok == token.VAR {
-				for _, spec := range n.Specs {
-					spec := spec.(*ast.ValueSpec)
-					if len(spec.Names) == 1 && strings.HasSuffix(spec.Names[0].Name, "_rawDesc") {
-						lit := spec.Values[0].(*ast.CompositeLit)
-						byteArr := make([]byte, len(lit.Elts))
-						for i, e := range lit.Elts {
-							v := e.(*ast.BasicLit).Value
-							if strings.HasPrefix(v, "0x") {
-								v = v[2:]
-							}
-							byteVal, err := strconv.ParseUint(v, 16, 8)
-							if err != nil {
-								panic(err)
-							}
-							byteArr[i] = byte(byteVal)
-						}
-						newArr := processFileDescriptorProto(byteArr)
-						newElts := make([]ast.Expr, len(newArr))
-						for i, v := range newArr {
-							newElts[i] = &ast.BasicLit{
-								Kind:  token.INT,
-								Value: fmt.Sprintf("%#02x", v),
-							}
-						}
-						lit.Elts = newElts
-					}
+	ast.Inspect(f, v.visit)
+}
+
+func (v *disableUtf8Validation) visit(n ast.Node) bool {
+	switch n := n.(type) {
+	case *ast.File:
+		return true
+	case *ast.GenDecl:
+		if n.Tok != token.VAR {
+			break
+		}
+		for _, spec := range n.Specs {
+			spec := spec.(*ast.ValueSpec)
+			if len(spec.Names) != 1 || !strings.HasSuffix(spec.Names[0].Name, "_rawDesc") {
+				continue
+			}
+			lit := spec.Values[0].(*ast.CompositeLit)
+			byteArr := make([]byte, len(lit.Elts))
+			for i, e := range lit.Elts {
+				v := e.(*ast.BasicLit).Value
+				if strings.HasPrefix(v, "0x") {
+					v = v[2:]
+				}
+				byteVal, err := strconv.ParseUint(v, 16, 8)
+				if err != nil {
+					panic(err)
+				}
+				byteArr[i] = byte(byteVal)
+			}
+			newArr := transform(byteArr, xformFileDescriptorProto)
+			newElts := make([]ast.Expr, len(newArr))
+			for i, v := range newArr {
+				newElts[i] = &ast.BasicLit{
+					Kind:  token.INT,
+					Value: fmt.Sprintf("%#02x", v),
 				}
 			}
+			lit.Elts = newElts
 		}
-		return false
-	})
+	}
+	return false
 }
 
-func processFileDescriptorProto(b []byte) []byte {
+func transform(b []byte, xf *xform) []byte {
 	out := make([]byte, 0, len(b)*3/2)
+	seen := make(map[protowire.Number]bool)
 	for len(b) > 0 {
 		num, typ, n := protowire.ConsumeTag(b)
 		if n < 0 {
@@ -102,8 +126,11 @@ func processFileDescriptorProto(b []byte) []byte {
 			out = protowire.AppendFixed64(out, v)
 		case protowire.BytesType:
 			v, n := protowire.ConsumeBytes(b)
-			if num == 4 { // repeated DescriptorProto message_type = 4;
-				v = processDescriptorProto(v)
+			if filt := xf.filters[num]; filt != nil {
+				v = filt(v)
+				seen[num] = true
+			} else if xf2 := xf.xforms[num]; xf2 != nil {
+				v = transform(v, xf2)
 			}
 			b = b[n:]
 			out = protowire.AppendBytes(out, v)
@@ -111,84 +138,11 @@ func processFileDescriptorProto(b []byte) []byte {
 			panic("bad type")
 		}
 	}
-	return out
-}
-
-func processDescriptorProto(b []byte) []byte {
-	out := make([]byte, 0, len(b)*3/2)
-	for len(b) > 0 {
-		num, typ, n := protowire.ConsumeTag(b)
-		if n < 0 {
-			panic("ConsumeTag")
+	for num, filt := range xf.filters {
+		if !seen[num] {
+			out = protowire.AppendTag(out, num, protowire.BytesType)
+			out = protowire.AppendBytes(out, filt(nil))
 		}
-		b = b[n:]
-		out = protowire.AppendTag(out, num, typ)
-		switch typ {
-		case protowire.VarintType:
-			v, n := protowire.ConsumeVarint(b)
-			b = b[n:]
-			out = protowire.AppendVarint(out, v)
-		case protowire.Fixed32Type:
-			v, n := protowire.ConsumeFixed32(b)
-			b = b[n:]
-			out = protowire.AppendFixed32(out, v)
-		case protowire.Fixed64Type:
-			v, n := protowire.ConsumeFixed64(b)
-			b = b[n:]
-			out = protowire.AppendFixed64(out, v)
-		case protowire.BytesType:
-			v, n := protowire.ConsumeBytes(b)
-			if num == 2 { // repeated FieldDescriptorProto field = 2;
-				v = processFieldDescriptorProto(v)
-			}
-			b = b[n:]
-			out = protowire.AppendBytes(out, v)
-		default:
-			panic("bad type")
-		}
-	}
-	return out
-}
-
-func processFieldDescriptorProto(b []byte) []byte {
-	out := make([]byte, 0, len(b)*3/2)
-	hadOptions := false
-	for len(b) > 0 {
-		num, typ, n := protowire.ConsumeTag(b)
-		if n < 0 {
-			panic("ConsumeTag")
-		}
-		b = b[n:]
-		out = protowire.AppendTag(out, num, typ)
-		switch typ {
-		case protowire.VarintType:
-			v, n := protowire.ConsumeVarint(b)
-			b = b[n:]
-			out = protowire.AppendVarint(out, v)
-		case protowire.Fixed32Type:
-			v, n := protowire.ConsumeFixed32(b)
-			b = b[n:]
-			out = protowire.AppendFixed32(out, v)
-		case protowire.Fixed64Type:
-			v, n := protowire.ConsumeFixed64(b)
-			b = b[n:]
-			out = protowire.AppendFixed64(out, v)
-		case protowire.BytesType:
-			v, n := protowire.ConsumeBytes(b)
-			if num == 8 { // optional FieldOptions options = 8;
-				v = processFieldOptionsProto(v)
-				hadOptions = true
-			}
-			b = b[n:]
-			out = protowire.AppendBytes(out, v)
-		default:
-			panic("bad type")
-		}
-	}
-	if !hadOptions {
-		out = protowire.AppendTag(out, 8, protowire.BytesType)
-		v := processFieldOptionsProto(nil)
-		out = protowire.AppendBytes(out, v)
 	}
 	return out
 }
