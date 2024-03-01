@@ -60,7 +60,6 @@ func TestProto_AllowsInvalidUTF8_InStrings(t *testing.T) {
 		name: "Invalid UTF-8 in map key",
 		input: &namespacepb.NamespaceInfo{
 			Data: map[string]string{
-				// 0x8f01 is invalid UTF-8
 				invalidUTF8: "valid utf8",
 			},
 		},
