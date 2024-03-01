@@ -104,8 +104,10 @@ func (v *disableUtf8Validation) visit(n ast.Node) bool {
 			newElts := make([]ast.Expr, len(newArr))
 			for i, v := range newArr {
 				newElts[i] = &ast.BasicLit{
-					Kind:  token.INT,
-					Value: fmt.Sprintf("%#02x", v),
+					// steal positions from original list to preserve newlines
+					ValuePos: lit.Elts[i*(len(lit.Elts)-1)/(len(newElts)-1)].Pos(),
+					Kind:     token.INT,
+					Value:    fmt.Sprintf("%#02x", v),
 				}
 			}
 			lit.Elts = newElts
