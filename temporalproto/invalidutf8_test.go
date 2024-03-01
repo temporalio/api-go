@@ -20,7 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-package test
+// This doesn't actually test the temporalproto package but we don't want a top-level
+// test package.
+package temporalproto_test
 
 import (
 	"reflect"
