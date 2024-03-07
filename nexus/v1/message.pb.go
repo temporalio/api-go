@@ -673,13 +673,14 @@ type IncomingService struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Data version for this service. Must match current version on update or set to 0 to create a new service.
+	// Data version for this service, incremented for every update issued via the CreateOrUpdateNexusIncomingService
+	// API.
 	Version int64 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Service name, unique for this cluster.
 	// The service name is used to address this service.
 	// By default, when using Nexus over HTTP, the service name is matched against the base URL path.
-	// E.g. the URL /my-service would match a service named "my-service".
-	// The name can contain any characters and is escaped when matched against a URL.
+	// E.g. the URL /api/v1/services/my-service/ would match a service named "my-service".
+	// The name must match `[a-zA-Z_][a-zA-Z0-9_]*`.
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// Namespace to route requests to.
 	Namespace string `protobuf:"bytes,3,opt,name=namespace,proto3" json:"namespace,omitempty"`

@@ -95,7 +95,7 @@ type OperatorServiceClient interface {
 	CreateOrUpdateNexusIncomingService(ctx context.Context, in *CreateOrUpdateNexusIncomingServiceRequest, opts ...grpc.CallOption) (*CreateOrUpdateNexusIncomingServiceResponse, error)
 	// Delete an incoming Nexus service by name.
 	DeleteNexusIncomingService(ctx context.Context, in *DeleteNexusIncomingServiceRequest, opts ...grpc.CallOption) (*DeleteNexusIncomingServiceResponse, error)
-	// List all nexus incoming service names. Use next_page_token in the response for pagination.
+	// List all Nexus incoming services in the cluster. Use next_page_token in the response for pagination.
 	ListNexusIncomingServices(ctx context.Context, in *ListNexusIncomingServicesRequest, opts ...grpc.CallOption) (*ListNexusIncomingServicesResponse, error)
 }
 
@@ -246,7 +246,7 @@ type OperatorServiceServer interface {
 	CreateOrUpdateNexusIncomingService(context.Context, *CreateOrUpdateNexusIncomingServiceRequest) (*CreateOrUpdateNexusIncomingServiceResponse, error)
 	// Delete an incoming Nexus service by name.
 	DeleteNexusIncomingService(context.Context, *DeleteNexusIncomingServiceRequest) (*DeleteNexusIncomingServiceResponse, error)
-	// List all nexus incoming service names. Use next_page_token in the response for pagination.
+	// List all Nexus incoming services in the cluster. Use next_page_token in the response for pagination.
 	ListNexusIncomingServices(context.Context, *ListNexusIncomingServicesRequest) (*ListNexusIncomingServicesResponse, error)
 	mustEmbedUnimplementedOperatorServiceServer()
 }
