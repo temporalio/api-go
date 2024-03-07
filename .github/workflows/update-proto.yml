@@ -49,4 +49,9 @@ jobs:
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.COMMANDER_DATA_TOKEN }}@github.com/${{ github.repository }}
           git add .
-          git commit -m "${{ github.event.inputs.commit_message }}" && git push || echo "No changes to commit"
+          git commit -m "${{ github.event.inputs.commit_message }}"
+          if [ $? -eq 0 ]; then
+            git push
+          else
+            echo "No changes to commit"
+          fi
