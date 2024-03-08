@@ -581,3 +581,77 @@ func (this *Callback) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type TLSOptions to the protobuf v3 wire format
+func (val *TLSOptions) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TLSOptions from the protobuf v3 wire format
+func (val *TLSOptions) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TLSOptions) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TLSOptions values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TLSOptions) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TLSOptions
+	switch t := that.(type) {
+	case *TLSOptions:
+		that1 = t
+	case TLSOptions:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type EncryptionKeySpec to the protobuf v3 wire format
+func (val *EncryptionKeySpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type EncryptionKeySpec from the protobuf v3 wire format
+func (val *EncryptionKeySpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *EncryptionKeySpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two EncryptionKeySpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *EncryptionKeySpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *EncryptionKeySpec
+	switch t := that.(type) {
+	case *EncryptionKeySpec:
+		that1 = t
+	case EncryptionKeySpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
