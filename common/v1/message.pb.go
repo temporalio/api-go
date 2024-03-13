@@ -1001,9 +1001,6 @@ type Callback_Nexus struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Callback URL.
-	// (-- api-linter: core::0140::uri=disabled
-	//
-	//	aip.dev/not-precedent: Not following this guideline. --)
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 }
 

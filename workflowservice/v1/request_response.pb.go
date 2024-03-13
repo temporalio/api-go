@@ -509,13 +509,6 @@ func (x *DescribeNamespaceResponse) GetFailoverHistory() []*v1.FailoverStatus {
 	return nil
 }
 
-// (-- api-linter: core::0134::request-mask-required=disabled
-//
-//	aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
-//
-// (-- api-linter: core::0134::request-resource-required=disabled
-//
-//	aip.dev/not-precedent: UpdateNamespace RPC doesn't follow Google API format. --)
 type UpdateNamespaceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -4220,13 +4213,6 @@ func (*TerminateWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{49}
 }
 
-// (-- api-linter: core::0135::request-unknown-fields=disabled
-//
-//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
-//
-// (-- api-linter: core::0135::request-name-required=disabled
-//
-//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 type DeleteWorkflowExecutionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -6211,18 +6197,6 @@ func (x *ListTaskQueuePartitionsResponse) GetWorkflowTaskQueuePartitions() []*v1
 	return nil
 }
 
-// (-- api-linter: core::0133::request-parent-required=disabled
-//
-//	aip.dev/not-precedent: CreateSchedule doesn't follow Google API format --)
-//
-// (-- api-linter: core::0133::request-unknown-fields=disabled
-//
-//	aip.dev/not-precedent: CreateSchedule doesn't follow Google API format --)
-//
-// (-- api-linter: core::0133::request-resource-behavior=disabled
-//
-//	aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
-//
 // (-- api-linter: core::0203::optional=disabled
 //
 //	aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
@@ -6531,9 +6505,6 @@ func (x *DescribeScheduleResponse) GetConflictToken() []byte {
 	return nil
 }
 
-// (-- api-linter: core::0134::request-mask-required=disabled
-//
-//	aip.dev/not-precedent: UpdateSchedule doesn't follow Google API format --)
 type UpdateScheduleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -6911,13 +6882,6 @@ func (x *ListScheduleMatchingTimesResponse) GetStartTime() []*timestamppb.Timest
 	return nil
 }
 
-// (-- api-linter: core::0135::request-name-required=disabled
-//
-//	aip.dev/not-precedent: DeleteSchedule doesn't follow Google API format --)
-//
-// (-- api-linter: core::0135::request-unknown-fields=disabled
-//
-//	aip.dev/not-precedent: DeleteSchedule doesn't follow Google API format --)
 type DeleteScheduleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -7143,13 +7107,6 @@ func (x *ListSchedulesResponse) GetNextPageToken() []byte {
 	return nil
 }
 
-// (-- api-linter: core::0134::request-mask-required=disabled
-//
-//	aip.dev/not-precedent: UpdateWorkerBuildIdCompatibilityRequest doesn't follow Google API format --)
-//
-// (-- api-linter: core::0134::request-resource-required=disabled
-//
-//	aip.dev/not-precedent: UpdateWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
 type UpdateWorkerBuildIdCompatibilityRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -7359,9 +7316,6 @@ func (*UpdateWorkerBuildIdCompatibilityResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{97}
 }
 
-// (-- api-linter: core::0134::request-resource-required=disabled
-//
-//	aip.dev/not-precedent: GetWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
 type GetWorkerBuildIdCompatibilityRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
