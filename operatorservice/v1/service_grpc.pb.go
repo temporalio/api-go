@@ -71,13 +71,6 @@ type OperatorServiceClient interface {
 	// ListSearchAttributes returns comprehensive information about search attributes.
 	ListSearchAttributes(ctx context.Context, in *ListSearchAttributesRequest, opts ...grpc.CallOption) (*ListSearchAttributesResponse, error)
 	// DeleteNamespace synchronously deletes a namespace and asynchronously reclaims all namespace resources.
-	// (-- api-linter: core::0135::method-signature=disabled
-	//
-	//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
-	//
-	// (-- api-linter: core::0135::response-message-name=disabled
-	//
-	//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 	DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, opts ...grpc.CallOption) (*DeleteNamespaceResponse, error)
 	// AddOrUpdateRemoteCluster adds or updates remote cluster.
 	AddOrUpdateRemoteCluster(ctx context.Context, in *AddOrUpdateRemoteClusterRequest, opts ...grpc.CallOption) (*AddOrUpdateRemoteClusterResponse, error)
@@ -222,13 +215,6 @@ type OperatorServiceServer interface {
 	// ListSearchAttributes returns comprehensive information about search attributes.
 	ListSearchAttributes(context.Context, *ListSearchAttributesRequest) (*ListSearchAttributesResponse, error)
 	// DeleteNamespace synchronously deletes a namespace and asynchronously reclaims all namespace resources.
-	// (-- api-linter: core::0135::method-signature=disabled
-	//
-	//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
-	//
-	// (-- api-linter: core::0135::response-message-name=disabled
-	//
-	//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 	DeleteNamespace(context.Context, *DeleteNamespaceRequest) (*DeleteNamespaceResponse, error)
 	// AddOrUpdateRemoteCluster adds or updates remote cluster.
 	AddOrUpdateRemoteCluster(context.Context, *AddOrUpdateRemoteClusterRequest) (*AddOrUpdateRemoteClusterResponse, error)

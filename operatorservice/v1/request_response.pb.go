@@ -348,13 +348,6 @@ func (x *ListSearchAttributesResponse) GetStorageSchema() map[string]string {
 	return nil
 }
 
-// (-- api-linter: core::0135::request-unknown-fields=disabled
-//
-//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
-//
-// (-- api-linter: core::0135::request-name-required=disabled
-//
-//	aip.dev/not-precedent: DeleteNamespace RPC doesn't follow Google API format. --)
 type DeleteNamespaceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -949,9 +942,6 @@ func (x *GetNexusIncomingServiceResponse) GetService() *v11.IncomingService {
 	return nil
 }
 
-// (-- api-linter: core::0133::request-unknown-fields=disabled
-//
-//	aip.dev/not-precedent: CreateOrUpdateNexusIncomingServiceResponse RPC doesn't follow Google API format. --)
 type CreateOrUpdateNexusIncomingServiceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
