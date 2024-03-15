@@ -49,6 +49,26 @@ func WorkflowIdReusePolicyFromString(s string) (WorkflowIdReusePolicy, error) {
 }
 
 var (
+	WorkflowIdConflictPolicy_shorthandValue = map[string]int32{
+		"Unspecified":       0,
+		"Fail":              1,
+		"UseExisting":       2,
+		"TerminateExisting": 3,
+	}
+)
+
+// WorkflowIdConflictPolicyFromString parses a WorkflowIdConflictPolicy value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to WorkflowIdConflictPolicy
+func WorkflowIdConflictPolicyFromString(s string) (WorkflowIdConflictPolicy, error) {
+	if v, ok := WorkflowIdConflictPolicy_value[s]; ok {
+		return WorkflowIdConflictPolicy(v), nil
+	} else if v, ok := WorkflowIdConflictPolicy_shorthandValue[s]; ok {
+		return WorkflowIdConflictPolicy(v), nil
+	}
+	return WorkflowIdConflictPolicy(0), fmt.Errorf("%s is not a valid WorkflowIdConflictPolicy", s)
+}
+
+var (
 	ParentClosePolicy_shorthandValue = map[string]int32{
 		"Unspecified":   0,
 		"Terminate":     1,
