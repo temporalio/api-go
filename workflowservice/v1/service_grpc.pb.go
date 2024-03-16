@@ -351,7 +351,10 @@ type WorkflowServiceClient interface {
 	QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
 	// DescribeWorkflowExecution returns information about the specified workflow execution.
 	DescribeWorkflowExecution(ctx context.Context, in *DescribeWorkflowExecutionRequest, opts ...grpc.CallOption) (*DescribeWorkflowExecutionResponse, error)
-	// DescribeTaskQueue returns information about the target task queue.
+	// DescribeTaskQueue returns the following information about the target task queue, broken down by Build ID:
+	//   - List of pollers
+	//   - Workflow Reachability status
+	//   - Backlog info for Workflow and/or Activity tasks
 	DescribeTaskQueue(ctx context.Context, in *DescribeTaskQueueRequest, opts ...grpc.CallOption) (*DescribeTaskQueueResponse, error)
 	// GetClusterInfo returns information about temporal cluster
 	GetClusterInfo(ctx context.Context, in *GetClusterInfoRequest, opts ...grpc.CallOption) (*GetClusterInfoResponse, error)
@@ -404,6 +407,8 @@ type WorkflowServiceClient interface {
 	UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue
 	ListWorkerVersioningRules(ctx context.Context, in *ListWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*ListWorkerVersioningRulesResponse, error)
+	// Deprecated. Use `DescribeTaskQueue`.
+	//
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
 	// build IDs.
@@ -1225,7 +1230,10 @@ type WorkflowServiceServer interface {
 	QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error)
 	// DescribeWorkflowExecution returns information about the specified workflow execution.
 	DescribeWorkflowExecution(context.Context, *DescribeWorkflowExecutionRequest) (*DescribeWorkflowExecutionResponse, error)
-	// DescribeTaskQueue returns information about the target task queue.
+	// DescribeTaskQueue returns the following information about the target task queue, broken down by Build ID:
+	//   - List of pollers
+	//   - Workflow Reachability status
+	//   - Backlog info for Workflow and/or Activity tasks
 	DescribeTaskQueue(context.Context, *DescribeTaskQueueRequest) (*DescribeTaskQueueResponse, error)
 	// GetClusterInfo returns information about temporal cluster
 	GetClusterInfo(context.Context, *GetClusterInfoRequest) (*GetClusterInfoResponse, error)
@@ -1278,6 +1286,8 @@ type WorkflowServiceServer interface {
 	UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue
 	ListWorkerVersioningRules(context.Context, *ListWorkerVersioningRulesRequest) (*ListWorkerVersioningRulesResponse, error)
+	// Deprecated. Use `DescribeTaskQueue`.
+	//
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
 	// build IDs.
