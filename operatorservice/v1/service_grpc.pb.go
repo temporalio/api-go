@@ -53,6 +53,11 @@ const (
 	OperatorService_CreateOrUpdateNexusIncomingService_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/CreateOrUpdateNexusIncomingService"
 	OperatorService_DeleteNexusIncomingService_FullMethodName         = "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusIncomingService"
 	OperatorService_ListNexusIncomingServices_FullMethodName          = "/temporal.api.operatorservice.v1.OperatorService/ListNexusIncomingServices"
+	OperatorService_GetNexusOutgoingService_FullMethodName            = "/temporal.api.operatorservice.v1.OperatorService/GetNexusOutgoingService"
+	OperatorService_CreateNexusOutgoingService_FullMethodName         = "/temporal.api.operatorservice.v1.OperatorService/CreateNexusOutgoingService"
+	OperatorService_UpdateNexusOutgoingService_FullMethodName         = "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusOutgoingService"
+	OperatorService_DeleteNexusOutgoingService_FullMethodName         = "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusOutgoingService"
+	OperatorService_ListNexusOutgoingServices_FullMethodName          = "/temporal.api.operatorservice.v1.OperatorService/ListNexusOutgoingServices"
 )
 
 // OperatorServiceClient is the client API for OperatorService service.
@@ -90,6 +95,26 @@ type OperatorServiceClient interface {
 	DeleteNexusIncomingService(ctx context.Context, in *DeleteNexusIncomingServiceRequest, opts ...grpc.CallOption) (*DeleteNexusIncomingServiceResponse, error)
 	// List all Nexus incoming services in the cluster. Use next_page_token in the response for pagination.
 	ListNexusIncomingServices(ctx context.Context, in *ListNexusIncomingServicesRequest, opts ...grpc.CallOption) (*ListNexusIncomingServicesResponse, error)
+	// Get a registered outgoing Nexus service by namespace and service name. The returned version can be used for
+	// optimistic updates.
+	GetNexusOutgoingService(ctx context.Context, in *GetNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*GetNexusOutgoingServiceResponse, error)
+	// Create a Nexus service. This will fail if a service with the same name already exists in the namespace with a
+	// status of ALREADY_EXISTS.
+	// Returns the updated service with its initial version. You may use this version for subsequent updates. You don't
+	// need to increment the version yourself. The server will increment the version for you after each update.
+	CreateNexusOutgoingService(ctx context.Context, in *CreateNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*CreateNexusOutgoingServiceResponse, error)
+	// Update an outgoing Nexus service by namespace and service name. The version in the request should match the
+	// current version of the service. This will fail with a status of FAILED_PRECONDITION if the version does not match.
+	// Returns the updated service with the updated version, which can be used for subsequent updates. You don't need
+	// to increment the version yourself. The server will increment the version for you.
+	UpdateNexusOutgoingService(ctx context.Context, in *UpdateNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*UpdateNexusOutgoingServiceResponse, error)
+	// Delete an outgoing Nexus service by namespace and service name.
+	DeleteNexusOutgoingService(ctx context.Context, in *DeleteNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*DeleteNexusOutgoingServiceResponse, error)
+	// List all Nexus outgoing services for a namespace, sorted by service name in ascending order. Set page_token in
+	// the request to the next_page_token field of the previous response to get the next page of results. An empty
+	// next_page_token indicates that there are no more results. During pagination, a newly added service with a name
+	// lexicographically earlier than the previous page's last service name may be missed.
+	ListNexusOutgoingServices(ctx context.Context, in *ListNexusOutgoingServicesRequest, opts ...grpc.CallOption) (*ListNexusOutgoingServicesResponse, error)
 }
 
 type operatorServiceClient struct {
@@ -199,6 +224,51 @@ func (c *operatorServiceClient) ListNexusIncomingServices(ctx context.Context, i
 	return out, nil
 }
 
+func (c *operatorServiceClient) GetNexusOutgoingService(ctx context.Context, in *GetNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*GetNexusOutgoingServiceResponse, error) {
+	out := new(GetNexusOutgoingServiceResponse)
+	err := c.cc.Invoke(ctx, OperatorService_GetNexusOutgoingService_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorServiceClient) CreateNexusOutgoingService(ctx context.Context, in *CreateNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*CreateNexusOutgoingServiceResponse, error) {
+	out := new(CreateNexusOutgoingServiceResponse)
+	err := c.cc.Invoke(ctx, OperatorService_CreateNexusOutgoingService_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorServiceClient) UpdateNexusOutgoingService(ctx context.Context, in *UpdateNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*UpdateNexusOutgoingServiceResponse, error) {
+	out := new(UpdateNexusOutgoingServiceResponse)
+	err := c.cc.Invoke(ctx, OperatorService_UpdateNexusOutgoingService_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorServiceClient) DeleteNexusOutgoingService(ctx context.Context, in *DeleteNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*DeleteNexusOutgoingServiceResponse, error) {
+	out := new(DeleteNexusOutgoingServiceResponse)
+	err := c.cc.Invoke(ctx, OperatorService_DeleteNexusOutgoingService_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorServiceClient) ListNexusOutgoingServices(ctx context.Context, in *ListNexusOutgoingServicesRequest, opts ...grpc.CallOption) (*ListNexusOutgoingServicesResponse, error) {
+	out := new(ListNexusOutgoingServicesResponse)
+	err := c.cc.Invoke(ctx, OperatorService_ListNexusOutgoingServices_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OperatorServiceServer is the server API for OperatorService service.
 // All implementations must embed UnimplementedOperatorServiceServer
 // for forward compatibility
@@ -234,6 +304,26 @@ type OperatorServiceServer interface {
 	DeleteNexusIncomingService(context.Context, *DeleteNexusIncomingServiceRequest) (*DeleteNexusIncomingServiceResponse, error)
 	// List all Nexus incoming services in the cluster. Use next_page_token in the response for pagination.
 	ListNexusIncomingServices(context.Context, *ListNexusIncomingServicesRequest) (*ListNexusIncomingServicesResponse, error)
+	// Get a registered outgoing Nexus service by namespace and service name. The returned version can be used for
+	// optimistic updates.
+	GetNexusOutgoingService(context.Context, *GetNexusOutgoingServiceRequest) (*GetNexusOutgoingServiceResponse, error)
+	// Create a Nexus service. This will fail if a service with the same name already exists in the namespace with a
+	// status of ALREADY_EXISTS.
+	// Returns the updated service with its initial version. You may use this version for subsequent updates. You don't
+	// need to increment the version yourself. The server will increment the version for you after each update.
+	CreateNexusOutgoingService(context.Context, *CreateNexusOutgoingServiceRequest) (*CreateNexusOutgoingServiceResponse, error)
+	// Update an outgoing Nexus service by namespace and service name. The version in the request should match the
+	// current version of the service. This will fail with a status of FAILED_PRECONDITION if the version does not match.
+	// Returns the updated service with the updated version, which can be used for subsequent updates. You don't need
+	// to increment the version yourself. The server will increment the version for you.
+	UpdateNexusOutgoingService(context.Context, *UpdateNexusOutgoingServiceRequest) (*UpdateNexusOutgoingServiceResponse, error)
+	// Delete an outgoing Nexus service by namespace and service name.
+	DeleteNexusOutgoingService(context.Context, *DeleteNexusOutgoingServiceRequest) (*DeleteNexusOutgoingServiceResponse, error)
+	// List all Nexus outgoing services for a namespace, sorted by service name in ascending order. Set page_token in
+	// the request to the next_page_token field of the previous response to get the next page of results. An empty
+	// next_page_token indicates that there are no more results. During pagination, a newly added service with a name
+	// lexicographically earlier than the previous page's last service name may be missed.
+	ListNexusOutgoingServices(context.Context, *ListNexusOutgoingServicesRequest) (*ListNexusOutgoingServicesResponse, error)
 	mustEmbedUnimplementedOperatorServiceServer()
 }
 
@@ -273,6 +363,21 @@ func (UnimplementedOperatorServiceServer) DeleteNexusIncomingService(context.Con
 }
 func (UnimplementedOperatorServiceServer) ListNexusIncomingServices(context.Context, *ListNexusIncomingServicesRequest) (*ListNexusIncomingServicesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNexusIncomingServices not implemented")
+}
+func (UnimplementedOperatorServiceServer) GetNexusOutgoingService(context.Context, *GetNexusOutgoingServiceRequest) (*GetNexusOutgoingServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNexusOutgoingService not implemented")
+}
+func (UnimplementedOperatorServiceServer) CreateNexusOutgoingService(context.Context, *CreateNexusOutgoingServiceRequest) (*CreateNexusOutgoingServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNexusOutgoingService not implemented")
+}
+func (UnimplementedOperatorServiceServer) UpdateNexusOutgoingService(context.Context, *UpdateNexusOutgoingServiceRequest) (*UpdateNexusOutgoingServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNexusOutgoingService not implemented")
+}
+func (UnimplementedOperatorServiceServer) DeleteNexusOutgoingService(context.Context, *DeleteNexusOutgoingServiceRequest) (*DeleteNexusOutgoingServiceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteNexusOutgoingService not implemented")
+}
+func (UnimplementedOperatorServiceServer) ListNexusOutgoingServices(context.Context, *ListNexusOutgoingServicesRequest) (*ListNexusOutgoingServicesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNexusOutgoingServices not implemented")
 }
 func (UnimplementedOperatorServiceServer) mustEmbedUnimplementedOperatorServiceServer() {}
 
@@ -485,6 +590,96 @@ func _OperatorService_ListNexusIncomingServices_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OperatorService_GetNexusOutgoingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNexusOutgoingServiceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).GetNexusOutgoingService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_GetNexusOutgoingService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).GetNexusOutgoingService(ctx, req.(*GetNexusOutgoingServiceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OperatorService_CreateNexusOutgoingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNexusOutgoingServiceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).CreateNexusOutgoingService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_CreateNexusOutgoingService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).CreateNexusOutgoingService(ctx, req.(*CreateNexusOutgoingServiceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OperatorService_UpdateNexusOutgoingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNexusOutgoingServiceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).UpdateNexusOutgoingService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_UpdateNexusOutgoingService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).UpdateNexusOutgoingService(ctx, req.(*UpdateNexusOutgoingServiceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OperatorService_DeleteNexusOutgoingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteNexusOutgoingServiceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).DeleteNexusOutgoingService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_DeleteNexusOutgoingService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).DeleteNexusOutgoingService(ctx, req.(*DeleteNexusOutgoingServiceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OperatorService_ListNexusOutgoingServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNexusOutgoingServicesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).ListNexusOutgoingServices(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_ListNexusOutgoingServices_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).ListNexusOutgoingServices(ctx, req.(*ListNexusOutgoingServicesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OperatorService_ServiceDesc is the grpc.ServiceDesc for OperatorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -535,6 +730,26 @@ var OperatorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListNexusIncomingServices",
 			Handler:    _OperatorService_ListNexusIncomingServices_Handler,
+		},
+		{
+			MethodName: "GetNexusOutgoingService",
+			Handler:    _OperatorService_GetNexusOutgoingService_Handler,
+		},
+		{
+			MethodName: "CreateNexusOutgoingService",
+			Handler:    _OperatorService_CreateNexusOutgoingService_Handler,
+		},
+		{
+			MethodName: "UpdateNexusOutgoingService",
+			Handler:    _OperatorService_UpdateNexusOutgoingService_Handler,
+		},
+		{
+			MethodName: "DeleteNexusOutgoingService",
+			Handler:    _OperatorService_DeleteNexusOutgoingService_Handler,
+		},
+		{
+			MethodName: "ListNexusOutgoingServices",
+			Handler:    _OperatorService_ListNexusOutgoingServices_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
