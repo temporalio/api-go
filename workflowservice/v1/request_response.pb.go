@@ -7595,7 +7595,7 @@ type UpdateWorkerVersioningRulesRequest struct {
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// A valid conflict_token can be taken from the previous
-	// ListWorkerVersioningRulesResponse or UpdateWorkerVersioningRulesResponse.
+	// GetWorkerVersioningRulesResponse or UpdateWorkerVersioningRulesResponse.
 	// An invalid token will cause this request to fail, ensuring that if the rules
 	// for this Task Queue have been modified between the previous and current
 	// operation, the request will fail instead of causing an unpredictable mutation.
