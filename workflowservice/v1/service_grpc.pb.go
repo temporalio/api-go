@@ -93,7 +93,7 @@ const (
 	WorkflowService_UpdateWorkerBuildIdCompatibility_FullMethodName   = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerBuildIdCompatibility"
 	WorkflowService_GetWorkerBuildIdCompatibility_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility"
 	WorkflowService_UpdateWorkerVersioningRules_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersioningRules"
-	WorkflowService_ListWorkerVersioningRules_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkerVersioningRules"
+	WorkflowService_GetWorkerVersioningRules_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules"
 	WorkflowService_GetWorkerTaskReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
@@ -397,7 +397,7 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(ctx context.Context, in *UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*UpdateWorkerBuildIdCompatibilityResponse, error)
-	// Deprecated. Use `ListWorkerVersioningRules`.
+	// Deprecated. Use `GetWorkerVersioningRules`.
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(ctx context.Context, in *GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Allows updating the Build ID assignment and redirect rules for a given Task Queue.
@@ -406,7 +406,7 @@ type WorkflowServiceClient interface {
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue
-	ListWorkerVersioningRules(ctx context.Context, in *ListWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*ListWorkerVersioningRulesResponse, error)
+	GetWorkerVersioningRules(ctx context.Context, in *GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*GetWorkerVersioningRulesResponse, error)
 	// Deprecated. Use `DescribeTaskQueue`.
 	//
 	// Fetches task reachability to determine whether a worker may be retired.
@@ -910,9 +910,9 @@ func (c *workflowServiceClient) UpdateWorkerVersioningRules(ctx context.Context,
 	return out, nil
 }
 
-func (c *workflowServiceClient) ListWorkerVersioningRules(ctx context.Context, in *ListWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*ListWorkerVersioningRulesResponse, error) {
-	out := new(ListWorkerVersioningRulesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListWorkerVersioningRules_FullMethodName, in, out, opts...)
+func (c *workflowServiceClient) GetWorkerVersioningRules(ctx context.Context, in *GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*GetWorkerVersioningRulesResponse, error) {
+	out := new(GetWorkerVersioningRulesResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerVersioningRules_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1276,7 +1276,7 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(context.Context, *UpdateWorkerBuildIdCompatibilityRequest) (*UpdateWorkerBuildIdCompatibilityResponse, error)
-	// Deprecated. Use `ListWorkerVersioningRules`.
+	// Deprecated. Use `GetWorkerVersioningRules`.
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(context.Context, *GetWorkerBuildIdCompatibilityRequest) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Allows updating the Build ID assignment and redirect rules for a given Task Queue.
@@ -1285,7 +1285,7 @@ type WorkflowServiceServer interface {
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error)
 	// Fetches the Build ID assignment and redirect rules for a Task Queue
-	ListWorkerVersioningRules(context.Context, *ListWorkerVersioningRulesRequest) (*ListWorkerVersioningRulesResponse, error)
+	GetWorkerVersioningRules(context.Context, *GetWorkerVersioningRulesRequest) (*GetWorkerVersioningRulesResponse, error)
 	// Deprecated. Use `DescribeTaskQueue`.
 	//
 	// Fetches task reachability to determine whether a worker may be retired.
@@ -1480,8 +1480,8 @@ func (UnimplementedWorkflowServiceServer) GetWorkerBuildIdCompatibility(context.
 func (UnimplementedWorkflowServiceServer) UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerVersioningRules not implemented")
 }
-func (UnimplementedWorkflowServiceServer) ListWorkerVersioningRules(context.Context, *ListWorkerVersioningRulesRequest) (*ListWorkerVersioningRulesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListWorkerVersioningRules not implemented")
+func (UnimplementedWorkflowServiceServer) GetWorkerVersioningRules(context.Context, *GetWorkerVersioningRulesRequest) (*GetWorkerVersioningRulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerVersioningRules not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerTaskReachability not implemented")
@@ -2435,20 +2435,20 @@ func _WorkflowService_UpdateWorkerVersioningRules_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_ListWorkerVersioningRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListWorkerVersioningRulesRequest)
+func _WorkflowService_GetWorkerVersioningRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkerVersioningRulesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).ListWorkerVersioningRules(ctx, in)
+		return srv.(WorkflowServiceServer).GetWorkerVersioningRules(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_ListWorkerVersioningRules_FullMethodName,
+		FullMethod: WorkflowService_GetWorkerVersioningRules_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).ListWorkerVersioningRules(ctx, req.(*ListWorkerVersioningRulesRequest))
+		return srv.(WorkflowServiceServer).GetWorkerVersioningRules(ctx, req.(*GetWorkerVersioningRulesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2791,8 +2791,8 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_UpdateWorkerVersioningRules_Handler,
 		},
 		{
-			MethodName: "ListWorkerVersioningRules",
-			Handler:    _WorkflowService_ListWorkerVersioningRules_Handler,
+			MethodName: "GetWorkerVersioningRules",
+			Handler:    _WorkflowService_GetWorkerVersioningRules_Handler,
 		},
 		{
 			MethodName: "GetWorkerTaskReachability",

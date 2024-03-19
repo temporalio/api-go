@@ -111,6 +111,10 @@ func (s *workflowServiceProxyServer) GetWorkerTaskReachability(ctx context.Conte
 	return s.client.GetWorkerTaskReachability(ctx, in0)
 }
 
+func (s *workflowServiceProxyServer) GetWorkerVersioningRules(ctx context.Context, in0 *workflowservice.GetWorkerVersioningRulesRequest) (*workflowservice.GetWorkerVersioningRulesResponse, error) {
+	return s.client.GetWorkerVersioningRules(ctx, in0)
+}
+
 func (s *workflowServiceProxyServer) GetWorkflowExecutionHistory(ctx context.Context, in0 *workflowservice.GetWorkflowExecutionHistoryRequest) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
 	return s.client.GetWorkflowExecutionHistory(ctx, in0)
 }
@@ -149,10 +153,6 @@ func (s *workflowServiceProxyServer) ListSchedules(ctx context.Context, in0 *wor
 
 func (s *workflowServiceProxyServer) ListTaskQueuePartitions(ctx context.Context, in0 *workflowservice.ListTaskQueuePartitionsRequest) (*workflowservice.ListTaskQueuePartitionsResponse, error) {
 	return s.client.ListTaskQueuePartitions(ctx, in0)
-}
-
-func (s *workflowServiceProxyServer) ListWorkerVersioningRules(ctx context.Context, in0 *workflowservice.ListWorkerVersioningRulesRequest) (*workflowservice.ListWorkerVersioningRulesResponse, error) {
-	return s.client.ListWorkerVersioningRules(ctx, in0)
 }
 
 func (s *workflowServiceProxyServer) ListWorkflowExecutions(ctx context.Context, in0 *workflowservice.ListWorkflowExecutionsRequest) (*workflowservice.ListWorkflowExecutionsResponse, error) {
