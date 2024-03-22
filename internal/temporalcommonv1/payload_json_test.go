@@ -23,6 +23,7 @@
 package common_test
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -194,4 +195,32 @@ func TestMaybeUnmarshal_Payloads_AcceptsNull(t *testing.T) {
 	err := opts.Unmarshal([]byte("null"), &out)
 	require.NoError(t, err)
 	require.Equal(t, 0, len(out.Payloads))
+}
+
+func TestMaybeMarshal_Payloads_Unhandled(t *testing.T) {
+	opts := temporalproto.CustomJSONMarshalOptions{
+		Metadata: map[string]interface{}{
+			common.EnablePayloadShorthandMetadataKey: true,
+		},
+	}
+	p := common.Payloads{Payloads: []*common.Payload{
+		&common.Payload{
+			Metadata: map[string][]byte{
+				"encoding": []byte("json/plain"),
+			},
+			Data: []byte(`"string"`),
+		},
+		&common.Payload{ // this one can't be handled by shorthand because of extra metadata
+			Metadata: map[string][]byte{
+				"encoding":            []byte("json/plain"),
+				"some other metadata": []byte("23"),
+			},
+			Data: []byte(`"string"`),
+		},
+	}}
+	out, err := opts.Marshal(&p)
+	require.NoError(t, err)
+	var i any
+	require.NoError(t, json.Unmarshal(out, &i), "must unmarshal as valid json")
+	require.Equal(t, '{', rune(out[0]), "should encode as long-form, not shorthand")
 }
