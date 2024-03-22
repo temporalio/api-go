@@ -1,4 +1,4 @@
 [submodule "proto/api"]
 	path = proto/api
-	url = https://github.com/temporalio/api
-	branch = versioning-2
+	url = ../api
+	branch = cdf/add-version-message
