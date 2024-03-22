@@ -266,18 +266,17 @@ func (p *Payloads) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.
 	// there are no payloads, so check if all can be handled first.
 	vals := make([]any, len(p.Payloads))
 	for i, payload := range p.Payloads {
-		handled, val, err := payload.toJSONShorthand()
+		handled, vals[i], err = payload.toJSONShorthand()
 		if !handled || err != nil {
 			return handled, err
 		}
-		vals[i] = val
 	}
 
 	enc.StartArray()
 	defer enc.EndArray()
 
 	for _, val := range vals {
-		if err := marshal(enc, val); err != nil {
+		if err = marshal(enc, val); err != nil {
 			return true, err
 		}
 	}
