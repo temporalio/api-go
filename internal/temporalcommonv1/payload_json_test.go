@@ -105,12 +105,12 @@ var tests = []struct {
 }, {
 	name:          "empty payloads",
 	longformJSON:  `{}`,
-	shorthandJSON: `null`,
+	shorthandJSON: `[]`,
 	pb:            &common.Payloads{},
 }, {
 	name:          "empty payloads with non-nil slice",
 	longformJSON:  `{}`,
-	shorthandJSON: `null`,
+	shorthandJSON: `[]`,
 	pb:            &common.Payloads{Payloads: []*common.Payload{}},
 }, {
 	name:          "payloads with two items",
@@ -182,4 +182,16 @@ func TestMaybeUnmarshal_Longform(t *testing.T) {
 			require.True(t, proto.Equal(tt.pb, out))
 		})
 	}
+}
+
+func TestMaybeUnmarshal_Payloads_AcceptsNull(t *testing.T) {
+	var out common.Payloads
+	opts := temporalproto.CustomJSONUnmarshalOptions{
+		Metadata: map[string]interface{}{
+			common.EnablePayloadShorthandMetadataKey: true,
+		},
+	}
+	err := opts.Unmarshal([]byte("null"), &out)
+	require.NoError(t, err)
+	require.Equal(t, 0, len(out.Payloads))
 }

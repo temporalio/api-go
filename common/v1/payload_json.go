@@ -262,14 +262,11 @@ func (p *Payloads) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.
 		return false, nil
 	}
 
-	if len(p.Payloads) == 0 {
-		enc.WriteNull()
-		return true, nil
-	}
-	// We only support marshalling to shorthand if all payloads are handled or
-	// there are no payloads
 	enc.StartArray()
 	defer enc.EndArray()
+
+	// We only support marshalling to shorthand if all payloads are handled or
+	// there are no payloads
 	for i := 0; i < len(p.Payloads); i++ {
 		// If any are not handled or there is an error, return
 		handled, val, err := p.Payloads[i].toJSONShorthand()
