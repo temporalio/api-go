@@ -102,6 +102,30 @@ var tests = []struct {
 		},
 		Data: []byte(`{"greeting":{"name":{}}}`),
 	},
+}, {
+	name:          "empty payloads",
+	longformJSON:  `{}`,
+	shorthandJSON: `null`,
+	pb:            &common.Payloads{},
+}, {
+	name:          "empty payloads with non-nil slice",
+	longformJSON:  `{}`,
+	shorthandJSON: `null`,
+	pb:            &common.Payloads{Payloads: []*common.Payload{}},
+}, {
+	name:          "payloads with two items",
+	longformJSON:  `{"payloads":[{"data":"InN0cmluZyB2YWx1ZSI=","metadata":{"encoding":"anNvbi9wbGFpbg=="}},{"data":"MzI0Mw==","metadata":{"encoding":"anNvbi9wbGFpbg=="}}]}`,
+	shorthandJSON: `["string value", 3243]`,
+	pb: &common.Payloads{Payloads: []*common.Payload{
+		&common.Payload{
+			Metadata: map[string][]byte{"encoding": []byte("json/plain")},
+			Data:     []byte(`"string value"`),
+		},
+		&common.Payload{
+			Metadata: map[string][]byte{"encoding": []byte("json/plain")},
+			Data:     []byte(`3243`),
+		},
+	}},
 }}
 
 func TestMaybeMarshal_ShorthandEnabled(t *testing.T) {
