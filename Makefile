@@ -146,3 +146,5 @@ clean:
 	printf $(COLOR) "Deleting generated go files..."
 	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
 	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | egrep -v 'testprotos' | sort -u | xargs rm -rf
+	# Delete entire cloud dir
+	rm -rf cloud
