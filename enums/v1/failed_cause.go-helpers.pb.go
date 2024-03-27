@@ -157,20 +157,20 @@ func ResourceExhaustedCauseFromString(s string) (ResourceExhaustedCause, error) 
 }
 
 var (
-	ResourceScope_shorthandValue = map[string]int32{
+	ResourceExhaustedScope_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Namespace":   1,
 		"System":      2,
 	}
 )
 
-// ResourceScopeFromString parses a ResourceScope value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ResourceScope
-func ResourceScopeFromString(s string) (ResourceScope, error) {
-	if v, ok := ResourceScope_value[s]; ok {
-		return ResourceScope(v), nil
-	} else if v, ok := ResourceScope_shorthandValue[s]; ok {
-		return ResourceScope(v), nil
+// ResourceExhaustedScopeFromString parses a ResourceExhaustedScope value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ResourceExhaustedScope
+func ResourceExhaustedScopeFromString(s string) (ResourceExhaustedScope, error) {
+	if v, ok := ResourceExhaustedScope_value[s]; ok {
+		return ResourceExhaustedScope(v), nil
+	} else if v, ok := ResourceExhaustedScope_shorthandValue[s]; ok {
+		return ResourceExhaustedScope(v), nil
 	}
-	return ResourceScope(0), fmt.Errorf("%s is not a valid ResourceScope", s)
+	return ResourceExhaustedScope(0), fmt.Errorf("%s is not a valid ResourceExhaustedScope", s)
 }
