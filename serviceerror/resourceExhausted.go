@@ -34,17 +34,16 @@ type (
 	// ResourceExhausted represents resource exhausted error.
 	ResourceExhausted struct {
 		Cause   enumspb.ResourceExhaustedCause
-		Scope   enumspb.ResourceScope
+		Scope   enumspb.ResourceExhaustedScope
 		Message string
 		st      *status.Status
 	}
 )
 
 // NewResourceExhausted returns new ResourceExhausted error.
-func NewResourceExhausted(cause enumspb.ResourceExhaustedCause, scope enumspb.ResourceScope, message string) error {
+func NewResourceExhausted(cause enumspb.ResourceExhaustedCause, message string) error {
 	return &ResourceExhausted{
 		Cause:   cause,
-		Scope:   scope,
 		Message: message,
 	}
 }
