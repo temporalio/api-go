@@ -262,20 +262,21 @@ func (p *Payloads) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.
 		return false, nil
 	}
 
-	if len(p.Payloads) == 0 {
-		return true, nil
-	}
 	// We only support marshalling to shorthand if all payloads are handled or
-	// there  are no payloads
-	enc.StartArray()
-	defer enc.EndArray()
-	for i := 0; i < len(p.Payloads); i++ {
-		// If any are not handled or there is an error, return
-		handled, val, err := p.Payloads[i].toJSONShorthand()
+	// there are no payloads, so check if all can be handled first.
+	vals := make([]any, len(p.Payloads))
+	for i, payload := range p.Payloads {
+		handled, vals[i], err = payload.toJSONShorthand()
 		if !handled || err != nil {
 			return handled, err
 		}
-		if err := marshal(enc, val); err != nil {
+	}
+
+	enc.StartArray()
+	defer enc.EndArray()
+
+	for _, val := range vals {
+		if err = marshal(enc, val); err != nil {
 			return true, err
 		}
 	}
@@ -300,8 +301,12 @@ func (p *Payloads) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *jso
 		return true, err
 	}
 
-	// If this isn't an array, then it's not shorthand
-	if tok.Kind() != json.ArrayOpen {
+	if tok.Kind() == json.Null {
+		// Null is accepted as empty list
+		_, _ = dec.Read()
+		return true, nil
+	} else if tok.Kind() != json.ArrayOpen {
+		// If this isn't an array, then it's not shorthand
 		return false, nil
 	}
 	_, _ = dec.Read()
