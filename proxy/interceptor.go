@@ -1914,6 +1914,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetSchedule(),
+				o.GetSearchAttributes(),
 			); err != nil {
 				return err
 			}
