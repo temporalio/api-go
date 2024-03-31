@@ -101,6 +101,43 @@ func (this *TaskQueueMetadata) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type TaskQueueVersionSelection to the protobuf v3 wire format
+func (val *TaskQueueVersionSelection) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TaskQueueVersionSelection from the protobuf v3 wire format
+func (val *TaskQueueVersionSelection) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TaskQueueVersionSelection) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TaskQueueVersionSelection values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TaskQueueVersionSelection) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TaskQueueVersionSelection
+	switch t := that.(type) {
+	case *TaskQueueVersionSelection:
+		that1 = t
+	case TaskQueueVersionSelection:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type TaskQueueVersionInfo to the protobuf v3 wire format
 func (val *TaskQueueVersionInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -537,43 +574,6 @@ func (this *RampByPercentage) Equal(that interface{}) bool {
 	case *RampByPercentage:
 		that1 = t
 	case RampByPercentage:
-		that1 = &t
-	default:
-		return false
-	}
-
-	return proto.Equal(this, that1)
-}
-
-// Marshal an object of type RampByWorkerRatio to the protobuf v3 wire format
-func (val *RampByWorkerRatio) Marshal() ([]byte, error) {
-	return proto.Marshal(val)
-}
-
-// Unmarshal an object of type RampByWorkerRatio from the protobuf v3 wire format
-func (val *RampByWorkerRatio) Unmarshal(buf []byte) error {
-	return proto.Unmarshal(buf, val)
-}
-
-// Size returns the size of the object, in bytes, once serialized
-func (val *RampByWorkerRatio) Size() int {
-	return proto.Size(val)
-}
-
-// Equal returns whether two RampByWorkerRatio values are equivalent by recursively
-// comparing the message's fields.
-// For more information see the documentation for
-// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *RampByWorkerRatio) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	var that1 *RampByWorkerRatio
-	switch t := that.(type) {
-	case *RampByWorkerRatio:
-		that1 = t
-	case RampByWorkerRatio:
 		that1 = &t
 	default:
 		return false
