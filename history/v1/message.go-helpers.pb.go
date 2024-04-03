@@ -1729,35 +1729,35 @@ func (this *WorkflowExecutionUpdateRejectedEventAttributes) Equal(that interface
 	return proto.Equal(this, that1)
 }
 
-// Marshal an object of type WorkflowExecutionUpdateRequestedEventAttributes to the protobuf v3 wire format
-func (val *WorkflowExecutionUpdateRequestedEventAttributes) Marshal() ([]byte, error) {
+// Marshal an object of type WorkflowExecutionUpdateAdmittedEventAttributes to the protobuf v3 wire format
+func (val *WorkflowExecutionUpdateAdmittedEventAttributes) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
-// Unmarshal an object of type WorkflowExecutionUpdateRequestedEventAttributes from the protobuf v3 wire format
-func (val *WorkflowExecutionUpdateRequestedEventAttributes) Unmarshal(buf []byte) error {
+// Unmarshal an object of type WorkflowExecutionUpdateAdmittedEventAttributes from the protobuf v3 wire format
+func (val *WorkflowExecutionUpdateAdmittedEventAttributes) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
 // Size returns the size of the object, in bytes, once serialized
-func (val *WorkflowExecutionUpdateRequestedEventAttributes) Size() int {
+func (val *WorkflowExecutionUpdateAdmittedEventAttributes) Size() int {
 	return proto.Size(val)
 }
 
-// Equal returns whether two WorkflowExecutionUpdateRequestedEventAttributes values are equivalent by recursively
+// Equal returns whether two WorkflowExecutionUpdateAdmittedEventAttributes values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
 // https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *WorkflowExecutionUpdateRequestedEventAttributes) Equal(that interface{}) bool {
+func (this *WorkflowExecutionUpdateAdmittedEventAttributes) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	var that1 *WorkflowExecutionUpdateRequestedEventAttributes
+	var that1 *WorkflowExecutionUpdateAdmittedEventAttributes
 	switch t := that.(type) {
-	case *WorkflowExecutionUpdateRequestedEventAttributes:
+	case *WorkflowExecutionUpdateAdmittedEventAttributes:
 		that1 = t
-	case WorkflowExecutionUpdateRequestedEventAttributes:
+	case WorkflowExecutionUpdateAdmittedEventAttributes:
 		that1 = &t
 	default:
 		return false

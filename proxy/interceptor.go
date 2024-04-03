@@ -736,9 +736,9 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetWorkflowExecutionStartedEventAttributes(),
 				o.GetWorkflowExecutionTerminatedEventAttributes(),
 				o.GetWorkflowExecutionUpdateAcceptedEventAttributes(),
+				o.GetWorkflowExecutionUpdateAdmittedEventAttributes(),
 				o.GetWorkflowExecutionUpdateCompletedEventAttributes(),
 				o.GetWorkflowExecutionUpdateRejectedEventAttributes(),
-				o.GetWorkflowExecutionUpdateRequestedEventAttributes(),
 				o.GetWorkflowPropertiesModifiedEventAttributes(),
 				o.GetWorkflowPropertiesModifiedExternallyEventAttributes(),
 				o.GetWorkflowTaskFailedEventAttributes(),
@@ -931,6 +931,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *history.WorkflowExecutionUpdateAdmittedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetRequest(),
+			); err != nil {
+				return err
+			}
+
 		case *history.WorkflowExecutionUpdateCompletedEventAttributes:
 
 			if o == nil {
@@ -956,20 +970,6 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				options,
 				o.GetFailure(),
 				o.GetRejectedRequest(),
-			); err != nil {
-				return err
-			}
-
-		case *history.WorkflowExecutionUpdateRequestedEventAttributes:
-
-			if o == nil {
-				continue
-			}
-			ctx.Parent = o
-			if err := visitPayloads(
-				ctx,
-				options,
-				o.GetRequest(),
 			); err != nil {
 				return err
 			}
