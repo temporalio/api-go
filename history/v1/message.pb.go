@@ -114,7 +114,7 @@ type WorkflowExecutionStartedEventAttributes struct {
 	WorkflowId string `protobuf:"bytes,28,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	// If this workflow intends to use anything other than the current overall default version for
 	// the queue, then we include it here.
-	// Deprecated. use `inherited_assigned_build_id` instead
+	// Deprecated. use `inherited_build_id` instead
 	SourceVersionStamp *v1.WorkerVersionStamp `protobuf:"bytes,29,opt,name=source_version_stamp,json=sourceVersionStamp,proto3" json:"source_version_stamp,omitempty"`
 	// When present, this execution is assigned to the build ID of its parent or previous execution.
 	InheritedBuildId string `protobuf:"bytes,30,opt,name=inherited_build_id,json=inheritedBuildId,proto3" json:"inherited_build_id,omitempty"`
