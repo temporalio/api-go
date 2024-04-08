@@ -183,7 +183,7 @@ const (
 	// Workflow properties modified by user workflow code
 	EVENT_TYPE_WORKFLOW_PROPERTIES_MODIFIED EventType = 46
 	// An update was admitted. Note that not all admitted updates result in this
-	// event. See UpdateRequestedEventOrigin for situations in which this event
+	// event. See UpdateAdmittedEventOrigin for situations in which this event
 	// is created.
 	EVENT_TYPE_WORKFLOW_EXECUTION_UPDATE_ADMITTED EventType = 47
 )
