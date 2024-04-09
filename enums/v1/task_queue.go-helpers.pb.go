@@ -51,6 +51,7 @@ var (
 		"Unspecified": 0,
 		"Workflow":    1,
 		"Activity":    2,
+		"Nexus":       3,
 	}
 )
 

@@ -917,6 +917,122 @@ func (*ResetOptions_WorkflowTaskId) isResetOptions_Target() {}
 
 func (*ResetOptions_BuildId) isResetOptions_Target() {}
 
+// Callback to attach to various events in the system, e.g. workflow run completion.
+type Callback struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
+	//
+	//	*Callback_Nexus_
+	Variant isCallback_Variant `protobuf_oneof:"variant"`
+}
+
+func (x *Callback) Reset() {
+	*x = Callback{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_common_v1_message_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Callback) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Callback) ProtoMessage() {}
+
+func (x *Callback) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Callback.ProtoReflect.Descriptor instead.
+func (*Callback) Descriptor() ([]byte, []int) {
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{14}
+}
+
+func (m *Callback) GetVariant() isCallback_Variant {
+	if m != nil {
+		return m.Variant
+	}
+	return nil
+}
+
+func (x *Callback) GetNexus() *Callback_Nexus {
+	if x, ok := x.GetVariant().(*Callback_Nexus_); ok {
+		return x.Nexus
+	}
+	return nil
+}
+
+type isCallback_Variant interface {
+	isCallback_Variant()
+}
+
+type Callback_Nexus_ struct {
+	Nexus *Callback_Nexus `protobuf:"bytes,2,opt,name=nexus,proto3,oneof"`
+}
+
+func (*Callback_Nexus_) isCallback_Variant() {}
+
+type Callback_Nexus struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Callback URL.
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+}
+
+func (x *Callback_Nexus) Reset() {
+	*x = Callback_Nexus{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Callback_Nexus) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Callback_Nexus) ProtoMessage() {}
+
+func (x *Callback_Nexus) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Callback_Nexus.ProtoReflect.Descriptor instead.
+func (*Callback_Nexus) Descriptor() ([]byte, []int) {
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{14, 0}
+}
+
+func (x *Callback_Nexus) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 var File_temporal_api_common_v1_message_proto protoreflect.FileDescriptor
 
 var file_temporal_api_common_v1_message_proto_rawDesc = []byte{
@@ -1059,16 +1175,23 @@ var file_temporal_api_common_v1_message_proto_rawDesc = []byte{
 	0x10, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x5f, 0x72, 0x75, 0x6e, 0x5f, 0x6f, 0x6e, 0x6c,
 	0x79, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0e, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74,
 	0x52, 0x75, 0x6e, 0x4f, 0x6e, 0x6c, 0x79, 0x42, 0x08, 0x0a, 0x06, 0x74, 0x61, 0x72, 0x67, 0x65,
-	0x74, 0x42, 0x89, 0x01, 0x0a, 0x19, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x42,
-	0x0c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x23, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f,
-	0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x76, 0x31, 0x3b, 0x63, 0x6f,
-	0x6d, 0x6d, 0x6f, 0x6e, 0xaa, 0x02, 0x18, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69,
-	0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x56, 0x31, 0xea,
-	0x02, 0x1b, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70,
-	0x69, 0x3a, 0x3a, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x22, 0x76, 0x0a, 0x08, 0x43, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x12, 0x3e, 0x0a,
+	0x05, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x74,
+	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d,
+	0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x2e, 0x4e,
+	0x65, 0x78, 0x75, 0x73, 0x48, 0x00, 0x52, 0x05, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x1a, 0x19, 0x0a,
+	0x05, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x61, 0x72, 0x69,
+	0x61, 0x6e, 0x74, 0x4a, 0x04, 0x08, 0x01, 0x10, 0x02, 0x42, 0x89, 0x01, 0x0a, 0x19, 0x69, 0x6f,
+	0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f,
+	0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x23, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70,
+	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d,
+	0x6f, 0x6e, 0x2f, 0x76, 0x31, 0x3b, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0xaa, 0x02, 0x18, 0x54,
+	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x43, 0x6f,
+	0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x1b, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x43, 0x6f, 0x6d, 0x6d, 0x6f,
+	0x6e, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1083,7 +1206,7 @@ func file_temporal_api_common_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_common_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_temporal_api_common_v1_message_proto_goTypes = []interface{}{
 	(*DataBlob)(nil),                  // 0: temporal.api.common.v1.DataBlob
 	(*Payloads)(nil),                  // 1: temporal.api.common.v1.Payloads
@@ -1099,35 +1222,38 @@ var file_temporal_api_common_v1_message_proto_goTypes = []interface{}{
 	(*WorkerVersionStamp)(nil),        // 11: temporal.api.common.v1.WorkerVersionStamp
 	(*WorkerVersionCapabilities)(nil), // 12: temporal.api.common.v1.WorkerVersionCapabilities
 	(*ResetOptions)(nil),              // 13: temporal.api.common.v1.ResetOptions
-	nil,                               // 14: temporal.api.common.v1.Payload.MetadataEntry
-	nil,                               // 15: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
-	nil,                               // 16: temporal.api.common.v1.Memo.FieldsEntry
-	nil,                               // 17: temporal.api.common.v1.Header.FieldsEntry
-	(v1.EncodingType)(0),              // 18: temporal.api.enums.v1.EncodingType
-	(*durationpb.Duration)(nil),       // 19: google.protobuf.Duration
-	(*emptypb.Empty)(nil),             // 20: google.protobuf.Empty
-	(v1.ResetReapplyType)(0),          // 21: temporal.api.enums.v1.ResetReapplyType
+	(*Callback)(nil),                  // 14: temporal.api.common.v1.Callback
+	nil,                               // 15: temporal.api.common.v1.Payload.MetadataEntry
+	nil,                               // 16: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
+	nil,                               // 17: temporal.api.common.v1.Memo.FieldsEntry
+	nil,                               // 18: temporal.api.common.v1.Header.FieldsEntry
+	(*Callback_Nexus)(nil),            // 19: temporal.api.common.v1.Callback.Nexus
+	(v1.EncodingType)(0),              // 20: temporal.api.enums.v1.EncodingType
+	(*durationpb.Duration)(nil),       // 21: google.protobuf.Duration
+	(*emptypb.Empty)(nil),             // 22: google.protobuf.Empty
+	(v1.ResetReapplyType)(0),          // 23: temporal.api.enums.v1.ResetReapplyType
 }
 var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
-	18, // 0: temporal.api.common.v1.DataBlob.encoding_type:type_name -> temporal.api.enums.v1.EncodingType
+	20, // 0: temporal.api.common.v1.DataBlob.encoding_type:type_name -> temporal.api.enums.v1.EncodingType
 	2,  // 1: temporal.api.common.v1.Payloads.payloads:type_name -> temporal.api.common.v1.Payload
-	14, // 2: temporal.api.common.v1.Payload.metadata:type_name -> temporal.api.common.v1.Payload.MetadataEntry
-	15, // 3: temporal.api.common.v1.SearchAttributes.indexed_fields:type_name -> temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
-	16, // 4: temporal.api.common.v1.Memo.fields:type_name -> temporal.api.common.v1.Memo.FieldsEntry
-	17, // 5: temporal.api.common.v1.Header.fields:type_name -> temporal.api.common.v1.Header.FieldsEntry
-	19, // 6: temporal.api.common.v1.RetryPolicy.initial_interval:type_name -> google.protobuf.Duration
-	19, // 7: temporal.api.common.v1.RetryPolicy.maximum_interval:type_name -> google.protobuf.Duration
-	20, // 8: temporal.api.common.v1.ResetOptions.first_workflow_task:type_name -> google.protobuf.Empty
-	20, // 9: temporal.api.common.v1.ResetOptions.last_workflow_task:type_name -> google.protobuf.Empty
-	21, // 10: temporal.api.common.v1.ResetOptions.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
-	2,  // 11: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 12: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 13: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	15, // 2: temporal.api.common.v1.Payload.metadata:type_name -> temporal.api.common.v1.Payload.MetadataEntry
+	16, // 3: temporal.api.common.v1.SearchAttributes.indexed_fields:type_name -> temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
+	17, // 4: temporal.api.common.v1.Memo.fields:type_name -> temporal.api.common.v1.Memo.FieldsEntry
+	18, // 5: temporal.api.common.v1.Header.fields:type_name -> temporal.api.common.v1.Header.FieldsEntry
+	21, // 6: temporal.api.common.v1.RetryPolicy.initial_interval:type_name -> google.protobuf.Duration
+	21, // 7: temporal.api.common.v1.RetryPolicy.maximum_interval:type_name -> google.protobuf.Duration
+	22, // 8: temporal.api.common.v1.ResetOptions.first_workflow_task:type_name -> google.protobuf.Empty
+	22, // 9: temporal.api.common.v1.ResetOptions.last_workflow_task:type_name -> google.protobuf.Empty
+	23, // 10: temporal.api.common.v1.ResetOptions.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
+	19, // 11: temporal.api.common.v1.Callback.nexus:type_name -> temporal.api.common.v1.Callback.Nexus
+	2,  // 12: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 13: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 14: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_common_v1_message_proto_init() }
@@ -1304,6 +1430,30 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
+		file_temporal_api_common_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Callback); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_common_v1_message_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Callback_Nexus); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_temporal_api_common_v1_message_proto_msgTypes[13].OneofWrappers = []interface{}{
 		(*ResetOptions_FirstWorkflowTask)(nil),
@@ -1311,13 +1461,16 @@ func file_temporal_api_common_v1_message_proto_init() {
 		(*ResetOptions_WorkflowTaskId)(nil),
 		(*ResetOptions_BuildId)(nil),
 	}
+	file_temporal_api_common_v1_message_proto_msgTypes[14].OneofWrappers = []interface{}{
+		(*Callback_Nexus_)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_temporal_api_common_v1_message_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -76,7 +76,7 @@ var (
 		"WorkflowPropertiesModifiedExternally":            44,
 		"ActivityPropertiesModifiedExternally":            45,
 		"WorkflowPropertiesModified":                      46,
-		"WorkflowExecutionUpdateRequested":                47,
+		"WorkflowExecutionUpdateAdmitted":                 47,
 	}
 )
 

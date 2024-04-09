@@ -48,19 +48,19 @@ func UpdateWorkflowExecutionLifecycleStageFromString(s string) (UpdateWorkflowEx
 }
 
 var (
-	UpdateRequestedEventOrigin_shorthandValue = map[string]int32{
+	UpdateAdmittedEventOrigin_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Reapply":     1,
 	}
 )
 
-// UpdateRequestedEventOriginFromString parses a UpdateRequestedEventOrigin value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to UpdateRequestedEventOrigin
-func UpdateRequestedEventOriginFromString(s string) (UpdateRequestedEventOrigin, error) {
-	if v, ok := UpdateRequestedEventOrigin_value[s]; ok {
-		return UpdateRequestedEventOrigin(v), nil
-	} else if v, ok := UpdateRequestedEventOrigin_shorthandValue[s]; ok {
-		return UpdateRequestedEventOrigin(v), nil
+// UpdateAdmittedEventOriginFromString parses a UpdateAdmittedEventOrigin value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to UpdateAdmittedEventOrigin
+func UpdateAdmittedEventOriginFromString(s string) (UpdateAdmittedEventOrigin, error) {
+	if v, ok := UpdateAdmittedEventOrigin_value[s]; ok {
+		return UpdateAdmittedEventOrigin(v), nil
+	} else if v, ok := UpdateAdmittedEventOrigin_shorthandValue[s]; ok {
+		return UpdateAdmittedEventOrigin(v), nil
 	}
-	return UpdateRequestedEventOrigin(0), fmt.Errorf("%s is not a valid UpdateRequestedEventOrigin", s)
+	return UpdateAdmittedEventOrigin(0), fmt.Errorf("%s is not a valid UpdateAdmittedEventOrigin", s)
 }
