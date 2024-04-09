@@ -404,11 +404,13 @@ type WorkflowServiceClient interface {
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(ctx context.Context, in *GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Allows updating the Build ID assignment and redirect rules for a given Task Queue.
+	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error)
-	// Fetches the Build ID assignment and redirect rules for a Task Queue
+	// Fetches the Build ID assignment and redirect rules for a Task Queue.
+	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
 	GetWorkerVersioningRules(ctx context.Context, in *GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*GetWorkerVersioningRulesResponse, error)
 	// Deprecated. Use `DescribeTaskQueue`.
 	//
@@ -1325,11 +1327,13 @@ type WorkflowServiceServer interface {
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(context.Context, *GetWorkerBuildIdCompatibilityRequest) (*GetWorkerBuildIdCompatibilityResponse, error)
 	// Allows updating the Build ID assignment and redirect rules for a given Task Queue.
+	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error)
-	// Fetches the Build ID assignment and redirect rules for a Task Queue
+	// Fetches the Build ID assignment and redirect rules for a Task Queue.
+	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
 	GetWorkerVersioningRules(context.Context, *GetWorkerVersioningRulesRequest) (*GetWorkerVersioningRulesResponse, error)
 	// Deprecated. Use `DescribeTaskQueue`.
 	//
