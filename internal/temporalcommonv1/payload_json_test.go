@@ -23,6 +23,7 @@
 package common_test
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -102,6 +103,30 @@ var tests = []struct {
 		},
 		Data: []byte(`{"greeting":{"name":{}}}`),
 	},
+}, {
+	name:          "empty payloads",
+	longformJSON:  `{}`,
+	shorthandJSON: `[]`,
+	pb:            &common.Payloads{},
+}, {
+	name:          "empty payloads with non-nil slice",
+	longformJSON:  `{}`,
+	shorthandJSON: `[]`,
+	pb:            &common.Payloads{Payloads: []*common.Payload{}},
+}, {
+	name:          "payloads with two items",
+	longformJSON:  `{"payloads":[{"data":"InN0cmluZyB2YWx1ZSI=","metadata":{"encoding":"anNvbi9wbGFpbg=="}},{"data":"MzI0Mw==","metadata":{"encoding":"anNvbi9wbGFpbg=="}}]}`,
+	shorthandJSON: `["string value", 3243]`,
+	pb: &common.Payloads{Payloads: []*common.Payload{
+		&common.Payload{
+			Metadata: map[string][]byte{"encoding": []byte("json/plain")},
+			Data:     []byte(`"string value"`),
+		},
+		&common.Payload{
+			Metadata: map[string][]byte{"encoding": []byte("json/plain")},
+			Data:     []byte(`3243`),
+		},
+	}},
 }}
 
 func TestMaybeMarshal_ShorthandEnabled(t *testing.T) {
@@ -158,4 +183,44 @@ func TestMaybeUnmarshal_Longform(t *testing.T) {
 			require.True(t, proto.Equal(tt.pb, out))
 		})
 	}
+}
+
+func TestMaybeUnmarshal_Payloads_AcceptsNull(t *testing.T) {
+	var out common.Payloads
+	opts := temporalproto.CustomJSONUnmarshalOptions{
+		Metadata: map[string]interface{}{
+			common.EnablePayloadShorthandMetadataKey: true,
+		},
+	}
+	err := opts.Unmarshal([]byte("null"), &out)
+	require.NoError(t, err)
+	require.Equal(t, 0, len(out.Payloads))
+}
+
+func TestMaybeMarshal_Payloads_Unhandled(t *testing.T) {
+	opts := temporalproto.CustomJSONMarshalOptions{
+		Metadata: map[string]interface{}{
+			common.EnablePayloadShorthandMetadataKey: true,
+		},
+	}
+	p := common.Payloads{Payloads: []*common.Payload{
+		&common.Payload{
+			Metadata: map[string][]byte{
+				"encoding": []byte("json/plain"),
+			},
+			Data: []byte(`"string"`),
+		},
+		&common.Payload{ // this one can't be handled by shorthand because of extra metadata
+			Metadata: map[string][]byte{
+				"encoding":            []byte("json/plain"),
+				"some other metadata": []byte("23"),
+			},
+			Data: []byte(`"string"`),
+		},
+	}}
+	out, err := opts.Marshal(&p)
+	require.NoError(t, err)
+	var i any
+	require.NoError(t, json.Unmarshal(out, &i), "must unmarshal as valid json")
+	require.Equal(t, '{', rune(out[0]), "should encode as long-form, not shorthand")
 }
