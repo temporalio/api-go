@@ -111,6 +111,10 @@ func (s *workflowServiceProxyServer) GetWorkerTaskReachability(ctx context.Conte
 	return s.client.GetWorkerTaskReachability(ctx, in0)
 }
 
+func (s *workflowServiceProxyServer) GetWorkerVersioningRules(ctx context.Context, in0 *workflowservice.GetWorkerVersioningRulesRequest) (*workflowservice.GetWorkerVersioningRulesResponse, error) {
+	return s.client.GetWorkerVersioningRules(ctx, in0)
+}
+
 func (s *workflowServiceProxyServer) GetWorkflowExecutionHistory(ctx context.Context, in0 *workflowservice.GetWorkflowExecutionHistoryRequest) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
 	return s.client.GetWorkflowExecutionHistory(ctx, in0)
 }
@@ -285,6 +289,10 @@ func (s *workflowServiceProxyServer) UpdateSchedule(ctx context.Context, in0 *wo
 
 func (s *workflowServiceProxyServer) UpdateWorkerBuildIdCompatibility(ctx context.Context, in0 *workflowservice.UpdateWorkerBuildIdCompatibilityRequest) (*workflowservice.UpdateWorkerBuildIdCompatibilityResponse, error) {
 	return s.client.UpdateWorkerBuildIdCompatibility(ctx, in0)
+}
+
+func (s *workflowServiceProxyServer) UpdateWorkerVersioningRules(ctx context.Context, in0 *workflowservice.UpdateWorkerVersioningRulesRequest) (*workflowservice.UpdateWorkerVersioningRulesResponse, error) {
+	return s.client.UpdateWorkerVersioningRules(ctx, in0)
 }
 
 func (s *workflowServiceProxyServer) UpdateWorkflowExecution(ctx context.Context, in0 *workflowservice.UpdateWorkflowExecutionRequest) (*workflowservice.UpdateWorkflowExecutionResponse, error) {

@@ -92,6 +92,8 @@ const (
 	WorkflowService_ListSchedules_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/ListSchedules"
 	WorkflowService_UpdateWorkerBuildIdCompatibility_FullMethodName   = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerBuildIdCompatibility"
 	WorkflowService_GetWorkerBuildIdCompatibility_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility"
+	WorkflowService_UpdateWorkerVersioningRules_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersioningRules"
+	WorkflowService_GetWorkerVersioningRules_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules"
 	WorkflowService_GetWorkerTaskReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
@@ -352,7 +354,10 @@ type WorkflowServiceClient interface {
 	QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
 	// DescribeWorkflowExecution returns information about the specified workflow execution.
 	DescribeWorkflowExecution(ctx context.Context, in *DescribeWorkflowExecutionRequest, opts ...grpc.CallOption) (*DescribeWorkflowExecutionResponse, error)
-	// DescribeTaskQueue returns information about the target task queue.
+	// DescribeTaskQueue returns the following information about the target task queue, broken down by Build ID:
+	//   - List of pollers
+	//   - Workflow Reachability status
+	//   - Backlog info for Workflow and/or Activity tasks
 	DescribeTaskQueue(ctx context.Context, in *DescribeTaskQueueRequest, opts ...grpc.CallOption) (*DescribeTaskQueueResponse, error)
 	// GetClusterInfo returns information about temporal cluster
 	GetClusterInfo(ctx context.Context, in *GetClusterInfoRequest, opts ...grpc.CallOption) (*GetClusterInfoResponse, error)
@@ -376,6 +381,8 @@ type WorkflowServiceClient interface {
 	DeleteSchedule(ctx context.Context, in *DeleteScheduleRequest, opts ...grpc.CallOption) (*DeleteScheduleResponse, error)
 	// List all schedules in a namespace.
 	ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error)
+	// Deprecated. Use `UpdateWorkerVersioningRules`.
+	//
 	// Allows users to specify sets of worker build id versions on a per task queue basis. Versions
 	// are ordered, and may be either compatible with some extant version, or a new incompatible
 	// version, forming sets of ids which are incompatible with each other, but whose contained
@@ -393,8 +400,20 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(ctx context.Context, in *UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*UpdateWorkerBuildIdCompatibilityResponse, error)
+	// Deprecated. Use `GetWorkerVersioningRules`.
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(ctx context.Context, in *GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*GetWorkerBuildIdCompatibilityResponse, error)
+	// Allows updating the Build ID assignment and redirect rules for a given Task Queue.
+	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
+	UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error)
+	// Fetches the Build ID assignment and redirect rules for a Task Queue.
+	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	GetWorkerVersioningRules(ctx context.Context, in *GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*GetWorkerVersioningRulesResponse, error)
+	// Deprecated. Use `DescribeTaskQueue`.
+	//
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
 	// build IDs.
@@ -902,6 +921,24 @@ func (c *workflowServiceClient) GetWorkerBuildIdCompatibility(ctx context.Contex
 	return out, nil
 }
 
+func (c *workflowServiceClient) UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error) {
+	out := new(UpdateWorkerVersioningRulesResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerVersioningRules_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) GetWorkerVersioningRules(ctx context.Context, in *GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*GetWorkerVersioningRulesResponse, error) {
+	out := new(GetWorkerVersioningRulesResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerVersioningRules_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) GetWorkerTaskReachability(ctx context.Context, in *GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*GetWorkerTaskReachabilityResponse, error) {
 	out := new(GetWorkerTaskReachabilityResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerTaskReachability_FullMethodName, in, out, opts...)
@@ -1240,7 +1277,10 @@ type WorkflowServiceServer interface {
 	QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error)
 	// DescribeWorkflowExecution returns information about the specified workflow execution.
 	DescribeWorkflowExecution(context.Context, *DescribeWorkflowExecutionRequest) (*DescribeWorkflowExecutionResponse, error)
-	// DescribeTaskQueue returns information about the target task queue.
+	// DescribeTaskQueue returns the following information about the target task queue, broken down by Build ID:
+	//   - List of pollers
+	//   - Workflow Reachability status
+	//   - Backlog info for Workflow and/or Activity tasks
 	DescribeTaskQueue(context.Context, *DescribeTaskQueueRequest) (*DescribeTaskQueueResponse, error)
 	// GetClusterInfo returns information about temporal cluster
 	GetClusterInfo(context.Context, *GetClusterInfoRequest) (*GetClusterInfoResponse, error)
@@ -1264,6 +1304,8 @@ type WorkflowServiceServer interface {
 	DeleteSchedule(context.Context, *DeleteScheduleRequest) (*DeleteScheduleResponse, error)
 	// List all schedules in a namespace.
 	ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error)
+	// Deprecated. Use `UpdateWorkerVersioningRules`.
+	//
 	// Allows users to specify sets of worker build id versions on a per task queue basis. Versions
 	// are ordered, and may be either compatible with some extant version, or a new incompatible
 	// version, forming sets of ids which are incompatible with each other, but whose contained
@@ -1281,8 +1323,20 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
 	UpdateWorkerBuildIdCompatibility(context.Context, *UpdateWorkerBuildIdCompatibilityRequest) (*UpdateWorkerBuildIdCompatibilityResponse, error)
+	// Deprecated. Use `GetWorkerVersioningRules`.
 	// Fetches the worker build id versioning sets for a task queue.
 	GetWorkerBuildIdCompatibility(context.Context, *GetWorkerBuildIdCompatibilityRequest) (*GetWorkerBuildIdCompatibilityResponse, error)
+	// Allows updating the Build ID assignment and redirect rules for a given Task Queue.
+	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do yet expose versioning API to HTTP. --)
+	UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error)
+	// Fetches the Build ID assignment and redirect rules for a Task Queue.
+	// WARNING: Worker Versioning is not yet stable and the API and behavior may change incompatibly.
+	GetWorkerVersioningRules(context.Context, *GetWorkerVersioningRulesRequest) (*GetWorkerVersioningRulesResponse, error)
+	// Deprecated. Use `DescribeTaskQueue`.
+	//
 	// Fetches task reachability to determine whether a worker may be retired.
 	// The request may specify task queues to query for or let the server fetch all task queues mapped to the given
 	// build IDs.
@@ -1486,6 +1540,12 @@ func (UnimplementedWorkflowServiceServer) UpdateWorkerBuildIdCompatibility(conte
 }
 func (UnimplementedWorkflowServiceServer) GetWorkerBuildIdCompatibility(context.Context, *GetWorkerBuildIdCompatibilityRequest) (*GetWorkerBuildIdCompatibilityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerBuildIdCompatibility not implemented")
+}
+func (UnimplementedWorkflowServiceServer) UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerVersioningRules not implemented")
+}
+func (UnimplementedWorkflowServiceServer) GetWorkerVersioningRules(context.Context, *GetWorkerVersioningRulesRequest) (*GetWorkerVersioningRulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerVersioningRules not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerTaskReachability not implemented")
@@ -2430,6 +2490,42 @@ func _WorkflowService_GetWorkerBuildIdCompatibility_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_UpdateWorkerVersioningRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkerVersioningRulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).UpdateWorkerVersioningRules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_UpdateWorkerVersioningRules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).UpdateWorkerVersioningRules(ctx, req.(*UpdateWorkerVersioningRulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_GetWorkerVersioningRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkerVersioningRulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).GetWorkerVersioningRules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_GetWorkerVersioningRules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).GetWorkerVersioningRules(ctx, req.(*GetWorkerVersioningRulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_GetWorkerTaskReachability_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetWorkerTaskReachabilityRequest)
 	if err := dec(in); err != nil {
@@ -2816,6 +2912,14 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetWorkerBuildIdCompatibility",
 			Handler:    _WorkflowService_GetWorkerBuildIdCompatibility_Handler,
+		},
+		{
+			MethodName: "UpdateWorkerVersioningRules",
+			Handler:    _WorkflowService_UpdateWorkerVersioningRules_Handler,
+		},
+		{
+			MethodName: "GetWorkerVersioningRules",
+			Handler:    _WorkflowService_GetWorkerVersioningRules_Handler,
 		},
 		{
 			MethodName: "GetWorkerTaskReachability",

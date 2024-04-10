@@ -86,3 +86,41 @@ func TaskReachabilityFromString(s string) (TaskReachability, error) {
 	}
 	return TaskReachability(0), fmt.Errorf("%s is not a valid TaskReachability", s)
 }
+
+var (
+	BuildIdTaskReachability_shorthandValue = map[string]int32{
+		"Unspecified":         0,
+		"Reachable":           1,
+		"ClosedWorkflowsOnly": 2,
+		"Unreachable":         3,
+	}
+)
+
+// BuildIdTaskReachabilityFromString parses a BuildIdTaskReachability value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to BuildIdTaskReachability
+func BuildIdTaskReachabilityFromString(s string) (BuildIdTaskReachability, error) {
+	if v, ok := BuildIdTaskReachability_value[s]; ok {
+		return BuildIdTaskReachability(v), nil
+	} else if v, ok := BuildIdTaskReachability_shorthandValue[s]; ok {
+		return BuildIdTaskReachability(v), nil
+	}
+	return BuildIdTaskReachability(0), fmt.Errorf("%s is not a valid BuildIdTaskReachability", s)
+}
+
+var (
+	DescribeTaskQueueMode_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Enhanced":    1,
+	}
+)
+
+// DescribeTaskQueueModeFromString parses a DescribeTaskQueueMode value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to DescribeTaskQueueMode
+func DescribeTaskQueueModeFromString(s string) (DescribeTaskQueueMode, error) {
+	if v, ok := DescribeTaskQueueMode_value[s]; ok {
+		return DescribeTaskQueueMode(v), nil
+	} else if v, ok := DescribeTaskQueueMode_shorthandValue[s]; ok {
+		return DescribeTaskQueueMode(v), nil
+	}
+	return DescribeTaskQueueMode(0), fmt.Errorf("%s is not a valid DescribeTaskQueueMode", s)
+}

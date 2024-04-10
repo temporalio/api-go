@@ -101,6 +101,117 @@ func (this *TaskQueueMetadata) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type TaskQueueVersionSelection to the protobuf v3 wire format
+func (val *TaskQueueVersionSelection) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TaskQueueVersionSelection from the protobuf v3 wire format
+func (val *TaskQueueVersionSelection) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TaskQueueVersionSelection) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TaskQueueVersionSelection values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TaskQueueVersionSelection) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TaskQueueVersionSelection
+	switch t := that.(type) {
+	case *TaskQueueVersionSelection:
+		that1 = t
+	case TaskQueueVersionSelection:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TaskQueueVersionInfo to the protobuf v3 wire format
+func (val *TaskQueueVersionInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TaskQueueVersionInfo from the protobuf v3 wire format
+func (val *TaskQueueVersionInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TaskQueueVersionInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TaskQueueVersionInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TaskQueueVersionInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TaskQueueVersionInfo
+	switch t := that.(type) {
+	case *TaskQueueVersionInfo:
+		that1 = t
+	case TaskQueueVersionInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TaskQueueTypeInfo to the protobuf v3 wire format
+func (val *TaskQueueTypeInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TaskQueueTypeInfo from the protobuf v3 wire format
+func (val *TaskQueueTypeInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TaskQueueTypeInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TaskQueueTypeInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TaskQueueTypeInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TaskQueueTypeInfo
+	switch t := that.(type) {
+	case *TaskQueueTypeInfo:
+		that1 = t
+	case TaskQueueTypeInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type TaskQueueStatus to the protobuf v3 wire format
 func (val *TaskQueueStatus) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -389,6 +500,191 @@ func (this *BuildIdReachability) Equal(that interface{}) bool {
 	case *BuildIdReachability:
 		that1 = t
 	case BuildIdReachability:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RampByPercentage to the protobuf v3 wire format
+func (val *RampByPercentage) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RampByPercentage from the protobuf v3 wire format
+func (val *RampByPercentage) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RampByPercentage) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RampByPercentage values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RampByPercentage) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RampByPercentage
+	switch t := that.(type) {
+	case *RampByPercentage:
+		that1 = t
+	case RampByPercentage:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type BuildIdAssignmentRule to the protobuf v3 wire format
+func (val *BuildIdAssignmentRule) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type BuildIdAssignmentRule from the protobuf v3 wire format
+func (val *BuildIdAssignmentRule) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *BuildIdAssignmentRule) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two BuildIdAssignmentRule values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *BuildIdAssignmentRule) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *BuildIdAssignmentRule
+	switch t := that.(type) {
+	case *BuildIdAssignmentRule:
+		that1 = t
+	case BuildIdAssignmentRule:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CompatibleBuildIdRedirectRule to the protobuf v3 wire format
+func (val *CompatibleBuildIdRedirectRule) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CompatibleBuildIdRedirectRule from the protobuf v3 wire format
+func (val *CompatibleBuildIdRedirectRule) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CompatibleBuildIdRedirectRule) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CompatibleBuildIdRedirectRule values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CompatibleBuildIdRedirectRule) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CompatibleBuildIdRedirectRule
+	switch t := that.(type) {
+	case *CompatibleBuildIdRedirectRule:
+		that1 = t
+	case CompatibleBuildIdRedirectRule:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TimestampedBuildIdAssignmentRule to the protobuf v3 wire format
+func (val *TimestampedBuildIdAssignmentRule) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TimestampedBuildIdAssignmentRule from the protobuf v3 wire format
+func (val *TimestampedBuildIdAssignmentRule) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TimestampedBuildIdAssignmentRule) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TimestampedBuildIdAssignmentRule values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TimestampedBuildIdAssignmentRule) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TimestampedBuildIdAssignmentRule
+	switch t := that.(type) {
+	case *TimestampedBuildIdAssignmentRule:
+		that1 = t
+	case TimestampedBuildIdAssignmentRule:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type TimestampedCompatibleBuildIdRedirectRule to the protobuf v3 wire format
+func (val *TimestampedCompatibleBuildIdRedirectRule) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type TimestampedCompatibleBuildIdRedirectRule from the protobuf v3 wire format
+func (val *TimestampedCompatibleBuildIdRedirectRule) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *TimestampedCompatibleBuildIdRedirectRule) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two TimestampedCompatibleBuildIdRedirectRule values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *TimestampedCompatibleBuildIdRedirectRule) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *TimestampedCompatibleBuildIdRedirectRule
+	switch t := that.(type) {
+	case *TimestampedCompatibleBuildIdRedirectRule:
+		that1 = t
+	case TimestampedCompatibleBuildIdRedirectRule:
 		that1 = &t
 	default:
 		return false

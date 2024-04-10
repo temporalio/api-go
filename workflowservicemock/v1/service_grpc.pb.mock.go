@@ -358,6 +358,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkerTaskReachability(ctx, 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerTaskReachability", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkerTaskReachability), varargs...)
 }
 
+// GetWorkerVersioningRules mocks base method.
+func (m *MockWorkflowServiceClient) GetWorkerVersioningRules(ctx context.Context, in *workflowservice.GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkerVersioningRulesResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetWorkerVersioningRules", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetWorkerVersioningRulesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkerVersioningRules indicates an expected call of GetWorkerVersioningRules.
+func (mr *MockWorkflowServiceClientMockRecorder) GetWorkerVersioningRules(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerVersioningRules", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkerVersioningRules), varargs...)
+}
+
 // GetWorkflowExecutionHistory mocks base method.
 func (m *MockWorkflowServiceClient) GetWorkflowExecutionHistory(ctx context.Context, in *workflowservice.GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkflowExecutionHistoryResponse, error) {
 	m.ctrl.T.Helper()
@@ -1238,6 +1258,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkerBuildIdCompatibilit
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerBuildIdCompatibility", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkerBuildIdCompatibility), varargs...)
 }
 
+// UpdateWorkerVersioningRules mocks base method.
+func (m *MockWorkflowServiceClient) UpdateWorkerVersioningRules(ctx context.Context, in *workflowservice.UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkerVersioningRulesResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateWorkerVersioningRules", varargs...)
+	ret0, _ := ret[0].(*workflowservice.UpdateWorkerVersioningRulesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWorkerVersioningRules indicates an expected call of UpdateWorkerVersioningRules.
+func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkerVersioningRules(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerVersioningRules", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkerVersioningRules), varargs...)
+}
+
 // UpdateWorkflowExecution mocks base method.
 func (m *MockWorkflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *workflowservice.UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
@@ -1504,6 +1544,21 @@ func (m *MockWorkflowServiceServer) GetWorkerTaskReachability(arg0 context.Conte
 func (mr *MockWorkflowServiceServerMockRecorder) GetWorkerTaskReachability(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerTaskReachability", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkerTaskReachability), arg0, arg1)
+}
+
+// GetWorkerVersioningRules mocks base method.
+func (m *MockWorkflowServiceServer) GetWorkerVersioningRules(arg0 context.Context, arg1 *workflowservice.GetWorkerVersioningRulesRequest) (*workflowservice.GetWorkerVersioningRulesResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWorkerVersioningRules", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetWorkerVersioningRulesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkerVersioningRules indicates an expected call of GetWorkerVersioningRules.
+func (mr *MockWorkflowServiceServerMockRecorder) GetWorkerVersioningRules(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerVersioningRules", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkerVersioningRules), arg0, arg1)
 }
 
 // GetWorkflowExecutionHistory mocks base method.
@@ -2164,6 +2219,21 @@ func (m *MockWorkflowServiceServer) UpdateWorkerBuildIdCompatibility(arg0 contex
 func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkerBuildIdCompatibility(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerBuildIdCompatibility", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkerBuildIdCompatibility), arg0, arg1)
+}
+
+// UpdateWorkerVersioningRules mocks base method.
+func (m *MockWorkflowServiceServer) UpdateWorkerVersioningRules(arg0 context.Context, arg1 *workflowservice.UpdateWorkerVersioningRulesRequest) (*workflowservice.UpdateWorkerVersioningRulesResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateWorkerVersioningRules", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.UpdateWorkerVersioningRulesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWorkerVersioningRules indicates an expected call of UpdateWorkerVersioningRules.
+func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkerVersioningRules(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkerVersioningRules", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkerVersioningRules), arg0, arg1)
 }
 
 // UpdateWorkflowExecution mocks base method.
