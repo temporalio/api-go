@@ -91,6 +91,10 @@ func (s *workflowServiceProxyServer) DescribeWorkflowExecution(ctx context.Conte
 	return s.client.DescribeWorkflowExecution(ctx, in0)
 }
 
+func (s *workflowServiceProxyServer) ExecuteMultiOperation(ctx context.Context, in0 *workflowservice.ExecuteMultiOperationRequest) (*workflowservice.ExecuteMultiOperationResponse, error) {
+	return s.client.ExecuteMultiOperation(ctx, in0)
+}
+
 func (s *workflowServiceProxyServer) GetClusterInfo(ctx context.Context, in0 *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
 	return s.client.GetClusterInfo(ctx, in0)
 }

@@ -48,6 +48,7 @@ const (
 	WorkflowService_UpdateNamespace_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/UpdateNamespace"
 	WorkflowService_DeprecateNamespace_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/DeprecateNamespace"
 	WorkflowService_StartWorkflowExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution"
+	WorkflowService_ExecuteMultiOperation_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation"
 	WorkflowService_GetWorkflowExecutionHistory_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory"
 	WorkflowService_GetWorkflowExecutionHistoryReverse_FullMethodName = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse"
 	WorkflowService_PollWorkflowTaskQueue_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowTaskQueue"
@@ -140,6 +141,18 @@ type WorkflowServiceClient interface {
 	// also schedule the first workflow task. Returns `WorkflowExecutionAlreadyStarted`, if an
 	// instance already exists with same workflow id.
 	StartWorkflowExecution(ctx context.Context, in *StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartWorkflowExecutionResponse, error)
+	// ExecuteMultiOperation executes multiple operations within a single workflow.
+	//
+	// Operations are started atomically, meaning if *any* operation fails to be started, none are,
+	// and the request fails. Upon start, the API returns only when *all* operations have a response.
+	//
+	// Upon failure, the status code equals the status code of the *first* operation that failed to be started; and the
+	// list of details contains one `google.grpc.Status` for each requested operation. The failed
+	// operation(s) have the same error details as if it was executed separately. All other operations have the
+	// status code `Aborted` and `temporal.api.failure.v1.MultiOperationExecutionAborted` is added to the details field.
+	//
+	// NOTE: Experimental API.
+	ExecuteMultiOperation(ctx context.Context, in *ExecuteMultiOperationRequest, opts ...grpc.CallOption) (*ExecuteMultiOperationResponse, error)
 	// GetWorkflowExecutionHistory returns the history of specified workflow execution. Fails with
 	// `NotFound` if the specified workflow execution is unknown to the service.
 	GetWorkflowExecutionHistory(ctx context.Context, in *GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*GetWorkflowExecutionHistoryResponse, error)
@@ -519,6 +532,15 @@ func (c *workflowServiceClient) DeprecateNamespace(ctx context.Context, in *Depr
 func (c *workflowServiceClient) StartWorkflowExecution(ctx context.Context, in *StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartWorkflowExecutionResponse, error) {
 	out := new(StartWorkflowExecutionResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_StartWorkflowExecution_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ExecuteMultiOperation(ctx context.Context, in *ExecuteMultiOperationRequest, opts ...grpc.CallOption) (*ExecuteMultiOperationResponse, error) {
+	out := new(ExecuteMultiOperationResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ExecuteMultiOperation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1063,6 +1085,18 @@ type WorkflowServiceServer interface {
 	// also schedule the first workflow task. Returns `WorkflowExecutionAlreadyStarted`, if an
 	// instance already exists with same workflow id.
 	StartWorkflowExecution(context.Context, *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error)
+	// ExecuteMultiOperation executes multiple operations within a single workflow.
+	//
+	// Operations are started atomically, meaning if *any* operation fails to be started, none are,
+	// and the request fails. Upon start, the API returns only when *all* operations have a response.
+	//
+	// Upon failure, the status code equals the status code of the *first* operation that failed to be started; and the
+	// list of details contains one `google.grpc.Status` for each requested operation. The failed
+	// operation(s) have the same error details as if it was executed separately. All other operations have the
+	// status code `Aborted` and `temporal.api.failure.v1.MultiOperationExecutionAborted` is added to the details field.
+	//
+	// NOTE: Experimental API.
+	ExecuteMultiOperation(context.Context, *ExecuteMultiOperationRequest) (*ExecuteMultiOperationResponse, error)
 	// GetWorkflowExecutionHistory returns the history of specified workflow execution. Fails with
 	// `NotFound` if the specified workflow execution is unknown to the service.
 	GetWorkflowExecutionHistory(context.Context, *GetWorkflowExecutionHistoryRequest) (*GetWorkflowExecutionHistoryResponse, error)
@@ -1409,6 +1443,9 @@ func (UnimplementedWorkflowServiceServer) DeprecateNamespace(context.Context, *D
 func (UnimplementedWorkflowServiceServer) StartWorkflowExecution(context.Context, *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartWorkflowExecution not implemented")
 }
+func (UnimplementedWorkflowServiceServer) ExecuteMultiOperation(context.Context, *ExecuteMultiOperationRequest) (*ExecuteMultiOperationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExecuteMultiOperation not implemented")
+}
 func (UnimplementedWorkflowServiceServer) GetWorkflowExecutionHistory(context.Context, *GetWorkflowExecutionHistoryRequest) (*GetWorkflowExecutionHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetWorkflowExecutionHistory not implemented")
 }
@@ -1694,6 +1731,24 @@ func _WorkflowService_StartWorkflowExecution_Handler(srv interface{}, ctx contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WorkflowServiceServer).StartWorkflowExecution(ctx, req.(*StartWorkflowExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_ExecuteMultiOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExecuteMultiOperationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ExecuteMultiOperation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ExecuteMultiOperation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ExecuteMultiOperation(ctx, req.(*ExecuteMultiOperationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2736,6 +2791,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "StartWorkflowExecution",
 			Handler:    _WorkflowService_StartWorkflowExecution_Handler,
+		},
+		{
+			MethodName: "ExecuteMultiOperation",
+			Handler:    _WorkflowService_ExecuteMultiOperation_Handler,
 		},
 		{
 			MethodName: "GetWorkflowExecutionHistory",
