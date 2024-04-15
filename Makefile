@@ -24,9 +24,7 @@ COLOR := "\e[1;36m%s\e[0m\n"
 PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
-PROTO_FILES = $(shell find $(PROTO_ROOT)/temporal -name "*.proto")
-PROTO_DIRS = $(sort $(dir $(PROTO_FILES)))
-PROTO_ENUMS := $(shell grep -R '^enum ' $(PROTO_ROOT) | cut -d ' ' -f2)
+PROTO_CLOUD_ROOT := proto/api-cloud
 PROTO_OUT := .
 PROTO_IMPORTS = \
 	-I=$(PROTO_ROOT)
@@ -57,10 +55,10 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
+		--root=$(PROTO_CLOUD_ROOT) \
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
 		--exclude=proto/api/google \
-		-I $(PROTO_ROOT) \
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
 		-p go-helpers_out=$(PROTO_PATHS)
@@ -80,14 +78,11 @@ copy-helpers:
 	cp $(PROTO_OUT)/internal/temporalcommonv1/payload_json.go $(PROTO_OUT)/common/v1/
 	chmod -w $(PROTO_OUT)/common/v1/payload_json.go
 
-# All generated service files pathes relative to PROTO_OUT.
-PROTO_GRPC_SERVICES = $(patsubst $(PROTO_OUT)/%,%,$(shell find $(PROTO_OUT) -name "service_grpc.pb.go"))
-service_name = $(firstword $(subst /, ,$(1)))
-mock_file_name = $(call service_name,$(1))mock/$(subst $(call service_name,$(1))/,,$(1:go=mock.go))
-
 grpc-mock:
 	printf $(COLOR) "Generate gRPC mocks..."
-	$(foreach PROTO_GRPC_SERVICE,$(PROTO_GRPC_SERVICES),cd $(PROTO_OUT) && mockgen -package $(call service_name,$(PROTO_GRPC_SERVICE))mock -source $(PROTO_GRPC_SERVICE) -destination $(call mock_file_name,$(PROTO_GRPC_SERVICE))$(NEWLINE) )
+	mockgen -package operatorservicemock -source operatorservice/v1/service_grpc.pb.go -destination operatorservicemock/v1/service_grpc.pb.mock.go
+	mockgen -package workflowservicemock -source workflowservice/v1/service_grpc.pb.go -destination workflowservicemock/v1/service_grpc.pb.mock.go
+	mockgen -package cloudservicemock -source cloud/cloudservice/v1/service_grpc.pb.go -destination cloud/cloudservicemock/v1/service_grpc.pb.mock.go
 
 .PHONY: proxy
 proxy:
@@ -146,3 +141,5 @@ clean:
 	printf $(COLOR) "Deleting generated go files..."
 	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
 	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | egrep -v 'testprotos' | sort -u | xargs rm -rf
+	# Delete entire cloud dir
+	rm -rf cloud

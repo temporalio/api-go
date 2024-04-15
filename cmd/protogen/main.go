@@ -59,7 +59,7 @@ type postProcessor interface {
 }
 
 type genConfig struct {
-	rootDir     string
+	rootDirs    []string
 	outputDir   string
 	excludeDirs []string
 	includes    []string
@@ -103,7 +103,7 @@ func findEnums(ctx context.Context, cfg genConfig) ([]string, []string, error) {
 	seen := map[string]struct{}{}
 	var enums []string
 	var dirs []string
-	err := walkExtension(ctx, cfg.rootDir, ".proto", cfg.excludeDirs, func(path string) error {
+	walkFunc := func(path string) error {
 		// Emit unique directories containing proto files
 		dir := filepath.Dir(path)
 		if _, ok := seen[dir]; !ok {
@@ -123,8 +123,13 @@ func findEnums(ctx context.Context, cfg genConfig) ([]string, []string, error) {
 			enums = append(enums, matches[i][1])
 		}
 		return nil
-	})
-	return enums, dirs, err
+	}
+	for _, rootDir := range cfg.rootDirs {
+		if err := walkExtension(ctx, rootDir, ".proto", cfg.excludeDirs, walkFunc); err != nil {
+			return nil, nil, err
+		}
+	}
+	return enums, dirs, nil
 }
 
 // Run protoc in parallel on all proto dirs we discover under the root directory
@@ -254,11 +259,11 @@ func sliceContains[S ~[]E, E comparable](haystack S, needle E) bool {
 }
 
 func main() {
-	var protoRootDir, outputDir, enumPrefixPairs string
-	var protoPlugins, protoIncludes, excludeDirs stringArr
+	var outputDir, enumPrefixPairs string
+	var protoRootDirs, protoPlugins, protoIncludes, excludeDirs stringArr
 	var noRewriteString, noRewriteEnum, noStripVersion, noDisableUtf8 bool
 	var concurrency int
-	flag.StringVar(&protoRootDir, "root", "proto", "Root directory containing the protos to generate code for")
+	flag.Var(&protoRootDirs, "root", "Root directories containing the protos to generate code for")
 	flag.StringVar(&outputDir, "output", "api", "Base directory in which to output generated proto files")
 	flag.Var(&protoIncludes, "I", "Directory to include when compiling protos")
 	flag.Var(&protoPlugins, "p", "Plugin=Options pairs of protobuf plugins, like grpc-gateway_out=allow_patch_feature=false")
@@ -273,16 +278,18 @@ func main() {
 
 	flag.Parse()
 
-	if protoRootDir == "" {
-		fail("must specify the root directory")
+	if len(protoRootDirs) == 0 {
+		fail("must specify at least one root directory")
 	}
 	if outputDir == "" {
 		fail("must specify the output dir for proto files")
 	}
 
 	// Always include the root dir
-	if !sliceContains(protoIncludes, protoRootDir) {
-		protoIncludes = append(protoIncludes, protoRootDir)
+	for _, protoRootDir := range protoRootDirs {
+		if !sliceContains(protoIncludes, protoRootDir) {
+			protoIncludes = append(protoIncludes, protoRootDir)
+		}
 	}
 	// Cancel everything if we receive SIGINT or SIGSTOP
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, os.Kill)
@@ -300,7 +307,7 @@ func main() {
 		}
 	}
 	err := compileProtos(ctx, genConfig{
-		rootDir:       protoRootDir,
+		rootDirs:      protoRootDirs,
 		outputDir:     outputDir,
 		excludeDirs:   excludeDirs,
 		includes:      protoIncludes,

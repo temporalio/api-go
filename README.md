@@ -8,14 +8,15 @@ _Note that any changes merged to [api](https://github.com/temporalio/api) will a
 
 To install in your project run:
 ```
-go get -u go.temporal.io/api
+go get go.temporal.io/api
 ```
 
 ## Rebuild
 
 Run `make` once to install all plugins and tools (`protoc` and `go` must be installed manually).
 
-Run `make update-proto` to update submodule and recompile proto files.
+Run `make update-proto` to update the `proto/api` submodule and recompile proto files. The `proto/api-cloud` submodule
+must be updated manually.
 
 ## License
 
