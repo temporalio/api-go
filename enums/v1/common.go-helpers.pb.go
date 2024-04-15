@@ -111,3 +111,45 @@ func CallbackStateFromString(s string) (CallbackState, error) {
 	}
 	return CallbackState(0), fmt.Errorf("%s is not a valid CallbackState", s)
 }
+
+var (
+	PendingNexusOperationState_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Scheduled":   1,
+		"BackingOff":  2,
+		"Started":     3,
+	}
+)
+
+// PendingNexusOperationStateFromString parses a PendingNexusOperationState value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to PendingNexusOperationState
+func PendingNexusOperationStateFromString(s string) (PendingNexusOperationState, error) {
+	if v, ok := PendingNexusOperationState_value[s]; ok {
+		return PendingNexusOperationState(v), nil
+	} else if v, ok := PendingNexusOperationState_shorthandValue[s]; ok {
+		return PendingNexusOperationState(v), nil
+	}
+	return PendingNexusOperationState(0), fmt.Errorf("%s is not a valid PendingNexusOperationState", s)
+}
+
+var (
+	NexusOperationCancellationState_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Scheduled":   1,
+		"BackingOff":  2,
+		"Succeeded":   3,
+		"Failed":      4,
+		"TimedOut":    5,
+	}
+)
+
+// NexusOperationCancellationStateFromString parses a NexusOperationCancellationState value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to NexusOperationCancellationState
+func NexusOperationCancellationStateFromString(s string) (NexusOperationCancellationState, error) {
+	if v, ok := NexusOperationCancellationState_value[s]; ok {
+		return NexusOperationCancellationState(v), nil
+	} else if v, ok := NexusOperationCancellationState_shorthandValue[s]; ok {
+		return NexusOperationCancellationState(v), nil
+	}
+	return NexusOperationCancellationState(0), fmt.Errorf("%s is not a valid NexusOperationCancellationState", s)
+}

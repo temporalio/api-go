@@ -45,6 +45,8 @@ var (
 		"UpsertWorkflowSearchAttributes":         13,
 		"ProtocolMessage":                        14,
 		"ModifyWorkflowProperties":               16,
+		"ScheduleNexusOperation":                 17,
+		"RequestCancelNexusOperation":            18,
 	}
 )
 
