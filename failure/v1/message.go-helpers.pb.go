@@ -359,3 +359,40 @@ func (this *Failure) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type MultiOperationExecutionAborted to the protobuf v3 wire format
+func (val *MultiOperationExecutionAborted) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type MultiOperationExecutionAborted from the protobuf v3 wire format
+func (val *MultiOperationExecutionAborted) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *MultiOperationExecutionAborted) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two MultiOperationExecutionAborted values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *MultiOperationExecutionAborted) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *MultiOperationExecutionAborted
+	switch t := that.(type) {
+	case *MultiOperationExecutionAborted:
+		that1 = t
+	case MultiOperationExecutionAborted:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}

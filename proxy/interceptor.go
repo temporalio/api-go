@@ -1388,6 +1388,78 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *workflowservice.ExecuteMultiOperationRequest:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetOperations(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflowservice.ExecuteMultiOperationRequest_Operation:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.ExecuteMultiOperationRequest_Operation:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetStartWorkflow(),
+				o.GetUpdateWorkflow(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.ExecuteMultiOperationResponse:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetResponses(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflowservice.ExecuteMultiOperationResponse_Response:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.ExecuteMultiOperationResponse_Response:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetStartWorkflow(),
+				o.GetUpdateWorkflow(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.GetWorkflowExecutionHistoryResponse:
 
 			if o == nil {
@@ -2276,6 +2348,73 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				options,
 				o.GetCallbacks(),
 				o.GetPendingActivities(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.ExecuteMultiOperationRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOperations(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflowservice.ExecuteMultiOperationRequest_Operation:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.ExecuteMultiOperationRequest_Operation:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetStartWorkflow(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.ExecuteMultiOperationResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetResponses(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflowservice.ExecuteMultiOperationResponse_Response:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.ExecuteMultiOperationResponse_Response:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetStartWorkflow(),
+				o.GetUpdateWorkflow(),
 			); err != nil {
 				return err
 			}
