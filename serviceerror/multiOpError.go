@@ -25,7 +25,6 @@ package serviceerror
 import (
 	"errors"
 
-	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/errordetails/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -55,7 +54,7 @@ func (e *MultiOperationExecutionError) OperationErrors() []error {
 func (e *MultiOperationExecutionError) Status() *status.Status {
 	var code *codes.Code
 	failure := &errordetails.MultiOperationExecutionFailure{
-		Statuses: make([]*common.RpcStatus, len(e.errs)),
+		Statuses: make([]*errordetails.MultiOperationExecutionFailure_RpcStatus, len(e.errs)),
 	}
 
 	var abortedErr *MultiOperationAborted
@@ -68,7 +67,7 @@ func (e *MultiOperationExecutionError) Status() *status.Status {
 			code = &c
 		}
 
-		failure.Statuses[i] = &common.RpcStatus{
+		failure.Statuses[i] = &errordetails.MultiOperationExecutionFailure_RpcStatus{
 			Code:    int32(st.Code()),
 			Message: st.Message(),
 			Details: st.Proto().Details,
