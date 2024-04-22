@@ -26,6 +26,7 @@ import (
 	"context"
 	"errors"
 
+	spb "google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -78,7 +79,11 @@ func FromStatus(st *status.Status) error {
 	if err, ok := errDetails.(*errordetails.MultiOperationExecutionFailure); ok {
 		errs := make([]error, len(err.Statuses))
 		for i, opStatus := range err.Statuses {
-			errs[i] = FromStatus(status.FromProto(opStatus))
+			errs[i] = FromStatus(status.FromProto(&spb.Status{
+				Code:    opStatus.Code,
+				Message: opStatus.Message,
+				Details: opStatus.Details,
+			}))
 		}
 		return newMultiOperationExecutionError(st, errs)
 	}

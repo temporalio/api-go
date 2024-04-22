@@ -25,8 +25,8 @@ package serviceerror
 import (
 	"errors"
 
+	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/errordetails/v1"
-	rpc "google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -55,18 +55,24 @@ func (e *MultiOperationExecutionError) OperationErrors() []error {
 func (e *MultiOperationExecutionError) Status() *status.Status {
 	var code *codes.Code
 	failure := &errordetails.MultiOperationExecutionFailure{
-		Statuses: []*rpc.Status{},
+		Statuses: make([]*common.RpcStatus, len(e.errs)),
 	}
 
 	var abortedErr *MultiOperationAborted
-	for _, err := range e.errs {
+	for i, err := range e.errs {
 		st := ToStatus(err)
+
 		// the first non-OK and non-Aborted code becomes the code for the entire Status
 		if code == nil && st.Code() != codes.OK && !errors.As(err, &abortedErr) {
 			c := st.Code()
 			code = &c
 		}
-		failure.Statuses = append(failure.Statuses, st.Proto())
+
+		failure.Statuses[i] = &common.RpcStatus{
+			Code:    int32(st.Code()),
+			Message: st.Message(),
+			Details: st.Proto().Details,
+		}
 	}
 
 	// this should never happen, but it's better to set it to `Aborted` than to panic
