@@ -61,6 +61,10 @@ var (
 		"PendingRequestCancelLimitExceeded":                   29,
 		"BadUpdateWorkflowExecutionMessage":                   30,
 		"UnhandledUpdate":                                     31,
+		"BadScheduleNexusOperationAttributes":                 32,
+		"PendingNexusOperationsLimitExceeded":                 33,
+		"BadRequestCancelNexusOperationAttributes":            34,
+		"FeatureDisabled":                                     35,
 	}
 )
 

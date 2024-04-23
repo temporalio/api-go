@@ -77,6 +77,13 @@ var (
 		"ActivityPropertiesModifiedExternally":            45,
 		"WorkflowPropertiesModified":                      46,
 		"WorkflowExecutionUpdateAdmitted":                 47,
+		"NexusOperationScheduled":                         48,
+		"NexusOperationStarted":                           49,
+		"NexusOperationCompleted":                         50,
+		"NexusOperationFailed":                            51,
+		"NexusOperationCanceled":                          52,
+		"NexusOperationTimedOut":                          53,
+		"NexusOperationCancelRequested":                   54,
 	}
 )
 

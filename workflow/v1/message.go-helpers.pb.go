@@ -359,3 +359,77 @@ func (this *CallbackInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type PendingNexusOperationInfo to the protobuf v3 wire format
+func (val *PendingNexusOperationInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type PendingNexusOperationInfo from the protobuf v3 wire format
+func (val *PendingNexusOperationInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *PendingNexusOperationInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two PendingNexusOperationInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *PendingNexusOperationInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *PendingNexusOperationInfo
+	switch t := that.(type) {
+	case *PendingNexusOperationInfo:
+		that1 = t
+	case PendingNexusOperationInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusOperationCancellationInfo to the protobuf v3 wire format
+func (val *NexusOperationCancellationInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationCancellationInfo from the protobuf v3 wire format
+func (val *NexusOperationCancellationInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationCancellationInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationCancellationInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationCancellationInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationCancellationInfo
+	switch t := that.(type) {
+	case *NexusOperationCancellationInfo:
+		that1 = t
+	case NexusOperationCancellationInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}

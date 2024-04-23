@@ -1766,6 +1766,265 @@ func (this *WorkflowExecutionUpdateAdmittedEventAttributes) Equal(that interface
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type NexusOperationScheduledEventAttributes to the protobuf v3 wire format
+func (val *NexusOperationScheduledEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationScheduledEventAttributes from the protobuf v3 wire format
+func (val *NexusOperationScheduledEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationScheduledEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationScheduledEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationScheduledEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationScheduledEventAttributes
+	switch t := that.(type) {
+	case *NexusOperationScheduledEventAttributes:
+		that1 = t
+	case NexusOperationScheduledEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusOperationStartedEventAttributes to the protobuf v3 wire format
+func (val *NexusOperationStartedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationStartedEventAttributes from the protobuf v3 wire format
+func (val *NexusOperationStartedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationStartedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationStartedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationStartedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationStartedEventAttributes
+	switch t := that.(type) {
+	case *NexusOperationStartedEventAttributes:
+		that1 = t
+	case NexusOperationStartedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusOperationCompletedEventAttributes to the protobuf v3 wire format
+func (val *NexusOperationCompletedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationCompletedEventAttributes from the protobuf v3 wire format
+func (val *NexusOperationCompletedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationCompletedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationCompletedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationCompletedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationCompletedEventAttributes
+	switch t := that.(type) {
+	case *NexusOperationCompletedEventAttributes:
+		that1 = t
+	case NexusOperationCompletedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusOperationFailedEventAttributes to the protobuf v3 wire format
+func (val *NexusOperationFailedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationFailedEventAttributes from the protobuf v3 wire format
+func (val *NexusOperationFailedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationFailedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationFailedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationFailedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationFailedEventAttributes
+	switch t := that.(type) {
+	case *NexusOperationFailedEventAttributes:
+		that1 = t
+	case NexusOperationFailedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusOperationTimedOutEventAttributes to the protobuf v3 wire format
+func (val *NexusOperationTimedOutEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationTimedOutEventAttributes from the protobuf v3 wire format
+func (val *NexusOperationTimedOutEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationTimedOutEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationTimedOutEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationTimedOutEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationTimedOutEventAttributes
+	switch t := that.(type) {
+	case *NexusOperationTimedOutEventAttributes:
+		that1 = t
+	case NexusOperationTimedOutEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusOperationCanceledEventAttributes to the protobuf v3 wire format
+func (val *NexusOperationCanceledEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationCanceledEventAttributes from the protobuf v3 wire format
+func (val *NexusOperationCanceledEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationCanceledEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationCanceledEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationCanceledEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationCanceledEventAttributes
+	switch t := that.(type) {
+	case *NexusOperationCanceledEventAttributes:
+		that1 = t
+	case NexusOperationCanceledEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusOperationCancelRequestedEventAttributes to the protobuf v3 wire format
+func (val *NexusOperationCancelRequestedEventAttributes) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationCancelRequestedEventAttributes from the protobuf v3 wire format
+func (val *NexusOperationCancelRequestedEventAttributes) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationCancelRequestedEventAttributes) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationCancelRequestedEventAttributes values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationCancelRequestedEventAttributes) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationCancelRequestedEventAttributes
+	switch t := that.(type) {
+	case *NexusOperationCancelRequestedEventAttributes:
+		that1 = t
+	case NexusOperationCancelRequestedEventAttributes:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type HistoryEvent to the protobuf v3 wire format
 func (val *HistoryEvent) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

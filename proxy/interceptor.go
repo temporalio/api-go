@@ -270,6 +270,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetModifyWorkflowPropertiesCommandAttributes(),
 				o.GetRecordMarkerCommandAttributes(),
 				o.GetScheduleActivityTaskCommandAttributes(),
+				o.GetScheduleNexusOperationCommandAttributes(),
 				o.GetSignalExternalWorkflowExecutionCommandAttributes(),
 				o.GetStartChildWorkflowExecutionCommandAttributes(),
 				o.GetUpsertWorkflowSearchAttributesCommandAttributes(),
@@ -364,6 +365,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetHeader(),
+				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
+		case *command.ScheduleNexusOperationCommandAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
 				o.GetInput(),
 			); err != nil {
 				return err
@@ -725,6 +740,11 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetChildWorkflowExecutionFailedEventAttributes(),
 				o.GetChildWorkflowExecutionStartedEventAttributes(),
 				o.GetMarkerRecordedEventAttributes(),
+				o.GetNexusOperationCanceledEventAttributes(),
+				o.GetNexusOperationCompletedEventAttributes(),
+				o.GetNexusOperationFailedEventAttributes(),
+				o.GetNexusOperationScheduledEventAttributes(),
+				o.GetNexusOperationTimedOutEventAttributes(),
 				o.GetSignalExternalWorkflowExecutionInitiatedEventAttributes(),
 				o.GetStartChildWorkflowExecutionInitiatedEventAttributes(),
 				o.GetUpsertWorkflowSearchAttributesEventAttributes(),
@@ -758,6 +778,76 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetDetails(),
 				o.GetFailure(),
 				o.GetHeader(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationCanceledEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationCompletedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetResult(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationFailedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationScheduledEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationTimedOutEventAttributes:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -1261,6 +1351,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *workflow.NexusOperationCancellationInfo:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
 		case []*workflow.PendingActivityInfo:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, x); err != nil {
@@ -1279,6 +1383,28 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				options,
 				o.GetHeartbeatDetails(),
 				o.GetLastFailure(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflow.PendingNexusOperationInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflow.PendingNexusOperationInfo:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetCancellationInfo(),
+				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
 			}
@@ -1383,6 +1509,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				options,
 				o.GetCallbacks(),
 				o.GetPendingActivities(),
+				o.GetPendingNexusOperations(),
 				o.GetWorkflowExecutionInfo(),
 			); err != nil {
 				return err
@@ -2184,6 +2311,9 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				o.GetActivityTaskTimedOutEventAttributes(),
 				o.GetChildWorkflowExecutionFailedEventAttributes(),
 				o.GetMarkerRecordedEventAttributes(),
+				o.GetNexusOperationCanceledEventAttributes(),
+				o.GetNexusOperationFailedEventAttributes(),
+				o.GetNexusOperationTimedOutEventAttributes(),
 				o.GetWorkflowExecutionContinuedAsNewEventAttributes(),
 				o.GetWorkflowExecutionFailedEventAttributes(),
 				o.GetWorkflowExecutionStartedEventAttributes(),
@@ -2195,6 +2325,45 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *history.MarkerRecordedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationCanceledEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationFailedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationTimedOutEventAttributes:
 			if o == nil {
 				continue
 			}
@@ -2318,6 +2487,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *workflow.NexusOperationCancellationInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
 		case []*workflow.PendingActivityInfo:
 			for _, x := range o {
 				if err := visitFailures(ctx, options, x); err != nil {
@@ -2338,6 +2520,27 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case []*workflow.PendingNexusOperationInfo:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflow.PendingNexusOperationInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetCancellationInfo(),
+				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeWorkflowExecutionResponse:
 			if o == nil {
 				continue
@@ -2348,6 +2551,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				options,
 				o.GetCallbacks(),
 				o.GetPendingActivities(),
+				o.GetPendingNexusOperations(),
 			); err != nil {
 				return err
 			}
