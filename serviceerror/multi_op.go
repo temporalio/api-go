@@ -30,14 +30,14 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-// MultiOperationExecution represents a failed MultiOperationExecution.
+// MultiOperationExecution represents a MultiOperationExecution error.
 type MultiOperationExecution struct {
 	Message string
 	errs    []error
 	st      *status.Status
 }
 
-// NewMultiOperationExecution returns a new MultiOperationExecution.
+// NewMultiOperationExecution returns a new MultiOperationExecution error.
 func NewMultiOperationExecution(message string, errs []error) error {
 	return &MultiOperationExecution{Message: message, errs: errs}
 }
