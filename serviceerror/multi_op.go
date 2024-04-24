@@ -30,28 +30,28 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-// MultiOperationExecutionFailure represents a failed MultiOperationExecution.
-type MultiOperationExecutionFailure struct {
+// MultiOperationExecution represents a failed MultiOperationExecution.
+type MultiOperationExecution struct {
 	Message string
 	errs    []error
 	st      *status.Status
 }
 
-// NewMultiOperationExecutionFailure returns a new MultiOperationExecutionFailure.
-func NewMultiOperationExecutionFailure(message string, errs []error) error {
-	return &MultiOperationExecutionFailure{Message: message, errs: errs}
+// NewMultiOperationExecution returns a new MultiOperationExecution.
+func NewMultiOperationExecution(message string, errs []error) error {
+	return &MultiOperationExecution{Message: message, errs: errs}
 }
 
 // Error returns string message.
-func (e *MultiOperationExecutionFailure) Error() string {
+func (e *MultiOperationExecution) Error() string {
 	return e.Message
 }
 
-func (e *MultiOperationExecutionFailure) OperationErrors() []error {
+func (e *MultiOperationExecution) OperationErrors() []error {
 	return e.errs
 }
 
-func (e *MultiOperationExecutionFailure) Status() *status.Status {
+func (e *MultiOperationExecution) Status() *status.Status {
 	var code *codes.Code
 	failure := &errordetails.MultiOperationExecutionFailure{
 		Statuses: make([]*errordetails.MultiOperationExecutionFailure_RpcStatus, len(e.errs)),
@@ -85,8 +85,8 @@ func (e *MultiOperationExecutionFailure) Status() *status.Status {
 	return st
 }
 
-func newMultiOperationExecutionFailure(st *status.Status, errs []error) error {
-	return &MultiOperationExecutionFailure{
+func newMultiOperationExecution(st *status.Status, errs []error) error {
+	return &MultiOperationExecution{
 		Message: st.Message(),
 		errs:    errs,
 		st:      st,

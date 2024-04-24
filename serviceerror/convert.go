@@ -85,7 +85,7 @@ func FromStatus(st *status.Status) error {
 				Details: opStatus.Details,
 			}))
 		}
-		return newMultiOperationExecutionFailure(st, errs)
+		return newMultiOperationExecution(st, errs)
 	}
 
 	// If there was an error during details extraction, for example unknown message type,

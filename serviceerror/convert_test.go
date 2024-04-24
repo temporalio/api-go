@@ -98,9 +98,9 @@ func TestToStatus_NotServiceError(t *testing.T) {
 	require.Len(t, st1.Details(), 0)
 }
 
-func TestMultiOperationExecutionFailure(t *testing.T) {
+func TestMultiOperationExecution(t *testing.T) {
 	t.Run("several errors", func(t *testing.T) {
-		err := serviceerror.NewMultiOperationExecutionFailure(
+		err := serviceerror.NewMultiOperationExecution(
 			"MultiOperation could not be executed.",
 			[]error{
 				serviceerror.NewMultiOperationAborted("Operation was aborted."),
@@ -130,7 +130,7 @@ func TestMultiOperationExecutionFailure(t *testing.T) {
 	})
 
 	t.Run("single multi operation aborted", func(t *testing.T) {
-		err := serviceerror.NewMultiOperationExecutionFailure(
+		err := serviceerror.NewMultiOperationExecution(
 			"MultiOperation could not be executed.",
 			[]error{
 				serviceerror.NewMultiOperationAborted("Operation was aborted."),
@@ -143,7 +143,7 @@ func TestMultiOperationExecutionFailure(t *testing.T) {
 	})
 
 	t.Run("no errors", func(t *testing.T) {
-		err := serviceerror.NewMultiOperationExecutionFailure(
+		err := serviceerror.NewMultiOperationExecution(
 			"MultiOperation could not be executed.",
 			[]error{})
 
