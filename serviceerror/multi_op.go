@@ -54,7 +54,7 @@ func (e *MultiOperationExecution) OperationErrors() []error {
 func (e *MultiOperationExecution) Status() *status.Status {
 	var code *codes.Code
 	failure := &errordetails.MultiOperationExecutionFailure{
-		Statuses: make([]*errordetails.MultiOperationExecutionFailure_RpcStatus, len(e.errs)),
+		Statuses: make([]*errordetails.MultiOperationExecutionFailure_OperationStatus, len(e.errs)),
 	}
 
 	var abortedErr *MultiOperationAborted
@@ -67,7 +67,7 @@ func (e *MultiOperationExecution) Status() *status.Status {
 			code = &c
 		}
 
-		failure.Statuses[i] = &errordetails.MultiOperationExecutionFailure_RpcStatus{
+		failure.Statuses[i] = &errordetails.MultiOperationExecutionFailure_OperationStatus{
 			Code:    int32(st.Code()),
 			Message: st.Message(),
 			Details: st.Proto().Details,
