@@ -98,14 +98,14 @@ func TestToStatus_NotServiceError(t *testing.T) {
 	require.Len(t, st1.Details(), 0)
 }
 
-func TestMultiOperationExecutionError(t *testing.T) {
+func TestMultiOperationExecutionFailure(t *testing.T) {
 	t.Run("several errors", func(t *testing.T) {
-		err := serviceerror.NewMultiOperationExecutionError(
+		err := serviceerror.NewMultiOperationExecutionFailure(
 			"MultiOperation could not be executed.",
 			[]error{
-				serviceerror.NewMultiOperationAbortedError("Operation was aborted."),
+				serviceerror.NewMultiOperationAborted("Operation was aborted."),
 				serviceerror.NewInvalidArgument("invalid arg"),
-				serviceerror.NewMultiOperationAbortedError("Operation was aborted."),
+				serviceerror.NewMultiOperationAborted("Operation was aborted."),
 			})
 
 		st := serviceerror.ToStatus(err)
@@ -129,11 +129,11 @@ func TestMultiOperationExecutionError(t *testing.T) {
 		require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
 	})
 
-	t.Run("single multi operation aborted error", func(t *testing.T) {
-		err := serviceerror.NewMultiOperationExecutionError(
+	t.Run("single multi operation aborted", func(t *testing.T) {
+		err := serviceerror.NewMultiOperationExecutionFailure(
 			"MultiOperation could not be executed.",
 			[]error{
-				serviceerror.NewMultiOperationAbortedError("Operation was aborted."),
+				serviceerror.NewMultiOperationAborted("Operation was aborted."),
 			})
 
 		st := serviceerror.ToStatus(err)
@@ -143,7 +143,7 @@ func TestMultiOperationExecutionError(t *testing.T) {
 	})
 
 	t.Run("no errors", func(t *testing.T) {
-		err := serviceerror.NewMultiOperationExecutionError(
+		err := serviceerror.NewMultiOperationExecutionFailure(
 			"MultiOperation could not be executed.",
 			[]error{})
 
@@ -155,8 +155,8 @@ func TestMultiOperationExecutionError(t *testing.T) {
 	})
 }
 
-func TestMultiOperationAbortedError(t *testing.T) {
-	err := serviceerror.NewMultiOperationAbortedError("Operation was aborted.")
+func TestMultiOperationAborted(t *testing.T) {
+	err := serviceerror.NewMultiOperationAborted("Operation was aborted.")
 
 	st := serviceerror.ToStatus(err)
 	require.Equal(t, codes.Aborted, st.Code())

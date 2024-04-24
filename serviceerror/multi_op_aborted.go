@@ -34,8 +34,8 @@ type MultiOperationAborted struct {
 	st      *status.Status
 }
 
-// NewMultiOperationAbortedError returns MultiOperationAborted.
-func NewMultiOperationAbortedError(message string) error {
+// NewMultiOperationAborted returns MultiOperationAborted.
+func NewMultiOperationAborted(message string) error {
 	return &MultiOperationAborted{
 		Message: message,
 	}

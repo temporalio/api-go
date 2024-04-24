@@ -85,7 +85,7 @@ func FromStatus(st *status.Status) error {
 				Details: opStatus.Details,
 			}))
 		}
-		return newMultiOperationExecutionError(st, errs)
+		return newMultiOperationExecutionFailure(st, errs)
 	}
 
 	// If there was an error during details extraction, for example unknown message type,
@@ -106,18 +106,12 @@ func FromStatus(st *status.Status) error {
 	case codes.Unknown:
 		// Unwrap error message from unknown error.
 		return errors.New(st.Message())
-
-	// Unsupported code:
-	case codes.Unauthenticated:
-		// Use standard gRPC error representation for unsupported codes ("rpc error: code = %s desc = %s").
-		return st.Err()
-
 	case codes.Aborted:
 		switch errDetails.(type) {
 		case *failure.MultiOperationExecutionAborted:
 			return newMultiOperationAborted(st)
 		default:
-			return st.Err()
+			// fall through to st.Err()
 		}
 	case codes.Internal:
 		switch errDetails := errDetails.(type) {
@@ -189,6 +183,9 @@ func FromStatus(st *status.Status) error {
 		default:
 			// fall through to st.Err()
 		}
+	// Unsupported code:
+	case codes.Unauthenticated:
+		// fall through to st.Err()
 	}
 
 	// `st.Code()` has unknown value (should never happen).
