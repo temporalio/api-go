@@ -146,10 +146,8 @@ type WorkflowServiceClient interface {
 	// Operations are started atomically, meaning if *any* operation fails to be started, none are,
 	// and the request fails. Upon start, the API returns only when *all* operations have a response.
 	//
-	// Upon failure, the status code equals the status code of the *first* operation that failed to be started; and the
-	// list of details contains one `google.grpc.Status` for each requested operation. The failed
-	// operation(s) have the same error details as if it was executed separately. All other operations have the
-	// status code `Aborted` and `temporal.api.failure.v1.MultiOperationExecutionAborted` is added to the details field.
+	// Upon failure, it returns `MultiOperationExecutionFailure` where the status code
+	// equals the status code of the *first* operation that failed to be started.
 	//
 	// NOTE: Experimental API.
 	ExecuteMultiOperation(ctx context.Context, in *ExecuteMultiOperationRequest, opts ...grpc.CallOption) (*ExecuteMultiOperationResponse, error)
@@ -1090,10 +1088,8 @@ type WorkflowServiceServer interface {
 	// Operations are started atomically, meaning if *any* operation fails to be started, none are,
 	// and the request fails. Upon start, the API returns only when *all* operations have a response.
 	//
-	// Upon failure, the status code equals the status code of the *first* operation that failed to be started; and the
-	// list of details contains one `google.grpc.Status` for each requested operation. The failed
-	// operation(s) have the same error details as if it was executed separately. All other operations have the
-	// status code `Aborted` and `temporal.api.failure.v1.MultiOperationExecutionAborted` is added to the details field.
+	// Upon failure, it returns `MultiOperationExecutionFailure` where the status code
+	// equals the status code of the *first* operation that failed to be started.
 	//
 	// NOTE: Experimental API.
 	ExecuteMultiOperation(context.Context, *ExecuteMultiOperationRequest) (*ExecuteMultiOperationResponse, error)
