@@ -26,10 +26,12 @@ import (
 	"context"
 	"errors"
 
+	spb "google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
 	"go.temporal.io/api/errordetails/v1"
+	"go.temporal.io/api/failure/v1"
 )
 
 // ToStatus converts service error to gRPC Status.
@@ -71,7 +73,25 @@ func FromStatus(st *status.Status) error {
 		return nil
 	}
 
-	// Simple case. `st.Code()` to `serviceerror` is one to one mapping and there are no error details.
+	errDetails := extractErrorDetails(st)
+
+	// Special case: MultiOperation error can have any status code.
+	if err, ok := errDetails.(*errordetails.MultiOperationExecutionFailure); ok {
+		errs := make([]error, len(err.Statuses))
+		for i, opStatus := range err.Statuses {
+			errs[i] = FromStatus(status.FromProto(&spb.Status{
+				Code:    opStatus.Code,
+				Message: opStatus.Message,
+				Details: opStatus.Details,
+			}))
+		}
+		return newMultiOperationExecution(st, errs)
+	}
+
+	// If there was an error during details extraction, for example unknown message type,
+	// which can happen when new error details are added and getting read by old clients,
+	// then errDetails will be of type `error` with corresponding error inside.
+	// This error is ignored and `serviceerror` is built using `st.Code()` only.
 	switch st.Code() {
 	case codes.DataLoss:
 		return newDataLoss(st)
@@ -86,21 +106,13 @@ func FromStatus(st *status.Status) error {
 	case codes.Unknown:
 		// Unwrap error message from unknown error.
 		return errors.New(st.Message())
-
-	// Unsupported codes.
-	case codes.Aborted,
-		codes.Unauthenticated:
-		// Use standard gRPC error representation for unsupported codes ("rpc error: code = %s desc = %s").
-		return st.Err()
-	}
-
-	errDetails := extractErrorDetails(st)
-	// If there was an error during details extraction, for example unknown message type,
-	// which can happen when new error details are added and getting read by old clients,
-	// then errDetails will be of type `error` with corresponding error inside.
-	// This error is ignored and `serviceerror` is built using `st.Code()` only.
-
-	switch st.Code() {
+	case codes.Aborted:
+		switch errDetails.(type) {
+		case *failure.MultiOperationExecutionAborted:
+			return newMultiOperationAborted(st)
+		default:
+			// fall through to st.Err()
+		}
 	case codes.Internal:
 		switch errDetails := errDetails.(type) {
 		case *errordetails.SystemWorkflowFailure:
@@ -171,6 +183,9 @@ func FromStatus(st *status.Status) error {
 		default:
 			// fall through to st.Err()
 		}
+	// Unsupported code:
+	case codes.Unauthenticated:
+		// fall through to st.Err()
 	}
 
 	// `st.Code()` has unknown value (should never happen).
