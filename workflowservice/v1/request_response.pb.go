@@ -4001,7 +4001,7 @@ type ResetWorkflowExecutionRequest struct {
 	// Used to de-dupe reset requests
 	RequestId string `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// Event types to be reapplied (deprecated)
-	// Default: RESET_REAPPLY_TYPE_ALL_ELIGIBLE
+	// Default: RESET_REAPPLY_TYPE_SIGNAL
 	ResetReapplyType v11.ResetReapplyType `protobuf:"varint,6,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
 	// Event types not to be reapplied
 	ResetReapplyExcludeTypes []v11.ResetReapplyExcludeType `protobuf:"varint,7,rep,packed,name=reset_reapply_exclude_types,json=resetReapplyExcludeTypes,proto3,enum=temporal.api.enums.v1.ResetReapplyExcludeType" json:"reset_reapply_exclude_types,omitempty"`
