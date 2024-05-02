@@ -104,6 +104,16 @@ var tests = []struct {
 		Data: []byte(`{"greeting":{"name":{}}}`),
 	},
 }, {
+	name:          "json/plain with null",
+	longformJSON:  `{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"eyJncmVldGluZyI6bnVsbH0="}`,
+	shorthandJSON: `{"greeting": null}`,
+	pb: &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("json/plain"),
+		},
+		Data: []byte(`{"greeting":null}`),
+	},
+}, {
 	name:          "empty payloads",
 	longformJSON:  `{}`,
 	shorthandJSON: `[]`,
@@ -223,4 +233,23 @@ func TestMaybeMarshal_Payloads_Unhandled(t *testing.T) {
 	var i any
 	require.NoError(t, json.Unmarshal(out, &i), "must unmarshal as valid json")
 	require.Equal(t, '{', rune(out[0]), "should encode as long-form, not shorthand")
+}
+
+func TestTest(t *testing.T) {
+
+	pb := &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("json/plain"),
+		},
+		Data: []byte(`{"greeting":null}`),
+	}
+	opts := temporalproto.CustomJSONMarshalOptions{
+		Metadata: map[string]interface{}{
+			common.EnablePayloadShorthandMetadataKey: true,
+		},
+	}
+	got, err := opts.Marshal(pb)
+	require.NoError(t, err)
+	t.Logf("Marshalled to %s", string(got))
+	require.JSONEq(t, `{"greeting": null}`, string(got))
 }
