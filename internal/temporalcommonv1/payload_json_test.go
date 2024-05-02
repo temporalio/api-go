@@ -104,6 +104,16 @@ var tests = []struct {
 		Data: []byte(`{"greeting":{"name":{}}}`),
 	},
 }, {
+	name:          "json/plain with null",
+	longformJSON:  `{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"eyJncmVldGluZyI6bnVsbH0="}`,
+	shorthandJSON: `{"greeting": null}`,
+	pb: &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("json/plain"),
+		},
+		Data: []byte(`{"greeting":null}`),
+	},
+}, {
 	name:          "empty payloads",
 	longformJSON:  `{}`,
 	shorthandJSON: `[]`,
