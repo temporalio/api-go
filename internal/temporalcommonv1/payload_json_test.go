@@ -234,3 +234,22 @@ func TestMaybeMarshal_Payloads_Unhandled(t *testing.T) {
 	require.NoError(t, json.Unmarshal(out, &i), "must unmarshal as valid json")
 	require.Equal(t, '{', rune(out[0]), "should encode as long-form, not shorthand")
 }
+
+func TestTest(t *testing.T) {
+
+	pb := &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("json/plain"),
+		},
+		Data: []byte(`{"greeting":null}`),
+	}
+	opts := temporalproto.CustomJSONMarshalOptions{
+		Metadata: map[string]interface{}{
+			common.EnablePayloadShorthandMetadataKey: true,
+		},
+	}
+	got, err := opts.Marshal(pb)
+	require.NoError(t, err)
+	t.Logf("Marshalled to %s", string(got))
+	require.JSONEq(t, `{"greeting": null}`, string(got))
+}

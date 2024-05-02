@@ -185,9 +185,10 @@ func marshalValue(enc *json.Encoder, vv reflect.Value) error {
 		}
 	case reflect.Interface, reflect.Pointer:
 		if vv.IsNil() {
-			return nil
+			enc.WriteNull()
+		} else {
+			marshalValue(enc, vv.Elem())
 		}
-		marshalValue(enc, vv.Elem())
 	case reflect.Struct:
 		marshalStruct(enc, vv)
 	case reflect.Map:
