@@ -63,6 +63,7 @@ type genConfig struct {
 	outputDir   string
 	excludeDirs []string
 	includes    []string
+	descriptors []string
 	plugins     []string
 	enums       map[string]string
 	// Post-processors
@@ -144,6 +145,9 @@ func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
 		}
 		for _, include := range cfg.includes {
 			args = append(args, fmt.Sprintf("-I=%s", include))
+		}
+		for _, desc := range cfg.descriptors {
+			args = append(args, fmt.Sprintf("--descriptor_set_in=%s", desc))
 		}
 
 		// If we need more complex plugin handling, such as per-plugin options, we can add that later.
@@ -260,12 +264,13 @@ func sliceContains[S ~[]E, E comparable](haystack S, needle E) bool {
 
 func main() {
 	var outputDir, enumPrefixPairs string
-	var protoRootDirs, protoPlugins, protoIncludes, excludeDirs stringArr
+	var protoRootDirs, protoPlugins, protoIncludes, descriptorSetIn, excludeDirs stringArr
 	var noRewriteString, noRewriteEnum, noStripVersion, noDisableUtf8 bool
 	var concurrency int
 	flag.Var(&protoRootDirs, "root", "Root directories containing the protos to generate code for")
 	flag.StringVar(&outputDir, "output", "api", "Base directory in which to output generated proto files")
 	flag.Var(&protoIncludes, "I", "Directory to include when compiling protos")
+	flag.Var(&descriptorSetIn, "descriptor_set_in", "Files containing binary FileDescriptorSet messages as inputs")
 	flag.Var(&protoPlugins, "p", "Plugin=Options pairs of protobuf plugins, like grpc-gateway_out=allow_patch_feature=false")
 	flag.Var(&excludeDirs, "exclude", "Directory to exclude when compiling post-processing protos")
 	flag.StringVar(&enumPrefixPairs, "rewrite-enum", "",
@@ -311,6 +316,7 @@ func main() {
 		outputDir:     outputDir,
 		excludeDirs:   excludeDirs,
 		includes:      protoIncludes,
+		descriptors:   descriptorSetIn,
 		plugins:       protoPlugins,
 		enums:         enums,
 		rewriteString: !noRewriteString,
