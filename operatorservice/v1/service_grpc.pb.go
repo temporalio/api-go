@@ -42,23 +42,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	OperatorService_AddSearchAttributes_FullMethodName        = "/temporal.api.operatorservice.v1.OperatorService/AddSearchAttributes"
-	OperatorService_RemoveSearchAttributes_FullMethodName     = "/temporal.api.operatorservice.v1.OperatorService/RemoveSearchAttributes"
-	OperatorService_ListSearchAttributes_FullMethodName       = "/temporal.api.operatorservice.v1.OperatorService/ListSearchAttributes"
-	OperatorService_DeleteNamespace_FullMethodName            = "/temporal.api.operatorservice.v1.OperatorService/DeleteNamespace"
-	OperatorService_AddOrUpdateRemoteCluster_FullMethodName   = "/temporal.api.operatorservice.v1.OperatorService/AddOrUpdateRemoteCluster"
-	OperatorService_RemoveRemoteCluster_FullMethodName        = "/temporal.api.operatorservice.v1.OperatorService/RemoveRemoteCluster"
-	OperatorService_ListClusters_FullMethodName               = "/temporal.api.operatorservice.v1.OperatorService/ListClusters"
-	OperatorService_GetNexusIncomingService_FullMethodName    = "/temporal.api.operatorservice.v1.OperatorService/GetNexusIncomingService"
-	OperatorService_CreateNexusIncomingService_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/CreateNexusIncomingService"
-	OperatorService_UpdateNexusIncomingService_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusIncomingService"
-	OperatorService_DeleteNexusIncomingService_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusIncomingService"
-	OperatorService_ListNexusIncomingServices_FullMethodName  = "/temporal.api.operatorservice.v1.OperatorService/ListNexusIncomingServices"
-	OperatorService_GetNexusOutgoingService_FullMethodName    = "/temporal.api.operatorservice.v1.OperatorService/GetNexusOutgoingService"
-	OperatorService_CreateNexusOutgoingService_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/CreateNexusOutgoingService"
-	OperatorService_UpdateNexusOutgoingService_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusOutgoingService"
-	OperatorService_DeleteNexusOutgoingService_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusOutgoingService"
-	OperatorService_ListNexusOutgoingServices_FullMethodName  = "/temporal.api.operatorservice.v1.OperatorService/ListNexusOutgoingServices"
+	OperatorService_AddSearchAttributes_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/AddSearchAttributes"
+	OperatorService_RemoveSearchAttributes_FullMethodName   = "/temporal.api.operatorservice.v1.OperatorService/RemoveSearchAttributes"
+	OperatorService_ListSearchAttributes_FullMethodName     = "/temporal.api.operatorservice.v1.OperatorService/ListSearchAttributes"
+	OperatorService_DeleteNamespace_FullMethodName          = "/temporal.api.operatorservice.v1.OperatorService/DeleteNamespace"
+	OperatorService_AddOrUpdateRemoteCluster_FullMethodName = "/temporal.api.operatorservice.v1.OperatorService/AddOrUpdateRemoteCluster"
+	OperatorService_RemoveRemoteCluster_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/RemoveRemoteCluster"
+	OperatorService_ListClusters_FullMethodName             = "/temporal.api.operatorservice.v1.OperatorService/ListClusters"
+	OperatorService_GetNexusEndpoint_FullMethodName         = "/temporal.api.operatorservice.v1.OperatorService/GetNexusEndpoint"
+	OperatorService_CreateNexusEndpoint_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/CreateNexusEndpoint"
+	OperatorService_UpdateNexusEndpoint_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusEndpoint"
+	OperatorService_DeleteNexusEndpoint_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusEndpoint"
+	OperatorService_ListNexusEndpoints_FullMethodName       = "/temporal.api.operatorservice.v1.OperatorService/ListNexusEndpoints"
 )
 
 // OperatorServiceClient is the client API for OperatorService service.
@@ -84,45 +79,25 @@ type OperatorServiceClient interface {
 	RemoveRemoteCluster(ctx context.Context, in *RemoveRemoteClusterRequest, opts ...grpc.CallOption) (*RemoveRemoteClusterResponse, error)
 	// ListClusters returns information about Temporal clusters.
 	ListClusters(ctx context.Context, in *ListClustersRequest, opts ...grpc.CallOption) (*ListClustersResponse, error)
-	// Get a registered incoming Nexus service by ID. The returned version can be used for optimistic updates.
-	GetNexusIncomingService(ctx context.Context, in *GetNexusIncomingServiceRequest, opts ...grpc.CallOption) (*GetNexusIncomingServiceResponse, error)
-	// Create a Nexus service. This will fail if a service with the same name already exists in the namespace with a
-	// status of ALREADY_EXISTS.
-	// Returns the created service with its initial version. You may use this version for subsequent updates.
-	CreateNexusIncomingService(ctx context.Context, in *CreateNexusIncomingServiceRequest, opts ...grpc.CallOption) (*CreateNexusIncomingServiceResponse, error)
-	// Optimistically update a Nexus service based on provided version as obtained via the
-	// `GetNexusIncomingService` or `ListNexusOutgoingServicesResponse` APIs. This will fail with a status of
-	// FAILED_PRECONDITION if the version does not match.
-	// Returns the updated service with its updated version. You may use this version for subsequent updates. You don't
+	// Get a registered Nexus endpoint by ID. The returned version can be used for optimistic updates.
+	GetNexusEndpoint(ctx context.Context, in *GetNexusEndpointRequest, opts ...grpc.CallOption) (*GetNexusEndpointResponse, error)
+	// Create a Nexus endpoint. This will fail if an endpoint with the same name is already registered with a status of
+	// ALREADY_EXISTS.
+	// Returns the created endpoint with its initial version. You may use this version for subsequent updates.
+	CreateNexusEndpoint(ctx context.Context, in *CreateNexusEndpointRequest, opts ...grpc.CallOption) (*CreateNexusEndpointResponse, error)
+	// Optimistically update a Nexus endpoint based on provided version as obtained via the `GetNexusEndpoint` or
+	// `ListNexusEndpointResponse` APIs. This will fail with a status of FAILED_PRECONDITION if the version does not
+	// match.
+	// Returns the updated endpoint with its updated version. You may use this version for subsequent updates. You don't
 	// need to increment the version yourself. The server will increment the version for you after each update.
-	UpdateNexusIncomingService(ctx context.Context, in *UpdateNexusIncomingServiceRequest, opts ...grpc.CallOption) (*UpdateNexusIncomingServiceResponse, error)
+	UpdateNexusEndpoint(ctx context.Context, in *UpdateNexusEndpointRequest, opts ...grpc.CallOption) (*UpdateNexusEndpointResponse, error)
 	// Delete an incoming Nexus service by ID.
-	DeleteNexusIncomingService(ctx context.Context, in *DeleteNexusIncomingServiceRequest, opts ...grpc.CallOption) (*DeleteNexusIncomingServiceResponse, error)
-	// List all Nexus incoming services for the cluster, sorted by service ID in ascending order. Set page_token in the
-	// request to the next_page_token field of the previous response to get the next page of results. An empty
-	// next_page_token indicates that there are no more results. During pagination, a newly added service with an ID
-	// lexicographically earlier than the previous page's last service name may be missed.
-	ListNexusIncomingServices(ctx context.Context, in *ListNexusIncomingServicesRequest, opts ...grpc.CallOption) (*ListNexusIncomingServicesResponse, error)
-	// Get a registered outgoing Nexus service by namespace and service name. The returned version can be used for
-	// optimistic updates.
-	GetNexusOutgoingService(ctx context.Context, in *GetNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*GetNexusOutgoingServiceResponse, error)
-	// Create a Nexus service. This will fail if a service with the same name already exists in the namespace with a
-	// status of ALREADY_EXISTS.
-	// Returns the created service with its initial version. You may use this version for subsequent updates. You don't
-	// need to increment the version yourself. The server will increment the version for you after each update.
-	CreateNexusOutgoingService(ctx context.Context, in *CreateNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*CreateNexusOutgoingServiceResponse, error)
-	// Update an outgoing Nexus service by namespace and service name. The version in the request should match the
-	// current version of the service. This will fail with a status of FAILED_PRECONDITION if the version does not match.
-	// Returns the updated service with the updated version, which can be used for subsequent updates. You don't need
-	// to increment the version yourself. The server will increment the version for you.
-	UpdateNexusOutgoingService(ctx context.Context, in *UpdateNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*UpdateNexusOutgoingServiceResponse, error)
-	// Delete an outgoing Nexus service by namespace and service name.
-	DeleteNexusOutgoingService(ctx context.Context, in *DeleteNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*DeleteNexusOutgoingServiceResponse, error)
-	// List all Nexus outgoing services for a namespace, sorted by service name in ascending order. Set page_token in
-	// the request to the next_page_token field of the previous response to get the next page of results. An empty
-	// next_page_token indicates that there are no more results. During pagination, a newly added service with a name
-	// lexicographically earlier than the previous page's last service name may be missed.
-	ListNexusOutgoingServices(ctx context.Context, in *ListNexusOutgoingServicesRequest, opts ...grpc.CallOption) (*ListNexusOutgoingServicesResponse, error)
+	DeleteNexusEndpoint(ctx context.Context, in *DeleteNexusEndpointRequest, opts ...grpc.CallOption) (*DeleteNexusEndpointResponse, error)
+	// List all Nexus endpoints for the cluster, sorted by ID in ascending order. Set page_token in the request to the
+	// next_page_token field of the previous response to get the next page of results. An empty next_page_token
+	// indicates that there are no more results. During pagination, a newly added service with an ID lexicographically
+	// earlier than the previous page's last endpoint's ID may be missed.
+	ListNexusEndpoints(ctx context.Context, in *ListNexusEndpointsRequest, opts ...grpc.CallOption) (*ListNexusEndpointsResponse, error)
 }
 
 type operatorServiceClient struct {
@@ -196,90 +171,45 @@ func (c *operatorServiceClient) ListClusters(ctx context.Context, in *ListCluste
 	return out, nil
 }
 
-func (c *operatorServiceClient) GetNexusIncomingService(ctx context.Context, in *GetNexusIncomingServiceRequest, opts ...grpc.CallOption) (*GetNexusIncomingServiceResponse, error) {
-	out := new(GetNexusIncomingServiceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_GetNexusIncomingService_FullMethodName, in, out, opts...)
+func (c *operatorServiceClient) GetNexusEndpoint(ctx context.Context, in *GetNexusEndpointRequest, opts ...grpc.CallOption) (*GetNexusEndpointResponse, error) {
+	out := new(GetNexusEndpointResponse)
+	err := c.cc.Invoke(ctx, OperatorService_GetNexusEndpoint_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operatorServiceClient) CreateNexusIncomingService(ctx context.Context, in *CreateNexusIncomingServiceRequest, opts ...grpc.CallOption) (*CreateNexusIncomingServiceResponse, error) {
-	out := new(CreateNexusIncomingServiceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_CreateNexusIncomingService_FullMethodName, in, out, opts...)
+func (c *operatorServiceClient) CreateNexusEndpoint(ctx context.Context, in *CreateNexusEndpointRequest, opts ...grpc.CallOption) (*CreateNexusEndpointResponse, error) {
+	out := new(CreateNexusEndpointResponse)
+	err := c.cc.Invoke(ctx, OperatorService_CreateNexusEndpoint_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operatorServiceClient) UpdateNexusIncomingService(ctx context.Context, in *UpdateNexusIncomingServiceRequest, opts ...grpc.CallOption) (*UpdateNexusIncomingServiceResponse, error) {
-	out := new(UpdateNexusIncomingServiceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_UpdateNexusIncomingService_FullMethodName, in, out, opts...)
+func (c *operatorServiceClient) UpdateNexusEndpoint(ctx context.Context, in *UpdateNexusEndpointRequest, opts ...grpc.CallOption) (*UpdateNexusEndpointResponse, error) {
+	out := new(UpdateNexusEndpointResponse)
+	err := c.cc.Invoke(ctx, OperatorService_UpdateNexusEndpoint_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operatorServiceClient) DeleteNexusIncomingService(ctx context.Context, in *DeleteNexusIncomingServiceRequest, opts ...grpc.CallOption) (*DeleteNexusIncomingServiceResponse, error) {
-	out := new(DeleteNexusIncomingServiceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_DeleteNexusIncomingService_FullMethodName, in, out, opts...)
+func (c *operatorServiceClient) DeleteNexusEndpoint(ctx context.Context, in *DeleteNexusEndpointRequest, opts ...grpc.CallOption) (*DeleteNexusEndpointResponse, error) {
+	out := new(DeleteNexusEndpointResponse)
+	err := c.cc.Invoke(ctx, OperatorService_DeleteNexusEndpoint_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *operatorServiceClient) ListNexusIncomingServices(ctx context.Context, in *ListNexusIncomingServicesRequest, opts ...grpc.CallOption) (*ListNexusIncomingServicesResponse, error) {
-	out := new(ListNexusIncomingServicesResponse)
-	err := c.cc.Invoke(ctx, OperatorService_ListNexusIncomingServices_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operatorServiceClient) GetNexusOutgoingService(ctx context.Context, in *GetNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*GetNexusOutgoingServiceResponse, error) {
-	out := new(GetNexusOutgoingServiceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_GetNexusOutgoingService_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operatorServiceClient) CreateNexusOutgoingService(ctx context.Context, in *CreateNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*CreateNexusOutgoingServiceResponse, error) {
-	out := new(CreateNexusOutgoingServiceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_CreateNexusOutgoingService_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operatorServiceClient) UpdateNexusOutgoingService(ctx context.Context, in *UpdateNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*UpdateNexusOutgoingServiceResponse, error) {
-	out := new(UpdateNexusOutgoingServiceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_UpdateNexusOutgoingService_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operatorServiceClient) DeleteNexusOutgoingService(ctx context.Context, in *DeleteNexusOutgoingServiceRequest, opts ...grpc.CallOption) (*DeleteNexusOutgoingServiceResponse, error) {
-	out := new(DeleteNexusOutgoingServiceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_DeleteNexusOutgoingService_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *operatorServiceClient) ListNexusOutgoingServices(ctx context.Context, in *ListNexusOutgoingServicesRequest, opts ...grpc.CallOption) (*ListNexusOutgoingServicesResponse, error) {
-	out := new(ListNexusOutgoingServicesResponse)
-	err := c.cc.Invoke(ctx, OperatorService_ListNexusOutgoingServices_FullMethodName, in, out, opts...)
+func (c *operatorServiceClient) ListNexusEndpoints(ctx context.Context, in *ListNexusEndpointsRequest, opts ...grpc.CallOption) (*ListNexusEndpointsResponse, error) {
+	out := new(ListNexusEndpointsResponse)
+	err := c.cc.Invoke(ctx, OperatorService_ListNexusEndpoints_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -309,45 +239,25 @@ type OperatorServiceServer interface {
 	RemoveRemoteCluster(context.Context, *RemoveRemoteClusterRequest) (*RemoveRemoteClusterResponse, error)
 	// ListClusters returns information about Temporal clusters.
 	ListClusters(context.Context, *ListClustersRequest) (*ListClustersResponse, error)
-	// Get a registered incoming Nexus service by ID. The returned version can be used for optimistic updates.
-	GetNexusIncomingService(context.Context, *GetNexusIncomingServiceRequest) (*GetNexusIncomingServiceResponse, error)
-	// Create a Nexus service. This will fail if a service with the same name already exists in the namespace with a
-	// status of ALREADY_EXISTS.
-	// Returns the created service with its initial version. You may use this version for subsequent updates.
-	CreateNexusIncomingService(context.Context, *CreateNexusIncomingServiceRequest) (*CreateNexusIncomingServiceResponse, error)
-	// Optimistically update a Nexus service based on provided version as obtained via the
-	// `GetNexusIncomingService` or `ListNexusOutgoingServicesResponse` APIs. This will fail with a status of
-	// FAILED_PRECONDITION if the version does not match.
-	// Returns the updated service with its updated version. You may use this version for subsequent updates. You don't
+	// Get a registered Nexus endpoint by ID. The returned version can be used for optimistic updates.
+	GetNexusEndpoint(context.Context, *GetNexusEndpointRequest) (*GetNexusEndpointResponse, error)
+	// Create a Nexus endpoint. This will fail if an endpoint with the same name is already registered with a status of
+	// ALREADY_EXISTS.
+	// Returns the created endpoint with its initial version. You may use this version for subsequent updates.
+	CreateNexusEndpoint(context.Context, *CreateNexusEndpointRequest) (*CreateNexusEndpointResponse, error)
+	// Optimistically update a Nexus endpoint based on provided version as obtained via the `GetNexusEndpoint` or
+	// `ListNexusEndpointResponse` APIs. This will fail with a status of FAILED_PRECONDITION if the version does not
+	// match.
+	// Returns the updated endpoint with its updated version. You may use this version for subsequent updates. You don't
 	// need to increment the version yourself. The server will increment the version for you after each update.
-	UpdateNexusIncomingService(context.Context, *UpdateNexusIncomingServiceRequest) (*UpdateNexusIncomingServiceResponse, error)
+	UpdateNexusEndpoint(context.Context, *UpdateNexusEndpointRequest) (*UpdateNexusEndpointResponse, error)
 	// Delete an incoming Nexus service by ID.
-	DeleteNexusIncomingService(context.Context, *DeleteNexusIncomingServiceRequest) (*DeleteNexusIncomingServiceResponse, error)
-	// List all Nexus incoming services for the cluster, sorted by service ID in ascending order. Set page_token in the
-	// request to the next_page_token field of the previous response to get the next page of results. An empty
-	// next_page_token indicates that there are no more results. During pagination, a newly added service with an ID
-	// lexicographically earlier than the previous page's last service name may be missed.
-	ListNexusIncomingServices(context.Context, *ListNexusIncomingServicesRequest) (*ListNexusIncomingServicesResponse, error)
-	// Get a registered outgoing Nexus service by namespace and service name. The returned version can be used for
-	// optimistic updates.
-	GetNexusOutgoingService(context.Context, *GetNexusOutgoingServiceRequest) (*GetNexusOutgoingServiceResponse, error)
-	// Create a Nexus service. This will fail if a service with the same name already exists in the namespace with a
-	// status of ALREADY_EXISTS.
-	// Returns the created service with its initial version. You may use this version for subsequent updates. You don't
-	// need to increment the version yourself. The server will increment the version for you after each update.
-	CreateNexusOutgoingService(context.Context, *CreateNexusOutgoingServiceRequest) (*CreateNexusOutgoingServiceResponse, error)
-	// Update an outgoing Nexus service by namespace and service name. The version in the request should match the
-	// current version of the service. This will fail with a status of FAILED_PRECONDITION if the version does not match.
-	// Returns the updated service with the updated version, which can be used for subsequent updates. You don't need
-	// to increment the version yourself. The server will increment the version for you.
-	UpdateNexusOutgoingService(context.Context, *UpdateNexusOutgoingServiceRequest) (*UpdateNexusOutgoingServiceResponse, error)
-	// Delete an outgoing Nexus service by namespace and service name.
-	DeleteNexusOutgoingService(context.Context, *DeleteNexusOutgoingServiceRequest) (*DeleteNexusOutgoingServiceResponse, error)
-	// List all Nexus outgoing services for a namespace, sorted by service name in ascending order. Set page_token in
-	// the request to the next_page_token field of the previous response to get the next page of results. An empty
-	// next_page_token indicates that there are no more results. During pagination, a newly added service with a name
-	// lexicographically earlier than the previous page's last service name may be missed.
-	ListNexusOutgoingServices(context.Context, *ListNexusOutgoingServicesRequest) (*ListNexusOutgoingServicesResponse, error)
+	DeleteNexusEndpoint(context.Context, *DeleteNexusEndpointRequest) (*DeleteNexusEndpointResponse, error)
+	// List all Nexus endpoints for the cluster, sorted by ID in ascending order. Set page_token in the request to the
+	// next_page_token field of the previous response to get the next page of results. An empty next_page_token
+	// indicates that there are no more results. During pagination, a newly added service with an ID lexicographically
+	// earlier than the previous page's last endpoint's ID may be missed.
+	ListNexusEndpoints(context.Context, *ListNexusEndpointsRequest) (*ListNexusEndpointsResponse, error)
 	mustEmbedUnimplementedOperatorServiceServer()
 }
 
@@ -376,35 +286,20 @@ func (UnimplementedOperatorServiceServer) RemoveRemoteCluster(context.Context, *
 func (UnimplementedOperatorServiceServer) ListClusters(context.Context, *ListClustersRequest) (*ListClustersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListClusters not implemented")
 }
-func (UnimplementedOperatorServiceServer) GetNexusIncomingService(context.Context, *GetNexusIncomingServiceRequest) (*GetNexusIncomingServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetNexusIncomingService not implemented")
+func (UnimplementedOperatorServiceServer) GetNexusEndpoint(context.Context, *GetNexusEndpointRequest) (*GetNexusEndpointResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNexusEndpoint not implemented")
 }
-func (UnimplementedOperatorServiceServer) CreateNexusIncomingService(context.Context, *CreateNexusIncomingServiceRequest) (*CreateNexusIncomingServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateNexusIncomingService not implemented")
+func (UnimplementedOperatorServiceServer) CreateNexusEndpoint(context.Context, *CreateNexusEndpointRequest) (*CreateNexusEndpointResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateNexusEndpoint not implemented")
 }
-func (UnimplementedOperatorServiceServer) UpdateNexusIncomingService(context.Context, *UpdateNexusIncomingServiceRequest) (*UpdateNexusIncomingServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateNexusIncomingService not implemented")
+func (UnimplementedOperatorServiceServer) UpdateNexusEndpoint(context.Context, *UpdateNexusEndpointRequest) (*UpdateNexusEndpointResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNexusEndpoint not implemented")
 }
-func (UnimplementedOperatorServiceServer) DeleteNexusIncomingService(context.Context, *DeleteNexusIncomingServiceRequest) (*DeleteNexusIncomingServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteNexusIncomingService not implemented")
+func (UnimplementedOperatorServiceServer) DeleteNexusEndpoint(context.Context, *DeleteNexusEndpointRequest) (*DeleteNexusEndpointResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteNexusEndpoint not implemented")
 }
-func (UnimplementedOperatorServiceServer) ListNexusIncomingServices(context.Context, *ListNexusIncomingServicesRequest) (*ListNexusIncomingServicesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListNexusIncomingServices not implemented")
-}
-func (UnimplementedOperatorServiceServer) GetNexusOutgoingService(context.Context, *GetNexusOutgoingServiceRequest) (*GetNexusOutgoingServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetNexusOutgoingService not implemented")
-}
-func (UnimplementedOperatorServiceServer) CreateNexusOutgoingService(context.Context, *CreateNexusOutgoingServiceRequest) (*CreateNexusOutgoingServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateNexusOutgoingService not implemented")
-}
-func (UnimplementedOperatorServiceServer) UpdateNexusOutgoingService(context.Context, *UpdateNexusOutgoingServiceRequest) (*UpdateNexusOutgoingServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateNexusOutgoingService not implemented")
-}
-func (UnimplementedOperatorServiceServer) DeleteNexusOutgoingService(context.Context, *DeleteNexusOutgoingServiceRequest) (*DeleteNexusOutgoingServiceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteNexusOutgoingService not implemented")
-}
-func (UnimplementedOperatorServiceServer) ListNexusOutgoingServices(context.Context, *ListNexusOutgoingServicesRequest) (*ListNexusOutgoingServicesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListNexusOutgoingServices not implemented")
+func (UnimplementedOperatorServiceServer) ListNexusEndpoints(context.Context, *ListNexusEndpointsRequest) (*ListNexusEndpointsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNexusEndpoints not implemented")
 }
 func (UnimplementedOperatorServiceServer) mustEmbedUnimplementedOperatorServiceServer() {}
 
@@ -545,182 +440,92 @@ func _OperatorService_ListClusters_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OperatorService_GetNexusIncomingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetNexusIncomingServiceRequest)
+func _OperatorService_GetNexusEndpoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNexusEndpointRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperatorServiceServer).GetNexusIncomingService(ctx, in)
+		return srv.(OperatorServiceServer).GetNexusEndpoint(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OperatorService_GetNexusIncomingService_FullMethodName,
+		FullMethod: OperatorService_GetNexusEndpoint_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).GetNexusIncomingService(ctx, req.(*GetNexusIncomingServiceRequest))
+		return srv.(OperatorServiceServer).GetNexusEndpoint(ctx, req.(*GetNexusEndpointRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OperatorService_CreateNexusIncomingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateNexusIncomingServiceRequest)
+func _OperatorService_CreateNexusEndpoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNexusEndpointRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperatorServiceServer).CreateNexusIncomingService(ctx, in)
+		return srv.(OperatorServiceServer).CreateNexusEndpoint(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OperatorService_CreateNexusIncomingService_FullMethodName,
+		FullMethod: OperatorService_CreateNexusEndpoint_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).CreateNexusIncomingService(ctx, req.(*CreateNexusIncomingServiceRequest))
+		return srv.(OperatorServiceServer).CreateNexusEndpoint(ctx, req.(*CreateNexusEndpointRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OperatorService_UpdateNexusIncomingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateNexusIncomingServiceRequest)
+func _OperatorService_UpdateNexusEndpoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNexusEndpointRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperatorServiceServer).UpdateNexusIncomingService(ctx, in)
+		return srv.(OperatorServiceServer).UpdateNexusEndpoint(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OperatorService_UpdateNexusIncomingService_FullMethodName,
+		FullMethod: OperatorService_UpdateNexusEndpoint_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).UpdateNexusIncomingService(ctx, req.(*UpdateNexusIncomingServiceRequest))
+		return srv.(OperatorServiceServer).UpdateNexusEndpoint(ctx, req.(*UpdateNexusEndpointRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OperatorService_DeleteNexusIncomingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteNexusIncomingServiceRequest)
+func _OperatorService_DeleteNexusEndpoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteNexusEndpointRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperatorServiceServer).DeleteNexusIncomingService(ctx, in)
+		return srv.(OperatorServiceServer).DeleteNexusEndpoint(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OperatorService_DeleteNexusIncomingService_FullMethodName,
+		FullMethod: OperatorService_DeleteNexusEndpoint_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).DeleteNexusIncomingService(ctx, req.(*DeleteNexusIncomingServiceRequest))
+		return srv.(OperatorServiceServer).DeleteNexusEndpoint(ctx, req.(*DeleteNexusEndpointRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OperatorService_ListNexusIncomingServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListNexusIncomingServicesRequest)
+func _OperatorService_ListNexusEndpoints_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNexusEndpointsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OperatorServiceServer).ListNexusIncomingServices(ctx, in)
+		return srv.(OperatorServiceServer).ListNexusEndpoints(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OperatorService_ListNexusIncomingServices_FullMethodName,
+		FullMethod: OperatorService_ListNexusEndpoints_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).ListNexusIncomingServices(ctx, req.(*ListNexusIncomingServicesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OperatorService_GetNexusOutgoingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetNexusOutgoingServiceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperatorServiceServer).GetNexusOutgoingService(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OperatorService_GetNexusOutgoingService_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).GetNexusOutgoingService(ctx, req.(*GetNexusOutgoingServiceRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OperatorService_CreateNexusOutgoingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateNexusOutgoingServiceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperatorServiceServer).CreateNexusOutgoingService(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OperatorService_CreateNexusOutgoingService_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).CreateNexusOutgoingService(ctx, req.(*CreateNexusOutgoingServiceRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OperatorService_UpdateNexusOutgoingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateNexusOutgoingServiceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperatorServiceServer).UpdateNexusOutgoingService(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OperatorService_UpdateNexusOutgoingService_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).UpdateNexusOutgoingService(ctx, req.(*UpdateNexusOutgoingServiceRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OperatorService_DeleteNexusOutgoingService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteNexusOutgoingServiceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperatorServiceServer).DeleteNexusOutgoingService(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OperatorService_DeleteNexusOutgoingService_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).DeleteNexusOutgoingService(ctx, req.(*DeleteNexusOutgoingServiceRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _OperatorService_ListNexusOutgoingServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListNexusOutgoingServicesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(OperatorServiceServer).ListNexusOutgoingServices(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: OperatorService_ListNexusOutgoingServices_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OperatorServiceServer).ListNexusOutgoingServices(ctx, req.(*ListNexusOutgoingServicesRequest))
+		return srv.(OperatorServiceServer).ListNexusEndpoints(ctx, req.(*ListNexusEndpointsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -761,44 +566,24 @@ var OperatorService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OperatorService_ListClusters_Handler,
 		},
 		{
-			MethodName: "GetNexusIncomingService",
-			Handler:    _OperatorService_GetNexusIncomingService_Handler,
+			MethodName: "GetNexusEndpoint",
+			Handler:    _OperatorService_GetNexusEndpoint_Handler,
 		},
 		{
-			MethodName: "CreateNexusIncomingService",
-			Handler:    _OperatorService_CreateNexusIncomingService_Handler,
+			MethodName: "CreateNexusEndpoint",
+			Handler:    _OperatorService_CreateNexusEndpoint_Handler,
 		},
 		{
-			MethodName: "UpdateNexusIncomingService",
-			Handler:    _OperatorService_UpdateNexusIncomingService_Handler,
+			MethodName: "UpdateNexusEndpoint",
+			Handler:    _OperatorService_UpdateNexusEndpoint_Handler,
 		},
 		{
-			MethodName: "DeleteNexusIncomingService",
-			Handler:    _OperatorService_DeleteNexusIncomingService_Handler,
+			MethodName: "DeleteNexusEndpoint",
+			Handler:    _OperatorService_DeleteNexusEndpoint_Handler,
 		},
 		{
-			MethodName: "ListNexusIncomingServices",
-			Handler:    _OperatorService_ListNexusIncomingServices_Handler,
-		},
-		{
-			MethodName: "GetNexusOutgoingService",
-			Handler:    _OperatorService_GetNexusOutgoingService_Handler,
-		},
-		{
-			MethodName: "CreateNexusOutgoingService",
-			Handler:    _OperatorService_CreateNexusOutgoingService_Handler,
-		},
-		{
-			MethodName: "UpdateNexusOutgoingService",
-			Handler:    _OperatorService_UpdateNexusOutgoingService_Handler,
-		},
-		{
-			MethodName: "DeleteNexusOutgoingService",
-			Handler:    _OperatorService_DeleteNexusOutgoingService_Handler,
-		},
-		{
-			MethodName: "ListNexusOutgoingServices",
-			Handler:    _OperatorService_ListNexusOutgoingServices_Handler,
+			MethodName: "ListNexusEndpoints",
+			Handler:    _OperatorService_ListNexusEndpoints_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
