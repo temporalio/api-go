@@ -38,6 +38,7 @@ import (
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/proto"
 )
 
 func inputPayloads() *common.Payloads {
@@ -175,7 +176,7 @@ func TestClientInterceptor(t *testing.T) {
 	)
 	require.NoError(err)
 
-	require.Equal(inputs.Payloads[0], outboundPayload)
+	require.True(proto.Equal(inputs.Payloads[0], outboundPayload))
 
 	_, err = client.PollActivityTaskQueue(
 		context.Background(),
@@ -183,7 +184,7 @@ func TestClientInterceptor(t *testing.T) {
 	)
 	require.NoError(err)
 
-	require.Equal(inputs.Payloads[0], inboundPayload)
+	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
 }
 
 type testGRPCServer struct {

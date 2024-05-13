@@ -24,13 +24,17 @@ package serviceerror_test
 
 import (
 	"errors"
+	"fmt"
 	"testing"
+	"time"
 
-	"github.com/gogo/googleapis/google/rpc"
-	"github.com/gogo/protobuf/types"
-	"github.com/gogo/status"
 	"github.com/stretchr/testify/require"
+	rpc "google.golang.org/genproto/googleapis/rpc/status"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/anypb"
+	"google.golang.org/protobuf/types/known/durationpb"
 
 	"go.temporal.io/api/errordetails/v1"
 	"go.temporal.io/api/serviceerror"
@@ -60,7 +64,6 @@ func TestFromStatus_UnknownErrorDetails(t *testing.T) {
 	st1 := status.FromProto(&rpc.Status{
 		Code:    int32(codes.NotFound),
 		Message: "Not found.",
-		Details: []*types.Any{{TypeUrl: "type.googleapis.com/some.unknown.Type"}},
 	})
 
 	err1 := serviceerror.FromStatus(st1)
@@ -70,17 +73,21 @@ func TestFromStatus_UnknownErrorDetails(t *testing.T) {
 }
 
 func TestToStatus_UnknownErrorDetails(t *testing.T) {
+	anyd, err := anypb.New(durationpb.New(time.Duration(time.Second)))
+	if err != nil {
+		t.Fatalf("Failed to create any out of duration: %s", err)
+	}
 	err1 := status.ErrorProto(&rpc.Status{
 		Code:    int32(codes.NotFound),
 		Message: "Not found.",
-		Details: []*types.Any{{TypeUrl: "type.googleapis.com/some.unknown.Type"}},
+		Details: []*anypb.Any{anyd},
 	})
 
 	st1 := serviceerror.ToStatus(err1)
 	require.Equal(t, codes.NotFound, st1.Code())
 	require.Equal(t, "Not found.", st1.Message())
 	require.Len(t, st1.Details(), 1)
-	require.Equal(t, "type.googleapis.com/some.unknown.Type", st1.Proto().Details[0].TypeUrl)
+	require.Equal(t, "type.googleapis.com/google.protobuf.Duration", st1.Proto().Details[0].TypeUrl)
 }
 
 func TestToStatus_NotServiceError(t *testing.T) {
@@ -89,4 +96,90 @@ func TestToStatus_NotServiceError(t *testing.T) {
 	require.Equal(t, codes.Unknown, st1.Code())
 	require.Equal(t, "some error", st1.Message())
 	require.Len(t, st1.Details(), 0)
+}
+
+func TestMultiOperationExecution(t *testing.T) {
+	t.Run("several errors", func(t *testing.T) {
+		err := serviceerror.NewMultiOperationExecution(
+			"MultiOperation could not be executed.",
+			[]error{
+				serviceerror.NewMultiOperationAborted("Operation was aborted."),
+				serviceerror.NewInvalidArgument("invalid arg"),
+				serviceerror.NewMultiOperationAborted("Operation was aborted."),
+			})
+
+		st := serviceerror.ToStatus(err)
+		require.Equal(t, codes.InvalidArgument, st.Code())
+		require.Equal(t, "MultiOperation could not be executed.", st.Message())
+		require.Len(t, st.Details(), 1)
+
+		failure := st.Details()[0].(*errordetails.MultiOperationExecutionFailure)
+		st1 := failure.Statuses[0]
+		require.Equal(t, int32(codes.Aborted), st1.GetCode())
+		require.Equal(t, "Operation was aborted.", st1.GetMessage())
+		st2 := failure.Statuses[1]
+		require.Equal(t, int32(codes.InvalidArgument), st2.GetCode())
+		require.Equal(t, "invalid arg", st2.GetMessage())
+		st3 := failure.Statuses[2]
+		require.Equal(t, int32(codes.Aborted), st3.GetCode())
+		require.Equal(t, "Operation was aborted.", st3.GetMessage())
+
+		errFromStatus := serviceerror.FromStatus(st)
+		reconstructedStatus := serviceerror.ToStatus(errFromStatus)
+		require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
+	})
+
+	t.Run("single multi operation aborted", func(t *testing.T) {
+		err := serviceerror.NewMultiOperationExecution(
+			"MultiOperation could not be executed.",
+			[]error{
+				serviceerror.NewMultiOperationAborted("Operation was aborted."),
+			})
+
+		st := serviceerror.ToStatus(err)
+		require.Equal(t, codes.Aborted, st.Code())
+		require.Equal(t, err.Error(), st.Message())
+		require.Len(t, st.Details(), 1)
+	})
+
+	t.Run("no errors", func(t *testing.T) {
+		err := serviceerror.NewMultiOperationExecution(
+			"MultiOperation could not be executed.",
+			[]error{})
+
+		st := serviceerror.ToStatus(err)
+		require.Equal(t, codes.Aborted, st.Code())
+		require.Equal(t, err.Error(), st.Message())
+		require.Len(t, st.Details(), 1)
+		require.Empty(t, st.Details()[0].(*errordetails.MultiOperationExecutionFailure).Statuses)
+	})
+}
+
+func TestMultiOperationAborted(t *testing.T) {
+	err := serviceerror.NewMultiOperationAborted("Operation was aborted.")
+
+	st := serviceerror.ToStatus(err)
+	require.Equal(t, codes.Aborted, st.Code())
+	require.Equal(t, err.Error(), st.Message())
+	require.Len(t, st.Details(), 1)
+
+	errFromStatus := serviceerror.FromStatus(st)
+	require.Equal(t, err.Error(), errFromStatus.Error())
+
+	reconstructedStatus := serviceerror.ToStatus(errFromStatus)
+	require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
+}
+
+func TestFromWrapped(t *testing.T) {
+	err := &serviceerror.PermissionDenied{
+		Message: "x is not allowed",
+		Reason:  "arbitrary reason",
+	}
+	wrapped := fmt.Errorf("wrapped error: %w", err)
+	s := serviceerror.ToStatus(wrapped)
+	require.Equal(t, codes.PermissionDenied, s.Code())
+	require.Equal(t, "wrapped error: x is not allowed", s.Message())
+	require.True(t, proto.Equal(
+		&errordetails.PermissionDeniedFailure{Reason: "arbitrary reason"},
+		s.Details()[0].(*errordetails.PermissionDeniedFailure)))
 }
