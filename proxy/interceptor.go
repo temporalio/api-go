@@ -36,6 +36,7 @@ import (
 	"go.temporal.io/api/nexus/v1"
 	"go.temporal.io/api/query/v1"
 	"go.temporal.io/api/schedule/v1"
+	"go.temporal.io/api/sdk/v1"
 	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
@@ -274,6 +275,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetSignalExternalWorkflowExecutionCommandAttributes(),
 				o.GetStartChildWorkflowExecutionCommandAttributes(),
 				o.GetUpsertWorkflowSearchAttributesCommandAttributes(),
+				o.GetUserMetadata(),
 			); err != nil {
 				return err
 			}
@@ -748,6 +750,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetSignalExternalWorkflowExecutionInitiatedEventAttributes(),
 				o.GetStartChildWorkflowExecutionInitiatedEventAttributes(),
 				o.GetUpsertWorkflowSearchAttributesEventAttributes(),
+				o.GetUserMetadata(),
 				o.GetWorkflowExecutionCanceledEventAttributes(),
 				o.GetWorkflowExecutionCompletedEventAttributes(),
 				o.GetWorkflowExecutionContinuedAsNewEventAttributes(),
@@ -1269,6 +1272,21 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				return err
 			}
 
+		case *sdk.UserMetadata:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetDetails(),
+				o.GetSummary(),
+			); err != nil {
+				return err
+			}
+
 		case *update.Input:
 
 			if o == nil {
@@ -1347,6 +1365,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetInput(),
 				o.GetMemo(),
 				o.GetSearchAttributes(),
+				o.GetUserMetadata(),
 			); err != nil {
 				return err
 			}
@@ -1405,6 +1424,20 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				options,
 				o.GetCancellationInfo(),
 				o.GetLastAttemptFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflow.WorkflowExecutionConfig:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetUserMetadata(),
 			); err != nil {
 				return err
 			}
@@ -1508,6 +1541,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetCallbacks(),
+				o.GetExecutionConfig(),
 				o.GetPendingActivities(),
 				o.GetPendingNexusOperations(),
 				o.GetWorkflowExecutionInfo(),
@@ -2022,6 +2056,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetMemo(),
 				o.GetSearchAttributes(),
 				o.GetSignalInput(),
+				o.GetUserMetadata(),
 			); err != nil {
 				return err
 			}
@@ -2071,6 +2106,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				o.GetLastCompletionResult(),
 				o.GetMemo(),
 				o.GetSearchAttributes(),
+				o.GetUserMetadata(),
 			); err != nil {
 				return err
 			}
