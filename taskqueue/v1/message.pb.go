@@ -238,8 +238,17 @@ type TaskQueueVersionInfo struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Task Queue info per Task Type. Key is the numerical value of the temporal.api.enums.v1.TaskQueueType enum.
-	TypesInfo        map[int32]*TaskQueueTypeInfo `protobuf:"bytes,1,rep,name=types_info,json=typesInfo,proto3" json:"types_info,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	TaskReachability v1.BuildIdTaskReachability   `protobuf:"varint,2,opt,name=task_reachability,json=taskReachability,proto3,enum=temporal.api.enums.v1.BuildIdTaskReachability" json:"task_reachability,omitempty"`
+	TypesInfo map[int32]*TaskQueueTypeInfo `protobuf:"bytes,1,rep,name=types_info,json=typesInfo,proto3" json:"types_info,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// Task Reachability is eventually consistent; there may be a delay until it converges to the most
+	// accurate value but it is designed in a way to take the more conservative side until it converges.
+	// For example REACHABLE is more conservative than CLOSED_WORKFLOWS_ONLY.
+	//
+	// Note: future activities who inherit their workflow's Build ID but not its Task Queue will not be
+	// accounted for reachability as server cannot know if they'll happen as they do not use
+	// assignment rules of their Task Queue. Same goes for Child Workflows or Continue-As-New Workflows
+	// who inherit the parent/previous workflow's Build ID but not its Task Queue. In those cases, make
+	// sure to query reachability for the parent/previous workflow's Task Queue as well.
+	TaskReachability v1.BuildIdTaskReachability `protobuf:"varint,2,opt,name=task_reachability,json=taskReachability,proto3,enum=temporal.api.enums.v1.BuildIdTaskReachability" json:"task_reachability,omitempty"`
 }
 
 func (x *TaskQueueVersionInfo) Reset() {
@@ -872,29 +881,31 @@ func (x *RampByPercentage) GetRampPercentage() float32 {
 	return 0
 }
 
-// These rules assign a Build ID to Unassigned Workflow Executions and
-// Activities.
+// Assignment rules are applied to *new* Workflow and Activity executions at
+// schedule time to assign them to a Build ID.
 //
-// Specifically, assignment rules are applied to the following Executions or
-// Activities when they are scheduled in a Task Queue:
-//   - Generally, any new Workflow Execution, except:
-//   - When A Child Workflow or a Continue-As-New Execution inherits the
-//     Build ID from its parent/previous execution by setting the
-//     `inherit_build_id` flag.
-//   - Workflow Executions started Eagerly are assigned to the Build ID of
-//     the Starter.
-//   - An Activity that is scheduled on a Task Queue different from the one
-//     their Workflow runs on, unless the `use_workflow_build_id` flag is set.
+// Assignment rules will not be used in the following cases:
+//   - Child Workflows or Continue-As-New Executions who inherit their
+//     parent/previous Workflow's assigned Build ID (by setting the
+//     `inherit_build_id` flag - default behavior in SDKs when the same Task Queue
+//     is used.)
+//   - An Activity that inherits the assigned Build ID of its Workflow (by
+//     setting the `use_workflow_build_id` flag - default behavior in SDKs
+//     when the same Task Queue is used.)
 //
 // In absence of (applicable) redirect rules (`CompatibleBuildIdRedirectRule`s)
 // the task will be dispatched to Workers of the Build ID determined by the
-// assignment rules. Otherwise, the final Build ID will be determined by the
-// redirect rules.
+// assignment rules (or inherited). Otherwise, the final Build ID will be
+// determined by the redirect rules.
 //
-// When using Worker Versioning, in the steady state, for a given Task Queue,
-// there should typically be exactly one assignment rule to send all Unassigned
-// tasks to the latest Build ID. Existence of at least one such "unconditional"
-// rule at all times is enforce by the system, unless the `force` flag is used
+// Once a Workflow completes its first Workflow Task in a particular Build ID it
+// stays in that Build ID regardless of changes to assignment rules. Redirect
+// rules can be used to move the workflow to another compatible Build ID.
+//
+// When using Worker Versioning on a Task Queue, in the steady state,
+// there should typically be a single assignment rule to send all new executions
+// to the latest Build ID. Existence of at least one such "unconditional"
+// rule at all times is enforces by the system, unless the `force` flag is used
 // by the user when replacing/deleting these rules (for exceptional cases).
 //
 // During a deployment, one or more additional rules can be added to assign a
@@ -905,10 +916,8 @@ func (x *RampByPercentage) GetRampPercentage() float32 {
 // applied and the rest will be ignored.
 //
 // In the event that no assignment rule is applicable on a task (or the Task
-// Queue is simply not versioned), the tasks will be sent to unversioned
-// workers, if available. Otherwise, they remain Unassigned, and will be
-// retried for assignment, or dispatch to unversioned workers, at a later time
-// depending on the availability of workers.
+// Queue is simply not versioned), the tasks will be dispatched to an
+// unversioned Worker.
 type BuildIdAssignmentRule struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1011,14 +1020,17 @@ func (*BuildIdAssignmentRule_PercentageRamp) isBuildIdAssignmentRule_Ramp() {}
 //   - To be able to Reset an old Execution so it can run on the current
 //     (compatible) Build ID.
 //
-// Redirect rules can be chained, but only the last rule in the chain can have
-// a ramp.
+// Redirect rules can be chained.
 type CompatibleBuildIdRedirectRule struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	SourceBuildId string `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
+	// Target Build ID must be compatible with the Source Build ID; that is it
+	// must be able to process event histories made by the Source Build ID by
+	// using [Patching](https://docs.temporal.io/workflows#patching) or other
+	// means.
 	TargetBuildId string `protobuf:"bytes,2,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
 }
 
