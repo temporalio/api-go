@@ -58,6 +58,46 @@ func (m *MockCloudServiceClient) EXPECT() *MockCloudServiceClientMockRecorder {
 	return m.recorder
 }
 
+// AddNamespaceRegion mocks base method.
+func (m *MockCloudServiceClient) AddNamespaceRegion(ctx context.Context, in *cloudservice.AddNamespaceRegionRequest, opts ...grpc.CallOption) (*cloudservice.AddNamespaceRegionResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddNamespaceRegion", varargs...)
+	ret0, _ := ret[0].(*cloudservice.AddNamespaceRegionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddNamespaceRegion indicates an expected call of AddNamespaceRegion.
+func (mr *MockCloudServiceClientMockRecorder) AddNamespaceRegion(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddNamespaceRegion", reflect.TypeOf((*MockCloudServiceClient)(nil).AddNamespaceRegion), varargs...)
+}
+
+// CreateApiKey mocks base method.
+func (m *MockCloudServiceClient) CreateApiKey(ctx context.Context, in *cloudservice.CreateApiKeyRequest, opts ...grpc.CallOption) (*cloudservice.CreateApiKeyResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateApiKey", varargs...)
+	ret0, _ := ret[0].(*cloudservice.CreateApiKeyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateApiKey indicates an expected call of CreateApiKey.
+func (mr *MockCloudServiceClientMockRecorder) CreateApiKey(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateApiKey", reflect.TypeOf((*MockCloudServiceClient)(nil).CreateApiKey), varargs...)
+}
+
 // CreateNamespace mocks base method.
 func (m *MockCloudServiceClient) CreateNamespace(ctx context.Context, in *cloudservice.CreateNamespaceRequest, opts ...grpc.CallOption) (*cloudservice.CreateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
@@ -76,6 +116,26 @@ func (mr *MockCloudServiceClientMockRecorder) CreateNamespace(ctx, in interface{
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNamespace", reflect.TypeOf((*MockCloudServiceClient)(nil).CreateNamespace), varargs...)
+}
+
+// CreateServiceAccount mocks base method.
+func (m *MockCloudServiceClient) CreateServiceAccount(ctx context.Context, in *cloudservice.CreateServiceAccountRequest, opts ...grpc.CallOption) (*cloudservice.CreateServiceAccountResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateServiceAccount", varargs...)
+	ret0, _ := ret[0].(*cloudservice.CreateServiceAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateServiceAccount indicates an expected call of CreateServiceAccount.
+func (mr *MockCloudServiceClientMockRecorder) CreateServiceAccount(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateServiceAccount", reflect.TypeOf((*MockCloudServiceClient)(nil).CreateServiceAccount), varargs...)
 }
 
 // CreateUser mocks base method.
@@ -98,6 +158,46 @@ func (mr *MockCloudServiceClientMockRecorder) CreateUser(ctx, in interface{}, op
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockCloudServiceClient)(nil).CreateUser), varargs...)
 }
 
+// CreateUserGroup mocks base method.
+func (m *MockCloudServiceClient) CreateUserGroup(ctx context.Context, in *cloudservice.CreateUserGroupRequest, opts ...grpc.CallOption) (*cloudservice.CreateUserGroupResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateUserGroup", varargs...)
+	ret0, _ := ret[0].(*cloudservice.CreateUserGroupResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUserGroup indicates an expected call of CreateUserGroup.
+func (mr *MockCloudServiceClientMockRecorder) CreateUserGroup(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUserGroup", reflect.TypeOf((*MockCloudServiceClient)(nil).CreateUserGroup), varargs...)
+}
+
+// DeleteApiKey mocks base method.
+func (m *MockCloudServiceClient) DeleteApiKey(ctx context.Context, in *cloudservice.DeleteApiKeyRequest, opts ...grpc.CallOption) (*cloudservice.DeleteApiKeyResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteApiKey", varargs...)
+	ret0, _ := ret[0].(*cloudservice.DeleteApiKeyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteApiKey indicates an expected call of DeleteApiKey.
+func (mr *MockCloudServiceClientMockRecorder) DeleteApiKey(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApiKey", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteApiKey), varargs...)
+}
+
 // DeleteNamespace mocks base method.
 func (m *MockCloudServiceClient) DeleteNamespace(ctx context.Context, in *cloudservice.DeleteNamespaceRequest, opts ...grpc.CallOption) (*cloudservice.DeleteNamespaceResponse, error) {
 	m.ctrl.T.Helper()
@@ -118,6 +218,26 @@ func (mr *MockCloudServiceClientMockRecorder) DeleteNamespace(ctx, in interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespace", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteNamespace), varargs...)
 }
 
+// DeleteServiceAccount mocks base method.
+func (m *MockCloudServiceClient) DeleteServiceAccount(ctx context.Context, in *cloudservice.DeleteServiceAccountRequest, opts ...grpc.CallOption) (*cloudservice.DeleteServiceAccountResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteServiceAccount", varargs...)
+	ret0, _ := ret[0].(*cloudservice.DeleteServiceAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteServiceAccount indicates an expected call of DeleteServiceAccount.
+func (mr *MockCloudServiceClientMockRecorder) DeleteServiceAccount(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteServiceAccount", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteServiceAccount), varargs...)
+}
+
 // DeleteUser mocks base method.
 func (m *MockCloudServiceClient) DeleteUser(ctx context.Context, in *cloudservice.DeleteUserRequest, opts ...grpc.CallOption) (*cloudservice.DeleteUserResponse, error) {
 	m.ctrl.T.Helper()
@@ -136,6 +256,86 @@ func (mr *MockCloudServiceClientMockRecorder) DeleteUser(ctx, in interface{}, op
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteUser), varargs...)
+}
+
+// DeleteUserGroup mocks base method.
+func (m *MockCloudServiceClient) DeleteUserGroup(ctx context.Context, in *cloudservice.DeleteUserGroupRequest, opts ...grpc.CallOption) (*cloudservice.DeleteUserGroupResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteUserGroup", varargs...)
+	ret0, _ := ret[0].(*cloudservice.DeleteUserGroupResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteUserGroup indicates an expected call of DeleteUserGroup.
+func (mr *MockCloudServiceClientMockRecorder) DeleteUserGroup(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserGroup", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteUserGroup), varargs...)
+}
+
+// FailoverNamespaceRegion mocks base method.
+func (m *MockCloudServiceClient) FailoverNamespaceRegion(ctx context.Context, in *cloudservice.FailoverNamespaceRegionRequest, opts ...grpc.CallOption) (*cloudservice.FailoverNamespaceRegionResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "FailoverNamespaceRegion", varargs...)
+	ret0, _ := ret[0].(*cloudservice.FailoverNamespaceRegionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FailoverNamespaceRegion indicates an expected call of FailoverNamespaceRegion.
+func (mr *MockCloudServiceClientMockRecorder) FailoverNamespaceRegion(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FailoverNamespaceRegion", reflect.TypeOf((*MockCloudServiceClient)(nil).FailoverNamespaceRegion), varargs...)
+}
+
+// GetApiKey mocks base method.
+func (m *MockCloudServiceClient) GetApiKey(ctx context.Context, in *cloudservice.GetApiKeyRequest, opts ...grpc.CallOption) (*cloudservice.GetApiKeyResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetApiKey", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetApiKeyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetApiKey indicates an expected call of GetApiKey.
+func (mr *MockCloudServiceClientMockRecorder) GetApiKey(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApiKey", reflect.TypeOf((*MockCloudServiceClient)(nil).GetApiKey), varargs...)
+}
+
+// GetApiKeys mocks base method.
+func (m *MockCloudServiceClient) GetApiKeys(ctx context.Context, in *cloudservice.GetApiKeysRequest, opts ...grpc.CallOption) (*cloudservice.GetApiKeysResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetApiKeys", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetApiKeysResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetApiKeys indicates an expected call of GetApiKeys.
+func (mr *MockCloudServiceClientMockRecorder) GetApiKeys(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApiKeys", reflect.TypeOf((*MockCloudServiceClient)(nil).GetApiKeys), varargs...)
 }
 
 // GetAsyncOperation mocks base method.
@@ -238,6 +438,46 @@ func (mr *MockCloudServiceClientMockRecorder) GetRegions(ctx, in interface{}, op
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRegions", reflect.TypeOf((*MockCloudServiceClient)(nil).GetRegions), varargs...)
 }
 
+// GetServiceAccount mocks base method.
+func (m *MockCloudServiceClient) GetServiceAccount(ctx context.Context, in *cloudservice.GetServiceAccountRequest, opts ...grpc.CallOption) (*cloudservice.GetServiceAccountResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetServiceAccount", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetServiceAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetServiceAccount indicates an expected call of GetServiceAccount.
+func (mr *MockCloudServiceClientMockRecorder) GetServiceAccount(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetServiceAccount", reflect.TypeOf((*MockCloudServiceClient)(nil).GetServiceAccount), varargs...)
+}
+
+// GetServiceAccounts mocks base method.
+func (m *MockCloudServiceClient) GetServiceAccounts(ctx context.Context, in *cloudservice.GetServiceAccountsRequest, opts ...grpc.CallOption) (*cloudservice.GetServiceAccountsResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetServiceAccounts", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetServiceAccountsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetServiceAccounts indicates an expected call of GetServiceAccounts.
+func (mr *MockCloudServiceClientMockRecorder) GetServiceAccounts(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetServiceAccounts", reflect.TypeOf((*MockCloudServiceClient)(nil).GetServiceAccounts), varargs...)
+}
+
 // GetUser mocks base method.
 func (m *MockCloudServiceClient) GetUser(ctx context.Context, in *cloudservice.GetUserRequest, opts ...grpc.CallOption) (*cloudservice.GetUserResponse, error) {
 	m.ctrl.T.Helper()
@@ -256,6 +496,46 @@ func (mr *MockCloudServiceClientMockRecorder) GetUser(ctx, in interface{}, opts 
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockCloudServiceClient)(nil).GetUser), varargs...)
+}
+
+// GetUserGroup mocks base method.
+func (m *MockCloudServiceClient) GetUserGroup(ctx context.Context, in *cloudservice.GetUserGroupRequest, opts ...grpc.CallOption) (*cloudservice.GetUserGroupResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetUserGroup", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetUserGroupResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserGroup indicates an expected call of GetUserGroup.
+func (mr *MockCloudServiceClientMockRecorder) GetUserGroup(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserGroup", reflect.TypeOf((*MockCloudServiceClient)(nil).GetUserGroup), varargs...)
+}
+
+// GetUserGroups mocks base method.
+func (m *MockCloudServiceClient) GetUserGroups(ctx context.Context, in *cloudservice.GetUserGroupsRequest, opts ...grpc.CallOption) (*cloudservice.GetUserGroupsResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetUserGroups", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetUserGroupsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserGroups indicates an expected call of GetUserGroups.
+func (mr *MockCloudServiceClientMockRecorder) GetUserGroups(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserGroups", reflect.TypeOf((*MockCloudServiceClient)(nil).GetUserGroups), varargs...)
 }
 
 // GetUsers mocks base method.
@@ -298,6 +578,26 @@ func (mr *MockCloudServiceClientMockRecorder) RenameCustomSearchAttribute(ctx, i
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RenameCustomSearchAttribute", reflect.TypeOf((*MockCloudServiceClient)(nil).RenameCustomSearchAttribute), varargs...)
 }
 
+// SetUserGroupNamespaceAccess mocks base method.
+func (m *MockCloudServiceClient) SetUserGroupNamespaceAccess(ctx context.Context, in *cloudservice.SetUserGroupNamespaceAccessRequest, opts ...grpc.CallOption) (*cloudservice.SetUserGroupNamespaceAccessResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "SetUserGroupNamespaceAccess", varargs...)
+	ret0, _ := ret[0].(*cloudservice.SetUserGroupNamespaceAccessResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SetUserGroupNamespaceAccess indicates an expected call of SetUserGroupNamespaceAccess.
+func (mr *MockCloudServiceClientMockRecorder) SetUserGroupNamespaceAccess(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUserGroupNamespaceAccess", reflect.TypeOf((*MockCloudServiceClient)(nil).SetUserGroupNamespaceAccess), varargs...)
+}
+
 // SetUserNamespaceAccess mocks base method.
 func (m *MockCloudServiceClient) SetUserNamespaceAccess(ctx context.Context, in *cloudservice.SetUserNamespaceAccessRequest, opts ...grpc.CallOption) (*cloudservice.SetUserNamespaceAccessResponse, error) {
 	m.ctrl.T.Helper()
@@ -316,6 +616,26 @@ func (mr *MockCloudServiceClientMockRecorder) SetUserNamespaceAccess(ctx, in int
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUserNamespaceAccess", reflect.TypeOf((*MockCloudServiceClient)(nil).SetUserNamespaceAccess), varargs...)
+}
+
+// UpdateApiKey mocks base method.
+func (m *MockCloudServiceClient) UpdateApiKey(ctx context.Context, in *cloudservice.UpdateApiKeyRequest, opts ...grpc.CallOption) (*cloudservice.UpdateApiKeyResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateApiKey", varargs...)
+	ret0, _ := ret[0].(*cloudservice.UpdateApiKeyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateApiKey indicates an expected call of UpdateApiKey.
+func (mr *MockCloudServiceClientMockRecorder) UpdateApiKey(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateApiKey", reflect.TypeOf((*MockCloudServiceClient)(nil).UpdateApiKey), varargs...)
 }
 
 // UpdateNamespace mocks base method.
@@ -338,6 +658,26 @@ func (mr *MockCloudServiceClientMockRecorder) UpdateNamespace(ctx, in interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNamespace", reflect.TypeOf((*MockCloudServiceClient)(nil).UpdateNamespace), varargs...)
 }
 
+// UpdateServiceAccount mocks base method.
+func (m *MockCloudServiceClient) UpdateServiceAccount(ctx context.Context, in *cloudservice.UpdateServiceAccountRequest, opts ...grpc.CallOption) (*cloudservice.UpdateServiceAccountResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateServiceAccount", varargs...)
+	ret0, _ := ret[0].(*cloudservice.UpdateServiceAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateServiceAccount indicates an expected call of UpdateServiceAccount.
+func (mr *MockCloudServiceClientMockRecorder) UpdateServiceAccount(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateServiceAccount", reflect.TypeOf((*MockCloudServiceClient)(nil).UpdateServiceAccount), varargs...)
+}
+
 // UpdateUser mocks base method.
 func (m *MockCloudServiceClient) UpdateUser(ctx context.Context, in *cloudservice.UpdateUserRequest, opts ...grpc.CallOption) (*cloudservice.UpdateUserResponse, error) {
 	m.ctrl.T.Helper()
@@ -356,6 +696,26 @@ func (mr *MockCloudServiceClientMockRecorder) UpdateUser(ctx, in interface{}, op
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockCloudServiceClient)(nil).UpdateUser), varargs...)
+}
+
+// UpdateUserGroup mocks base method.
+func (m *MockCloudServiceClient) UpdateUserGroup(ctx context.Context, in *cloudservice.UpdateUserGroupRequest, opts ...grpc.CallOption) (*cloudservice.UpdateUserGroupResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateUserGroup", varargs...)
+	ret0, _ := ret[0].(*cloudservice.UpdateUserGroupResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateUserGroup indicates an expected call of UpdateUserGroup.
+func (mr *MockCloudServiceClientMockRecorder) UpdateUserGroup(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUserGroup", reflect.TypeOf((*MockCloudServiceClient)(nil).UpdateUserGroup), varargs...)
 }
 
 // MockCloudServiceServer is a mock of CloudServiceServer interface.
@@ -381,6 +741,36 @@ func (m *MockCloudServiceServer) EXPECT() *MockCloudServiceServerMockRecorder {
 	return m.recorder
 }
 
+// AddNamespaceRegion mocks base method.
+func (m *MockCloudServiceServer) AddNamespaceRegion(arg0 context.Context, arg1 *cloudservice.AddNamespaceRegionRequest) (*cloudservice.AddNamespaceRegionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddNamespaceRegion", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.AddNamespaceRegionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddNamespaceRegion indicates an expected call of AddNamespaceRegion.
+func (mr *MockCloudServiceServerMockRecorder) AddNamespaceRegion(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddNamespaceRegion", reflect.TypeOf((*MockCloudServiceServer)(nil).AddNamespaceRegion), arg0, arg1)
+}
+
+// CreateApiKey mocks base method.
+func (m *MockCloudServiceServer) CreateApiKey(arg0 context.Context, arg1 *cloudservice.CreateApiKeyRequest) (*cloudservice.CreateApiKeyResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateApiKey", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.CreateApiKeyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateApiKey indicates an expected call of CreateApiKey.
+func (mr *MockCloudServiceServerMockRecorder) CreateApiKey(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateApiKey", reflect.TypeOf((*MockCloudServiceServer)(nil).CreateApiKey), arg0, arg1)
+}
+
 // CreateNamespace mocks base method.
 func (m *MockCloudServiceServer) CreateNamespace(arg0 context.Context, arg1 *cloudservice.CreateNamespaceRequest) (*cloudservice.CreateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
@@ -394,6 +784,21 @@ func (m *MockCloudServiceServer) CreateNamespace(arg0 context.Context, arg1 *clo
 func (mr *MockCloudServiceServerMockRecorder) CreateNamespace(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNamespace", reflect.TypeOf((*MockCloudServiceServer)(nil).CreateNamespace), arg0, arg1)
+}
+
+// CreateServiceAccount mocks base method.
+func (m *MockCloudServiceServer) CreateServiceAccount(arg0 context.Context, arg1 *cloudservice.CreateServiceAccountRequest) (*cloudservice.CreateServiceAccountResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateServiceAccount", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.CreateServiceAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateServiceAccount indicates an expected call of CreateServiceAccount.
+func (mr *MockCloudServiceServerMockRecorder) CreateServiceAccount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateServiceAccount", reflect.TypeOf((*MockCloudServiceServer)(nil).CreateServiceAccount), arg0, arg1)
 }
 
 // CreateUser mocks base method.
@@ -411,6 +816,36 @@ func (mr *MockCloudServiceServerMockRecorder) CreateUser(arg0, arg1 interface{})
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockCloudServiceServer)(nil).CreateUser), arg0, arg1)
 }
 
+// CreateUserGroup mocks base method.
+func (m *MockCloudServiceServer) CreateUserGroup(arg0 context.Context, arg1 *cloudservice.CreateUserGroupRequest) (*cloudservice.CreateUserGroupResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUserGroup", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.CreateUserGroupResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUserGroup indicates an expected call of CreateUserGroup.
+func (mr *MockCloudServiceServerMockRecorder) CreateUserGroup(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUserGroup", reflect.TypeOf((*MockCloudServiceServer)(nil).CreateUserGroup), arg0, arg1)
+}
+
+// DeleteApiKey mocks base method.
+func (m *MockCloudServiceServer) DeleteApiKey(arg0 context.Context, arg1 *cloudservice.DeleteApiKeyRequest) (*cloudservice.DeleteApiKeyResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteApiKey", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.DeleteApiKeyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteApiKey indicates an expected call of DeleteApiKey.
+func (mr *MockCloudServiceServerMockRecorder) DeleteApiKey(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteApiKey", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteApiKey), arg0, arg1)
+}
+
 // DeleteNamespace mocks base method.
 func (m *MockCloudServiceServer) DeleteNamespace(arg0 context.Context, arg1 *cloudservice.DeleteNamespaceRequest) (*cloudservice.DeleteNamespaceResponse, error) {
 	m.ctrl.T.Helper()
@@ -426,6 +861,21 @@ func (mr *MockCloudServiceServerMockRecorder) DeleteNamespace(arg0, arg1 interfa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespace", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteNamespace), arg0, arg1)
 }
 
+// DeleteServiceAccount mocks base method.
+func (m *MockCloudServiceServer) DeleteServiceAccount(arg0 context.Context, arg1 *cloudservice.DeleteServiceAccountRequest) (*cloudservice.DeleteServiceAccountResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteServiceAccount", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.DeleteServiceAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteServiceAccount indicates an expected call of DeleteServiceAccount.
+func (mr *MockCloudServiceServerMockRecorder) DeleteServiceAccount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteServiceAccount", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteServiceAccount), arg0, arg1)
+}
+
 // DeleteUser mocks base method.
 func (m *MockCloudServiceServer) DeleteUser(arg0 context.Context, arg1 *cloudservice.DeleteUserRequest) (*cloudservice.DeleteUserResponse, error) {
 	m.ctrl.T.Helper()
@@ -439,6 +889,66 @@ func (m *MockCloudServiceServer) DeleteUser(arg0 context.Context, arg1 *cloudser
 func (mr *MockCloudServiceServerMockRecorder) DeleteUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteUser), arg0, arg1)
+}
+
+// DeleteUserGroup mocks base method.
+func (m *MockCloudServiceServer) DeleteUserGroup(arg0 context.Context, arg1 *cloudservice.DeleteUserGroupRequest) (*cloudservice.DeleteUserGroupResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUserGroup", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.DeleteUserGroupResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteUserGroup indicates an expected call of DeleteUserGroup.
+func (mr *MockCloudServiceServerMockRecorder) DeleteUserGroup(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserGroup", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteUserGroup), arg0, arg1)
+}
+
+// FailoverNamespaceRegion mocks base method.
+func (m *MockCloudServiceServer) FailoverNamespaceRegion(arg0 context.Context, arg1 *cloudservice.FailoverNamespaceRegionRequest) (*cloudservice.FailoverNamespaceRegionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FailoverNamespaceRegion", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.FailoverNamespaceRegionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FailoverNamespaceRegion indicates an expected call of FailoverNamespaceRegion.
+func (mr *MockCloudServiceServerMockRecorder) FailoverNamespaceRegion(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FailoverNamespaceRegion", reflect.TypeOf((*MockCloudServiceServer)(nil).FailoverNamespaceRegion), arg0, arg1)
+}
+
+// GetApiKey mocks base method.
+func (m *MockCloudServiceServer) GetApiKey(arg0 context.Context, arg1 *cloudservice.GetApiKeyRequest) (*cloudservice.GetApiKeyResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetApiKey", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetApiKeyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetApiKey indicates an expected call of GetApiKey.
+func (mr *MockCloudServiceServerMockRecorder) GetApiKey(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApiKey", reflect.TypeOf((*MockCloudServiceServer)(nil).GetApiKey), arg0, arg1)
+}
+
+// GetApiKeys mocks base method.
+func (m *MockCloudServiceServer) GetApiKeys(arg0 context.Context, arg1 *cloudservice.GetApiKeysRequest) (*cloudservice.GetApiKeysResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetApiKeys", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetApiKeysResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetApiKeys indicates an expected call of GetApiKeys.
+func (mr *MockCloudServiceServerMockRecorder) GetApiKeys(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetApiKeys", reflect.TypeOf((*MockCloudServiceServer)(nil).GetApiKeys), arg0, arg1)
 }
 
 // GetAsyncOperation mocks base method.
@@ -516,6 +1026,36 @@ func (mr *MockCloudServiceServerMockRecorder) GetRegions(arg0, arg1 interface{})
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetRegions", reflect.TypeOf((*MockCloudServiceServer)(nil).GetRegions), arg0, arg1)
 }
 
+// GetServiceAccount mocks base method.
+func (m *MockCloudServiceServer) GetServiceAccount(arg0 context.Context, arg1 *cloudservice.GetServiceAccountRequest) (*cloudservice.GetServiceAccountResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetServiceAccount", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetServiceAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetServiceAccount indicates an expected call of GetServiceAccount.
+func (mr *MockCloudServiceServerMockRecorder) GetServiceAccount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetServiceAccount", reflect.TypeOf((*MockCloudServiceServer)(nil).GetServiceAccount), arg0, arg1)
+}
+
+// GetServiceAccounts mocks base method.
+func (m *MockCloudServiceServer) GetServiceAccounts(arg0 context.Context, arg1 *cloudservice.GetServiceAccountsRequest) (*cloudservice.GetServiceAccountsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetServiceAccounts", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetServiceAccountsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetServiceAccounts indicates an expected call of GetServiceAccounts.
+func (mr *MockCloudServiceServerMockRecorder) GetServiceAccounts(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetServiceAccounts", reflect.TypeOf((*MockCloudServiceServer)(nil).GetServiceAccounts), arg0, arg1)
+}
+
 // GetUser mocks base method.
 func (m *MockCloudServiceServer) GetUser(arg0 context.Context, arg1 *cloudservice.GetUserRequest) (*cloudservice.GetUserResponse, error) {
 	m.ctrl.T.Helper()
@@ -529,6 +1069,36 @@ func (m *MockCloudServiceServer) GetUser(arg0 context.Context, arg1 *cloudservic
 func (mr *MockCloudServiceServerMockRecorder) GetUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockCloudServiceServer)(nil).GetUser), arg0, arg1)
+}
+
+// GetUserGroup mocks base method.
+func (m *MockCloudServiceServer) GetUserGroup(arg0 context.Context, arg1 *cloudservice.GetUserGroupRequest) (*cloudservice.GetUserGroupResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserGroup", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetUserGroupResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserGroup indicates an expected call of GetUserGroup.
+func (mr *MockCloudServiceServerMockRecorder) GetUserGroup(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserGroup", reflect.TypeOf((*MockCloudServiceServer)(nil).GetUserGroup), arg0, arg1)
+}
+
+// GetUserGroups mocks base method.
+func (m *MockCloudServiceServer) GetUserGroups(arg0 context.Context, arg1 *cloudservice.GetUserGroupsRequest) (*cloudservice.GetUserGroupsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserGroups", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetUserGroupsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserGroups indicates an expected call of GetUserGroups.
+func (mr *MockCloudServiceServerMockRecorder) GetUserGroups(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserGroups", reflect.TypeOf((*MockCloudServiceServer)(nil).GetUserGroups), arg0, arg1)
 }
 
 // GetUsers mocks base method.
@@ -561,6 +1131,21 @@ func (mr *MockCloudServiceServerMockRecorder) RenameCustomSearchAttribute(arg0, 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RenameCustomSearchAttribute", reflect.TypeOf((*MockCloudServiceServer)(nil).RenameCustomSearchAttribute), arg0, arg1)
 }
 
+// SetUserGroupNamespaceAccess mocks base method.
+func (m *MockCloudServiceServer) SetUserGroupNamespaceAccess(arg0 context.Context, arg1 *cloudservice.SetUserGroupNamespaceAccessRequest) (*cloudservice.SetUserGroupNamespaceAccessResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetUserGroupNamespaceAccess", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.SetUserGroupNamespaceAccessResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SetUserGroupNamespaceAccess indicates an expected call of SetUserGroupNamespaceAccess.
+func (mr *MockCloudServiceServerMockRecorder) SetUserGroupNamespaceAccess(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUserGroupNamespaceAccess", reflect.TypeOf((*MockCloudServiceServer)(nil).SetUserGroupNamespaceAccess), arg0, arg1)
+}
+
 // SetUserNamespaceAccess mocks base method.
 func (m *MockCloudServiceServer) SetUserNamespaceAccess(arg0 context.Context, arg1 *cloudservice.SetUserNamespaceAccessRequest) (*cloudservice.SetUserNamespaceAccessResponse, error) {
 	m.ctrl.T.Helper()
@@ -574,6 +1159,21 @@ func (m *MockCloudServiceServer) SetUserNamespaceAccess(arg0 context.Context, ar
 func (mr *MockCloudServiceServerMockRecorder) SetUserNamespaceAccess(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetUserNamespaceAccess", reflect.TypeOf((*MockCloudServiceServer)(nil).SetUserNamespaceAccess), arg0, arg1)
+}
+
+// UpdateApiKey mocks base method.
+func (m *MockCloudServiceServer) UpdateApiKey(arg0 context.Context, arg1 *cloudservice.UpdateApiKeyRequest) (*cloudservice.UpdateApiKeyResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateApiKey", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.UpdateApiKeyResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateApiKey indicates an expected call of UpdateApiKey.
+func (mr *MockCloudServiceServerMockRecorder) UpdateApiKey(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateApiKey", reflect.TypeOf((*MockCloudServiceServer)(nil).UpdateApiKey), arg0, arg1)
 }
 
 // UpdateNamespace mocks base method.
@@ -591,6 +1191,21 @@ func (mr *MockCloudServiceServerMockRecorder) UpdateNamespace(arg0, arg1 interfa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNamespace", reflect.TypeOf((*MockCloudServiceServer)(nil).UpdateNamespace), arg0, arg1)
 }
 
+// UpdateServiceAccount mocks base method.
+func (m *MockCloudServiceServer) UpdateServiceAccount(arg0 context.Context, arg1 *cloudservice.UpdateServiceAccountRequest) (*cloudservice.UpdateServiceAccountResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateServiceAccount", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.UpdateServiceAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateServiceAccount indicates an expected call of UpdateServiceAccount.
+func (mr *MockCloudServiceServerMockRecorder) UpdateServiceAccount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateServiceAccount", reflect.TypeOf((*MockCloudServiceServer)(nil).UpdateServiceAccount), arg0, arg1)
+}
+
 // UpdateUser mocks base method.
 func (m *MockCloudServiceServer) UpdateUser(arg0 context.Context, arg1 *cloudservice.UpdateUserRequest) (*cloudservice.UpdateUserResponse, error) {
 	m.ctrl.T.Helper()
@@ -604,6 +1219,21 @@ func (m *MockCloudServiceServer) UpdateUser(arg0 context.Context, arg1 *cloudser
 func (mr *MockCloudServiceServerMockRecorder) UpdateUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockCloudServiceServer)(nil).UpdateUser), arg0, arg1)
+}
+
+// UpdateUserGroup mocks base method.
+func (m *MockCloudServiceServer) UpdateUserGroup(arg0 context.Context, arg1 *cloudservice.UpdateUserGroupRequest) (*cloudservice.UpdateUserGroupResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUserGroup", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.UpdateUserGroupResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateUserGroup indicates an expected call of UpdateUserGroup.
+func (mr *MockCloudServiceServerMockRecorder) UpdateUserGroup(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUserGroup", reflect.TypeOf((*MockCloudServiceServer)(nil).UpdateUserGroup), arg0, arg1)
 }
 
 // mustEmbedUnimplementedCloudServiceServer mocks base method.

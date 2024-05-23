@@ -101,6 +101,43 @@ func (this *MtlsAuthSpec) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type ApiKeyAuthSpec to the protobuf v3 wire format
+func (val *ApiKeyAuthSpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ApiKeyAuthSpec from the protobuf v3 wire format
+func (val *ApiKeyAuthSpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ApiKeyAuthSpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ApiKeyAuthSpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ApiKeyAuthSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ApiKeyAuthSpec
+	switch t := that.(type) {
+	case *ApiKeyAuthSpec:
+		that1 = t
+	case ApiKeyAuthSpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type CodecServerSpec to the protobuf v3 wire format
 func (val *CodecServerSpec) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -352,6 +389,43 @@ func (this *Namespace) Equal(that interface{}) bool {
 	case *Namespace:
 		that1 = t
 	case Namespace:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NamespaceRegionStatus to the protobuf v3 wire format
+func (val *NamespaceRegionStatus) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NamespaceRegionStatus from the protobuf v3 wire format
+func (val *NamespaceRegionStatus) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NamespaceRegionStatus) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NamespaceRegionStatus values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NamespaceRegionStatus) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NamespaceRegionStatus
+	switch t := that.(type) {
+	case *NamespaceRegionStatus:
+		that1 = t
+	case NamespaceRegionStatus:
 		that1 = &t
 	default:
 		return false
