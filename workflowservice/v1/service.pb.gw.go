@@ -3221,7 +3221,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RegisterNamespace", runtime.WithHTTPPathPattern("/api/v1/namespaces"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RegisterNamespace", runtime.WithHTTPPathPattern("/namespaces"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3246,7 +3246,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeNamespace", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeNamespace", runtime.WithHTTPPathPattern("/namespaces/{namespace}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3271,7 +3271,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListNamespaces", runtime.WithHTTPPathPattern("/api/v1/namespaces"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListNamespaces", runtime.WithHTTPPathPattern("/namespaces"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3296,7 +3296,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateNamespace", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/update"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateNamespace", runtime.WithHTTPPathPattern("/namespaces/{namespace}/update"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3321,7 +3321,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3346,7 +3346,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/execute-multi-operation"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/execute-multi-operation"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3371,7 +3371,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{execution.workflow_id}/history"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3396,7 +3396,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3421,7 +3421,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeat", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/heartbeat"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeat", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/heartbeat"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3446,7 +3446,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeatById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/heartbeat-by-id"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeatById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/heartbeat-by-id"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3471,7 +3471,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompleted", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/complete"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompleted", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/complete"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3496,7 +3496,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompletedById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/complete-by-id"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompletedById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/complete-by-id"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3521,7 +3521,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailed", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/fail"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailed", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/fail"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3546,7 +3546,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailedById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/fail-by-id"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailedById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/fail-by-id"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3571,7 +3571,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceled", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/cancel"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceled", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/cancel"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3596,7 +3596,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceledById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/cancel-by-id"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceledById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/cancel-by-id"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3621,7 +3621,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/cancel"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/cancel"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3646,7 +3646,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/SignalWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/signal/{signal_name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/SignalWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/signal/{signal_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3671,7 +3671,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/SignalWithStartWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_id}/signal-with-start/{signal_name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/SignalWithStartWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_id}/signal-with-start/{signal_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3696,7 +3696,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/reset"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/reset"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3721,7 +3721,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/TerminateWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/terminate"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/TerminateWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/terminate"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3746,7 +3746,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListWorkflowExecutions", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListWorkflowExecutions", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3771,7 +3771,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListArchivedWorkflowExecutions", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/archived-workflows"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListArchivedWorkflowExecutions", runtime.WithHTTPPathPattern("/namespaces/{namespace}/archived-workflows"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3796,7 +3796,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/CountWorkflowExecutions", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflow-count"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/CountWorkflowExecutions", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflow-count"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3821,7 +3821,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/QueryWorkflow", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/query/{query.query_type}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/QueryWorkflow", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{execution.workflow_id}/query/{query.query_type}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3846,7 +3846,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{execution.workflow_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3871,7 +3871,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeTaskQueue", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/task-queues/{task_queue.name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeTaskQueue", runtime.WithHTTPPathPattern("/namespaces/{namespace}/task-queues/{task_queue.name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3896,7 +3896,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo", runtime.WithHTTPPathPattern("/api/v1/cluster-info"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo", runtime.WithHTTPPathPattern("/cluster-info"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3921,7 +3921,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetSystemInfo", runtime.WithHTTPPathPattern("/api/v1/system-info"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetSystemInfo", runtime.WithHTTPPathPattern("/system-info"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3946,7 +3946,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/CreateSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/CreateSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3971,7 +3971,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3996,7 +3996,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}/update"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}/update"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4021,7 +4021,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PatchSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}/patch"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PatchSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}/patch"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4046,7 +4046,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListScheduleMatchingTimes", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}/matching-times"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListScheduleMatchingTimes", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}/matching-times"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4071,7 +4071,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4096,7 +4096,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListSchedules", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListSchedules", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4121,7 +4121,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/task-queues/{task_queue}/worker-build-id-compatibility"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility", runtime.WithHTTPPathPattern("/namespaces/{namespace}/task-queues/{task_queue}/worker-build-id-compatibility"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4146,7 +4146,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/task-queues/{task_queue}/worker-versioning-rules"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules", runtime.WithHTTPPathPattern("/namespaces/{namespace}/task-queues/{task_queue}/worker-versioning-rules"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4171,7 +4171,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-task-reachability"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-task-reachability"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4196,7 +4196,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/update/{request.input.name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/update/{request.input.name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4221,7 +4221,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/batch-operations/{job_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation", runtime.WithHTTPPathPattern("/namespaces/{namespace}/batch-operations/{job_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4246,7 +4246,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/batch-operations/{job_id}/stop"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation", runtime.WithHTTPPathPattern("/namespaces/{namespace}/batch-operations/{job_id}/stop"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4271,7 +4271,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/batch-operations/{job_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation", runtime.WithHTTPPathPattern("/namespaces/{namespace}/batch-operations/{job_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4296,7 +4296,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListBatchOperations", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/batch-operations"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListBatchOperations", runtime.WithHTTPPathPattern("/namespaces/{namespace}/batch-operations"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4360,7 +4360,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RegisterNamespace", runtime.WithHTTPPathPattern("/api/v1/namespaces"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RegisterNamespace", runtime.WithHTTPPathPattern("/namespaces"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4382,7 +4382,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeNamespace", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeNamespace", runtime.WithHTTPPathPattern("/namespaces/{namespace}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4404,7 +4404,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListNamespaces", runtime.WithHTTPPathPattern("/api/v1/namespaces"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListNamespaces", runtime.WithHTTPPathPattern("/namespaces"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4426,7 +4426,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateNamespace", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/update"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateNamespace", runtime.WithHTTPPathPattern("/namespaces/{namespace}/update"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4448,7 +4448,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4470,7 +4470,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/execute-multi-operation"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/execute-multi-operation"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4492,7 +4492,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{execution.workflow_id}/history"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4514,7 +4514,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{execution.workflow_id}/history-reverse"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4536,7 +4536,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeat", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/heartbeat"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeat", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/heartbeat"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4558,7 +4558,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeatById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/heartbeat-by-id"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeatById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/heartbeat-by-id"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4580,7 +4580,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompleted", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/complete"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompleted", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/complete"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4602,7 +4602,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompletedById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/complete-by-id"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompletedById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/complete-by-id"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4624,7 +4624,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailed", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/fail"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailed", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/fail"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4646,7 +4646,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailedById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/fail-by-id"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailedById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/fail-by-id"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4668,7 +4668,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceled", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/cancel"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceled", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/cancel"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4690,7 +4690,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceledById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/cancel-by-id"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceledById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/cancel-by-id"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4712,7 +4712,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/cancel"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/cancel"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4734,7 +4734,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/SignalWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/signal/{signal_name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/SignalWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/signal/{signal_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4756,7 +4756,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/SignalWithStartWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_id}/signal-with-start/{signal_name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/SignalWithStartWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_id}/signal-with-start/{signal_name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4778,7 +4778,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/reset"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/reset"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4800,7 +4800,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/TerminateWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/terminate"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/TerminateWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/terminate"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4822,7 +4822,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListWorkflowExecutions", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListWorkflowExecutions", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4844,7 +4844,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListArchivedWorkflowExecutions", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/archived-workflows"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListArchivedWorkflowExecutions", runtime.WithHTTPPathPattern("/namespaces/{namespace}/archived-workflows"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4866,7 +4866,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/CountWorkflowExecutions", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflow-count"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/CountWorkflowExecutions", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflow-count"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4888,7 +4888,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/QueryWorkflow", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/query/{query.query_type}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/QueryWorkflow", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{execution.workflow_id}/query/{query.query_type}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4910,7 +4910,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{execution.workflow_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4932,7 +4932,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeTaskQueue", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/task-queues/{task_queue.name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeTaskQueue", runtime.WithHTTPPathPattern("/namespaces/{namespace}/task-queues/{task_queue.name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4954,7 +4954,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo", runtime.WithHTTPPathPattern("/api/v1/cluster-info"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo", runtime.WithHTTPPathPattern("/cluster-info"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4976,7 +4976,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetSystemInfo", runtime.WithHTTPPathPattern("/api/v1/system-info"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetSystemInfo", runtime.WithHTTPPathPattern("/system-info"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4998,7 +4998,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/CreateSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/CreateSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5020,7 +5020,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5042,7 +5042,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}/update"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}/update"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5064,7 +5064,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PatchSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}/patch"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PatchSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}/patch"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5086,7 +5086,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListScheduleMatchingTimes", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}/matching-times"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListScheduleMatchingTimes", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}/matching-times"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5108,7 +5108,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteSchedule", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules/{schedule_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteSchedule", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules/{schedule_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5130,7 +5130,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListSchedules", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/schedules"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListSchedules", runtime.WithHTTPPathPattern("/namespaces/{namespace}/schedules"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5152,7 +5152,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/task-queues/{task_queue}/worker-build-id-compatibility"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility", runtime.WithHTTPPathPattern("/namespaces/{namespace}/task-queues/{task_queue}/worker-build-id-compatibility"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5174,7 +5174,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/task-queues/{task_queue}/worker-versioning-rules"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules", runtime.WithHTTPPathPattern("/namespaces/{namespace}/task-queues/{task_queue}/worker-versioning-rules"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5196,7 +5196,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-task-reachability"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-task-reachability"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5218,7 +5218,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/update/{request.input.name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution", runtime.WithHTTPPathPattern("/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/update/{request.input.name}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5240,7 +5240,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/batch-operations/{job_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation", runtime.WithHTTPPathPattern("/namespaces/{namespace}/batch-operations/{job_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5262,7 +5262,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/batch-operations/{job_id}/stop"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation", runtime.WithHTTPPathPattern("/namespaces/{namespace}/batch-operations/{job_id}/stop"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5284,7 +5284,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/batch-operations/{job_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation", runtime.WithHTTPPathPattern("/namespaces/{namespace}/batch-operations/{job_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5306,7 +5306,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListBatchOperations", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/batch-operations"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ListBatchOperations", runtime.WithHTTPPathPattern("/namespaces/{namespace}/batch-operations"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5326,93 +5326,93 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 }
 
 var (
-	pattern_WorkflowService_RegisterNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "namespaces"}, ""))
+	pattern_WorkflowService_RegisterNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"namespaces"}, ""))
 
-	pattern_WorkflowService_DescribeNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "namespaces", "namespace"}, ""))
+	pattern_WorkflowService_DescribeNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"namespaces", "namespace"}, ""))
 
-	pattern_WorkflowService_ListNamespaces_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "namespaces"}, ""))
+	pattern_WorkflowService_ListNamespaces_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"namespaces"}, ""))
 
-	pattern_WorkflowService_UpdateNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "update"}, ""))
+	pattern_WorkflowService_UpdateNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "update"}, ""))
 
-	pattern_WorkflowService_StartWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_id"}, ""))
+	pattern_WorkflowService_StartWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "workflows", "workflow_id"}, ""))
 
-	pattern_WorkflowService_ExecuteMultiOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execute-multi-operation"}, ""))
+	pattern_WorkflowService_ExecuteMultiOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "workflows", "execute-multi-operation"}, ""))
 
-	pattern_WorkflowService_GetWorkflowExecutionHistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "history"}, ""))
+	pattern_WorkflowService_GetWorkflowExecutionHistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "history"}, ""))
 
-	pattern_WorkflowService_GetWorkflowExecutionHistoryReverse_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "history-reverse"}, ""))
+	pattern_WorkflowService_GetWorkflowExecutionHistoryReverse_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "history-reverse"}, ""))
 
-	pattern_WorkflowService_RecordActivityTaskHeartbeat_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "heartbeat"}, ""))
+	pattern_WorkflowService_RecordActivityTaskHeartbeat_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "heartbeat"}, ""))
 
-	pattern_WorkflowService_RecordActivityTaskHeartbeatById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "heartbeat-by-id"}, ""))
+	pattern_WorkflowService_RecordActivityTaskHeartbeatById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "heartbeat-by-id"}, ""))
 
-	pattern_WorkflowService_RespondActivityTaskCompleted_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "complete"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCompleted_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "complete"}, ""))
 
-	pattern_WorkflowService_RespondActivityTaskCompletedById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "complete-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCompletedById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "complete-by-id"}, ""))
 
-	pattern_WorkflowService_RespondActivityTaskFailed_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "fail"}, ""))
+	pattern_WorkflowService_RespondActivityTaskFailed_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "fail"}, ""))
 
-	pattern_WorkflowService_RespondActivityTaskFailedById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "fail-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskFailedById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "fail-by-id"}, ""))
 
-	pattern_WorkflowService_RespondActivityTaskCanceled_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "cancel"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCanceled_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "cancel"}, ""))
 
-	pattern_WorkflowService_RespondActivityTaskCanceledById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "cancel-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCanceledById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "cancel-by-id"}, ""))
 
-	pattern_WorkflowService_RequestCancelWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "cancel"}, ""))
+	pattern_WorkflowService_RequestCancelWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "cancel"}, ""))
 
-	pattern_WorkflowService_SignalWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "signal", "signal_name"}, ""))
+	pattern_WorkflowService_SignalWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "signal", "signal_name"}, ""))
 
-	pattern_WorkflowService_SignalWithStartWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_id", "signal-with-start", "signal_name"}, ""))
+	pattern_WorkflowService_SignalWithStartWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_id", "signal-with-start", "signal_name"}, ""))
 
-	pattern_WorkflowService_ResetWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "reset"}, ""))
+	pattern_WorkflowService_ResetWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "reset"}, ""))
 
-	pattern_WorkflowService_TerminateWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "terminate"}, ""))
+	pattern_WorkflowService_TerminateWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "terminate"}, ""))
 
-	pattern_WorkflowService_ListWorkflowExecutions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "workflows"}, ""))
+	pattern_WorkflowService_ListWorkflowExecutions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "workflows"}, ""))
 
-	pattern_WorkflowService_ListArchivedWorkflowExecutions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "archived-workflows"}, ""))
+	pattern_WorkflowService_ListArchivedWorkflowExecutions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "archived-workflows"}, ""))
 
-	pattern_WorkflowService_CountWorkflowExecutions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "workflow-count"}, ""))
+	pattern_WorkflowService_CountWorkflowExecutions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "workflow-count"}, ""))
 
-	pattern_WorkflowService_QueryWorkflow_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "query", "query.query_type"}, ""))
+	pattern_WorkflowService_QueryWorkflow_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "query", "query.query_type"}, ""))
 
-	pattern_WorkflowService_DescribeWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id"}, ""))
+	pattern_WorkflowService_DescribeWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id"}, ""))
 
-	pattern_WorkflowService_DescribeTaskQueue_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue.name"}, ""))
+	pattern_WorkflowService_DescribeTaskQueue_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "task-queues", "task_queue.name"}, ""))
 
-	pattern_WorkflowService_GetClusterInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "cluster-info"}, ""))
+	pattern_WorkflowService_GetClusterInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"cluster-info"}, ""))
 
-	pattern_WorkflowService_GetSystemInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "system-info"}, ""))
+	pattern_WorkflowService_GetSystemInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"system-info"}, ""))
 
-	pattern_WorkflowService_CreateSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_CreateSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
 
-	pattern_WorkflowService_DescribeSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_DescribeSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
 
-	pattern_WorkflowService_UpdateSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "update"}, ""))
+	pattern_WorkflowService_UpdateSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "update"}, ""))
 
-	pattern_WorkflowService_PatchSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "patch"}, ""))
+	pattern_WorkflowService_PatchSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "patch"}, ""))
 
-	pattern_WorkflowService_ListScheduleMatchingTimes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "matching-times"}, ""))
+	pattern_WorkflowService_ListScheduleMatchingTimes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "matching-times"}, ""))
 
-	pattern_WorkflowService_DeleteSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_DeleteSchedule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
 
-	pattern_WorkflowService_ListSchedules_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "schedules"}, ""))
+	pattern_WorkflowService_ListSchedules_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "schedules"}, ""))
 
-	pattern_WorkflowService_GetWorkerBuildIdCompatibility_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue", "worker-build-id-compatibility"}, ""))
+	pattern_WorkflowService_GetWorkerBuildIdCompatibility_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "task-queues", "task_queue", "worker-build-id-compatibility"}, ""))
 
-	pattern_WorkflowService_GetWorkerVersioningRules_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue", "worker-versioning-rules"}, ""))
+	pattern_WorkflowService_GetWorkerVersioningRules_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "task-queues", "task_queue", "worker-versioning-rules"}, ""))
 
-	pattern_WorkflowService_GetWorkerTaskReachability_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "worker-task-reachability"}, ""))
+	pattern_WorkflowService_GetWorkerTaskReachability_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "worker-task-reachability"}, ""))
 
-	pattern_WorkflowService_UpdateWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update", "request.input.name"}, ""))
+	pattern_WorkflowService_UpdateWorkflowExecution_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update", "request.input.name"}, ""))
 
-	pattern_WorkflowService_StartBatchOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id"}, ""))
+	pattern_WorkflowService_StartBatchOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "batch-operations", "job_id"}, ""))
 
-	pattern_WorkflowService_StopBatchOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id", "stop"}, ""))
+	pattern_WorkflowService_StopBatchOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "batch-operations", "job_id", "stop"}, ""))
 
-	pattern_WorkflowService_DescribeBatchOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id"}, ""))
+	pattern_WorkflowService_DescribeBatchOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "batch-operations", "job_id"}, ""))
 
-	pattern_WorkflowService_ListBatchOperations_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "batch-operations"}, ""))
+	pattern_WorkflowService_ListBatchOperations_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "batch-operations"}, ""))
 )
 
 var (

@@ -363,7 +363,7 @@ func RegisterOperatorServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/ListSearchAttributes", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/search-attributes"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/ListSearchAttributes", runtime.WithHTTPPathPattern("/namespaces/{namespace}/search-attributes"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -388,7 +388,7 @@ func RegisterOperatorServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/GetNexusEndpoint", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/GetNexusEndpoint", runtime.WithHTTPPathPattern("/nexus/endpoints/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -413,7 +413,7 @@ func RegisterOperatorServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/CreateNexusEndpoint", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/CreateNexusEndpoint", runtime.WithHTTPPathPattern("/nexus/endpoints"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -438,7 +438,7 @@ func RegisterOperatorServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusEndpoint", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints/{id}/update"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusEndpoint", runtime.WithHTTPPathPattern("/nexus/endpoints/{id}/update"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -463,7 +463,7 @@ func RegisterOperatorServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusEndpoint", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusEndpoint", runtime.WithHTTPPathPattern("/nexus/endpoints/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -488,7 +488,7 @@ func RegisterOperatorServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/ListNexusEndpoints", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/ListNexusEndpoints", runtime.WithHTTPPathPattern("/nexus/endpoints"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -552,7 +552,7 @@ func RegisterOperatorServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/ListSearchAttributes", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/search-attributes"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/ListSearchAttributes", runtime.WithHTTPPathPattern("/namespaces/{namespace}/search-attributes"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -574,7 +574,7 @@ func RegisterOperatorServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/GetNexusEndpoint", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints/{id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/GetNexusEndpoint", runtime.WithHTTPPathPattern("/nexus/endpoints/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -596,7 +596,7 @@ func RegisterOperatorServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/CreateNexusEndpoint", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/CreateNexusEndpoint", runtime.WithHTTPPathPattern("/nexus/endpoints"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -618,7 +618,7 @@ func RegisterOperatorServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusEndpoint", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints/{id}/update"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusEndpoint", runtime.WithHTTPPathPattern("/nexus/endpoints/{id}/update"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -640,7 +640,7 @@ func RegisterOperatorServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusEndpoint", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints/{id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusEndpoint", runtime.WithHTTPPathPattern("/nexus/endpoints/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -662,7 +662,7 @@ func RegisterOperatorServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/ListNexusEndpoints", runtime.WithHTTPPathPattern("/api/v1/nexus/endpoints"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.operatorservice.v1.OperatorService/ListNexusEndpoints", runtime.WithHTTPPathPattern("/nexus/endpoints"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -682,17 +682,17 @@ func RegisterOperatorServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 }
 
 var (
-	pattern_OperatorService_ListSearchAttributes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "search-attributes"}, ""))
+	pattern_OperatorService_ListSearchAttributes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "search-attributes"}, ""))
 
-	pattern_OperatorService_GetNexusEndpoint_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "nexus", "endpoints", "id"}, ""))
+	pattern_OperatorService_GetNexusEndpoint_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"nexus", "endpoints", "id"}, ""))
 
-	pattern_OperatorService_CreateNexusEndpoint_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "nexus", "endpoints"}, ""))
+	pattern_OperatorService_CreateNexusEndpoint_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"nexus", "endpoints"}, ""))
 
-	pattern_OperatorService_UpdateNexusEndpoint_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "nexus", "endpoints", "id", "update"}, ""))
+	pattern_OperatorService_UpdateNexusEndpoint_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"nexus", "endpoints", "id", "update"}, ""))
 
-	pattern_OperatorService_DeleteNexusEndpoint_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "nexus", "endpoints", "id"}, ""))
+	pattern_OperatorService_DeleteNexusEndpoint_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"nexus", "endpoints", "id"}, ""))
 
-	pattern_OperatorService_ListNexusEndpoints_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "nexus", "endpoints"}, ""))
+	pattern_OperatorService_ListNexusEndpoints_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"nexus", "endpoints"}, ""))
 )
 
 var (
