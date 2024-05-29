@@ -17,9 +17,6 @@ on:
         description: "Commit message"
         required: true
 
-permissions:
-  contents: write
-
 jobs:
   sync:
     name: "Update proto"
@@ -30,10 +27,17 @@ jobs:
         shell: bash
 
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.TEMPORAL_CICD_APP_ID }}
+          private-key: ${{ secrets.TEMPORAL_CICD_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.generate_token.outputs.token }}
           persist-credentials: true
           ref: ${{ github.event.inputs.branch }}
           submodules: true
