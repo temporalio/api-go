@@ -3,6 +3,10 @@ name: "Update Proto"
 on:
   workflow_dispatch:
     inputs:
+      branch:
+        description: "Branch in api-go repo to update protos (default: master)"
+        required: false
+        default: master
       commit_author:
         description: "Commit author username"
         required: true
@@ -12,6 +16,9 @@ on:
       commit_message:
         description: "Commit message"
         required: true
+
+permissions:
+  contents: write
 
 jobs:
   sync:
@@ -24,14 +31,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          ref: ${{ github.event.inputs.branch }}
           submodules: true
-          persist-credentials: false
 
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v5
         with:
-          go-version: "1.20"
+          go-version-file: 'go.mod'
+          check-latest: true
 
       - uses: arduino/setup-protoc@v1
         with:
@@ -40,16 +50,17 @@ jobs:
       - name: Re-build proto
         run: |
           make install update-proto test
+
       - name: Commit update
         env:
           GIT_AUTHOR_NAME: ${{ github.event.inputs.commit_author }}
           GIT_AUTHOR_EMAIL: ${{ github.event.inputs.commit_author_email }}
           GIT_COMMITTER_NAME: ${{ github.event.inputs.commit_author }}
           GIT_COMMITTER_EMAIL: ${{ github.event.inputs.commit_author_email }}
+          GIT_COMMIT_MESSAGE: ${{ github.event.inputs.commit_message }}
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.COMMANDER_DATA_TOKEN }}@github.com/${{ github.repository }}
           git add .
-          git commit -m "${{ github.event.inputs.commit_message }}"
+          git commit -m "${GIT_COMMIT_MESSAGE}"
           if [ $? -eq 0 ]; then
             git push
           else
