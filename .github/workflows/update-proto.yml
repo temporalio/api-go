@@ -37,7 +37,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ github.generate_token.outputs.token }}
+          token: ${{ steps.generate_token.outputs.token }}
           persist-credentials: true
           ref: ${{ github.event.inputs.branch }}
           submodules: true
