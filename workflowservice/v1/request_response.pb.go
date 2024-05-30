@@ -1509,8 +1509,16 @@ type PollWorkflowTaskQueueResponse struct {
 	StartedEventId int64 `protobuf:"varint,5,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
 	// Starting at 1, the number of attempts to complete this task by any worker.
 	Attempt int32 `protobuf:"varint,6,opt,name=attempt,proto3" json:"attempt,omitempty"`
-	// A hint that there are more tasks already present in this task queue. Can be used to
-	// prioritize draining a sticky queue before polling from a normal queue.
+	// A hint that there are more tasks already present in this task queue
+	// partition. Can be used to prioritize draining a sticky queue.
+	//
+	// Specifically, the returned number is the number of tasks remaining in
+	// the in-memory buffer for this partition, which is currently capped at
+	// 1000. Because sticky queues only have one partition, this number is
+	// more useful when draining them. Normal queues, typically having more than one
+	// partition, will return a number representing only some portion of the
+	// overall backlog. Subsequent RPCs may not hit the same partition as
+	// this call.
 	BacklogCountHint int64 `protobuf:"varint,7,opt,name=backlog_count_hint,json=backlogCountHint,proto3" json:"backlog_count_hint,omitempty"`
 	// The history for this workflow, which will either be complete or partial. Partial histories
 	// are sent to workers who have signaled that they are using a sticky queue when completing
