@@ -38,8 +38,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
-const _ = grpc.SupportPackageIsVersion7
+// Requires gRPC-Go v1.62.0 or later.
+const _ = grpc.SupportPackageIsVersion8
 
 const (
 	OperatorService_AddSearchAttributes_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/AddSearchAttributes"
@@ -59,6 +59,11 @@ const (
 // OperatorServiceClient is the client API for OperatorService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// OperatorService API defines how Temporal SDKs and other clients interact with the Temporal server
+// to perform administrative functions like registering a search attribute or a namespace.
+// APIs in this file could be not compatible with Temporal Cloud, hence it's usage in SDKs should be limited by
+// designated APIs that clearly state that they shouldn't be used by the main Application (Workflows & Activities) framework.
 type OperatorServiceClient interface {
 	// AddSearchAttributes add custom search attributes.
 	//
@@ -109,8 +114,9 @@ func NewOperatorServiceClient(cc grpc.ClientConnInterface) OperatorServiceClient
 }
 
 func (c *operatorServiceClient) AddSearchAttributes(ctx context.Context, in *AddSearchAttributesRequest, opts ...grpc.CallOption) (*AddSearchAttributesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddSearchAttributesResponse)
-	err := c.cc.Invoke(ctx, OperatorService_AddSearchAttributes_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_AddSearchAttributes_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -118,8 +124,9 @@ func (c *operatorServiceClient) AddSearchAttributes(ctx context.Context, in *Add
 }
 
 func (c *operatorServiceClient) RemoveSearchAttributes(ctx context.Context, in *RemoveSearchAttributesRequest, opts ...grpc.CallOption) (*RemoveSearchAttributesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RemoveSearchAttributesResponse)
-	err := c.cc.Invoke(ctx, OperatorService_RemoveSearchAttributes_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_RemoveSearchAttributes_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -127,8 +134,9 @@ func (c *operatorServiceClient) RemoveSearchAttributes(ctx context.Context, in *
 }
 
 func (c *operatorServiceClient) ListSearchAttributes(ctx context.Context, in *ListSearchAttributesRequest, opts ...grpc.CallOption) (*ListSearchAttributesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListSearchAttributesResponse)
-	err := c.cc.Invoke(ctx, OperatorService_ListSearchAttributes_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_ListSearchAttributes_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -136,8 +144,9 @@ func (c *operatorServiceClient) ListSearchAttributes(ctx context.Context, in *Li
 }
 
 func (c *operatorServiceClient) DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, opts ...grpc.CallOption) (*DeleteNamespaceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteNamespaceResponse)
-	err := c.cc.Invoke(ctx, OperatorService_DeleteNamespace_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_DeleteNamespace_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -145,8 +154,9 @@ func (c *operatorServiceClient) DeleteNamespace(ctx context.Context, in *DeleteN
 }
 
 func (c *operatorServiceClient) AddOrUpdateRemoteCluster(ctx context.Context, in *AddOrUpdateRemoteClusterRequest, opts ...grpc.CallOption) (*AddOrUpdateRemoteClusterResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddOrUpdateRemoteClusterResponse)
-	err := c.cc.Invoke(ctx, OperatorService_AddOrUpdateRemoteCluster_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_AddOrUpdateRemoteCluster_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -154,8 +164,9 @@ func (c *operatorServiceClient) AddOrUpdateRemoteCluster(ctx context.Context, in
 }
 
 func (c *operatorServiceClient) RemoveRemoteCluster(ctx context.Context, in *RemoveRemoteClusterRequest, opts ...grpc.CallOption) (*RemoveRemoteClusterResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RemoveRemoteClusterResponse)
-	err := c.cc.Invoke(ctx, OperatorService_RemoveRemoteCluster_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_RemoveRemoteCluster_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -163,8 +174,9 @@ func (c *operatorServiceClient) RemoveRemoteCluster(ctx context.Context, in *Rem
 }
 
 func (c *operatorServiceClient) ListClusters(ctx context.Context, in *ListClustersRequest, opts ...grpc.CallOption) (*ListClustersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListClustersResponse)
-	err := c.cc.Invoke(ctx, OperatorService_ListClusters_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_ListClusters_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -172,8 +184,9 @@ func (c *operatorServiceClient) ListClusters(ctx context.Context, in *ListCluste
 }
 
 func (c *operatorServiceClient) GetNexusEndpoint(ctx context.Context, in *GetNexusEndpointRequest, opts ...grpc.CallOption) (*GetNexusEndpointResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetNexusEndpointResponse)
-	err := c.cc.Invoke(ctx, OperatorService_GetNexusEndpoint_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_GetNexusEndpoint_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -181,8 +194,9 @@ func (c *operatorServiceClient) GetNexusEndpoint(ctx context.Context, in *GetNex
 }
 
 func (c *operatorServiceClient) CreateNexusEndpoint(ctx context.Context, in *CreateNexusEndpointRequest, opts ...grpc.CallOption) (*CreateNexusEndpointResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateNexusEndpointResponse)
-	err := c.cc.Invoke(ctx, OperatorService_CreateNexusEndpoint_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_CreateNexusEndpoint_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -190,8 +204,9 @@ func (c *operatorServiceClient) CreateNexusEndpoint(ctx context.Context, in *Cre
 }
 
 func (c *operatorServiceClient) UpdateNexusEndpoint(ctx context.Context, in *UpdateNexusEndpointRequest, opts ...grpc.CallOption) (*UpdateNexusEndpointResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateNexusEndpointResponse)
-	err := c.cc.Invoke(ctx, OperatorService_UpdateNexusEndpoint_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_UpdateNexusEndpoint_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -199,8 +214,9 @@ func (c *operatorServiceClient) UpdateNexusEndpoint(ctx context.Context, in *Upd
 }
 
 func (c *operatorServiceClient) DeleteNexusEndpoint(ctx context.Context, in *DeleteNexusEndpointRequest, opts ...grpc.CallOption) (*DeleteNexusEndpointResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteNexusEndpointResponse)
-	err := c.cc.Invoke(ctx, OperatorService_DeleteNexusEndpoint_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_DeleteNexusEndpoint_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -208,8 +224,9 @@ func (c *operatorServiceClient) DeleteNexusEndpoint(ctx context.Context, in *Del
 }
 
 func (c *operatorServiceClient) ListNexusEndpoints(ctx context.Context, in *ListNexusEndpointsRequest, opts ...grpc.CallOption) (*ListNexusEndpointsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListNexusEndpointsResponse)
-	err := c.cc.Invoke(ctx, OperatorService_ListNexusEndpoints_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, OperatorService_ListNexusEndpoints_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -219,6 +236,11 @@ func (c *operatorServiceClient) ListNexusEndpoints(ctx context.Context, in *List
 // OperatorServiceServer is the server API for OperatorService service.
 // All implementations must embed UnimplementedOperatorServiceServer
 // for forward compatibility
+//
+// OperatorService API defines how Temporal SDKs and other clients interact with the Temporal server
+// to perform administrative functions like registering a search attribute or a namespace.
+// APIs in this file could be not compatible with Temporal Cloud, hence it's usage in SDKs should be limited by
+// designated APIs that clearly state that they shouldn't be used by the main Application (Workflows & Activities) framework.
 type OperatorServiceServer interface {
 	// AddSearchAttributes add custom search attributes.
 	//

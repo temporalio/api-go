@@ -38,8 +38,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
-const _ = grpc.SupportPackageIsVersion7
+// Requires gRPC-Go v1.62.0 or later.
+const _ = grpc.SupportPackageIsVersion8
 
 const (
 	CloudService_GetUsers_FullMethodName                    = "/temporal.api.cloud.cloudservice.v1.CloudService/GetUsers"
@@ -80,6 +80,9 @@ const (
 // CloudServiceClient is the client API for CloudService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+//
+// WARNING: This service is currently experimental and may change in
+// incompatible ways.
 type CloudServiceClient interface {
 	// Gets all known users
 	GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error)
@@ -158,8 +161,9 @@ func NewCloudServiceClient(cc grpc.ClientConnInterface) CloudServiceClient {
 }
 
 func (c *cloudServiceClient) GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUsersResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetUsers_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetUsers_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -167,8 +171,9 @@ func (c *cloudServiceClient) GetUsers(ctx context.Context, in *GetUsersRequest, 
 }
 
 func (c *cloudServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -176,8 +181,9 @@ func (c *cloudServiceClient) GetUser(ctx context.Context, in *GetUserRequest, op
 }
 
 func (c *cloudServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateUserResponse)
-	err := c.cc.Invoke(ctx, CloudService_CreateUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_CreateUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -185,8 +191,9 @@ func (c *cloudServiceClient) CreateUser(ctx context.Context, in *CreateUserReque
 }
 
 func (c *cloudServiceClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateUserResponse)
-	err := c.cc.Invoke(ctx, CloudService_UpdateUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_UpdateUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -194,8 +201,9 @@ func (c *cloudServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReque
 }
 
 func (c *cloudServiceClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteUserResponse)
-	err := c.cc.Invoke(ctx, CloudService_DeleteUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_DeleteUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -203,8 +211,9 @@ func (c *cloudServiceClient) DeleteUser(ctx context.Context, in *DeleteUserReque
 }
 
 func (c *cloudServiceClient) SetUserNamespaceAccess(ctx context.Context, in *SetUserNamespaceAccessRequest, opts ...grpc.CallOption) (*SetUserNamespaceAccessResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetUserNamespaceAccessResponse)
-	err := c.cc.Invoke(ctx, CloudService_SetUserNamespaceAccess_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_SetUserNamespaceAccess_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -212,8 +221,9 @@ func (c *cloudServiceClient) SetUserNamespaceAccess(ctx context.Context, in *Set
 }
 
 func (c *cloudServiceClient) GetAsyncOperation(ctx context.Context, in *GetAsyncOperationRequest, opts ...grpc.CallOption) (*GetAsyncOperationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetAsyncOperationResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetAsyncOperation_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetAsyncOperation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -221,8 +231,9 @@ func (c *cloudServiceClient) GetAsyncOperation(ctx context.Context, in *GetAsync
 }
 
 func (c *cloudServiceClient) CreateNamespace(ctx context.Context, in *CreateNamespaceRequest, opts ...grpc.CallOption) (*CreateNamespaceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateNamespaceResponse)
-	err := c.cc.Invoke(ctx, CloudService_CreateNamespace_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_CreateNamespace_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -230,8 +241,9 @@ func (c *cloudServiceClient) CreateNamespace(ctx context.Context, in *CreateName
 }
 
 func (c *cloudServiceClient) GetNamespaces(ctx context.Context, in *GetNamespacesRequest, opts ...grpc.CallOption) (*GetNamespacesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetNamespacesResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetNamespaces_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetNamespaces_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -239,8 +251,9 @@ func (c *cloudServiceClient) GetNamespaces(ctx context.Context, in *GetNamespace
 }
 
 func (c *cloudServiceClient) GetNamespace(ctx context.Context, in *GetNamespaceRequest, opts ...grpc.CallOption) (*GetNamespaceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetNamespaceResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetNamespace_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetNamespace_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -248,8 +261,9 @@ func (c *cloudServiceClient) GetNamespace(ctx context.Context, in *GetNamespaceR
 }
 
 func (c *cloudServiceClient) UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...grpc.CallOption) (*UpdateNamespaceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateNamespaceResponse)
-	err := c.cc.Invoke(ctx, CloudService_UpdateNamespace_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_UpdateNamespace_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -257,8 +271,9 @@ func (c *cloudServiceClient) UpdateNamespace(ctx context.Context, in *UpdateName
 }
 
 func (c *cloudServiceClient) RenameCustomSearchAttribute(ctx context.Context, in *RenameCustomSearchAttributeRequest, opts ...grpc.CallOption) (*RenameCustomSearchAttributeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RenameCustomSearchAttributeResponse)
-	err := c.cc.Invoke(ctx, CloudService_RenameCustomSearchAttribute_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_RenameCustomSearchAttribute_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -266,8 +281,9 @@ func (c *cloudServiceClient) RenameCustomSearchAttribute(ctx context.Context, in
 }
 
 func (c *cloudServiceClient) DeleteNamespace(ctx context.Context, in *DeleteNamespaceRequest, opts ...grpc.CallOption) (*DeleteNamespaceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteNamespaceResponse)
-	err := c.cc.Invoke(ctx, CloudService_DeleteNamespace_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_DeleteNamespace_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -275,8 +291,9 @@ func (c *cloudServiceClient) DeleteNamespace(ctx context.Context, in *DeleteName
 }
 
 func (c *cloudServiceClient) FailoverNamespaceRegion(ctx context.Context, in *FailoverNamespaceRegionRequest, opts ...grpc.CallOption) (*FailoverNamespaceRegionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(FailoverNamespaceRegionResponse)
-	err := c.cc.Invoke(ctx, CloudService_FailoverNamespaceRegion_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_FailoverNamespaceRegion_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -284,8 +301,9 @@ func (c *cloudServiceClient) FailoverNamespaceRegion(ctx context.Context, in *Fa
 }
 
 func (c *cloudServiceClient) AddNamespaceRegion(ctx context.Context, in *AddNamespaceRegionRequest, opts ...grpc.CallOption) (*AddNamespaceRegionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddNamespaceRegionResponse)
-	err := c.cc.Invoke(ctx, CloudService_AddNamespaceRegion_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_AddNamespaceRegion_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -293,8 +311,9 @@ func (c *cloudServiceClient) AddNamespaceRegion(ctx context.Context, in *AddName
 }
 
 func (c *cloudServiceClient) GetRegions(ctx context.Context, in *GetRegionsRequest, opts ...grpc.CallOption) (*GetRegionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetRegionsResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetRegions_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetRegions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -302,8 +321,9 @@ func (c *cloudServiceClient) GetRegions(ctx context.Context, in *GetRegionsReque
 }
 
 func (c *cloudServiceClient) GetRegion(ctx context.Context, in *GetRegionRequest, opts ...grpc.CallOption) (*GetRegionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetRegionResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetRegion_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetRegion_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -311,8 +331,9 @@ func (c *cloudServiceClient) GetRegion(ctx context.Context, in *GetRegionRequest
 }
 
 func (c *cloudServiceClient) GetApiKeys(ctx context.Context, in *GetApiKeysRequest, opts ...grpc.CallOption) (*GetApiKeysResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetApiKeysResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetApiKeys_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetApiKeys_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -320,8 +341,9 @@ func (c *cloudServiceClient) GetApiKeys(ctx context.Context, in *GetApiKeysReque
 }
 
 func (c *cloudServiceClient) GetApiKey(ctx context.Context, in *GetApiKeyRequest, opts ...grpc.CallOption) (*GetApiKeyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetApiKeyResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetApiKey_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetApiKey_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -329,8 +351,9 @@ func (c *cloudServiceClient) GetApiKey(ctx context.Context, in *GetApiKeyRequest
 }
 
 func (c *cloudServiceClient) CreateApiKey(ctx context.Context, in *CreateApiKeyRequest, opts ...grpc.CallOption) (*CreateApiKeyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateApiKeyResponse)
-	err := c.cc.Invoke(ctx, CloudService_CreateApiKey_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_CreateApiKey_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -338,8 +361,9 @@ func (c *cloudServiceClient) CreateApiKey(ctx context.Context, in *CreateApiKeyR
 }
 
 func (c *cloudServiceClient) UpdateApiKey(ctx context.Context, in *UpdateApiKeyRequest, opts ...grpc.CallOption) (*UpdateApiKeyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateApiKeyResponse)
-	err := c.cc.Invoke(ctx, CloudService_UpdateApiKey_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_UpdateApiKey_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -347,8 +371,9 @@ func (c *cloudServiceClient) UpdateApiKey(ctx context.Context, in *UpdateApiKeyR
 }
 
 func (c *cloudServiceClient) DeleteApiKey(ctx context.Context, in *DeleteApiKeyRequest, opts ...grpc.CallOption) (*DeleteApiKeyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteApiKeyResponse)
-	err := c.cc.Invoke(ctx, CloudService_DeleteApiKey_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_DeleteApiKey_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -356,8 +381,9 @@ func (c *cloudServiceClient) DeleteApiKey(ctx context.Context, in *DeleteApiKeyR
 }
 
 func (c *cloudServiceClient) GetUserGroups(ctx context.Context, in *GetUserGroupsRequest, opts ...grpc.CallOption) (*GetUserGroupsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserGroupsResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetUserGroups_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetUserGroups_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -365,8 +391,9 @@ func (c *cloudServiceClient) GetUserGroups(ctx context.Context, in *GetUserGroup
 }
 
 func (c *cloudServiceClient) GetUserGroup(ctx context.Context, in *GetUserGroupRequest, opts ...grpc.CallOption) (*GetUserGroupResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetUserGroupResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetUserGroup_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetUserGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -374,8 +401,9 @@ func (c *cloudServiceClient) GetUserGroup(ctx context.Context, in *GetUserGroupR
 }
 
 func (c *cloudServiceClient) CreateUserGroup(ctx context.Context, in *CreateUserGroupRequest, opts ...grpc.CallOption) (*CreateUserGroupResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateUserGroupResponse)
-	err := c.cc.Invoke(ctx, CloudService_CreateUserGroup_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_CreateUserGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -383,8 +411,9 @@ func (c *cloudServiceClient) CreateUserGroup(ctx context.Context, in *CreateUser
 }
 
 func (c *cloudServiceClient) UpdateUserGroup(ctx context.Context, in *UpdateUserGroupRequest, opts ...grpc.CallOption) (*UpdateUserGroupResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateUserGroupResponse)
-	err := c.cc.Invoke(ctx, CloudService_UpdateUserGroup_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_UpdateUserGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -392,8 +421,9 @@ func (c *cloudServiceClient) UpdateUserGroup(ctx context.Context, in *UpdateUser
 }
 
 func (c *cloudServiceClient) DeleteUserGroup(ctx context.Context, in *DeleteUserGroupRequest, opts ...grpc.CallOption) (*DeleteUserGroupResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteUserGroupResponse)
-	err := c.cc.Invoke(ctx, CloudService_DeleteUserGroup_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_DeleteUserGroup_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -401,8 +431,9 @@ func (c *cloudServiceClient) DeleteUserGroup(ctx context.Context, in *DeleteUser
 }
 
 func (c *cloudServiceClient) SetUserGroupNamespaceAccess(ctx context.Context, in *SetUserGroupNamespaceAccessRequest, opts ...grpc.CallOption) (*SetUserGroupNamespaceAccessResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetUserGroupNamespaceAccessResponse)
-	err := c.cc.Invoke(ctx, CloudService_SetUserGroupNamespaceAccess_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_SetUserGroupNamespaceAccess_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -410,8 +441,9 @@ func (c *cloudServiceClient) SetUserGroupNamespaceAccess(ctx context.Context, in
 }
 
 func (c *cloudServiceClient) CreateServiceAccount(ctx context.Context, in *CreateServiceAccountRequest, opts ...grpc.CallOption) (*CreateServiceAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateServiceAccountResponse)
-	err := c.cc.Invoke(ctx, CloudService_CreateServiceAccount_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_CreateServiceAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -419,8 +451,9 @@ func (c *cloudServiceClient) CreateServiceAccount(ctx context.Context, in *Creat
 }
 
 func (c *cloudServiceClient) GetServiceAccount(ctx context.Context, in *GetServiceAccountRequest, opts ...grpc.CallOption) (*GetServiceAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetServiceAccountResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetServiceAccount_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetServiceAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -428,8 +461,9 @@ func (c *cloudServiceClient) GetServiceAccount(ctx context.Context, in *GetServi
 }
 
 func (c *cloudServiceClient) GetServiceAccounts(ctx context.Context, in *GetServiceAccountsRequest, opts ...grpc.CallOption) (*GetServiceAccountsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetServiceAccountsResponse)
-	err := c.cc.Invoke(ctx, CloudService_GetServiceAccounts_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_GetServiceAccounts_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -437,8 +471,9 @@ func (c *cloudServiceClient) GetServiceAccounts(ctx context.Context, in *GetServ
 }
 
 func (c *cloudServiceClient) UpdateServiceAccount(ctx context.Context, in *UpdateServiceAccountRequest, opts ...grpc.CallOption) (*UpdateServiceAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateServiceAccountResponse)
-	err := c.cc.Invoke(ctx, CloudService_UpdateServiceAccount_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_UpdateServiceAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -446,8 +481,9 @@ func (c *cloudServiceClient) UpdateServiceAccount(ctx context.Context, in *Updat
 }
 
 func (c *cloudServiceClient) DeleteServiceAccount(ctx context.Context, in *DeleteServiceAccountRequest, opts ...grpc.CallOption) (*DeleteServiceAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteServiceAccountResponse)
-	err := c.cc.Invoke(ctx, CloudService_DeleteServiceAccount_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, CloudService_DeleteServiceAccount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -457,6 +493,9 @@ func (c *cloudServiceClient) DeleteServiceAccount(ctx context.Context, in *Delet
 // CloudServiceServer is the server API for CloudService service.
 // All implementations must embed UnimplementedCloudServiceServer
 // for forward compatibility
+//
+// WARNING: This service is currently experimental and may change in
+// incompatible ways.
 type CloudServiceServer interface {
 	// Gets all known users
 	GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error)
