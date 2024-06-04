@@ -238,8 +238,8 @@ func (t *testGRPCServer) waitUntilServing() error {
 	return fmt.Errorf("failed waiting, last error: %w", lastErr)
 }
 
-func (t *testGRPCServer) Close() error {
-	return t.listener.Close()
+func (t *testGRPCServer) Stop() {
+	t.Server.Stop()
 }
 
 func (t *testGRPCServer) GetClusterInfo(

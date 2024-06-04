@@ -41,7 +41,7 @@ func TestProxyMetadataForward(t *testing.T) {
 	// Create an end server
 	endSrv, err := startTestGRPCServer()
 	require.NoError(t, err)
-	defer endSrv.Close()
+	defer endSrv.Stop()
 	endConn, err := grpc.NewClient(endSrv.addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	require.NoError(t, err)
 	defer endConn.Close()
