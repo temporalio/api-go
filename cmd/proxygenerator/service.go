@@ -55,11 +55,13 @@ import (
 // Temporal Frontend.
 type WorkflowServiceProxyOptions struct {
 	Client workflowservice.WorkflowServiceClient
+	DisableHeaderForwarding bool
 }
 
 type workflowServiceProxyServer struct {
 	workflowservice.UnimplementedWorkflowServiceServer
 	client workflowservice.WorkflowServiceClient
+	disableHeaderForwarding bool
 }
 
 // NewWorkflowServiceProxyServer creates a WorkflowServiceServer suitable for registering with a gRPC Server. Requests will
@@ -68,6 +70,7 @@ type workflowServiceProxyServer struct {
 func NewWorkflowServiceProxyServer(options WorkflowServiceProxyOptions) (workflowservice.WorkflowServiceServer, error) {
 	return &workflowServiceProxyServer{
 		client: options.Client,
+		disableHeaderForwarding: options.DisableHeaderForwarding,
 	}, nil
 }
 `
@@ -119,6 +122,10 @@ func generateService(cfg config) error {
 					counter += 1
 				}
 				paramDecl[i] = fmt.Sprintf("%s %s", params[i], types.TypeString(typ, qual))
+				// Wrap ctx parameter in reqCtx
+				if params[i] == "ctx" {
+					params[i] = "s.reqCtx(ctx)"
+				}
 			}
 			fmt.Fprintf(buf, "\nfunc (s *workflowServiceProxyServer) %s(%s) %s {\n", name, strings.Join(paramDecl, ", "), types.TypeString(sig.Results(), qual))
 			fmt.Fprintf(buf, "\treturn s.client.%s(%s)\n", name, strings.Join(params, ", "))

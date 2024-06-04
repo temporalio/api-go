@@ -38,6 +38,7 @@ import (
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -190,8 +191,10 @@ func TestClientInterceptor(t *testing.T) {
 type testGRPCServer struct {
 	workflowservice.UnimplementedWorkflowServiceServer
 	*grpc.Server
-	addr                          string
-	startWorkflowExecutionRequest *workflowservice.StartWorkflowExecutionRequest
+	listener                       net.Listener
+	addr                           string
+	startWorkflowExecutionRequest  *workflowservice.StartWorkflowExecutionRequest
+	startWorkflowExecutionMetadata metadata.MD
 }
 
 func startTestGRPCServer() (*testGRPCServer, error) {
@@ -199,7 +202,7 @@ func startTestGRPCServer() (*testGRPCServer, error) {
 	if err != nil {
 		return nil, err
 	}
-	t := &testGRPCServer{Server: grpc.NewServer(), addr: l.Addr().String()}
+	t := &testGRPCServer{Server: grpc.NewServer(), listener: l, addr: l.Addr().String()}
 	workflowservice.RegisterWorkflowServiceServer(t.Server, t)
 	go func() {
 		if err := t.Serve(l); err != nil {
@@ -235,6 +238,10 @@ func (t *testGRPCServer) waitUntilServing() error {
 	return fmt.Errorf("failed waiting, last error: %w", lastErr)
 }
 
+func (t *testGRPCServer) Close() error {
+	return t.listener.Close()
+}
+
 func (t *testGRPCServer) GetClusterInfo(
 	context.Context,
 	*workflowservice.GetClusterInfoRequest,
@@ -247,6 +254,7 @@ func (t *testGRPCServer) StartWorkflowExecution(
 	req *workflowservice.StartWorkflowExecutionRequest,
 ) (*workflowservice.StartWorkflowExecutionResponse, error) {
 	t.startWorkflowExecutionRequest = req
+	t.startWorkflowExecutionMetadata, _ = metadata.FromIncomingContext(ctx)
 	return &workflowservice.StartWorkflowExecutionResponse{}, nil
 }
 
