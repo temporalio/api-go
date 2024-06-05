@@ -139,13 +139,14 @@ func SignalExternalWorkflowExecutionFailedCauseFromString(s string) (SignalExter
 
 var (
 	ResourceExhaustedCause_shorthandValue = map[string]int32{
-		"Unspecified":      0,
-		"RpsLimit":         1,
-		"ConcurrentLimit":  2,
-		"SystemOverloaded": 3,
-		"PersistenceLimit": 4,
-		"BusyWorkflow":     5,
-		"ApsLimit":         6,
+		"Unspecified":             0,
+		"RpsLimit":                1,
+		"ConcurrentLimit":         2,
+		"SystemOverloaded":        3,
+		"PersistenceLimit":        4,
+		"BusyWorkflow":            5,
+		"ApsLimit":                6,
+		"PersistenceStorageLimit": 7,
 	}
 )
 
