@@ -1637,7 +1637,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP() [
 }
 
 var file_temporal_api_operatorservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
-var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []interface{}{
+var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []any{
 	(*AddSearchAttributesRequest)(nil),       // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest
 	(*AddSearchAttributesResponse)(nil),      // 1: temporal.api.operatorservice.v1.AddSearchAttributesResponse
 	(*RemoveSearchAttributesRequest)(nil),    // 2: temporal.api.operatorservice.v1.RemoveSearchAttributesRequest
@@ -1701,7 +1701,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*AddSearchAttributesRequest); i {
 			case 0:
 				return &v.state
@@ -1713,7 +1713,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*AddSearchAttributesResponse); i {
 			case 0:
 				return &v.state
@@ -1725,7 +1725,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*RemoveSearchAttributesRequest); i {
 			case 0:
 				return &v.state
@@ -1737,7 +1737,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*RemoveSearchAttributesResponse); i {
 			case 0:
 				return &v.state
@@ -1749,7 +1749,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*ListSearchAttributesRequest); i {
 			case 0:
 				return &v.state
@@ -1761,7 +1761,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*ListSearchAttributesResponse); i {
 			case 0:
 				return &v.state
@@ -1773,7 +1773,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteNamespaceRequest); i {
 			case 0:
 				return &v.state
@@ -1785,7 +1785,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteNamespaceResponse); i {
 			case 0:
 				return &v.state
@@ -1797,7 +1797,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*AddOrUpdateRemoteClusterRequest); i {
 			case 0:
 				return &v.state
@@ -1809,7 +1809,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*AddOrUpdateRemoteClusterResponse); i {
 			case 0:
 				return &v.state
@@ -1821,7 +1821,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*RemoveRemoteClusterRequest); i {
 			case 0:
 				return &v.state
@@ -1833,7 +1833,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11].Exporter = func(v any, i int) any {
 			switch v := v.(*RemoveRemoteClusterResponse); i {
 			case 0:
 				return &v.state
@@ -1845,7 +1845,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12].Exporter = func(v any, i int) any {
 			switch v := v.(*ListClustersRequest); i {
 			case 0:
 				return &v.state
@@ -1857,7 +1857,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13].Exporter = func(v any, i int) any {
 			switch v := v.(*ListClustersResponse); i {
 			case 0:
 				return &v.state
@@ -1869,7 +1869,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14].Exporter = func(v any, i int) any {
 			switch v := v.(*ClusterMetadata); i {
 			case 0:
 				return &v.state
@@ -1881,7 +1881,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15].Exporter = func(v any, i int) any {
 			switch v := v.(*GetNexusEndpointRequest); i {
 			case 0:
 				return &v.state
@@ -1893,7 +1893,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16].Exporter = func(v any, i int) any {
 			switch v := v.(*GetNexusEndpointResponse); i {
 			case 0:
 				return &v.state
@@ -1905,7 +1905,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17].Exporter = func(v any, i int) any {
 			switch v := v.(*CreateNexusEndpointRequest); i {
 			case 0:
 				return &v.state
@@ -1917,7 +1917,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18].Exporter = func(v any, i int) any {
 			switch v := v.(*CreateNexusEndpointResponse); i {
 			case 0:
 				return &v.state
@@ -1929,7 +1929,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateNexusEndpointRequest); i {
 			case 0:
 				return &v.state
@@ -1941,7 +1941,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateNexusEndpointResponse); i {
 			case 0:
 				return &v.state
@@ -1953,7 +1953,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteNexusEndpointRequest); i {
 			case 0:
 				return &v.state
@@ -1965,7 +1965,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteNexusEndpointResponse); i {
 			case 0:
 				return &v.state
@@ -1977,7 +1977,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23].Exporter = func(v any, i int) any {
 			switch v := v.(*ListNexusEndpointsRequest); i {
 			case 0:
 				return &v.state
@@ -1989,7 +1989,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24].Exporter = func(v any, i int) any {
 			switch v := v.(*ListNexusEndpointsResponse); i {
 			case 0:
 				return &v.state

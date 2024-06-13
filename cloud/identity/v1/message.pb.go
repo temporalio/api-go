@@ -1170,7 +1170,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_identity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
-var file_temporal_api_cloud_identity_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_cloud_identity_v1_message_proto_goTypes = []any{
 	(*AccountAccess)(nil),         // 0: temporal.api.cloud.identity.v1.AccountAccess
 	(*NamespaceAccess)(nil),       // 1: temporal.api.cloud.identity.v1.NamespaceAccess
 	(*Access)(nil),                // 2: temporal.api.cloud.identity.v1.Access
@@ -1222,7 +1222,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*AccountAccess); i {
 			case 0:
 				return &v.state
@@ -1234,7 +1234,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*NamespaceAccess); i {
 			case 0:
 				return &v.state
@@ -1246,7 +1246,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*Access); i {
 			case 0:
 				return &v.state
@@ -1258,7 +1258,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*UserSpec); i {
 			case 0:
 				return &v.state
@@ -1270,7 +1270,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*Invitation); i {
 			case 0:
 				return &v.state
@@ -1282,7 +1282,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*User); i {
 			case 0:
 				return &v.state
@@ -1294,7 +1294,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*UserGroupSpec); i {
 			case 0:
 				return &v.state
@@ -1306,7 +1306,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*UserGroup); i {
 			case 0:
 				return &v.state
@@ -1318,7 +1318,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*ServiceAccount); i {
 			case 0:
 				return &v.state
@@ -1330,7 +1330,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*ServiceAccountSpec); i {
 			case 0:
 				return &v.state
@@ -1342,7 +1342,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*ApiKey); i {
 			case 0:
 				return &v.state
@@ -1354,7 +1354,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_identity_v1_message_proto_msgTypes[11].Exporter = func(v any, i int) any {
 			switch v := v.(*ApiKeySpec); i {
 			case 0:
 				return &v.state

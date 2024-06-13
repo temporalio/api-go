@@ -293,7 +293,7 @@ func file_temporal_api_query_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_query_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_temporal_api_query_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_query_v1_message_proto_goTypes = []any{
 	(*WorkflowQuery)(nil),            // 0: temporal.api.query.v1.WorkflowQuery
 	(*WorkflowQueryResult)(nil),      // 1: temporal.api.query.v1.WorkflowQueryResult
 	(*QueryRejected)(nil),            // 2: temporal.api.query.v1.QueryRejected
@@ -321,7 +321,7 @@ func file_temporal_api_query_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_query_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_query_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowQuery); i {
 			case 0:
 				return &v.state
@@ -333,7 +333,7 @@ func file_temporal_api_query_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_query_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_query_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowQueryResult); i {
 			case 0:
 				return &v.state
@@ -345,7 +345,7 @@ func file_temporal_api_query_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_query_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_query_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*QueryRejected); i {
 			case 0:
 				return &v.state

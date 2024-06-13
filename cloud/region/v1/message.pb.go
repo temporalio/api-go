@@ -162,7 +162,7 @@ func file_temporal_api_cloud_region_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_region_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_cloud_region_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_cloud_region_v1_message_proto_goTypes = []any{
 	(*Region)(nil), // 0: temporal.api.cloud.region.v1.Region
 }
 var file_temporal_api_cloud_region_v1_message_proto_depIdxs = []int32{
@@ -179,7 +179,7 @@ func file_temporal_api_cloud_region_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_cloud_region_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_region_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*Region); i {
 			case 0:
 				return &v.state

@@ -7878,7 +7878,7 @@ func file_temporal_api_history_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_history_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 58)
-var file_temporal_api_history_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_history_v1_message_proto_goTypes = []any{
 	(*WorkflowExecutionStartedEventAttributes)(nil),                        // 0: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes
 	(*WorkflowExecutionCompletedEventAttributes)(nil),                      // 1: temporal.api.history.v1.WorkflowExecutionCompletedEventAttributes
 	(*WorkflowExecutionFailedEventAttributes)(nil),                         // 2: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes
@@ -8183,7 +8183,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_history_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionStartedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8195,7 +8195,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionCompletedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8207,7 +8207,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionFailedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8219,7 +8219,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionTimedOutEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8231,7 +8231,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionContinuedAsNewEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8243,7 +8243,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowTaskScheduledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8255,7 +8255,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowTaskStartedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8267,7 +8267,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowTaskCompletedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8279,7 +8279,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowTaskTimedOutEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8291,7 +8291,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowTaskFailedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8303,7 +8303,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityTaskScheduledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8315,7 +8315,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[11].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityTaskStartedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8327,7 +8327,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[12].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityTaskCompletedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8339,7 +8339,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[13].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityTaskFailedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8351,7 +8351,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[14].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityTaskTimedOutEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8363,7 +8363,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[15].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityTaskCancelRequestedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8375,7 +8375,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[16].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityTaskCanceledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8387,7 +8387,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[17].Exporter = func(v any, i int) any {
 			switch v := v.(*TimerStartedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8399,7 +8399,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[18].Exporter = func(v any, i int) any {
 			switch v := v.(*TimerFiredEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8411,7 +8411,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[19].Exporter = func(v any, i int) any {
 			switch v := v.(*TimerCanceledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8423,7 +8423,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[20].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionCancelRequestedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8435,7 +8435,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[21].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionCanceledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8447,7 +8447,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[22].Exporter = func(v any, i int) any {
 			switch v := v.(*MarkerRecordedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8459,7 +8459,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[23].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionSignaledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8471,7 +8471,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[24].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionTerminatedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8483,7 +8483,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[25].Exporter = func(v any, i int) any {
 			switch v := v.(*RequestCancelExternalWorkflowExecutionInitiatedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8495,7 +8495,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[26].Exporter = func(v any, i int) any {
 			switch v := v.(*RequestCancelExternalWorkflowExecutionFailedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8507,7 +8507,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[27].Exporter = func(v any, i int) any {
 			switch v := v.(*ExternalWorkflowExecutionCancelRequestedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8519,7 +8519,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[28].Exporter = func(v any, i int) any {
 			switch v := v.(*SignalExternalWorkflowExecutionInitiatedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8531,7 +8531,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[29].Exporter = func(v any, i int) any {
 			switch v := v.(*SignalExternalWorkflowExecutionFailedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8543,7 +8543,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[30].Exporter = func(v any, i int) any {
 			switch v := v.(*ExternalWorkflowExecutionSignaledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8555,7 +8555,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[31].Exporter = func(v any, i int) any {
 			switch v := v.(*UpsertWorkflowSearchAttributesEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8567,7 +8567,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[32].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowPropertiesModifiedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8579,7 +8579,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[33].Exporter = func(v any, i int) any {
 			switch v := v.(*StartChildWorkflowExecutionInitiatedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8591,7 +8591,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[34].Exporter = func(v any, i int) any {
 			switch v := v.(*StartChildWorkflowExecutionFailedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8603,7 +8603,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[35].Exporter = func(v any, i int) any {
 			switch v := v.(*ChildWorkflowExecutionStartedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8615,7 +8615,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[36].Exporter = func(v any, i int) any {
 			switch v := v.(*ChildWorkflowExecutionCompletedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8627,7 +8627,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[37].Exporter = func(v any, i int) any {
 			switch v := v.(*ChildWorkflowExecutionFailedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8639,7 +8639,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[38].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[38].Exporter = func(v any, i int) any {
 			switch v := v.(*ChildWorkflowExecutionCanceledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8651,7 +8651,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[39].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[39].Exporter = func(v any, i int) any {
 			switch v := v.(*ChildWorkflowExecutionTimedOutEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8663,7 +8663,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[40].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[40].Exporter = func(v any, i int) any {
 			switch v := v.(*ChildWorkflowExecutionTerminatedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8675,7 +8675,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[41].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[41].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowPropertiesModifiedExternallyEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8687,7 +8687,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[42].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[42].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityPropertiesModifiedExternallyEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8699,7 +8699,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[43].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[43].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionUpdateAcceptedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8711,7 +8711,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[44].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[44].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionUpdateCompletedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8723,7 +8723,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[45].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[45].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionUpdateRejectedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8735,7 +8735,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[46].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[46].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionUpdateAdmittedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8747,7 +8747,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[47].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[47].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationScheduledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8759,7 +8759,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[48].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[48].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationStartedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8771,7 +8771,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[49].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[49].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationCompletedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8783,7 +8783,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[50].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[50].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationFailedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8795,7 +8795,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[51].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[51].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationTimedOutEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8807,7 +8807,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[52].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[52].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationCanceledEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8819,7 +8819,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[53].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[53].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationCancelRequestedEventAttributes); i {
 			case 0:
 				return &v.state
@@ -8831,7 +8831,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[54].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[54].Exporter = func(v any, i int) any {
 			switch v := v.(*HistoryEvent); i {
 			case 0:
 				return &v.state
@@ -8843,7 +8843,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_history_v1_message_proto_msgTypes[55].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_history_v1_message_proto_msgTypes[55].Exporter = func(v any, i int) any {
 			switch v := v.(*History); i {
 			case 0:
 				return &v.state
@@ -8856,7 +8856,7 @@ func file_temporal_api_history_v1_message_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_history_v1_message_proto_msgTypes[54].OneofWrappers = []interface{}{
+	file_temporal_api_history_v1_message_proto_msgTypes[54].OneofWrappers = []any{
 		(*HistoryEvent_WorkflowExecutionStartedEventAttributes)(nil),
 		(*HistoryEvent_WorkflowExecutionCompletedEventAttributes)(nil),
 		(*HistoryEvent_WorkflowExecutionFailedEventAttributes)(nil),

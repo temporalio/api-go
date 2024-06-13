@@ -925,7 +925,7 @@ func file_temporal_api_enums_v1_workflow_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_workflow_proto_enumTypes = make([]protoimpl.EnumInfo, 10)
-var file_temporal_api_enums_v1_workflow_proto_goTypes = []interface{}{
+var file_temporal_api_enums_v1_workflow_proto_goTypes = []any{
 	(WorkflowIdReusePolicy)(0),    // 0: temporal.api.enums.v1.WorkflowIdReusePolicy
 	(WorkflowIdConflictPolicy)(0), // 1: temporal.api.enums.v1.WorkflowIdConflictPolicy
 	(ParentClosePolicy)(0),        // 2: temporal.api.enums.v1.ParentClosePolicy

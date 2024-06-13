@@ -458,7 +458,7 @@ var file_temporal_api_cloud_cloudservice_v1_service_proto_rawDesc = []byte{
 	0x6f, 0x74, 0x6f, 0x33,
 }
 
-var file_temporal_api_cloud_cloudservice_v1_service_proto_goTypes = []interface{}{
+var file_temporal_api_cloud_cloudservice_v1_service_proto_goTypes = []any{
 	(*GetUsersRequest)(nil),                     // 0: temporal.api.cloud.cloudservice.v1.GetUsersRequest
 	(*GetUserRequest)(nil),                      // 1: temporal.api.cloud.cloudservice.v1.GetUserRequest
 	(*CreateUserRequest)(nil),                   // 2: temporal.api.cloud.cloudservice.v1.CreateUserRequest

@@ -2330,7 +2330,7 @@ func file_temporal_api_command_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_command_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
-var file_temporal_api_command_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_command_v1_message_proto_goTypes = []any{
 	(*ScheduleActivityTaskCommandAttributes)(nil),                   // 0: temporal.api.command.v1.ScheduleActivityTaskCommandAttributes
 	(*RequestCancelActivityTaskCommandAttributes)(nil),              // 1: temporal.api.command.v1.RequestCancelActivityTaskCommandAttributes
 	(*StartTimerCommandAttributes)(nil),                             // 2: temporal.api.command.v1.StartTimerCommandAttributes
@@ -2452,7 +2452,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_command_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleActivityTaskCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2464,7 +2464,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*RequestCancelActivityTaskCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2476,7 +2476,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*StartTimerCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2488,7 +2488,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*CompleteWorkflowExecutionCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2500,7 +2500,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*FailWorkflowExecutionCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2512,7 +2512,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*CancelTimerCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2524,7 +2524,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*CancelWorkflowExecutionCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2536,7 +2536,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*RequestCancelExternalWorkflowExecutionCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2548,7 +2548,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*SignalExternalWorkflowExecutionCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2560,7 +2560,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*UpsertWorkflowSearchAttributesCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2572,7 +2572,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*ModifyWorkflowPropertiesCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2584,7 +2584,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[11].Exporter = func(v any, i int) any {
 			switch v := v.(*RecordMarkerCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2596,7 +2596,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[12].Exporter = func(v any, i int) any {
 			switch v := v.(*ContinueAsNewWorkflowExecutionCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2608,7 +2608,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[13].Exporter = func(v any, i int) any {
 			switch v := v.(*StartChildWorkflowExecutionCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2620,7 +2620,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[14].Exporter = func(v any, i int) any {
 			switch v := v.(*ProtocolMessageCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2632,7 +2632,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[15].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleNexusOperationCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2644,7 +2644,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[16].Exporter = func(v any, i int) any {
 			switch v := v.(*RequestCancelNexusOperationCommandAttributes); i {
 			case 0:
 				return &v.state
@@ -2656,7 +2656,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_command_v1_message_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_command_v1_message_proto_msgTypes[17].Exporter = func(v any, i int) any {
 			switch v := v.(*Command); i {
 			case 0:
 				return &v.state
@@ -2669,7 +2669,7 @@ func file_temporal_api_command_v1_message_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_command_v1_message_proto_msgTypes[17].OneofWrappers = []interface{}{
+	file_temporal_api_command_v1_message_proto_msgTypes[17].OneofWrappers = []any{
 		(*Command_ScheduleActivityTaskCommandAttributes)(nil),
 		(*Command_StartTimerCommandAttributes)(nil),
 		(*Command_CompleteWorkflowExecutionCommandAttributes)(nil),

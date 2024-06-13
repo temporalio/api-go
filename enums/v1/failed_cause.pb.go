@@ -902,7 +902,7 @@ func file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_failed_cause_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
-var file_temporal_api_enums_v1_failed_cause_proto_goTypes = []interface{}{
+var file_temporal_api_enums_v1_failed_cause_proto_goTypes = []any{
 	(WorkflowTaskFailedCause)(0),                    // 0: temporal.api.enums.v1.WorkflowTaskFailedCause
 	(StartChildWorkflowExecutionFailedCause)(0),     // 1: temporal.api.enums.v1.StartChildWorkflowExecutionFailedCause
 	(CancelExternalWorkflowExecutionFailedCause)(0), // 2: temporal.api.enums.v1.CancelExternalWorkflowExecutionFailedCause

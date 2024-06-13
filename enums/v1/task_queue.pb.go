@@ -265,9 +265,9 @@ func (TaskReachability) EnumDescriptor() ([]byte, []int) {
 
 // Specifies which category of tasks may reach a versioned worker of a certain Build ID.
 //
-// Task Reachability is eventually consistent; there may be a delay until it converges to the most
-// accurate value but it is designed in a way to take the more conservative side until it converges.
-// For example REACHABLE is more conservative than CLOSED_WORKFLOWS_ONLY.
+// Task Reachability is eventually consistent; there may be a delay (up to few minutes) until it
+// converges to the most accurate value but it is designed in a way to take the more conservative
+// side until it converges. For example REACHABLE is more conservative than CLOSED_WORKFLOWS_ONLY.
 //
 // Note: future activities who inherit their workflow's Build ID but not its Task Queue will not be
 // accounted for reachability as server cannot know if they'll happen as they do not use
@@ -482,7 +482,7 @@ func file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_task_queue_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
-var file_temporal_api_enums_v1_task_queue_proto_goTypes = []interface{}{
+var file_temporal_api_enums_v1_task_queue_proto_goTypes = []any{
 	(TaskQueueKind)(0),           // 0: temporal.api.enums.v1.TaskQueueKind
 	(TaskQueueType)(0),           // 1: temporal.api.enums.v1.TaskQueueType
 	(TaskReachability)(0),        // 2: temporal.api.enums.v1.TaskReachability

@@ -1854,7 +1854,7 @@ func file_temporal_api_schedule_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_schedule_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
-var file_temporal_api_schedule_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_schedule_v1_message_proto_goTypes = []any{
 	(*CalendarSpec)(nil),                 // 0: temporal.api.schedule.v1.CalendarSpec
 	(*Range)(nil),                        // 1: temporal.api.schedule.v1.Range
 	(*StructuredCalendarSpec)(nil),       // 2: temporal.api.schedule.v1.StructuredCalendarSpec
@@ -1939,7 +1939,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_schedule_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*CalendarSpec); i {
 			case 0:
 				return &v.state
@@ -1951,7 +1951,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*Range); i {
 			case 0:
 				return &v.state
@@ -1963,7 +1963,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*StructuredCalendarSpec); i {
 			case 0:
 				return &v.state
@@ -1975,7 +1975,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*IntervalSpec); i {
 			case 0:
 				return &v.state
@@ -1987,7 +1987,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleSpec); i {
 			case 0:
 				return &v.state
@@ -1999,7 +1999,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*SchedulePolicies); i {
 			case 0:
 				return &v.state
@@ -2011,7 +2011,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleAction); i {
 			case 0:
 				return &v.state
@@ -2023,7 +2023,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleActionResult); i {
 			case 0:
 				return &v.state
@@ -2035,7 +2035,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleState); i {
 			case 0:
 				return &v.state
@@ -2047,7 +2047,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*TriggerImmediatelyRequest); i {
 			case 0:
 				return &v.state
@@ -2059,7 +2059,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*BackfillRequest); i {
 			case 0:
 				return &v.state
@@ -2071,7 +2071,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[11].Exporter = func(v any, i int) any {
 			switch v := v.(*SchedulePatch); i {
 			case 0:
 				return &v.state
@@ -2083,7 +2083,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[12].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleInfo); i {
 			case 0:
 				return &v.state
@@ -2095,7 +2095,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[13].Exporter = func(v any, i int) any {
 			switch v := v.(*Schedule); i {
 			case 0:
 				return &v.state
@@ -2107,7 +2107,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[14].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleListInfo); i {
 			case 0:
 				return &v.state
@@ -2119,7 +2119,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_schedule_v1_message_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_schedule_v1_message_proto_msgTypes[15].Exporter = func(v any, i int) any {
 			switch v := v.(*ScheduleListEntry); i {
 			case 0:
 				return &v.state
@@ -2132,7 +2132,7 @@ func file_temporal_api_schedule_v1_message_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_schedule_v1_message_proto_msgTypes[6].OneofWrappers = []interface{}{
+	file_temporal_api_schedule_v1_message_proto_msgTypes[6].OneofWrappers = []any{
 		(*ScheduleAction_StartWorkflow)(nil),
 	}
 	type x struct{}

@@ -308,7 +308,7 @@ func file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_temporal_api_sdk_v1_workflow_metadata_proto_goTypes = []interface{}{
+var file_temporal_api_sdk_v1_workflow_metadata_proto_goTypes = []any{
 	(*WorkflowMetadata)(nil),              // 0: temporal.api.sdk.v1.WorkflowMetadata
 	(*WorkflowDefinition)(nil),            // 1: temporal.api.sdk.v1.WorkflowDefinition
 	(*WorkflowInteractionDefinition)(nil), // 2: temporal.api.sdk.v1.WorkflowInteractionDefinition
@@ -331,7 +331,7 @@ func file_temporal_api_sdk_v1_workflow_metadata_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowMetadata); i {
 			case 0:
 				return &v.state
@@ -343,7 +343,7 @@ func file_temporal_api_sdk_v1_workflow_metadata_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowDefinition); i {
 			case 0:
 				return &v.state
@@ -355,7 +355,7 @@ func file_temporal_api_sdk_v1_workflow_metadata_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowInteractionDefinition); i {
 			case 0:
 				return &v.state

@@ -736,7 +736,7 @@ func file_temporal_api_update_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_update_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
-var file_temporal_api_update_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_update_v1_message_proto_goTypes = []any{
 	(*WaitPolicy)(nil), // 0: temporal.api.update.v1.WaitPolicy
 	(*UpdateRef)(nil),  // 1: temporal.api.update.v1.UpdateRef
 	(*Outcome)(nil),    // 2: temporal.api.update.v1.Outcome
@@ -779,7 +779,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_update_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*WaitPolicy); i {
 			case 0:
 				return &v.state
@@ -791,7 +791,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_update_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateRef); i {
 			case 0:
 				return &v.state
@@ -803,7 +803,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_update_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*Outcome); i {
 			case 0:
 				return &v.state
@@ -815,7 +815,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_update_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*Meta); i {
 			case 0:
 				return &v.state
@@ -827,7 +827,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_update_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*Input); i {
 			case 0:
 				return &v.state
@@ -839,7 +839,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_update_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*Request); i {
 			case 0:
 				return &v.state
@@ -851,7 +851,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_update_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*Rejection); i {
 			case 0:
 				return &v.state
@@ -863,7 +863,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_update_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*Acceptance); i {
 			case 0:
 				return &v.state
@@ -875,7 +875,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_update_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_update_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*Response); i {
 			case 0:
 				return &v.state
@@ -888,7 +888,7 @@ func file_temporal_api_update_v1_message_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_update_v1_message_proto_msgTypes[2].OneofWrappers = []interface{}{
+	file_temporal_api_update_v1_message_proto_msgTypes[2].OneofWrappers = []any{
 		(*Outcome_Success)(nil),
 		(*Outcome_Failure)(nil),
 	}

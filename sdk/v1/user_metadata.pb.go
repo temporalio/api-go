@@ -149,7 +149,7 @@ func file_temporal_api_sdk_v1_user_metadata_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_sdk_v1_user_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_sdk_v1_user_metadata_proto_goTypes = []interface{}{
+var file_temporal_api_sdk_v1_user_metadata_proto_goTypes = []any{
 	(*UserMetadata)(nil), // 0: temporal.api.sdk.v1.UserMetadata
 	(*v1.Payload)(nil),   // 1: temporal.api.common.v1.Payload
 }
@@ -169,7 +169,7 @@ func file_temporal_api_sdk_v1_user_metadata_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_sdk_v1_user_metadata_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_sdk_v1_user_metadata_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*UserMetadata); i {
 			case 0:
 				return &v.state

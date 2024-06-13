@@ -225,7 +225,7 @@ func file_temporal_api_cloud_operation_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_operation_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_cloud_operation_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_cloud_operation_v1_message_proto_goTypes = []any{
 	(*AsyncOperation)(nil),        // 0: temporal.api.cloud.operation.v1.AsyncOperation
 	(*durationpb.Duration)(nil),   // 1: google.protobuf.Duration
 	(*anypb.Any)(nil),             // 2: google.protobuf.Any
@@ -249,7 +249,7 @@ func file_temporal_api_cloud_operation_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_cloud_operation_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_operation_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*AsyncOperation); i {
 			case 0:
 				return &v.state

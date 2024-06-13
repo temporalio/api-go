@@ -195,7 +195,7 @@ var file_temporal_api_operatorservice_v1_service_proto_rawDesc = []byte{
 	0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
-var file_temporal_api_operatorservice_v1_service_proto_goTypes = []interface{}{
+var file_temporal_api_operatorservice_v1_service_proto_goTypes = []any{
 	(*AddSearchAttributesRequest)(nil),       // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest
 	(*RemoveSearchAttributesRequest)(nil),    // 1: temporal.api.operatorservice.v1.RemoveSearchAttributesRequest
 	(*ListSearchAttributesRequest)(nil),      // 2: temporal.api.operatorservice.v1.ListSearchAttributesRequest
