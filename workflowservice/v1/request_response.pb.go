@@ -1855,8 +1855,11 @@ type RespondWorkflowTaskCompletedResponse struct {
 	// See `RespondWorkflowTaskCompletedResponse::return_new_workflow_task`
 	WorkflowTask *PollWorkflowTaskQueueResponse `protobuf:"bytes,1,opt,name=workflow_task,json=workflowTask,proto3" json:"workflow_task,omitempty"`
 	// See `ScheduleActivityTaskCommandAttributes::request_start`
-	ActivityTasks       []*PollActivityTaskQueueResponse `protobuf:"bytes,2,rep,name=activity_tasks,json=activityTasks,proto3" json:"activity_tasks,omitempty"`
-	ResetHistoryEventId int64                            `protobuf:"varint,3,opt,name=reset_history_event_id,json=resetHistoryEventId,proto3" json:"reset_history_event_id,omitempty"`
+	ActivityTasks []*PollActivityTaskQueueResponse `protobuf:"bytes,2,rep,name=activity_tasks,json=activityTasks,proto3" json:"activity_tasks,omitempty"`
+	// If non zero, indicates the server has discarded the workflow task that was being responded to.
+	// Will be the event ID of the last workflow task started event in the history before the new workflow task.
+	// Server is only expected to discard a workflow task if it could not have modified the workflow state.
+	ResetHistoryEventId int64 `protobuf:"varint,3,opt,name=reset_history_event_id,json=resetHistoryEventId,proto3" json:"reset_history_event_id,omitempty"`
 }
 
 func (x *RespondWorkflowTaskCompletedResponse) Reset() {
