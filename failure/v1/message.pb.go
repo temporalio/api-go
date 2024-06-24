@@ -1107,7 +1107,7 @@ func file_temporal_api_failure_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_failure_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
-var file_temporal_api_failure_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_failure_v1_message_proto_goTypes = []any{
 	(*ApplicationFailureInfo)(nil),            // 0: temporal.api.failure.v1.ApplicationFailureInfo
 	(*TimeoutFailureInfo)(nil),                // 1: temporal.api.failure.v1.TimeoutFailureInfo
 	(*CanceledFailureInfo)(nil),               // 2: temporal.api.failure.v1.CanceledFailureInfo
@@ -1164,7 +1164,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_failure_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*ApplicationFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1176,7 +1176,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*TimeoutFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1188,7 +1188,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*CanceledFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1200,7 +1200,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*TerminatedFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1212,7 +1212,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*ServerFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1224,7 +1224,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*ResetWorkflowFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1236,7 +1236,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1248,7 +1248,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*ChildWorkflowExecutionFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1260,7 +1260,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationFailureInfo); i {
 			case 0:
 				return &v.state
@@ -1272,7 +1272,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*Failure); i {
 			case 0:
 				return &v.state
@@ -1284,7 +1284,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_failure_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_failure_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*MultiOperationExecutionAborted); i {
 			case 0:
 				return &v.state
@@ -1297,7 +1297,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_failure_v1_message_proto_msgTypes[9].OneofWrappers = []interface{}{
+	file_temporal_api_failure_v1_message_proto_msgTypes[9].OneofWrappers = []any{
 		(*Failure_ApplicationFailureInfo)(nil),
 		(*Failure_TimeoutFailureInfo)(nil),
 		(*Failure_CanceledFailureInfo)(nil),

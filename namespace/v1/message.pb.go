@@ -722,7 +722,7 @@ func file_temporal_api_namespace_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_namespace_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
-var file_temporal_api_namespace_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_namespace_v1_message_proto_goTypes = []any{
 	(*NamespaceInfo)(nil),              // 0: temporal.api.namespace.v1.NamespaceInfo
 	(*NamespaceConfig)(nil),            // 1: temporal.api.namespace.v1.NamespaceConfig
 	(*BadBinaries)(nil),                // 2: temporal.api.namespace.v1.BadBinaries
@@ -766,7 +766,7 @@ func file_temporal_api_namespace_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_namespace_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_namespace_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*NamespaceInfo); i {
 			case 0:
 				return &v.state
@@ -778,7 +778,7 @@ func file_temporal_api_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_namespace_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_namespace_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*NamespaceConfig); i {
 			case 0:
 				return &v.state
@@ -790,7 +790,7 @@ func file_temporal_api_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_namespace_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_namespace_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*BadBinaries); i {
 			case 0:
 				return &v.state
@@ -802,7 +802,7 @@ func file_temporal_api_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_namespace_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_namespace_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*BadBinaryInfo); i {
 			case 0:
 				return &v.state
@@ -814,7 +814,7 @@ func file_temporal_api_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_namespace_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_namespace_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateNamespaceInfo); i {
 			case 0:
 				return &v.state
@@ -826,7 +826,7 @@ func file_temporal_api_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_namespace_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_namespace_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*NamespaceFilter); i {
 			case 0:
 				return &v.state
@@ -838,7 +838,7 @@ func file_temporal_api_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_namespace_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_namespace_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*NamespaceInfo_Capabilities); i {
 			case 0:
 				return &v.state

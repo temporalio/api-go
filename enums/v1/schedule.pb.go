@@ -190,7 +190,7 @@ func file_temporal_api_enums_v1_schedule_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_schedule_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_temporal_api_enums_v1_schedule_proto_goTypes = []interface{}{
+var file_temporal_api_enums_v1_schedule_proto_goTypes = []any{
 	(ScheduleOverlapPolicy)(0), // 0: temporal.api.enums.v1.ScheduleOverlapPolicy
 }
 var file_temporal_api_enums_v1_schedule_proto_depIdxs = []int32{

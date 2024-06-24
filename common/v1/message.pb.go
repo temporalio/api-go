@@ -1242,7 +1242,7 @@ func file_temporal_api_common_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
-var file_temporal_api_common_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	(*DataBlob)(nil),                  // 0: temporal.api.common.v1.DataBlob
 	(*Payloads)(nil),                  // 1: temporal.api.common.v1.Payloads
 	(*Payload)(nil),                   // 2: temporal.api.common.v1.Payload
@@ -1301,7 +1301,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_common_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*DataBlob); i {
 			case 0:
 				return &v.state
@@ -1313,7 +1313,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*Payloads); i {
 			case 0:
 				return &v.state
@@ -1325,7 +1325,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*Payload); i {
 			case 0:
 				return &v.state
@@ -1337,7 +1337,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*SearchAttributes); i {
 			case 0:
 				return &v.state
@@ -1349,7 +1349,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*Memo); i {
 			case 0:
 				return &v.state
@@ -1361,7 +1361,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*Header); i {
 			case 0:
 				return &v.state
@@ -1373,7 +1373,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecution); i {
 			case 0:
 				return &v.state
@@ -1385,7 +1385,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowType); i {
 			case 0:
 				return &v.state
@@ -1397,7 +1397,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*ActivityType); i {
 			case 0:
 				return &v.state
@@ -1409,7 +1409,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*RetryPolicy); i {
 			case 0:
 				return &v.state
@@ -1421,7 +1421,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*MeteringMetadata); i {
 			case 0:
 				return &v.state
@@ -1433,7 +1433,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[11].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkerVersionStamp); i {
 			case 0:
 				return &v.state
@@ -1445,7 +1445,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[12].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkerVersionCapabilities); i {
 			case 0:
 				return &v.state
@@ -1457,7 +1457,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[13].Exporter = func(v any, i int) any {
 			switch v := v.(*ResetOptions); i {
 			case 0:
 				return &v.state
@@ -1469,7 +1469,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[14].Exporter = func(v any, i int) any {
 			switch v := v.(*Callback); i {
 			case 0:
 				return &v.state
@@ -1481,7 +1481,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_common_v1_message_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_common_v1_message_proto_msgTypes[19].Exporter = func(v any, i int) any {
 			switch v := v.(*Callback_Nexus); i {
 			case 0:
 				return &v.state
@@ -1494,13 +1494,13 @@ func file_temporal_api_common_v1_message_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[13].OneofWrappers = []interface{}{
+	file_temporal_api_common_v1_message_proto_msgTypes[13].OneofWrappers = []any{
 		(*ResetOptions_FirstWorkflowTask)(nil),
 		(*ResetOptions_LastWorkflowTask)(nil),
 		(*ResetOptions_WorkflowTaskId)(nil),
 		(*ResetOptions_BuildId)(nil),
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[14].OneofWrappers = []interface{}{
+	file_temporal_api_common_v1_message_proto_msgTypes[14].OneofWrappers = []any{
 		(*Callback_Nexus_)(nil),
 	}
 	type x struct{}

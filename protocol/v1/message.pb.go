@@ -208,7 +208,7 @@ func file_temporal_api_protocol_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_protocol_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_protocol_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_protocol_v1_message_proto_goTypes = []any{
 	(*Message)(nil),   // 0: temporal.api.protocol.v1.Message
 	(*anypb.Any)(nil), // 1: google.protobuf.Any
 }
@@ -227,7 +227,7 @@ func file_temporal_api_protocol_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_protocol_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_protocol_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*Message); i {
 			case 0:
 				return &v.state
@@ -240,7 +240,7 @@ func file_temporal_api_protocol_v1_message_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_protocol_v1_message_proto_msgTypes[0].OneofWrappers = []interface{}{
+	file_temporal_api_protocol_v1_message_proto_msgTypes[0].OneofWrappers = []any{
 		(*Message_EventId)(nil),
 		(*Message_CommandIndex)(nil),
 	}

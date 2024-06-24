@@ -239,7 +239,7 @@ func file_temporal_api_enums_v1_update_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_update_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_temporal_api_enums_v1_update_proto_goTypes = []interface{}{
+var file_temporal_api_enums_v1_update_proto_goTypes = []any{
 	(UpdateWorkflowExecutionLifecycleStage)(0), // 0: temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage
 	(UpdateAdmittedEventOrigin)(0),             // 1: temporal.api.enums.v1.UpdateAdmittedEventOrigin
 }

@@ -589,7 +589,7 @@ func file_temporal_api_enums_v1_common_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
-var file_temporal_api_enums_v1_common_proto_goTypes = []interface{}{
+var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(EncodingType)(0),                    // 0: temporal.api.enums.v1.EncodingType
 	(IndexedValueType)(0),                // 1: temporal.api.enums.v1.IndexedValueType
 	(Severity)(0),                        // 2: temporal.api.enums.v1.Severity

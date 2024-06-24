@@ -1972,7 +1972,7 @@ func file_temporal_api_workflow_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_workflow_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
-var file_temporal_api_workflow_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_workflow_v1_message_proto_goTypes = []any{
 	(*WorkflowExecutionInfo)(nil),            // 0: temporal.api.workflow.v1.WorkflowExecutionInfo
 	(*WorkflowExecutionConfig)(nil),          // 1: temporal.api.workflow.v1.WorkflowExecutionConfig
 	(*PendingActivityInfo)(nil),              // 2: temporal.api.workflow.v1.PendingActivityInfo
@@ -2093,7 +2093,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_workflow_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionInfo); i {
 			case 0:
 				return &v.state
@@ -2105,7 +2105,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*WorkflowExecutionConfig); i {
 			case 0:
 				return &v.state
@@ -2117,7 +2117,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*PendingActivityInfo); i {
 			case 0:
 				return &v.state
@@ -2129,7 +2129,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*PendingChildExecutionInfo); i {
 			case 0:
 				return &v.state
@@ -2141,7 +2141,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*PendingWorkflowTaskInfo); i {
 			case 0:
 				return &v.state
@@ -2153,7 +2153,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*ResetPoints); i {
 			case 0:
 				return &v.state
@@ -2165,7 +2165,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*ResetPointInfo); i {
 			case 0:
 				return &v.state
@@ -2177,7 +2177,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*NewWorkflowExecutionInfo); i {
 			case 0:
 				return &v.state
@@ -2189,7 +2189,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*CallbackInfo); i {
 			case 0:
 				return &v.state
@@ -2201,7 +2201,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*PendingNexusOperationInfo); i {
 			case 0:
 				return &v.state
@@ -2213,7 +2213,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*NexusOperationCancellationInfo); i {
 			case 0:
 				return &v.state
@@ -2225,7 +2225,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[11].Exporter = func(v any, i int) any {
 			switch v := v.(*CallbackInfo_WorkflowClosed); i {
 			case 0:
 				return &v.state
@@ -2237,7 +2237,7 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflow_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[12].Exporter = func(v any, i int) any {
 			switch v := v.(*CallbackInfo_Trigger); i {
 			case 0:
 				return &v.state
@@ -2250,11 +2250,11 @@ func file_temporal_api_workflow_v1_message_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_workflow_v1_message_proto_msgTypes[2].OneofWrappers = []interface{}{
+	file_temporal_api_workflow_v1_message_proto_msgTypes[2].OneofWrappers = []any{
 		(*PendingActivityInfo_UseWorkflowBuildId)(nil),
 		(*PendingActivityInfo_LastIndependentlyAssignedBuildId)(nil),
 	}
-	file_temporal_api_workflow_v1_message_proto_msgTypes[12].OneofWrappers = []interface{}{
+	file_temporal_api_workflow_v1_message_proto_msgTypes[12].OneofWrappers = []any{
 		(*CallbackInfo_Trigger_WorkflowClosed)(nil),
 	}
 	type x struct{}

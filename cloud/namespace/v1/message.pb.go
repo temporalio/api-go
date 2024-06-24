@@ -321,11 +321,13 @@ type NamespaceSpec struct {
 	// The name is immutable. Once set, it cannot be changed.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The ids of the regions where the namespace should be available.
+	// The GetRegions API can be used to get the list of valid region ids.
 	// Specifying more than one region makes the namespace "global", which is currently a preview only feature with restricted access.
 	// Please reach out to Temporal support for more information on global namespaces.
 	// When provisioned the global namespace will be active on the first region in the list and passive on the rest.
 	// Number of supported regions is 2.
 	// The regions is immutable. Once set, it cannot be changed.
+	// Example: ["aws-us-west-2"].
 	Regions []string `protobuf:"bytes,2,rep,name=regions,proto3" json:"regions,omitempty"`
 	// The number of days the workflows data will be retained for.
 	// Changes to the retention period may impact your storage costs.
@@ -1068,7 +1070,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_namespace_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
-var file_temporal_api_cloud_namespace_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_cloud_namespace_v1_message_proto_goTypes = []any{
 	(*CertificateFilterSpec)(nil), // 0: temporal.api.cloud.namespace.v1.CertificateFilterSpec
 	(*MtlsAuthSpec)(nil),          // 1: temporal.api.cloud.namespace.v1.MtlsAuthSpec
 	(*ApiKeyAuthSpec)(nil),        // 2: temporal.api.cloud.namespace.v1.ApiKeyAuthSpec
@@ -1112,7 +1114,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*CertificateFilterSpec); i {
 			case 0:
 				return &v.state
@@ -1124,7 +1126,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*MtlsAuthSpec); i {
 			case 0:
 				return &v.state
@@ -1136,7 +1138,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*ApiKeyAuthSpec); i {
 			case 0:
 				return &v.state
@@ -1148,7 +1150,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*CodecServerSpec); i {
 			case 0:
 				return &v.state
@@ -1160,7 +1162,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*NamespaceSpec); i {
 			case 0:
 				return &v.state
@@ -1172,7 +1174,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*Endpoints); i {
 			case 0:
 				return &v.state
@@ -1184,7 +1186,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*Limits); i {
 			case 0:
 				return &v.state
@@ -1196,7 +1198,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*AWSPrivateLinkInfo); i {
 			case 0:
 				return &v.state
@@ -1208,7 +1210,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*PrivateConnectivity); i {
 			case 0:
 				return &v.state
@@ -1220,7 +1222,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*Namespace); i {
 			case 0:
 				return &v.state
@@ -1232,7 +1234,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*NamespaceRegionStatus); i {
 			case 0:
 				return &v.state

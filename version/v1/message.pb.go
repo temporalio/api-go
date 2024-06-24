@@ -315,7 +315,7 @@ func file_temporal_api_version_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_version_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_temporal_api_version_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_version_v1_message_proto_goTypes = []any{
 	(*ReleaseInfo)(nil),           // 0: temporal.api.version.v1.ReleaseInfo
 	(*Alert)(nil),                 // 1: temporal.api.version.v1.Alert
 	(*VersionInfo)(nil),           // 2: temporal.api.version.v1.VersionInfo
@@ -342,7 +342,7 @@ func file_temporal_api_version_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_version_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_version_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*ReleaseInfo); i {
 			case 0:
 				return &v.state
@@ -354,7 +354,7 @@ func file_temporal_api_version_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_version_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_version_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*Alert); i {
 			case 0:
 				return &v.state
@@ -366,7 +366,7 @@ func file_temporal_api_version_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_version_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_version_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*VersionInfo); i {
 			case 0:
 				return &v.state

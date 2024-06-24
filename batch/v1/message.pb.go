@@ -535,7 +535,7 @@ func file_temporal_api_batch_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_batch_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_temporal_api_batch_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_batch_v1_message_proto_goTypes = []any{
 	(*BatchOperationInfo)(nil),         // 0: temporal.api.batch.v1.BatchOperationInfo
 	(*BatchOperationTermination)(nil),  // 1: temporal.api.batch.v1.BatchOperationTermination
 	(*BatchOperationSignal)(nil),       // 2: temporal.api.batch.v1.BatchOperationSignal
@@ -573,7 +573,7 @@ func file_temporal_api_batch_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_batch_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_batch_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*BatchOperationInfo); i {
 			case 0:
 				return &v.state
@@ -585,7 +585,7 @@ func file_temporal_api_batch_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_batch_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_batch_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*BatchOperationTermination); i {
 			case 0:
 				return &v.state
@@ -597,7 +597,7 @@ func file_temporal_api_batch_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_batch_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_batch_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*BatchOperationSignal); i {
 			case 0:
 				return &v.state
@@ -609,7 +609,7 @@ func file_temporal_api_batch_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_batch_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_batch_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*BatchOperationCancellation); i {
 			case 0:
 				return &v.state
@@ -621,7 +621,7 @@ func file_temporal_api_batch_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_batch_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_batch_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*BatchOperationDeletion); i {
 			case 0:
 				return &v.state
@@ -633,7 +633,7 @@ func file_temporal_api_batch_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_batch_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_batch_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*BatchOperationReset); i {
 			case 0:
 				return &v.state

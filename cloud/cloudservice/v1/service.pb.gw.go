@@ -1749,7 +1749,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUsers", runtime.WithHTTPPathPattern("/api/v1/cloud/users"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUsers", runtime.WithHTTPPathPattern("/cloud/users"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1774,7 +1774,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUser", runtime.WithHTTPPathPattern("/api/v1/cloud/users/{user_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUser", runtime.WithHTTPPathPattern("/cloud/users/{user_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1799,7 +1799,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateUser", runtime.WithHTTPPathPattern("/api/v1/cloud/users"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateUser", runtime.WithHTTPPathPattern("/cloud/users"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1824,7 +1824,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateUser", runtime.WithHTTPPathPattern("/api/v1/cloud/users/{user_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateUser", runtime.WithHTTPPathPattern("/cloud/users/{user_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1849,7 +1849,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteUser", runtime.WithHTTPPathPattern("/api/v1/cloud/users/{user_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteUser", runtime.WithHTTPPathPattern("/cloud/users/{user_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1874,7 +1874,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/SetUserNamespaceAccess", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/users/{user_id}/access"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/SetUserNamespaceAccess", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/users/{user_id}/access"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1899,7 +1899,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetAsyncOperation", runtime.WithHTTPPathPattern("/api/v1/cloud/operations/{async_operation_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetAsyncOperation", runtime.WithHTTPPathPattern("/cloud/operations/{async_operation_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1924,7 +1924,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateNamespace", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateNamespace", runtime.WithHTTPPathPattern("/cloud/namespaces"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1949,7 +1949,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetNamespaces", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetNamespaces", runtime.WithHTTPPathPattern("/cloud/namespaces"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1974,7 +1974,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetNamespace", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetNamespace", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1999,7 +1999,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateNamespace", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateNamespace", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2024,7 +2024,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/RenameCustomSearchAttribute", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/rename-custom-search-attribute"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/RenameCustomSearchAttribute", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/rename-custom-search-attribute"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2049,7 +2049,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteNamespace", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteNamespace", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2074,7 +2074,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/FailoverNamespaceRegion", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/failover-region"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/FailoverNamespaceRegion", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/failover-region"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2099,7 +2099,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/AddNamespaceRegion", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/add-region"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/AddNamespaceRegion", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/add-region"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2124,7 +2124,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegions", runtime.WithHTTPPathPattern("/api/v1/cloud/regions"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegions", runtime.WithHTTPPathPattern("/cloud/regions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2149,7 +2149,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegion", runtime.WithHTTPPathPattern("/api/v1/cloud/regions/{region}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegion", runtime.WithHTTPPathPattern("/cloud/regions/{region}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2174,7 +2174,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKeys", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKeys", runtime.WithHTTPPathPattern("/cloud/api-keys"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2199,7 +2199,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKey", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys/{key_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKey", runtime.WithHTTPPathPattern("/cloud/api-keys/{key_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2224,7 +2224,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateApiKey", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateApiKey", runtime.WithHTTPPathPattern("/cloud/api-keys"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2249,7 +2249,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateApiKey", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys/{key_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateApiKey", runtime.WithHTTPPathPattern("/cloud/api-keys/{key_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2274,7 +2274,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteApiKey", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys/{key_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteApiKey", runtime.WithHTTPPathPattern("/cloud/api-keys/{key_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2299,7 +2299,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUserGroups", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUserGroups", runtime.WithHTTPPathPattern("/cloud/user-groups"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2324,7 +2324,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUserGroup", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups/{group_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUserGroup", runtime.WithHTTPPathPattern("/cloud/user-groups/{group_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2349,7 +2349,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateUserGroup", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateUserGroup", runtime.WithHTTPPathPattern("/cloud/user-groups"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2374,7 +2374,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateUserGroup", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups/{group_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateUserGroup", runtime.WithHTTPPathPattern("/cloud/user-groups/{group_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2399,7 +2399,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteUserGroup", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups/{group_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteUserGroup", runtime.WithHTTPPathPattern("/cloud/user-groups/{group_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2424,7 +2424,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/SetUserGroupNamespaceAccess", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/user-groups/{group_id}/access"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/SetUserGroupNamespaceAccess", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/user-groups/{group_id}/access"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2449,7 +2449,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateServiceAccount", runtime.WithHTTPPathPattern("/api/v1/service-accounts"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateServiceAccount", runtime.WithHTTPPathPattern("/cloud/service-accounts"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2474,7 +2474,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetServiceAccount", runtime.WithHTTPPathPattern("/api/v1/service-accounts/{service_account_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetServiceAccount", runtime.WithHTTPPathPattern("/cloud/service-accounts/{service_account_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2499,7 +2499,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetServiceAccounts", runtime.WithHTTPPathPattern("/api/v1/service-accounts"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetServiceAccounts", runtime.WithHTTPPathPattern("/cloud/service-accounts"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2524,7 +2524,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateServiceAccount", runtime.WithHTTPPathPattern("/api/v1/service-accounts/{service_account_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateServiceAccount", runtime.WithHTTPPathPattern("/cloud/service-accounts/{service_account_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2549,7 +2549,7 @@ func RegisterCloudServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteServiceAccount", runtime.WithHTTPPathPattern("/api/v1/service-accounts/{service_account_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteServiceAccount", runtime.WithHTTPPathPattern("/cloud/service-accounts/{service_account_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2613,7 +2613,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUsers", runtime.WithHTTPPathPattern("/api/v1/cloud/users"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUsers", runtime.WithHTTPPathPattern("/cloud/users"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2635,7 +2635,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUser", runtime.WithHTTPPathPattern("/api/v1/cloud/users/{user_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUser", runtime.WithHTTPPathPattern("/cloud/users/{user_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2657,7 +2657,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateUser", runtime.WithHTTPPathPattern("/api/v1/cloud/users"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateUser", runtime.WithHTTPPathPattern("/cloud/users"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2679,7 +2679,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateUser", runtime.WithHTTPPathPattern("/api/v1/cloud/users/{user_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateUser", runtime.WithHTTPPathPattern("/cloud/users/{user_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2701,7 +2701,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteUser", runtime.WithHTTPPathPattern("/api/v1/cloud/users/{user_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteUser", runtime.WithHTTPPathPattern("/cloud/users/{user_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2723,7 +2723,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/SetUserNamespaceAccess", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/users/{user_id}/access"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/SetUserNamespaceAccess", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/users/{user_id}/access"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2745,7 +2745,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetAsyncOperation", runtime.WithHTTPPathPattern("/api/v1/cloud/operations/{async_operation_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetAsyncOperation", runtime.WithHTTPPathPattern("/cloud/operations/{async_operation_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2767,7 +2767,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateNamespace", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateNamespace", runtime.WithHTTPPathPattern("/cloud/namespaces"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2789,7 +2789,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetNamespaces", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetNamespaces", runtime.WithHTTPPathPattern("/cloud/namespaces"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2811,7 +2811,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetNamespace", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetNamespace", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2833,7 +2833,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateNamespace", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateNamespace", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2855,7 +2855,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/RenameCustomSearchAttribute", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/rename-custom-search-attribute"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/RenameCustomSearchAttribute", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/rename-custom-search-attribute"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2877,7 +2877,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteNamespace", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteNamespace", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2899,7 +2899,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/FailoverNamespaceRegion", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/failover-region"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/FailoverNamespaceRegion", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/failover-region"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2921,7 +2921,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/AddNamespaceRegion", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/add-region"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/AddNamespaceRegion", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/add-region"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2943,7 +2943,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegions", runtime.WithHTTPPathPattern("/api/v1/cloud/regions"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegions", runtime.WithHTTPPathPattern("/cloud/regions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2965,7 +2965,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegion", runtime.WithHTTPPathPattern("/api/v1/cloud/regions/{region}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegion", runtime.WithHTTPPathPattern("/cloud/regions/{region}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -2987,7 +2987,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKeys", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKeys", runtime.WithHTTPPathPattern("/cloud/api-keys"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3009,7 +3009,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKey", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys/{key_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKey", runtime.WithHTTPPathPattern("/cloud/api-keys/{key_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3031,7 +3031,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateApiKey", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateApiKey", runtime.WithHTTPPathPattern("/cloud/api-keys"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3053,7 +3053,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateApiKey", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys/{key_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateApiKey", runtime.WithHTTPPathPattern("/cloud/api-keys/{key_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3075,7 +3075,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteApiKey", runtime.WithHTTPPathPattern("/api/v1/cloud/api-keys/{key_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteApiKey", runtime.WithHTTPPathPattern("/cloud/api-keys/{key_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3097,7 +3097,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUserGroups", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUserGroups", runtime.WithHTTPPathPattern("/cloud/user-groups"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3119,7 +3119,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUserGroup", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups/{group_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetUserGroup", runtime.WithHTTPPathPattern("/cloud/user-groups/{group_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3141,7 +3141,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateUserGroup", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateUserGroup", runtime.WithHTTPPathPattern("/cloud/user-groups"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3163,7 +3163,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateUserGroup", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups/{group_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateUserGroup", runtime.WithHTTPPathPattern("/cloud/user-groups/{group_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3185,7 +3185,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteUserGroup", runtime.WithHTTPPathPattern("/api/v1/cloud/user-groups/{group_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteUserGroup", runtime.WithHTTPPathPattern("/cloud/user-groups/{group_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3207,7 +3207,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/SetUserGroupNamespaceAccess", runtime.WithHTTPPathPattern("/api/v1/cloud/namespaces/{namespace}/user-groups/{group_id}/access"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/SetUserGroupNamespaceAccess", runtime.WithHTTPPathPattern("/cloud/namespaces/{namespace}/user-groups/{group_id}/access"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3229,7 +3229,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateServiceAccount", runtime.WithHTTPPathPattern("/api/v1/service-accounts"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/CreateServiceAccount", runtime.WithHTTPPathPattern("/cloud/service-accounts"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3251,7 +3251,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetServiceAccount", runtime.WithHTTPPathPattern("/api/v1/service-accounts/{service_account_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetServiceAccount", runtime.WithHTTPPathPattern("/cloud/service-accounts/{service_account_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3273,7 +3273,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetServiceAccounts", runtime.WithHTTPPathPattern("/api/v1/service-accounts"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/GetServiceAccounts", runtime.WithHTTPPathPattern("/cloud/service-accounts"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3295,7 +3295,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateServiceAccount", runtime.WithHTTPPathPattern("/api/v1/service-accounts/{service_account_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateServiceAccount", runtime.WithHTTPPathPattern("/cloud/service-accounts/{service_account_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3317,7 +3317,7 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteServiceAccount", runtime.WithHTTPPathPattern("/api/v1/service-accounts/{service_account_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteServiceAccount", runtime.WithHTTPPathPattern("/cloud/service-accounts/{service_account_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -3337,71 +3337,71 @@ func RegisterCloudServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 }
 
 var (
-	pattern_CloudService_GetUsers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "users"}, ""))
+	pattern_CloudService_GetUsers_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "users"}, ""))
 
-	pattern_CloudService_GetUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "users", "user_id"}, ""))
+	pattern_CloudService_GetUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "users", "user_id"}, ""))
 
-	pattern_CloudService_CreateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "users"}, ""))
+	pattern_CloudService_CreateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "users"}, ""))
 
-	pattern_CloudService_UpdateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "users", "user_id"}, ""))
+	pattern_CloudService_UpdateUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "users", "user_id"}, ""))
 
-	pattern_CloudService_DeleteUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "users", "user_id"}, ""))
+	pattern_CloudService_DeleteUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "users", "user_id"}, ""))
 
-	pattern_CloudService_SetUserNamespaceAccess_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "cloud", "namespaces", "namespace", "users", "user_id", "access"}, ""))
+	pattern_CloudService_SetUserNamespaceAccess_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"cloud", "namespaces", "namespace", "users", "user_id", "access"}, ""))
 
-	pattern_CloudService_GetAsyncOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "operations", "async_operation_id"}, ""))
+	pattern_CloudService_GetAsyncOperation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "operations", "async_operation_id"}, ""))
 
-	pattern_CloudService_CreateNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "namespaces"}, ""))
+	pattern_CloudService_CreateNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "namespaces"}, ""))
 
-	pattern_CloudService_GetNamespaces_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "namespaces"}, ""))
+	pattern_CloudService_GetNamespaces_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "namespaces"}, ""))
 
-	pattern_CloudService_GetNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "namespaces", "namespace"}, ""))
+	pattern_CloudService_GetNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "namespaces", "namespace"}, ""))
 
-	pattern_CloudService_UpdateNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "namespaces", "namespace"}, ""))
+	pattern_CloudService_UpdateNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "namespaces", "namespace"}, ""))
 
-	pattern_CloudService_RenameCustomSearchAttribute_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "cloud", "namespaces", "namespace", "rename-custom-search-attribute"}, ""))
+	pattern_CloudService_RenameCustomSearchAttribute_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"cloud", "namespaces", "namespace", "rename-custom-search-attribute"}, ""))
 
-	pattern_CloudService_DeleteNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "namespaces", "namespace"}, ""))
+	pattern_CloudService_DeleteNamespace_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "namespaces", "namespace"}, ""))
 
-	pattern_CloudService_FailoverNamespaceRegion_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "cloud", "namespaces", "namespace", "failover-region"}, ""))
+	pattern_CloudService_FailoverNamespaceRegion_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"cloud", "namespaces", "namespace", "failover-region"}, ""))
 
-	pattern_CloudService_AddNamespaceRegion_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "cloud", "namespaces", "namespace", "add-region"}, ""))
+	pattern_CloudService_AddNamespaceRegion_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"cloud", "namespaces", "namespace", "add-region"}, ""))
 
-	pattern_CloudService_GetRegions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "regions"}, ""))
+	pattern_CloudService_GetRegions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "regions"}, ""))
 
-	pattern_CloudService_GetRegion_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "regions", "region"}, ""))
+	pattern_CloudService_GetRegion_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "regions", "region"}, ""))
 
-	pattern_CloudService_GetApiKeys_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "api-keys"}, ""))
+	pattern_CloudService_GetApiKeys_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "api-keys"}, ""))
 
-	pattern_CloudService_GetApiKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "api-keys", "key_id"}, ""))
+	pattern_CloudService_GetApiKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "api-keys", "key_id"}, ""))
 
-	pattern_CloudService_CreateApiKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "api-keys"}, ""))
+	pattern_CloudService_CreateApiKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "api-keys"}, ""))
 
-	pattern_CloudService_UpdateApiKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "api-keys", "key_id"}, ""))
+	pattern_CloudService_UpdateApiKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "api-keys", "key_id"}, ""))
 
-	pattern_CloudService_DeleteApiKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "api-keys", "key_id"}, ""))
+	pattern_CloudService_DeleteApiKey_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "api-keys", "key_id"}, ""))
 
-	pattern_CloudService_GetUserGroups_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "user-groups"}, ""))
+	pattern_CloudService_GetUserGroups_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "user-groups"}, ""))
 
-	pattern_CloudService_GetUserGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "user-groups", "group_id"}, ""))
+	pattern_CloudService_GetUserGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "user-groups", "group_id"}, ""))
 
-	pattern_CloudService_CreateUserGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "cloud", "user-groups"}, ""))
+	pattern_CloudService_CreateUserGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "user-groups"}, ""))
 
-	pattern_CloudService_UpdateUserGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "user-groups", "group_id"}, ""))
+	pattern_CloudService_UpdateUserGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "user-groups", "group_id"}, ""))
 
-	pattern_CloudService_DeleteUserGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "cloud", "user-groups", "group_id"}, ""))
+	pattern_CloudService_DeleteUserGroup_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "user-groups", "group_id"}, ""))
 
-	pattern_CloudService_SetUserGroupNamespaceAccess_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "cloud", "namespaces", "namespace", "user-groups", "group_id", "access"}, ""))
+	pattern_CloudService_SetUserGroupNamespaceAccess_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"cloud", "namespaces", "namespace", "user-groups", "group_id", "access"}, ""))
 
-	pattern_CloudService_CreateServiceAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "service-accounts"}, ""))
+	pattern_CloudService_CreateServiceAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "service-accounts"}, ""))
 
-	pattern_CloudService_GetServiceAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "service-accounts", "service_account_id"}, ""))
+	pattern_CloudService_GetServiceAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "service-accounts", "service_account_id"}, ""))
 
-	pattern_CloudService_GetServiceAccounts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "service-accounts"}, ""))
+	pattern_CloudService_GetServiceAccounts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cloud", "service-accounts"}, ""))
 
-	pattern_CloudService_UpdateServiceAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "service-accounts", "service_account_id"}, ""))
+	pattern_CloudService_UpdateServiceAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "service-accounts", "service_account_id"}, ""))
 
-	pattern_CloudService_DeleteServiceAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "service-accounts", "service_account_id"}, ""))
+	pattern_CloudService_DeleteServiceAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cloud", "service-accounts", "service_account_id"}, ""))
 )
 
 var (

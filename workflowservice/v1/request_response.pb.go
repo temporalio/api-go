@@ -1855,8 +1855,11 @@ type RespondWorkflowTaskCompletedResponse struct {
 	// See `RespondWorkflowTaskCompletedResponse::return_new_workflow_task`
 	WorkflowTask *PollWorkflowTaskQueueResponse `protobuf:"bytes,1,opt,name=workflow_task,json=workflowTask,proto3" json:"workflow_task,omitempty"`
 	// See `ScheduleActivityTaskCommandAttributes::request_start`
-	ActivityTasks       []*PollActivityTaskQueueResponse `protobuf:"bytes,2,rep,name=activity_tasks,json=activityTasks,proto3" json:"activity_tasks,omitempty"`
-	ResetHistoryEventId int64                            `protobuf:"varint,3,opt,name=reset_history_event_id,json=resetHistoryEventId,proto3" json:"reset_history_event_id,omitempty"`
+	ActivityTasks []*PollActivityTaskQueueResponse `protobuf:"bytes,2,rep,name=activity_tasks,json=activityTasks,proto3" json:"activity_tasks,omitempty"`
+	// If non zero, indicates the server has discarded the workflow task that was being responded to.
+	// Will be the event ID of the last workflow task started event in the history before the new workflow task.
+	// Server is only expected to discard a workflow task if it could not have modified the workflow state.
+	ResetHistoryEventId int64 `protobuf:"varint,3,opt,name=reset_history_event_id,json=resetHistoryEventId,proto3" json:"reset_history_event_id,omitempty"`
 }
 
 func (x *RespondWorkflowTaskCompletedResponse) Reset() {
@@ -12767,7 +12770,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP() [
 }
 
 var file_temporal_api_workflowservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 145)
-var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []interface{}{
+var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*RegisterNamespaceRequest)(nil),                         // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest
 	(*RegisterNamespaceResponse)(nil),                        // 1: temporal.api.workflowservice.v1.RegisterNamespaceResponse
 	(*ListNamespacesRequest)(nil),                            // 2: temporal.api.workflowservice.v1.ListNamespacesRequest
@@ -13257,7 +13260,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*RegisterNamespaceRequest); i {
 			case 0:
 				return &v.state
@@ -13269,7 +13272,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*RegisterNamespaceResponse); i {
 			case 0:
 				return &v.state
@@ -13281,7 +13284,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*ListNamespacesRequest); i {
 			case 0:
 				return &v.state
@@ -13293,7 +13296,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[3].Exporter = func(v any, i int) any {
 			switch v := v.(*ListNamespacesResponse); i {
 			case 0:
 				return &v.state
@@ -13305,7 +13308,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[4].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeNamespaceRequest); i {
 			case 0:
 				return &v.state
@@ -13317,7 +13320,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[5].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeNamespaceResponse); i {
 			case 0:
 				return &v.state
@@ -13329,7 +13332,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[6].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateNamespaceRequest); i {
 			case 0:
 				return &v.state
@@ -13341,7 +13344,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[7].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateNamespaceResponse); i {
 			case 0:
 				return &v.state
@@ -13353,7 +13356,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[8].Exporter = func(v any, i int) any {
 			switch v := v.(*DeprecateNamespaceRequest); i {
 			case 0:
 				return &v.state
@@ -13365,7 +13368,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[9].Exporter = func(v any, i int) any {
 			switch v := v.(*DeprecateNamespaceResponse); i {
 			case 0:
 				return &v.state
@@ -13377,7 +13380,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[10].Exporter = func(v any, i int) any {
 			switch v := v.(*StartWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -13389,7 +13392,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[11].Exporter = func(v any, i int) any {
 			switch v := v.(*StartWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -13401,7 +13404,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[12].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkflowExecutionHistoryRequest); i {
 			case 0:
 				return &v.state
@@ -13413,7 +13416,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[13].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkflowExecutionHistoryResponse); i {
 			case 0:
 				return &v.state
@@ -13425,7 +13428,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[14].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkflowExecutionHistoryReverseRequest); i {
 			case 0:
 				return &v.state
@@ -13437,7 +13440,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[15].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkflowExecutionHistoryReverseResponse); i {
 			case 0:
 				return &v.state
@@ -13449,7 +13452,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[16].Exporter = func(v any, i int) any {
 			switch v := v.(*PollWorkflowTaskQueueRequest); i {
 			case 0:
 				return &v.state
@@ -13461,7 +13464,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[17].Exporter = func(v any, i int) any {
 			switch v := v.(*PollWorkflowTaskQueueResponse); i {
 			case 0:
 				return &v.state
@@ -13473,7 +13476,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[18].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondWorkflowTaskCompletedRequest); i {
 			case 0:
 				return &v.state
@@ -13485,7 +13488,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[19].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondWorkflowTaskCompletedResponse); i {
 			case 0:
 				return &v.state
@@ -13497,7 +13500,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[20].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondWorkflowTaskFailedRequest); i {
 			case 0:
 				return &v.state
@@ -13509,7 +13512,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[21].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondWorkflowTaskFailedResponse); i {
 			case 0:
 				return &v.state
@@ -13521,7 +13524,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[22].Exporter = func(v any, i int) any {
 			switch v := v.(*PollActivityTaskQueueRequest); i {
 			case 0:
 				return &v.state
@@ -13533,7 +13536,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[23].Exporter = func(v any, i int) any {
 			switch v := v.(*PollActivityTaskQueueResponse); i {
 			case 0:
 				return &v.state
@@ -13545,7 +13548,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[24].Exporter = func(v any, i int) any {
 			switch v := v.(*RecordActivityTaskHeartbeatRequest); i {
 			case 0:
 				return &v.state
@@ -13557,7 +13560,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[25].Exporter = func(v any, i int) any {
 			switch v := v.(*RecordActivityTaskHeartbeatResponse); i {
 			case 0:
 				return &v.state
@@ -13569,7 +13572,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[26].Exporter = func(v any, i int) any {
 			switch v := v.(*RecordActivityTaskHeartbeatByIdRequest); i {
 			case 0:
 				return &v.state
@@ -13581,7 +13584,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[27].Exporter = func(v any, i int) any {
 			switch v := v.(*RecordActivityTaskHeartbeatByIdResponse); i {
 			case 0:
 				return &v.state
@@ -13593,7 +13596,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[28].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskCompletedRequest); i {
 			case 0:
 				return &v.state
@@ -13605,7 +13608,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[29].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskCompletedResponse); i {
 			case 0:
 				return &v.state
@@ -13617,7 +13620,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[30].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskCompletedByIdRequest); i {
 			case 0:
 				return &v.state
@@ -13629,7 +13632,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[31].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskCompletedByIdResponse); i {
 			case 0:
 				return &v.state
@@ -13641,7 +13644,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[32].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskFailedRequest); i {
 			case 0:
 				return &v.state
@@ -13653,7 +13656,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[33].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskFailedResponse); i {
 			case 0:
 				return &v.state
@@ -13665,7 +13668,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[34].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskFailedByIdRequest); i {
 			case 0:
 				return &v.state
@@ -13677,7 +13680,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[35].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskFailedByIdResponse); i {
 			case 0:
 				return &v.state
@@ -13689,7 +13692,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[36].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskCanceledRequest); i {
 			case 0:
 				return &v.state
@@ -13701,7 +13704,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[37].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskCanceledResponse); i {
 			case 0:
 				return &v.state
@@ -13713,7 +13716,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[38].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[38].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskCanceledByIdRequest); i {
 			case 0:
 				return &v.state
@@ -13725,7 +13728,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[39].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[39].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondActivityTaskCanceledByIdResponse); i {
 			case 0:
 				return &v.state
@@ -13737,7 +13740,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[40].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[40].Exporter = func(v any, i int) any {
 			switch v := v.(*RequestCancelWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -13749,7 +13752,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[41].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[41].Exporter = func(v any, i int) any {
 			switch v := v.(*RequestCancelWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -13761,7 +13764,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[42].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[42].Exporter = func(v any, i int) any {
 			switch v := v.(*SignalWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -13773,7 +13776,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[43].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[43].Exporter = func(v any, i int) any {
 			switch v := v.(*SignalWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -13785,7 +13788,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[44].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[44].Exporter = func(v any, i int) any {
 			switch v := v.(*SignalWithStartWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -13797,7 +13800,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[45].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[45].Exporter = func(v any, i int) any {
 			switch v := v.(*SignalWithStartWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -13809,7 +13812,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[46].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[46].Exporter = func(v any, i int) any {
 			switch v := v.(*ResetWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -13821,7 +13824,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[47].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[47].Exporter = func(v any, i int) any {
 			switch v := v.(*ResetWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -13833,7 +13836,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[48].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[48].Exporter = func(v any, i int) any {
 			switch v := v.(*TerminateWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -13845,7 +13848,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[49].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[49].Exporter = func(v any, i int) any {
 			switch v := v.(*TerminateWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -13857,7 +13860,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[50].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[50].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -13869,7 +13872,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[51].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[51].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -13881,7 +13884,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[52].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[52].Exporter = func(v any, i int) any {
 			switch v := v.(*ListOpenWorkflowExecutionsRequest); i {
 			case 0:
 				return &v.state
@@ -13893,7 +13896,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[53].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[53].Exporter = func(v any, i int) any {
 			switch v := v.(*ListOpenWorkflowExecutionsResponse); i {
 			case 0:
 				return &v.state
@@ -13905,7 +13908,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[54].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[54].Exporter = func(v any, i int) any {
 			switch v := v.(*ListClosedWorkflowExecutionsRequest); i {
 			case 0:
 				return &v.state
@@ -13917,7 +13920,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[55].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[55].Exporter = func(v any, i int) any {
 			switch v := v.(*ListClosedWorkflowExecutionsResponse); i {
 			case 0:
 				return &v.state
@@ -13929,7 +13932,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[56].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[56].Exporter = func(v any, i int) any {
 			switch v := v.(*ListWorkflowExecutionsRequest); i {
 			case 0:
 				return &v.state
@@ -13941,7 +13944,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[57].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[57].Exporter = func(v any, i int) any {
 			switch v := v.(*ListWorkflowExecutionsResponse); i {
 			case 0:
 				return &v.state
@@ -13953,7 +13956,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[58].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[58].Exporter = func(v any, i int) any {
 			switch v := v.(*ListArchivedWorkflowExecutionsRequest); i {
 			case 0:
 				return &v.state
@@ -13965,7 +13968,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[59].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[59].Exporter = func(v any, i int) any {
 			switch v := v.(*ListArchivedWorkflowExecutionsResponse); i {
 			case 0:
 				return &v.state
@@ -13977,7 +13980,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[60].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[60].Exporter = func(v any, i int) any {
 			switch v := v.(*ScanWorkflowExecutionsRequest); i {
 			case 0:
 				return &v.state
@@ -13989,7 +13992,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[61].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[61].Exporter = func(v any, i int) any {
 			switch v := v.(*ScanWorkflowExecutionsResponse); i {
 			case 0:
 				return &v.state
@@ -14001,7 +14004,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[62].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[62].Exporter = func(v any, i int) any {
 			switch v := v.(*CountWorkflowExecutionsRequest); i {
 			case 0:
 				return &v.state
@@ -14013,7 +14016,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[63].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[63].Exporter = func(v any, i int) any {
 			switch v := v.(*CountWorkflowExecutionsResponse); i {
 			case 0:
 				return &v.state
@@ -14025,7 +14028,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[64].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[64].Exporter = func(v any, i int) any {
 			switch v := v.(*GetSearchAttributesRequest); i {
 			case 0:
 				return &v.state
@@ -14037,7 +14040,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[65].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[65].Exporter = func(v any, i int) any {
 			switch v := v.(*GetSearchAttributesResponse); i {
 			case 0:
 				return &v.state
@@ -14049,7 +14052,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[66].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[66].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondQueryTaskCompletedRequest); i {
 			case 0:
 				return &v.state
@@ -14061,7 +14064,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[67].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[67].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondQueryTaskCompletedResponse); i {
 			case 0:
 				return &v.state
@@ -14073,7 +14076,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[68].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[68].Exporter = func(v any, i int) any {
 			switch v := v.(*ResetStickyTaskQueueRequest); i {
 			case 0:
 				return &v.state
@@ -14085,7 +14088,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[69].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[69].Exporter = func(v any, i int) any {
 			switch v := v.(*ResetStickyTaskQueueResponse); i {
 			case 0:
 				return &v.state
@@ -14097,7 +14100,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[70].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[70].Exporter = func(v any, i int) any {
 			switch v := v.(*QueryWorkflowRequest); i {
 			case 0:
 				return &v.state
@@ -14109,7 +14112,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[71].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[71].Exporter = func(v any, i int) any {
 			switch v := v.(*QueryWorkflowResponse); i {
 			case 0:
 				return &v.state
@@ -14121,7 +14124,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[72].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[72].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -14133,7 +14136,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[73].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[73].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -14145,7 +14148,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[74].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[74].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeTaskQueueRequest); i {
 			case 0:
 				return &v.state
@@ -14157,7 +14160,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[75].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[75].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeTaskQueueResponse); i {
 			case 0:
 				return &v.state
@@ -14169,7 +14172,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[76].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[76].Exporter = func(v any, i int) any {
 			switch v := v.(*GetClusterInfoRequest); i {
 			case 0:
 				return &v.state
@@ -14181,7 +14184,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[77].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[77].Exporter = func(v any, i int) any {
 			switch v := v.(*GetClusterInfoResponse); i {
 			case 0:
 				return &v.state
@@ -14193,7 +14196,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[78].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[78].Exporter = func(v any, i int) any {
 			switch v := v.(*GetSystemInfoRequest); i {
 			case 0:
 				return &v.state
@@ -14205,7 +14208,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[79].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[79].Exporter = func(v any, i int) any {
 			switch v := v.(*GetSystemInfoResponse); i {
 			case 0:
 				return &v.state
@@ -14217,7 +14220,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[80].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[80].Exporter = func(v any, i int) any {
 			switch v := v.(*ListTaskQueuePartitionsRequest); i {
 			case 0:
 				return &v.state
@@ -14229,7 +14232,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[81].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[81].Exporter = func(v any, i int) any {
 			switch v := v.(*ListTaskQueuePartitionsResponse); i {
 			case 0:
 				return &v.state
@@ -14241,7 +14244,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[82].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[82].Exporter = func(v any, i int) any {
 			switch v := v.(*CreateScheduleRequest); i {
 			case 0:
 				return &v.state
@@ -14253,7 +14256,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[83].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[83].Exporter = func(v any, i int) any {
 			switch v := v.(*CreateScheduleResponse); i {
 			case 0:
 				return &v.state
@@ -14265,7 +14268,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[84].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[84].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeScheduleRequest); i {
 			case 0:
 				return &v.state
@@ -14277,7 +14280,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[85].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[85].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeScheduleResponse); i {
 			case 0:
 				return &v.state
@@ -14289,7 +14292,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[86].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[86].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateScheduleRequest); i {
 			case 0:
 				return &v.state
@@ -14301,7 +14304,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[87].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[87].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateScheduleResponse); i {
 			case 0:
 				return &v.state
@@ -14313,7 +14316,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[88].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[88].Exporter = func(v any, i int) any {
 			switch v := v.(*PatchScheduleRequest); i {
 			case 0:
 				return &v.state
@@ -14325,7 +14328,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[89].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[89].Exporter = func(v any, i int) any {
 			switch v := v.(*PatchScheduleResponse); i {
 			case 0:
 				return &v.state
@@ -14337,7 +14340,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[90].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[90].Exporter = func(v any, i int) any {
 			switch v := v.(*ListScheduleMatchingTimesRequest); i {
 			case 0:
 				return &v.state
@@ -14349,7 +14352,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[91].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[91].Exporter = func(v any, i int) any {
 			switch v := v.(*ListScheduleMatchingTimesResponse); i {
 			case 0:
 				return &v.state
@@ -14361,7 +14364,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[92].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[92].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteScheduleRequest); i {
 			case 0:
 				return &v.state
@@ -14373,7 +14376,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[93].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[93].Exporter = func(v any, i int) any {
 			switch v := v.(*DeleteScheduleResponse); i {
 			case 0:
 				return &v.state
@@ -14385,7 +14388,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[94].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[94].Exporter = func(v any, i int) any {
 			switch v := v.(*ListSchedulesRequest); i {
 			case 0:
 				return &v.state
@@ -14397,7 +14400,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[95].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[95].Exporter = func(v any, i int) any {
 			switch v := v.(*ListSchedulesResponse); i {
 			case 0:
 				return &v.state
@@ -14409,7 +14412,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[96].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[96].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerBuildIdCompatibilityRequest); i {
 			case 0:
 				return &v.state
@@ -14421,7 +14424,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[97].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[97].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerBuildIdCompatibilityResponse); i {
 			case 0:
 				return &v.state
@@ -14433,7 +14436,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[98].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[98].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkerBuildIdCompatibilityRequest); i {
 			case 0:
 				return &v.state
@@ -14445,7 +14448,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[99].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[99].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkerBuildIdCompatibilityResponse); i {
 			case 0:
 				return &v.state
@@ -14457,7 +14460,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesRequest); i {
 			case 0:
 				return &v.state
@@ -14469,7 +14472,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[101].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[101].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesResponse); i {
 			case 0:
 				return &v.state
@@ -14481,7 +14484,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[102].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[102].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkerVersioningRulesRequest); i {
 			case 0:
 				return &v.state
@@ -14493,7 +14496,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[103].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[103].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkerVersioningRulesResponse); i {
 			case 0:
 				return &v.state
@@ -14505,7 +14508,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[104].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[104].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkerTaskReachabilityRequest); i {
 			case 0:
 				return &v.state
@@ -14517,7 +14520,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[105].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[105].Exporter = func(v any, i int) any {
 			switch v := v.(*GetWorkerTaskReachabilityResponse); i {
 			case 0:
 				return &v.state
@@ -14529,7 +14532,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[106].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[106].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkflowExecutionRequest); i {
 			case 0:
 				return &v.state
@@ -14541,7 +14544,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[107].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[107].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkflowExecutionResponse); i {
 			case 0:
 				return &v.state
@@ -14553,7 +14556,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108].Exporter = func(v any, i int) any {
 			switch v := v.(*StartBatchOperationRequest); i {
 			case 0:
 				return &v.state
@@ -14565,7 +14568,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[109].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[109].Exporter = func(v any, i int) any {
 			switch v := v.(*StartBatchOperationResponse); i {
 			case 0:
 				return &v.state
@@ -14577,7 +14580,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[110].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[110].Exporter = func(v any, i int) any {
 			switch v := v.(*StopBatchOperationRequest); i {
 			case 0:
 				return &v.state
@@ -14589,7 +14592,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[111].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[111].Exporter = func(v any, i int) any {
 			switch v := v.(*StopBatchOperationResponse); i {
 			case 0:
 				return &v.state
@@ -14601,7 +14604,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[112].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[112].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeBatchOperationRequest); i {
 			case 0:
 				return &v.state
@@ -14613,7 +14616,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[113].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[113].Exporter = func(v any, i int) any {
 			switch v := v.(*DescribeBatchOperationResponse); i {
 			case 0:
 				return &v.state
@@ -14625,7 +14628,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[114].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[114].Exporter = func(v any, i int) any {
 			switch v := v.(*ListBatchOperationsRequest); i {
 			case 0:
 				return &v.state
@@ -14637,7 +14640,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[115].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[115].Exporter = func(v any, i int) any {
 			switch v := v.(*ListBatchOperationsResponse); i {
 			case 0:
 				return &v.state
@@ -14649,7 +14652,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[116].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[116].Exporter = func(v any, i int) any {
 			switch v := v.(*PollWorkflowExecutionUpdateRequest); i {
 			case 0:
 				return &v.state
@@ -14661,7 +14664,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[117].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[117].Exporter = func(v any, i int) any {
 			switch v := v.(*PollWorkflowExecutionUpdateResponse); i {
 			case 0:
 				return &v.state
@@ -14673,7 +14676,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[118].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[118].Exporter = func(v any, i int) any {
 			switch v := v.(*PollNexusTaskQueueRequest); i {
 			case 0:
 				return &v.state
@@ -14685,7 +14688,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[119].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[119].Exporter = func(v any, i int) any {
 			switch v := v.(*PollNexusTaskQueueResponse); i {
 			case 0:
 				return &v.state
@@ -14697,7 +14700,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[120].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[120].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondNexusTaskCompletedRequest); i {
 			case 0:
 				return &v.state
@@ -14709,7 +14712,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[121].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[121].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondNexusTaskCompletedResponse); i {
 			case 0:
 				return &v.state
@@ -14721,7 +14724,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[122].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[122].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondNexusTaskFailedRequest); i {
 			case 0:
 				return &v.state
@@ -14733,7 +14736,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[123].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[123].Exporter = func(v any, i int) any {
 			switch v := v.(*RespondNexusTaskFailedResponse); i {
 			case 0:
 				return &v.state
@@ -14745,7 +14748,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[124].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[124].Exporter = func(v any, i int) any {
 			switch v := v.(*ExecuteMultiOperationRequest); i {
 			case 0:
 				return &v.state
@@ -14757,7 +14760,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[125].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[125].Exporter = func(v any, i int) any {
 			switch v := v.(*ExecuteMultiOperationResponse); i {
 			case 0:
 				return &v.state
@@ -14769,7 +14772,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[129].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[129].Exporter = func(v any, i int) any {
 			switch v := v.(*CountWorkflowExecutionsResponse_AggregationGroup); i {
 			case 0:
 				return &v.state
@@ -14781,7 +14784,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[133].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[133].Exporter = func(v any, i int) any {
 			switch v := v.(*GetSystemInfoResponse_Capabilities); i {
 			case 0:
 				return &v.state
@@ -14793,7 +14796,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[134].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[134].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion); i {
 			case 0:
 				return &v.state
@@ -14805,7 +14808,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[135].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[135].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets); i {
 			case 0:
 				return &v.state
@@ -14817,7 +14820,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[136].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[136].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule); i {
 			case 0:
 				return &v.state
@@ -14829,7 +14832,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[137].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[137].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule); i {
 			case 0:
 				return &v.state
@@ -14841,7 +14844,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[138].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[138].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule); i {
 			case 0:
 				return &v.state
@@ -14853,7 +14856,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[139].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[139].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule); i {
 			case 0:
 				return &v.state
@@ -14865,7 +14868,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[140].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[140].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule); i {
 			case 0:
 				return &v.state
@@ -14877,7 +14880,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[141].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[141].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule); i {
 			case 0:
 				return &v.state
@@ -14889,7 +14892,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[142].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[142].Exporter = func(v any, i int) any {
 			switch v := v.(*UpdateWorkerVersioningRulesRequest_CommitBuildId); i {
 			case 0:
 				return &v.state
@@ -14901,7 +14904,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[143].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[143].Exporter = func(v any, i int) any {
 			switch v := v.(*ExecuteMultiOperationRequest_Operation); i {
 			case 0:
 				return &v.state
@@ -14913,7 +14916,7 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[144].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[144].Exporter = func(v any, i int) any {
 			switch v := v.(*ExecuteMultiOperationResponse_Response); i {
 			case 0:
 				return &v.state
@@ -14926,23 +14929,23 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 			}
 		}
 	}
-	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[52].OneofWrappers = []interface{}{
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[52].OneofWrappers = []any{
 		(*ListOpenWorkflowExecutionsRequest_ExecutionFilter)(nil),
 		(*ListOpenWorkflowExecutionsRequest_TypeFilter)(nil),
 	}
-	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[54].OneofWrappers = []interface{}{
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[54].OneofWrappers = []any{
 		(*ListClosedWorkflowExecutionsRequest_ExecutionFilter)(nil),
 		(*ListClosedWorkflowExecutionsRequest_TypeFilter)(nil),
 		(*ListClosedWorkflowExecutionsRequest_StatusFilter)(nil),
 	}
-	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[96].OneofWrappers = []interface{}{
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[96].OneofWrappers = []any{
 		(*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet)(nil),
 		(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId)(nil),
 		(*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId)(nil),
 		(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet)(nil),
 		(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_)(nil),
 	}
-	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100].OneofWrappers = []interface{}{
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[100].OneofWrappers = []any{
 		(*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule)(nil),
 		(*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule)(nil),
 		(*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule)(nil),
@@ -14951,18 +14954,18 @@ func file_temporal_api_workflowservice_v1_request_response_proto_init() {
 		(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule)(nil),
 		(*UpdateWorkerVersioningRulesRequest_CommitBuildId_)(nil),
 	}
-	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108].OneofWrappers = []interface{}{
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[108].OneofWrappers = []any{
 		(*StartBatchOperationRequest_TerminationOperation)(nil),
 		(*StartBatchOperationRequest_SignalOperation)(nil),
 		(*StartBatchOperationRequest_CancellationOperation)(nil),
 		(*StartBatchOperationRequest_DeletionOperation)(nil),
 		(*StartBatchOperationRequest_ResetOperation)(nil),
 	}
-	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[143].OneofWrappers = []interface{}{
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[143].OneofWrappers = []any{
 		(*ExecuteMultiOperationRequest_Operation_StartWorkflow)(nil),
 		(*ExecuteMultiOperationRequest_Operation_UpdateWorkflow)(nil),
 	}
-	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[144].OneofWrappers = []interface{}{
+	file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[144].OneofWrappers = []any{
 		(*ExecuteMultiOperationResponse_Response_StartWorkflow)(nil),
 		(*ExecuteMultiOperationResponse_Response_UpdateWorkflow)(nil),
 	}

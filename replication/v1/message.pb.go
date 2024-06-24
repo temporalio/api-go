@@ -276,7 +276,7 @@ func file_temporal_api_replication_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_replication_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_temporal_api_replication_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_replication_v1_message_proto_goTypes = []any{
 	(*ClusterReplicationConfig)(nil),   // 0: temporal.api.replication.v1.ClusterReplicationConfig
 	(*NamespaceReplicationConfig)(nil), // 1: temporal.api.replication.v1.NamespaceReplicationConfig
 	(*FailoverStatus)(nil),             // 2: temporal.api.replication.v1.FailoverStatus
@@ -300,7 +300,7 @@ func file_temporal_api_replication_v1_message_proto_init() {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_replication_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_replication_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
 			switch v := v.(*ClusterReplicationConfig); i {
 			case 0:
 				return &v.state
@@ -312,7 +312,7 @@ func file_temporal_api_replication_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_replication_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_replication_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
 			switch v := v.(*NamespaceReplicationConfig); i {
 			case 0:
 				return &v.state
@@ -324,7 +324,7 @@ func file_temporal_api_replication_v1_message_proto_init() {
 				return nil
 			}
 		}
-		file_temporal_api_replication_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_temporal_api_replication_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
 			switch v := v.(*FailoverStatus); i {
 			case 0:
 				return &v.state
