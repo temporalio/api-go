@@ -34,7 +34,7 @@ import (
 	"golang.org/x/tools/go/packages"
 	"golang.org/x/tools/go/types/typeutil"
 
-	_ "go.temporal.io/api/workflowservice/v1"
+	_ "go.temporal.io/server/api/adminservice/v1"
 )
 
 const serviceFile = "../../proxy/service.go"
@@ -47,28 +47,28 @@ package proxy
 import (
 	"context"
 
-	"go.temporal.io/api/workflowservice/v1"
+	 "go.temporal.io/server/api/adminservice/v1"
 )
 
-// WorkflowServiceProxyOptions provides options for configuring a WorkflowServiceProxyServer.
-// Client is a WorkflowServiceClient used to forward requests received by the server to the 
+// AdminServiceProxyOptions provides options for configuring a AdminServiceProxyServer.
+// Client is a AdminServiceClient used to forward requests received by the server to the 
 // Temporal Frontend.
-type WorkflowServiceProxyOptions struct {
-	Client workflowservice.WorkflowServiceClient
+type AdminServiceProxyOptions struct {
+	Client adminservice.AdminServiceClient
 	DisableHeaderForwarding bool
 }
 
-type workflowServiceProxyServer struct {
-	workflowservice.UnimplementedWorkflowServiceServer
-	client workflowservice.WorkflowServiceClient
+type adminserviceProxyServer struct {
+	adminservice.UnimplementedAdminServiceServer
+	client adminservice.AdminServiceClient
 	disableHeaderForwarding bool
 }
 
-// NewWorkflowServiceProxyServer creates a WorkflowServiceServer suitable for registering with a gRPC Server. Requests will
-// be forwarded to the passed in WorkflowService Client. gRPC interceptors can be added on the Server or Client to adjust
+// NewAdminServiceProxyServer creates a AdminServiceServer suitable for registering with a gRPC Server. Requests will
+// be forwarded to the passed in AdminService Client. gRPC interceptors can be added on the Server or Client to adjust
 // requests and responses.
-func NewWorkflowServiceProxyServer(options WorkflowServiceProxyOptions) (workflowservice.WorkflowServiceServer, error) {
-	return &workflowServiceProxyServer{
+func NewAdminServiceProxyServer(options AdminServiceProxyOptions) (adminservice.AdminServiceServer, error) {
+	return &adminserviceProxyServer{
 		client: options.Client,
 		disableHeaderForwarding: options.DisableHeaderForwarding,
 	}, nil
@@ -81,24 +81,24 @@ func generateService(cfg config) error {
 	fmt.Fprint(buf, ServiceHeader)
 
 	conf := &packages.Config{Mode: packages.NeedImports | packages.NeedTypes | packages.NeedTypesInfo}
-	pkgs, err := packages.Load(conf, "go.temporal.io/api/workflowservice/v1")
+	pkgs, err := packages.Load(conf, "go.temporal.io/server/api/adminservice/v1")
 	if err != nil {
-		return fmt.Errorf("unable to load workflowservice: %w", err)
+		return fmt.Errorf("unable to load adminservice: %w", err)
 	}
 
 	pkg := pkgs[0]
 	if len(pkg.Errors) > 0 {
-		return fmt.Errorf("unable to load workflowservice: %v", pkg.Errors)
+		return fmt.Errorf("unable to load adminservice: %v", pkg.Errors)
 	}
 
 	qual := func(other *types.Package) string {
 		if other == pkg.Types {
-			return "workflowservice"
+			return "adminservice"
 		}
 		return other.Path()
 	}
 	scope := pkg.Types.Scope()
-	service := scope.Lookup("UnimplementedWorkflowServiceServer")
+	service := scope.Lookup("UnimplementedAdminServiceServer")
 	if _, ok := service.(*types.TypeName); ok {
 		for _, meth := range typeutil.IntuitiveMethodSet(service.Type(), nil) {
 			if !meth.Obj().Exported() {
@@ -127,8 +127,9 @@ func generateService(cfg config) error {
 					params[i] = "s.reqCtx(ctx)"
 				}
 			}
-			fmt.Fprintf(buf, "\nfunc (s *workflowServiceProxyServer) %s(%s) %s {\n", name, strings.Join(paramDecl, ", "), types.TypeString(sig.Results(), qual))
-			fmt.Fprintf(buf, "\treturn s.client.%s(%s)\n", name, strings.Join(params, ", "))
+			fmt.Fprintf(buf, "\nfunc (s *adminServiceProxyServer) %s(%s) %s {\n", name, strings.Join(paramDecl, ", "), types.TypeString(sig.Results(), qual))
+			// fmt.Fprintf(buf, "\treturn s.client.%s(%s)\n", name, strings.Join(params, ", "))
+			fmt.Fprintf(buf, "\treturn nil, status.Errorf(codes.PermissionDenied, \"Calling method %s is not allowed.\")\n", name)
 			fmt.Fprintf(buf, "}\n")
 		}
 	}
@@ -136,7 +137,7 @@ func generateService(cfg config) error {
 	src, err := format.Source(buf.Bytes())
 	if err != nil {
 		log.Println(buf.String())
-		return fmt.Errorf("failed to format generated workflowservice: %w", err)
+		return fmt.Errorf("failed to format generated adminservice: %w", err)
 	}
 
 	if cfg.verifyOnly {
