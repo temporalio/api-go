@@ -58,8 +58,6 @@ type ApplicationFailureInfo struct {
 	// retry interval calculated by the retry policy. Retry attempts will
 	// still be subject to the maximum retries limit and total time limit
 	// defined by the policy.
-	// ATTENTION: this value will be ignored if set for failures produced by
-	// the workflow.
 	NextRetryDelay *durationpb.Duration `protobuf:"bytes,4,opt,name=next_retry_delay,json=nextRetryDelay,proto3" json:"next_retry_delay,omitempty"`
 }
 
