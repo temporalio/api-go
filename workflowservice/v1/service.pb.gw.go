@@ -3896,7 +3896,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo", runtime.WithHTTPPathPattern("/cluster-info"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo", runtime.WithHTTPPathPattern("/cluster"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -4954,7 +4954,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo", runtime.WithHTTPPathPattern("/cluster-info"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo", runtime.WithHTTPPathPattern("/cluster"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -5380,7 +5380,7 @@ var (
 
 	pattern_WorkflowService_DescribeTaskQueue_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "task-queues", "task_queue.name"}, ""))
 
-	pattern_WorkflowService_GetClusterInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"cluster-info"}, ""))
+	pattern_WorkflowService_GetClusterInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"cluster"}, ""))
 
 	pattern_WorkflowService_GetSystemInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"system-info"}, ""))
 
