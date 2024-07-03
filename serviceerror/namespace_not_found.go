@@ -56,7 +56,14 @@ func (e *NamespaceNotFound) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *NamespaceNotFound) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+// GRPCStatus returns a Status representing the error. It satisfies the implicit error handling contract as
+// described in google.golang.org/grpc/status/status.go#FromError
+func (e *NamespaceNotFound) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

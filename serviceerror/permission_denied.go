@@ -23,9 +23,10 @@
 package serviceerror
 
 import (
-	"go.temporal.io/api/errordetails/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"go.temporal.io/api/errordetails/v1"
 )
 
 type (
@@ -50,7 +51,12 @@ func (e *PermissionDenied) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *PermissionDenied) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *PermissionDenied) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

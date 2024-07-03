@@ -47,7 +47,12 @@ func (e *Unavailable) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *Unavailable) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *Unavailable) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

@@ -47,7 +47,12 @@ func (e *DataLoss) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *DataLoss) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *DataLoss) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

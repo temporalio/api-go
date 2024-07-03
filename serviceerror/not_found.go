@@ -51,7 +51,12 @@ func (e *NotFound) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *NotFound) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *NotFound) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

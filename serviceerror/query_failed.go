@@ -49,7 +49,12 @@ func (e *QueryFailed) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *QueryFailed) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *QueryFailed) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

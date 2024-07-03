@@ -47,7 +47,12 @@ func (e *Unimplemented) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *Unimplemented) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *Unimplemented) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

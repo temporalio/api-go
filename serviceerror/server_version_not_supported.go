@@ -55,7 +55,12 @@ func (e *ServerVersionNotSupported) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *ServerVersionNotSupported) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *ServerVersionNotSupported) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

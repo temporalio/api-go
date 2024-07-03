@@ -54,7 +54,12 @@ func (e *NewerBuildExists) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *NewerBuildExists) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *NewerBuildExists) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

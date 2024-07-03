@@ -23,9 +23,10 @@
 package serviceerror
 
 import (
-	failurepb "go.temporal.io/api/failure/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	failurepb "go.temporal.io/api/failure/v1"
 )
 
 // MultiOperationAborted represents an aborted operation from a MultiOperationExecution.
@@ -46,7 +47,12 @@ func (e MultiOperationAborted) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e MultiOperationAborted) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e MultiOperationAborted) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

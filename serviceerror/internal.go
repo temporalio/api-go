@@ -47,7 +47,12 @@ func (e *Internal) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *Internal) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *Internal) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

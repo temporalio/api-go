@@ -53,7 +53,12 @@ func (e *WorkflowExecutionAlreadyStarted) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *WorkflowExecutionAlreadyStarted) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *WorkflowExecutionAlreadyStarted) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

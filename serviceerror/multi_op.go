@@ -25,9 +25,10 @@ package serviceerror
 import (
 	"errors"
 
-	"go.temporal.io/api/errordetails/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"go.temporal.io/api/errordetails/v1"
 )
 
 // MultiOperationExecution represents a MultiOperationExecution error.
@@ -51,7 +52,12 @@ func (e *MultiOperationExecution) OperationErrors() []error {
 	return e.errs
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *MultiOperationExecution) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *MultiOperationExecution) GRPCStatus() *status.Status {
 	var code *codes.Code
 	failure := &errordetails.MultiOperationExecutionFailure{
 		Statuses: make([]*errordetails.MultiOperationExecutionFailure_OperationStatus, len(e.errs)),

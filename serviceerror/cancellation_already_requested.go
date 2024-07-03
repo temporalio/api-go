@@ -49,7 +49,12 @@ func (e *CancellationAlreadyRequested) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *CancellationAlreadyRequested) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *CancellationAlreadyRequested) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

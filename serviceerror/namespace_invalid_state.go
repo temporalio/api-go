@@ -67,7 +67,12 @@ func (e *NamespaceInvalidState) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *NamespaceInvalidState) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *NamespaceInvalidState) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

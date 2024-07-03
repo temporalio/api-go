@@ -49,7 +49,12 @@ func (e *WorkflowNotReady) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *WorkflowNotReady) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *WorkflowNotReady) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

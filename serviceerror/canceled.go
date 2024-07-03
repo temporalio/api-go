@@ -47,7 +47,12 @@ func (e *Canceled) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *Canceled) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *Canceled) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

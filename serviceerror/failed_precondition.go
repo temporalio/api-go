@@ -47,7 +47,12 @@ func (e *FailedPrecondition) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *FailedPrecondition) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *FailedPrecondition) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

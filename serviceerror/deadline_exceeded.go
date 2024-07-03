@@ -47,7 +47,12 @@ func (e *DeadlineExceeded) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *DeadlineExceeded) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *DeadlineExceeded) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

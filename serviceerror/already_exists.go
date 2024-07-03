@@ -47,7 +47,12 @@ func (e *AlreadyExists) Error() string {
 	return e.Message
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *AlreadyExists) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *AlreadyExists) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}

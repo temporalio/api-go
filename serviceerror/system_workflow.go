@@ -56,7 +56,12 @@ func (e *SystemWorkflow) Error() string {
 		execution.WorkflowId, execution.RunId, e.WorkflowError)
 }
 
+// Deprecated: use GRPCStatus instead
 func (e *SystemWorkflow) Status() *status.Status {
+	return e.GRPCStatus()
+}
+
+func (e *SystemWorkflow) GRPCStatus() *status.Status {
 	if e.st != nil {
 		return e.st
 	}
