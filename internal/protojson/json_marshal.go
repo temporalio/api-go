@@ -144,7 +144,7 @@ func (o MarshalOptions) marshal(b []byte, m proto.Message) ([]byte, error) {
 	}
 
 	// Treat nil message interface as an empty message,
-	// in which case the output in an empty JSON object.
+	// in which case the output is an empty JSON object.
 	if m == nil {
 		return append(b, '{', '}'), nil
 	}
