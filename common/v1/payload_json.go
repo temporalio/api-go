@@ -185,6 +185,7 @@ func marshalValue(enc *json.Encoder, vv reflect.Value) error {
 		}
 	case reflect.Interface, reflect.Pointer:
 		if vv.IsNil() {
+			enc.WriteNull()
 			return nil
 		}
 		marshalValue(enc, vv.Elem())
