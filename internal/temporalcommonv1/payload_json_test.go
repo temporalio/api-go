@@ -84,6 +84,16 @@ var tests = []struct {
 		},
 	},
 }, {
+	name:          "json/plain with object with a null value",
+	longformJSON:  `{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"eyJteWtleSI6bnVsbH0="}`,
+	shorthandJSON: `{"mykey": null}`,
+	pb: &common.Payload{
+		Metadata: map[string][]byte{
+			"encoding": []byte("json/plain"),
+		},
+		Data: []byte(`{"mykey":null}`),
+	},
+}, {
 	name:          "json/plain with empty object",
 	longformJSON:  `{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"eyJncmVldGluZyI6e319"}`,
 	shorthandJSON: `{"greeting": {}}`,
