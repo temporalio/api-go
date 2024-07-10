@@ -1854,7 +1854,7 @@ type RespondWorkflowTaskCompletedResponse struct {
 
 	// See `RespondWorkflowTaskCompletedResponse::return_new_workflow_task`
 	WorkflowTask *PollWorkflowTaskQueueResponse `protobuf:"bytes,1,opt,name=workflow_task,json=workflowTask,proto3" json:"workflow_task,omitempty"`
-	// See `ScheduleActivityTaskCommandAttributes::request_start`
+	// See `ScheduleActivityTaskCommandAttributes::request_eager_execution`
 	ActivityTasks []*PollActivityTaskQueueResponse `protobuf:"bytes,2,rep,name=activity_tasks,json=activityTasks,proto3" json:"activity_tasks,omitempty"`
 	// If non zero, indicates the server has discarded the workflow task that was being responded to.
 	// Will be the event ID of the last workflow task started event in the history before the new workflow task.
