@@ -147,6 +147,7 @@ var (
 		"BusyWorkflow":            5,
 		"ApsLimit":                6,
 		"PersistenceStorageLimit": 7,
+		"CircuitBreakerOpen":      8,
 	}
 )
 
