@@ -40,6 +40,7 @@ $(PROTO_OUT):
 update-proto-submodule:
 	printf $(COLOR) "Update proto-submodule..."
 	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_ROOT)
+	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_CLOUD_ROOT)
 
 ##### Compile proto files for go #####
 grpc: http-api-docs go-grpc copy-helpers

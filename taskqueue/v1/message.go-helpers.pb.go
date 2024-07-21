@@ -582,6 +582,80 @@ func (this *RampByPercentage) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type ManualRamp to the protobuf v3 wire format
+func (val *ManualRamp) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ManualRamp from the protobuf v3 wire format
+func (val *ManualRamp) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ManualRamp) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ManualRamp values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ManualRamp) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ManualRamp
+	switch t := that.(type) {
+	case *ManualRamp:
+		that1 = t
+	case ManualRamp:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type AutoRamp to the protobuf v3 wire format
+func (val *AutoRamp) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type AutoRamp from the protobuf v3 wire format
+func (val *AutoRamp) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *AutoRamp) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two AutoRamp values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *AutoRamp) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *AutoRamp
+	switch t := that.(type) {
+	case *AutoRamp:
+		that1 = t
+	case AutoRamp:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type BuildIdAssignmentRule to the protobuf v3 wire format
 func (val *BuildIdAssignmentRule) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
