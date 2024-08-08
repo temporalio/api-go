@@ -649,6 +649,7 @@ func local_request_OperatorService_ListNexusEndpoints_1(ctx context.Context, mar
 // UnaryRPC     :call OperatorServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterOperatorServiceHandlerFromEndpoint instead.
+// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterOperatorServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server OperatorServiceServer) error {
 
 	mux.Handle("GET", pattern_OperatorService_ListSearchAttributes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -989,7 +990,7 @@ func RegisterOperatorServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "OperatorServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "OperatorServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "OperatorServiceClient" to call the correct interceptors.
+// "OperatorServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterOperatorServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client OperatorServiceClient) error {
 
 	mux.Handle("GET", pattern_OperatorService_ListSearchAttributes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

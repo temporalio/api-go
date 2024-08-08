@@ -6365,6 +6365,7 @@ func local_request_WorkflowService_ListBatchOperations_1(ctx context.Context, ma
 // UnaryRPC     :call WorkflowServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterWorkflowServiceHandlerFromEndpoint instead.
+// GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
 func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server WorkflowServiceServer) error {
 
 	mux.Handle("POST", pattern_WorkflowService_RegisterNamespace_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -8605,7 +8606,7 @@ func RegisterWorkflowServiceHandler(ctx context.Context, mux *runtime.ServeMux, 
 // to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "WorkflowServiceClient".
 // Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "WorkflowServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "WorkflowServiceClient" to call the correct interceptors.
+// "WorkflowServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
 func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client WorkflowServiceClient) error {
 
 	mux.Handle("POST", pattern_WorkflowService_RegisterNamespace_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

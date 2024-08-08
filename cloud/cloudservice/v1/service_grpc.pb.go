@@ -38,8 +38,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.62.0 or later.
-const _ = grpc.SupportPackageIsVersion8
+// Requires gRPC-Go v1.64.0 or later.
+const _ = grpc.SupportPackageIsVersion9
 
 const (
 	CloudService_GetUsers_FullMethodName                    = "/temporal.api.cloud.cloudservice.v1.CloudService/GetUsers"
@@ -492,7 +492,7 @@ func (c *cloudServiceClient) DeleteServiceAccount(ctx context.Context, in *Delet
 
 // CloudServiceServer is the server API for CloudService service.
 // All implementations must embed UnimplementedCloudServiceServer
-// for forward compatibility
+// for forward compatibility.
 //
 // WARNING: This service is currently experimental and may change in
 // incompatible ways.
@@ -566,9 +566,12 @@ type CloudServiceServer interface {
 	mustEmbedUnimplementedCloudServiceServer()
 }
 
-// UnimplementedCloudServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedCloudServiceServer struct {
-}
+// UnimplementedCloudServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedCloudServiceServer struct{}
 
 func (UnimplementedCloudServiceServer) GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
@@ -670,6 +673,7 @@ func (UnimplementedCloudServiceServer) DeleteServiceAccount(context.Context, *De
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteServiceAccount not implemented")
 }
 func (UnimplementedCloudServiceServer) mustEmbedUnimplementedCloudServiceServer() {}
+func (UnimplementedCloudServiceServer) testEmbeddedByValue()                      {}
 
 // UnsafeCloudServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to CloudServiceServer will
@@ -679,6 +683,13 @@ type UnsafeCloudServiceServer interface {
 }
 
 func RegisterCloudServiceServer(s grpc.ServiceRegistrar, srv CloudServiceServer) {
+	// If the following call pancis, it indicates UnimplementedCloudServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
 	s.RegisterService(&CloudService_ServiceDesc, srv)
 }
 

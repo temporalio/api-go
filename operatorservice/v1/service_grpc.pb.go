@@ -38,8 +38,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.62.0 or later.
-const _ = grpc.SupportPackageIsVersion8
+// Requires gRPC-Go v1.64.0 or later.
+const _ = grpc.SupportPackageIsVersion9
 
 const (
 	OperatorService_AddSearchAttributes_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/AddSearchAttributes"
@@ -235,7 +235,7 @@ func (c *operatorServiceClient) ListNexusEndpoints(ctx context.Context, in *List
 
 // OperatorServiceServer is the server API for OperatorService service.
 // All implementations must embed UnimplementedOperatorServiceServer
-// for forward compatibility
+// for forward compatibility.
 //
 // OperatorService API defines how Temporal SDKs and other clients interact with the Temporal server
 // to perform administrative functions like registering a search attribute or a namespace.
@@ -283,9 +283,12 @@ type OperatorServiceServer interface {
 	mustEmbedUnimplementedOperatorServiceServer()
 }
 
-// UnimplementedOperatorServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedOperatorServiceServer struct {
-}
+// UnimplementedOperatorServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedOperatorServiceServer struct{}
 
 func (UnimplementedOperatorServiceServer) AddSearchAttributes(context.Context, *AddSearchAttributesRequest) (*AddSearchAttributesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddSearchAttributes not implemented")
@@ -324,6 +327,7 @@ func (UnimplementedOperatorServiceServer) ListNexusEndpoints(context.Context, *L
 	return nil, status.Errorf(codes.Unimplemented, "method ListNexusEndpoints not implemented")
 }
 func (UnimplementedOperatorServiceServer) mustEmbedUnimplementedOperatorServiceServer() {}
+func (UnimplementedOperatorServiceServer) testEmbeddedByValue()                         {}
 
 // UnsafeOperatorServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to OperatorServiceServer will
@@ -333,6 +337,13 @@ type UnsafeOperatorServiceServer interface {
 }
 
 func RegisterOperatorServiceServer(s grpc.ServiceRegistrar, srv OperatorServiceServer) {
+	// If the following call pancis, it indicates UnimplementedOperatorServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
 	s.RegisterService(&OperatorService_ServiceDesc, srv)
 }
 

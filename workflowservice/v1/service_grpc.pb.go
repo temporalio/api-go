@@ -38,8 +38,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.62.0 or later.
-const _ = grpc.SupportPackageIsVersion8
+// Requires gRPC-Go v1.64.0 or later.
+const _ = grpc.SupportPackageIsVersion9
 
 const (
 	WorkflowService_RegisterNamespace_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/RegisterNamespace"
@@ -1146,7 +1146,7 @@ func (c *workflowServiceClient) RespondNexusTaskFailed(ctx context.Context, in *
 
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
-// for forward compatibility
+// for forward compatibility.
 //
 // WorkflowService API defines how Temporal SDKs and other clients interact with the Temporal server
 // to create and interact with workflows and activities.
@@ -1544,9 +1544,12 @@ type WorkflowServiceServer interface {
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
-// UnimplementedWorkflowServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedWorkflowServiceServer struct {
-}
+// UnimplementedWorkflowServiceServer must be embedded to have
+// forward compatible implementations.
+//
+// NOTE: this should be embedded by value instead of pointer to avoid a nil
+// pointer dereference when methods are called.
+type UnimplementedWorkflowServiceServer struct{}
 
 func (UnimplementedWorkflowServiceServer) RegisterNamespace(context.Context, *RegisterNamespaceRequest) (*RegisterNamespaceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterNamespace not implemented")
@@ -1738,6 +1741,7 @@ func (UnimplementedWorkflowServiceServer) RespondNexusTaskFailed(context.Context
 	return nil, status.Errorf(codes.Unimplemented, "method RespondNexusTaskFailed not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
+func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
 
 // UnsafeWorkflowServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to WorkflowServiceServer will
@@ -1747,6 +1751,13 @@ type UnsafeWorkflowServiceServer interface {
 }
 
 func RegisterWorkflowServiceServer(s grpc.ServiceRegistrar, srv WorkflowServiceServer) {
+	// If the following call pancis, it indicates UnimplementedWorkflowServiceServer was
+	// embedded by pointer and is nil.  This will cause panics if an
+	// unimplemented method is ever invoked, so we test this at initialization
+	// time to prevent it from happening at runtime later due to I/O.
+	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
+		t.testEmbeddedByValue()
+	}
 	s.RegisterService(&WorkflowService_ServiceDesc, srv)
 }
 

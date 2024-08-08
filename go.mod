@@ -4,10 +4,10 @@ go 1.20
 
 require (
 	github.com/golang/mock v1.6.0
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.21.0
 	github.com/stretchr/testify v1.9.0
-	google.golang.org/genproto/googleapis/api v0.0.0-20240723171418-e6d459c13d2a
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240723171418-e6d459c13d2a
+	google.golang.org/genproto/googleapis/api v0.0.0-20240805194559-2c9e96a0b5d4
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240805194559-2c9e96a0b5d4
 	google.golang.org/grpc v1.65.0
 	google.golang.org/protobuf v1.34.2
 )
@@ -17,9 +17,9 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
-	golang.org/x/net v0.27.0 // indirect
-	golang.org/x/sys v0.22.0 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	golang.org/x/net v0.28.0 // indirect
+	golang.org/x/sys v0.23.0 // indirect
+	golang.org/x/text v0.17.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
