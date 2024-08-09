@@ -38,8 +38,10 @@ $(PROTO_OUT):
 
 ##### git submodule for proto files #####
 update-proto-submodule:
-	printf $(COLOR) "Update proto-submodule..."
+	printf $(COLOR) "Update api proto-submodule...\n"
 	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_ROOT)
+	printf $(COLOR) "Update cloud proto-submodule...\n"
+	git -c protocol.file.allow=always submodule update --init --force --remote $(PROTO_CLOUD_ROOT)
 
 ##### Compile proto files for go #####
 grpc: http-api-docs go-grpc copy-helpers
@@ -80,9 +82,9 @@ copy-helpers:
 
 grpc-mock:
 	printf $(COLOR) "Generate gRPC mocks..."
-	mockgen -package operatorservicemock -source operatorservice/v1/service_grpc.pb.go -destination operatorservicemock/v1/service_grpc.pb.mock.go
-	mockgen -package workflowservicemock -source workflowservice/v1/service_grpc.pb.go -destination workflowservicemock/v1/service_grpc.pb.mock.go
-	mockgen -package cloudservicemock -source cloud/cloudservice/v1/service_grpc.pb.go -destination cloud/cloudservicemock/v1/service_grpc.pb.mock.go
+	$(GOBIN)/mockgen -package operatorservicemock -source operatorservice/v1/service_grpc.pb.go -destination operatorservicemock/v1/service_grpc.pb.mock.go
+	$(GOBIN)/mockgen -package workflowservicemock -source workflowservice/v1/service_grpc.pb.go -destination workflowservicemock/v1/service_grpc.pb.mock.go
+	$(GOBIN)/mockgen -package cloudservicemock -source cloud/cloudservice/v1/service_grpc.pb.go -destination cloud/cloudservicemock/v1/service_grpc.pb.mock.go
 
 .PHONY: proxy
 proxy:
@@ -91,7 +93,7 @@ proxy:
 
 goimports:
 	printf $(COLOR) "Run goimports..."
-	goimports -w $(PROTO_OUT)
+	$(GOBIN)/goimports -w $(PROTO_OUT)
 
 ##### Plugins & tools #####
 grpc-install:
