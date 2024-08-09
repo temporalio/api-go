@@ -2,8 +2,6 @@ module go.temporal.io/api
 
 go 1.21
 
-toolchain go1.22.3
-
 require (
 	github.com/golang/mock v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.21.0
