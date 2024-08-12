@@ -10398,6 +10398,9 @@ type ExecuteMultiOperationRequest_Operation_StartWorkflow struct {
 }
 
 type ExecuteMultiOperationRequest_Operation_UpdateWorkflow struct {
+	// Additional restrictions:
+	// - setting `first_execution_run_id` is invalid
+	// - setting `workflow_execution.run_id` is invalid
 	UpdateWorkflow *UpdateWorkflowExecutionRequest `protobuf:"bytes,2,opt,name=update_workflow,json=updateWorkflow,proto3,oneof"`
 }
 
