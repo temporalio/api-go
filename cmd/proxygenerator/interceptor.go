@@ -457,8 +457,13 @@ func generateInterceptor(cfg config) error {
 	if err != nil {
 		return err
 	}
-
 	service := serviceTypes[0]
+
+	exportTypes, err := lookupTypes("go.temporal.io/api/export/v1", []string{"WorkflowExecutions"})
+	if err != nil {
+		return err
+	}
+	workflowExecutions := types.NewPointer(exportTypes[0])
 
 	payloadRecords := map[string]*TypeRecord{}
 	failureRecords := map[string]*TypeRecord{}
@@ -474,6 +479,9 @@ func generateInterceptor(cfg config) error {
 		walk(payloadTypes, sig.Results().At(0).Type(), &payloadRecords)
 		walk(failureTypes, sig.Results().At(0).Type(), &failureRecords)
 	}
+
+	walk(payloadTypes, workflowExecutions, &payloadRecords)
+	walk(failureTypes, workflowExecutions, &failureRecords)
 
 	payloadRecords = pruneRecords(payloadRecords)
 	failureRecords = pruneRecords(failureRecords)
