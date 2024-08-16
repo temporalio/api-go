@@ -27,8 +27,6 @@ package proxy
 import (
 	"context"
 	"fmt"
-	"go.temporal.io/api/export/v1"
-	"go.temporal.io/api/history/v1"
 	"log"
 	"net"
 	"testing"
@@ -36,7 +34,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
+	"go.temporal.io/api/history/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

@@ -2,8 +2,6 @@ module go.temporal.io/api/cmd/proxygenerator
 
 go 1.21
 
-toolchain go1.23.0
-
 replace go.temporal.io/api => ../..
 
 require (
