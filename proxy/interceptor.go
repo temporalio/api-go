@@ -31,6 +31,7 @@ import (
 	"go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
 	"go.temporal.io/api/nexus/v1"
@@ -474,6 +475,41 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				ctx,
 				options,
 				o.GetIndexedFields(),
+			); err != nil {
+				return err
+			}
+
+		case []*export.WorkflowExecution:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *export.WorkflowExecution:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetHistory(),
+			); err != nil {
+				return err
+			}
+
+		case *export.WorkflowExecutions:
+
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitPayloads(
+				ctx,
+				options,
+				o.GetItems(),
 			); err != nil {
 				return err
 			}
@@ -2259,6 +2295,39 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case []*export.WorkflowExecution:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *export.WorkflowExecution:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetHistory(),
+			); err != nil {
+				return err
+			}
+
+		case *export.WorkflowExecutions:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetItems(),
 			); err != nil {
 				return err
 			}

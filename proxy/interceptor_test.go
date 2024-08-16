@@ -34,7 +34,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
+	"go.temporal.io/api/history/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -92,6 +94,28 @@ func TestVisitPayloads(t *testing.T) {
 	)
 	require.NoError(err)
 
+	err = VisitPayloads(
+		context.Background(),
+		&export.WorkflowExecutions{Items: []*export.WorkflowExecution{{History: &history.History{
+			Events: []*history.HistoryEvent{
+				{
+					Attributes: &history.HistoryEvent_WorkflowExecutionStartedEventAttributes{
+						WorkflowExecutionStartedEventAttributes: &history.WorkflowExecutionStartedEventAttributes{
+							Input: inputPayloads(),
+						},
+					},
+				},
+			},
+		}}}},
+		VisitPayloadsOptions{
+			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				require.False(vpc.SinglePayloadRequired)
+				require.Equal([]byte("test"), p[0].Data)
+				return p, nil
+			},
+		},
+	)
+	require.NoError(err)
 }
 
 func TestVisitFailures(t *testing.T) {
