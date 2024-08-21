@@ -10394,6 +10394,7 @@ type ExecuteMultiOperationRequest_Operation_StartWorkflow struct {
 	// Additional restrictions:
 	// - setting `cron_schedule` is invalid
 	// - setting `request_eager_execution` is invalid
+	// - setting `workflow_start_delay` is invalid
 	StartWorkflow *StartWorkflowExecutionRequest `protobuf:"bytes,1,opt,name=start_workflow,json=startWorkflow,proto3,oneof"`
 }
 
