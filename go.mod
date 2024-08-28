@@ -1,6 +1,6 @@
 module go.temporal.io/api
 
-go 1.21
+go 1.23
 
 require (
 	github.com/golang/mock v1.6.0
