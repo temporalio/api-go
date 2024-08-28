@@ -2617,6 +2617,80 @@ func (this *ResetStickyTaskQueueResponse) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type ShutdownWorkerRequest to the protobuf v3 wire format
+func (val *ShutdownWorkerRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ShutdownWorkerRequest from the protobuf v3 wire format
+func (val *ShutdownWorkerRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ShutdownWorkerRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ShutdownWorkerRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ShutdownWorkerRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ShutdownWorkerRequest
+	switch t := that.(type) {
+	case *ShutdownWorkerRequest:
+		that1 = t
+	case ShutdownWorkerRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type ShutdownWorkerResponse to the protobuf v3 wire format
+func (val *ShutdownWorkerResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ShutdownWorkerResponse from the protobuf v3 wire format
+func (val *ShutdownWorkerResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ShutdownWorkerResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ShutdownWorkerResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ShutdownWorkerResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ShutdownWorkerResponse
+	switch t := that.(type) {
+	case *ShutdownWorkerResponse:
+		that1 = t
+	case ShutdownWorkerResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type QueryWorkflowRequest to the protobuf v3 wire format
 func (val *QueryWorkflowRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

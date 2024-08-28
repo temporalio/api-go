@@ -262,6 +262,10 @@ func (s *workflowServiceProxyServer) ScanWorkflowExecutions(ctx context.Context,
 	return s.client.ScanWorkflowExecutions(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) ShutdownWorker(ctx context.Context, in0 *workflowservice.ShutdownWorkerRequest) (*workflowservice.ShutdownWorkerResponse, error) {
+	return s.client.ShutdownWorker(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) SignalWithStartWorkflowExecution(ctx context.Context, in0 *workflowservice.SignalWithStartWorkflowExecutionRequest) (*workflowservice.SignalWithStartWorkflowExecutionResponse, error) {
 	return s.client.SignalWithStartWorkflowExecution(s.reqCtx(ctx), in0)
 }

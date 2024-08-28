@@ -78,6 +78,7 @@ const (
 	WorkflowService_GetSearchAttributes_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/GetSearchAttributes"
 	WorkflowService_RespondQueryTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondQueryTaskCompleted"
 	WorkflowService_ResetStickyTaskQueue_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/ResetStickyTaskQueue"
+	WorkflowService_ShutdownWorker_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/ShutdownWorker"
 	WorkflowService_QueryWorkflow_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/QueryWorkflow"
 	WorkflowService_DescribeWorkflowExecution_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowExecution"
 	WorkflowService_DescribeTaskQueue_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/DescribeTaskQueue"
@@ -369,10 +370,29 @@ type WorkflowServiceClient interface {
 	// 1. StickyTaskQueue
 	// 2. StickyScheduleToStartTimeout
 	//
+	// When possible, ShutdownWorker should be preferred over
+	// ResetStickyTaskQueue (particularly when a worker is shutting down or
+	// cycling).
+	//
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	ResetStickyTaskQueue(ctx context.Context, in *ResetStickyTaskQueueRequest, opts ...grpc.CallOption) (*ResetStickyTaskQueueResponse, error)
+	// ShutdownWorker is used to indicate that the given sticky task
+	// queue is no longer being polled by its worker. Following the completion of
+	// ShutdownWorker, newly-added workflow tasks will instead be placed
+	// in the normal task queue, eligible for any worker to pick up.
+	//
+	// ShutdownWorker should be called by workers while shutting down,
+	// after they've shut down their pollers. If another sticky poll
+	// request is issued, the sticky task queue will be revived.
+	//
+	// As of Temporal Server v1.25.0, ShutdownWorker hasn't yet been implemented.
+	//
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	ShutdownWorker(ctx context.Context, in *ShutdownWorkerRequest, opts ...grpc.CallOption) (*ShutdownWorkerResponse, error)
 	// QueryWorkflow requests a query be executed for a specified workflow execution.
 	QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error)
 	// DescribeWorkflowExecution returns information about the specified workflow execution.
@@ -868,6 +888,16 @@ func (c *workflowServiceClient) ResetStickyTaskQueue(ctx context.Context, in *Re
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ResetStickyTaskQueueResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_ResetStickyTaskQueue_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ShutdownWorker(ctx context.Context, in *ShutdownWorkerRequest, opts ...grpc.CallOption) (*ShutdownWorkerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShutdownWorkerResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ShutdownWorker_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1406,10 +1436,29 @@ type WorkflowServiceServer interface {
 	// 1. StickyTaskQueue
 	// 2. StickyScheduleToStartTimeout
 	//
+	// When possible, ShutdownWorker should be preferred over
+	// ResetStickyTaskQueue (particularly when a worker is shutting down or
+	// cycling).
+	//
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	ResetStickyTaskQueue(context.Context, *ResetStickyTaskQueueRequest) (*ResetStickyTaskQueueResponse, error)
+	// ShutdownWorker is used to indicate that the given sticky task
+	// queue is no longer being polled by its worker. Following the completion of
+	// ShutdownWorker, newly-added workflow tasks will instead be placed
+	// in the normal task queue, eligible for any worker to pick up.
+	//
+	// ShutdownWorker should be called by workers while shutting down,
+	// after they've shut down their pollers. If another sticky poll
+	// request is issued, the sticky task queue will be revived.
+	//
+	// As of Temporal Server v1.25.0, ShutdownWorker hasn't yet been implemented.
+	//
+	// (-- api-linter: core::0127::http-annotation=disabled
+	//
+	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
+	ShutdownWorker(context.Context, *ShutdownWorkerRequest) (*ShutdownWorkerResponse, error)
 	// QueryWorkflow requests a query be executed for a specified workflow execution.
 	QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error)
 	// DescribeWorkflowExecution returns information about the specified workflow execution.
@@ -1658,6 +1707,9 @@ func (UnimplementedWorkflowServiceServer) RespondQueryTaskCompleted(context.Cont
 }
 func (UnimplementedWorkflowServiceServer) ResetStickyTaskQueue(context.Context, *ResetStickyTaskQueueRequest) (*ResetStickyTaskQueueResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetStickyTaskQueue not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ShutdownWorker(context.Context, *ShutdownWorkerRequest) (*ShutdownWorkerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShutdownWorker not implemented")
 }
 func (UnimplementedWorkflowServiceServer) QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryWorkflow not implemented")
@@ -2409,6 +2461,24 @@ func _WorkflowService_ResetStickyTaskQueue_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_ShutdownWorker_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShutdownWorkerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ShutdownWorker(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ShutdownWorker_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ShutdownWorker(ctx, req.(*ShutdownWorkerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_QueryWorkflow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(QueryWorkflowRequest)
 	if err := dec(in); err != nil {
@@ -3045,6 +3115,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResetStickyTaskQueue",
 			Handler:    _WorkflowService_ResetStickyTaskQueue_Handler,
+		},
+		{
+			MethodName: "ShutdownWorker",
+			Handler:    _WorkflowService_ShutdownWorker_Handler,
 		},
 		{
 			MethodName: "QueryWorkflow",
