@@ -174,8 +174,8 @@ type TaskQueueVersionSelection struct {
 	BuildIds []string `protobuf:"bytes,1,rep,name=build_ids,json=buildIds,proto3" json:"build_ids,omitempty"`
 	// Include the unversioned queue.
 	Unversioned bool `protobuf:"varint,2,opt,name=unversioned,proto3" json:"unversioned,omitempty"`
-	// Include all active versions. A version is considered active if it has had new
-	// tasks or polls recently.
+	// Include all active versions. A version is considered active if, in the last few minutes,
+	// it has had new tasks or polls, or it has been the subject of certain task queue API calls.
 	AllActive bool `protobuf:"varint,3,opt,name=all_active,json=allActive,proto3" json:"all_active,omitempty"`
 }
 
