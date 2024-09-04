@@ -67,7 +67,7 @@ type VisitPayloadsOptions struct {
 func VisitPayloads(ctx context.Context, msg proto.Message, options VisitPayloadsOptions) error {
 	visitCtx := VisitPayloadsContext{Context: ctx, Parent: msg}
 
-	return visitPayloads(&visitCtx, &options, msg)
+	return visitPayloads(&visitCtx, &options, nil, msg)
 }
 
 // PayloadVisitorInterceptorOptions configures outbound/inbound interception of Payloads within msgs.
@@ -153,10 +153,15 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 	}, nil
 }
 
-func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) (*common.Payload, error) {
-	ctx.SinglePayloadRequired = true
-
+func visitPayload(
+	ctx *VisitPayloadsContext,
+	options *VisitPayloadsOptions,
+	parent proto.Message,
+	msg *common.Payload,
+) (*common.Payload, error) {
+	ctx.SinglePayloadRequired, ctx.Parent = true, parent
 	newPayloads, err := options.Visitor(ctx, []*common.Payload{msg})
+	ctx.SinglePayloadRequired, ctx.Parent = false, nil
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +173,12 @@ func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg 
 	return newPayloads[0], nil
 }
 
-func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, objs ...interface{}) error {
+func visitPayloads(
+	ctx *VisitPayloadsContext,
+	options *VisitPayloadsOptions,
+	parent proto.Message,
+	objs ...interface{},
+) error {
 	for i, obj := range objs {
 		ctx.SinglePayloadRequired = false
 
@@ -177,14 +187,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			no, err := visitPayload(ctx, options, o)
+			no, err := visitPayload(ctx, options, parent, o)
 			if err != nil {
 				return err
 			}
 			objs[i] = no
 		case map[string]*common.Payload:
 			for ix, x := range o {
-				if nx, err := visitPayload(ctx, options, x); err != nil {
+				if nx, err := visitPayload(ctx, options, parent, x); err != nil {
 					return err
 				} else {
 					o[ix] = nx
@@ -194,14 +204,16 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
+			ctx.Parent = parent
 			newPayloads, err := options.Visitor(ctx, o.Payloads)
+			ctx.Parent = nil
 			if err != nil {
 				return err
 			}
 			o.Payloads = newPayloads
 		case map[string]*common.Payloads:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -211,10 +223,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 			); err != nil {
@@ -226,10 +238,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -240,10 +252,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -251,7 +263,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*command.Command:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -261,10 +273,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetCancelWorkflowExecutionCommandAttributes(),
 				o.GetCompleteWorkflowExecutionCommandAttributes(),
 				o.GetContinueAsNewWorkflowExecutionCommandAttributes(),
@@ -286,10 +298,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResult(),
 			); err != nil {
 				return err
@@ -300,10 +312,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 				o.GetHeader(),
 				o.GetInput(),
@@ -319,10 +331,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -333,10 +345,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetUpsertedMemo(),
 			); err != nil {
 				return err
@@ -347,10 +359,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 				o.GetFailure(),
 				o.GetHeader(),
@@ -363,10 +375,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 			); err != nil {
@@ -378,10 +390,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetInput(),
 			); err != nil {
 				return err
@@ -392,10 +404,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 			); err != nil {
@@ -407,10 +419,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 				o.GetMemo(),
@@ -424,10 +436,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetSearchAttributes(),
 			); err != nil {
 				return err
@@ -438,10 +450,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFields(),
 			); err != nil {
 				return err
@@ -452,10 +464,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFields(),
 			); err != nil {
 				return err
@@ -470,10 +482,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetIndexedFields(),
 			); err != nil {
 				return err
@@ -481,7 +493,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*export.WorkflowExecution:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -491,10 +503,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHistory(),
 			); err != nil {
 				return err
@@ -505,10 +517,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetItems(),
 			); err != nil {
 				return err
@@ -519,10 +531,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -533,10 +545,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -544,7 +556,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*failure.Failure:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -554,10 +566,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetApplicationFailureInfo(),
 				o.GetCanceledFailureInfo(),
 				o.GetCause(),
@@ -573,10 +585,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetLastHeartbeatDetails(),
 			); err != nil {
 				return err
@@ -587,10 +599,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetLastHeartbeatDetails(),
 			); err != nil {
 				return err
@@ -601,10 +613,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -615,10 +627,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResult(),
 			); err != nil {
 				return err
@@ -629,10 +641,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -643,10 +655,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 			); err != nil {
@@ -658,10 +670,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetLastFailure(),
 			); err != nil {
 				return err
@@ -672,10 +684,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -686,10 +698,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -700,10 +712,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResult(),
 			); err != nil {
 				return err
@@ -714,10 +726,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -728,10 +740,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 			); err != nil {
 				return err
@@ -742,10 +754,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetEvents(),
 			); err != nil {
 				return err
@@ -753,7 +765,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*history.HistoryEvent:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -763,10 +775,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetActivityTaskCanceledEventAttributes(),
 				o.GetActivityTaskCompletedEventAttributes(),
 				o.GetActivityTaskFailedEventAttributes(),
@@ -810,10 +822,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 				o.GetFailure(),
 				o.GetHeader(),
@@ -826,10 +838,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -840,10 +852,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResult(),
 			); err != nil {
 				return err
@@ -854,10 +866,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -868,10 +880,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetInput(),
 			); err != nil {
 				return err
@@ -882,10 +894,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -896,10 +908,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 			); err != nil {
@@ -911,10 +923,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 				o.GetMemo(),
@@ -928,10 +940,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetSearchAttributes(),
 			); err != nil {
 				return err
@@ -942,10 +954,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -956,10 +968,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResult(),
 			); err != nil {
 				return err
@@ -970,10 +982,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 				o.GetHeader(),
 				o.GetInput(),
@@ -989,10 +1001,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -1003,10 +1015,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 			); err != nil {
@@ -1018,10 +1030,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetContinuedFailure(),
 				o.GetHeader(),
 				o.GetInput(),
@@ -1037,10 +1049,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -1051,10 +1063,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetAcceptedRequest(),
 			); err != nil {
 				return err
@@ -1065,10 +1077,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetRequest(),
 			); err != nil {
 				return err
@@ -1079,10 +1091,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetOutcome(),
 			); err != nil {
 				return err
@@ -1093,10 +1105,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 				o.GetRejectedRequest(),
 			); err != nil {
@@ -1108,10 +1120,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetUpsertedMemo(),
 			); err != nil {
 				return err
@@ -1122,10 +1134,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetUpsertedMemo(),
 			); err != nil {
 				return err
@@ -1136,10 +1148,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -1150,10 +1162,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetStartOperation(),
 			); err != nil {
 				return err
@@ -1164,10 +1176,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetStartOperation(),
 			); err != nil {
 				return err
@@ -1178,10 +1190,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetPayload(),
 			); err != nil {
 				return err
@@ -1192,10 +1204,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetSyncSuccess(),
 			); err != nil {
 				return err
@@ -1206,10 +1218,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetPayload(),
 			); err != nil {
 				return err
@@ -1217,7 +1229,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case map[string]*query.WorkflowQuery:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1227,10 +1239,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetQueryArgs(),
 			); err != nil {
@@ -1239,7 +1251,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case map[string]*query.WorkflowQueryResult:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1249,10 +1261,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetAnswer(),
 			); err != nil {
 				return err
@@ -1263,10 +1275,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetAction(),
 			); err != nil {
 				return err
@@ -1277,10 +1289,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetStartWorkflow(),
 			); err != nil {
 				return err
@@ -1288,7 +1300,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*schedule.ScheduleListEntry:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1298,10 +1310,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetMemo(),
 				o.GetSearchAttributes(),
 			); err != nil {
@@ -1313,10 +1325,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 				o.GetSummary(),
 			); err != nil {
@@ -1328,10 +1340,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetArgs(),
 				o.GetHeader(),
 			); err != nil {
@@ -1343,10 +1355,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 				o.GetSuccess(),
 			); err != nil {
@@ -1358,10 +1370,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetInput(),
 			); err != nil {
 				return err
@@ -1369,7 +1381,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*workflow.CallbackInfo:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1379,10 +1391,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
@@ -1393,10 +1405,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 				o.GetMemo(),
@@ -1411,10 +1423,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetLastAttemptFailure(),
 			); err != nil {
 				return err
@@ -1422,7 +1434,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*workflow.PendingActivityInfo:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1432,10 +1444,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeartbeatDetails(),
 				o.GetLastFailure(),
 			); err != nil {
@@ -1444,7 +1456,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*workflow.PendingNexusOperationInfo:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1454,10 +1466,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetCancellationInfo(),
 				o.GetLastAttemptFailure(),
 			); err != nil {
@@ -1469,10 +1481,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetUserMetadata(),
 			); err != nil {
 				return err
@@ -1480,7 +1492,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*workflow.WorkflowExecutionInfo:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1490,10 +1502,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetMemo(),
 				o.GetSearchAttributes(),
 			); err != nil {
@@ -1505,10 +1517,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetGroups(),
 			); err != nil {
 				return err
@@ -1516,7 +1528,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*workflowservice.CountWorkflowExecutionsResponse_AggregationGroup:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1526,10 +1538,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetGroupValues(),
 			); err != nil {
 				return err
@@ -1540,10 +1552,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
@@ -1556,10 +1568,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
@@ -1572,10 +1584,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetCallbacks(),
 				o.GetExecutionConfig(),
 				o.GetPendingActivities(),
@@ -1590,10 +1602,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetOperations(),
 			); err != nil {
 				return err
@@ -1601,7 +1613,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*workflowservice.ExecuteMultiOperationRequest_Operation:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1611,10 +1623,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetStartWorkflow(),
 				o.GetUpdateWorkflow(),
 			); err != nil {
@@ -1626,10 +1638,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResponses(),
 			); err != nil {
 				return err
@@ -1637,7 +1649,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*workflowservice.ExecuteMultiOperationResponse_Response:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1647,10 +1659,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetStartWorkflow(),
 				o.GetUpdateWorkflow(),
 			); err != nil {
@@ -1662,10 +1674,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHistory(),
 			); err != nil {
 				return err
@@ -1676,10 +1688,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHistory(),
 			); err != nil {
 				return err
@@ -1690,10 +1702,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetExecutions(),
 			); err != nil {
 				return err
@@ -1704,10 +1716,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetExecutions(),
 			); err != nil {
 				return err
@@ -1718,10 +1730,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetExecutions(),
 			); err != nil {
 				return err
@@ -1732,10 +1744,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetSchedules(),
 			); err != nil {
 				return err
@@ -1746,10 +1758,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetExecutions(),
 			); err != nil {
 				return err
@@ -1757,7 +1769,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 
 		case []*workflowservice.PollActivityTaskQueueResponse:
 			for _, x := range o {
-				if err := visitPayloads(ctx, options, x); err != nil {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
@@ -1767,10 +1779,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetHeartbeatDetails(),
 				o.GetInput(),
@@ -1783,10 +1795,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetRequest(),
 			); err != nil {
 				return err
@@ -1797,10 +1809,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetOutcome(),
 			); err != nil {
 				return err
@@ -1811,10 +1823,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHistory(),
 				o.GetQueries(),
 				o.GetQuery(),
@@ -1827,10 +1839,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetQuery(),
 			); err != nil {
 				return err
@@ -1841,10 +1853,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetQueryResult(),
 			); err != nil {
 				return err
@@ -1855,10 +1867,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -1869,10 +1881,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -1883,10 +1895,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -1897,10 +1909,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -1911,10 +1923,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResult(),
 			); err != nil {
 				return err
@@ -1925,10 +1937,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResult(),
 			); err != nil {
 				return err
@@ -1939,10 +1951,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 				o.GetLastHeartbeatDetails(),
 			); err != nil {
@@ -1954,10 +1966,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailures(),
 			); err != nil {
 				return err
@@ -1968,10 +1980,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 				o.GetLastHeartbeatDetails(),
 			); err != nil {
@@ -1983,10 +1995,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailures(),
 			); err != nil {
 				return err
@@ -1997,10 +2009,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetResponse(),
 			); err != nil {
 				return err
@@ -2011,10 +2023,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetQueryResult(),
 			); err != nil {
 				return err
@@ -2025,10 +2037,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetCommands(),
 				o.GetQueryResults(),
 			); err != nil {
@@ -2040,10 +2052,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetActivityTasks(),
 				o.GetWorkflowTask(),
 			); err != nil {
@@ -2055,10 +2067,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetFailure(),
 			); err != nil {
 				return err
@@ -2069,10 +2081,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetExecutions(),
 			); err != nil {
 				return err
@@ -2083,10 +2095,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 				o.GetMemo(),
@@ -2102,10 +2114,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetHeader(),
 				o.GetInput(),
 			); err != nil {
@@ -2117,10 +2129,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetSignalOperation(),
 				o.GetTerminationOperation(),
 			); err != nil {
@@ -2132,10 +2144,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetContinuedFailure(),
 				o.GetHeader(),
 				o.GetInput(),
@@ -2152,10 +2164,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetEagerWorkflowTask(),
 			); err != nil {
 				return err
@@ -2166,10 +2178,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetDetails(),
 			); err != nil {
 				return err
@@ -2180,10 +2192,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
 			); err != nil {
@@ -2195,10 +2207,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetRequest(),
 			); err != nil {
 				return err
@@ -2209,10 +2221,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 			if o == nil {
 				continue
 			}
-			ctx.Parent = o
 			if err := visitPayloads(
 				ctx,
 				options,
+				o,
 				o.GetOutcome(),
 			); err != nil {
 				return err
