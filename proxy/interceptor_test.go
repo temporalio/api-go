@@ -33,6 +33,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/require"
+	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
@@ -116,6 +117,36 @@ func TestVisitPayloads(t *testing.T) {
 		},
 	)
 	require.NoError(err)
+}
+
+func TestVisitPayloads_NestedParent(t *testing.T) {
+	// Due to an invalid approach in the previous visitor, this test used to fail
+	root := &command.StartChildWorkflowExecutionCommandAttributes{
+		Header: &common.Header{
+			Fields: map[string]*common.Payload{
+				"header-key": {Data: []byte("header-value")},
+			},
+		},
+		Input: &common.Payloads{
+			Payloads: []*common.Payload{{Data: []byte("input-value")}},
+		},
+	}
+	var headerParent, inputParent proto.Message
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			if len(p) == 1 {
+				if string(p[0].Data) == "header-value" {
+					headerParent = proto.Clone(ctx.Parent)
+				} else if string(p[0].Data) == "input-value" {
+					inputParent = proto.Clone(ctx.Parent)
+				}
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.IsType(t, &common.Header{}, headerParent)
+	require.IsType(t, &command.StartChildWorkflowExecutionCommandAttributes{}, inputParent)
 }
 
 func TestVisitFailures(t *testing.T) {
