@@ -73,7 +73,7 @@ type VisitPayloadsOptions struct {
 func VisitPayloads(ctx context.Context, msg proto.Message, options VisitPayloadsOptions) error {
 	visitCtx := VisitPayloadsContext{Context: ctx, Parent: msg}
 
-	return visitPayloads(&visitCtx, &options, msg)
+	return visitPayloads(&visitCtx, &options, nil, msg)
 }
 
 // PayloadVisitorInterceptorOptions configures outbound/inbound interception of Payloads within msgs.
@@ -159,10 +159,15 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 	}, nil
 }
 
-func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg *common.Payload) (*common.Payload, error) {
-	ctx.SinglePayloadRequired = true
-
+func visitPayload(
+	ctx *VisitPayloadsContext,
+	options *VisitPayloadsOptions,
+	parent proto.Message,
+	msg *common.Payload,
+) (*common.Payload, error) {
+	ctx.SinglePayloadRequired, ctx.Parent = true, parent
 	newPayloads, err := options.Visitor(ctx, []*common.Payload{msg})
+	ctx.SinglePayloadRequired, ctx.Parent = false, nil
 	if err != nil {
 		return nil, err
 	}
@@ -174,19 +179,24 @@ func visitPayload(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, msg 
 	return newPayloads[0], nil
 }
 
-func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, objs ...interface{}) error {
+func visitPayloads(
+	ctx *VisitPayloadsContext,
+	options *VisitPayloadsOptions,
+	parent proto.Message,
+	objs ...interface{},
+) error {
 	for i, obj := range objs {
 		ctx.SinglePayloadRequired = false
 
 		switch o := obj.(type) {
 			case *common.Payload:
 				if o == nil { continue }
-				no, err := visitPayload(ctx, options, o)
+				no, err := visitPayload(ctx, options, parent, o)
 				if err != nil { return err }
                 objs[i] = no
 			case map[string]*common.Payload:
 				for ix, x := range o {
-                    if nx, err := visitPayload(ctx, options, x); err != nil {
+                    if nx, err := visitPayload(ctx, options, parent, x); err != nil {
                         return err
                     } else {
                         o[ix] = nx
@@ -194,12 +204,14 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
                 }
 			case *common.Payloads:
 				if o == nil { continue }
+				ctx.Parent = parent
 				newPayloads, err := options.Visitor(ctx, o.Payloads)
+				ctx.Parent = nil
 				if err != nil { return err }
 				o.Payloads = newPayloads
 			case map[string]*common.Payloads:
 				for _, x := range o {
-                    if err := visitPayloads(ctx, options, x); err != nil {
+                    if err := visitPayloads(ctx, options, parent, x); err != nil {
                         return err
                     }
                 }
@@ -207,7 +219,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 		{{if $record.Slice}}
 			case []{{$type}}:
 				for _, x := range o {
-                    if err := visitPayloads(ctx, options, x); err != nil {
+                    if err := visitPayloads(ctx, options, parent, x); err != nil {
                         return err
                     }
                 }
@@ -215,7 +227,7 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 		{{if $record.Map}}
 			case map[string]{{$type}}:
 				for _, x := range o {
-                    if err := visitPayloads(ctx, options, x); err != nil {
+                    if err := visitPayloads(ctx, options, parent, x); err != nil {
                         return err
                     }
                 }
@@ -225,10 +237,10 @@ func visitPayloads(ctx *VisitPayloadsContext, options *VisitPayloadsOptions, obj
 				if options.SkipSearchAttributes { continue }
 				{{end}}
 				if o == nil { continue }
-				ctx.Parent = o
 				if err := visitPayloads(
 					ctx,
 					options,
+					o,
 					{{range $record.Methods -}}
 						o.{{.}}(),
 					{{end}}
