@@ -110,9 +110,12 @@ type WorkflowDefinition struct {
 
 	// A name scoped by the task queue that maps to this workflow definition.
 	// If missing, this workflow is a dynamic workflow.
-	Type              string                           `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	QueryDefinitions  []*WorkflowInteractionDefinition `protobuf:"bytes,2,rep,name=query_definitions,json=queryDefinitions,proto3" json:"query_definitions,omitempty"`
+	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	// Query definitions, sorted by name.
+	QueryDefinitions []*WorkflowInteractionDefinition `protobuf:"bytes,2,rep,name=query_definitions,json=queryDefinitions,proto3" json:"query_definitions,omitempty"`
+	// Signal definitions, sorted by name.
 	SignalDefinitions []*WorkflowInteractionDefinition `protobuf:"bytes,3,rep,name=signal_definitions,json=signalDefinitions,proto3" json:"signal_definitions,omitempty"`
+	// Update definitions, sorted by name.
 	UpdateDefinitions []*WorkflowInteractionDefinition `protobuf:"bytes,4,rep,name=update_definitions,json=updateDefinitions,proto3" json:"update_definitions,omitempty"`
 }
 
