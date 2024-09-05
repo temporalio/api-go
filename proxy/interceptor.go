@@ -35,6 +35,7 @@ import (
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
 	"go.temporal.io/api/nexus/v1"
+	"go.temporal.io/api/protocol/v1"
 	"go.temporal.io/api/query/v1"
 	"go.temporal.io/api/schedule/v1"
 	"go.temporal.io/api/sdk/v1"
@@ -43,6 +44,7 @@ import (
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/anypb"
 )
 
 // VisitPayloadsContext provides Payload context for visitor functions.
@@ -61,6 +63,9 @@ type VisitPayloadsOptions struct {
 	Visitor func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error)
 	// Don't visit search attribute payloads.
 	SkipSearchAttributes bool
+	// Will be called for each Any encountered. If not set, the default is to recurse into the Any
+	// object, unmarshal it, visit, and re-marshal it always (even if there are no changes).
+	WellKnownAnyVisitor func(*VisitPayloadsContext, *anypb.Any) error
 }
 
 // VisitPayloads calls the options.Visitor function for every Payload proto within msg.
@@ -153,6 +158,25 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 	}, nil
 }
 
+func (o *VisitPayloadsOptions) defaultWellKnownAnyVisitor(ctx *VisitPayloadsContext, p *anypb.Any) error {
+	child, err := p.UnmarshalNew()
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal any: %w", err)
+	}
+	// We choose to visit and re-marshal always instead of cloning, visiting,
+	// and checking if anything changed before re-marshaling. It is assumed the
+	// clone + equality check is not much cheaper than re-marshal.
+	if err := visitPayloads(ctx, o, p, child); err != nil {
+		return err
+	}
+	// Confirmed this replaces both Any fields on non-error, there is nothing
+	// left over
+	if err := p.MarshalFrom(child); err != nil {
+		return fmt.Errorf("failed to marshal any: %w", err)
+	}
+	return nil
+}
+
 func visitPayload(
 	ctx *VisitPayloadsContext,
 	options *VisitPayloadsOptions,
@@ -216,6 +240,20 @@ func visitPayloads(
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
+			}
+		case *anypb.Any:
+			if o == nil {
+				continue
+			}
+			visitor := options.WellKnownAnyVisitor
+			if visitor == nil {
+				visitor = options.defaultWellKnownAnyVisitor
+			}
+			ctx.Parent = o
+			err := visitor(ctx, o)
+			ctx.Parent = nil
+			if err != nil {
+				return err
 			}
 
 		case *batch.BatchOperationSignal:
@@ -1227,6 +1265,27 @@ func visitPayloads(
 				return err
 			}
 
+		case []*protocol.Message:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *protocol.Message:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetBody(),
+			); err != nil {
+				return err
+			}
+
 		case map[string]*query.WorkflowQuery:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
@@ -1828,6 +1887,7 @@ func visitPayloads(
 				options,
 				o,
 				o.GetHistory(),
+				o.GetMessages(),
 				o.GetQueries(),
 				o.GetQuery(),
 			); err != nil {
@@ -2042,6 +2102,7 @@ func visitPayloads(
 				options,
 				o,
 				o.GetCommands(),
+				o.GetMessages(),
 				o.GetQueryResults(),
 			); err != nil {
 				return err
@@ -2072,6 +2133,7 @@ func visitPayloads(
 				options,
 				o,
 				o.GetFailure(),
+				o.GetMessages(),
 			); err != nil {
 				return err
 			}

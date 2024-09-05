@@ -38,11 +38,14 @@ import (
 	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
+	"go.temporal.io/api/protocol/v1"
+	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/anypb"
 )
 
 func inputPayloads() *common.Payloads {
@@ -147,6 +150,69 @@ func TestVisitPayloads_NestedParent(t *testing.T) {
 	require.NoError(t, err)
 	require.IsType(t, &common.Header{}, headerParent)
 	require.IsType(t, &command.StartChildWorkflowExecutionCommandAttributes{}, inputParent)
+}
+
+func TestVisitPayloads_Any(t *testing.T) {
+	// Due to us not visiting protos inside Any, this test used to fail
+	msg1, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("orig-val")}},
+	}}})
+	require.NoError(t, err)
+	msg2, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("orig-val-don't-touch")}},
+	}}})
+	require.NoError(t, err)
+	root := &workflowservice.PollWorkflowTaskQueueResponse{
+		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}},
+	}
+
+	// Visit with any recursion enabled and only change orig-val
+	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			// Only mutate if the payloads has orig-val
+			if len(p) == 1 && string(p[0].Data) == "orig-val" {
+				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	update1, err := root.Messages[0].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "new-val", string(update1.(*update.Request).Input.Args.Payloads[0].Data))
+	update2, err := root.Messages[1].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).Input.Args.Payloads[0].Data))
+
+	// Do the same test but with a do-nothing visitor and confirm unchanged
+	msg1, err = anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("orig-val")}},
+	}}})
+	require.NoError(t, err)
+	msg2, err = anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("orig-val-don't-touch")}},
+	}}})
+	require.NoError(t, err)
+	root = &workflowservice.PollWorkflowTaskQueueResponse{
+		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}},
+	}
+	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			// Only mutate if the payloads has orig-val
+			if len(p) == 1 && string(p[0].Data) == "orig-val" {
+				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			}
+			return p, nil
+		},
+		WellKnownAnyVisitor: func(*VisitPayloadsContext, *anypb.Any) error { return nil },
+	})
+	require.NoError(t, err)
+	update1, err = root.Messages[0].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "orig-val", string(update1.(*update.Request).Input.Args.Payloads[0].Data))
+	update2, err = root.Messages[1].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).Input.Args.Payloads[0].Data))
 }
 
 func TestVisitFailures(t *testing.T) {

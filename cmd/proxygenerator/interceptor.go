@@ -67,6 +67,9 @@ type VisitPayloadsOptions struct {
 	Visitor func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error)
 	// Don't visit search attribute payloads.
 	SkipSearchAttributes bool
+	// Will be called for each Any encountered. If not set, the default is to recurse into the Any
+	// object, unmarshal it, visit, and re-marshal it always (even if there are no changes).
+	WellKnownAnyVisitor func(*VisitPayloadsContext, *anypb.Any) error
 }
 
 // VisitPayloads calls the options.Visitor function for every Payload proto within msg.
@@ -159,6 +162,25 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 	}, nil
 }
 
+func (o *VisitPayloadsOptions) defaultWellKnownAnyVisitor(ctx *VisitPayloadsContext, p *anypb.Any) error {
+	child, err := p.UnmarshalNew()
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal any: %w", err)
+	}
+	// We choose to visit and re-marshal always instead of cloning, visiting,
+	// and checking if anything changed before re-marshaling. It is assumed the
+	// clone + equality check is not much cheaper than re-marshal.
+	if err := visitPayloads(ctx, o, p, child); err != nil {
+		return err
+	}
+	// Confirmed this replaces both Any fields on non-error, there is nothing
+	// left over
+	if err := p.MarshalFrom(child); err != nil {
+		return fmt.Errorf("failed to marshal any: %w", err)
+	}
+	return nil
+}
+
 func visitPayload(
 	ctx *VisitPayloadsContext,
 	options *VisitPayloadsOptions,
@@ -193,15 +215,15 @@ func visitPayloads(
 				if o == nil { continue }
 				no, err := visitPayload(ctx, options, parent, o)
 				if err != nil { return err }
-                objs[i] = no
+				objs[i] = no
 			case map[string]*common.Payload:
 				for ix, x := range o {
-                    if nx, err := visitPayload(ctx, options, parent, x); err != nil {
-                        return err
-                    } else {
-                        o[ix] = nx
-	                }
-                }
+					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
+						return err
+					} else {
+						o[ix] = nx
+					}
+				}
 			case *common.Payloads:
 				if o == nil { continue }
 				ctx.Parent = parent
@@ -211,26 +233,40 @@ func visitPayloads(
 				o.Payloads = newPayloads
 			case map[string]*common.Payloads:
 				for _, x := range o {
-                    if err := visitPayloads(ctx, options, parent, x); err != nil {
-                        return err
-                    }
-                }
+					if err := visitPayloads(ctx, options, parent, x); err != nil {
+						return err
+					}
+				}
+		case *anypb.Any:
+			if o == nil {
+				continue
+			}
+			visitor := options.WellKnownAnyVisitor
+			if visitor == nil {
+				visitor = options.defaultWellKnownAnyVisitor
+			}
+			ctx.Parent = o
+			err := visitor(ctx, o)
+			ctx.Parent = nil
+			if err != nil {
+				return err
+			}
 {{range $type, $record := .PayloadTypes}}
 		{{if $record.Slice}}
 			case []{{$type}}:
 				for _, x := range o {
-                    if err := visitPayloads(ctx, options, parent, x); err != nil {
-                        return err
-                    }
-                }
+					if err := visitPayloads(ctx, options, parent, x); err != nil {
+						return err
+					}
+				}
 		{{end}}
 		{{if $record.Map}}
 			case map[string]{{$type}}:
 				for _, x := range o {
-                    if err := visitPayloads(ctx, options, parent, x); err != nil {
-                        return err
-                    }
-                }
+					if err := visitPayloads(ctx, options, parent, x); err != nil {
+						return err
+					}
+				}
 		{{end}}
 			case {{$type}}:
 				{{if eq $type "*common.SearchAttributes"}}
@@ -456,6 +492,13 @@ func generateInterceptor(cfg config) error {
 	payloadTypes, err := lookupTypes("go.temporal.io/api/common/v1", []string{"Payloads", "Payload"})
 	if err != nil {
 		return err
+	}
+	// For the purposes of payloads, we also consider the Any well known type as
+	// possible
+	if anyTypes, err := lookupTypes("google.golang.org/protobuf/types/known/anypb", []string{"Any"}); err != nil {
+		return err
+	} else {
+		payloadTypes = append(payloadTypes, anyTypes...)
 	}
 
 	failureTypes, err := lookupTypes("go.temporal.io/api/failure/v1", []string{"Failure"})
