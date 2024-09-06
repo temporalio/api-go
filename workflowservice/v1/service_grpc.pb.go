@@ -490,9 +490,9 @@ type WorkflowServiceClient interface {
 	// Open source users can adjust this limit by setting the server's dynamic config value for
 	// `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store.
 	GetWorkerTaskReachability(ctx context.Context, in *GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*GetWorkerTaskReachabilityResponse, error)
-	// Invokes the specified update function on user workflow code.
+	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
-	// Polls a workflow execution for the outcome of a workflow execution update
+	// Polls a Workflow Execution for the outcome of a Workflow Update
 	// previously issued through the UpdateWorkflowExecution RPC. The effective
 	// timeout on this call will be shorter of the the caller-supplied gRPC
 	// timeout and the server's configured long-poll timeout.
@@ -1556,9 +1556,9 @@ type WorkflowServiceServer interface {
 	// Open source users can adjust this limit by setting the server's dynamic config value for
 	// `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store.
 	GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error)
-	// Invokes the specified update function on user workflow code.
+	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
-	// Polls a workflow execution for the outcome of a workflow execution update
+	// Polls a Workflow Execution for the outcome of a Workflow Update
 	// previously issued through the UpdateWorkflowExecution RPC. The effective
 	// timeout on this call will be shorter of the the caller-supplied gRPC
 	// timeout and the server's configured long-poll timeout.

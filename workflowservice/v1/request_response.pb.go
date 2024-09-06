@@ -8277,22 +8277,25 @@ type UpdateWorkflowExecutionRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The namespace name of the target workflow
+	// The namespace name of the target Workflow.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// The target workflow id and (optionally) a specific run thereof
+	// The target Workflow Id and (optionally) a specific Run Id thereof.
 	// (-- api-linter: core::0203::optional=disabled
 	//
 	//	aip.dev/not-precedent: false positive triggered by the word "optional" --)
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	// If set, this call will error if the most recent (if no run id is set on
-	// `workflow_execution`), or specified (if it is) workflow execution is not
-	// part of the same execution chain as this id.
+	// If set, this call will error if the most recent (if no Run Id is set on
+	// `workflow_execution`), or specified (if it is) Workflow Execution is not
+	// part of the same execution chain as this Id.
 	FirstExecutionRunId string `protobuf:"bytes,3,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
-	// Describes when this request should return - basically whether the
-	// update is synchronous, asynchronous, or somewhere in between.
+	// Specifies client's intent to wait for Update results.
+	// NOTE: This field works together with API call timeout which is limited by
+	// server timeout (maximum wait time). If server timeout is expired before
+	// user specified timeout, API call returns even if specified stage is not reached.
+	// Actual reached stage will be included in the response.
 	WaitPolicy *v115.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
 	// The request information that will be delivered all the way down to the
-	// workflow execution.
+	// Workflow Execution.
 	Request *v115.Request `protobuf:"bytes,5,opt,name=request,proto3" json:"request,omitempty"`
 }
 
@@ -8370,8 +8373,8 @@ type UpdateWorkflowExecutionResponse struct {
 
 	// Enough information for subsequent poll calls if needed. Never null.
 	UpdateRef *v115.UpdateRef `protobuf:"bytes,1,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
-	// The outcome of the update if and only if the workflow execution update
-	// has completed. If this response is being returned before the update has
+	// The outcome of the Update if and only if the Workflow Update
+	// has completed. If this response is being returned before the Update has
 	// completed then this field will not be set.
 	Outcome *v115.Outcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
 	// The most advanced lifecycle stage that the Update is known to have
@@ -9090,15 +9093,14 @@ type PollWorkflowExecutionUpdateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The namespace of the workflow execution to which the update was
+	// The namespace of the Workflow Execution to which the Update was
 	// originally issued.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// The update reference returned in the initial
-	// UpdateWorkflowExecutionResponse
+	// The Update reference returned in the initial UpdateWorkflowExecutionResponse.
 	UpdateRef *v115.UpdateRef `protobuf:"bytes,2,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
-	// The identity of the worker/client who is polling this update outcome
+	// The identity of the worker/client who is polling this Update outcome.
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	// Describes when this poll request should return a response.
+	// Specifies client's intent to wait for Update results.
 	// Omit to request a non-blocking poll.
 	WaitPolicy *v115.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
 }
@@ -9185,7 +9187,7 @@ type PollWorkflowExecutionUpdateResponse struct {
 	// request WaitPolicy, and before the context deadline expired; clients may
 	// may then retry the call as needed.
 	Stage v11.UpdateWorkflowExecutionLifecycleStage `protobuf:"varint,2,opt,name=stage,proto3,enum=temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage" json:"stage,omitempty"`
-	// Sufficient information to address this update.
+	// Sufficient information to address this Update.
 	UpdateRef *v115.UpdateRef `protobuf:"bytes,3,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
 }
 
