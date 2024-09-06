@@ -102,7 +102,7 @@ grpc-install:
 
 mockgen-install:
 	printf $(COLOR) "Install/update mockgen..."
-	go install -modfile=build/go.mod github.com/golang/mock/mockgen
+	go install -modfile=build/go.mod go.uber.org/mock/mockgen
 
 goimports-install:
 	printf $(COLOR) "Install/update goimports..."
