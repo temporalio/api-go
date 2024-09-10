@@ -106,6 +106,7 @@ const (
 	WorkflowService_PollNexusTaskQueue_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollNexusTaskQueue"
 	WorkflowService_RespondNexusTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskCompleted"
 	WorkflowService_RespondNexusTaskFailed_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskFailed"
+	WorkflowService_UpdateActivityOptionsById_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptionsById"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -524,6 +525,11 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(ctx context.Context, in *RespondNexusTaskFailedRequest, opts ...grpc.CallOption) (*RespondNexusTaskFailedResponse, error)
+	// UpdateActivityOptionsById is called by the client to update the options of an activity
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
+	UpdateActivityOptionsById(ctx context.Context, in *UpdateActivityOptionsByIdRequest, opts ...grpc.CallOption) (*UpdateActivityOptionsByIdResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1174,6 +1180,16 @@ func (c *workflowServiceClient) RespondNexusTaskFailed(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *workflowServiceClient) UpdateActivityOptionsById(ctx context.Context, in *UpdateActivityOptionsByIdRequest, opts ...grpc.CallOption) (*UpdateActivityOptionsByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateActivityOptionsByIdResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateActivityOptionsById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -1590,6 +1606,11 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error)
+	// UpdateActivityOptionsById is called by the client to update the options of an activity
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
+	UpdateActivityOptionsById(context.Context, *UpdateActivityOptionsByIdRequest) (*UpdateActivityOptionsByIdResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -1791,6 +1812,9 @@ func (UnimplementedWorkflowServiceServer) RespondNexusTaskCompleted(context.Cont
 }
 func (UnimplementedWorkflowServiceServer) RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RespondNexusTaskFailed not implemented")
+}
+func (UnimplementedWorkflowServiceServer) UpdateActivityOptionsById(context.Context, *UpdateActivityOptionsByIdRequest) (*UpdateActivityOptionsByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateActivityOptionsById not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -2965,6 +2989,24 @@ func _WorkflowService_RespondNexusTaskFailed_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_UpdateActivityOptionsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateActivityOptionsByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).UpdateActivityOptionsById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_UpdateActivityOptionsById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).UpdateActivityOptionsById(ctx, req.(*UpdateActivityOptionsByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -3227,6 +3269,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RespondNexusTaskFailed",
 			Handler:    _WorkflowService_RespondNexusTaskFailed_Handler,
+		},
+		{
+			MethodName: "UpdateActivityOptionsById",
+			Handler:    _WorkflowService_UpdateActivityOptionsById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

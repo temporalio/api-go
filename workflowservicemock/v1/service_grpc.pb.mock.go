@@ -1238,6 +1238,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) TerminateWorkflowExecution(ctx,
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TerminateWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).TerminateWorkflowExecution), varargs...)
 }
 
+// UpdateActivityOptionsById mocks base method.
+func (m *MockWorkflowServiceClient) UpdateActivityOptionsById(ctx context.Context, in *workflowservice.UpdateActivityOptionsByIdRequest, opts ...grpc.CallOption) (*workflowservice.UpdateActivityOptionsByIdResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateActivityOptionsById", varargs...)
+	ret0, _ := ret[0].(*workflowservice.UpdateActivityOptionsByIdResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateActivityOptionsById indicates an expected call of UpdateActivityOptionsById.
+func (mr *MockWorkflowServiceClientMockRecorder) UpdateActivityOptionsById(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateActivityOptionsById", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateActivityOptionsById), varargs...)
+}
+
 // UpdateNamespace mocks base method.
 func (m *MockWorkflowServiceClient) UpdateNamespace(ctx context.Context, in *workflowservice.UpdateNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.UpdateNamespaceResponse, error) {
 	m.ctrl.T.Helper()
@@ -2244,6 +2264,21 @@ func (m *MockWorkflowServiceServer) TerminateWorkflowExecution(arg0 context.Cont
 func (mr *MockWorkflowServiceServerMockRecorder) TerminateWorkflowExecution(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TerminateWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).TerminateWorkflowExecution), arg0, arg1)
+}
+
+// UpdateActivityOptionsById mocks base method.
+func (m *MockWorkflowServiceServer) UpdateActivityOptionsById(arg0 context.Context, arg1 *workflowservice.UpdateActivityOptionsByIdRequest) (*workflowservice.UpdateActivityOptionsByIdResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateActivityOptionsById", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.UpdateActivityOptionsByIdResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateActivityOptionsById indicates an expected call of UpdateActivityOptionsById.
+func (mr *MockWorkflowServiceServerMockRecorder) UpdateActivityOptionsById(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateActivityOptionsById", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateActivityOptionsById), arg0, arg1)
 }
 
 // UpdateNamespace mocks base method.

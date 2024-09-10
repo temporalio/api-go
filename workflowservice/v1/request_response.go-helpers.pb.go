@@ -4762,3 +4762,77 @@ func (this *ExecuteMultiOperationResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type UpdateActivityOptionsByIdRequest to the protobuf v3 wire format
+func (val *UpdateActivityOptionsByIdRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UpdateActivityOptionsByIdRequest from the protobuf v3 wire format
+func (val *UpdateActivityOptionsByIdRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UpdateActivityOptionsByIdRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UpdateActivityOptionsByIdRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UpdateActivityOptionsByIdRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UpdateActivityOptionsByIdRequest
+	switch t := that.(type) {
+	case *UpdateActivityOptionsByIdRequest:
+		that1 = t
+	case UpdateActivityOptionsByIdRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UpdateActivityOptionsByIdResponse to the protobuf v3 wire format
+func (val *UpdateActivityOptionsByIdResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UpdateActivityOptionsByIdResponse from the protobuf v3 wire format
+func (val *UpdateActivityOptionsByIdResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UpdateActivityOptionsByIdResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UpdateActivityOptionsByIdResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UpdateActivityOptionsByIdResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UpdateActivityOptionsByIdResponse
+	switch t := that.(type) {
+	case *UpdateActivityOptionsByIdResponse:
+		that1 = t
+	case UpdateActivityOptionsByIdResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}

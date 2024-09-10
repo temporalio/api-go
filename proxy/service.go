@@ -290,6 +290,10 @@ func (s *workflowServiceProxyServer) TerminateWorkflowExecution(ctx context.Cont
 	return s.client.TerminateWorkflowExecution(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) UpdateActivityOptionsById(ctx context.Context, in0 *workflowservice.UpdateActivityOptionsByIdRequest) (*workflowservice.UpdateActivityOptionsByIdResponse, error) {
+	return s.client.UpdateActivityOptionsById(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) UpdateNamespace(ctx context.Context, in0 *workflowservice.UpdateNamespaceRequest) (*workflowservice.UpdateNamespaceResponse, error) {
 	return s.client.UpdateNamespace(s.reqCtx(ctx), in0)
 }
