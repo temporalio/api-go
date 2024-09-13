@@ -83,6 +83,9 @@ grpc-mock:
 	mockgen -package operatorservicemock -source operatorservice/v1/service_grpc.pb.go -destination operatorservicemock/v1/service_grpc.pb.mock.go
 	mockgen -package workflowservicemock -source workflowservice/v1/service_grpc.pb.go -destination workflowservicemock/v1/service_grpc.pb.mock.go
 	mockgen -package cloudservicemock -source cloud/cloudservice/v1/service_grpc.pb.go -destination cloud/cloudservicemock/v1/service_grpc.pb.mock.go
+	go run ./cmd/mockgen-fix OperatorService operatorservicemock/v1/service_grpc.pb.mock.go
+	go run ./cmd/mockgen-fix WorkflowService workflowservicemock/v1/service_grpc.pb.mock.go
+	go run ./cmd/mockgen-fix CloudService cloud/cloudservicemock/v1/service_grpc.pb.mock.go
 
 .PHONY: proxy
 proxy:

@@ -1360,9 +1360,12 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkflowExecution(ctx, in
 
 // MockWorkflowServiceServer is a mock of WorkflowServiceServer interface.
 type MockWorkflowServiceServer struct {
+	workflowservice.UnimplementedWorkflowServiceServer
 	ctrl     *gomock.Controller
 	recorder *MockWorkflowServiceServerMockRecorder
 }
+
+var _ workflowservice.WorkflowServiceServer = (*MockWorkflowServiceServer)(nil)
 
 // MockWorkflowServiceServerMockRecorder is the mock recorder for MockWorkflowServiceServer.
 type MockWorkflowServiceServerMockRecorder struct {
