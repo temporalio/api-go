@@ -300,9 +300,12 @@ func (mr *MockOperatorServiceClientMockRecorder) UpdateNexusEndpoint(ctx, in int
 
 // MockOperatorServiceServer is a mock of OperatorServiceServer interface.
 type MockOperatorServiceServer struct {
+	operatorservice.UnimplementedOperatorServiceServer
 	ctrl     *gomock.Controller
 	recorder *MockOperatorServiceServerMockRecorder
 }
+
+var _ operatorservice.OperatorServiceServer = (*MockOperatorServiceServer)(nil)
 
 // MockOperatorServiceServerMockRecorder is the mock recorder for MockOperatorServiceServer.
 type MockOperatorServiceServerMockRecorder struct {

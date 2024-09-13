@@ -720,9 +720,12 @@ func (mr *MockCloudServiceClientMockRecorder) UpdateUserGroup(ctx, in interface{
 
 // MockCloudServiceServer is a mock of CloudServiceServer interface.
 type MockCloudServiceServer struct {
+	cloudservice.UnimplementedCloudServiceServer
 	ctrl     *gomock.Controller
 	recorder *MockCloudServiceServerMockRecorder
 }
+
+var _ cloudservice.CloudServiceServer = (*MockCloudServiceServer)(nil)
 
 // MockCloudServiceServerMockRecorder is the mock recorder for MockCloudServiceServer.
 type MockCloudServiceServerMockRecorder struct {
