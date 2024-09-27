@@ -118,6 +118,26 @@ func (mr *MockCloudServiceClientMockRecorder) CreateNamespace(ctx, in interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNamespace", reflect.TypeOf((*MockCloudServiceClient)(nil).CreateNamespace), varargs...)
 }
 
+// CreateNexusEndpoint mocks base method.
+func (m *MockCloudServiceClient) CreateNexusEndpoint(ctx context.Context, in *cloudservice.CreateNexusEndpointRequest, opts ...grpc.CallOption) (*cloudservice.CreateNexusEndpointResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateNexusEndpoint", varargs...)
+	ret0, _ := ret[0].(*cloudservice.CreateNexusEndpointResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateNexusEndpoint indicates an expected call of CreateNexusEndpoint.
+func (mr *MockCloudServiceClientMockRecorder) CreateNexusEndpoint(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNexusEndpoint", reflect.TypeOf((*MockCloudServiceClient)(nil).CreateNexusEndpoint), varargs...)
+}
+
 // CreateServiceAccount mocks base method.
 func (m *MockCloudServiceClient) CreateServiceAccount(ctx context.Context, in *cloudservice.CreateServiceAccountRequest, opts ...grpc.CallOption) (*cloudservice.CreateServiceAccountResponse, error) {
 	m.ctrl.T.Helper()
@@ -216,6 +236,26 @@ func (mr *MockCloudServiceClientMockRecorder) DeleteNamespace(ctx, in interface{
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespace", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteNamespace), varargs...)
+}
+
+// DeleteNexusEndpoint mocks base method.
+func (m *MockCloudServiceClient) DeleteNexusEndpoint(ctx context.Context, in *cloudservice.DeleteNexusEndpointRequest, opts ...grpc.CallOption) (*cloudservice.DeleteNexusEndpointResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteNexusEndpoint", varargs...)
+	ret0, _ := ret[0].(*cloudservice.DeleteNexusEndpointResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteNexusEndpoint indicates an expected call of DeleteNexusEndpoint.
+func (mr *MockCloudServiceClientMockRecorder) DeleteNexusEndpoint(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNexusEndpoint", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteNexusEndpoint), varargs...)
 }
 
 // DeleteServiceAccount mocks base method.
@@ -398,6 +438,46 @@ func (mr *MockCloudServiceClientMockRecorder) GetNamespaces(ctx, in interface{},
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNamespaces", reflect.TypeOf((*MockCloudServiceClient)(nil).GetNamespaces), varargs...)
 }
 
+// GetNexusEndpoint mocks base method.
+func (m *MockCloudServiceClient) GetNexusEndpoint(ctx context.Context, in *cloudservice.GetNexusEndpointRequest, opts ...grpc.CallOption) (*cloudservice.GetNexusEndpointResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetNexusEndpoint", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetNexusEndpointResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNexusEndpoint indicates an expected call of GetNexusEndpoint.
+func (mr *MockCloudServiceClientMockRecorder) GetNexusEndpoint(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNexusEndpoint", reflect.TypeOf((*MockCloudServiceClient)(nil).GetNexusEndpoint), varargs...)
+}
+
+// GetNexusEndpoints mocks base method.
+func (m *MockCloudServiceClient) GetNexusEndpoints(ctx context.Context, in *cloudservice.GetNexusEndpointsRequest, opts ...grpc.CallOption) (*cloudservice.GetNexusEndpointsResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetNexusEndpoints", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetNexusEndpointsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNexusEndpoints indicates an expected call of GetNexusEndpoints.
+func (mr *MockCloudServiceClientMockRecorder) GetNexusEndpoints(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNexusEndpoints", reflect.TypeOf((*MockCloudServiceClient)(nil).GetNexusEndpoints), varargs...)
+}
+
 // GetRegion mocks base method.
 func (m *MockCloudServiceClient) GetRegion(ctx context.Context, in *cloudservice.GetRegionRequest, opts ...grpc.CallOption) (*cloudservice.GetRegionResponse, error) {
 	m.ctrl.T.Helper()
@@ -476,6 +556,26 @@ func (mr *MockCloudServiceClientMockRecorder) GetServiceAccounts(ctx, in interfa
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetServiceAccounts", reflect.TypeOf((*MockCloudServiceClient)(nil).GetServiceAccounts), varargs...)
+}
+
+// GetUsage mocks base method.
+func (m *MockCloudServiceClient) GetUsage(ctx context.Context, in *cloudservice.GetUsageRequest, opts ...grpc.CallOption) (*cloudservice.GetUsageResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetUsage", varargs...)
+	ret0, _ := ret[0].(*cloudservice.GetUsageResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUsage indicates an expected call of GetUsage.
+func (mr *MockCloudServiceClientMockRecorder) GetUsage(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsage", reflect.TypeOf((*MockCloudServiceClient)(nil).GetUsage), varargs...)
 }
 
 // GetUser mocks base method.
@@ -658,6 +758,26 @@ func (mr *MockCloudServiceClientMockRecorder) UpdateNamespace(ctx, in interface{
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNamespace", reflect.TypeOf((*MockCloudServiceClient)(nil).UpdateNamespace), varargs...)
 }
 
+// UpdateNexusEndpoint mocks base method.
+func (m *MockCloudServiceClient) UpdateNexusEndpoint(ctx context.Context, in *cloudservice.UpdateNexusEndpointRequest, opts ...grpc.CallOption) (*cloudservice.UpdateNexusEndpointResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateNexusEndpoint", varargs...)
+	ret0, _ := ret[0].(*cloudservice.UpdateNexusEndpointResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateNexusEndpoint indicates an expected call of UpdateNexusEndpoint.
+func (mr *MockCloudServiceClientMockRecorder) UpdateNexusEndpoint(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNexusEndpoint", reflect.TypeOf((*MockCloudServiceClient)(nil).UpdateNexusEndpoint), varargs...)
+}
+
 // UpdateServiceAccount mocks base method.
 func (m *MockCloudServiceClient) UpdateServiceAccount(ctx context.Context, in *cloudservice.UpdateServiceAccountRequest, opts ...grpc.CallOption) (*cloudservice.UpdateServiceAccountResponse, error) {
 	m.ctrl.T.Helper()
@@ -789,6 +909,21 @@ func (mr *MockCloudServiceServerMockRecorder) CreateNamespace(arg0, arg1 interfa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNamespace", reflect.TypeOf((*MockCloudServiceServer)(nil).CreateNamespace), arg0, arg1)
 }
 
+// CreateNexusEndpoint mocks base method.
+func (m *MockCloudServiceServer) CreateNexusEndpoint(arg0 context.Context, arg1 *cloudservice.CreateNexusEndpointRequest) (*cloudservice.CreateNexusEndpointResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateNexusEndpoint", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.CreateNexusEndpointResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateNexusEndpoint indicates an expected call of CreateNexusEndpoint.
+func (mr *MockCloudServiceServerMockRecorder) CreateNexusEndpoint(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNexusEndpoint", reflect.TypeOf((*MockCloudServiceServer)(nil).CreateNexusEndpoint), arg0, arg1)
+}
+
 // CreateServiceAccount mocks base method.
 func (m *MockCloudServiceServer) CreateServiceAccount(arg0 context.Context, arg1 *cloudservice.CreateServiceAccountRequest) (*cloudservice.CreateServiceAccountResponse, error) {
 	m.ctrl.T.Helper()
@@ -862,6 +997,21 @@ func (m *MockCloudServiceServer) DeleteNamespace(arg0 context.Context, arg1 *clo
 func (mr *MockCloudServiceServerMockRecorder) DeleteNamespace(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespace", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteNamespace), arg0, arg1)
+}
+
+// DeleteNexusEndpoint mocks base method.
+func (m *MockCloudServiceServer) DeleteNexusEndpoint(arg0 context.Context, arg1 *cloudservice.DeleteNexusEndpointRequest) (*cloudservice.DeleteNexusEndpointResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteNexusEndpoint", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.DeleteNexusEndpointResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteNexusEndpoint indicates an expected call of DeleteNexusEndpoint.
+func (mr *MockCloudServiceServerMockRecorder) DeleteNexusEndpoint(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNexusEndpoint", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteNexusEndpoint), arg0, arg1)
 }
 
 // DeleteServiceAccount mocks base method.
@@ -999,6 +1149,36 @@ func (mr *MockCloudServiceServerMockRecorder) GetNamespaces(arg0, arg1 interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNamespaces", reflect.TypeOf((*MockCloudServiceServer)(nil).GetNamespaces), arg0, arg1)
 }
 
+// GetNexusEndpoint mocks base method.
+func (m *MockCloudServiceServer) GetNexusEndpoint(arg0 context.Context, arg1 *cloudservice.GetNexusEndpointRequest) (*cloudservice.GetNexusEndpointResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetNexusEndpoint", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetNexusEndpointResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNexusEndpoint indicates an expected call of GetNexusEndpoint.
+func (mr *MockCloudServiceServerMockRecorder) GetNexusEndpoint(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNexusEndpoint", reflect.TypeOf((*MockCloudServiceServer)(nil).GetNexusEndpoint), arg0, arg1)
+}
+
+// GetNexusEndpoints mocks base method.
+func (m *MockCloudServiceServer) GetNexusEndpoints(arg0 context.Context, arg1 *cloudservice.GetNexusEndpointsRequest) (*cloudservice.GetNexusEndpointsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetNexusEndpoints", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetNexusEndpointsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNexusEndpoints indicates an expected call of GetNexusEndpoints.
+func (mr *MockCloudServiceServerMockRecorder) GetNexusEndpoints(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNexusEndpoints", reflect.TypeOf((*MockCloudServiceServer)(nil).GetNexusEndpoints), arg0, arg1)
+}
+
 // GetRegion mocks base method.
 func (m *MockCloudServiceServer) GetRegion(arg0 context.Context, arg1 *cloudservice.GetRegionRequest) (*cloudservice.GetRegionResponse, error) {
 	m.ctrl.T.Helper()
@@ -1057,6 +1237,21 @@ func (m *MockCloudServiceServer) GetServiceAccounts(arg0 context.Context, arg1 *
 func (mr *MockCloudServiceServerMockRecorder) GetServiceAccounts(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetServiceAccounts", reflect.TypeOf((*MockCloudServiceServer)(nil).GetServiceAccounts), arg0, arg1)
+}
+
+// GetUsage mocks base method.
+func (m *MockCloudServiceServer) GetUsage(arg0 context.Context, arg1 *cloudservice.GetUsageRequest) (*cloudservice.GetUsageResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUsage", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.GetUsageResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUsage indicates an expected call of GetUsage.
+func (mr *MockCloudServiceServerMockRecorder) GetUsage(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsage", reflect.TypeOf((*MockCloudServiceServer)(nil).GetUsage), arg0, arg1)
 }
 
 // GetUser mocks base method.
@@ -1192,6 +1387,21 @@ func (m *MockCloudServiceServer) UpdateNamespace(arg0 context.Context, arg1 *clo
 func (mr *MockCloudServiceServerMockRecorder) UpdateNamespace(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNamespace", reflect.TypeOf((*MockCloudServiceServer)(nil).UpdateNamespace), arg0, arg1)
+}
+
+// UpdateNexusEndpoint mocks base method.
+func (m *MockCloudServiceServer) UpdateNexusEndpoint(arg0 context.Context, arg1 *cloudservice.UpdateNexusEndpointRequest) (*cloudservice.UpdateNexusEndpointResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateNexusEndpoint", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.UpdateNexusEndpointResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateNexusEndpoint indicates an expected call of UpdateNexusEndpoint.
+func (mr *MockCloudServiceServerMockRecorder) UpdateNexusEndpoint(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateNexusEndpoint", reflect.TypeOf((*MockCloudServiceServer)(nil).UpdateNexusEndpoint), arg0, arg1)
 }
 
 // UpdateServiceAccount mocks base method.

@@ -49,9 +49,11 @@ type AccountAccess struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// The role on the account, should be one of [admin, developer, read]
+	// The role on the account, should be one of [owner, admin, developer, financeadmin, read]
+	// owner - gives full access to the account, including users, namespaces, and billing
 	// admin - gives full access the account, including users and namespaces
 	// developer - gives access to create namespaces on the account
+	// financeadmin - gives read only access and write access for billing
 	// read - gives read only access to the account
 	Role string `protobuf:"bytes,1,opt,name=role,proto3" json:"role,omitempty"`
 }
