@@ -58,11 +58,9 @@ type WorkflowMetadata struct {
 
 func (x *WorkflowMetadata) Reset() {
 	*x = WorkflowMetadata{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkflowMetadata) String() string {
@@ -73,7 +71,7 @@ func (*WorkflowMetadata) ProtoMessage() {}
 
 func (x *WorkflowMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -121,11 +119,9 @@ type WorkflowDefinition struct {
 
 func (x *WorkflowDefinition) Reset() {
 	*x = WorkflowDefinition{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkflowDefinition) String() string {
@@ -136,7 +132,7 @@ func (*WorkflowDefinition) ProtoMessage() {}
 
 func (x *WorkflowDefinition) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -201,11 +197,9 @@ type WorkflowInteractionDefinition struct {
 
 func (x *WorkflowInteractionDefinition) Reset() {
 	*x = WorkflowInteractionDefinition{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkflowInteractionDefinition) String() string {
@@ -216,7 +210,7 @@ func (*WorkflowInteractionDefinition) ProtoMessage() {}
 
 func (x *WorkflowInteractionDefinition) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -332,44 +326,6 @@ func init() { file_temporal_api_sdk_v1_workflow_metadata_proto_init() }
 func file_temporal_api_sdk_v1_workflow_metadata_proto_init() {
 	if File_temporal_api_sdk_v1_workflow_metadata_proto != nil {
 		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0].Exporter = func(v any, i int) any {
-			switch v := v.(*WorkflowMetadata); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1].Exporter = func(v any, i int) any {
-			switch v := v.(*WorkflowDefinition); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2].Exporter = func(v any, i int) any {
-			switch v := v.(*WorkflowInteractionDefinition); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
