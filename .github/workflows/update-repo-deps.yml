@@ -1,0 +1,53 @@
+name: "Update repository dependency on api-go"
+
+on:
+  workflow_call:
+    inputs:
+      repo:
+        description: "Repository to be udpated"
+        required: true
+      tag:
+        description: "Tag to be used"
+        required: true
+    secrets:
+      token:
+        required: true
+
+jobs:
+  update-repo-deps:
+    name: Update repo deps
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.repo }}
+          token: ${{ secrets.token }}
+          persist-credentials: true
+
+      - name: Update go.mod
+        env:
+          TAG: ${{ github.events.input.tag }}
+        run: |
+          for gomod in $(find . -name "go.mod"); do
+            cd $(dirname $gomod)
+            if [[ $(cat go.mod | grep -c "go\.temporal\.io/api v.*$") -gt 0 ]]; then
+              go get go.temporal.io/api@${TAG}
+              go mod tidy
+            fi
+            cd -
+          done
+
+          BRANCH="temporal-data/update-api-go-${TAG}-$(git rev-parse --short HEAD)"
+          git checkout -b $BRANCH
+          git add .
+          git commit -m "Bump api-go to $TAG"
+          git push origin $BRANCH
+          pr_link=$(gh pr create --fill --reviewer ${{ github.actor }},${{ github.triggering_actor }})
+          echo "PR link for ${{ github.events.input.repo }}: $pr_link"
+          echo "pr_link=$pr_link" >> $GITHUB_OUTPUT
