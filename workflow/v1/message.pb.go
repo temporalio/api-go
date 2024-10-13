@@ -29,9 +29,6 @@
 package workflow
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	v1 "go.temporal.io/api/common/v1"
 	v11 "go.temporal.io/api/enums/v1"
 	v14 "go.temporal.io/api/failure/v1"
@@ -42,6 +39,8 @@ import (
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
