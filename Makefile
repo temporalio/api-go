@@ -135,7 +135,7 @@ test: copy-helpers
 
 generatorcheck:
 	printf $(COLOR) "Check generated code is not stale..."
-	#(cd ./cmd/proxygenerator && go mod tidy && go run ./ -verifyOnly)
+	(cd ./cmd/proxygenerator && go mod tidy && go run ./ -verifyOnly)
 
 check: generatorcheck
 

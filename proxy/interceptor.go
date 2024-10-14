@@ -35,6 +35,7 @@ import (
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
 	"go.temporal.io/api/nexus/v1"
+	"go.temporal.io/api/operatorservice/v1"
 	"go.temporal.io/api/protocol/v1"
 	"go.temporal.io/api/query/v1"
 	"go.temporal.io/api/schedule/v1"
@@ -1195,6 +1196,41 @@ func visitPayloads(
 				return err
 			}
 
+		case []*nexus.Endpoint:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *nexus.Endpoint:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetSpec(),
+			); err != nil {
+				return err
+			}
+
+		case *nexus.EndpointSpec:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetDescription(),
+			); err != nil {
+				return err
+			}
+
 		case *nexus.Request:
 
 			if o == nil {
@@ -1261,6 +1297,90 @@ func visitPayloads(
 				options,
 				o,
 				o.GetPayload(),
+			); err != nil {
+				return err
+			}
+
+		case *operatorservice.CreateNexusEndpointRequest:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetSpec(),
+			); err != nil {
+				return err
+			}
+
+		case *operatorservice.CreateNexusEndpointResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetEndpoint(),
+			); err != nil {
+				return err
+			}
+
+		case *operatorservice.GetNexusEndpointResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetEndpoint(),
+			); err != nil {
+				return err
+			}
+
+		case *operatorservice.ListNexusEndpointsResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetEndpoints(),
+			); err != nil {
+				return err
+			}
+
+		case *operatorservice.UpdateNexusEndpointRequest:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetSpec(),
+			); err != nil {
+				return err
+			}
+
+		case *operatorservice.UpdateNexusEndpointResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetEndpoint(),
 			); err != nil {
 				return err
 			}
