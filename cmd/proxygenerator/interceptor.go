@@ -508,11 +508,18 @@ func generateInterceptor(cfg config) error {
 
 	// UnimplementedWorkflowServiceServer is auto-generated via our API package
 	// The methods on this type refer to all possible Request/Response types so we can use this to walk through all of our protobuf types
-	serviceTypes, err := lookupTypes("go.temporal.io/api/workflowservice/v1", []string{"UnimplementedWorkflowServiceServer"})
+	workflowServiceTypes, err := lookupTypes("go.temporal.io/api/workflowservice/v1", []string{"UnimplementedWorkflowServiceServer"})
 	if err != nil {
 		return err
 	}
-	service := serviceTypes[0]
+	workflowService := workflowServiceTypes[0]
+
+	// UnimplementedOperatorServiceServer is auto-generated via our API package
+	operatorServiceTypes, err := lookupTypes("go.temporal.io/api/operatorservice/v1", []string{"UnimplementedOperatorServiceServer"})
+	if err != nil {
+		return err
+	}
+	operatorService := operatorServiceTypes[0]
 
 	exportTypes, err := lookupTypes("go.temporal.io/api/export/v1", []string{"WorkflowExecutions"})
 	if err != nil {
@@ -523,7 +530,19 @@ func generateInterceptor(cfg config) error {
 	payloadRecords := map[string]*TypeRecord{}
 	failureRecords := map[string]*TypeRecord{}
 
-	for _, meth := range typeutil.IntuitiveMethodSet(service, nil) {
+	for _, meth := range typeutil.IntuitiveMethodSet(workflowService, nil) {
+		if !meth.Obj().Exported() {
+			continue
+		}
+
+		sig := meth.Obj().Type().(*types.Signature)
+		walk(payloadTypes, sig.Params().At(1).Type(), &payloadRecords)
+		walk(failureTypes, sig.Params().At(1).Type(), &failureRecords)
+		walk(payloadTypes, sig.Results().At(0).Type(), &payloadRecords)
+		walk(failureTypes, sig.Results().At(0).Type(), &failureRecords)
+	}
+
+	for _, meth := range typeutil.IntuitiveMethodSet(operatorService, nil) {
 		if !meth.Obj().Exported() {
 			continue
 		}
