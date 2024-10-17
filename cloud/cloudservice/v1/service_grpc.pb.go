@@ -81,6 +81,8 @@ const (
 	CloudService_UpdateServiceAccount_FullMethodName        = "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateServiceAccount"
 	CloudService_DeleteServiceAccount_FullMethodName        = "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteServiceAccount"
 	CloudService_GetUsage_FullMethodName                    = "/temporal.api.cloud.cloudservice.v1.CloudService/GetUsage"
+	CloudService_GetAccount_FullMethodName                  = "/temporal.api.cloud.cloudservice.v1.CloudService/GetAccount"
+	CloudService_UpdateAccount_FullMethodName               = "/temporal.api.cloud.cloudservice.v1.CloudService/UpdateAccount"
 )
 
 // CloudServiceClient is the client API for CloudService service.
@@ -169,6 +171,10 @@ type CloudServiceClient interface {
 	// WARNING: Pre-Release Feature
 	// Get usage data across namespaces
 	GetUsage(ctx context.Context, in *GetUsageRequest, opts ...grpc.CallOption) (*GetUsageResponse, error)
+	// Get account information.
+	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
+	// Update account information.
+	UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*UpdateAccountResponse, error)
 }
 
 type cloudServiceClient struct {
@@ -569,6 +575,26 @@ func (c *cloudServiceClient) GetUsage(ctx context.Context, in *GetUsageRequest, 
 	return out, nil
 }
 
+func (c *cloudServiceClient) GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAccountResponse)
+	err := c.cc.Invoke(ctx, CloudService_GetAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudServiceClient) UpdateAccount(ctx context.Context, in *UpdateAccountRequest, opts ...grpc.CallOption) (*UpdateAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateAccountResponse)
+	err := c.cc.Invoke(ctx, CloudService_UpdateAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CloudServiceServer is the server API for CloudService service.
 // All implementations must embed UnimplementedCloudServiceServer
 // for forward compatibility.
@@ -655,6 +681,10 @@ type CloudServiceServer interface {
 	// WARNING: Pre-Release Feature
 	// Get usage data across namespaces
 	GetUsage(context.Context, *GetUsageRequest) (*GetUsageResponse, error)
+	// Get account information.
+	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
+	// Update account information.
+	UpdateAccount(context.Context, *UpdateAccountRequest) (*UpdateAccountResponse, error)
 	mustEmbedUnimplementedCloudServiceServer()
 }
 
@@ -781,6 +811,12 @@ func (UnimplementedCloudServiceServer) DeleteServiceAccount(context.Context, *De
 }
 func (UnimplementedCloudServiceServer) GetUsage(context.Context, *GetUsageRequest) (*GetUsageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUsage not implemented")
+}
+func (UnimplementedCloudServiceServer) GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
+}
+func (UnimplementedCloudServiceServer) UpdateAccount(context.Context, *UpdateAccountRequest) (*UpdateAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccount not implemented")
 }
 func (UnimplementedCloudServiceServer) mustEmbedUnimplementedCloudServiceServer() {}
 func (UnimplementedCloudServiceServer) testEmbeddedByValue()                      {}
@@ -1505,6 +1541,42 @@ func _CloudService_GetUsage_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CloudService_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudServiceServer).GetAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CloudService_GetAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudServiceServer).GetAccount(ctx, req.(*GetAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudService_UpdateAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudServiceServer).UpdateAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CloudService_UpdateAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudServiceServer).UpdateAccount(ctx, req.(*UpdateAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CloudService_ServiceDesc is the grpc.ServiceDesc for CloudService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1667,6 +1739,14 @@ var CloudService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUsage",
 			Handler:    _CloudService_GetUsage_Handler,
+		},
+		{
+			MethodName: "GetAccount",
+			Handler:    _CloudService_GetAccount_Handler,
+		},
+		{
+			MethodName: "UpdateAccount",
+			Handler:    _CloudService_UpdateAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
