@@ -2912,3 +2912,151 @@ func (this *GetUsageResponse) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type GetAccountRequest to the protobuf v3 wire format
+func (val *GetAccountRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetAccountRequest from the protobuf v3 wire format
+func (val *GetAccountRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetAccountRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetAccountRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetAccountRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetAccountRequest
+	switch t := that.(type) {
+	case *GetAccountRequest:
+		that1 = t
+	case GetAccountRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type GetAccountResponse to the protobuf v3 wire format
+func (val *GetAccountResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetAccountResponse from the protobuf v3 wire format
+func (val *GetAccountResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetAccountResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetAccountResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetAccountResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetAccountResponse
+	switch t := that.(type) {
+	case *GetAccountResponse:
+		that1 = t
+	case GetAccountResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UpdateAccountRequest to the protobuf v3 wire format
+func (val *UpdateAccountRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UpdateAccountRequest from the protobuf v3 wire format
+func (val *UpdateAccountRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UpdateAccountRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UpdateAccountRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UpdateAccountRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UpdateAccountRequest
+	switch t := that.(type) {
+	case *UpdateAccountRequest:
+		that1 = t
+	case UpdateAccountRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UpdateAccountResponse to the protobuf v3 wire format
+func (val *UpdateAccountResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UpdateAccountResponse from the protobuf v3 wire format
+func (val *UpdateAccountResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UpdateAccountResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UpdateAccountResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UpdateAccountResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UpdateAccountResponse
+	switch t := that.(type) {
+	case *UpdateAccountResponse:
+		that1 = t
+	case UpdateAccountResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
