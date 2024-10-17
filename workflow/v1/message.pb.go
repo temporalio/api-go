@@ -116,9 +116,11 @@ type WorkflowExecutionInfo struct {
 
 func (x *WorkflowExecutionInfo) Reset() {
 	*x = WorkflowExecutionInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionInfo) String() string {
@@ -129,7 +131,7 @@ func (*WorkflowExecutionInfo) ProtoMessage() {}
 
 func (x *WorkflowExecutionInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -306,9 +308,11 @@ type WorkflowExecutionConfig struct {
 
 func (x *WorkflowExecutionConfig) Reset() {
 	*x = WorkflowExecutionConfig{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionConfig) String() string {
@@ -319,7 +323,7 @@ func (*WorkflowExecutionConfig) ProtoMessage() {}
 
 func (x *WorkflowExecutionConfig) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -401,9 +405,11 @@ type PendingActivityInfo struct {
 
 func (x *PendingActivityInfo) Reset() {
 	*x = PendingActivityInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *PendingActivityInfo) String() string {
@@ -414,7 +420,7 @@ func (*PendingActivityInfo) ProtoMessage() {}
 
 func (x *PendingActivityInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -578,9 +584,11 @@ type PendingChildExecutionInfo struct {
 
 func (x *PendingChildExecutionInfo) Reset() {
 	*x = PendingChildExecutionInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *PendingChildExecutionInfo) String() string {
@@ -591,7 +599,7 @@ func (*PendingChildExecutionInfo) ProtoMessage() {}
 
 func (x *PendingChildExecutionInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -659,9 +667,11 @@ type PendingWorkflowTaskInfo struct {
 
 func (x *PendingWorkflowTaskInfo) Reset() {
 	*x = PendingWorkflowTaskInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *PendingWorkflowTaskInfo) String() string {
@@ -672,7 +682,7 @@ func (*PendingWorkflowTaskInfo) ProtoMessage() {}
 
 func (x *PendingWorkflowTaskInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -732,9 +742,11 @@ type ResetPoints struct {
 
 func (x *ResetPoints) Reset() {
 	*x = ResetPoints{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ResetPoints) String() string {
@@ -745,7 +757,7 @@ func (*ResetPoints) ProtoMessage() {}
 
 func (x *ResetPoints) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -796,9 +808,11 @@ type ResetPointInfo struct {
 
 func (x *ResetPointInfo) Reset() {
 	*x = ResetPointInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ResetPointInfo) String() string {
@@ -809,7 +823,7 @@ func (*ResetPointInfo) ProtoMessage() {}
 
 func (x *ResetPointInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -908,9 +922,11 @@ type NewWorkflowExecutionInfo struct {
 
 func (x *NewWorkflowExecutionInfo) Reset() {
 	*x = NewWorkflowExecutionInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NewWorkflowExecutionInfo) String() string {
@@ -921,7 +937,7 @@ func (*NewWorkflowExecutionInfo) ProtoMessage() {}
 
 func (x *NewWorkflowExecutionInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1060,9 +1076,11 @@ type CallbackInfo struct {
 
 func (x *CallbackInfo) Reset() {
 	*x = CallbackInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CallbackInfo) String() string {
@@ -1073,7 +1091,7 @@ func (*CallbackInfo) ProtoMessage() {}
 
 func (x *CallbackInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1185,9 +1203,11 @@ type PendingNexusOperationInfo struct {
 
 func (x *PendingNexusOperationInfo) Reset() {
 	*x = PendingNexusOperationInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *PendingNexusOperationInfo) String() string {
@@ -1198,7 +1218,7 @@ func (*PendingNexusOperationInfo) ProtoMessage() {}
 
 func (x *PendingNexusOperationInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1326,9 +1346,11 @@ type NexusOperationCancellationInfo struct {
 
 func (x *NexusOperationCancellationInfo) Reset() {
 	*x = NexusOperationCancellationInfo{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationCancellationInfo) String() string {
@@ -1339,7 +1361,7 @@ func (*NexusOperationCancellationInfo) ProtoMessage() {}
 
 func (x *NexusOperationCancellationInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1405,9 +1427,11 @@ type CallbackInfo_WorkflowClosed struct {
 
 func (x *CallbackInfo_WorkflowClosed) Reset() {
 	*x = CallbackInfo_WorkflowClosed{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CallbackInfo_WorkflowClosed) String() string {
@@ -1418,7 +1442,7 @@ func (*CallbackInfo_WorkflowClosed) ProtoMessage() {}
 
 func (x *CallbackInfo_WorkflowClosed) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[11]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1446,9 +1470,11 @@ type CallbackInfo_Trigger struct {
 
 func (x *CallbackInfo_Trigger) Reset() {
 	*x = CallbackInfo_Trigger{}
-	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CallbackInfo_Trigger) String() string {
@@ -1459,7 +1485,7 @@ func (*CallbackInfo_Trigger) ProtoMessage() {}
 
 func (x *CallbackInfo_Trigger) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflow_v1_message_proto_msgTypes[12]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2094,6 +2120,164 @@ func init() { file_temporal_api_workflow_v1_message_proto_init() }
 func file_temporal_api_workflow_v1_message_proto_init() {
 	if File_temporal_api_workflow_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_workflow_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
+			switch v := v.(*WorkflowExecutionInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*WorkflowExecutionConfig); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*PendingActivityInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
+			switch v := v.(*PendingChildExecutionInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
+			switch v := v.(*PendingWorkflowTaskInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
+			switch v := v.(*ResetPoints); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
+			switch v := v.(*ResetPointInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
+			switch v := v.(*NewWorkflowExecutionInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
+			switch v := v.(*CallbackInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
+			switch v := v.(*PendingNexusOperationInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
+			switch v := v.(*NexusOperationCancellationInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[11].Exporter = func(v any, i int) any {
+			switch v := v.(*CallbackInfo_WorkflowClosed); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_workflow_v1_message_proto_msgTypes[12].Exporter = func(v any, i int) any {
+			switch v := v.(*CallbackInfo_Trigger); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_temporal_api_workflow_v1_message_proto_msgTypes[2].OneofWrappers = []any{
 		(*PendingActivityInfo_UseWorkflowBuildId)(nil),

@@ -59,9 +59,11 @@ type EnhancedStackTrace struct {
 
 func (x *EnhancedStackTrace) Reset() {
 	*x = EnhancedStackTrace{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EnhancedStackTrace) String() string {
@@ -72,7 +74,7 @@ func (*EnhancedStackTrace) ProtoMessage() {}
 
 func (x *EnhancedStackTrace) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -125,9 +127,11 @@ type StackTraceSDKInfo struct {
 
 func (x *StackTraceSDKInfo) Reset() {
 	*x = StackTraceSDKInfo{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StackTraceSDKInfo) String() string {
@@ -138,7 +142,7 @@ func (*StackTraceSDKInfo) ProtoMessage() {}
 
 func (x *StackTraceSDKInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -185,9 +189,11 @@ type StackTraceFileSlice struct {
 
 func (x *StackTraceFileSlice) Reset() {
 	*x = StackTraceFileSlice{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StackTraceFileSlice) String() string {
@@ -198,7 +204,7 @@ func (*StackTraceFileSlice) ProtoMessage() {}
 
 func (x *StackTraceFileSlice) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -252,9 +258,11 @@ type StackTraceFileLocation struct {
 
 func (x *StackTraceFileLocation) Reset() {
 	*x = StackTraceFileLocation{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StackTraceFileLocation) String() string {
@@ -265,7 +273,7 @@ func (*StackTraceFileLocation) ProtoMessage() {}
 
 func (x *StackTraceFileLocation) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -327,9 +335,11 @@ type StackTrace struct {
 
 func (x *StackTrace) Reset() {
 	*x = StackTrace{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StackTrace) String() string {
@@ -340,7 +350,7 @@ func (*StackTrace) ProtoMessage() {}
 
 func (x *StackTrace) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -465,6 +475,68 @@ func init() { file_temporal_api_sdk_v1_enhanced_stack_trace_proto_init() }
 func file_temporal_api_sdk_v1_enhanced_stack_trace_proto_init() {
 	if File_temporal_api_sdk_v1_enhanced_stack_trace_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0].Exporter = func(v any, i int) any {
+			switch v := v.(*EnhancedStackTrace); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*StackTraceSDKInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*StackTraceFileSlice); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3].Exporter = func(v any, i int) any {
+			switch v := v.(*StackTraceFileLocation); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4].Exporter = func(v any, i int) any {
+			switch v := v.(*StackTrace); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

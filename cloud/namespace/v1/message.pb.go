@@ -232,9 +232,11 @@ type CertificateFilterSpec struct {
 
 func (x *CertificateFilterSpec) Reset() {
 	*x = CertificateFilterSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CertificateFilterSpec) String() string {
@@ -245,7 +247,7 @@ func (*CertificateFilterSpec) ProtoMessage() {}
 
 func (x *CertificateFilterSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -316,9 +318,11 @@ type MtlsAuthSpec struct {
 
 func (x *MtlsAuthSpec) Reset() {
 	*x = MtlsAuthSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *MtlsAuthSpec) String() string {
@@ -329,7 +333,7 @@ func (*MtlsAuthSpec) ProtoMessage() {}
 
 func (x *MtlsAuthSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -384,9 +388,11 @@ type ApiKeyAuthSpec struct {
 
 func (x *ApiKeyAuthSpec) Reset() {
 	*x = ApiKeyAuthSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ApiKeyAuthSpec) String() string {
@@ -397,7 +403,7 @@ func (*ApiKeyAuthSpec) ProtoMessage() {}
 
 func (x *ApiKeyAuthSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -434,9 +440,11 @@ type CodecServerSpec struct {
 
 func (x *CodecServerSpec) Reset() {
 	*x = CodecServerSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CodecServerSpec) String() string {
@@ -447,7 +455,7 @@ func (*CodecServerSpec) ProtoMessage() {}
 
 func (x *CodecServerSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -536,9 +544,11 @@ type NamespaceSpec struct {
 
 func (x *NamespaceSpec) Reset() {
 	*x = NamespaceSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NamespaceSpec) String() string {
@@ -549,7 +559,7 @@ func (*NamespaceSpec) ProtoMessage() {}
 
 func (x *NamespaceSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -636,9 +646,11 @@ type Endpoints struct {
 
 func (x *Endpoints) Reset() {
 	*x = Endpoints{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Endpoints) String() string {
@@ -649,7 +661,7 @@ func (*Endpoints) ProtoMessage() {}
 
 func (x *Endpoints) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -697,9 +709,11 @@ type Limits struct {
 
 func (x *Limits) Reset() {
 	*x = Limits{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Limits) String() string {
@@ -710,7 +724,7 @@ func (*Limits) ProtoMessage() {}
 
 func (x *Limits) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -745,9 +759,11 @@ type AWSPrivateLinkInfo struct {
 
 func (x *AWSPrivateLinkInfo) Reset() {
 	*x = AWSPrivateLinkInfo{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *AWSPrivateLinkInfo) String() string {
@@ -758,7 +774,7 @@ func (*AWSPrivateLinkInfo) ProtoMessage() {}
 
 func (x *AWSPrivateLinkInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -801,9 +817,11 @@ type PrivateConnectivity struct {
 
 func (x *PrivateConnectivity) Reset() {
 	*x = PrivateConnectivity{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *PrivateConnectivity) String() string {
@@ -814,7 +832,7 @@ func (*PrivateConnectivity) ProtoMessage() {}
 
 func (x *PrivateConnectivity) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -888,9 +906,11 @@ type Namespace struct {
 
 func (x *Namespace) Reset() {
 	*x = Namespace{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Namespace) String() string {
@@ -901,7 +921,7 @@ func (*Namespace) ProtoMessage() {}
 
 func (x *Namespace) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1031,9 +1051,11 @@ type NamespaceRegionStatus struct {
 
 func (x *NamespaceRegionStatus) Reset() {
 	*x = NamespaceRegionStatus{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NamespaceRegionStatus) String() string {
@@ -1044,7 +1066,7 @@ func (*NamespaceRegionStatus) ProtoMessage() {}
 
 func (x *NamespaceRegionStatus) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1394,6 +1416,140 @@ func init() { file_temporal_api_cloud_namespace_v1_message_proto_init() }
 func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 	if File_temporal_api_cloud_namespace_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
+			switch v := v.(*CertificateFilterSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*MtlsAuthSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*ApiKeyAuthSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
+			switch v := v.(*CodecServerSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
+			switch v := v.(*NamespaceSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
+			switch v := v.(*Endpoints); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
+			switch v := v.(*Limits); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
+			switch v := v.(*AWSPrivateLinkInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
+			switch v := v.(*PrivateConnectivity); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
+			switch v := v.(*Namespace); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
+			switch v := v.(*NamespaceRegionStatus); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

@@ -55,9 +55,11 @@ type ClusterReplicationConfig struct {
 
 func (x *ClusterReplicationConfig) Reset() {
 	*x = ClusterReplicationConfig{}
-	mi := &file_temporal_api_replication_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_replication_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ClusterReplicationConfig) String() string {
@@ -68,7 +70,7 @@ func (*ClusterReplicationConfig) ProtoMessage() {}
 
 func (x *ClusterReplicationConfig) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_replication_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -102,9 +104,11 @@ type NamespaceReplicationConfig struct {
 
 func (x *NamespaceReplicationConfig) Reset() {
 	*x = NamespaceReplicationConfig{}
-	mi := &file_temporal_api_replication_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_replication_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NamespaceReplicationConfig) String() string {
@@ -115,7 +119,7 @@ func (*NamespaceReplicationConfig) ProtoMessage() {}
 
 func (x *NamespaceReplicationConfig) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_replication_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -164,9 +168,11 @@ type FailoverStatus struct {
 
 func (x *FailoverStatus) Reset() {
 	*x = FailoverStatus{}
-	mi := &file_temporal_api_replication_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_replication_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *FailoverStatus) String() string {
@@ -177,7 +183,7 @@ func (*FailoverStatus) ProtoMessage() {}
 
 func (x *FailoverStatus) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_replication_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -292,6 +298,44 @@ func init() { file_temporal_api_replication_v1_message_proto_init() }
 func file_temporal_api_replication_v1_message_proto_init() {
 	if File_temporal_api_replication_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_replication_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
+			switch v := v.(*ClusterReplicationConfig); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_replication_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*NamespaceReplicationConfig); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_replication_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*FailoverStatus); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

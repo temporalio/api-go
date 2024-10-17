@@ -63,9 +63,11 @@ type ApplicationFailureInfo struct {
 
 func (x *ApplicationFailureInfo) Reset() {
 	*x = ApplicationFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ApplicationFailureInfo) String() string {
@@ -76,7 +78,7 @@ func (*ApplicationFailureInfo) ProtoMessage() {}
 
 func (x *ApplicationFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -130,9 +132,11 @@ type TimeoutFailureInfo struct {
 
 func (x *TimeoutFailureInfo) Reset() {
 	*x = TimeoutFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TimeoutFailureInfo) String() string {
@@ -143,7 +147,7 @@ func (*TimeoutFailureInfo) ProtoMessage() {}
 
 func (x *TimeoutFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -182,9 +186,11 @@ type CanceledFailureInfo struct {
 
 func (x *CanceledFailureInfo) Reset() {
 	*x = CanceledFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CanceledFailureInfo) String() string {
@@ -195,7 +201,7 @@ func (*CanceledFailureInfo) ProtoMessage() {}
 
 func (x *CanceledFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -225,9 +231,11 @@ type TerminatedFailureInfo struct {
 
 func (x *TerminatedFailureInfo) Reset() {
 	*x = TerminatedFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TerminatedFailureInfo) String() string {
@@ -238,7 +246,7 @@ func (*TerminatedFailureInfo) ProtoMessage() {}
 
 func (x *TerminatedFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -263,9 +271,11 @@ type ServerFailureInfo struct {
 
 func (x *ServerFailureInfo) Reset() {
 	*x = ServerFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ServerFailureInfo) String() string {
@@ -276,7 +286,7 @@ func (*ServerFailureInfo) ProtoMessage() {}
 
 func (x *ServerFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -308,9 +318,11 @@ type ResetWorkflowFailureInfo struct {
 
 func (x *ResetWorkflowFailureInfo) Reset() {
 	*x = ResetWorkflowFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ResetWorkflowFailureInfo) String() string {
@@ -321,7 +333,7 @@ func (*ResetWorkflowFailureInfo) ProtoMessage() {}
 
 func (x *ResetWorkflowFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -358,9 +370,11 @@ type ActivityFailureInfo struct {
 
 func (x *ActivityFailureInfo) Reset() {
 	*x = ActivityFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityFailureInfo) String() string {
@@ -371,7 +385,7 @@ func (*ActivityFailureInfo) ProtoMessage() {}
 
 func (x *ActivityFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -443,9 +457,11 @@ type ChildWorkflowExecutionFailureInfo struct {
 
 func (x *ChildWorkflowExecutionFailureInfo) Reset() {
 	*x = ChildWorkflowExecutionFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ChildWorkflowExecutionFailureInfo) String() string {
@@ -456,7 +472,7 @@ func (*ChildWorkflowExecutionFailureInfo) ProtoMessage() {}
 
 func (x *ChildWorkflowExecutionFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -532,9 +548,11 @@ type NexusOperationFailureInfo struct {
 
 func (x *NexusOperationFailureInfo) Reset() {
 	*x = NexusOperationFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationFailureInfo) String() string {
@@ -545,7 +563,7 @@ func (*NexusOperationFailureInfo) ProtoMessage() {}
 
 func (x *NexusOperationFailureInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -638,9 +656,11 @@ type Failure struct {
 
 func (x *Failure) Reset() {
 	*x = Failure{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Failure) String() string {
@@ -651,7 +671,7 @@ func (*Failure) ProtoMessage() {}
 
 func (x *Failure) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -837,9 +857,11 @@ type MultiOperationExecutionAborted struct {
 
 func (x *MultiOperationExecutionAborted) Reset() {
 	*x = MultiOperationExecutionAborted{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_failure_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *MultiOperationExecutionAborted) String() string {
@@ -850,7 +872,7 @@ func (*MultiOperationExecutionAborted) ProtoMessage() {}
 
 func (x *MultiOperationExecutionAborted) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1138,6 +1160,140 @@ func init() { file_temporal_api_failure_v1_message_proto_init() }
 func file_temporal_api_failure_v1_message_proto_init() {
 	if File_temporal_api_failure_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_failure_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
+			switch v := v.(*ApplicationFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*TimeoutFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*CanceledFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
+			switch v := v.(*TerminatedFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[4].Exporter = func(v any, i int) any {
+			switch v := v.(*ServerFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[5].Exporter = func(v any, i int) any {
+			switch v := v.(*ResetWorkflowFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[6].Exporter = func(v any, i int) any {
+			switch v := v.(*ActivityFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[7].Exporter = func(v any, i int) any {
+			switch v := v.(*ChildWorkflowExecutionFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[8].Exporter = func(v any, i int) any {
+			switch v := v.(*NexusOperationFailureInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[9].Exporter = func(v any, i int) any {
+			switch v := v.(*Failure); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_failure_v1_message_proto_msgTypes[10].Exporter = func(v any, i int) any {
+			switch v := v.(*MultiOperationExecutionAborted); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_temporal_api_failure_v1_message_proto_msgTypes[9].OneofWrappers = []any{
 		(*Failure_ApplicationFailureInfo)(nil),

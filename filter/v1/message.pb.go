@@ -56,9 +56,11 @@ type WorkflowExecutionFilter struct {
 
 func (x *WorkflowExecutionFilter) Reset() {
 	*x = WorkflowExecutionFilter{}
-	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_filter_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionFilter) String() string {
@@ -69,7 +71,7 @@ func (*WorkflowExecutionFilter) ProtoMessage() {}
 
 func (x *WorkflowExecutionFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -108,9 +110,11 @@ type WorkflowTypeFilter struct {
 
 func (x *WorkflowTypeFilter) Reset() {
 	*x = WorkflowTypeFilter{}
-	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_filter_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowTypeFilter) String() string {
@@ -121,7 +125,7 @@ func (*WorkflowTypeFilter) ProtoMessage() {}
 
 func (x *WorkflowTypeFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -154,9 +158,11 @@ type StartTimeFilter struct {
 
 func (x *StartTimeFilter) Reset() {
 	*x = StartTimeFilter{}
-	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_filter_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartTimeFilter) String() string {
@@ -167,7 +173,7 @@ func (*StartTimeFilter) ProtoMessage() {}
 
 func (x *StartTimeFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -206,9 +212,11 @@ type StatusFilter struct {
 
 func (x *StatusFilter) Reset() {
 	*x = StatusFilter{}
-	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_filter_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StatusFilter) String() string {
@@ -219,7 +227,7 @@ func (*StatusFilter) ProtoMessage() {}
 
 func (x *StatusFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -322,6 +330,56 @@ func init() { file_temporal_api_filter_v1_message_proto_init() }
 func file_temporal_api_filter_v1_message_proto_init() {
 	if File_temporal_api_filter_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_filter_v1_message_proto_msgTypes[0].Exporter = func(v any, i int) any {
+			switch v := v.(*WorkflowExecutionFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_filter_v1_message_proto_msgTypes[1].Exporter = func(v any, i int) any {
+			switch v := v.(*WorkflowTypeFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_filter_v1_message_proto_msgTypes[2].Exporter = func(v any, i int) any {
+			switch v := v.(*StartTimeFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_filter_v1_message_proto_msgTypes[3].Exporter = func(v any, i int) any {
+			switch v := v.(*StatusFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
