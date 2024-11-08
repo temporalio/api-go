@@ -313,3 +313,7 @@ func (s *workflowServiceProxyServer) UpdateWorkerVersioningRules(ctx context.Con
 func (s *workflowServiceProxyServer) UpdateWorkflowExecution(ctx context.Context, in0 *workflowservice.UpdateWorkflowExecutionRequest) (*workflowservice.UpdateWorkflowExecutionResponse, error) {
 	return s.client.UpdateWorkflowExecution(s.reqCtx(ctx), in0)
 }
+
+func (s *workflowServiceProxyServer) UpdateWorkflowExecutionOptions(ctx context.Context, in0 *workflowservice.UpdateWorkflowExecutionOptionsRequest) (*workflowservice.UpdateWorkflowExecutionOptionsResponse, error) {
+	return s.client.UpdateWorkflowExecutionOptions(s.reqCtx(ctx), in0)
+}
