@@ -779,7 +779,7 @@ type VersioningBehaviorOverride struct {
 
 	// Required.
 	Behavior v1.VersioningBehavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=temporal.api.enums.v1.VersioningBehavior" json:"behavior,omitempty"`
-	// Required if behavior is 'pinned'. Must be null if behavior is 'unpinned'.
+	// Required if behavior is `PINNED`. Must be null if behavior is `AUTO_UPGRADE`.
 	// Identifies the Build ID and Deployment Name to pin the workflow to.
 	WorkerDeployment *WorkerDeployment `protobuf:"bytes,2,opt,name=worker_deployment,json=workerDeployment,proto3" json:"worker_deployment,omitempty"`
 }
