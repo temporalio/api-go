@@ -767,7 +767,7 @@ func (x *WorkerVersionCapabilities) GetDeploymentName() string {
 	return ""
 }
 
-// Used in both UpdateWorkflowExecutionOptions and StartWorkflowOptions to override
+// Used in both UpdateWorkflowExecutionOptions and StartWorkflowExecution to override
 // the versioning behavior of a specific workflow execution. If set, takes precedence
 // over the sdk-sent Versioning Behavior for the specific Workflow Execution it is set on.
 // To remove the override, call UpdateWorkflowExecutionOptions with a null VersioningBehaviorOverride,
