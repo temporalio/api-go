@@ -183,3 +183,19 @@ func TestFromWrapped(t *testing.T) {
 		&errordetails.PermissionDeniedFailure{Reason: "arbitrary reason"},
 		s.Details()[0].(*errordetails.PermissionDeniedFailure)))
 }
+
+func TestFromStatus_NamespaceNotActive_ConvertableFromFailedPreconditionAndUnavailable(t *testing.T) {
+	failedPreconditionSt, err := status.New(codes.FailedPrecondition, "some message").WithDetails(&errordetails.NamespaceNotActiveFailure{
+		Namespace: "test-ns",
+	})
+	require.NoError(t, err)
+	convertedErr := serviceerror.FromStatus(failedPreconditionSt)
+	require.IsType(t, &serviceerror.NamespaceNotActive{}, convertedErr)
+
+	unavailableSt, err := status.New(codes.Unavailable, "some message").WithDetails(&errordetails.NamespaceNotActiveFailure{
+		Namespace: "test-ns",
+	})
+	require.NoError(t, err)
+	convertedErr = serviceerror.FromStatus(unavailableSt)
+	require.IsType(t, &serviceerror.NamespaceNotActive{}, convertedErr)
+}

@@ -100,7 +100,14 @@ func FromStatus(st *status.Status) error {
 	case codes.Canceled:
 		return newCanceled(st)
 	case codes.Unavailable:
-		return newUnavailable(st)
+		switch errDetails := errDetails.(type) {
+		case *errordetails.NamespaceNotActiveFailure:
+			// We're in the process of changing NamespaceNotActive's status code to Unavailable to ensure it
+			// is treated as retryable by default. Handle both Unavailable and FailedPrecondition.
+			return newNamespaceNotActive(st, errDetails)
+		default:
+			return newUnavailable(st)
+		}
 	case codes.Unimplemented:
 		return newUnimplemented(st)
 	case codes.Unknown:
@@ -157,6 +164,8 @@ func FromStatus(st *status.Status) error {
 	case codes.FailedPrecondition:
 		switch errDetails := errDetails.(type) {
 		case *errordetails.NamespaceNotActiveFailure:
+			// We're in the process of changing NamespaceNotActive's status code to Unavailable to ensure it
+			// is treated as retryable by default. Handle both Unavailable and FailedPrecondition.
 			return newNamespaceNotActive(st, errDetails)
 		case *errordetails.NamespaceInvalidStateFailure:
 			return newNamespaceInvalidState(st, errDetails)

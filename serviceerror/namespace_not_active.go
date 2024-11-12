@@ -67,6 +67,7 @@ func (e *NamespaceNotActive) Status() *status.Status {
 		return e.st
 	}
 
+	// TODO(bergundy): Change to Unavailable after server 1.26 is released.
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
 		&errordetails.NamespaceNotActiveFailure{
