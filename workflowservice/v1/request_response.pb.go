@@ -3989,7 +3989,10 @@ type ResetWorkflowExecutionRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// The workflow to reset. If this contains a run ID then the workflow will be reset back to the
+	// provided event ID in that run. Otherwise it will be reset to the provided event ID in the
+	// current run. In all cases the current run will be terminated and a new run started.
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	Reason            string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	// The id of a `WORKFLOW_TASK_COMPLETED`,`WORKFLOW_TASK_TIMED_OUT`, `WORKFLOW_TASK_FAILED`, or
