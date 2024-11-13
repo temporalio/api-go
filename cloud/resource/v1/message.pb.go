@@ -201,7 +201,7 @@ func file_temporal_api_cloud_resource_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_resource_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_temporal_api_cloud_resource_v1_message_proto_goTypes = []any{
+var file_temporal_api_cloud_resource_v1_message_proto_goTypes = []interface{}{
 	(ResourceState)(0), // 0: temporal.api.cloud.resource.v1.ResourceState
 }
 var file_temporal_api_cloud_resource_v1_message_proto_depIdxs = []int32{
