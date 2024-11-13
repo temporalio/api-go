@@ -29,14 +29,13 @@
 package activity
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	v11 "go.temporal.io/api/common/v1"
 	v1 "go.temporal.io/api/taskqueue/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -83,9 +82,11 @@ type ActivityOptions struct {
 
 func (x *ActivityOptions) Reset() {
 	*x = ActivityOptions{}
-	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_activity_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityOptions) String() string {
@@ -96,7 +97,7 @@ func (*ActivityOptions) ProtoMessage() {}
 
 func (x *ActivityOptions) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_activity_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -223,7 +224,7 @@ func file_temporal_api_activity_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_activity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_activity_v1_message_proto_goTypes = []any{
+var file_temporal_api_activity_v1_message_proto_goTypes = []interface{}{
 	(*ActivityOptions)(nil),     // 0: temporal.api.activity.v1.ActivityOptions
 	(*v1.TaskQueue)(nil),        // 1: temporal.api.taskqueue.v1.TaskQueue
 	(*durationpb.Duration)(nil), // 2: google.protobuf.Duration
@@ -247,6 +248,20 @@ func init() { file_temporal_api_activity_v1_message_proto_init() }
 func file_temporal_api_activity_v1_message_proto_init() {
 	if File_temporal_api_activity_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_activity_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityOptions); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

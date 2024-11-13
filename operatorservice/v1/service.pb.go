@@ -29,11 +29,10 @@
 package operatorservice
 
 import (
-	reflect "reflect"
-
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
 )
 
 const (
@@ -211,7 +210,7 @@ var file_temporal_api_operatorservice_v1_service_proto_rawDesc = []byte{
 	0x76, 0x69, 0x63, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
-var file_temporal_api_operatorservice_v1_service_proto_goTypes = []any{
+var file_temporal_api_operatorservice_v1_service_proto_goTypes = []interface{}{
 	(*AddSearchAttributesRequest)(nil),       // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest
 	(*RemoveSearchAttributesRequest)(nil),    // 1: temporal.api.operatorservice.v1.RemoveSearchAttributesRequest
 	(*ListSearchAttributesRequest)(nil),      // 2: temporal.api.operatorservice.v1.ListSearchAttributesRequest

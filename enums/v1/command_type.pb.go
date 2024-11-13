@@ -29,12 +29,11 @@
 package enums
 
 import (
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	"strconv"
 	sync "sync"
-
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -262,7 +261,7 @@ func file_temporal_api_enums_v1_command_type_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_command_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_temporal_api_enums_v1_command_type_proto_goTypes = []any{
+var file_temporal_api_enums_v1_command_type_proto_goTypes = []interface{}{
 	(CommandType)(0), // 0: temporal.api.enums.v1.CommandType
 }
 var file_temporal_api_enums_v1_command_type_proto_depIdxs = []int32{

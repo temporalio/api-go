@@ -29,9 +29,6 @@
 package taskqueue
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	v11 "go.temporal.io/api/common/v1"
 	v1 "go.temporal.io/api/enums/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -39,6 +36,8 @@ import (
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -64,9 +63,11 @@ type TaskQueue struct {
 
 func (x *TaskQueue) Reset() {
 	*x = TaskQueue{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueue) String() string {
@@ -77,7 +78,7 @@ func (*TaskQueue) ProtoMessage() {}
 
 func (x *TaskQueue) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -125,9 +126,11 @@ type TaskQueueMetadata struct {
 
 func (x *TaskQueueMetadata) Reset() {
 	*x = TaskQueueMetadata{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueueMetadata) String() string {
@@ -138,7 +141,7 @@ func (*TaskQueueMetadata) ProtoMessage() {}
 
 func (x *TaskQueueMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -177,9 +180,11 @@ type TaskQueueVersionSelection struct {
 
 func (x *TaskQueueVersionSelection) Reset() {
 	*x = TaskQueueVersionSelection{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueueVersionSelection) String() string {
@@ -190,7 +195,7 @@ func (*TaskQueueVersionSelection) ProtoMessage() {}
 
 func (x *TaskQueueVersionSelection) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -247,9 +252,11 @@ type TaskQueueVersionInfo struct {
 
 func (x *TaskQueueVersionInfo) Reset() {
 	*x = TaskQueueVersionInfo{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueueVersionInfo) String() string {
@@ -260,7 +267,7 @@ func (*TaskQueueVersionInfo) ProtoMessage() {}
 
 func (x *TaskQueueVersionInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -301,9 +308,11 @@ type TaskQueueTypeInfo struct {
 
 func (x *TaskQueueTypeInfo) Reset() {
 	*x = TaskQueueTypeInfo{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueueTypeInfo) String() string {
@@ -314,7 +323,7 @@ func (*TaskQueueTypeInfo) ProtoMessage() {}
 
 func (x *TaskQueueTypeInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -400,9 +409,11 @@ type TaskQueueStats struct {
 
 func (x *TaskQueueStats) Reset() {
 	*x = TaskQueueStats{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueueStats) String() string {
@@ -413,7 +424,7 @@ func (*TaskQueueStats) ProtoMessage() {}
 
 func (x *TaskQueueStats) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -471,9 +482,11 @@ type TaskQueueStatus struct {
 
 func (x *TaskQueueStatus) Reset() {
 	*x = TaskQueueStatus{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueueStatus) String() string {
@@ -484,7 +497,7 @@ func (*TaskQueueStatus) ProtoMessage() {}
 
 func (x *TaskQueueStatus) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -545,9 +558,11 @@ type TaskIdBlock struct {
 
 func (x *TaskIdBlock) Reset() {
 	*x = TaskIdBlock{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskIdBlock) String() string {
@@ -558,7 +573,7 @@ func (*TaskIdBlock) ProtoMessage() {}
 
 func (x *TaskIdBlock) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -598,9 +613,11 @@ type TaskQueuePartitionMetadata struct {
 
 func (x *TaskQueuePartitionMetadata) Reset() {
 	*x = TaskQueuePartitionMetadata{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueuePartitionMetadata) String() string {
@@ -611,7 +628,7 @@ func (*TaskQueuePartitionMetadata) ProtoMessage() {}
 
 func (x *TaskQueuePartitionMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -655,9 +672,11 @@ type PollerInfo struct {
 
 func (x *PollerInfo) Reset() {
 	*x = PollerInfo{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *PollerInfo) String() string {
@@ -668,7 +687,7 @@ func (*PollerInfo) ProtoMessage() {}
 
 func (x *PollerInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -725,9 +744,11 @@ type StickyExecutionAttributes struct {
 
 func (x *StickyExecutionAttributes) Reset() {
 	*x = StickyExecutionAttributes{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StickyExecutionAttributes) String() string {
@@ -738,7 +759,7 @@ func (*StickyExecutionAttributes) ProtoMessage() {}
 
 func (x *StickyExecutionAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -780,9 +801,11 @@ type CompatibleVersionSet struct {
 
 func (x *CompatibleVersionSet) Reset() {
 	*x = CompatibleVersionSet{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CompatibleVersionSet) String() string {
@@ -793,7 +816,7 @@ func (*CompatibleVersionSet) ProtoMessage() {}
 
 func (x *CompatibleVersionSet) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[11]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -830,9 +853,11 @@ type TaskQueueReachability struct {
 
 func (x *TaskQueueReachability) Reset() {
 	*x = TaskQueueReachability{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TaskQueueReachability) String() string {
@@ -843,7 +868,7 @@ func (*TaskQueueReachability) ProtoMessage() {}
 
 func (x *TaskQueueReachability) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[12]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -886,9 +911,11 @@ type BuildIdReachability struct {
 
 func (x *BuildIdReachability) Reset() {
 	*x = BuildIdReachability{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BuildIdReachability) String() string {
@@ -899,7 +926,7 @@ func (*BuildIdReachability) ProtoMessage() {}
 
 func (x *BuildIdReachability) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[13]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -939,9 +966,11 @@ type RampByPercentage struct {
 
 func (x *RampByPercentage) Reset() {
 	*x = RampByPercentage{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RampByPercentage) String() string {
@@ -952,7 +981,7 @@ func (*RampByPercentage) ProtoMessage() {}
 
 func (x *RampByPercentage) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[14]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1030,9 +1059,11 @@ type BuildIdAssignmentRule struct {
 
 func (x *BuildIdAssignmentRule) Reset() {
 	*x = BuildIdAssignmentRule{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BuildIdAssignmentRule) String() string {
@@ -1043,7 +1074,7 @@ func (*BuildIdAssignmentRule) ProtoMessage() {}
 
 func (x *BuildIdAssignmentRule) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[15]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1127,9 +1158,11 @@ type CompatibleBuildIdRedirectRule struct {
 
 func (x *CompatibleBuildIdRedirectRule) Reset() {
 	*x = CompatibleBuildIdRedirectRule{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CompatibleBuildIdRedirectRule) String() string {
@@ -1140,7 +1173,7 @@ func (*CompatibleBuildIdRedirectRule) ProtoMessage() {}
 
 func (x *CompatibleBuildIdRedirectRule) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[16]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1180,9 +1213,11 @@ type TimestampedBuildIdAssignmentRule struct {
 
 func (x *TimestampedBuildIdAssignmentRule) Reset() {
 	*x = TimestampedBuildIdAssignmentRule{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TimestampedBuildIdAssignmentRule) String() string {
@@ -1193,7 +1228,7 @@ func (*TimestampedBuildIdAssignmentRule) ProtoMessage() {}
 
 func (x *TimestampedBuildIdAssignmentRule) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[17]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1233,9 +1268,11 @@ type TimestampedCompatibleBuildIdRedirectRule struct {
 
 func (x *TimestampedCompatibleBuildIdRedirectRule) Reset() {
 	*x = TimestampedCompatibleBuildIdRedirectRule{}
-	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TimestampedCompatibleBuildIdRedirectRule) String() string {
@@ -1246,7 +1283,7 @@ func (*TimestampedCompatibleBuildIdRedirectRule) ProtoMessage() {}
 
 func (x *TimestampedCompatibleBuildIdRedirectRule) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[18]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1504,7 +1541,7 @@ func file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_taskqueue_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
-var file_temporal_api_taskqueue_v1_message_proto_goTypes = []any{
+var file_temporal_api_taskqueue_v1_message_proto_goTypes = []interface{}{
 	(*TaskQueue)(nil),                                // 0: temporal.api.taskqueue.v1.TaskQueue
 	(*TaskQueueMetadata)(nil),                        // 1: temporal.api.taskqueue.v1.TaskQueueMetadata
 	(*TaskQueueVersionSelection)(nil),                // 2: temporal.api.taskqueue.v1.TaskQueueVersionSelection
@@ -1566,7 +1603,237 @@ func file_temporal_api_taskqueue_v1_message_proto_init() {
 	if File_temporal_api_taskqueue_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_taskqueue_v1_message_proto_msgTypes[15].OneofWrappers = []any{
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueue); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueueMetadata); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueueVersionSelection); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueueVersionInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueueTypeInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueueStats); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueueStatus); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskIdBlock); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueuePartitionMetadata); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PollerInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StickyExecutionAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CompatibleVersionSet); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TaskQueueReachability); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BuildIdReachability); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RampByPercentage); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BuildIdAssignmentRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CompatibleBuildIdRedirectRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TimestampedBuildIdAssignmentRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_taskqueue_v1_message_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TimestampedCompatibleBuildIdRedirectRule); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_taskqueue_v1_message_proto_msgTypes[15].OneofWrappers = []interface{}{
 		(*BuildIdAssignmentRule_PercentageRamp)(nil),
 	}
 	type x struct{}

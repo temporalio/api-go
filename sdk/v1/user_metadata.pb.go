@@ -29,12 +29,11 @@
 package sdk
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	v1 "go.temporal.io/api/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -63,9 +62,11 @@ type UserMetadata struct {
 
 func (x *UserMetadata) Reset() {
 	*x = UserMetadata{}
-	mi := &file_temporal_api_sdk_v1_user_metadata_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_user_metadata_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UserMetadata) String() string {
@@ -76,7 +77,7 @@ func (*UserMetadata) ProtoMessage() {}
 
 func (x *UserMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_user_metadata_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -147,7 +148,7 @@ func file_temporal_api_sdk_v1_user_metadata_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_sdk_v1_user_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_sdk_v1_user_metadata_proto_goTypes = []any{
+var file_temporal_api_sdk_v1_user_metadata_proto_goTypes = []interface{}{
 	(*UserMetadata)(nil), // 0: temporal.api.sdk.v1.UserMetadata
 	(*v1.Payload)(nil),   // 1: temporal.api.common.v1.Payload
 }
@@ -165,6 +166,20 @@ func init() { file_temporal_api_sdk_v1_user_metadata_proto_init() }
 func file_temporal_api_sdk_v1_user_metadata_proto_init() {
 	if File_temporal_api_sdk_v1_user_metadata_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_sdk_v1_user_metadata_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserMetadata); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

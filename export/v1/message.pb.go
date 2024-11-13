@@ -29,12 +29,11 @@
 package export
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	v1 "go.temporal.io/api/history/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -54,9 +53,11 @@ type WorkflowExecution struct {
 
 func (x *WorkflowExecution) Reset() {
 	*x = WorkflowExecution{}
-	mi := &file_temporal_api_export_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_export_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecution) String() string {
@@ -67,7 +68,7 @@ func (*WorkflowExecution) ProtoMessage() {}
 
 func (x *WorkflowExecution) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_export_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -101,9 +102,11 @@ type WorkflowExecutions struct {
 
 func (x *WorkflowExecutions) Reset() {
 	*x = WorkflowExecutions{}
-	mi := &file_temporal_api_export_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_export_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutions) String() string {
@@ -114,7 +117,7 @@ func (*WorkflowExecutions) ProtoMessage() {}
 
 func (x *WorkflowExecutions) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_export_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -181,7 +184,7 @@ func file_temporal_api_export_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_export_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_temporal_api_export_v1_message_proto_goTypes = []any{
+var file_temporal_api_export_v1_message_proto_goTypes = []interface{}{
 	(*WorkflowExecution)(nil),  // 0: temporal.api.export.v1.WorkflowExecution
 	(*WorkflowExecutions)(nil), // 1: temporal.api.export.v1.WorkflowExecutions
 	(*v1.History)(nil),         // 2: temporal.api.history.v1.History
@@ -200,6 +203,32 @@ func init() { file_temporal_api_export_v1_message_proto_init() }
 func file_temporal_api_export_v1_message_proto_init() {
 	if File_temporal_api_export_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_export_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecution); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_export_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutions); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

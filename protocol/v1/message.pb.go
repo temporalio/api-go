@@ -29,12 +29,11 @@
 package protocol
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	anypb "google.golang.org/protobuf/types/known/anypb"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -73,9 +72,11 @@ type Message struct {
 
 func (x *Message) Reset() {
 	*x = Message{}
-	mi := &file_temporal_api_protocol_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_protocol_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Message) String() string {
@@ -86,7 +87,7 @@ func (*Message) ProtoMessage() {}
 
 func (x *Message) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_protocol_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -206,7 +207,7 @@ func file_temporal_api_protocol_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_protocol_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_protocol_v1_message_proto_goTypes = []any{
+var file_temporal_api_protocol_v1_message_proto_goTypes = []interface{}{
 	(*Message)(nil),   // 0: temporal.api.protocol.v1.Message
 	(*anypb.Any)(nil), // 1: google.protobuf.Any
 }
@@ -224,7 +225,21 @@ func file_temporal_api_protocol_v1_message_proto_init() {
 	if File_temporal_api_protocol_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_protocol_v1_message_proto_msgTypes[0].OneofWrappers = []any{
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_protocol_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Message); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_protocol_v1_message_proto_msgTypes[0].OneofWrappers = []interface{}{
 		(*Message_EventId)(nil),
 		(*Message_CommandIndex)(nil),
 	}

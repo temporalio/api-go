@@ -29,9 +29,6 @@
 package history
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	v1 "go.temporal.io/api/common/v1"
 	v12 "go.temporal.io/api/enums/v1"
 	v13 "go.temporal.io/api/failure/v1"
@@ -43,6 +40,8 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -143,9 +142,11 @@ type WorkflowExecutionStartedEventAttributes struct {
 
 func (x *WorkflowExecutionStartedEventAttributes) Reset() {
 	*x = WorkflowExecutionStartedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionStartedEventAttributes) String() string {
@@ -156,7 +157,7 @@ func (*WorkflowExecutionStartedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionStartedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -410,9 +411,11 @@ type WorkflowExecutionCompletedEventAttributes struct {
 
 func (x *WorkflowExecutionCompletedEventAttributes) Reset() {
 	*x = WorkflowExecutionCompletedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionCompletedEventAttributes) String() string {
@@ -423,7 +426,7 @@ func (*WorkflowExecutionCompletedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionCompletedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -475,9 +478,11 @@ type WorkflowExecutionFailedEventAttributes struct {
 
 func (x *WorkflowExecutionFailedEventAttributes) Reset() {
 	*x = WorkflowExecutionFailedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionFailedEventAttributes) String() string {
@@ -488,7 +493,7 @@ func (*WorkflowExecutionFailedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionFailedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -543,9 +548,11 @@ type WorkflowExecutionTimedOutEventAttributes struct {
 
 func (x *WorkflowExecutionTimedOutEventAttributes) Reset() {
 	*x = WorkflowExecutionTimedOutEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionTimedOutEventAttributes) String() string {
@@ -556,7 +563,7 @@ func (*WorkflowExecutionTimedOutEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionTimedOutEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -621,9 +628,11 @@ type WorkflowExecutionContinuedAsNewEventAttributes struct {
 
 func (x *WorkflowExecutionContinuedAsNewEventAttributes) Reset() {
 	*x = WorkflowExecutionContinuedAsNewEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionContinuedAsNewEventAttributes) String() string {
@@ -634,7 +643,7 @@ func (*WorkflowExecutionContinuedAsNewEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionContinuedAsNewEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -773,9 +782,11 @@ type WorkflowTaskScheduledEventAttributes struct {
 
 func (x *WorkflowTaskScheduledEventAttributes) Reset() {
 	*x = WorkflowTaskScheduledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowTaskScheduledEventAttributes) String() string {
@@ -786,7 +797,7 @@ func (*WorkflowTaskScheduledEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowTaskScheduledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -849,9 +860,11 @@ type WorkflowTaskStartedEventAttributes struct {
 
 func (x *WorkflowTaskStartedEventAttributes) Reset() {
 	*x = WorkflowTaskStartedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowTaskStartedEventAttributes) String() string {
@@ -862,7 +875,7 @@ func (*WorkflowTaskStartedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowTaskStartedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -953,9 +966,11 @@ type WorkflowTaskCompletedEventAttributes struct {
 
 func (x *WorkflowTaskCompletedEventAttributes) Reset() {
 	*x = WorkflowTaskCompletedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowTaskCompletedEventAttributes) String() string {
@@ -966,7 +981,7 @@ func (*WorkflowTaskCompletedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowTaskCompletedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1044,9 +1059,11 @@ type WorkflowTaskTimedOutEventAttributes struct {
 
 func (x *WorkflowTaskTimedOutEventAttributes) Reset() {
 	*x = WorkflowTaskTimedOutEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowTaskTimedOutEventAttributes) String() string {
@@ -1057,7 +1074,7 @@ func (*WorkflowTaskTimedOutEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowTaskTimedOutEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1125,9 +1142,11 @@ type WorkflowTaskFailedEventAttributes struct {
 
 func (x *WorkflowTaskFailedEventAttributes) Reset() {
 	*x = WorkflowTaskFailedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowTaskFailedEventAttributes) String() string {
@@ -1138,7 +1157,7 @@ func (*WorkflowTaskFailedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowTaskFailedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1273,9 +1292,11 @@ type ActivityTaskScheduledEventAttributes struct {
 
 func (x *ActivityTaskScheduledEventAttributes) Reset() {
 	*x = ActivityTaskScheduledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityTaskScheduledEventAttributes) String() string {
@@ -1286,7 +1307,7 @@ func (*ActivityTaskScheduledEventAttributes) ProtoMessage() {}
 
 func (x *ActivityTaskScheduledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1410,9 +1431,11 @@ type ActivityTaskStartedEventAttributes struct {
 
 func (x *ActivityTaskStartedEventAttributes) Reset() {
 	*x = ActivityTaskStartedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityTaskStartedEventAttributes) String() string {
@@ -1423,7 +1446,7 @@ func (*ActivityTaskStartedEventAttributes) ProtoMessage() {}
 
 func (x *ActivityTaskStartedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[11]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1507,9 +1530,11 @@ type ActivityTaskCompletedEventAttributes struct {
 
 func (x *ActivityTaskCompletedEventAttributes) Reset() {
 	*x = ActivityTaskCompletedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityTaskCompletedEventAttributes) String() string {
@@ -1520,7 +1545,7 @@ func (*ActivityTaskCompletedEventAttributes) ProtoMessage() {}
 
 func (x *ActivityTaskCompletedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[12]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1591,9 +1616,11 @@ type ActivityTaskFailedEventAttributes struct {
 
 func (x *ActivityTaskFailedEventAttributes) Reset() {
 	*x = ActivityTaskFailedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityTaskFailedEventAttributes) String() string {
@@ -1604,7 +1631,7 @@ func (*ActivityTaskFailedEventAttributes) ProtoMessage() {}
 
 func (x *ActivityTaskFailedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[13]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1678,9 +1705,11 @@ type ActivityTaskTimedOutEventAttributes struct {
 
 func (x *ActivityTaskTimedOutEventAttributes) Reset() {
 	*x = ActivityTaskTimedOutEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityTaskTimedOutEventAttributes) String() string {
@@ -1691,7 +1720,7 @@ func (*ActivityTaskTimedOutEventAttributes) ProtoMessage() {}
 
 func (x *ActivityTaskTimedOutEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[14]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1747,9 +1776,11 @@ type ActivityTaskCancelRequestedEventAttributes struct {
 
 func (x *ActivityTaskCancelRequestedEventAttributes) Reset() {
 	*x = ActivityTaskCancelRequestedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityTaskCancelRequestedEventAttributes) String() string {
@@ -1760,7 +1791,7 @@ func (*ActivityTaskCancelRequestedEventAttributes) ProtoMessage() {}
 
 func (x *ActivityTaskCancelRequestedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[15]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1812,9 +1843,11 @@ type ActivityTaskCanceledEventAttributes struct {
 
 func (x *ActivityTaskCanceledEventAttributes) Reset() {
 	*x = ActivityTaskCanceledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityTaskCanceledEventAttributes) String() string {
@@ -1825,7 +1858,7 @@ func (*ActivityTaskCanceledEventAttributes) ProtoMessage() {}
 
 func (x *ActivityTaskCanceledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[16]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1901,9 +1934,11 @@ type TimerStartedEventAttributes struct {
 
 func (x *TimerStartedEventAttributes) Reset() {
 	*x = TimerStartedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TimerStartedEventAttributes) String() string {
@@ -1914,7 +1949,7 @@ func (*TimerStartedEventAttributes) ProtoMessage() {}
 
 func (x *TimerStartedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[17]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1963,9 +1998,11 @@ type TimerFiredEventAttributes struct {
 
 func (x *TimerFiredEventAttributes) Reset() {
 	*x = TimerFiredEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TimerFiredEventAttributes) String() string {
@@ -1976,7 +2013,7 @@ func (*TimerFiredEventAttributes) ProtoMessage() {}
 
 func (x *TimerFiredEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[18]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2022,9 +2059,11 @@ type TimerCanceledEventAttributes struct {
 
 func (x *TimerCanceledEventAttributes) Reset() {
 	*x = TimerCanceledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *TimerCanceledEventAttributes) String() string {
@@ -2035,7 +2074,7 @@ func (*TimerCanceledEventAttributes) ProtoMessage() {}
 
 func (x *TimerCanceledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[19]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2095,9 +2134,11 @@ type WorkflowExecutionCancelRequestedEventAttributes struct {
 
 func (x *WorkflowExecutionCancelRequestedEventAttributes) Reset() {
 	*x = WorkflowExecutionCancelRequestedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionCancelRequestedEventAttributes) String() string {
@@ -2108,7 +2149,7 @@ func (*WorkflowExecutionCancelRequestedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionCancelRequestedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[20]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2163,9 +2204,11 @@ type WorkflowExecutionCanceledEventAttributes struct {
 
 func (x *WorkflowExecutionCanceledEventAttributes) Reset() {
 	*x = WorkflowExecutionCanceledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionCanceledEventAttributes) String() string {
@@ -2176,7 +2219,7 @@ func (*WorkflowExecutionCanceledEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionCanceledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[21]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2223,9 +2266,11 @@ type MarkerRecordedEventAttributes struct {
 
 func (x *MarkerRecordedEventAttributes) Reset() {
 	*x = MarkerRecordedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *MarkerRecordedEventAttributes) String() string {
@@ -2236,7 +2281,7 @@ func (*MarkerRecordedEventAttributes) ProtoMessage() {}
 
 func (x *MarkerRecordedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[22]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2308,9 +2353,11 @@ type WorkflowExecutionSignaledEventAttributes struct {
 
 func (x *WorkflowExecutionSignaledEventAttributes) Reset() {
 	*x = WorkflowExecutionSignaledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionSignaledEventAttributes) String() string {
@@ -2321,7 +2368,7 @@ func (*WorkflowExecutionSignaledEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionSignaledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[23]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2392,9 +2439,11 @@ type WorkflowExecutionTerminatedEventAttributes struct {
 
 func (x *WorkflowExecutionTerminatedEventAttributes) Reset() {
 	*x = WorkflowExecutionTerminatedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionTerminatedEventAttributes) String() string {
@@ -2405,7 +2454,7 @@ func (*WorkflowExecutionTerminatedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionTerminatedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[24]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2464,9 +2513,11 @@ type RequestCancelExternalWorkflowExecutionInitiatedEventAttributes struct {
 
 func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) Reset() {
 	*x = RequestCancelExternalWorkflowExecutionInitiatedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) String() string {
@@ -2477,7 +2528,7 @@ func (*RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) ProtoMess
 
 func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[25]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2563,9 +2614,11 @@ type RequestCancelExternalWorkflowExecutionFailedEventAttributes struct {
 
 func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) Reset() {
 	*x = RequestCancelExternalWorkflowExecutionFailedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[26]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) String() string {
@@ -2576,7 +2629,7 @@ func (*RequestCancelExternalWorkflowExecutionFailedEventAttributes) ProtoMessage
 
 func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[26]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2657,9 +2710,11 @@ type ExternalWorkflowExecutionCancelRequestedEventAttributes struct {
 
 func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) Reset() {
 	*x = ExternalWorkflowExecutionCancelRequestedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[27]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) String() string {
@@ -2670,7 +2725,7 @@ func (*ExternalWorkflowExecutionCancelRequestedEventAttributes) ProtoMessage() {
 
 func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[27]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2739,9 +2794,11 @@ type SignalExternalWorkflowExecutionInitiatedEventAttributes struct {
 
 func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) Reset() {
 	*x = SignalExternalWorkflowExecutionInitiatedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[28]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[28]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) String() string {
@@ -2752,7 +2809,7 @@ func (*SignalExternalWorkflowExecutionInitiatedEventAttributes) ProtoMessage() {
 
 func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[28]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2850,9 +2907,11 @@ type SignalExternalWorkflowExecutionFailedEventAttributes struct {
 
 func (x *SignalExternalWorkflowExecutionFailedEventAttributes) Reset() {
 	*x = SignalExternalWorkflowExecutionFailedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[29]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *SignalExternalWorkflowExecutionFailedEventAttributes) String() string {
@@ -2863,7 +2922,7 @@ func (*SignalExternalWorkflowExecutionFailedEventAttributes) ProtoMessage() {}
 
 func (x *SignalExternalWorkflowExecutionFailedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[29]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2945,9 +3004,11 @@ type ExternalWorkflowExecutionSignaledEventAttributes struct {
 
 func (x *ExternalWorkflowExecutionSignaledEventAttributes) Reset() {
 	*x = ExternalWorkflowExecutionSignaledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[30]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ExternalWorkflowExecutionSignaledEventAttributes) String() string {
@@ -2958,7 +3019,7 @@ func (*ExternalWorkflowExecutionSignaledEventAttributes) ProtoMessage() {}
 
 func (x *ExternalWorkflowExecutionSignaledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[30]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3020,9 +3081,11 @@ type UpsertWorkflowSearchAttributesEventAttributes struct {
 
 func (x *UpsertWorkflowSearchAttributesEventAttributes) Reset() {
 	*x = UpsertWorkflowSearchAttributesEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[31]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[31]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpsertWorkflowSearchAttributesEventAttributes) String() string {
@@ -3033,7 +3096,7 @@ func (*UpsertWorkflowSearchAttributesEventAttributes) ProtoMessage() {}
 
 func (x *UpsertWorkflowSearchAttributesEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[31]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3077,9 +3140,11 @@ type WorkflowPropertiesModifiedEventAttributes struct {
 
 func (x *WorkflowPropertiesModifiedEventAttributes) Reset() {
 	*x = WorkflowPropertiesModifiedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[32]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[32]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowPropertiesModifiedEventAttributes) String() string {
@@ -3090,7 +3155,7 @@ func (*WorkflowPropertiesModifiedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowPropertiesModifiedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[32]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3159,9 +3224,11 @@ type StartChildWorkflowExecutionInitiatedEventAttributes struct {
 
 func (x *StartChildWorkflowExecutionInitiatedEventAttributes) Reset() {
 	*x = StartChildWorkflowExecutionInitiatedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[33]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[33]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartChildWorkflowExecutionInitiatedEventAttributes) String() string {
@@ -3172,7 +3239,7 @@ func (*StartChildWorkflowExecutionInitiatedEventAttributes) ProtoMessage() {}
 
 func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[33]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3342,9 +3409,11 @@ type StartChildWorkflowExecutionFailedEventAttributes struct {
 
 func (x *StartChildWorkflowExecutionFailedEventAttributes) Reset() {
 	*x = StartChildWorkflowExecutionFailedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[34]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[34]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartChildWorkflowExecutionFailedEventAttributes) String() string {
@@ -3355,7 +3424,7 @@ func (*StartChildWorkflowExecutionFailedEventAttributes) ProtoMessage() {}
 
 func (x *StartChildWorkflowExecutionFailedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[34]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3444,9 +3513,11 @@ type ChildWorkflowExecutionStartedEventAttributes struct {
 
 func (x *ChildWorkflowExecutionStartedEventAttributes) Reset() {
 	*x = ChildWorkflowExecutionStartedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[35]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[35]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ChildWorkflowExecutionStartedEventAttributes) String() string {
@@ -3457,7 +3528,7 @@ func (*ChildWorkflowExecutionStartedEventAttributes) ProtoMessage() {}
 
 func (x *ChildWorkflowExecutionStartedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[35]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3534,9 +3605,11 @@ type ChildWorkflowExecutionCompletedEventAttributes struct {
 
 func (x *ChildWorkflowExecutionCompletedEventAttributes) Reset() {
 	*x = ChildWorkflowExecutionCompletedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[36]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[36]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ChildWorkflowExecutionCompletedEventAttributes) String() string {
@@ -3547,7 +3620,7 @@ func (*ChildWorkflowExecutionCompletedEventAttributes) ProtoMessage() {}
 
 func (x *ChildWorkflowExecutionCompletedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[36]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3632,9 +3705,11 @@ type ChildWorkflowExecutionFailedEventAttributes struct {
 
 func (x *ChildWorkflowExecutionFailedEventAttributes) Reset() {
 	*x = ChildWorkflowExecutionFailedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[37]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[37]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ChildWorkflowExecutionFailedEventAttributes) String() string {
@@ -3645,7 +3720,7 @@ func (*ChildWorkflowExecutionFailedEventAttributes) ProtoMessage() {}
 
 func (x *ChildWorkflowExecutionFailedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[37]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3736,9 +3811,11 @@ type ChildWorkflowExecutionCanceledEventAttributes struct {
 
 func (x *ChildWorkflowExecutionCanceledEventAttributes) Reset() {
 	*x = ChildWorkflowExecutionCanceledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[38]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[38]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ChildWorkflowExecutionCanceledEventAttributes) String() string {
@@ -3749,7 +3826,7 @@ func (*ChildWorkflowExecutionCanceledEventAttributes) ProtoMessage() {}
 
 func (x *ChildWorkflowExecutionCanceledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[38]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3833,9 +3910,11 @@ type ChildWorkflowExecutionTimedOutEventAttributes struct {
 
 func (x *ChildWorkflowExecutionTimedOutEventAttributes) Reset() {
 	*x = ChildWorkflowExecutionTimedOutEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[39]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[39]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ChildWorkflowExecutionTimedOutEventAttributes) String() string {
@@ -3846,7 +3925,7 @@ func (*ChildWorkflowExecutionTimedOutEventAttributes) ProtoMessage() {}
 
 func (x *ChildWorkflowExecutionTimedOutEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[39]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3929,9 +4008,11 @@ type ChildWorkflowExecutionTerminatedEventAttributes struct {
 
 func (x *ChildWorkflowExecutionTerminatedEventAttributes) Reset() {
 	*x = ChildWorkflowExecutionTerminatedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[40]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[40]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ChildWorkflowExecutionTerminatedEventAttributes) String() string {
@@ -3942,7 +4023,7 @@ func (*ChildWorkflowExecutionTerminatedEventAttributes) ProtoMessage() {}
 
 func (x *ChildWorkflowExecutionTerminatedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[40]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4021,9 +4102,11 @@ type WorkflowPropertiesModifiedExternallyEventAttributes struct {
 
 func (x *WorkflowPropertiesModifiedExternallyEventAttributes) Reset() {
 	*x = WorkflowPropertiesModifiedExternallyEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[41]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[41]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowPropertiesModifiedExternallyEventAttributes) String() string {
@@ -4034,7 +4117,7 @@ func (*WorkflowPropertiesModifiedExternallyEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowPropertiesModifiedExternallyEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[41]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4098,9 +4181,11 @@ type ActivityPropertiesModifiedExternallyEventAttributes struct {
 
 func (x *ActivityPropertiesModifiedExternallyEventAttributes) Reset() {
 	*x = ActivityPropertiesModifiedExternallyEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[42]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[42]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ActivityPropertiesModifiedExternallyEventAttributes) String() string {
@@ -4111,7 +4196,7 @@ func (*ActivityPropertiesModifiedExternallyEventAttributes) ProtoMessage() {}
 
 func (x *ActivityPropertiesModifiedExternallyEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[42]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4160,9 +4245,11 @@ type WorkflowExecutionUpdateAcceptedEventAttributes struct {
 
 func (x *WorkflowExecutionUpdateAcceptedEventAttributes) Reset() {
 	*x = WorkflowExecutionUpdateAcceptedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[43]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[43]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionUpdateAcceptedEventAttributes) String() string {
@@ -4173,7 +4260,7 @@ func (*WorkflowExecutionUpdateAcceptedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionUpdateAcceptedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[43]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4231,9 +4318,11 @@ type WorkflowExecutionUpdateCompletedEventAttributes struct {
 
 func (x *WorkflowExecutionUpdateCompletedEventAttributes) Reset() {
 	*x = WorkflowExecutionUpdateCompletedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[44]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[44]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionUpdateCompletedEventAttributes) String() string {
@@ -4244,7 +4333,7 @@ func (*WorkflowExecutionUpdateCompletedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionUpdateCompletedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[44]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4302,9 +4391,11 @@ type WorkflowExecutionUpdateRejectedEventAttributes struct {
 
 func (x *WorkflowExecutionUpdateRejectedEventAttributes) Reset() {
 	*x = WorkflowExecutionUpdateRejectedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[45]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[45]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionUpdateRejectedEventAttributes) String() string {
@@ -4315,7 +4406,7 @@ func (*WorkflowExecutionUpdateRejectedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionUpdateRejectedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[45]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4378,9 +4469,11 @@ type WorkflowExecutionUpdateAdmittedEventAttributes struct {
 
 func (x *WorkflowExecutionUpdateAdmittedEventAttributes) Reset() {
 	*x = WorkflowExecutionUpdateAdmittedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[46]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[46]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionUpdateAdmittedEventAttributes) String() string {
@@ -4391,7 +4484,7 @@ func (*WorkflowExecutionUpdateAdmittedEventAttributes) ProtoMessage() {}
 
 func (x *WorkflowExecutionUpdateAdmittedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[46]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4460,9 +4553,11 @@ type NexusOperationScheduledEventAttributes struct {
 
 func (x *NexusOperationScheduledEventAttributes) Reset() {
 	*x = NexusOperationScheduledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[47]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[47]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationScheduledEventAttributes) String() string {
@@ -4473,7 +4568,7 @@ func (*NexusOperationScheduledEventAttributes) ProtoMessage() {}
 
 func (x *NexusOperationScheduledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[47]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4571,9 +4666,11 @@ type NexusOperationStartedEventAttributes struct {
 
 func (x *NexusOperationStartedEventAttributes) Reset() {
 	*x = NexusOperationStartedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[48]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[48]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationStartedEventAttributes) String() string {
@@ -4584,7 +4681,7 @@ func (*NexusOperationStartedEventAttributes) ProtoMessage() {}
 
 func (x *NexusOperationStartedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[48]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4637,9 +4734,11 @@ type NexusOperationCompletedEventAttributes struct {
 
 func (x *NexusOperationCompletedEventAttributes) Reset() {
 	*x = NexusOperationCompletedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[49]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[49]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationCompletedEventAttributes) String() string {
@@ -4650,7 +4749,7 @@ func (*NexusOperationCompletedEventAttributes) ProtoMessage() {}
 
 func (x *NexusOperationCompletedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[49]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4702,9 +4801,11 @@ type NexusOperationFailedEventAttributes struct {
 
 func (x *NexusOperationFailedEventAttributes) Reset() {
 	*x = NexusOperationFailedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[50]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[50]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationFailedEventAttributes) String() string {
@@ -4715,7 +4816,7 @@ func (*NexusOperationFailedEventAttributes) ProtoMessage() {}
 
 func (x *NexusOperationFailedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[50]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4767,9 +4868,11 @@ type NexusOperationTimedOutEventAttributes struct {
 
 func (x *NexusOperationTimedOutEventAttributes) Reset() {
 	*x = NexusOperationTimedOutEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[51]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[51]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationTimedOutEventAttributes) String() string {
@@ -4780,7 +4883,7 @@ func (*NexusOperationTimedOutEventAttributes) ProtoMessage() {}
 
 func (x *NexusOperationTimedOutEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[51]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4832,9 +4935,11 @@ type NexusOperationCanceledEventAttributes struct {
 
 func (x *NexusOperationCanceledEventAttributes) Reset() {
 	*x = NexusOperationCanceledEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[52]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[52]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationCanceledEventAttributes) String() string {
@@ -4845,7 +4950,7 @@ func (*NexusOperationCanceledEventAttributes) ProtoMessage() {}
 
 func (x *NexusOperationCanceledEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[52]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4895,9 +5000,11 @@ type NexusOperationCancelRequestedEventAttributes struct {
 
 func (x *NexusOperationCancelRequestedEventAttributes) Reset() {
 	*x = NexusOperationCancelRequestedEventAttributes{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[53]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[53]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NexusOperationCancelRequestedEventAttributes) String() string {
@@ -4908,7 +5015,7 @@ func (*NexusOperationCancelRequestedEventAttributes) ProtoMessage() {}
 
 func (x *NexusOperationCancelRequestedEventAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[53]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -5031,9 +5138,11 @@ type HistoryEvent struct {
 
 func (x *HistoryEvent) Reset() {
 	*x = HistoryEvent{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[54]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[54]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *HistoryEvent) String() string {
@@ -5044,7 +5153,7 @@ func (*HistoryEvent) ProtoMessage() {}
 
 func (x *HistoryEvent) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[54]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -5846,9 +5955,11 @@ type History struct {
 
 func (x *History) Reset() {
 	*x = History{}
-	mi := &file_temporal_api_history_v1_message_proto_msgTypes[55]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_history_v1_message_proto_msgTypes[55]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *History) String() string {
@@ -5859,7 +5970,7 @@ func (*History) ProtoMessage() {}
 
 func (x *History) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_history_v1_message_proto_msgTypes[55]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -7846,7 +7957,7 @@ func file_temporal_api_history_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_history_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 58)
-var file_temporal_api_history_v1_message_proto_goTypes = []any{
+var file_temporal_api_history_v1_message_proto_goTypes = []interface{}{
 	(*WorkflowExecutionStartedEventAttributes)(nil),                        // 0: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes
 	(*WorkflowExecutionCompletedEventAttributes)(nil),                      // 1: temporal.api.history.v1.WorkflowExecutionCompletedEventAttributes
 	(*WorkflowExecutionFailedEventAttributes)(nil),                         // 2: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes
@@ -8152,7 +8263,681 @@ func file_temporal_api_history_v1_message_proto_init() {
 	if File_temporal_api_history_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_history_v1_message_proto_msgTypes[54].OneofWrappers = []any{
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_history_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionStartedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionCompletedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionFailedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionTimedOutEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionContinuedAsNewEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowTaskScheduledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowTaskStartedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowTaskCompletedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowTaskTimedOutEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowTaskFailedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityTaskScheduledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityTaskStartedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityTaskCompletedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityTaskFailedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityTaskTimedOutEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityTaskCancelRequestedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityTaskCanceledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TimerStartedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TimerFiredEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TimerCanceledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionCancelRequestedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionCanceledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MarkerRecordedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionSignaledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionTerminatedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RequestCancelExternalWorkflowExecutionInitiatedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RequestCancelExternalWorkflowExecutionFailedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ExternalWorkflowExecutionCancelRequestedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignalExternalWorkflowExecutionInitiatedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignalExternalWorkflowExecutionFailedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ExternalWorkflowExecutionSignaledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpsertWorkflowSearchAttributesEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowPropertiesModifiedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartChildWorkflowExecutionInitiatedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartChildWorkflowExecutionFailedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChildWorkflowExecutionStartedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChildWorkflowExecutionCompletedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChildWorkflowExecutionFailedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[38].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChildWorkflowExecutionCanceledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[39].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChildWorkflowExecutionTimedOutEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[40].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ChildWorkflowExecutionTerminatedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[41].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowPropertiesModifiedExternallyEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[42].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ActivityPropertiesModifiedExternallyEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[43].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionUpdateAcceptedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[44].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionUpdateCompletedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[45].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionUpdateRejectedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[46].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionUpdateAdmittedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[47].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationScheduledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[48].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationStartedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[49].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationCompletedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[50].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationFailedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[51].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationTimedOutEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[52].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationCanceledEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[53].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NexusOperationCancelRequestedEventAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[54].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HistoryEvent); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_history_v1_message_proto_msgTypes[55].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*History); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_history_v1_message_proto_msgTypes[54].OneofWrappers = []interface{}{
 		(*HistoryEvent_WorkflowExecutionStartedEventAttributes)(nil),
 		(*HistoryEvent_WorkflowExecutionCompletedEventAttributes)(nil),
 		(*HistoryEvent_WorkflowExecutionFailedEventAttributes)(nil),

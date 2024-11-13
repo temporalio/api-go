@@ -29,11 +29,10 @@
 package workflowservice
 
 import (
-	reflect "reflect"
-
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	reflect "reflect"
 )
 
 const (
@@ -1121,7 +1120,7 @@ var file_temporal_api_workflowservice_v1_service_proto_rawDesc = []byte{
 	0x6f, 0x33,
 }
 
-var file_temporal_api_workflowservice_v1_service_proto_goTypes = []any{
+var file_temporal_api_workflowservice_v1_service_proto_goTypes = []interface{}{
 	(*RegisterNamespaceRequest)(nil),                   // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest
 	(*DescribeNamespaceRequest)(nil),                   // 1: temporal.api.workflowservice.v1.DescribeNamespaceRequest
 	(*ListNamespacesRequest)(nil),                      // 2: temporal.api.workflowservice.v1.ListNamespacesRequest
