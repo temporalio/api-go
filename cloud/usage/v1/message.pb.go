@@ -240,11 +240,9 @@ type Summary struct {
 
 func (x *Summary) Reset() {
 	*x = Summary{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Summary) String() string {
@@ -255,7 +253,7 @@ func (*Summary) ProtoMessage() {}
 
 func (x *Summary) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -310,11 +308,9 @@ type RecordGroup struct {
 
 func (x *RecordGroup) Reset() {
 	*x = RecordGroup{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *RecordGroup) String() string {
@@ -325,7 +321,7 @@ func (*RecordGroup) ProtoMessage() {}
 
 func (x *RecordGroup) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -365,11 +361,9 @@ type GroupBy struct {
 
 func (x *GroupBy) Reset() {
 	*x = GroupBy{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *GroupBy) String() string {
@@ -380,7 +374,7 @@ func (*GroupBy) ProtoMessage() {}
 
 func (x *GroupBy) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -421,11 +415,9 @@ type Record struct {
 
 func (x *Record) Reset() {
 	*x = Record{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Record) String() string {
@@ -436,7 +428,7 @@ func (*Record) ProtoMessage() {}
 
 func (x *Record) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -567,7 +559,7 @@ func file_temporal_api_cloud_usage_v1_message_proto_rawDescGZIP() []byte {
 
 var file_temporal_api_cloud_usage_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_temporal_api_cloud_usage_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_temporal_api_cloud_usage_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_cloud_usage_v1_message_proto_goTypes = []any{
 	(RecordType)(0),               // 0: temporal.api.cloud.usage.v1.RecordType
 	(RecordUnit)(0),               // 1: temporal.api.cloud.usage.v1.RecordUnit
 	(GroupByKey)(0),               // 2: temporal.api.cloud.usage.v1.GroupByKey
@@ -597,56 +589,6 @@ func init() { file_temporal_api_cloud_usage_v1_message_proto_init() }
 func file_temporal_api_cloud_usage_v1_message_proto_init() {
 	if File_temporal_api_cloud_usage_v1_message_proto != nil {
 		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_cloud_usage_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Summary); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_cloud_usage_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RecordGroup); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_cloud_usage_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GroupBy); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_cloud_usage_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Record); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

@@ -62,11 +62,9 @@ type S3Spec struct {
 
 func (x *S3Spec) Reset() {
 	*x = S3Spec{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *S3Spec) String() string {
@@ -77,7 +75,7 @@ func (*S3Spec) ProtoMessage() {}
 
 func (x *S3Spec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -142,11 +140,9 @@ type GCSSpec struct {
 
 func (x *GCSSpec) Reset() {
 	*x = GCSSpec{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *GCSSpec) String() string {
@@ -157,7 +153,7 @@ func (*GCSSpec) ProtoMessage() {}
 
 func (x *GCSSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -242,7 +238,7 @@ func file_temporal_api_cloud_sink_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_sink_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_temporal_api_cloud_sink_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_cloud_sink_v1_message_proto_goTypes = []any{
 	(*S3Spec)(nil),  // 0: temporal.api.cloud.sink.v1.S3Spec
 	(*GCSSpec)(nil), // 1: temporal.api.cloud.sink.v1.GCSSpec
 }
@@ -258,32 +254,6 @@ func init() { file_temporal_api_cloud_sink_v1_message_proto_init() }
 func file_temporal_api_cloud_sink_v1_message_proto_init() {
 	if File_temporal_api_cloud_sink_v1_message_proto != nil {
 		return
-	}
-	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_cloud_sink_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*S3Spec); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_cloud_sink_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GCSSpec); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
