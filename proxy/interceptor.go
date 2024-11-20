@@ -31,6 +31,7 @@ import (
 	"go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/deployment/v1"
 	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
@@ -525,6 +526,34 @@ func visitPayloads(
 				options,
 				o,
 				o.GetIndexedFields(),
+			); err != nil {
+				return err
+			}
+
+		case *deployment.DeploymentInfo:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetMetadata(),
+			); err != nil {
+				return err
+			}
+
+		case *deployment.UpdateDeploymentMetadata:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetUpsertEntries(),
 			); err != nil {
 				return err
 			}
@@ -1622,6 +1651,20 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.DescribeDeploymentResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetDeploymentInfo(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeScheduleResponse:
 
 			if o == nil {
@@ -1724,6 +1767,34 @@ func visitPayloads(
 				o,
 				o.GetStartWorkflow(),
 				o.GetUpdateWorkflow(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.GetCurrentDeploymentResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetCurrentDeploymentInfo(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.GetDeploymentReachabilityResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetDeploymentInfo(),
 			); err != nil {
 				return err
 			}
@@ -2148,6 +2219,35 @@ func visitPayloads(
 				options,
 				o,
 				o.GetExecutions(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.SetCurrentDeploymentRequest:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetUpdateMetadata(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.SetCurrentDeploymentResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetCurrentDeploymentInfo(),
+				o.GetPreviousDeploymentInfo(),
 			); err != nil {
 				return err
 			}
