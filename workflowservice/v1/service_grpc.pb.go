@@ -97,6 +97,11 @@ const (
 	WorkflowService_UpdateWorkerVersioningRules_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersioningRules"
 	WorkflowService_GetWorkerVersioningRules_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules"
 	WorkflowService_GetWorkerTaskReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability"
+	WorkflowService_DescribeDeployment_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/DescribeDeployment"
+	WorkflowService_ListDeployments_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/ListDeployments"
+	WorkflowService_GetDeploymentReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetDeploymentReachability"
+	WorkflowService_GetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/GetCurrentDeployment"
+	WorkflowService_SetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeployment"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
 	WorkflowService_StartBatchOperation_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
@@ -492,6 +497,28 @@ type WorkflowServiceClient interface {
 	// Open source users can adjust this limit by setting the server's dynamic config value for
 	// `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store.
 	GetWorkerTaskReachability(ctx context.Context, in *GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*GetWorkerTaskReachabilityResponse, error)
+	// Describes a worker deployment.
+	// Experimental. This API might significantly change or be removed in a future release.
+	DescribeDeployment(ctx context.Context, in *DescribeDeploymentRequest, opts ...grpc.CallOption) (*DescribeDeploymentResponse, error)
+	// Lists worker deployments in the namespace. Optionally can filter based on deployment series
+	// name.
+	// Experimental. This API might significantly change or be removed in a future release.
+	ListDeployments(ctx context.Context, in *ListDeploymentsRequest, opts ...grpc.CallOption) (*ListDeploymentsResponse, error)
+	// Returns the reachability level of a worker deployment to help users decide when it is time
+	// to decommission a deployment. Reachability level is calculated based on the deployment's
+	// `status` and existing workflows that depend on the given deployment for their execution.
+	// Calculating reachability is relatively expensive. Therefore, server might return a recently
+	// cached value. In such a case, the `last_update_time` will inform you about the actual
+	// reachability calculation time.
+	// Experimental. This API might significantly change or be removed in a future release.
+	GetDeploymentReachability(ctx context.Context, in *GetDeploymentReachabilityRequest, opts ...grpc.CallOption) (*GetDeploymentReachabilityResponse, error)
+	// Returns the current deployment (and its info) for a given deployment series.
+	// Experimental. This API might significantly change or be removed in a future release.
+	GetCurrentDeployment(ctx context.Context, in *GetCurrentDeploymentRequest, opts ...grpc.CallOption) (*GetCurrentDeploymentResponse, error)
+	// Sets a deployment as the current deployment for its deployment series. Can optionally update
+	// the metadata of the deployment as well.
+	// Experimental. This API might significantly change or be removed in a future release.
+	SetCurrentDeployment(ctx context.Context, in *SetCurrentDeploymentRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -1093,6 +1120,56 @@ func (c *workflowServiceClient) GetWorkerTaskReachability(ctx context.Context, i
 	return out, nil
 }
 
+func (c *workflowServiceClient) DescribeDeployment(ctx context.Context, in *DescribeDeploymentRequest, opts ...grpc.CallOption) (*DescribeDeploymentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeDeploymentResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeDeployment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ListDeployments(ctx context.Context, in *ListDeploymentsRequest, opts ...grpc.CallOption) (*ListDeploymentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListDeploymentsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ListDeployments_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) GetDeploymentReachability(ctx context.Context, in *GetDeploymentReachabilityRequest, opts ...grpc.CallOption) (*GetDeploymentReachabilityResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDeploymentReachabilityResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetDeploymentReachability_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) GetCurrentDeployment(ctx context.Context, in *GetCurrentDeploymentRequest, opts ...grpc.CallOption) (*GetCurrentDeploymentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCurrentDeploymentResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetCurrentDeployment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) SetCurrentDeployment(ctx context.Context, in *SetCurrentDeploymentRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetCurrentDeploymentResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_SetCurrentDeployment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkflowExecutionResponse)
@@ -1585,6 +1662,28 @@ type WorkflowServiceServer interface {
 	// Open source users can adjust this limit by setting the server's dynamic config value for
 	// `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store.
 	GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error)
+	// Describes a worker deployment.
+	// Experimental. This API might significantly change or be removed in a future release.
+	DescribeDeployment(context.Context, *DescribeDeploymentRequest) (*DescribeDeploymentResponse, error)
+	// Lists worker deployments in the namespace. Optionally can filter based on deployment series
+	// name.
+	// Experimental. This API might significantly change or be removed in a future release.
+	ListDeployments(context.Context, *ListDeploymentsRequest) (*ListDeploymentsResponse, error)
+	// Returns the reachability level of a worker deployment to help users decide when it is time
+	// to decommission a deployment. Reachability level is calculated based on the deployment's
+	// `status` and existing workflows that depend on the given deployment for their execution.
+	// Calculating reachability is relatively expensive. Therefore, server might return a recently
+	// cached value. In such a case, the `last_update_time` will inform you about the actual
+	// reachability calculation time.
+	// Experimental. This API might significantly change or be removed in a future release.
+	GetDeploymentReachability(context.Context, *GetDeploymentReachabilityRequest) (*GetDeploymentReachabilityResponse, error)
+	// Returns the current deployment (and its info) for a given deployment series.
+	// Experimental. This API might significantly change or be removed in a future release.
+	GetCurrentDeployment(context.Context, *GetCurrentDeploymentRequest) (*GetCurrentDeploymentResponse, error)
+	// Sets a deployment as the current deployment for its deployment series. Can optionally update
+	// the metadata of the deployment as well.
+	// Experimental. This API might significantly change or be removed in a future release.
+	SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -1800,6 +1899,21 @@ func (UnimplementedWorkflowServiceServer) GetWorkerVersioningRules(context.Conte
 }
 func (UnimplementedWorkflowServiceServer) GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerTaskReachability not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DescribeDeployment(context.Context, *DescribeDeploymentRequest) (*DescribeDeploymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeDeployment not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ListDeployments(context.Context, *ListDeploymentsRequest) (*ListDeploymentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListDeployments not implemented")
+}
+func (UnimplementedWorkflowServiceServer) GetDeploymentReachability(context.Context, *GetDeploymentReachabilityRequest) (*GetDeploymentReachabilityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDeploymentReachability not implemented")
+}
+func (UnimplementedWorkflowServiceServer) GetCurrentDeployment(context.Context, *GetCurrentDeploymentRequest) (*GetCurrentDeploymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentDeployment not implemented")
+}
+func (UnimplementedWorkflowServiceServer) SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetCurrentDeployment not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
@@ -2845,6 +2959,96 @@ func _WorkflowService_GetWorkerTaskReachability_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_DescribeDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeDeploymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DescribeDeployment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DescribeDeployment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DescribeDeployment(ctx, req.(*DescribeDeploymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_ListDeployments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDeploymentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ListDeployments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ListDeployments_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ListDeployments(ctx, req.(*ListDeploymentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_GetDeploymentReachability_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDeploymentReachabilityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).GetDeploymentReachability(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_GetDeploymentReachability_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).GetDeploymentReachability(ctx, req.(*GetDeploymentReachabilityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_GetCurrentDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCurrentDeploymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).GetCurrentDeployment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_GetCurrentDeployment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).GetCurrentDeployment(ctx, req.(*GetCurrentDeploymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_SetCurrentDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetCurrentDeploymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).SetCurrentDeployment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_SetCurrentDeployment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).SetCurrentDeployment(ctx, req.(*SetCurrentDeploymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_UpdateWorkflowExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateWorkflowExecutionRequest)
 	if err := dec(in); err != nil {
@@ -3269,6 +3473,26 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetWorkerTaskReachability",
 			Handler:    _WorkflowService_GetWorkerTaskReachability_Handler,
+		},
+		{
+			MethodName: "DescribeDeployment",
+			Handler:    _WorkflowService_DescribeDeployment_Handler,
+		},
+		{
+			MethodName: "ListDeployments",
+			Handler:    _WorkflowService_ListDeployments_Handler,
+		},
+		{
+			MethodName: "GetDeploymentReachability",
+			Handler:    _WorkflowService_GetDeploymentReachability_Handler,
+		},
+		{
+			MethodName: "GetCurrentDeployment",
+			Handler:    _WorkflowService_GetCurrentDeployment_Handler,
+		},
+		{
+			MethodName: "SetCurrentDeployment",
+			Handler:    _WorkflowService_SetCurrentDeployment_Handler,
 		},
 		{
 			MethodName: "UpdateWorkflowExecution",
