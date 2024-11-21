@@ -100,7 +100,12 @@ func FromStatus(st *status.Status) error {
 	case codes.Canceled:
 		return newCanceled(st)
 	case codes.Unavailable:
-		return newUnavailable(st)
+		switch errDetails := errDetails.(type) {
+		case *errordetails.NamespaceUnavailableFailure:
+			return newNamespaceUnavailable(st, errDetails)
+		default:
+			return newUnavailable(st)
+		}
 	case codes.Unimplemented:
 		return newUnimplemented(st)
 	case codes.Unknown:
