@@ -37,10 +37,7 @@ type (
 	// should be automatically retried by clients.
 	NamespaceUnavailable struct {
 		Namespace string
-		// Note that other service errors have a private status.Status field, there's no compelling reason to do
-		// copy that pattern here. The status can and should be computed on the fly in case the
-		// We'll just store the message from the wire here in case the code that generates it changes.
-		messageFromWire string
+		st        *status.Status
 	}
 )
 
@@ -53,8 +50,9 @@ func NewNamespaceUnavailable(namespace string) error {
 
 // Error returns string message.
 func (e *NamespaceUnavailable) Error() string {
-	if e.messageFromWire != "" {
-		return e.messageFromWire
+	// No need to do a nil check, that's handled in Message().
+	if e.st.Message() != "" {
+		return e.st.Message()
 	}
 	// Continuing the practice of starting errors with upper case and ending with periods even if it's not
 	// idiomatic.
@@ -62,6 +60,9 @@ func (e *NamespaceUnavailable) Error() string {
 }
 
 func (e *NamespaceUnavailable) Status() *status.Status {
+	if e.st != nil {
+		return e.st
+	}
 	st := status.New(codes.Unavailable, e.Error())
 	// We seem to be okay ignoring these errors everywhere else, doing this here too.
 	st, _ = st.WithDetails(
@@ -74,7 +75,7 @@ func (e *NamespaceUnavailable) Status() *status.Status {
 
 func newNamespaceUnavailable(st *status.Status, errDetails *errordetails.NamespaceUnavailableFailure) error {
 	return &NamespaceUnavailable{
-		messageFromWire: st.Message(),
-		Namespace:       errDetails.GetNamespace(),
+		st:        st,
+		Namespace: errDetails.GetNamespace(),
 	}
 }
