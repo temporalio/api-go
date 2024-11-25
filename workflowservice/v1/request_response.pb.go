@@ -10103,9 +10103,9 @@ type RespondWorkflowTaskCompletedRequest_Capabilities struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// True if the SDK can handle speculative workflow task with command events.
-	// If true, the server may chosse, at its discretion, to discard a speculative workflow task
-	// even if that speculative task included command events the SDK had not previouly processed
+	// True if the SDK can handle speculative workflow task with command events. If true, the
+	// server may choose, at its discretion, to discard a speculative workflow task even if that
+	// speculative task included command events the SDK had not previously processed.
 	//
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
