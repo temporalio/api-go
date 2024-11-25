@@ -116,8 +116,8 @@ type WorkflowExecutionInfo struct {
 	// - Workflow Reset
 	// - Cron Schedule
 	FirstRunId string `protobuf:"bytes,21,opt,name=first_run_id,json=firstRunId,proto3" json:"first_run_id,omitempty"`
-	// When present, it means the workflow execution is versioned, or is transitioning from
-	// unversioned workers to versioned ones.
+	// Absent value means the workflow execution is not versioned. When present, the execution might
+	// be versioned or unversioned, depending on `versioning_info.behavior`.
 	// Experimental. Versioning info is experimental and might change in the future.
 	VersioningInfo *WorkflowExecutionVersioningInfo `protobuf:"bytes,22,opt,name=versioning_info,json=versioningInfo,proto3" json:"versioning_info,omitempty"`
 }
@@ -313,22 +313,43 @@ type WorkflowExecutionVersioningInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// Determines how server should treat this execution when workers are upgraded.
-	// When present it means that this workflow is versioned. This is set after an execution
-	// completes its first workflow task on a versioned worker.
+	// Versioning behavior determines how the server should treat this execution when workers are
+	// upgraded. When present it means this workflow execution is versioned; UNSPECIFIED means
+	// unversioned. See the comments in `VersioningBehavior` enum for more info about different
+	// behaviors.
+	// This field is first set after an execution completes its first workflow task on a versioned
+	// worker, and set again on completion of every subsequent workflow task.
+	// Note that `behavior` is overridden by `versioning_override` if the latter is present.
 	Behavior v11.VersioningBehavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=temporal.api.enums.v1.VersioningBehavior" json:"behavior,omitempty"`
-	// The worker deployment to which this workflow is assigned currently.
-	// Must be present if and only if `behavior` is set.
+	// The worker deployment that completed the last workflow task of this workflow execution. Must
+	// be present if `behavior` is set. Absent value means no workflow task is completed, or the
+	// last workflow task was completed by an unversioned worker. Unversioned workers may still send
+	// a deployment value which will be stored here, so the right way to check if an execution is
+	// versioned if an execution is versioned or not is via the `behavior` field.
+	// Note that `deployment` is overridden by `versioning_override` if the latter is present.
 	Deployment *v12.Deployment `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	// Present if user has set an execution-specific versioning override. This override takes
-	// precedence over SDK-sent `behavior` (and `deployment` when override is PINNED).
+	// precedence over SDK-sent `behavior` (and `deployment` when override is PINNED). An override
+	// can be set when starting a new execution, as well as afterwards by calling the
+	// `UpdateWorkflowExecutionOptions` API.
 	VersioningOverride *VersioningOverride `protobuf:"bytes,3,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
 	// When present, indicates the workflow is transitioning to a different deployment. Can
 	// indicate one of the following transitions: unversioned -> versioned, versioned -> versioned
 	// on a different deployment, or versioned -> unversioned.
-	// A deployment transition can only exist when there is a pending/started workflow task.
-	// Once the pending workflow task completes on the transition deployment, the transition
-	// completes and the workflow's deployment (or versioning override) is updated.
+	// Not applicable to workflows with PINNED behavior.
+	// When a workflow with AUTO_UPGRADE behavior creates a new workflow task, it will automatically
+	// start a transition to the task queue's current deployment if the task queue's current
+	// deployment is different from the workflow's deployment.
+	// If the AUTO_UPGRADE workflow is stuck due to backlogged activity or workflow tasks, those
+	// tasks will be redirected to the task queue's current deployment. As soon as a poller from
+	// that deployment is available to receive the task, the workflow will automatically start a
+	// transition to that deployment and continue execution there.
+	// A deployment transition can only exist while there is a pending or started workflow task.
+	// Once the pending workflow task completes on the transition's target deployment, the
+	// transition completes and the workflow's `deployment` and `behavior` fields are updated per
+	// the worker's task completion response.
+	// Pending activities will not start new attempts during a transition. Once the transition is
+	// completed, pending activities will start their next attempt on the new deployment.
 	DeploymentTransition *DeploymentTransition `protobuf:"bytes,4,opt,name=deployment_transition,json=deploymentTransition,proto3" json:"deployment_transition,omitempty"`
 }
 
