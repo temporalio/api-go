@@ -178,6 +178,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) DescribeBatchOperation(ctx, in 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeBatchOperation", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeBatchOperation), varargs...)
 }
 
+// DescribeDeployment mocks base method.
+func (m *MockWorkflowServiceClient) DescribeDeployment(ctx context.Context, in *workflowservice.DescribeDeploymentRequest, opts ...grpc.CallOption) (*workflowservice.DescribeDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DescribeDeployment", varargs...)
+	ret0, _ := ret[0].(*workflowservice.DescribeDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DescribeDeployment indicates an expected call of DescribeDeployment.
+func (mr *MockWorkflowServiceClientMockRecorder) DescribeDeployment(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeDeployment", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeDeployment), varargs...)
+}
+
 // DescribeNamespace mocks base method.
 func (m *MockWorkflowServiceClient) DescribeNamespace(ctx context.Context, in *workflowservice.DescribeNamespaceRequest, opts ...grpc.CallOption) (*workflowservice.DescribeNamespaceResponse, error) {
 	m.ctrl.T.Helper()
@@ -296,6 +316,46 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetClusterInfo(ctx, in interfac
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetClusterInfo", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetClusterInfo), varargs...)
+}
+
+// GetCurrentDeployment mocks base method.
+func (m *MockWorkflowServiceClient) GetCurrentDeployment(ctx context.Context, in *workflowservice.GetCurrentDeploymentRequest, opts ...grpc.CallOption) (*workflowservice.GetCurrentDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetCurrentDeployment", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetCurrentDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCurrentDeployment indicates an expected call of GetCurrentDeployment.
+func (mr *MockWorkflowServiceClientMockRecorder) GetCurrentDeployment(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentDeployment", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetCurrentDeployment), varargs...)
+}
+
+// GetDeploymentReachability mocks base method.
+func (m *MockWorkflowServiceClient) GetDeploymentReachability(ctx context.Context, in *workflowservice.GetDeploymentReachabilityRequest, opts ...grpc.CallOption) (*workflowservice.GetDeploymentReachabilityResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetDeploymentReachability", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetDeploymentReachabilityResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetDeploymentReachability indicates an expected call of GetDeploymentReachability.
+func (mr *MockWorkflowServiceClientMockRecorder) GetDeploymentReachability(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeploymentReachability", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetDeploymentReachability), varargs...)
 }
 
 // GetSearchAttributes mocks base method.
@@ -496,6 +556,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListClosedWorkflowExecutions(ct
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListClosedWorkflowExecutions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListClosedWorkflowExecutions), varargs...)
+}
+
+// ListDeployments mocks base method.
+func (m *MockWorkflowServiceClient) ListDeployments(ctx context.Context, in *workflowservice.ListDeploymentsRequest, opts ...grpc.CallOption) (*workflowservice.ListDeploymentsResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListDeployments", varargs...)
+	ret0, _ := ret[0].(*workflowservice.ListDeploymentsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListDeployments indicates an expected call of ListDeployments.
+func (mr *MockWorkflowServiceClientMockRecorder) ListDeployments(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListDeployments", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListDeployments), varargs...)
 }
 
 // ListNamespaces mocks base method.
@@ -1138,6 +1218,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) ScanWorkflowExecutions(ctx, in 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ScanWorkflowExecutions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ScanWorkflowExecutions), varargs...)
 }
 
+// SetCurrentDeployment mocks base method.
+func (m *MockWorkflowServiceClient) SetCurrentDeployment(ctx context.Context, in *workflowservice.SetCurrentDeploymentRequest, opts ...grpc.CallOption) (*workflowservice.SetCurrentDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "SetCurrentDeployment", varargs...)
+	ret0, _ := ret[0].(*workflowservice.SetCurrentDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SetCurrentDeployment indicates an expected call of SetCurrentDeployment.
+func (mr *MockWorkflowServiceClientMockRecorder) SetCurrentDeployment(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentDeployment", reflect.TypeOf((*MockWorkflowServiceClient)(nil).SetCurrentDeployment), varargs...)
+}
+
 // ShutdownWorker mocks base method.
 func (m *MockWorkflowServiceClient) ShutdownWorker(ctx context.Context, in *workflowservice.ShutdownWorkerRequest, opts ...grpc.CallOption) (*workflowservice.ShutdownWorkerResponse, error) {
 	m.ctrl.T.Helper()
@@ -1418,6 +1518,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkflowExecution(ctx, in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkflowExecution), varargs...)
 }
 
+// UpdateWorkflowExecutionOptions mocks base method.
+func (m *MockWorkflowServiceClient) UpdateWorkflowExecutionOptions(ctx context.Context, in *workflowservice.UpdateWorkflowExecutionOptionsRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkflowExecutionOptionsResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateWorkflowExecutionOptions", varargs...)
+	ret0, _ := ret[0].(*workflowservice.UpdateWorkflowExecutionOptionsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWorkflowExecutionOptions indicates an expected call of UpdateWorkflowExecutionOptions.
+func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkflowExecutionOptions(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflowExecutionOptions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkflowExecutionOptions), varargs...)
+}
+
 // MockWorkflowServiceServer is a mock of WorkflowServiceServer interface.
 type MockWorkflowServiceServer struct {
 	workflowservice.UnimplementedWorkflowServiceServer
@@ -1534,6 +1654,21 @@ func (mr *MockWorkflowServiceServerMockRecorder) DescribeBatchOperation(arg0, ar
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeBatchOperation", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeBatchOperation), arg0, arg1)
 }
 
+// DescribeDeployment mocks base method.
+func (m *MockWorkflowServiceServer) DescribeDeployment(arg0 context.Context, arg1 *workflowservice.DescribeDeploymentRequest) (*workflowservice.DescribeDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DescribeDeployment", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.DescribeDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DescribeDeployment indicates an expected call of DescribeDeployment.
+func (mr *MockWorkflowServiceServerMockRecorder) DescribeDeployment(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeDeployment", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeDeployment), arg0, arg1)
+}
+
 // DescribeNamespace mocks base method.
 func (m *MockWorkflowServiceServer) DescribeNamespace(arg0 context.Context, arg1 *workflowservice.DescribeNamespaceRequest) (*workflowservice.DescribeNamespaceResponse, error) {
 	m.ctrl.T.Helper()
@@ -1622,6 +1757,36 @@ func (m *MockWorkflowServiceServer) GetClusterInfo(arg0 context.Context, arg1 *w
 func (mr *MockWorkflowServiceServerMockRecorder) GetClusterInfo(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetClusterInfo", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetClusterInfo), arg0, arg1)
+}
+
+// GetCurrentDeployment mocks base method.
+func (m *MockWorkflowServiceServer) GetCurrentDeployment(arg0 context.Context, arg1 *workflowservice.GetCurrentDeploymentRequest) (*workflowservice.GetCurrentDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCurrentDeployment", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetCurrentDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCurrentDeployment indicates an expected call of GetCurrentDeployment.
+func (mr *MockWorkflowServiceServerMockRecorder) GetCurrentDeployment(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentDeployment", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetCurrentDeployment), arg0, arg1)
+}
+
+// GetDeploymentReachability mocks base method.
+func (m *MockWorkflowServiceServer) GetDeploymentReachability(arg0 context.Context, arg1 *workflowservice.GetDeploymentReachabilityRequest) (*workflowservice.GetDeploymentReachabilityResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetDeploymentReachability", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetDeploymentReachabilityResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetDeploymentReachability indicates an expected call of GetDeploymentReachability.
+func (mr *MockWorkflowServiceServerMockRecorder) GetDeploymentReachability(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetDeploymentReachability", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetDeploymentReachability), arg0, arg1)
 }
 
 // GetSearchAttributes mocks base method.
@@ -1772,6 +1937,21 @@ func (m *MockWorkflowServiceServer) ListClosedWorkflowExecutions(arg0 context.Co
 func (mr *MockWorkflowServiceServerMockRecorder) ListClosedWorkflowExecutions(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListClosedWorkflowExecutions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListClosedWorkflowExecutions), arg0, arg1)
+}
+
+// ListDeployments mocks base method.
+func (m *MockWorkflowServiceServer) ListDeployments(arg0 context.Context, arg1 *workflowservice.ListDeploymentsRequest) (*workflowservice.ListDeploymentsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListDeployments", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.ListDeploymentsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListDeployments indicates an expected call of ListDeployments.
+func (mr *MockWorkflowServiceServerMockRecorder) ListDeployments(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListDeployments", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListDeployments), arg0, arg1)
 }
 
 // ListNamespaces mocks base method.
@@ -2254,6 +2434,21 @@ func (mr *MockWorkflowServiceServerMockRecorder) ScanWorkflowExecutions(arg0, ar
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ScanWorkflowExecutions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ScanWorkflowExecutions), arg0, arg1)
 }
 
+// SetCurrentDeployment mocks base method.
+func (m *MockWorkflowServiceServer) SetCurrentDeployment(arg0 context.Context, arg1 *workflowservice.SetCurrentDeploymentRequest) (*workflowservice.SetCurrentDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetCurrentDeployment", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.SetCurrentDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SetCurrentDeployment indicates an expected call of SetCurrentDeployment.
+func (mr *MockWorkflowServiceServerMockRecorder) SetCurrentDeployment(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentDeployment", reflect.TypeOf((*MockWorkflowServiceServer)(nil).SetCurrentDeployment), arg0, arg1)
+}
+
 // ShutdownWorker mocks base method.
 func (m *MockWorkflowServiceServer) ShutdownWorker(arg0 context.Context, arg1 *workflowservice.ShutdownWorkerRequest) (*workflowservice.ShutdownWorkerResponse, error) {
 	m.ctrl.T.Helper()
@@ -2462,6 +2657,21 @@ func (m *MockWorkflowServiceServer) UpdateWorkflowExecution(arg0 context.Context
 func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkflowExecution(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkflowExecution), arg0, arg1)
+}
+
+// UpdateWorkflowExecutionOptions mocks base method.
+func (m *MockWorkflowServiceServer) UpdateWorkflowExecutionOptions(arg0 context.Context, arg1 *workflowservice.UpdateWorkflowExecutionOptionsRequest) (*workflowservice.UpdateWorkflowExecutionOptionsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateWorkflowExecutionOptions", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.UpdateWorkflowExecutionOptionsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateWorkflowExecutionOptions indicates an expected call of UpdateWorkflowExecutionOptions.
+func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkflowExecutionOptions(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflowExecutionOptions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkflowExecutionOptions), arg0, arg1)
 }
 
 // mustEmbedUnimplementedWorkflowServiceServer mocks base method.
