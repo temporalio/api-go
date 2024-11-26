@@ -186,6 +186,10 @@ func (s *workflowServiceProxyServer) PatchSchedule(ctx context.Context, in0 *wor
 	return s.client.PatchSchedule(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) PauseActivityById(ctx context.Context, in0 *workflowservice.PauseActivityByIdRequest) (*workflowservice.PauseActivityByIdResponse, error) {
+	return s.client.PauseActivityById(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) PollActivityTaskQueue(ctx context.Context, in0 *workflowservice.PollActivityTaskQueueRequest) (*workflowservice.PollActivityTaskQueueResponse, error) {
 	return s.client.PollActivityTaskQueue(s.reqCtx(ctx), in0)
 }
@@ -220,6 +224,10 @@ func (s *workflowServiceProxyServer) RegisterNamespace(ctx context.Context, in0 
 
 func (s *workflowServiceProxyServer) RequestCancelWorkflowExecution(ctx context.Context, in0 *workflowservice.RequestCancelWorkflowExecutionRequest) (*workflowservice.RequestCancelWorkflowExecutionResponse, error) {
 	return s.client.RequestCancelWorkflowExecution(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) ResetActivityById(ctx context.Context, in0 *workflowservice.ResetActivityByIdRequest) (*workflowservice.ResetActivityByIdResponse, error) {
+	return s.client.ResetActivityById(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) ResetStickyTaskQueue(ctx context.Context, in0 *workflowservice.ResetStickyTaskQueueRequest) (*workflowservice.ResetStickyTaskQueueResponse, error) {
@@ -308,6 +316,10 @@ func (s *workflowServiceProxyServer) StopBatchOperation(ctx context.Context, in0
 
 func (s *workflowServiceProxyServer) TerminateWorkflowExecution(ctx context.Context, in0 *workflowservice.TerminateWorkflowExecutionRequest) (*workflowservice.TerminateWorkflowExecutionResponse, error) {
 	return s.client.TerminateWorkflowExecution(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) UnpauseActivityById(ctx context.Context, in0 *workflowservice.UnpauseActivityByIdRequest) (*workflowservice.UnpauseActivityByIdResponse, error) {
+	return s.client.UnpauseActivityById(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) UpdateActivityOptionsById(ctx context.Context, in0 *workflowservice.UpdateActivityOptionsByIdRequest) (*workflowservice.UpdateActivityOptionsByIdResponse, error) {

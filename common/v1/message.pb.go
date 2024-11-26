@@ -633,7 +633,7 @@ func (x *MeteringMetadata) GetNonfirstLocalActivityExecutionAttempts() uint32 {
 }
 
 // Deprecated. This message is replaced with `Deployment` and `VersioningBehavior`.
-// Identifies the version of a worker that received or processed a task
+// Identifies the version(s) of a worker that processed a task
 type WorkerVersionStamp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
