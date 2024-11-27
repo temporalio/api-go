@@ -41,7 +41,7 @@ type (
 	}
 )
 
-// NewNamespaceUnavailable returns new NamespaceInvalidState error.
+// NewNamespaceUnavailable returns new NamespaceUnavailable error.
 func NewNamespaceUnavailable(namespace string) error {
 	return &NamespaceUnavailable{
 		Namespace: namespace,
