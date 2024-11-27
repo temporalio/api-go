@@ -1,6 +1,8 @@
 [submodule "proto/api"]
 	path = proto/api
-	url = https://github.com/temporalio/api
+	url = ../api
+    branch = cg/reset_with_children_proto
+    ignore = dirty
 [submodule "proto/api-cloud"]
 	path = proto/api-cloud
 	url = https://github.com/temporalio/api-cloud
