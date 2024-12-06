@@ -5355,15 +5355,17 @@ type RespondQueryTaskCompletedRequest struct {
 	// Mutually exclusive with `error_message` and `failure`. Set when the query succeeds.
 	QueryResult *v13.Payloads `protobuf:"bytes,3,opt,name=query_result,json=queryResult,proto3" json:"query_result,omitempty"`
 	// A plain error message that must be set if completed_type is QUERY_RESULT_TYPE_FAILED.
-	// SDKs should also fill in the more complete `failure` field to provide the full context and support encryption of
-	// the failure message.
-	// The error message will be duplicated if the `failure` field is present to support callers that pre-date the
-	// addition of that field.
+	// SDKs should also fill in the more complete `failure` field to provide the full context and
+	// support encryption of failure information.
+	// `error_message` will be duplicated if the `failure` field is present to support callers
+	// that pre-date the addition of that field, regardless of whether or not a custom failure
+	// converter is used.
 	// Mutually exclusive with `query_result`. Set when the query fails.
 	ErrorMessage string `protobuf:"bytes,4,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	Namespace    string `protobuf:"bytes,6,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// The full reason for this query failure. This field is newer than `error_message` and can be encoded by the SDK's
-	// failure converter to support E2E encryption of messages and stack traces.
+	// The full reason for this query failure. This field is newer than `error_message` and can be
+	// encoded by the SDK's failure converter to support E2E encryption of messages and stack
+	// traces.
 	// Mutually exclusive with `query_result`. Set when the query fails.
 	Failure *v15.Failure `protobuf:"bytes,7,opt,name=failure,proto3" json:"failure,omitempty"`
 }
