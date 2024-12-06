@@ -1474,6 +1474,7 @@ func visitPayloads(
 				options,
 				o,
 				o.GetAnswer(),
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -2278,6 +2279,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetFailure(),
 				o.GetQueryResult(),
 			); err != nil {
 				return err
@@ -2854,6 +2856,26 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case map[string]*query.WorkflowQueryResult:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *query.WorkflowQueryResult:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *update.Outcome:
 			if o == nil {
 				continue
@@ -3127,6 +3149,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *workflowservice.RespondQueryTaskCompletedRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.RespondWorkflowTaskCompletedRequest:
 			if o == nil {
 				continue
@@ -3136,6 +3171,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetCommands(),
+				o.GetQueryResults(),
 			); err != nil {
 				return err
 			}
