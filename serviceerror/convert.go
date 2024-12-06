@@ -135,9 +135,9 @@ func FromStatus(st *status.Status) error {
 			return newNotFound(st, nil)
 		}
 	case codes.InvalidArgument:
-		switch errDetails.(type) {
+		switch errDetails := errDetails.(type) {
 		case *errordetails.QueryFailedFailure:
-			return newQueryFailed(st)
+			return newQueryFailed(st, errDetails)
 		default:
 			return newInvalidArgument(st)
 		}
