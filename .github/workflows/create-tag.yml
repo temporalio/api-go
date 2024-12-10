@@ -1,0 +1,106 @@
+name: "Create a tag"
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: "Ref to be tagged"
+        required: true
+        type: string
+        default: master
+      tag:
+        description: "Tag for new version (v1.23.4)"
+        required: true
+        type: string
+      create_release:
+        description: "Create release and set as latest"
+        type: boolean
+        default: true
+      base_tag:
+        description: "Base tag to generate commit list for release notes"
+        required: false
+        type: string
+    secrets:
+      TEMPORAL_CICD_APP_ID:
+        required: true
+      TEMPORAL_CICD_PRIVATE_KEY:
+        required: true
+
+jobs:
+  create-tag:
+    name: "Create a tag"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.TEMPORAL_CICD_APP_ID }}
+          private-key: ${{ secrets.TEMPORAL_CICD_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: temporalio/api-go
+          ref: ${{ github.event.inputs.ref }}
+          token: ${{ steps.generate_token.outputs.token }}
+          persist-credentials: true
+          fetch-depth: 0
+          fetch-tags: true
+          submodules: true
+
+      - name: Set up Github credentials
+        run: |
+          git config --local user.name 'Temporal Data'
+          git config --local user.email 'commander-data@temporal.io'
+
+      - name: Prepare new version string
+        id: new_version
+        env:
+          TAG: ${{ github.event.inputs.tag }}
+        run: |
+          if [[ "${TAG}" =~ ^v.* ]]; then
+              echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          else
+              echo "tag=v${TAG}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate input
+        env:
+          REF: ${{ github.event.inputs.ref }}
+          TAG: ${{ steps.new_version.outputs.tag }}
+          CREATE_RELEASE: ${{ github.event.inputs.create_release }}
+          BASE_TAG: ${{ github.event.inputs.base_tag }}
+        run: |
+          if [[ -n "$(git tag -l "$TAG")" && "$(git rev-parse "$TAG")" != "$(git rev-parse HEAD)" ]]; then
+            echo "::error::Tag already exists and it doesn't reference $REF"
+            exit 1
+          fi
+
+          if [[ "$CREATE_RELEASE" == "true" ]]; then
+            if [[ -z "$BASE_TAG" || -z "$(git tag -l "$BASE_TAG")" ]]; then
+              echo "::error::Base tag not specified or does not exist"
+              exit 1
+            fi
+          fi
+
+      - name: Create and push tag
+        env:
+          TAG: ${{ steps.new_version.outputs.tag }}
+        run: |
+          if [[ -z "$(git tag -l "$TAG")" ]]; then
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
+
+      - name: Create release
+        if: ${{ github.event.inputs.create_release == true || github.event.inputs.create_release == 'true' }}
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          TAG: ${{ steps.new_version.outputs.tag }}
+          BASE_TAG: ${{ github.event.inputs.base_tag }}
+        run: |
+          gh repo set-default ${{ github.repository }}
+          gh release create "$TAG" --verify-tag --latest --generate-notes --notes-start-tag "$BASE_TAG"
