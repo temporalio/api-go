@@ -32,19 +32,11 @@ jobs:
         id: inputs
         env:
           GH_TOKEN: ${{ github.token }}
-          SDK_REF: ${{ github.event.inputs.sdk_ref }}
-          API_REF: ${{ github.event.inputs.api_ref }}
+          SDK_REF: ${{ inputs.sdk_ref }}
+          API_REF: ${{ inputs.api_ref }}
         run: |
           if [[ "$SDK_REF" == "latest" ]]; then
             SDK_REF=$(gh api /repos/temporalio/sdk-go/releases/latest --jq '.name')
-          fi
-          if ! gh api "/repos/temporalio/sdk-go/commits/$SDK_REF"; then
-            echo "::error::Reference $SDK_REF not found in sdk-go"
-            exit 1
-          fi
-          if ! gh api "/repos/temporalio/api-go/commits/$API_REF"; then
-            echo "::error::Reference $API_REF not found in api-go"
-            exit 1
           fi
           echo "SDK_REF=$SDK_REF" >> "$GITHUB_OUTPUT"
           echo "API_REF=$API_REF" >> "$GITHUB_OUTPUT"
