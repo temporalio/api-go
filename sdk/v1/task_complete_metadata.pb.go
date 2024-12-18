@@ -44,10 +44,7 @@ const (
 )
 
 type WorkflowTaskCompletedMetadata struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Internal flags used by the core SDK. SDKs using flags must comply with the following behavior:
 	//
 	// During replay:
@@ -88,7 +85,9 @@ type WorkflowTaskCompletedMetadata struct {
 	// Version of the SDK that processed the task. This is usually something like "1.20.0" and is
 	// usually the same as client-version gRPC header. This should only be set if its value changed
 	// since the last time recorded on the workflow (or be set on the first task).
-	SdkVersion string `protobuf:"bytes,4,opt,name=sdk_version,json=sdkVersion,proto3" json:"sdk_version,omitempty"`
+	SdkVersion    string `protobuf:"bytes,4,opt,name=sdk_version,json=sdkVersion,proto3" json:"sdk_version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowTaskCompletedMetadata) Reset() {

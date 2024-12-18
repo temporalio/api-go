@@ -46,12 +46,11 @@ const (
 )
 
 type WorkflowExecutionFilter struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	WorkflowId string `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId      string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionFilter) Reset() {
@@ -99,11 +98,10 @@ func (x *WorkflowExecutionFilter) GetRunId() string {
 }
 
 type WorkflowTypeFilter struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowTypeFilter) Reset() {
@@ -144,12 +142,11 @@ func (x *WorkflowTypeFilter) GetName() string {
 }
 
 type StartTimeFilter struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EarliestTime  *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=earliest_time,json=earliestTime,proto3" json:"earliest_time,omitempty"`
+	LatestTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=latest_time,json=latestTime,proto3" json:"latest_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	EarliestTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=earliest_time,json=earliestTime,proto3" json:"earliest_time,omitempty"`
-	LatestTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=latest_time,json=latestTime,proto3" json:"latest_time,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StartTimeFilter) Reset() {
@@ -197,11 +194,10 @@ func (x *StartTimeFilter) GetLatestTime() *timestamppb.Timestamp {
 }
 
 type StatusFilter struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Status        v1.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Status v1.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StatusFilter) Reset() {

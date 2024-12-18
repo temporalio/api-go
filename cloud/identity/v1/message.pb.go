@@ -250,10 +250,7 @@ func (NamespaceAccess_Permission) EnumDescriptor() ([]byte, []int) {
 }
 
 type AccountAccess struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The role on the account, should be one of [owner, admin, developer, financeadmin, read]
 	// owner - gives full access to the account, including users, namespaces, and billing
 	// admin - gives full access the account, including users and namespaces
@@ -268,7 +265,9 @@ type AccountAccess struct {
 	// The role on the account.
 	// temporal:versioning:min_version=2024-10-01-00
 	// temporal:enums:replaces=role_deprecated
-	Role AccountAccess_Role `protobuf:"varint,2,opt,name=role,proto3,enum=temporal.api.cloud.identity.v1.AccountAccess_Role" json:"role,omitempty"`
+	Role          AccountAccess_Role `protobuf:"varint,2,opt,name=role,proto3,enum=temporal.api.cloud.identity.v1.AccountAccess_Role" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AccountAccess) Reset() {
@@ -317,10 +316,7 @@ func (x *AccountAccess) GetRole() AccountAccess_Role {
 }
 
 type NamespaceAccess struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The permission to the namespace, should be one of [admin, write, read]
 	// admin - gives full access to the namespace, including assigning namespace access to other users
 	// write - gives write access to the namespace configuration and workflows within the namespace
@@ -333,7 +329,9 @@ type NamespaceAccess struct {
 	// The permission to the namespace.
 	// temporal:versioning:min_version=2024-10-01-00
 	// temporal:enums:replaces=permission_deprecated
-	Permission NamespaceAccess_Permission `protobuf:"varint,2,opt,name=permission,proto3,enum=temporal.api.cloud.identity.v1.NamespaceAccess_Permission" json:"permission,omitempty"`
+	Permission    NamespaceAccess_Permission `protobuf:"varint,2,opt,name=permission,proto3,enum=temporal.api.cloud.identity.v1.NamespaceAccess_Permission" json:"permission,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NamespaceAccess) Reset() {
@@ -382,15 +380,14 @@ func (x *NamespaceAccess) GetPermission() NamespaceAccess_Permission {
 }
 
 type Access struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The account access
 	AccountAccess *AccountAccess `protobuf:"bytes,1,opt,name=account_access,json=accountAccess,proto3" json:"account_access,omitempty"`
 	// The map of namespace accesses
 	// The key is the namespace name and the value is the access to the namespace
-	NamespaceAccesses map[string]*NamespaceAccess `protobuf:"bytes,2,rep,name=namespace_accesses,json=namespaceAccesses,proto3" json:"namespace_accesses,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	NamespaceAccesses map[string]*NamespaceAccess `protobuf:"bytes,2,rep,name=namespace_accesses,json=namespaceAccesses,proto3" json:"namespace_accesses,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Access) Reset() {
@@ -438,14 +435,13 @@ func (x *Access) GetNamespaceAccesses() map[string]*NamespaceAccess {
 }
 
 type UserSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The email address associated to the user
 	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	// The access to assigned to the user
-	Access *Access `protobuf:"bytes,2,opt,name=access,proto3" json:"access,omitempty"`
+	Access        *Access `protobuf:"bytes,2,opt,name=access,proto3" json:"access,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UserSpec) Reset() {
@@ -493,14 +489,13 @@ func (x *UserSpec) GetAccess() *Access {
 }
 
 type Invitation struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The date and time when the user was created
 	CreatedTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
 	// The date and time when the invitation expires or has expired
-	ExpiredTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=expired_time,json=expiredTime,proto3" json:"expired_time,omitempty"`
+	ExpiredTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=expired_time,json=expiredTime,proto3" json:"expired_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Invitation) Reset() {
@@ -548,10 +543,7 @@ func (x *Invitation) GetExpiredTime() *timestamppb.Timestamp {
 }
 
 type User struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the user
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current version of the user specification
@@ -579,6 +571,8 @@ type User struct {
 	// The date and time when the user was last modified
 	// Will not be set if the user has never been modified
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *User) Reset() {
@@ -676,13 +670,12 @@ func (x *User) GetLastModifiedTime() *timestamppb.Timestamp {
 }
 
 type GoogleGroupSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The email address of the Google group.
 	// The email address is immutable. Once set during creation, it cannot be changed.
-	EmailAddress string `protobuf:"bytes,1,opt,name=email_address,json=emailAddress,proto3" json:"email_address,omitempty"`
+	EmailAddress  string `protobuf:"bytes,1,opt,name=email_address,json=emailAddress,proto3" json:"email_address,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GoogleGroupSpec) Reset() {
@@ -723,17 +716,16 @@ func (x *GoogleGroupSpec) GetEmailAddress() string {
 }
 
 type UserGroupSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The display name of the group.
 	DisplayName string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// The access assigned to the group.
 	Access *Access `protobuf:"bytes,2,opt,name=access,proto3" json:"access,omitempty"`
 	// The specification of the google group that this group is associated with.
 	// For now only google groups are supported, and this field is required.
-	GoogleGroup *GoogleGroupSpec `protobuf:"bytes,3,opt,name=google_group,json=googleGroup,proto3" json:"google_group,omitempty"`
+	GoogleGroup   *GoogleGroupSpec `protobuf:"bytes,3,opt,name=google_group,json=googleGroup,proto3" json:"google_group,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UserGroupSpec) Reset() {
@@ -788,10 +780,7 @@ func (x *UserGroupSpec) GetGoogleGroup() *GoogleGroupSpec {
 }
 
 type UserGroup struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the group
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current version of the group specification
@@ -817,6 +806,8 @@ type UserGroup struct {
 	// The date and time when the group was last modified
 	// Will not be set if the group has never been modified
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UserGroup) Reset() {
@@ -907,10 +898,7 @@ func (x *UserGroup) GetLastModifiedTime() *timestamppb.Timestamp {
 }
 
 type ServiceAccount struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the service account.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current version of the service account specification.
@@ -938,6 +926,8 @@ type ServiceAccount struct {
 	// The date and time when the service account was last modified
 	// Will not be set if the service account has never been modified.
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ServiceAccount) Reset() {
@@ -1028,10 +1018,7 @@ func (x *ServiceAccount) GetLastModifiedTime() *timestamppb.Timestamp {
 }
 
 type ServiceAccountSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The name associated with the service account.
 	// The name is mutable, but must be unique across all your active service accounts.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -1040,7 +1027,9 @@ type ServiceAccountSpec struct {
 	Access *Access `protobuf:"bytes,2,opt,name=access,proto3" json:"access,omitempty"`
 	// The description associated with the service account - optional.
 	// The description is mutable.
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Description   string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ServiceAccountSpec) Reset() {
@@ -1095,10 +1084,7 @@ func (x *ServiceAccountSpec) GetDescription() string {
 }
 
 type ApiKey struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the API Key.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current version of the API key specification.
@@ -1125,6 +1111,8 @@ type ApiKey struct {
 	// The date and time when the API key was last modified.
 	// Will not be set if the API key has never been modified.
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ApiKey) Reset() {
@@ -1215,10 +1203,7 @@ func (x *ApiKey) GetLastModifiedTime() *timestamppb.Timestamp {
 }
 
 type ApiKeySpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the owner to create the API key for.
 	// The owner id is immutable. Once set during creation, it cannot be changed.
 	// The owner id is the id of the user when the owner type is user.
@@ -1243,7 +1228,9 @@ type ApiKeySpec struct {
 	// The expiry time of the API key.
 	ExpiryTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=expiry_time,json=expiryTime,proto3" json:"expiry_time,omitempty"`
 	// True if the API key is disabled.
-	Disabled bool `protobuf:"varint,6,opt,name=disabled,proto3" json:"disabled,omitempty"`
+	Disabled      bool `protobuf:"varint,6,opt,name=disabled,proto3" json:"disabled,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ApiKeySpec) Reset() {

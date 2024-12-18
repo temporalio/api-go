@@ -46,10 +46,7 @@ const (
 
 // Information a user can set, often for use by user interfaces.
 type UserMetadata struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Short-form text that provides a summary. This payload should be a "json/plain"-encoded payload
 	// that is a single JSON string for use in user interfaces. User interface formatting may not
 	// apply to this text when used in "title" situations. The payload data section is limited to 400
@@ -58,7 +55,9 @@ type UserMetadata struct {
 	// Long-form text that provides details. This payload should be a "json/plain"-encoded payload
 	// that is a single JSON string for use in user interfaces. User interface formatting may apply to
 	// this text in common use. The payload data section is limited to 20000 bytes by default.
-	Details *v1.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	Details       *v1.Payload `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UserMetadata) Reset() {

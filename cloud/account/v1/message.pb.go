@@ -45,13 +45,12 @@ const (
 )
 
 type MetricsSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The ca cert(s) in PEM format that clients connecting to the metrics endpoint can use for authentication.
 	// This must only be one value, but the CA can have a chain.
 	AcceptedClientCa []byte `protobuf:"bytes,2,opt,name=accepted_client_ca,json=acceptedClientCa,proto3" json:"accepted_client_ca,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *MetricsSpec) Reset() {
@@ -92,13 +91,12 @@ func (x *MetricsSpec) GetAcceptedClientCa() []byte {
 }
 
 type AccountSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The metrics specification for this account.
 	// If not specified, metrics will not be enabled.
-	Metrics *MetricsSpec `protobuf:"bytes,1,opt,name=metrics,proto3" json:"metrics,omitempty"`
+	Metrics       *MetricsSpec `protobuf:"bytes,1,opt,name=metrics,proto3" json:"metrics,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AccountSpec) Reset() {
@@ -139,13 +137,12 @@ func (x *AccountSpec) GetMetrics() *MetricsSpec {
 }
 
 type Metrics struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The prometheus metrics endpoint uri.
 	// This is only populated when the metrics is enabled in the metrics specification.
-	Uri string `protobuf:"bytes,1,opt,name=uri,proto3" json:"uri,omitempty"`
+	Uri           string `protobuf:"bytes,1,opt,name=uri,proto3" json:"uri,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Metrics) Reset() {
@@ -186,10 +183,7 @@ func (x *Metrics) GetUri() string {
 }
 
 type Account struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the account.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The account specification.
@@ -202,7 +196,9 @@ type Account struct {
 	// The id of the async operation that is updating the account, if any.
 	AsyncOperationId string `protobuf:"bytes,5,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
 	// Information related to metrics.
-	Metrics *Metrics `protobuf:"bytes,6,opt,name=metrics,proto3" json:"metrics,omitempty"`
+	Metrics       *Metrics `protobuf:"bytes,6,opt,name=metrics,proto3" json:"metrics,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Account) Reset() {

@@ -47,13 +47,12 @@ const (
 )
 
 type AddSearchAttributesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Mapping between search attribute name and its IndexedValueType.
-	SearchAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.enums.v1.IndexedValueType"`
+	SearchAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	Namespace        string                         `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *AddSearchAttributesRequest) Reset() {
@@ -101,9 +100,9 @@ func (x *AddSearchAttributesRequest) GetNamespace() string {
 }
 
 type AddSearchAttributesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AddSearchAttributesResponse) Reset() {
@@ -137,13 +136,12 @@ func (*AddSearchAttributesResponse) Descriptor() ([]byte, []int) {
 }
 
 type RemoveSearchAttributesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Search attribute names to delete.
 	SearchAttributes []string `protobuf:"bytes,1,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	Namespace        string   `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *RemoveSearchAttributesRequest) Reset() {
@@ -191,9 +189,9 @@ func (x *RemoveSearchAttributesRequest) GetNamespace() string {
 }
 
 type RemoveSearchAttributesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RemoveSearchAttributesResponse) Reset() {
@@ -227,11 +225,10 @@ func (*RemoveSearchAttributesResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListSearchAttributesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListSearchAttributesRequest) Reset() {
@@ -272,16 +269,15 @@ func (x *ListSearchAttributesRequest) GetNamespace() string {
 }
 
 type ListSearchAttributesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Mapping between custom (user-registered) search attribute name to its IndexedValueType.
-	CustomAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=custom_attributes,json=customAttributes,proto3" json:"custom_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.enums.v1.IndexedValueType"`
+	CustomAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=custom_attributes,json=customAttributes,proto3" json:"custom_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	// Mapping between system (predefined) search attribute name to its IndexedValueType.
-	SystemAttributes map[string]v1.IndexedValueType `protobuf:"bytes,2,rep,name=system_attributes,json=systemAttributes,proto3" json:"system_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.enums.v1.IndexedValueType"`
+	SystemAttributes map[string]v1.IndexedValueType `protobuf:"bytes,2,rep,name=system_attributes,json=systemAttributes,proto3" json:"system_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	// Mapping from the attribute name to the visibility storage native type.
-	StorageSchema map[string]string `protobuf:"bytes,3,rep,name=storage_schema,json=storageSchema,proto3" json:"storage_schema,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	StorageSchema map[string]string `protobuf:"bytes,3,rep,name=storage_schema,json=storageSchema,proto3" json:"storage_schema,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListSearchAttributesResponse) Reset() {
@@ -336,16 +332,15 @@ func (x *ListSearchAttributesResponse) GetStorageSchema() map[string]string {
 }
 
 type DeleteNamespaceRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Only one of namespace or namespace_id must be specified to identify namespace.
 	Namespace   string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	NamespaceId string `protobuf:"bytes,2,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	// If provided, the deletion of namespace info will be delayed for the given duration (0 means no delay).
 	// If not provided, the default delay configured in the cluster will be used.
 	NamespaceDeleteDelay *durationpb.Duration `protobuf:"bytes,3,opt,name=namespace_delete_delay,json=namespaceDeleteDelay,proto3" json:"namespace_delete_delay,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *DeleteNamespaceRequest) Reset() {
@@ -400,12 +395,11 @@ func (x *DeleteNamespaceRequest) GetNamespaceDeleteDelay() *durationpb.Duration 
 }
 
 type DeleteNamespaceResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Temporary namespace name that is used during reclaim resources step.
 	DeletedNamespace string `protobuf:"bytes,1,opt,name=deleted_namespace,json=deletedNamespace,proto3" json:"deleted_namespace,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteNamespaceResponse) Reset() {
@@ -446,10 +440,7 @@ func (x *DeleteNamespaceResponse) GetDeletedNamespace() string {
 }
 
 type AddOrUpdateRemoteClusterRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Frontend Address is a cross cluster accessible address for gRPC traffic. This field is required.
 	FrontendAddress string `protobuf:"bytes,1,opt,name=frontend_address,json=frontendAddress,proto3" json:"frontend_address,omitempty"`
 	// Flag to enable / disable the cross cluster connection.
@@ -458,6 +449,8 @@ type AddOrUpdateRemoteClusterRequest struct {
 	//
 	//	on update, the existing HTTP address will be removed.
 	FrontendHttpAddress string `protobuf:"bytes,3,opt,name=frontend_http_address,json=frontendHttpAddress,proto3" json:"frontend_http_address,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *AddOrUpdateRemoteClusterRequest) Reset() {
@@ -512,9 +505,9 @@ func (x *AddOrUpdateRemoteClusterRequest) GetFrontendHttpAddress() string {
 }
 
 type AddOrUpdateRemoteClusterResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AddOrUpdateRemoteClusterResponse) Reset() {
@@ -548,12 +541,11 @@ func (*AddOrUpdateRemoteClusterResponse) Descriptor() ([]byte, []int) {
 }
 
 type RemoveRemoteClusterRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Remote cluster name to be removed.
-	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+	ClusterName   string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RemoveRemoteClusterRequest) Reset() {
@@ -594,9 +586,9 @@ func (x *RemoveRemoteClusterRequest) GetClusterName() string {
 }
 
 type RemoveRemoteClusterResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RemoveRemoteClusterResponse) Reset() {
@@ -630,12 +622,11 @@ func (*RemoveRemoteClusterResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListClustersRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PageSize      int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken []byte                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	PageSize      int32  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListClustersRequest) Reset() {
@@ -683,13 +674,12 @@ func (x *ListClustersRequest) GetNextPageToken() []byte {
 }
 
 type ListClustersResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// List of all cluster information
 	Clusters      []*ClusterMetadata `protobuf:"bytes,1,rep,name=clusters,proto3" json:"clusters,omitempty"`
 	NextPageToken []byte             `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListClustersResponse) Reset() {
@@ -737,10 +727,7 @@ func (x *ListClustersResponse) GetNextPageToken() []byte {
 }
 
 type ClusterMetadata struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Name of the cluster name.
 	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 	// Id of the cluster.
@@ -755,6 +742,8 @@ type ClusterMetadata struct {
 	HistoryShardCount int32 `protobuf:"varint,5,opt,name=history_shard_count,json=historyShardCount,proto3" json:"history_shard_count,omitempty"`
 	// A flag to indicate if a connection is active.
 	IsConnectionEnabled bool `protobuf:"varint,6,opt,name=is_connection_enabled,json=isConnectionEnabled,proto3" json:"is_connection_enabled,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ClusterMetadata) Reset() {
@@ -837,12 +826,11 @@ func (x *ClusterMetadata) GetIsConnectionEnabled() bool {
 }
 
 type GetNexusEndpointRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Server-generated unique endpoint ID.
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetNexusEndpointRequest) Reset() {
@@ -883,11 +871,10 @@ func (x *GetNexusEndpointRequest) GetId() string {
 }
 
 type GetNexusEndpointResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Endpoint      *v11.Endpoint          `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Endpoint *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetNexusEndpointResponse) Reset() {
@@ -928,12 +915,11 @@ func (x *GetNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 }
 
 type CreateNexusEndpointRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Endpoint definition to create.
-	Spec *v11.EndpointSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
+	Spec          *v11.EndpointSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateNexusEndpointRequest) Reset() {
@@ -974,12 +960,11 @@ func (x *CreateNexusEndpointRequest) GetSpec() *v11.EndpointSpec {
 }
 
 type CreateNexusEndpointResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Data post acceptance. Can be used to issue additional updates to this record.
-	Endpoint *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	Endpoint      *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateNexusEndpointResponse) Reset() {
@@ -1020,15 +1005,14 @@ func (x *CreateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 }
 
 type UpdateNexusEndpointRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Server-generated unique endpoint ID.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Data version for this endpoint. Must match current version.
-	Version int64             `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
-	Spec    *v11.EndpointSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
+	Version       int64             `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	Spec          *v11.EndpointSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateNexusEndpointRequest) Reset() {
@@ -1083,12 +1067,11 @@ func (x *UpdateNexusEndpointRequest) GetSpec() *v11.EndpointSpec {
 }
 
 type UpdateNexusEndpointResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Data post acceptance. Can be used to issue additional updates to this record.
-	Endpoint *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	Endpoint      *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateNexusEndpointResponse) Reset() {
@@ -1129,14 +1112,13 @@ func (x *UpdateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 }
 
 type DeleteNexusEndpointRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Server-generated unique endpoint ID.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Data version for this endpoint. Must match current version.
-	Version int64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	Version       int64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteNexusEndpointRequest) Reset() {
@@ -1184,9 +1166,9 @@ func (x *DeleteNexusEndpointRequest) GetVersion() int64 {
 }
 
 type DeleteNexusEndpointResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteNexusEndpointResponse) Reset() {
@@ -1220,11 +1202,8 @@ func (*DeleteNexusEndpointResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListNexusEndpointsRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	PageSize int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// To get the next page, pass in `ListNexusEndpointsResponse.next_page_token` from the previous page's
 	// response, the token will be empty if there's no other page.
 	// Note: the last page may be empty if the total number of endpoints registered is a multiple of the page size.
@@ -1233,7 +1212,9 @@ type ListNexusEndpointsRequest struct {
 	// (-- api-linter: core::203::field-behavior-required=disabled
 	//
 	//	aip.dev/not-precedent: Not following linter rules. --)
-	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Name          string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListNexusEndpointsRequest) Reset() {
@@ -1288,13 +1269,12 @@ func (x *ListNexusEndpointsRequest) GetName() string {
 }
 
 type ListNexusEndpointsResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Token for getting the next page.
 	NextPageToken []byte          `protobuf:"bytes,1,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Endpoints     []*v11.Endpoint `protobuf:"bytes,2,rep,name=endpoints,proto3" json:"endpoints,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListNexusEndpointsResponse) Reset() {
