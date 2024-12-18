@@ -1,0 +1,49 @@
+name: "Publish release"
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: "Tag for new version (v1.23.4)"
+        required: true
+        type: string
+      api_commit_sha:
+        description: "api repo commit sha"
+        required: true
+        type: string
+    secrets:
+      TEMPORAL_CICD_APP_ID:
+        required: true
+      TEMPORAL_CICD_PRIVATE_KEY:
+        required: true
+
+jobs:
+  publish-release:
+    name: "Publish release"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.TEMPORAL_CICD_APP_ID }}
+          private-key: ${{ secrets.TEMPORAL_CICD_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          TAG: ${{ inputs.tag }}
+          API_COMMIT_SHA: ${{ inputs.api_commit_sha }}
+        run: |
+          RELEASE_TMP_NAME="${TAG}-${API_COMMIT_SHA}"
+          RELEASE_ID=$(gh api /repos/temporalio/api-go/releases --jq '.[] | select(.name == "'"${RELEASE_TMP_NAME}"'") | .id')
+          if [[ -z "${RELEASE_ID}" ]]; then
+            echo "Release not found"
+            exit 1
+          fi
+          gh api --method PATCH /repos/temporalio/api-go/releases/${RELEASE_ID} \
+            -f "name=${TAG}" \
+            -f "tag_name=${TAG}" \
+            -F "draft=false"
