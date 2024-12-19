@@ -46,10 +46,11 @@ const (
 // A general purpose failure message.
 // See: https://github.com/nexus-rpc/api/blob/main/SPEC.md#failure
 type Failure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	Metadata      map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Details       []byte                 `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	Message  string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Metadata map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// UTF-8 encoded JSON serializable details.
+	Details       []byte `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
