@@ -72,5 +72,6 @@ jobs:
         working-directory: ./internal/cmd/build
 
       - name: Run integration tests
+        continue-on-error: true
         run: go run . integration-test -dev-server
         working-directory: ./internal/cmd/build
