@@ -4,3 +4,4 @@
 [submodule "proto/api-cloud"]
 	path = proto/api-cloud
 	url = https://github.com/temporalio/api-cloud
+	branch = nikki/nexus-payload-description
