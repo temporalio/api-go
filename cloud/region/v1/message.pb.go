@@ -105,10 +105,7 @@ func (Region_CloudProvider) EnumDescriptor() ([]byte, []int) {
 }
 
 type Region struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the temporal cloud region.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The name of the cloud provider that's hosting the region.
@@ -125,7 +122,9 @@ type Region struct {
 	// The region identifier as defined by the cloud provider.
 	CloudProviderRegion string `protobuf:"bytes,3,opt,name=cloud_provider_region,json=cloudProviderRegion,proto3" json:"cloud_provider_region,omitempty"`
 	// The human readable location of the region.
-	Location string `protobuf:"bytes,4,opt,name=location,proto3" json:"location,omitempty"`
+	Location      string `protobuf:"bytes,4,opt,name=location,proto3" json:"location,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Region) Reset() {

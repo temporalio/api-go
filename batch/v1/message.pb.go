@@ -49,10 +49,7 @@ const (
 )
 
 type BatchOperationInfo struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Batch job ID
 	JobId string `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	// Batch operation state
@@ -60,7 +57,9 @@ type BatchOperationInfo struct {
 	// Batch operation start time
 	StartTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// Batch operation close time
-	CloseTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	CloseTime     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *BatchOperationInfo) Reset() {
@@ -125,14 +124,13 @@ func (x *BatchOperationInfo) GetCloseTime() *timestamppb.Timestamp {
 // Keep the parameter in sync with temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.
 // Ignore first_execution_run_id because this is used for single workflow operation.
 type BatchOperationTermination struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Serialized value(s) to provide to the termination event
 	Details *v11.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
-	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	Identity      string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *BatchOperationTermination) Reset() {
@@ -182,10 +180,7 @@ func (x *BatchOperationTermination) GetIdentity() string {
 // BatchOperationSignal sends signals to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.
 type BatchOperationSignal struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The workflow author-defined name of the signal to send to the workflow
 	Signal string `protobuf:"bytes,1,opt,name=signal,proto3" json:"signal,omitempty"`
 	// Serialized value(s) to provide with the signal
@@ -194,7 +189,9 @@ type BatchOperationSignal struct {
 	// These can include things like auth or tracing tokens.
 	Header *v11.Header `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
 	// The identity of the worker/client
-	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
+	Identity      string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *BatchOperationSignal) Reset() {
@@ -259,12 +256,11 @@ func (x *BatchOperationSignal) GetIdentity() string {
 // Keep the parameter in sync with temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.
 // Ignore first_execution_run_id because this is used for single workflow operation.
 type BatchOperationCancellation struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The identity of the worker/client
-	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	Identity      string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *BatchOperationCancellation) Reset() {
@@ -307,12 +303,11 @@ func (x *BatchOperationCancellation) GetIdentity() string {
 // BatchOperationDeletion sends deletion requests to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.DeleteWorkflowExecutionRequest.
 type BatchOperationDeletion struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The identity of the worker/client
-	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	Identity      string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *BatchOperationDeletion) Reset() {
@@ -355,10 +350,7 @@ func (x *BatchOperationDeletion) GetIdentity() string {
 // BatchOperationReset sends reset requests to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.
 type BatchOperationReset struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Describes what to reset to and how. If set, `reset_type` and `reset_reapply_type` are ignored.
@@ -367,6 +359,8 @@ type BatchOperationReset struct {
 	ResetType v1.ResetType `protobuf:"varint,1,opt,name=reset_type,json=resetType,proto3,enum=temporal.api.enums.v1.ResetType" json:"reset_type,omitempty"`
 	// History event reapply options (deprecated, use `options`).
 	ResetReapplyType v1.ResetReapplyType `protobuf:"varint,2,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *BatchOperationReset) Reset() {
@@ -430,17 +424,16 @@ func (x *BatchOperationReset) GetResetReapplyType() v1.ResetReapplyType {
 // BatchOperationUpdateWorkflowExecutionOptions sends UpdateWorkflowExecutionOptions requests to batch workflows.
 // Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.
 type BatchOperationUpdateWorkflowExecutionOptions struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Workflow Execution options. Partial updates are accepted and controlled by update_mask.
 	WorkflowExecutionOptions *v12.WorkflowExecutionOptions `protobuf:"bytes,2,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
 	// Controls which fields from `workflow_execution_options` will be applied.
 	// To unset a field, set it to null and use the update mask to indicate that it should be mutated.
-	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *BatchOperationUpdateWorkflowExecutionOptions) Reset() {

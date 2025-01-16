@@ -126,10 +126,7 @@ func (AsyncOperation_State) EnumDescriptor() ([]byte, []int) {
 }
 
 type AsyncOperation struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The operation id.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current state of this operation.
@@ -156,7 +153,9 @@ type AsyncOperation struct {
 	// The date and time when the operation initiated.
 	StartedTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=started_time,json=startedTime,proto3" json:"started_time,omitempty"`
 	// The date and time when the operation completed.
-	FinishedTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=finished_time,json=finishedTime,proto3" json:"finished_time,omitempty"`
+	FinishedTime  *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=finished_time,json=finishedTime,proto3" json:"finished_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AsyncOperation) Reset() {

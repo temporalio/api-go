@@ -47,11 +47,8 @@ const (
 )
 
 type ActivityOptions struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	TaskQueue *v1.TaskQueue `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	TaskQueue *v1.TaskQueue          `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Indicates how long the caller is willing to wait for an activity completion. Limits how long
 	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
 	//
@@ -79,6 +76,8 @@ type ActivityOptions struct {
 	// Maximum permitted time between successful worker heartbeats.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
 	RetryPolicy      *v11.RetryPolicy     `protobuf:"bytes,6,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ActivityOptions) Reset() {

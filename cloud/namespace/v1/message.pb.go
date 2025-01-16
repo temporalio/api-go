@@ -277,10 +277,7 @@ func (ExportSink_Health) EnumDescriptor() ([]byte, []int) {
 }
 
 type CertificateFilterSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The common_name in the certificate.
 	// Optional, default is empty.
 	CommonName string `protobuf:"bytes,1,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`
@@ -293,6 +290,8 @@ type CertificateFilterSpec struct {
 	// The subject_alternative_name in the certificate.
 	// Optional, default is empty.
 	SubjectAlternativeName string `protobuf:"bytes,4,opt,name=subject_alternative_name,json=subjectAlternativeName,proto3" json:"subject_alternative_name,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *CertificateFilterSpec) Reset() {
@@ -354,10 +353,7 @@ func (x *CertificateFilterSpec) GetSubjectAlternativeName() string {
 }
 
 type MtlsAuthSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The base64 encoded ca cert(s) in PEM format that the clients can use for authentication and authorization.
 	// This must only be one value, but the CA can have a chain.
 	//
@@ -376,7 +372,9 @@ type MtlsAuthSpec struct {
 	// Flag to enable mTLS auth (default: disabled).
 	// Note: disabling mTLS auth will cause existing mTLS connections to fail.
 	// temporal:versioning:min_version=2024-05-13-00
-	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Enabled       bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *MtlsAuthSpec) Reset() {
@@ -438,13 +436,12 @@ func (x *MtlsAuthSpec) GetEnabled() bool {
 }
 
 type ApiKeyAuthSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Flag to enable API key auth (default: disabled).
 	// Note: disabling API key auth will cause existing API key connections to fail.
-	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Enabled       bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ApiKeyAuthSpec) Reset() {
@@ -485,16 +482,15 @@ func (x *ApiKeyAuthSpec) GetEnabled() bool {
 }
 
 type CodecServerSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The codec server endpoint.
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	// Whether to pass the user access token with your endpoint.
 	PassAccessToken bool `protobuf:"varint,2,opt,name=pass_access_token,json=passAccessToken,proto3" json:"pass_access_token,omitempty"`
 	// Whether to include cross-origin credentials.
 	IncludeCrossOriginCredentials bool `protobuf:"varint,3,opt,name=include_cross_origin_credentials,json=includeCrossOriginCredentials,proto3" json:"include_cross_origin_credentials,omitempty"`
+	unknownFields                 protoimpl.UnknownFields
+	sizeCache                     protoimpl.SizeCache
 }
 
 func (x *CodecServerSpec) Reset() {
@@ -549,10 +545,7 @@ func (x *CodecServerSpec) GetIncludeCrossOriginCredentials() bool {
 }
 
 type NamespaceSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The name to use for the namespace.
 	// This will create a namespace that's available at '<name>.<account>.tmprl.cloud:7233'.
 	// The name is immutable. Once set, it cannot be changed.
@@ -586,17 +579,19 @@ type NamespaceSpec struct {
 	// temporal:versioning:max_version=2024-10-01-00
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/namespace/v1/message.proto.
-	CustomSearchAttributes map[string]string `protobuf:"bytes,5,rep,name=custom_search_attributes,json=customSearchAttributes,proto3" json:"custom_search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	CustomSearchAttributes map[string]string `protobuf:"bytes,5,rep,name=custom_search_attributes,json=customSearchAttributes,proto3" json:"custom_search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// The custom search attributes to use for the namespace.
 	// The name of the attribute is the key and the type is the value.
 	// Note: currently deleting a search attribute is not supported.
 	// Optional, default is empty.
 	// temporal:versioning:min_version=2024-10-01-00
 	// temporal:enums:replaces=custom_search_attributes
-	SearchAttributes map[string]NamespaceSpec_SearchAttributeType `protobuf:"bytes,8,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.cloud.namespace.v1.NamespaceSpec_SearchAttributeType"`
+	SearchAttributes map[string]NamespaceSpec_SearchAttributeType `protobuf:"bytes,8,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.cloud.namespace.v1.NamespaceSpec_SearchAttributeType"`
 	// Codec server spec used by UI to decode payloads for all users interacting with this namespace.
 	// Optional, default is unset.
-	CodecServer *CodecServerSpec `protobuf:"bytes,6,opt,name=codec_server,json=codecServer,proto3" json:"codec_server,omitempty"`
+	CodecServer   *CodecServerSpec `protobuf:"bytes,6,opt,name=codec_server,json=codecServer,proto3" json:"codec_server,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NamespaceSpec) Reset() {
@@ -687,16 +682,15 @@ func (x *NamespaceSpec) GetCodecServer() *CodecServerSpec {
 }
 
 type Endpoints struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The web UI address.
 	WebAddress string `protobuf:"bytes,1,opt,name=web_address,json=webAddress,proto3" json:"web_address,omitempty"`
 	// The gRPC address for mTLS client connections (may be empty if mTLS is disabled).
 	MtlsGrpcAddress string `protobuf:"bytes,2,opt,name=mtls_grpc_address,json=mtlsGrpcAddress,proto3" json:"mtls_grpc_address,omitempty"`
 	// The gRPC address for API key client connections (may be empty if API keys are disabled).
-	GrpcAddress string `protobuf:"bytes,3,opt,name=grpc_address,json=grpcAddress,proto3" json:"grpc_address,omitempty"`
+	GrpcAddress   string `protobuf:"bytes,3,opt,name=grpc_address,json=grpcAddress,proto3" json:"grpc_address,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Endpoints) Reset() {
@@ -751,13 +745,12 @@ func (x *Endpoints) GetGrpcAddress() string {
 }
 
 type Limits struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The number of actions per second (APS) that is currently allowed for the namespace.
 	// The namespace may be throttled if its APS exceeds the limit.
 	ActionsPerSecondLimit int32 `protobuf:"varint,1,opt,name=actions_per_second_limit,json=actionsPerSecondLimit,proto3" json:"actions_per_second_limit,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
 }
 
 func (x *Limits) Reset() {
@@ -798,14 +791,13 @@ func (x *Limits) GetActionsPerSecondLimit() int32 {
 }
 
 type AWSPrivateLinkInfo struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The list of principal arns that are allowed to access the namespace on the private link.
 	AllowedPrincipalArns []string `protobuf:"bytes,1,rep,name=allowed_principal_arns,json=allowedPrincipalArns,proto3" json:"allowed_principal_arns,omitempty"`
 	// The list of vpc endpoint service names that are associated with the namespace.
 	VpcEndpointServiceNames []string `protobuf:"bytes,2,rep,name=vpc_endpoint_service_names,json=vpcEndpointServiceNames,proto3" json:"vpc_endpoint_service_names,omitempty"`
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
 }
 
 func (x *AWSPrivateLinkInfo) Reset() {
@@ -853,15 +845,14 @@ func (x *AWSPrivateLinkInfo) GetVpcEndpointServiceNames() []string {
 }
 
 type PrivateConnectivity struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the region where the private connectivity applies.
 	Region string `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
 	// The AWS PrivateLink info.
 	// This will only be set for an aws region.
 	AwsPrivateLink *AWSPrivateLinkInfo `protobuf:"bytes,2,opt,name=aws_private_link,json=awsPrivateLink,proto3" json:"aws_private_link,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *PrivateConnectivity) Reset() {
@@ -909,10 +900,7 @@ func (x *PrivateConnectivity) GetAwsPrivateLink() *AWSPrivateLinkInfo {
 }
 
 type Namespace struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The namespace identifier.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The current version of the namespace specification.
@@ -948,7 +936,9 @@ type Namespace struct {
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
 	// The status of each region where the namespace is available.
 	// The id of the region is the key and the status is the value of the map.
-	RegionStatus map[string]*NamespaceRegionStatus `protobuf:"bytes,12,rep,name=region_status,json=regionStatus,proto3" json:"region_status,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	RegionStatus  map[string]*NamespaceRegionStatus `protobuf:"bytes,12,rep,name=region_status,json=regionStatus,proto3" json:"region_status,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Namespace) Reset() {
@@ -1074,10 +1064,7 @@ func (x *Namespace) GetRegionStatus() map[string]*NamespaceRegionStatus {
 }
 
 type NamespaceRegionStatus struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The current state of the namespace region.
 	// Possible values: adding, active, passive, removing, failed.
 	// For any failed state, reach out to Temporal Cloud support for remediation.
@@ -1092,6 +1079,8 @@ type NamespaceRegionStatus struct {
 	State NamespaceRegionStatus_State `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.cloud.namespace.v1.NamespaceRegionStatus_State" json:"state,omitempty"`
 	// The id of the async operation that is making changes to where the namespace is available, if any.
 	AsyncOperationId string `protobuf:"bytes,2,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *NamespaceRegionStatus) Reset() {
@@ -1147,10 +1136,7 @@ func (x *NamespaceRegionStatus) GetAsyncOperationId() string {
 }
 
 type ExportSinkSpec struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique name of the export sink, it can't be changed once set.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// A flag indicating whether the export sink is enabled or not.
@@ -1159,7 +1145,9 @@ type ExportSinkSpec struct {
 	S3 *v11.S3Spec `protobuf:"bytes,3,opt,name=s3,proto3" json:"s3,omitempty"`
 	// This is a feature under development. We will allow GCS sink support for GCP Namespaces.
 	// The GCS configuration details when destination_type is GCS.
-	Gcs *v11.GCSSpec `protobuf:"bytes,4,opt,name=gcs,proto3" json:"gcs,omitempty"`
+	Gcs           *v11.GCSSpec `protobuf:"bytes,4,opt,name=gcs,proto3" json:"gcs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ExportSinkSpec) Reset() {
@@ -1221,10 +1209,7 @@ func (x *ExportSinkSpec) GetGcs() *v11.GCSSpec {
 }
 
 type ExportSink struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The unique name of the export sink.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The version of the export sink resource.
@@ -1241,6 +1226,8 @@ type ExportSink struct {
 	LatestDataExportTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=latest_data_export_time,json=latestDataExportTime,proto3" json:"latest_data_export_time,omitempty"`
 	// The timestamp of the last health check performed on the export sink.
 	LastHealthCheckTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=last_health_check_time,json=lastHealthCheckTime,proto3" json:"last_health_check_time,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ExportSink) Reset() {

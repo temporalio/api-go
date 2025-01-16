@@ -48,17 +48,16 @@ const (
 
 // See https://docs.temporal.io/docs/concepts/queries/
 type WorkflowQuery struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// The workflow-author-defined identifier of the query. Typically a function name.
 	QueryType string `protobuf:"bytes,1,opt,name=query_type,json=queryType,proto3" json:"query_type,omitempty"`
 	// Serialized arguments that will be provided to the query handler.
 	QueryArgs *v1.Payloads `protobuf:"bytes,2,opt,name=query_args,json=queryArgs,proto3" json:"query_args,omitempty"`
 	// Headers that were passed by the caller of the query and copied by temporal
 	// server into the workflow task.
-	Header *v1.Header `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
+	Header        *v1.Header `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowQuery) Reset() {
@@ -114,10 +113,7 @@ func (x *WorkflowQuery) GetHeader() *v1.Header {
 
 // Answer to a `WorkflowQuery`
 type WorkflowQueryResult struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Did the query succeed or fail?
 	ResultType v11.QueryResultType `protobuf:"varint,1,opt,name=result_type,json=resultType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"result_type,omitempty"`
 	// Set when the query succeeds with the results.
@@ -129,7 +125,9 @@ type WorkflowQueryResult struct {
 	// The full reason for this query failure. This field is newer than `error_message` and can be encoded by the SDK's
 	// failure converter to support E2E encryption of messages and stack traces.
 	// Mutually exclusive with `answer`. Set when the query fails.
-	Failure *v12.Failure `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
+	Failure       *v12.Failure `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowQueryResult) Reset() {
@@ -191,11 +189,10 @@ func (x *WorkflowQueryResult) GetFailure() *v12.Failure {
 }
 
 type QueryRejected struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	Status        v11.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Status v11.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *QueryRejected) Reset() {

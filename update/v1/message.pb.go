@@ -48,16 +48,15 @@ const (
 
 // Specifies client's intent to wait for Update results.
 type WaitPolicy struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Indicates the Update lifecycle stage that the Update must reach before
 	// API call is returned.
 	// NOTE: This field works together with API call timeout which is limited by
 	// server timeout (maximum wait time). If server timeout is expired before
 	// user specified timeout, API call returns even if specified stage is not reached.
 	LifecycleStage v1.UpdateWorkflowExecutionLifecycleStage `protobuf:"varint,1,opt,name=lifecycle_stage,json=lifecycleStage,proto3,enum=temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage" json:"lifecycle_stage,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WaitPolicy) Reset() {
@@ -99,12 +98,11 @@ func (x *WaitPolicy) GetLifecycleStage() v1.UpdateWorkflowExecutionLifecycleStag
 
 // The data needed by a client to refer to a previously invoked Workflow Update.
 type UpdateRef struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state             protoimpl.MessageState `protogen:"open.v1"`
 	WorkflowExecution *v11.WorkflowExecution `protobuf:"bytes,1,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	UpdateId          string                 `protobuf:"bytes,2,opt,name=update_id,json=updateId,proto3" json:"update_id,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *UpdateRef) Reset() {
@@ -153,15 +151,14 @@ func (x *UpdateRef) GetUpdateId() string {
 
 // The outcome of a Workflow Update: success or failure.
 type Outcome struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Types that are assignable to Value:
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Value:
 	//
 	//	*Outcome_Success
 	//	*Outcome_Failure
-	Value isOutcome_Value `protobuf_oneof:"value"`
+	Value         isOutcome_Value `protobuf_oneof:"value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Outcome) Reset() {
@@ -194,23 +191,27 @@ func (*Outcome) Descriptor() ([]byte, []int) {
 	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
-func (m *Outcome) GetValue() isOutcome_Value {
-	if m != nil {
-		return m.Value
+func (x *Outcome) GetValue() isOutcome_Value {
+	if x != nil {
+		return x.Value
 	}
 	return nil
 }
 
 func (x *Outcome) GetSuccess() *v11.Payloads {
-	if x, ok := x.GetValue().(*Outcome_Success); ok {
-		return x.Success
+	if x != nil {
+		if x, ok := x.Value.(*Outcome_Success); ok {
+			return x.Success
+		}
 	}
 	return nil
 }
 
 func (x *Outcome) GetFailure() *v12.Failure {
-	if x, ok := x.GetValue().(*Outcome_Failure); ok {
-		return x.Failure
+	if x != nil {
+		if x, ok := x.Value.(*Outcome_Failure); ok {
+			return x.Failure
+		}
 	}
 	return nil
 }
@@ -233,14 +234,13 @@ func (*Outcome_Failure) isOutcome_Value() {}
 
 // Metadata about a Workflow Update.
 type Meta struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// An ID with workflow-scoped uniqueness for this Update.
 	UpdateId string `protobuf:"bytes,1,opt,name=update_id,json=updateId,proto3" json:"update_id,omitempty"`
 	// A string identifying the agent that requested this Update.
-	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	Identity      string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Meta) Reset() {
@@ -288,17 +288,16 @@ func (x *Meta) GetIdentity() string {
 }
 
 type Input struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Headers that are passed with the Update from the requesting entity.
 	// These can include things like auth or tracing tokens.
 	Header *v11.Header `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
 	// The name of the Update handler to invoke on the target Workflow.
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// The arguments to pass to the named Update handler.
-	Args *v11.Payloads `protobuf:"bytes,3,opt,name=args,proto3" json:"args,omitempty"`
+	Args          *v11.Payloads `protobuf:"bytes,3,opt,name=args,proto3" json:"args,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Input) Reset() {
@@ -354,12 +353,11 @@ func (x *Input) GetArgs() *v11.Payloads {
 
 // The client request that triggers a Workflow Update.
 type Request struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Meta          *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	Input         *Input                 `protobuf:"bytes,2,opt,name=input,proto3" json:"input,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Meta  *Meta  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
-	Input *Input `protobuf:"bytes,2,opt,name=input,proto3" json:"input,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Request) Reset() {
@@ -408,14 +406,13 @@ func (x *Request) GetInput() *Input {
 
 // An Update protocol message indicating that a Workflow Update has been rejected.
 type Rejection struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	RejectedRequestMessageId         string       `protobuf:"bytes,1,opt,name=rejected_request_message_id,json=rejectedRequestMessageId,proto3" json:"rejected_request_message_id,omitempty"`
-	RejectedRequestSequencingEventId int64        `protobuf:"varint,2,opt,name=rejected_request_sequencing_event_id,json=rejectedRequestSequencingEventId,proto3" json:"rejected_request_sequencing_event_id,omitempty"`
-	RejectedRequest                  *Request     `protobuf:"bytes,3,opt,name=rejected_request,json=rejectedRequest,proto3" json:"rejected_request,omitempty"`
-	Failure                          *v12.Failure `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
+	state                            protoimpl.MessageState `protogen:"open.v1"`
+	RejectedRequestMessageId         string                 `protobuf:"bytes,1,opt,name=rejected_request_message_id,json=rejectedRequestMessageId,proto3" json:"rejected_request_message_id,omitempty"`
+	RejectedRequestSequencingEventId int64                  `protobuf:"varint,2,opt,name=rejected_request_sequencing_event_id,json=rejectedRequestSequencingEventId,proto3" json:"rejected_request_sequencing_event_id,omitempty"`
+	RejectedRequest                  *Request               `protobuf:"bytes,3,opt,name=rejected_request,json=rejectedRequest,proto3" json:"rejected_request,omitempty"`
+	Failure                          *v12.Failure           `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
+	unknownFields                    protoimpl.UnknownFields
+	sizeCache                        protoimpl.SizeCache
 }
 
 func (x *Rejection) Reset() {
@@ -479,13 +476,12 @@ func (x *Rejection) GetFailure() *v12.Failure {
 // An Update protocol message indicating that a Workflow Update has
 // been accepted (i.e. passed the worker-side validation phase).
 type Acceptance struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	AcceptedRequestMessageId         string   `protobuf:"bytes,1,opt,name=accepted_request_message_id,json=acceptedRequestMessageId,proto3" json:"accepted_request_message_id,omitempty"`
-	AcceptedRequestSequencingEventId int64    `protobuf:"varint,2,opt,name=accepted_request_sequencing_event_id,json=acceptedRequestSequencingEventId,proto3" json:"accepted_request_sequencing_event_id,omitempty"`
-	AcceptedRequest                  *Request `protobuf:"bytes,3,opt,name=accepted_request,json=acceptedRequest,proto3" json:"accepted_request,omitempty"`
+	state                            protoimpl.MessageState `protogen:"open.v1"`
+	AcceptedRequestMessageId         string                 `protobuf:"bytes,1,opt,name=accepted_request_message_id,json=acceptedRequestMessageId,proto3" json:"accepted_request_message_id,omitempty"`
+	AcceptedRequestSequencingEventId int64                  `protobuf:"varint,2,opt,name=accepted_request_sequencing_event_id,json=acceptedRequestSequencingEventId,proto3" json:"accepted_request_sequencing_event_id,omitempty"`
+	AcceptedRequest                  *Request               `protobuf:"bytes,3,opt,name=accepted_request,json=acceptedRequest,proto3" json:"accepted_request,omitempty"`
+	unknownFields                    protoimpl.UnknownFields
+	sizeCache                        protoimpl.SizeCache
 }
 
 func (x *Acceptance) Reset() {
@@ -542,12 +538,11 @@ func (x *Acceptance) GetAcceptedRequest() *Request {
 // An Update protocol message indicating that a Workflow Update has
 // completed with the contained outcome.
 type Response struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Meta          *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	Outcome       *Outcome               `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Meta    *Meta    `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
-	Outcome *Outcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Response) Reset() {
