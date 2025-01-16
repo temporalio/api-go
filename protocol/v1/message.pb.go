@@ -48,7 +48,10 @@ const (
 //
 //	aip.dev/not-precedent: We want runtime extensibility for the body field --)
 type Message struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// An ID for this specific message.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Identifies the specific instance of a protocol to which this message
@@ -58,16 +61,14 @@ type Message struct {
 	// effects of history up to and including this event ID should be visible to
 	// the code that handles this message. Omit to opt out of sequencing.
 	//
-	// Types that are valid to be assigned to SequencingId:
+	// Types that are assignable to SequencingId:
 	//
 	//	*Message_EventId
 	//	*Message_CommandIndex
 	SequencingId isMessage_SequencingId `protobuf_oneof:"sequencing_id"`
 	// The opaque data carried by this message. The protocol type can be
 	// extracted from the package name of the message carried inside the Any.
-	Body          *anypb.Any `protobuf:"bytes,5,opt,name=body,proto3" json:"body,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Body *anypb.Any `protobuf:"bytes,5,opt,name=body,proto3" json:"body,omitempty"`
 }
 
 func (x *Message) Reset() {
@@ -114,27 +115,23 @@ func (x *Message) GetProtocolInstanceId() string {
 	return ""
 }
 
-func (x *Message) GetSequencingId() isMessage_SequencingId {
-	if x != nil {
-		return x.SequencingId
+func (m *Message) GetSequencingId() isMessage_SequencingId {
+	if m != nil {
+		return m.SequencingId
 	}
 	return nil
 }
 
 func (x *Message) GetEventId() int64 {
-	if x != nil {
-		if x, ok := x.SequencingId.(*Message_EventId); ok {
-			return x.EventId
-		}
+	if x, ok := x.GetSequencingId().(*Message_EventId); ok {
+		return x.EventId
 	}
 	return 0
 }
 
 func (x *Message) GetCommandIndex() int64 {
-	if x != nil {
-		if x, ok := x.SequencingId.(*Message_CommandIndex); ok {
-			return x.CommandIndex
-		}
+	if x, ok := x.GetSequencingId().(*Message_CommandIndex); ok {
+		return x.CommandIndex
 	}
 	return 0
 }

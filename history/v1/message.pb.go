@@ -55,8 +55,11 @@ const (
 
 // Always the first event in workflow history
 type WorkflowExecutionStartedEventAttributes struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	WorkflowType *v1.WorkflowType       `protobuf:"bytes,1,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WorkflowType *v1.WorkflowType `protobuf:"bytes,1,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	// If this workflow is a child, the namespace our parent lives in.
 	// SDKs and UI tools should use `parent_workflow_namespace` field but server must use `parent_workflow_namespace_id` only.
 	ParentWorkflowNamespace   string `protobuf:"bytes,2,opt,name=parent_workflow_namespace,json=parentWorkflowNamespace,proto3" json:"parent_workflow_namespace,omitempty"`
@@ -140,8 +143,6 @@ type WorkflowExecutionStartedEventAttributes struct {
 	InheritedBuildId string `protobuf:"bytes,32,opt,name=inherited_build_id,json=inheritedBuildId,proto3" json:"inherited_build_id,omitempty"`
 	// Versioning override applied to this workflow when it was started.
 	VersioningOverride *v14.VersioningOverride `protobuf:"bytes,33,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionStartedEventAttributes) Reset() {
@@ -406,15 +407,16 @@ func (x *WorkflowExecutionStartedEventAttributes) GetVersioningOverride() *v14.V
 }
 
 type WorkflowExecutionCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Serialized result of workflow completion (ie: The return value of the workflow function)
 	Result *v1.Payloads `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// If another run is started by cron, this contains the new run id.
 	NewExecutionRunId string `protobuf:"bytes,3,opt,name=new_execution_run_id,json=newExecutionRunId,proto3" json:"new_execution_run_id,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionCompletedEventAttributes) Reset() {
@@ -469,7 +471,10 @@ func (x *WorkflowExecutionCompletedEventAttributes) GetNewExecutionRunId() strin
 }
 
 type WorkflowExecutionFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Serialized result of workflow failure (ex: An exception thrown, or error returned)
 	Failure    *v13.Failure   `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 	RetryState v12.RetryState `protobuf:"varint,2,opt,name=retry_state,json=retryState,proto3,enum=temporal.api.enums.v1.RetryState" json:"retry_state,omitempty"`
@@ -477,8 +482,6 @@ type WorkflowExecutionFailedEventAttributes struct {
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,3,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// If another run is started by cron or retry, this contains the new run id.
 	NewExecutionRunId string `protobuf:"bytes,4,opt,name=new_execution_run_id,json=newExecutionRunId,proto3" json:"new_execution_run_id,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionFailedEventAttributes) Reset() {
@@ -540,12 +543,13 @@ func (x *WorkflowExecutionFailedEventAttributes) GetNewExecutionRunId() string {
 }
 
 type WorkflowExecutionTimedOutEventAttributes struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	RetryState v12.RetryState         `protobuf:"varint,1,opt,name=retry_state,json=retryState,proto3,enum=temporal.api.enums.v1.RetryState" json:"retry_state,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RetryState v12.RetryState `protobuf:"varint,1,opt,name=retry_state,json=retryState,proto3,enum=temporal.api.enums.v1.RetryState" json:"retry_state,omitempty"`
 	// If another run is started by cron or retry, this contains the new run id.
 	NewExecutionRunId string `protobuf:"bytes,2,opt,name=new_execution_run_id,json=newExecutionRunId,proto3" json:"new_execution_run_id,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionTimedOutEventAttributes) Reset() {
@@ -593,7 +597,10 @@ func (x *WorkflowExecutionTimedOutEventAttributes) GetNewExecutionRunId() string
 }
 
 type WorkflowExecutionContinuedAsNewEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The run ID of the new workflow started by this continue-as-new
 	NewExecutionRunId string           `protobuf:"bytes,1,opt,name=new_execution_run_id,json=newExecutionRunId,proto3" json:"new_execution_run_id,omitempty"`
 	WorkflowType      *v1.WorkflowType `protobuf:"bytes,2,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
@@ -621,8 +628,6 @@ type WorkflowExecutionContinuedAsNewEventAttributes struct {
 	// If this is set, the new execution inherits the Build ID of the current execution. Otherwise,
 	// the assignment rules will be used to independently assign a Build ID to the new execution.
 	InheritBuildId bool `protobuf:"varint,15,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionContinuedAsNewEventAttributes) Reset() {
@@ -761,7 +766,10 @@ func (x *WorkflowExecutionContinuedAsNewEventAttributes) GetInheritBuildId() boo
 }
 
 type WorkflowTaskScheduledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The task queue this workflow task was enqueued in, which could be a normal or sticky queue
 	TaskQueue *v11.TaskQueue `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// How long the worker has to process this task once receiving it before it times out
@@ -771,9 +779,7 @@ type WorkflowTaskScheduledEventAttributes struct {
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToCloseTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=start_to_close_timeout,json=startToCloseTimeout,proto3" json:"start_to_close_timeout,omitempty"`
 	// Starting at 1, how many attempts there have been to complete this task
-	Attempt       int32 `protobuf:"varint,3,opt,name=attempt,proto3" json:"attempt,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Attempt int32 `protobuf:"varint,3,opt,name=attempt,proto3" json:"attempt,omitempty"`
 }
 
 func (x *WorkflowTaskScheduledEventAttributes) Reset() {
@@ -828,7 +834,10 @@ func (x *WorkflowTaskScheduledEventAttributes) GetAttempt() int32 {
 }
 
 type WorkflowTaskStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Identity of the worker who picked up this task
@@ -849,8 +858,6 @@ type WorkflowTaskStartedEventAttributes struct {
 	// when rebuilding it from events.
 	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
 	BuildIdRedirectCounter int64 `protobuf:"varint,7,opt,name=build_id_redirect_counter,json=buildIdRedirectCounter,proto3" json:"build_id_redirect_counter,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *WorkflowTaskStartedEventAttributes) Reset() {
@@ -933,7 +940,10 @@ func (x *WorkflowTaskStartedEventAttributes) GetBuildIdRedirectCounter() int64 {
 }
 
 type WorkflowTaskCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
@@ -960,8 +970,6 @@ type WorkflowTaskCompletedEventAttributes struct {
 	// execution. UNSPECIFIED means the task was completed by an unversioned worker. This value
 	// updates workflow execution's `versioning_info.behavior`.
 	VersioningBehavior v12.VersioningBehavior `protobuf:"varint,8,opt,name=versioning_behavior,json=versioningBehavior,proto3,enum=temporal.api.enums.v1.VersioningBehavior" json:"versioning_behavior,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *WorkflowTaskCompletedEventAttributes) Reset() {
@@ -1058,14 +1066,15 @@ func (x *WorkflowTaskCompletedEventAttributes) GetVersioningBehavior() v12.Versi
 }
 
 type WorkflowTaskTimedOutEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
 	StartedEventId int64           `protobuf:"varint,2,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
 	TimeoutType    v12.TimeoutType `protobuf:"varint,3,opt,name=timeout_type,json=timeoutType,proto3,enum=temporal.api.enums.v1.TimeoutType" json:"timeout_type,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WorkflowTaskTimedOutEventAttributes) Reset() {
@@ -1120,7 +1129,10 @@ func (x *WorkflowTaskTimedOutEventAttributes) GetTimeoutType() v12.TimeoutType {
 }
 
 type WorkflowTaskFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
@@ -1144,8 +1156,6 @@ type WorkflowTaskFailedEventAttributes struct {
 	// populated to preserve compatibility).
 	// Deprecated. Use the info inside the corresponding WorkflowTaskStartedEvent
 	WorkerVersion *v1.WorkerVersionStamp `protobuf:"bytes,10,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowTaskFailedEventAttributes) Reset() {
@@ -1249,7 +1259,10 @@ func (x *WorkflowTaskFailedEventAttributes) GetWorkerVersion() *v1.WorkerVersion
 }
 
 type ActivityTaskScheduledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The worker/user assigned identifier for the activity
 	ActivityId   string           `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	ActivityType *v1.ActivityType `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
@@ -1291,8 +1304,6 @@ type ActivityTaskScheduledEventAttributes struct {
 	// If this is set, the activity would be assigned to the Build ID of the workflow. Otherwise,
 	// Assignment rules of the activity's Task Queue will be used to determine the Build ID.
 	UseWorkflowBuildId bool `protobuf:"varint,13,opt,name=use_workflow_build_id,json=useWorkflowBuildId,proto3" json:"use_workflow_build_id,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *ActivityTaskScheduledEventAttributes) Reset() {
@@ -1410,7 +1421,10 @@ func (x *ActivityTaskScheduledEventAttributes) GetUseWorkflowBuildId() bool {
 }
 
 type ActivityTaskStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// id of the worker that picked up this task
@@ -1429,8 +1443,6 @@ type ActivityTaskStartedEventAttributes struct {
 	// when rebuilding it from events.
 	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
 	BuildIdRedirectCounter int64 `protobuf:"varint,7,opt,name=build_id_redirect_counter,json=buildIdRedirectCounter,proto3" json:"build_id_redirect_counter,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *ActivityTaskStartedEventAttributes) Reset() {
@@ -1513,7 +1525,10 @@ func (x *ActivityTaskStartedEventAttributes) GetBuildIdRedirectCounter() int64 {
 }
 
 type ActivityTaskCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Serialized results of the activity. IE: The return value of the activity function
 	Result *v1.Payloads `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this completion corresponds to
@@ -1525,8 +1540,6 @@ type ActivityTaskCompletedEventAttributes struct {
 	// Version info of the worker who processed this workflow task.
 	// Deprecated. Use the info inside the corresponding ActivityTaskStartedEvent
 	WorkerVersion *v1.WorkerVersionStamp `protobuf:"bytes,5,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ActivityTaskCompletedEventAttributes) Reset() {
@@ -1595,7 +1608,10 @@ func (x *ActivityTaskCompletedEventAttributes) GetWorkerVersion() *v1.WorkerVers
 }
 
 type ActivityTaskFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Failure details
 	Failure *v13.Failure `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this failure corresponds to
@@ -1608,8 +1624,6 @@ type ActivityTaskFailedEventAttributes struct {
 	// Version info of the worker who processed this workflow task.
 	// Deprecated. Use the info inside the corresponding ActivityTaskStartedEvent
 	WorkerVersion *v1.WorkerVersionStamp `protobuf:"bytes,6,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ActivityTaskFailedEventAttributes) Reset() {
@@ -1685,7 +1699,10 @@ func (x *ActivityTaskFailedEventAttributes) GetWorkerVersion() *v1.WorkerVersion
 }
 
 type ActivityTaskTimedOutEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// If this activity had failed, was retried, and then timed out, that failure is stored as the
 	// `cause` in here.
 	Failure *v13.Failure `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
@@ -1694,8 +1711,6 @@ type ActivityTaskTimedOutEventAttributes struct {
 	// The id of the `ACTIVITY_TASK_STARTED` event this timeout corresponds to
 	StartedEventId int64          `protobuf:"varint,3,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
 	RetryState     v12.RetryState `protobuf:"varint,4,opt,name=retry_state,json=retryState,proto3,enum=temporal.api.enums.v1.RetryState" json:"retry_state,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ActivityTaskTimedOutEventAttributes) Reset() {
@@ -1757,13 +1772,14 @@ func (x *ActivityTaskTimedOutEventAttributes) GetRetryState() v12.RetryState {
 }
 
 type ActivityTaskCancelRequestedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this cancel request corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *ActivityTaskCancelRequestedEventAttributes) Reset() {
@@ -1811,7 +1827,10 @@ func (x *ActivityTaskCancelRequestedEventAttributes) GetWorkflowTaskCompletedEve
 }
 
 type ActivityTaskCanceledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Additional information that the activity reported upon confirming cancellation
 	Details *v1.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	// id of the most recent `ACTIVITY_TASK_CANCEL_REQUESTED` event which refers to the same
@@ -1826,8 +1845,6 @@ type ActivityTaskCanceledEventAttributes struct {
 	// Version info of the worker who processed this workflow task.
 	// Deprecated. Use the info inside the corresponding ActivityTaskStartedEvent
 	WorkerVersion *v1.WorkerVersionStamp `protobuf:"bytes,6,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ActivityTaskCanceledEventAttributes) Reset() {
@@ -1903,7 +1920,10 @@ func (x *ActivityTaskCanceledEventAttributes) GetWorkerVersion() *v1.WorkerVersi
 }
 
 type TimerStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The worker/user assigned id for this timer
 	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
 	// How long until this timer fires
@@ -1914,8 +1934,6 @@ type TimerStartedEventAttributes struct {
 	StartToFireTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=start_to_fire_timeout,json=startToFireTimeout,proto3" json:"start_to_fire_timeout,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,3,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *TimerStartedEventAttributes) Reset() {
@@ -1970,13 +1988,14 @@ func (x *TimerStartedEventAttributes) GetWorkflowTaskCompletedEventId() int64 {
 }
 
 type TimerFiredEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Will match the `timer_id` from `TIMER_STARTED` event for this timer
 	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
 	// The id of the `TIMER_STARTED` event itself
 	StartedEventId int64 `protobuf:"varint,2,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *TimerFiredEventAttributes) Reset() {
@@ -2024,7 +2043,10 @@ func (x *TimerFiredEventAttributes) GetStartedEventId() int64 {
 }
 
 type TimerCanceledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Will match the `timer_id` from `TIMER_STARTED` event for this timer
 	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
 	// The id of the `TIMER_STARTED` event itself
@@ -2032,9 +2054,7 @@ type TimerCanceledEventAttributes struct {
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,3,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// The id of the worker who requested this cancel
-	Identity      string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *TimerCanceledEventAttributes) Reset() {
@@ -2096,7 +2116,10 @@ func (x *TimerCanceledEventAttributes) GetIdentity() string {
 }
 
 type WorkflowExecutionCancelRequestedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// User provided reason for requesting cancellation
 	// TODO: shall we create a new field with name "reason" and deprecate this one?
 	Cause string `protobuf:"bytes,1,opt,name=cause,proto3" json:"cause,omitempty"`
@@ -2104,9 +2127,7 @@ type WorkflowExecutionCancelRequestedEventAttributes struct {
 	ExternalInitiatedEventId  int64                 `protobuf:"varint,2,opt,name=external_initiated_event_id,json=externalInitiatedEventId,proto3" json:"external_initiated_event_id,omitempty"`
 	ExternalWorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=external_workflow_execution,json=externalWorkflowExecution,proto3" json:"external_workflow_execution,omitempty"`
 	// id of the worker or client who requested this cancel
-	Identity      string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *WorkflowExecutionCancelRequestedEventAttributes) Reset() {
@@ -2168,12 +2189,13 @@ func (x *WorkflowExecutionCancelRequestedEventAttributes) GetIdentity() string {
 }
 
 type WorkflowExecutionCanceledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64        `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	Details                      *v1.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionCanceledEventAttributes) Reset() {
@@ -2221,18 +2243,19 @@ func (x *WorkflowExecutionCanceledEventAttributes) GetDetails() *v1.Payloads {
 }
 
 type MarkerRecordedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Workers use this to identify the "types" of various markers. Ex: Local activity, side effect.
 	MarkerName string `protobuf:"bytes,1,opt,name=marker_name,json=markerName,proto3" json:"marker_name,omitempty"`
 	// Serialized information recorded in the marker
-	Details map[string]*v1.Payloads `protobuf:"bytes,2,rep,name=details,proto3" json:"details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Details map[string]*v1.Payloads `protobuf:"bytes,2,rep,name=details,proto3" json:"details,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64      `protobuf:"varint,3,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	Header                       *v1.Header `protobuf:"bytes,4,opt,name=header,proto3" json:"header,omitempty"`
 	// Some uses of markers, like a local activity, could "fail". If they did that is recorded here.
-	Failure       *v13.Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Failure *v13.Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *MarkerRecordedEventAttributes) Reset() {
@@ -2301,7 +2324,10 @@ func (x *MarkerRecordedEventAttributes) GetFailure() *v13.Failure {
 }
 
 type WorkflowExecutionSignaledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The name/type of the signal to fire
 	SignalName string `protobuf:"bytes,1,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
 	// Will be deserialized and provided as argument(s) to the signal handler
@@ -2317,8 +2343,6 @@ type WorkflowExecutionSignaledEventAttributes struct {
 	SkipGenerateWorkflowTask bool `protobuf:"varint,5,opt,name=skip_generate_workflow_task,json=skipGenerateWorkflowTask,proto3" json:"skip_generate_workflow_task,omitempty"`
 	// When signal origin is a workflow execution, this field is set.
 	ExternalWorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,6,opt,name=external_workflow_execution,json=externalWorkflowExecution,proto3" json:"external_workflow_execution,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionSignaledEventAttributes) Reset() {
@@ -2395,14 +2419,15 @@ func (x *WorkflowExecutionSignaledEventAttributes) GetExternalWorkflowExecution(
 }
 
 type WorkflowExecutionTerminatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// User/client provided reason for termination
 	Reason  string       `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
 	Details *v1.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
 	// id of the client who requested termination
-	Identity      string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *WorkflowExecutionTerminatedEventAttributes) Reset() {
@@ -2457,7 +2482,10 @@ func (x *WorkflowExecutionTerminatedEventAttributes) GetIdentity() string {
 }
 
 type RequestCancelExternalWorkflowExecutionInitiatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// The namespace the workflow to be cancelled lives in.
@@ -2471,9 +2499,7 @@ type RequestCancelExternalWorkflowExecutionInitiatedEventAttributes struct {
 	// a child of the workflow which issued the request
 	ChildWorkflowOnly bool `protobuf:"varint,5,opt,name=child_workflow_only,json=childWorkflowOnly,proto3" json:"child_workflow_only,omitempty"`
 	// Reason for requesting the cancellation
-	Reason        string `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Reason string `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
 }
 
 func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) Reset() {
@@ -2556,7 +2582,10 @@ func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) GetReas
 }
 
 type RequestCancelExternalWorkflowExecutionFailedEventAttributes struct {
-	state protoimpl.MessageState                         `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Cause v12.CancelExternalWorkflowExecutionFailedCause `protobuf:"varint,1,opt,name=cause,proto3,enum=temporal.api.enums.v1.CancelExternalWorkflowExecutionFailedCause" json:"cause,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
@@ -2569,9 +2598,7 @@ type RequestCancelExternalWorkflowExecutionFailedEventAttributes struct {
 	// corresponds to
 	InitiatedEventId int64 `protobuf:"varint,5,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
 	// Deprecated
-	Control       string `protobuf:"bytes,6,opt,name=control,proto3" json:"control,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Control string `protobuf:"bytes,6,opt,name=control,proto3" json:"control,omitempty"`
 }
 
 func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) Reset() {
@@ -2654,7 +2681,10 @@ func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) GetControl
 }
 
 type ExternalWorkflowExecutionCancelRequestedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// id of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this event corresponds
 	// to
 	InitiatedEventId int64 `protobuf:"varint,1,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
@@ -2663,8 +2693,6 @@ type ExternalWorkflowExecutionCancelRequestedEventAttributes struct {
 	Namespace         string                `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	NamespaceId       string                `protobuf:"bytes,4,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	WorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) Reset() {
@@ -2726,7 +2754,10 @@ func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) GetWorkflowExe
 }
 
 type SignalExternalWorkflowExecutionInitiatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// Namespace of the to-be-signalled workflow.
@@ -2744,8 +2775,6 @@ type SignalExternalWorkflowExecutionInitiatedEventAttributes struct {
 	// a child of the workflow which issued the request
 	ChildWorkflowOnly bool       `protobuf:"varint,7,opt,name=child_workflow_only,json=childWorkflowOnly,proto3" json:"child_workflow_only,omitempty"`
 	Header            *v1.Header `protobuf:"bytes,8,opt,name=header,proto3" json:"header,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) Reset() {
@@ -2842,7 +2871,10 @@ func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) GetHeader() *v
 }
 
 type SignalExternalWorkflowExecutionFailedEventAttributes struct {
-	state protoimpl.MessageState                         `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Cause v12.SignalExternalWorkflowExecutionFailedCause `protobuf:"varint,1,opt,name=cause,proto3,enum=temporal.api.enums.v1.SignalExternalWorkflowExecutionFailedCause" json:"cause,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
@@ -2853,9 +2885,7 @@ type SignalExternalWorkflowExecutionFailedEventAttributes struct {
 	WorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,4,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	InitiatedEventId  int64                 `protobuf:"varint,5,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
 	// Deprecated
-	Control       string `protobuf:"bytes,6,opt,name=control,proto3" json:"control,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Control string `protobuf:"bytes,6,opt,name=control,proto3" json:"control,omitempty"`
 }
 
 func (x *SignalExternalWorkflowExecutionFailedEventAttributes) Reset() {
@@ -2938,7 +2968,10 @@ func (x *SignalExternalWorkflowExecutionFailedEventAttributes) GetControl() stri
 }
 
 type ExternalWorkflowExecutionSignaledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// id of the `SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this event corresponds to
 	InitiatedEventId int64 `protobuf:"varint,1,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
 	// Namespace of the workflow which was signaled.
@@ -2947,9 +2980,7 @@ type ExternalWorkflowExecutionSignaledEventAttributes struct {
 	NamespaceId       string                `protobuf:"bytes,5,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	WorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// Deprecated
-	Control       string `protobuf:"bytes,4,opt,name=control,proto3" json:"control,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Control string `protobuf:"bytes,4,opt,name=control,proto3" json:"control,omitempty"`
 }
 
 func (x *ExternalWorkflowExecutionSignaledEventAttributes) Reset() {
@@ -3018,12 +3049,13 @@ func (x *ExternalWorkflowExecutionSignaledEventAttributes) GetControl() string {
 }
 
 type UpsertWorkflowSearchAttributesEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64                `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	SearchAttributes             *v1.SearchAttributes `protobuf:"bytes,2,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *UpsertWorkflowSearchAttributesEventAttributes) Reset() {
@@ -3071,15 +3103,16 @@ func (x *UpsertWorkflowSearchAttributesEventAttributes) GetSearchAttributes() *v
 }
 
 type WorkflowPropertiesModifiedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// If set, update the workflow memo with the provided values. The values will be merged with
 	// the existing memo. If the user wants to delete values, a default/empty Payload should be
 	// used as the value for the key being deleted.
-	UpsertedMemo  *v1.Memo `protobuf:"bytes,2,opt,name=upserted_memo,json=upsertedMemo,proto3" json:"upserted_memo,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UpsertedMemo *v1.Memo `protobuf:"bytes,2,opt,name=upserted_memo,json=upsertedMemo,proto3" json:"upserted_memo,omitempty"`
 }
 
 func (x *WorkflowPropertiesModifiedEventAttributes) Reset() {
@@ -3127,7 +3160,10 @@ func (x *WorkflowPropertiesModifiedEventAttributes) GetUpsertedMemo() *v1.Memo {
 }
 
 type StartChildWorkflowExecutionInitiatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace    string           `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3159,8 +3195,6 @@ type StartChildWorkflowExecutionInitiatedEventAttributes struct {
 	// If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment
 	// rules of the child's Task Queue will be used to independently assign a Build ID to it.
 	InheritBuildId bool `protobuf:"varint,19,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *StartChildWorkflowExecutionInitiatedEventAttributes) Reset() {
@@ -3327,7 +3361,10 @@ func (x *StartChildWorkflowExecutionInitiatedEventAttributes) GetInheritBuildId(
 }
 
 type StartChildWorkflowExecutionFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace    string                                     `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3341,8 +3378,6 @@ type StartChildWorkflowExecutionFailedEventAttributes struct {
 	InitiatedEventId int64 `protobuf:"varint,6,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,7,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *StartChildWorkflowExecutionFailedEventAttributes) Reset() {
@@ -3432,7 +3467,10 @@ func (x *StartChildWorkflowExecutionFailedEventAttributes) GetWorkflowTaskComple
 }
 
 type ChildWorkflowExecutionStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace   string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3442,8 +3480,6 @@ type ChildWorkflowExecutionStartedEventAttributes struct {
 	WorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	WorkflowType      *v1.WorkflowType      `protobuf:"bytes,4,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	Header            *v1.Header            `protobuf:"bytes,5,opt,name=header,proto3" json:"header,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ChildWorkflowExecutionStartedEventAttributes) Reset() {
@@ -3519,8 +3555,11 @@ func (x *ChildWorkflowExecutionStartedEventAttributes) GetHeader() *v1.Header {
 }
 
 type ChildWorkflowExecutionCompletedEventAttributes struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	Result *v1.Payloads           `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Result *v1.Payloads `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace         string                `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3531,8 +3570,6 @@ type ChildWorkflowExecutionCompletedEventAttributes struct {
 	InitiatedEventId int64 `protobuf:"varint,5,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
 	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
 	StartedEventId int64 `protobuf:"varint,6,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ChildWorkflowExecutionCompletedEventAttributes) Reset() {
@@ -3615,8 +3652,11 @@ func (x *ChildWorkflowExecutionCompletedEventAttributes) GetStartedEventId() int
 }
 
 type ChildWorkflowExecutionFailedEventAttributes struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	Failure *v13.Failure           `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Failure *v13.Failure `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace         string                `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3628,8 +3668,6 @@ type ChildWorkflowExecutionFailedEventAttributes struct {
 	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
 	StartedEventId int64          `protobuf:"varint,6,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
 	RetryState     v12.RetryState `protobuf:"varint,7,opt,name=retry_state,json=retryState,proto3,enum=temporal.api.enums.v1.RetryState" json:"retry_state,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ChildWorkflowExecutionFailedEventAttributes) Reset() {
@@ -3719,8 +3757,11 @@ func (x *ChildWorkflowExecutionFailedEventAttributes) GetRetryState() v12.RetryS
 }
 
 type ChildWorkflowExecutionCanceledEventAttributes struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	Details *v1.Payloads           `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Details *v1.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace         string                `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3731,8 +3772,6 @@ type ChildWorkflowExecutionCanceledEventAttributes struct {
 	InitiatedEventId int64 `protobuf:"varint,5,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
 	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
 	StartedEventId int64 `protobuf:"varint,6,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ChildWorkflowExecutionCanceledEventAttributes) Reset() {
@@ -3815,7 +3854,10 @@ func (x *ChildWorkflowExecutionCanceledEventAttributes) GetStartedEventId() int6
 }
 
 type ChildWorkflowExecutionTimedOutEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace         string                `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3827,8 +3869,6 @@ type ChildWorkflowExecutionTimedOutEventAttributes struct {
 	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
 	StartedEventId int64          `protobuf:"varint,5,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
 	RetryState     v12.RetryState `protobuf:"varint,6,opt,name=retry_state,json=retryState,proto3,enum=temporal.api.enums.v1.RetryState" json:"retry_state,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ChildWorkflowExecutionTimedOutEventAttributes) Reset() {
@@ -3911,7 +3951,10 @@ func (x *ChildWorkflowExecutionTimedOutEventAttributes) GetRetryState() v12.Retr
 }
 
 type ChildWorkflowExecutionTerminatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace         string                `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3922,8 +3965,6 @@ type ChildWorkflowExecutionTerminatedEventAttributes struct {
 	InitiatedEventId int64 `protobuf:"varint,4,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
 	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
 	StartedEventId int64 `protobuf:"varint,5,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ChildWorkflowExecutionTerminatedEventAttributes) Reset() {
@@ -3999,11 +4040,12 @@ func (x *ChildWorkflowExecutionTerminatedEventAttributes) GetStartedEventId() in
 }
 
 type WorkflowExecutionOptionsUpdatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Versioning override in the mutable state after event has been applied.
 	VersioningOverride *v14.VersioningOverride `protobuf:"bytes,1,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionOptionsUpdatedEventAttributes) Reset() {
@@ -4045,7 +4087,10 @@ func (x *WorkflowExecutionOptionsUpdatedEventAttributes) GetVersioningOverride()
 
 // Not used anywhere. Use case is replaced by WorkflowExecutionOptionsUpdatedEventAttributes
 type WorkflowPropertiesModifiedExternallyEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Not used.
 	NewTaskQueue string `protobuf:"bytes,1,opt,name=new_task_queue,json=newTaskQueue,proto3" json:"new_task_queue,omitempty"`
 	// Not used.
@@ -4055,9 +4100,7 @@ type WorkflowPropertiesModifiedExternallyEventAttributes struct {
 	// Not used.
 	NewWorkflowExecutionTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=new_workflow_execution_timeout,json=newWorkflowExecutionTimeout,proto3" json:"new_workflow_execution_timeout,omitempty"`
 	// Not used.
-	UpsertedMemo  *v1.Memo `protobuf:"bytes,5,opt,name=upserted_memo,json=upsertedMemo,proto3" json:"upserted_memo,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UpsertedMemo *v1.Memo `protobuf:"bytes,5,opt,name=upserted_memo,json=upsertedMemo,proto3" json:"upserted_memo,omitempty"`
 }
 
 func (x *WorkflowPropertiesModifiedExternallyEventAttributes) Reset() {
@@ -4126,14 +4169,15 @@ func (x *WorkflowPropertiesModifiedExternallyEventAttributes) GetUpsertedMemo() 
 }
 
 type ActivityPropertiesModifiedExternallyEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this modification corresponds to.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// If set, update the retry policy of the activity, replacing it with the specified one.
 	// The number of attempts at the activity is preserved.
 	NewRetryPolicy *v1.RetryPolicy `protobuf:"bytes,2,opt,name=new_retry_policy,json=newRetryPolicy,proto3" json:"new_retry_policy,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ActivityPropertiesModifiedExternallyEventAttributes) Reset() {
@@ -4181,7 +4225,10 @@ func (x *ActivityPropertiesModifiedExternallyEventAttributes) GetNewRetryPolicy(
 }
 
 type WorkflowExecutionUpdateAcceptedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The instance ID of the update protocol that generated this event.
 	ProtocolInstanceId string `protobuf:"bytes,1,opt,name=protocol_instance_id,json=protocolInstanceId,proto3" json:"protocol_instance_id,omitempty"`
 	// The message ID of the original request message that initiated this
@@ -4193,8 +4240,6 @@ type WorkflowExecutionUpdateAcceptedEventAttributes struct {
 	// The message payload of the original request message that initiated this
 	// update.
 	AcceptedRequest *v17.Request `protobuf:"bytes,4,opt,name=accepted_request,json=acceptedRequest,proto3" json:"accepted_request,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionUpdateAcceptedEventAttributes) Reset() {
@@ -4256,15 +4301,16 @@ func (x *WorkflowExecutionUpdateAcceptedEventAttributes) GetAcceptedRequest() *v
 }
 
 type WorkflowExecutionUpdateCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The metadata about this update.
 	Meta *v17.Meta `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
 	// The event ID indicating the acceptance of this update.
 	AcceptedEventId int64 `protobuf:"varint,3,opt,name=accepted_event_id,json=acceptedEventId,proto3" json:"accepted_event_id,omitempty"`
 	// The outcome of executing the workflow update function.
-	Outcome       *v17.Outcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Outcome *v17.Outcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
 }
 
 func (x *WorkflowExecutionUpdateCompletedEventAttributes) Reset() {
@@ -4319,7 +4365,10 @@ func (x *WorkflowExecutionUpdateCompletedEventAttributes) GetOutcome() *v17.Outc
 }
 
 type WorkflowExecutionUpdateRejectedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The instance ID of the update protocol that generated this event.
 	ProtocolInstanceId string `protobuf:"bytes,1,opt,name=protocol_instance_id,json=protocolInstanceId,proto3" json:"protocol_instance_id,omitempty"`
 	// The message ID of the original request message that initiated this
@@ -4332,9 +4381,7 @@ type WorkflowExecutionUpdateRejectedEventAttributes struct {
 	// update.
 	RejectedRequest *v17.Request `protobuf:"bytes,4,opt,name=rejected_request,json=rejectedRequest,proto3" json:"rejected_request,omitempty"`
 	// The cause of rejection.
-	Failure       *v13.Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Failure *v13.Failure `protobuf:"bytes,5,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *WorkflowExecutionUpdateRejectedEventAttributes) Reset() {
@@ -4403,13 +4450,14 @@ func (x *WorkflowExecutionUpdateRejectedEventAttributes) GetFailure() *v13.Failu
 }
 
 type WorkflowExecutionUpdateAdmittedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The update request associated with this event.
 	Request *v17.Request `protobuf:"bytes,1,opt,name=request,proto3" json:"request,omitempty"`
 	// An explanation of why this event was written to history.
-	Origin        v12.UpdateAdmittedEventOrigin `protobuf:"varint,2,opt,name=origin,proto3,enum=temporal.api.enums.v1.UpdateAdmittedEventOrigin" json:"origin,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Origin v12.UpdateAdmittedEventOrigin `protobuf:"varint,2,opt,name=origin,proto3,enum=temporal.api.enums.v1.UpdateAdmittedEventOrigin" json:"origin,omitempty"`
 }
 
 func (x *WorkflowExecutionUpdateAdmittedEventAttributes) Reset() {
@@ -4458,7 +4506,10 @@ func (x *WorkflowExecutionUpdateAdmittedEventAttributes) GetOrigin() v12.UpdateA
 
 // Event marking that an operation was scheduled by a workflow via the ScheduleNexusOperation command.
 type NexusOperationScheduledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Endpoint name, must exist in the endpoint registry.
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	// Service name.
@@ -4479,7 +4530,7 @@ type NexusOperationScheduledEventAttributes struct {
 	// Header to attach to the Nexus request. Note these headers are not the same as Temporal headers on internal
 	// activities and child workflows, these are transmitted to Nexus operations that may be external and are not
 	// traditional payloads.
-	NexusHeader map[string]string `protobuf:"bytes,6,rep,name=nexus_header,json=nexusHeader,proto3" json:"nexus_header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	NexusHeader map[string]string `protobuf:"bytes,6,rep,name=nexus_header,json=nexusHeader,proto3" json:"nexus_header,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding ScheduleNexusOperation command was reported with.
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,7,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// A unique ID generated by the history service upon creation of this event.
@@ -4488,9 +4539,7 @@ type NexusOperationScheduledEventAttributes struct {
 	// Endpoint ID as resolved in the endpoint registry at the time this event was generated.
 	// This is stored on the event and used internally by the server in case the endpoint is renamed from the time the
 	// event was originally scheduled.
-	EndpointId    string `protobuf:"bytes,9,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	EndpointId string `protobuf:"bytes,9,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
 }
 
 func (x *NexusOperationScheduledEventAttributes) Reset() {
@@ -4591,16 +4640,17 @@ func (x *NexusOperationScheduledEventAttributes) GetEndpointId() string {
 // In rare situations, such as request timeouts, the service may fail to record the actual start time and will fabricate
 // this event upon receiving the operation completion via callback.
 type NexusOperationStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event this task corresponds to.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The operation ID returned by the Nexus handler in the response to the StartOperation request.
 	// This ID is used when canceling the operation.
 	OperationId string `protobuf:"bytes,3,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 	// The request ID allocated at schedule time.
-	RequestId     string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 }
 
 func (x *NexusOperationStartedEventAttributes) Reset() {
@@ -4656,16 +4706,17 @@ func (x *NexusOperationStartedEventAttributes) GetRequestId() string {
 
 // Nexus operation completed successfully.
 type NexusOperationCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Serialized result of the Nexus operation. The response of the Nexus handler.
 	// Delivered either via a completion callback or as a response to a synchronous operation.
 	Result *v1.Payload `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`
 	// The request ID allocated at schedule time.
-	RequestId     string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 }
 
 func (x *NexusOperationCompletedEventAttributes) Reset() {
@@ -4721,15 +4772,16 @@ func (x *NexusOperationCompletedEventAttributes) GetRequestId() string {
 
 // Nexus operation failed.
 type NexusOperationFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Failure details. A NexusOperationFailureInfo wrapping an ApplicationFailureInfo.
 	Failure *v13.Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
 	// The request ID allocated at schedule time.
-	RequestId     string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 }
 
 func (x *NexusOperationFailedEventAttributes) Reset() {
@@ -4785,15 +4837,16 @@ func (x *NexusOperationFailedEventAttributes) GetRequestId() string {
 
 // Nexus operation timed out.
 type NexusOperationTimedOutEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Failure details. A NexusOperationFailureInfo wrapping a CanceledFailureInfo.
 	Failure *v13.Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
 	// The request ID allocated at schedule time.
-	RequestId     string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 }
 
 func (x *NexusOperationTimedOutEventAttributes) Reset() {
@@ -4849,15 +4902,16 @@ func (x *NexusOperationTimedOutEventAttributes) GetRequestId() string {
 
 // Nexus operation completed as canceled. May or may not have been due to a cancellation request by the workflow.
 type NexusOperationCanceledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Cancellation details.
 	Failure *v13.Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
 	// The request ID allocated at schedule time.
-	RequestId     string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 }
 
 func (x *NexusOperationCanceledEventAttributes) Reset() {
@@ -4912,14 +4966,15 @@ func (x *NexusOperationCanceledEventAttributes) GetRequestId() string {
 }
 
 type NexusOperationCancelRequestedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported
 	// with.
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
 }
 
 func (x *NexusOperationCancelRequestedEventAttributes) Reset() {
@@ -4969,7 +5024,10 @@ func (x *NexusOperationCancelRequestedEventAttributes) GetWorkflowTaskCompletedE
 // History events are the method by which Temporal SDKs advance (or recreate) workflow state.
 // See the `EventType` enum for more info about what each event is for.
 type HistoryEvent struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Monotonically increasing event number, starts at 1.
 	EventId   int64                  `protobuf:"varint,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
 	EventTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`
@@ -4996,7 +5054,7 @@ type HistoryEvent struct {
 	Links []*v1.Link `protobuf:"bytes,302,rep,name=links,proto3" json:"links,omitempty"`
 	// The event details. The type must match that in `event_type`.
 	//
-	// Types that are valid to be assigned to Attributes:
+	// Types that are assignable to Attributes:
 	//
 	//	*HistoryEvent_WorkflowExecutionStartedEventAttributes
 	//	*HistoryEvent_WorkflowExecutionCompletedEventAttributes
@@ -5053,9 +5111,7 @@ type HistoryEvent struct {
 	//	*HistoryEvent_NexusOperationTimedOutEventAttributes
 	//	*HistoryEvent_NexusOperationCancelRequestedEventAttributes
 	//	*HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes
-	Attributes    isHistoryEvent_Attributes `protobuf_oneof:"attributes"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Attributes isHistoryEvent_Attributes `protobuf_oneof:"attributes"`
 }
 
 func (x *HistoryEvent) Reset() {
@@ -5144,504 +5200,394 @@ func (x *HistoryEvent) GetLinks() []*v1.Link {
 	return nil
 }
 
-func (x *HistoryEvent) GetAttributes() isHistoryEvent_Attributes {
-	if x != nil {
-		return x.Attributes
+func (m *HistoryEvent) GetAttributes() isHistoryEvent_Attributes {
+	if m != nil {
+		return m.Attributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionStartedEventAttributes() *WorkflowExecutionStartedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionStartedEventAttributes); ok {
-			return x.WorkflowExecutionStartedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionStartedEventAttributes); ok {
+		return x.WorkflowExecutionStartedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionCompletedEventAttributes() *WorkflowExecutionCompletedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCompletedEventAttributes); ok {
-			return x.WorkflowExecutionCompletedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionCompletedEventAttributes); ok {
+		return x.WorkflowExecutionCompletedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionFailedEventAttributes() *WorkflowExecutionFailedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionFailedEventAttributes); ok {
-			return x.WorkflowExecutionFailedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionFailedEventAttributes); ok {
+		return x.WorkflowExecutionFailedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionTimedOutEventAttributes() *WorkflowExecutionTimedOutEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionTimedOutEventAttributes); ok {
-			return x.WorkflowExecutionTimedOutEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionTimedOutEventAttributes); ok {
+		return x.WorkflowExecutionTimedOutEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowTaskScheduledEventAttributes() *WorkflowTaskScheduledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowTaskScheduledEventAttributes); ok {
-			return x.WorkflowTaskScheduledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowTaskScheduledEventAttributes); ok {
+		return x.WorkflowTaskScheduledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowTaskStartedEventAttributes() *WorkflowTaskStartedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowTaskStartedEventAttributes); ok {
-			return x.WorkflowTaskStartedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowTaskStartedEventAttributes); ok {
+		return x.WorkflowTaskStartedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowTaskCompletedEventAttributes() *WorkflowTaskCompletedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowTaskCompletedEventAttributes); ok {
-			return x.WorkflowTaskCompletedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowTaskCompletedEventAttributes); ok {
+		return x.WorkflowTaskCompletedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowTaskTimedOutEventAttributes() *WorkflowTaskTimedOutEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowTaskTimedOutEventAttributes); ok {
-			return x.WorkflowTaskTimedOutEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowTaskTimedOutEventAttributes); ok {
+		return x.WorkflowTaskTimedOutEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowTaskFailedEventAttributes() *WorkflowTaskFailedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowTaskFailedEventAttributes); ok {
-			return x.WorkflowTaskFailedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowTaskFailedEventAttributes); ok {
+		return x.WorkflowTaskFailedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetActivityTaskScheduledEventAttributes() *ActivityTaskScheduledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ActivityTaskScheduledEventAttributes); ok {
-			return x.ActivityTaskScheduledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ActivityTaskScheduledEventAttributes); ok {
+		return x.ActivityTaskScheduledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetActivityTaskStartedEventAttributes() *ActivityTaskStartedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ActivityTaskStartedEventAttributes); ok {
-			return x.ActivityTaskStartedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ActivityTaskStartedEventAttributes); ok {
+		return x.ActivityTaskStartedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetActivityTaskCompletedEventAttributes() *ActivityTaskCompletedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ActivityTaskCompletedEventAttributes); ok {
-			return x.ActivityTaskCompletedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ActivityTaskCompletedEventAttributes); ok {
+		return x.ActivityTaskCompletedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetActivityTaskFailedEventAttributes() *ActivityTaskFailedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ActivityTaskFailedEventAttributes); ok {
-			return x.ActivityTaskFailedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ActivityTaskFailedEventAttributes); ok {
+		return x.ActivityTaskFailedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetActivityTaskTimedOutEventAttributes() *ActivityTaskTimedOutEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ActivityTaskTimedOutEventAttributes); ok {
-			return x.ActivityTaskTimedOutEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ActivityTaskTimedOutEventAttributes); ok {
+		return x.ActivityTaskTimedOutEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetTimerStartedEventAttributes() *TimerStartedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_TimerStartedEventAttributes); ok {
-			return x.TimerStartedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_TimerStartedEventAttributes); ok {
+		return x.TimerStartedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetTimerFiredEventAttributes() *TimerFiredEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_TimerFiredEventAttributes); ok {
-			return x.TimerFiredEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_TimerFiredEventAttributes); ok {
+		return x.TimerFiredEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetActivityTaskCancelRequestedEventAttributes() *ActivityTaskCancelRequestedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ActivityTaskCancelRequestedEventAttributes); ok {
-			return x.ActivityTaskCancelRequestedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ActivityTaskCancelRequestedEventAttributes); ok {
+		return x.ActivityTaskCancelRequestedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetActivityTaskCanceledEventAttributes() *ActivityTaskCanceledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ActivityTaskCanceledEventAttributes); ok {
-			return x.ActivityTaskCanceledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ActivityTaskCanceledEventAttributes); ok {
+		return x.ActivityTaskCanceledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetTimerCanceledEventAttributes() *TimerCanceledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_TimerCanceledEventAttributes); ok {
-			return x.TimerCanceledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_TimerCanceledEventAttributes); ok {
+		return x.TimerCanceledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetMarkerRecordedEventAttributes() *MarkerRecordedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_MarkerRecordedEventAttributes); ok {
-			return x.MarkerRecordedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_MarkerRecordedEventAttributes); ok {
+		return x.MarkerRecordedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionSignaledEventAttributes() *WorkflowExecutionSignaledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionSignaledEventAttributes); ok {
-			return x.WorkflowExecutionSignaledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionSignaledEventAttributes); ok {
+		return x.WorkflowExecutionSignaledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionTerminatedEventAttributes() *WorkflowExecutionTerminatedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionTerminatedEventAttributes); ok {
-			return x.WorkflowExecutionTerminatedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionTerminatedEventAttributes); ok {
+		return x.WorkflowExecutionTerminatedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionCancelRequestedEventAttributes() *WorkflowExecutionCancelRequestedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes); ok {
-			return x.WorkflowExecutionCancelRequestedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes); ok {
+		return x.WorkflowExecutionCancelRequestedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionCanceledEventAttributes() *WorkflowExecutionCanceledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCanceledEventAttributes); ok {
-			return x.WorkflowExecutionCanceledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionCanceledEventAttributes); ok {
+		return x.WorkflowExecutionCanceledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetRequestCancelExternalWorkflowExecutionInitiatedEventAttributes() *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes); ok {
-			return x.RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes); ok {
+		return x.RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetRequestCancelExternalWorkflowExecutionFailedEventAttributes() *RequestCancelExternalWorkflowExecutionFailedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes); ok {
-			return x.RequestCancelExternalWorkflowExecutionFailedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes); ok {
+		return x.RequestCancelExternalWorkflowExecutionFailedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetExternalWorkflowExecutionCancelRequestedEventAttributes() *ExternalWorkflowExecutionCancelRequestedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes); ok {
-			return x.ExternalWorkflowExecutionCancelRequestedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes); ok {
+		return x.ExternalWorkflowExecutionCancelRequestedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionContinuedAsNewEventAttributes() *WorkflowExecutionContinuedAsNewEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes); ok {
-			return x.WorkflowExecutionContinuedAsNewEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes); ok {
+		return x.WorkflowExecutionContinuedAsNewEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetStartChildWorkflowExecutionInitiatedEventAttributes() *StartChildWorkflowExecutionInitiatedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes); ok {
-			return x.StartChildWorkflowExecutionInitiatedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes); ok {
+		return x.StartChildWorkflowExecutionInitiatedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetStartChildWorkflowExecutionFailedEventAttributes() *StartChildWorkflowExecutionFailedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes); ok {
-			return x.StartChildWorkflowExecutionFailedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes); ok {
+		return x.StartChildWorkflowExecutionFailedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetChildWorkflowExecutionStartedEventAttributes() *ChildWorkflowExecutionStartedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionStartedEventAttributes); ok {
-			return x.ChildWorkflowExecutionStartedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ChildWorkflowExecutionStartedEventAttributes); ok {
+		return x.ChildWorkflowExecutionStartedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetChildWorkflowExecutionCompletedEventAttributes() *ChildWorkflowExecutionCompletedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes); ok {
-			return x.ChildWorkflowExecutionCompletedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes); ok {
+		return x.ChildWorkflowExecutionCompletedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetChildWorkflowExecutionFailedEventAttributes() *ChildWorkflowExecutionFailedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionFailedEventAttributes); ok {
-			return x.ChildWorkflowExecutionFailedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ChildWorkflowExecutionFailedEventAttributes); ok {
+		return x.ChildWorkflowExecutionFailedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetChildWorkflowExecutionCanceledEventAttributes() *ChildWorkflowExecutionCanceledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes); ok {
-			return x.ChildWorkflowExecutionCanceledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes); ok {
+		return x.ChildWorkflowExecutionCanceledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetChildWorkflowExecutionTimedOutEventAttributes() *ChildWorkflowExecutionTimedOutEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes); ok {
-			return x.ChildWorkflowExecutionTimedOutEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes); ok {
+		return x.ChildWorkflowExecutionTimedOutEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetChildWorkflowExecutionTerminatedEventAttributes() *ChildWorkflowExecutionTerminatedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes); ok {
-			return x.ChildWorkflowExecutionTerminatedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes); ok {
+		return x.ChildWorkflowExecutionTerminatedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetSignalExternalWorkflowExecutionInitiatedEventAttributes() *SignalExternalWorkflowExecutionInitiatedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes); ok {
-			return x.SignalExternalWorkflowExecutionInitiatedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes); ok {
+		return x.SignalExternalWorkflowExecutionInitiatedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetSignalExternalWorkflowExecutionFailedEventAttributes() *SignalExternalWorkflowExecutionFailedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes); ok {
-			return x.SignalExternalWorkflowExecutionFailedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes); ok {
+		return x.SignalExternalWorkflowExecutionFailedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetExternalWorkflowExecutionSignaledEventAttributes() *ExternalWorkflowExecutionSignaledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes); ok {
-			return x.ExternalWorkflowExecutionSignaledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes); ok {
+		return x.ExternalWorkflowExecutionSignaledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetUpsertWorkflowSearchAttributesEventAttributes() *UpsertWorkflowSearchAttributesEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes); ok {
-			return x.UpsertWorkflowSearchAttributesEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes); ok {
+		return x.UpsertWorkflowSearchAttributesEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionUpdateAcceptedEventAttributes() *WorkflowExecutionUpdateAcceptedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes); ok {
-			return x.WorkflowExecutionUpdateAcceptedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes); ok {
+		return x.WorkflowExecutionUpdateAcceptedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionUpdateRejectedEventAttributes() *WorkflowExecutionUpdateRejectedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes); ok {
-			return x.WorkflowExecutionUpdateRejectedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes); ok {
+		return x.WorkflowExecutionUpdateRejectedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionUpdateCompletedEventAttributes() *WorkflowExecutionUpdateCompletedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes); ok {
-			return x.WorkflowExecutionUpdateCompletedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes); ok {
+		return x.WorkflowExecutionUpdateCompletedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowPropertiesModifiedExternallyEventAttributes() *WorkflowPropertiesModifiedExternallyEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes); ok {
-			return x.WorkflowPropertiesModifiedExternallyEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes); ok {
+		return x.WorkflowPropertiesModifiedExternallyEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetActivityPropertiesModifiedExternallyEventAttributes() *ActivityPropertiesModifiedExternallyEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes); ok {
-			return x.ActivityPropertiesModifiedExternallyEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes); ok {
+		return x.ActivityPropertiesModifiedExternallyEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowPropertiesModifiedEventAttributes() *WorkflowPropertiesModifiedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowPropertiesModifiedEventAttributes); ok {
-			return x.WorkflowPropertiesModifiedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowPropertiesModifiedEventAttributes); ok {
+		return x.WorkflowPropertiesModifiedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionUpdateAdmittedEventAttributes() *WorkflowExecutionUpdateAdmittedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes); ok {
-			return x.WorkflowExecutionUpdateAdmittedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes); ok {
+		return x.WorkflowExecutionUpdateAdmittedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetNexusOperationScheduledEventAttributes() *NexusOperationScheduledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_NexusOperationScheduledEventAttributes); ok {
-			return x.NexusOperationScheduledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_NexusOperationScheduledEventAttributes); ok {
+		return x.NexusOperationScheduledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetNexusOperationStartedEventAttributes() *NexusOperationStartedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_NexusOperationStartedEventAttributes); ok {
-			return x.NexusOperationStartedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_NexusOperationStartedEventAttributes); ok {
+		return x.NexusOperationStartedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetNexusOperationCompletedEventAttributes() *NexusOperationCompletedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_NexusOperationCompletedEventAttributes); ok {
-			return x.NexusOperationCompletedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_NexusOperationCompletedEventAttributes); ok {
+		return x.NexusOperationCompletedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetNexusOperationFailedEventAttributes() *NexusOperationFailedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_NexusOperationFailedEventAttributes); ok {
-			return x.NexusOperationFailedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_NexusOperationFailedEventAttributes); ok {
+		return x.NexusOperationFailedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetNexusOperationCanceledEventAttributes() *NexusOperationCanceledEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_NexusOperationCanceledEventAttributes); ok {
-			return x.NexusOperationCanceledEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_NexusOperationCanceledEventAttributes); ok {
+		return x.NexusOperationCanceledEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetNexusOperationTimedOutEventAttributes() *NexusOperationTimedOutEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_NexusOperationTimedOutEventAttributes); ok {
-			return x.NexusOperationTimedOutEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_NexusOperationTimedOutEventAttributes); ok {
+		return x.NexusOperationTimedOutEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetNexusOperationCancelRequestedEventAttributes() *NexusOperationCancelRequestedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_NexusOperationCancelRequestedEventAttributes); ok {
-			return x.NexusOperationCancelRequestedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_NexusOperationCancelRequestedEventAttributes); ok {
+		return x.NexusOperationCancelRequestedEventAttributes
 	}
 	return nil
 }
 
 func (x *HistoryEvent) GetWorkflowExecutionOptionsUpdatedEventAttributes() *WorkflowExecutionOptionsUpdatedEventAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes); ok {
-			return x.WorkflowExecutionOptionsUpdatedEventAttributes
-		}
+	if x, ok := x.GetAttributes().(*HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes); ok {
+		return x.WorkflowExecutionOptionsUpdatedEventAttributes
 	}
 	return nil
 }
@@ -5989,10 +5935,11 @@ func (*HistoryEvent_NexusOperationCancelRequestedEventAttributes) isHistoryEvent
 func (*HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes) isHistoryEvent_Attributes() {}
 
 type History struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Events        []*HistoryEvent        `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*HistoryEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
 }
 
 func (x *History) Reset() {
