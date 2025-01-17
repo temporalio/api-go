@@ -1,0 +1,96 @@
+name: "Create release"
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: "Ref to be tagged"
+        required: true
+        type: string
+      tag:
+        description: "Tag for new version (v1.23.4)"
+        required: true
+        type: string
+      api_commit_sha:
+        description: "api repo commit sha"
+        required: true
+        type: string
+      base_tag:
+        description: "Base tag to generate commit list for release notes"
+        required: false
+        type: string
+    secrets:
+      TEMPORAL_CICD_APP_ID:
+        required: true
+      TEMPORAL_CICD_PRIVATE_KEY:
+        required: true
+
+jobs:
+  create-release:
+    name: "Create release"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.TEMPORAL_CICD_APP_ID }}
+          private-key: ${{ secrets.TEMPORAL_CICD_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: temporalio/api-go
+          ref: ${{ inputs.ref }}
+          token: ${{ steps.generate_token.outputs.token }}
+          persist-credentials: true
+          fetch-depth: 0
+          fetch-tags: true
+          submodules: true
+
+      - name: Validate input
+        env:
+          REF: ${{ inputs.ref }}
+          TAG: ${{ inputs.tag }}
+          API_COMMIT_SHA: ${{ inputs.api_commit_sha }}
+          BASE_TAG: ${{ inputs.base_tag }}
+        run: |
+          if ! [[ "${TAG}" =~ ^v.* ]]; then
+            echo "::error::Tag is not prefixed with 'v'"
+            exit 1
+          fi
+
+          if [[ -n "$(git tag -l "$TAG")" ]]; then
+            echo "::error::Tag already exists"
+            exit 1
+          fi
+
+          if [[ -z "$BASE_TAG" || -z "$(git tag -l "$BASE_TAG")" ]]; then
+            echo "::error::Base tag not specified or does not exist"
+            exit 1
+          fi
+
+          API_GO_API_COMMIT_SHA=$(git rev-parse HEAD:proto/api)
+          if [[ "${API_GO_API_COMMIT_SHA}" != "${API_COMMIT_SHA}" ]]; then
+            echo "::error::api-go ref ${API_GO_COMMIT_SHA} does not reference api ref ${API_COMMIT_SHA}."
+            exit 1
+          fi
+
+      - name: Set up Github credentials
+        run: |
+          git config --local user.name 'Temporal Data'
+          git config --local user.email 'commander-data@temporal.io'
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+          REF: ${{ inputs.ref }}
+          TAG: ${{ inputs.tag }}
+          API_COMMIT_SHA: ${{ inputs.api_commit_sha }}
+          BASE_TAG: ${{ inputs.base_tag }}
+        run: |
+          RELEASE_TMP_NAME="${TAG}-${API_COMMIT_SHA}"
+          gh repo set-default temporalio/api-go
+          gh release create "$TAG" --title "$RELEASE_TMP_NAME" --target "$REF" --latest --generate-notes --notes-start-tag "$BASE_TAG" --draft
