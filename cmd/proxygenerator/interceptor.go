@@ -207,15 +207,10 @@ func visitPayloads(
 	parent proto.Message,
 	objs ...interface{},
 ) error {
-	for i, obj := range objs {
+	for _, obj := range objs {
 		ctx.SinglePayloadRequired = false
 
 		switch o := obj.(type) {
-			case *common.Payload:
-				if o == nil { continue }
-				no, err := visitPayload(ctx, options, parent, o)
-				if err != nil { return err }
-				objs[i] = no
 			case map[string]*common.Payload:
 				for ix, x := range o {
 					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
