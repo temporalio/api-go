@@ -1,0 +1,77 @@
+name: Check sdk-go compatibility
+
+on:
+  workflow_dispatch:
+    inputs:
+      sdk_ref:
+        description: sdk-go ref to check ("latest" for latest release tag)
+        required: true
+        default: latest
+      api_ref:
+        description: api-go ref to check
+        required: true
+        default: master
+  workflow_call:
+    inputs:
+      sdk_ref:
+        description: sdk-go ref to check ("latest" for latest release tag)
+        required: true
+        default: latest
+      api_ref:
+        description: api-go ref to check
+        required: true
+        default: master
+
+jobs:
+  check-sdk-go-compatibility:
+    name: "Check sdk-go compatibility"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate inputs
+        id: inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SDK_REF: ${{ inputs.sdk_ref }}
+          API_REF: ${{ inputs.api_ref }}
+        run: |
+          if [[ "$SDK_REF" == "latest" ]]; then
+            SDK_REF=$(gh api /repos/temporalio/sdk-go/releases/latest --jq '.name')
+          fi
+          echo "SDK_REF=$SDK_REF" | tee -a "$GITHUB_OUTPUT"
+          echo "API_REF=$API_REF" | tee -a "$GITHUB_OUTPUT"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: temporalio/sdk-go
+          ref: ${{ steps.inputs.outputs.SDK_REF }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+
+      - name: Update api-go
+        env:
+          API_REF: ${{ steps.inputs.outputs.API_REF }}
+        run: |
+          for f in $(find . -iname go.mod); do
+            cd $(dirname $f)
+            go get go.temporal.io/api@$API_REF
+            go mod tidy
+            cd -
+          done
+
+      - name: Run check
+        run: go run . check
+        working-directory: ./internal/cmd/build
+
+      - name: Run unit test
+        run: go run . unit-test
+        working-directory: ./internal/cmd/build
+
+      - name: Run integration tests
+        continue-on-error: true
+        run: go run . integration-test -dev-server
+        working-directory: ./internal/cmd/build
