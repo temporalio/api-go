@@ -38,8 +38,8 @@ jobs:
           if [[ "$SDK_REF" == "latest" ]]; then
             SDK_REF=$(gh api /repos/temporalio/sdk-go/releases/latest --jq '.name')
           fi
-          echo "SDK_REF=$SDK_REF" >> "$GITHUB_OUTPUT"
-          echo "API_REF=$API_REF" >> "$GITHUB_OUTPUT"
+          echo "SDK_REF=$SDK_REF" | tee -a "$GITHUB_OUTPUT"
+          echo "API_REF=$API_REF" | tee -a "$GITHUB_OUTPUT"
 
       - name: Checkout
         uses: actions/checkout@v4
