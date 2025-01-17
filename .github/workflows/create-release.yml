@@ -91,5 +91,6 @@ jobs:
           API_COMMIT_SHA: ${{ inputs.api_commit_sha }}
           BASE_TAG: ${{ inputs.base_tag }}
         run: |
+          RELEASE_TMP_NAME="${TAG}-${API_COMMIT_SHA}"
           gh repo set-default temporalio/api-go
-          gh release create "$TAG" --title "${TAG}-${API_COMMIT_SHA}" --target "$REF" --latest --generate-notes --notes-start-tag "$BASE_TAG" --draft
+          gh release create "$TAG" --title "$RELEASE_TMP_NAME" --target "$REF" --latest --generate-notes --notes-start-tag "$BASE_TAG" --draft
