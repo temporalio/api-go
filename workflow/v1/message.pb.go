@@ -55,7 +55,10 @@ const (
 // Hold basic information about a workflow execution.
 // This structure is a part of visibility, and thus contain a limited subset of information.
 type WorkflowExecutionInfo struct {
-	state                protoimpl.MessageState      `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Execution            *v1.WorkflowExecution       `protobuf:"bytes,1,opt,name=execution,proto3" json:"execution,omitempty"`
 	Type                 *v1.WorkflowType            `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 	StartTime            *timestamppb.Timestamp      `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
@@ -119,8 +122,6 @@ type WorkflowExecutionInfo struct {
 	// be versioned or unversioned, depending on `versioning_info.behavior` and `versioning_info.versioning_override`.
 	// Experimental. Versioning info is experimental and might change in the future.
 	VersioningInfo *WorkflowExecutionVersioningInfo `protobuf:"bytes,22,opt,name=versioning_info,json=versioningInfo,proto3" json:"versioning_info,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionInfo) Reset() {
@@ -309,7 +310,10 @@ func (x *WorkflowExecutionInfo) GetVersioningInfo() *WorkflowExecutionVersioning
 
 // Holds all the extra information about workflow execution that is not part of Visibility.
 type WorkflowExecutionExtendedInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Workflow execution expiration time is defined as workflow start time plus expiration timeout.
 	// Workflow start time may change after workflow reset.
 	ExecutionExpirationTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=execution_expiration_time,json=executionExpirationTime,proto3" json:"execution_expiration_time,omitempty"`
@@ -321,8 +325,6 @@ type WorkflowExecutionExtendedInfo struct {
 	LastResetTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=last_reset_time,json=lastResetTime,proto3" json:"last_reset_time,omitempty"`
 	// Original workflow start time.
 	OriginalStartTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=original_start_time,json=originalStartTime,proto3" json:"original_start_time,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionExtendedInfo) Reset() {
@@ -393,7 +395,10 @@ func (x *WorkflowExecutionExtendedInfo) GetOriginalStartTime() *timestamppb.Time
 // Holds all the information about versioning for a workflow execution.
 // Experimental. Versioning info is experimental and might change in the future.
 type WorkflowExecutionVersioningInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Versioning behavior determines how the server should treat this execution when workers are
 	// upgraded. When present it means this workflow execution is versioned; UNSPECIFIED means
 	// unversioned. See the comments in `VersioningBehavior` enum for more info about different
@@ -432,8 +437,6 @@ type WorkflowExecutionVersioningInfo struct {
 	// Pending activities will not start new attempts during a transition. Once the transition is
 	// completed, pending activities will start their next attempt on the new deployment.
 	DeploymentTransition *DeploymentTransition `protobuf:"bytes,4,opt,name=deployment_transition,json=deploymentTransition,proto3" json:"deployment_transition,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionVersioningInfo) Reset() {
@@ -497,12 +500,13 @@ func (x *WorkflowExecutionVersioningInfo) GetDeploymentTransition() *DeploymentT
 // Holds information about ongoing transition of a workflow execution from one deployment to another.
 // Experimental. Deployment transition is experimental and might change in the future.
 type DeploymentTransition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The target deployment of the transition. Null means a so-far-versioned workflow is
 	// transitioning to unversioned workers.
-	Deployment    *v12.Deployment `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Deployment *v12.Deployment `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
 }
 
 func (x *DeploymentTransition) Reset() {
@@ -543,15 +547,16 @@ func (x *DeploymentTransition) GetDeployment() *v12.Deployment {
 }
 
 type WorkflowExecutionConfig struct {
-	state                      protoimpl.MessageState `protogen:"open.v1"`
-	TaskQueue                  *v13.TaskQueue         `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	WorkflowExecutionTimeout   *durationpb.Duration   `protobuf:"bytes,2,opt,name=workflow_execution_timeout,json=workflowExecutionTimeout,proto3" json:"workflow_execution_timeout,omitempty"`
-	WorkflowRunTimeout         *durationpb.Duration   `protobuf:"bytes,3,opt,name=workflow_run_timeout,json=workflowRunTimeout,proto3" json:"workflow_run_timeout,omitempty"`
-	DefaultWorkflowTaskTimeout *durationpb.Duration   `protobuf:"bytes,4,opt,name=default_workflow_task_timeout,json=defaultWorkflowTaskTimeout,proto3" json:"default_workflow_task_timeout,omitempty"`
-	// User metadata provided on start workflow.
-	UserMetadata  *v14.UserMetadata `protobuf:"bytes,5,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TaskQueue                  *v13.TaskQueue       `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	WorkflowExecutionTimeout   *durationpb.Duration `protobuf:"bytes,2,opt,name=workflow_execution_timeout,json=workflowExecutionTimeout,proto3" json:"workflow_execution_timeout,omitempty"`
+	WorkflowRunTimeout         *durationpb.Duration `protobuf:"bytes,3,opt,name=workflow_run_timeout,json=workflowRunTimeout,proto3" json:"workflow_run_timeout,omitempty"`
+	DefaultWorkflowTaskTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=default_workflow_task_timeout,json=defaultWorkflowTaskTimeout,proto3" json:"default_workflow_task_timeout,omitempty"`
+	// User metadata provided on start workflow.
+	UserMetadata *v14.UserMetadata `protobuf:"bytes,5,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
 }
 
 func (x *WorkflowExecutionConfig) Reset() {
@@ -620,7 +625,10 @@ func (x *WorkflowExecutionConfig) GetUserMetadata() *v14.UserMetadata {
 }
 
 type PendingActivityInfo struct {
-	state              protoimpl.MessageState   `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	ActivityId         string                   `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	ActivityType       *v1.ActivityType         `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
 	State              v11.PendingActivityState `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingActivityState" json:"state,omitempty"`
@@ -638,7 +646,7 @@ type PendingActivityInfo struct {
 	// independently-assigned build ID to the database. This case heals automatically once the task is dispatched.
 	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
 	//
-	// Types that are valid to be assigned to AssignedBuildId:
+	// Types that are assignable to AssignedBuildId:
 	//
 	//	*PendingActivityInfo_UseWorkflowBuildId
 	//	*PendingActivityInfo_LastIndependentlyAssignedBuildId
@@ -661,8 +669,6 @@ type PendingActivityInfo struct {
 	// The deployment this activity was dispatched to most recently. Present only if the activity
 	// was dispatched to a versioned worker.
 	LastDeployment *v12.Deployment `protobuf:"bytes,20,opt,name=last_deployment,json=lastDeployment,proto3" json:"last_deployment,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *PendingActivityInfo) Reset() {
@@ -779,27 +785,23 @@ func (x *PendingActivityInfo) GetLastWorkerIdentity() string {
 	return ""
 }
 
-func (x *PendingActivityInfo) GetAssignedBuildId() isPendingActivityInfo_AssignedBuildId {
-	if x != nil {
-		return x.AssignedBuildId
+func (m *PendingActivityInfo) GetAssignedBuildId() isPendingActivityInfo_AssignedBuildId {
+	if m != nil {
+		return m.AssignedBuildId
 	}
 	return nil
 }
 
 func (x *PendingActivityInfo) GetUseWorkflowBuildId() *emptypb.Empty {
-	if x != nil {
-		if x, ok := x.AssignedBuildId.(*PendingActivityInfo_UseWorkflowBuildId); ok {
-			return x.UseWorkflowBuildId
-		}
+	if x, ok := x.GetAssignedBuildId().(*PendingActivityInfo_UseWorkflowBuildId); ok {
+		return x.UseWorkflowBuildId
 	}
 	return nil
 }
 
 func (x *PendingActivityInfo) GetLastIndependentlyAssignedBuildId() string {
-	if x != nil {
-		if x, ok := x.AssignedBuildId.(*PendingActivityInfo_LastIndependentlyAssignedBuildId); ok {
-			return x.LastIndependentlyAssignedBuildId
-		}
+	if x, ok := x.GetAssignedBuildId().(*PendingActivityInfo_LastIndependentlyAssignedBuildId); ok {
+		return x.LastIndependentlyAssignedBuildId
 	}
 	return ""
 }
@@ -869,15 +871,16 @@ func (*PendingActivityInfo_LastIndependentlyAssignedBuildId) isPendingActivityIn
 }
 
 type PendingChildExecutionInfo struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	WorkflowId       string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId            string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	WorkflowTypeName string                 `protobuf:"bytes,3,opt,name=workflow_type_name,json=workflowTypeName,proto3" json:"workflow_type_name,omitempty"`
-	InitiatedId      int64                  `protobuf:"varint,4,opt,name=initiated_id,json=initiatedId,proto3" json:"initiated_id,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WorkflowId       string `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId            string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	WorkflowTypeName string `protobuf:"bytes,3,opt,name=workflow_type_name,json=workflowTypeName,proto3" json:"workflow_type_name,omitempty"`
+	InitiatedId      int64  `protobuf:"varint,4,opt,name=initiated_id,json=initiatedId,proto3" json:"initiated_id,omitempty"`
 	// Default: PARENT_CLOSE_POLICY_TERMINATE.
 	ParentClosePolicy v11.ParentClosePolicy `protobuf:"varint,5,opt,name=parent_close_policy,json=parentClosePolicy,proto3,enum=temporal.api.enums.v1.ParentClosePolicy" json:"parent_close_policy,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *PendingChildExecutionInfo) Reset() {
@@ -946,7 +949,10 @@ func (x *PendingChildExecutionInfo) GetParentClosePolicy() v11.ParentClosePolicy
 }
 
 type PendingWorkflowTaskInfo struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	State         v11.PendingWorkflowTaskState `protobuf:"varint,1,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingWorkflowTaskState" json:"state,omitempty"`
 	ScheduledTime *timestamppb.Timestamp       `protobuf:"bytes,2,opt,name=scheduled_time,json=scheduledTime,proto3" json:"scheduled_time,omitempty"`
 	// original_scheduled_time is the scheduled time of the first workflow task during workflow task heartbeat.
@@ -956,8 +962,6 @@ type PendingWorkflowTaskInfo struct {
 	OriginalScheduledTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=original_scheduled_time,json=originalScheduledTime,proto3" json:"original_scheduled_time,omitempty"`
 	StartedTime           *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=started_time,json=startedTime,proto3" json:"started_time,omitempty"`
 	Attempt               int32                  `protobuf:"varint,5,opt,name=attempt,proto3" json:"attempt,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
 }
 
 func (x *PendingWorkflowTaskInfo) Reset() {
@@ -1026,10 +1030,11 @@ func (x *PendingWorkflowTaskInfo) GetAttempt() int32 {
 }
 
 type ResetPoints struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Points        []*ResetPointInfo      `protobuf:"bytes,1,rep,name=points,proto3" json:"points,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Points []*ResetPointInfo `protobuf:"bytes,1,rep,name=points,proto3" json:"points,omitempty"`
 }
 
 func (x *ResetPoints) Reset() {
@@ -1073,7 +1078,10 @@ func (x *ResetPoints) GetPoints() []*ResetPointInfo {
 // build id or binary checksum. A new reset point will be created if either build id or binary
 // checksum changes (although in general only one or the other will be used at a time).
 type ResetPointInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Worker build id.
 	BuildId string `protobuf:"bytes,7,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// A worker binary version identifier (deprecated).
@@ -1090,9 +1098,7 @@ type ResetPointInfo struct {
 	// The time that the run is deleted due to retention.
 	ExpireTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=expire_time,json=expireTime,proto3" json:"expire_time,omitempty"`
 	// false if the reset point has pending childWFs/reqCancels/signalExternals.
-	Resettable    bool `protobuf:"varint,6,opt,name=resettable,proto3" json:"resettable,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Resettable bool `protobuf:"varint,6,opt,name=resettable,proto3" json:"resettable,omitempty"`
 }
 
 func (x *ResetPointInfo) Reset() {
@@ -1177,10 +1183,13 @@ func (x *ResetPointInfo) GetResettable() bool {
 // NewWorkflowExecutionInfo is a shared message that encapsulates all the
 // required arguments to starting a workflow in different contexts.
 type NewWorkflowExecutionInfo struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	WorkflowId   string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	WorkflowType *v1.WorkflowType       `protobuf:"bytes,2,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
-	TaskQueue    *v13.TaskQueue         `protobuf:"bytes,3,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WorkflowId   string           `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	WorkflowType *v1.WorkflowType `protobuf:"bytes,2,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue    *v13.TaskQueue   `protobuf:"bytes,3,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Serialized arguments to the workflow.
 	Input *v1.Payloads `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
 	// Total workflow execution timeout including retries and continue as new.
@@ -1205,8 +1214,6 @@ type NewWorkflowExecutionInfo struct {
 	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
 	// To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.
 	VersioningOverride *VersioningOverride `protobuf:"bytes,15,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *NewWorkflowExecutionInfo) Reset() {
@@ -1346,7 +1353,10 @@ func (x *NewWorkflowExecutionInfo) GetVersioningOverride() *VersioningOverride {
 
 // CallbackInfo contains the state of an attached workflow callback.
 type CallbackInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Information on how this callback should be invoked (e.g. its URL and type).
 	Callback *v1.Callback `protobuf:"bytes,1,opt,name=callback,proto3" json:"callback,omitempty"`
 	// Trigger for this callback.
@@ -1365,8 +1375,6 @@ type CallbackInfo struct {
 	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
 	// If the state is BLOCKED, blocked reason provides additional information.
 	BlockedReason string `protobuf:"bytes,9,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CallbackInfo) Reset() {
@@ -1464,7 +1472,10 @@ func (x *CallbackInfo) GetBlockedReason() string {
 
 // PendingNexusOperationInfo contains the state of a pending Nexus operation.
 type PendingNexusOperationInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Endpoint name.
 	// Resolved to a URL via the cluster's endpoint registry.
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
@@ -1498,8 +1509,6 @@ type PendingNexusOperationInfo struct {
 	ScheduledEventId int64 `protobuf:"varint,13,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// If the state is BLOCKED, blocked reason provides additional information.
 	BlockedReason string `protobuf:"bytes,14,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *PendingNexusOperationInfo) Reset() {
@@ -1632,7 +1641,10 @@ func (x *PendingNexusOperationInfo) GetBlockedReason() string {
 
 // NexusOperationCancellationInfo contains the state of a nexus operation cancellation.
 type NexusOperationCancellationInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The time when cancellation was requested.
 	RequestedTime *timestamppb.Timestamp              `protobuf:"bytes,1,opt,name=requested_time,json=requestedTime,proto3" json:"requested_time,omitempty"`
 	State         v11.NexusOperationCancellationState `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NexusOperationCancellationState" json:"state,omitempty"`
@@ -1647,8 +1659,6 @@ type NexusOperationCancellationInfo struct {
 	NextAttemptScheduleTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=next_attempt_schedule_time,json=nextAttemptScheduleTime,proto3" json:"next_attempt_schedule_time,omitempty"`
 	// If the state is BLOCKED, blocked reason provides additional information.
 	BlockedReason string `protobuf:"bytes,7,opt,name=blocked_reason,json=blockedReason,proto3" json:"blocked_reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NexusOperationCancellationInfo) Reset() {
@@ -1731,11 +1741,12 @@ func (x *NexusOperationCancellationInfo) GetBlockedReason() string {
 }
 
 type WorkflowExecutionOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
 	VersioningOverride *VersioningOverride `protobuf:"bytes,1,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionOptions) Reset() {
@@ -1780,14 +1791,15 @@ func (x *WorkflowExecutionOptions) GetVersioningOverride() *VersioningOverride {
 // information. To remove the override, call `UpdateWorkflowExecutionOptions` with a null
 // `VersioningOverride`, and use the `update_mask` to indicate that it should be mutated.
 type VersioningOverride struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Required.
 	Behavior v11.VersioningBehavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=temporal.api.enums.v1.VersioningBehavior" json:"behavior,omitempty"`
 	// Required if behavior is `PINNED`. Must be null if behavior is `AUTO_UPGRADE`.
 	// Identifies the worker deployment to pin the workflow to.
-	Deployment    *v12.Deployment `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Deployment *v12.Deployment `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
 }
 
 func (x *VersioningOverride) Reset() {
@@ -1836,9 +1848,9 @@ func (x *VersioningOverride) GetDeployment() *v12.Deployment {
 
 // Trigger for when the workflow is closed.
 type CallbackInfo_WorkflowClosed struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *CallbackInfo_WorkflowClosed) Reset() {
@@ -1872,13 +1884,14 @@ func (*CallbackInfo_WorkflowClosed) Descriptor() ([]byte, []int) {
 }
 
 type CallbackInfo_Trigger struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*CallbackInfo_Trigger_WorkflowClosed
-	Variant       isCallbackInfo_Trigger_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isCallbackInfo_Trigger_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *CallbackInfo_Trigger) Reset() {
@@ -1911,18 +1924,16 @@ func (*CallbackInfo_Trigger) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{11, 1}
 }
 
-func (x *CallbackInfo_Trigger) GetVariant() isCallbackInfo_Trigger_Variant {
-	if x != nil {
-		return x.Variant
+func (m *CallbackInfo_Trigger) GetVariant() isCallbackInfo_Trigger_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *CallbackInfo_Trigger) GetWorkflowClosed() *CallbackInfo_WorkflowClosed {
-	if x != nil {
-		if x, ok := x.Variant.(*CallbackInfo_Trigger_WorkflowClosed); ok {
-			return x.WorkflowClosed
-		}
+	if x, ok := x.GetVariant().(*CallbackInfo_Trigger_WorkflowClosed); ok {
+		return x.WorkflowClosed
 	}
 	return nil
 }

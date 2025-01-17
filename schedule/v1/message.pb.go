@@ -74,7 +74,10 @@ const (
 // CalendarSpec gets compiled into StructuredCalendarSpec, which is what will be
 // returned if you describe the schedule.
 type CalendarSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Expression to match seconds. Default: 0
 	Second string `protobuf:"bytes,1,opt,name=second,proto3" json:"second,omitempty"`
 	// Expression to match minutes. Default: 0
@@ -93,9 +96,7 @@ type CalendarSpec struct {
 	// Expression to match days of the week. Default: *
 	DayOfWeek string `protobuf:"bytes,7,opt,name=day_of_week,json=dayOfWeek,proto3" json:"day_of_week,omitempty"`
 	// Free-form comment describing the intention of this spec.
-	Comment       string `protobuf:"bytes,8,opt,name=comment,proto3" json:"comment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Comment string `protobuf:"bytes,8,opt,name=comment,proto3" json:"comment,omitempty"`
 }
 
 func (x *CalendarSpec) Reset() {
@@ -189,15 +190,16 @@ func (x *CalendarSpec) GetComment() string {
 // equal to start. This means you can use a Range with start set to a value, and
 // end and step unset (defaulting to 0) to represent a single value.
 type Range struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Start of range (inclusive).
 	Start int32 `protobuf:"varint,1,opt,name=start,proto3" json:"start,omitempty"`
 	// End of range (inclusive).
 	End int32 `protobuf:"varint,2,opt,name=end,proto3" json:"end,omitempty"`
 	// Step (optional, default 1).
-	Step          int32 `protobuf:"varint,3,opt,name=step,proto3" json:"step,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Step int32 `protobuf:"varint,3,opt,name=step,proto3" json:"step,omitempty"`
 }
 
 func (x *Range) Reset() {
@@ -261,7 +263,10 @@ func (x *Range) GetStep() int32 {
 // TODO: add relative-to-end-of-month
 // TODO: add nth day-of-week in month
 type StructuredCalendarSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Match seconds (0-59)
 	Second []*Range `protobuf:"bytes,1,rep,name=second,proto3" json:"second,omitempty"`
 	// Match minutes (0-59)
@@ -280,9 +285,7 @@ type StructuredCalendarSpec struct {
 	// Match days of the week (0-6; 0 is Sunday).
 	DayOfWeek []*Range `protobuf:"bytes,7,rep,name=day_of_week,json=dayOfWeek,proto3" json:"day_of_week,omitempty"`
 	// Free-form comment describing the intention of this spec.
-	Comment       string `protobuf:"bytes,8,opt,name=comment,proto3" json:"comment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Comment string `protobuf:"bytes,8,opt,name=comment,proto3" json:"comment,omitempty"`
 }
 
 func (x *StructuredCalendarSpec) Reset() {
@@ -383,11 +386,12 @@ func (x *StructuredCalendarSpec) GetComment() string {
 // 2022-02-17T00:00:00Z (among other times). The same interval with a phase of 3
 // days, 5 hours, and 23 minutes would match 2022-02-20T05:23:00Z instead.
 type IntervalSpec struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Interval      *durationpb.Duration   `protobuf:"bytes,1,opt,name=interval,proto3" json:"interval,omitempty"`
-	Phase         *durationpb.Duration   `protobuf:"bytes,2,opt,name=phase,proto3" json:"phase,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Interval *durationpb.Duration `protobuf:"bytes,1,opt,name=interval,proto3" json:"interval,omitempty"`
+	Phase    *durationpb.Duration `protobuf:"bytes,2,opt,name=phase,proto3" json:"phase,omitempty"`
 }
 
 func (x *IntervalSpec) Reset() {
@@ -453,7 +457,10 @@ func (x *IntervalSpec) GetPhase() *durationpb.Duration {
 // If a spec has no matching times after the current time, then the schedule
 // will be subject to automatic deletion (after several days).
 type ScheduleSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Calendar-based specifications of times.
 	StructuredCalendar []*StructuredCalendarSpec `protobuf:"bytes,7,rep,name=structured_calendar,json=structuredCalendar,proto3" json:"structured_calendar,omitempty"`
 	// cron_string holds a traditional cron specification as a string. It
@@ -516,10 +523,8 @@ type ScheduleSpec struct {
 	// fires at 1:30am will be triggered twice on the day that has two 1:30s.
 	//
 	// Also note that no actions are taken on leap-seconds (e.g. 23:59:60 UTC).
-	TimezoneName  string `protobuf:"bytes,10,opt,name=timezone_name,json=timezoneName,proto3" json:"timezone_name,omitempty"`
-	TimezoneData  []byte `protobuf:"bytes,11,opt,name=timezone_data,json=timezoneData,proto3" json:"timezone_data,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	TimezoneName string `protobuf:"bytes,10,opt,name=timezone_name,json=timezoneName,proto3" json:"timezone_name,omitempty"`
+	TimezoneData []byte `protobuf:"bytes,11,opt,name=timezone_data,json=timezoneData,proto3" json:"timezone_data,omitempty"`
 }
 
 func (x *ScheduleSpec) Reset() {
@@ -631,7 +636,10 @@ func (x *ScheduleSpec) GetTimezoneData() []byte {
 }
 
 type SchedulePolicies struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Policy for overlaps.
 	// Note that this can be changed after a schedule has taken some actions,
 	// and some changes might produce unintuitive results. In general, the later
@@ -650,8 +658,6 @@ type SchedulePolicies struct {
 	// If true, and the action would start a workflow, a timestamp will not be
 	// appended to the scheduled workflow id.
 	KeepOriginalWorkflowId bool `protobuf:"varint,4,opt,name=keep_original_workflow_id,json=keepOriginalWorkflowId,proto3" json:"keep_original_workflow_id,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *SchedulePolicies) Reset() {
@@ -713,13 +719,14 @@ func (x *SchedulePolicies) GetKeepOriginalWorkflowId() bool {
 }
 
 type ScheduleAction struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Action:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Action:
 	//
 	//	*ScheduleAction_StartWorkflow
-	Action        isScheduleAction_Action `protobuf_oneof:"action"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Action isScheduleAction_Action `protobuf_oneof:"action"`
 }
 
 func (x *ScheduleAction) Reset() {
@@ -752,18 +759,16 @@ func (*ScheduleAction) Descriptor() ([]byte, []int) {
 	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *ScheduleAction) GetAction() isScheduleAction_Action {
-	if x != nil {
-		return x.Action
+func (m *ScheduleAction) GetAction() isScheduleAction_Action {
+	if m != nil {
+		return m.Action
 	}
 	return nil
 }
 
 func (x *ScheduleAction) GetStartWorkflow() *v11.NewWorkflowExecutionInfo {
-	if x != nil {
-		if x, ok := x.Action.(*ScheduleAction_StartWorkflow); ok {
-			return x.StartWorkflow
-		}
+	if x, ok := x.GetAction().(*ScheduleAction_StartWorkflow); ok {
+		return x.StartWorkflow
 	}
 	return nil
 }
@@ -784,7 +789,10 @@ type ScheduleAction_StartWorkflow struct {
 func (*ScheduleAction_StartWorkflow) isScheduleAction_Action() {}
 
 type ScheduleActionResult struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Time that the action was taken (according to the schedule, including jitter).
 	ScheduleTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=schedule_time,json=scheduleTime,proto3" json:"schedule_time,omitempty"`
 	// Time that the action was taken (real time).
@@ -794,8 +802,6 @@ type ScheduleActionResult struct {
 	// If the action was start_workflow, this field will reflect an
 	// eventually-consistent view of the started workflow's status.
 	StartWorkflowStatus v1.WorkflowExecutionStatus `protobuf:"varint,12,opt,name=start_workflow_status,json=startWorkflowStatus,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"start_workflow_status,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ScheduleActionResult) Reset() {
@@ -857,7 +863,10 @@ func (x *ScheduleActionResult) GetStartWorkflowStatus() v1.WorkflowExecutionStat
 }
 
 type ScheduleState struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Informative human-readable message with contextual notes, e.g. the reason
 	// a schedule is paused. The system may overwrite this message on certain
 	// conditions, e.g. when pause-on-failure happens.
@@ -873,8 +882,6 @@ type ScheduleState struct {
 	// subject to automatic deletion (after several days).
 	LimitedActions   bool  `protobuf:"varint,3,opt,name=limited_actions,json=limitedActions,proto3" json:"limited_actions,omitempty"`
 	RemainingActions int64 `protobuf:"varint,4,opt,name=remaining_actions,json=remainingActions,proto3" json:"remaining_actions,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ScheduleState) Reset() {
@@ -936,11 +943,12 @@ func (x *ScheduleState) GetRemainingActions() int64 {
 }
 
 type TriggerImmediatelyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// If set, override overlap policy for this one request.
 	OverlapPolicy v1.ScheduleOverlapPolicy `protobuf:"varint,1,opt,name=overlap_policy,json=overlapPolicy,proto3,enum=temporal.api.enums.v1.ScheduleOverlapPolicy" json:"overlap_policy,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *TriggerImmediatelyRequest) Reset() {
@@ -981,7 +989,10 @@ func (x *TriggerImmediatelyRequest) GetOverlapPolicy() v1.ScheduleOverlapPolicy 
 }
 
 type BackfillRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Time range to evaluate schedule in. Currently, this time range is
 	// exclusive on start_time and inclusive on end_time. (This is admittedly
 	// counterintuitive and it may change in the future, so to be safe, use a
@@ -992,8 +1003,6 @@ type BackfillRequest struct {
 	EndTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 	// If set, override overlap policy for this request.
 	OverlapPolicy v1.ScheduleOverlapPolicy `protobuf:"varint,3,opt,name=overlap_policy,json=overlapPolicy,proto3,enum=temporal.api.enums.v1.ScheduleOverlapPolicy" json:"overlap_policy,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *BackfillRequest) Reset() {
@@ -1048,7 +1057,10 @@ func (x *BackfillRequest) GetOverlapPolicy() v1.ScheduleOverlapPolicy {
 }
 
 type SchedulePatch struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// If set, trigger one action immediately.
 	TriggerImmediately *TriggerImmediatelyRequest `protobuf:"bytes,1,opt,name=trigger_immediately,json=triggerImmediately,proto3" json:"trigger_immediately,omitempty"`
 	// If set, runs though the specified time period(s) and takes actions as if that time
@@ -1057,10 +1069,8 @@ type SchedulePatch struct {
 	BackfillRequest []*BackfillRequest `protobuf:"bytes,2,rep,name=backfill_request,json=backfillRequest,proto3" json:"backfill_request,omitempty"`
 	// If set, change the state to paused or unpaused (respectively) and set the
 	// notes field to the value of the string.
-	Pause         string `protobuf:"bytes,3,opt,name=pause,proto3" json:"pause,omitempty"`
-	Unpause       string `protobuf:"bytes,4,opt,name=unpause,proto3" json:"unpause,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Pause   string `protobuf:"bytes,3,opt,name=pause,proto3" json:"pause,omitempty"`
+	Unpause string `protobuf:"bytes,4,opt,name=unpause,proto3" json:"unpause,omitempty"`
 }
 
 func (x *SchedulePatch) Reset() {
@@ -1122,7 +1132,10 @@ func (x *SchedulePatch) GetUnpause() string {
 }
 
 type ScheduleInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Number of actions taken so far.
 	ActionCount int64 `protobuf:"varint,1,opt,name=action_count,json=actionCount,proto3" json:"action_count,omitempty"`
 	// Number of times a scheduled action was skipped due to missing the catchup window.
@@ -1150,8 +1163,6 @@ type ScheduleInfo struct {
 	UpdateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 	// Deprecated: Marked as deprecated in temporal/api/schedule/v1/message.proto.
 	InvalidScheduleError string `protobuf:"bytes,8,opt,name=invalid_schedule_error,json=invalidScheduleError,proto3" json:"invalid_schedule_error,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
 }
 
 func (x *ScheduleInfo) Reset() {
@@ -1263,13 +1274,14 @@ func (x *ScheduleInfo) GetInvalidScheduleError() string {
 }
 
 type Schedule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Spec          *ScheduleSpec          `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
-	Action        *ScheduleAction        `protobuf:"bytes,2,opt,name=action,proto3" json:"action,omitempty"`
-	Policies      *SchedulePolicies      `protobuf:"bytes,3,opt,name=policies,proto3" json:"policies,omitempty"`
-	State         *ScheduleState         `protobuf:"bytes,4,opt,name=state,proto3" json:"state,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Spec     *ScheduleSpec     `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
+	Action   *ScheduleAction   `protobuf:"bytes,2,opt,name=action,proto3" json:"action,omitempty"`
+	Policies *SchedulePolicies `protobuf:"bytes,3,opt,name=policies,proto3" json:"policies,omitempty"`
+	State    *ScheduleState    `protobuf:"bytes,4,opt,name=state,proto3" json:"state,omitempty"`
 }
 
 func (x *Schedule) Reset() {
@@ -1333,7 +1345,10 @@ func (x *Schedule) GetState() *ScheduleState {
 // ScheduleListInfo is an abbreviated set of values from Schedule and ScheduleInfo
 // that's returned in ListSchedules.
 type ScheduleListInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// From spec:
 	// Some fields are dropped from this copy of spec: timezone_data
 	Spec *ScheduleSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
@@ -1347,8 +1362,6 @@ type ScheduleListInfo struct {
 	// From info (maybe fewer entries):
 	RecentActions     []*ScheduleActionResult  `protobuf:"bytes,5,rep,name=recent_actions,json=recentActions,proto3" json:"recent_actions,omitempty"`
 	FutureActionTimes []*timestamppb.Timestamp `protobuf:"bytes,6,rep,name=future_action_times,json=futureActionTimes,proto3" json:"future_action_times,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ScheduleListInfo) Reset() {
@@ -1425,13 +1438,14 @@ func (x *ScheduleListInfo) GetFutureActionTimes() []*timestamppb.Timestamp {
 
 // ScheduleListEntry is returned by ListSchedules.
 type ScheduleListEntry struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	ScheduleId       string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
-	Memo             *v12.Memo              `protobuf:"bytes,2,opt,name=memo,proto3" json:"memo,omitempty"`
-	SearchAttributes *v12.SearchAttributes  `protobuf:"bytes,3,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	Info             *ScheduleListInfo      `protobuf:"bytes,4,opt,name=info,proto3" json:"info,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ScheduleId       string                `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
+	Memo             *v12.Memo             `protobuf:"bytes,2,opt,name=memo,proto3" json:"memo,omitempty"`
+	SearchAttributes *v12.SearchAttributes `protobuf:"bytes,3,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
+	Info             *ScheduleListInfo     `protobuf:"bytes,4,opt,name=info,proto3" json:"info,omitempty"`
 }
 
 func (x *ScheduleListEntry) Reset() {

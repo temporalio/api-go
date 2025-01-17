@@ -46,10 +46,11 @@ const (
 )
 
 type ClusterReplicationConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ClusterName   string                 `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 }
 
 func (x *ClusterReplicationConfig) Reset() {
@@ -90,12 +91,13 @@ func (x *ClusterReplicationConfig) GetClusterName() string {
 }
 
 type NamespaceReplicationConfig struct {
-	state             protoimpl.MessageState      `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	ActiveClusterName string                      `protobuf:"bytes,1,opt,name=active_cluster_name,json=activeClusterName,proto3" json:"active_cluster_name,omitempty"`
 	Clusters          []*ClusterReplicationConfig `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`
 	State             v1.ReplicationState         `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.ReplicationState" json:"state,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *NamespaceReplicationConfig) Reset() {
@@ -151,12 +153,13 @@ func (x *NamespaceReplicationConfig) GetState() v1.ReplicationState {
 
 // Represents a historical replication status of a Namespace
 type FailoverStatus struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Timestamp when the Cluster switched to the following failover_version
 	FailoverTime    *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=failover_time,json=failoverTime,proto3" json:"failover_time,omitempty"`
 	FailoverVersion int64                  `protobuf:"varint,2,opt,name=failover_version,json=failoverVersion,proto3" json:"failover_version,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
 }
 
 func (x *FailoverStatus) Reset() {

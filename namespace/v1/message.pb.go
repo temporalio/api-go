@@ -47,21 +47,22 @@ const (
 )
 
 type NamespaceInfo struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	State       v1.NamespaceState      `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
-	Description string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	OwnerEmail  string                 `protobuf:"bytes,4,opt,name=owner_email,json=ownerEmail,proto3" json:"owner_email,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name        string            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	State       v1.NamespaceState `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
+	Description string            `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	OwnerEmail  string            `protobuf:"bytes,4,opt,name=owner_email,json=ownerEmail,proto3" json:"owner_email,omitempty"`
 	// A key-value map for any customized purpose.
-	Data map[string]string `protobuf:"bytes,5,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Data map[string]string `protobuf:"bytes,5,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	Id   string            `protobuf:"bytes,6,opt,name=id,proto3" json:"id,omitempty"`
 	// All capabilities the namespace supports.
 	Capabilities *NamespaceInfo_Capabilities `protobuf:"bytes,7,opt,name=capabilities,proto3" json:"capabilities,omitempty"`
 	// Whether scheduled workflows are supported on this namespace. This is only needed
 	// temporarily while the feature is experimental, so we can give it a high tag.
 	SupportsSchedules bool `protobuf:"varint,100,opt,name=supports_schedules,json=supportsSchedules,proto3" json:"supports_schedules,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *NamespaceInfo) Reset() {
@@ -151,9 +152,12 @@ func (x *NamespaceInfo) GetSupportsSchedules() bool {
 }
 
 type NamespaceConfig struct {
-	state                         protoimpl.MessageState `protogen:"open.v1"`
-	WorkflowExecutionRetentionTtl *durationpb.Duration   `protobuf:"bytes,1,opt,name=workflow_execution_retention_ttl,json=workflowExecutionRetentionTtl,proto3" json:"workflow_execution_retention_ttl,omitempty"`
-	BadBinaries                   *BadBinaries           `protobuf:"bytes,2,opt,name=bad_binaries,json=badBinaries,proto3" json:"bad_binaries,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WorkflowExecutionRetentionTtl *durationpb.Duration `protobuf:"bytes,1,opt,name=workflow_execution_retention_ttl,json=workflowExecutionRetentionTtl,proto3" json:"workflow_execution_retention_ttl,omitempty"`
+	BadBinaries                   *BadBinaries         `protobuf:"bytes,2,opt,name=bad_binaries,json=badBinaries,proto3" json:"bad_binaries,omitempty"`
 	// If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used.
 	HistoryArchivalState v1.ArchivalState `protobuf:"varint,3,opt,name=history_archival_state,json=historyArchivalState,proto3,enum=temporal.api.enums.v1.ArchivalState" json:"history_archival_state,omitempty"`
 	HistoryArchivalUri   string           `protobuf:"bytes,4,opt,name=history_archival_uri,json=historyArchivalUri,proto3" json:"history_archival_uri,omitempty"`
@@ -161,9 +165,7 @@ type NamespaceConfig struct {
 	VisibilityArchivalState v1.ArchivalState `protobuf:"varint,5,opt,name=visibility_archival_state,json=visibilityArchivalState,proto3,enum=temporal.api.enums.v1.ArchivalState" json:"visibility_archival_state,omitempty"`
 	VisibilityArchivalUri   string           `protobuf:"bytes,6,opt,name=visibility_archival_uri,json=visibilityArchivalUri,proto3" json:"visibility_archival_uri,omitempty"`
 	// Map from field name to alias.
-	CustomSearchAttributeAliases map[string]string `protobuf:"bytes,7,rep,name=custom_search_attribute_aliases,json=customSearchAttributeAliases,proto3" json:"custom_search_attribute_aliases,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
+	CustomSearchAttributeAliases map[string]string `protobuf:"bytes,7,rep,name=custom_search_attribute_aliases,json=customSearchAttributeAliases,proto3" json:"custom_search_attribute_aliases,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *NamespaceConfig) Reset() {
@@ -246,10 +248,11 @@ func (x *NamespaceConfig) GetCustomSearchAttributeAliases() map[string]string {
 }
 
 type BadBinaries struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
-	Binaries      map[string]*BadBinaryInfo `protobuf:"bytes,1,rep,name=binaries,proto3" json:"binaries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Binaries map[string]*BadBinaryInfo `protobuf:"bytes,1,rep,name=binaries,proto3" json:"binaries,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *BadBinaries) Reset() {
@@ -290,12 +293,13 @@ func (x *BadBinaries) GetBinaries() map[string]*BadBinaryInfo {
 }
 
 type BadBinaryInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Reason        string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
-	Operator      string                 `protobuf:"bytes,2,opt,name=operator,proto3" json:"operator,omitempty"`
-	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Reason     string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	Operator   string                 `protobuf:"bytes,2,opt,name=operator,proto3" json:"operator,omitempty"`
+	CreateTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 }
 
 func (x *BadBinaryInfo) Reset() {
@@ -350,13 +354,16 @@ func (x *BadBinaryInfo) GetCreateTime() *timestamppb.Timestamp {
 }
 
 type UpdateNamespaceInfo struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	Description string                 `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
-	OwnerEmail  string                 `protobuf:"bytes,2,opt,name=owner_email,json=ownerEmail,proto3" json:"owner_email,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Description string `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
+	OwnerEmail  string `protobuf:"bytes,2,opt,name=owner_email,json=ownerEmail,proto3" json:"owner_email,omitempty"`
 	// A key-value map for any customized purpose.
 	// If data already exists on the namespace,
 	// this will merge with the existing key values.
-	Data map[string]string `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Data map[string]string `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// New namespace state, server will reject if transition is not allowed.
 	// Allowed transitions are:
 	//
@@ -364,9 +371,7 @@ type UpdateNamespaceInfo struct {
 	//	Handover -> [ Registered ]
 	//
 	// Default is NAMESPACE_STATE_UNSPECIFIED which is do not change state.
-	State         v1.NamespaceState `protobuf:"varint,4,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	State v1.NamespaceState `protobuf:"varint,4,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
 }
 
 func (x *UpdateNamespaceInfo) Reset() {
@@ -428,13 +433,14 @@ func (x *UpdateNamespaceInfo) GetState() v1.NamespaceState {
 }
 
 type NamespaceFilter struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// By default namespaces in NAMESPACE_STATE_DELETED state are not included.
 	// Setting include_deleted to true will include deleted namespaces.
 	// Note: Namespace is in NAMESPACE_STATE_DELETED state when it was deleted from the system but associated data is not deleted yet.
 	IncludeDeleted bool `protobuf:"varint,1,opt,name=include_deleted,json=includeDeleted,proto3" json:"include_deleted,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *NamespaceFilter) Reset() {
@@ -476,15 +482,16 @@ func (x *NamespaceFilter) GetIncludeDeleted() bool {
 
 // Namespace capability details. Should contain what features are enabled in a namespace.
 type NamespaceInfo_Capabilities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// True if the namespace supports eager workflow start.
 	EagerWorkflowStart bool `protobuf:"varint,1,opt,name=eager_workflow_start,json=eagerWorkflowStart,proto3" json:"eager_workflow_start,omitempty"`
 	// True if the namespace supports sync update
 	SyncUpdate bool `protobuf:"varint,2,opt,name=sync_update,json=syncUpdate,proto3" json:"sync_update,omitempty"`
 	// True if the namespace supports async update
-	AsyncUpdate   bool `protobuf:"varint,3,opt,name=async_update,json=asyncUpdate,proto3" json:"async_update,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	AsyncUpdate bool `protobuf:"varint,3,opt,name=async_update,json=asyncUpdate,proto3" json:"async_update,omitempty"`
 }
 
 func (x *NamespaceInfo_Capabilities) Reset() {

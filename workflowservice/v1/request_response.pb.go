@@ -67,7 +67,10 @@ const (
 )
 
 type RegisterNamespaceRequest struct {
-	state                            protoimpl.MessageState         `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespace                        string                         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Description                      string                         `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	OwnerEmail                       string                         `protobuf:"bytes,3,opt,name=owner_email,json=ownerEmail,proto3" json:"owner_email,omitempty"`
@@ -75,7 +78,7 @@ type RegisterNamespaceRequest struct {
 	Clusters                         []*v1.ClusterReplicationConfig `protobuf:"bytes,5,rep,name=clusters,proto3" json:"clusters,omitempty"`
 	ActiveClusterName                string                         `protobuf:"bytes,6,opt,name=active_cluster_name,json=activeClusterName,proto3" json:"active_cluster_name,omitempty"`
 	// A key-value map for any customized purpose.
-	Data              map[string]string `protobuf:"bytes,7,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Data              map[string]string `protobuf:"bytes,7,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	SecurityToken     string            `protobuf:"bytes,8,opt,name=security_token,json=securityToken,proto3" json:"security_token,omitempty"`
 	IsGlobalNamespace bool              `protobuf:"varint,9,opt,name=is_global_namespace,json=isGlobalNamespace,proto3" json:"is_global_namespace,omitempty"`
 	// If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used.
@@ -84,8 +87,6 @@ type RegisterNamespaceRequest struct {
 	// If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used.
 	VisibilityArchivalState v11.ArchivalState `protobuf:"varint,12,opt,name=visibility_archival_state,json=visibilityArchivalState,proto3,enum=temporal.api.enums.v1.ArchivalState" json:"visibility_archival_state,omitempty"`
 	VisibilityArchivalUri   string            `protobuf:"bytes,13,opt,name=visibility_archival_uri,json=visibilityArchivalUri,proto3" json:"visibility_archival_uri,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
 }
 
 func (x *RegisterNamespaceRequest) Reset() {
@@ -210,9 +211,9 @@ func (x *RegisterNamespaceRequest) GetVisibilityArchivalUri() string {
 }
 
 type RegisterNamespaceResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RegisterNamespaceResponse) Reset() {
@@ -246,12 +247,13 @@ func (*RegisterNamespaceResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListNamespacesRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	PageSize        int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	NextPageToken   []byte                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	NamespaceFilter *v12.NamespaceFilter   `protobuf:"bytes,3,opt,name=namespace_filter,json=namespaceFilter,proto3" json:"namespace_filter,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	PageSize        int32                `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken   []byte               `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	NamespaceFilter *v12.NamespaceFilter `protobuf:"bytes,3,opt,name=namespace_filter,json=namespaceFilter,proto3" json:"namespace_filter,omitempty"`
 }
 
 func (x *ListNamespacesRequest) Reset() {
@@ -306,11 +308,12 @@ func (x *ListNamespacesRequest) GetNamespaceFilter() *v12.NamespaceFilter {
 }
 
 type ListNamespacesResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespaces    []*DescribeNamespaceResponse `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListNamespacesResponse) Reset() {
@@ -358,11 +361,12 @@ func (x *ListNamespacesResponse) GetNextPageToken() []byte {
 }
 
 type DescribeNamespaceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Id        string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (x *DescribeNamespaceRequest) Reset() {
@@ -410,7 +414,10 @@ func (x *DescribeNamespaceRequest) GetId() string {
 }
 
 type DescribeNamespaceResponse struct {
-	state             protoimpl.MessageState         `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	NamespaceInfo     *v12.NamespaceInfo             `protobuf:"bytes,1,opt,name=namespace_info,json=namespaceInfo,proto3" json:"namespace_info,omitempty"`
 	Config            *v12.NamespaceConfig           `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 	ReplicationConfig *v1.NamespaceReplicationConfig `protobuf:"bytes,3,opt,name=replication_config,json=replicationConfig,proto3" json:"replication_config,omitempty"`
@@ -419,8 +426,6 @@ type DescribeNamespaceResponse struct {
 	// Contains the historical state of failover_versions for the cluster, truncated to contain only the last N
 	// states to ensure that the list does not grow unbounded.
 	FailoverHistory []*v1.FailoverStatus `protobuf:"bytes,6,rep,name=failover_history,json=failoverHistory,proto3" json:"failover_history,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
 }
 
 func (x *DescribeNamespaceResponse) Reset() {
@@ -496,7 +501,10 @@ func (x *DescribeNamespaceResponse) GetFailoverHistory() []*v1.FailoverStatus {
 }
 
 type UpdateNamespaceRequest struct {
-	state             protoimpl.MessageState         `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespace         string                         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	UpdateInfo        *v12.UpdateNamespaceInfo       `protobuf:"bytes,2,opt,name=update_info,json=updateInfo,proto3" json:"update_info,omitempty"`
 	Config            *v12.NamespaceConfig           `protobuf:"bytes,3,opt,name=config,proto3" json:"config,omitempty"`
@@ -505,8 +513,6 @@ type UpdateNamespaceRequest struct {
 	DeleteBadBinary   string                         `protobuf:"bytes,6,opt,name=delete_bad_binary,json=deleteBadBinary,proto3" json:"delete_bad_binary,omitempty"`
 	// promote local namespace to global namespace. Ignored if namespace is already global namespace.
 	PromoteNamespace bool `protobuf:"varint,7,opt,name=promote_namespace,json=promoteNamespace,proto3" json:"promote_namespace,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateNamespaceRequest) Reset() {
@@ -589,14 +595,15 @@ func (x *UpdateNamespaceRequest) GetPromoteNamespace() bool {
 }
 
 type UpdateNamespaceResponse struct {
-	state             protoimpl.MessageState         `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	NamespaceInfo     *v12.NamespaceInfo             `protobuf:"bytes,1,opt,name=namespace_info,json=namespaceInfo,proto3" json:"namespace_info,omitempty"`
 	Config            *v12.NamespaceConfig           `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 	ReplicationConfig *v1.NamespaceReplicationConfig `protobuf:"bytes,3,opt,name=replication_config,json=replicationConfig,proto3" json:"replication_config,omitempty"`
 	FailoverVersion   int64                          `protobuf:"varint,4,opt,name=failover_version,json=failoverVersion,proto3" json:"failover_version,omitempty"`
 	IsGlobalNamespace bool                           `protobuf:"varint,5,opt,name=is_global_namespace,json=isGlobalNamespace,proto3" json:"is_global_namespace,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *UpdateNamespaceResponse) Reset() {
@@ -666,11 +673,12 @@ func (x *UpdateNamespaceResponse) GetIsGlobalNamespace() bool {
 
 // Deprecated.
 type DeprecateNamespaceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	SecurityToken string                 `protobuf:"bytes,2,opt,name=security_token,json=securityToken,proto3" json:"security_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	SecurityToken string `protobuf:"bytes,2,opt,name=security_token,json=securityToken,proto3" json:"security_token,omitempty"`
 }
 
 func (x *DeprecateNamespaceRequest) Reset() {
@@ -719,9 +727,9 @@ func (x *DeprecateNamespaceRequest) GetSecurityToken() string {
 
 // Deprecated.
 type DeprecateNamespaceResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *DeprecateNamespaceResponse) Reset() {
@@ -755,11 +763,14 @@ func (*DeprecateNamespaceResponse) Descriptor() ([]byte, []int) {
 }
 
 type StartWorkflowExecutionRequest struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	Namespace    string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId   string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	WorkflowType *v13.WorkflowType      `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
-	TaskQueue    *v14.TaskQueue         `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace    string            `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowId   string            `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	WorkflowType *v13.WorkflowType `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue    *v14.TaskQueue    `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Serialized arguments to the workflow. These are passed as arguments to the workflow function.
 	Input *v13.Payloads `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
 	// Total workflow execution timeout including retries and continue as new.
@@ -817,8 +828,6 @@ type StartWorkflowExecutionRequest struct {
 	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
 	// To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.
 	VersioningOverride *v17.VersioningOverride `protobuf:"bytes,25,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *StartWorkflowExecutionRequest) Reset() {
@@ -1027,7 +1036,10 @@ func (x *StartWorkflowExecutionRequest) GetVersioningOverride() *v17.VersioningO
 }
 
 type StartWorkflowExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The run id of the workflow that was started - or used (via WorkflowIdConflictPolicy USE_EXISTING).
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// If true, a new workflow was started.
@@ -1036,8 +1048,6 @@ type StartWorkflowExecutionResponse struct {
 	// return the first workflow task to be eagerly executed.
 	// The caller is expected to have a worker available to process the task.
 	EagerWorkflowTask *PollWorkflowTaskQueueResponse `protobuf:"bytes,2,opt,name=eager_workflow_task,json=eagerWorkflowTask,proto3" json:"eager_workflow_task,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *StartWorkflowExecutionResponse) Reset() {
@@ -1092,7 +1102,10 @@ func (x *StartWorkflowExecutionResponse) GetEagerWorkflowTask() *PollWorkflowTas
 }
 
 type GetWorkflowExecutionHistoryRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution       *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,3,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
@@ -1106,8 +1119,6 @@ type GetWorkflowExecutionHistoryRequest struct {
 	// Default: HISTORY_EVENT_FILTER_TYPE_ALL_EVENT.
 	HistoryEventFilterType v11.HistoryEventFilterType `protobuf:"varint,6,opt,name=history_event_filter_type,json=historyEventFilterType,proto3,enum=temporal.api.enums.v1.HistoryEventFilterType" json:"history_event_filter_type,omitempty"`
 	SkipArchival           bool                       `protobuf:"varint,7,opt,name=skip_archival,json=skipArchival,proto3" json:"skip_archival,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *GetWorkflowExecutionHistoryRequest) Reset() {
@@ -1190,16 +1201,17 @@ func (x *GetWorkflowExecutionHistoryRequest) GetSkipArchival() bool {
 }
 
 type GetWorkflowExecutionHistoryResponse struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	History *v18.History           `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	History *v18.History `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
 	// Raw history is an alternate representation of history that may be returned if configured on
 	// the frontend. This is not supported by all SDKs. Either this or `history` will be set.
 	RawHistory []*v13.DataBlob `protobuf:"bytes,2,rep,name=raw_history,json=rawHistory,proto3" json:"raw_history,omitempty"`
 	// Will be set if there are more history events than were included in this response
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Archived      bool   `protobuf:"varint,4,opt,name=archived,proto3" json:"archived,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetWorkflowExecutionHistoryResponse) Reset() {
@@ -1261,13 +1273,14 @@ func (x *GetWorkflowExecutionHistoryResponse) GetArchived() bool {
 }
 
 type GetWorkflowExecutionHistoryReverseRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution       *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,3,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
 	NextPageToken   []byte                 `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
 }
 
 func (x *GetWorkflowExecutionHistoryReverseRequest) Reset() {
@@ -1329,12 +1342,13 @@ func (x *GetWorkflowExecutionHistoryReverseRequest) GetNextPageToken() []byte {
 }
 
 type GetWorkflowExecutionHistoryReverseResponse struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
-	History *v18.History           `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	History *v18.History `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
 	// Will be set if there are more history events than were included in this response
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetWorkflowExecutionHistoryReverseResponse) Reset() {
@@ -1382,9 +1396,12 @@ func (x *GetWorkflowExecutionHistoryReverseResponse) GetNextPageToken() []byte {
 }
 
 type PollWorkflowTaskQueueRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskQueue *v14.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// The identity of the worker/client who is polling this task queue
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// DEPRECATED since 1.21 - use `worker_version_capabilities` instead.
@@ -1394,8 +1411,6 @@ type PollWorkflowTaskQueueRequest struct {
 	// Information about this worker's build identifier and if it is choosing to use the versioning
 	// feature. See the `WorkerVersionCapabilities` docstring for more.
 	WorkerVersionCapabilities *v13.WorkerVersionCapabilities `protobuf:"bytes,5,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
 }
 
 func (x *PollWorkflowTaskQueueRequest) Reset() {
@@ -1464,7 +1479,10 @@ func (x *PollWorkflowTaskQueueRequest) GetWorkerVersionCapabilities() *v13.Worke
 }
 
 type PollWorkflowTaskQueueResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// A unique identifier for this task
 	TaskToken         []byte                 `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
@@ -1511,11 +1529,9 @@ type PollWorkflowTaskQueueResponse struct {
 	StartedTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=started_time,json=startedTime,proto3" json:"started_time,omitempty"`
 	// Queries that should be executed after applying the history in this task. Responses should be
 	// attached to `RespondWorkflowTaskCompletedRequest::query_results`
-	Queries map[string]*v19.WorkflowQuery `protobuf:"bytes,14,rep,name=queries,proto3" json:"queries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Queries map[string]*v19.WorkflowQuery `protobuf:"bytes,14,rep,name=queries,proto3" json:"queries,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Protocol messages piggybacking on a WFT as a transport
-	Messages      []*v110.Message `protobuf:"bytes,15,rep,name=messages,proto3" json:"messages,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Messages []*v110.Message `protobuf:"bytes,15,rep,name=messages,proto3" json:"messages,omitempty"`
 }
 
 func (x *PollWorkflowTaskQueueResponse) Reset() {
@@ -1654,7 +1670,10 @@ func (x *PollWorkflowTaskQueueResponse) GetMessages() []*v110.Message {
 }
 
 type RespondWorkflowTaskCompletedRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The task token as received in `PollWorkflowTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// A list of commands generated when driving the workflow code in response to the new task
@@ -1676,7 +1695,7 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// Worker process' unique binary id
 	BinaryChecksum string `protobuf:"bytes,7,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
 	// Responses to the `queries` field in the task being responded to
-	QueryResults map[string]*v19.WorkflowQueryResult `protobuf:"bytes,8,rep,name=query_results,json=queryResults,proto3" json:"query_results,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	QueryResults map[string]*v19.WorkflowQueryResult `protobuf:"bytes,8,rep,name=query_results,json=queryResults,proto3" json:"query_results,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	Namespace    string                              `protobuf:"bytes,9,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Version info of the worker who processed this task. This message's `build_id` field should
 	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
@@ -1700,8 +1719,6 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// Versioning behavior of this workflow execution as set on the worker that completed this task.
 	// UNSPECIFIED means versioning is not enabled in the worker.
 	VersioningBehavior v11.VersioningBehavior `protobuf:"varint,16,opt,name=versioning_behavior,json=versioningBehavior,proto3,enum=temporal.api.enums.v1.VersioningBehavior" json:"versioning_behavior,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *RespondWorkflowTaskCompletedRequest) Reset() {
@@ -1848,7 +1865,10 @@ func (x *RespondWorkflowTaskCompletedRequest) GetVersioningBehavior() v11.Versio
 }
 
 type RespondWorkflowTaskCompletedResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// See `RespondWorkflowTaskCompletedResponse::return_new_workflow_task`
 	WorkflowTask *PollWorkflowTaskQueueResponse `protobuf:"bytes,1,opt,name=workflow_task,json=workflowTask,proto3" json:"workflow_task,omitempty"`
 	// See `ScheduleActivityTaskCommandAttributes::request_eager_execution`
@@ -1857,8 +1877,6 @@ type RespondWorkflowTaskCompletedResponse struct {
 	// Will be the event ID of the last workflow task started event in the history before the new workflow task.
 	// Server is only expected to discard a workflow task if it could not have modified the workflow state.
 	ResetHistoryEventId int64 `protobuf:"varint,3,opt,name=reset_history_event_id,json=resetHistoryEventId,proto3" json:"reset_history_event_id,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
 }
 
 func (x *RespondWorkflowTaskCompletedResponse) Reset() {
@@ -1913,7 +1931,10 @@ func (x *RespondWorkflowTaskCompletedResponse) GetResetHistoryEventId() int64 {
 }
 
 type RespondWorkflowTaskFailedRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The task token as received in `PollWorkflowTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Why did the task fail? It's important to note that many of the variants in this enum cannot
@@ -1938,9 +1959,7 @@ type RespondWorkflowTaskFailedRequest struct {
 	WorkerVersion *v13.WorkerVersionStamp `protobuf:"bytes,8,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
 	// Deployment info of the worker that completed this task. Must be present if user has set
 	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
-	Deployment    *v112.Deployment `protobuf:"bytes,9,opt,name=deployment,proto3" json:"deployment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Deployment *v112.Deployment `protobuf:"bytes,9,opt,name=deployment,proto3" json:"deployment,omitempty"`
 }
 
 func (x *RespondWorkflowTaskFailedRequest) Reset() {
@@ -2038,9 +2057,9 @@ func (x *RespondWorkflowTaskFailedRequest) GetDeployment() *v112.Deployment {
 }
 
 type RespondWorkflowTaskFailedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RespondWorkflowTaskFailedResponse) Reset() {
@@ -2074,17 +2093,18 @@ func (*RespondWorkflowTaskFailedResponse) Descriptor() ([]byte, []int) {
 }
 
 type PollActivityTaskQueueRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskQueue *v14.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// The identity of the worker/client
 	Identity          string                 `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	TaskQueueMetadata *v14.TaskQueueMetadata `protobuf:"bytes,4,opt,name=task_queue_metadata,json=taskQueueMetadata,proto3" json:"task_queue_metadata,omitempty"`
 	// Information about this worker's build identifier and if it is choosing to use the versioning
 	// feature. See the `WorkerVersionCapabilities` docstring for more.
 	WorkerVersionCapabilities *v13.WorkerVersionCapabilities `protobuf:"bytes,5,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
 }
 
 func (x *PollActivityTaskQueueRequest) Reset() {
@@ -2153,7 +2173,10 @@ func (x *PollActivityTaskQueueRequest) GetWorkerVersionCapabilities() *v13.Worke
 }
 
 type PollActivityTaskQueueResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// A unique identifier for this task
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// The namespace the workflow which requested this activity lives in
@@ -2200,9 +2223,7 @@ type PollActivityTaskQueueResponse struct {
 	// This is the retry policy the service uses which may be different from the one provided
 	// (or not) during activity scheduling. The service can override the provided one if some
 	// values are not specified or exceed configured system limits.
-	RetryPolicy   *v13.RetryPolicy `protobuf:"bytes,17,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RetryPolicy *v13.RetryPolicy `protobuf:"bytes,17,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
 }
 
 func (x *PollActivityTaskQueueResponse) Reset() {
@@ -2355,16 +2376,17 @@ func (x *PollActivityTaskQueueResponse) GetRetryPolicy() *v13.RetryPolicy {
 }
 
 type RecordActivityTaskHeartbeatRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The task token as received in `PollActivityTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Arbitrary data, of which the most recent call is kept, to store for this activity
 	Details *v13.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	Namespace     string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity  string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (x *RecordActivityTaskHeartbeatRequest) Reset() {
@@ -2426,14 +2448,15 @@ func (x *RecordActivityTaskHeartbeatRequest) GetNamespace() string {
 }
 
 type RecordActivityTaskHeartbeatResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Will be set to true if the activity has been asked to cancel itself. The SDK should then
 	// notify the activity of cancellation if it is still running.
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancel_requested,json=cancelRequested,proto3" json:"cancel_requested,omitempty"`
 	// Will be set to true if the activity is paused.
 	ActivityPaused bool `protobuf:"varint,2,opt,name=activity_paused,json=activityPaused,proto3" json:"activity_paused,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *RecordActivityTaskHeartbeatResponse) Reset() {
@@ -2481,7 +2504,10 @@ func (x *RecordActivityTaskHeartbeatResponse) GetActivityPaused() bool {
 }
 
 type RecordActivityTaskHeartbeatByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Id of the workflow which scheduled this activity
@@ -2493,9 +2519,7 @@ type RecordActivityTaskHeartbeatByIdRequest struct {
 	// Arbitrary data, of which the most recent call is kept, to store for this activity
 	Details *v13.Payloads `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *RecordActivityTaskHeartbeatByIdRequest) Reset() {
@@ -2571,12 +2595,13 @@ func (x *RecordActivityTaskHeartbeatByIdRequest) GetIdentity() string {
 }
 
 type RecordActivityTaskHeartbeatByIdResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Will be set to true if the activity has been asked to cancel itself. The SDK should then
 	// notify the activity of cancellation if it is still running.
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancel_requested,json=cancelRequested,proto3" json:"cancel_requested,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
 }
 
 func (x *RecordActivityTaskHeartbeatByIdResponse) Reset() {
@@ -2617,7 +2642,10 @@ func (x *RecordActivityTaskHeartbeatByIdResponse) GetCancelRequested() bool {
 }
 
 type RespondActivityTaskCompletedRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The task token as received in `PollActivityTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// The result of successfully executing the activity
@@ -2634,9 +2662,7 @@ type RespondActivityTaskCompletedRequest struct {
 	WorkerVersion *v13.WorkerVersionStamp `protobuf:"bytes,5,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
 	// Deployment info of the worker that completed this task. Must be present if user has set
 	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
-	Deployment    *v112.Deployment `protobuf:"bytes,6,opt,name=deployment,proto3" json:"deployment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Deployment *v112.Deployment `protobuf:"bytes,6,opt,name=deployment,proto3" json:"deployment,omitempty"`
 }
 
 func (x *RespondActivityTaskCompletedRequest) Reset() {
@@ -2713,9 +2739,9 @@ func (x *RespondActivityTaskCompletedRequest) GetDeployment() *v112.Deployment {
 }
 
 type RespondActivityTaskCompletedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RespondActivityTaskCompletedResponse) Reset() {
@@ -2749,7 +2775,10 @@ func (*RespondActivityTaskCompletedResponse) Descriptor() ([]byte, []int) {
 }
 
 type RespondActivityTaskCompletedByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Id of the workflow which scheduled this activity
@@ -2761,9 +2790,7 @@ type RespondActivityTaskCompletedByIdRequest struct {
 	// The serialized result of activity execution
 	Result *v13.Payloads `protobuf:"bytes,5,opt,name=result,proto3" json:"result,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *RespondActivityTaskCompletedByIdRequest) Reset() {
@@ -2839,9 +2866,9 @@ func (x *RespondActivityTaskCompletedByIdRequest) GetIdentity() string {
 }
 
 type RespondActivityTaskCompletedByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RespondActivityTaskCompletedByIdResponse) Reset() {
@@ -2875,7 +2902,10 @@ func (*RespondActivityTaskCompletedByIdResponse) Descriptor() ([]byte, []int) {
 }
 
 type RespondActivityTaskFailedRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The task token as received in `PollActivityTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Detailed failure information
@@ -2894,9 +2924,7 @@ type RespondActivityTaskFailedRequest struct {
 	WorkerVersion *v13.WorkerVersionStamp `protobuf:"bytes,6,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
 	// Deployment info of the worker that completed this task. Must be present if user has set
 	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
-	Deployment    *v112.Deployment `protobuf:"bytes,7,opt,name=deployment,proto3" json:"deployment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Deployment *v112.Deployment `protobuf:"bytes,7,opt,name=deployment,proto3" json:"deployment,omitempty"`
 }
 
 func (x *RespondActivityTaskFailedRequest) Reset() {
@@ -2980,12 +3008,13 @@ func (x *RespondActivityTaskFailedRequest) GetDeployment() *v112.Deployment {
 }
 
 type RespondActivityTaskFailedResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Server validation failures could include
 	// last_heartbeat_details payload is too large, request failure is too large
-	Failures      []*v15.Failure `protobuf:"bytes,1,rep,name=failures,proto3" json:"failures,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Failures []*v15.Failure `protobuf:"bytes,1,rep,name=failures,proto3" json:"failures,omitempty"`
 }
 
 func (x *RespondActivityTaskFailedResponse) Reset() {
@@ -3026,7 +3055,10 @@ func (x *RespondActivityTaskFailedResponse) GetFailures() []*v15.Failure {
 }
 
 type RespondActivityTaskFailedByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Id of the workflow which scheduled this activity
@@ -3041,8 +3073,6 @@ type RespondActivityTaskFailedByIdRequest struct {
 	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Additional details to be stored as last activity heartbeat
 	LastHeartbeatDetails *v13.Payloads `protobuf:"bytes,7,opt,name=last_heartbeat_details,json=lastHeartbeatDetails,proto3" json:"last_heartbeat_details,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
 }
 
 func (x *RespondActivityTaskFailedByIdRequest) Reset() {
@@ -3125,12 +3155,13 @@ func (x *RespondActivityTaskFailedByIdRequest) GetLastHeartbeatDetails() *v13.Pa
 }
 
 type RespondActivityTaskFailedByIdResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Server validation failures could include
 	// last_heartbeat_details payload is too large, request failure is too large
-	Failures      []*v15.Failure `protobuf:"bytes,1,rep,name=failures,proto3" json:"failures,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Failures []*v15.Failure `protobuf:"bytes,1,rep,name=failures,proto3" json:"failures,omitempty"`
 }
 
 func (x *RespondActivityTaskFailedByIdResponse) Reset() {
@@ -3171,7 +3202,10 @@ func (x *RespondActivityTaskFailedByIdResponse) GetFailures() []*v15.Failure {
 }
 
 type RespondActivityTaskCanceledRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The task token as received in `PollActivityTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Serialized additional information to attach to the cancellation
@@ -3188,9 +3222,7 @@ type RespondActivityTaskCanceledRequest struct {
 	WorkerVersion *v13.WorkerVersionStamp `protobuf:"bytes,5,opt,name=worker_version,json=workerVersion,proto3" json:"worker_version,omitempty"`
 	// Deployment info of the worker that completed this task. Must be present if user has set
 	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
-	Deployment    *v112.Deployment `protobuf:"bytes,6,opt,name=deployment,proto3" json:"deployment,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Deployment *v112.Deployment `protobuf:"bytes,6,opt,name=deployment,proto3" json:"deployment,omitempty"`
 }
 
 func (x *RespondActivityTaskCanceledRequest) Reset() {
@@ -3267,9 +3299,9 @@ func (x *RespondActivityTaskCanceledRequest) GetDeployment() *v112.Deployment {
 }
 
 type RespondActivityTaskCanceledResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RespondActivityTaskCanceledResponse) Reset() {
@@ -3303,7 +3335,10 @@ func (*RespondActivityTaskCanceledResponse) Descriptor() ([]byte, []int) {
 }
 
 type RespondActivityTaskCanceledByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Id of the workflow which scheduled this activity
@@ -3315,9 +3350,7 @@ type RespondActivityTaskCanceledByIdRequest struct {
 	// Serialized additional information to attach to the cancellation
 	Details *v13.Payloads `protobuf:"bytes,5,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *RespondActivityTaskCanceledByIdRequest) Reset() {
@@ -3393,9 +3426,9 @@ func (x *RespondActivityTaskCanceledByIdRequest) GetIdentity() string {
 }
 
 type RespondActivityTaskCanceledByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RespondActivityTaskCanceledByIdResponse) Reset() {
@@ -3429,7 +3462,10 @@ func (*RespondActivityTaskCanceledByIdResponse) Descriptor() ([]byte, []int) {
 }
 
 type RequestCancelWorkflowExecutionRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// The identity of the worker/client
@@ -3443,9 +3479,7 @@ type RequestCancelWorkflowExecutionRequest struct {
 	// Reason for requesting the cancellation
 	Reason string `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
 	// Links to be associated with the WorkflowExecutionCanceled event.
-	Links         []*v13.Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Links []*v13.Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (x *RequestCancelWorkflowExecutionRequest) Reset() {
@@ -3528,9 +3562,9 @@ func (x *RequestCancelWorkflowExecutionRequest) GetLinks() []*v13.Link {
 }
 
 type RequestCancelWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RequestCancelWorkflowExecutionResponse) Reset() {
@@ -3564,7 +3598,10 @@ func (*RequestCancelWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 }
 
 type SignalWorkflowExecutionRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// The workflow author-defined name of the signal to send to the workflow
@@ -3581,9 +3618,7 @@ type SignalWorkflowExecutionRequest struct {
 	// These can include things like auth or tracing tokens.
 	Header *v13.Header `protobuf:"bytes,8,opt,name=header,proto3" json:"header,omitempty"`
 	// Links to be associated with the WorkflowExecutionSignaled event.
-	Links         []*v13.Link `protobuf:"bytes,10,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Links []*v13.Link `protobuf:"bytes,10,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (x *SignalWorkflowExecutionRequest) Reset() {
@@ -3680,9 +3715,9 @@ func (x *SignalWorkflowExecutionRequest) GetLinks() []*v13.Link {
 }
 
 type SignalWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *SignalWorkflowExecutionResponse) Reset() {
@@ -3716,10 +3751,13 @@ func (*SignalWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 }
 
 type SignalWithStartWorkflowExecutionRequest struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	Namespace    string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId   string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	WorkflowType *v13.WorkflowType      `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace    string            `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowId   string            `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	WorkflowType *v13.WorkflowType `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	// The task queue to start this workflow on, if it will be started
 	TaskQueue *v14.TaskQueue `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Serialized arguments to the workflow. These are passed as arguments to the workflow function.
@@ -3773,8 +3811,6 @@ type SignalWithStartWorkflowExecutionRequest struct {
 	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
 	// To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.
 	VersioningOverride *v17.VersioningOverride `protobuf:"bytes,25,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *SignalWithStartWorkflowExecutionRequest) Reset() {
@@ -3976,13 +4012,14 @@ func (x *SignalWithStartWorkflowExecutionRequest) GetVersioningOverride() *v17.V
 }
 
 type SignalWithStartWorkflowExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The run id of the workflow that was started - or just signaled, if it was already running.
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// If true, a new workflow was started.
-	Started       bool `protobuf:"varint,2,opt,name=started,proto3" json:"started,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Started bool `protobuf:"varint,2,opt,name=started,proto3" json:"started,omitempty"`
 }
 
 func (x *SignalWithStartWorkflowExecutionResponse) Reset() {
@@ -4030,8 +4067,11 @@ func (x *SignalWithStartWorkflowExecutionResponse) GetStarted() bool {
 }
 
 type ResetWorkflowExecutionRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The workflow to reset. If this contains a run ID then the workflow will be reset back to the
 	// provided event ID in that run. Otherwise it will be reset to the provided event ID in the
 	// current run. In all cases the current run will be terminated and a new run started.
@@ -4047,8 +4087,6 @@ type ResetWorkflowExecutionRequest struct {
 	ResetReapplyType v11.ResetReapplyType `protobuf:"varint,6,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
 	// Event types not to be reapplied
 	ResetReapplyExcludeTypes []v11.ResetReapplyExcludeType `protobuf:"varint,7,rep,packed,name=reset_reapply_exclude_types,json=resetReapplyExcludeTypes,proto3,enum=temporal.api.enums.v1.ResetReapplyExcludeType" json:"reset_reapply_exclude_types,omitempty"`
-	unknownFields            protoimpl.UnknownFields
-	sizeCache                protoimpl.SizeCache
 }
 
 func (x *ResetWorkflowExecutionRequest) Reset() {
@@ -4131,10 +4169,11 @@ func (x *ResetWorkflowExecutionRequest) GetResetReapplyExcludeTypes() []v11.Rese
 }
 
 type ResetWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	RunId         string                 `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 }
 
 func (x *ResetWorkflowExecutionResponse) Reset() {
@@ -4175,7 +4214,10 @@ func (x *ResetWorkflowExecutionResponse) GetRunId() string {
 }
 
 type TerminateWorkflowExecutionRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	Reason            string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
@@ -4188,9 +4230,7 @@ type TerminateWorkflowExecutionRequest struct {
 	// execution chain as this id.
 	FirstExecutionRunId string `protobuf:"bytes,6,opt,name=first_execution_run_id,json=firstExecutionRunId,proto3" json:"first_execution_run_id,omitempty"`
 	// Links to be associated with the WorkflowExecutionTerminated event.
-	Links         []*v13.Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Links []*v13.Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (x *TerminateWorkflowExecutionRequest) Reset() {
@@ -4273,9 +4313,9 @@ func (x *TerminateWorkflowExecutionRequest) GetLinks() []*v13.Link {
 }
 
 type TerminateWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *TerminateWorkflowExecutionResponse) Reset() {
@@ -4309,12 +4349,13 @@ func (*TerminateWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 }
 
 type DeleteWorkflowExecutionRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Workflow Execution to delete. If run_id is not specified, the latest one is used.
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *DeleteWorkflowExecutionRequest) Reset() {
@@ -4362,9 +4403,9 @@ func (x *DeleteWorkflowExecutionRequest) GetWorkflowExecution() *v13.WorkflowExe
 }
 
 type DeleteWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *DeleteWorkflowExecutionResponse) Reset() {
@@ -4398,18 +4439,19 @@ func (*DeleteWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListOpenWorkflowExecutionsRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	MaximumPageSize int32                  `protobuf:"varint,2,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
-	NextPageToken   []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	StartTimeFilter *v113.StartTimeFilter  `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
-	// Types that are valid to be assigned to Filters:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace       string                `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	MaximumPageSize int32                 `protobuf:"varint,2,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
+	NextPageToken   []byte                `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	StartTimeFilter *v113.StartTimeFilter `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
+	// Types that are assignable to Filters:
 	//
 	//	*ListOpenWorkflowExecutionsRequest_ExecutionFilter
 	//	*ListOpenWorkflowExecutionsRequest_TypeFilter
-	Filters       isListOpenWorkflowExecutionsRequest_Filters `protobuf_oneof:"filters"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Filters isListOpenWorkflowExecutionsRequest_Filters `protobuf_oneof:"filters"`
 }
 
 func (x *ListOpenWorkflowExecutionsRequest) Reset() {
@@ -4470,27 +4512,23 @@ func (x *ListOpenWorkflowExecutionsRequest) GetStartTimeFilter() *v113.StartTime
 	return nil
 }
 
-func (x *ListOpenWorkflowExecutionsRequest) GetFilters() isListOpenWorkflowExecutionsRequest_Filters {
-	if x != nil {
-		return x.Filters
+func (m *ListOpenWorkflowExecutionsRequest) GetFilters() isListOpenWorkflowExecutionsRequest_Filters {
+	if m != nil {
+		return m.Filters
 	}
 	return nil
 }
 
 func (x *ListOpenWorkflowExecutionsRequest) GetExecutionFilter() *v113.WorkflowExecutionFilter {
-	if x != nil {
-		if x, ok := x.Filters.(*ListOpenWorkflowExecutionsRequest_ExecutionFilter); ok {
-			return x.ExecutionFilter
-		}
+	if x, ok := x.GetFilters().(*ListOpenWorkflowExecutionsRequest_ExecutionFilter); ok {
+		return x.ExecutionFilter
 	}
 	return nil
 }
 
 func (x *ListOpenWorkflowExecutionsRequest) GetTypeFilter() *v113.WorkflowTypeFilter {
-	if x != nil {
-		if x, ok := x.Filters.(*ListOpenWorkflowExecutionsRequest_TypeFilter); ok {
-			return x.TypeFilter
-		}
+	if x, ok := x.GetFilters().(*ListOpenWorkflowExecutionsRequest_TypeFilter); ok {
+		return x.TypeFilter
 	}
 	return nil
 }
@@ -4513,11 +4551,12 @@ func (*ListOpenWorkflowExecutionsRequest_ExecutionFilter) isListOpenWorkflowExec
 func (*ListOpenWorkflowExecutionsRequest_TypeFilter) isListOpenWorkflowExecutionsRequest_Filters() {}
 
 type ListOpenWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListOpenWorkflowExecutionsResponse) Reset() {
@@ -4565,19 +4604,20 @@ func (x *ListOpenWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type ListClosedWorkflowExecutionsRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	MaximumPageSize int32                  `protobuf:"varint,2,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
-	NextPageToken   []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	StartTimeFilter *v113.StartTimeFilter  `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
-	// Types that are valid to be assigned to Filters:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace       string                `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	MaximumPageSize int32                 `protobuf:"varint,2,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
+	NextPageToken   []byte                `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	StartTimeFilter *v113.StartTimeFilter `protobuf:"bytes,4,opt,name=start_time_filter,json=startTimeFilter,proto3" json:"start_time_filter,omitempty"`
+	// Types that are assignable to Filters:
 	//
 	//	*ListClosedWorkflowExecutionsRequest_ExecutionFilter
 	//	*ListClosedWorkflowExecutionsRequest_TypeFilter
 	//	*ListClosedWorkflowExecutionsRequest_StatusFilter
-	Filters       isListClosedWorkflowExecutionsRequest_Filters `protobuf_oneof:"filters"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Filters isListClosedWorkflowExecutionsRequest_Filters `protobuf_oneof:"filters"`
 }
 
 func (x *ListClosedWorkflowExecutionsRequest) Reset() {
@@ -4638,36 +4678,30 @@ func (x *ListClosedWorkflowExecutionsRequest) GetStartTimeFilter() *v113.StartTi
 	return nil
 }
 
-func (x *ListClosedWorkflowExecutionsRequest) GetFilters() isListClosedWorkflowExecutionsRequest_Filters {
-	if x != nil {
-		return x.Filters
+func (m *ListClosedWorkflowExecutionsRequest) GetFilters() isListClosedWorkflowExecutionsRequest_Filters {
+	if m != nil {
+		return m.Filters
 	}
 	return nil
 }
 
 func (x *ListClosedWorkflowExecutionsRequest) GetExecutionFilter() *v113.WorkflowExecutionFilter {
-	if x != nil {
-		if x, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_ExecutionFilter); ok {
-			return x.ExecutionFilter
-		}
+	if x, ok := x.GetFilters().(*ListClosedWorkflowExecutionsRequest_ExecutionFilter); ok {
+		return x.ExecutionFilter
 	}
 	return nil
 }
 
 func (x *ListClosedWorkflowExecutionsRequest) GetTypeFilter() *v113.WorkflowTypeFilter {
-	if x != nil {
-		if x, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_TypeFilter); ok {
-			return x.TypeFilter
-		}
+	if x, ok := x.GetFilters().(*ListClosedWorkflowExecutionsRequest_TypeFilter); ok {
+		return x.TypeFilter
 	}
 	return nil
 }
 
 func (x *ListClosedWorkflowExecutionsRequest) GetStatusFilter() *v113.StatusFilter {
-	if x != nil {
-		if x, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_StatusFilter); ok {
-			return x.StatusFilter
-		}
+	if x, ok := x.GetFilters().(*ListClosedWorkflowExecutionsRequest_StatusFilter); ok {
+		return x.StatusFilter
 	}
 	return nil
 }
@@ -4698,11 +4732,12 @@ func (*ListClosedWorkflowExecutionsRequest_StatusFilter) isListClosedWorkflowExe
 }
 
 type ListClosedWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListClosedWorkflowExecutionsResponse) Reset() {
@@ -4750,13 +4785,14 @@ func (x *ListClosedWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type ListWorkflowExecutionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	Query         string                 `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	PageSize      int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 }
 
 func (x *ListWorkflowExecutionsRequest) Reset() {
@@ -4818,11 +4854,12 @@ func (x *ListWorkflowExecutionsRequest) GetQuery() string {
 }
 
 type ListWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListWorkflowExecutionsResponse) Reset() {
@@ -4870,13 +4907,14 @@ func (x *ListWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type ListArchivedWorkflowExecutionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	Query         string                 `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	PageSize      int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 }
 
 func (x *ListArchivedWorkflowExecutionsRequest) Reset() {
@@ -4938,11 +4976,12 @@ func (x *ListArchivedWorkflowExecutionsRequest) GetQuery() string {
 }
 
 type ListArchivedWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListArchivedWorkflowExecutionsResponse) Reset() {
@@ -4990,13 +5029,14 @@ func (x *ListArchivedWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type ScanWorkflowExecutionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	Query         string                 `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	PageSize      int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 }
 
 func (x *ScanWorkflowExecutionsRequest) Reset() {
@@ -5058,11 +5098,12 @@ func (x *ScanWorkflowExecutionsRequest) GetQuery() string {
 }
 
 type ScanWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ScanWorkflowExecutionsResponse) Reset() {
@@ -5110,11 +5151,12 @@ func (x *ScanWorkflowExecutionsResponse) GetNextPageToken() []byte {
 }
 
 type CountWorkflowExecutionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Query         string                 `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Query     string `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 }
 
 func (x *CountWorkflowExecutionsRequest) Reset() {
@@ -5162,7 +5204,10 @@ func (x *CountWorkflowExecutionsRequest) GetQuery() string {
 }
 
 type CountWorkflowExecutionsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// If `query` is not grouping by any field, the count is an approximate number
 	// of workflows that matches the query.
 	// If `query` is grouping by a field, the count is simply the sum of the counts
@@ -5171,9 +5216,7 @@ type CountWorkflowExecutionsResponse struct {
 	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
 	// `groups` contains the groups if the request is grouping by a field.
 	// The list might not be complete, and the counts of each group is approximate.
-	Groups        []*CountWorkflowExecutionsResponse_AggregationGroup `protobuf:"bytes,2,rep,name=groups,proto3" json:"groups,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Groups []*CountWorkflowExecutionsResponse_AggregationGroup `protobuf:"bytes,2,rep,name=groups,proto3" json:"groups,omitempty"`
 }
 
 func (x *CountWorkflowExecutionsResponse) Reset() {
@@ -5221,9 +5264,9 @@ func (x *CountWorkflowExecutionsResponse) GetGroups() []*CountWorkflowExecutions
 }
 
 type GetSearchAttributesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *GetSearchAttributesRequest) Reset() {
@@ -5257,10 +5300,11 @@ func (*GetSearchAttributesRequest) Descriptor() ([]byte, []int) {
 }
 
 type GetSearchAttributesResponse struct {
-	state         protoimpl.MessageState          `protogen:"open.v1"`
-	Keys          map[string]v11.IndexedValueType `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Keys map[string]v11.IndexedValueType `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.enums.v1.IndexedValueType"`
 }
 
 func (x *GetSearchAttributesResponse) Reset() {
@@ -5301,9 +5345,12 @@ func (x *GetSearchAttributesResponse) GetKeys() map[string]v11.IndexedValueType 
 }
 
 type RespondQueryTaskCompletedRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskToken     []byte                 `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
-	CompletedType v11.QueryResultType    `protobuf:"varint,2,opt,name=completed_type,json=completedType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"completed_type,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TaskToken     []byte              `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
+	CompletedType v11.QueryResultType `protobuf:"varint,2,opt,name=completed_type,json=completedType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"completed_type,omitempty"`
 	// The result of the query.
 	// Mutually exclusive with `error_message` and `failure`. Set when the query succeeds.
 	QueryResult *v13.Payloads `protobuf:"bytes,3,opt,name=query_result,json=queryResult,proto3" json:"query_result,omitempty"`
@@ -5320,9 +5367,7 @@ type RespondQueryTaskCompletedRequest struct {
 	// encoded by the SDK's failure converter to support E2E encryption of messages and stack
 	// traces.
 	// Mutually exclusive with `query_result`. Set when the query fails.
-	Failure       *v15.Failure `protobuf:"bytes,7,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Failure *v15.Failure `protobuf:"bytes,7,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *RespondQueryTaskCompletedRequest) Reset() {
@@ -5398,9 +5443,9 @@ func (x *RespondQueryTaskCompletedRequest) GetFailure() *v15.Failure {
 }
 
 type RespondQueryTaskCompletedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RespondQueryTaskCompletedResponse) Reset() {
@@ -5434,11 +5479,12 @@ func (*RespondQueryTaskCompletedResponse) Descriptor() ([]byte, []int) {
 }
 
 type ResetStickyTaskQueueRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Execution     *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Execution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 }
 
 func (x *ResetStickyTaskQueueRequest) Reset() {
@@ -5486,9 +5532,9 @@ func (x *ResetStickyTaskQueueRequest) GetExecution() *v13.WorkflowExecution {
 }
 
 type ResetStickyTaskQueueResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *ResetStickyTaskQueueResponse) Reset() {
@@ -5522,13 +5568,14 @@ func (*ResetStickyTaskQueueResponse) Descriptor() ([]byte, []int) {
 }
 
 type ShutdownWorkerRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	StickyTaskQueue string                 `protobuf:"bytes,2,opt,name=sticky_task_queue,json=stickyTaskQueue,proto3" json:"sticky_task_queue,omitempty"`
-	Identity        string                 `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	Reason          string                 `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace       string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	StickyTaskQueue string `protobuf:"bytes,2,opt,name=sticky_task_queue,json=stickyTaskQueue,proto3" json:"sticky_task_queue,omitempty"`
+	Identity        string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
+	Reason          string `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
 }
 
 func (x *ShutdownWorkerRequest) Reset() {
@@ -5590,9 +5637,9 @@ func (x *ShutdownWorkerRequest) GetReason() string {
 }
 
 type ShutdownWorkerResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *ShutdownWorkerResponse) Reset() {
@@ -5626,15 +5673,16 @@ func (*ShutdownWorkerResponse) Descriptor() ([]byte, []int) {
 }
 
 type QueryWorkflowRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	Query     *v19.WorkflowQuery     `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
 	// QueryRejectCondition can used to reject the query if workflow state does not satisfy condition.
 	// Default: QUERY_REJECT_CONDITION_NONE.
 	QueryRejectCondition v11.QueryRejectCondition `protobuf:"varint,4,opt,name=query_reject_condition,json=queryRejectCondition,proto3,enum=temporal.api.enums.v1.QueryRejectCondition" json:"query_reject_condition,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
 }
 
 func (x *QueryWorkflowRequest) Reset() {
@@ -5696,11 +5744,12 @@ func (x *QueryWorkflowRequest) GetQueryRejectCondition() v11.QueryRejectConditio
 }
 
 type QueryWorkflowResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	QueryResult   *v13.Payloads          `protobuf:"bytes,1,opt,name=query_result,json=queryResult,proto3" json:"query_result,omitempty"`
-	QueryRejected *v19.QueryRejected     `protobuf:"bytes,2,opt,name=query_rejected,json=queryRejected,proto3" json:"query_rejected,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	QueryResult   *v13.Payloads      `protobuf:"bytes,1,opt,name=query_result,json=queryResult,proto3" json:"query_result,omitempty"`
+	QueryRejected *v19.QueryRejected `protobuf:"bytes,2,opt,name=query_rejected,json=queryRejected,proto3" json:"query_rejected,omitempty"`
 }
 
 func (x *QueryWorkflowResponse) Reset() {
@@ -5748,11 +5797,12 @@ func (x *QueryWorkflowResponse) GetQueryRejected() *v19.QueryRejected {
 }
 
 type DescribeWorkflowExecutionRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Execution     *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Execution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 }
 
 func (x *DescribeWorkflowExecutionRequest) Reset() {
@@ -5800,7 +5850,10 @@ func (x *DescribeWorkflowExecutionRequest) GetExecution() *v13.WorkflowExecution
 }
 
 type DescribeWorkflowExecutionResponse struct {
-	state                  protoimpl.MessageState             `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	ExecutionConfig        *v17.WorkflowExecutionConfig       `protobuf:"bytes,1,opt,name=execution_config,json=executionConfig,proto3" json:"execution_config,omitempty"`
 	WorkflowExecutionInfo  *v17.WorkflowExecutionInfo         `protobuf:"bytes,2,opt,name=workflow_execution_info,json=workflowExecutionInfo,proto3" json:"workflow_execution_info,omitempty"`
 	PendingActivities      []*v17.PendingActivityInfo         `protobuf:"bytes,3,rep,name=pending_activities,json=pendingActivities,proto3" json:"pending_activities,omitempty"`
@@ -5809,8 +5862,6 @@ type DescribeWorkflowExecutionResponse struct {
 	Callbacks              []*v17.CallbackInfo                `protobuf:"bytes,6,rep,name=callbacks,proto3" json:"callbacks,omitempty"`
 	PendingNexusOperations []*v17.PendingNexusOperationInfo   `protobuf:"bytes,7,rep,name=pending_nexus_operations,json=pendingNexusOperations,proto3" json:"pending_nexus_operations,omitempty"`
 	WorkflowExtendedInfo   *v17.WorkflowExecutionExtendedInfo `protobuf:"bytes,8,opt,name=workflow_extended_info,json=workflowExtendedInfo,proto3" json:"workflow_extended_info,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *DescribeWorkflowExecutionResponse) Reset() {
@@ -5903,8 +5954,11 @@ func (x *DescribeWorkflowExecutionResponse) GetWorkflowExtendedInfo() *v17.Workf
 //
 //	aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
 type DescribeTaskQueueRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Sticky queues are not supported in `ENHANCED` mode.
 	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Deprecated. Use `ENHANCED` mode with `task_queue_types`. Ignored in `ENHANCED` mode.
@@ -5928,8 +5982,6 @@ type DescribeTaskQueueRequest struct {
 	// Report task reachability for the requested versions and all task types (task reachability is not reported
 	// per task type).
 	ReportTaskReachability bool `protobuf:"varint,10,opt,name=report_task_reachability,json=reportTaskReachability,proto3" json:"report_task_reachability,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *DescribeTaskQueueRequest) Reset() {
@@ -6033,7 +6085,10 @@ func (x *DescribeTaskQueueRequest) GetReportTaskReachability() bool {
 }
 
 type DescribeTaskQueueResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Deprecated. Use `versions_info.types_info.pollers` with `ENHANCED` mode instead.
 	// Not set in `ENHANCED` mode.
 	Pollers []*v14.PollerInfo `protobuf:"bytes,1,rep,name=pollers,proto3" json:"pollers,omitempty"`
@@ -6041,9 +6096,7 @@ type DescribeTaskQueueResponse struct {
 	TaskQueueStatus *v14.TaskQueueStatus `protobuf:"bytes,2,opt,name=task_queue_status,json=taskQueueStatus,proto3" json:"task_queue_status,omitempty"`
 	// This map contains Task Queue information for each Build ID. Empty string as key value means unversioned.
 	// Only set in `ENHANCED` mode.
-	VersionsInfo  map[string]*v14.TaskQueueVersionInfo `protobuf:"bytes,3,rep,name=versions_info,json=versionsInfo,proto3" json:"versions_info,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	VersionsInfo map[string]*v14.TaskQueueVersionInfo `protobuf:"bytes,3,rep,name=versions_info,json=versionsInfo,proto3" json:"versions_info,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *DescribeTaskQueueResponse) Reset() {
@@ -6098,9 +6151,9 @@ func (x *DescribeTaskQueueResponse) GetVersionsInfo() map[string]*v14.TaskQueueV
 }
 
 type GetClusterInfoRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *GetClusterInfoRequest) Reset() {
@@ -6135,10 +6188,13 @@ func (*GetClusterInfoRequest) Descriptor() ([]byte, []int) {
 
 // GetClusterInfoResponse contains information about Temporal cluster.
 type GetClusterInfoResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Key is client name i.e "temporal-go", "temporal-java", or "temporal-cli".
 	// Value is ranges of supported versions of this client i.e ">1.1.1 <=1.4.0 || ^5.0.0".
-	SupportedClients  map[string]string `protobuf:"bytes,1,rep,name=supported_clients,json=supportedClients,proto3" json:"supported_clients,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	SupportedClients  map[string]string `protobuf:"bytes,1,rep,name=supported_clients,json=supportedClients,proto3" json:"supported_clients,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	ServerVersion     string            `protobuf:"bytes,2,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
 	ClusterId         string            `protobuf:"bytes,3,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
 	VersionInfo       *v114.VersionInfo `protobuf:"bytes,4,opt,name=version_info,json=versionInfo,proto3" json:"version_info,omitempty"`
@@ -6146,8 +6202,6 @@ type GetClusterInfoResponse struct {
 	HistoryShardCount int32             `protobuf:"varint,6,opt,name=history_shard_count,json=historyShardCount,proto3" json:"history_shard_count,omitempty"`
 	PersistenceStore  string            `protobuf:"bytes,7,opt,name=persistence_store,json=persistenceStore,proto3" json:"persistence_store,omitempty"`
 	VisibilityStore   string            `protobuf:"bytes,8,opt,name=visibility_store,json=visibilityStore,proto3" json:"visibility_store,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *GetClusterInfoResponse) Reset() {
@@ -6237,9 +6291,9 @@ func (x *GetClusterInfoResponse) GetVisibilityStore() string {
 }
 
 type GetSystemInfoRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *GetSystemInfoRequest) Reset() {
@@ -6273,13 +6327,14 @@ func (*GetSystemInfoRequest) Descriptor() ([]byte, []int) {
 }
 
 type GetSystemInfoResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Version of the server.
 	ServerVersion string `protobuf:"bytes,1,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
 	// All capabilities the system supports.
-	Capabilities  *GetSystemInfoResponse_Capabilities `protobuf:"bytes,2,opt,name=capabilities,proto3" json:"capabilities,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Capabilities *GetSystemInfoResponse_Capabilities `protobuf:"bytes,2,opt,name=capabilities,proto3" json:"capabilities,omitempty"`
 }
 
 func (x *GetSystemInfoResponse) Reset() {
@@ -6327,11 +6382,12 @@ func (x *GetSystemInfoResponse) GetCapabilities() *GetSystemInfoResponse_Capabil
 }
 
 type ListTaskQueuePartitionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskQueue     *v14.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 }
 
 func (x *ListTaskQueuePartitionsRequest) Reset() {
@@ -6379,11 +6435,12 @@ func (x *ListTaskQueuePartitionsRequest) GetTaskQueue() *v14.TaskQueue {
 }
 
 type ListTaskQueuePartitionsResponse struct {
-	state                       protoimpl.MessageState            `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	ActivityTaskQueuePartitions []*v14.TaskQueuePartitionMetadata `protobuf:"bytes,1,rep,name=activity_task_queue_partitions,json=activityTaskQueuePartitions,proto3" json:"activity_task_queue_partitions,omitempty"`
 	WorkflowTaskQueuePartitions []*v14.TaskQueuePartitionMetadata `protobuf:"bytes,2,rep,name=workflow_task_queue_partitions,json=workflowTaskQueuePartitions,proto3" json:"workflow_task_queue_partitions,omitempty"`
-	unknownFields               protoimpl.UnknownFields
-	sizeCache                   protoimpl.SizeCache
 }
 
 func (x *ListTaskQueuePartitionsResponse) Reset() {
@@ -6434,7 +6491,10 @@ func (x *ListTaskQueuePartitionsResponse) GetWorkflowTaskQueuePartitions() []*v1
 //
 //	aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
 type CreateScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace the schedule should be created in.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the new schedule.
@@ -6450,8 +6510,6 @@ type CreateScheduleRequest struct {
 	// Memo and search attributes to attach to the schedule itself.
 	Memo             *v13.Memo             `protobuf:"bytes,7,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes *v13.SearchAttributes `protobuf:"bytes,8,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateScheduleRequest) Reset() {
@@ -6541,10 +6599,11 @@ func (x *CreateScheduleRequest) GetSearchAttributes() *v13.SearchAttributes {
 }
 
 type CreateScheduleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ConflictToken []byte                 `protobuf:"bytes,1,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ConflictToken []byte `protobuf:"bytes,1,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
 }
 
 func (x *CreateScheduleResponse) Reset() {
@@ -6585,13 +6644,14 @@ func (x *CreateScheduleResponse) GetConflictToken() []byte {
 }
 
 type DescribeScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace of the schedule to describe.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to describe.
-	ScheduleId    string `protobuf:"bytes,2,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	ScheduleId string `protobuf:"bytes,2,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
 }
 
 func (x *DescribeScheduleRequest) Reset() {
@@ -6639,7 +6699,10 @@ func (x *DescribeScheduleRequest) GetScheduleId() string {
 }
 
 type DescribeScheduleResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The complete current schedule details. This may not match the schedule as
 	// created because:
 	//   - some types of schedule specs may get compiled into others (e.g.
@@ -6657,8 +6720,6 @@ type DescribeScheduleResponse struct {
 	// schedule was not modified between a Describe and an Update, which could
 	// lead to lost updates and other confusion.
 	ConflictToken []byte `protobuf:"bytes,5,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DescribeScheduleResponse) Reset() {
@@ -6727,7 +6788,10 @@ func (x *DescribeScheduleResponse) GetConflictToken() []byte {
 }
 
 type UpdateScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace of the schedule to update.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to update.
@@ -6750,8 +6814,6 @@ type UpdateScheduleRequest struct {
 	// Note: you cannot only update the search attributes with `UpdateScheduleRequest`,
 	// you must also set the `schedule` field; otherwise, it will unset the schedule.
 	SearchAttributes *v13.SearchAttributes `protobuf:"bytes,7,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateScheduleRequest) Reset() {
@@ -6834,9 +6896,9 @@ func (x *UpdateScheduleRequest) GetSearchAttributes() *v13.SearchAttributes {
 }
 
 type UpdateScheduleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *UpdateScheduleResponse) Reset() {
@@ -6870,7 +6932,10 @@ func (*UpdateScheduleResponse) Descriptor() ([]byte, []int) {
 }
 
 type PatchScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace of the schedule to patch.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to patch.
@@ -6879,9 +6944,7 @@ type PatchScheduleRequest struct {
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 	// A unique identifier for this update request for idempotence. Typically UUIDv4.
-	RequestId     string `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 }
 
 func (x *PatchScheduleRequest) Reset() {
@@ -6950,9 +7013,9 @@ func (x *PatchScheduleRequest) GetRequestId() string {
 }
 
 type PatchScheduleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *PatchScheduleResponse) Reset() {
@@ -6986,16 +7049,17 @@ func (*PatchScheduleResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListScheduleMatchingTimesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace of the schedule to query.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to query.
 	ScheduleId string `protobuf:"bytes,2,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
 	// Time range to query.
-	StartTime     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
-	EndTime       *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	StartTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime   *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 }
 
 func (x *ListScheduleMatchingTimesRequest) Reset() {
@@ -7057,10 +7121,11 @@ func (x *ListScheduleMatchingTimesRequest) GetEndTime() *timestamppb.Timestamp {
 }
 
 type ListScheduleMatchingTimesResponse struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	StartTime     []*timestamppb.Timestamp `protobuf:"bytes,1,rep,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StartTime []*timestamppb.Timestamp `protobuf:"bytes,1,rep,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 }
 
 func (x *ListScheduleMatchingTimesResponse) Reset() {
@@ -7101,15 +7166,16 @@ func (x *ListScheduleMatchingTimesResponse) GetStartTime() []*timestamppb.Timest
 }
 
 type DeleteScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace of the schedule to delete.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to delete.
 	ScheduleId string `protobuf:"bytes,2,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
 	// The identity of the client who initiated this request.
-	Identity      string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *DeleteScheduleRequest) Reset() {
@@ -7164,9 +7230,9 @@ func (x *DeleteScheduleRequest) GetIdentity() string {
 }
 
 type DeleteScheduleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *DeleteScheduleResponse) Reset() {
@@ -7200,7 +7266,10 @@ func (*DeleteScheduleResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListSchedulesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to list schedules in.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// How many to return at once.
@@ -7208,9 +7277,7 @@ type ListSchedulesRequest struct {
 	// Token to get the next page of results.
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Query to filter schedules.
-	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Query string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 }
 
 func (x *ListSchedulesRequest) Reset() {
@@ -7272,11 +7339,12 @@ func (x *ListSchedulesRequest) GetQuery() string {
 }
 
 type ListSchedulesResponse struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Schedules     []*v115.ScheduleListEntry `protobuf:"bytes,1,rep,name=schedules,proto3" json:"schedules,omitempty"`
 	NextPageToken []byte                    `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListSchedulesResponse) Reset() {
@@ -7324,22 +7392,23 @@ func (x *ListSchedulesResponse) GetNextPageToken() []byte {
 }
 
 type UpdateWorkerBuildIdCompatibilityRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Must be set, the task queue to apply changes to. Because all workers on a given task queue
 	// must have the same set of workflow & activity implementations, there is no reason to specify
 	// a task queue type here.
 	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	// Types that are valid to be assigned to Operation:
+	// Types that are assignable to Operation:
 	//
 	//	*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet
 	//	*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId
 	//	*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId
 	//	*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet
 	//	*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_
-	Operation     isUpdateWorkerBuildIdCompatibilityRequest_Operation `protobuf_oneof:"operation"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Operation isUpdateWorkerBuildIdCompatibilityRequest_Operation `protobuf_oneof:"operation"`
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest) Reset() {
@@ -7386,54 +7455,44 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest) GetTaskQueue() string {
 	return ""
 }
 
-func (x *UpdateWorkerBuildIdCompatibilityRequest) GetOperation() isUpdateWorkerBuildIdCompatibilityRequest_Operation {
-	if x != nil {
-		return x.Operation
+func (m *UpdateWorkerBuildIdCompatibilityRequest) GetOperation() isUpdateWorkerBuildIdCompatibilityRequest_Operation {
+	if m != nil {
+		return m.Operation
 	}
 	return nil
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest) GetAddNewBuildIdInNewDefaultSet() string {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet); ok {
-			return x.AddNewBuildIdInNewDefaultSet
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet); ok {
+		return x.AddNewBuildIdInNewDefaultSet
 	}
 	return ""
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest) GetAddNewCompatibleBuildId() *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId); ok {
-			return x.AddNewCompatibleBuildId
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId); ok {
+		return x.AddNewCompatibleBuildId
 	}
 	return nil
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest) GetPromoteSetByBuildId() string {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId); ok {
-			return x.PromoteSetByBuildId
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId); ok {
+		return x.PromoteSetByBuildId
 	}
 	return ""
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest) GetPromoteBuildIdWithinSet() string {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet); ok {
-			return x.PromoteBuildIdWithinSet
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet); ok {
+		return x.PromoteBuildIdWithinSet
 	}
 	return ""
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest) GetMergeSets() *UpdateWorkerBuildIdCompatibilityRequest_MergeSets {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_); ok {
-			return x.MergeSets
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_); ok {
+		return x.MergeSets
 	}
 	return nil
 }
@@ -7502,9 +7561,9 @@ func (*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_) isUpdateWorkerBuildId
 }
 
 type UpdateWorkerBuildIdCompatibilityResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityResponse) Reset() {
@@ -7538,15 +7597,16 @@ func (*UpdateWorkerBuildIdCompatibilityResponse) Descriptor() ([]byte, []int) {
 }
 
 type GetWorkerBuildIdCompatibilityRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Must be set, the task queue to interrogate about worker id compatibility.
 	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Limits how many compatible sets will be returned. Specify 1 to only return the current
 	// default major version set. 0 returns all sets.
-	MaxSets       int32 `protobuf:"varint,3,opt,name=max_sets,json=maxSets,proto3" json:"max_sets,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	MaxSets int32 `protobuf:"varint,3,opt,name=max_sets,json=maxSets,proto3" json:"max_sets,omitempty"`
 }
 
 func (x *GetWorkerBuildIdCompatibilityRequest) Reset() {
@@ -7601,15 +7661,16 @@ func (x *GetWorkerBuildIdCompatibilityRequest) GetMaxSets() int32 {
 }
 
 type GetWorkerBuildIdCompatibilityResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Major version sets, in order from oldest to newest. The last element of the list will always
 	// be the current default major version. IE: New workflows will target the most recent version
 	// in that version set.
 	//
 	// There may be fewer sets returned than exist, if the request chose to limit this response.
 	MajorVersionSets []*v14.CompatibleVersionSet `protobuf:"bytes,1,rep,name=major_version_sets,json=majorVersionSets,proto3" json:"major_version_sets,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GetWorkerBuildIdCompatibilityResponse) Reset() {
@@ -7657,16 +7718,19 @@ func (x *GetWorkerBuildIdCompatibilityResponse) GetMajorVersionSets() []*v14.Com
 //
 //	aip.dev/not-precedent: GetWorkerBuildIdCompatibilityRequest RPC doesn't follow Google API format. --)
 type UpdateWorkerVersioningRulesRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskQueue string                 `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// A valid conflict_token can be taken from the previous
 	// ListWorkerVersioningRulesResponse or UpdateWorkerVersioningRulesResponse.
 	// An invalid token will cause this request to fail, ensuring that if the rules
 	// for this Task Queue have been modified between the previous and current
 	// operation, the request will fail instead of causing an unpredictable mutation.
 	ConflictToken []byte `protobuf:"bytes,3,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
-	// Types that are valid to be assigned to Operation:
+	// Types that are assignable to Operation:
 	//
 	//	*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule
 	//	*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule
@@ -7675,9 +7739,7 @@ type UpdateWorkerVersioningRulesRequest struct {
 	//	*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule
 	//	*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule
 	//	*UpdateWorkerVersioningRulesRequest_CommitBuildId_
-	Operation     isUpdateWorkerVersioningRulesRequest_Operation `protobuf_oneof:"operation"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Operation isUpdateWorkerVersioningRulesRequest_Operation `protobuf_oneof:"operation"`
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) Reset() {
@@ -7731,72 +7793,58 @@ func (x *UpdateWorkerVersioningRulesRequest) GetConflictToken() []byte {
 	return nil
 }
 
-func (x *UpdateWorkerVersioningRulesRequest) GetOperation() isUpdateWorkerVersioningRulesRequest_Operation {
-	if x != nil {
-		return x.Operation
+func (m *UpdateWorkerVersioningRulesRequest) GetOperation() isUpdateWorkerVersioningRulesRequest_Operation {
+	if m != nil {
+		return m.Operation
 	}
 	return nil
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) GetInsertAssignmentRule() *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule); ok {
-			return x.InsertAssignmentRule
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule); ok {
+		return x.InsertAssignmentRule
 	}
 	return nil
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) GetReplaceAssignmentRule() *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule); ok {
-			return x.ReplaceAssignmentRule
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule); ok {
+		return x.ReplaceAssignmentRule
 	}
 	return nil
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) GetDeleteAssignmentRule() *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule); ok {
-			return x.DeleteAssignmentRule
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule); ok {
+		return x.DeleteAssignmentRule
 	}
 	return nil
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) GetAddCompatibleRedirectRule() *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule); ok {
-			return x.AddCompatibleRedirectRule
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule); ok {
+		return x.AddCompatibleRedirectRule
 	}
 	return nil
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) GetReplaceCompatibleRedirectRule() *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule); ok {
-			return x.ReplaceCompatibleRedirectRule
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule); ok {
+		return x.ReplaceCompatibleRedirectRule
 	}
 	return nil
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) GetDeleteCompatibleRedirectRule() *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule); ok {
-			return x.DeleteCompatibleRedirectRule
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule); ok {
+		return x.DeleteCompatibleRedirectRule
 	}
 	return nil
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) GetCommitBuildId() *UpdateWorkerVersioningRulesRequest_CommitBuildId {
-	if x != nil {
-		if x, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_CommitBuildId_); ok {
-			return x.CommitBuildId
-		}
+	if x, ok := x.GetOperation().(*UpdateWorkerVersioningRulesRequest_CommitBuildId_); ok {
+		return x.CommitBuildId
 	}
 	return nil
 }
@@ -7855,15 +7903,16 @@ func (*UpdateWorkerVersioningRulesRequest_CommitBuildId_) isUpdateWorkerVersioni
 }
 
 type UpdateWorkerVersioningRulesResponse struct {
-	state                   protoimpl.MessageState                          `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	AssignmentRules         []*v14.TimestampedBuildIdAssignmentRule         `protobuf:"bytes,1,rep,name=assignment_rules,json=assignmentRules,proto3" json:"assignment_rules,omitempty"`
 	CompatibleRedirectRules []*v14.TimestampedCompatibleBuildIdRedirectRule `protobuf:"bytes,2,rep,name=compatible_redirect_rules,json=compatibleRedirectRules,proto3" json:"compatible_redirect_rules,omitempty"`
 	// This value can be passed back to UpdateWorkerVersioningRulesRequest to
 	// ensure that the rules were not modified between the two updates, which
 	// could lead to lost updates and other confusion.
 	ConflictToken []byte `protobuf:"bytes,3,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateWorkerVersioningRulesResponse) Reset() {
@@ -7918,11 +7967,12 @@ func (x *UpdateWorkerVersioningRulesResponse) GetConflictToken() []byte {
 }
 
 type GetWorkerVersioningRulesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	TaskQueue     string                 `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 }
 
 func (x *GetWorkerVersioningRulesRequest) Reset() {
@@ -7970,15 +8020,16 @@ func (x *GetWorkerVersioningRulesRequest) GetTaskQueue() string {
 }
 
 type GetWorkerVersioningRulesResponse struct {
-	state                   protoimpl.MessageState                          `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	AssignmentRules         []*v14.TimestampedBuildIdAssignmentRule         `protobuf:"bytes,1,rep,name=assignment_rules,json=assignmentRules,proto3" json:"assignment_rules,omitempty"`
 	CompatibleRedirectRules []*v14.TimestampedCompatibleBuildIdRedirectRule `protobuf:"bytes,2,rep,name=compatible_redirect_rules,json=compatibleRedirectRules,proto3" json:"compatible_redirect_rules,omitempty"`
 	// This value can be passed back to UpdateWorkerVersioningRulesRequest to
 	// ensure that the rules were not modified between this List and the Update,
 	// which could lead to lost updates and other confusion.
 	ConflictToken []byte `protobuf:"bytes,3,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetWorkerVersioningRulesResponse) Reset() {
@@ -8034,8 +8085,11 @@ func (x *GetWorkerVersioningRulesResponse) GetConflictToken() []byte {
 
 // Deprecated. Use `DescribeTaskQueue`.
 type GetWorkerTaskReachabilityRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Build ids to retrieve reachability for. An empty string will be interpreted as an unversioned worker.
 	// The number of build ids that can be queried in a single API call is limited.
 	// Open source users can adjust this limit by setting the server's dynamic config value for
@@ -8053,9 +8107,7 @@ type GetWorkerTaskReachabilityRequest struct {
 	// Otherwise, use `TASK_REACHABILITY_OPEN_WORKFLOWS`. Default is `TASK_REACHABILITY_EXISTING_WORKFLOWS` if left
 	// unspecified.
 	// See the TaskReachability docstring for information about each enum variant.
-	Reachability  v11.TaskReachability `protobuf:"varint,4,opt,name=reachability,proto3,enum=temporal.api.enums.v1.TaskReachability" json:"reachability,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Reachability v11.TaskReachability `protobuf:"varint,4,opt,name=reachability,proto3,enum=temporal.api.enums.v1.TaskReachability" json:"reachability,omitempty"`
 }
 
 func (x *GetWorkerTaskReachabilityRequest) Reset() {
@@ -8118,7 +8170,10 @@ func (x *GetWorkerTaskReachabilityRequest) GetReachability() v11.TaskReachabilit
 
 // Deprecated. Use `DescribeTaskQueue`.
 type GetWorkerTaskReachabilityResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Task reachability, broken down by build id and then task queue.
 	// When requesting a large number of task queues or all task queues associated with the given build ids in a
 	// namespace, all task queues will be listed in the response but some of them may not contain reachability
@@ -8129,8 +8184,6 @@ type GetWorkerTaskReachabilityResponse struct {
 	// Open source users can adjust this limit by setting the server's dynamic config value for
 	// `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store.
 	BuildIdReachability []*v14.BuildIdReachability `protobuf:"bytes,1,rep,name=build_id_reachability,json=buildIdReachability,proto3" json:"build_id_reachability,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
 }
 
 func (x *GetWorkerTaskReachabilityResponse) Reset() {
@@ -8174,7 +8227,10 @@ func (x *GetWorkerTaskReachabilityResponse) GetBuildIdReachability() []*v14.Buil
 //
 //	aip.dev/not-precedent: Update RPCs don't follow Google API format. --)
 type UpdateWorkflowExecutionRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace name of the target Workflow.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target Workflow Id and (optionally) a specific Run Id thereof.
@@ -8194,9 +8250,7 @@ type UpdateWorkflowExecutionRequest struct {
 	WaitPolicy *v116.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
 	// The request information that will be delivered all the way down to the
 	// Workflow Execution.
-	Request       *v116.Request `protobuf:"bytes,5,opt,name=request,proto3" json:"request,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Request *v116.Request `protobuf:"bytes,5,opt,name=request,proto3" json:"request,omitempty"`
 }
 
 func (x *UpdateWorkflowExecutionRequest) Reset() {
@@ -8265,7 +8319,10 @@ func (x *UpdateWorkflowExecutionRequest) GetRequest() *v116.Request {
 }
 
 type UpdateWorkflowExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Enough information for subsequent poll calls if needed. Never null.
 	UpdateRef *v116.UpdateRef `protobuf:"bytes,1,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
 	// The outcome of the Update if and only if the Workflow Update
@@ -8282,9 +8339,7 @@ type UpdateWorkflowExecutionResponse struct {
 	// time was reached before the Update reached the stage specified in the
 	// request WaitPolicy, and before the context deadline expired; clients may
 	// may then retry the call as needed.
-	Stage         v11.UpdateWorkflowExecutionLifecycleStage `protobuf:"varint,3,opt,name=stage,proto3,enum=temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage" json:"stage,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Stage v11.UpdateWorkflowExecutionLifecycleStage `protobuf:"varint,3,opt,name=stage,proto3,enum=temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage" json:"stage,omitempty"`
 }
 
 func (x *UpdateWorkflowExecutionResponse) Reset() {
@@ -8339,7 +8394,10 @@ func (x *UpdateWorkflowExecutionResponse) GetStage() v11.UpdateWorkflowExecution
 }
 
 type StartBatchOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace that contains the batch operation
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Visibility query defines the the group of workflow to apply the batch operation
@@ -8361,7 +8419,7 @@ type StartBatchOperationRequest struct {
 	MaxOperationsPerSecond float32 `protobuf:"fixed32,6,opt,name=max_operations_per_second,json=maxOperationsPerSecond,proto3" json:"max_operations_per_second,omitempty"`
 	// Operation input
 	//
-	// Types that are valid to be assigned to Operation:
+	// Types that are assignable to Operation:
 	//
 	//	*StartBatchOperationRequest_TerminationOperation
 	//	*StartBatchOperationRequest_SignalOperation
@@ -8369,9 +8427,7 @@ type StartBatchOperationRequest struct {
 	//	*StartBatchOperationRequest_DeletionOperation
 	//	*StartBatchOperationRequest_ResetOperation
 	//	*StartBatchOperationRequest_UpdateWorkflowOptionsOperation
-	Operation     isStartBatchOperationRequest_Operation `protobuf_oneof:"operation"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Operation isStartBatchOperationRequest_Operation `protobuf_oneof:"operation"`
 }
 
 func (x *StartBatchOperationRequest) Reset() {
@@ -8446,63 +8502,51 @@ func (x *StartBatchOperationRequest) GetMaxOperationsPerSecond() float32 {
 	return 0
 }
 
-func (x *StartBatchOperationRequest) GetOperation() isStartBatchOperationRequest_Operation {
-	if x != nil {
-		return x.Operation
+func (m *StartBatchOperationRequest) GetOperation() isStartBatchOperationRequest_Operation {
+	if m != nil {
+		return m.Operation
 	}
 	return nil
 }
 
 func (x *StartBatchOperationRequest) GetTerminationOperation() *v117.BatchOperationTermination {
-	if x != nil {
-		if x, ok := x.Operation.(*StartBatchOperationRequest_TerminationOperation); ok {
-			return x.TerminationOperation
-		}
+	if x, ok := x.GetOperation().(*StartBatchOperationRequest_TerminationOperation); ok {
+		return x.TerminationOperation
 	}
 	return nil
 }
 
 func (x *StartBatchOperationRequest) GetSignalOperation() *v117.BatchOperationSignal {
-	if x != nil {
-		if x, ok := x.Operation.(*StartBatchOperationRequest_SignalOperation); ok {
-			return x.SignalOperation
-		}
+	if x, ok := x.GetOperation().(*StartBatchOperationRequest_SignalOperation); ok {
+		return x.SignalOperation
 	}
 	return nil
 }
 
 func (x *StartBatchOperationRequest) GetCancellationOperation() *v117.BatchOperationCancellation {
-	if x != nil {
-		if x, ok := x.Operation.(*StartBatchOperationRequest_CancellationOperation); ok {
-			return x.CancellationOperation
-		}
+	if x, ok := x.GetOperation().(*StartBatchOperationRequest_CancellationOperation); ok {
+		return x.CancellationOperation
 	}
 	return nil
 }
 
 func (x *StartBatchOperationRequest) GetDeletionOperation() *v117.BatchOperationDeletion {
-	if x != nil {
-		if x, ok := x.Operation.(*StartBatchOperationRequest_DeletionOperation); ok {
-			return x.DeletionOperation
-		}
+	if x, ok := x.GetOperation().(*StartBatchOperationRequest_DeletionOperation); ok {
+		return x.DeletionOperation
 	}
 	return nil
 }
 
 func (x *StartBatchOperationRequest) GetResetOperation() *v117.BatchOperationReset {
-	if x != nil {
-		if x, ok := x.Operation.(*StartBatchOperationRequest_ResetOperation); ok {
-			return x.ResetOperation
-		}
+	if x, ok := x.GetOperation().(*StartBatchOperationRequest_ResetOperation); ok {
+		return x.ResetOperation
 	}
 	return nil
 }
 
 func (x *StartBatchOperationRequest) GetUpdateWorkflowOptionsOperation() *v117.BatchOperationUpdateWorkflowExecutionOptions {
-	if x != nil {
-		if x, ok := x.Operation.(*StartBatchOperationRequest_UpdateWorkflowOptionsOperation); ok {
-			return x.UpdateWorkflowOptionsOperation
-		}
+	if x, ok := x.GetOperation().(*StartBatchOperationRequest_UpdateWorkflowOptionsOperation); ok {
+		return x.UpdateWorkflowOptionsOperation
 	}
 	return nil
 }
@@ -8549,9 +8593,9 @@ func (*StartBatchOperationRequest_UpdateWorkflowOptionsOperation) isStartBatchOp
 }
 
 type StartBatchOperationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *StartBatchOperationResponse) Reset() {
@@ -8585,7 +8629,10 @@ func (*StartBatchOperationResponse) Descriptor() ([]byte, []int) {
 }
 
 type StopBatchOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace that contains the batch operation
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Batch job id
@@ -8593,9 +8640,7 @@ type StopBatchOperationRequest struct {
 	// Reason to stop a batch operation
 	Reason string `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	// Identity of the operator
-	Identity      string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *StopBatchOperationRequest) Reset() {
@@ -8657,9 +8702,9 @@ func (x *StopBatchOperationRequest) GetIdentity() string {
 }
 
 type StopBatchOperationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *StopBatchOperationResponse) Reset() {
@@ -8693,13 +8738,14 @@ func (*StopBatchOperationResponse) Descriptor() ([]byte, []int) {
 }
 
 type DescribeBatchOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace that contains the batch operation
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Batch job id
-	JobId         string `protobuf:"bytes,2,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	JobId string `protobuf:"bytes,2,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 }
 
 func (x *DescribeBatchOperationRequest) Reset() {
@@ -8747,7 +8793,10 @@ func (x *DescribeBatchOperationRequest) GetJobId() string {
 }
 
 type DescribeBatchOperationResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Batch operation type
 	OperationType v11.BatchOperationType `protobuf:"varint,1,opt,name=operation_type,json=operationType,proto3,enum=temporal.api.enums.v1.BatchOperationType" json:"operation_type,omitempty"`
 	// Batch job ID
@@ -8767,9 +8816,7 @@ type DescribeBatchOperationResponse struct {
 	// Identity indicates the operator identity
 	Identity string `protobuf:"bytes,9,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Reason indicates the reason to stop a operation
-	Reason        string `protobuf:"bytes,10,opt,name=reason,proto3" json:"reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Reason string `protobuf:"bytes,10,opt,name=reason,proto3" json:"reason,omitempty"`
 }
 
 func (x *DescribeBatchOperationResponse) Reset() {
@@ -8873,15 +8920,16 @@ func (x *DescribeBatchOperationResponse) GetReason() string {
 }
 
 type ListBatchOperationsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace that contains the batch operation
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// List page size
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// Next page token
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListBatchOperationsRequest) Reset() {
@@ -8936,12 +8984,13 @@ func (x *ListBatchOperationsRequest) GetNextPageToken() []byte {
 }
 
 type ListBatchOperationsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// BatchOperationInfo contains the basic info about batch operation
 	OperationInfo []*v117.BatchOperationInfo `protobuf:"bytes,1,rep,name=operation_info,json=operationInfo,proto3" json:"operation_info,omitempty"`
 	NextPageToken []byte                     `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListBatchOperationsResponse) Reset() {
@@ -8989,7 +9038,10 @@ func (x *ListBatchOperationsResponse) GetNextPageToken() []byte {
 }
 
 type PollWorkflowExecutionUpdateRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace of the Workflow Execution to which the Update was
 	// originally issued.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -8999,9 +9051,7 @@ type PollWorkflowExecutionUpdateRequest struct {
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Specifies client's intent to wait for Update results.
 	// Omit to request a non-blocking poll.
-	WaitPolicy    *v116.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	WaitPolicy *v116.WaitPolicy `protobuf:"bytes,4,opt,name=wait_policy,json=waitPolicy,proto3" json:"wait_policy,omitempty"`
 }
 
 func (x *PollWorkflowExecutionUpdateRequest) Reset() {
@@ -9063,7 +9113,10 @@ func (x *PollWorkflowExecutionUpdateRequest) GetWaitPolicy() *v116.WaitPolicy {
 }
 
 type PollWorkflowExecutionUpdateResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The outcome of the update if and only if the update has completed. If
 	// this response is being returned before the update has completed (e.g. due
 	// to the specification of a wait policy that only waits on
@@ -9082,9 +9135,7 @@ type PollWorkflowExecutionUpdateResponse struct {
 	// may then retry the call as needed.
 	Stage v11.UpdateWorkflowExecutionLifecycleStage `protobuf:"varint,2,opt,name=stage,proto3,enum=temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage" json:"stage,omitempty"`
 	// Sufficient information to address this Update.
-	UpdateRef     *v116.UpdateRef `protobuf:"bytes,3,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UpdateRef *v116.UpdateRef `protobuf:"bytes,3,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
 }
 
 func (x *PollWorkflowExecutionUpdateResponse) Reset() {
@@ -9139,16 +9190,17 @@ func (x *PollWorkflowExecutionUpdateResponse) GetUpdateRef() *v116.UpdateRef {
 }
 
 type PollNexusTaskQueueRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity  string         `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	TaskQueue *v14.TaskQueue `protobuf:"bytes,3,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Information about this worker's build identifier and if it is choosing to use the versioning
 	// feature. See the `WorkerVersionCapabilities` docstring for more.
 	WorkerVersionCapabilities *v13.WorkerVersionCapabilities `protobuf:"bytes,4,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
 }
 
 func (x *PollNexusTaskQueueRequest) Reset() {
@@ -9210,13 +9262,14 @@ func (x *PollNexusTaskQueueRequest) GetWorkerVersionCapabilities() *v13.WorkerVe
 }
 
 type PollNexusTaskQueueResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// An opaque unique identifier for this task for correlating a completion request the embedded request.
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Embedded request as translated from the incoming frontend request.
-	Request       *v118.Request `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Request *v118.Request `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
 }
 
 func (x *PollNexusTaskQueueResponse) Reset() {
@@ -9264,16 +9317,17 @@ func (x *PollNexusTaskQueueResponse) GetRequest() *v118.Request {
 }
 
 type RespondNexusTaskCompletedRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	// A unique identifier for this task as received via a poll response.
 	TaskToken []byte `protobuf:"bytes,3,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Embedded response to be translated into a frontend response.
-	Response      *v118.Response `protobuf:"bytes,4,opt,name=response,proto3" json:"response,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Response *v118.Response `protobuf:"bytes,4,opt,name=response,proto3" json:"response,omitempty"`
 }
 
 func (x *RespondNexusTaskCompletedRequest) Reset() {
@@ -9335,9 +9389,9 @@ func (x *RespondNexusTaskCompletedRequest) GetResponse() *v118.Response {
 }
 
 type RespondNexusTaskCompletedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RespondNexusTaskCompletedResponse) Reset() {
@@ -9371,16 +9425,17 @@ func (*RespondNexusTaskCompletedResponse) Descriptor() ([]byte, []int) {
 }
 
 type RespondNexusTaskFailedRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	// A unique identifier for this task.
 	TaskToken []byte `protobuf:"bytes,3,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// The error the handler failed with.
-	Error         *v118.HandlerError `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Error *v118.HandlerError `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (x *RespondNexusTaskFailedRequest) Reset() {
@@ -9442,9 +9497,9 @@ func (x *RespondNexusTaskFailedRequest) GetError() *v118.HandlerError {
 }
 
 type RespondNexusTaskFailedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *RespondNexusTaskFailedResponse) Reset() {
@@ -9478,8 +9533,11 @@ func (*RespondNexusTaskFailedResponse) Descriptor() ([]byte, []int) {
 }
 
 type ExecuteMultiOperationRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// List of operations to execute within a single workflow.
 	//
 	// Preconditions:
@@ -9488,9 +9546,7 @@ type ExecuteMultiOperationRequest struct {
 	// - The only valid list of operations at this time is [StartWorkflow, UpdateWorkflow], in this order.
 	//
 	// Note that additional operation-specific restrictions have to be considered.
-	Operations    []*ExecuteMultiOperationRequest_Operation `protobuf:"bytes,2,rep,name=operations,proto3" json:"operations,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Operations []*ExecuteMultiOperationRequest_Operation `protobuf:"bytes,2,rep,name=operations,proto3" json:"operations,omitempty"`
 }
 
 func (x *ExecuteMultiOperationRequest) Reset() {
@@ -9538,10 +9594,11 @@ func (x *ExecuteMultiOperationRequest) GetOperations() []*ExecuteMultiOperationR
 }
 
 type ExecuteMultiOperationResponse struct {
-	state         protoimpl.MessageState                    `protogen:"open.v1"`
-	Responses     []*ExecuteMultiOperationResponse_Response `protobuf:"bytes,1,rep,name=responses,proto3" json:"responses,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Responses []*ExecuteMultiOperationResponse_Response `protobuf:"bytes,1,rep,name=responses,proto3" json:"responses,omitempty"`
 }
 
 func (x *ExecuteMultiOperationResponse) Reset() {
@@ -9582,7 +9639,10 @@ func (x *ExecuteMultiOperationResponse) GetResponses() []*ExecuteMultiOperationR
 }
 
 type UpdateActivityOptionsByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// ID of the workflow which scheduled this activity
@@ -9599,9 +9659,7 @@ type UpdateActivityOptionsByIdRequest struct {
 	// Controls which fields from `activity_options` will be applied
 	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,7,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	// Used to de-dupe requests
-	RequestId     string `protobuf:"bytes,8,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,8,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 }
 
 func (x *UpdateActivityOptionsByIdRequest) Reset() {
@@ -9691,11 +9749,12 @@ func (x *UpdateActivityOptionsByIdRequest) GetRequestId() string {
 }
 
 type UpdateActivityOptionsByIdResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Activity options after an update
 	ActivityOptions *v119.ActivityOptions `protobuf:"bytes,1,opt,name=activity_options,json=activityOptions,proto3" json:"activity_options,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
 }
 
 func (x *UpdateActivityOptionsByIdResponse) Reset() {
@@ -9736,7 +9795,10 @@ func (x *UpdateActivityOptionsByIdResponse) GetActivityOptions() *v119.ActivityO
 }
 
 type PauseActivityByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the workflow which scheduled this activity.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// ID of the workflow which scheduled this activity.
@@ -9749,9 +9811,7 @@ type PauseActivityByIdRequest struct {
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Used to de-dupe requests.
-	RequestId     string `protobuf:"bytes,6,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RequestId string `protobuf:"bytes,6,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 }
 
 func (x *PauseActivityByIdRequest) Reset() {
@@ -9827,9 +9887,9 @@ func (x *PauseActivityByIdRequest) GetRequestId() string {
 }
 
 type PauseActivityByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *PauseActivityByIdResponse) Reset() {
@@ -9863,7 +9923,10 @@ func (*PauseActivityByIdResponse) Descriptor() ([]byte, []int) {
 }
 
 type UnpauseActivityByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the workflow which scheduled this activity.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// ID of the workflow which scheduled this activity.
@@ -9879,13 +9942,11 @@ type UnpauseActivityByIdRequest struct {
 	RequestId string `protobuf:"bytes,6,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// There are two options to resume the activity - with 'resume' or with 'reset'.
 	//
-	// Types that are valid to be assigned to Operation:
+	// Types that are assignable to Operation:
 	//
 	//	*UnpauseActivityByIdRequest_Resume
 	//	*UnpauseActivityByIdRequest_Reset_
-	Operation     isUnpauseActivityByIdRequest_Operation `protobuf_oneof:"operation"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Operation isUnpauseActivityByIdRequest_Operation `protobuf_oneof:"operation"`
 }
 
 func (x *UnpauseActivityByIdRequest) Reset() {
@@ -9960,27 +10021,23 @@ func (x *UnpauseActivityByIdRequest) GetRequestId() string {
 	return ""
 }
 
-func (x *UnpauseActivityByIdRequest) GetOperation() isUnpauseActivityByIdRequest_Operation {
-	if x != nil {
-		return x.Operation
+func (m *UnpauseActivityByIdRequest) GetOperation() isUnpauseActivityByIdRequest_Operation {
+	if m != nil {
+		return m.Operation
 	}
 	return nil
 }
 
 func (x *UnpauseActivityByIdRequest) GetResume() *UnpauseActivityByIdRequest_ResumeOperation {
-	if x != nil {
-		if x, ok := x.Operation.(*UnpauseActivityByIdRequest_Resume); ok {
-			return x.Resume
-		}
+	if x, ok := x.GetOperation().(*UnpauseActivityByIdRequest_Resume); ok {
+		return x.Resume
 	}
 	return nil
 }
 
 func (x *UnpauseActivityByIdRequest) GetReset_() *UnpauseActivityByIdRequest_ResetOperation {
-	if x != nil {
-		if x, ok := x.Operation.(*UnpauseActivityByIdRequest_Reset_); ok {
-			return x.Reset_
-		}
+	if x, ok := x.GetOperation().(*UnpauseActivityByIdRequest_Reset_); ok {
+		return x.Reset_
 	}
 	return nil
 }
@@ -10002,9 +10059,9 @@ func (*UnpauseActivityByIdRequest_Resume) isUnpauseActivityByIdRequest_Operation
 func (*UnpauseActivityByIdRequest_Reset_) isUnpauseActivityByIdRequest_Operation() {}
 
 type UnpauseActivityByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *UnpauseActivityByIdResponse) Reset() {
@@ -10038,7 +10095,10 @@ func (*UnpauseActivityByIdResponse) Descriptor() ([]byte, []int) {
 }
 
 type ResetActivityByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace of the workflow which scheduled this activity.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// ID of the workflow which scheduled this activity.
@@ -10058,8 +10118,6 @@ type ResetActivityByIdRequest struct {
 	// Indicates that activity should reset heartbeat details.
 	// This flag will be applied only to the new instance of the activity.
 	ResetHeartbeat bool `protobuf:"varint,8,opt,name=reset_heartbeat,json=resetHeartbeat,proto3" json:"reset_heartbeat,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ResetActivityByIdRequest) Reset() {
@@ -10149,9 +10207,9 @@ func (x *ResetActivityByIdRequest) GetResetHeartbeat() bool {
 }
 
 type ResetActivityByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *ResetActivityByIdResponse) Reset() {
@@ -10185,7 +10243,10 @@ func (*ResetActivityByIdResponse) Descriptor() ([]byte, []int) {
 }
 
 type UpdateWorkflowExecutionOptionsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace name of the target Workflow.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target Workflow Id and (optionally) a specific Run Id thereof.
@@ -10197,9 +10258,7 @@ type UpdateWorkflowExecutionOptionsRequest struct {
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,3,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
 	// Controls which fields from `workflow_execution_options` will be applied.
 	// To unset a field, set it to null and use the update mask to indicate that it should be mutated.
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,4,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,4,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 }
 
 func (x *UpdateWorkflowExecutionOptionsRequest) Reset() {
@@ -10261,11 +10320,12 @@ func (x *UpdateWorkflowExecutionOptionsRequest) GetUpdateMask() *fieldmaskpb.Fie
 }
 
 type UpdateWorkflowExecutionOptionsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Workflow Execution options after update.
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,1,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
-	unknownFields            protoimpl.UnknownFields
-	sizeCache                protoimpl.SizeCache
 }
 
 func (x *UpdateWorkflowExecutionOptionsResponse) Reset() {
@@ -10306,11 +10366,12 @@ func (x *UpdateWorkflowExecutionOptionsResponse) GetWorkflowExecutionOptions() *
 }
 
 type DescribeDeploymentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Deployment    *v112.Deployment       `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace  string           `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Deployment *v112.Deployment `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
 }
 
 func (x *DescribeDeploymentRequest) Reset() {
@@ -10358,10 +10419,11 @@ func (x *DescribeDeploymentRequest) GetDeployment() *v112.Deployment {
 }
 
 type DescribeDeploymentResponse struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	DeploymentInfo *v112.DeploymentInfo   `protobuf:"bytes,1,opt,name=deployment_info,json=deploymentInfo,proto3" json:"deployment_info,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	DeploymentInfo *v112.DeploymentInfo `protobuf:"bytes,1,opt,name=deployment_info,json=deploymentInfo,proto3" json:"deployment_info,omitempty"`
 }
 
 func (x *DescribeDeploymentResponse) Reset() {
@@ -10402,14 +10464,15 @@ func (x *DescribeDeploymentResponse) GetDeploymentInfo() *v112.DeploymentInfo {
 }
 
 type ListDeploymentsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	// Optional. Use to filter based on exact series name match.
-	SeriesName    string `protobuf:"bytes,4,opt,name=series_name,json=seriesName,proto3" json:"series_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	PageSize      int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	// Optional. Use to filter based on exact series name match.
+	SeriesName string `protobuf:"bytes,4,opt,name=series_name,json=seriesName,proto3" json:"series_name,omitempty"`
 }
 
 func (x *ListDeploymentsRequest) Reset() {
@@ -10471,11 +10534,12 @@ func (x *ListDeploymentsRequest) GetSeriesName() string {
 }
 
 type ListDeploymentsResponse struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	NextPageToken []byte                     `protobuf:"bytes,1,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Deployments   []*v112.DeploymentListInfo `protobuf:"bytes,2,rep,name=deployments,proto3" json:"deployments,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListDeploymentsResponse) Reset() {
@@ -10523,17 +10587,18 @@ func (x *ListDeploymentsResponse) GetDeployments() []*v112.DeploymentListInfo {
 }
 
 type SetCurrentDeploymentRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Deployment *v112.Deployment       `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace  string           `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Deployment *v112.Deployment `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	// Optional. The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Optional. Use to add or remove user-defined metadata entries. Metadata entries are exposed
 	// when describing a deployment. It is a good place for information such as operator name,
 	// links to internal deployment pipelines, etc.
 	UpdateMetadata *v112.UpdateDeploymentMetadata `protobuf:"bytes,4,opt,name=update_metadata,json=updateMetadata,proto3" json:"update_metadata,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *SetCurrentDeploymentRequest) Reset() {
@@ -10595,12 +10660,13 @@ func (x *SetCurrentDeploymentRequest) GetUpdateMetadata() *v112.UpdateDeployment
 }
 
 type SetCurrentDeploymentResponse struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	CurrentDeploymentInfo *v112.DeploymentInfo   `protobuf:"bytes,1,opt,name=current_deployment_info,json=currentDeploymentInfo,proto3" json:"current_deployment_info,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CurrentDeploymentInfo *v112.DeploymentInfo `protobuf:"bytes,1,opt,name=current_deployment_info,json=currentDeploymentInfo,proto3" json:"current_deployment_info,omitempty"`
 	// Info of the deployment that was current before executing this operation.
 	PreviousDeploymentInfo *v112.DeploymentInfo `protobuf:"bytes,2,opt,name=previous_deployment_info,json=previousDeploymentInfo,proto3" json:"previous_deployment_info,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *SetCurrentDeploymentResponse) Reset() {
@@ -10649,11 +10715,12 @@ func (x *SetCurrentDeploymentResponse) GetPreviousDeploymentInfo() *v112.Deploym
 
 // Returns the Current Deployment of a deployment series.
 type GetCurrentDeploymentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	SeriesName    string                 `protobuf:"bytes,2,opt,name=series_name,json=seriesName,proto3" json:"series_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace  string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	SeriesName string `protobuf:"bytes,2,opt,name=series_name,json=seriesName,proto3" json:"series_name,omitempty"`
 }
 
 func (x *GetCurrentDeploymentRequest) Reset() {
@@ -10701,10 +10768,11 @@ func (x *GetCurrentDeploymentRequest) GetSeriesName() string {
 }
 
 type GetCurrentDeploymentResponse struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	CurrentDeploymentInfo *v112.DeploymentInfo   `protobuf:"bytes,1,opt,name=current_deployment_info,json=currentDeploymentInfo,proto3" json:"current_deployment_info,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CurrentDeploymentInfo *v112.DeploymentInfo `protobuf:"bytes,1,opt,name=current_deployment_info,json=currentDeploymentInfo,proto3" json:"current_deployment_info,omitempty"`
 }
 
 func (x *GetCurrentDeploymentResponse) Reset() {
@@ -10745,11 +10813,12 @@ func (x *GetCurrentDeploymentResponse) GetCurrentDeploymentInfo() *v112.Deployme
 }
 
 type GetDeploymentReachabilityRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Deployment    *v112.Deployment       `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace  string           `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Deployment *v112.Deployment `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
 }
 
 func (x *GetDeploymentReachabilityRequest) Reset() {
@@ -10797,14 +10866,15 @@ func (x *GetDeploymentReachabilityRequest) GetDeployment() *v112.Deployment {
 }
 
 type GetDeploymentReachabilityResponse struct {
-	state          protoimpl.MessageState     `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	DeploymentInfo *v112.DeploymentInfo       `protobuf:"bytes,1,opt,name=deployment_info,json=deploymentInfo,proto3" json:"deployment_info,omitempty"`
 	Reachability   v11.DeploymentReachability `protobuf:"varint,2,opt,name=reachability,proto3,enum=temporal.api.enums.v1.DeploymentReachability" json:"reachability,omitempty"`
 	// Reachability level might come from server cache. This timestamp specifies when the value
 	// was actually calculated.
 	LastUpdateTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=last_update_time,json=lastUpdateTime,proto3" json:"last_update_time,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GetDeploymentReachabilityResponse) Reset() {
@@ -10860,7 +10930,10 @@ func (x *GetDeploymentReachabilityResponse) GetLastUpdateTime() *timestamppb.Tim
 
 // SDK capability details.
 type RespondWorkflowTaskCompletedRequest_Capabilities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// True if the SDK can handle speculative workflow task with command events. If true, the
 	// server may choose, at its discretion, to discard a speculative workflow task even if that
 	// speculative task included command events the SDK had not previously processed.
@@ -10869,8 +10942,6 @@ type RespondWorkflowTaskCompletedRequest_Capabilities struct {
 	//
 	//	aip.dev/not-precedent: "with" used to describe the workflow task. --)
 	DiscardSpeculativeWorkflowTaskWithEvents bool `protobuf:"varint,1,opt,name=discard_speculative_workflow_task_with_events,json=discardSpeculativeWorkflowTaskWithEvents,proto3" json:"discard_speculative_workflow_task_with_events,omitempty"`
-	unknownFields                            protoimpl.UnknownFields
-	sizeCache                                protoimpl.SizeCache
 }
 
 func (x *RespondWorkflowTaskCompletedRequest_Capabilities) Reset() {
@@ -10911,11 +10982,12 @@ func (x *RespondWorkflowTaskCompletedRequest_Capabilities) GetDiscardSpeculative
 }
 
 type CountWorkflowExecutionsResponse_AggregationGroup struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	GroupValues   []*v13.Payload         `protobuf:"bytes,1,rep,name=group_values,json=groupValues,proto3" json:"group_values,omitempty"`
-	Count         int64                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	GroupValues []*v13.Payload `protobuf:"bytes,1,rep,name=group_values,json=groupValues,proto3" json:"group_values,omitempty"`
+	Count       int64          `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
 }
 
 func (x *CountWorkflowExecutionsResponse_AggregationGroup) Reset() {
@@ -10964,7 +11036,10 @@ func (x *CountWorkflowExecutionsResponse_AggregationGroup) GetCount() int64 {
 
 // System capability details.
 type GetSystemInfoResponse_Capabilities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// True if signal and query headers are supported.
 	SignalAndQueryHeader bool `protobuf:"varint,1,opt,name=signal_and_query_header,json=signalAndQueryHeader,proto3" json:"signal_and_query_header,omitempty"`
 	// True if internal errors are differentiated from other types of errors for purposes of
@@ -10995,9 +11070,7 @@ type GetSystemInfoResponse_Capabilities struct {
 	CountGroupByExecutionStatus bool `protobuf:"varint,10,opt,name=count_group_by_execution_status,json=countGroupByExecutionStatus,proto3" json:"count_group_by_execution_status,omitempty"`
 	// True if the server supports Nexus operations.
 	// This flag is dependent both on server version and for Nexus to be enabled via server configuration.
-	Nexus         bool `protobuf:"varint,11,opt,name=nexus,proto3" json:"nexus,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Nexus bool `protobuf:"varint,11,opt,name=nexus,proto3" json:"nexus,omitempty"`
 }
 
 func (x *GetSystemInfoResponse_Capabilities) Reset() {
@@ -11108,7 +11181,10 @@ func (x *GetSystemInfoResponse_Capabilities) GetNexus() bool {
 }
 
 type UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// A new id to be added to an existing compatible set.
 	NewBuildId string `protobuf:"bytes,1,opt,name=new_build_id,json=newBuildId,proto3" json:"new_build_id,omitempty"`
 	// A build id which must already exist in the version sets known by the task queue. The new
@@ -11119,8 +11195,6 @@ type UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion struct {
 	// queue. If a different set was the current default, the targeted set will replace it as
 	// the new default.
 	MakeSetDefault bool `protobuf:"varint,3,opt,name=make_set_default,json=makeSetDefault,proto3" json:"make_set_default,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Reset() {
@@ -11175,13 +11249,14 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) GetMak
 }
 
 type UpdateWorkerBuildIdCompatibilityRequest_MergeSets struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// A build ID in the set whose default will become the merged set default
 	PrimarySetBuildId string `protobuf:"bytes,1,opt,name=primary_set_build_id,json=primarySetBuildId,proto3" json:"primary_set_build_id,omitempty"`
 	// A build ID in the set which will be merged into the primary set
 	SecondarySetBuildId string `protobuf:"bytes,2,opt,name=secondary_set_build_id,json=secondarySetBuildId,proto3" json:"secondary_set_build_id,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) Reset() {
@@ -11232,15 +11307,16 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) GetSecondarySetBuild
 // The rules are evaluated in order, starting from index 0. The first
 // applicable rule will be applied and the rest will be ignored.
 type UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Use this option to insert the rule in a particular index. By
 	// default, the new rule is inserted at the beginning of the list
 	// (index 0). If the given index is too larger the rule will be
 	// inserted at the end of the list.
-	RuleIndex     int32                      `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
-	Rule          *v14.BuildIdAssignmentRule `protobuf:"bytes,2,opt,name=rule,proto3" json:"rule,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RuleIndex int32                      `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
+	Rule      *v14.BuildIdAssignmentRule `protobuf:"bytes,2,opt,name=rule,proto3" json:"rule,omitempty"`
 }
 
 func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) Reset() {
@@ -11289,7 +11365,10 @@ func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) GetRule
 
 // Replaces the assignment rule at a given index.
 type UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule struct {
-	state     protoimpl.MessageState     `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	RuleIndex int32                      `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
 	Rule      *v14.BuildIdAssignmentRule `protobuf:"bytes,2,opt,name=rule,proto3" json:"rule,omitempty"`
 	// By default presence of one unconditional rule is enforced, otherwise
@@ -11297,9 +11376,7 @@ type UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule struct {
 	// bypass this validation. An unconditional assignment rule:
 	//   - Has no hint filter
 	//   - Has no ramp
-	Force         bool `protobuf:"varint,3,opt,name=force,proto3" json:"force,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Force bool `protobuf:"varint,3,opt,name=force,proto3" json:"force,omitempty"`
 }
 
 func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) Reset() {
@@ -11354,16 +11431,17 @@ func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) GetFor
 }
 
 type UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	RuleIndex int32                  `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RuleIndex int32 `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
 	// By default presence of one unconditional rule is enforced, otherwise
 	// the delete operation will be rejected. Set `force` to true to
 	// bypass this validation. An unconditional assignment rule:
 	//   - Has no hint filter
 	//   - Has no ramp
-	Force         bool `protobuf:"varint,2,opt,name=force,proto3" json:"force,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Force bool `protobuf:"varint,2,opt,name=force,proto3" json:"force,omitempty"`
 }
 
 func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) Reset() {
@@ -11413,10 +11491,11 @@ func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) GetForc
 // Adds the rule to the list of redirect rules for this Task Queue. There
 // can be at most one redirect rule for each distinct Source Build ID.
 type UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState             `protogen:"open.v1"`
-	Rule          *v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Rule *v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
 }
 
 func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) Reset() {
@@ -11458,10 +11537,11 @@ func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) Ge
 
 // Replaces the routing rule with the given source Build ID.
 type UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState             `protogen:"open.v1"`
-	Rule          *v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Rule *v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
 }
 
 func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) Reset() {
@@ -11502,10 +11582,11 @@ func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule
 }
 
 type UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SourceBuildId string                 `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SourceBuildId string `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
 }
 
 func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) Reset() {
@@ -11555,14 +11636,15 @@ func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule)
 //     Build ID (if any).
 //  3. Removes any fully-ramped assignment rule for other Build IDs.
 type UpdateWorkerVersioningRulesRequest_CommitBuildId struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TargetBuildId string                 `protobuf:"bytes,1,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TargetBuildId string `protobuf:"bytes,1,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
 	// To prevent committing invalid Build IDs, we reject the request if no
 	// pollers has been seen recently for this Build ID. Use the `force`
 	// option to disable this validation.
-	Force         bool `protobuf:"varint,2,opt,name=force,proto3" json:"force,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Force bool `protobuf:"varint,2,opt,name=force,proto3" json:"force,omitempty"`
 }
 
 func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) Reset() {
@@ -11610,14 +11692,15 @@ func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) GetForce() bool {
 }
 
 type ExecuteMultiOperationRequest_Operation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Operation:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Operation:
 	//
 	//	*ExecuteMultiOperationRequest_Operation_StartWorkflow
 	//	*ExecuteMultiOperationRequest_Operation_UpdateWorkflow
-	Operation     isExecuteMultiOperationRequest_Operation_Operation `protobuf_oneof:"operation"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Operation isExecuteMultiOperationRequest_Operation_Operation `protobuf_oneof:"operation"`
 }
 
 func (x *ExecuteMultiOperationRequest_Operation) Reset() {
@@ -11650,27 +11733,23 @@ func (*ExecuteMultiOperationRequest_Operation) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{126, 0}
 }
 
-func (x *ExecuteMultiOperationRequest_Operation) GetOperation() isExecuteMultiOperationRequest_Operation_Operation {
-	if x != nil {
-		return x.Operation
+func (m *ExecuteMultiOperationRequest_Operation) GetOperation() isExecuteMultiOperationRequest_Operation_Operation {
+	if m != nil {
+		return m.Operation
 	}
 	return nil
 }
 
 func (x *ExecuteMultiOperationRequest_Operation) GetStartWorkflow() *StartWorkflowExecutionRequest {
-	if x != nil {
-		if x, ok := x.Operation.(*ExecuteMultiOperationRequest_Operation_StartWorkflow); ok {
-			return x.StartWorkflow
-		}
+	if x, ok := x.GetOperation().(*ExecuteMultiOperationRequest_Operation_StartWorkflow); ok {
+		return x.StartWorkflow
 	}
 	return nil
 }
 
 func (x *ExecuteMultiOperationRequest_Operation) GetUpdateWorkflow() *UpdateWorkflowExecutionRequest {
-	if x != nil {
-		if x, ok := x.Operation.(*ExecuteMultiOperationRequest_Operation_UpdateWorkflow); ok {
-			return x.UpdateWorkflow
-		}
+	if x, ok := x.GetOperation().(*ExecuteMultiOperationRequest_Operation_UpdateWorkflow); ok {
+		return x.UpdateWorkflow
 	}
 	return nil
 }
@@ -11701,14 +11780,15 @@ func (*ExecuteMultiOperationRequest_Operation_UpdateWorkflow) isExecuteMultiOper
 }
 
 type ExecuteMultiOperationResponse_Response struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Response:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Response:
 	//
 	//	*ExecuteMultiOperationResponse_Response_StartWorkflow
 	//	*ExecuteMultiOperationResponse_Response_UpdateWorkflow
-	Response      isExecuteMultiOperationResponse_Response_Response `protobuf_oneof:"response"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Response isExecuteMultiOperationResponse_Response_Response `protobuf_oneof:"response"`
 }
 
 func (x *ExecuteMultiOperationResponse_Response) Reset() {
@@ -11741,27 +11821,23 @@ func (*ExecuteMultiOperationResponse_Response) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{127, 0}
 }
 
-func (x *ExecuteMultiOperationResponse_Response) GetResponse() isExecuteMultiOperationResponse_Response_Response {
-	if x != nil {
-		return x.Response
+func (m *ExecuteMultiOperationResponse_Response) GetResponse() isExecuteMultiOperationResponse_Response_Response {
+	if m != nil {
+		return m.Response
 	}
 	return nil
 }
 
 func (x *ExecuteMultiOperationResponse_Response) GetStartWorkflow() *StartWorkflowExecutionResponse {
-	if x != nil {
-		if x, ok := x.Response.(*ExecuteMultiOperationResponse_Response_StartWorkflow); ok {
-			return x.StartWorkflow
-		}
+	if x, ok := x.GetResponse().(*ExecuteMultiOperationResponse_Response_StartWorkflow); ok {
+		return x.StartWorkflow
 	}
 	return nil
 }
 
 func (x *ExecuteMultiOperationResponse_Response) GetUpdateWorkflow() *UpdateWorkflowExecutionResponse {
-	if x != nil {
-		if x, ok := x.Response.(*ExecuteMultiOperationResponse_Response_UpdateWorkflow); ok {
-			return x.UpdateWorkflow
-		}
+	if x, ok := x.GetResponse().(*ExecuteMultiOperationResponse_Response_UpdateWorkflow); ok {
+		return x.UpdateWorkflow
 	}
 	return nil
 }
@@ -11785,11 +11861,12 @@ func (*ExecuteMultiOperationResponse_Response_UpdateWorkflow) isExecuteMultiOper
 }
 
 type UnpauseActivityByIdRequest_ResumeOperation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Indicates that if the activity is waiting to retry, it will  be scheduled immediately.
-	NoWait        bool `protobuf:"varint,1,opt,name=no_wait,json=noWait,proto3" json:"no_wait,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Indicates that if the activity is waiting to retry, it will  be scheduled immediately.
+	NoWait bool `protobuf:"varint,1,opt,name=no_wait,json=noWait,proto3" json:"no_wait,omitempty"`
 }
 
 func (x *UnpauseActivityByIdRequest_ResumeOperation) Reset() {
@@ -11830,14 +11907,15 @@ func (x *UnpauseActivityByIdRequest_ResumeOperation) GetNoWait() bool {
 }
 
 type UnpauseActivityByIdRequest_ResetOperation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Indicates that the activity should be scheduled immediately.
 	// Note that this may run simultaneously with any existing executions of the activity.
 	NoWait bool `protobuf:"varint,1,opt,name=no_wait,json=noWait,proto3" json:"no_wait,omitempty"`
 	// If set, the Heartbeat Details will be cleared out to make the Activity start over from the beginning
 	ResetHeartbeat bool `protobuf:"varint,2,opt,name=reset_heartbeat,json=resetHeartbeat,proto3" json:"reset_heartbeat,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UnpauseActivityByIdRequest_ResetOperation) Reset() {

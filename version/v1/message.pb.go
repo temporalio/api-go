@@ -47,12 +47,13 @@ const (
 
 // ReleaseInfo contains information about specific version of temporal.
 type ReleaseInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Version       string                 `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
-	ReleaseTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=release_time,json=releaseTime,proto3" json:"release_time,omitempty"`
-	Notes         string                 `protobuf:"bytes,3,opt,name=notes,proto3" json:"notes,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Version     string                 `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	ReleaseTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=release_time,json=releaseTime,proto3" json:"release_time,omitempty"`
+	Notes       string                 `protobuf:"bytes,3,opt,name=notes,proto3" json:"notes,omitempty"`
 }
 
 func (x *ReleaseInfo) Reset() {
@@ -108,11 +109,12 @@ func (x *ReleaseInfo) GetNotes() string {
 
 // Alert contains notification and severity.
 type Alert struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	Severity      v1.Severity            `protobuf:"varint,2,opt,name=severity,proto3,enum=temporal.api.enums.v1.Severity" json:"severity,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Message  string      `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Severity v1.Severity `protobuf:"varint,2,opt,name=severity,proto3,enum=temporal.api.enums.v1.Severity" json:"severity,omitempty"`
 }
 
 func (x *Alert) Reset() {
@@ -161,14 +163,15 @@ func (x *Alert) GetSeverity() v1.Severity {
 
 // VersionInfo contains details about current and recommended release versions as well as alerts and upgrade instructions.
 type VersionInfo struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Current        *ReleaseInfo           `protobuf:"bytes,1,opt,name=current,proto3" json:"current,omitempty"`
 	Recommended    *ReleaseInfo           `protobuf:"bytes,2,opt,name=recommended,proto3" json:"recommended,omitempty"`
 	Instructions   string                 `protobuf:"bytes,3,opt,name=instructions,proto3" json:"instructions,omitempty"`
 	Alerts         []*Alert               `protobuf:"bytes,4,rep,name=alerts,proto3" json:"alerts,omitempty"`
 	LastUpdateTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_update_time,json=lastUpdateTime,proto3" json:"last_update_time,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *VersionInfo) Reset() {

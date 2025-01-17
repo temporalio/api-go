@@ -45,15 +45,16 @@ const (
 
 // Internal structure used to create worker stack traces with references to code.
 type EnhancedStackTrace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Information pertaining to the SDK that the trace has been captured from.
 	Sdk *StackTraceSDKInfo `protobuf:"bytes,1,opt,name=sdk,proto3" json:"sdk,omitempty"`
 	// Mapping of file path to file contents.
-	Sources map[string]*StackTraceFileSlice `protobuf:"bytes,2,rep,name=sources,proto3" json:"sources,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Sources map[string]*StackTraceFileSlice `protobuf:"bytes,2,rep,name=sources,proto3" json:"sources,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Collection of stacks captured.
-	Stacks        []*StackTrace `protobuf:"bytes,3,rep,name=stacks,proto3" json:"stacks,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Stacks []*StackTrace `protobuf:"bytes,3,rep,name=stacks,proto3" json:"stacks,omitempty"`
 }
 
 func (x *EnhancedStackTrace) Reset() {
@@ -112,13 +113,14 @@ func (x *EnhancedStackTrace) GetStacks() []*StackTrace {
 //
 //	aip.dev/not-precedent: Naming SDK version is optional. --)
 type StackTraceSDKInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Name of the SDK
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Version string of the SDK
-	Version       string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 }
 
 func (x *StackTraceSDKInfo) Reset() {
@@ -167,7 +169,10 @@ func (x *StackTraceSDKInfo) GetVersion() string {
 
 // "Slice" of a file starting at line_offset -- a line offset and code fragment corresponding to the worker's stack.
 type StackTraceFileSlice struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Only used (possibly) to trim the file without breaking syntax highlighting. This is not optional, unlike
 	// the `line` property of a `StackTraceFileLocation`.
 	// (-- api-linter: core::0141::forbidden-types=disabled
@@ -175,9 +180,7 @@ type StackTraceFileSlice struct {
 	//	aip.dev/not-precedent: These really shouldn't have negative values. --)
 	LineOffset uint32 `protobuf:"varint,1,opt,name=line_offset,json=lineOffset,proto3" json:"line_offset,omitempty"`
 	// Slice of a file with the respective OS-specific line terminator.
-	Content       string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Content string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
 }
 
 func (x *StackTraceFileSlice) Reset() {
@@ -227,7 +230,10 @@ func (x *StackTraceFileSlice) GetContent() string {
 // More specific location details of a file: its path, precise line and column numbers if applicable, and function name if available.
 // In essence, a pointer to a location in a file
 type StackTraceFileLocation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Path to source file (absolute or relative).
 	// If the paths are relative, ensure that they are all relative to the same root.
 	FilePath string `protobuf:"bytes,1,opt,name=file_path,json=filePath,proto3" json:"file_path,omitempty"`
@@ -241,9 +247,7 @@ type StackTraceFileLocation struct {
 	// Used for falling back to stack trace view.
 	FunctionName string `protobuf:"bytes,4,opt,name=function_name,json=functionName,proto3" json:"function_name,omitempty"`
 	// Flag to communicate whether a location should be hidden by default in the stack view.
-	InternalCode  bool `protobuf:"varint,5,opt,name=internal_code,json=internalCode,proto3" json:"internal_code,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	InternalCode bool `protobuf:"varint,5,opt,name=internal_code,json=internalCode,proto3" json:"internal_code,omitempty"`
 }
 
 func (x *StackTraceFileLocation) Reset() {
@@ -313,11 +317,12 @@ func (x *StackTraceFileLocation) GetInternalCode() bool {
 
 // Collection of FileLocation messages from a single stack.
 type StackTrace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Collection of `FileLocation`s, each for a stack frame that comprise a stack trace.
-	Locations     []*StackTraceFileLocation `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Collection of `FileLocation`s, each for a stack frame that comprise a stack trace.
+	Locations []*StackTraceFileLocation `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
 }
 
 func (x *StackTrace) Reset() {
