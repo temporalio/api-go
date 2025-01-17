@@ -263,6 +263,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -278,6 +279,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -292,6 +294,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -313,6 +316,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -338,6 +342,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -352,6 +357,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -371,6 +377,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -385,6 +392,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -399,6 +407,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -415,6 +424,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -430,13 +440,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetInput(),
-			); err != nil {
-				return err
+			if o.Input != nil {
+				no, err := visitPayload(ctx, options, o, o.Input)
+				if err != nil {
+					return err
+				}
+				o.Input = no
 			}
 
 		case *command.SignalExternalWorkflowExecutionCommandAttributes:
@@ -444,6 +453,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -459,6 +469,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -476,6 +487,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -490,6 +502,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -504,6 +517,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -522,6 +536,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -536,6 +551,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -550,6 +566,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -571,6 +588,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -585,6 +603,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -599,6 +618,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -613,6 +633,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -634,6 +655,14 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+			if o.EncodedAttributes != nil {
+				no, err := visitPayload(ctx, options, o, o.EncodedAttributes)
+				if err != nil {
+					return err
+				}
+				o.EncodedAttributes = no
+			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -641,7 +670,6 @@ func visitPayloads(
 				o.GetApplicationFailureInfo(),
 				o.GetCanceledFailureInfo(),
 				o.GetCause(),
-				o.GetEncodedAttributes(),
 				o.GetResetWorkflowFailureInfo(),
 				o.GetTimeoutFailureInfo(),
 			); err != nil {
@@ -653,6 +681,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -667,6 +696,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -681,6 +711,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -695,6 +726,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -709,6 +741,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -723,6 +756,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -738,6 +772,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -752,6 +787,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -766,6 +802,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -780,6 +817,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -794,6 +832,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -808,6 +847,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -822,6 +862,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -843,6 +884,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -890,6 +932,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -906,6 +949,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -920,13 +964,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetResult(),
-			); err != nil {
-				return err
+			if o.Result != nil {
+				no, err := visitPayload(ctx, options, o, o.Result)
+				if err != nil {
+					return err
+				}
+				o.Result = no
 			}
 
 		case *history.NexusOperationFailedEventAttributes:
@@ -934,6 +977,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -948,13 +992,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetInput(),
-			); err != nil {
-				return err
+			if o.Input != nil {
+				no, err := visitPayload(ctx, options, o, o.Input)
+				if err != nil {
+					return err
+				}
+				o.Input = no
 			}
 
 		case *history.NexusOperationTimedOutEventAttributes:
@@ -962,6 +1005,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -976,6 +1020,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -991,6 +1036,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1008,6 +1054,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1022,6 +1069,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1036,6 +1084,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1050,6 +1099,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1069,6 +1119,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1083,6 +1134,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1098,6 +1150,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1117,6 +1170,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1131,6 +1185,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1145,6 +1200,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1159,6 +1215,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1173,6 +1230,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1188,6 +1246,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1202,6 +1261,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1216,6 +1276,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1237,6 +1298,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1251,13 +1313,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetDescription(),
-			); err != nil {
-				return err
+			if o.Description != nil {
+				no, err := visitPayload(ctx, options, o, o.Description)
+				if err != nil {
+					return err
+				}
+				o.Description = no
 			}
 
 		case *nexus.Request:
@@ -1265,6 +1326,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1279,6 +1341,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1293,13 +1356,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetPayload(),
-			); err != nil {
-				return err
+			if o.Payload != nil {
+				no, err := visitPayload(ctx, options, o, o.Payload)
+				if err != nil {
+					return err
+				}
+				o.Payload = no
 			}
 
 		case *nexus.StartOperationResponse:
@@ -1307,6 +1369,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1321,13 +1384,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetPayload(),
-			); err != nil {
-				return err
+			if o.Payload != nil {
+				no, err := visitPayload(ctx, options, o, o.Payload)
+				if err != nil {
+					return err
+				}
+				o.Payload = no
 			}
 
 		case *operatorservice.CreateNexusEndpointRequest:
@@ -1335,6 +1397,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1349,6 +1412,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1363,6 +1427,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1377,6 +1442,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1391,6 +1457,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1405,6 +1472,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1426,6 +1494,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1447,6 +1516,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1469,6 +1539,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1484,6 +1555,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1498,6 +1570,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1519,6 +1592,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1534,14 +1608,19 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if err := visitPayloads(
-				ctx,
-				options,
-				o,
-				o.GetDetails(),
-				o.GetSummary(),
-			); err != nil {
-				return err
+			if o.Details != nil {
+				no, err := visitPayload(ctx, options, o, o.Details)
+				if err != nil {
+					return err
+				}
+				o.Details = no
+			}
+			if o.Summary != nil {
+				no, err := visitPayload(ctx, options, o, o.Summary)
+				if err != nil {
+					return err
+				}
+				o.Summary = no
 			}
 
 		case *update.Input:
@@ -1549,6 +1628,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1564,6 +1644,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1579,6 +1660,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1600,6 +1682,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1614,6 +1697,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1632,6 +1716,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1653,6 +1738,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1675,6 +1761,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1690,6 +1777,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1711,6 +1799,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1726,6 +1815,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1747,6 +1837,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1761,6 +1852,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1777,6 +1869,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1791,6 +1884,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1807,6 +1901,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1825,6 +1920,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1846,6 +1942,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1861,6 +1958,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1882,6 +1980,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1897,6 +1996,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1911,6 +2011,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1925,6 +2026,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1939,6 +2041,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1953,6 +2056,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1967,6 +2071,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1981,6 +2086,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -1995,6 +2101,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2009,6 +2116,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2030,6 +2138,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2046,6 +2155,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2060,6 +2170,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2074,6 +2185,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2091,6 +2203,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2105,6 +2218,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2119,6 +2233,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2133,6 +2248,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2147,6 +2263,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2161,6 +2278,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2175,6 +2293,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2189,6 +2308,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2203,6 +2323,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2218,6 +2339,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2232,6 +2354,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2247,6 +2370,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2261,6 +2385,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2275,6 +2400,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2290,6 +2416,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2306,6 +2433,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2321,6 +2449,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2336,6 +2465,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2350,6 +2480,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2364,6 +2495,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2379,6 +2511,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2398,6 +2531,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2413,6 +2547,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2428,6 +2563,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2448,6 +2584,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2462,6 +2599,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2476,6 +2614,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2491,6 +2630,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
@@ -2505,6 +2645,7 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
+
 			if err := visitPayloads(
 				ctx,
 				options,
