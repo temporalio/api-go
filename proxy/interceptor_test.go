@@ -120,6 +120,27 @@ func TestVisitPayloads(t *testing.T) {
 		},
 	)
 	require.NoError(err)
+
+	msg := &history.HistoryEvent{
+		Attributes: &history.HistoryEvent_NexusOperationScheduledEventAttributes{
+			NexusOperationScheduledEventAttributes: &history.NexusOperationScheduledEventAttributes{
+				Input: inputPayload(),
+			},
+		},
+	}
+	err = VisitPayloads(
+		context.Background(),
+		msg,
+		VisitPayloadsOptions{
+			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				require.True(vpc.SinglePayloadRequired)
+				require.Equal([]byte("test"), p[0].Data)
+				return []*common.Payload{{Data: []byte("visited")}}, nil
+			},
+		},
+	)
+	require.Equal([]byte("visited"), msg.GetNexusOperationScheduledEventAttributes().Input.Data)
+	require.NoError(err)
 }
 
 func TestVisitPayloads_NestedParent(t *testing.T) {
