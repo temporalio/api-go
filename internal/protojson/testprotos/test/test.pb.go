@@ -11,14 +11,15 @@
 package test
 
 import (
+	reflect "reflect"
+	sync "sync"
+	unsafe "unsafe"
+
 	enums "go.temporal.io/api/internal/protojson/testprotos/enums"
 	weak1 "go.temporal.io/api/internal/protojson/testprotos/test/weak1"
 	weak2 "go.temporal.io/api/internal/protojson/testprotos/test/weak2"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
-	unsafe "unsafe"
 )
 
 const (
