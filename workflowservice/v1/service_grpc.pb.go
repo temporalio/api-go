@@ -116,6 +116,7 @@ const (
 	WorkflowService_PauseActivityById_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/PauseActivityById"
 	WorkflowService_UnpauseActivityById_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivityById"
 	WorkflowService_ResetActivityById_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/ResetActivityById"
+	WorkflowService_ManageActivity_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/ManageActivity"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -613,6 +614,28 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	ResetActivityById(ctx context.Context, in *ResetActivityByIdRequest, opts ...grpc.CallOption) (*ResetActivityByIdResponse, error)
+	// ManageActivity apply reset/pause/unpause/update operations to an activity specified by its ID and/or type.
+	// Either activity id or activity type must be provided.
+	// Supported operations:
+	// 1. Reset operation. Resets the activity to its initial state.
+	// Resetting the activity. This operation will reset the number of attempts.
+	// If activity is paused - activity will be unpaused bt default (see 'keep_paused' flag).
+	// If activity is currently waiting for retry - it will be scheduled immediately.
+	// Flags:
+	// 'reset_heartbeats' indicates that activity should reset heartbeat details.
+	// 'keep_paused'- prevents activity from being unpaused.
+	// 2. Pause operation. Pauses the activity. If activity was already paused it is no-op.
+	// 3. Unpause operation. Unpauses the activity. If activity was not paused this will be a no-op.
+	// If activity was waiting for retry - it will be scheduled immediately.
+	// Unpause operation supports the following flags:
+	// * jitter - if set, the activity will start at a random time within the specified jitter duration.
+	// 4. Update operation - updates the activity options.
+	// for details see UnpauseActivityById.
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
+	ManageActivity(ctx context.Context, in *ManageActivityRequest, opts ...grpc.CallOption) (*ManageActivityResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1363,6 +1386,16 @@ func (c *workflowServiceClient) ResetActivityById(ctx context.Context, in *Reset
 	return out, nil
 }
 
+func (c *workflowServiceClient) ManageActivity(ctx context.Context, in *ManageActivityRequest, opts ...grpc.CallOption) (*ManageActivityResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ManageActivityResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ManageActivity_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -1858,6 +1891,28 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	ResetActivityById(context.Context, *ResetActivityByIdRequest) (*ResetActivityByIdResponse, error)
+	// ManageActivity apply reset/pause/unpause/update operations to an activity specified by its ID and/or type.
+	// Either activity id or activity type must be provided.
+	// Supported operations:
+	// 1. Reset operation. Resets the activity to its initial state.
+	// Resetting the activity. This operation will reset the number of attempts.
+	// If activity is paused - activity will be unpaused bt default (see 'keep_paused' flag).
+	// If activity is currently waiting for retry - it will be scheduled immediately.
+	// Flags:
+	// 'reset_heartbeats' indicates that activity should reset heartbeat details.
+	// 'keep_paused'- prevents activity from being unpaused.
+	// 2. Pause operation. Pauses the activity. If activity was already paused it is no-op.
+	// 3. Unpause operation. Unpauses the activity. If activity was not paused this will be a no-op.
+	// If activity was waiting for retry - it will be scheduled immediately.
+	// Unpause operation supports the following flags:
+	// * jitter - if set, the activity will start at a random time within the specified jitter duration.
+	// 4. Update operation - updates the activity options.
+	// for details see UnpauseActivityById.
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
+	ManageActivity(context.Context, *ManageActivityRequest) (*ManageActivityResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2089,6 +2144,9 @@ func (UnimplementedWorkflowServiceServer) UnpauseActivityById(context.Context, *
 }
 func (UnimplementedWorkflowServiceServer) ResetActivityById(context.Context, *ResetActivityByIdRequest) (*ResetActivityByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetActivityById not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ManageActivity(context.Context, *ManageActivityRequest) (*ManageActivityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ManageActivity not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -3443,6 +3501,24 @@ func _WorkflowService_ResetActivityById_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_ManageActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ManageActivityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ManageActivity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ManageActivity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ManageActivity(ctx, req.(*ManageActivityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -3745,6 +3821,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResetActivityById",
 			Handler:    _WorkflowService_ResetActivityById_Handler,
+		},
+		{
+			MethodName: "ManageActivity",
+			Handler:    _WorkflowService_ManageActivity_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -182,6 +182,10 @@ func (s *workflowServiceProxyServer) ListWorkflowExecutions(ctx context.Context,
 	return s.client.ListWorkflowExecutions(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) ManageActivity(ctx context.Context, in0 *workflowservice.ManageActivityRequest) (*workflowservice.ManageActivityResponse, error) {
+	return s.client.ManageActivity(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) PatchSchedule(ctx context.Context, in0 *workflowservice.PatchScheduleRequest) (*workflowservice.PatchScheduleResponse, error) {
 	return s.client.PatchSchedule(s.reqCtx(ctx), in0)
 }
