@@ -294,8 +294,12 @@ func (s *workflowServiceProxyServer) SetCurrentDeployment(ctx context.Context, i
 	return s.client.SetCurrentDeployment(s.reqCtx(ctx), in0)
 }
 
-func (s *workflowServiceProxyServer) SetCurrentDeploymentVersion(ctx context.Context, in0 *workflowservice.SetCurrentDeploymentVersionRequest) (*workflowservice.SetCurrentDeploymentVersionResponse, error) {
-	return s.client.SetCurrentDeploymentVersion(s.reqCtx(ctx), in0)
+func (s *workflowServiceProxyServer) SetWorkerDeploymentCurrentVersion(ctx context.Context, in0 *workflowservice.SetWorkerDeploymentCurrentVersionRequest) (*workflowservice.SetWorkerDeploymentCurrentVersionResponse, error) {
+	return s.client.SetWorkerDeploymentCurrentVersion(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) SetWorkerDeploymentRampingVersion(ctx context.Context, in0 *workflowservice.SetWorkerDeploymentRampingVersionRequest) (*workflowservice.SetWorkerDeploymentRampingVersionResponse, error) {
+	return s.client.SetWorkerDeploymentRampingVersion(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) ShutdownWorker(ctx context.Context, in0 *workflowservice.ShutdownWorkerRequest) (*workflowservice.ShutdownWorkerResponse, error) {

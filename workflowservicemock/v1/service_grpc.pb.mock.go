@@ -1258,24 +1258,44 @@ func (mr *MockWorkflowServiceClientMockRecorder) SetCurrentDeployment(ctx, in in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentDeployment", reflect.TypeOf((*MockWorkflowServiceClient)(nil).SetCurrentDeployment), varargs...)
 }
 
-// SetCurrentDeploymentVersion mocks base method.
-func (m *MockWorkflowServiceClient) SetCurrentDeploymentVersion(ctx context.Context, in *workflowservice.SetCurrentDeploymentVersionRequest, opts ...grpc.CallOption) (*workflowservice.SetCurrentDeploymentVersionResponse, error) {
+// SetWorkerDeploymentCurrentVersion mocks base method.
+func (m *MockWorkflowServiceClient) SetWorkerDeploymentCurrentVersion(ctx context.Context, in *workflowservice.SetWorkerDeploymentCurrentVersionRequest, opts ...grpc.CallOption) (*workflowservice.SetWorkerDeploymentCurrentVersionResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "SetCurrentDeploymentVersion", varargs...)
-	ret0, _ := ret[0].(*workflowservice.SetCurrentDeploymentVersionResponse)
+	ret := m.ctrl.Call(m, "SetWorkerDeploymentCurrentVersion", varargs...)
+	ret0, _ := ret[0].(*workflowservice.SetWorkerDeploymentCurrentVersionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SetCurrentDeploymentVersion indicates an expected call of SetCurrentDeploymentVersion.
-func (mr *MockWorkflowServiceClientMockRecorder) SetCurrentDeploymentVersion(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// SetWorkerDeploymentCurrentVersion indicates an expected call of SetWorkerDeploymentCurrentVersion.
+func (mr *MockWorkflowServiceClientMockRecorder) SetWorkerDeploymentCurrentVersion(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentDeploymentVersion", reflect.TypeOf((*MockWorkflowServiceClient)(nil).SetCurrentDeploymentVersion), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetWorkerDeploymentCurrentVersion", reflect.TypeOf((*MockWorkflowServiceClient)(nil).SetWorkerDeploymentCurrentVersion), varargs...)
+}
+
+// SetWorkerDeploymentRampingVersion mocks base method.
+func (m *MockWorkflowServiceClient) SetWorkerDeploymentRampingVersion(ctx context.Context, in *workflowservice.SetWorkerDeploymentRampingVersionRequest, opts ...grpc.CallOption) (*workflowservice.SetWorkerDeploymentRampingVersionResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "SetWorkerDeploymentRampingVersion", varargs...)
+	ret0, _ := ret[0].(*workflowservice.SetWorkerDeploymentRampingVersionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SetWorkerDeploymentRampingVersion indicates an expected call of SetWorkerDeploymentRampingVersion.
+func (mr *MockWorkflowServiceClientMockRecorder) SetWorkerDeploymentRampingVersion(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetWorkerDeploymentRampingVersion", reflect.TypeOf((*MockWorkflowServiceClient)(nil).SetWorkerDeploymentRampingVersion), varargs...)
 }
 
 // ShutdownWorker mocks base method.
@@ -2504,19 +2524,34 @@ func (mr *MockWorkflowServiceServerMockRecorder) SetCurrentDeployment(arg0, arg1
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentDeployment", reflect.TypeOf((*MockWorkflowServiceServer)(nil).SetCurrentDeployment), arg0, arg1)
 }
 
-// SetCurrentDeploymentVersion mocks base method.
-func (m *MockWorkflowServiceServer) SetCurrentDeploymentVersion(arg0 context.Context, arg1 *workflowservice.SetCurrentDeploymentVersionRequest) (*workflowservice.SetCurrentDeploymentVersionResponse, error) {
+// SetWorkerDeploymentCurrentVersion mocks base method.
+func (m *MockWorkflowServiceServer) SetWorkerDeploymentCurrentVersion(arg0 context.Context, arg1 *workflowservice.SetWorkerDeploymentCurrentVersionRequest) (*workflowservice.SetWorkerDeploymentCurrentVersionResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SetCurrentDeploymentVersion", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.SetCurrentDeploymentVersionResponse)
+	ret := m.ctrl.Call(m, "SetWorkerDeploymentCurrentVersion", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.SetWorkerDeploymentCurrentVersionResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SetCurrentDeploymentVersion indicates an expected call of SetCurrentDeploymentVersion.
-func (mr *MockWorkflowServiceServerMockRecorder) SetCurrentDeploymentVersion(arg0, arg1 interface{}) *gomock.Call {
+// SetWorkerDeploymentCurrentVersion indicates an expected call of SetWorkerDeploymentCurrentVersion.
+func (mr *MockWorkflowServiceServerMockRecorder) SetWorkerDeploymentCurrentVersion(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetCurrentDeploymentVersion", reflect.TypeOf((*MockWorkflowServiceServer)(nil).SetCurrentDeploymentVersion), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetWorkerDeploymentCurrentVersion", reflect.TypeOf((*MockWorkflowServiceServer)(nil).SetWorkerDeploymentCurrentVersion), arg0, arg1)
+}
+
+// SetWorkerDeploymentRampingVersion mocks base method.
+func (m *MockWorkflowServiceServer) SetWorkerDeploymentRampingVersion(arg0 context.Context, arg1 *workflowservice.SetWorkerDeploymentRampingVersionRequest) (*workflowservice.SetWorkerDeploymentRampingVersionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetWorkerDeploymentRampingVersion", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.SetWorkerDeploymentRampingVersionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SetWorkerDeploymentRampingVersion indicates an expected call of SetWorkerDeploymentRampingVersion.
+func (mr *MockWorkflowServiceServerMockRecorder) SetWorkerDeploymentRampingVersion(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetWorkerDeploymentRampingVersion", reflect.TypeOf((*MockWorkflowServiceServer)(nil).SetWorkerDeploymentRampingVersion), arg0, arg1)
 }
 
 // ShutdownWorker mocks base method.

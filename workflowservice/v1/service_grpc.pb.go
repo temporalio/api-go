@@ -103,7 +103,8 @@ const (
 	WorkflowService_GetDeploymentReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetDeploymentReachability"
 	WorkflowService_GetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/GetCurrentDeployment"
 	WorkflowService_SetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeployment"
-	WorkflowService_SetCurrentDeploymentVersion_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeploymentVersion"
+	WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName  = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentCurrentVersion"
+	WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName  = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentRampingVersion"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
 	WorkflowService_StartBatchOperation_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
@@ -531,8 +532,12 @@ type WorkflowServiceClient interface {
 	// Experimental. This API might significantly change or be removed in a future release.
 	// [cleanup-wv-pre-release]
 	SetCurrentDeployment(ctx context.Context, in *SetCurrentDeploymentRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentResponse, error)
-	// Sets a deployment version as the current version for its deployment.
-	SetCurrentDeploymentVersion(ctx context.Context, in *SetCurrentDeploymentVersionRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentVersionResponse, error)
+	// Set/unset the Current Version of a Worker Deployment. Automatically unsets the Ramping
+	// Version if it is the Version being set as Current.
+	SetWorkerDeploymentCurrentVersion(ctx context.Context, in *SetWorkerDeploymentCurrentVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentCurrentVersionResponse, error)
+	// Set/unset the Ramping Version of a Worker Deployment and its ramp percentage. Can be used for
+	// gradual ramp to unversioned workers too.
+	SetWorkerDeploymentRampingVersion(ctx context.Context, in *SetWorkerDeploymentRampingVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentRampingVersionResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -1244,10 +1249,20 @@ func (c *workflowServiceClient) SetCurrentDeployment(ctx context.Context, in *Se
 	return out, nil
 }
 
-func (c *workflowServiceClient) SetCurrentDeploymentVersion(ctx context.Context, in *SetCurrentDeploymentVersionRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentVersionResponse, error) {
+func (c *workflowServiceClient) SetWorkerDeploymentCurrentVersion(ctx context.Context, in *SetWorkerDeploymentCurrentVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentCurrentVersionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SetCurrentDeploymentVersionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_SetCurrentDeploymentVersion_FullMethodName, in, out, cOpts...)
+	out := new(SetWorkerDeploymentCurrentVersionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) SetWorkerDeploymentRampingVersion(ctx context.Context, in *SetWorkerDeploymentRampingVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentRampingVersionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetWorkerDeploymentRampingVersionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1805,8 +1820,12 @@ type WorkflowServiceServer interface {
 	// Experimental. This API might significantly change or be removed in a future release.
 	// [cleanup-wv-pre-release]
 	SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error)
-	// Sets a deployment version as the current version for its deployment.
-	SetCurrentDeploymentVersion(context.Context, *SetCurrentDeploymentVersionRequest) (*SetCurrentDeploymentVersionResponse, error)
+	// Set/unset the Current Version of a Worker Deployment. Automatically unsets the Ramping
+	// Version if it is the Version being set as Current.
+	SetWorkerDeploymentCurrentVersion(context.Context, *SetWorkerDeploymentCurrentVersionRequest) (*SetWorkerDeploymentCurrentVersionResponse, error)
+	// Set/unset the Ramping Version of a Worker Deployment and its ramp percentage. Can be used for
+	// gradual ramp to unversioned workers too.
+	SetWorkerDeploymentRampingVersion(context.Context, *SetWorkerDeploymentRampingVersionRequest) (*SetWorkerDeploymentRampingVersionResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -2091,8 +2110,11 @@ func (UnimplementedWorkflowServiceServer) GetCurrentDeployment(context.Context, 
 func (UnimplementedWorkflowServiceServer) SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetCurrentDeployment not implemented")
 }
-func (UnimplementedWorkflowServiceServer) SetCurrentDeploymentVersion(context.Context, *SetCurrentDeploymentVersionRequest) (*SetCurrentDeploymentVersionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SetCurrentDeploymentVersion not implemented")
+func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentCurrentVersion(context.Context, *SetWorkerDeploymentCurrentVersionRequest) (*SetWorkerDeploymentCurrentVersionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentCurrentVersion not implemented")
+}
+func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentRampingVersion(context.Context, *SetWorkerDeploymentRampingVersionRequest) (*SetWorkerDeploymentRampingVersionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentRampingVersion not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
@@ -3255,20 +3277,38 @@ func _WorkflowService_SetCurrentDeployment_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_SetCurrentDeploymentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SetCurrentDeploymentVersionRequest)
+func _WorkflowService_SetWorkerDeploymentCurrentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetWorkerDeploymentCurrentVersionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).SetCurrentDeploymentVersion(ctx, in)
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentCurrentVersion(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_SetCurrentDeploymentVersion_FullMethodName,
+		FullMethod: WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).SetCurrentDeploymentVersion(ctx, req.(*SetCurrentDeploymentVersionRequest))
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentCurrentVersion(ctx, req.(*SetWorkerDeploymentCurrentVersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_SetWorkerDeploymentRampingVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetWorkerDeploymentRampingVersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentRampingVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentRampingVersion(ctx, req.(*SetWorkerDeploymentRampingVersionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3777,8 +3817,12 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_SetCurrentDeployment_Handler,
 		},
 		{
-			MethodName: "SetCurrentDeploymentVersion",
-			Handler:    _WorkflowService_SetCurrentDeploymentVersion_Handler,
+			MethodName: "SetWorkerDeploymentCurrentVersion",
+			Handler:    _WorkflowService_SetWorkerDeploymentCurrentVersion_Handler,
+		},
+		{
+			MethodName: "SetWorkerDeploymentRampingVersion",
+			Handler:    _WorkflowService_SetWorkerDeploymentRampingVersion_Handler,
 		},
 		{
 			MethodName: "UpdateWorkflowExecution",
