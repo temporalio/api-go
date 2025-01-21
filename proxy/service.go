@@ -94,6 +94,10 @@ func (s *workflowServiceProxyServer) DescribeTaskQueue(ctx context.Context, in0 
 	return s.client.DescribeTaskQueue(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) DescribeWorkerDeployment(ctx context.Context, in0 *workflowservice.DescribeWorkerDeploymentRequest) (*workflowservice.DescribeWorkerDeploymentResponse, error) {
+	return s.client.DescribeWorkerDeployment(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) DescribeWorkerDeploymentVersion(ctx context.Context, in0 *workflowservice.DescribeWorkerDeploymentVersionRequest) (*workflowservice.DescribeWorkerDeploymentVersionResponse, error) {
 	return s.client.DescribeWorkerDeploymentVersion(s.reqCtx(ctx), in0)
 }

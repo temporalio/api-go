@@ -104,6 +104,7 @@ const (
 	WorkflowService_GetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/GetCurrentDeployment"
 	WorkflowService_SetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeployment"
 	WorkflowService_SetCurrentDeploymentVersion_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeploymentVersion"
+	WorkflowService_DescribeWorkerDeployment_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeployment"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
 	WorkflowService_StartBatchOperation_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
@@ -533,6 +534,7 @@ type WorkflowServiceClient interface {
 	SetCurrentDeployment(ctx context.Context, in *SetCurrentDeploymentRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentResponse, error)
 	// Sets a deployment version as the current version for its deployment.
 	SetCurrentDeploymentVersion(ctx context.Context, in *SetCurrentDeploymentVersionRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentVersionResponse, error)
+	DescribeWorkerDeployment(ctx context.Context, in *DescribeWorkerDeploymentRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -1254,6 +1256,16 @@ func (c *workflowServiceClient) SetCurrentDeploymentVersion(ctx context.Context,
 	return out, nil
 }
 
+func (c *workflowServiceClient) DescribeWorkerDeployment(ctx context.Context, in *DescribeWorkerDeploymentRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeWorkerDeploymentResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkerDeployment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkflowExecutionResponse)
@@ -1807,6 +1819,7 @@ type WorkflowServiceServer interface {
 	SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error)
 	// Sets a deployment version as the current version for its deployment.
 	SetCurrentDeploymentVersion(context.Context, *SetCurrentDeploymentVersionRequest) (*SetCurrentDeploymentVersionResponse, error)
+	DescribeWorkerDeployment(context.Context, *DescribeWorkerDeploymentRequest) (*DescribeWorkerDeploymentResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -2093,6 +2106,9 @@ func (UnimplementedWorkflowServiceServer) SetCurrentDeployment(context.Context, 
 }
 func (UnimplementedWorkflowServiceServer) SetCurrentDeploymentVersion(context.Context, *SetCurrentDeploymentVersionRequest) (*SetCurrentDeploymentVersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetCurrentDeploymentVersion not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DescribeWorkerDeployment(context.Context, *DescribeWorkerDeploymentRequest) (*DescribeWorkerDeploymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkerDeployment not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
@@ -3273,6 +3289,24 @@ func _WorkflowService_SetCurrentDeploymentVersion_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_DescribeWorkerDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeWorkerDeploymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DescribeWorkerDeployment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DescribeWorkerDeployment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DescribeWorkerDeployment(ctx, req.(*DescribeWorkerDeploymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_UpdateWorkflowExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateWorkflowExecutionRequest)
 	if err := dec(in); err != nil {
@@ -3779,6 +3813,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetCurrentDeploymentVersion",
 			Handler:    _WorkflowService_SetCurrentDeploymentVersion_Handler,
+		},
+		{
+			MethodName: "DescribeWorkerDeployment",
+			Handler:    _WorkflowService_DescribeWorkerDeployment_Handler,
 		},
 		{
 			MethodName: "UpdateWorkflowExecution",
