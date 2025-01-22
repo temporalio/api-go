@@ -51,11 +51,12 @@ const (
 )
 
 type NotFoundFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	CurrentCluster string                 `protobuf:"bytes,1,opt,name=current_cluster,json=currentCluster,proto3" json:"current_cluster,omitempty"`
-	ActiveCluster  string                 `protobuf:"bytes,2,opt,name=active_cluster,json=activeCluster,proto3" json:"active_cluster,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CurrentCluster string `protobuf:"bytes,1,opt,name=current_cluster,json=currentCluster,proto3" json:"current_cluster,omitempty"`
+	ActiveCluster  string `protobuf:"bytes,2,opt,name=active_cluster,json=activeCluster,proto3" json:"active_cluster,omitempty"`
 }
 
 func (x *NotFoundFailure) Reset() {
@@ -103,11 +104,12 @@ func (x *NotFoundFailure) GetActiveCluster() string {
 }
 
 type WorkflowExecutionAlreadyStartedFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	StartRequestId string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
-	RunId          string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StartRequestId string `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
+	RunId          string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 }
 
 func (x *WorkflowExecutionAlreadyStartedFailure) Reset() {
@@ -155,12 +157,13 @@ func (x *WorkflowExecutionAlreadyStartedFailure) GetRunId() string {
 }
 
 type NamespaceNotActiveFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Namespace      string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	CurrentCluster string                 `protobuf:"bytes,2,opt,name=current_cluster,json=currentCluster,proto3" json:"current_cluster,omitempty"`
-	ActiveCluster  string                 `protobuf:"bytes,3,opt,name=active_cluster,json=activeCluster,proto3" json:"active_cluster,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace      string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	CurrentCluster string `protobuf:"bytes,2,opt,name=current_cluster,json=currentCluster,proto3" json:"current_cluster,omitempty"`
+	ActiveCluster  string `protobuf:"bytes,3,opt,name=active_cluster,json=activeCluster,proto3" json:"active_cluster,omitempty"`
 }
 
 func (x *NamespaceNotActiveFailure) Reset() {
@@ -218,10 +221,11 @@ func (x *NamespaceNotActiveFailure) GetActiveCluster() string {
 // example, when a namespace is in the process of failing over between clusters.
 // This is a transient error that should be automatically retried by clients.
 type NamespaceUnavailableFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (x *NamespaceUnavailableFailure) Reset() {
@@ -262,15 +266,16 @@ func (x *NamespaceUnavailableFailure) GetNamespace() string {
 }
 
 type NamespaceInvalidStateFailure struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Current state of the requested namespace.
 	State v1.NamespaceState `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
 	// Allowed namespace states for requested operation.
 	// For example NAMESPACE_STATE_DELETED is forbidden for most operations but allowed for DescribeNamespace.
 	AllowedStates []v1.NamespaceState `protobuf:"varint,3,rep,packed,name=allowed_states,json=allowedStates,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"allowed_states,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NamespaceInvalidStateFailure) Reset() {
@@ -325,10 +330,11 @@ func (x *NamespaceInvalidStateFailure) GetAllowedStates() []v1.NamespaceState {
 }
 
 type NamespaceNotFoundFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (x *NamespaceNotFoundFailure) Reset() {
@@ -369,9 +375,9 @@ func (x *NamespaceNotFoundFailure) GetNamespace() string {
 }
 
 type NamespaceAlreadyExistsFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *NamespaceAlreadyExistsFailure) Reset() {
@@ -405,12 +411,13 @@ func (*NamespaceAlreadyExistsFailure) Descriptor() ([]byte, []int) {
 }
 
 type ClientVersionNotSupportedFailure struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	ClientVersion     string                 `protobuf:"bytes,1,opt,name=client_version,json=clientVersion,proto3" json:"client_version,omitempty"`
-	ClientName        string                 `protobuf:"bytes,2,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
-	SupportedVersions string                 `protobuf:"bytes,3,opt,name=supported_versions,json=supportedVersions,proto3" json:"supported_versions,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ClientVersion     string `protobuf:"bytes,1,opt,name=client_version,json=clientVersion,proto3" json:"client_version,omitempty"`
+	ClientName        string `protobuf:"bytes,2,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
+	SupportedVersions string `protobuf:"bytes,3,opt,name=supported_versions,json=supportedVersions,proto3" json:"supported_versions,omitempty"`
 }
 
 func (x *ClientVersionNotSupportedFailure) Reset() {
@@ -465,11 +472,12 @@ func (x *ClientVersionNotSupportedFailure) GetSupportedVersions() string {
 }
 
 type ServerVersionNotSupportedFailure struct {
-	state                         protoimpl.MessageState `protogen:"open.v1"`
-	ServerVersion                 string                 `protobuf:"bytes,1,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
-	ClientSupportedServerVersions string                 `protobuf:"bytes,2,opt,name=client_supported_server_versions,json=clientSupportedServerVersions,proto3" json:"client_supported_server_versions,omitempty"`
-	unknownFields                 protoimpl.UnknownFields
-	sizeCache                     protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ServerVersion                 string `protobuf:"bytes,1,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
+	ClientSupportedServerVersions string `protobuf:"bytes,2,opt,name=client_supported_server_versions,json=clientSupportedServerVersions,proto3" json:"client_supported_server_versions,omitempty"`
 }
 
 func (x *ServerVersionNotSupportedFailure) Reset() {
@@ -517,9 +525,9 @@ func (x *ServerVersionNotSupportedFailure) GetClientSupportedServerVersions() st
 }
 
 type CancellationAlreadyRequestedFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *CancellationAlreadyRequestedFailure) Reset() {
@@ -553,13 +561,14 @@ func (*CancellationAlreadyRequestedFailure) Descriptor() ([]byte, []int) {
 }
 
 type QueryFailedFailure struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The full reason for this query failure. May not be available if the response is generated by an old
 	// SDK. This field can be encoded by the SDK's failure converter to support E2E encryption of messages and stack
 	// traces.
-	Failure       *v11.Failure `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Failure *v11.Failure `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *QueryFailedFailure) Reset() {
@@ -600,10 +609,11 @@ func (x *QueryFailedFailure) GetFailure() *v11.Failure {
 }
 
 type PermissionDeniedFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Reason        string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Reason string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
 }
 
 func (x *PermissionDeniedFailure) Reset() {
@@ -644,11 +654,12 @@ func (x *PermissionDeniedFailure) GetReason() string {
 }
 
 type ResourceExhaustedFailure struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
-	Cause         v1.ResourceExhaustedCause `protobuf:"varint,1,opt,name=cause,proto3,enum=temporal.api.enums.v1.ResourceExhaustedCause" json:"cause,omitempty"`
-	Scope         v1.ResourceExhaustedScope `protobuf:"varint,2,opt,name=scope,proto3,enum=temporal.api.enums.v1.ResourceExhaustedScope" json:"scope,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Cause v1.ResourceExhaustedCause `protobuf:"varint,1,opt,name=cause,proto3,enum=temporal.api.enums.v1.ResourceExhaustedCause" json:"cause,omitempty"`
+	Scope v1.ResourceExhaustedScope `protobuf:"varint,2,opt,name=scope,proto3,enum=temporal.api.enums.v1.ResourceExhaustedScope" json:"scope,omitempty"`
 }
 
 func (x *ResourceExhaustedFailure) Reset() {
@@ -696,14 +707,15 @@ func (x *ResourceExhaustedFailure) GetScope() v1.ResourceExhaustedScope {
 }
 
 type SystemWorkflowFailure struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// WorkflowId and RunId of the Temporal system workflow performing the underlying operation.
 	// Looking up the info of the system workflow run may help identify the issue causing the failure.
 	WorkflowExecution *v12.WorkflowExecution `protobuf:"bytes,1,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// Serialized error returned by the system workflow performing the underlying operation.
 	WorkflowError string `protobuf:"bytes,2,opt,name=workflow_error,json=workflowError,proto3" json:"workflow_error,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SystemWorkflowFailure) Reset() {
@@ -751,9 +763,9 @@ func (x *SystemWorkflowFailure) GetWorkflowError() string {
 }
 
 type WorkflowNotReadyFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *WorkflowNotReadyFailure) Reset() {
@@ -787,11 +799,12 @@ func (*WorkflowNotReadyFailure) Descriptor() ([]byte, []int) {
 }
 
 type NewerBuildExistsFailure struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The current default compatible build ID which will receive tasks
 	DefaultBuildId string `protobuf:"bytes,1,opt,name=default_build_id,json=defaultBuildId,proto3" json:"default_build_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *NewerBuildExistsFailure) Reset() {
@@ -832,13 +845,14 @@ func (x *NewerBuildExistsFailure) GetDefaultBuildId() string {
 }
 
 type MultiOperationExecutionFailure struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// One status for each requested operation from the failed MultiOperation. The failed
 	// operation(s) have the same error details as if it was executed separately. All other operations have the
 	// status code `Aborted` and `MultiOperationExecutionAborted` is added to the details field.
-	Statuses      []*MultiOperationExecutionFailure_OperationStatus `protobuf:"bytes,1,rep,name=statuses,proto3" json:"statuses,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Statuses []*MultiOperationExecutionFailure_OperationStatus `protobuf:"bytes,1,rep,name=statuses,proto3" json:"statuses,omitempty"`
 }
 
 func (x *MultiOperationExecutionFailure) Reset() {
@@ -885,12 +899,13 @@ func (x *MultiOperationExecutionFailure) GetStatuses() []*MultiOperationExecutio
 //
 //	aip.dev/not-precedent: details are meant to hold arbitrary payloads. --)
 type MultiOperationExecutionFailure_OperationStatus struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	Details       []*anypb.Any           `protobuf:"bytes,3,rep,name=details,proto3" json:"details,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code    int32        `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	Message string       `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Details []*anypb.Any `protobuf:"bytes,3,rep,name=details,proto3" json:"details,omitempty"`
 }
 
 func (x *MultiOperationExecutionFailure_OperationStatus) Reset() {

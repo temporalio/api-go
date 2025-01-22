@@ -223,7 +223,10 @@ func (GroupByKey) EnumDescriptor() ([]byte, []int) {
 }
 
 type Summary struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Start of UTC day for now (inclusive)
 	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// End of UTC day for now (exclusive)
@@ -232,9 +235,7 @@ type Summary struct {
 	RecordGroups []*RecordGroup `protobuf:"bytes,3,rep,name=record_groups,json=recordGroups,proto3" json:"record_groups,omitempty"`
 	// True if data for given time window is not fully available yet (e.g. delays)
 	// When true, records for the given time range could still be added/updated in the future (until false)
-	Incomplete    bool `protobuf:"varint,4,opt,name=incomplete,proto3" json:"incomplete,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Incomplete bool `protobuf:"varint,4,opt,name=incomplete,proto3" json:"incomplete,omitempty"`
 }
 
 func (x *Summary) Reset() {
@@ -296,12 +297,13 @@ func (x *Summary) GetIncomplete() bool {
 }
 
 type RecordGroup struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// GroupBy keys and their values for this record group. Multiple fields are combined with logical AND.
-	GroupBys      []*GroupBy `protobuf:"bytes,1,rep,name=group_bys,json=groupBys,proto3" json:"group_bys,omitempty"`
-	Records       []*Record  `protobuf:"bytes,2,rep,name=records,proto3" json:"records,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// GroupBy keys and their values for this record group. Multiple fields are combined with logical AND.
+	GroupBys []*GroupBy `protobuf:"bytes,1,rep,name=group_bys,json=groupBys,proto3" json:"group_bys,omitempty"`
+	Records  []*Record  `protobuf:"bytes,2,rep,name=records,proto3" json:"records,omitempty"`
 }
 
 func (x *RecordGroup) Reset() {
@@ -349,11 +351,12 @@ func (x *RecordGroup) GetRecords() []*Record {
 }
 
 type GroupBy struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Key           GroupByKey             `protobuf:"varint,1,opt,name=key,proto3,enum=temporal.api.cloud.usage.v1.GroupByKey" json:"key,omitempty"`
-	Value         string                 `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Key   GroupByKey `protobuf:"varint,1,opt,name=key,proto3,enum=temporal.api.cloud.usage.v1.GroupByKey" json:"key,omitempty"`
+	Value string     `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (x *GroupBy) Reset() {
@@ -401,12 +404,13 @@ func (x *GroupBy) GetValue() string {
 }
 
 type Record struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          RecordType             `protobuf:"varint,1,opt,name=type,proto3,enum=temporal.api.cloud.usage.v1.RecordType" json:"type,omitempty"`
-	Unit          RecordUnit             `protobuf:"varint,2,opt,name=unit,proto3,enum=temporal.api.cloud.usage.v1.RecordUnit" json:"unit,omitempty"`
-	Value         float64                `protobuf:"fixed64,3,opt,name=value,proto3" json:"value,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Type  RecordType `protobuf:"varint,1,opt,name=type,proto3,enum=temporal.api.cloud.usage.v1.RecordType" json:"type,omitempty"`
+	Unit  RecordUnit `protobuf:"varint,2,opt,name=unit,proto3,enum=temporal.api.cloud.usage.v1.RecordUnit" json:"unit,omitempty"`
+	Value float64    `protobuf:"fixed64,3,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (x *Record) Reset() {

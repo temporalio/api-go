@@ -51,15 +51,16 @@ const (
 
 // See https://docs.temporal.io/docs/concepts/task-queues/
 type TaskQueue struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Default: TASK_QUEUE_KIND_NORMAL.
 	Kind v1.TaskQueueKind `protobuf:"varint,2,opt,name=kind,proto3,enum=temporal.api.enums.v1.TaskQueueKind" json:"kind,omitempty"`
 	// Iff kind == TASK_QUEUE_KIND_STICKY, then this field contains the name of
 	// the normal task queue that the sticky worker is running on.
-	NormalName    string `protobuf:"bytes,3,opt,name=normal_name,json=normalName,proto3" json:"normal_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	NormalName string `protobuf:"bytes,3,opt,name=normal_name,json=normalName,proto3" json:"normal_name,omitempty"`
 }
 
 func (x *TaskQueue) Reset() {
@@ -115,11 +116,12 @@ func (x *TaskQueue) GetNormalName() string {
 
 // Only applies to activity task queues
 type TaskQueueMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Allows throttling dispatch of tasks from this queue
 	MaxTasksPerSecond *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=max_tasks_per_second,json=maxTasksPerSecond,proto3" json:"max_tasks_per_second,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *TaskQueueMetadata) Reset() {
@@ -160,7 +162,10 @@ func (x *TaskQueueMetadata) GetMaxTasksPerSecond() *wrapperspb.DoubleValue {
 }
 
 type TaskQueueVersioningInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Current Version receives all the tasks except the portion that is routed to the Ramping
 	// Version according to `ramping_version_percentage`.
 	// It is possible that Current Version is not present when user is ramping from unversioned to
@@ -177,9 +182,7 @@ type TaskQueueVersioningInfo struct {
 	// Version to unversioned workers.
 	RampingVersionPercentage float32 `protobuf:"fixed32,3,opt,name=ramping_version_percentage,json=rampingVersionPercentage,proto3" json:"ramping_version_percentage,omitempty"`
 	// Last time versioning information of this Task Queue changed.
-	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UpdateTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
 }
 
 func (x *TaskQueueVersioningInfo) Reset() {
@@ -242,16 +245,17 @@ func (x *TaskQueueVersioningInfo) GetUpdateTime() *timestamppb.Timestamp {
 
 // Used for specifying versions the caller is interested in.
 type TaskQueueVersionSelection struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Include specific Build IDs.
 	BuildIds []string `protobuf:"bytes,1,rep,name=build_ids,json=buildIds,proto3" json:"build_ids,omitempty"`
 	// Include the unversioned queue.
 	Unversioned bool `protobuf:"varint,2,opt,name=unversioned,proto3" json:"unversioned,omitempty"`
 	// Include all active versions. A version is considered active if, in the last few minutes,
 	// it has had new tasks or polls, or it has been the subject of certain task queue API calls.
-	AllActive     bool `protobuf:"varint,3,opt,name=all_active,json=allActive,proto3" json:"all_active,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	AllActive bool `protobuf:"varint,3,opt,name=all_active,json=allActive,proto3" json:"all_active,omitempty"`
 }
 
 func (x *TaskQueueVersionSelection) Reset() {
@@ -306,9 +310,12 @@ func (x *TaskQueueVersionSelection) GetAllActive() bool {
 }
 
 type TaskQueueVersionInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Task Queue info per Task Type. Key is the numerical value of the temporal.api.enums.v1.TaskQueueType enum.
-	TypesInfo map[int32]*TaskQueueTypeInfo `protobuf:"bytes,1,rep,name=types_info,json=typesInfo,proto3" json:"types_info,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	TypesInfo map[int32]*TaskQueueTypeInfo `protobuf:"bytes,1,rep,name=types_info,json=typesInfo,proto3" json:"types_info,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Task Reachability is eventually consistent; there may be a delay until it converges to the most
 	// accurate value but it is designed in a way to take the more conservative side until it converges.
 	// For example REACHABLE is more conservative than CLOSED_WORKFLOWS_ONLY.
@@ -319,8 +326,6 @@ type TaskQueueVersionInfo struct {
 	// who inherit the parent/previous workflow's Build ID but not its Task Queue. In those cases, make
 	// sure to query reachability for the parent/previous workflow's Task Queue as well.
 	TaskReachability v1.BuildIdTaskReachability `protobuf:"varint,2,opt,name=task_reachability,json=taskReachability,proto3,enum=temporal.api.enums.v1.BuildIdTaskReachability" json:"task_reachability,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *TaskQueueVersionInfo) Reset() {
@@ -368,12 +373,13 @@ func (x *TaskQueueVersionInfo) GetTaskReachability() v1.BuildIdTaskReachability 
 }
 
 type TaskQueueTypeInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Unversioned workers (with `useVersioning=false`) are reported in unversioned result even if they set a Build ID.
-	Pollers       []*PollerInfo   `protobuf:"bytes,1,rep,name=pollers,proto3" json:"pollers,omitempty"`
-	Stats         *TaskQueueStats `protobuf:"bytes,2,opt,name=stats,proto3" json:"stats,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Unversioned workers (with `useVersioning=false`) are reported in unversioned result even if they set a Build ID.
+	Pollers []*PollerInfo   `protobuf:"bytes,1,rep,name=pollers,proto3" json:"pollers,omitempty"`
+	Stats   *TaskQueueStats `protobuf:"bytes,2,opt,name=stats,proto3" json:"stats,omitempty"`
 }
 
 func (x *TaskQueueTypeInfo) Reset() {
@@ -425,7 +431,10 @@ func (x *TaskQueueTypeInfo) GetStats() *TaskQueueStats {
 // For workflow task queue type, this result is partial because tasks sent to sticky queues are not included. Read
 // comments above each metric to understand the impact of sticky queue exclusion on that metric accuracy.
 type TaskQueueStats struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The approximate number of tasks backlogged in this task queue. May count expired tasks but eventually
 	// converges to the right value. Can be relied upon for scaling decisions.
 	//
@@ -470,8 +479,6 @@ type TaskQueueStats struct {
 	//     workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
 	//     worker instance.
 	TasksDispatchRate float32 `protobuf:"fixed32,4,opt,name=tasks_dispatch_rate,json=tasksDispatchRate,proto3" json:"tasks_dispatch_rate,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *TaskQueueStats) Reset() {
@@ -534,14 +541,15 @@ func (x *TaskQueueStats) GetTasksDispatchRate() float32 {
 
 // Deprecated. Use `InternalTaskQueueStatus`. This is kept until `DescribeTaskQueue` supports legacy behavior.
 type TaskQueueStatus struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	BacklogCountHint int64                  `protobuf:"varint,1,opt,name=backlog_count_hint,json=backlogCountHint,proto3" json:"backlog_count_hint,omitempty"`
-	ReadLevel        int64                  `protobuf:"varint,2,opt,name=read_level,json=readLevel,proto3" json:"read_level,omitempty"`
-	AckLevel         int64                  `protobuf:"varint,3,opt,name=ack_level,json=ackLevel,proto3" json:"ack_level,omitempty"`
-	RatePerSecond    float64                `protobuf:"fixed64,4,opt,name=rate_per_second,json=ratePerSecond,proto3" json:"rate_per_second,omitempty"`
-	TaskIdBlock      *TaskIdBlock           `protobuf:"bytes,5,opt,name=task_id_block,json=taskIdBlock,proto3" json:"task_id_block,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	BacklogCountHint int64        `protobuf:"varint,1,opt,name=backlog_count_hint,json=backlogCountHint,proto3" json:"backlog_count_hint,omitempty"`
+	ReadLevel        int64        `protobuf:"varint,2,opt,name=read_level,json=readLevel,proto3" json:"read_level,omitempty"`
+	AckLevel         int64        `protobuf:"varint,3,opt,name=ack_level,json=ackLevel,proto3" json:"ack_level,omitempty"`
+	RatePerSecond    float64      `protobuf:"fixed64,4,opt,name=rate_per_second,json=ratePerSecond,proto3" json:"rate_per_second,omitempty"`
+	TaskIdBlock      *TaskIdBlock `protobuf:"bytes,5,opt,name=task_id_block,json=taskIdBlock,proto3" json:"task_id_block,omitempty"`
 }
 
 func (x *TaskQueueStatus) Reset() {
@@ -610,11 +618,12 @@ func (x *TaskQueueStatus) GetTaskIdBlock() *TaskIdBlock {
 }
 
 type TaskIdBlock struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	StartId       int64                  `protobuf:"varint,1,opt,name=start_id,json=startId,proto3" json:"start_id,omitempty"`
-	EndId         int64                  `protobuf:"varint,2,opt,name=end_id,json=endId,proto3" json:"end_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StartId int64 `protobuf:"varint,1,opt,name=start_id,json=startId,proto3" json:"start_id,omitempty"`
+	EndId   int64 `protobuf:"varint,2,opt,name=end_id,json=endId,proto3" json:"end_id,omitempty"`
 }
 
 func (x *TaskIdBlock) Reset() {
@@ -662,11 +671,12 @@ func (x *TaskIdBlock) GetEndId() int64 {
 }
 
 type TaskQueuePartitionMetadata struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	OwnerHostName string                 `protobuf:"bytes,2,opt,name=owner_host_name,json=ownerHostName,proto3" json:"owner_host_name,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Key           string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	OwnerHostName string `protobuf:"bytes,2,opt,name=owner_host_name,json=ownerHostName,proto3" json:"owner_host_name,omitempty"`
 }
 
 func (x *TaskQueuePartitionMetadata) Reset() {
@@ -714,7 +724,10 @@ func (x *TaskQueuePartitionMetadata) GetOwnerHostName() string {
 }
 
 type PollerInfo struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	LastAccessTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=last_access_time,json=lastAccessTime,proto3" json:"last_access_time,omitempty"`
 	Identity       string                 `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	RatePerSecond  float64                `protobuf:"fixed64,3,opt,name=rate_per_second,json=ratePerSecond,proto3" json:"rate_per_second,omitempty"`
@@ -726,8 +739,6 @@ type PollerInfo struct {
 	WorkerVersionCapabilities *v12.WorkerVersionCapabilities `protobuf:"bytes,4,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
 	// Worker deployment options that SDK sent to server.
 	DeploymentOptions *v11.WorkerDeploymentOptions `protobuf:"bytes,5,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *PollerInfo) Reset() {
@@ -797,14 +808,15 @@ func (x *PollerInfo) GetDeploymentOptions() *v11.WorkerDeploymentOptions {
 }
 
 type StickyExecutionAttributes struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	WorkerTaskQueue *TaskQueue             `protobuf:"bytes,1,opt,name=worker_task_queue,json=workerTaskQueue,proto3" json:"worker_task_queue,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WorkerTaskQueue *TaskQueue `protobuf:"bytes,1,opt,name=worker_task_queue,json=workerTaskQueue,proto3" json:"worker_task_queue,omitempty"`
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	ScheduleToStartTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=schedule_to_start_timeout,json=scheduleToStartTimeout,proto3" json:"schedule_to_start_timeout,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *StickyExecutionAttributes) Reset() {
@@ -854,11 +866,12 @@ func (x *StickyExecutionAttributes) GetScheduleToStartTimeout() *durationpb.Dura
 // Used by the worker versioning APIs, represents an unordered set of one or more versions which are
 // considered to be compatible with each other. Currently the versions are always worker build IDs.
 type CompatibleVersionSet struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// All the compatible versions, unordered, except for the last element, which is considered the set "default".
-	BuildIds      []string `protobuf:"bytes,1,rep,name=build_ids,json=buildIds,proto3" json:"build_ids,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// All the compatible versions, unordered, except for the last element, which is considered the set "default".
+	BuildIds []string `protobuf:"bytes,1,rep,name=build_ids,json=buildIds,proto3" json:"build_ids,omitempty"`
 }
 
 func (x *CompatibleVersionSet) Reset() {
@@ -900,14 +913,15 @@ func (x *CompatibleVersionSet) GetBuildIds() []string {
 
 // Reachability of tasks for a worker on a single task queue.
 type TaskQueueReachability struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	TaskQueue string                 `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TaskQueue string `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Task reachability for a worker in a single task queue.
 	// See the TaskReachability docstring for information about each enum variant.
 	// If reachability is empty, this worker is considered unreachable in this task queue.
-	Reachability  []v1.TaskReachability `protobuf:"varint,2,rep,packed,name=reachability,proto3,enum=temporal.api.enums.v1.TaskReachability" json:"reachability,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Reachability []v1.TaskReachability `protobuf:"varint,2,rep,packed,name=reachability,proto3,enum=temporal.api.enums.v1.TaskReachability" json:"reachability,omitempty"`
 }
 
 func (x *TaskQueueReachability) Reset() {
@@ -956,13 +970,14 @@ func (x *TaskQueueReachability) GetReachability() []v1.TaskReachability {
 
 // Reachability of tasks for a worker by build id, in one or more task queues.
 type BuildIdReachability struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// A build id or empty if unversioned.
 	BuildId string `protobuf:"bytes,1,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// Reachability per task queue.
 	TaskQueueReachability []*TaskQueueReachability `protobuf:"bytes,2,rep,name=task_queue_reachability,json=taskQueueReachability,proto3" json:"task_queue_reachability,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
 }
 
 func (x *BuildIdReachability) Reset() {
@@ -1010,11 +1025,12 @@ func (x *BuildIdReachability) GetTaskQueueReachability() []*TaskQueueReachabilit
 }
 
 type RampByPercentage struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Acceptable range is [0,100).
 	RampPercentage float32 `protobuf:"fixed32,1,opt,name=ramp_percentage,json=rampPercentage,proto3" json:"ramp_percentage,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *RampByPercentage) Reset() {
@@ -1092,19 +1108,20 @@ func (x *RampByPercentage) GetRampPercentage() float32 {
 // Queue is simply not versioned), the tasks will be dispatched to an
 // unversioned Worker.
 type BuildIdAssignmentRule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TargetBuildId string                 `protobuf:"bytes,1,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TargetBuildId string `protobuf:"bytes,1,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
 	// If a ramp is provided, this rule will be applied only to a sample of
 	// tasks according to the provided percentage.
 	// This option can be used only on "terminal" Build IDs (the ones not used
 	// as source in any redirect rules).
 	//
-	// Types that are valid to be assigned to Ramp:
+	// Types that are assignable to Ramp:
 	//
 	//	*BuildIdAssignmentRule_PercentageRamp
-	Ramp          isBuildIdAssignmentRule_Ramp `protobuf_oneof:"ramp"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Ramp isBuildIdAssignmentRule_Ramp `protobuf_oneof:"ramp"`
 }
 
 func (x *BuildIdAssignmentRule) Reset() {
@@ -1144,18 +1161,16 @@ func (x *BuildIdAssignmentRule) GetTargetBuildId() string {
 	return ""
 }
 
-func (x *BuildIdAssignmentRule) GetRamp() isBuildIdAssignmentRule_Ramp {
-	if x != nil {
-		return x.Ramp
+func (m *BuildIdAssignmentRule) GetRamp() isBuildIdAssignmentRule_Ramp {
+	if m != nil {
+		return m.Ramp
 	}
 	return nil
 }
 
 func (x *BuildIdAssignmentRule) GetPercentageRamp() *RampByPercentage {
-	if x != nil {
-		if x, ok := x.Ramp.(*BuildIdAssignmentRule_PercentageRamp); ok {
-			return x.PercentageRamp
-		}
+	if x, ok := x.GetRamp().(*BuildIdAssignmentRule_PercentageRamp); ok {
+		return x.PercentageRamp
 	}
 	return nil
 }
@@ -1194,15 +1209,16 @@ func (*BuildIdAssignmentRule_PercentageRamp) isBuildIdAssignmentRule_Ramp() {}
 //
 // Redirect rules can be chained.
 type CompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SourceBuildId string                 `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SourceBuildId string `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
 	// Target Build ID must be compatible with the Source Build ID; that is it
 	// must be able to process event histories made by the Source Build ID by
 	// using [Patching](https://docs.temporal.io/workflows#patching) or other
 	// means.
 	TargetBuildId string `protobuf:"bytes,2,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CompatibleBuildIdRedirectRule) Reset() {
@@ -1250,11 +1266,12 @@ func (x *CompatibleBuildIdRedirectRule) GetTargetBuildId() string {
 }
 
 type TimestampedBuildIdAssignmentRule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Rule          *BuildIdAssignmentRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
-	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Rule       *BuildIdAssignmentRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
+	CreateTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 }
 
 func (x *TimestampedBuildIdAssignmentRule) Reset() {
@@ -1302,11 +1319,12 @@ func (x *TimestampedBuildIdAssignmentRule) GetCreateTime() *timestamppb.Timestam
 }
 
 type TimestampedCompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState         `protogen:"open.v1"`
-	Rule          *CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
-	CreateTime    *timestamppb.Timestamp         `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Rule       *CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
+	CreateTime *timestamppb.Timestamp         `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 }
 
 func (x *TimestampedCompatibleBuildIdRedirectRule) Reset() {

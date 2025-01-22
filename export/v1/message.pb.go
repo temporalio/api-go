@@ -45,10 +45,11 @@ const (
 )
 
 type WorkflowExecution struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	History       *v1.History            `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	History *v1.History `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
 }
 
 func (x *WorkflowExecution) Reset() {
@@ -91,10 +92,11 @@ func (x *WorkflowExecution) GetHistory() *v1.History {
 // WorkflowExecutions is used by the Cloud Export feature to deserialize
 // the exported file. It encapsulates a collection of workflow execution information.
 type WorkflowExecutions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Items         []*WorkflowExecution   `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Items []*WorkflowExecution `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
 }
 
 func (x *WorkflowExecutions) Reset() {

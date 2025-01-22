@@ -48,6 +48,25 @@ func DeploymentReachabilityFromString(s string) (DeploymentReachability, error) 
 }
 
 var (
+	VersionDrainageState_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Draining":    1,
+		"Drained":     2,
+	}
+)
+
+// VersionDrainageStateFromString parses a VersionDrainageState value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to VersionDrainageState
+func VersionDrainageStateFromString(s string) (VersionDrainageState, error) {
+	if v, ok := VersionDrainageState_value[s]; ok {
+		return VersionDrainageState(v), nil
+	} else if v, ok := VersionDrainageState_shorthandValue[s]; ok {
+		return VersionDrainageState(v), nil
+	}
+	return VersionDrainageState(0), fmt.Errorf("%s is not a valid VersionDrainageState", s)
+}
+
+var (
 	WorkflowVersioningMode_shorthandValue = map[string]int32{
 		"Unspecified":         0,
 		"Unversioned":         1,

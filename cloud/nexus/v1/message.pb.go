@@ -46,7 +46,10 @@ const (
 )
 
 type EndpointSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The name of the endpoint. Must be unique within an account.
 	// The name must match `^[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9]$`.
 	// This field is mutable.
@@ -58,9 +61,7 @@ type EndpointSpec struct {
 	// This field is mutable.
 	PolicySpecs []*EndpointPolicySpec `protobuf:"bytes,3,rep,name=policy_specs,json=policySpecs,proto3" json:"policy_specs,omitempty"`
 	// The markdown description of the endpoint - optional.
-	Description   string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Description string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (x *EndpointSpec) Reset() {
@@ -122,13 +123,14 @@ func (x *EndpointSpec) GetDescription() string {
 }
 
 type EndpointTargetSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*EndpointTargetSpec_WorkerTargetSpec
-	Variant       isEndpointTargetSpec_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isEndpointTargetSpec_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *EndpointTargetSpec) Reset() {
@@ -161,18 +163,16 @@ func (*EndpointTargetSpec) Descriptor() ([]byte, []int) {
 	return file_temporal_api_cloud_nexus_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *EndpointTargetSpec) GetVariant() isEndpointTargetSpec_Variant {
-	if x != nil {
-		return x.Variant
+func (m *EndpointTargetSpec) GetVariant() isEndpointTargetSpec_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *EndpointTargetSpec) GetWorkerTargetSpec() *WorkerTargetSpec {
-	if x != nil {
-		if x, ok := x.Variant.(*EndpointTargetSpec_WorkerTargetSpec); ok {
-			return x.WorkerTargetSpec
-		}
+	if x, ok := x.GetVariant().(*EndpointTargetSpec_WorkerTargetSpec); ok {
+		return x.WorkerTargetSpec
 	}
 	return nil
 }
@@ -189,13 +189,14 @@ type EndpointTargetSpec_WorkerTargetSpec struct {
 func (*EndpointTargetSpec_WorkerTargetSpec) isEndpointTargetSpec_Variant() {}
 
 type WorkerTargetSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The target cloud namespace to route requests to. Namespace must be in same account as the endpoint. This field is mutable.
 	NamespaceId string `protobuf:"bytes,1,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	// The task queue on the cloud namespace to route requests to. This field is mutable.
-	TaskQueue     string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 }
 
 func (x *WorkerTargetSpec) Reset() {
@@ -243,13 +244,14 @@ func (x *WorkerTargetSpec) GetTaskQueue() string {
 }
 
 type EndpointPolicySpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*EndpointPolicySpec_AllowedCloudNamespacePolicySpec
-	Variant       isEndpointPolicySpec_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isEndpointPolicySpec_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *EndpointPolicySpec) Reset() {
@@ -282,18 +284,16 @@ func (*EndpointPolicySpec) Descriptor() ([]byte, []int) {
 	return file_temporal_api_cloud_nexus_v1_message_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *EndpointPolicySpec) GetVariant() isEndpointPolicySpec_Variant {
-	if x != nil {
-		return x.Variant
+func (m *EndpointPolicySpec) GetVariant() isEndpointPolicySpec_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *EndpointPolicySpec) GetAllowedCloudNamespacePolicySpec() *AllowedCloudNamespacePolicySpec {
-	if x != nil {
-		if x, ok := x.Variant.(*EndpointPolicySpec_AllowedCloudNamespacePolicySpec); ok {
-			return x.AllowedCloudNamespacePolicySpec
-		}
+	if x, ok := x.GetVariant().(*EndpointPolicySpec_AllowedCloudNamespacePolicySpec); ok {
+		return x.AllowedCloudNamespacePolicySpec
 	}
 	return nil
 }
@@ -310,11 +310,12 @@ type EndpointPolicySpec_AllowedCloudNamespacePolicySpec struct {
 func (*EndpointPolicySpec_AllowedCloudNamespacePolicySpec) isEndpointPolicySpec_Variant() {}
 
 type AllowedCloudNamespacePolicySpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The namespace that is allowed to call into this endpoint. Calling namespace must be in same account as the endpoint.
-	NamespaceId   string `protobuf:"bytes,1,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The namespace that is allowed to call into this endpoint. Calling namespace must be in same account as the endpoint.
+	NamespaceId string `protobuf:"bytes,1,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 }
 
 func (x *AllowedCloudNamespacePolicySpec) Reset() {
@@ -356,7 +357,10 @@ func (x *AllowedCloudNamespacePolicySpec) GetNamespaceId() string {
 
 // An endpoint that receives and then routes Nexus requests
 type Endpoint struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the endpoint. This is generated by the server and is immutable.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current version of the endpoint specification.
@@ -373,8 +377,6 @@ type Endpoint struct {
 	CreatedTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
 	// The date and time when the endpoint was last modified.
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Endpoint) Reset() {
