@@ -48,22 +48,42 @@ func DeploymentReachabilityFromString(s string) (DeploymentReachability, error) 
 }
 
 var (
-	VersionDrainageState_shorthandValue = map[string]int32{
+	VersionDrainageStatus_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Draining":    1,
 		"Drained":     2,
 	}
 )
 
-// VersionDrainageStateFromString parses a VersionDrainageState value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to VersionDrainageState
-func VersionDrainageStateFromString(s string) (VersionDrainageState, error) {
-	if v, ok := VersionDrainageState_value[s]; ok {
-		return VersionDrainageState(v), nil
-	} else if v, ok := VersionDrainageState_shorthandValue[s]; ok {
-		return VersionDrainageState(v), nil
+// VersionDrainageStatusFromString parses a VersionDrainageStatus value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to VersionDrainageStatus
+func VersionDrainageStatusFromString(s string) (VersionDrainageStatus, error) {
+	if v, ok := VersionDrainageStatus_value[s]; ok {
+		return VersionDrainageStatus(v), nil
+	} else if v, ok := VersionDrainageStatus_shorthandValue[s]; ok {
+		return VersionDrainageStatus(v), nil
 	}
-	return VersionDrainageState(0), fmt.Errorf("%s is not a valid VersionDrainageState", s)
+	return VersionDrainageStatus(0), fmt.Errorf("%s is not a valid VersionDrainageStatus", s)
+}
+
+var (
+	VersionRoutingState_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"None":        1,
+		"Current":     2,
+		"Ramping":     3,
+	}
+)
+
+// VersionRoutingStateFromString parses a VersionRoutingState value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to VersionRoutingState
+func VersionRoutingStateFromString(s string) (VersionRoutingState, error) {
+	if v, ok := VersionRoutingState_value[s]; ok {
+		return VersionRoutingState(v), nil
+	} else if v, ok := VersionRoutingState_shorthandValue[s]; ok {
+		return VersionRoutingState(v), nil
+	}
+	return VersionRoutingState(0), fmt.Errorf("%s is not a valid VersionRoutingState", s)
 }
 
 var (
