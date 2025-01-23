@@ -70,7 +70,6 @@ type genConfig struct {
 	rewriteString bool
 	rewriteEnums  bool
 	stripVersions bool
-	disableUtf8   bool
 }
 
 // walkExtension walks the directory starting from root and calls the provided callback on all files that
@@ -220,9 +219,6 @@ func postProcess(ctx context.Context, cfg genConfig) error {
 		if cfg.stripVersions {
 			postProcessors = append(postProcessors, NewVersionRemover())
 		}
-		if cfg.disableUtf8 {
-			postProcessors = append(postProcessors, NewDisableUtf8Validation())
-		}
 		return rewriteFile(path, postProcessors...)
 	})
 }
@@ -265,7 +261,7 @@ func sliceContains[S ~[]E, E comparable](haystack S, needle E) bool {
 func main() {
 	var outputDir, enumPrefixPairs string
 	var protoRootDirs, protoPlugins, protoIncludes, descriptorSetIn, excludeDirs stringArr
-	var noRewriteString, noRewriteEnum, noStripVersion, noDisableUtf8 bool
+	var noRewriteString, noRewriteEnum, noStripVersion bool
 	var concurrency int
 	flag.Var(&protoRootDirs, "root", "Root directories containing the protos to generate code for")
 	flag.StringVar(&outputDir, "output", "api", "Base directory in which to output generated proto files")
@@ -279,7 +275,6 @@ func main() {
 	flag.BoolVar(&noRewriteEnum, "no-rewrite-enum-const", false, "Don't rewrite enum constants")
 	flag.BoolVar(&noRewriteString, "no-rewrite-enum-string", false, "Don't rewrite enum String methods")
 	flag.BoolVar(&noStripVersion, "no-strip-version", false, "Don't remove protoc plugin versions from generated files")
-	flag.BoolVar(&noDisableUtf8, "no-disable-utf8", false, "Don't disable utf8 validation for strings")
 
 	flag.Parse()
 
@@ -322,7 +317,6 @@ func main() {
 		rewriteString: !noRewriteString,
 		rewriteEnums:  !noRewriteEnum,
 		stripVersions: !noStripVersion,
-		disableUtf8:   !noDisableUtf8,
 	})
 	if err != nil {
 		fail(err.Error())
