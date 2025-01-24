@@ -186,6 +186,10 @@ func (s *workflowServiceProxyServer) ListTaskQueuePartitions(ctx context.Context
 	return s.client.ListTaskQueuePartitions(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) ListWorkerDeployments(ctx context.Context, in0 *workflowservice.ListWorkerDeploymentsRequest) (*workflowservice.ListWorkerDeploymentsResponse, error) {
+	return s.client.ListWorkerDeployments(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) ListWorkflowExecutions(ctx context.Context, in0 *workflowservice.ListWorkflowExecutionsRequest) (*workflowservice.ListWorkflowExecutionsResponse, error) {
 	return s.client.ListWorkflowExecutions(s.reqCtx(ctx), in0)
 }
