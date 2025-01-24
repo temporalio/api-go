@@ -67,26 +67,6 @@ func VersionDrainageStatusFromString(s string) (VersionDrainageStatus, error) {
 }
 
 var (
-	VersionRoutingState_shorthandValue = map[string]int32{
-		"Unspecified": 0,
-		"None":        1,
-		"Current":     2,
-		"Ramping":     3,
-	}
-)
-
-// VersionRoutingStateFromString parses a VersionRoutingState value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to VersionRoutingState
-func VersionRoutingStateFromString(s string) (VersionRoutingState, error) {
-	if v, ok := VersionRoutingState_value[s]; ok {
-		return VersionRoutingState(v), nil
-	} else if v, ok := VersionRoutingState_shorthandValue[s]; ok {
-		return VersionRoutingState(v), nil
-	}
-	return VersionRoutingState(0), fmt.Errorf("%s is not a valid VersionRoutingState", s)
-}
-
-var (
 	WorkflowVersioningMode_shorthandValue = map[string]int32{
 		"Unspecified":         0,
 		"Unversioned":         1,

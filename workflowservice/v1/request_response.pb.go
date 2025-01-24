@@ -1701,6 +1701,7 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// one would not otherwise have been generated. This is used when the worker knows it is doing
 	// something useful, but cannot complete it within the workflow task timeout. Local activities
 	// which run for longer than the task timeout being the prime example.
+	// slg: originally created for heartbeat, but may be used to paginate requests with big payloads
 	ForceCreateNewWorkflowTask bool `protobuf:"varint,6,opt,name=force_create_new_workflow_task,json=forceCreateNewWorkflowTask,proto3" json:"force_create_new_workflow_task,omitempty"`
 	// DEPRECATED since 1.21 - use `worker_version_stamp` instead.
 	// Worker process' unique binary id
