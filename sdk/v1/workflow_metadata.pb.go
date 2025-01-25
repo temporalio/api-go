@@ -31,6 +31,7 @@ package sdk
 import (
 	reflect "reflect"
 	sync "sync"
+	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -238,7 +239,7 @@ func (x *WorkflowInteractionDefinition) GetDescription() string {
 
 var File_temporal_api_sdk_v1_workflow_metadata_proto protoreflect.FileDescriptor
 
-var file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc = []byte{
+var file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc = string([]byte{
 	0x0a, 0x2b, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73,
 	0x64, 0x6b, 0x2f, 0x76, 0x31, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x5f, 0x6d,
 	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x13, 0x74,
@@ -287,16 +288,16 @@ var file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc = []byte{
 	0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x53, 0x64, 0x6b, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x18,
 	0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a,
 	0x3a, 0x53, 0x64, 0x6b, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
-}
+})
 
 var (
 	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData = file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc
+	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData []byte
 )
 
 func file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescGZIP() []byte {
 	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData = protoimpl.X.CompressGZIP(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData)
+		file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc), len(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc)))
 	})
 	return file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData
 }
@@ -328,7 +329,7 @@ func file_temporal_api_sdk_v1_workflow_metadata_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc,
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc), len(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
@@ -339,7 +340,6 @@ func file_temporal_api_sdk_v1_workflow_metadata_proto_init() {
 		MessageInfos:      file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes,
 	}.Build()
 	File_temporal_api_sdk_v1_workflow_metadata_proto = out.File
-	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc = nil
 	file_temporal_api_sdk_v1_workflow_metadata_proto_goTypes = nil
 	file_temporal_api_sdk_v1_workflow_metadata_proto_depIdxs = nil
 }

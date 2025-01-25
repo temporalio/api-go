@@ -30,6 +30,7 @@ package workflowservice
 
 import (
 	reflect "reflect"
+	unsafe "unsafe"
 
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -45,7 +46,7 @@ const (
 
 var File_temporal_api_workflowservice_v1_service_proto protoreflect.FileDescriptor
 
-var file_temporal_api_workflowservice_v1_service_proto_rawDesc = []byte{
+var file_temporal_api_workflowservice_v1_service_proto_rawDesc = string([]byte{
 	0x0a, 0x2d, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x77,
 	0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x76,
 	0x31, 0x2f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12,
@@ -1238,7 +1239,7 @@ var file_temporal_api_workflowservice_v1_service_proto_rawDesc = []byte{
 	0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x53, 0x65,
 	0x72, 0x76, 0x69, 0x63, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x33,
-}
+})
 
 var file_temporal_api_workflowservice_v1_service_proto_goTypes = []any{
 	(*RegisterNamespaceRequest)(nil),                   // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest
@@ -1556,7 +1557,7 @@ func file_temporal_api_workflowservice_v1_service_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_temporal_api_workflowservice_v1_service_proto_rawDesc,
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_workflowservice_v1_service_proto_rawDesc), len(file_temporal_api_workflowservice_v1_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   0,
 			NumExtensions: 0,
@@ -1566,7 +1567,6 @@ func file_temporal_api_workflowservice_v1_service_proto_init() {
 		DependencyIndexes: file_temporal_api_workflowservice_v1_service_proto_depIdxs,
 	}.Build()
 	File_temporal_api_workflowservice_v1_service_proto = out.File
-	file_temporal_api_workflowservice_v1_service_proto_rawDesc = nil
 	file_temporal_api_workflowservice_v1_service_proto_goTypes = nil
 	file_temporal_api_workflowservice_v1_service_proto_depIdxs = nil
 }

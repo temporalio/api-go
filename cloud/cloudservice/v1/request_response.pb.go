@@ -31,6 +31,7 @@ package cloudservice
 import (
 	reflect "reflect"
 	sync "sync"
+	unsafe "unsafe"
 
 	v16 "go.temporal.io/api/cloud/account/v1"
 	v1 "go.temporal.io/api/cloud/identity/v1"
@@ -5285,7 +5286,7 @@ func (x *GetUserGroupsRequest_GoogleGroupFilter) GetEmailAddress() string {
 
 var File_temporal_api_cloud_cloudservice_v1_request_response_proto protoreflect.FileDescriptor
 
-var file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc = []byte{
+var file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc = string([]byte{
 	0x0a, 0x39, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63,
 	0x6c, 0x6f, 0x75, 0x64, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
 	0x65, 0x2f, 0x76, 0x31, 0x2f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x72, 0x65, 0x73,
@@ -6117,16 +6118,16 @@ var file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc = []b
 	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a,
 	0x43, 0x6c, 0x6f, 0x75, 0x64, 0x3a, 0x3a, 0x43, 0x6c, 0x6f, 0x75, 0x64, 0x53, 0x65, 0x72, 0x76,
 	0x69, 0x63, 0x65, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
-}
+})
 
 var (
 	file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescOnce sync.Once
-	file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescData = file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc
+	file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescData []byte
 )
 
 func file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP() []byte {
 	file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescOnce.Do(func() {
-		file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescData = protoimpl.X.CompressGZIP(file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescData)
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc), len(file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc)))
 	})
 	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescData
 }
@@ -6336,7 +6337,7 @@ func file_temporal_api_cloud_cloudservice_v1_request_response_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc,
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc), len(file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   95,
 			NumExtensions: 0,
@@ -6347,7 +6348,6 @@ func file_temporal_api_cloud_cloudservice_v1_request_response_proto_init() {
 		MessageInfos:      file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes,
 	}.Build()
 	File_temporal_api_cloud_cloudservice_v1_request_response_proto = out.File
-	file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc = nil
 	file_temporal_api_cloud_cloudservice_v1_request_response_proto_goTypes = nil
 	file_temporal_api_cloud_cloudservice_v1_request_response_proto_depIdxs = nil
 }
