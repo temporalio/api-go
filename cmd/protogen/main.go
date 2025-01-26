@@ -23,6 +23,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"errors"
@@ -118,9 +119,12 @@ func findEnums(ctx context.Context, cfg genConfig) ([]string, []string, error) {
 		if err != nil {
 			return err
 		}
-		matches := enumRgx.FindAllStringSubmatch(string(bs), -1)
-		for i := 0; i < len(matches); i++ {
-			enums = append(enums, matches[i][1])
+		scanner := bufio.NewScanner(bytes.NewReader(bs))
+		for scanner.Scan() {
+			matches := enumRgx.FindAllStringSubmatch(scanner.Text(), -1)
+			for i := 0; i < len(matches); i++ {
+				enums = append(enums, matches[i][1])
+			}
 		}
 		return nil
 	}
@@ -154,7 +158,7 @@ func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
 		for _, plugin := range cfg.plugins {
 			args = append(args, fmt.Sprintf("--%s", plugin))
 		}
-		files, err := filepath.Glob(filepath.Join(dir, "*"))
+		files, err := filepath.Glob(filepath.Join(dir, "*.proto"))
 		if err != nil {
 			return err
 		}
