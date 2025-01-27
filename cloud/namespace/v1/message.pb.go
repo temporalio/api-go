@@ -278,7 +278,10 @@ func (ExportSink_Health) EnumDescriptor() ([]byte, []int) {
 }
 
 type CertificateFilterSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The common_name in the certificate.
 	// Optional, default is empty.
 	CommonName string `protobuf:"bytes,1,opt,name=common_name,json=commonName,proto3" json:"common_name,omitempty"`
@@ -291,15 +294,15 @@ type CertificateFilterSpec struct {
 	// The subject_alternative_name in the certificate.
 	// Optional, default is empty.
 	SubjectAlternativeName string `protobuf:"bytes,4,opt,name=subject_alternative_name,json=subjectAlternativeName,proto3" json:"subject_alternative_name,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
 }
 
 func (x *CertificateFilterSpec) Reset() {
 	*x = CertificateFilterSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CertificateFilterSpec) String() string {
@@ -310,7 +313,7 @@ func (*CertificateFilterSpec) ProtoMessage() {}
 
 func (x *CertificateFilterSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -354,7 +357,10 @@ func (x *CertificateFilterSpec) GetSubjectAlternativeName() string {
 }
 
 type MtlsAuthSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The base64 encoded ca cert(s) in PEM format that the clients can use for authentication and authorization.
 	// This must only be one value, but the CA can have a chain.
 	//
@@ -373,16 +379,16 @@ type MtlsAuthSpec struct {
 	// Flag to enable mTLS auth (default: disabled).
 	// Note: disabling mTLS auth will cause existing mTLS connections to fail.
 	// temporal:versioning:min_version=2024-05-13-00
-	Enabled       bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Enabled bool `protobuf:"varint,3,opt,name=enabled,proto3" json:"enabled,omitempty"`
 }
 
 func (x *MtlsAuthSpec) Reset() {
 	*x = MtlsAuthSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *MtlsAuthSpec) String() string {
@@ -393,7 +399,7 @@ func (*MtlsAuthSpec) ProtoMessage() {}
 
 func (x *MtlsAuthSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -437,19 +443,22 @@ func (x *MtlsAuthSpec) GetEnabled() bool {
 }
 
 type ApiKeyAuthSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Flag to enable API key auth (default: disabled).
 	// Note: disabling API key auth will cause existing API key connections to fail.
-	Enabled       bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 }
 
 func (x *ApiKeyAuthSpec) Reset() {
 	*x = ApiKeyAuthSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ApiKeyAuthSpec) String() string {
@@ -460,7 +469,7 @@ func (*ApiKeyAuthSpec) ProtoMessage() {}
 
 func (x *ApiKeyAuthSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -483,22 +492,25 @@ func (x *ApiKeyAuthSpec) GetEnabled() bool {
 }
 
 type CodecServerSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The codec server endpoint.
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	// Whether to pass the user access token with your endpoint.
 	PassAccessToken bool `protobuf:"varint,2,opt,name=pass_access_token,json=passAccessToken,proto3" json:"pass_access_token,omitempty"`
 	// Whether to include cross-origin credentials.
 	IncludeCrossOriginCredentials bool `protobuf:"varint,3,opt,name=include_cross_origin_credentials,json=includeCrossOriginCredentials,proto3" json:"include_cross_origin_credentials,omitempty"`
-	unknownFields                 protoimpl.UnknownFields
-	sizeCache                     protoimpl.SizeCache
 }
 
 func (x *CodecServerSpec) Reset() {
 	*x = CodecServerSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CodecServerSpec) String() string {
@@ -509,7 +521,7 @@ func (*CodecServerSpec) ProtoMessage() {}
 
 func (x *CodecServerSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -546,7 +558,10 @@ func (x *CodecServerSpec) GetIncludeCrossOriginCredentials() bool {
 }
 
 type NamespaceSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The name to use for the namespace.
 	// This will create a namespace that's available at '<name>.<account>.tmprl.cloud:7233'.
 	// The name is immutable. Once set, it cannot be changed.
@@ -580,26 +595,26 @@ type NamespaceSpec struct {
 	// temporal:versioning:max_version=2024-10-01-00
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/namespace/v1/message.proto.
-	CustomSearchAttributes map[string]string `protobuf:"bytes,5,rep,name=custom_search_attributes,json=customSearchAttributes,proto3" json:"custom_search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CustomSearchAttributes map[string]string `protobuf:"bytes,5,rep,name=custom_search_attributes,json=customSearchAttributes,proto3" json:"custom_search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The custom search attributes to use for the namespace.
 	// The name of the attribute is the key and the type is the value.
 	// Note: currently deleting a search attribute is not supported.
 	// Optional, default is empty.
 	// temporal:versioning:min_version=2024-10-01-00
 	// temporal:enums:replaces=custom_search_attributes
-	SearchAttributes map[string]NamespaceSpec_SearchAttributeType `protobuf:"bytes,8,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.cloud.namespace.v1.NamespaceSpec_SearchAttributeType"`
+	SearchAttributes map[string]NamespaceSpec_SearchAttributeType `protobuf:"bytes,8,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.cloud.namespace.v1.NamespaceSpec_SearchAttributeType"`
 	// Codec server spec used by UI to decode payloads for all users interacting with this namespace.
 	// Optional, default is unset.
-	CodecServer   *CodecServerSpec `protobuf:"bytes,6,opt,name=codec_server,json=codecServer,proto3" json:"codec_server,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	CodecServer *CodecServerSpec `protobuf:"bytes,6,opt,name=codec_server,json=codecServer,proto3" json:"codec_server,omitempty"`
 }
 
 func (x *NamespaceSpec) Reset() {
 	*x = NamespaceSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NamespaceSpec) String() string {
@@ -610,7 +625,7 @@ func (*NamespaceSpec) ProtoMessage() {}
 
 func (x *NamespaceSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -683,22 +698,25 @@ func (x *NamespaceSpec) GetCodecServer() *CodecServerSpec {
 }
 
 type Endpoints struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The web UI address.
 	WebAddress string `protobuf:"bytes,1,opt,name=web_address,json=webAddress,proto3" json:"web_address,omitempty"`
 	// The gRPC address for mTLS client connections (may be empty if mTLS is disabled).
 	MtlsGrpcAddress string `protobuf:"bytes,2,opt,name=mtls_grpc_address,json=mtlsGrpcAddress,proto3" json:"mtls_grpc_address,omitempty"`
 	// The gRPC address for API key client connections (may be empty if API keys are disabled).
-	GrpcAddress   string `protobuf:"bytes,3,opt,name=grpc_address,json=grpcAddress,proto3" json:"grpc_address,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	GrpcAddress string `protobuf:"bytes,3,opt,name=grpc_address,json=grpcAddress,proto3" json:"grpc_address,omitempty"`
 }
 
 func (x *Endpoints) Reset() {
 	*x = Endpoints{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Endpoints) String() string {
@@ -709,7 +727,7 @@ func (*Endpoints) ProtoMessage() {}
 
 func (x *Endpoints) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -746,19 +764,22 @@ func (x *Endpoints) GetGrpcAddress() string {
 }
 
 type Limits struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The number of actions per second (APS) that is currently allowed for the namespace.
 	// The namespace may be throttled if its APS exceeds the limit.
 	ActionsPerSecondLimit int32 `protobuf:"varint,1,opt,name=actions_per_second_limit,json=actionsPerSecondLimit,proto3" json:"actions_per_second_limit,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
 }
 
 func (x *Limits) Reset() {
 	*x = Limits{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Limits) String() string {
@@ -769,7 +790,7 @@ func (*Limits) ProtoMessage() {}
 
 func (x *Limits) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -792,20 +813,23 @@ func (x *Limits) GetActionsPerSecondLimit() int32 {
 }
 
 type AWSPrivateLinkInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of principal arns that are allowed to access the namespace on the private link.
 	AllowedPrincipalArns []string `protobuf:"bytes,1,rep,name=allowed_principal_arns,json=allowedPrincipalArns,proto3" json:"allowed_principal_arns,omitempty"`
 	// The list of vpc endpoint service names that are associated with the namespace.
 	VpcEndpointServiceNames []string `protobuf:"bytes,2,rep,name=vpc_endpoint_service_names,json=vpcEndpointServiceNames,proto3" json:"vpc_endpoint_service_names,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
 }
 
 func (x *AWSPrivateLinkInfo) Reset() {
 	*x = AWSPrivateLinkInfo{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *AWSPrivateLinkInfo) String() string {
@@ -816,7 +840,7 @@ func (*AWSPrivateLinkInfo) ProtoMessage() {}
 
 func (x *AWSPrivateLinkInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -846,21 +870,24 @@ func (x *AWSPrivateLinkInfo) GetVpcEndpointServiceNames() []string {
 }
 
 type PrivateConnectivity struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the region where the private connectivity applies.
 	Region string `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
 	// The AWS PrivateLink info.
 	// This will only be set for an aws region.
 	AwsPrivateLink *AWSPrivateLinkInfo `protobuf:"bytes,2,opt,name=aws_private_link,json=awsPrivateLink,proto3" json:"aws_private_link,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *PrivateConnectivity) Reset() {
 	*x = PrivateConnectivity{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *PrivateConnectivity) String() string {
@@ -871,7 +898,7 @@ func (*PrivateConnectivity) ProtoMessage() {}
 
 func (x *PrivateConnectivity) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -901,7 +928,10 @@ func (x *PrivateConnectivity) GetAwsPrivateLink() *AWSPrivateLinkInfo {
 }
 
 type Namespace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace identifier.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The current version of the namespace specification.
@@ -937,16 +967,16 @@ type Namespace struct {
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
 	// The status of each region where the namespace is available.
 	// The id of the region is the key and the status is the value of the map.
-	RegionStatus  map[string]*NamespaceRegionStatus `protobuf:"bytes,12,rep,name=region_status,json=regionStatus,proto3" json:"region_status,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	RegionStatus map[string]*NamespaceRegionStatus `protobuf:"bytes,12,rep,name=region_status,json=regionStatus,proto3" json:"region_status,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *Namespace) Reset() {
 	*x = Namespace{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Namespace) String() string {
@@ -957,7 +987,7 @@ func (*Namespace) ProtoMessage() {}
 
 func (x *Namespace) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1065,7 +1095,10 @@ func (x *Namespace) GetRegionStatus() map[string]*NamespaceRegionStatus {
 }
 
 type NamespaceRegionStatus struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The current state of the namespace region.
 	// Possible values: adding, active, passive, removing, failed.
 	// For any failed state, reach out to Temporal Cloud support for remediation.
@@ -1080,15 +1113,15 @@ type NamespaceRegionStatus struct {
 	State NamespaceRegionStatus_State `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.cloud.namespace.v1.NamespaceRegionStatus_State" json:"state,omitempty"`
 	// The id of the async operation that is making changes to where the namespace is available, if any.
 	AsyncOperationId string `protobuf:"bytes,2,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *NamespaceRegionStatus) Reset() {
 	*x = NamespaceRegionStatus{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *NamespaceRegionStatus) String() string {
@@ -1099,7 +1132,7 @@ func (*NamespaceRegionStatus) ProtoMessage() {}
 
 func (x *NamespaceRegionStatus) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1137,7 +1170,10 @@ func (x *NamespaceRegionStatus) GetAsyncOperationId() string {
 }
 
 type ExportSinkSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The unique name of the export sink, it can't be changed once set.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// A flag indicating whether the export sink is enabled or not.
@@ -1146,16 +1182,16 @@ type ExportSinkSpec struct {
 	S3 *v11.S3Spec `protobuf:"bytes,3,opt,name=s3,proto3" json:"s3,omitempty"`
 	// This is a feature under development. We will allow GCS sink support for GCP Namespaces.
 	// The GCS configuration details when destination_type is GCS.
-	Gcs           *v11.GCSSpec `protobuf:"bytes,4,opt,name=gcs,proto3" json:"gcs,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Gcs *v11.GCSSpec `protobuf:"bytes,4,opt,name=gcs,proto3" json:"gcs,omitempty"`
 }
 
 func (x *ExportSinkSpec) Reset() {
 	*x = ExportSinkSpec{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ExportSinkSpec) String() string {
@@ -1166,7 +1202,7 @@ func (*ExportSinkSpec) ProtoMessage() {}
 
 func (x *ExportSinkSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[11]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1210,7 +1246,10 @@ func (x *ExportSinkSpec) GetGcs() *v11.GCSSpec {
 }
 
 type ExportSink struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The unique name of the export sink.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The version of the export sink resource.
@@ -1227,15 +1266,15 @@ type ExportSink struct {
 	LatestDataExportTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=latest_data_export_time,json=latestDataExportTime,proto3" json:"latest_data_export_time,omitempty"`
 	// The timestamp of the last health check performed on the export sink.
 	LastHealthCheckTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=last_health_check_time,json=lastHealthCheckTime,proto3" json:"last_health_check_time,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ExportSink) Reset() {
 	*x = ExportSink{}
-	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ExportSink) String() string {
@@ -1246,7 +1285,7 @@ func (*ExportSink) ProtoMessage() {}
 
 func (x *ExportSink) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[12]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1631,7 +1670,7 @@ func file_temporal_api_cloud_namespace_v1_message_proto_rawDescGZIP() []byte {
 
 var file_temporal_api_cloud_namespace_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_temporal_api_cloud_namespace_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
-var file_temporal_api_cloud_namespace_v1_message_proto_goTypes = []any{
+var file_temporal_api_cloud_namespace_v1_message_proto_goTypes = []interface{}{
 	(NamespaceSpec_SearchAttributeType)(0), // 0: temporal.api.cloud.namespace.v1.NamespaceSpec.SearchAttributeType
 	(NamespaceRegionStatus_State)(0),       // 1: temporal.api.cloud.namespace.v1.NamespaceRegionStatus.State
 	(ExportSink_Health)(0),                 // 2: temporal.api.cloud.namespace.v1.ExportSink.Health
@@ -1693,6 +1732,164 @@ func init() { file_temporal_api_cloud_namespace_v1_message_proto_init() }
 func file_temporal_api_cloud_namespace_v1_message_proto_init() {
 	if File_temporal_api_cloud_namespace_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CertificateFilterSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MtlsAuthSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ApiKeyAuthSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CodecServerSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NamespaceSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Endpoints); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Limits); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AWSPrivateLinkInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PrivateConnectivity); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Namespace); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*NamespaceRegionStatus); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ExportSinkSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_namespace_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ExportSink); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

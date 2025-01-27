@@ -47,20 +47,23 @@ const (
 // A general purpose failure message.
 // See: https://github.com/nexus-rpc/api/blob/main/SPEC.md#failure
 type Failure struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
-	Message  string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	Metadata map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	// UTF-8 encoded JSON serializable details.
-	Details       []byte `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Message  string            `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Metadata map[string]string `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	// UTF-8 encoded JSON serializable details.
+	Details []byte `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
 }
 
 func (x *Failure) Reset() {
 	*x = Failure{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Failure) String() string {
@@ -71,7 +74,7 @@ func (*Failure) ProtoMessage() {}
 
 func (x *Failure) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -108,19 +111,22 @@ func (x *Failure) GetDetails() []byte {
 }
 
 type HandlerError struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.
-	ErrorType     string   `protobuf:"bytes,1,opt,name=error_type,json=errorType,proto3" json:"error_type,omitempty"`
-	Failure       *Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.
+	ErrorType string   `protobuf:"bytes,1,opt,name=error_type,json=errorType,proto3" json:"error_type,omitempty"`
+	Failure   *Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *HandlerError) Reset() {
 	*x = HandlerError{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *HandlerError) String() string {
@@ -131,7 +137,7 @@ func (*HandlerError) ProtoMessage() {}
 
 func (x *HandlerError) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -161,19 +167,22 @@ func (x *HandlerError) GetFailure() *Failure {
 }
 
 type UnsuccessfulOperationError struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#operationinfo.
 	OperationState string   `protobuf:"bytes,1,opt,name=operation_state,json=operationState,proto3" json:"operation_state,omitempty"`
 	Failure        *Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UnsuccessfulOperationError) Reset() {
 	*x = UnsuccessfulOperationError{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UnsuccessfulOperationError) String() string {
@@ -184,7 +193,7 @@ func (*UnsuccessfulOperationError) ProtoMessage() {}
 
 func (x *UnsuccessfulOperationError) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -214,19 +223,22 @@ func (x *UnsuccessfulOperationError) GetFailure() *Failure {
 }
 
 type Link struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#links.
-	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	Type          string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#links.
+	Url  string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	Type string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 }
 
 func (x *Link) Reset() {
 	*x = Link{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Link) String() string {
@@ -237,7 +249,7 @@ func (*Link) ProtoMessage() {}
 
 func (x *Link) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -268,7 +280,10 @@ func (x *Link) GetType() string {
 
 // A request to start an operation.
 type StartOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Name of service to start the operation in.
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	// Type of operation to start.
@@ -280,18 +295,18 @@ type StartOperationRequest struct {
 	// Full request body from the incoming HTTP request.
 	Payload *v1.Payload `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`
 	// Header that is expected to be attached to the callback request when the operation completes.
-	CallbackHeader map[string]string `protobuf:"bytes,6,rep,name=callback_header,json=callbackHeader,proto3" json:"callback_header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CallbackHeader map[string]string `protobuf:"bytes,6,rep,name=callback_header,json=callbackHeader,proto3" json:"callback_header,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Links contain caller information and can be attached to the operations started by the handler.
-	Links         []*Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Links []*Link `protobuf:"bytes,7,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (x *StartOperationRequest) Reset() {
 	*x = StartOperationRequest{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartOperationRequest) String() string {
@@ -302,7 +317,7 @@ func (*StartOperationRequest) ProtoMessage() {}
 
 func (x *StartOperationRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -368,22 +383,25 @@ func (x *StartOperationRequest) GetLinks() []*Link {
 
 // A request to cancel an operation.
 type CancelOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Service name.
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	// Type of operation to cancel.
 	Operation string `protobuf:"bytes,2,opt,name=operation,proto3" json:"operation,omitempty"`
 	// Operation ID as originally generated by a Handler.
-	OperationId   string `protobuf:"bytes,3,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	OperationId string `protobuf:"bytes,3,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 }
 
 func (x *CancelOperationRequest) Reset() {
 	*x = CancelOperationRequest{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CancelOperationRequest) String() string {
@@ -394,7 +412,7 @@ func (*CancelOperationRequest) ProtoMessage() {}
 
 func (x *CancelOperationRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -432,29 +450,32 @@ func (x *CancelOperationRequest) GetOperationId() string {
 
 // A Nexus request.
 type Request struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Headers extracted from the original request in the Temporal frontend.
 	// When using Nexus over HTTP, this includes the request's HTTP headers ignoring multiple values.
-	Header map[string]string `protobuf:"bytes,1,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Header map[string]string `protobuf:"bytes,1,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// The timestamp when the request was scheduled in the frontend.
 	// (-- api-linter: core::0142::time-field-names=disabled
 	//
 	//	aip.dev/not-precedent: Not following linter rules. --)
 	ScheduledTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=scheduled_time,json=scheduledTime,proto3" json:"scheduled_time,omitempty"`
-	// Types that are valid to be assigned to Variant:
+	// Types that are assignable to Variant:
 	//
 	//	*Request_StartOperation
 	//	*Request_CancelOperation
-	Variant       isRequest_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isRequest_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *Request) Reset() {
 	*x = Request{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Request) String() string {
@@ -465,7 +486,7 @@ func (*Request) ProtoMessage() {}
 
 func (x *Request) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -494,27 +515,23 @@ func (x *Request) GetScheduledTime() *timestamppb.Timestamp {
 	return nil
 }
 
-func (x *Request) GetVariant() isRequest_Variant {
-	if x != nil {
-		return x.Variant
+func (m *Request) GetVariant() isRequest_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *Request) GetStartOperation() *StartOperationRequest {
-	if x != nil {
-		if x, ok := x.Variant.(*Request_StartOperation); ok {
-			return x.StartOperation
-		}
+	if x, ok := x.GetVariant().(*Request_StartOperation); ok {
+		return x.StartOperation
 	}
 	return nil
 }
 
 func (x *Request) GetCancelOperation() *CancelOperationRequest {
-	if x != nil {
-		if x, ok := x.Variant.(*Request_CancelOperation); ok {
-			return x.CancelOperation
-		}
+	if x, ok := x.GetVariant().(*Request_CancelOperation); ok {
+		return x.CancelOperation
 	}
 	return nil
 }
@@ -537,22 +554,25 @@ func (*Request_CancelOperation) isRequest_Variant() {}
 
 // Response variant for StartOperationRequest.
 type StartOperationResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*StartOperationResponse_SyncSuccess
 	//	*StartOperationResponse_AsyncSuccess
 	//	*StartOperationResponse_OperationError
-	Variant       isStartOperationResponse_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isStartOperationResponse_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *StartOperationResponse) Reset() {
 	*x = StartOperationResponse{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartOperationResponse) String() string {
@@ -563,7 +583,7 @@ func (*StartOperationResponse) ProtoMessage() {}
 
 func (x *StartOperationResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -578,36 +598,30 @@ func (*StartOperationResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *StartOperationResponse) GetVariant() isStartOperationResponse_Variant {
-	if x != nil {
-		return x.Variant
+func (m *StartOperationResponse) GetVariant() isStartOperationResponse_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *StartOperationResponse) GetSyncSuccess() *StartOperationResponse_Sync {
-	if x != nil {
-		if x, ok := x.Variant.(*StartOperationResponse_SyncSuccess); ok {
-			return x.SyncSuccess
-		}
+	if x, ok := x.GetVariant().(*StartOperationResponse_SyncSuccess); ok {
+		return x.SyncSuccess
 	}
 	return nil
 }
 
 func (x *StartOperationResponse) GetAsyncSuccess() *StartOperationResponse_Async {
-	if x != nil {
-		if x, ok := x.Variant.(*StartOperationResponse_AsyncSuccess); ok {
-			return x.AsyncSuccess
-		}
+	if x, ok := x.GetVariant().(*StartOperationResponse_AsyncSuccess); ok {
+		return x.AsyncSuccess
 	}
 	return nil
 }
 
 func (x *StartOperationResponse) GetOperationError() *UnsuccessfulOperationError {
-	if x != nil {
-		if x, ok := x.Variant.(*StartOperationResponse_OperationError); ok {
-			return x.OperationError
-		}
+	if x, ok := x.GetVariant().(*StartOperationResponse_OperationError); ok {
+		return x.OperationError
 	}
 	return nil
 }
@@ -637,16 +651,18 @@ func (*StartOperationResponse_OperationError) isStartOperationResponse_Variant()
 
 // Response variant for CancelOperationRequest.
 type CancelOperationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *CancelOperationResponse) Reset() {
 	*x = CancelOperationResponse{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CancelOperationResponse) String() string {
@@ -657,7 +673,7 @@ func (*CancelOperationResponse) ProtoMessage() {}
 
 func (x *CancelOperationResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -674,23 +690,26 @@ func (*CancelOperationResponse) Descriptor() ([]byte, []int) {
 
 // A response indicating that the handler has successfully processed a request.
 type Response struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Variant must correlate to the corresponding Request's variant.
 	//
-	// Types that are valid to be assigned to Variant:
+	// Types that are assignable to Variant:
 	//
 	//	*Response_StartOperation
 	//	*Response_CancelOperation
-	Variant       isResponse_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isResponse_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *Response) Reset() {
 	*x = Response{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Response) String() string {
@@ -701,7 +720,7 @@ func (*Response) ProtoMessage() {}
 
 func (x *Response) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -716,27 +735,23 @@ func (*Response) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *Response) GetVariant() isResponse_Variant {
-	if x != nil {
-		return x.Variant
+func (m *Response) GetVariant() isResponse_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *Response) GetStartOperation() *StartOperationResponse {
-	if x != nil {
-		if x, ok := x.Variant.(*Response_StartOperation); ok {
-			return x.StartOperation
-		}
+	if x, ok := x.GetVariant().(*Response_StartOperation); ok {
+		return x.StartOperation
 	}
 	return nil
 }
 
 func (x *Response) GetCancelOperation() *CancelOperationResponse {
-	if x != nil {
-		if x, ok := x.Variant.(*Response_CancelOperation); ok {
-			return x.CancelOperation
-		}
+	if x, ok := x.GetVariant().(*Response_CancelOperation); ok {
+		return x.CancelOperation
 	}
 	return nil
 }
@@ -759,7 +774,10 @@ func (*Response_CancelOperation) isResponse_Variant() {}
 
 // A cluster-global binding from an endpoint ID to a target for dispatching incoming Nexus requests.
 type Endpoint struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Data version for this endpoint, incremented for every update issued via the UpdateNexusEndpoint API.
 	Version int64 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Unique server-generated endpoint ID.
@@ -780,16 +798,16 @@ type Endpoint struct {
 	// Server exposed URL prefix for invocation of operations on this endpoint.
 	// This doesn't include the protocol, hostname or port as the server does not know how it should be accessed
 	// publicly. The URL is stable in the face of endpoint renames.
-	UrlPrefix     string `protobuf:"bytes,6,opt,name=url_prefix,json=urlPrefix,proto3" json:"url_prefix,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UrlPrefix string `protobuf:"bytes,6,opt,name=url_prefix,json=urlPrefix,proto3" json:"url_prefix,omitempty"`
 }
 
 func (x *Endpoint) Reset() {
 	*x = Endpoint{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Endpoint) String() string {
@@ -800,7 +818,7 @@ func (*Endpoint) ProtoMessage() {}
 
 func (x *Endpoint) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -859,7 +877,10 @@ func (x *Endpoint) GetUrlPrefix() string {
 
 // Contains mutable fields for an Endpoint.
 type EndpointSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Endpoint name, unique for this cluster. Must match `[a-zA-Z_][a-zA-Z0-9_]*`.
 	// Renaming an endpoint breaks all workflow callers that reference this endpoint, causing operations to fail.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -868,16 +889,16 @@ type EndpointSpec struct {
 	// By default, the server enforces a limit of 20,000 bytes for this entire payload.
 	Description *v1.Payload `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	// Target to route requests to.
-	Target        *EndpointTarget `protobuf:"bytes,3,opt,name=target,proto3" json:"target,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Target *EndpointTarget `protobuf:"bytes,3,opt,name=target,proto3" json:"target,omitempty"`
 }
 
 func (x *EndpointSpec) Reset() {
 	*x = EndpointSpec{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointSpec) String() string {
@@ -888,7 +909,7 @@ func (*EndpointSpec) ProtoMessage() {}
 
 func (x *EndpointSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[11]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -926,21 +947,24 @@ func (x *EndpointSpec) GetTarget() *EndpointTarget {
 
 // Target to route requests to.
 type EndpointTarget struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*EndpointTarget_Worker_
 	//	*EndpointTarget_External_
-	Variant       isEndpointTarget_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isEndpointTarget_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *EndpointTarget) Reset() {
 	*x = EndpointTarget{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointTarget) String() string {
@@ -951,7 +975,7 @@ func (*EndpointTarget) ProtoMessage() {}
 
 func (x *EndpointTarget) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[12]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -966,27 +990,23 @@ func (*EndpointTarget) Descriptor() ([]byte, []int) {
 	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *EndpointTarget) GetVariant() isEndpointTarget_Variant {
-	if x != nil {
-		return x.Variant
+func (m *EndpointTarget) GetVariant() isEndpointTarget_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *EndpointTarget) GetWorker() *EndpointTarget_Worker {
-	if x != nil {
-		if x, ok := x.Variant.(*EndpointTarget_Worker_); ok {
-			return x.Worker
-		}
+	if x, ok := x.GetVariant().(*EndpointTarget_Worker_); ok {
+		return x.Worker
 	}
 	return nil
 }
 
 func (x *EndpointTarget) GetExternal() *EndpointTarget_External {
-	if x != nil {
-		if x, ok := x.Variant.(*EndpointTarget_External_); ok {
-			return x.External
-		}
+	if x, ok := x.GetVariant().(*EndpointTarget_External_); ok {
+		return x.External
 	}
 	return nil
 }
@@ -1009,18 +1029,21 @@ func (*EndpointTarget_External_) isEndpointTarget_Variant() {}
 
 // An operation completed successfully.
 type StartOperationResponse_Sync struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Payload       *v1.Payload            `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
-	Links         []*Link                `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Payload *v1.Payload `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
+	Links   []*Link     `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (x *StartOperationResponse_Sync) Reset() {
 	*x = StartOperationResponse_Sync{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartOperationResponse_Sync) String() string {
@@ -1031,7 +1054,7 @@ func (*StartOperationResponse_Sync) ProtoMessage() {}
 
 func (x *StartOperationResponse_Sync) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[16]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1063,18 +1086,21 @@ func (x *StartOperationResponse_Sync) GetLinks() []*Link {
 // The operation will complete asynchronously.
 // The returned ID can be used to reference this operation.
 type StartOperationResponse_Async struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	OperationId   string                 `protobuf:"bytes,1,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
-	Links         []*Link                `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	OperationId string  `protobuf:"bytes,1,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
+	Links       []*Link `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
 }
 
 func (x *StartOperationResponse_Async) Reset() {
 	*x = StartOperationResponse_Async{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartOperationResponse_Async) String() string {
@@ -1085,7 +1111,7 @@ func (*StartOperationResponse_Async) ProtoMessage() {}
 
 func (x *StartOperationResponse_Async) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[17]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1116,20 +1142,23 @@ func (x *StartOperationResponse_Async) GetLinks() []*Link {
 
 // Target a worker polling on a Nexus task queue in a specific namespace.
 type EndpointTarget_Worker struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Namespace to route requests to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Nexus task queue to route requests to.
-	TaskQueue     string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 }
 
 func (x *EndpointTarget_Worker) Reset() {
 	*x = EndpointTarget_Worker{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointTarget_Worker) String() string {
@@ -1140,7 +1169,7 @@ func (*EndpointTarget_Worker) ProtoMessage() {}
 
 func (x *EndpointTarget_Worker) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[18]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1173,18 +1202,21 @@ func (x *EndpointTarget_Worker) GetTaskQueue() string {
 // At a later point, this will support providing credentials, in the meantime, an http.RoundTripper can be injected
 // into the server to modify the request.
 type EndpointTarget_External struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// URL to call.
-	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// URL to call.
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 }
 
 func (x *EndpointTarget_External) Reset() {
 	*x = EndpointTarget_External{}
-	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointTarget_External) String() string {
@@ -1195,7 +1227,7 @@ func (*EndpointTarget_External) ProtoMessage() {}
 
 func (x *EndpointTarget_External) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_nexus_v1_message_proto_msgTypes[19]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1434,7 +1466,7 @@ func file_temporal_api_nexus_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_nexus_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
-var file_temporal_api_nexus_v1_message_proto_goTypes = []any{
+var file_temporal_api_nexus_v1_message_proto_goTypes = []interface{}{
 	(*Failure)(nil),                      // 0: temporal.api.nexus.v1.Failure
 	(*HandlerError)(nil),                 // 1: temporal.api.nexus.v1.HandlerError
 	(*UnsuccessfulOperationError)(nil),   // 2: temporal.api.nexus.v1.UnsuccessfulOperationError
@@ -1496,20 +1528,226 @@ func file_temporal_api_nexus_v1_message_proto_init() {
 	if File_temporal_api_nexus_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[6].OneofWrappers = []any{
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_nexus_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Failure); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HandlerError); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UnsuccessfulOperationError); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Link); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartOperationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CancelOperationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Request); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartOperationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CancelOperationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Response); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Endpoint); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointTarget); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartOperationResponse_Sync); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartOperationResponse_Async); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointTarget_Worker); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_nexus_v1_message_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointTarget_External); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_nexus_v1_message_proto_msgTypes[6].OneofWrappers = []interface{}{
 		(*Request_StartOperation)(nil),
 		(*Request_CancelOperation)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[7].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[7].OneofWrappers = []interface{}{
 		(*StartOperationResponse_SyncSuccess)(nil),
 		(*StartOperationResponse_AsyncSuccess)(nil),
 		(*StartOperationResponse_OperationError)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[9].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[9].OneofWrappers = []interface{}{
 		(*Response_StartOperation)(nil),
 		(*Response_CancelOperation)(nil),
 	}
-	file_temporal_api_nexus_v1_message_proto_msgTypes[12].OneofWrappers = []any{
+	file_temporal_api_nexus_v1_message_proto_msgTypes[12].OneofWrappers = []interface{}{
 		(*EndpointTarget_Worker_)(nil),
 		(*EndpointTarget_External_)(nil),
 	}

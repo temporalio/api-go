@@ -45,7 +45,10 @@ const (
 )
 
 type S3Spec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The IAM role that Temporal Cloud assumes for writing records to the customer's S3 bucket.
 	RoleName string `protobuf:"bytes,1,opt,name=role_name,json=roleName,proto3" json:"role_name,omitempty"`
 	// The name of the destination S3 bucket where Temporal will send data.
@@ -55,16 +58,16 @@ type S3Spec struct {
 	// The AWS Key Management Service (KMS) ARN used for encryption.
 	KmsArn string `protobuf:"bytes,4,opt,name=kms_arn,json=kmsArn,proto3" json:"kms_arn,omitempty"`
 	// The AWS account ID associated with the S3 bucket and the assumed role.
-	AwsAccountId  string `protobuf:"bytes,5,opt,name=aws_account_id,json=awsAccountId,proto3" json:"aws_account_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	AwsAccountId string `protobuf:"bytes,5,opt,name=aws_account_id,json=awsAccountId,proto3" json:"aws_account_id,omitempty"`
 }
 
 func (x *S3Spec) Reset() {
 	*x = S3Spec{}
-	mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *S3Spec) String() string {
@@ -75,7 +78,7 @@ func (*S3Spec) ProtoMessage() {}
 
 func (x *S3Spec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -126,7 +129,10 @@ func (x *S3Spec) GetAwsAccountId() string {
 }
 
 type GCSSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The customer service account ID that Temporal Cloud impersonates for writing records to the customer's GCS bucket.
 	SaId string `protobuf:"bytes,1,opt,name=sa_id,json=saId,proto3" json:"sa_id,omitempty"`
 	// The name of the destination GCS bucket where Temporal will send data.
@@ -134,16 +140,16 @@ type GCSSpec struct {
 	// The GCP project ID associated with the GCS bucket and service account.
 	GcpProjectId string `protobuf:"bytes,3,opt,name=gcp_project_id,json=gcpProjectId,proto3" json:"gcp_project_id,omitempty"`
 	// The region of the gcs bucket
-	Region        string `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`
 }
 
 func (x *GCSSpec) Reset() {
 	*x = GCSSpec{}
-	mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GCSSpec) String() string {
@@ -154,7 +160,7 @@ func (*GCSSpec) ProtoMessage() {}
 
 func (x *GCSSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_sink_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -248,7 +254,7 @@ func file_temporal_api_cloud_sink_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_sink_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_temporal_api_cloud_sink_v1_message_proto_goTypes = []any{
+var file_temporal_api_cloud_sink_v1_message_proto_goTypes = []interface{}{
 	(*S3Spec)(nil),  // 0: temporal.api.cloud.sink.v1.S3Spec
 	(*GCSSpec)(nil), // 1: temporal.api.cloud.sink.v1.GCSSpec
 }
@@ -264,6 +270,32 @@ func init() { file_temporal_api_cloud_sink_v1_message_proto_init() }
 func file_temporal_api_cloud_sink_v1_message_proto_init() {
 	if File_temporal_api_cloud_sink_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_cloud_sink_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*S3Spec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_sink_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GCSSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

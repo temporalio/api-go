@@ -51,12 +51,15 @@ const (
 )
 
 type ScheduleActivityTaskCommandAttributes struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	ActivityId   string                 `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	ActivityType *v1.ActivityType       `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
-	TaskQueue    *v11.TaskQueue         `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	Header       *v1.Header             `protobuf:"bytes,5,opt,name=header,proto3" json:"header,omitempty"`
-	Input        *v1.Payloads           `protobuf:"bytes,6,opt,name=input,proto3" json:"input,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ActivityId   string           `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	ActivityType *v1.ActivityType `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
+	TaskQueue    *v11.TaskQueue   `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Header       *v1.Header       `protobuf:"bytes,5,opt,name=header,proto3" json:"header,omitempty"`
+	Input        *v1.Payloads     `protobuf:"bytes,6,opt,name=input,proto3" json:"input,omitempty"`
 	// Indicates how long the caller is willing to wait for activity completion. The "schedule" time
 	// is when the activity is initially scheduled, not when the most recent retry is scheduled.
 	// Limits how long retries will be attempted. Either this or `start_to_close_timeout` must be
@@ -97,15 +100,15 @@ type ScheduleActivityTaskCommandAttributes struct {
 	// If this is set, the activity would be assigned to the Build ID of the workflow. Otherwise,
 	// Assignment rules of the activity's Task Queue will be used to determine the Build ID.
 	UseWorkflowBuildId bool `protobuf:"varint,13,opt,name=use_workflow_build_id,json=useWorkflowBuildId,proto3" json:"use_workflow_build_id,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *ScheduleActivityTaskCommandAttributes) Reset() {
 	*x = ScheduleActivityTaskCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ScheduleActivityTaskCommandAttributes) String() string {
@@ -116,7 +119,7 @@ func (*ScheduleActivityTaskCommandAttributes) ProtoMessage() {}
 
 func (x *ScheduleActivityTaskCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -216,18 +219,21 @@ func (x *ScheduleActivityTaskCommandAttributes) GetUseWorkflowBuildId() bool {
 }
 
 type RequestCancelActivityTaskCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The `ACTIVITY_TASK_SCHEDULED` event id for the activity being cancelled.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *RequestCancelActivityTaskCommandAttributes) Reset() {
 	*x = RequestCancelActivityTaskCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RequestCancelActivityTaskCommandAttributes) String() string {
@@ -238,7 +244,7 @@ func (*RequestCancelActivityTaskCommandAttributes) ProtoMessage() {}
 
 func (x *RequestCancelActivityTaskCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -261,7 +267,10 @@ func (x *RequestCancelActivityTaskCommandAttributes) GetScheduledEventId() int64
 }
 
 type StartTimerCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// An id for the timer, currently live timers must have different ids. Typically autogenerated
 	// by the SDK.
 	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
@@ -271,15 +280,15 @@ type StartTimerCommandAttributes struct {
 	//
 	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
 	StartToFireTimeout *durationpb.Duration `protobuf:"bytes,2,opt,name=start_to_fire_timeout,json=startToFireTimeout,proto3" json:"start_to_fire_timeout,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
 }
 
 func (x *StartTimerCommandAttributes) Reset() {
 	*x = StartTimerCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartTimerCommandAttributes) String() string {
@@ -290,7 +299,7 @@ func (*StartTimerCommandAttributes) ProtoMessage() {}
 
 func (x *StartTimerCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -320,17 +329,20 @@ func (x *StartTimerCommandAttributes) GetStartToFireTimeout() *durationpb.Durati
 }
 
 type CompleteWorkflowExecutionCommandAttributes struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Result        *v1.Payloads           `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Result *v1.Payloads `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 }
 
 func (x *CompleteWorkflowExecutionCommandAttributes) Reset() {
 	*x = CompleteWorkflowExecutionCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CompleteWorkflowExecutionCommandAttributes) String() string {
@@ -341,7 +353,7 @@ func (*CompleteWorkflowExecutionCommandAttributes) ProtoMessage() {}
 
 func (x *CompleteWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -364,17 +376,20 @@ func (x *CompleteWorkflowExecutionCommandAttributes) GetResult() *v1.Payloads {
 }
 
 type FailWorkflowExecutionCommandAttributes struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Failure       *v12.Failure           `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Failure *v12.Failure `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *FailWorkflowExecutionCommandAttributes) Reset() {
 	*x = FailWorkflowExecutionCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *FailWorkflowExecutionCommandAttributes) String() string {
@@ -385,7 +400,7 @@ func (*FailWorkflowExecutionCommandAttributes) ProtoMessage() {}
 
 func (x *FailWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -408,18 +423,21 @@ func (x *FailWorkflowExecutionCommandAttributes) GetFailure() *v12.Failure {
 }
 
 type CancelTimerCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The same timer id from the start timer command
-	TimerId       string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The same timer id from the start timer command
+	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
 }
 
 func (x *CancelTimerCommandAttributes) Reset() {
 	*x = CancelTimerCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CancelTimerCommandAttributes) String() string {
@@ -430,7 +448,7 @@ func (*CancelTimerCommandAttributes) ProtoMessage() {}
 
 func (x *CancelTimerCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -453,17 +471,20 @@ func (x *CancelTimerCommandAttributes) GetTimerId() string {
 }
 
 type CancelWorkflowExecutionCommandAttributes struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Details       *v1.Payloads           `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Details *v1.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 }
 
 func (x *CancelWorkflowExecutionCommandAttributes) Reset() {
 	*x = CancelWorkflowExecutionCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CancelWorkflowExecutionCommandAttributes) String() string {
@@ -474,7 +495,7 @@ func (*CancelWorkflowExecutionCommandAttributes) ProtoMessage() {}
 
 func (x *CancelWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -497,10 +518,13 @@ func (x *CancelWorkflowExecutionCommandAttributes) GetDetails() *v1.Payloads {
 }
 
 type RequestCancelExternalWorkflowExecutionCommandAttributes struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId      string                 `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace  string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId      string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// Deprecated.
 	Control string `protobuf:"bytes,4,opt,name=control,proto3" json:"control,omitempty"`
 	// Set this to true if the workflow being cancelled is a child of the workflow originating this
@@ -508,16 +532,16 @@ type RequestCancelExternalWorkflowExecutionCommandAttributes struct {
 	// a child of the requesting workflow.
 	ChildWorkflowOnly bool `protobuf:"varint,5,opt,name=child_workflow_only,json=childWorkflowOnly,proto3" json:"child_workflow_only,omitempty"`
 	// Reason for requesting the cancellation
-	Reason        string `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Reason string `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
 }
 
 func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) Reset() {
 	*x = RequestCancelExternalWorkflowExecutionCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) String() string {
@@ -528,7 +552,7 @@ func (*RequestCancelExternalWorkflowExecutionCommandAttributes) ProtoMessage() {
 
 func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -586,9 +610,12 @@ func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) GetReason() st
 }
 
 type SignalExternalWorkflowExecutionCommandAttributes struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	Execution *v1.WorkflowExecution  `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace string                `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Execution *v1.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	// The workflow author-defined name of the signal to send to the workflow.
 	SignalName string `protobuf:"bytes,3,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
 	// Serialized value(s) to provide with the signal.
@@ -601,16 +628,16 @@ type SignalExternalWorkflowExecutionCommandAttributes struct {
 	ChildWorkflowOnly bool `protobuf:"varint,6,opt,name=child_workflow_only,json=childWorkflowOnly,proto3" json:"child_workflow_only,omitempty"`
 	// Headers that are passed by the workflow that is sending a signal to the external
 	// workflow that is receiving this signal.
-	Header        *v1.Header `protobuf:"bytes,7,opt,name=header,proto3" json:"header,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Header *v1.Header `protobuf:"bytes,7,opt,name=header,proto3" json:"header,omitempty"`
 }
 
 func (x *SignalExternalWorkflowExecutionCommandAttributes) Reset() {
 	*x = SignalExternalWorkflowExecutionCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *SignalExternalWorkflowExecutionCommandAttributes) String() string {
@@ -621,7 +648,7 @@ func (*SignalExternalWorkflowExecutionCommandAttributes) ProtoMessage() {}
 
 func (x *SignalExternalWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -686,17 +713,20 @@ func (x *SignalExternalWorkflowExecutionCommandAttributes) GetHeader() *v1.Heade
 }
 
 type UpsertWorkflowSearchAttributesCommandAttributes struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	SearchAttributes *v1.SearchAttributes   `protobuf:"bytes,1,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SearchAttributes *v1.SearchAttributes `protobuf:"bytes,1,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 }
 
 func (x *UpsertWorkflowSearchAttributesCommandAttributes) Reset() {
 	*x = UpsertWorkflowSearchAttributesCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpsertWorkflowSearchAttributesCommandAttributes) String() string {
@@ -707,7 +737,7 @@ func (*UpsertWorkflowSearchAttributesCommandAttributes) ProtoMessage() {}
 
 func (x *UpsertWorkflowSearchAttributesCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -730,20 +760,23 @@ func (x *UpsertWorkflowSearchAttributesCommandAttributes) GetSearchAttributes() 
 }
 
 type ModifyWorkflowPropertiesCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// If set, update the workflow memo with the provided values. The values will be merged with
 	// the existing memo. If the user wants to delete values, a default/empty Payload should be
 	// used as the value for the key being deleted.
-	UpsertedMemo  *v1.Memo `protobuf:"bytes,1,opt,name=upserted_memo,json=upsertedMemo,proto3" json:"upserted_memo,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UpsertedMemo *v1.Memo `protobuf:"bytes,1,opt,name=upserted_memo,json=upsertedMemo,proto3" json:"upserted_memo,omitempty"`
 }
 
 func (x *ModifyWorkflowPropertiesCommandAttributes) Reset() {
 	*x = ModifyWorkflowPropertiesCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ModifyWorkflowPropertiesCommandAttributes) String() string {
@@ -754,7 +787,7 @@ func (*ModifyWorkflowPropertiesCommandAttributes) ProtoMessage() {}
 
 func (x *ModifyWorkflowPropertiesCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -777,20 +810,23 @@ func (x *ModifyWorkflowPropertiesCommandAttributes) GetUpsertedMemo() *v1.Memo {
 }
 
 type RecordMarkerCommandAttributes struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	MarkerName    string                  `protobuf:"bytes,1,opt,name=marker_name,json=markerName,proto3" json:"marker_name,omitempty"`
-	Details       map[string]*v1.Payloads `protobuf:"bytes,2,rep,name=details,proto3" json:"details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Header        *v1.Header              `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
-	Failure       *v12.Failure            `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MarkerName string                  `protobuf:"bytes,1,opt,name=marker_name,json=markerName,proto3" json:"marker_name,omitempty"`
+	Details    map[string]*v1.Payloads `protobuf:"bytes,2,rep,name=details,proto3" json:"details,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Header     *v1.Header              `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
+	Failure    *v12.Failure            `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *RecordMarkerCommandAttributes) Reset() {
 	*x = RecordMarkerCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RecordMarkerCommandAttributes) String() string {
@@ -801,7 +837,7 @@ func (*RecordMarkerCommandAttributes) ProtoMessage() {}
 
 func (x *RecordMarkerCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[11]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -845,10 +881,13 @@ func (x *RecordMarkerCommandAttributes) GetFailure() *v12.Failure {
 }
 
 type ContinueAsNewWorkflowExecutionCommandAttributes struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	WorkflowType *v1.WorkflowType       `protobuf:"bytes,1,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
-	TaskQueue    *v11.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	Input        *v1.Payloads           `protobuf:"bytes,3,opt,name=input,proto3" json:"input,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WorkflowType *v1.WorkflowType `protobuf:"bytes,1,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue    *v11.TaskQueue   `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Input        *v1.Payloads     `protobuf:"bytes,3,opt,name=input,proto3" json:"input,omitempty"`
 	// Timeout of a single workflow run.
 	WorkflowRunTimeout *durationpb.Duration `protobuf:"bytes,4,opt,name=workflow_run_timeout,json=workflowRunTimeout,proto3" json:"workflow_run_timeout,omitempty"`
 	// Timeout of a single workflow task.
@@ -870,15 +909,15 @@ type ContinueAsNewWorkflowExecutionCommandAttributes struct {
 	// If this is set, the new execution inherits the Build ID of the current execution. Otherwise,
 	// the assignment rules will be used to independently assign a Build ID to the new execution.
 	InheritBuildId bool `protobuf:"varint,15,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ContinueAsNewWorkflowExecutionCommandAttributes) Reset() {
 	*x = ContinueAsNewWorkflowExecutionCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ContinueAsNewWorkflowExecutionCommandAttributes) String() string {
@@ -889,7 +928,7 @@ func (*ContinueAsNewWorkflowExecutionCommandAttributes) ProtoMessage() {}
 
 func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[12]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1010,12 +1049,15 @@ func (x *ContinueAsNewWorkflowExecutionCommandAttributes) GetInheritBuildId() bo
 }
 
 type StartChildWorkflowExecutionCommandAttributes struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	Namespace    string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId   string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	WorkflowType *v1.WorkflowType       `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
-	TaskQueue    *v11.TaskQueue         `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	Input        *v1.Payloads           `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Namespace    string           `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowId   string           `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	WorkflowType *v1.WorkflowType `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
+	TaskQueue    *v11.TaskQueue   `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	Input        *v1.Payloads     `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
 	// Total workflow execution timeout including retries and continue as new.
 	WorkflowExecutionTimeout *durationpb.Duration `protobuf:"bytes,6,opt,name=workflow_execution_timeout,json=workflowExecutionTimeout,proto3" json:"workflow_execution_timeout,omitempty"`
 	// Timeout of a single workflow run.
@@ -1036,15 +1078,15 @@ type StartChildWorkflowExecutionCommandAttributes struct {
 	// If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment
 	// rules of the child's Task Queue will be used to independently assign a Build ID to it.
 	InheritBuildId bool `protobuf:"varint,17,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *StartChildWorkflowExecutionCommandAttributes) Reset() {
 	*x = StartChildWorkflowExecutionCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartChildWorkflowExecutionCommandAttributes) String() string {
@@ -1055,7 +1097,7 @@ func (*StartChildWorkflowExecutionCommandAttributes) ProtoMessage() {}
 
 func (x *StartChildWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[13]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1190,18 +1232,21 @@ func (x *StartChildWorkflowExecutionCommandAttributes) GetInheritBuildId() bool 
 }
 
 type ProtocolMessageCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The message ID of the message to which this command is a pointer.
-	MessageId     string `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The message ID of the message to which this command is a pointer.
+	MessageId string `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 }
 
 func (x *ProtocolMessageCommandAttributes) Reset() {
 	*x = ProtocolMessageCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ProtocolMessageCommandAttributes) String() string {
@@ -1212,7 +1257,7 @@ func (*ProtocolMessageCommandAttributes) ProtoMessage() {}
 
 func (x *ProtocolMessageCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[14]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1235,7 +1280,10 @@ func (x *ProtocolMessageCommandAttributes) GetMessageId() string {
 }
 
 type ScheduleNexusOperationCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Endpoint name, must exist in the endpoint registry or this command will fail.
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	// Service name.
@@ -1259,16 +1307,16 @@ type ScheduleNexusOperationCommandAttributes struct {
 	// This is useful for propagating tracing information.
 	// Note these headers are not the same as Temporal headers on internal activities and child workflows, these are
 	// transmitted to Nexus operations that may be external and are not traditional payloads.
-	NexusHeader   map[string]string `protobuf:"bytes,6,rep,name=nexus_header,json=nexusHeader,proto3" json:"nexus_header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	NexusHeader map[string]string `protobuf:"bytes,6,rep,name=nexus_header,json=nexusHeader,proto3" json:"nexus_header,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *ScheduleNexusOperationCommandAttributes) Reset() {
 	*x = ScheduleNexusOperationCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ScheduleNexusOperationCommandAttributes) String() string {
@@ -1279,7 +1327,7 @@ func (*ScheduleNexusOperationCommandAttributes) ProtoMessage() {}
 
 func (x *ScheduleNexusOperationCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[15]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1337,19 +1385,22 @@ func (x *ScheduleNexusOperationCommandAttributes) GetNexusHeader() map[string]st
 }
 
 type RequestCancelNexusOperationCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The `NEXUS_OPERATION_SCHEDULED` event ID (a unique identifier) for the operation to be canceled.
 	// The operation may ignore cancellation and end up with any completion state.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *RequestCancelNexusOperationCommandAttributes) Reset() {
 	*x = RequestCancelNexusOperationCommandAttributes{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RequestCancelNexusOperationCommandAttributes) String() string {
@@ -1360,7 +1411,7 @@ func (*RequestCancelNexusOperationCommandAttributes) ProtoMessage() {}
 
 func (x *RequestCancelNexusOperationCommandAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[16]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1383,8 +1434,11 @@ func (x *RequestCancelNexusOperationCommandAttributes) GetScheduledEventId() int
 }
 
 type Command struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	CommandType v13.CommandType        `protobuf:"varint,1,opt,name=command_type,json=commandType,proto3,enum=temporal.api.enums.v1.CommandType" json:"command_type,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CommandType v13.CommandType `protobuf:"varint,1,opt,name=command_type,json=commandType,proto3,enum=temporal.api.enums.v1.CommandType" json:"command_type,omitempty"`
 	// Metadata on the command. This is sometimes carried over to the history event if one is
 	// created as a result of the command. Most commands won't have this information, and how this
 	// information is used is dependent upon the interface that reads it.
@@ -1398,7 +1452,7 @@ type Command struct {
 	UserMetadata *v14.UserMetadata `protobuf:"bytes,301,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
 	// The command details. The type must match that in `command_type`.
 	//
-	// Types that are valid to be assigned to Attributes:
+	// Types that are assignable to Attributes:
 	//
 	//	*Command_ScheduleActivityTaskCommandAttributes
 	//	*Command_StartTimerCommandAttributes
@@ -1417,16 +1471,16 @@ type Command struct {
 	//	*Command_ModifyWorkflowPropertiesCommandAttributes
 	//	*Command_ScheduleNexusOperationCommandAttributes
 	//	*Command_RequestCancelNexusOperationCommandAttributes
-	Attributes    isCommand_Attributes `protobuf_oneof:"attributes"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Attributes isCommand_Attributes `protobuf_oneof:"attributes"`
 }
 
 func (x *Command) Reset() {
 	*x = Command{}
-	mi := &file_temporal_api_command_v1_message_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_command_v1_message_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Command) String() string {
@@ -1437,7 +1491,7 @@ func (*Command) ProtoMessage() {}
 
 func (x *Command) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_command_v1_message_proto_msgTypes[17]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1466,162 +1520,128 @@ func (x *Command) GetUserMetadata() *v14.UserMetadata {
 	return nil
 }
 
-func (x *Command) GetAttributes() isCommand_Attributes {
-	if x != nil {
-		return x.Attributes
+func (m *Command) GetAttributes() isCommand_Attributes {
+	if m != nil {
+		return m.Attributes
 	}
 	return nil
 }
 
 func (x *Command) GetScheduleActivityTaskCommandAttributes() *ScheduleActivityTaskCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_ScheduleActivityTaskCommandAttributes); ok {
-			return x.ScheduleActivityTaskCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_ScheduleActivityTaskCommandAttributes); ok {
+		return x.ScheduleActivityTaskCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetStartTimerCommandAttributes() *StartTimerCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_StartTimerCommandAttributes); ok {
-			return x.StartTimerCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_StartTimerCommandAttributes); ok {
+		return x.StartTimerCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetCompleteWorkflowExecutionCommandAttributes() *CompleteWorkflowExecutionCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_CompleteWorkflowExecutionCommandAttributes); ok {
-			return x.CompleteWorkflowExecutionCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_CompleteWorkflowExecutionCommandAttributes); ok {
+		return x.CompleteWorkflowExecutionCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetFailWorkflowExecutionCommandAttributes() *FailWorkflowExecutionCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_FailWorkflowExecutionCommandAttributes); ok {
-			return x.FailWorkflowExecutionCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_FailWorkflowExecutionCommandAttributes); ok {
+		return x.FailWorkflowExecutionCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetRequestCancelActivityTaskCommandAttributes() *RequestCancelActivityTaskCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_RequestCancelActivityTaskCommandAttributes); ok {
-			return x.RequestCancelActivityTaskCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_RequestCancelActivityTaskCommandAttributes); ok {
+		return x.RequestCancelActivityTaskCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetCancelTimerCommandAttributes() *CancelTimerCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_CancelTimerCommandAttributes); ok {
-			return x.CancelTimerCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_CancelTimerCommandAttributes); ok {
+		return x.CancelTimerCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetCancelWorkflowExecutionCommandAttributes() *CancelWorkflowExecutionCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_CancelWorkflowExecutionCommandAttributes); ok {
-			return x.CancelWorkflowExecutionCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_CancelWorkflowExecutionCommandAttributes); ok {
+		return x.CancelWorkflowExecutionCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetRequestCancelExternalWorkflowExecutionCommandAttributes() *RequestCancelExternalWorkflowExecutionCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_RequestCancelExternalWorkflowExecutionCommandAttributes); ok {
-			return x.RequestCancelExternalWorkflowExecutionCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_RequestCancelExternalWorkflowExecutionCommandAttributes); ok {
+		return x.RequestCancelExternalWorkflowExecutionCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetRecordMarkerCommandAttributes() *RecordMarkerCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_RecordMarkerCommandAttributes); ok {
-			return x.RecordMarkerCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_RecordMarkerCommandAttributes); ok {
+		return x.RecordMarkerCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetContinueAsNewWorkflowExecutionCommandAttributes() *ContinueAsNewWorkflowExecutionCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_ContinueAsNewWorkflowExecutionCommandAttributes); ok {
-			return x.ContinueAsNewWorkflowExecutionCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_ContinueAsNewWorkflowExecutionCommandAttributes); ok {
+		return x.ContinueAsNewWorkflowExecutionCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetStartChildWorkflowExecutionCommandAttributes() *StartChildWorkflowExecutionCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_StartChildWorkflowExecutionCommandAttributes); ok {
-			return x.StartChildWorkflowExecutionCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_StartChildWorkflowExecutionCommandAttributes); ok {
+		return x.StartChildWorkflowExecutionCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetSignalExternalWorkflowExecutionCommandAttributes() *SignalExternalWorkflowExecutionCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_SignalExternalWorkflowExecutionCommandAttributes); ok {
-			return x.SignalExternalWorkflowExecutionCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_SignalExternalWorkflowExecutionCommandAttributes); ok {
+		return x.SignalExternalWorkflowExecutionCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetUpsertWorkflowSearchAttributesCommandAttributes() *UpsertWorkflowSearchAttributesCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_UpsertWorkflowSearchAttributesCommandAttributes); ok {
-			return x.UpsertWorkflowSearchAttributesCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_UpsertWorkflowSearchAttributesCommandAttributes); ok {
+		return x.UpsertWorkflowSearchAttributesCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetProtocolMessageCommandAttributes() *ProtocolMessageCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_ProtocolMessageCommandAttributes); ok {
-			return x.ProtocolMessageCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_ProtocolMessageCommandAttributes); ok {
+		return x.ProtocolMessageCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetModifyWorkflowPropertiesCommandAttributes() *ModifyWorkflowPropertiesCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_ModifyWorkflowPropertiesCommandAttributes); ok {
-			return x.ModifyWorkflowPropertiesCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_ModifyWorkflowPropertiesCommandAttributes); ok {
+		return x.ModifyWorkflowPropertiesCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetScheduleNexusOperationCommandAttributes() *ScheduleNexusOperationCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_ScheduleNexusOperationCommandAttributes); ok {
-			return x.ScheduleNexusOperationCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_ScheduleNexusOperationCommandAttributes); ok {
+		return x.ScheduleNexusOperationCommandAttributes
 	}
 	return nil
 }
 
 func (x *Command) GetRequestCancelNexusOperationCommandAttributes() *RequestCancelNexusOperationCommandAttributes {
-	if x != nil {
-		if x, ok := x.Attributes.(*Command_RequestCancelNexusOperationCommandAttributes); ok {
-			return x.RequestCancelNexusOperationCommandAttributes
-		}
+	if x, ok := x.GetAttributes().(*Command_RequestCancelNexusOperationCommandAttributes); ok {
+		return x.RequestCancelNexusOperationCommandAttributes
 	}
 	return nil
 }
@@ -2311,7 +2331,7 @@ func file_temporal_api_command_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_command_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
-var file_temporal_api_command_v1_message_proto_goTypes = []any{
+var file_temporal_api_command_v1_message_proto_goTypes = []interface{}{
 	(*ScheduleActivityTaskCommandAttributes)(nil),                   // 0: temporal.api.command.v1.ScheduleActivityTaskCommandAttributes
 	(*RequestCancelActivityTaskCommandAttributes)(nil),              // 1: temporal.api.command.v1.RequestCancelActivityTaskCommandAttributes
 	(*StartTimerCommandAttributes)(nil),                             // 2: temporal.api.command.v1.StartTimerCommandAttributes
@@ -2432,7 +2452,225 @@ func file_temporal_api_command_v1_message_proto_init() {
 	if File_temporal_api_command_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_command_v1_message_proto_msgTypes[17].OneofWrappers = []any{
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_command_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ScheduleActivityTaskCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RequestCancelActivityTaskCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartTimerCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CompleteWorkflowExecutionCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FailWorkflowExecutionCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CancelTimerCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CancelWorkflowExecutionCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RequestCancelExternalWorkflowExecutionCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SignalExternalWorkflowExecutionCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpsertWorkflowSearchAttributesCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ModifyWorkflowPropertiesCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RecordMarkerCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContinueAsNewWorkflowExecutionCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartChildWorkflowExecutionCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ProtocolMessageCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ScheduleNexusOperationCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RequestCancelNexusOperationCommandAttributes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_command_v1_message_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Command); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_command_v1_message_proto_msgTypes[17].OneofWrappers = []interface{}{
 		(*Command_ScheduleActivityTaskCommandAttributes)(nil),
 		(*Command_StartTimerCommandAttributes)(nil),
 		(*Command_CompleteWorkflowExecutionCommandAttributes)(nil),

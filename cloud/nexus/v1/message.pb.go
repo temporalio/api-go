@@ -48,7 +48,10 @@ const (
 )
 
 type EndpointSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The name of the endpoint. Must be unique within an account.
 	// The name must match `^[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9]$`.
 	// This field is mutable.
@@ -66,16 +69,16 @@ type EndpointSpec struct {
 	DescriptionDeprecated string `protobuf:"bytes,4,opt,name=description_deprecated,json=descriptionDeprecated,proto3" json:"description_deprecated,omitempty"`
 	// The markdown description of the endpoint - optional.
 	// temporal:versioning:min_version=2025-01-01-00
-	Description   *v1.Payload `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Description *v1.Payload `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (x *EndpointSpec) Reset() {
 	*x = EndpointSpec{}
-	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointSpec) String() string {
@@ -86,7 +89,7 @@ func (*EndpointSpec) ProtoMessage() {}
 
 func (x *EndpointSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -138,20 +141,23 @@ func (x *EndpointSpec) GetDescription() *v1.Payload {
 }
 
 type EndpointTargetSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*EndpointTargetSpec_WorkerTargetSpec
-	Variant       isEndpointTargetSpec_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isEndpointTargetSpec_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *EndpointTargetSpec) Reset() {
 	*x = EndpointTargetSpec{}
-	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointTargetSpec) String() string {
@@ -162,7 +168,7 @@ func (*EndpointTargetSpec) ProtoMessage() {}
 
 func (x *EndpointTargetSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -177,18 +183,16 @@ func (*EndpointTargetSpec) Descriptor() ([]byte, []int) {
 	return file_temporal_api_cloud_nexus_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *EndpointTargetSpec) GetVariant() isEndpointTargetSpec_Variant {
-	if x != nil {
-		return x.Variant
+func (m *EndpointTargetSpec) GetVariant() isEndpointTargetSpec_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *EndpointTargetSpec) GetWorkerTargetSpec() *WorkerTargetSpec {
-	if x != nil {
-		if x, ok := x.Variant.(*EndpointTargetSpec_WorkerTargetSpec); ok {
-			return x.WorkerTargetSpec
-		}
+	if x, ok := x.GetVariant().(*EndpointTargetSpec_WorkerTargetSpec); ok {
+		return x.WorkerTargetSpec
 	}
 	return nil
 }
@@ -205,20 +209,23 @@ type EndpointTargetSpec_WorkerTargetSpec struct {
 func (*EndpointTargetSpec_WorkerTargetSpec) isEndpointTargetSpec_Variant() {}
 
 type WorkerTargetSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The target cloud namespace to route requests to. Namespace must be in same account as the endpoint. This field is mutable.
 	NamespaceId string `protobuf:"bytes,1,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	// The task queue on the cloud namespace to route requests to. This field is mutable.
-	TaskQueue     string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 }
 
 func (x *WorkerTargetSpec) Reset() {
 	*x = WorkerTargetSpec{}
-	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkerTargetSpec) String() string {
@@ -229,7 +236,7 @@ func (*WorkerTargetSpec) ProtoMessage() {}
 
 func (x *WorkerTargetSpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -259,20 +266,23 @@ func (x *WorkerTargetSpec) GetTaskQueue() string {
 }
 
 type EndpointPolicySpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Variant:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Variant:
 	//
 	//	*EndpointPolicySpec_AllowedCloudNamespacePolicySpec
-	Variant       isEndpointPolicySpec_Variant `protobuf_oneof:"variant"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Variant isEndpointPolicySpec_Variant `protobuf_oneof:"variant"`
 }
 
 func (x *EndpointPolicySpec) Reset() {
 	*x = EndpointPolicySpec{}
-	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EndpointPolicySpec) String() string {
@@ -283,7 +293,7 @@ func (*EndpointPolicySpec) ProtoMessage() {}
 
 func (x *EndpointPolicySpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -298,18 +308,16 @@ func (*EndpointPolicySpec) Descriptor() ([]byte, []int) {
 	return file_temporal_api_cloud_nexus_v1_message_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *EndpointPolicySpec) GetVariant() isEndpointPolicySpec_Variant {
-	if x != nil {
-		return x.Variant
+func (m *EndpointPolicySpec) GetVariant() isEndpointPolicySpec_Variant {
+	if m != nil {
+		return m.Variant
 	}
 	return nil
 }
 
 func (x *EndpointPolicySpec) GetAllowedCloudNamespacePolicySpec() *AllowedCloudNamespacePolicySpec {
-	if x != nil {
-		if x, ok := x.Variant.(*EndpointPolicySpec_AllowedCloudNamespacePolicySpec); ok {
-			return x.AllowedCloudNamespacePolicySpec
-		}
+	if x, ok := x.GetVariant().(*EndpointPolicySpec_AllowedCloudNamespacePolicySpec); ok {
+		return x.AllowedCloudNamespacePolicySpec
 	}
 	return nil
 }
@@ -326,18 +334,21 @@ type EndpointPolicySpec_AllowedCloudNamespacePolicySpec struct {
 func (*EndpointPolicySpec_AllowedCloudNamespacePolicySpec) isEndpointPolicySpec_Variant() {}
 
 type AllowedCloudNamespacePolicySpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The namespace that is allowed to call into this endpoint. Calling namespace must be in same account as the endpoint.
-	NamespaceId   string `protobuf:"bytes,1,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The namespace that is allowed to call into this endpoint. Calling namespace must be in same account as the endpoint.
+	NamespaceId string `protobuf:"bytes,1,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 }
 
 func (x *AllowedCloudNamespacePolicySpec) Reset() {
 	*x = AllowedCloudNamespacePolicySpec{}
-	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *AllowedCloudNamespacePolicySpec) String() string {
@@ -348,7 +359,7 @@ func (*AllowedCloudNamespacePolicySpec) ProtoMessage() {}
 
 func (x *AllowedCloudNamespacePolicySpec) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -372,7 +383,10 @@ func (x *AllowedCloudNamespacePolicySpec) GetNamespaceId() string {
 
 // An endpoint that receives and then routes Nexus requests
 type Endpoint struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the endpoint. This is generated by the server and is immutable.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current version of the endpoint specification.
@@ -389,15 +403,15 @@ type Endpoint struct {
 	CreatedTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
 	// The date and time when the endpoint was last modified.
 	LastModifiedTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_modified_time,json=lastModifiedTime,proto3" json:"last_modified_time,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Endpoint) Reset() {
 	*x = Endpoint{}
-	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Endpoint) String() string {
@@ -408,7 +422,7 @@ func (*Endpoint) ProtoMessage() {}
 
 func (x *Endpoint) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -586,7 +600,7 @@ func file_temporal_api_cloud_nexus_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_nexus_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_temporal_api_cloud_nexus_v1_message_proto_goTypes = []any{
+var file_temporal_api_cloud_nexus_v1_message_proto_goTypes = []interface{}{
 	(*EndpointSpec)(nil),                    // 0: temporal.api.cloud.nexus.v1.EndpointSpec
 	(*EndpointTargetSpec)(nil),              // 1: temporal.api.cloud.nexus.v1.EndpointTargetSpec
 	(*WorkerTargetSpec)(nil),                // 2: temporal.api.cloud.nexus.v1.WorkerTargetSpec
@@ -619,10 +633,84 @@ func file_temporal_api_cloud_nexus_v1_message_proto_init() {
 	if File_temporal_api_cloud_nexus_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[1].OneofWrappers = []any{
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointTargetSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkerTargetSpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EndpointPolicySpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AllowedCloudNamespacePolicySpec); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Endpoint); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[1].OneofWrappers = []interface{}{
 		(*EndpointTargetSpec_WorkerTargetSpec)(nil),
 	}
-	file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[3].OneofWrappers = []any{
+	file_temporal_api_cloud_nexus_v1_message_proto_msgTypes[3].OneofWrappers = []interface{}{
 		(*EndpointPolicySpec_AllowedCloudNamespacePolicySpec)(nil),
 	}
 	type x struct{}

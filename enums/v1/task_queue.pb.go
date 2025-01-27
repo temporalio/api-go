@@ -483,7 +483,7 @@ func file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_task_queue_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
-var file_temporal_api_enums_v1_task_queue_proto_goTypes = []any{
+var file_temporal_api_enums_v1_task_queue_proto_goTypes = []interface{}{
 	(TaskQueueKind)(0),           // 0: temporal.api.enums.v1.TaskQueueKind
 	(TaskQueueType)(0),           // 1: temporal.api.enums.v1.TaskQueueType
 	(TaskReachability)(0),        // 2: temporal.api.enums.v1.TaskReachability

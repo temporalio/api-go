@@ -224,7 +224,10 @@ func (GroupByKey) EnumDescriptor() ([]byte, []int) {
 }
 
 type Summary struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Start of UTC day for now (inclusive)
 	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// End of UTC day for now (exclusive)
@@ -233,16 +236,16 @@ type Summary struct {
 	RecordGroups []*RecordGroup `protobuf:"bytes,3,rep,name=record_groups,json=recordGroups,proto3" json:"record_groups,omitempty"`
 	// True if data for given time window is not fully available yet (e.g. delays)
 	// When true, records for the given time range could still be added/updated in the future (until false)
-	Incomplete    bool `protobuf:"varint,4,opt,name=incomplete,proto3" json:"incomplete,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Incomplete bool `protobuf:"varint,4,opt,name=incomplete,proto3" json:"incomplete,omitempty"`
 }
 
 func (x *Summary) Reset() {
 	*x = Summary{}
-	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Summary) String() string {
@@ -253,7 +256,7 @@ func (*Summary) ProtoMessage() {}
 
 func (x *Summary) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -297,19 +300,22 @@ func (x *Summary) GetIncomplete() bool {
 }
 
 type RecordGroup struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// GroupBy keys and their values for this record group. Multiple fields are combined with logical AND.
-	GroupBys      []*GroupBy `protobuf:"bytes,1,rep,name=group_bys,json=groupBys,proto3" json:"group_bys,omitempty"`
-	Records       []*Record  `protobuf:"bytes,2,rep,name=records,proto3" json:"records,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// GroupBy keys and their values for this record group. Multiple fields are combined with logical AND.
+	GroupBys []*GroupBy `protobuf:"bytes,1,rep,name=group_bys,json=groupBys,proto3" json:"group_bys,omitempty"`
+	Records  []*Record  `protobuf:"bytes,2,rep,name=records,proto3" json:"records,omitempty"`
 }
 
 func (x *RecordGroup) Reset() {
 	*x = RecordGroup{}
-	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RecordGroup) String() string {
@@ -320,7 +326,7 @@ func (*RecordGroup) ProtoMessage() {}
 
 func (x *RecordGroup) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -350,18 +356,21 @@ func (x *RecordGroup) GetRecords() []*Record {
 }
 
 type GroupBy struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Key           GroupByKey             `protobuf:"varint,1,opt,name=key,proto3,enum=temporal.api.cloud.usage.v1.GroupByKey" json:"key,omitempty"`
-	Value         string                 `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Key   GroupByKey `protobuf:"varint,1,opt,name=key,proto3,enum=temporal.api.cloud.usage.v1.GroupByKey" json:"key,omitempty"`
+	Value string     `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (x *GroupBy) Reset() {
 	*x = GroupBy{}
-	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GroupBy) String() string {
@@ -372,7 +381,7 @@ func (*GroupBy) ProtoMessage() {}
 
 func (x *GroupBy) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -402,19 +411,22 @@ func (x *GroupBy) GetValue() string {
 }
 
 type Record struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          RecordType             `protobuf:"varint,1,opt,name=type,proto3,enum=temporal.api.cloud.usage.v1.RecordType" json:"type,omitempty"`
-	Unit          RecordUnit             `protobuf:"varint,2,opt,name=unit,proto3,enum=temporal.api.cloud.usage.v1.RecordUnit" json:"unit,omitempty"`
-	Value         float64                `protobuf:"fixed64,3,opt,name=value,proto3" json:"value,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Type  RecordType `protobuf:"varint,1,opt,name=type,proto3,enum=temporal.api.cloud.usage.v1.RecordType" json:"type,omitempty"`
+	Unit  RecordUnit `protobuf:"varint,2,opt,name=unit,proto3,enum=temporal.api.cloud.usage.v1.RecordUnit" json:"unit,omitempty"`
+	Value float64    `protobuf:"fixed64,3,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (x *Record) Reset() {
 	*x = Record{}
-	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Record) String() string {
@@ -425,7 +437,7 @@ func (*Record) ProtoMessage() {}
 
 func (x *Record) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_usage_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -556,7 +568,7 @@ func file_temporal_api_cloud_usage_v1_message_proto_rawDescGZIP() []byte {
 
 var file_temporal_api_cloud_usage_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_temporal_api_cloud_usage_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_temporal_api_cloud_usage_v1_message_proto_goTypes = []any{
+var file_temporal_api_cloud_usage_v1_message_proto_goTypes = []interface{}{
 	(RecordType)(0),               // 0: temporal.api.cloud.usage.v1.RecordType
 	(RecordUnit)(0),               // 1: temporal.api.cloud.usage.v1.RecordUnit
 	(GroupByKey)(0),               // 2: temporal.api.cloud.usage.v1.GroupByKey
@@ -586,6 +598,56 @@ func init() { file_temporal_api_cloud_usage_v1_message_proto_init() }
 func file_temporal_api_cloud_usage_v1_message_proto_init() {
 	if File_temporal_api_cloud_usage_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_cloud_usage_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Summary); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_usage_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RecordGroup); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_usage_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GroupBy); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_usage_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Record); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

@@ -47,18 +47,21 @@ const (
 )
 
 type WorkflowExecutionFilter struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	WorkflowId string `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId      string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 }
 
 func (x *WorkflowExecutionFilter) Reset() {
 	*x = WorkflowExecutionFilter{}
-	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_filter_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowExecutionFilter) String() string {
@@ -69,7 +72,7 @@ func (*WorkflowExecutionFilter) ProtoMessage() {}
 
 func (x *WorkflowExecutionFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -99,17 +102,20 @@ func (x *WorkflowExecutionFilter) GetRunId() string {
 }
 
 type WorkflowTypeFilter struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (x *WorkflowTypeFilter) Reset() {
 	*x = WorkflowTypeFilter{}
-	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_filter_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowTypeFilter) String() string {
@@ -120,7 +126,7 @@ func (*WorkflowTypeFilter) ProtoMessage() {}
 
 func (x *WorkflowTypeFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -143,18 +149,21 @@ func (x *WorkflowTypeFilter) GetName() string {
 }
 
 type StartTimeFilter struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	EarliestTime  *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=earliest_time,json=earliestTime,proto3" json:"earliest_time,omitempty"`
-	LatestTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=latest_time,json=latestTime,proto3" json:"latest_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	EarliestTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=earliest_time,json=earliestTime,proto3" json:"earliest_time,omitempty"`
+	LatestTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=latest_time,json=latestTime,proto3" json:"latest_time,omitempty"`
 }
 
 func (x *StartTimeFilter) Reset() {
 	*x = StartTimeFilter{}
-	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_filter_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StartTimeFilter) String() string {
@@ -165,7 +174,7 @@ func (*StartTimeFilter) ProtoMessage() {}
 
 func (x *StartTimeFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -195,17 +204,20 @@ func (x *StartTimeFilter) GetLatestTime() *timestamppb.Timestamp {
 }
 
 type StatusFilter struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
-	Status        v1.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status v1.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
 }
 
 func (x *StatusFilter) Reset() {
 	*x = StatusFilter{}
-	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_filter_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StatusFilter) String() string {
@@ -216,7 +228,7 @@ func (*StatusFilter) ProtoMessage() {}
 
 func (x *StatusFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_filter_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -296,7 +308,7 @@ func file_temporal_api_filter_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_filter_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_temporal_api_filter_v1_message_proto_goTypes = []any{
+var file_temporal_api_filter_v1_message_proto_goTypes = []interface{}{
 	(*WorkflowExecutionFilter)(nil), // 0: temporal.api.filter.v1.WorkflowExecutionFilter
 	(*WorkflowTypeFilter)(nil),      // 1: temporal.api.filter.v1.WorkflowTypeFilter
 	(*StartTimeFilter)(nil),         // 2: temporal.api.filter.v1.StartTimeFilter
@@ -319,6 +331,56 @@ func init() { file_temporal_api_filter_v1_message_proto_init() }
 func file_temporal_api_filter_v1_message_proto_init() {
 	if File_temporal_api_filter_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_filter_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowExecutionFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_filter_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowTypeFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_filter_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StartTimeFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_filter_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StatusFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

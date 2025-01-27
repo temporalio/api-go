@@ -49,23 +49,26 @@ const (
 
 // See https://docs.temporal.io/docs/concepts/queries/
 type WorkflowQuery struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The workflow-author-defined identifier of the query. Typically a function name.
 	QueryType string `protobuf:"bytes,1,opt,name=query_type,json=queryType,proto3" json:"query_type,omitempty"`
 	// Serialized arguments that will be provided to the query handler.
 	QueryArgs *v1.Payloads `protobuf:"bytes,2,opt,name=query_args,json=queryArgs,proto3" json:"query_args,omitempty"`
 	// Headers that were passed by the caller of the query and copied by temporal
 	// server into the workflow task.
-	Header        *v1.Header `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Header *v1.Header `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
 }
 
 func (x *WorkflowQuery) Reset() {
 	*x = WorkflowQuery{}
-	mi := &file_temporal_api_query_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_query_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowQuery) String() string {
@@ -76,7 +79,7 @@ func (*WorkflowQuery) ProtoMessage() {}
 
 func (x *WorkflowQuery) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_query_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -114,7 +117,10 @@ func (x *WorkflowQuery) GetHeader() *v1.Header {
 
 // Answer to a `WorkflowQuery`
 type WorkflowQueryResult struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Did the query succeed or fail?
 	ResultType v11.QueryResultType `protobuf:"varint,1,opt,name=result_type,json=resultType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"result_type,omitempty"`
 	// Set when the query succeeds with the results.
@@ -126,16 +132,16 @@ type WorkflowQueryResult struct {
 	// The full reason for this query failure. This field is newer than `error_message` and can be encoded by the SDK's
 	// failure converter to support E2E encryption of messages and stack traces.
 	// Mutually exclusive with `answer`. Set when the query fails.
-	Failure       *v12.Failure `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Failure *v12.Failure `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *WorkflowQueryResult) Reset() {
 	*x = WorkflowQueryResult{}
-	mi := &file_temporal_api_query_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_query_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowQueryResult) String() string {
@@ -146,7 +152,7 @@ func (*WorkflowQueryResult) ProtoMessage() {}
 
 func (x *WorkflowQueryResult) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_query_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -190,17 +196,20 @@ func (x *WorkflowQueryResult) GetFailure() *v12.Failure {
 }
 
 type QueryRejected struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Status        v11.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status v11.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
 }
 
 func (x *QueryRejected) Reset() {
 	*x = QueryRejected{}
-	mi := &file_temporal_api_query_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_query_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *QueryRejected) String() string {
@@ -211,7 +220,7 @@ func (*QueryRejected) ProtoMessage() {}
 
 func (x *QueryRejected) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_query_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -305,7 +314,7 @@ func file_temporal_api_query_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_query_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_temporal_api_query_v1_message_proto_goTypes = []any{
+var file_temporal_api_query_v1_message_proto_goTypes = []interface{}{
 	(*WorkflowQuery)(nil),            // 0: temporal.api.query.v1.WorkflowQuery
 	(*WorkflowQueryResult)(nil),      // 1: temporal.api.query.v1.WorkflowQueryResult
 	(*QueryRejected)(nil),            // 2: temporal.api.query.v1.QueryRejected
@@ -333,6 +342,44 @@ func init() { file_temporal_api_query_v1_message_proto_init() }
 func file_temporal_api_query_v1_message_proto_init() {
 	if File_temporal_api_query_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_query_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowQuery); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_query_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowQueryResult); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_query_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryRejected); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

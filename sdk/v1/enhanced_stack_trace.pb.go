@@ -46,22 +46,25 @@ const (
 
 // Internal structure used to create worker stack traces with references to code.
 type EnhancedStackTrace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Information pertaining to the SDK that the trace has been captured from.
 	Sdk *StackTraceSDKInfo `protobuf:"bytes,1,opt,name=sdk,proto3" json:"sdk,omitempty"`
 	// Mapping of file path to file contents.
-	Sources map[string]*StackTraceFileSlice `protobuf:"bytes,2,rep,name=sources,proto3" json:"sources,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Sources map[string]*StackTraceFileSlice `protobuf:"bytes,2,rep,name=sources,proto3" json:"sources,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Collection of stacks captured.
-	Stacks        []*StackTrace `protobuf:"bytes,3,rep,name=stacks,proto3" json:"stacks,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Stacks []*StackTrace `protobuf:"bytes,3,rep,name=stacks,proto3" json:"stacks,omitempty"`
 }
 
 func (x *EnhancedStackTrace) Reset() {
 	*x = EnhancedStackTrace{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *EnhancedStackTrace) String() string {
@@ -72,7 +75,7 @@ func (*EnhancedStackTrace) ProtoMessage() {}
 
 func (x *EnhancedStackTrace) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -113,20 +116,23 @@ func (x *EnhancedStackTrace) GetStacks() []*StackTrace {
 //
 //	aip.dev/not-precedent: Naming SDK version is optional. --)
 type StackTraceSDKInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Name of the SDK
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Version string of the SDK
-	Version       string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 }
 
 func (x *StackTraceSDKInfo) Reset() {
 	*x = StackTraceSDKInfo{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StackTraceSDKInfo) String() string {
@@ -137,7 +143,7 @@ func (*StackTraceSDKInfo) ProtoMessage() {}
 
 func (x *StackTraceSDKInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -168,7 +174,10 @@ func (x *StackTraceSDKInfo) GetVersion() string {
 
 // "Slice" of a file starting at line_offset -- a line offset and code fragment corresponding to the worker's stack.
 type StackTraceFileSlice struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Only used (possibly) to trim the file without breaking syntax highlighting. This is not optional, unlike
 	// the `line` property of a `StackTraceFileLocation`.
 	// (-- api-linter: core::0141::forbidden-types=disabled
@@ -176,16 +185,16 @@ type StackTraceFileSlice struct {
 	//	aip.dev/not-precedent: These really shouldn't have negative values. --)
 	LineOffset uint32 `protobuf:"varint,1,opt,name=line_offset,json=lineOffset,proto3" json:"line_offset,omitempty"`
 	// Slice of a file with the respective OS-specific line terminator.
-	Content       string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Content string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
 }
 
 func (x *StackTraceFileSlice) Reset() {
 	*x = StackTraceFileSlice{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StackTraceFileSlice) String() string {
@@ -196,7 +205,7 @@ func (*StackTraceFileSlice) ProtoMessage() {}
 
 func (x *StackTraceFileSlice) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -228,7 +237,10 @@ func (x *StackTraceFileSlice) GetContent() string {
 // More specific location details of a file: its path, precise line and column numbers if applicable, and function name if available.
 // In essence, a pointer to a location in a file
 type StackTraceFileLocation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Path to source file (absolute or relative).
 	// If the paths are relative, ensure that they are all relative to the same root.
 	FilePath string `protobuf:"bytes,1,opt,name=file_path,json=filePath,proto3" json:"file_path,omitempty"`
@@ -242,16 +254,16 @@ type StackTraceFileLocation struct {
 	// Used for falling back to stack trace view.
 	FunctionName string `protobuf:"bytes,4,opt,name=function_name,json=functionName,proto3" json:"function_name,omitempty"`
 	// Flag to communicate whether a location should be hidden by default in the stack view.
-	InternalCode  bool `protobuf:"varint,5,opt,name=internal_code,json=internalCode,proto3" json:"internal_code,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	InternalCode bool `protobuf:"varint,5,opt,name=internal_code,json=internalCode,proto3" json:"internal_code,omitempty"`
 }
 
 func (x *StackTraceFileLocation) Reset() {
 	*x = StackTraceFileLocation{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StackTraceFileLocation) String() string {
@@ -262,7 +274,7 @@ func (*StackTraceFileLocation) ProtoMessage() {}
 
 func (x *StackTraceFileLocation) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -314,18 +326,21 @@ func (x *StackTraceFileLocation) GetInternalCode() bool {
 
 // Collection of FileLocation messages from a single stack.
 type StackTrace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Collection of `FileLocation`s, each for a stack frame that comprise a stack trace.
-	Locations     []*StackTraceFileLocation `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Collection of `FileLocation`s, each for a stack frame that comprise a stack trace.
+	Locations []*StackTraceFileLocation `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
 }
 
 func (x *StackTrace) Reset() {
 	*x = StackTrace{}
-	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *StackTrace) String() string {
@@ -336,7 +351,7 @@ func (*StackTrace) ProtoMessage() {}
 
 func (x *StackTrace) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -436,7 +451,7 @@ func file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_goTypes = []any{
+var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_goTypes = []interface{}{
 	(*EnhancedStackTrace)(nil),     // 0: temporal.api.sdk.v1.EnhancedStackTrace
 	(*StackTraceSDKInfo)(nil),      // 1: temporal.api.sdk.v1.StackTraceSDKInfo
 	(*StackTraceFileSlice)(nil),    // 2: temporal.api.sdk.v1.StackTraceFileSlice
@@ -461,6 +476,68 @@ func init() { file_temporal_api_sdk_v1_enhanced_stack_trace_proto_init() }
 func file_temporal_api_sdk_v1_enhanced_stack_trace_proto_init() {
 	if File_temporal_api_sdk_v1_enhanced_stack_trace_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EnhancedStackTrace); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StackTraceSDKInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StackTraceFileSlice); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StackTraceFileLocation); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StackTrace); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

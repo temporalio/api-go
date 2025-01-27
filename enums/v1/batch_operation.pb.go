@@ -248,7 +248,7 @@ func file_temporal_api_enums_v1_batch_operation_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_batch_operation_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_temporal_api_enums_v1_batch_operation_proto_goTypes = []any{
+var file_temporal_api_enums_v1_batch_operation_proto_goTypes = []interface{}{
 	(BatchOperationType)(0),  // 0: temporal.api.enums.v1.BatchOperationType
 	(BatchOperationState)(0), // 1: temporal.api.enums.v1.BatchOperationState
 }

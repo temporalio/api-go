@@ -127,7 +127,10 @@ func (AsyncOperation_State) EnumDescriptor() ([]byte, []int) {
 }
 
 type AsyncOperation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The operation id.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current state of this operation.
@@ -154,16 +157,16 @@ type AsyncOperation struct {
 	// The date and time when the operation initiated.
 	StartedTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=started_time,json=startedTime,proto3" json:"started_time,omitempty"`
 	// The date and time when the operation completed.
-	FinishedTime  *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=finished_time,json=finishedTime,proto3" json:"finished_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	FinishedTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=finished_time,json=finishedTime,proto3" json:"finished_time,omitempty"`
 }
 
 func (x *AsyncOperation) Reset() {
 	*x = AsyncOperation{}
-	mi := &file_temporal_api_cloud_operation_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_operation_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *AsyncOperation) String() string {
@@ -174,7 +177,7 @@ func (*AsyncOperation) ProtoMessage() {}
 
 func (x *AsyncOperation) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_operation_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -334,7 +337,7 @@ func file_temporal_api_cloud_operation_v1_message_proto_rawDescGZIP() []byte {
 
 var file_temporal_api_cloud_operation_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_temporal_api_cloud_operation_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_cloud_operation_v1_message_proto_goTypes = []any{
+var file_temporal_api_cloud_operation_v1_message_proto_goTypes = []interface{}{
 	(AsyncOperation_State)(0),     // 0: temporal.api.cloud.operation.v1.AsyncOperation.State
 	(*AsyncOperation)(nil),        // 1: temporal.api.cloud.operation.v1.AsyncOperation
 	(*durationpb.Duration)(nil),   // 2: google.protobuf.Duration
@@ -358,6 +361,20 @@ func init() { file_temporal_api_cloud_operation_v1_message_proto_init() }
 func file_temporal_api_cloud_operation_v1_message_proto_init() {
 	if File_temporal_api_cloud_operation_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_cloud_operation_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AsyncOperation); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

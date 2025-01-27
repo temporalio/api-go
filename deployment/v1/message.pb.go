@@ -51,7 +51,10 @@ const (
 // name + build ID serves as the identifier. User can use `WorkerDeploymentOptions` in their worker
 // programs to specify these values.
 type Deployment struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Different versions of the same worker service/application are related together by having a
 	// shared series name.
 	// Out of all deployments of a series, one can be designated as the current deployment, which
@@ -60,16 +63,16 @@ type Deployment struct {
 	SeriesName string `protobuf:"bytes,1,opt,name=series_name,json=seriesName,proto3" json:"series_name,omitempty"`
 	// Build ID changes with each version of the worker when the worker program code and/or config
 	// changes.
-	BuildId       string `protobuf:"bytes,2,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	BuildId string `protobuf:"bytes,2,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 }
 
 func (x *Deployment) Reset() {
 	*x = Deployment{}
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Deployment) String() string {
@@ -80,7 +83,7 @@ func (*Deployment) ProtoMessage() {}
 
 func (x *Deployment) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -113,24 +116,27 @@ func (x *Deployment) GetBuildId() string {
 // automatically by server as soon as the first poll from that deployment reaches the server. There
 // can be multiple task queue workers in a single deployment which are listed in this message.
 type DeploymentInfo struct {
-	state          protoimpl.MessageState          `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Deployment     *Deployment                     `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	CreateTime     *timestamppb.Timestamp          `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	TaskQueueInfos []*DeploymentInfo_TaskQueueInfo `protobuf:"bytes,3,rep,name=task_queue_infos,json=taskQueueInfos,proto3" json:"task_queue_infos,omitempty"`
 	// A user-defined set of key-values. Can be updated as part of write operations to the
 	// deployment, such as `SetCurrentDeployment`.
-	Metadata map[string]*v1.Payload `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Metadata map[string]*v1.Payload `protobuf:"bytes,4,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// If this deployment is the current deployment of its deployment series.
-	IsCurrent     bool `protobuf:"varint,5,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	IsCurrent bool `protobuf:"varint,5,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
 }
 
 func (x *DeploymentInfo) Reset() {
 	*x = DeploymentInfo{}
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeploymentInfo) String() string {
@@ -141,7 +147,7 @@ func (*DeploymentInfo) ProtoMessage() {}
 
 func (x *DeploymentInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -193,19 +199,22 @@ func (x *DeploymentInfo) GetIsCurrent() bool {
 
 // Used as part of Deployment write APIs to update metadata attached to a deployment.
 type UpdateDeploymentMetadata struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UpsertEntries map[string]*v1.Payload `protobuf:"bytes,1,rep,name=upsert_entries,json=upsertEntries,proto3" json:"upsert_entries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UpsertEntries map[string]*v1.Payload `protobuf:"bytes,1,rep,name=upsert_entries,json=upsertEntries,proto3" json:"upsert_entries,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// List of keys to remove from the metadata.
 	RemoveEntries []string `protobuf:"bytes,2,rep,name=remove_entries,json=removeEntries,proto3" json:"remove_entries,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateDeploymentMetadata) Reset() {
 	*x = UpdateDeploymentMetadata{}
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateDeploymentMetadata) String() string {
@@ -216,7 +225,7 @@ func (*UpdateDeploymentMetadata) ProtoMessage() {}
 
 func (x *UpdateDeploymentMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -248,20 +257,23 @@ func (x *UpdateDeploymentMetadata) GetRemoveEntries() []string {
 // DeploymentListInfo is an abbreviated set of fields from DeploymentInfo that's returned in
 // ListDeployments.
 type DeploymentListInfo struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Deployment *Deployment            `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	// If this deployment is the current deployment of its deployment series.
-	IsCurrent     bool `protobuf:"varint,3,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	IsCurrent bool `protobuf:"varint,3,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
 }
 
 func (x *DeploymentListInfo) Reset() {
 	*x = DeploymentListInfo{}
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeploymentListInfo) String() string {
@@ -272,7 +284,7 @@ func (*DeploymentListInfo) ProtoMessage() {}
 
 func (x *DeploymentListInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -309,20 +321,23 @@ func (x *DeploymentListInfo) GetIsCurrent() bool {
 }
 
 type DeploymentInfo_TaskQueueInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Type  v11.TaskQueueType      `protobuf:"varint,2,opt,name=type,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"type,omitempty"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name string            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Type v11.TaskQueueType `protobuf:"varint,2,opt,name=type,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"type,omitempty"`
 	// When server saw the first poller for this task queue in this deployment.
 	FirstPollerTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=first_poller_time,json=firstPollerTime,proto3" json:"first_poller_time,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
 }
 
 func (x *DeploymentInfo_TaskQueueInfo) Reset() {
 	*x = DeploymentInfo_TaskQueueInfo{}
-	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeploymentInfo_TaskQueueInfo) String() string {
@@ -333,7 +348,7 @@ func (*DeploymentInfo_TaskQueueInfo) ProtoMessage() {}
 
 func (x *DeploymentInfo_TaskQueueInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_deployment_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -482,7 +497,7 @@ func file_temporal_api_deployment_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_deployment_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_temporal_api_deployment_v1_message_proto_goTypes = []any{
+var file_temporal_api_deployment_v1_message_proto_goTypes = []interface{}{
 	(*Deployment)(nil),                   // 0: temporal.api.deployment.v1.Deployment
 	(*DeploymentInfo)(nil),               // 1: temporal.api.deployment.v1.DeploymentInfo
 	(*UpdateDeploymentMetadata)(nil),     // 2: temporal.api.deployment.v1.UpdateDeploymentMetadata
@@ -517,6 +532,68 @@ func init() { file_temporal_api_deployment_v1_message_proto_init() }
 func file_temporal_api_deployment_v1_message_proto_init() {
 	if File_temporal_api_deployment_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_deployment_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Deployment); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_deployment_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeploymentInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_deployment_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateDeploymentMetadata); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_deployment_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeploymentListInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_deployment_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeploymentInfo_TaskQueueInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

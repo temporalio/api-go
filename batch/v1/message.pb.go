@@ -50,7 +50,10 @@ const (
 )
 
 type BatchOperationInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Batch job ID
 	JobId string `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	// Batch operation state
@@ -58,16 +61,16 @@ type BatchOperationInfo struct {
 	// Batch operation start time
 	StartTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// Batch operation close time
-	CloseTime     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	CloseTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=close_time,json=closeTime,proto3" json:"close_time,omitempty"`
 }
 
 func (x *BatchOperationInfo) Reset() {
 	*x = BatchOperationInfo{}
-	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_batch_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BatchOperationInfo) String() string {
@@ -78,7 +81,7 @@ func (*BatchOperationInfo) ProtoMessage() {}
 
 func (x *BatchOperationInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -125,20 +128,23 @@ func (x *BatchOperationInfo) GetCloseTime() *timestamppb.Timestamp {
 // Keep the parameter in sync with temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.
 // Ignore first_execution_run_id because this is used for single workflow operation.
 type BatchOperationTermination struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Serialized value(s) to provide to the termination event
 	Details *v11.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *BatchOperationTermination) Reset() {
 	*x = BatchOperationTermination{}
-	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_batch_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BatchOperationTermination) String() string {
@@ -149,7 +155,7 @@ func (*BatchOperationTermination) ProtoMessage() {}
 
 func (x *BatchOperationTermination) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -181,7 +187,10 @@ func (x *BatchOperationTermination) GetIdentity() string {
 // BatchOperationSignal sends signals to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.
 type BatchOperationSignal struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The workflow author-defined name of the signal to send to the workflow
 	Signal string `protobuf:"bytes,1,opt,name=signal,proto3" json:"signal,omitempty"`
 	// Serialized value(s) to provide with the signal
@@ -190,16 +199,16 @@ type BatchOperationSignal struct {
 	// These can include things like auth or tracing tokens.
 	Header *v11.Header `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
 	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *BatchOperationSignal) Reset() {
 	*x = BatchOperationSignal{}
-	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_batch_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BatchOperationSignal) String() string {
@@ -210,7 +219,7 @@ func (*BatchOperationSignal) ProtoMessage() {}
 
 func (x *BatchOperationSignal) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -257,18 +266,21 @@ func (x *BatchOperationSignal) GetIdentity() string {
 // Keep the parameter in sync with temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.
 // Ignore first_execution_run_id because this is used for single workflow operation.
 type BatchOperationCancellation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *BatchOperationCancellation) Reset() {
 	*x = BatchOperationCancellation{}
-	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_batch_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BatchOperationCancellation) String() string {
@@ -279,7 +291,7 @@ func (*BatchOperationCancellation) ProtoMessage() {}
 
 func (x *BatchOperationCancellation) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -304,18 +316,21 @@ func (x *BatchOperationCancellation) GetIdentity() string {
 // BatchOperationDeletion sends deletion requests to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.DeleteWorkflowExecutionRequest.
 type BatchOperationDeletion struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The identity of the worker/client
-	Identity      string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The identity of the worker/client
+	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *BatchOperationDeletion) Reset() {
 	*x = BatchOperationDeletion{}
-	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_batch_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BatchOperationDeletion) String() string {
@@ -326,7 +341,7 @@ func (*BatchOperationDeletion) ProtoMessage() {}
 
 func (x *BatchOperationDeletion) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -351,7 +366,10 @@ func (x *BatchOperationDeletion) GetIdentity() string {
 // BatchOperationReset sends reset requests to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.
 type BatchOperationReset struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Describes what to reset to and how. If set, `reset_type` and `reset_reapply_type` are ignored.
@@ -360,15 +378,15 @@ type BatchOperationReset struct {
 	ResetType v1.ResetType `protobuf:"varint,1,opt,name=reset_type,json=resetType,proto3,enum=temporal.api.enums.v1.ResetType" json:"reset_type,omitempty"`
 	// History event reapply options (deprecated, use `options`).
 	ResetReapplyType v1.ResetReapplyType `protobuf:"varint,2,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *BatchOperationReset) Reset() {
 	*x = BatchOperationReset{}
-	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_batch_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BatchOperationReset) String() string {
@@ -379,7 +397,7 @@ func (*BatchOperationReset) ProtoMessage() {}
 
 func (x *BatchOperationReset) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -425,23 +443,26 @@ func (x *BatchOperationReset) GetResetReapplyType() v1.ResetReapplyType {
 // BatchOperationUpdateWorkflowExecutionOptions sends UpdateWorkflowExecutionOptions requests to batch workflows.
 // Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.
 type BatchOperationUpdateWorkflowExecutionOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Workflow Execution options. Partial updates are accepted and controlled by update_mask.
 	WorkflowExecutionOptions *v12.WorkflowExecutionOptions `protobuf:"bytes,2,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
 	// Controls which fields from `workflow_execution_options` will be applied.
 	// To unset a field, set it to null and use the update mask to indicate that it should be mutated.
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 }
 
 func (x *BatchOperationUpdateWorkflowExecutionOptions) Reset() {
 	*x = BatchOperationUpdateWorkflowExecutionOptions{}
-	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_batch_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *BatchOperationUpdateWorkflowExecutionOptions) String() string {
@@ -452,7 +473,7 @@ func (*BatchOperationUpdateWorkflowExecutionOptions) ProtoMessage() {}
 
 func (x *BatchOperationUpdateWorkflowExecutionOptions) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -606,7 +627,7 @@ func file_temporal_api_batch_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_batch_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
-var file_temporal_api_batch_v1_message_proto_goTypes = []any{
+var file_temporal_api_batch_v1_message_proto_goTypes = []interface{}{
 	(*BatchOperationInfo)(nil),                           // 0: temporal.api.batch.v1.BatchOperationInfo
 	(*BatchOperationTermination)(nil),                    // 1: temporal.api.batch.v1.BatchOperationTermination
 	(*BatchOperationSignal)(nil),                         // 2: temporal.api.batch.v1.BatchOperationSignal
@@ -647,6 +668,92 @@ func init() { file_temporal_api_batch_v1_message_proto_init() }
 func file_temporal_api_batch_v1_message_proto_init() {
 	if File_temporal_api_batch_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_batch_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchOperationInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_batch_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchOperationTermination); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_batch_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchOperationSignal); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_batch_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchOperationCancellation); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_batch_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchOperationDeletion); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_batch_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchOperationReset); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_batch_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchOperationUpdateWorkflowExecutionOptions); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

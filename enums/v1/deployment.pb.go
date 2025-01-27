@@ -163,7 +163,7 @@ func file_temporal_api_enums_v1_deployment_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_deployment_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_temporal_api_enums_v1_deployment_proto_goTypes = []any{
+var file_temporal_api_enums_v1_deployment_proto_goTypes = []interface{}{
 	(DeploymentReachability)(0), // 0: temporal.api.enums.v1.DeploymentReachability
 }
 var file_temporal_api_enums_v1_deployment_proto_depIdxs = []int32{

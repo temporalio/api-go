@@ -48,19 +48,22 @@ const (
 
 // ReleaseInfo contains information about specific version of temporal.
 type ReleaseInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Version       string                 `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
-	ReleaseTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=release_time,json=releaseTime,proto3" json:"release_time,omitempty"`
-	Notes         string                 `protobuf:"bytes,3,opt,name=notes,proto3" json:"notes,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Version     string                 `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	ReleaseTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=release_time,json=releaseTime,proto3" json:"release_time,omitempty"`
+	Notes       string                 `protobuf:"bytes,3,opt,name=notes,proto3" json:"notes,omitempty"`
 }
 
 func (x *ReleaseInfo) Reset() {
 	*x = ReleaseInfo{}
-	mi := &file_temporal_api_version_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_version_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ReleaseInfo) String() string {
@@ -71,7 +74,7 @@ func (*ReleaseInfo) ProtoMessage() {}
 
 func (x *ReleaseInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_version_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -109,18 +112,21 @@ func (x *ReleaseInfo) GetNotes() string {
 
 // Alert contains notification and severity.
 type Alert struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	Severity      v1.Severity            `protobuf:"varint,2,opt,name=severity,proto3,enum=temporal.api.enums.v1.Severity" json:"severity,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Message  string      `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Severity v1.Severity `protobuf:"varint,2,opt,name=severity,proto3,enum=temporal.api.enums.v1.Severity" json:"severity,omitempty"`
 }
 
 func (x *Alert) Reset() {
 	*x = Alert{}
-	mi := &file_temporal_api_version_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_version_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Alert) String() string {
@@ -131,7 +137,7 @@ func (*Alert) ProtoMessage() {}
 
 func (x *Alert) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_version_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -162,21 +168,24 @@ func (x *Alert) GetSeverity() v1.Severity {
 
 // VersionInfo contains details about current and recommended release versions as well as alerts and upgrade instructions.
 type VersionInfo struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	Current        *ReleaseInfo           `protobuf:"bytes,1,opt,name=current,proto3" json:"current,omitempty"`
 	Recommended    *ReleaseInfo           `protobuf:"bytes,2,opt,name=recommended,proto3" json:"recommended,omitempty"`
 	Instructions   string                 `protobuf:"bytes,3,opt,name=instructions,proto3" json:"instructions,omitempty"`
 	Alerts         []*Alert               `protobuf:"bytes,4,rep,name=alerts,proto3" json:"alerts,omitempty"`
 	LastUpdateTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_update_time,json=lastUpdateTime,proto3" json:"last_update_time,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *VersionInfo) Reset() {
 	*x = VersionInfo{}
-	mi := &file_temporal_api_version_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_version_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *VersionInfo) String() string {
@@ -187,7 +196,7 @@ func (*VersionInfo) ProtoMessage() {}
 
 func (x *VersionInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_version_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -307,7 +316,7 @@ func file_temporal_api_version_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_version_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_temporal_api_version_v1_message_proto_goTypes = []any{
+var file_temporal_api_version_v1_message_proto_goTypes = []interface{}{
 	(*ReleaseInfo)(nil),           // 0: temporal.api.version.v1.ReleaseInfo
 	(*Alert)(nil),                 // 1: temporal.api.version.v1.Alert
 	(*VersionInfo)(nil),           // 2: temporal.api.version.v1.VersionInfo
@@ -332,6 +341,44 @@ func init() { file_temporal_api_version_v1_message_proto_init() }
 func file_temporal_api_version_v1_message_proto_init() {
 	if File_temporal_api_version_v1_message_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_version_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ReleaseInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_version_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Alert); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_version_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*VersionInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

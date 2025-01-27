@@ -45,7 +45,10 @@ const (
 )
 
 type WorkflowTaskCompletedMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Internal flags used by the core SDK. SDKs using flags must comply with the following behavior:
 	//
 	// During replay:
@@ -86,16 +89,16 @@ type WorkflowTaskCompletedMetadata struct {
 	// Version of the SDK that processed the task. This is usually something like "1.20.0" and is
 	// usually the same as client-version gRPC header. This should only be set if its value changed
 	// since the last time recorded on the workflow (or be set on the first task).
-	SdkVersion    string `protobuf:"bytes,4,opt,name=sdk_version,json=sdkVersion,proto3" json:"sdk_version,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	SdkVersion string `protobuf:"bytes,4,opt,name=sdk_version,json=sdkVersion,proto3" json:"sdk_version,omitempty"`
 }
 
 func (x *WorkflowTaskCompletedMetadata) Reset() {
 	*x = WorkflowTaskCompletedMetadata{}
-	mi := &file_temporal_api_sdk_v1_task_complete_metadata_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_task_complete_metadata_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowTaskCompletedMetadata) String() string {
@@ -106,7 +109,7 @@ func (*WorkflowTaskCompletedMetadata) ProtoMessage() {}
 
 func (x *WorkflowTaskCompletedMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_task_complete_metadata_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -192,7 +195,7 @@ func file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDescGZIP() []byte 
 }
 
 var file_temporal_api_sdk_v1_task_complete_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_temporal_api_sdk_v1_task_complete_metadata_proto_goTypes = []any{
+var file_temporal_api_sdk_v1_task_complete_metadata_proto_goTypes = []interface{}{
 	(*WorkflowTaskCompletedMetadata)(nil), // 0: temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
 }
 var file_temporal_api_sdk_v1_task_complete_metadata_proto_depIdxs = []int32{
@@ -207,6 +210,20 @@ func init() { file_temporal_api_sdk_v1_task_complete_metadata_proto_init() }
 func file_temporal_api_sdk_v1_task_complete_metadata_proto_init() {
 	if File_temporal_api_sdk_v1_task_complete_metadata_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_sdk_v1_task_complete_metadata_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowTaskCompletedMetadata); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

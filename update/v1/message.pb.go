@@ -49,22 +49,25 @@ const (
 
 // Specifies client's intent to wait for Update results.
 type WaitPolicy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Indicates the Update lifecycle stage that the Update must reach before
 	// API call is returned.
 	// NOTE: This field works together with API call timeout which is limited by
 	// server timeout (maximum wait time). If server timeout is expired before
 	// user specified timeout, API call returns even if specified stage is not reached.
 	LifecycleStage v1.UpdateWorkflowExecutionLifecycleStage `protobuf:"varint,1,opt,name=lifecycle_stage,json=lifecycleStage,proto3,enum=temporal.api.enums.v1.UpdateWorkflowExecutionLifecycleStage" json:"lifecycle_stage,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WaitPolicy) Reset() {
 	*x = WaitPolicy{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WaitPolicy) String() string {
@@ -75,7 +78,7 @@ func (*WaitPolicy) ProtoMessage() {}
 
 func (x *WaitPolicy) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -99,18 +102,21 @@ func (x *WaitPolicy) GetLifecycleStage() v1.UpdateWorkflowExecutionLifecycleStag
 
 // The data needed by a client to refer to a previously invoked Workflow Update.
 type UpdateRef struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	WorkflowExecution *v11.WorkflowExecution `protobuf:"bytes,1,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	UpdateId          string                 `protobuf:"bytes,2,opt,name=update_id,json=updateId,proto3" json:"update_id,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *UpdateRef) Reset() {
 	*x = UpdateRef{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateRef) String() string {
@@ -121,7 +127,7 @@ func (*UpdateRef) ProtoMessage() {}
 
 func (x *UpdateRef) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -152,21 +158,24 @@ func (x *UpdateRef) GetUpdateId() string {
 
 // The outcome of a Workflow Update: success or failure.
 type Outcome struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to Value:
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Types that are assignable to Value:
 	//
 	//	*Outcome_Success
 	//	*Outcome_Failure
-	Value         isOutcome_Value `protobuf_oneof:"value"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Value isOutcome_Value `protobuf_oneof:"value"`
 }
 
 func (x *Outcome) Reset() {
 	*x = Outcome{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Outcome) String() string {
@@ -177,7 +186,7 @@ func (*Outcome) ProtoMessage() {}
 
 func (x *Outcome) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -192,27 +201,23 @@ func (*Outcome) Descriptor() ([]byte, []int) {
 	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Outcome) GetValue() isOutcome_Value {
-	if x != nil {
-		return x.Value
+func (m *Outcome) GetValue() isOutcome_Value {
+	if m != nil {
+		return m.Value
 	}
 	return nil
 }
 
 func (x *Outcome) GetSuccess() *v11.Payloads {
-	if x != nil {
-		if x, ok := x.Value.(*Outcome_Success); ok {
-			return x.Success
-		}
+	if x, ok := x.GetValue().(*Outcome_Success); ok {
+		return x.Success
 	}
 	return nil
 }
 
 func (x *Outcome) GetFailure() *v12.Failure {
-	if x != nil {
-		if x, ok := x.Value.(*Outcome_Failure); ok {
-			return x.Failure
-		}
+	if x, ok := x.GetValue().(*Outcome_Failure); ok {
+		return x.Failure
 	}
 	return nil
 }
@@ -235,20 +240,23 @@ func (*Outcome_Failure) isOutcome_Value() {}
 
 // Metadata about a Workflow Update.
 type Meta struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// An ID with workflow-scoped uniqueness for this Update.
 	UpdateId string `protobuf:"bytes,1,opt,name=update_id,json=updateId,proto3" json:"update_id,omitempty"`
 	// A string identifying the agent that requested this Update.
-	Identity      string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 }
 
 func (x *Meta) Reset() {
 	*x = Meta{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Meta) String() string {
@@ -259,7 +267,7 @@ func (*Meta) ProtoMessage() {}
 
 func (x *Meta) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -289,23 +297,26 @@ func (x *Meta) GetIdentity() string {
 }
 
 type Input struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Headers that are passed with the Update from the requesting entity.
 	// These can include things like auth or tracing tokens.
 	Header *v11.Header `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
 	// The name of the Update handler to invoke on the target Workflow.
 	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// The arguments to pass to the named Update handler.
-	Args          *v11.Payloads `protobuf:"bytes,3,opt,name=args,proto3" json:"args,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Args *v11.Payloads `protobuf:"bytes,3,opt,name=args,proto3" json:"args,omitempty"`
 }
 
 func (x *Input) Reset() {
 	*x = Input{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Input) String() string {
@@ -316,7 +327,7 @@ func (*Input) ProtoMessage() {}
 
 func (x *Input) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -354,18 +365,21 @@ func (x *Input) GetArgs() *v11.Payloads {
 
 // The client request that triggers a Workflow Update.
 type Request struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
-	Input         *Input                 `protobuf:"bytes,2,opt,name=input,proto3" json:"input,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Meta  *Meta  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	Input *Input `protobuf:"bytes,2,opt,name=input,proto3" json:"input,omitempty"`
 }
 
 func (x *Request) Reset() {
 	*x = Request{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Request) String() string {
@@ -376,7 +390,7 @@ func (*Request) ProtoMessage() {}
 
 func (x *Request) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -407,20 +421,23 @@ func (x *Request) GetInput() *Input {
 
 // An Update protocol message indicating that a Workflow Update has been rejected.
 type Rejection struct {
-	state                            protoimpl.MessageState `protogen:"open.v1"`
-	RejectedRequestMessageId         string                 `protobuf:"bytes,1,opt,name=rejected_request_message_id,json=rejectedRequestMessageId,proto3" json:"rejected_request_message_id,omitempty"`
-	RejectedRequestSequencingEventId int64                  `protobuf:"varint,2,opt,name=rejected_request_sequencing_event_id,json=rejectedRequestSequencingEventId,proto3" json:"rejected_request_sequencing_event_id,omitempty"`
-	RejectedRequest                  *Request               `protobuf:"bytes,3,opt,name=rejected_request,json=rejectedRequest,proto3" json:"rejected_request,omitempty"`
-	Failure                          *v12.Failure           `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields                    protoimpl.UnknownFields
-	sizeCache                        protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	RejectedRequestMessageId         string       `protobuf:"bytes,1,opt,name=rejected_request_message_id,json=rejectedRequestMessageId,proto3" json:"rejected_request_message_id,omitempty"`
+	RejectedRequestSequencingEventId int64        `protobuf:"varint,2,opt,name=rejected_request_sequencing_event_id,json=rejectedRequestSequencingEventId,proto3" json:"rejected_request_sequencing_event_id,omitempty"`
+	RejectedRequest                  *Request     `protobuf:"bytes,3,opt,name=rejected_request,json=rejectedRequest,proto3" json:"rejected_request,omitempty"`
+	Failure                          *v12.Failure `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
 }
 
 func (x *Rejection) Reset() {
 	*x = Rejection{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Rejection) String() string {
@@ -431,7 +448,7 @@ func (*Rejection) ProtoMessage() {}
 
 func (x *Rejection) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -477,19 +494,22 @@ func (x *Rejection) GetFailure() *v12.Failure {
 // An Update protocol message indicating that a Workflow Update has
 // been accepted (i.e. passed the worker-side validation phase).
 type Acceptance struct {
-	state                            protoimpl.MessageState `protogen:"open.v1"`
-	AcceptedRequestMessageId         string                 `protobuf:"bytes,1,opt,name=accepted_request_message_id,json=acceptedRequestMessageId,proto3" json:"accepted_request_message_id,omitempty"`
-	AcceptedRequestSequencingEventId int64                  `protobuf:"varint,2,opt,name=accepted_request_sequencing_event_id,json=acceptedRequestSequencingEventId,proto3" json:"accepted_request_sequencing_event_id,omitempty"`
-	AcceptedRequest                  *Request               `protobuf:"bytes,3,opt,name=accepted_request,json=acceptedRequest,proto3" json:"accepted_request,omitempty"`
-	unknownFields                    protoimpl.UnknownFields
-	sizeCache                        protoimpl.SizeCache
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AcceptedRequestMessageId         string   `protobuf:"bytes,1,opt,name=accepted_request_message_id,json=acceptedRequestMessageId,proto3" json:"accepted_request_message_id,omitempty"`
+	AcceptedRequestSequencingEventId int64    `protobuf:"varint,2,opt,name=accepted_request_sequencing_event_id,json=acceptedRequestSequencingEventId,proto3" json:"accepted_request_sequencing_event_id,omitempty"`
+	AcceptedRequest                  *Request `protobuf:"bytes,3,opt,name=accepted_request,json=acceptedRequest,proto3" json:"accepted_request,omitempty"`
 }
 
 func (x *Acceptance) Reset() {
 	*x = Acceptance{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Acceptance) String() string {
@@ -500,7 +520,7 @@ func (*Acceptance) ProtoMessage() {}
 
 func (x *Acceptance) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -539,18 +559,21 @@ func (x *Acceptance) GetAcceptedRequest() *Request {
 // An Update protocol message indicating that a Workflow Update has
 // completed with the contained outcome.
 type Response struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
-	Outcome       *Outcome               `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Meta    *Meta    `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
+	Outcome *Outcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
 }
 
 func (x *Response) Reset() {
 	*x = Response{}
-	mi := &file_temporal_api_update_v1_message_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_update_v1_message_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *Response) String() string {
@@ -561,7 +584,7 @@ func (*Response) ProtoMessage() {}
 
 func (x *Response) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_update_v1_message_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -714,7 +737,7 @@ func file_temporal_api_update_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_update_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
-var file_temporal_api_update_v1_message_proto_goTypes = []any{
+var file_temporal_api_update_v1_message_proto_goTypes = []interface{}{
 	(*WaitPolicy)(nil), // 0: temporal.api.update.v1.WaitPolicy
 	(*UpdateRef)(nil),  // 1: temporal.api.update.v1.UpdateRef
 	(*Outcome)(nil),    // 2: temporal.api.update.v1.Outcome
@@ -756,7 +779,117 @@ func file_temporal_api_update_v1_message_proto_init() {
 	if File_temporal_api_update_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_update_v1_message_proto_msgTypes[2].OneofWrappers = []any{
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_update_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WaitPolicy); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_update_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateRef); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_update_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Outcome); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_update_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Meta); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_update_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Input); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_update_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Request); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_update_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Rejection); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_update_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Acceptance); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_update_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Response); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
+	file_temporal_api_update_v1_message_proto_msgTypes[2].OneofWrappers = []interface{}{
 		(*Outcome_Success)(nil),
 		(*Outcome_Failure)(nil),
 	}

@@ -221,7 +221,7 @@ func file_temporal_api_enums_v1_query_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_enums_v1_query_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_temporal_api_enums_v1_query_proto_goTypes = []any{
+var file_temporal_api_enums_v1_query_proto_goTypes = []interface{}{
 	(QueryResultType)(0),      // 0: temporal.api.enums.v1.QueryResultType
 	(QueryRejectCondition)(0), // 1: temporal.api.enums.v1.QueryRejectCondition
 }

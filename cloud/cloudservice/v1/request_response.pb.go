@@ -53,7 +53,10 @@ const (
 )
 
 type GetUsersRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The requested size of the page to retrieve - optional.
 	// Cannot exceed 1000. Defaults to 100.
 	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
@@ -62,16 +65,16 @@ type GetUsersRequest struct {
 	// Filter users by email address - optional.
 	Email string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
 	// Filter users by the namespace they have access to - optional.
-	Namespace     string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Namespace string `protobuf:"bytes,4,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (x *GetUsersRequest) Reset() {
 	*x = GetUsersRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUsersRequest) String() string {
@@ -82,7 +85,7 @@ func (*GetUsersRequest) ProtoMessage() {}
 
 func (x *GetUsersRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -126,20 +129,23 @@ func (x *GetUsersRequest) GetNamespace() string {
 }
 
 type GetUsersResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of users in ascending ids order
 	Users []*v1.User `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
 	// The next page's token
 	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetUsersResponse) Reset() {
 	*x = GetUsersResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUsersResponse) String() string {
@@ -150,7 +156,7 @@ func (*GetUsersResponse) ProtoMessage() {}
 
 func (x *GetUsersResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -180,18 +186,21 @@ func (x *GetUsersResponse) GetNextPageToken() string {
 }
 
 type GetUserRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The id of the user to get
-	UserId        string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The id of the user to get
+	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 }
 
 func (x *GetUserRequest) Reset() {
 	*x = GetUserRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUserRequest) String() string {
@@ -202,7 +211,7 @@ func (*GetUserRequest) ProtoMessage() {}
 
 func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -225,18 +234,21 @@ func (x *GetUserRequest) GetUserId() string {
 }
 
 type GetUserResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The user
-	User          *v1.User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The user
+	User *v1.User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 }
 
 func (x *GetUserResponse) Reset() {
 	*x = GetUserResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUserResponse) String() string {
@@ -247,7 +259,7 @@ func (*GetUserResponse) ProtoMessage() {}
 
 func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[3]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -270,20 +282,23 @@ func (x *GetUserResponse) GetUser() *v1.User {
 }
 
 type CreateUserRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The spec for the user to invite
 	Spec *v1.UserSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The id to use for this async operation - optional
 	AsyncOperationId string `protobuf:"bytes,2,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateUserRequest) String() string {
@@ -294,7 +309,7 @@ func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[4]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -324,20 +339,23 @@ func (x *CreateUserRequest) GetAsyncOperationId() string {
 }
 
 type CreateUserResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the user that was invited
 	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	// The async operation
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,2,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateUserResponse) Reset() {
 	*x = CreateUserResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateUserResponse) String() string {
@@ -348,7 +366,7 @@ func (*CreateUserResponse) ProtoMessage() {}
 
 func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[5]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -378,7 +396,10 @@ func (x *CreateUserResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type UpdateUserRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the user to update
 	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	// The new user specification
@@ -388,15 +409,15 @@ type UpdateUserRequest struct {
 	ResourceVersion string `protobuf:"bytes,3,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateUserRequest) Reset() {
 	*x = UpdateUserRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateUserRequest) String() string {
@@ -407,7 +428,7 @@ func (*UpdateUserRequest) ProtoMessage() {}
 
 func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[6]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -451,18 +472,21 @@ func (x *UpdateUserRequest) GetAsyncOperationId() string {
 }
 
 type UpdateUserResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateUserResponse) Reset() {
 	*x = UpdateUserResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateUserResponse) String() string {
@@ -473,7 +497,7 @@ func (*UpdateUserResponse) ProtoMessage() {}
 
 func (x *UpdateUserResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[7]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -496,7 +520,10 @@ func (x *UpdateUserResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type DeleteUserRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the user to delete
 	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	// The version of the user for which this delete is intended for
@@ -504,15 +531,15 @@ type DeleteUserRequest struct {
 	ResourceVersion string `protobuf:"bytes,2,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteUserRequest) Reset() {
 	*x = DeleteUserRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteUserRequest) String() string {
@@ -523,7 +550,7 @@ func (*DeleteUserRequest) ProtoMessage() {}
 
 func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[8]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -560,18 +587,21 @@ func (x *DeleteUserRequest) GetAsyncOperationId() string {
 }
 
 type DeleteUserResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *DeleteUserResponse) Reset() {
 	*x = DeleteUserResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteUserResponse) String() string {
@@ -582,7 +612,7 @@ func (*DeleteUserResponse) ProtoMessage() {}
 
 func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[9]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -605,7 +635,10 @@ func (x *DeleteUserResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type SetUserNamespaceAccessRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to set permissions for
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the user to set permissions for
@@ -617,15 +650,15 @@ type SetUserNamespaceAccessRequest struct {
 	ResourceVersion string `protobuf:"bytes,4,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional
 	AsyncOperationId string `protobuf:"bytes,5,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *SetUserNamespaceAccessRequest) Reset() {
 	*x = SetUserNamespaceAccessRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *SetUserNamespaceAccessRequest) String() string {
@@ -636,7 +669,7 @@ func (*SetUserNamespaceAccessRequest) ProtoMessage() {}
 
 func (x *SetUserNamespaceAccessRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[10]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -687,18 +720,21 @@ func (x *SetUserNamespaceAccessRequest) GetAsyncOperationId() string {
 }
 
 type SetUserNamespaceAccessResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *SetUserNamespaceAccessResponse) Reset() {
 	*x = SetUserNamespaceAccessResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *SetUserNamespaceAccessResponse) String() string {
@@ -709,7 +745,7 @@ func (*SetUserNamespaceAccessResponse) ProtoMessage() {}
 
 func (x *SetUserNamespaceAccessResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[11]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -732,18 +768,21 @@ func (x *SetUserNamespaceAccessResponse) GetAsyncOperation() *v11.AsyncOperation
 }
 
 type GetAsyncOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the async operation to get
 	AsyncOperationId string `protobuf:"bytes,1,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GetAsyncOperationRequest) Reset() {
 	*x = GetAsyncOperationRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetAsyncOperationRequest) String() string {
@@ -754,7 +793,7 @@ func (*GetAsyncOperationRequest) ProtoMessage() {}
 
 func (x *GetAsyncOperationRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[12]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -777,18 +816,21 @@ func (x *GetAsyncOperationRequest) GetAsyncOperationId() string {
 }
 
 type GetAsyncOperationResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GetAsyncOperationResponse) Reset() {
 	*x = GetAsyncOperationResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetAsyncOperationResponse) String() string {
@@ -799,7 +841,7 @@ func (*GetAsyncOperationResponse) ProtoMessage() {}
 
 func (x *GetAsyncOperationResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[13]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -822,21 +864,24 @@ func (x *GetAsyncOperationResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type CreateNamespaceRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace specification.
 	Spec *v12.NamespaceSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The id to use for this async operation.
 	// Optional, if not provided a random id will be generated.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateNamespaceRequest) Reset() {
 	*x = CreateNamespaceRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateNamespaceRequest) String() string {
@@ -847,7 +892,7 @@ func (*CreateNamespaceRequest) ProtoMessage() {}
 
 func (x *CreateNamespaceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[14]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -877,20 +922,23 @@ func (x *CreateNamespaceRequest) GetAsyncOperationId() string {
 }
 
 type CreateNamespaceResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace that was created.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,2,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateNamespaceResponse) Reset() {
 	*x = CreateNamespaceResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateNamespaceResponse) String() string {
@@ -901,7 +949,7 @@ func (*CreateNamespaceResponse) ProtoMessage() {}
 
 func (x *CreateNamespaceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[15]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -931,7 +979,10 @@ func (x *CreateNamespaceResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type GetNamespacesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The requested size of the page to retrieve.
 	// Cannot exceed 1000.
 	// Optional, defaults to 100.
@@ -941,16 +992,16 @@ type GetNamespacesRequest struct {
 	PageToken string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Filter namespaces by their name.
 	// Optional, defaults to empty.
-	Name          string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (x *GetNamespacesRequest) Reset() {
 	*x = GetNamespacesRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNamespacesRequest) String() string {
@@ -961,7 +1012,7 @@ func (*GetNamespacesRequest) ProtoMessage() {}
 
 func (x *GetNamespacesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[16]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -998,20 +1049,23 @@ func (x *GetNamespacesRequest) GetName() string {
 }
 
 type GetNamespacesResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of namespaces in ascending name order.
 	Namespaces []*v12.Namespace `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
 	// The next page's token.
 	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetNamespacesResponse) Reset() {
 	*x = GetNamespacesResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNamespacesResponse) String() string {
@@ -1022,7 +1076,7 @@ func (*GetNamespacesResponse) ProtoMessage() {}
 
 func (x *GetNamespacesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[17]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1052,18 +1106,21 @@ func (x *GetNamespacesResponse) GetNextPageToken() string {
 }
 
 type GetNamespaceRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The namespace to get.
-	Namespace     string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The namespace to get.
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (x *GetNamespaceRequest) Reset() {
 	*x = GetNamespaceRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNamespaceRequest) String() string {
@@ -1074,7 +1131,7 @@ func (*GetNamespaceRequest) ProtoMessage() {}
 
 func (x *GetNamespaceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[18]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1097,18 +1154,21 @@ func (x *GetNamespaceRequest) GetNamespace() string {
 }
 
 type GetNamespaceResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The namespace.
-	Namespace     *v12.Namespace `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The namespace.
+	Namespace *v12.Namespace `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 }
 
 func (x *GetNamespaceResponse) Reset() {
 	*x = GetNamespaceResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNamespaceResponse) String() string {
@@ -1119,7 +1179,7 @@ func (*GetNamespaceResponse) ProtoMessage() {}
 
 func (x *GetNamespaceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[19]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1142,7 +1202,10 @@ func (x *GetNamespaceResponse) GetNamespace() *v12.Namespace {
 }
 
 type UpdateNamespaceRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to update.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The new namespace specification.
@@ -1153,15 +1216,15 @@ type UpdateNamespaceRequest struct {
 	// The id to use for this async operation.
 	// Optional, if not provided a random id will be generated.
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateNamespaceRequest) Reset() {
 	*x = UpdateNamespaceRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateNamespaceRequest) String() string {
@@ -1172,7 +1235,7 @@ func (*UpdateNamespaceRequest) ProtoMessage() {}
 
 func (x *UpdateNamespaceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[20]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1216,18 +1279,21 @@ func (x *UpdateNamespaceRequest) GetAsyncOperationId() string {
 }
 
 type UpdateNamespaceResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateNamespaceResponse) Reset() {
 	*x = UpdateNamespaceResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateNamespaceResponse) String() string {
@@ -1238,7 +1304,7 @@ func (*UpdateNamespaceResponse) ProtoMessage() {}
 
 func (x *UpdateNamespaceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[21]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1261,7 +1327,10 @@ func (x *UpdateNamespaceResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type RenameCustomSearchAttributeRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to rename the custom search attribute for.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The existing name of the custom search attribute to be renamed.
@@ -1274,15 +1343,15 @@ type RenameCustomSearchAttributeRequest struct {
 	// The id to use for this async operation.
 	// Optional, if not provided a random id will be generated.
 	AsyncOperationId string `protobuf:"bytes,5,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *RenameCustomSearchAttributeRequest) Reset() {
 	*x = RenameCustomSearchAttributeRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RenameCustomSearchAttributeRequest) String() string {
@@ -1293,7 +1362,7 @@ func (*RenameCustomSearchAttributeRequest) ProtoMessage() {}
 
 func (x *RenameCustomSearchAttributeRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[22]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1344,18 +1413,21 @@ func (x *RenameCustomSearchAttributeRequest) GetAsyncOperationId() string {
 }
 
 type RenameCustomSearchAttributeResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *RenameCustomSearchAttributeResponse) Reset() {
 	*x = RenameCustomSearchAttributeResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *RenameCustomSearchAttributeResponse) String() string {
@@ -1366,7 +1438,7 @@ func (*RenameCustomSearchAttributeResponse) ProtoMessage() {}
 
 func (x *RenameCustomSearchAttributeResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[23]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1389,7 +1461,10 @@ func (x *RenameCustomSearchAttributeResponse) GetAsyncOperation() *v11.AsyncOper
 }
 
 type DeleteNamespaceRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to delete.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The version of the namespace for which this delete is intended for.
@@ -1398,15 +1473,15 @@ type DeleteNamespaceRequest struct {
 	// The id to use for this async operation.
 	// Optional, if not provided a random id will be generated.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteNamespaceRequest) Reset() {
 	*x = DeleteNamespaceRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteNamespaceRequest) String() string {
@@ -1417,7 +1492,7 @@ func (*DeleteNamespaceRequest) ProtoMessage() {}
 
 func (x *DeleteNamespaceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[24]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1454,18 +1529,21 @@ func (x *DeleteNamespaceRequest) GetAsyncOperationId() string {
 }
 
 type DeleteNamespaceResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *DeleteNamespaceResponse) Reset() {
 	*x = DeleteNamespaceResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteNamespaceResponse) String() string {
@@ -1476,7 +1554,7 @@ func (*DeleteNamespaceResponse) ProtoMessage() {}
 
 func (x *DeleteNamespaceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[25]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1499,7 +1577,10 @@ func (x *DeleteNamespaceResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type FailoverNamespaceRegionRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to failover.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the region to failover to.
@@ -1507,15 +1588,15 @@ type FailoverNamespaceRegionRequest struct {
 	Region string `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *FailoverNamespaceRegionRequest) Reset() {
 	*x = FailoverNamespaceRegionRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[26]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *FailoverNamespaceRegionRequest) String() string {
@@ -1526,7 +1607,7 @@ func (*FailoverNamespaceRegionRequest) ProtoMessage() {}
 
 func (x *FailoverNamespaceRegionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[26]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1563,18 +1644,21 @@ func (x *FailoverNamespaceRegionRequest) GetAsyncOperationId() string {
 }
 
 type FailoverNamespaceRegionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *FailoverNamespaceRegionResponse) Reset() {
 	*x = FailoverNamespaceRegionResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[27]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *FailoverNamespaceRegionResponse) String() string {
@@ -1585,7 +1669,7 @@ func (*FailoverNamespaceRegionResponse) ProtoMessage() {}
 
 func (x *FailoverNamespaceRegionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[27]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1608,7 +1692,10 @@ func (x *FailoverNamespaceRegionResponse) GetAsyncOperation() *v11.AsyncOperatio
 }
 
 type AddNamespaceRegionRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to add the region to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the standby region to add to the namespace.
@@ -1620,15 +1707,15 @@ type AddNamespaceRegionRequest struct {
 	ResourceVersion string `protobuf:"bytes,3,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *AddNamespaceRegionRequest) Reset() {
 	*x = AddNamespaceRegionRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[28]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[28]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *AddNamespaceRegionRequest) String() string {
@@ -1639,7 +1726,7 @@ func (*AddNamespaceRegionRequest) ProtoMessage() {}
 
 func (x *AddNamespaceRegionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[28]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1683,18 +1770,21 @@ func (x *AddNamespaceRegionRequest) GetAsyncOperationId() string {
 }
 
 type AddNamespaceRegionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *AddNamespaceRegionResponse) Reset() {
 	*x = AddNamespaceRegionResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[29]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *AddNamespaceRegionResponse) String() string {
@@ -1705,7 +1795,7 @@ func (*AddNamespaceRegionResponse) ProtoMessage() {}
 
 func (x *AddNamespaceRegionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[29]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1728,16 +1818,18 @@ func (x *AddNamespaceRegionResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type GetRegionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *GetRegionsRequest) Reset() {
 	*x = GetRegionsRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[30]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetRegionsRequest) String() string {
@@ -1748,7 +1840,7 @@ func (*GetRegionsRequest) ProtoMessage() {}
 
 func (x *GetRegionsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[30]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1764,18 +1856,21 @@ func (*GetRegionsRequest) Descriptor() ([]byte, []int) {
 }
 
 type GetRegionsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The temporal cloud regions.
-	Regions       []*v13.Region `protobuf:"bytes,1,rep,name=regions,proto3" json:"regions,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The temporal cloud regions.
+	Regions []*v13.Region `protobuf:"bytes,1,rep,name=regions,proto3" json:"regions,omitempty"`
 }
 
 func (x *GetRegionsResponse) Reset() {
 	*x = GetRegionsResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[31]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[31]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetRegionsResponse) String() string {
@@ -1786,7 +1881,7 @@ func (*GetRegionsResponse) ProtoMessage() {}
 
 func (x *GetRegionsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[31]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1809,18 +1904,21 @@ func (x *GetRegionsResponse) GetRegions() []*v13.Region {
 }
 
 type GetRegionRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The id of the region to get.
-	Region        string `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The id of the region to get.
+	Region string `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
 }
 
 func (x *GetRegionRequest) Reset() {
 	*x = GetRegionRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[32]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[32]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetRegionRequest) String() string {
@@ -1831,7 +1929,7 @@ func (*GetRegionRequest) ProtoMessage() {}
 
 func (x *GetRegionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[32]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1854,18 +1952,21 @@ func (x *GetRegionRequest) GetRegion() string {
 }
 
 type GetRegionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The temporal cloud region.
-	Region        *v13.Region `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The temporal cloud region.
+	Region *v13.Region `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
 }
 
 func (x *GetRegionResponse) Reset() {
 	*x = GetRegionResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[33]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[33]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetRegionResponse) String() string {
@@ -1876,7 +1977,7 @@ func (*GetRegionResponse) ProtoMessage() {}
 
 func (x *GetRegionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[33]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1899,7 +2000,10 @@ func (x *GetRegionResponse) GetRegion() *v13.Region {
 }
 
 type GetApiKeysRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The requested size of the page to retrieve - optional.
 	// Cannot exceed 1000. Defaults to 100.
 	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
@@ -1914,16 +2018,16 @@ type GetApiKeysRequest struct {
 	OwnerTypeDeprecated string `protobuf:"bytes,4,opt,name=owner_type_deprecated,json=ownerTypeDeprecated,proto3" json:"owner_type_deprecated,omitempty"`
 	// Filter api keys by owner type - optional.
 	// temporal:enums:replaces=owner_type_deprecated
-	OwnerType     v1.OwnerType `protobuf:"varint,5,opt,name=owner_type,json=ownerType,proto3,enum=temporal.api.cloud.identity.v1.OwnerType" json:"owner_type,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	OwnerType v1.OwnerType `protobuf:"varint,5,opt,name=owner_type,json=ownerType,proto3,enum=temporal.api.cloud.identity.v1.OwnerType" json:"owner_type,omitempty"`
 }
 
 func (x *GetApiKeysRequest) Reset() {
 	*x = GetApiKeysRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[34]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[34]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetApiKeysRequest) String() string {
@@ -1934,7 +2038,7 @@ func (*GetApiKeysRequest) ProtoMessage() {}
 
 func (x *GetApiKeysRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[34]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1986,20 +2090,23 @@ func (x *GetApiKeysRequest) GetOwnerType() v1.OwnerType {
 }
 
 type GetApiKeysResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of api keys in ascending id order.
 	ApiKeys []*v1.ApiKey `protobuf:"bytes,1,rep,name=api_keys,json=apiKeys,proto3" json:"api_keys,omitempty"`
 	// The next page's token.
 	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetApiKeysResponse) Reset() {
 	*x = GetApiKeysResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[35]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[35]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetApiKeysResponse) String() string {
@@ -2010,7 +2117,7 @@ func (*GetApiKeysResponse) ProtoMessage() {}
 
 func (x *GetApiKeysResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[35]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2040,18 +2147,21 @@ func (x *GetApiKeysResponse) GetNextPageToken() string {
 }
 
 type GetApiKeyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The id of the api key to get.
-	KeyId         string `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The id of the api key to get.
+	KeyId string `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
 }
 
 func (x *GetApiKeyRequest) Reset() {
 	*x = GetApiKeyRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[36]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[36]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetApiKeyRequest) String() string {
@@ -2062,7 +2172,7 @@ func (*GetApiKeyRequest) ProtoMessage() {}
 
 func (x *GetApiKeyRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[36]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2085,18 +2195,21 @@ func (x *GetApiKeyRequest) GetKeyId() string {
 }
 
 type GetApiKeyResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The api key.
-	ApiKey        *v1.ApiKey `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The api key.
+	ApiKey *v1.ApiKey `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 }
 
 func (x *GetApiKeyResponse) Reset() {
 	*x = GetApiKeyResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[37]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[37]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetApiKeyResponse) String() string {
@@ -2107,7 +2220,7 @@ func (*GetApiKeyResponse) ProtoMessage() {}
 
 func (x *GetApiKeyResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[37]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2130,21 +2243,24 @@ func (x *GetApiKeyResponse) GetApiKey() *v1.ApiKey {
 }
 
 type CreateApiKeyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The spec for the api key to create.
 	// Create api key only supports service-account owner type for now.
 	Spec *v1.ApiKeySpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,2,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateApiKeyRequest) Reset() {
 	*x = CreateApiKeyRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[38]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[38]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateApiKeyRequest) String() string {
@@ -2155,7 +2271,7 @@ func (*CreateApiKeyRequest) ProtoMessage() {}
 
 func (x *CreateApiKeyRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[38]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2185,7 +2301,10 @@ func (x *CreateApiKeyRequest) GetAsyncOperationId() string {
 }
 
 type CreateApiKeyResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the api key created.
 	KeyId string `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
 	// The token of the api key created.
@@ -2194,15 +2313,15 @@ type CreateApiKeyResponse struct {
 	Token string `protobuf:"bytes,2,opt,name=token,proto3" json:"token,omitempty"`
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,3,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateApiKeyResponse) Reset() {
 	*x = CreateApiKeyResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[39]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[39]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateApiKeyResponse) String() string {
@@ -2213,7 +2332,7 @@ func (*CreateApiKeyResponse) ProtoMessage() {}
 
 func (x *CreateApiKeyResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[39]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2250,7 +2369,10 @@ func (x *CreateApiKeyResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type UpdateApiKeyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the api key to update.
 	KeyId string `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
 	// The new api key specification.
@@ -2260,15 +2382,15 @@ type UpdateApiKeyRequest struct {
 	ResourceVersion string `protobuf:"bytes,3,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateApiKeyRequest) Reset() {
 	*x = UpdateApiKeyRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[40]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[40]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateApiKeyRequest) String() string {
@@ -2279,7 +2401,7 @@ func (*UpdateApiKeyRequest) ProtoMessage() {}
 
 func (x *UpdateApiKeyRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[40]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2323,18 +2445,21 @@ func (x *UpdateApiKeyRequest) GetAsyncOperationId() string {
 }
 
 type UpdateApiKeyResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateApiKeyResponse) Reset() {
 	*x = UpdateApiKeyResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[41]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[41]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateApiKeyResponse) String() string {
@@ -2345,7 +2470,7 @@ func (*UpdateApiKeyResponse) ProtoMessage() {}
 
 func (x *UpdateApiKeyResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[41]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2368,7 +2493,10 @@ func (x *UpdateApiKeyResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type DeleteApiKeyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the api key to delete.
 	KeyId string `protobuf:"bytes,1,opt,name=key_id,json=keyId,proto3" json:"key_id,omitempty"`
 	// The version of the api key for which this delete is intended for.
@@ -2376,15 +2504,15 @@ type DeleteApiKeyRequest struct {
 	ResourceVersion string `protobuf:"bytes,2,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteApiKeyRequest) Reset() {
 	*x = DeleteApiKeyRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[42]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[42]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteApiKeyRequest) String() string {
@@ -2395,7 +2523,7 @@ func (*DeleteApiKeyRequest) ProtoMessage() {}
 
 func (x *DeleteApiKeyRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[42]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2432,18 +2560,21 @@ func (x *DeleteApiKeyRequest) GetAsyncOperationId() string {
 }
 
 type DeleteApiKeyResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *DeleteApiKeyResponse) Reset() {
 	*x = DeleteApiKeyResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[43]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[43]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteApiKeyResponse) String() string {
@@ -2454,7 +2585,7 @@ func (*DeleteApiKeyResponse) ProtoMessage() {}
 
 func (x *DeleteApiKeyResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[43]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2477,7 +2608,10 @@ func (x *DeleteApiKeyResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type GetNexusEndpointsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The requested size of the page to retrieve - optional.
 	// Cannot exceed 1000. Defaults to 100.
 	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
@@ -2488,16 +2622,16 @@ type GetNexusEndpointsRequest struct {
 	// optional, treated as an AND if specified
 	TargetTaskQueue string `protobuf:"bytes,4,opt,name=target_task_queue,json=targetTaskQueue,proto3" json:"target_task_queue,omitempty"`
 	// Filter endpoints by their name - optional, treated as an AND if specified. Specifying this will result in zero or one results.
-	Name          string `protobuf:"bytes,5,opt,name=name,proto3" json:"name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Name string `protobuf:"bytes,5,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (x *GetNexusEndpointsRequest) Reset() {
 	*x = GetNexusEndpointsRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[44]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[44]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNexusEndpointsRequest) String() string {
@@ -2508,7 +2642,7 @@ func (*GetNexusEndpointsRequest) ProtoMessage() {}
 
 func (x *GetNexusEndpointsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[44]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2559,20 +2693,23 @@ func (x *GetNexusEndpointsRequest) GetName() string {
 }
 
 type GetNexusEndpointsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of endpoints in ascending id order.
 	Endpoints []*v14.Endpoint `protobuf:"bytes,1,rep,name=endpoints,proto3" json:"endpoints,omitempty"`
 	// The next page's token.
 	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetNexusEndpointsResponse) Reset() {
 	*x = GetNexusEndpointsResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[45]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[45]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNexusEndpointsResponse) String() string {
@@ -2583,7 +2720,7 @@ func (*GetNexusEndpointsResponse) ProtoMessage() {}
 
 func (x *GetNexusEndpointsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[45]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2613,18 +2750,21 @@ func (x *GetNexusEndpointsResponse) GetNextPageToken() string {
 }
 
 type GetNexusEndpointRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The id of the nexus endpoint to get.
-	EndpointId    string `protobuf:"bytes,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The id of the nexus endpoint to get.
+	EndpointId string `protobuf:"bytes,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
 }
 
 func (x *GetNexusEndpointRequest) Reset() {
 	*x = GetNexusEndpointRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[46]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[46]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNexusEndpointRequest) String() string {
@@ -2635,7 +2775,7 @@ func (*GetNexusEndpointRequest) ProtoMessage() {}
 
 func (x *GetNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[46]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2658,18 +2798,21 @@ func (x *GetNexusEndpointRequest) GetEndpointId() string {
 }
 
 type GetNexusEndpointResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The nexus endpoint.
-	Endpoint      *v14.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The nexus endpoint.
+	Endpoint *v14.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 }
 
 func (x *GetNexusEndpointResponse) Reset() {
 	*x = GetNexusEndpointResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[47]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[47]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNexusEndpointResponse) String() string {
@@ -2680,7 +2823,7 @@ func (*GetNexusEndpointResponse) ProtoMessage() {}
 
 func (x *GetNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[47]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2703,20 +2846,23 @@ func (x *GetNexusEndpointResponse) GetEndpoint() *v14.Endpoint {
 }
 
 type CreateNexusEndpointRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The spec for the nexus endpoint.
 	Spec *v14.EndpointSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,2,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateNexusEndpointRequest) Reset() {
 	*x = CreateNexusEndpointRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[48]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[48]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateNexusEndpointRequest) String() string {
@@ -2727,7 +2873,7 @@ func (*CreateNexusEndpointRequest) ProtoMessage() {}
 
 func (x *CreateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[48]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2757,20 +2903,23 @@ func (x *CreateNexusEndpointRequest) GetAsyncOperationId() string {
 }
 
 type CreateNexusEndpointResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the endpoint that was created.
 	EndpointId string `protobuf:"bytes,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,2,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateNexusEndpointResponse) Reset() {
 	*x = CreateNexusEndpointResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[49]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[49]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateNexusEndpointResponse) String() string {
@@ -2781,7 +2930,7 @@ func (*CreateNexusEndpointResponse) ProtoMessage() {}
 
 func (x *CreateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[49]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2811,7 +2960,10 @@ func (x *CreateNexusEndpointResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type UpdateNexusEndpointRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the nexus endpoint to update.
 	EndpointId string `protobuf:"bytes,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
 	// The updated nexus endpoint specification.
@@ -2821,15 +2973,15 @@ type UpdateNexusEndpointRequest struct {
 	ResourceVersion string `protobuf:"bytes,3,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateNexusEndpointRequest) Reset() {
 	*x = UpdateNexusEndpointRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[50]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[50]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateNexusEndpointRequest) String() string {
@@ -2840,7 +2992,7 @@ func (*UpdateNexusEndpointRequest) ProtoMessage() {}
 
 func (x *UpdateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[50]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2884,18 +3036,21 @@ func (x *UpdateNexusEndpointRequest) GetAsyncOperationId() string {
 }
 
 type UpdateNexusEndpointResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateNexusEndpointResponse) Reset() {
 	*x = UpdateNexusEndpointResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[51]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[51]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateNexusEndpointResponse) String() string {
@@ -2906,7 +3061,7 @@ func (*UpdateNexusEndpointResponse) ProtoMessage() {}
 
 func (x *UpdateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[51]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2929,7 +3084,10 @@ func (x *UpdateNexusEndpointResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type DeleteNexusEndpointRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the nexus endpoint to delete.
 	EndpointId string `protobuf:"bytes,1,opt,name=endpoint_id,json=endpointId,proto3" json:"endpoint_id,omitempty"`
 	// The version of the endpoint for which this delete is intended for.
@@ -2937,15 +3095,15 @@ type DeleteNexusEndpointRequest struct {
 	ResourceVersion string `protobuf:"bytes,2,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteNexusEndpointRequest) Reset() {
 	*x = DeleteNexusEndpointRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[52]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[52]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteNexusEndpointRequest) String() string {
@@ -2956,7 +3114,7 @@ func (*DeleteNexusEndpointRequest) ProtoMessage() {}
 
 func (x *DeleteNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[52]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -2993,18 +3151,21 @@ func (x *DeleteNexusEndpointRequest) GetAsyncOperationId() string {
 }
 
 type DeleteNexusEndpointResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *DeleteNexusEndpointResponse) Reset() {
 	*x = DeleteNexusEndpointResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[53]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[53]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteNexusEndpointResponse) String() string {
@@ -3015,7 +3176,7 @@ func (*DeleteNexusEndpointResponse) ProtoMessage() {}
 
 func (x *DeleteNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[53]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3038,7 +3199,10 @@ func (x *DeleteNexusEndpointResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type GetUserGroupsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The requested size of the page to retrieve - optional.
 	// Cannot exceed 1000. Defaults to 100.
 	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
@@ -3049,16 +3213,16 @@ type GetUserGroupsRequest struct {
 	// Filter groups by the display name - optional.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Filter groups by the google group specification - optional.
-	GoogleGroup   *GetUserGroupsRequest_GoogleGroupFilter `protobuf:"bytes,5,opt,name=google_group,json=googleGroup,proto3" json:"google_group,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	GoogleGroup *GetUserGroupsRequest_GoogleGroupFilter `protobuf:"bytes,5,opt,name=google_group,json=googleGroup,proto3" json:"google_group,omitempty"`
 }
 
 func (x *GetUserGroupsRequest) Reset() {
 	*x = GetUserGroupsRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[54]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[54]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUserGroupsRequest) String() string {
@@ -3069,7 +3233,7 @@ func (*GetUserGroupsRequest) ProtoMessage() {}
 
 func (x *GetUserGroupsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[54]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3120,20 +3284,23 @@ func (x *GetUserGroupsRequest) GetGoogleGroup() *GetUserGroupsRequest_GoogleGrou
 }
 
 type GetUserGroupsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of groups in ascending name order.
 	Groups []*v1.UserGroup `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty"`
 	// The next page's token.
 	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetUserGroupsResponse) Reset() {
 	*x = GetUserGroupsResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[55]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[55]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUserGroupsResponse) String() string {
@@ -3144,7 +3311,7 @@ func (*GetUserGroupsResponse) ProtoMessage() {}
 
 func (x *GetUserGroupsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[55]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3174,18 +3341,21 @@ func (x *GetUserGroupsResponse) GetNextPageToken() string {
 }
 
 type GetUserGroupRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The id of the group to get.
-	GroupId       string `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The id of the group to get.
+	GroupId string `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
 }
 
 func (x *GetUserGroupRequest) Reset() {
 	*x = GetUserGroupRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[56]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[56]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUserGroupRequest) String() string {
@@ -3196,7 +3366,7 @@ func (*GetUserGroupRequest) ProtoMessage() {}
 
 func (x *GetUserGroupRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[56]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3219,18 +3389,21 @@ func (x *GetUserGroupRequest) GetGroupId() string {
 }
 
 type GetUserGroupResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The group.
-	Group         *v1.UserGroup `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The group.
+	Group *v1.UserGroup `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
 }
 
 func (x *GetUserGroupResponse) Reset() {
 	*x = GetUserGroupResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[57]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[57]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUserGroupResponse) String() string {
@@ -3241,7 +3414,7 @@ func (*GetUserGroupResponse) ProtoMessage() {}
 
 func (x *GetUserGroupResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[57]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3264,21 +3437,24 @@ func (x *GetUserGroupResponse) GetGroup() *v1.UserGroup {
 }
 
 type CreateUserGroupRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The spec for the group to create.
 	Spec *v1.UserGroupSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The id to use for this async operation.
 	// Optional, if not provided a random id will be generated.
 	AsyncOperationId string `protobuf:"bytes,2,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateUserGroupRequest) Reset() {
 	*x = CreateUserGroupRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[58]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[58]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateUserGroupRequest) String() string {
@@ -3289,7 +3465,7 @@ func (*CreateUserGroupRequest) ProtoMessage() {}
 
 func (x *CreateUserGroupRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[58]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3319,20 +3495,23 @@ func (x *CreateUserGroupRequest) GetAsyncOperationId() string {
 }
 
 type CreateUserGroupResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the group that was created.
 	GroupId string `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,2,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateUserGroupResponse) Reset() {
 	*x = CreateUserGroupResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[59]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[59]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateUserGroupResponse) String() string {
@@ -3343,7 +3522,7 @@ func (*CreateUserGroupResponse) ProtoMessage() {}
 
 func (x *CreateUserGroupResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[59]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3373,7 +3552,10 @@ func (x *CreateUserGroupResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type UpdateUserGroupRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the group to update.
 	GroupId string `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
 	// The new group specification.
@@ -3384,15 +3566,15 @@ type UpdateUserGroupRequest struct {
 	// The id to use for this async operation.
 	// Optional, if not provided a random id will be generated.
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateUserGroupRequest) Reset() {
 	*x = UpdateUserGroupRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[60]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[60]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateUserGroupRequest) String() string {
@@ -3403,7 +3585,7 @@ func (*UpdateUserGroupRequest) ProtoMessage() {}
 
 func (x *UpdateUserGroupRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[60]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3447,18 +3629,21 @@ func (x *UpdateUserGroupRequest) GetAsyncOperationId() string {
 }
 
 type UpdateUserGroupResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateUserGroupResponse) Reset() {
 	*x = UpdateUserGroupResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[61]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[61]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateUserGroupResponse) String() string {
@@ -3469,7 +3654,7 @@ func (*UpdateUserGroupResponse) ProtoMessage() {}
 
 func (x *UpdateUserGroupResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[61]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3492,7 +3677,10 @@ func (x *UpdateUserGroupResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type DeleteUserGroupRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The id of the group to delete.
 	GroupId string `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
 	// The version of the group for which this delete is intended for.
@@ -3501,15 +3689,15 @@ type DeleteUserGroupRequest struct {
 	// The id to use for this async operation.
 	// Optional, if not provided a random id will be generated.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteUserGroupRequest) Reset() {
 	*x = DeleteUserGroupRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[62]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[62]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteUserGroupRequest) String() string {
@@ -3520,7 +3708,7 @@ func (*DeleteUserGroupRequest) ProtoMessage() {}
 
 func (x *DeleteUserGroupRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[62]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3557,18 +3745,21 @@ func (x *DeleteUserGroupRequest) GetAsyncOperationId() string {
 }
 
 type DeleteUserGroupResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *DeleteUserGroupResponse) Reset() {
 	*x = DeleteUserGroupResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[63]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[63]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteUserGroupResponse) String() string {
@@ -3579,7 +3770,7 @@ func (*DeleteUserGroupResponse) ProtoMessage() {}
 
 func (x *DeleteUserGroupResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[63]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3602,7 +3793,10 @@ func (x *DeleteUserGroupResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type SetUserGroupNamespaceAccessRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to set permissions for.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the group to set permissions for.
@@ -3614,15 +3808,15 @@ type SetUserGroupNamespaceAccessRequest struct {
 	ResourceVersion string `protobuf:"bytes,4,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The id to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,5,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *SetUserGroupNamespaceAccessRequest) Reset() {
 	*x = SetUserGroupNamespaceAccessRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[64]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[64]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *SetUserGroupNamespaceAccessRequest) String() string {
@@ -3633,7 +3827,7 @@ func (*SetUserGroupNamespaceAccessRequest) ProtoMessage() {}
 
 func (x *SetUserGroupNamespaceAccessRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[64]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3684,18 +3878,21 @@ func (x *SetUserGroupNamespaceAccessRequest) GetAsyncOperationId() string {
 }
 
 type SetUserGroupNamespaceAccessResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *SetUserGroupNamespaceAccessResponse) Reset() {
 	*x = SetUserGroupNamespaceAccessResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[65]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[65]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *SetUserGroupNamespaceAccessResponse) String() string {
@@ -3706,7 +3903,7 @@ func (*SetUserGroupNamespaceAccessResponse) ProtoMessage() {}
 
 func (x *SetUserGroupNamespaceAccessResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[65]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3729,20 +3926,23 @@ func (x *SetUserGroupNamespaceAccessResponse) GetAsyncOperation() *v11.AsyncOper
 }
 
 type CreateServiceAccountRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The spec of the service account to create.
 	Spec *v1.ServiceAccountSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The ID to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,2,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateServiceAccountRequest) Reset() {
 	*x = CreateServiceAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[66]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[66]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateServiceAccountRequest) String() string {
@@ -3753,7 +3953,7 @@ func (*CreateServiceAccountRequest) ProtoMessage() {}
 
 func (x *CreateServiceAccountRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[66]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3783,20 +3983,23 @@ func (x *CreateServiceAccountRequest) GetAsyncOperationId() string {
 }
 
 type CreateServiceAccountResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The ID of the created service account.
 	ServiceAccountId string `protobuf:"bytes,1,opt,name=service_account_id,json=serviceAccountId,proto3" json:"service_account_id,omitempty"`
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,2,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateServiceAccountResponse) Reset() {
 	*x = CreateServiceAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[67]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[67]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateServiceAccountResponse) String() string {
@@ -3807,7 +4010,7 @@ func (*CreateServiceAccountResponse) ProtoMessage() {}
 
 func (x *CreateServiceAccountResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[67]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3837,18 +4040,21 @@ func (x *CreateServiceAccountResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type GetServiceAccountRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// ID of the service account to retrieve.
 	ServiceAccountId string `protobuf:"bytes,1,opt,name=service_account_id,json=serviceAccountId,proto3" json:"service_account_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GetServiceAccountRequest) Reset() {
 	*x = GetServiceAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[68]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[68]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetServiceAccountRequest) String() string {
@@ -3859,7 +4065,7 @@ func (*GetServiceAccountRequest) ProtoMessage() {}
 
 func (x *GetServiceAccountRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[68]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3882,18 +4088,21 @@ func (x *GetServiceAccountRequest) GetServiceAccountId() string {
 }
 
 type GetServiceAccountResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The service account retrieved.
 	ServiceAccount *v1.ServiceAccount `protobuf:"bytes,1,opt,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GetServiceAccountResponse) Reset() {
 	*x = GetServiceAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[69]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[69]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetServiceAccountResponse) String() string {
@@ -3904,7 +4113,7 @@ func (*GetServiceAccountResponse) ProtoMessage() {}
 
 func (x *GetServiceAccountResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[69]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3927,21 +4136,24 @@ func (x *GetServiceAccountResponse) GetServiceAccount() *v1.ServiceAccount {
 }
 
 type GetServiceAccountsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The requested size of the page to retrieve - optional.
 	// Cannot exceed 1000. Defaults to 100.
 	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// The page token if this is continuing from another response - optional.
-	PageToken     string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	PageToken string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 }
 
 func (x *GetServiceAccountsRequest) Reset() {
 	*x = GetServiceAccountsRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[70]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[70]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetServiceAccountsRequest) String() string {
@@ -3952,7 +4164,7 @@ func (*GetServiceAccountsRequest) ProtoMessage() {}
 
 func (x *GetServiceAccountsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[70]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -3982,20 +4194,23 @@ func (x *GetServiceAccountsRequest) GetPageToken() string {
 }
 
 type GetServiceAccountsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of service accounts in ascending ID order.
 	ServiceAccount []*v1.ServiceAccount `protobuf:"bytes,1,rep,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
 	// The next page token, set if there is another page.
 	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetServiceAccountsResponse) Reset() {
 	*x = GetServiceAccountsResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[71]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[71]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetServiceAccountsResponse) String() string {
@@ -4006,7 +4221,7 @@ func (*GetServiceAccountsResponse) ProtoMessage() {}
 
 func (x *GetServiceAccountsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[71]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4036,7 +4251,10 @@ func (x *GetServiceAccountsResponse) GetNextPageToken() string {
 }
 
 type UpdateServiceAccountRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The ID of the service account to update.
 	ServiceAccountId string `protobuf:"bytes,1,opt,name=service_account_id,json=serviceAccountId,proto3" json:"service_account_id,omitempty"`
 	// The new service account specification.
@@ -4046,15 +4264,15 @@ type UpdateServiceAccountRequest struct {
 	ResourceVersion string `protobuf:"bytes,3,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The ID to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateServiceAccountRequest) Reset() {
 	*x = UpdateServiceAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[72]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[72]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateServiceAccountRequest) String() string {
@@ -4065,7 +4283,7 @@ func (*UpdateServiceAccountRequest) ProtoMessage() {}
 
 func (x *UpdateServiceAccountRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[72]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4109,18 +4327,21 @@ func (x *UpdateServiceAccountRequest) GetAsyncOperationId() string {
 }
 
 type UpdateServiceAccountResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateServiceAccountResponse) Reset() {
 	*x = UpdateServiceAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[73]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[73]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateServiceAccountResponse) String() string {
@@ -4131,7 +4352,7 @@ func (*UpdateServiceAccountResponse) ProtoMessage() {}
 
 func (x *UpdateServiceAccountResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[73]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4154,7 +4375,10 @@ func (x *UpdateServiceAccountResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type DeleteServiceAccountRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The ID of the service account to delete;
 	ServiceAccountId string `protobuf:"bytes,1,opt,name=service_account_id,json=serviceAccountId,proto3" json:"service_account_id,omitempty"`
 	// The version of the service account for which this update is intended for.
@@ -4162,15 +4386,15 @@ type DeleteServiceAccountRequest struct {
 	ResourceVersion string `protobuf:"bytes,2,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The ID to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteServiceAccountRequest) Reset() {
 	*x = DeleteServiceAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[74]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[74]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteServiceAccountRequest) String() string {
@@ -4181,7 +4405,7 @@ func (*DeleteServiceAccountRequest) ProtoMessage() {}
 
 func (x *DeleteServiceAccountRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[74]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4218,18 +4442,21 @@ func (x *DeleteServiceAccountRequest) GetAsyncOperationId() string {
 }
 
 type DeleteServiceAccountResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *DeleteServiceAccountResponse) Reset() {
 	*x = DeleteServiceAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[75]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[75]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteServiceAccountResponse) String() string {
@@ -4240,7 +4467,7 @@ func (*DeleteServiceAccountResponse) ProtoMessage() {}
 
 func (x *DeleteServiceAccountResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[75]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4263,7 +4490,10 @@ func (x *DeleteServiceAccountResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type GetUsageRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Filter for UTC time >= - optional.
 	// Defaults to: start of the current month.
 	// Must be: within the last 90 days from the current date.
@@ -4279,16 +4509,16 @@ type GetUsageRequest struct {
 	// Cannot exceed 1000. Defaults to 100.
 	PageSize int32 `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// The page token if this is continuing from another response - optional.
-	PageToken     string `protobuf:"bytes,4,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	PageToken string `protobuf:"bytes,4,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 }
 
 func (x *GetUsageRequest) Reset() {
 	*x = GetUsageRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[76]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[76]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUsageRequest) String() string {
@@ -4299,7 +4529,7 @@ func (*GetUsageRequest) ProtoMessage() {}
 
 func (x *GetUsageRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[76]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4343,21 +4573,24 @@ func (x *GetUsageRequest) GetPageToken() string {
 }
 
 type GetUsageResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of data based on granularity (per Day for now)
 	// Ordered by: time range in ascending order
 	Summaries []*v15.Summary `protobuf:"bytes,1,rep,name=summaries,proto3" json:"summaries,omitempty"`
 	// The next page's token.
 	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetUsageResponse) Reset() {
 	*x = GetUsageResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[77]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[77]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUsageResponse) String() string {
@@ -4368,7 +4601,7 @@ func (*GetUsageResponse) ProtoMessage() {}
 
 func (x *GetUsageResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[77]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4398,16 +4631,18 @@ func (x *GetUsageResponse) GetNextPageToken() string {
 }
 
 type GetAccountRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *GetAccountRequest) Reset() {
 	*x = GetAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[78]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[78]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetAccountRequest) String() string {
@@ -4418,7 +4653,7 @@ func (*GetAccountRequest) ProtoMessage() {}
 
 func (x *GetAccountRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[78]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4434,18 +4669,21 @@ func (*GetAccountRequest) Descriptor() ([]byte, []int) {
 }
 
 type GetAccountResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The account.
-	Account       *v16.Account `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The account.
+	Account *v16.Account `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
 }
 
 func (x *GetAccountResponse) Reset() {
 	*x = GetAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[79]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[79]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetAccountResponse) String() string {
@@ -4456,7 +4694,7 @@ func (*GetAccountResponse) ProtoMessage() {}
 
 func (x *GetAccountResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[79]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4479,7 +4717,10 @@ func (x *GetAccountResponse) GetAccount() *v16.Account {
 }
 
 type UpdateAccountRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The updated account specification to apply.
 	Spec *v16.AccountSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The version of the account for which this update is intended for.
@@ -4488,15 +4729,15 @@ type UpdateAccountRequest struct {
 	// The id to use for this async operation.
 	// Optional, if not provided a random id will be generated.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateAccountRequest) Reset() {
 	*x = UpdateAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[80]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[80]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateAccountRequest) String() string {
@@ -4507,7 +4748,7 @@ func (*UpdateAccountRequest) ProtoMessage() {}
 
 func (x *UpdateAccountRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[80]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4544,18 +4785,21 @@ func (x *UpdateAccountRequest) GetAsyncOperationId() string {
 }
 
 type UpdateAccountResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateAccountResponse) Reset() {
 	*x = UpdateAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[81]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[81]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateAccountResponse) String() string {
@@ -4566,7 +4810,7 @@ func (*UpdateAccountResponse) ProtoMessage() {}
 
 func (x *UpdateAccountResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[81]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4589,22 +4833,25 @@ func (x *UpdateAccountResponse) GetAsyncOperation() *v11.AsyncOperation {
 }
 
 type CreateNamespaceExportSinkRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace under which the sink is configured.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The specification for the export sink.
 	Spec *v12.ExportSinkSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
 	// Optional. The ID to use for this async operation.
 	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *CreateNamespaceExportSinkRequest) Reset() {
 	*x = CreateNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[82]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[82]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateNamespaceExportSinkRequest) String() string {
@@ -4615,7 +4862,7 @@ func (*CreateNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *CreateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[82]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4652,18 +4899,21 @@ func (x *CreateNamespaceExportSinkRequest) GetAsyncOperationId() string {
 }
 
 type CreateNamespaceExportSinkResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CreateNamespaceExportSinkResponse) Reset() {
 	*x = CreateNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[83]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[83]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *CreateNamespaceExportSinkResponse) String() string {
@@ -4674,7 +4924,7 @@ func (*CreateNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *CreateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[83]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4697,20 +4947,23 @@ func (x *CreateNamespaceExportSinkResponse) GetAsyncOperation() *v11.AsyncOperat
 }
 
 type GetNamespaceExportSinkRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to which the sink belongs.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The name of the sink to retrieve.
-	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (x *GetNamespaceExportSinkRequest) Reset() {
 	*x = GetNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[84]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[84]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNamespaceExportSinkRequest) String() string {
@@ -4721,7 +4974,7 @@ func (*GetNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *GetNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[84]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4751,18 +5004,21 @@ func (x *GetNamespaceExportSinkRequest) GetName() string {
 }
 
 type GetNamespaceExportSinkResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The export sink retrieved.
-	Sink          *v12.ExportSink `protobuf:"bytes,1,opt,name=sink,proto3" json:"sink,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The export sink retrieved.
+	Sink *v12.ExportSink `protobuf:"bytes,1,opt,name=sink,proto3" json:"sink,omitempty"`
 }
 
 func (x *GetNamespaceExportSinkResponse) Reset() {
 	*x = GetNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[85]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[85]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNamespaceExportSinkResponse) String() string {
@@ -4773,7 +5029,7 @@ func (*GetNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *GetNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[85]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4796,23 +5052,26 @@ func (x *GetNamespaceExportSinkResponse) GetSink() *v12.ExportSink {
 }
 
 type GetNamespaceExportSinksRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to which the sinks belong.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The requested size of the page to retrieve. Cannot exceed 1000.
 	// Defaults to 100 if not specified.
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// The page token if this is continuing from another response - optional.
-	PageToken     string `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	PageToken string `protobuf:"bytes,3,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 }
 
 func (x *GetNamespaceExportSinksRequest) Reset() {
 	*x = GetNamespaceExportSinksRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[86]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[86]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNamespaceExportSinksRequest) String() string {
@@ -4823,7 +5082,7 @@ func (*GetNamespaceExportSinksRequest) ProtoMessage() {}
 
 func (x *GetNamespaceExportSinksRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[86]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4860,20 +5119,23 @@ func (x *GetNamespaceExportSinksRequest) GetPageToken() string {
 }
 
 type GetNamespaceExportSinksResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The list of export sinks retrieved.
 	Sinks []*v12.ExportSink `protobuf:"bytes,1,rep,name=sinks,proto3" json:"sinks,omitempty"`
 	// The next page token, set if there is another page.
 	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetNamespaceExportSinksResponse) Reset() {
 	*x = GetNamespaceExportSinksResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[87]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[87]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetNamespaceExportSinksResponse) String() string {
@@ -4884,7 +5146,7 @@ func (*GetNamespaceExportSinksResponse) ProtoMessage() {}
 
 func (x *GetNamespaceExportSinksResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[87]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4914,7 +5176,10 @@ func (x *GetNamespaceExportSinksResponse) GetNextPageToken() string {
 }
 
 type UpdateNamespaceExportSinkRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to which the sink belongs.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The updated export sink specification.
@@ -4924,15 +5189,15 @@ type UpdateNamespaceExportSinkRequest struct {
 	ResourceVersion string `protobuf:"bytes,3,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The ID to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *UpdateNamespaceExportSinkRequest) Reset() {
 	*x = UpdateNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[88]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[88]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateNamespaceExportSinkRequest) String() string {
@@ -4943,7 +5208,7 @@ func (*UpdateNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *UpdateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[88]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -4987,18 +5252,21 @@ func (x *UpdateNamespaceExportSinkRequest) GetAsyncOperationId() string {
 }
 
 type UpdateNamespaceExportSinkResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *UpdateNamespaceExportSinkResponse) Reset() {
 	*x = UpdateNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[89]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[89]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *UpdateNamespaceExportSinkResponse) String() string {
@@ -5009,7 +5277,7 @@ func (*UpdateNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *UpdateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[89]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -5032,7 +5300,10 @@ func (x *UpdateNamespaceExportSinkResponse) GetAsyncOperation() *v11.AsyncOperat
 }
 
 type DeleteNamespaceExportSinkRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to which the sink belongs.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The name of the sink to delete.
@@ -5042,15 +5313,15 @@ type DeleteNamespaceExportSinkRequest struct {
 	ResourceVersion string `protobuf:"bytes,3,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
 	// The ID to use for this async operation - optional.
 	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteNamespaceExportSinkRequest) Reset() {
 	*x = DeleteNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[90]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[90]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteNamespaceExportSinkRequest) String() string {
@@ -5061,7 +5332,7 @@ func (*DeleteNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *DeleteNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[90]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -5105,18 +5376,21 @@ func (x *DeleteNamespaceExportSinkRequest) GetAsyncOperationId() string {
 }
 
 type DeleteNamespaceExportSinkResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The async operation.
 	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *DeleteNamespaceExportSinkResponse) Reset() {
 	*x = DeleteNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[91]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[91]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *DeleteNamespaceExportSinkResponse) String() string {
@@ -5127,7 +5401,7 @@ func (*DeleteNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *DeleteNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[91]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -5150,20 +5424,23 @@ func (x *DeleteNamespaceExportSinkResponse) GetAsyncOperation() *v11.AsyncOperat
 }
 
 type ValidateNamespaceExportSinkRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// The namespace to which the sink belongs.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The export sink specification to validate.
-	Spec          *v12.ExportSinkSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Spec *v12.ExportSinkSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
 }
 
 func (x *ValidateNamespaceExportSinkRequest) Reset() {
 	*x = ValidateNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[92]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[92]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ValidateNamespaceExportSinkRequest) String() string {
@@ -5174,7 +5451,7 @@ func (*ValidateNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *ValidateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[92]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -5204,16 +5481,18 @@ func (x *ValidateNamespaceExportSinkRequest) GetSpec() *v12.ExportSinkSpec {
 }
 
 type ValidateNamespaceExportSinkResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
 }
 
 func (x *ValidateNamespaceExportSinkResponse) Reset() {
 	*x = ValidateNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[93]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[93]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *ValidateNamespaceExportSinkResponse) String() string {
@@ -5224,7 +5503,7 @@ func (*ValidateNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *ValidateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[93]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -5240,18 +5519,21 @@ func (*ValidateNamespaceExportSinkResponse) Descriptor() ([]byte, []int) {
 }
 
 type GetUserGroupsRequest_GoogleGroupFilter struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Filter groups by the google group email - optional.
-	EmailAddress  string `protobuf:"bytes,1,opt,name=email_address,json=emailAddress,proto3" json:"email_address,omitempty"`
-	unknownFields protoimpl.UnknownFields
+	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Filter groups by the google group email - optional.
+	EmailAddress string `protobuf:"bytes,1,opt,name=email_address,json=emailAddress,proto3" json:"email_address,omitempty"`
 }
 
 func (x *GetUserGroupsRequest_GoogleGroupFilter) Reset() {
 	*x = GetUserGroupsRequest_GoogleGroupFilter{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[94]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[94]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *GetUserGroupsRequest_GoogleGroupFilter) String() string {
@@ -5262,7 +5544,7 @@ func (*GetUserGroupsRequest_GoogleGroupFilter) ProtoMessage() {}
 
 func (x *GetUserGroupsRequest_GoogleGroupFilter) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[94]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -6133,7 +6415,7 @@ func file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(
 }
 
 var file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 95)
-var file_temporal_api_cloud_cloudservice_v1_request_response_proto_goTypes = []any{
+var file_temporal_api_cloud_cloudservice_v1_request_response_proto_goTypes = []interface{}{
 	(*GetUsersRequest)(nil),                        // 0: temporal.api.cloud.cloudservice.v1.GetUsersRequest
 	(*GetUsersResponse)(nil),                       // 1: temporal.api.cloud.cloudservice.v1.GetUsersResponse
 	(*GetUserRequest)(nil),                         // 2: temporal.api.cloud.cloudservice.v1.GetUserRequest
@@ -6332,6 +6614,1148 @@ func init() { file_temporal_api_cloud_cloudservice_v1_request_response_proto_ini
 func file_temporal_api_cloud_cloudservice_v1_request_response_proto_init() {
 	if File_temporal_api_cloud_cloudservice_v1_request_response_proto != nil {
 		return
+	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUsersRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUsersResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUserRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUserResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SetUserNamespaceAccessRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SetUserNamespaceAccessResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetAsyncOperationRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetAsyncOperationResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateNamespaceRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateNamespaceResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNamespacesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNamespacesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNamespaceRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNamespaceResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateNamespaceRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateNamespaceResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RenameCustomSearchAttributeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*RenameCustomSearchAttributeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteNamespaceRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteNamespaceResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FailoverNamespaceRegionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FailoverNamespaceRegionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddNamespaceRegionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*AddNamespaceRegionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRegionsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRegionsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRegionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRegionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetApiKeysRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetApiKeysResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetApiKeyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetApiKeyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[38].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateApiKeyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[39].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateApiKeyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[40].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateApiKeyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[41].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateApiKeyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[42].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteApiKeyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[43].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteApiKeyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[44].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNexusEndpointsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[45].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNexusEndpointsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[46].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNexusEndpointRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[47].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNexusEndpointResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[48].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateNexusEndpointRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[49].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateNexusEndpointResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[50].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateNexusEndpointRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[51].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateNexusEndpointResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[52].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteNexusEndpointRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[53].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteNexusEndpointResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[54].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserGroupsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[55].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserGroupsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[56].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserGroupRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[57].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserGroupResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[58].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateUserGroupRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[59].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateUserGroupResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[60].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateUserGroupRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[61].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateUserGroupResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[62].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUserGroupRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[63].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteUserGroupResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[64].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SetUserGroupNamespaceAccessRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[65].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SetUserGroupNamespaceAccessResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[66].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateServiceAccountRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[67].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateServiceAccountResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[68].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetServiceAccountRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[69].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetServiceAccountResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[70].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetServiceAccountsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[71].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetServiceAccountsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[72].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateServiceAccountRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[73].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateServiceAccountResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[74].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteServiceAccountRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[75].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteServiceAccountResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[76].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUsageRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[77].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUsageResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[78].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetAccountRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[79].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetAccountResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[80].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateAccountRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[81].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateAccountResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[82].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateNamespaceExportSinkRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[83].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateNamespaceExportSinkResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[84].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNamespaceExportSinkRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[85].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNamespaceExportSinkResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[86].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNamespaceExportSinksRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[87].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetNamespaceExportSinksResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[88].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateNamespaceExportSinkRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[89].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateNamespaceExportSinkResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[90].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteNamespaceExportSinkRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[91].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteNamespaceExportSinkResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[92].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ValidateNamespaceExportSinkRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[93].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ValidateNamespaceExportSinkResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[94].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUserGroupsRequest_GoogleGroupFilter); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
