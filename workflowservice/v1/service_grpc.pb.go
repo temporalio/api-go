@@ -556,19 +556,21 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(ctx context.Context, in *RespondNexusTaskFailedRequest, opts ...grpc.CallOption) (*RespondNexusTaskFailedResponse, error)
-	// UpdateActivityOptionsById is called by the client to update the options of an activity
+	// UpdateActivityOptionsById is called by the client to update the options of an activity by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be updated.
 	// (-- api-linter: core::0136::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	UpdateActivityOptionsById(ctx context.Context, in *UpdateActivityOptionsByIdRequest, opts ...grpc.CallOption) (*UpdateActivityOptionsByIdResponse, error)
 	// UpdateWorkflowExecutionOptions partially updates the WorkflowExecutionOptions of an existing workflow execution.
 	UpdateWorkflowExecutionOptions(ctx context.Context, in *UpdateWorkflowExecutionOptionsRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionOptionsResponse, error)
-	// PauseActivityById pauses the execution of an activity specified by its ID.
+	// PauseActivityById pauses the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be paused
 	// Returns a `NotFound` error if there is no pending activity with the provided ID.
 	//
 	// Pausing an activity means:
 	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
-	//     it will not be rescheduled until it is unpaused.
+	//     it will not be rescheduled until it is unpause.
 	//   - If the activity is already paused, calling this method will have no effect.
 	//   - If the activity is running and finishes successfully, the activity will be completed.
 	//   - If the activity is running and finishes with failure:
@@ -582,33 +584,40 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	PauseActivityById(ctx context.Context, in *PauseActivityByIdRequest, opts ...grpc.CallOption) (*PauseActivityByIdResponse, error)
-	// UnpauseActivityById unpauses the execution of an activity specified by its ID.
+	// UnpauseActivityById unpauses the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be unpause.
+	//
+	// If activity is not paused, this call will have no effect.
+	// If the activity is waiting for retry, it will be scheduled immediately (* see 'jitter' flag).
+	// Once the activity is unpause, all timeout timers will be regenerated.
+	//
+	// Flags:
+	// 'jitter': the activity will be scheduled at a random time within the jitter duration.
+	// 'reset_attempts': the number of attempts will be reset.
+	// 'reset_heartbeat': the activity heartbeat timer and heartbeats will be reset.
+	//
 	// Returns a `NotFound` error if there is no pending activity with the provided ID.
-	// There are two 'modes' of unpausing an activity:
-	// 'resume' - If the activity is paused, it will be resumed and scheduled for execution.
-	//   - If the activity is currently running Unpause with 'resume' has no effect.
-	//   - if 'no_wait' flag is set and the activity is waiting, the activity will be scheduled immediately.
-	//
-	// 'reset' - If the activity is paused, it will be reset to its initial state and (depending on parameters) scheduled for execution.
-	//   - If the activity is currently running, Unpause with 'reset' will reset the number of attempts.
-	//   - if 'no_wait' flag is set, the activity will be scheduled immediately.
-	//   - if 'reset_heartbeats' flag is set, the activity heartbeat timer and heartbeats will be reset.
-	//
-	// If the activity is in waiting for retry and past it retry timeout, it will be scheduled immediately.
-	// Once the activity is unpaused, all timeout timers will be regenerated.
 	// (-- api-linter: core::0136::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	UnpauseActivityById(ctx context.Context, in *UnpauseActivityByIdRequest, opts ...grpc.CallOption) (*UnpauseActivityByIdResponse, error)
-	// ResetActivityById unpauses the execution of an activity specified by its ID.
-	// Returns a `NotFound` error if there is no pending activity with the provided ID.
+	// ResetActivityById resets the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be reset.
+	//
 	// Resetting an activity means:
-	// * number of attempts will be reset to 0.
-	// * activity timeouts will be resetted.
-	// If the activity currently running:
-	// *  if 'no_wait' flag is provided, a new instance of the activity will be scheduled immediately.
-	// *  if 'no_wait' flag is not provided, a new instance of the  activity will be scheduled after current instance completes if needed.
-	// If 'reset_heartbeats' flag is set, the activity heartbeat timer and heartbeats will be reset.
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag),
+	//
+	// Flags:
+	//
+	// 'jitter': the activity will be scheduled at a random time within the jitter duration.
+	// If the activity currently paused it will be unpause, unless 'keep_paused' flag is provided.
+	// 'reset_heartbeats': the activity heartbeat timer and heartbeats will be reset.
+	// 'keep_paused': if the activity is paused, it will remain paused.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID.
 	// (-- api-linter: core::0136::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
@@ -1801,19 +1810,21 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error)
-	// UpdateActivityOptionsById is called by the client to update the options of an activity
+	// UpdateActivityOptionsById is called by the client to update the options of an activity by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be updated.
 	// (-- api-linter: core::0136::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	UpdateActivityOptionsById(context.Context, *UpdateActivityOptionsByIdRequest) (*UpdateActivityOptionsByIdResponse, error)
 	// UpdateWorkflowExecutionOptions partially updates the WorkflowExecutionOptions of an existing workflow execution.
 	UpdateWorkflowExecutionOptions(context.Context, *UpdateWorkflowExecutionOptionsRequest) (*UpdateWorkflowExecutionOptionsResponse, error)
-	// PauseActivityById pauses the execution of an activity specified by its ID.
+	// PauseActivityById pauses the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be paused
 	// Returns a `NotFound` error if there is no pending activity with the provided ID.
 	//
 	// Pausing an activity means:
 	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
-	//     it will not be rescheduled until it is unpaused.
+	//     it will not be rescheduled until it is unpause.
 	//   - If the activity is already paused, calling this method will have no effect.
 	//   - If the activity is running and finishes successfully, the activity will be completed.
 	//   - If the activity is running and finishes with failure:
@@ -1827,33 +1838,40 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	PauseActivityById(context.Context, *PauseActivityByIdRequest) (*PauseActivityByIdResponse, error)
-	// UnpauseActivityById unpauses the execution of an activity specified by its ID.
+	// UnpauseActivityById unpauses the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be unpause.
+	//
+	// If activity is not paused, this call will have no effect.
+	// If the activity is waiting for retry, it will be scheduled immediately (* see 'jitter' flag).
+	// Once the activity is unpause, all timeout timers will be regenerated.
+	//
+	// Flags:
+	// 'jitter': the activity will be scheduled at a random time within the jitter duration.
+	// 'reset_attempts': the number of attempts will be reset.
+	// 'reset_heartbeat': the activity heartbeat timer and heartbeats will be reset.
+	//
 	// Returns a `NotFound` error if there is no pending activity with the provided ID.
-	// There are two 'modes' of unpausing an activity:
-	// 'resume' - If the activity is paused, it will be resumed and scheduled for execution.
-	//   - If the activity is currently running Unpause with 'resume' has no effect.
-	//   - if 'no_wait' flag is set and the activity is waiting, the activity will be scheduled immediately.
-	//
-	// 'reset' - If the activity is paused, it will be reset to its initial state and (depending on parameters) scheduled for execution.
-	//   - If the activity is currently running, Unpause with 'reset' will reset the number of attempts.
-	//   - if 'no_wait' flag is set, the activity will be scheduled immediately.
-	//   - if 'reset_heartbeats' flag is set, the activity heartbeat timer and heartbeats will be reset.
-	//
-	// If the activity is in waiting for retry and past it retry timeout, it will be scheduled immediately.
-	// Once the activity is unpaused, all timeout timers will be regenerated.
 	// (-- api-linter: core::0136::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
 	UnpauseActivityById(context.Context, *UnpauseActivityByIdRequest) (*UnpauseActivityByIdResponse, error)
-	// ResetActivityById unpauses the execution of an activity specified by its ID.
-	// Returns a `NotFound` error if there is no pending activity with the provided ID.
+	// ResetActivityById resets the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be reset.
+	//
 	// Resetting an activity means:
-	// * number of attempts will be reset to 0.
-	// * activity timeouts will be resetted.
-	// If the activity currently running:
-	// *  if 'no_wait' flag is provided, a new instance of the activity will be scheduled immediately.
-	// *  if 'no_wait' flag is not provided, a new instance of the  activity will be scheduled after current instance completes if needed.
-	// If 'reset_heartbeats' flag is set, the activity heartbeat timer and heartbeats will be reset.
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag),
+	//
+	// Flags:
+	//
+	// 'jitter': the activity will be scheduled at a random time within the jitter duration.
+	// If the activity currently paused it will be unpause, unless 'keep_paused' flag is provided.
+	// 'reset_heartbeats': the activity heartbeat timer and heartbeats will be reset.
+	// 'keep_paused': if the activity is paused, it will remain paused.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID.
 	// (-- api-linter: core::0136::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
