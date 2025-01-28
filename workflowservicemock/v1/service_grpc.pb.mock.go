@@ -718,6 +718,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) ListTaskQueuePartitions(ctx, in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTaskQueuePartitions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListTaskQueuePartitions), varargs...)
 }
 
+// ListWorkerDeployments mocks base method.
+func (m *MockWorkflowServiceClient) ListWorkerDeployments(ctx context.Context, in *workflowservice.ListWorkerDeploymentsRequest, opts ...grpc.CallOption) (*workflowservice.ListWorkerDeploymentsResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListWorkerDeployments", varargs...)
+	ret0, _ := ret[0].(*workflowservice.ListWorkerDeploymentsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListWorkerDeployments indicates an expected call of ListWorkerDeployments.
+func (mr *MockWorkflowServiceClientMockRecorder) ListWorkerDeployments(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListWorkerDeployments", reflect.TypeOf((*MockWorkflowServiceClient)(nil).ListWorkerDeployments), varargs...)
+}
+
 // ListWorkflowExecutions mocks base method.
 func (m *MockWorkflowServiceClient) ListWorkflowExecutions(ctx context.Context, in *workflowservice.ListWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.ListWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
@@ -2137,6 +2157,21 @@ func (m *MockWorkflowServiceServer) ListTaskQueuePartitions(arg0 context.Context
 func (mr *MockWorkflowServiceServerMockRecorder) ListTaskQueuePartitions(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTaskQueuePartitions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListTaskQueuePartitions), arg0, arg1)
+}
+
+// ListWorkerDeployments mocks base method.
+func (m *MockWorkflowServiceServer) ListWorkerDeployments(arg0 context.Context, arg1 *workflowservice.ListWorkerDeploymentsRequest) (*workflowservice.ListWorkerDeploymentsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListWorkerDeployments", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.ListWorkerDeploymentsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListWorkerDeployments indicates an expected call of ListWorkerDeployments.
+func (mr *MockWorkflowServiceServerMockRecorder) ListWorkerDeployments(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListWorkerDeployments", reflect.TypeOf((*MockWorkflowServiceServer)(nil).ListWorkerDeployments), arg0, arg1)
 }
 
 // ListWorkflowExecutions mocks base method.
