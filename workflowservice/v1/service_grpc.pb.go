@@ -98,10 +98,15 @@ const (
 	WorkflowService_GetWorkerVersioningRules_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules"
 	WorkflowService_GetWorkerTaskReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability"
 	WorkflowService_DescribeDeployment_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/DescribeDeployment"
+	WorkflowService_DescribeWorkerDeploymentVersion_FullMethodName    = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion"
 	WorkflowService_ListDeployments_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/ListDeployments"
 	WorkflowService_GetDeploymentReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetDeploymentReachability"
 	WorkflowService_GetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/GetCurrentDeployment"
 	WorkflowService_SetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeployment"
+	WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName  = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentCurrentVersion"
+	WorkflowService_DescribeWorkerDeployment_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeployment"
+	WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName  = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentRampingVersion"
+	WorkflowService_ListWorkerDeployments_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkerDeployments"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
 	WorkflowService_StartBatchOperation_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
@@ -502,10 +507,14 @@ type WorkflowServiceClient interface {
 	GetWorkerTaskReachability(ctx context.Context, in *GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*GetWorkerTaskReachabilityResponse, error)
 	// Describes a worker deployment.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	DescribeDeployment(ctx context.Context, in *DescribeDeploymentRequest, opts ...grpc.CallOption) (*DescribeDeploymentResponse, error)
+	// Describes a worker deployment version.
+	DescribeWorkerDeploymentVersion(ctx context.Context, in *DescribeWorkerDeploymentVersionRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentVersionResponse, error)
 	// Lists worker deployments in the namespace. Optionally can filter based on deployment series
 	// name.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	ListDeployments(ctx context.Context, in *ListDeploymentsRequest, opts ...grpc.CallOption) (*ListDeploymentsResponse, error)
 	// Returns the reachability level of a worker deployment to help users decide when it is time
 	// to decommission a deployment. Reachability level is calculated based on the deployment's
@@ -514,14 +523,25 @@ type WorkflowServiceClient interface {
 	// cached value. In such a case, the `last_update_time` will inform you about the actual
 	// reachability calculation time.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	GetDeploymentReachability(ctx context.Context, in *GetDeploymentReachabilityRequest, opts ...grpc.CallOption) (*GetDeploymentReachabilityResponse, error)
 	// Returns the current deployment (and its info) for a given deployment series.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	GetCurrentDeployment(ctx context.Context, in *GetCurrentDeploymentRequest, opts ...grpc.CallOption) (*GetCurrentDeploymentResponse, error)
 	// Sets a deployment as the current deployment for its deployment series. Can optionally update
 	// the metadata of the deployment as well.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	SetCurrentDeployment(ctx context.Context, in *SetCurrentDeploymentRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentResponse, error)
+	// Set/unset the Current Version of a Worker Deployment. Automatically unsets the Ramping
+	// Version if it is the Version being set as Current.
+	SetWorkerDeploymentCurrentVersion(ctx context.Context, in *SetWorkerDeploymentCurrentVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentCurrentVersionResponse, error)
+	DescribeWorkerDeployment(ctx context.Context, in *DescribeWorkerDeploymentRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentResponse, error)
+	// Set/unset the Ramping Version of a Worker Deployment and its ramp percentage. Can be used for
+	// gradual ramp to unversioned workers too.
+	SetWorkerDeploymentRampingVersion(ctx context.Context, in *SetWorkerDeploymentRampingVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentRampingVersionResponse, error)
+	ListWorkerDeployments(ctx context.Context, in *ListWorkerDeploymentsRequest, opts ...grpc.CallOption) (*ListWorkerDeploymentsResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -1183,6 +1203,16 @@ func (c *workflowServiceClient) DescribeDeployment(ctx context.Context, in *Desc
 	return out, nil
 }
 
+func (c *workflowServiceClient) DescribeWorkerDeploymentVersion(ctx context.Context, in *DescribeWorkerDeploymentVersionRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentVersionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeWorkerDeploymentVersionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkerDeploymentVersion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) ListDeployments(ctx context.Context, in *ListDeploymentsRequest, opts ...grpc.CallOption) (*ListDeploymentsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListDeploymentsResponse)
@@ -1217,6 +1247,46 @@ func (c *workflowServiceClient) SetCurrentDeployment(ctx context.Context, in *Se
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetCurrentDeploymentResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_SetCurrentDeployment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) SetWorkerDeploymentCurrentVersion(ctx context.Context, in *SetWorkerDeploymentCurrentVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentCurrentVersionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetWorkerDeploymentCurrentVersionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) DescribeWorkerDeployment(ctx context.Context, in *DescribeWorkerDeploymentRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeWorkerDeploymentResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkerDeployment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) SetWorkerDeploymentRampingVersion(ctx context.Context, in *SetWorkerDeploymentRampingVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentRampingVersionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetWorkerDeploymentRampingVersionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ListWorkerDeployments(ctx context.Context, in *ListWorkerDeploymentsRequest, opts ...grpc.CallOption) (*ListWorkerDeploymentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWorkerDeploymentsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ListWorkerDeployments_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1747,10 +1817,14 @@ type WorkflowServiceServer interface {
 	GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error)
 	// Describes a worker deployment.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	DescribeDeployment(context.Context, *DescribeDeploymentRequest) (*DescribeDeploymentResponse, error)
+	// Describes a worker deployment version.
+	DescribeWorkerDeploymentVersion(context.Context, *DescribeWorkerDeploymentVersionRequest) (*DescribeWorkerDeploymentVersionResponse, error)
 	// Lists worker deployments in the namespace. Optionally can filter based on deployment series
 	// name.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	ListDeployments(context.Context, *ListDeploymentsRequest) (*ListDeploymentsResponse, error)
 	// Returns the reachability level of a worker deployment to help users decide when it is time
 	// to decommission a deployment. Reachability level is calculated based on the deployment's
@@ -1759,14 +1833,25 @@ type WorkflowServiceServer interface {
 	// cached value. In such a case, the `last_update_time` will inform you about the actual
 	// reachability calculation time.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	GetDeploymentReachability(context.Context, *GetDeploymentReachabilityRequest) (*GetDeploymentReachabilityResponse, error)
 	// Returns the current deployment (and its info) for a given deployment series.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	GetCurrentDeployment(context.Context, *GetCurrentDeploymentRequest) (*GetCurrentDeploymentResponse, error)
 	// Sets a deployment as the current deployment for its deployment series. Can optionally update
 	// the metadata of the deployment as well.
 	// Experimental. This API might significantly change or be removed in a future release.
+	// [cleanup-wv-pre-release]
 	SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error)
+	// Set/unset the Current Version of a Worker Deployment. Automatically unsets the Ramping
+	// Version if it is the Version being set as Current.
+	SetWorkerDeploymentCurrentVersion(context.Context, *SetWorkerDeploymentCurrentVersionRequest) (*SetWorkerDeploymentCurrentVersionResponse, error)
+	DescribeWorkerDeployment(context.Context, *DescribeWorkerDeploymentRequest) (*DescribeWorkerDeploymentResponse, error)
+	// Set/unset the Ramping Version of a Worker Deployment and its ramp percentage. Can be used for
+	// gradual ramp to unversioned workers too.
+	SetWorkerDeploymentRampingVersion(context.Context, *SetWorkerDeploymentRampingVersionRequest) (*SetWorkerDeploymentRampingVersionResponse, error)
+	ListWorkerDeployments(context.Context, *ListWorkerDeploymentsRequest) (*ListWorkerDeploymentsResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -2036,6 +2121,9 @@ func (UnimplementedWorkflowServiceServer) GetWorkerTaskReachability(context.Cont
 func (UnimplementedWorkflowServiceServer) DescribeDeployment(context.Context, *DescribeDeploymentRequest) (*DescribeDeploymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeDeployment not implemented")
 }
+func (UnimplementedWorkflowServiceServer) DescribeWorkerDeploymentVersion(context.Context, *DescribeWorkerDeploymentVersionRequest) (*DescribeWorkerDeploymentVersionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkerDeploymentVersion not implemented")
+}
 func (UnimplementedWorkflowServiceServer) ListDeployments(context.Context, *ListDeploymentsRequest) (*ListDeploymentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListDeployments not implemented")
 }
@@ -2047,6 +2135,18 @@ func (UnimplementedWorkflowServiceServer) GetCurrentDeployment(context.Context, 
 }
 func (UnimplementedWorkflowServiceServer) SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetCurrentDeployment not implemented")
+}
+func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentCurrentVersion(context.Context, *SetWorkerDeploymentCurrentVersionRequest) (*SetWorkerDeploymentCurrentVersionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentCurrentVersion not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DescribeWorkerDeployment(context.Context, *DescribeWorkerDeploymentRequest) (*DescribeWorkerDeploymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkerDeployment not implemented")
+}
+func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentRampingVersion(context.Context, *SetWorkerDeploymentRampingVersionRequest) (*SetWorkerDeploymentRampingVersionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentRampingVersion not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ListWorkerDeployments(context.Context, *ListWorkerDeploymentsRequest) (*ListWorkerDeploymentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkerDeployments not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
@@ -3119,6 +3219,24 @@ func _WorkflowService_DescribeDeployment_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_DescribeWorkerDeploymentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeWorkerDeploymentVersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DescribeWorkerDeploymentVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DescribeWorkerDeploymentVersion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DescribeWorkerDeploymentVersion(ctx, req.(*DescribeWorkerDeploymentVersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_ListDeployments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListDeploymentsRequest)
 	if err := dec(in); err != nil {
@@ -3187,6 +3305,78 @@ func _WorkflowService_SetCurrentDeployment_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WorkflowServiceServer).SetCurrentDeployment(ctx, req.(*SetCurrentDeploymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_SetWorkerDeploymentCurrentVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetWorkerDeploymentCurrentVersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentCurrentVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentCurrentVersion(ctx, req.(*SetWorkerDeploymentCurrentVersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_DescribeWorkerDeployment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeWorkerDeploymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DescribeWorkerDeployment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DescribeWorkerDeployment_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DescribeWorkerDeployment(ctx, req.(*DescribeWorkerDeploymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_SetWorkerDeploymentRampingVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetWorkerDeploymentRampingVersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentRampingVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentRampingVersion(ctx, req.(*SetWorkerDeploymentRampingVersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_ListWorkerDeployments_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkerDeploymentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ListWorkerDeployments(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ListWorkerDeployments_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ListWorkerDeployments(ctx, req.(*ListWorkerDeploymentsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3675,6 +3865,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_DescribeDeployment_Handler,
 		},
 		{
+			MethodName: "DescribeWorkerDeploymentVersion",
+			Handler:    _WorkflowService_DescribeWorkerDeploymentVersion_Handler,
+		},
+		{
 			MethodName: "ListDeployments",
 			Handler:    _WorkflowService_ListDeployments_Handler,
 		},
@@ -3689,6 +3883,22 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetCurrentDeployment",
 			Handler:    _WorkflowService_SetCurrentDeployment_Handler,
+		},
+		{
+			MethodName: "SetWorkerDeploymentCurrentVersion",
+			Handler:    _WorkflowService_SetWorkerDeploymentCurrentVersion_Handler,
+		},
+		{
+			MethodName: "DescribeWorkerDeployment",
+			Handler:    _WorkflowService_DescribeWorkerDeployment_Handler,
+		},
+		{
+			MethodName: "SetWorkerDeploymentRampingVersion",
+			Handler:    _WorkflowService_SetWorkerDeploymentRampingVersion_Handler,
+		},
+		{
+			MethodName: "ListWorkerDeployments",
+			Handler:    _WorkflowService_ListWorkerDeployments_Handler,
 		},
 		{
 			MethodName: "UpdateWorkflowExecution",

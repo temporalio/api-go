@@ -94,6 +94,14 @@ func (s *workflowServiceProxyServer) DescribeTaskQueue(ctx context.Context, in0 
 	return s.client.DescribeTaskQueue(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) DescribeWorkerDeployment(ctx context.Context, in0 *workflowservice.DescribeWorkerDeploymentRequest) (*workflowservice.DescribeWorkerDeploymentResponse, error) {
+	return s.client.DescribeWorkerDeployment(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) DescribeWorkerDeploymentVersion(ctx context.Context, in0 *workflowservice.DescribeWorkerDeploymentVersionRequest) (*workflowservice.DescribeWorkerDeploymentVersionResponse, error) {
+	return s.client.DescribeWorkerDeploymentVersion(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) DescribeWorkflowExecution(ctx context.Context, in0 *workflowservice.DescribeWorkflowExecutionRequest) (*workflowservice.DescribeWorkflowExecutionResponse, error) {
 	return s.client.DescribeWorkflowExecution(s.reqCtx(ctx), in0)
 }
@@ -176,6 +184,10 @@ func (s *workflowServiceProxyServer) ListSchedules(ctx context.Context, in0 *wor
 
 func (s *workflowServiceProxyServer) ListTaskQueuePartitions(ctx context.Context, in0 *workflowservice.ListTaskQueuePartitionsRequest) (*workflowservice.ListTaskQueuePartitionsResponse, error) {
 	return s.client.ListTaskQueuePartitions(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) ListWorkerDeployments(ctx context.Context, in0 *workflowservice.ListWorkerDeploymentsRequest) (*workflowservice.ListWorkerDeploymentsResponse, error) {
+	return s.client.ListWorkerDeployments(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) ListWorkflowExecutions(ctx context.Context, in0 *workflowservice.ListWorkflowExecutionsRequest) (*workflowservice.ListWorkflowExecutionsResponse, error) {
@@ -288,6 +300,14 @@ func (s *workflowServiceProxyServer) ScanWorkflowExecutions(ctx context.Context,
 
 func (s *workflowServiceProxyServer) SetCurrentDeployment(ctx context.Context, in0 *workflowservice.SetCurrentDeploymentRequest) (*workflowservice.SetCurrentDeploymentResponse, error) {
 	return s.client.SetCurrentDeployment(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) SetWorkerDeploymentCurrentVersion(ctx context.Context, in0 *workflowservice.SetWorkerDeploymentCurrentVersionRequest) (*workflowservice.SetWorkerDeploymentCurrentVersionResponse, error) {
+	return s.client.SetWorkerDeploymentCurrentVersion(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) SetWorkerDeploymentRampingVersion(ctx context.Context, in0 *workflowservice.SetWorkerDeploymentRampingVersionRequest) (*workflowservice.SetWorkerDeploymentRampingVersionResponse, error) {
+	return s.client.SetWorkerDeploymentRampingVersion(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) ShutdownWorker(ctx context.Context, in0 *workflowservice.ShutdownWorkerRequest) (*workflowservice.ShutdownWorkerResponse, error) {

@@ -567,6 +567,36 @@ func visitPayloads(
 				return err
 			}
 
+		case *deployment.VersionMetadata:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetEntries(),
+			); err != nil {
+				return err
+			}
+
+		case *deployment.WorkerDeploymentVersionInfo:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetMetadata(),
+			); err != nil {
+				return err
+			}
+
 		case []*export.WorkflowExecution:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
@@ -1883,6 +1913,21 @@ func visitPayloads(
 				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.DescribeWorkerDeploymentVersionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetWorkerDeploymentVersionInfo(),
 			); err != nil {
 				return err
 			}

@@ -46,3 +46,41 @@ func DeploymentReachabilityFromString(s string) (DeploymentReachability, error) 
 	}
 	return DeploymentReachability(0), fmt.Errorf("%s is not a valid DeploymentReachability", s)
 }
+
+var (
+	VersionDrainageStatus_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Draining":    1,
+		"Drained":     2,
+	}
+)
+
+// VersionDrainageStatusFromString parses a VersionDrainageStatus value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to VersionDrainageStatus
+func VersionDrainageStatusFromString(s string) (VersionDrainageStatus, error) {
+	if v, ok := VersionDrainageStatus_value[s]; ok {
+		return VersionDrainageStatus(v), nil
+	} else if v, ok := VersionDrainageStatus_shorthandValue[s]; ok {
+		return VersionDrainageStatus(v), nil
+	}
+	return VersionDrainageStatus(0), fmt.Errorf("%s is not a valid VersionDrainageStatus", s)
+}
+
+var (
+	WorkflowVersioningMode_shorthandValue = map[string]int32{
+		"Unspecified":         0,
+		"Unversioned":         1,
+		"VersioningBehaviors": 2,
+	}
+)
+
+// WorkflowVersioningModeFromString parses a WorkflowVersioningMode value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to WorkflowVersioningMode
+func WorkflowVersioningModeFromString(s string) (WorkflowVersioningMode, error) {
+	if v, ok := WorkflowVersioningMode_value[s]; ok {
+		return WorkflowVersioningMode(v), nil
+	} else if v, ok := WorkflowVersioningMode_shorthandValue[s]; ok {
+		return WorkflowVersioningMode(v), nil
+	}
+	return WorkflowVersioningMode(0), fmt.Errorf("%s is not a valid WorkflowVersioningMode", s)
+}
