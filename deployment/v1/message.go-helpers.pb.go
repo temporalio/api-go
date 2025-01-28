@@ -360,6 +360,43 @@ func (this *WorkerDeploymentInfo) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type VersionMetadata to the protobuf v3 wire format
+func (val *VersionMetadata) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type VersionMetadata from the protobuf v3 wire format
+func (val *VersionMetadata) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *VersionMetadata) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two VersionMetadata values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *VersionMetadata) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *VersionMetadata
+	switch t := that.(type) {
+	case *VersionMetadata:
+		that1 = t
+	case VersionMetadata:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type RoutingInfo to the protobuf v3 wire format
 func (val *RoutingInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

@@ -162,20 +162,31 @@ func (x *TaskQueueMetadata) GetMaxTasksPerSecond() *wrapperspb.DoubleValue {
 
 type TaskQueueVersioningInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Current Version receives all the tasks except the portion that is routed to the Ramping
-	// Version according to `ramping_version_percentage`.
-	// It is possible that Current Version is not present when user is ramping from unversioned to
-	// versioned workers. In that case, remaining tasks after `ramping_version_percentage` go to
-	// unversioned workers. (Unversioned workers are those with UNVERSIONED (or unspecified)
-	// WorkflowVersioningMode.)
+	// Always present. Specifies which Deployment Version should should receive new workflow
+	// executions and tasks of existing unversioned or AutoUpgrade workflows.
+	// Can be one of the following:
+	//   - The Build ID of a Version of this Deployment that supports Versioning Behaviors (i.e. has
+	//     `WorkflowVersioningMode==VERSIONING_BEHAVIORS`.)
+	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
+	//     with `UNVERSIONED` (or unspecified) `WorkflowVersioningMode`.)
+	//
+	// Note: Current Version is overridden by the Ramping Version for a portion of traffic when a ramp
+	// is set (see `ramping_version`.)
 	CurrentVersion *v11.WorkerDeploymentVersion `protobuf:"bytes,1,opt,name=current_version,json=currentVersion,proto3" json:"current_version,omitempty"`
-	// Ramping Version is set during gradual rollout of a new Version. It takes a share of tasks
-	// according to `ramping_version_percentage`.
+	// When present, it means the traffic is being shifted from the Current Version to the Ramping
+	// Version.
+	// Must always be different from Current Version. Can be one of the following:
+	//   - The Build ID of a Version of this Deployment that supports Versioning Behaviors (i.e. has
+	//     `WorkflowVersioningMode==VERSIONING_BEHAVIORS`.)
+	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
+	//     with `UNVERSIONED` (or unspecified) `WorkflowVersioningMode`.)
+	//
+	// Note that it is possible to ramp from one Version to another Version, or from unversioned
+	// workers to a particular Version, or from a particular Version to unversioned workers.
 	RampingVersion *v11.WorkerDeploymentVersion `protobuf:"bytes,2,opt,name=ramping_version,json=rampingVersion,proto3" json:"ramping_version,omitempty"`
 	// Percentage of tasks that are routed to the Ramping Version instead of the Current Version.
-	// Special case: it is possible that `ramping_version_percentage` is non-zero while
-	// `ramping_version` is absent. That case represents gradual migration out of the Current
-	// Version to unversioned workers.
+	// Valid range: [0, 100]. A 100% value means the Ramping Version is receiving full traffic but
+	// not yet "promoted" to be the Current Version, likely due to pending validations.
 	RampingVersionPercentage float32 `protobuf:"fixed32,3,opt,name=ramping_version_percentage,json=rampingVersionPercentage,proto3" json:"ramping_version_percentage,omitempty"`
 	// Last time versioning information of this Task Queue changed.
 	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
