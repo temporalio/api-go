@@ -10080,6 +10080,7 @@ type UnpauseActivityRequest_Type struct {
 }
 
 type UnpauseActivityRequest_UnpauseAll struct {
+	// Unpause all running activities.
 	UnpauseAll bool `protobuf:"varint,6,opt,name=unpause_all,json=unpauseAll,proto3,oneof"`
 }
 
