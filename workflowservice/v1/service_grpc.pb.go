@@ -111,11 +111,11 @@ const (
 	WorkflowService_PollNexusTaskQueue_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollNexusTaskQueue"
 	WorkflowService_RespondNexusTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskCompleted"
 	WorkflowService_RespondNexusTaskFailed_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskFailed"
-	WorkflowService_UpdateActivityOptionsById_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptionsById"
+	WorkflowService_UpdateActivityOptions_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptions"
 	WorkflowService_UpdateWorkflowExecutionOptions_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecutionOptions"
-	WorkflowService_PauseActivityById_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/PauseActivityById"
-	WorkflowService_UnpauseActivityById_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivityById"
-	WorkflowService_ResetActivityById_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/ResetActivityById"
+	WorkflowService_PauseActivity_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/PauseActivity"
+	WorkflowService_UnpauseActivity_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivity"
+	WorkflowService_ResetActivity_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/ResetActivity"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -556,15 +556,13 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(ctx context.Context, in *RespondNexusTaskFailedRequest, opts ...grpc.CallOption) (*RespondNexusTaskFailedResponse, error)
-	// UpdateActivityOptionsById is called by the client to update the options of an activity
-	// (-- api-linter: core::0136::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
-	UpdateActivityOptionsById(ctx context.Context, in *UpdateActivityOptionsByIdRequest, opts ...grpc.CallOption) (*UpdateActivityOptionsByIdResponse, error)
+	// UpdateActivityOptions is called by the client to update the options of an activity by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be updated.
+	UpdateActivityOptions(ctx context.Context, in *UpdateActivityOptionsRequest, opts ...grpc.CallOption) (*UpdateActivityOptionsResponse, error)
 	// UpdateWorkflowExecutionOptions partially updates the WorkflowExecutionOptions of an existing workflow execution.
 	UpdateWorkflowExecutionOptions(ctx context.Context, in *UpdateWorkflowExecutionOptionsRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionOptionsResponse, error)
-	// PauseActivityById pauses the execution of an activity specified by its ID.
-	// Returns a `NotFound` error if there is no pending activity with the provided ID.
+	// PauseActivity pauses the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be paused
 	//
 	// Pausing an activity means:
 	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
@@ -578,41 +576,41 @@ type WorkflowServiceClient interface {
 	// For long-running activities:
 	// - activities in paused state will send a cancellation with "activity_paused" set to 'true' in response to 'RecordActivityTaskHeartbeat'.
 	// - The activity should respond to the cancellation accordingly.
-	// (-- api-linter: core::0136::prepositions=disabled
 	//
-	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
-	PauseActivityById(ctx context.Context, in *PauseActivityByIdRequest, opts ...grpc.CallOption) (*PauseActivityByIdResponse, error)
-	// UnpauseActivityById unpauses the execution of an activity specified by its ID.
-	// Returns a `NotFound` error if there is no pending activity with the provided ID.
-	// There are two 'modes' of unpausing an activity:
-	// 'resume' - If the activity is paused, it will be resumed and scheduled for execution.
-	//   - If the activity is currently running Unpause with 'resume' has no effect.
-	//   - if 'no_wait' flag is set and the activity is waiting, the activity will be scheduled immediately.
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type
+	PauseActivity(ctx context.Context, in *PauseActivityRequest, opts ...grpc.CallOption) (*PauseActivityResponse, error)
+	// UnpauseActivity unpauses the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be unpaused.
 	//
-	// 'reset' - If the activity is paused, it will be reset to its initial state and (depending on parameters) scheduled for execution.
-	//   - If the activity is currently running, Unpause with 'reset' will reset the number of attempts.
-	//   - if 'no_wait' flag is set, the activity will be scheduled immediately.
-	//   - if 'reset_heartbeats' flag is set, the activity heartbeat timer and heartbeats will be reset.
-	//
-	// If the activity is in waiting for retry and past it retry timeout, it will be scheduled immediately.
+	// If activity is not paused, this call will have no effect.
+	// If the activity was paused while waiting for retry, it will be scheduled immediately (* see 'jitter' flag).
 	// Once the activity is unpaused, all timeout timers will be regenerated.
-	// (-- api-linter: core::0136::prepositions=disabled
 	//
-	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
-	UnpauseActivityById(ctx context.Context, in *UnpauseActivityByIdRequest, opts ...grpc.CallOption) (*UnpauseActivityByIdResponse, error)
-	// ResetActivityById unpauses the execution of an activity specified by its ID.
-	// Returns a `NotFound` error if there is no pending activity with the provided ID.
+	// Flags:
+	// 'jitter': the activity will be scheduled at a random time within the jitter duration.
+	// 'reset_attempts': the number of attempts will be reset.
+	// 'reset_heartbeat': the activity heartbeat timer and heartbeats will be reset.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type
+	UnpauseActivity(ctx context.Context, in *UnpauseActivityRequest, opts ...grpc.CallOption) (*UnpauseActivityResponse, error)
+	// ResetActivity resets the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be reset.
+	//
 	// Resetting an activity means:
-	// * number of attempts will be reset to 0.
-	// * activity timeouts will be resetted.
-	// If the activity currently running:
-	// *  if 'no_wait' flag is provided, a new instance of the activity will be scheduled immediately.
-	// *  if 'no_wait' flag is not provided, a new instance of the  activity will be scheduled after current instance completes if needed.
-	// If 'reset_heartbeats' flag is set, the activity heartbeat timer and heartbeats will be reset.
-	// (-- api-linter: core::0136::prepositions=disabled
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag),
 	//
-	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
-	ResetActivityById(ctx context.Context, in *ResetActivityByIdRequest, opts ...grpc.CallOption) (*ResetActivityByIdResponse, error)
+	// Flags:
+	//
+	// 'jitter': the activity will be scheduled at a random time within the jitter duration.
+	// If the activity currently paused it will be unpaused, unless 'keep_paused' flag is provided.
+	// 'reset_heartbeats': the activity heartbeat timer and heartbeats will be reset.
+	// 'keep_paused': if the activity is paused, it will remain paused.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
+	ResetActivity(ctx context.Context, in *ResetActivityRequest, opts ...grpc.CallOption) (*ResetActivityResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1313,10 +1311,10 @@ func (c *workflowServiceClient) RespondNexusTaskFailed(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *workflowServiceClient) UpdateActivityOptionsById(ctx context.Context, in *UpdateActivityOptionsByIdRequest, opts ...grpc.CallOption) (*UpdateActivityOptionsByIdResponse, error) {
+func (c *workflowServiceClient) UpdateActivityOptions(ctx context.Context, in *UpdateActivityOptionsRequest, opts ...grpc.CallOption) (*UpdateActivityOptionsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateActivityOptionsByIdResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateActivityOptionsById_FullMethodName, in, out, cOpts...)
+	out := new(UpdateActivityOptionsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateActivityOptions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1333,30 +1331,30 @@ func (c *workflowServiceClient) UpdateWorkflowExecutionOptions(ctx context.Conte
 	return out, nil
 }
 
-func (c *workflowServiceClient) PauseActivityById(ctx context.Context, in *PauseActivityByIdRequest, opts ...grpc.CallOption) (*PauseActivityByIdResponse, error) {
+func (c *workflowServiceClient) PauseActivity(ctx context.Context, in *PauseActivityRequest, opts ...grpc.CallOption) (*PauseActivityResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PauseActivityByIdResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_PauseActivityById_FullMethodName, in, out, cOpts...)
+	out := new(PauseActivityResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PauseActivity_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *workflowServiceClient) UnpauseActivityById(ctx context.Context, in *UnpauseActivityByIdRequest, opts ...grpc.CallOption) (*UnpauseActivityByIdResponse, error) {
+func (c *workflowServiceClient) UnpauseActivity(ctx context.Context, in *UnpauseActivityRequest, opts ...grpc.CallOption) (*UnpauseActivityResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UnpauseActivityByIdResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UnpauseActivityById_FullMethodName, in, out, cOpts...)
+	out := new(UnpauseActivityResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UnpauseActivity_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *workflowServiceClient) ResetActivityById(ctx context.Context, in *ResetActivityByIdRequest, opts ...grpc.CallOption) (*ResetActivityByIdResponse, error) {
+func (c *workflowServiceClient) ResetActivity(ctx context.Context, in *ResetActivityRequest, opts ...grpc.CallOption) (*ResetActivityResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ResetActivityByIdResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ResetActivityById_FullMethodName, in, out, cOpts...)
+	out := new(ResetActivityResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ResetActivity_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1801,15 +1799,13 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: We do not expose worker API to HTTP. --)
 	RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error)
-	// UpdateActivityOptionsById is called by the client to update the options of an activity
-	// (-- api-linter: core::0136::prepositions=disabled
-	//
-	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
-	UpdateActivityOptionsById(context.Context, *UpdateActivityOptionsByIdRequest) (*UpdateActivityOptionsByIdResponse, error)
+	// UpdateActivityOptions is called by the client to update the options of an activity by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be updated.
+	UpdateActivityOptions(context.Context, *UpdateActivityOptionsRequest) (*UpdateActivityOptionsResponse, error)
 	// UpdateWorkflowExecutionOptions partially updates the WorkflowExecutionOptions of an existing workflow execution.
 	UpdateWorkflowExecutionOptions(context.Context, *UpdateWorkflowExecutionOptionsRequest) (*UpdateWorkflowExecutionOptionsResponse, error)
-	// PauseActivityById pauses the execution of an activity specified by its ID.
-	// Returns a `NotFound` error if there is no pending activity with the provided ID.
+	// PauseActivity pauses the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be paused
 	//
 	// Pausing an activity means:
 	//   - If the activity is currently waiting for a retry or is running and subsequently fails,
@@ -1823,41 +1819,41 @@ type WorkflowServiceServer interface {
 	// For long-running activities:
 	// - activities in paused state will send a cancellation with "activity_paused" set to 'true' in response to 'RecordActivityTaskHeartbeat'.
 	// - The activity should respond to the cancellation accordingly.
-	// (-- api-linter: core::0136::prepositions=disabled
 	//
-	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
-	PauseActivityById(context.Context, *PauseActivityByIdRequest) (*PauseActivityByIdResponse, error)
-	// UnpauseActivityById unpauses the execution of an activity specified by its ID.
-	// Returns a `NotFound` error if there is no pending activity with the provided ID.
-	// There are two 'modes' of unpausing an activity:
-	// 'resume' - If the activity is paused, it will be resumed and scheduled for execution.
-	//   - If the activity is currently running Unpause with 'resume' has no effect.
-	//   - if 'no_wait' flag is set and the activity is waiting, the activity will be scheduled immediately.
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type
+	PauseActivity(context.Context, *PauseActivityRequest) (*PauseActivityResponse, error)
+	// UnpauseActivity unpauses the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be unpaused.
 	//
-	// 'reset' - If the activity is paused, it will be reset to its initial state and (depending on parameters) scheduled for execution.
-	//   - If the activity is currently running, Unpause with 'reset' will reset the number of attempts.
-	//   - if 'no_wait' flag is set, the activity will be scheduled immediately.
-	//   - if 'reset_heartbeats' flag is set, the activity heartbeat timer and heartbeats will be reset.
-	//
-	// If the activity is in waiting for retry and past it retry timeout, it will be scheduled immediately.
+	// If activity is not paused, this call will have no effect.
+	// If the activity was paused while waiting for retry, it will be scheduled immediately (* see 'jitter' flag).
 	// Once the activity is unpaused, all timeout timers will be regenerated.
-	// (-- api-linter: core::0136::prepositions=disabled
 	//
-	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
-	UnpauseActivityById(context.Context, *UnpauseActivityByIdRequest) (*UnpauseActivityByIdResponse, error)
-	// ResetActivityById unpauses the execution of an activity specified by its ID.
-	// Returns a `NotFound` error if there is no pending activity with the provided ID.
+	// Flags:
+	// 'jitter': the activity will be scheduled at a random time within the jitter duration.
+	// 'reset_attempts': the number of attempts will be reset.
+	// 'reset_heartbeat': the activity heartbeat timer and heartbeats will be reset.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type
+	UnpauseActivity(context.Context, *UnpauseActivityRequest) (*UnpauseActivityResponse, error)
+	// ResetActivity resets the execution of an activity specified by its ID or type.
+	// If there are multiple pending activities of the provided type - all of them will be reset.
+	//
 	// Resetting an activity means:
-	// * number of attempts will be reset to 0.
-	// * activity timeouts will be resetted.
-	// If the activity currently running:
-	// *  if 'no_wait' flag is provided, a new instance of the activity will be scheduled immediately.
-	// *  if 'no_wait' flag is not provided, a new instance of the  activity will be scheduled after current instance completes if needed.
-	// If 'reset_heartbeats' flag is set, the activity heartbeat timer and heartbeats will be reset.
-	// (-- api-linter: core::0136::prepositions=disabled
+	//   - number of attempts will be reset to 0.
+	//   - activity timeouts will be reset.
+	//   - if the activity is waiting for retry, and it is not paused or 'keep_paused' is not provided:
+	//     it will be scheduled immediately (* see 'jitter' flag),
 	//
-	//	aip.dev/not-precedent: "By" is used to indicate request type. --)
-	ResetActivityById(context.Context, *ResetActivityByIdRequest) (*ResetActivityByIdResponse, error)
+	// Flags:
+	//
+	// 'jitter': the activity will be scheduled at a random time within the jitter duration.
+	// If the activity currently paused it will be unpaused, unless 'keep_paused' flag is provided.
+	// 'reset_heartbeats': the activity heartbeat timer and heartbeats will be reset.
+	// 'keep_paused': if the activity is paused, it will remain paused.
+	//
+	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
+	ResetActivity(context.Context, *ResetActivityRequest) (*ResetActivityResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2075,20 +2071,20 @@ func (UnimplementedWorkflowServiceServer) RespondNexusTaskCompleted(context.Cont
 func (UnimplementedWorkflowServiceServer) RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RespondNexusTaskFailed not implemented")
 }
-func (UnimplementedWorkflowServiceServer) UpdateActivityOptionsById(context.Context, *UpdateActivityOptionsByIdRequest) (*UpdateActivityOptionsByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateActivityOptionsById not implemented")
+func (UnimplementedWorkflowServiceServer) UpdateActivityOptions(context.Context, *UpdateActivityOptionsRequest) (*UpdateActivityOptionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateActivityOptions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecutionOptions(context.Context, *UpdateWorkflowExecutionOptionsRequest) (*UpdateWorkflowExecutionOptionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecutionOptions not implemented")
 }
-func (UnimplementedWorkflowServiceServer) PauseActivityById(context.Context, *PauseActivityByIdRequest) (*PauseActivityByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PauseActivityById not implemented")
+func (UnimplementedWorkflowServiceServer) PauseActivity(context.Context, *PauseActivityRequest) (*PauseActivityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PauseActivity not implemented")
 }
-func (UnimplementedWorkflowServiceServer) UnpauseActivityById(context.Context, *UnpauseActivityByIdRequest) (*UnpauseActivityByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnpauseActivityById not implemented")
+func (UnimplementedWorkflowServiceServer) UnpauseActivity(context.Context, *UnpauseActivityRequest) (*UnpauseActivityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnpauseActivity not implemented")
 }
-func (UnimplementedWorkflowServiceServer) ResetActivityById(context.Context, *ResetActivityByIdRequest) (*ResetActivityByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ResetActivityById not implemented")
+func (UnimplementedWorkflowServiceServer) ResetActivity(context.Context, *ResetActivityRequest) (*ResetActivityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetActivity not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -3353,20 +3349,20 @@ func _WorkflowService_RespondNexusTaskFailed_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_UpdateActivityOptionsById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateActivityOptionsByIdRequest)
+func _WorkflowService_UpdateActivityOptions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateActivityOptionsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).UpdateActivityOptionsById(ctx, in)
+		return srv.(WorkflowServiceServer).UpdateActivityOptions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_UpdateActivityOptionsById_FullMethodName,
+		FullMethod: WorkflowService_UpdateActivityOptions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).UpdateActivityOptionsById(ctx, req.(*UpdateActivityOptionsByIdRequest))
+		return srv.(WorkflowServiceServer).UpdateActivityOptions(ctx, req.(*UpdateActivityOptionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3389,56 +3385,56 @@ func _WorkflowService_UpdateWorkflowExecutionOptions_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_PauseActivityById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PauseActivityByIdRequest)
+func _WorkflowService_PauseActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PauseActivityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).PauseActivityById(ctx, in)
+		return srv.(WorkflowServiceServer).PauseActivity(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_PauseActivityById_FullMethodName,
+		FullMethod: WorkflowService_PauseActivity_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).PauseActivityById(ctx, req.(*PauseActivityByIdRequest))
+		return srv.(WorkflowServiceServer).PauseActivity(ctx, req.(*PauseActivityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_UnpauseActivityById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnpauseActivityByIdRequest)
+func _WorkflowService_UnpauseActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnpauseActivityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).UnpauseActivityById(ctx, in)
+		return srv.(WorkflowServiceServer).UnpauseActivity(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_UnpauseActivityById_FullMethodName,
+		FullMethod: WorkflowService_UnpauseActivity_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).UnpauseActivityById(ctx, req.(*UnpauseActivityByIdRequest))
+		return srv.(WorkflowServiceServer).UnpauseActivity(ctx, req.(*UnpauseActivityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_ResetActivityById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResetActivityByIdRequest)
+func _WorkflowService_ResetActivity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetActivityRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).ResetActivityById(ctx, in)
+		return srv.(WorkflowServiceServer).ResetActivity(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_ResetActivityById_FullMethodName,
+		FullMethod: WorkflowService_ResetActivity_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).ResetActivityById(ctx, req.(*ResetActivityByIdRequest))
+		return srv.(WorkflowServiceServer).ResetActivity(ctx, req.(*ResetActivityRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -3727,24 +3723,24 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_RespondNexusTaskFailed_Handler,
 		},
 		{
-			MethodName: "UpdateActivityOptionsById",
-			Handler:    _WorkflowService_UpdateActivityOptionsById_Handler,
+			MethodName: "UpdateActivityOptions",
+			Handler:    _WorkflowService_UpdateActivityOptions_Handler,
 		},
 		{
 			MethodName: "UpdateWorkflowExecutionOptions",
 			Handler:    _WorkflowService_UpdateWorkflowExecutionOptions_Handler,
 		},
 		{
-			MethodName: "PauseActivityById",
-			Handler:    _WorkflowService_PauseActivityById_Handler,
+			MethodName: "PauseActivity",
+			Handler:    _WorkflowService_PauseActivity_Handler,
 		},
 		{
-			MethodName: "UnpauseActivityById",
-			Handler:    _WorkflowService_UnpauseActivityById_Handler,
+			MethodName: "UnpauseActivity",
+			Handler:    _WorkflowService_UnpauseActivity_Handler,
 		},
 		{
-			MethodName: "ResetActivityById",
-			Handler:    _WorkflowService_ResetActivityById_Handler,
+			MethodName: "ResetActivity",
+			Handler:    _WorkflowService_ResetActivity_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
