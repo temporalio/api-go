@@ -38,6 +38,7 @@ import (
 	v12 "go.temporal.io/api/workflow/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -488,13 +489,137 @@ func (x *BatchOperationUpdateWorkflowExecutionOptions) GetUpdateMask() *fieldmas
 	return nil
 }
 
+// BatchOperationUnpauseActivities sends unpause requests to batch workflows.
+type BatchOperationUnpauseActivities struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The identity of the worker/client.
+	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
+	// The activity to unpause. If match_all is set to true, all activities will be unpaused.
+	//
+	// Types that are valid to be assigned to Activity:
+	//
+	//	*BatchOperationUnpauseActivities_Type
+	//	*BatchOperationUnpauseActivities_MatchAll
+	Activity isBatchOperationUnpauseActivities_Activity `protobuf_oneof:"activity"`
+	// Providing this flag will also reset the number of attempts.
+	ResetAttempts bool `protobuf:"varint,4,opt,name=reset_attempts,json=resetAttempts,proto3" json:"reset_attempts,omitempty"`
+	// Providing this flag will also reset the heartbeat details.
+	ResetHeartbeat bool `protobuf:"varint,5,opt,name=reset_heartbeat,json=resetHeartbeat,proto3" json:"reset_heartbeat,omitempty"`
+	// If set, the activity will start at a random time within the specified jitter
+	// duration, introducing variability to the start time.
+	Jitter        *durationpb.Duration `protobuf:"bytes,6,opt,name=jitter,proto3" json:"jitter,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BatchOperationUnpauseActivities) Reset() {
+	*x = BatchOperationUnpauseActivities{}
+	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BatchOperationUnpauseActivities) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BatchOperationUnpauseActivities) ProtoMessage() {}
+
+func (x *BatchOperationUnpauseActivities) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_batch_v1_message_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BatchOperationUnpauseActivities.ProtoReflect.Descriptor instead.
+func (*BatchOperationUnpauseActivities) Descriptor() ([]byte, []int) {
+	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *BatchOperationUnpauseActivities) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
+}
+
+func (x *BatchOperationUnpauseActivities) GetActivity() isBatchOperationUnpauseActivities_Activity {
+	if x != nil {
+		return x.Activity
+	}
+	return nil
+}
+
+func (x *BatchOperationUnpauseActivities) GetType() string {
+	if x != nil {
+		if x, ok := x.Activity.(*BatchOperationUnpauseActivities_Type); ok {
+			return x.Type
+		}
+	}
+	return ""
+}
+
+func (x *BatchOperationUnpauseActivities) GetMatchAll() bool {
+	if x != nil {
+		if x, ok := x.Activity.(*BatchOperationUnpauseActivities_MatchAll); ok {
+			return x.MatchAll
+		}
+	}
+	return false
+}
+
+func (x *BatchOperationUnpauseActivities) GetResetAttempts() bool {
+	if x != nil {
+		return x.ResetAttempts
+	}
+	return false
+}
+
+func (x *BatchOperationUnpauseActivities) GetResetHeartbeat() bool {
+	if x != nil {
+		return x.ResetHeartbeat
+	}
+	return false
+}
+
+func (x *BatchOperationUnpauseActivities) GetJitter() *durationpb.Duration {
+	if x != nil {
+		return x.Jitter
+	}
+	return nil
+}
+
+type isBatchOperationUnpauseActivities_Activity interface {
+	isBatchOperationUnpauseActivities_Activity()
+}
+
+type BatchOperationUnpauseActivities_Type struct {
+	Type string `protobuf:"bytes,2,opt,name=type,proto3,oneof"`
+}
+
+type BatchOperationUnpauseActivities_MatchAll struct {
+	MatchAll bool `protobuf:"varint,3,opt,name=match_all,json=matchAll,proto3,oneof"`
+}
+
+func (*BatchOperationUnpauseActivities_Type) isBatchOperationUnpauseActivities_Activity() {}
+
+func (*BatchOperationUnpauseActivities_MatchAll) isBatchOperationUnpauseActivities_Activity() {}
+
 var File_temporal_api_batch_v1_message_proto protoreflect.FileDescriptor
 
 var file_temporal_api_batch_v1_message_proto_rawDesc = string([]byte{
 	0x0a, 0x23, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62,
 	0x61, 0x74, 0x63, 0x68, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x15, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
-	0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x1a, 0x20, 0x67, 0x6f,
+	0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x1a, 0x1e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x64, 0x75,
+	0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x20, 0x67, 0x6f,
 	0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x66, 0x69,
 	0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1f,
 	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f,
@@ -581,16 +706,32 @@ var file_temporal_api_batch_v1_message_proto_rawDesc = string([]byte{
 	0x12, 0x3b, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18,
 	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73,
-	0x6b, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x84, 0x01,
-	0x0a, 0x18, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x21, 0x67, 0x6f, 0x2e, 0x74,
-	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62,
-	0x61, 0x74, 0x63, 0x68, 0x2f, 0x76, 0x31, 0x3b, 0x62, 0x61, 0x74, 0x63, 0x68, 0xaa, 0x02, 0x17,
-	0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x42,
-	0x61, 0x74, 0x63, 0x68, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x1a, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x42, 0x61, 0x74, 0x63, 0x68,
-	0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6b, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x22, 0x81, 0x02,
+	0x0a, 0x1f, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x55, 0x6e, 0x70, 0x61, 0x75, 0x73, 0x65, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x69, 0x65,
+	0x73, 0x12, 0x1a, 0x0a, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x08, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x14, 0x0a,
+	0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x04, 0x74,
+	0x79, 0x70, 0x65, 0x12, 0x1d, 0x0a, 0x09, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x5f, 0x61, 0x6c, 0x6c,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x08, 0x6d, 0x61, 0x74, 0x63, 0x68, 0x41,
+	0x6c, 0x6c, 0x12, 0x25, 0x0a, 0x0e, 0x72, 0x65, 0x73, 0x65, 0x74, 0x5f, 0x61, 0x74, 0x74, 0x65,
+	0x6d, 0x70, 0x74, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0d, 0x72, 0x65, 0x73, 0x65,
+	0x74, 0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x73, 0x12, 0x27, 0x0a, 0x0f, 0x72, 0x65, 0x73,
+	0x65, 0x74, 0x5f, 0x68, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65, 0x61, 0x74, 0x18, 0x05, 0x20, 0x01,
+	0x28, 0x08, 0x52, 0x0e, 0x72, 0x65, 0x73, 0x65, 0x74, 0x48, 0x65, 0x61, 0x72, 0x74, 0x62, 0x65,
+	0x61, 0x74, 0x12, 0x31, 0x0a, 0x06, 0x6a, 0x69, 0x74, 0x74, 0x65, 0x72, 0x18, 0x06, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x06, 0x6a,
+	0x69, 0x74, 0x74, 0x65, 0x72, 0x42, 0x0a, 0x0a, 0x08, 0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74,
+	0x79, 0x42, 0x84, 0x01, 0x0a, 0x18, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
+	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x76, 0x31, 0x42, 0x0c,
+	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x21,
+	0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61,
+	0x70, 0x69, 0x2f, 0x62, 0x61, 0x74, 0x63, 0x68, 0x2f, 0x76, 0x31, 0x3b, 0x62, 0x61, 0x74, 0x63,
+	0x68, 0xaa, 0x02, 0x17, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41,
+	0x70, 0x69, 0x2e, 0x42, 0x61, 0x74, 0x63, 0x68, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x1a, 0x54, 0x65,
+	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x42,
+	0x61, 0x74, 0x63, 0x68, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 })
 
 var (
@@ -605,7 +746,7 @@ func file_temporal_api_batch_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_batch_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_batch_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_temporal_api_batch_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_temporal_api_batch_v1_message_proto_goTypes = []any{
 	(*BatchOperationInfo)(nil),                           // 0: temporal.api.batch.v1.BatchOperationInfo
 	(*BatchOperationTermination)(nil),                    // 1: temporal.api.batch.v1.BatchOperationTermination
@@ -614,33 +755,36 @@ var file_temporal_api_batch_v1_message_proto_goTypes = []any{
 	(*BatchOperationDeletion)(nil),                       // 4: temporal.api.batch.v1.BatchOperationDeletion
 	(*BatchOperationReset)(nil),                          // 5: temporal.api.batch.v1.BatchOperationReset
 	(*BatchOperationUpdateWorkflowExecutionOptions)(nil), // 6: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions
-	(v1.BatchOperationState)(0),                          // 7: temporal.api.enums.v1.BatchOperationState
-	(*timestamppb.Timestamp)(nil),                        // 8: google.protobuf.Timestamp
-	(*v11.Payloads)(nil),                                 // 9: temporal.api.common.v1.Payloads
-	(*v11.Header)(nil),                                   // 10: temporal.api.common.v1.Header
-	(*v11.ResetOptions)(nil),                             // 11: temporal.api.common.v1.ResetOptions
-	(v1.ResetType)(0),                                    // 12: temporal.api.enums.v1.ResetType
-	(v1.ResetReapplyType)(0),                             // 13: temporal.api.enums.v1.ResetReapplyType
-	(*v12.WorkflowExecutionOptions)(nil),                 // 14: temporal.api.workflow.v1.WorkflowExecutionOptions
-	(*fieldmaskpb.FieldMask)(nil),                        // 15: google.protobuf.FieldMask
+	(*BatchOperationUnpauseActivities)(nil),              // 7: temporal.api.batch.v1.BatchOperationUnpauseActivities
+	(v1.BatchOperationState)(0),                          // 8: temporal.api.enums.v1.BatchOperationState
+	(*timestamppb.Timestamp)(nil),                        // 9: google.protobuf.Timestamp
+	(*v11.Payloads)(nil),                                 // 10: temporal.api.common.v1.Payloads
+	(*v11.Header)(nil),                                   // 11: temporal.api.common.v1.Header
+	(*v11.ResetOptions)(nil),                             // 12: temporal.api.common.v1.ResetOptions
+	(v1.ResetType)(0),                                    // 13: temporal.api.enums.v1.ResetType
+	(v1.ResetReapplyType)(0),                             // 14: temporal.api.enums.v1.ResetReapplyType
+	(*v12.WorkflowExecutionOptions)(nil),                 // 15: temporal.api.workflow.v1.WorkflowExecutionOptions
+	(*fieldmaskpb.FieldMask)(nil),                        // 16: google.protobuf.FieldMask
+	(*durationpb.Duration)(nil),                          // 17: google.protobuf.Duration
 }
 var file_temporal_api_batch_v1_message_proto_depIdxs = []int32{
-	7,  // 0: temporal.api.batch.v1.BatchOperationInfo.state:type_name -> temporal.api.enums.v1.BatchOperationState
-	8,  // 1: temporal.api.batch.v1.BatchOperationInfo.start_time:type_name -> google.protobuf.Timestamp
-	8,  // 2: temporal.api.batch.v1.BatchOperationInfo.close_time:type_name -> google.protobuf.Timestamp
-	9,  // 3: temporal.api.batch.v1.BatchOperationTermination.details:type_name -> temporal.api.common.v1.Payloads
-	9,  // 4: temporal.api.batch.v1.BatchOperationSignal.input:type_name -> temporal.api.common.v1.Payloads
-	10, // 5: temporal.api.batch.v1.BatchOperationSignal.header:type_name -> temporal.api.common.v1.Header
-	11, // 6: temporal.api.batch.v1.BatchOperationReset.options:type_name -> temporal.api.common.v1.ResetOptions
-	12, // 7: temporal.api.batch.v1.BatchOperationReset.reset_type:type_name -> temporal.api.enums.v1.ResetType
-	13, // 8: temporal.api.batch.v1.BatchOperationReset.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
-	14, // 9: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
-	15, // 10: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.update_mask:type_name -> google.protobuf.FieldMask
-	11, // [11:11] is the sub-list for method output_type
-	11, // [11:11] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	8,  // 0: temporal.api.batch.v1.BatchOperationInfo.state:type_name -> temporal.api.enums.v1.BatchOperationState
+	9,  // 1: temporal.api.batch.v1.BatchOperationInfo.start_time:type_name -> google.protobuf.Timestamp
+	9,  // 2: temporal.api.batch.v1.BatchOperationInfo.close_time:type_name -> google.protobuf.Timestamp
+	10, // 3: temporal.api.batch.v1.BatchOperationTermination.details:type_name -> temporal.api.common.v1.Payloads
+	10, // 4: temporal.api.batch.v1.BatchOperationSignal.input:type_name -> temporal.api.common.v1.Payloads
+	11, // 5: temporal.api.batch.v1.BatchOperationSignal.header:type_name -> temporal.api.common.v1.Header
+	12, // 6: temporal.api.batch.v1.BatchOperationReset.options:type_name -> temporal.api.common.v1.ResetOptions
+	13, // 7: temporal.api.batch.v1.BatchOperationReset.reset_type:type_name -> temporal.api.enums.v1.ResetType
+	14, // 8: temporal.api.batch.v1.BatchOperationReset.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
+	15, // 9: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
+	16, // 10: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.update_mask:type_name -> google.protobuf.FieldMask
+	17, // 11: temporal.api.batch.v1.BatchOperationUnpauseActivities.jitter:type_name -> google.protobuf.Duration
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_batch_v1_message_proto_init() }
@@ -648,13 +792,17 @@ func file_temporal_api_batch_v1_message_proto_init() {
 	if File_temporal_api_batch_v1_message_proto != nil {
 		return
 	}
+	file_temporal_api_batch_v1_message_proto_msgTypes[7].OneofWrappers = []any{
+		(*BatchOperationUnpauseActivities_Type)(nil),
+		(*BatchOperationUnpauseActivities_MatchAll)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_batch_v1_message_proto_rawDesc), len(file_temporal_api_batch_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
