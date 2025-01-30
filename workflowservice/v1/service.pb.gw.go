@@ -5101,6 +5101,274 @@ func local_request_WorkflowService_DescribeWorkerDeployment_1(ctx context.Contex
 	return msg, metadata, err
 }
 
+func request_WorkflowService_DeleteWorkerDeployment_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteWorkerDeploymentRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
+	}
+	protoReq.Namespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
+	}
+	val, ok = pathParams["deployment_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
+	}
+	protoReq.DeploymentName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
+	}
+	msg, err := client.DeleteWorkerDeployment(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_WorkflowService_DeleteWorkerDeployment_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteWorkerDeploymentRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
+	}
+	protoReq.Namespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
+	}
+	val, ok = pathParams["deployment_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
+	}
+	protoReq.DeploymentName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
+	}
+	msg, err := server.DeleteWorkerDeployment(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_WorkflowService_DeleteWorkerDeployment_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteWorkerDeploymentRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
+	}
+	protoReq.Namespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
+	}
+	val, ok = pathParams["deployment_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
+	}
+	protoReq.DeploymentName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
+	}
+	msg, err := client.DeleteWorkerDeployment(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_WorkflowService_DeleteWorkerDeployment_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteWorkerDeploymentRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
+	}
+	protoReq.Namespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
+	}
+	val, ok = pathParams["deployment_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
+	}
+	protoReq.DeploymentName, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
+	}
+	msg, err := server.DeleteWorkerDeployment(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+var filter_WorkflowService_DeleteWorkerDeploymentVersion_0 = &utilities.DoubleArray{Encoding: map[string]int{"namespace": 0, "version": 1, "deployment_name": 2, "build_id": 3}, Base: []int{1, 1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 3, 3, 2, 4, 5}}
+
+func request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteWorkerDeploymentVersionRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
+	}
+	protoReq.Namespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
+	}
+	val, ok = pathParams["version.deployment_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version.deployment_name")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "version.deployment_name", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version.deployment_name", err)
+	}
+	val, ok = pathParams["version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version.build_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_WorkflowService_DeleteWorkerDeploymentVersion_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.DeleteWorkerDeploymentVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteWorkerDeploymentVersionRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
+	}
+	protoReq.Namespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
+	}
+	val, ok = pathParams["version.deployment_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version.deployment_name")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "version.deployment_name", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version.deployment_name", err)
+	}
+	val, ok = pathParams["version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version.build_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_WorkflowService_DeleteWorkerDeploymentVersion_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.DeleteWorkerDeploymentVersion(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+var filter_WorkflowService_DeleteWorkerDeploymentVersion_1 = &utilities.DoubleArray{Encoding: map[string]int{"namespace": 0, "version": 1, "deployment_name": 2, "build_id": 3}, Base: []int{1, 1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 3, 3, 2, 4, 5}}
+
+func request_WorkflowService_DeleteWorkerDeploymentVersion_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteWorkerDeploymentVersionRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
+	}
+	protoReq.Namespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
+	}
+	val, ok = pathParams["version.deployment_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version.deployment_name")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "version.deployment_name", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version.deployment_name", err)
+	}
+	val, ok = pathParams["version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version.build_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_WorkflowService_DeleteWorkerDeploymentVersion_1); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := client.DeleteWorkerDeploymentVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_WorkflowService_DeleteWorkerDeploymentVersion_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteWorkerDeploymentVersionRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["namespace"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
+	}
+	protoReq.Namespace, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
+	}
+	val, ok = pathParams["version.deployment_name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version.deployment_name")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "version.deployment_name", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version.deployment_name", err)
+	}
+	val, ok = pathParams["version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version.build_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_WorkflowService_DeleteWorkerDeploymentVersion_1); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.DeleteWorkerDeploymentVersion(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 func request_WorkflowService_SetWorkerDeploymentRampingVersion_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq SetWorkerDeploymentRampingVersionRequest
@@ -5901,9 +6169,9 @@ func local_request_WorkflowService_ListBatchOperations_1(ctx context.Context, ma
 	return msg, metadata, err
 }
 
-func request_WorkflowService_UpdateActivityOptionsById_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_UpdateActivityOptions_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UpdateActivityOptionsByIdRequest
+		protoReq UpdateActivityOptionsRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -5918,13 +6186,13 @@ func request_WorkflowService_UpdateActivityOptionsById_0(ctx context.Context, ma
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := client.UpdateActivityOptionsById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.UpdateActivityOptions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_UpdateActivityOptionsById_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_UpdateActivityOptions_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UpdateActivityOptionsByIdRequest
+		protoReq UpdateActivityOptionsRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -5939,13 +6207,13 @@ func local_request_WorkflowService_UpdateActivityOptionsById_0(ctx context.Conte
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := server.UpdateActivityOptionsById(ctx, &protoReq)
+	msg, err := server.UpdateActivityOptions(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_WorkflowService_UpdateActivityOptionsById_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_UpdateActivityOptions_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UpdateActivityOptionsByIdRequest
+		protoReq UpdateActivityOptionsRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -5960,13 +6228,13 @@ func request_WorkflowService_UpdateActivityOptionsById_1(ctx context.Context, ma
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := client.UpdateActivityOptionsById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.UpdateActivityOptions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_UpdateActivityOptionsById_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_UpdateActivityOptions_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UpdateActivityOptionsByIdRequest
+		protoReq UpdateActivityOptionsRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -5981,7 +6249,7 @@ func local_request_WorkflowService_UpdateActivityOptionsById_1(ctx context.Conte
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := server.UpdateActivityOptionsById(ctx, &protoReq)
+	msg, err := server.UpdateActivityOptions(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -6101,9 +6369,9 @@ func local_request_WorkflowService_UpdateWorkflowExecutionOptions_1(ctx context.
 	return msg, metadata, err
 }
 
-func request_WorkflowService_PauseActivityById_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_PauseActivity_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq PauseActivityByIdRequest
+		protoReq PauseActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6118,13 +6386,13 @@ func request_WorkflowService_PauseActivityById_0(ctx context.Context, marshaler 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := client.PauseActivityById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.PauseActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_PauseActivityById_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_PauseActivity_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq PauseActivityByIdRequest
+		protoReq PauseActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6139,13 +6407,13 @@ func local_request_WorkflowService_PauseActivityById_0(ctx context.Context, mars
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := server.PauseActivityById(ctx, &protoReq)
+	msg, err := server.PauseActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_WorkflowService_PauseActivityById_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_PauseActivity_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq PauseActivityByIdRequest
+		protoReq PauseActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6160,13 +6428,13 @@ func request_WorkflowService_PauseActivityById_1(ctx context.Context, marshaler 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := client.PauseActivityById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.PauseActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_PauseActivityById_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_PauseActivity_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq PauseActivityByIdRequest
+		protoReq PauseActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6181,13 +6449,13 @@ func local_request_WorkflowService_PauseActivityById_1(ctx context.Context, mars
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := server.PauseActivityById(ctx, &protoReq)
+	msg, err := server.PauseActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_WorkflowService_UnpauseActivityById_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_UnpauseActivity_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UnpauseActivityByIdRequest
+		protoReq UnpauseActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6202,13 +6470,13 @@ func request_WorkflowService_UnpauseActivityById_0(ctx context.Context, marshale
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := client.UnpauseActivityById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.UnpauseActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_UnpauseActivityById_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_UnpauseActivity_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UnpauseActivityByIdRequest
+		protoReq UnpauseActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6223,13 +6491,13 @@ func local_request_WorkflowService_UnpauseActivityById_0(ctx context.Context, ma
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := server.UnpauseActivityById(ctx, &protoReq)
+	msg, err := server.UnpauseActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_WorkflowService_UnpauseActivityById_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_UnpauseActivity_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UnpauseActivityByIdRequest
+		protoReq UnpauseActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6244,13 +6512,13 @@ func request_WorkflowService_UnpauseActivityById_1(ctx context.Context, marshale
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := client.UnpauseActivityById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.UnpauseActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_UnpauseActivityById_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_UnpauseActivity_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UnpauseActivityByIdRequest
+		protoReq UnpauseActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6265,13 +6533,13 @@ func local_request_WorkflowService_UnpauseActivityById_1(ctx context.Context, ma
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := server.UnpauseActivityById(ctx, &protoReq)
+	msg, err := server.UnpauseActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_WorkflowService_ResetActivityById_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_ResetActivity_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq ResetActivityByIdRequest
+		protoReq ResetActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6286,13 +6554,13 @@ func request_WorkflowService_ResetActivityById_0(ctx context.Context, marshaler 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := client.ResetActivityById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ResetActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_ResetActivityById_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_ResetActivity_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq ResetActivityByIdRequest
+		protoReq ResetActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6307,13 +6575,13 @@ func local_request_WorkflowService_ResetActivityById_0(ctx context.Context, mars
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := server.ResetActivityById(ctx, &protoReq)
+	msg, err := server.ResetActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_WorkflowService_ResetActivityById_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_ResetActivity_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq ResetActivityByIdRequest
+		protoReq ResetActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6328,13 +6596,13 @@ func request_WorkflowService_ResetActivityById_1(ctx context.Context, marshaler 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := client.ResetActivityById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.ResetActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_ResetActivityById_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_ResetActivity_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq ResetActivityByIdRequest
+		protoReq ResetActivityRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -6349,7 +6617,7 @@ func local_request_WorkflowService_ResetActivityById_1(ctx context.Context, mars
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	msg, err := server.ResetActivityById(ctx, &protoReq)
+	msg, err := server.ResetActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -8239,6 +8507,86 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		}
 		forward_WorkflowService_DescribeWorkerDeployment_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodDelete, pattern_WorkflowService_DeleteWorkerDeployment_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeployment", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployments/{deployment_name}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_WorkflowService_DeleteWorkerDeployment_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_WorkflowService_DeleteWorkerDeployment_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_WorkflowService_DeleteWorkerDeployment_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeployment", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployments/{deployment_name}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_WorkflowService_DeleteWorkerDeployment_1(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_WorkflowService_DeleteWorkerDeployment_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_WorkflowService_DeleteWorkerDeploymentVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployments/{version.deployment_name}/version/{version.build_id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_WorkflowService_DeleteWorkerDeploymentVersion_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_WorkflowService_DeleteWorkerDeploymentVersion_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_WorkflowService_DeleteWorkerDeploymentVersion_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployments/{version.deployment_name}/version/{version.build_id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_WorkflowService_DeleteWorkerDeploymentVersion_1(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_WorkflowService_DeleteWorkerDeploymentVersion_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_WorkflowService_SetWorkerDeploymentRampingVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -8519,45 +8867,45 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		}
 		forward_WorkflowService_ListBatchOperations_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateActivityOptionsById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateActivityOptions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptionsById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/update-options-by-id"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptions", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/update-options"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_UpdateActivityOptionsById_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_UpdateActivityOptions_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UpdateActivityOptionsById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UpdateActivityOptions_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateActivityOptionsById_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateActivityOptions_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptionsById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/update-options-by-id"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptions", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/update-options"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_UpdateActivityOptionsById_1(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_UpdateActivityOptions_1(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UpdateActivityOptionsById_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UpdateActivityOptions_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkflowExecutionOptions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -8599,125 +8947,125 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		}
 		forward_WorkflowService_UpdateWorkflowExecutionOptions_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_PauseActivityById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_PauseActivity_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PauseActivityById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/pause-by-id"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PauseActivity", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/pause"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_PauseActivityById_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_PauseActivity_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_PauseActivityById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_PauseActivity_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_PauseActivityById_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_PauseActivity_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PauseActivityById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/pause-by-id"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PauseActivity", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/pause"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_PauseActivityById_1(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_PauseActivity_1(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_PauseActivityById_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_PauseActivity_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UnpauseActivityById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UnpauseActivity_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivityById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/unpause-by-id"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivity", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/unpause"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_UnpauseActivityById_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_UnpauseActivity_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UnpauseActivityById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UnpauseActivity_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UnpauseActivityById_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UnpauseActivity_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivityById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/unpause-by-id"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivity", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/unpause"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_UnpauseActivityById_1(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_UnpauseActivity_1(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UnpauseActivityById_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UnpauseActivity_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_ResetActivityById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_ResetActivity_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetActivityById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/reset-by-id"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetActivity", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/reset"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_ResetActivityById_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_ResetActivity_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_ResetActivityById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_ResetActivity_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_ResetActivityById_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_ResetActivity_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetActivityById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/reset-by-id"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetActivity", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/reset"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_ResetActivityById_1(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_ResetActivity_1(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_ResetActivityById_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_ResetActivity_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
@@ -10357,6 +10705,74 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_WorkflowService_DescribeWorkerDeployment_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodDelete, pattern_WorkflowService_DeleteWorkerDeployment_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeployment", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployments/{deployment_name}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_WorkflowService_DeleteWorkerDeployment_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_WorkflowService_DeleteWorkerDeployment_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_WorkflowService_DeleteWorkerDeployment_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeployment", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployments/{deployment_name}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_WorkflowService_DeleteWorkerDeployment_1(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_WorkflowService_DeleteWorkerDeployment_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_WorkflowService_DeleteWorkerDeploymentVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployments/{version.deployment_name}/version/{version.build_id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_WorkflowService_DeleteWorkerDeploymentVersion_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_WorkflowService_DeleteWorkerDeploymentVersion_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_WorkflowService_DeleteWorkerDeploymentVersion_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployments/{version.deployment_name}/version/{version.build_id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_WorkflowService_DeleteWorkerDeploymentVersion_1(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_WorkflowService_DeleteWorkerDeploymentVersion_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPost, pattern_WorkflowService_SetWorkerDeploymentRampingVersion_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -10595,39 +11011,39 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_WorkflowService_ListBatchOperations_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateActivityOptionsById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateActivityOptions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptionsById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/update-options-by-id"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptions", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/update-options"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_UpdateActivityOptionsById_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_UpdateActivityOptions_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UpdateActivityOptionsById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UpdateActivityOptions_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateActivityOptionsById_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateActivityOptions_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptionsById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/update-options-by-id"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptions", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/update-options"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_UpdateActivityOptionsById_1(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_UpdateActivityOptions_1(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UpdateActivityOptionsById_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UpdateActivityOptions_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkflowExecutionOptions_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -10663,107 +11079,107 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_WorkflowService_UpdateWorkflowExecutionOptions_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_PauseActivityById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_PauseActivity_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PauseActivityById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/pause-by-id"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PauseActivity", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/pause"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_PauseActivityById_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_PauseActivity_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_PauseActivityById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_PauseActivity_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_PauseActivityById_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_PauseActivity_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PauseActivityById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/pause-by-id"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/PauseActivity", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/pause"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_PauseActivityById_1(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_PauseActivity_1(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_PauseActivityById_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_PauseActivity_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UnpauseActivityById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UnpauseActivity_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivityById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/unpause-by-id"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivity", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/unpause"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_UnpauseActivityById_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_UnpauseActivity_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UnpauseActivityById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UnpauseActivity_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UnpauseActivityById_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UnpauseActivity_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivityById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/unpause-by-id"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivity", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/unpause"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_UnpauseActivityById_1(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_UnpauseActivity_1(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UnpauseActivityById_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UnpauseActivity_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_ResetActivityById_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_ResetActivity_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetActivityById", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/reset-by-id"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetActivity", runtime.WithHTTPPathPattern("/namespaces/{namespace}/activities/reset"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_ResetActivityById_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_ResetActivity_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_ResetActivityById_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_ResetActivity_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_ResetActivityById_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_ResetActivity_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetActivityById", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/reset-by-id"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/ResetActivity", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/activities/reset"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_ResetActivityById_1(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_ResetActivity_1(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_ResetActivityById_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_ResetActivity_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	return nil
 }
@@ -10863,6 +11279,10 @@ var (
 	pattern_WorkflowService_SetWorkerDeploymentCurrentVersion_1  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name", "set-current-version"}, ""))
 	pattern_WorkflowService_DescribeWorkerDeployment_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
 	pattern_WorkflowService_DescribeWorkerDeployment_1           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeployment_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeployment_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeploymentVersion_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "worker-deployments", "version.deployment_name", "version", "version.build_id"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeploymentVersion_1      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "version.deployment_name", "version", "version.build_id"}, ""))
 	pattern_WorkflowService_SetWorkerDeploymentRampingVersion_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name", "set-ramping-version"}, ""))
 	pattern_WorkflowService_SetWorkerDeploymentRampingVersion_1  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name", "set-ramping-version"}, ""))
 	pattern_WorkflowService_ListWorkerDeployments_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "worker-deployments"}, ""))
@@ -10877,16 +11297,16 @@ var (
 	pattern_WorkflowService_DescribeBatchOperation_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id"}, ""))
 	pattern_WorkflowService_ListBatchOperations_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "batch-operations"}, ""))
 	pattern_WorkflowService_ListBatchOperations_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "batch-operations"}, ""))
-	pattern_WorkflowService_UpdateActivityOptionsById_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "update-options-by-id"}, ""))
-	pattern_WorkflowService_UpdateActivityOptionsById_1          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "update-options-by-id"}, ""))
+	pattern_WorkflowService_UpdateActivityOptions_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "update-options"}, ""))
+	pattern_WorkflowService_UpdateActivityOptions_1              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "update-options"}, ""))
 	pattern_WorkflowService_UpdateWorkflowExecutionOptions_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update-options"}, ""))
 	pattern_WorkflowService_UpdateWorkflowExecutionOptions_1     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update-options"}, ""))
-	pattern_WorkflowService_PauseActivityById_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "pause-by-id"}, ""))
-	pattern_WorkflowService_PauseActivityById_1                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "pause-by-id"}, ""))
-	pattern_WorkflowService_UnpauseActivityById_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "unpause-by-id"}, ""))
-	pattern_WorkflowService_UnpauseActivityById_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "unpause-by-id"}, ""))
-	pattern_WorkflowService_ResetActivityById_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "reset-by-id"}, ""))
-	pattern_WorkflowService_ResetActivityById_1                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "reset-by-id"}, ""))
+	pattern_WorkflowService_PauseActivity_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "pause"}, ""))
+	pattern_WorkflowService_PauseActivity_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "pause"}, ""))
+	pattern_WorkflowService_UnpauseActivity_0                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "unpause"}, ""))
+	pattern_WorkflowService_UnpauseActivity_1                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "unpause"}, ""))
+	pattern_WorkflowService_ResetActivity_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "reset"}, ""))
+	pattern_WorkflowService_ResetActivity_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "reset"}, ""))
 )
 
 var (
@@ -10984,6 +11404,10 @@ var (
 	forward_WorkflowService_SetWorkerDeploymentCurrentVersion_1  = runtime.ForwardResponseMessage
 	forward_WorkflowService_DescribeWorkerDeployment_0           = runtime.ForwardResponseMessage
 	forward_WorkflowService_DescribeWorkerDeployment_1           = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteWorkerDeployment_0             = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteWorkerDeployment_1             = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteWorkerDeploymentVersion_0      = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteWorkerDeploymentVersion_1      = runtime.ForwardResponseMessage
 	forward_WorkflowService_SetWorkerDeploymentRampingVersion_0  = runtime.ForwardResponseMessage
 	forward_WorkflowService_SetWorkerDeploymentRampingVersion_1  = runtime.ForwardResponseMessage
 	forward_WorkflowService_ListWorkerDeployments_0              = runtime.ForwardResponseMessage
@@ -10998,14 +11422,14 @@ var (
 	forward_WorkflowService_DescribeBatchOperation_1             = runtime.ForwardResponseMessage
 	forward_WorkflowService_ListBatchOperations_0                = runtime.ForwardResponseMessage
 	forward_WorkflowService_ListBatchOperations_1                = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateActivityOptionsById_0          = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateActivityOptionsById_1          = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateActivityOptions_0              = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateActivityOptions_1              = runtime.ForwardResponseMessage
 	forward_WorkflowService_UpdateWorkflowExecutionOptions_0     = runtime.ForwardResponseMessage
 	forward_WorkflowService_UpdateWorkflowExecutionOptions_1     = runtime.ForwardResponseMessage
-	forward_WorkflowService_PauseActivityById_0                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_PauseActivityById_1                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_UnpauseActivityById_0                = runtime.ForwardResponseMessage
-	forward_WorkflowService_UnpauseActivityById_1                = runtime.ForwardResponseMessage
-	forward_WorkflowService_ResetActivityById_0                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_ResetActivityById_1                  = runtime.ForwardResponseMessage
+	forward_WorkflowService_PauseActivity_0                      = runtime.ForwardResponseMessage
+	forward_WorkflowService_PauseActivity_1                      = runtime.ForwardResponseMessage
+	forward_WorkflowService_UnpauseActivity_0                    = runtime.ForwardResponseMessage
+	forward_WorkflowService_UnpauseActivity_1                    = runtime.ForwardResponseMessage
+	forward_WorkflowService_ResetActivity_0                      = runtime.ForwardResponseMessage
+	forward_WorkflowService_ResetActivity_1                      = runtime.ForwardResponseMessage
 )
