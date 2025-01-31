@@ -109,6 +109,7 @@ const (
 	WorkflowService_DeleteWorkerDeploymentVersion_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion"
 	WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName  = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentRampingVersion"
 	WorkflowService_ListWorkerDeployments_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkerDeployments"
+	WorkflowService_UpdateWorkerVersionMetadata_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersionMetadata"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
 	WorkflowService_StartBatchOperation_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
@@ -549,6 +550,7 @@ type WorkflowServiceClient interface {
 	// gradual ramp to unversioned workers too.
 	SetWorkerDeploymentRampingVersion(ctx context.Context, in *SetWorkerDeploymentRampingVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentRampingVersionResponse, error)
 	ListWorkerDeployments(ctx context.Context, in *ListWorkerDeploymentsRequest, opts ...grpc.CallOption) (*ListWorkerDeploymentsResponse, error)
+	UpdateWorkerVersionMetadata(ctx context.Context, in *UpdateWorkerVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerVersionMetadataResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -1318,6 +1320,16 @@ func (c *workflowServiceClient) ListWorkerDeployments(ctx context.Context, in *L
 	return out, nil
 }
 
+func (c *workflowServiceClient) UpdateWorkerVersionMetadata(ctx context.Context, in *UpdateWorkerVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerVersionMetadataResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateWorkerVersionMetadataResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerVersionMetadata_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkflowExecutionResponse)
@@ -1882,6 +1894,7 @@ type WorkflowServiceServer interface {
 	// gradual ramp to unversioned workers too.
 	SetWorkerDeploymentRampingVersion(context.Context, *SetWorkerDeploymentRampingVersionRequest) (*SetWorkerDeploymentRampingVersionResponse, error)
 	ListWorkerDeployments(context.Context, *ListWorkerDeploymentsRequest) (*ListWorkerDeploymentsResponse, error)
+	UpdateWorkerVersionMetadata(context.Context, *UpdateWorkerVersionMetadataRequest) (*UpdateWorkerVersionMetadataResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -2181,6 +2194,9 @@ func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentRampingVersion(cont
 }
 func (UnimplementedWorkflowServiceServer) ListWorkerDeployments(context.Context, *ListWorkerDeploymentsRequest) (*ListWorkerDeploymentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListWorkerDeployments not implemented")
+}
+func (UnimplementedWorkflowServiceServer) UpdateWorkerVersionMetadata(context.Context, *UpdateWorkerVersionMetadataRequest) (*UpdateWorkerVersionMetadataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerVersionMetadata not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
@@ -3451,6 +3467,24 @@ func _WorkflowService_ListWorkerDeployments_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_UpdateWorkerVersionMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkerVersionMetadataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).UpdateWorkerVersionMetadata(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_UpdateWorkerVersionMetadata_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).UpdateWorkerVersionMetadata(ctx, req.(*UpdateWorkerVersionMetadataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_UpdateWorkflowExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateWorkflowExecutionRequest)
 	if err := dec(in); err != nil {
@@ -3977,6 +4011,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListWorkerDeployments",
 			Handler:    _WorkflowService_ListWorkerDeployments_Handler,
+		},
+		{
+			MethodName: "UpdateWorkerVersionMetadata",
+			Handler:    _WorkflowService_UpdateWorkerVersionMetadata_Handler,
 		},
 		{
 			MethodName: "UpdateWorkflowExecution",
