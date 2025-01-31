@@ -2528,6 +2528,34 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.UpdateWorkerVersionMetadataRequest:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetUpsertEntries(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.UpdateWorkerVersionMetadataResponse:
+
+			if o == nil {
+				continue
+			}
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetMetadata(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.UpdateWorkflowExecutionRequest:
 
 			if o == nil {

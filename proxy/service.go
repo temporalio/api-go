@@ -366,6 +366,10 @@ func (s *workflowServiceProxyServer) UpdateWorkerBuildIdCompatibility(ctx contex
 	return s.client.UpdateWorkerBuildIdCompatibility(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) UpdateWorkerVersionMetadata(ctx context.Context, in0 *workflowservice.UpdateWorkerVersionMetadataRequest) (*workflowservice.UpdateWorkerVersionMetadataResponse, error) {
+	return s.client.UpdateWorkerVersionMetadata(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) UpdateWorkerVersioningRules(ctx context.Context, in0 *workflowservice.UpdateWorkerVersioningRulesRequest) (*workflowservice.UpdateWorkerVersioningRulesResponse, error) {
 	return s.client.UpdateWorkerVersioningRules(s.reqCtx(ctx), in0)
 }
