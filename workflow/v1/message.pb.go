@@ -413,6 +413,7 @@ type WorkflowExecutionVersioningInfo struct {
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 	Deployment *v12.Deployment `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
+	// TODO (Shahab): Confirm the right way to specify Deployment Version here (ie. should it be a string)
 	// The deployment version of the worker that completed the last workflow task of this workflow
 	// execution. Must be present if and only if `behavior` is set. An absent value means no
 	// workflow task is completed, or the workflow is unversioned.
