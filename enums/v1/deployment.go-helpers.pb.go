@@ -67,20 +67,20 @@ func VersionDrainageStatusFromString(s string) (VersionDrainageStatus, error) {
 }
 
 var (
-	WorkflowVersioningMode_shorthandValue = map[string]int32{
-		"Unspecified":         0,
-		"Unversioned":         1,
-		"VersioningBehaviors": 2,
+	WorkerVersioningMode_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Unversioned": 1,
+		"Versioned":   2,
 	}
 )
 
-// WorkflowVersioningModeFromString parses a WorkflowVersioningMode value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to WorkflowVersioningMode
-func WorkflowVersioningModeFromString(s string) (WorkflowVersioningMode, error) {
-	if v, ok := WorkflowVersioningMode_value[s]; ok {
-		return WorkflowVersioningMode(v), nil
-	} else if v, ok := WorkflowVersioningMode_shorthandValue[s]; ok {
-		return WorkflowVersioningMode(v), nil
+// WorkerVersioningModeFromString parses a WorkerVersioningMode value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to WorkerVersioningMode
+func WorkerVersioningModeFromString(s string) (WorkerVersioningMode, error) {
+	if v, ok := WorkerVersioningMode_value[s]; ok {
+		return WorkerVersioningMode(v), nil
+	} else if v, ok := WorkerVersioningMode_shorthandValue[s]; ok {
+		return WorkerVersioningMode(v), nil
 	}
-	return WorkflowVersioningMode(0), fmt.Errorf("%s is not a valid WorkflowVersioningMode", s)
+	return WorkerVersioningMode(0), fmt.Errorf("%s is not a valid WorkerVersioningMode", s)
 }
