@@ -510,14 +510,15 @@ type WorkflowServiceClient interface {
 	GetWorkerTaskReachability(ctx context.Context, in *GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*GetWorkerTaskReachabilityResponse, error)
 	// Describes a worker deployment.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced with `DescribeWorkerDeploymentVersion`.
 	DescribeDeployment(ctx context.Context, in *DescribeDeploymentRequest, opts ...grpc.CallOption) (*DescribeDeploymentResponse, error)
 	// Describes a worker deployment version.
+	// Experimental. This API might significantly change or be removed in a future release.
 	DescribeWorkerDeploymentVersion(ctx context.Context, in *DescribeWorkerDeploymentVersionRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentVersionResponse, error)
 	// Lists worker deployments in the namespace. Optionally can filter based on deployment series
 	// name.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced with `ListWorkerDeployments`.
 	ListDeployments(ctx context.Context, in *ListDeploymentsRequest, opts ...grpc.CallOption) (*ListDeploymentsResponse, error)
 	// Returns the reachability level of a worker deployment to help users decide when it is time
 	// to decommission a deployment. Reachability level is calculated based on the deployment's
@@ -526,30 +527,46 @@ type WorkflowServiceClient interface {
 	// cached value. In such a case, the `last_update_time` will inform you about the actual
 	// reachability calculation time.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced with `DrainageInfo` returned by `DescribeWorkerDeploymentVersion`.
 	GetDeploymentReachability(ctx context.Context, in *GetDeploymentReachabilityRequest, opts ...grpc.CallOption) (*GetDeploymentReachabilityResponse, error)
 	// Returns the current deployment (and its info) for a given deployment series.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced by `current_version` returned by `DescribeWorkerDeployment`.
 	GetCurrentDeployment(ctx context.Context, in *GetCurrentDeploymentRequest, opts ...grpc.CallOption) (*GetCurrentDeploymentResponse, error)
 	// Sets a deployment as the current deployment for its deployment series. Can optionally update
 	// the metadata of the deployment as well.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced by `SetWorkerDeploymentCurrentVersion`.
 	SetCurrentDeployment(ctx context.Context, in *SetCurrentDeploymentRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentResponse, error)
 	// Set/unset the Current Version of a Worker Deployment. Automatically unsets the Ramping
 	// Version if it is the Version being set as Current.
+	// Experimental. This API might significantly change or be removed in a future release.
 	SetWorkerDeploymentCurrentVersion(ctx context.Context, in *SetWorkerDeploymentCurrentVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentCurrentVersionResponse, error)
+	// Describes a Worker Deployment.
+	// Experimental. This API might significantly change or be removed in a future release.
 	DescribeWorkerDeployment(ctx context.Context, in *DescribeWorkerDeploymentRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentResponse, error)
 	// Deletes records of (an old) Deployment. A deployment can only be deleted if
 	// it has no Version in it.
+	// Experimental. This API might significantly change or be removed in a future release.
 	DeleteWorkerDeployment(ctx context.Context, in *DeleteWorkerDeploymentRequest, opts ...grpc.CallOption) (*DeleteWorkerDeploymentResponse, error)
-	// Deletes records of (an old) Version.
+	// Used for manual deletion of Versions. User can delete a Version only when all the
+	// following conditions are met:
+	//   - It is not the Current or Ramping Version of its Deployment.
+	//   - It has no active pollers (none of the task queues in the Version have pollers)
+	//   - It is not draining (see WorkerDeploymentVersionInfo.drainage_info). This condition
+	//     can be skipped by passing `skip-drainage=true`.
+	//
+	// Experimental. This API might significantly change or be removed in a future release.
 	DeleteWorkerDeploymentVersion(ctx context.Context, in *DeleteWorkerDeploymentVersionRequest, opts ...grpc.CallOption) (*DeleteWorkerDeploymentVersionResponse, error)
 	// Set/unset the Ramping Version of a Worker Deployment and its ramp percentage. Can be used for
 	// gradual ramp to unversioned workers too.
+	// Experimental. This API might significantly change or be removed in a future release.
 	SetWorkerDeploymentRampingVersion(ctx context.Context, in *SetWorkerDeploymentRampingVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentRampingVersionResponse, error)
+	// Lists all Worker Deployments that are tracked in the Namespace.
+	// Experimental. This API might significantly change or be removed in a future release.
 	ListWorkerDeployments(ctx context.Context, in *ListWorkerDeploymentsRequest, opts ...grpc.CallOption) (*ListWorkerDeploymentsResponse, error)
+	// Updates the user-given metadata attached to a Worker Deployment Version.
+	// Experimental. This API might significantly change or be removed in a future release.
 	UpdateWorkerVersionMetadata(ctx context.Context, in *UpdateWorkerVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerVersionMetadataResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
@@ -1854,14 +1871,15 @@ type WorkflowServiceServer interface {
 	GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error)
 	// Describes a worker deployment.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced with `DescribeWorkerDeploymentVersion`.
 	DescribeDeployment(context.Context, *DescribeDeploymentRequest) (*DescribeDeploymentResponse, error)
 	// Describes a worker deployment version.
+	// Experimental. This API might significantly change or be removed in a future release.
 	DescribeWorkerDeploymentVersion(context.Context, *DescribeWorkerDeploymentVersionRequest) (*DescribeWorkerDeploymentVersionResponse, error)
 	// Lists worker deployments in the namespace. Optionally can filter based on deployment series
 	// name.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced with `ListWorkerDeployments`.
 	ListDeployments(context.Context, *ListDeploymentsRequest) (*ListDeploymentsResponse, error)
 	// Returns the reachability level of a worker deployment to help users decide when it is time
 	// to decommission a deployment. Reachability level is calculated based on the deployment's
@@ -1870,30 +1888,46 @@ type WorkflowServiceServer interface {
 	// cached value. In such a case, the `last_update_time` will inform you about the actual
 	// reachability calculation time.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced with `DrainageInfo` returned by `DescribeWorkerDeploymentVersion`.
 	GetDeploymentReachability(context.Context, *GetDeploymentReachabilityRequest) (*GetDeploymentReachabilityResponse, error)
 	// Returns the current deployment (and its info) for a given deployment series.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced by `current_version` returned by `DescribeWorkerDeployment`.
 	GetCurrentDeployment(context.Context, *GetCurrentDeploymentRequest) (*GetCurrentDeploymentResponse, error)
 	// Sets a deployment as the current deployment for its deployment series. Can optionally update
 	// the metadata of the deployment as well.
 	// Experimental. This API might significantly change or be removed in a future release.
-	// [cleanup-wv-pre-release]
+	// Deprecated. Replaced by `SetWorkerDeploymentCurrentVersion`.
 	SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error)
 	// Set/unset the Current Version of a Worker Deployment. Automatically unsets the Ramping
 	// Version if it is the Version being set as Current.
+	// Experimental. This API might significantly change or be removed in a future release.
 	SetWorkerDeploymentCurrentVersion(context.Context, *SetWorkerDeploymentCurrentVersionRequest) (*SetWorkerDeploymentCurrentVersionResponse, error)
+	// Describes a Worker Deployment.
+	// Experimental. This API might significantly change or be removed in a future release.
 	DescribeWorkerDeployment(context.Context, *DescribeWorkerDeploymentRequest) (*DescribeWorkerDeploymentResponse, error)
 	// Deletes records of (an old) Deployment. A deployment can only be deleted if
 	// it has no Version in it.
+	// Experimental. This API might significantly change or be removed in a future release.
 	DeleteWorkerDeployment(context.Context, *DeleteWorkerDeploymentRequest) (*DeleteWorkerDeploymentResponse, error)
-	// Deletes records of (an old) Version.
+	// Used for manual deletion of Versions. User can delete a Version only when all the
+	// following conditions are met:
+	//   - It is not the Current or Ramping Version of its Deployment.
+	//   - It has no active pollers (none of the task queues in the Version have pollers)
+	//   - It is not draining (see WorkerDeploymentVersionInfo.drainage_info). This condition
+	//     can be skipped by passing `skip-drainage=true`.
+	//
+	// Experimental. This API might significantly change or be removed in a future release.
 	DeleteWorkerDeploymentVersion(context.Context, *DeleteWorkerDeploymentVersionRequest) (*DeleteWorkerDeploymentVersionResponse, error)
 	// Set/unset the Ramping Version of a Worker Deployment and its ramp percentage. Can be used for
 	// gradual ramp to unversioned workers too.
+	// Experimental. This API might significantly change or be removed in a future release.
 	SetWorkerDeploymentRampingVersion(context.Context, *SetWorkerDeploymentRampingVersionRequest) (*SetWorkerDeploymentRampingVersionResponse, error)
+	// Lists all Worker Deployments that are tracked in the Namespace.
+	// Experimental. This API might significantly change or be removed in a future release.
 	ListWorkerDeployments(context.Context, *ListWorkerDeploymentsRequest) (*ListWorkerDeploymentsResponse, error)
+	// Updates the user-given metadata attached to a Worker Deployment Version.
+	// Experimental. This API might significantly change or be removed in a future release.
 	UpdateWorkerVersionMetadata(context.Context, *UpdateWorkerVersionMetadataRequest) (*UpdateWorkerVersionMetadataResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)

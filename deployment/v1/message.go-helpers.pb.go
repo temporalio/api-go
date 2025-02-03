@@ -101,43 +101,6 @@ func (this *Deployment) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
-// Marshal an object of type WorkerDeploymentVersion to the protobuf v3 wire format
-func (val *WorkerDeploymentVersion) Marshal() ([]byte, error) {
-	return proto.Marshal(val)
-}
-
-// Unmarshal an object of type WorkerDeploymentVersion from the protobuf v3 wire format
-func (val *WorkerDeploymentVersion) Unmarshal(buf []byte) error {
-	return proto.Unmarshal(buf, val)
-}
-
-// Size returns the size of the object, in bytes, once serialized
-func (val *WorkerDeploymentVersion) Size() int {
-	return proto.Size(val)
-}
-
-// Equal returns whether two WorkerDeploymentVersion values are equivalent by recursively
-// comparing the message's fields.
-// For more information see the documentation for
-// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *WorkerDeploymentVersion) Equal(that interface{}) bool {
-	if that == nil {
-		return this == nil
-	}
-
-	var that1 *WorkerDeploymentVersion
-	switch t := that.(type) {
-	case *WorkerDeploymentVersion:
-		that1 = t
-	case WorkerDeploymentVersion:
-		that1 = &t
-	default:
-		return false
-	}
-
-	return proto.Equal(this, that1)
-}
-
 // Marshal an object of type DeploymentInfo to the protobuf v3 wire format
 func (val *DeploymentInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -397,35 +360,35 @@ func (this *VersionMetadata) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
-// Marshal an object of type RoutingInfo to the protobuf v3 wire format
-func (val *RoutingInfo) Marshal() ([]byte, error) {
+// Marshal an object of type RoutingConfig to the protobuf v3 wire format
+func (val *RoutingConfig) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
-// Unmarshal an object of type RoutingInfo from the protobuf v3 wire format
-func (val *RoutingInfo) Unmarshal(buf []byte) error {
+// Unmarshal an object of type RoutingConfig from the protobuf v3 wire format
+func (val *RoutingConfig) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
 // Size returns the size of the object, in bytes, once serialized
-func (val *RoutingInfo) Size() int {
+func (val *RoutingConfig) Size() int {
 	return proto.Size(val)
 }
 
-// Equal returns whether two RoutingInfo values are equivalent by recursively
+// Equal returns whether two RoutingConfig values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
 // https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *RoutingInfo) Equal(that interface{}) bool {
+func (this *RoutingConfig) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	var that1 *RoutingInfo
+	var that1 *RoutingConfig
 	switch t := that.(type) {
-	case *RoutingInfo:
+	case *RoutingConfig:
 		that1 = t
-	case RoutingInfo:
+	case RoutingConfig:
 		that1 = &t
 	default:
 		return false
