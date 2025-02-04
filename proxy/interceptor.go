@@ -2528,7 +2528,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.UpdateWorkerVersionMetadataRequest:
+		case *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest:
 
 			if o == nil {
 				continue
@@ -2542,7 +2542,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.UpdateWorkerVersionMetadataResponse:
+		case *workflowservice.UpdateWorkerDeploymentVersionMetadataResponse:
 
 			if o == nil {
 				continue

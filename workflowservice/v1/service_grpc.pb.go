@@ -42,88 +42,88 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	WorkflowService_RegisterNamespace_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/RegisterNamespace"
-	WorkflowService_DescribeNamespace_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/DescribeNamespace"
-	WorkflowService_ListNamespaces_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/ListNamespaces"
-	WorkflowService_UpdateNamespace_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/UpdateNamespace"
-	WorkflowService_DeprecateNamespace_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/DeprecateNamespace"
-	WorkflowService_StartWorkflowExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution"
-	WorkflowService_ExecuteMultiOperation_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation"
-	WorkflowService_GetWorkflowExecutionHistory_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory"
-	WorkflowService_GetWorkflowExecutionHistoryReverse_FullMethodName = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse"
-	WorkflowService_PollWorkflowTaskQueue_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowTaskQueue"
-	WorkflowService_RespondWorkflowTaskCompleted_FullMethodName       = "/temporal.api.workflowservice.v1.WorkflowService/RespondWorkflowTaskCompleted"
-	WorkflowService_RespondWorkflowTaskFailed_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondWorkflowTaskFailed"
-	WorkflowService_PollActivityTaskQueue_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/PollActivityTaskQueue"
-	WorkflowService_RecordActivityTaskHeartbeat_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeat"
-	WorkflowService_RecordActivityTaskHeartbeatById_FullMethodName    = "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeatById"
-	WorkflowService_RespondActivityTaskCompleted_FullMethodName       = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompleted"
-	WorkflowService_RespondActivityTaskCompletedById_FullMethodName   = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompletedById"
-	WorkflowService_RespondActivityTaskFailed_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailed"
-	WorkflowService_RespondActivityTaskFailedById_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailedById"
-	WorkflowService_RespondActivityTaskCanceled_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceled"
-	WorkflowService_RespondActivityTaskCanceledById_FullMethodName    = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceledById"
-	WorkflowService_RequestCancelWorkflowExecution_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelWorkflowExecution"
-	WorkflowService_SignalWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/SignalWorkflowExecution"
-	WorkflowService_SignalWithStartWorkflowExecution_FullMethodName   = "/temporal.api.workflowservice.v1.WorkflowService/SignalWithStartWorkflowExecution"
-	WorkflowService_ResetWorkflowExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/ResetWorkflowExecution"
-	WorkflowService_TerminateWorkflowExecution_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/TerminateWorkflowExecution"
-	WorkflowService_DeleteWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkflowExecution"
-	WorkflowService_ListOpenWorkflowExecutions_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/ListOpenWorkflowExecutions"
-	WorkflowService_ListClosedWorkflowExecutions_FullMethodName       = "/temporal.api.workflowservice.v1.WorkflowService/ListClosedWorkflowExecutions"
-	WorkflowService_ListWorkflowExecutions_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkflowExecutions"
-	WorkflowService_ListArchivedWorkflowExecutions_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/ListArchivedWorkflowExecutions"
-	WorkflowService_ScanWorkflowExecutions_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/ScanWorkflowExecutions"
-	WorkflowService_CountWorkflowExecutions_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/CountWorkflowExecutions"
-	WorkflowService_GetSearchAttributes_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/GetSearchAttributes"
-	WorkflowService_RespondQueryTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondQueryTaskCompleted"
-	WorkflowService_ResetStickyTaskQueue_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/ResetStickyTaskQueue"
-	WorkflowService_ShutdownWorker_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/ShutdownWorker"
-	WorkflowService_QueryWorkflow_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/QueryWorkflow"
-	WorkflowService_DescribeWorkflowExecution_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowExecution"
-	WorkflowService_DescribeTaskQueue_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/DescribeTaskQueue"
-	WorkflowService_GetClusterInfo_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo"
-	WorkflowService_GetSystemInfo_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/GetSystemInfo"
-	WorkflowService_ListTaskQueuePartitions_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/ListTaskQueuePartitions"
-	WorkflowService_CreateSchedule_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/CreateSchedule"
-	WorkflowService_DescribeSchedule_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/DescribeSchedule"
-	WorkflowService_UpdateSchedule_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/UpdateSchedule"
-	WorkflowService_PatchSchedule_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/PatchSchedule"
-	WorkflowService_ListScheduleMatchingTimes_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/ListScheduleMatchingTimes"
-	WorkflowService_DeleteSchedule_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/DeleteSchedule"
-	WorkflowService_ListSchedules_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/ListSchedules"
-	WorkflowService_UpdateWorkerBuildIdCompatibility_FullMethodName   = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerBuildIdCompatibility"
-	WorkflowService_GetWorkerBuildIdCompatibility_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility"
-	WorkflowService_UpdateWorkerVersioningRules_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersioningRules"
-	WorkflowService_GetWorkerVersioningRules_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules"
-	WorkflowService_GetWorkerTaskReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability"
-	WorkflowService_DescribeDeployment_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/DescribeDeployment"
-	WorkflowService_DescribeWorkerDeploymentVersion_FullMethodName    = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion"
-	WorkflowService_ListDeployments_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/ListDeployments"
-	WorkflowService_GetDeploymentReachability_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/GetDeploymentReachability"
-	WorkflowService_GetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/GetCurrentDeployment"
-	WorkflowService_SetCurrentDeployment_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeployment"
-	WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName  = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentCurrentVersion"
-	WorkflowService_DescribeWorkerDeployment_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeployment"
-	WorkflowService_DeleteWorkerDeployment_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeployment"
-	WorkflowService_DeleteWorkerDeploymentVersion_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion"
-	WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName  = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentRampingVersion"
-	WorkflowService_ListWorkerDeployments_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkerDeployments"
-	WorkflowService_UpdateWorkerVersionMetadata_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersionMetadata"
-	WorkflowService_UpdateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
-	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
-	WorkflowService_StartBatchOperation_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
-	WorkflowService_StopBatchOperation_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation"
-	WorkflowService_DescribeBatchOperation_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation"
-	WorkflowService_ListBatchOperations_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/ListBatchOperations"
-	WorkflowService_PollNexusTaskQueue_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollNexusTaskQueue"
-	WorkflowService_RespondNexusTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskCompleted"
-	WorkflowService_RespondNexusTaskFailed_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskFailed"
-	WorkflowService_UpdateActivityOptions_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptions"
-	WorkflowService_UpdateWorkflowExecutionOptions_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecutionOptions"
-	WorkflowService_PauseActivity_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/PauseActivity"
-	WorkflowService_UnpauseActivity_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivity"
-	WorkflowService_ResetActivity_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/ResetActivity"
+	WorkflowService_RegisterNamespace_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/RegisterNamespace"
+	WorkflowService_DescribeNamespace_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/DescribeNamespace"
+	WorkflowService_ListNamespaces_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/ListNamespaces"
+	WorkflowService_UpdateNamespace_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/UpdateNamespace"
+	WorkflowService_DeprecateNamespace_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/DeprecateNamespace"
+	WorkflowService_StartWorkflowExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution"
+	WorkflowService_ExecuteMultiOperation_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation"
+	WorkflowService_GetWorkflowExecutionHistory_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory"
+	WorkflowService_GetWorkflowExecutionHistoryReverse_FullMethodName    = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse"
+	WorkflowService_PollWorkflowTaskQueue_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowTaskQueue"
+	WorkflowService_RespondWorkflowTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondWorkflowTaskCompleted"
+	WorkflowService_RespondWorkflowTaskFailed_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondWorkflowTaskFailed"
+	WorkflowService_PollActivityTaskQueue_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollActivityTaskQueue"
+	WorkflowService_RecordActivityTaskHeartbeat_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeat"
+	WorkflowService_RecordActivityTaskHeartbeatById_FullMethodName       = "/temporal.api.workflowservice.v1.WorkflowService/RecordActivityTaskHeartbeatById"
+	WorkflowService_RespondActivityTaskCompleted_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompleted"
+	WorkflowService_RespondActivityTaskCompletedById_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCompletedById"
+	WorkflowService_RespondActivityTaskFailed_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailed"
+	WorkflowService_RespondActivityTaskFailedById_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskFailedById"
+	WorkflowService_RespondActivityTaskCanceled_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceled"
+	WorkflowService_RespondActivityTaskCanceledById_FullMethodName       = "/temporal.api.workflowservice.v1.WorkflowService/RespondActivityTaskCanceledById"
+	WorkflowService_RequestCancelWorkflowExecution_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelWorkflowExecution"
+	WorkflowService_SignalWorkflowExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/SignalWorkflowExecution"
+	WorkflowService_SignalWithStartWorkflowExecution_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/SignalWithStartWorkflowExecution"
+	WorkflowService_ResetWorkflowExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/ResetWorkflowExecution"
+	WorkflowService_TerminateWorkflowExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/TerminateWorkflowExecution"
+	WorkflowService_DeleteWorkflowExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkflowExecution"
+	WorkflowService_ListOpenWorkflowExecutions_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/ListOpenWorkflowExecutions"
+	WorkflowService_ListClosedWorkflowExecutions_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/ListClosedWorkflowExecutions"
+	WorkflowService_ListWorkflowExecutions_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkflowExecutions"
+	WorkflowService_ListArchivedWorkflowExecutions_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/ListArchivedWorkflowExecutions"
+	WorkflowService_ScanWorkflowExecutions_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/ScanWorkflowExecutions"
+	WorkflowService_CountWorkflowExecutions_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/CountWorkflowExecutions"
+	WorkflowService_GetSearchAttributes_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/GetSearchAttributes"
+	WorkflowService_RespondQueryTaskCompleted_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondQueryTaskCompleted"
+	WorkflowService_ResetStickyTaskQueue_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/ResetStickyTaskQueue"
+	WorkflowService_ShutdownWorker_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/ShutdownWorker"
+	WorkflowService_QueryWorkflow_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/QueryWorkflow"
+	WorkflowService_DescribeWorkflowExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowExecution"
+	WorkflowService_DescribeTaskQueue_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/DescribeTaskQueue"
+	WorkflowService_GetClusterInfo_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo"
+	WorkflowService_GetSystemInfo_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/GetSystemInfo"
+	WorkflowService_ListTaskQueuePartitions_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/ListTaskQueuePartitions"
+	WorkflowService_CreateSchedule_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/CreateSchedule"
+	WorkflowService_DescribeSchedule_FullMethodName                      = "/temporal.api.workflowservice.v1.WorkflowService/DescribeSchedule"
+	WorkflowService_UpdateSchedule_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/UpdateSchedule"
+	WorkflowService_PatchSchedule_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/PatchSchedule"
+	WorkflowService_ListScheduleMatchingTimes_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/ListScheduleMatchingTimes"
+	WorkflowService_DeleteSchedule_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/DeleteSchedule"
+	WorkflowService_ListSchedules_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/ListSchedules"
+	WorkflowService_UpdateWorkerBuildIdCompatibility_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerBuildIdCompatibility"
+	WorkflowService_GetWorkerBuildIdCompatibility_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerBuildIdCompatibility"
+	WorkflowService_UpdateWorkerVersioningRules_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersioningRules"
+	WorkflowService_GetWorkerVersioningRules_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerVersioningRules"
+	WorkflowService_GetWorkerTaskReachability_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerTaskReachability"
+	WorkflowService_DescribeDeployment_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/DescribeDeployment"
+	WorkflowService_DescribeWorkerDeploymentVersion_FullMethodName       = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion"
+	WorkflowService_ListDeployments_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/ListDeployments"
+	WorkflowService_GetDeploymentReachability_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/GetDeploymentReachability"
+	WorkflowService_GetCurrentDeployment_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/GetCurrentDeployment"
+	WorkflowService_SetCurrentDeployment_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeployment"
+	WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentCurrentVersion"
+	WorkflowService_DescribeWorkerDeployment_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeployment"
+	WorkflowService_DeleteWorkerDeployment_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeployment"
+	WorkflowService_DeleteWorkerDeploymentVersion_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion"
+	WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentRampingVersion"
+	WorkflowService_ListWorkerDeployments_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkerDeployments"
+	WorkflowService_UpdateWorkerDeploymentVersionMetadata_FullMethodName = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata"
+	WorkflowService_UpdateWorkflowExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
+	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
+	WorkflowService_StartBatchOperation_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
+	WorkflowService_StopBatchOperation_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/StopBatchOperation"
+	WorkflowService_DescribeBatchOperation_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/DescribeBatchOperation"
+	WorkflowService_ListBatchOperations_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/ListBatchOperations"
+	WorkflowService_PollNexusTaskQueue_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/PollNexusTaskQueue"
+	WorkflowService_RespondNexusTaskCompleted_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskCompleted"
+	WorkflowService_RespondNexusTaskFailed_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/RespondNexusTaskFailed"
+	WorkflowService_UpdateActivityOptions_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/UpdateActivityOptions"
+	WorkflowService_UpdateWorkflowExecutionOptions_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecutionOptions"
+	WorkflowService_PauseActivity_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/PauseActivity"
+	WorkflowService_UnpauseActivity_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivity"
+	WorkflowService_ResetActivity_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/ResetActivity"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -567,7 +567,7 @@ type WorkflowServiceClient interface {
 	ListWorkerDeployments(ctx context.Context, in *ListWorkerDeploymentsRequest, opts ...grpc.CallOption) (*ListWorkerDeploymentsResponse, error)
 	// Updates the user-given metadata attached to a Worker Deployment Version.
 	// Experimental. This API might significantly change or be removed in a future release.
-	UpdateWorkerVersionMetadata(ctx context.Context, in *UpdateWorkerVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerVersionMetadataResponse, error)
+	UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in *UpdateWorkerDeploymentVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerDeploymentVersionMetadataResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -1337,10 +1337,10 @@ func (c *workflowServiceClient) ListWorkerDeployments(ctx context.Context, in *L
 	return out, nil
 }
 
-func (c *workflowServiceClient) UpdateWorkerVersionMetadata(ctx context.Context, in *UpdateWorkerVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerVersionMetadataResponse, error) {
+func (c *workflowServiceClient) UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in *UpdateWorkerDeploymentVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerDeploymentVersionMetadataResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateWorkerVersionMetadataResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerVersionMetadata_FullMethodName, in, out, cOpts...)
+	out := new(UpdateWorkerDeploymentVersionMetadataResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerDeploymentVersionMetadata_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1928,7 +1928,7 @@ type WorkflowServiceServer interface {
 	ListWorkerDeployments(context.Context, *ListWorkerDeploymentsRequest) (*ListWorkerDeploymentsResponse, error)
 	// Updates the user-given metadata attached to a Worker Deployment Version.
 	// Experimental. This API might significantly change or be removed in a future release.
-	UpdateWorkerVersionMetadata(context.Context, *UpdateWorkerVersionMetadataRequest) (*UpdateWorkerVersionMetadataResponse, error)
+	UpdateWorkerDeploymentVersionMetadata(context.Context, *UpdateWorkerDeploymentVersionMetadataRequest) (*UpdateWorkerDeploymentVersionMetadataResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -2229,8 +2229,8 @@ func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentRampingVersion(cont
 func (UnimplementedWorkflowServiceServer) ListWorkerDeployments(context.Context, *ListWorkerDeploymentsRequest) (*ListWorkerDeploymentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListWorkerDeployments not implemented")
 }
-func (UnimplementedWorkflowServiceServer) UpdateWorkerVersionMetadata(context.Context, *UpdateWorkerVersionMetadataRequest) (*UpdateWorkerVersionMetadataResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerVersionMetadata not implemented")
+func (UnimplementedWorkflowServiceServer) UpdateWorkerDeploymentVersionMetadata(context.Context, *UpdateWorkerDeploymentVersionMetadataRequest) (*UpdateWorkerDeploymentVersionMetadataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerDeploymentVersionMetadata not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
@@ -3501,20 +3501,20 @@ func _WorkflowService_ListWorkerDeployments_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_UpdateWorkerVersionMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateWorkerVersionMetadataRequest)
+func _WorkflowService_UpdateWorkerDeploymentVersionMetadata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkerDeploymentVersionMetadataRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).UpdateWorkerVersionMetadata(ctx, in)
+		return srv.(WorkflowServiceServer).UpdateWorkerDeploymentVersionMetadata(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_UpdateWorkerVersionMetadata_FullMethodName,
+		FullMethod: WorkflowService_UpdateWorkerDeploymentVersionMetadata_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).UpdateWorkerVersionMetadata(ctx, req.(*UpdateWorkerVersionMetadataRequest))
+		return srv.(WorkflowServiceServer).UpdateWorkerDeploymentVersionMetadata(ctx, req.(*UpdateWorkerDeploymentVersionMetadataRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4047,8 +4047,8 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_ListWorkerDeployments_Handler,
 		},
 		{
-			MethodName: "UpdateWorkerVersionMetadata",
-			Handler:    _WorkflowService_UpdateWorkerVersionMetadata_Handler,
+			MethodName: "UpdateWorkerDeploymentVersionMetadata",
+			Handler:    _WorkflowService_UpdateWorkerDeploymentVersionMetadata_Handler,
 		},
 		{
 			MethodName: "UpdateWorkflowExecution",

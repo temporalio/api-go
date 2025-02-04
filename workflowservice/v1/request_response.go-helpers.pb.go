@@ -5873,35 +5873,35 @@ func (this *DeleteWorkerDeploymentResponse) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
-// Marshal an object of type UpdateWorkerVersionMetadataRequest to the protobuf v3 wire format
-func (val *UpdateWorkerVersionMetadataRequest) Marshal() ([]byte, error) {
+// Marshal an object of type UpdateWorkerDeploymentVersionMetadataRequest to the protobuf v3 wire format
+func (val *UpdateWorkerDeploymentVersionMetadataRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
-// Unmarshal an object of type UpdateWorkerVersionMetadataRequest from the protobuf v3 wire format
-func (val *UpdateWorkerVersionMetadataRequest) Unmarshal(buf []byte) error {
+// Unmarshal an object of type UpdateWorkerDeploymentVersionMetadataRequest from the protobuf v3 wire format
+func (val *UpdateWorkerDeploymentVersionMetadataRequest) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
 // Size returns the size of the object, in bytes, once serialized
-func (val *UpdateWorkerVersionMetadataRequest) Size() int {
+func (val *UpdateWorkerDeploymentVersionMetadataRequest) Size() int {
 	return proto.Size(val)
 }
 
-// Equal returns whether two UpdateWorkerVersionMetadataRequest values are equivalent by recursively
+// Equal returns whether two UpdateWorkerDeploymentVersionMetadataRequest values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
 // https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *UpdateWorkerVersionMetadataRequest) Equal(that interface{}) bool {
+func (this *UpdateWorkerDeploymentVersionMetadataRequest) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	var that1 *UpdateWorkerVersionMetadataRequest
+	var that1 *UpdateWorkerDeploymentVersionMetadataRequest
 	switch t := that.(type) {
-	case *UpdateWorkerVersionMetadataRequest:
+	case *UpdateWorkerDeploymentVersionMetadataRequest:
 		that1 = t
-	case UpdateWorkerVersionMetadataRequest:
+	case UpdateWorkerDeploymentVersionMetadataRequest:
 		that1 = &t
 	default:
 		return false
@@ -5910,35 +5910,35 @@ func (this *UpdateWorkerVersionMetadataRequest) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
-// Marshal an object of type UpdateWorkerVersionMetadataResponse to the protobuf v3 wire format
-func (val *UpdateWorkerVersionMetadataResponse) Marshal() ([]byte, error) {
+// Marshal an object of type UpdateWorkerDeploymentVersionMetadataResponse to the protobuf v3 wire format
+func (val *UpdateWorkerDeploymentVersionMetadataResponse) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
-// Unmarshal an object of type UpdateWorkerVersionMetadataResponse from the protobuf v3 wire format
-func (val *UpdateWorkerVersionMetadataResponse) Unmarshal(buf []byte) error {
+// Unmarshal an object of type UpdateWorkerDeploymentVersionMetadataResponse from the protobuf v3 wire format
+func (val *UpdateWorkerDeploymentVersionMetadataResponse) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
 // Size returns the size of the object, in bytes, once serialized
-func (val *UpdateWorkerVersionMetadataResponse) Size() int {
+func (val *UpdateWorkerDeploymentVersionMetadataResponse) Size() int {
 	return proto.Size(val)
 }
 
-// Equal returns whether two UpdateWorkerVersionMetadataResponse values are equivalent by recursively
+// Equal returns whether two UpdateWorkerDeploymentVersionMetadataResponse values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
 // https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *UpdateWorkerVersionMetadataResponse) Equal(that interface{}) bool {
+func (this *UpdateWorkerDeploymentVersionMetadataResponse) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	var that1 *UpdateWorkerVersionMetadataResponse
+	var that1 *UpdateWorkerDeploymentVersionMetadataResponse
 	switch t := that.(type) {
-	case *UpdateWorkerVersionMetadataResponse:
+	case *UpdateWorkerDeploymentVersionMetadataResponse:
 		that1 = t
-	case UpdateWorkerVersionMetadataResponse:
+	case UpdateWorkerDeploymentVersionMetadataResponse:
 		that1 = &t
 	default:
 		return false

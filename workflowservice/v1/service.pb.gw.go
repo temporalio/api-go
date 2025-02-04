@@ -5521,9 +5521,9 @@ func local_request_WorkflowService_ListWorkerDeployments_1(ctx context.Context, 
 	return msg, metadata, err
 }
 
-func request_WorkflowService_UpdateWorkerVersionMetadata_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UpdateWorkerVersionMetadataRequest
+		protoReq UpdateWorkerDeploymentVersionMetadataRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -5546,13 +5546,13 @@ func request_WorkflowService_UpdateWorkerVersionMetadata_0(ctx context.Context, 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
 	}
-	msg, err := client.UpdateWorkerVersionMetadata(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.UpdateWorkerDeploymentVersionMetadata(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_UpdateWorkerVersionMetadata_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UpdateWorkerVersionMetadataRequest
+		protoReq UpdateWorkerDeploymentVersionMetadataRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -5575,13 +5575,13 @@ func local_request_WorkflowService_UpdateWorkerVersionMetadata_0(ctx context.Con
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
 	}
-	msg, err := server.UpdateWorkerVersionMetadata(ctx, &protoReq)
+	msg, err := server.UpdateWorkerDeploymentVersionMetadata(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-func request_WorkflowService_UpdateWorkerVersionMetadata_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UpdateWorkerVersionMetadataRequest
+		protoReq UpdateWorkerDeploymentVersionMetadataRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -5604,13 +5604,13 @@ func request_WorkflowService_UpdateWorkerVersionMetadata_1(ctx context.Context, 
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
 	}
-	msg, err := client.UpdateWorkerVersionMetadata(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.UpdateWorkerDeploymentVersionMetadata(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_WorkflowService_UpdateWorkerVersionMetadata_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
-		protoReq UpdateWorkerVersionMetadataRequest
+		protoReq UpdateWorkerDeploymentVersionMetadataRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
@@ -5633,7 +5633,7 @@ func local_request_WorkflowService_UpdateWorkerVersionMetadata_1(ctx context.Con
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
 	}
-	msg, err := server.UpdateWorkerVersionMetadata(ctx, &protoReq)
+	msg, err := server.UpdateWorkerDeploymentVersionMetadata(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -8719,45 +8719,45 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		}
 		forward_WorkflowService_ListWorkerDeployments_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkerVersionMetadata_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersionMetadata", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_UpdateWorkerVersionMetadata_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UpdateWorkerVersionMetadata_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkerVersionMetadata_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersionMetadata", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_WorkflowService_UpdateWorkerVersionMetadata_1(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UpdateWorkerVersionMetadata_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkflowExecution_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -10933,39 +10933,39 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		}
 		forward_WorkflowService_ListWorkerDeployments_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkerVersionMetadata_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersionMetadata", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_UpdateWorkerVersionMetadata_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UpdateWorkerVersionMetadata_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
-	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkerVersionMetadata_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerVersionMetadata", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_WorkflowService_UpdateWorkerVersionMetadata_1(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_WorkflowService_UpdateWorkerVersionMetadata_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodPost, pattern_WorkflowService_UpdateWorkflowExecution_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -11311,255 +11311,255 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 }
 
 var (
-	pattern_WorkflowService_RegisterNamespace_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cluster", "namespaces"}, ""))
-	pattern_WorkflowService_RegisterNamespace_1                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "namespaces"}, ""))
-	pattern_WorkflowService_DescribeNamespace_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cluster", "namespaces", "namespace"}, ""))
-	pattern_WorkflowService_DescribeNamespace_1                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "namespaces", "namespace"}, ""))
-	pattern_WorkflowService_ListNamespaces_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cluster", "namespaces"}, ""))
-	pattern_WorkflowService_ListNamespaces_1                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "namespaces"}, ""))
-	pattern_WorkflowService_UpdateNamespace_0                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"cluster", "namespaces", "namespace", "update"}, ""))
-	pattern_WorkflowService_UpdateNamespace_1                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "update"}, ""))
-	pattern_WorkflowService_StartWorkflowExecution_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "workflows", "workflow_id"}, ""))
-	pattern_WorkflowService_StartWorkflowExecution_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_id"}, ""))
-	pattern_WorkflowService_ExecuteMultiOperation_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "workflows", "execute-multi-operation"}, ""))
-	pattern_WorkflowService_ExecuteMultiOperation_1              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execute-multi-operation"}, ""))
-	pattern_WorkflowService_GetWorkflowExecutionHistory_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "history"}, ""))
-	pattern_WorkflowService_GetWorkflowExecutionHistory_1        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "history"}, ""))
-	pattern_WorkflowService_GetWorkflowExecutionHistoryReverse_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "history-reverse"}, ""))
-	pattern_WorkflowService_GetWorkflowExecutionHistoryReverse_1 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "history-reverse"}, ""))
-	pattern_WorkflowService_RecordActivityTaskHeartbeat_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "heartbeat"}, ""))
-	pattern_WorkflowService_RecordActivityTaskHeartbeat_1        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "heartbeat"}, ""))
-	pattern_WorkflowService_RecordActivityTaskHeartbeatById_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "heartbeat-by-id"}, ""))
-	pattern_WorkflowService_RecordActivityTaskHeartbeatById_1    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "heartbeat-by-id"}, ""))
-	pattern_WorkflowService_RespondActivityTaskCompleted_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "complete"}, ""))
-	pattern_WorkflowService_RespondActivityTaskCompleted_1       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "complete"}, ""))
-	pattern_WorkflowService_RespondActivityTaskCompletedById_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "complete-by-id"}, ""))
-	pattern_WorkflowService_RespondActivityTaskCompletedById_1   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "complete-by-id"}, ""))
-	pattern_WorkflowService_RespondActivityTaskFailed_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "fail"}, ""))
-	pattern_WorkflowService_RespondActivityTaskFailed_1          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "fail"}, ""))
-	pattern_WorkflowService_RespondActivityTaskFailedById_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "fail-by-id"}, ""))
-	pattern_WorkflowService_RespondActivityTaskFailedById_1      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "fail-by-id"}, ""))
-	pattern_WorkflowService_RespondActivityTaskCanceled_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "cancel"}, ""))
-	pattern_WorkflowService_RespondActivityTaskCanceled_1        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "cancel"}, ""))
-	pattern_WorkflowService_RespondActivityTaskCanceledById_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "cancel-by-id"}, ""))
-	pattern_WorkflowService_RespondActivityTaskCanceledById_1    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "cancel-by-id"}, ""))
-	pattern_WorkflowService_RequestCancelWorkflowExecution_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "cancel"}, ""))
-	pattern_WorkflowService_RequestCancelWorkflowExecution_1     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "cancel"}, ""))
-	pattern_WorkflowService_SignalWorkflowExecution_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "signal", "signal_name"}, ""))
-	pattern_WorkflowService_SignalWorkflowExecution_1            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "signal", "signal_name"}, ""))
-	pattern_WorkflowService_SignalWithStartWorkflowExecution_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_id", "signal-with-start", "signal_name"}, ""))
-	pattern_WorkflowService_SignalWithStartWorkflowExecution_1   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_id", "signal-with-start", "signal_name"}, ""))
-	pattern_WorkflowService_ResetWorkflowExecution_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "reset"}, ""))
-	pattern_WorkflowService_ResetWorkflowExecution_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "reset"}, ""))
-	pattern_WorkflowService_TerminateWorkflowExecution_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "terminate"}, ""))
-	pattern_WorkflowService_TerminateWorkflowExecution_1         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "terminate"}, ""))
-	pattern_WorkflowService_ListWorkflowExecutions_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "workflows"}, ""))
-	pattern_WorkflowService_ListWorkflowExecutions_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "workflows"}, ""))
-	pattern_WorkflowService_ListArchivedWorkflowExecutions_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "archived-workflows"}, ""))
-	pattern_WorkflowService_ListArchivedWorkflowExecutions_1     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "archived-workflows"}, ""))
-	pattern_WorkflowService_CountWorkflowExecutions_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "workflow-count"}, ""))
-	pattern_WorkflowService_CountWorkflowExecutions_1            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "workflow-count"}, ""))
-	pattern_WorkflowService_QueryWorkflow_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "query", "query.query_type"}, ""))
-	pattern_WorkflowService_QueryWorkflow_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "query", "query.query_type"}, ""))
-	pattern_WorkflowService_DescribeWorkflowExecution_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id"}, ""))
-	pattern_WorkflowService_DescribeWorkflowExecution_1          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id"}, ""))
-	pattern_WorkflowService_DescribeTaskQueue_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "task-queues", "task_queue.name"}, ""))
-	pattern_WorkflowService_DescribeTaskQueue_1                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue.name"}, ""))
-	pattern_WorkflowService_GetClusterInfo_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"cluster"}, ""))
-	pattern_WorkflowService_GetClusterInfo_1                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "cluster-info"}, ""))
-	pattern_WorkflowService_GetSystemInfo_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"system-info"}, ""))
-	pattern_WorkflowService_GetSystemInfo_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "system-info"}, ""))
-	pattern_WorkflowService_CreateSchedule_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
-	pattern_WorkflowService_CreateSchedule_1                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
-	pattern_WorkflowService_DescribeSchedule_0                   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
-	pattern_WorkflowService_DescribeSchedule_1                   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
-	pattern_WorkflowService_UpdateSchedule_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "update"}, ""))
-	pattern_WorkflowService_UpdateSchedule_1                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "update"}, ""))
-	pattern_WorkflowService_PatchSchedule_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "patch"}, ""))
-	pattern_WorkflowService_PatchSchedule_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "patch"}, ""))
-	pattern_WorkflowService_ListScheduleMatchingTimes_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "matching-times"}, ""))
-	pattern_WorkflowService_ListScheduleMatchingTimes_1          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "matching-times"}, ""))
-	pattern_WorkflowService_DeleteSchedule_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
-	pattern_WorkflowService_DeleteSchedule_1                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
-	pattern_WorkflowService_ListSchedules_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "schedules"}, ""))
-	pattern_WorkflowService_ListSchedules_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "schedules"}, ""))
-	pattern_WorkflowService_GetWorkerBuildIdCompatibility_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "task-queues", "task_queue", "worker-build-id-compatibility"}, ""))
-	pattern_WorkflowService_GetWorkerBuildIdCompatibility_1      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue", "worker-build-id-compatibility"}, ""))
-	pattern_WorkflowService_GetWorkerVersioningRules_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "task-queues", "task_queue", "worker-versioning-rules"}, ""))
-	pattern_WorkflowService_GetWorkerVersioningRules_1           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue", "worker-versioning-rules"}, ""))
-	pattern_WorkflowService_GetWorkerTaskReachability_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "worker-task-reachability"}, ""))
-	pattern_WorkflowService_GetWorkerTaskReachability_1          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "worker-task-reachability"}, ""))
-	pattern_WorkflowService_DescribeDeployment_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id"}, ""))
-	pattern_WorkflowService_DescribeDeployment_1                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"api", "v1", "namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id"}, ""))
-	pattern_WorkflowService_DescribeWorkerDeploymentVersion_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
-	pattern_WorkflowService_DescribeWorkerDeploymentVersion_1    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
-	pattern_WorkflowService_ListDeployments_0                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "deployments"}, ""))
-	pattern_WorkflowService_ListDeployments_1                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "deployments"}, ""))
-	pattern_WorkflowService_GetDeploymentReachability_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id", "reachability"}, ""))
-	pattern_WorkflowService_GetDeploymentReachability_1          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id", "reachability"}, ""))
-	pattern_WorkflowService_GetCurrentDeployment_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "current-deployment", "series_name"}, ""))
-	pattern_WorkflowService_GetCurrentDeployment_1               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "current-deployment", "series_name"}, ""))
-	pattern_WorkflowService_SetCurrentDeployment_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "current-deployment", "deployment.series_name"}, ""))
-	pattern_WorkflowService_SetCurrentDeployment_1               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "current-deployment", "deployment.series_name"}, ""))
-	pattern_WorkflowService_SetWorkerDeploymentCurrentVersion_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name", "set-current-version"}, ""))
-	pattern_WorkflowService_SetWorkerDeploymentCurrentVersion_1  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name", "set-current-version"}, ""))
-	pattern_WorkflowService_DescribeWorkerDeployment_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
-	pattern_WorkflowService_DescribeWorkerDeployment_1           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
-	pattern_WorkflowService_DeleteWorkerDeployment_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
-	pattern_WorkflowService_DeleteWorkerDeployment_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
-	pattern_WorkflowService_DeleteWorkerDeploymentVersion_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
-	pattern_WorkflowService_DeleteWorkerDeploymentVersion_1      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
-	pattern_WorkflowService_SetWorkerDeploymentRampingVersion_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name", "set-ramping-version"}, ""))
-	pattern_WorkflowService_SetWorkerDeploymentRampingVersion_1  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name", "set-ramping-version"}, ""))
-	pattern_WorkflowService_ListWorkerDeployments_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "worker-deployments"}, ""))
-	pattern_WorkflowService_ListWorkerDeployments_1              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments"}, ""))
-	pattern_WorkflowService_UpdateWorkerVersionMetadata_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployment-versions", "version", "update-metadata"}, ""))
-	pattern_WorkflowService_UpdateWorkerVersionMetadata_1        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version", "update-metadata"}, ""))
-	pattern_WorkflowService_UpdateWorkflowExecution_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update", "request.input.name"}, ""))
-	pattern_WorkflowService_UpdateWorkflowExecution_1            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update", "request.input.name"}, ""))
-	pattern_WorkflowService_StartBatchOperation_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "batch-operations", "job_id"}, ""))
-	pattern_WorkflowService_StartBatchOperation_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id"}, ""))
-	pattern_WorkflowService_StopBatchOperation_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "batch-operations", "job_id", "stop"}, ""))
-	pattern_WorkflowService_StopBatchOperation_1                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id", "stop"}, ""))
-	pattern_WorkflowService_DescribeBatchOperation_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "batch-operations", "job_id"}, ""))
-	pattern_WorkflowService_DescribeBatchOperation_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id"}, ""))
-	pattern_WorkflowService_ListBatchOperations_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "batch-operations"}, ""))
-	pattern_WorkflowService_ListBatchOperations_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "batch-operations"}, ""))
-	pattern_WorkflowService_UpdateActivityOptions_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "update-options"}, ""))
-	pattern_WorkflowService_UpdateActivityOptions_1              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "update-options"}, ""))
-	pattern_WorkflowService_UpdateWorkflowExecutionOptions_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update-options"}, ""))
-	pattern_WorkflowService_UpdateWorkflowExecutionOptions_1     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update-options"}, ""))
-	pattern_WorkflowService_PauseActivity_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "pause"}, ""))
-	pattern_WorkflowService_PauseActivity_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "pause"}, ""))
-	pattern_WorkflowService_UnpauseActivity_0                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "unpause"}, ""))
-	pattern_WorkflowService_UnpauseActivity_1                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "unpause"}, ""))
-	pattern_WorkflowService_ResetActivity_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "reset"}, ""))
-	pattern_WorkflowService_ResetActivity_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "reset"}, ""))
+	pattern_WorkflowService_RegisterNamespace_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cluster", "namespaces"}, ""))
+	pattern_WorkflowService_RegisterNamespace_1                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "namespaces"}, ""))
+	pattern_WorkflowService_DescribeNamespace_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"cluster", "namespaces", "namespace"}, ""))
+	pattern_WorkflowService_DescribeNamespace_1                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "v1", "namespaces", "namespace"}, ""))
+	pattern_WorkflowService_ListNamespaces_0                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"cluster", "namespaces"}, ""))
+	pattern_WorkflowService_ListNamespaces_1                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "namespaces"}, ""))
+	pattern_WorkflowService_UpdateNamespace_0                       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 2, 3}, []string{"cluster", "namespaces", "namespace", "update"}, ""))
+	pattern_WorkflowService_UpdateNamespace_1                       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "update"}, ""))
+	pattern_WorkflowService_StartWorkflowExecution_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "workflows", "workflow_id"}, ""))
+	pattern_WorkflowService_StartWorkflowExecution_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_id"}, ""))
+	pattern_WorkflowService_ExecuteMultiOperation_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "workflows", "execute-multi-operation"}, ""))
+	pattern_WorkflowService_ExecuteMultiOperation_1                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execute-multi-operation"}, ""))
+	pattern_WorkflowService_GetWorkflowExecutionHistory_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "history"}, ""))
+	pattern_WorkflowService_GetWorkflowExecutionHistory_1           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "history"}, ""))
+	pattern_WorkflowService_GetWorkflowExecutionHistoryReverse_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "history-reverse"}, ""))
+	pattern_WorkflowService_GetWorkflowExecutionHistoryReverse_1    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "history-reverse"}, ""))
+	pattern_WorkflowService_RecordActivityTaskHeartbeat_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "heartbeat"}, ""))
+	pattern_WorkflowService_RecordActivityTaskHeartbeat_1           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "heartbeat"}, ""))
+	pattern_WorkflowService_RecordActivityTaskHeartbeatById_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "heartbeat-by-id"}, ""))
+	pattern_WorkflowService_RecordActivityTaskHeartbeatById_1       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "heartbeat-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCompleted_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "complete"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCompleted_1          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "complete"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCompletedById_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "complete-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCompletedById_1      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "complete-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskFailed_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "fail"}, ""))
+	pattern_WorkflowService_RespondActivityTaskFailed_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "fail"}, ""))
+	pattern_WorkflowService_RespondActivityTaskFailedById_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "fail-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskFailedById_1         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "fail-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCanceled_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "cancel"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCanceled_1           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "cancel"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCanceledById_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "cancel-by-id"}, ""))
+	pattern_WorkflowService_RespondActivityTaskCanceledById_1       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "cancel-by-id"}, ""))
+	pattern_WorkflowService_RequestCancelWorkflowExecution_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "cancel"}, ""))
+	pattern_WorkflowService_RequestCancelWorkflowExecution_1        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "cancel"}, ""))
+	pattern_WorkflowService_SignalWorkflowExecution_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "signal", "signal_name"}, ""))
+	pattern_WorkflowService_SignalWorkflowExecution_1               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "signal", "signal_name"}, ""))
+	pattern_WorkflowService_SignalWithStartWorkflowExecution_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_id", "signal-with-start", "signal_name"}, ""))
+	pattern_WorkflowService_SignalWithStartWorkflowExecution_1      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_id", "signal-with-start", "signal_name"}, ""))
+	pattern_WorkflowService_ResetWorkflowExecution_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "reset"}, ""))
+	pattern_WorkflowService_ResetWorkflowExecution_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "reset"}, ""))
+	pattern_WorkflowService_TerminateWorkflowExecution_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "terminate"}, ""))
+	pattern_WorkflowService_TerminateWorkflowExecution_1            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "terminate"}, ""))
+	pattern_WorkflowService_ListWorkflowExecutions_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "workflows"}, ""))
+	pattern_WorkflowService_ListWorkflowExecutions_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "workflows"}, ""))
+	pattern_WorkflowService_ListArchivedWorkflowExecutions_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "archived-workflows"}, ""))
+	pattern_WorkflowService_ListArchivedWorkflowExecutions_1        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "archived-workflows"}, ""))
+	pattern_WorkflowService_CountWorkflowExecutions_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "workflow-count"}, ""))
+	pattern_WorkflowService_CountWorkflowExecutions_1               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "workflow-count"}, ""))
+	pattern_WorkflowService_QueryWorkflow_0                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id", "query", "query.query_type"}, ""))
+	pattern_WorkflowService_QueryWorkflow_1                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id", "query", "query.query_type"}, ""))
+	pattern_WorkflowService_DescribeWorkflowExecution_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "workflows", "execution.workflow_id"}, ""))
+	pattern_WorkflowService_DescribeWorkflowExecution_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "workflows", "execution.workflow_id"}, ""))
+	pattern_WorkflowService_DescribeTaskQueue_0                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "task-queues", "task_queue.name"}, ""))
+	pattern_WorkflowService_DescribeTaskQueue_1                     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue.name"}, ""))
+	pattern_WorkflowService_GetClusterInfo_0                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"cluster"}, ""))
+	pattern_WorkflowService_GetClusterInfo_1                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "cluster-info"}, ""))
+	pattern_WorkflowService_GetSystemInfo_0                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0}, []string{"system-info"}, ""))
+	pattern_WorkflowService_GetSystemInfo_1                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "v1", "system-info"}, ""))
+	pattern_WorkflowService_CreateSchedule_0                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_CreateSchedule_1                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_DescribeSchedule_0                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_DescribeSchedule_1                      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_UpdateSchedule_0                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "update"}, ""))
+	pattern_WorkflowService_UpdateSchedule_1                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "update"}, ""))
+	pattern_WorkflowService_PatchSchedule_0                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "patch"}, ""))
+	pattern_WorkflowService_PatchSchedule_1                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "patch"}, ""))
+	pattern_WorkflowService_ListScheduleMatchingTimes_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "schedules", "schedule_id", "matching-times"}, ""))
+	pattern_WorkflowService_ListScheduleMatchingTimes_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id", "matching-times"}, ""))
+	pattern_WorkflowService_DeleteSchedule_0                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_DeleteSchedule_1                        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "schedules", "schedule_id"}, ""))
+	pattern_WorkflowService_ListSchedules_0                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "schedules"}, ""))
+	pattern_WorkflowService_ListSchedules_1                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "schedules"}, ""))
+	pattern_WorkflowService_GetWorkerBuildIdCompatibility_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "task-queues", "task_queue", "worker-build-id-compatibility"}, ""))
+	pattern_WorkflowService_GetWorkerBuildIdCompatibility_1         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue", "worker-build-id-compatibility"}, ""))
+	pattern_WorkflowService_GetWorkerVersioningRules_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "task-queues", "task_queue", "worker-versioning-rules"}, ""))
+	pattern_WorkflowService_GetWorkerVersioningRules_1              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "task-queues", "task_queue", "worker-versioning-rules"}, ""))
+	pattern_WorkflowService_GetWorkerTaskReachability_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "worker-task-reachability"}, ""))
+	pattern_WorkflowService_GetWorkerTaskReachability_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "worker-task-reachability"}, ""))
+	pattern_WorkflowService_DescribeDeployment_0                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id"}, ""))
+	pattern_WorkflowService_DescribeDeployment_1                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"api", "v1", "namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id"}, ""))
+	pattern_WorkflowService_DescribeWorkerDeploymentVersion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
+	pattern_WorkflowService_DescribeWorkerDeploymentVersion_1       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
+	pattern_WorkflowService_ListDeployments_0                       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "deployments"}, ""))
+	pattern_WorkflowService_ListDeployments_1                       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "deployments"}, ""))
+	pattern_WorkflowService_GetDeploymentReachability_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id", "reachability"}, ""))
+	pattern_WorkflowService_GetDeploymentReachability_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id", "reachability"}, ""))
+	pattern_WorkflowService_GetCurrentDeployment_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "current-deployment", "series_name"}, ""))
+	pattern_WorkflowService_GetCurrentDeployment_1                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "current-deployment", "series_name"}, ""))
+	pattern_WorkflowService_SetCurrentDeployment_0                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "current-deployment", "deployment.series_name"}, ""))
+	pattern_WorkflowService_SetCurrentDeployment_1                  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "current-deployment", "deployment.series_name"}, ""))
+	pattern_WorkflowService_SetWorkerDeploymentCurrentVersion_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name", "set-current-version"}, ""))
+	pattern_WorkflowService_SetWorkerDeploymentCurrentVersion_1     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name", "set-current-version"}, ""))
+	pattern_WorkflowService_DescribeWorkerDeployment_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
+	pattern_WorkflowService_DescribeWorkerDeployment_1              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeployment_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeployment_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeploymentVersion_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeploymentVersion_1         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
+	pattern_WorkflowService_SetWorkerDeploymentRampingVersion_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name", "set-ramping-version"}, ""))
+	pattern_WorkflowService_SetWorkerDeploymentRampingVersion_1     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name", "set-ramping-version"}, ""))
+	pattern_WorkflowService_ListWorkerDeployments_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "worker-deployments"}, ""))
+	pattern_WorkflowService_ListWorkerDeployments_1                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments"}, ""))
+	pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployment-versions", "version", "update-metadata"}, ""))
+	pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version", "update-metadata"}, ""))
+	pattern_WorkflowService_UpdateWorkflowExecution_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update", "request.input.name"}, ""))
+	pattern_WorkflowService_UpdateWorkflowExecution_1               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update", "request.input.name"}, ""))
+	pattern_WorkflowService_StartBatchOperation_0                   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "batch-operations", "job_id"}, ""))
+	pattern_WorkflowService_StartBatchOperation_1                   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id"}, ""))
+	pattern_WorkflowService_StopBatchOperation_0                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "batch-operations", "job_id", "stop"}, ""))
+	pattern_WorkflowService_StopBatchOperation_1                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id", "stop"}, ""))
+	pattern_WorkflowService_DescribeBatchOperation_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "batch-operations", "job_id"}, ""))
+	pattern_WorkflowService_DescribeBatchOperation_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "batch-operations", "job_id"}, ""))
+	pattern_WorkflowService_ListBatchOperations_0                   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "batch-operations"}, ""))
+	pattern_WorkflowService_ListBatchOperations_1                   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "batch-operations"}, ""))
+	pattern_WorkflowService_UpdateActivityOptions_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "update-options"}, ""))
+	pattern_WorkflowService_UpdateActivityOptions_1                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "update-options"}, ""))
+	pattern_WorkflowService_UpdateWorkflowExecutionOptions_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update-options"}, ""))
+	pattern_WorkflowService_UpdateWorkflowExecutionOptions_1        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update-options"}, ""))
+	pattern_WorkflowService_PauseActivity_0                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "pause"}, ""))
+	pattern_WorkflowService_PauseActivity_1                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "pause"}, ""))
+	pattern_WorkflowService_UnpauseActivity_0                       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "unpause"}, ""))
+	pattern_WorkflowService_UnpauseActivity_1                       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "unpause"}, ""))
+	pattern_WorkflowService_ResetActivity_0                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 2, 3}, []string{"namespaces", "namespace", "activities", "reset"}, ""))
+	pattern_WorkflowService_ResetActivity_1                         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 2, 5}, []string{"api", "v1", "namespaces", "namespace", "activities", "reset"}, ""))
 )
 
 var (
-	forward_WorkflowService_RegisterNamespace_0                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_RegisterNamespace_1                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeNamespace_0                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeNamespace_1                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListNamespaces_0                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListNamespaces_1                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateNamespace_0                    = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateNamespace_1                    = runtime.ForwardResponseMessage
-	forward_WorkflowService_StartWorkflowExecution_0             = runtime.ForwardResponseMessage
-	forward_WorkflowService_StartWorkflowExecution_1             = runtime.ForwardResponseMessage
-	forward_WorkflowService_ExecuteMultiOperation_0              = runtime.ForwardResponseMessage
-	forward_WorkflowService_ExecuteMultiOperation_1              = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkflowExecutionHistory_0        = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkflowExecutionHistory_1        = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkflowExecutionHistoryReverse_0 = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkflowExecutionHistoryReverse_1 = runtime.ForwardResponseMessage
-	forward_WorkflowService_RecordActivityTaskHeartbeat_0        = runtime.ForwardResponseMessage
-	forward_WorkflowService_RecordActivityTaskHeartbeat_1        = runtime.ForwardResponseMessage
-	forward_WorkflowService_RecordActivityTaskHeartbeatById_0    = runtime.ForwardResponseMessage
-	forward_WorkflowService_RecordActivityTaskHeartbeatById_1    = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskCompleted_0       = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskCompleted_1       = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskCompletedById_0   = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskCompletedById_1   = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskFailed_0          = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskFailed_1          = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskFailedById_0      = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskFailedById_1      = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskCanceled_0        = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskCanceled_1        = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskCanceledById_0    = runtime.ForwardResponseMessage
-	forward_WorkflowService_RespondActivityTaskCanceledById_1    = runtime.ForwardResponseMessage
-	forward_WorkflowService_RequestCancelWorkflowExecution_0     = runtime.ForwardResponseMessage
-	forward_WorkflowService_RequestCancelWorkflowExecution_1     = runtime.ForwardResponseMessage
-	forward_WorkflowService_SignalWorkflowExecution_0            = runtime.ForwardResponseMessage
-	forward_WorkflowService_SignalWorkflowExecution_1            = runtime.ForwardResponseMessage
-	forward_WorkflowService_SignalWithStartWorkflowExecution_0   = runtime.ForwardResponseMessage
-	forward_WorkflowService_SignalWithStartWorkflowExecution_1   = runtime.ForwardResponseMessage
-	forward_WorkflowService_ResetWorkflowExecution_0             = runtime.ForwardResponseMessage
-	forward_WorkflowService_ResetWorkflowExecution_1             = runtime.ForwardResponseMessage
-	forward_WorkflowService_TerminateWorkflowExecution_0         = runtime.ForwardResponseMessage
-	forward_WorkflowService_TerminateWorkflowExecution_1         = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListWorkflowExecutions_0             = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListWorkflowExecutions_1             = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListArchivedWorkflowExecutions_0     = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListArchivedWorkflowExecutions_1     = runtime.ForwardResponseMessage
-	forward_WorkflowService_CountWorkflowExecutions_0            = runtime.ForwardResponseMessage
-	forward_WorkflowService_CountWorkflowExecutions_1            = runtime.ForwardResponseMessage
-	forward_WorkflowService_QueryWorkflow_0                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_QueryWorkflow_1                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeWorkflowExecution_0          = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeWorkflowExecution_1          = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeTaskQueue_0                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeTaskQueue_1                  = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetClusterInfo_0                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetClusterInfo_1                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetSystemInfo_0                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetSystemInfo_1                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_CreateSchedule_0                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_CreateSchedule_1                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeSchedule_0                   = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeSchedule_1                   = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateSchedule_0                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateSchedule_1                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_PatchSchedule_0                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_PatchSchedule_1                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListScheduleMatchingTimes_0          = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListScheduleMatchingTimes_1          = runtime.ForwardResponseMessage
-	forward_WorkflowService_DeleteSchedule_0                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_DeleteSchedule_1                     = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListSchedules_0                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListSchedules_1                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkerBuildIdCompatibility_0      = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkerBuildIdCompatibility_1      = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkerVersioningRules_0           = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkerVersioningRules_1           = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkerTaskReachability_0          = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetWorkerTaskReachability_1          = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeDeployment_0                 = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeDeployment_1                 = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeWorkerDeploymentVersion_0    = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeWorkerDeploymentVersion_1    = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListDeployments_0                    = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListDeployments_1                    = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetDeploymentReachability_0          = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetDeploymentReachability_1          = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetCurrentDeployment_0               = runtime.ForwardResponseMessage
-	forward_WorkflowService_GetCurrentDeployment_1               = runtime.ForwardResponseMessage
-	forward_WorkflowService_SetCurrentDeployment_0               = runtime.ForwardResponseMessage
-	forward_WorkflowService_SetCurrentDeployment_1               = runtime.ForwardResponseMessage
-	forward_WorkflowService_SetWorkerDeploymentCurrentVersion_0  = runtime.ForwardResponseMessage
-	forward_WorkflowService_SetWorkerDeploymentCurrentVersion_1  = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeWorkerDeployment_0           = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeWorkerDeployment_1           = runtime.ForwardResponseMessage
-	forward_WorkflowService_DeleteWorkerDeployment_0             = runtime.ForwardResponseMessage
-	forward_WorkflowService_DeleteWorkerDeployment_1             = runtime.ForwardResponseMessage
-	forward_WorkflowService_DeleteWorkerDeploymentVersion_0      = runtime.ForwardResponseMessage
-	forward_WorkflowService_DeleteWorkerDeploymentVersion_1      = runtime.ForwardResponseMessage
-	forward_WorkflowService_SetWorkerDeploymentRampingVersion_0  = runtime.ForwardResponseMessage
-	forward_WorkflowService_SetWorkerDeploymentRampingVersion_1  = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListWorkerDeployments_0              = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListWorkerDeployments_1              = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateWorkerVersionMetadata_0        = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateWorkerVersionMetadata_1        = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateWorkflowExecution_0            = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateWorkflowExecution_1            = runtime.ForwardResponseMessage
-	forward_WorkflowService_StartBatchOperation_0                = runtime.ForwardResponseMessage
-	forward_WorkflowService_StartBatchOperation_1                = runtime.ForwardResponseMessage
-	forward_WorkflowService_StopBatchOperation_0                 = runtime.ForwardResponseMessage
-	forward_WorkflowService_StopBatchOperation_1                 = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeBatchOperation_0             = runtime.ForwardResponseMessage
-	forward_WorkflowService_DescribeBatchOperation_1             = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListBatchOperations_0                = runtime.ForwardResponseMessage
-	forward_WorkflowService_ListBatchOperations_1                = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateActivityOptions_0              = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateActivityOptions_1              = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateWorkflowExecutionOptions_0     = runtime.ForwardResponseMessage
-	forward_WorkflowService_UpdateWorkflowExecutionOptions_1     = runtime.ForwardResponseMessage
-	forward_WorkflowService_PauseActivity_0                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_PauseActivity_1                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_UnpauseActivity_0                    = runtime.ForwardResponseMessage
-	forward_WorkflowService_UnpauseActivity_1                    = runtime.ForwardResponseMessage
-	forward_WorkflowService_ResetActivity_0                      = runtime.ForwardResponseMessage
-	forward_WorkflowService_ResetActivity_1                      = runtime.ForwardResponseMessage
+	forward_WorkflowService_RegisterNamespace_0                     = runtime.ForwardResponseMessage
+	forward_WorkflowService_RegisterNamespace_1                     = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeNamespace_0                     = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeNamespace_1                     = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListNamespaces_0                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListNamespaces_1                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateNamespace_0                       = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateNamespace_1                       = runtime.ForwardResponseMessage
+	forward_WorkflowService_StartWorkflowExecution_0                = runtime.ForwardResponseMessage
+	forward_WorkflowService_StartWorkflowExecution_1                = runtime.ForwardResponseMessage
+	forward_WorkflowService_ExecuteMultiOperation_0                 = runtime.ForwardResponseMessage
+	forward_WorkflowService_ExecuteMultiOperation_1                 = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkflowExecutionHistory_0           = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkflowExecutionHistory_1           = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkflowExecutionHistoryReverse_0    = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkflowExecutionHistoryReverse_1    = runtime.ForwardResponseMessage
+	forward_WorkflowService_RecordActivityTaskHeartbeat_0           = runtime.ForwardResponseMessage
+	forward_WorkflowService_RecordActivityTaskHeartbeat_1           = runtime.ForwardResponseMessage
+	forward_WorkflowService_RecordActivityTaskHeartbeatById_0       = runtime.ForwardResponseMessage
+	forward_WorkflowService_RecordActivityTaskHeartbeatById_1       = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskCompleted_0          = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskCompleted_1          = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskCompletedById_0      = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskCompletedById_1      = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskFailed_0             = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskFailed_1             = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskFailedById_0         = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskFailedById_1         = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskCanceled_0           = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskCanceled_1           = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskCanceledById_0       = runtime.ForwardResponseMessage
+	forward_WorkflowService_RespondActivityTaskCanceledById_1       = runtime.ForwardResponseMessage
+	forward_WorkflowService_RequestCancelWorkflowExecution_0        = runtime.ForwardResponseMessage
+	forward_WorkflowService_RequestCancelWorkflowExecution_1        = runtime.ForwardResponseMessage
+	forward_WorkflowService_SignalWorkflowExecution_0               = runtime.ForwardResponseMessage
+	forward_WorkflowService_SignalWorkflowExecution_1               = runtime.ForwardResponseMessage
+	forward_WorkflowService_SignalWithStartWorkflowExecution_0      = runtime.ForwardResponseMessage
+	forward_WorkflowService_SignalWithStartWorkflowExecution_1      = runtime.ForwardResponseMessage
+	forward_WorkflowService_ResetWorkflowExecution_0                = runtime.ForwardResponseMessage
+	forward_WorkflowService_ResetWorkflowExecution_1                = runtime.ForwardResponseMessage
+	forward_WorkflowService_TerminateWorkflowExecution_0            = runtime.ForwardResponseMessage
+	forward_WorkflowService_TerminateWorkflowExecution_1            = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListWorkflowExecutions_0                = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListWorkflowExecutions_1                = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListArchivedWorkflowExecutions_0        = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListArchivedWorkflowExecutions_1        = runtime.ForwardResponseMessage
+	forward_WorkflowService_CountWorkflowExecutions_0               = runtime.ForwardResponseMessage
+	forward_WorkflowService_CountWorkflowExecutions_1               = runtime.ForwardResponseMessage
+	forward_WorkflowService_QueryWorkflow_0                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_QueryWorkflow_1                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeWorkflowExecution_0             = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeWorkflowExecution_1             = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeTaskQueue_0                     = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeTaskQueue_1                     = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetClusterInfo_0                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetClusterInfo_1                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetSystemInfo_0                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetSystemInfo_1                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_CreateSchedule_0                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_CreateSchedule_1                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeSchedule_0                      = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeSchedule_1                      = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateSchedule_0                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateSchedule_1                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_PatchSchedule_0                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_PatchSchedule_1                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListScheduleMatchingTimes_0             = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListScheduleMatchingTimes_1             = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteSchedule_0                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteSchedule_1                        = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListSchedules_0                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListSchedules_1                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkerBuildIdCompatibility_0         = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkerBuildIdCompatibility_1         = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkerVersioningRules_0              = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkerVersioningRules_1              = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkerTaskReachability_0             = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetWorkerTaskReachability_1             = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeDeployment_0                    = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeDeployment_1                    = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeWorkerDeploymentVersion_0       = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeWorkerDeploymentVersion_1       = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListDeployments_0                       = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListDeployments_1                       = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetDeploymentReachability_0             = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetDeploymentReachability_1             = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetCurrentDeployment_0                  = runtime.ForwardResponseMessage
+	forward_WorkflowService_GetCurrentDeployment_1                  = runtime.ForwardResponseMessage
+	forward_WorkflowService_SetCurrentDeployment_0                  = runtime.ForwardResponseMessage
+	forward_WorkflowService_SetCurrentDeployment_1                  = runtime.ForwardResponseMessage
+	forward_WorkflowService_SetWorkerDeploymentCurrentVersion_0     = runtime.ForwardResponseMessage
+	forward_WorkflowService_SetWorkerDeploymentCurrentVersion_1     = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeWorkerDeployment_0              = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeWorkerDeployment_1              = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteWorkerDeployment_0                = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteWorkerDeployment_1                = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteWorkerDeploymentVersion_0         = runtime.ForwardResponseMessage
+	forward_WorkflowService_DeleteWorkerDeploymentVersion_1         = runtime.ForwardResponseMessage
+	forward_WorkflowService_SetWorkerDeploymentRampingVersion_0     = runtime.ForwardResponseMessage
+	forward_WorkflowService_SetWorkerDeploymentRampingVersion_1     = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListWorkerDeployments_0                 = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListWorkerDeployments_1                 = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0 = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1 = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateWorkflowExecution_0               = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateWorkflowExecution_1               = runtime.ForwardResponseMessage
+	forward_WorkflowService_StartBatchOperation_0                   = runtime.ForwardResponseMessage
+	forward_WorkflowService_StartBatchOperation_1                   = runtime.ForwardResponseMessage
+	forward_WorkflowService_StopBatchOperation_0                    = runtime.ForwardResponseMessage
+	forward_WorkflowService_StopBatchOperation_1                    = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeBatchOperation_0                = runtime.ForwardResponseMessage
+	forward_WorkflowService_DescribeBatchOperation_1                = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListBatchOperations_0                   = runtime.ForwardResponseMessage
+	forward_WorkflowService_ListBatchOperations_1                   = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateActivityOptions_0                 = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateActivityOptions_1                 = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateWorkflowExecutionOptions_0        = runtime.ForwardResponseMessage
+	forward_WorkflowService_UpdateWorkflowExecutionOptions_1        = runtime.ForwardResponseMessage
+	forward_WorkflowService_PauseActivity_0                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_PauseActivity_1                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_UnpauseActivity_0                       = runtime.ForwardResponseMessage
+	forward_WorkflowService_UnpauseActivity_1                       = runtime.ForwardResponseMessage
+	forward_WorkflowService_ResetActivity_0                         = runtime.ForwardResponseMessage
+	forward_WorkflowService_ResetActivity_1                         = runtime.ForwardResponseMessage
 )
