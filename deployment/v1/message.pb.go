@@ -54,12 +54,12 @@ type WorkerDeploymentOptions struct {
 	// Required. Worker Deployment name.
 	DeploymentName string `protobuf:"bytes,1,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// The Build ID of the worker. Required when `worker_versioning_mode==VERSIONED`, in which case,
-	// the worker will be part of a Deployment Version identified by "<deployment_name>/<build_id>".
+	// the worker will be part of a Deployment Version identified by "<deployment_name>.<build_id>".
 	BuildId string `protobuf:"bytes,2,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// Required. Versioning Mode for this worker. Must be the same for all workers with the
 	// same `deployment_name` and `build_id` combination, across all Task Queues.
 	// When `worker_versioning_mode==VERSIONED`, the worker will be part of a Deployment Version
-	// identified by "<deployment_name>/<build_id>".
+	// identified by "<deployment_name>.<build_id>".
 	WorkerVersioningMode v1.WorkerVersioningMode `protobuf:"varint,3,opt,name=worker_versioning_mode,json=workerVersioningMode,proto3,enum=temporal.api.enums.v1.WorkerVersioningMode" json:"worker_versioning_mode,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
@@ -390,7 +390,7 @@ func (x *DeploymentListInfo) GetIsCurrent() bool {
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
 type WorkerDeploymentVersionInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The fully-qualified string representation of the version, in the form "<deployment_name>/<build_id>".
+	// The fully-qualified string representation of the version, in the form "<deployment_name>.<build_id>".
 	Version        string                 `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
 	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	CreateTime     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
@@ -743,7 +743,7 @@ type RoutingConfig struct {
 	// Always present. Specifies which Deployment Version should should receive new workflow
 	// executions and tasks of existing unversioned or AutoUpgrade workflows.
 	// Can be one of the following:
-	//   - A Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	//   - A Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
 	//     with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
 	//
@@ -753,7 +753,7 @@ type RoutingConfig struct {
 	// When present, it means the traffic is being shifted from the Current Version to the Ramping
 	// Version.
 	// Must always be different from Current Version. Can be one of the following:
-	//   - A Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	//   - A Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
 	//     with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
 	//
@@ -962,7 +962,7 @@ func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) GetType() v1.TaskQueu
 
 type WorkerDeploymentInfo_WorkerDeploymentVersionSummary struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// The fully-qualified string representation of the version, in the form "<deployment_name>/<build_id>".
+	// The fully-qualified string representation of the version, in the form "<deployment_name>.<build_id>".
 	Version        string                   `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
 	CreateTime     *timestamppb.Timestamp   `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	DrainageStatus v1.VersionDrainageStatus `protobuf:"varint,3,opt,name=drainage_status,json=drainageStatus,proto3,enum=temporal.api.enums.v1.VersionDrainageStatus" json:"drainage_status,omitempty"`

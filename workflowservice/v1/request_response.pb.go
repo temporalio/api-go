@@ -10668,7 +10668,7 @@ func (x *DescribeDeploymentResponse) GetDeploymentInfo() *v19.DeploymentInfo {
 type DescribeWorkerDeploymentVersionRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	// Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	Version       string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -11125,7 +11125,7 @@ type SetWorkerDeploymentCurrentVersionRequest struct {
 	Namespace      string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// Required. Can be one of the following:
-	//   - A Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	//   - A Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
 	//     with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
 	Version string `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
@@ -11234,7 +11234,7 @@ type SetWorkerDeploymentCurrentVersionResponse struct {
 	// did not change between this API call and a future write.
 	ConflictToken []byte `protobuf:"bytes,1,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
 	// The version that was current before executing this operation, in the form
-	// "<deployment_name>/<build_id>". Can also be the `__unversioned__` special value.
+	// "<deployment_name>.<build_id>". Can also be the `__unversioned__` special value.
 	PreviousVersion string `protobuf:"bytes,2,opt,name=previous_version,json=previousVersion,proto3" json:"previous_version,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -11291,7 +11291,7 @@ type SetWorkerDeploymentRampingVersionRequest struct {
 	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// Can be one of the following:
 	//   - Absent/empty value to unset the Ramping Version. Must be paired with `percentage=0`.
-	//   - A Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	//   - A Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
 	//     with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
 	Version string `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
@@ -11412,7 +11412,7 @@ type SetWorkerDeploymentRampingVersionResponse struct {
 	// did not change between this API call and a future write.
 	ConflictToken []byte `protobuf:"bytes,1,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
 	// The version that was ramping before executing this operation, in the form
-	// "<deployment_name>/<build_id>". Can also be the `__unversioned__` special value.
+	// "<deployment_name>.<build_id>". Can also be the `__unversioned__` special value.
 	PreviousVersion string `protobuf:"bytes,2,opt,name=previous_version,json=previousVersion,proto3" json:"previous_version,omitempty"`
 	// The ramping version percentage before executing this operation.
 	PreviousPercentage float32 `protobuf:"fixed32,3,opt,name=previous_percentage,json=previousPercentage,proto3" json:"previous_percentage,omitempty"`
@@ -11593,7 +11593,7 @@ func (x *ListWorkerDeploymentsResponse) GetWorkerDeployments() []*ListWorkerDepl
 type DeleteWorkerDeploymentVersionRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	// Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	// Pass to force deletion even if the Version is draining. In this case the open pinned
 	// workflows will be stuck until manually moved to another version by UpdateWorkflowExecutionOptions.
@@ -11801,7 +11801,7 @@ func (*DeleteWorkerDeploymentResponse) Descriptor() ([]byte, []int) {
 type UpdateWorkerDeploymentVersionMetadataRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	// Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	Version       string                  `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	UpsertEntries map[string]*v13.Payload `protobuf:"bytes,3,rep,name=upsert_entries,json=upsertEntries,proto3" json:"upsert_entries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// List of keys to remove from the metadata.
