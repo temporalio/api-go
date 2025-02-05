@@ -166,7 +166,7 @@ type TaskQueueVersioningInfo struct {
 	// Always present. Specifies which Deployment Version should receive new workflow
 	// executions and tasks of existing unversioned or AutoUpgrade workflows.
 	// Can be one of the following:
-	//   - A Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	//   - A Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
 	//     with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
 	//
@@ -176,7 +176,7 @@ type TaskQueueVersioningInfo struct {
 	// When present, it means the traffic is being shifted from the Current Version to the Ramping
 	// Version.
 	// Must always be different from `current_version`. Can be one of the following:
-	//   - A Deployment Version identifier in the form "<deployment_name>/<build_id>".
+	//   - A Deployment Version identifier in the form "<deployment_name>.<build_id>".
 	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
 	//     with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
 	//
