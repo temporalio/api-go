@@ -175,6 +175,43 @@ func (this *DeploymentTransition) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type DeploymentVersionTransition to the protobuf v3 wire format
+func (val *DeploymentVersionTransition) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DeploymentVersionTransition from the protobuf v3 wire format
+func (val *DeploymentVersionTransition) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DeploymentVersionTransition) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DeploymentVersionTransition values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DeploymentVersionTransition) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DeploymentVersionTransition
+	switch t := that.(type) {
+	case *DeploymentVersionTransition:
+		that1 = t
+	case DeploymentVersionTransition:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type WorkflowExecutionConfig to the protobuf v3 wire format
 func (val *WorkflowExecutionConfig) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
