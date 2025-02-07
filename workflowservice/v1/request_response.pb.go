@@ -5100,6 +5100,7 @@ func (x *ListArchivedWorkflowExecutionsResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+// Deprecated: Use with `ListWorkflowExecutions`.
 type ScanWorkflowExecutionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -5168,6 +5169,7 @@ func (x *ScanWorkflowExecutionsRequest) GetQuery() string {
 	return ""
 }
 
+// Deprecated: Use with `ListWorkflowExecutions`.
 type ScanWorkflowExecutionsResponse struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
