@@ -6,20 +6,24 @@ on:
       sdk_ref:
         description: sdk-go ref to check ("latest" for latest release tag)
         required: true
+        type: string
         default: latest
       api_ref:
         description: api-go ref to check
         required: true
+        type: string
         default: master
   workflow_call:
     inputs:
       sdk_ref:
         description: sdk-go ref to check ("latest" for latest release tag)
         required: true
+        type: string
         default: latest
       api_ref:
         description: api-go ref to check
         required: true
+        type: string
         default: master
 
 jobs:
