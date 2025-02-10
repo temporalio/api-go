@@ -1691,6 +1691,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *update.Response:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetOutcome(),
+			); err != nil {
+				return err
+			}
+
 		case []*workflow.CallbackInfo:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
@@ -3092,6 +3107,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *update.Response:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}
