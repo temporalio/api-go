@@ -120,6 +120,9 @@ type VisitFailuresOptions struct {
 	// Context is the same for every call of a visit, callers should not store it.
 	// Visitor is free to mutate the passed failure struct.
 	Visitor func(*VisitFailuresContext, *failure.Failure) error
+	// Will be called for each Any encountered. If not set, the default is to recurse into the Any
+	// object, unmarshal it, visit, and re-marshal it always (even if there are no changes).
+	WellKnownAnyVisitor func(*VisitFailuresContext, *anypb.Any) error
 }
 
 // VisitFailures calls the options.Visitor function for every Failure proto within msg.
@@ -158,6 +161,25 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 
 		return nil
 	}, nil
+}
+
+func (o *VisitFailuresOptions) defaultWellKnownAnyVisitor(ctx *VisitFailuresContext, p *anypb.Any) error {
+	child, err := p.UnmarshalNew()
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal any: %w", err)
+	}
+	// We choose to visit and re-marshal always instead of cloning, visiting,
+	// and checking if anything changed before re-marshaling. It is assumed the
+	// clone + equality check is not much cheaper than re-marshal.
+	if err := visitFailures(ctx, o, child); err != nil {
+		return err
+	}
+	// Confirmed this replaces both Any fields on non-error, there is nothing
+	// left over
+	if err := p.MarshalFrom(child); err != nil {
+		return fmt.Errorf("failed to marshal any: %w", err)
+	}
+	return nil
 }
 
 func (o *VisitPayloadsOptions) defaultWellKnownAnyVisitor(ctx *VisitPayloadsContext, p *anypb.Any) error {
@@ -1644,6 +1666,21 @@ func visitPayloads(
 				o.Summary = no
 			}
 
+		case *update.Acceptance:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetAcceptedRequest(),
+			); err != nil {
+				return err
+			}
+
 		case *update.Input:
 
 			if o == nil {
@@ -1672,6 +1709,22 @@ func visitPayloads(
 				o,
 				o.GetFailure(),
 				o.GetSuccess(),
+			); err != nil {
+				return err
+			}
+
+		case *update.Rejection:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
+				o.GetRejectedRequest(),
 			); err != nil {
 				return err
 			}
@@ -2755,6 +2808,20 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(ctx, options, o.GetCause()); err != nil {
 				return err
 			}
+		case *anypb.Any:
+			if o == nil {
+				continue
+			}
+			visitor := options.WellKnownAnyVisitor
+			if visitor == nil {
+				visitor = options.defaultWellKnownAnyVisitor
+			}
+			ctx.Parent = o
+			err := visitor(ctx, o)
+			ctx.Parent = nil
+			if err != nil {
+				return err
+			}
 
 		case []*command.Command:
 			for _, x := range o {
@@ -3078,6 +3145,26 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case []*protocol.Message:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *protocol.Message:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetBody(),
+			); err != nil {
+				return err
+			}
+
 		case map[string]*query.WorkflowQueryResult:
 			for _, x := range o {
 				if err := visitFailures(ctx, options, x); err != nil {
@@ -3099,6 +3186,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *update.Outcome:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *update.Rejection:
 			if o == nil {
 				continue
 			}
@@ -3328,6 +3428,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetHistory(),
+				o.GetMessages(),
 			); err != nil {
 				return err
 			}
@@ -3406,6 +3507,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetCommands(),
+				o.GetMessages(),
 				o.GetQueryResults(),
 			); err != nil {
 				return err
@@ -3433,6 +3535,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
+				o.GetMessages(),
 			); err != nil {
 				return err
 			}

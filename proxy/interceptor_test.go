@@ -292,6 +292,44 @@ func TestVisitFailures(t *testing.T) {
 	require.Equal(2, failureCount)
 }
 
+func TestVisitFailuresAny(t *testing.T) {
+	require := require.New(t)
+
+	fail := &failure.Failure{
+		Message: "test failure",
+	}
+
+	msg, err := anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Failure{
+		Failure: fail,
+	}}})
+	require.NoError(err)
+
+	req := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Messages: []*protocol.Message{{Body: msg}},
+	}
+	failureCount := 0
+	err = VisitFailures(
+		context.Background(),
+		req,
+		VisitFailuresOptions{
+			Visitor: func(vfc *VisitFailuresContext, f *failure.Failure) error {
+				failureCount += 1
+				require.Equal("test failure", f.Message)
+				f.EncodedAttributes = &common.Payload{Data: []byte("test failure")}
+				f.Message = "encoded failure"
+				return nil
+			},
+		},
+	)
+	require.NoError(err)
+	require.Equal(1, failureCount)
+	updateMsg, err := req.GetMessages()[0].GetBody().UnmarshalNew()
+	require.NoError(err)
+	require.Equal("encoded failure", updateMsg.(*update.Response).GetOutcome().GetFailure().GetMessage())
+	require.Equal("test failure", string(updateMsg.(*update.Response).GetOutcome().GetFailure().EncodedAttributes.Data))
+
+}
+
 func TestClientInterceptor(t *testing.T) {
 	require := require.New(t)
 
