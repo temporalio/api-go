@@ -183,8 +183,14 @@ func TestVisitPayloads_Any(t *testing.T) {
 		Payloads: []*common.Payload{{Data: []byte("orig-val-don't-touch")}},
 	}}})
 	require.NoError(t, err)
+	msg3, err := anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Success{
+		Success: &common.Payloads{
+			Payloads: []*common.Payload{{Data: []byte("orig-val")}},
+		},
+	}}})
+	require.NoError(t, err)
 	root := &workflowservice.PollWorkflowTaskQueueResponse{
-		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}},
+		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}},
 	}
 
 	// Visit with any recursion enabled and only change orig-val
@@ -204,6 +210,9 @@ func TestVisitPayloads_Any(t *testing.T) {
 	update2, err := root.Messages[1].Body.UnmarshalNew()
 	require.NoError(t, err)
 	require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).Input.Args.Payloads[0].Data))
+	update3, err := root.Messages[2].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "new-val", string(update3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
 
 	// Do the same test but with a do-nothing visitor and confirm unchanged
 	msg1, err = anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
@@ -214,8 +223,14 @@ func TestVisitPayloads_Any(t *testing.T) {
 		Payloads: []*common.Payload{{Data: []byte("orig-val-don't-touch")}},
 	}}})
 	require.NoError(t, err)
+	msg3, err = anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Success{
+		Success: &common.Payloads{
+			Payloads: []*common.Payload{{Data: []byte("orig-val")}},
+		},
+	}}})
+	require.NoError(t, err)
 	root = &workflowservice.PollWorkflowTaskQueueResponse{
-		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}},
+		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}},
 	}
 	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
 		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
@@ -234,6 +249,9 @@ func TestVisitPayloads_Any(t *testing.T) {
 	update2, err = root.Messages[1].Body.UnmarshalNew()
 	require.NoError(t, err)
 	require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).Input.Args.Payloads[0].Data))
+	update3, err = root.Messages[2].Body.UnmarshalNew()
+	require.NoError(t, err)
+	require.Equal(t, "orig-val", string(update3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
 }
 
 func TestVisitFailures(t *testing.T) {
@@ -272,6 +290,44 @@ func TestVisitFailures(t *testing.T) {
 	)
 	require.NoError(err)
 	require.Equal(2, failureCount)
+}
+
+func TestVisitFailuresAny(t *testing.T) {
+	require := require.New(t)
+
+	fail := &failure.Failure{
+		Message: "test failure",
+	}
+
+	msg, err := anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Failure{
+		Failure: fail,
+	}}})
+	require.NoError(err)
+
+	req := &workflowservice.RespondWorkflowTaskCompletedRequest{
+		Messages: []*protocol.Message{{Body: msg}},
+	}
+	failureCount := 0
+	err = VisitFailures(
+		context.Background(),
+		req,
+		VisitFailuresOptions{
+			Visitor: func(vfc *VisitFailuresContext, f *failure.Failure) error {
+				failureCount += 1
+				require.Equal("test failure", f.Message)
+				f.EncodedAttributes = &common.Payload{Data: []byte("test failure")}
+				f.Message = "encoded failure"
+				return nil
+			},
+		},
+	)
+	require.NoError(err)
+	require.Equal(1, failureCount)
+	updateMsg, err := req.GetMessages()[0].GetBody().UnmarshalNew()
+	require.NoError(err)
+	require.Equal("encoded failure", updateMsg.(*update.Response).GetOutcome().GetFailure().GetMessage())
+	require.Equal("test failure", string(updateMsg.(*update.Response).GetOutcome().GetFailure().EncodedAttributes.Data))
+
 }
 
 func TestClientInterceptor(t *testing.T) {
