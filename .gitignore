@@ -1,3 +1,4 @@
 .idea
 .gobincache
 .go-helpers-installed
+/descriptor_set.pb
