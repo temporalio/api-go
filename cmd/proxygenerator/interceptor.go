@@ -590,7 +590,11 @@ func protoFullNameToGoPackageAndType(md protoreflect.MessageDescriptor) (pkgPath
 	return pkgPath, typeName, nil
 }
 
-func gatherMatchesToRypeRecords(mds []protoreflect.MessageDescriptor, targetTypes []types.Type) (map[string]*TypeRecord, error) {
+func gatherMatchesToRypeRecords(
+	mds []protoreflect.MessageDescriptor,
+	targetTypes []types.Type,
+	directMatchTypes []types.Type,
+) (map[string]*TypeRecord, error) {
 	matchingRecords := map[string]*TypeRecord{}
 	packagesToTypes := map[string][]string{}
 	for _, md := range mds {
@@ -612,21 +616,22 @@ func gatherMatchesToRypeRecords(mds []protoreflect.MessageDescriptor, targetType
 			return nil, fmt.Errorf("failed to lookup Go types for %q: %w", pkgPath, err)
 		}
 		for _, t := range typesList {
-			walk(targetTypes, types.NewPointer(t), &matchingRecords, true)
+			walk(targetTypes, directMatchTypes, types.NewPointer(t), &matchingRecords)
 		}
 	}
 	matchingRecords = pruneRecords(matchingRecords)
 	return matchingRecords, nil
 }
 
-// walk iterates the methods on a type and returns whether any of them can eventually lead to Payload(s)
-// The return type for each method on this type is walked recursively to decide which methods can lead to Payload(s)
-func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord, checkDirectPayload bool) bool {
+// walk iterates the methods on a type and returns whether any of them can eventually lead the
+// desired type(s). The return type for each method on this type is walked recursively to decide
+// which methods can lead to the desired type.
+func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, records *map[string]*TypeRecord) bool {
 	typeName := typeName(typ)
 
 	// If this type is a slice then walk the underlying type and then make a note we need to encode slices of this type
 	if isSlice(typ) {
-		result := walk(desired, elemType(typ), records, checkDirectPayload)
+		result := walk(desired, directMatchTypes, elemType(typ), records)
 		if result {
 			record := (*records)[typeName]
 			record.Slice = true
@@ -636,7 +641,7 @@ func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord,
 
 	// If this type is a map then walk the underlying type and then make a note we need to encode maps with values of this type
 	if isMap(typ) {
-		result := walk(desired, elemType(typ), records, checkDirectPayload)
+		result := walk(desired, directMatchTypes, elemType(typ), records)
 		if result {
 			record := (*records)[typeName]
 			record.Map = true
@@ -669,7 +674,14 @@ func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord,
 		// All the Get... methods return the relevant protobuf as the first result
 		resultType := sig.Results().At(0).Type()
 
-		if checkDirectPayload && resultType.String() == "*go.temporal.io/api/common/v1.Payload" {
+		hasDirectMatch := false
+		for _, directMatchType := range directMatchTypes {
+			if resultType.String() == types.NewPointer(directMatchType).String() {
+				hasDirectMatch = true
+				break
+			}
+		}
+		if hasDirectMatch {
 			record.Matches = true
 			prefix, ok := strings.CutPrefix(methodName, "Get")
 			if !ok {
@@ -679,8 +691,9 @@ func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord,
 			continue
 		}
 
-		// Check if this method returns a Payload(s) or if it leads (eventually) to a Type which refers to a Payload(s)
-		if typeMatches(resultType, desired...) || walk(desired, resultType, records, checkDirectPayload) {
+		// Check if this method returns a desired type or if it leads (eventually) to a Type which
+		// refers to a desired type
+		if typeMatches(resultType, desired...) || walk(desired, directMatchTypes, resultType, records) {
 			record.Matches = true
 			record.Methods = append(record.Methods, methodName)
 		}
@@ -713,6 +726,7 @@ func lookupTypes(pkgName string, typeNames []string) ([]types.Type, error) {
 
 func generateInterceptor(cfg config) error {
 	payloadTypes, err := lookupTypes("go.temporal.io/api/common/v1", []string{"Payloads", "Payload"})
+	payloadDirectMatchType, err := lookupTypes("go.temporal.io/api/common/v1", []string{"Payload"})
 	if err != nil {
 		return err
 	}
@@ -752,11 +766,11 @@ func generateInterceptor(cfg config) error {
 	}
 	allFailureContainingMessages, err := gatherMessagesContainingTargets(protoFiles, failureMessageNames, excludedEntryPoints)
 
-	payloadRecords, err := gatherMatchesToRypeRecords(allPayloadContainingMessages, payloadTypes)
+	payloadRecords, err := gatherMatchesToRypeRecords(allPayloadContainingMessages, payloadTypes, payloadDirectMatchType)
 	if err != nil {
 		return err
 	}
-	failureRecords, err := gatherMatchesToRypeRecords(allFailureContainingMessages, failureTypes)
+	failureRecords, err := gatherMatchesToRypeRecords(allFailureContainingMessages, failureTypes, make([]types.Type, 0))
 	if err != nil {
 		return err
 	}
