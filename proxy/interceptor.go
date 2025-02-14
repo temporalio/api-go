@@ -32,6 +32,7 @@ import (
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
 	"go.temporal.io/api/deployment/v1"
+	"go.temporal.io/api/errordetails/v1"
 	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
 	"go.temporal.io/api/history/v1"
@@ -615,6 +616,58 @@ func visitPayloads(
 				options,
 				o,
 				o.GetMetadata(),
+			); err != nil {
+				return err
+			}
+
+		case *errordetails.MultiOperationExecutionFailure:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetStatuses(),
+			); err != nil {
+				return err
+			}
+
+		case []*errordetails.MultiOperationExecutionFailure_OperationStatus:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *errordetails.MultiOperationExecutionFailure_OperationStatus:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetDetails(),
+			); err != nil {
+				return err
+			}
+
+		case *errordetails.QueryFailedFailure:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -2841,6 +2894,8 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				o.GetContinueAsNewWorkflowExecutionCommandAttributes(),
 				o.GetFailWorkflowExecutionCommandAttributes(),
 				o.GetRecordMarkerCommandAttributes(),
+				o.GetScheduleNexusOperationCommandAttributes(),
+				o.GetUserMetadata(),
 			); err != nil {
 				return err
 			}
@@ -2872,6 +2927,64 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *command.RecordMarkerCommandAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *command.ScheduleNexusOperationCommandAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+			); err != nil {
+				return err
+			}
+
+		case *errordetails.MultiOperationExecutionFailure:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetStatuses(),
+			); err != nil {
+				return err
+			}
+
+		case []*errordetails.MultiOperationExecutionFailure_OperationStatus:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
+
+		case *errordetails.MultiOperationExecutionFailure_OperationStatus:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetDetails(),
+			); err != nil {
+				return err
+			}
+
+		case *errordetails.QueryFailedFailure:
 			if o == nil {
 				continue
 			}
@@ -3003,8 +3116,11 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				o.GetChildWorkflowExecutionFailedEventAttributes(),
 				o.GetMarkerRecordedEventAttributes(),
 				o.GetNexusOperationCanceledEventAttributes(),
+				o.GetNexusOperationCompletedEventAttributes(),
 				o.GetNexusOperationFailedEventAttributes(),
+				o.GetNexusOperationScheduledEventAttributes(),
 				o.GetNexusOperationTimedOutEventAttributes(),
+				o.GetUserMetadata(),
 				o.GetWorkflowExecutionContinuedAsNewEventAttributes(),
 				o.GetWorkflowExecutionFailedEventAttributes(),
 				o.GetWorkflowExecutionStartedEventAttributes(),
@@ -3041,6 +3157,18 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *history.NexusOperationCompletedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+			); err != nil {
+				return err
+			}
+
 		case *history.NexusOperationFailedEventAttributes:
 			if o == nil {
 				continue
@@ -3050,6 +3178,18 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationScheduledEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
 			); err != nil {
 				return err
 			}
@@ -3185,6 +3325,18 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *sdk.UserMetadata:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+			); err != nil {
+				return err
+			}
+
 		case *update.Outcome:
 			if o == nil {
 				continue
@@ -3298,6 +3450,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *workflow.WorkflowExecutionConfig:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetUserMetadata(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeWorkflowExecutionResponse:
 			if o == nil {
 				continue
@@ -3307,6 +3472,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetCallbacks(),
+				o.GetExecutionConfig(),
 				o.GetPendingActivities(),
 				o.GetPendingNexusOperations(),
 			); err != nil {
@@ -3549,6 +3715,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetContinuedFailure(),
+				o.GetUserMetadata(),
 			); err != nil {
 				return err
 			}
