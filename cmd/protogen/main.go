@@ -59,13 +59,14 @@ type postProcessor interface {
 }
 
 type genConfig struct {
-	rootDirs    []string
-	outputDir   string
-	excludeDirs []string
-	includes    []string
-	descriptors []string
-	plugins     []string
-	enums       map[string]string
+	rootDirs             []string
+	outputDir            string
+	excludeDirs          []string
+	includes             []string
+	descriptors          []string
+	plugins              []string
+	enums                map[string]string
+	outputDescriptorPath string
 	// Post-processors
 	rewriteString bool
 	rewriteEnums  bool
@@ -132,45 +133,50 @@ func findEnums(ctx context.Context, cfg genConfig) ([]string, []string, error) {
 	return enums, dirs, nil
 }
 
-// Run protoc in parallel on all proto dirs we discover under the root directory
-// It returns the list of unique directories contai
+// Run protoc on all proto dirs we discover under the root directory
 func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
+	// Run protoc on each directory individually
+	args := []string{
+		"--fatal_warnings",
+	}
+	if cfg.outputDescriptorPath == "" {
+		args = append(args, fmt.Sprintf("--go_out=paths=source_relative:%s", cfg.outputDir))
+	} else {
+		args = append(args, "--include_imports")
+		args = append(args, "--include_source_info")
+		args = append(args, fmt.Sprintf("--descriptor_set_out=%s", cfg.outputDescriptorPath))
+	}
+	for _, include := range cfg.includes {
+		args = append(args, fmt.Sprintf("-I=%s", include))
+	}
+	for _, desc := range cfg.descriptors {
+		args = append(args, fmt.Sprintf("--descriptor_set_in=%s", desc))
+	}
+	// If we need more complex plugin handling, such as per-plugin options, we can add that later.
+	// For now we use the same args everywhere
+	for _, plugin := range cfg.plugins {
+		args = append(args, fmt.Sprintf("--%s", plugin))
+	}
+
 	for i := 0; i < len(protoDirs); i++ {
 		dir := protoDirs[i]
-		// Run protoc on each directory individually
-		args := []string{
-			"--fatal_warnings",
-			fmt.Sprintf("--go_out=paths=source_relative:%s", cfg.outputDir),
-		}
-		for _, include := range cfg.includes {
-			args = append(args, fmt.Sprintf("-I=%s", include))
-		}
-		for _, desc := range cfg.descriptors {
-			args = append(args, fmt.Sprintf("--descriptor_set_in=%s", desc))
-		}
-
-		// If we need more complex plugin handling, such as per-plugin options, we can add that later.
-		// For now we use the same args everywhere
-		for _, plugin := range cfg.plugins {
-			args = append(args, fmt.Sprintf("--%s", plugin))
-		}
 		files, err := filepath.Glob(filepath.Join(dir, "*"))
 		if err != nil {
 			return err
 		}
 		args = append(args, files...)
+	}
 
-		var stderr bytes.Buffer
-		protoc := exec.CommandContext(ctx, "protoc", args...)
-		protoc.Stderr = &stderr
-		protoc.Stdout = os.Stdout
-		if err := protoc.Run(); err != nil {
-			if errors.Is(err, context.Canceled) {
-				return err
-			}
-			stderrstr := strings.TrimSpace(stderr.String())
-			return fmt.Errorf("failed to run `protoc %s`: %w\n%s", strings.Join(args, " "), err, stderrstr)
+	var stderr bytes.Buffer
+	protoc := exec.CommandContext(ctx, "protoc", args...)
+	protoc.Stderr = &stderr
+	protoc.Stdout = os.Stdout
+	if err := protoc.Run(); err != nil {
+		if errors.Is(err, context.Canceled) {
+			return err
 		}
+		stderrstr := strings.TrimSpace(stderr.String())
+		return fmt.Errorf("failed to run `protoc %s`: %w\n%s", strings.Join(args, " "), err, stderrstr)
 	}
 	return nil
 }
@@ -259,7 +265,7 @@ func sliceContains[S ~[]E, E comparable](haystack S, needle E) bool {
 }
 
 func main() {
-	var outputDir, enumPrefixPairs string
+	var outputDir, enumPrefixPairs, outputDescriptorPath string
 	var protoRootDirs, protoPlugins, protoIncludes, descriptorSetIn, excludeDirs stringArr
 	var noRewriteString, noRewriteEnum, noStripVersion bool
 	var concurrency int
@@ -275,6 +281,7 @@ func main() {
 	flag.BoolVar(&noRewriteEnum, "no-rewrite-enum-const", false, "Don't rewrite enum constants")
 	flag.BoolVar(&noRewriteString, "no-rewrite-enum-string", false, "Don't rewrite enum String methods")
 	flag.BoolVar(&noStripVersion, "no-strip-version", false, "Don't remove protoc plugin versions from generated files")
+	flag.StringVar(&outputDescriptorPath, "output-descriptor", "", "Output a descriptor set if specified (instead of generating code)")
 
 	flag.Parse()
 
@@ -307,16 +314,17 @@ func main() {
 		}
 	}
 	err := compileProtos(ctx, genConfig{
-		rootDirs:      protoRootDirs,
-		outputDir:     outputDir,
-		excludeDirs:   excludeDirs,
-		includes:      protoIncludes,
-		descriptors:   descriptorSetIn,
-		plugins:       protoPlugins,
-		enums:         enums,
-		rewriteString: !noRewriteString,
-		rewriteEnums:  !noRewriteEnum,
-		stripVersions: !noStripVersion,
+		rootDirs:             protoRootDirs,
+		outputDir:            outputDir,
+		excludeDirs:          excludeDirs,
+		includes:             protoIncludes,
+		descriptors:          descriptorSetIn,
+		plugins:              protoPlugins,
+		enums:                enums,
+		rewriteString:        !noRewriteString,
+		rewriteEnums:         !noRewriteEnum,
+		stripVersions:        !noStripVersion,
+		outputDescriptorPath: outputDescriptorPath,
 	})
 	if err != nil {
 		fail(err.Error())

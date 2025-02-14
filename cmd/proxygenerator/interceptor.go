@@ -34,6 +34,11 @@ import (
 	"golang.org/x/tools/go/packages"
 	"golang.org/x/tools/go/types/typeutil"
 	"golang.org/x/tools/imports"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/reflect/protodesc"
+	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
+	"google.golang.org/protobuf/types/descriptorpb"
 )
 
 const interceptorFile = "../../proxy/interceptor.go"
@@ -450,14 +455,183 @@ func pruneRecords(input map[string]*TypeRecord) map[string]*TypeRecord {
 	return result
 }
 
-// walk iterates the methods on a type and returns whether any of them can eventually lead to Payload(s)
-// The return type for each method on this type is walked recursively to decide which methods can lead to Payload(s)
-func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord, checkDirectPayload bool) bool {
+// isMatchingMessage returns true if the message descriptor is one of the target types
+func isMatchingMessage(md protoreflect.MessageDescriptor, targetNames []string) bool {
+	fullName := string(md.FullName())
+	for _, targetName := range targetNames {
+		if fullName == targetName {
+			return true
+		}
+	}
+	return false
+}
+
+// containsMessage recursively checks whether the given message descriptor (or any of its fields)
+// contains (transitively) a target message.
+func containsMessage(
+	md protoreflect.MessageDescriptor,
+	targetMessages []string,
+	memo map[protoreflect.FullName]bool,
+) bool {
+	fullName := md.FullName()
+	// If we've already computed for this message, return the cached result.
+	if res, ok := memo[fullName]; ok {
+		return res
+	}
+	// Mark this message as not containing a payload to break cycles.
+	memo[fullName] = false
+
+	// Check every field of this message.
+	for i := 0; i < md.Fields().Len(); i++ {
+		field := md.Fields().Get(i)
+		// Only care about message-type fields.
+		if field.Kind() == protoreflect.MessageKind && field.Message() != nil {
+			child := field.Message()
+			// If the field is directly a payload (or Any) then mark and return true.
+			if isMatchingMessage(child, targetMessages) {
+				memo[fullName] = true
+				return true
+			}
+			// Otherwise, recursively check if the field's message type contains a payload.
+			if containsMessage(child, targetMessages, memo) {
+				memo[fullName] = true
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// checkMessage examines the given message descriptor md and, if it (transitively) contains a
+// payload, appends it result slice.
+func checkMessage(md protoreflect.MessageDescriptor,
+	targetMessages []string,
+	memo map[protoreflect.FullName]bool,
+	result *[]protoreflect.MessageDescriptor,
+) {
+	// Avoid reporting the target types directly
+	if !isMatchingMessage(md, targetMessages) && containsMessage(md, targetMessages, memo) {
+		*result = append(*result, md)
+	}
+	nested := md.Messages()
+	for i := 0; i < nested.Len(); i++ {
+		checkMessage(nested.Get(i), targetMessages, memo, result)
+	}
+}
+
+// gatherMessagesContainingTargets walks all proto file descriptors in the registry,
+// and returns a slice of full message names that (transitively) contain the target message types.
+// The excludedPathPrefixes are used to skip files that match the given prefixes.
+func gatherMessagesContainingTargets(
+	protoFiles *protoregistry.Files,
+	targetMessages []string,
+	excludedPathPrefixes []string,
+) ([]protoreflect.MessageDescriptor, error) {
+	messagesWithPayload := make([]protoreflect.MessageDescriptor, 0)
+	memo := make(map[protoreflect.FullName]bool)
+	protoFiles.RangeFiles(func(fd protoreflect.FileDescriptor) bool {
+		for _, prefix := range excludedPathPrefixes {
+			if strings.HasPrefix(fd.Path(), prefix) {
+				return true
+			}
+		}
+		msgs := fd.Messages()
+		for i := 0; i < msgs.Len(); i++ {
+			checkMessage(msgs.Get(i), targetMessages, memo, &messagesWithPayload)
+		}
+		return true
+	})
+	return messagesWithPayload, nil
+}
+
+// getProtoRegistryFromDescriptor reads a file descriptor set from the given path and returns a proto registry.
+func getProtoRegistryFromDescriptor(path string) (*protoregistry.Files, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("reading descriptor set: %w", err)
+	}
+	var fdSet descriptorpb.FileDescriptorSet
+	if err := proto.Unmarshal(data, &fdSet); err != nil {
+		return nil, fmt.Errorf("unmarshalling descriptor set: %w", err)
+	}
+	files, err := protodesc.NewFiles(&fdSet)
+	if err != nil {
+		return nil, fmt.Errorf("creating file registry: %w", err)
+	}
+	return files, nil
+}
+
+// protoFullNameToGoPackageAndType converts a proto full name to a Go package path and type name.
+// You will need to adjust this function to suit your project’s naming conventions.
+func protoFullNameToGoPackageAndType(md protoreflect.MessageDescriptor) (pkgPath, typeName string, err error) {
+	if md.IsMapEntry() {
+		// For map entries, what we actually want to search is their parent.
+		parent := md.Parent()
+		if parent != nil {
+			if msgParent, ok := parent.(protoreflect.MessageDescriptor); ok {
+				return protoFullNameToGoPackageAndType(msgParent)
+			}
+		}
+		return "", "", fmt.Errorf("map entry has no parent: %s", md.FullName())
+	}
+
+	fullName := string(md.FullName())
+	// Ex: "temporal.api.common.v1.Payload"
+	parts := strings.Split(fullName, ".")
+	if len(parts) < 4 {
+		return "", "", fmt.Errorf("unexpected proto full name: %s", fullName)
+	}
+	// Fix up the descriptor name to match the Go package path.
+	if parts[0] == "temporal" {
+		parts[0] = "go.temporal.io"
+	}
+	pkgPath = strings.Join(parts[0:len(parts)-1], "/")
+	typeName = parts[len(parts)-1]
+	return pkgPath, typeName, nil
+}
+
+func gatherMatchesToRypeRecords(
+	mds []protoreflect.MessageDescriptor,
+	targetTypes []types.Type,
+	directMatchTypes []types.Type,
+) (map[string]*TypeRecord, error) {
+	matchingRecords := map[string]*TypeRecord{}
+	packagesToTypes := map[string][]string{}
+	for _, md := range mds {
+		pkgPath, typeName, err := protoFullNameToGoPackageAndType(md)
+		if pkgPath == "" {
+			continue
+		}
+		if err != nil {
+			return nil, err
+		}
+		if _, ok := packagesToTypes[pkgPath]; !ok {
+			packagesToTypes[pkgPath] = []string{}
+		}
+		packagesToTypes[pkgPath] = append(packagesToTypes[pkgPath], typeName)
+	}
+	for pkgPath, typeNames := range packagesToTypes {
+		typesList, err := lookupTypes(pkgPath, typeNames)
+		if err != nil {
+			return nil, fmt.Errorf("failed to lookup Go types for %q: %w", pkgPath, err)
+		}
+		for _, t := range typesList {
+			walk(targetTypes, directMatchTypes, types.NewPointer(t), &matchingRecords)
+		}
+	}
+	matchingRecords = pruneRecords(matchingRecords)
+	return matchingRecords, nil
+}
+
+// walk iterates the methods on a type and returns whether any of them can eventually lead the
+// desired type(s). The return type for each method on this type is walked recursively to decide
+// which methods can lead to the desired type.
+func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, records *map[string]*TypeRecord) bool {
 	typeName := typeName(typ)
 
 	// If this type is a slice then walk the underlying type and then make a note we need to encode slices of this type
 	if isSlice(typ) {
-		result := walk(desired, elemType(typ), records, checkDirectPayload)
+		result := walk(desired, directMatchTypes, elemType(typ), records)
 		if result {
 			record := (*records)[typeName]
 			record.Slice = true
@@ -467,7 +641,7 @@ func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord,
 
 	// If this type is a map then walk the underlying type and then make a note we need to encode maps with values of this type
 	if isMap(typ) {
-		result := walk(desired, elemType(typ), records, checkDirectPayload)
+		result := walk(desired, directMatchTypes, elemType(typ), records)
 		if result {
 			record := (*records)[typeName]
 			record.Map = true
@@ -500,7 +674,14 @@ func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord,
 		// All the Get... methods return the relevant protobuf as the first result
 		resultType := sig.Results().At(0).Type()
 
-		if checkDirectPayload && resultType.String() == "*go.temporal.io/api/common/v1.Payload" {
+		hasDirectMatch := false
+		for _, directMatchType := range directMatchTypes {
+			if resultType.String() == types.NewPointer(directMatchType).String() {
+				hasDirectMatch = true
+				break
+			}
+		}
+		if hasDirectMatch {
 			record.Matches = true
 			prefix, ok := strings.CutPrefix(methodName, "Get")
 			if !ok {
@@ -510,8 +691,9 @@ func walk(desired []types.Type, typ types.Type, records *map[string]*TypeRecord,
 			continue
 		}
 
-		// Check if this method returns a Payload(s) or if it leads (eventually) to a Type which refers to a Payload(s)
-		if typeMatches(resultType, desired...) || walk(desired, resultType, records, checkDirectPayload) {
+		// Check if this method returns a desired type or if it leads (eventually) to a Type which
+		// refers to a desired type
+		if typeMatches(resultType, desired...) || walk(desired, directMatchTypes, resultType, records) {
 			record.Matches = true
 			record.Methods = append(record.Methods, methodName)
 		}
@@ -533,7 +715,10 @@ func lookupTypes(pkgName string, typeNames []string) ([]types.Type, error) {
 	scope := pkgs[0].Types.Scope()
 
 	for _, t := range typeNames {
-		result = append(result, scope.Lookup(t).Type())
+		lookedUpType := scope.Lookup(t)
+		if lookedUpType != nil {
+			result = append(result, lookedUpType.Type())
+		}
 	}
 
 	return result, nil
@@ -541,6 +726,7 @@ func lookupTypes(pkgName string, typeNames []string) ([]types.Type, error) {
 
 func generateInterceptor(cfg config) error {
 	payloadTypes, err := lookupTypes("go.temporal.io/api/common/v1", []string{"Payloads", "Payload"})
+	payloadDirectMatchType, err := lookupTypes("go.temporal.io/api/common/v1", []string{"Payload"})
 	if err != nil {
 		return err
 	}
@@ -559,74 +745,41 @@ func generateInterceptor(cfg config) error {
 		failureTypes = append(failureTypes, anyTypes...)
 	}
 
-	// UnimplementedWorkflowServiceServer is auto-generated via our API package
-	// The methods on this type refer to all possible Request/Response types so we can use this to walk through all of our protobuf types
-	workflowServiceTypes, err := lookupTypes("go.temporal.io/api/workflowservice/v1", []string{"UnimplementedWorkflowServiceServer"})
+	protoFiles, err := getProtoRegistryFromDescriptor(cfg.descriptorPath)
+	if err != nil {
+		return fmt.Errorf("loading descriptor set: %w", err)
+	}
+
+	// Cloud protos currently not included in interceptor
+	excludedEntryPoints := []string{
+		"temporal/api/cloud",
+	}
+	payloadMessageNames := []string{
+		"temporal.api.common.v1.Payload",
+		"temporal.api.common.v1.Payloads",
+		"google.protobuf.Any",
+	}
+	allPayloadContainingMessages, err := gatherMessagesContainingTargets(protoFiles, payloadMessageNames, excludedEntryPoints)
+	failureMessageNames := []string{
+		"temporal.api.failure.v1.Failure",
+		"google.protobuf.Any",
+	}
+	allFailureContainingMessages, err := gatherMessagesContainingTargets(protoFiles, failureMessageNames, excludedEntryPoints)
+
+	payloadRecords, err := gatherMatchesToRypeRecords(allPayloadContainingMessages, payloadTypes, payloadDirectMatchType)
 	if err != nil {
 		return err
 	}
-	workflowService := workflowServiceTypes[0]
-
-	// UnimplementedOperatorServiceServer is auto-generated via our API package
-	operatorServiceTypes, err := lookupTypes("go.temporal.io/api/operatorservice/v1", []string{"UnimplementedOperatorServiceServer"})
+	failureRecords, err := gatherMatchesToRypeRecords(allFailureContainingMessages, failureTypes, make([]types.Type, 0))
 	if err != nil {
 		return err
 	}
-	operatorService := operatorServiceTypes[0]
-
-	exportTypes, err := lookupTypes("go.temporal.io/api/export/v1", []string{"WorkflowExecutions"})
-	if err != nil {
-		return err
-	}
-	workflowExecutions := types.NewPointer(exportTypes[0])
-
-	updateTypes, err := lookupTypes("go.temporal.io/api/update/v1", []string{"Acceptance", "Rejection", "Response"})
-	if err != nil {
-		return err
-	}
-
-	payloadRecords := map[string]*TypeRecord{}
-	failureRecords := map[string]*TypeRecord{}
-
-	for _, meth := range typeutil.IntuitiveMethodSet(workflowService, nil) {
-		if !meth.Obj().Exported() {
-			continue
-		}
-
-		sig := meth.Obj().Type().(*types.Signature)
-		walk(payloadTypes, sig.Params().At(1).Type(), &payloadRecords, true)
-		walk(failureTypes, sig.Params().At(1).Type(), &failureRecords, false)
-		walk(payloadTypes, sig.Results().At(0).Type(), &payloadRecords, true)
-		walk(failureTypes, sig.Results().At(0).Type(), &failureRecords, false)
-	}
-
-	for _, meth := range typeutil.IntuitiveMethodSet(operatorService, nil) {
-		if !meth.Obj().Exported() {
-			continue
-		}
-
-		sig := meth.Obj().Type().(*types.Signature)
-		walk(payloadTypes, sig.Params().At(1).Type(), &payloadRecords, true)
-		walk(failureTypes, sig.Params().At(1).Type(), &failureRecords, false)
-		walk(payloadTypes, sig.Results().At(0).Type(), &payloadRecords, true)
-		walk(failureTypes, sig.Results().At(0).Type(), &failureRecords, false)
-	}
-
-	walk(payloadTypes, workflowExecutions, &payloadRecords, true)
-	walk(failureTypes, workflowExecutions, &failureRecords, false)
-
-	for _, ut := range updateTypes {
-		walk(payloadTypes, types.NewPointer(ut), &payloadRecords, true)
-		walk(failureTypes, types.NewPointer(ut), &failureRecords, false)
-	}
-
-	payloadRecords = pruneRecords(payloadRecords)
-	failureRecords = pruneRecords(failureRecords)
 
 	buf := &bytes.Buffer{}
 	fmt.Fprint(buf, cfg.license)
 
-	err = interceptorTemplate.Execute(buf, map[string]map[string]*TypeRecord{"PayloadTypes": payloadRecords, "FailureTypes": failureRecords})
+	err = interceptorTemplate.Execute(buf, map[string]map[string]*TypeRecord{
+		"PayloadTypes": payloadRecords, "FailureTypes": failureRecords})
 	if err != nil {
 		return err
 	}
