@@ -138,18 +138,19 @@ func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
 	// Run protoc on each directory individually
 	args := []string{
 		"--fatal_warnings",
-		fmt.Sprintf("--go_out=paths=source_relative:%s", cfg.outputDir),
+	}
+	if cfg.outputDescriptorPath == "" {
+		args = append(args, fmt.Sprintf("--go_out=paths=source_relative:%s", cfg.outputDir))
+	} else {
+		args = append(args, "--include_imports")
+		args = append(args, "--include_source_info")
+		args = append(args, fmt.Sprintf("--descriptor_set_out=%s", cfg.outputDescriptorPath))
 	}
 	for _, include := range cfg.includes {
 		args = append(args, fmt.Sprintf("-I=%s", include))
 	}
 	for _, desc := range cfg.descriptors {
 		args = append(args, fmt.Sprintf("--descriptor_set_in=%s", desc))
-	}
-	if cfg.outputDescriptorPath != "" {
-		args = append(args, "--include_imports")
-		args = append(args, "--include_source_info")
-		args = append(args, fmt.Sprintf("--descriptor_set_out=%s", cfg.outputDescriptorPath))
 	}
 	// If we need more complex plugin handling, such as per-plugin options, we can add that later.
 	// For now we use the same args everywhere
@@ -280,7 +281,7 @@ func main() {
 	flag.BoolVar(&noRewriteEnum, "no-rewrite-enum-const", false, "Don't rewrite enum constants")
 	flag.BoolVar(&noRewriteString, "no-rewrite-enum-string", false, "Don't rewrite enum String methods")
 	flag.BoolVar(&noStripVersion, "no-strip-version", false, "Don't remove protoc plugin versions from generated files")
-	flag.StringVar(&outputDescriptorPath, "output-descriptor", "", "Output path for the descriptor set")
+	flag.StringVar(&outputDescriptorPath, "output-descriptor", "", "Output a descriptor set if specified (instead of generating code)")
 
 	flag.Parse()
 

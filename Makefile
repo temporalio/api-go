@@ -59,7 +59,6 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
 		--exclude=proto/api/google \
-		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb \
 		-p go-grpc_out=$(PROTO_PATHS) \
 		-p grpc-gateway_out=allow_patch_feature=false,$(PROTO_PATHS) \
 		-p go-helpers_out=$(PROTO_PATHS)
@@ -89,13 +88,25 @@ grpc-mock:
 	go run ./cmd/mockgen-fix CloudService cloud/cloudservicemock/v1/service_grpc.pb.mock.go
 
 .PHONY: proxy
-proxy:
+proxy: gen-proto-desc
 	printf $(COLOR) "Generate proxy code..."
 	(cd ./cmd/proxygenerator && go mod tidy && go run ./)
 
 goimports:
 	printf $(COLOR) "Run goimports..."
 	goimports -w $(PROTO_OUT)
+
+gen-proto-desc:
+	printf $(COLOR) "Generating proto descriptors..."
+	go run ./cmd/protogen \
+		--root=$(PROTO_ROOT) \
+		--root=$(PROTO_CLOUD_ROOT) \
+		--output=$(PROTO_OUT) \
+		--exclude=internal \
+		--exclude=proto/api/google \
+		--no-rewrite-enum-const \
+		--no-rewrite-enum-string \
+		--output-descriptor=$(PROTO_OUT)/descriptor_set.pb
 
 ##### Plugins & tools #####
 grpc-install:
@@ -134,7 +145,7 @@ test: copy-helpers
 
 ##### Check #####
 
-generatorcheck:
+generatorcheck: gen-proto-desc
 	printf $(COLOR) "Check generated code is not stale..."
 	(cd ./cmd/proxygenerator && go mod tidy && go run ./ -verifyOnly)
 
