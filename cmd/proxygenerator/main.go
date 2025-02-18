@@ -32,14 +32,16 @@ import (
 )
 
 type config struct {
-	licenseFile string
-	license     string
-	verifyOnly  bool
+	licenseFile    string
+	license        string
+	descriptorPath string
+	verifyOnly     bool
 }
 
 func main() {
 	var cfg config
 	flag.StringVar(&cfg.licenseFile, "licenseFile", "../../LICENSE", "license file")
+	flag.StringVar(&cfg.descriptorPath, "descriptorPath", "../../descriptor_set.pb", "path to the proto descriptor set")
 	flag.BoolVar(&cfg.verifyOnly, "verifyOnly", false,
 		"don't write to the filesystem, just verify output has not changed")
 	flag.Parse()
