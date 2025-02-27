@@ -861,12 +861,11 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 	fmt.Println("EXITING RECURSION")
 }
 
-var count int
-
 // **Recursively populate Protobuf message fields, including oneof handling**
-func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require *require.Assertions) {
+func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require *require.Assertions, totalCount *int, count *int) {
 	m := msg.ProtoReflect() // Get protoreflect message
-	fmt.Println("\n[msg]", m.Descriptor().FullName(), m.Descriptor())
+	fields := m.Descriptor().Fields()
+	fmt.Println("\n[msg]", m.Descriptor().FullName(), m.Descriptor(), fields.Len())
 	// Don't need to parse non-temporal types
 	if !strings.HasPrefix(string(m.Descriptor().FullName()), "temporal.api.") {
 		fmt.Println("EXITING RECURSION-")
@@ -879,33 +878,34 @@ func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require
 
 	switch msg.(type) {
 	case *common.Payload, *common.Payloads:
-		count++
+		*count++
+		*totalCount++
 		fmt.Print("[Payload(s)] - ")
 
 		err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
 			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 				fmt.Println("FOUND")
-				count--
-				return []*common.Payload{{Data: []byte("visited")}}, nil
+				*count--
+				//return []*common.Payload{{Data: []byte("visited")}}, nil
+				return p, nil
 			},
 		})
 		require.NoError(err)
 		return
 	}
 
-	fields := m.Descriptor().Fields()
 	fmt.Println("\tfields", fields)
 	for i := 0; i < fields.Len(); i++ {
 		fd := fields.Get(i)
 		value := m.Get(fd)
 		fmt.Printf("[%s] %s, %s\n", fd.Name(), value, value.Interface())
 
-		if oneof := fd.ContainingOneof(); oneof != nil {
+		if oneof := fd.ContainingOneof(); oneof != nil && fd.Kind() == protoreflect.MessageKind {
 			//fmt.Printf("Found oneof field: %s (Group: %s)\n", fd.Name(), oneof.Name())
 			newMsg := value.Message().New()
 			m.Set(fd, protoreflect.ValueOf(newMsg))
-			fmt.Println("RECURSING into (oneof)", fd.Name(), newMsg, newMsg.Interface())
-			populatePayloadProtoreflect(root, newMsg.Interface(), require)
+			//fmt.Println("RECURSING into (oneof)", fd.Name(), newMsg, newMsg.Interface())
+			populatePayloadProtoreflect(root, newMsg.Interface(), require, totalCount, count)
 			// This ensures only 1 payload is set and discoverable from root at a time.
 			m.Clear(fd)
 		} else if fd.Kind() == protoreflect.MessageKind && !fd.IsList() && !fd.IsMap() {
@@ -920,59 +920,30 @@ func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require
 			m.Set(fd, protoreflect.ValueOf(newMsg))
 
 			//if !(fd.Message() != nil && fd.Message().FullName() == "temporal.api.common.v1.Payload" || fd.Message().FullName() == "temporal.api.common.v1.Payloads") {
-			fmt.Println("RECURSING into", fd.Name(), newMsg, newMsg.Interface())
-			populatePayloadProtoreflect(root, newMsg.Interface(), require)
+			//fmt.Println("RECURSING into", fd.Name(), newMsg, newMsg.Interface())
+			populatePayloadProtoreflect(root, newMsg.Interface(), require, totalCount, count)
 
 			// This ensures only 1 payload is set and discoverable from root at a time.
 			m.Clear(fd)
 			//}
-			//} else if fd.IsList() {
-			//	list := value.List()
-			//	fmt.Printf("Processing list field: %s (length: %d)\n", fd.Name(), list.Len())
-			//
-			//	// Iterate over list items
-			//	for j := 0; j < list.Len(); j++ {
-			//		elem := list.Get(j)
-			//		fmt.Println("\t\t", elem, elem.Message().Interface())
-			//		if fd.Kind() == protoreflect.MessageKind {
-			//			var newMsg protoreflect.Message
-			//			switch elem.Message().Interface().(type) {
-			//			case *common.Payload:
-			//				fmt.Println("a")
-			//				newMsg = inputPayload().ProtoReflect()
-			//			case *common.Payloads:
-			//				fmt.Println("b")
-			//				newMsg = inputPayloads().ProtoReflect()
-			//			default:
-			//				fmt.Println("c")
-			//				newMsg = elem.Message().New()
-			//			}
-			//			fmt.Println("RECURSING into list item", fd.Name(), j, newMsg, newMsg.Interface())
-			//			populatePayloadProtoreflect(root, newMsg.Interface(), require)
-			//		}
-			//	}
-		} else
-		// **Handle maps**
-		if fd.IsMap() {
-			//mapVal := value.Map()
+		} else if fd.IsMap() {
 			mapVal := m.Mutable(fd).Map()
 
 			if fd.MapKey().Kind() == protoreflect.StringKind &&
 				fd.MapValue().Kind() == protoreflect.MessageKind &&
 				string(fd.MapValue().Message().FullName()) == "temporal.api.common.v1.Payload" {
-
-				fmt.Println("✅ Found a map<string, Payload>! len", mapVal.Len(), "IsValid()", mapVal.IsValid())
+				//fmt.Println("✅ Found a map<string, Payload>! len", mapVal.Len(), "IsValid()", mapVal.IsValid())
 				sampleKey := protoreflect.ValueOf("sample_key").MapKey()
 				mapVal.Set(sampleKey, protoreflect.ValueOf(inputPayload().ProtoReflect()))
-				fmt.Printf("Processing map field: %s (size: %d)\n", fd.Name(), mapVal.Len())
+				//fmt.Printf("Processing map field: %s (size: %d)\n", fd.Name(), mapVal.Len())
 				mapVal.Range(func(key protoreflect.MapKey, val protoreflect.Value) bool {
-					fmt.Printf("  Map Key: %v\n", key)
+					//fmt.Printf("  Map Key: %v\n", key)
 
 					// **Handle map of messages**
 					if fd.MapValue().Kind() == protoreflect.MessageKind {
 						newMsg := val.Message().New()
-						fmt.Println("RECURSING into map value", fd.Name(), key, newMsg, newMsg.Interface())
-						populatePayloadProtoreflect(root, newMsg.Interface(), require)
+						//fmt.Println("RECURSING into map value", fd.Name(), key, newMsg, newMsg.Interface())
+						populatePayloadProtoreflect(root, newMsg.Interface(), require, totalCount, count)
 					}
 					return true
 				})
@@ -983,57 +954,79 @@ func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require
 	}
 
 	// Validate that all Payloads were found
-	require.Equal(0, count)
+	require.Equal(0, *count)
 
 	fmt.Println("EXITING RECURSION")
 }
-func TestSandbox(t *testing.T) {
+
+func TestFailureCount(t *testing.T) {
 	require := require.New(t)
 
 	var messageType protoreflect.MessageType
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		//if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.ResetWorkflowFailureInfo") {
-		//if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") { // should have 5
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.update.v1.Rejection") { // 2 from request, 7 total
-
-			//fmt.Println("\t", string(mt.Descriptor().FullName()), " ")
-			//fmt.Print(string(mt.Descriptor().FullName()))
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") { // should have 5
 			messageType = mt
 		}
 		return true
 	})
 
-	//fmt.Println("MessageType:", messageType)
-	//Fields of  temporal.api.failure.v1.Failure
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.message, Number: 1, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "message"}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.source, Number: 2, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "source"}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.stack_trace, Number: 3, Cardinality: optional, Kind: string, HasJSONName: true, JSONName: "stackTrace"}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.encoded_attributes, Number: 20, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "encodedAttributes", HasPresence: true, Message: temporal.api.common.v1.Payload}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.cause, Number: 4, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "cause", HasPresence: true, Message: temporal.api.failure.v1.Failure}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.application_failure_info, Number: 5, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "applicationFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.ApplicationFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.timeout_failure_info, Number: 6, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "timeoutFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.TimeoutFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.canceled_failure_info, Number: 7, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "canceledFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.CanceledFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.terminated_failure_info, Number: 8, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "terminatedFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.TerminatedFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.server_failure_info, Number: 9, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "serverFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.ServerFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.reset_workflow_failure_info, Number: 10, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "resetWorkflowFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.ResetWorkflowFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.activity_failure_info, Number: 11, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "activityFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.ActivityFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.child_workflow_execution_failure_info, Number: 12, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "childWorkflowExecutionFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.nexus_operation_execution_failure_info, Number: 13, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "nexusOperationExecutionFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.NexusOperationFailureInfo}
-	//field FieldDescriptor{Syntax: proto3, FullName: temporal.api.failure.v1.Failure.nexus_handler_failure_info, Number: 14, Cardinality: optional, Kind: message, HasJSONName: true, JSONName: "nexusHandlerFailureInfo", HasPresence: true, Oneof: failure_info, Message: temporal.api.failure.v1.NexusHandlerFailureInfo}
-	//md := messageType.Descriptor()
-	//fmt.Println("Fields of ", md.FullName())
-	//fields := md.Fields()
-	//for i := 0; i < fields.Len(); i++ {
-	//	field := fields.Get(i)
-	//	fmt.Println("field", field)
-	//}
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	fmt.Println("\nCalling populatePayload", msg.ProtoReflect().Descriptor().FullName())
+	var totalCount, count int
+	populatePayloadProtoreflect(&msg, msg, require, &totalCount, &count)
+	fmt.Println("[after populatePayload]", msg.ProtoReflect().Descriptor().FullName())
+
+	require.Equal(0, count)
+	require.Equal(5, totalCount)
+}
+
+func TestUpdateRejectionCount(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.update.v1.Rejection") { // 2 from request, 7 total
+			messageType = mt
+		}
+		return true
+	})
 
 	// Create empty instance and populate with test values
 	msg := messageType.New().Interface().(proto.Message)
 	fmt.Println("\nCalling populatePayload", msg.ProtoReflect().Descriptor().FullName())
-	populatePayloadProtoreflect(&msg, msg, require)
+	var totalCount, count int
+	populatePayloadProtoreflect(&msg, msg, require, &totalCount, &count)
 	fmt.Println("[after populatePayload]", msg.ProtoReflect().Descriptor().FullName())
 
-	// TODO: need to fail to print
-	require.True(false)
+	require.Equal(0, count)
+	require.Equal(7, totalCount)
+}
+
+func TestSandbox(t *testing.T) {
+	require := require.New(t)
+
+	var messageType []protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && string(mt.Descriptor().FullName()) != "temporal.api.common.v1.Payload" { // 2 from request, 7 total
+			messageType = append(messageType, mt)
+		}
+		return true
+	})
+	fmt.Println("messageType", messageType)
+	for _, mt := range messageType {
+		// Create empty instance and populate with test values
+		msg := mt.New().Interface().(proto.Message)
+
+		fmt.Println("\nCalling populatePayload", msg.ProtoReflect().Descriptor().FullName())
+		var totalCount, count int
+		populatePayloadProtoreflect(&msg, msg, require, &totalCount, &count)
+		fmt.Println("[after populatePayload]", msg.ProtoReflect().Descriptor().FullName())
+
+		require.Equal(0, count)
+
+	}
+	//	// TODO: need to fail to print
+	//require.True(false)
+
 }
