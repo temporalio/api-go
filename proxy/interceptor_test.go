@@ -29,8 +29,12 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 	"testing"
 	"time"
+
+	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
 
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/command/v1"
@@ -41,6 +45,22 @@ import (
 	"go.temporal.io/api/protocol/v1"
 	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflowservice/v1"
+
+	// TODO: Find way to ensure all go.temporal.io/api packages are imported
+	//   for https://pkg.go.dev/google.golang.org/protobuf/reflect/protoregistry#GlobalTypes
+	// Chatgpt generated
+	//_ "go.temporal.io/api/common/v1"
+	//_ "go.temporal.io/api/enums/v1"
+	//_ "go.temporal.io/api/failure/v1"
+	//_ "go.temporal.io/api/filter/v1"
+	//_ "go.temporal.io/api/history/v1"
+	//_ "go.temporal.io/api/namespace/v1"
+	//_ "go.temporal.io/api/query/v1"
+	//_ "go.temporal.io/api/schedule/v1"
+	//_ "go.temporal.io/api/taskqueue/v1"
+	//_ "go.temporal.io/api/version/v1"
+	//_ "go.temporal.io/api/workflow/v1"
+	//_ "go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
@@ -75,6 +95,7 @@ func TestVisitPayloads(t *testing.T) {
 		},
 		VisitPayloadsOptions{
 			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				fmt.Println("hi")
 				require.False(vpc.SinglePayloadRequired)
 				return p, nil
 			},
@@ -463,4 +484,147 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 	return &workflowservice.PollActivityTaskQueueResponse{
 		Input: inputPayloads(),
 	}, nil
+}
+
+// populatePayload recursively populates and validates that all common.Payload fields can be parsed by the visitor
+func populatePayload(root *proto.Message, msg proto.Message, require *require.Assertions, totalCount *int, count *int) {
+	m := msg.ProtoReflect()
+	fields := m.Descriptor().Fields()
+	// Don't need to parse non-temporal types
+	if !strings.HasPrefix(string(m.Descriptor().FullName()), "temporal.api.") {
+		return
+	}
+
+	if m.Descriptor() == nil {
+		panic("fail")
+	}
+
+	switch msg.(type) {
+	case *common.Payload, *common.Payloads:
+		*count++
+		*totalCount++
+
+		err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
+			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				*count--
+				return p, nil
+			},
+		})
+		require.NoError(err)
+		return
+	}
+
+	for i := 0; i < fields.Len(); i++ {
+		fd := fields.Get(i)
+		value := m.Get(fd)
+
+		if oneof := fd.ContainingOneof(); oneof != nil && fd.Kind() == protoreflect.MessageKind {
+			newMsg := value.Message().New()
+			m.Set(fd, protoreflect.ValueOf(newMsg))
+			populatePayload(root, newMsg.Interface(), require, totalCount, count)
+			// This ensures only 1 payload is set and discoverable from root at a time.
+			m.Clear(fd)
+		} else if fd.Kind() == protoreflect.MessageKind && !fd.IsList() && !fd.IsMap() {
+			// Avoid cycles (i.e. Failure has a field that's also Failure type)
+			if value.Message().Descriptor().FullName() == m.Descriptor().FullName() {
+				continue
+			}
+
+			// If field is not set, create a new message
+			newMsg := value.Message().New()
+			m.Set(fd, protoreflect.ValueOf(newMsg))
+
+			populatePayload(root, newMsg.Interface(), require, totalCount, count)
+
+			// This ensures only 1 payload is set and discoverable from root at a time.
+			m.Clear(fd)
+		} else if fd.IsMap() {
+			mapVal := m.Mutable(fd).Map()
+
+			if fd.MapKey().Kind() == protoreflect.StringKind &&
+				fd.MapValue().Kind() == protoreflect.MessageKind &&
+				string(fd.MapValue().Message().FullName()) == "temporal.api.common.v1.Payload" {
+				sampleKey := protoreflect.ValueOf("sample_key").MapKey()
+				mapVal.Set(sampleKey, protoreflect.ValueOf(inputPayload().ProtoReflect()))
+				mapVal.Range(func(key protoreflect.MapKey, val protoreflect.Value) bool {
+
+					// **Handle map of messages**
+					if fd.MapValue().Kind() == protoreflect.MessageKind {
+						newMsg := val.Message().New()
+						populatePayload(root, newMsg.Interface(), require, totalCount, count)
+					}
+					return true
+				})
+				mapVal.Clear(sampleKey)
+			}
+
+		}
+	}
+
+	// Validate that all Payloads were found
+	require.Equal(0, *count)
+}
+
+func TestFailureCount(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") { // should have 5
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	var totalCount, count int
+	populatePayload(&msg, msg, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(5, totalCount)
+}
+
+func TestUpdateRejectionCount(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.update.v1.Rejection") { // 2 from request, 7 total
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	var totalCount, count int
+	populatePayload(&msg, msg, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(7, totalCount)
+}
+
+func TestSandbox(t *testing.T) {
+	require := require.New(t)
+
+	var messageType []protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && string(mt.Descriptor().FullName()) != "temporal.api.common.v1.Payload" { // 2 from request, 7 total
+			messageType = append(messageType, mt)
+		}
+		return true
+	})
+	var totalCount int
+	for _, mt := range messageType {
+		// Create empty instance and populate with test values
+		msg := mt.New().Interface().(proto.Message)
+
+		var count int
+		populatePayload(&msg, msg, require, &totalCount, &count)
+
+		require.Equal(0, count)
+	}
+	require.Greater(totalCount, 0)
+
 }
