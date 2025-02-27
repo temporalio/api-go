@@ -37,30 +37,31 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	"github.com/stretchr/testify/require"
+	_ "go.temporal.io/api/activity/v1"
+	_ "go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
+	_ "go.temporal.io/api/deployment/v1"
+	_ "go.temporal.io/api/enums/v1"
+	_ "go.temporal.io/api/errordetails/v1"
 	"go.temporal.io/api/export/v1"
 	"go.temporal.io/api/failure/v1"
+	_ "go.temporal.io/api/filter/v1"
 	"go.temporal.io/api/history/v1"
+	_ "go.temporal.io/api/namespace/v1"
+	_ "go.temporal.io/api/nexus/v1"
+	_ "go.temporal.io/api/operatorservice/v1"
 	"go.temporal.io/api/protocol/v1"
+	_ "go.temporal.io/api/query/v1"
+	_ "go.temporal.io/api/replication/v1"
+	_ "go.temporal.io/api/schedule/v1"
+	_ "go.temporal.io/api/sdk/v1"
+	_ "go.temporal.io/api/taskqueue/v1"
 	"go.temporal.io/api/update/v1"
+	_ "go.temporal.io/api/version/v1"
+	_ "go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
 
-	// TODO: Find way to ensure all go.temporal.io/api packages are imported
-	//   for https://pkg.go.dev/google.golang.org/protobuf/reflect/protoregistry#GlobalTypes
-	// Chatgpt generated
-	//_ "go.temporal.io/api/common/v1"
-	//_ "go.temporal.io/api/enums/v1"
-	//_ "go.temporal.io/api/failure/v1"
-	//_ "go.temporal.io/api/filter/v1"
-	//_ "go.temporal.io/api/history/v1"
-	//_ "go.temporal.io/api/namespace/v1"
-	//_ "go.temporal.io/api/query/v1"
-	//_ "go.temporal.io/api/schedule/v1"
-	//_ "go.temporal.io/api/taskqueue/v1"
-	//_ "go.temporal.io/api/version/v1"
-	//_ "go.temporal.io/api/workflow/v1"
-	//_ "go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
@@ -610,6 +611,9 @@ func TestSandbox(t *testing.T) {
 
 	var messageType []protoreflect.MessageType
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		// Because we recursively populate Payload when it's a field, this base case of Payload isn't currently handled.
+		// Not covering this base case should be okay.
+		// TODO: Figure out this base Payload case
 		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && string(mt.Descriptor().FullName()) != "temporal.api.common.v1.Payload" { // 2 from request, 7 total
 			messageType = append(messageType, mt)
 		}
