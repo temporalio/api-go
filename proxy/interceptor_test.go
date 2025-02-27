@@ -96,6 +96,7 @@ func TestVisitPayloads(t *testing.T) {
 		},
 		VisitPayloadsOptions{
 			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				fmt.Println("hi")
 				require.False(vpc.SinglePayloadRequired)
 				return p, nil
 			},
@@ -860,119 +861,140 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 	fmt.Println("EXITING RECURSION")
 }
 
+var count int
+
 // **Recursively populate Protobuf message fields, including oneof handling**
 func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require *require.Assertions) {
 	m := msg.ProtoReflect() // Get protoreflect message
-	fmt.Println("\n[msg]", m.Descriptor().FullName())
+	fmt.Println("\n[msg]", m.Descriptor().FullName(), m.Descriptor())
+	// Don't need to parse non-temporal types
+	if !strings.HasPrefix(string(m.Descriptor().FullName()), "temporal.api.") {
+		fmt.Println("EXITING RECURSION-")
+		return
+	}
+
+	if m.Descriptor() == nil {
+		panic("fail")
+	}
+
+	switch msg.(type) {
+	case *common.Payload, *common.Payloads:
+		count++
+		fmt.Print("[Payload(s)] - ")
+
+		err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
+			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+				fmt.Println("FOUND")
+				count--
+				return []*common.Payload{{Data: []byte("visited")}}, nil
+			},
+		})
+		require.NoError(err)
+		return
+	}
+
 	fields := m.Descriptor().Fields()
-	var count int
+	fmt.Println("\tfields", fields)
 	for i := 0; i < fields.Len(); i++ {
 		fd := fields.Get(i)
 		value := m.Get(fd)
 		fmt.Printf("[%s] %s, %s\n", fd.Name(), value, value.Interface())
 
-		// **Handle oneof fields**
 		if oneof := fd.ContainingOneof(); oneof != nil {
-			fmt.Printf("Found oneof field: %s (Group: %s)\n", fd.Name(), oneof.Name())
-
-			//// Iterate over each possible oneof option
-			//for i := 0; i < oneof.Fields().Len(); i++ {
-			//	field := oneof.Fields().Get(i)
-			//	fmt.Printf("  Trying oneof option: %s\n", field.Name())
-			//
-			//	// Create a new instance for the oneof field
-			//	if field.Kind() == protoreflect.MessageKind {
-			//		fmt.Println("TODO:")
-			//		//newMsg := field.Message().New()
-			//		//m.Set(fd, protoreflect.ValueOf(newMsg))
-			//		//
-			//		//// Print updated message
-			//		//fmt.Println("  Updated message:", m)
-			//		//populatePayload(root, newMsg.Interface(), require)
-			//	}
-			//}
+			//fmt.Printf("Found oneof field: %s (Group: %s)\n", fd.Name(), oneof.Name())
 			newMsg := value.Message().New()
+			m.Set(fd, protoreflect.ValueOf(newMsg))
 			fmt.Println("RECURSING into (oneof)", fd.Name(), newMsg, newMsg.Interface())
 			populatePayloadProtoreflect(root, newMsg.Interface(), require)
-			// TODO: i don't think continue here is right? or maybe next "if" should be "else if"
-			continue
-		}
-
-		// **Handle nested messages**
-		if fd.Kind() == protoreflect.MessageKind && !fd.IsList() && !fd.IsMap() {
+			// This ensures only 1 payload is set and discoverable from root at a time.
+			m.Clear(fd)
+		} else if fd.Kind() == protoreflect.MessageKind && !fd.IsList() && !fd.IsMap() {
 			// Avoid cycles
 			if value.Message().Descriptor().FullName() == m.Descriptor().FullName() {
-				fmt.Println("Avoiding cycles for", fd.Name())
+				fmt.Println("Avoiding cycles for", fd.Name(), m.Descriptor().FullName())
 				continue
 			}
 
 			// If field is not set, create a new message
 			newMsg := value.Message().New()
 			m.Set(fd, protoreflect.ValueOf(newMsg))
+
+			//if !(fd.Message() != nil && fd.Message().FullName() == "temporal.api.common.v1.Payload" || fd.Message().FullName() == "temporal.api.common.v1.Payloads") {
 			fmt.Println("RECURSING into", fd.Name(), newMsg, newMsg.Interface())
-			if !(fd.Message() != nil && fd.Message().FullName() == "temporal.api.common.v1.Payload" || fd.Message().FullName() == "temporal.api.common.v1.Payloads") {
-				populatePayloadProtoreflect(root, newMsg.Interface(), require)
+			populatePayloadProtoreflect(root, newMsg.Interface(), require)
+
+			// This ensures only 1 payload is set and discoverable from root at a time.
+			m.Clear(fd)
+			//}
+			//} else if fd.IsList() {
+			//	list := value.List()
+			//	fmt.Printf("Processing list field: %s (length: %d)\n", fd.Name(), list.Len())
+			//
+			//	// Iterate over list items
+			//	for j := 0; j < list.Len(); j++ {
+			//		elem := list.Get(j)
+			//		fmt.Println("\t\t", elem, elem.Message().Interface())
+			//		if fd.Kind() == protoreflect.MessageKind {
+			//			var newMsg protoreflect.Message
+			//			switch elem.Message().Interface().(type) {
+			//			case *common.Payload:
+			//				fmt.Println("a")
+			//				newMsg = inputPayload().ProtoReflect()
+			//			case *common.Payloads:
+			//				fmt.Println("b")
+			//				newMsg = inputPayloads().ProtoReflect()
+			//			default:
+			//				fmt.Println("c")
+			//				newMsg = elem.Message().New()
+			//			}
+			//			fmt.Println("RECURSING into list item", fd.Name(), j, newMsg, newMsg.Interface())
+			//			populatePayloadProtoreflect(root, newMsg.Interface(), require)
+			//		}
+			//	}
+		} else
+		// **Handle maps**
+		if fd.IsMap() {
+			//mapVal := value.Map()
+			mapVal := m.Mutable(fd).Map()
+
+			if fd.MapKey().Kind() == protoreflect.StringKind &&
+				fd.MapValue().Kind() == protoreflect.MessageKind &&
+				string(fd.MapValue().Message().FullName()) == "temporal.api.common.v1.Payload" {
+
+				fmt.Println("✅ Found a map<string, Payload>! len", mapVal.Len(), "IsValid()", mapVal.IsValid())
+				sampleKey := protoreflect.ValueOf("sample_key").MapKey()
+				mapVal.Set(sampleKey, protoreflect.ValueOf(inputPayload().ProtoReflect()))
+				fmt.Printf("Processing map field: %s (size: %d)\n", fd.Name(), mapVal.Len())
+				mapVal.Range(func(key protoreflect.MapKey, val protoreflect.Value) bool {
+					fmt.Printf("  Map Key: %v\n", key)
+
+					// **Handle map of messages**
+					if fd.MapValue().Kind() == protoreflect.MessageKind {
+						newMsg := val.Message().New()
+						fmt.Println("RECURSING into map value", fd.Name(), key, newMsg, newMsg.Interface())
+						populatePayloadProtoreflect(root, newMsg.Interface(), require)
+					}
+					return true
+				})
+				mapVal.Clear(sampleKey)
 			}
-		}
 
-		// **Handle Payload fields**
-		// TODO: There is an extra payload counted in ApplicationFailureInfo.details
-		//  looks like when recursing into Payloads, it's counting an additional Payload??
-		if fd.Message() != nil && fd.Message().FullName() == "temporal.api.common.v1.Payload" {
-			fmt.Println("[aaa]", fd.Message(), fd.Message().FullName())
-			count++
-			fmt.Print("[Payload] - ")
-
-			err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
-				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-					fmt.Println("FOUND")
-					count--
-					//require.True(ctx.SinglePayloadRequired)
-					return p, nil
-				},
-			})
-			if err != nil {
-				panic(err)
-			}
-		}
-
-		if fd.Message() != nil && fd.Message().FullName() == "temporal.api.common.v1.Payloads" {
-			count++
-			fmt.Print("[Payloads] - ")
-
-			// TODO: How does this handle multiple payload/Payloads pairs
-			err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
-				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-					fmt.Println("FOUND")
-					count--
-					//require.False(ctx.SinglePayloadRequired)
-					return p, nil
-				},
-			})
-			if err != nil {
-				panic(err)
-			}
 		}
 	}
 
 	// Validate that all Payloads were found
-	if count != 0 {
-		panic("Fail: count should be 0")
-	}
+	require.Equal(0, count)
 
 	fmt.Println("EXITING RECURSION")
 }
 func TestSandbox(t *testing.T) {
-	// TODO:
-	//  test oneof - should be good
-	//  test recursion
-	//  test everything together
 	require := require.New(t)
 
 	var messageType protoreflect.MessageType
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
 		//if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.ResetWorkflowFailureInfo") {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") { // should have 5
+		//if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") { // should have 5
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.update.v1.Rejection") { // 2 from request, 7 total
 
 			//fmt.Println("\t", string(mt.Descriptor().FullName()), " ")
 			//fmt.Print(string(mt.Descriptor().FullName()))
@@ -1013,6 +1035,5 @@ func TestSandbox(t *testing.T) {
 	fmt.Println("[after populatePayload]", msg.ProtoReflect().Descriptor().FullName())
 
 	// TODO: need to fail to print
-
 	require.True(false)
 }
