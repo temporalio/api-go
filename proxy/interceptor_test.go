@@ -29,8 +29,13 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"reflect"
+	"strings"
 	"testing"
 	"time"
+
+	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
 
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/command/v1"
@@ -41,6 +46,22 @@ import (
 	"go.temporal.io/api/protocol/v1"
 	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflowservice/v1"
+
+	// TODO: Find way to ensure all go.temporal.io/api packages are imported
+	//   for https://pkg.go.dev/google.golang.org/protobuf/reflect/protoregistry#GlobalTypes
+	// Chatgpt generated
+	//_ "go.temporal.io/api/common/v1"
+	//_ "go.temporal.io/api/enums/v1"
+	//_ "go.temporal.io/api/failure/v1"
+	//_ "go.temporal.io/api/filter/v1"
+	//_ "go.temporal.io/api/history/v1"
+	//_ "go.temporal.io/api/namespace/v1"
+	//_ "go.temporal.io/api/query/v1"
+	//_ "go.temporal.io/api/schedule/v1"
+	//_ "go.temporal.io/api/taskqueue/v1"
+	//_ "go.temporal.io/api/version/v1"
+	//_ "go.temporal.io/api/workflow/v1"
+	//_ "go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
@@ -463,4 +484,417 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 	return &workflowservice.PollActivityTaskQueueResponse{
 		Input: inputPayloads(),
 	}, nil
+}
+
+// getOneofOptions returns all possible field names for a oneof field
+//func getOneofOptions(oneof protoreflect.OneofDescriptor) []protoreflect.FieldDescriptor {
+//	var options []protoreflect.FieldDescriptor
+//	for i := 0; i < oneof.Fields().Len(); i++ {
+//		options = append(options, oneof.Fields().Get(i))
+//	}
+//	return options
+//}
+
+// TODO:
+//📌 Expected Output
+//
+//If the Event message has a oneof field with ActivityScheduledEvent and TimerFiredEvent, this program will:
+//
+//Identify the oneof options.
+//Set each oneof field separately.
+//Ensure only one is active per test case.
+//
+//Example console output:
+//
+//Testing activity_scheduled
+//Set event_type to activity_scheduled
+//event_type:{activity_scheduled:{}}
+//
+//Testing timer_fired
+//Set event_type to timer_fired
+//event_type:{timer_fired:{}}
+
+// testOneofValue populates a oneof field in a message and prints the result
+//func testOneofValue(msg proto.Message, oneofField protoreflect.FieldDescriptor) {
+//	v := msg.ProtoReflect()
+//	oneofName := oneofField.ContainingOneof().Name()
+//
+//	// Create a new instance of the oneof field's type
+//	fieldType := oneofField.Message()
+//	if fieldType == nil {
+//		fmt.Printf("Skipping %s: not a message type\n", oneofField.FullName())
+//		return
+//	}
+//
+//	fieldValue := fieldType.New()
+//	v.Set(oneofField, protoreflect.ValueOfMessage(fieldValue))
+//
+//	fmt.Printf("Set %s to %s\n", oneofName, oneofField.Name())
+//	fmt.Println(msg)
+//}
+
+// Track visited payloads
+// We then use a reflection-based visitor to track which payloads were actually visited.
+func trackVisitedPayloads(msg proto.Message, visited map[string]bool) {
+	v := reflect.ValueOf(msg).Elem()
+
+	for i := 0; i < v.NumField(); i++ {
+		field := v.Field(i)
+		fieldName := v.Type().Field(i).Name
+
+		if field.Kind() == reflect.Ptr && field.Type().Implements(reflect.TypeOf((*proto.Message)(nil)).Elem()) {
+			visited[fieldName] = true
+			trackVisitedPayloads(field.Interface().(proto.Message), visited)
+		}
+	}
+}
+
+// TODO: anything above this is curerntly not being used
+
+// Track visited payloads
+type visitedTracker struct {
+	visited map[string]bool
+}
+
+func newVisitedTracker() *visitedTracker {
+	return &visitedTracker{visited: make(map[string]bool)}
+}
+
+func (vt *visitedTracker) markVisited(fieldPath string) {
+	vt.visited[fieldPath] = true
+}
+
+// Get all top-level messages from registered Protobuf descriptors
+// This will return all registered message types, from which we can
+// identify top-level messages like workflow activation and history event messages.
+// getTopLevelMessages gathers all registered message types, filtering for temporal specific types.
+func getTopLevelMessages() []proto.Message {
+	var topMessages []proto.Message
+	fmt.Println("getTopLevelMessages(): ")
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.ResetWorkflowFailureInfo") {
+			//fmt.Println("\t", string(mt.Descriptor().FullName()), " ")
+			fmt.Print(string(mt.Descriptor().FullName()))
+			topMessages = append(topMessages, mt.New().Interface().(proto.Message))
+		}
+		return true
+	})
+	fmt.Println()
+	return topMessages
+}
+
+//func createStructFromPath(path string) (proto.Message, error) {
+//	parts := strings.Split(path, ".")
+//
+//	// Get the root struct type
+//	var instance reflect.Value
+//}
+
+// findPayloadPaths recursively traverse fields and finds all payload paths
+// TODO: memoize
+func findPayloadPaths(root *proto.Message, msg proto.Message, parentPath string, payloadPaths *[]string, levels int) error { // memo map[reflect.Value]string
+	if levels == 3 {
+		return nil
+	}
+	value := reflect.ValueOf(msg).Elem()
+	typ := value.Type()
+	// TODO: use memoization to break the cycle early
+
+	fmt.Println(levels, "\n\t[value]", value, "\n\t[type]", typ)
+	for i := 0; i < value.NumField(); i++ {
+		field := value.Field(i)                  // value, AKA dummy value
+		fieldType := typ.Field(i)                // {WorkflowTaskTimeout  *durationpb.Duration protobuf:"bytes,6,opt,name=workflow_task_timeout,json=workflowTaskTimeout,proto3" json:"workflow_task_timeout,omitempty" 56 [6] false}
+		fieldName := fieldType.Name              // WorkflowTaskTimeout
+		fullPath := parentPath + "." + fieldName // WorkflowExecutionContinuedAsNewEventAttributes.WorkflowTaskTimeout
+		fmt.Println("\n\tfieldType:", fieldType)
+		fmt.Println("\tfieldName:", fieldName)
+		fmt.Println("\tfullPath:", fullPath)
+
+		// If this is a Payload field, track it
+		if field.Type().AssignableTo(reflect.TypeOf(&common.Payload{})) {
+			fmt.Println("\n[Field]")
+			if field.CanInterface() && field.Addr().Type().Implements(reflect.TypeOf((*proto.Message)(nil)).Elem()) {
+				protoMsg := field.Addr().Interface().(proto.Message)
+				fmt.Printf("Field %s is a proto.Message: %T\n", fieldType.Name, protoMsg)
+			}
+			err := VisitPayloads(context.Background(), field.Addr().Interface().(proto.Message), VisitPayloadsOptions{
+				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+					fmt.Println("ASDFASDFASDFASDFASD")
+					return p, nil
+				},
+			})
+			if err != nil {
+				return err
+			}
+			*payloadPaths = append(*payloadPaths, fullPath)
+			//memo[Type] = fullPath
+		} else if field.Type().AssignableTo(reflect.TypeOf(&common.Payloads{})) {
+			fmt.Println("[Payloads]")
+			*payloadPaths = append(*payloadPaths, fullPath)
+			//asdf := protoreflect.ValueOfString("WorkflowExecutionContinuedAsNewEventAttributes")
+			err := VisitPayloads(context.Background(), field.Addr().Interface().(proto.Message), VisitPayloadsOptions{
+				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+					fmt.Println("ASDFASDFASDFASDFASD")
+					return p, nil
+				},
+			})
+			if err != nil {
+				return err
+			}
+			//asdf := failure.ResetWorkflowFailureInfo{LastHeartbeatDetails: inputPayloads()}
+		} else if field.Kind() == reflect.Ptr && field.Type().Implements(reflect.TypeOf((*proto.Message)(nil)).Elem()) {
+			// Recursively check nested messages
+			if field.IsNil() {
+				field.Set(reflect.New(field.Type().Elem())) // Populate if nil
+			}
+			fmt.Println("\nRECURSING!!")
+			//findPayloadPaths(field.Interface().(proto.Message), fullPath, payloadPaths, levels+1)
+		}
+	}
+	return nil
+}
+
+// Finally, we assert that all expected payload paths were visited.
+// Full test function
+func validatePayloadTraversal() error {
+	topMessages := getTopLevelMessages()
+	//vt := newVisitedTracker()
+	counter := 0
+
+	for _, msg := range topMessages {
+		if counter > 3 {
+			break
+		}
+		fmt.Println("[", msg.ProtoReflect().Descriptor().FullName(), "]")
+
+		// Find payload paths
+		var payloadPaths []string
+		findPayloadPaths(&msg, msg, reflect.TypeOf(msg).Elem().Name(), &payloadPaths, 0)
+		fmt.Println("[payloadPaths]", payloadPaths)
+		counter += 1
+
+		//for _, path := range paths {
+		//	// populate each path
+		//}
+
+		// run it over visitor to confirm visited TODO: not sure if this is a separate check or inside of the paths for loop
+
+		//msg := messageType.New().Interface().(proto.Message) // Create empty instance
+		//populatePayload(msg)                                 // Populate it with test values
+		//
+		//visited := make(map[string]bool)
+		//trackVisitedPayloads(msg, visited) // Run visitor
+		//
+		//fmt.Printf("Testing %s - Visited payloads: %v\n", messageType.Descriptor().FullName(), visited)
+		//
+		//// Assert that at least some payloads were visited
+		//if len(visited) == 0 {
+		//	log.Fatalf("No payloads visited for %s", messageType.Descriptor().FullName())
+		//}
+		//fmt.Println()
+	}
+
+	var count int
+	// TODO: change root
+	root := &workflowservice.PollWorkflowTaskQueueResponse{
+		Messages: []*protocol.Message{},
+	}
+	// Visit payloads, and add each count
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			count += 1
+			return p, nil
+		},
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func TestPlayground(t *testing.T) {
+	require := require.New(t)
+	require.True(true)
+	err := validatePayloadTraversal()
+	require.NoError(err)
+	require.True(false)
+}
+
+// **Retrieve all possible options for a oneof field**
+func getOneofOptions(md reflect.Type, oneofGroup string) []reflect.Type {
+	var options []reflect.Type
+
+	// Iterate over struct fields and find all belonging to this oneof group
+	for i := 0; i < md.NumField(); i++ {
+		field := md.Field(i)
+		if field.Tag.Get("protobuf_oneof") == oneofGroup {
+			options = append(options, field.Type)
+		}
+	}
+	return options
+}
+
+// **Reset all fields in a oneof group (ensure only one is set)**
+func resetOneofFields(v reflect.Value, oneofGroup string) {
+	for i := 0; i < v.NumField(); i++ {
+		field := v.Type().Field(i)
+		if field.Tag.Get("protobuf_oneof") == oneofGroup {
+			v.Field(i).Set(reflect.Zero(field.Type)) // Clear the field
+		}
+	}
+}
+
+// **Set a test value for a oneof field and print the result**
+func testOneofValue(v reflect.Value, oneofGroup string, fieldType reflect.Type) {
+	fmt.Printf("Testing oneof option: %s\n", fieldType.Name())
+
+	// Create a new instance of the oneof type
+	oneofValue := reflect.New(fieldType).Elem()
+
+	// Set a sample value inside the oneof (e.g., set a payload field if applicable)
+	if fieldType == reflect.TypeOf(&failure.ResetWorkflowFailureInfo{}) {
+		oneofValue.FieldByName("LastHeartbeatDetails").Set(reflect.ValueOf(inputPayloads()))
+	}
+
+	// Set the value in the struct
+	for i := 0; i < v.NumField(); i++ {
+		field := v.Type().Field(i)
+		if field.Tag.Get("protobuf_oneof") == oneofGroup {
+			v.Field(i).Set(oneofValue)
+			break
+		}
+	}
+
+	fmt.Printf("Updated message: %+v\n", v.Interface())
+}
+
+// Populate message fields dynamically, using Go reflection.
+// We now populate test values in message fields that could contain payloads.
+func populatePayload(root *proto.Message, msg proto.Message, require *require.Assertions) {
+	v := reflect.ValueOf(msg).Elem() // Get underlying struct
+	fmt.Println("[v]", msg.ProtoReflect().Descriptor().FullName())
+	fmt.Println("[v.type]", v.Type())
+	var count int
+	for i := 0; i < v.NumField(); i++ {
+		field := v.Field(i)
+		fmt.Println("\n[", v.Type().Field(i).Name, "]", field.Type())
+
+		switch field.Kind() {
+		case reflect.Ptr:
+			if field.Type().Implements(reflect.TypeOf((*proto.Message)(nil)).Elem()) {
+				newMsg := reflect.New(field.Type().Elem()) // Create new message instance
+				fmt.Println("[newMsg.Elem()]", newMsg.Elem().Type())
+				// can't print nil pointer
+				if v.Type().AssignableTo(newMsg.Type()) {
+					fmt.Println("Avoiding cycles for", newMsg.Type(), v.Type(), newMsg.Type().AssignableTo(v.Type()))
+					continue
+				}
+
+				if newMsg.Type().AssignableTo(v.Type()) {
+					fmt.Println("OTHER Avoiding cycles for", newMsg.Type(), v.Type(), newMsg.Type().AssignableTo(v.Type()))
+					continue
+				}
+				// Avoid cycles
+				if newMsg.Elem().Type() == v.Type() {
+					fmt.Println("newMsg.Elem().Type() == v.Type()")
+					continue
+				}
+				field.Set(newMsg)
+				fmt.Println("RECURSING")
+				populatePayload(root, newMsg.Interface().(proto.Message), require) // Recursively populate
+
+				//if v.Type().Field(i).Tag.Get("protobuf_oneof") != "" {
+				//	// Handle oneof by setting each possible value separately
+				//	options := getOneofOptions(field.Type())
+				//	for _, opt := range options {
+				//		testOneofValue(msg, fieldName, opt)
+				//	}
+				//} else {
+				//	populatePayload(field.Interface().(proto.Message))
+				//}
+			}
+		}
+
+		// Handle oneof by setting each possible value separately TODO: move to different part of function?
+		if v.Type().Field(i).Tag.Get("protobuf_oneof") != "" {
+			fmt.Printf("Found oneof field: %s (Group: %s)\n", v.Type().Field(i).Name, v.Type().Field(i).Tag.Get("protobuf_oneof"))
+			oneofOptions := getOneofOptions(v.Type(), v.Type().Field(i).Tag.Get("protobuf_oneof"))
+			fmt.Println("[oneofOptions]", oneofOptions)
+		}
+		// NOTE: must set Payloads value before calling this
+		if field.Type().AssignableTo(reflect.TypeOf(&common.Payload{})) {
+			count += 1
+			fmt.Println("[Payload]")
+			err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
+				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+					fmt.Println("\t\tFOUND PAYLOAD")
+					count -= 1
+					require.True(ctx.SinglePayloadRequired)
+					return p, nil
+				},
+			})
+			if err != nil {
+				panic(err)
+			}
+		}
+		if field.Type().AssignableTo(reflect.TypeOf(&common.Payloads{})) {
+			count += 1
+			fmt.Println("[Payloads]")
+			err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
+				Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+					fmt.Println("\t\tFOUND PAYLOADS")
+					count -= 1
+					require.False(ctx.SinglePayloadRequired)
+					return p, nil
+				},
+			})
+			if err != nil {
+				panic(err)
+			}
+		}
+	}
+	// TODO: Figure out a way to verify that any Payloads have been found?
+	if count != 0 {
+		panic("fail, count should be 0")
+	}
+	fmt.Println("EXITING RECURSION")
+}
+
+func TestSandbox(t *testing.T) {
+	// TODO:
+	//  test oneof
+	//  test recursion
+	//  test everything together
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		//if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.ResetWorkflowFailureInfo") {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") {
+
+			//fmt.Println("\t", string(mt.Descriptor().FullName()), " ")
+			fmt.Print(string(mt.Descriptor().FullName()))
+			messageType = mt
+		}
+		return true
+	})
+
+	fmt.Println("MessageType:", messageType)
+	md := messageType.Descriptor()
+	fmt.Println("Fields of ", md.FullName())
+	fields := md.Fields()
+	for i := 0; i < fields.Len(); i++ {
+		field := fields.Get(i)
+		fmt.Println("field", field)
+	}
+
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	fmt.Println("\nCalling populatePayload", msg.ProtoReflect().Descriptor().FullName())
+	populatePayload(&msg, msg, require)
+	fmt.Println("[after populatePayload]", msg.ProtoReflect().Descriptor().FullName())
+
+	// TODO: need to fail to print
+
+	require.True(false)
 }
