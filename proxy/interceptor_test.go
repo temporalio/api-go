@@ -866,8 +866,10 @@ func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require
 	m := msg.ProtoReflect() // Get protoreflect message
 	fields := m.Descriptor().Fields()
 	fmt.Println("\n[msg]", m.Descriptor().FullName(), m.Descriptor(), fields.Len())
+	fmt.Println("[root]", (*root).ProtoReflect().Descriptor())
+
 	// Don't need to parse non-temporal types
-	if !strings.HasPrefix(string(m.Descriptor().FullName()), "temporal.api.") {
+	if !strings.HasPrefix(string(m.Descriptor().FullName()), "temporal.api.") && string(m.Descriptor().FullName()) != "google.protobuf.Any" {
 		fmt.Println("EXITING RECURSION-")
 		return
 	}
@@ -876,8 +878,16 @@ func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require
 		panic("fail")
 	}
 
-	switch msg.(type) {
+	switch i := msg.(type) {
 	case *common.Payload, *common.Payloads:
+		// TODO: Why is this invalid?
+		if (*root).ProtoReflect().Descriptor().Fields().Len() > 4 {
+			fmt.Println("hi")
+			fd := (*root).ProtoReflect().Descriptor().Fields().Get(4)
+			fmt.Println("\thas body", m.Has(fd))
+			value := m.Get(fd)
+			fmt.Println("[body]", value)
+		}
 		*count++
 		*totalCount++
 		fmt.Print("[Payload(s)] - ")
@@ -886,12 +896,15 @@ func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require
 			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 				fmt.Println("FOUND")
 				*count--
-				//return []*common.Payload{{Data: []byte("visited")}}, nil
 				return p, nil
 			},
 		})
 		require.NoError(err)
 		return
+	case *anypb.Any:
+		fmt.Println("ANYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+	default:
+		fmt.Println("i", i)
 	}
 
 	fmt.Println("\tfields", fields)
@@ -915,17 +928,30 @@ func populatePayloadProtoreflect(root *proto.Message, msg proto.Message, require
 				continue
 			}
 
-			// If field is not set, create a new message
-			newMsg := value.Message().New()
-			m.Set(fd, protoreflect.ValueOf(newMsg))
+			var newMsg protoreflect.Message
+			if value.Message().Descriptor().FullName() == "google.protobuf.Any" {
+				fmt.Println("[any]")
+				//anyMsg := &anypb.Any{}
+				//payloads := inputPayload()
+				//err := anypb.MarshalFrom(anyMsg, payloads, proto.MarshalOptions{})
+				//require.NoError(err)
 
-			//if !(fd.Message() != nil && fd.Message().FullName() == "temporal.api.common.v1.Payload" || fd.Message().FullName() == "temporal.api.common.v1.Payloads") {
-			//fmt.Println("RECURSING into", fd.Name(), newMsg, newMsg.Interface())
-			populatePayloadProtoreflect(root, newMsg.Interface(), require, totalCount, count)
+				anyMsg, err := anypb.New(inputPayload())
+				require.NoError(err)
+				m.Set(fd, protoreflect.ValueOf(anyMsg.ProtoReflect()))
+				unpackedPayload := &common.Payload{}
+				err = anyMsg.UnmarshalTo(unpackedPayload)
+				require.NoError(err)
+				populatePayloadProtoreflect(root, unpackedPayload, require, totalCount, count)
+			} else {
+				// If field is not set, create a new message
+				newMsg = value.Message().New()
+				m.Set(fd, protoreflect.ValueOf(newMsg))
+				populatePayloadProtoreflect(root, newMsg.Interface(), require, totalCount, count)
+			}
 
 			// This ensures only 1 payload is set and discoverable from root at a time.
 			m.Clear(fd)
-			//}
 		} else if fd.IsMap() {
 			mapVal := m.Mutable(fd).Map()
 
@@ -1001,6 +1027,29 @@ func TestUpdateRejectionCount(t *testing.T) {
 
 	require.Equal(0, count)
 	require.Equal(7, totalCount)
+	require.False(true)
+}
+
+func TestAnyCount(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.protocol.v1.Message") {
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	fmt.Println("\nCalling populatePayload", msg.ProtoReflect().Descriptor().FullName())
+	var totalCount, count int
+	populatePayloadProtoreflect(&msg, msg, require, &totalCount, &count)
+	fmt.Println("[after populatePayload]", msg.ProtoReflect().Descriptor().FullName())
+
+	require.Equal(0, count)
+	require.Equal(1, totalCount)
 }
 
 func TestSandbox(t *testing.T) {
