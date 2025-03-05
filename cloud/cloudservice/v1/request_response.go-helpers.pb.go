@@ -1137,6 +1137,80 @@ func (this *AddNamespaceRegionResponse) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type DeleteNamespaceRegionRequest to the protobuf v3 wire format
+func (val *DeleteNamespaceRegionRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DeleteNamespaceRegionRequest from the protobuf v3 wire format
+func (val *DeleteNamespaceRegionRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DeleteNamespaceRegionRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DeleteNamespaceRegionRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DeleteNamespaceRegionRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DeleteNamespaceRegionRequest
+	switch t := that.(type) {
+	case *DeleteNamespaceRegionRequest:
+		that1 = t
+	case DeleteNamespaceRegionRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type DeleteNamespaceRegionResponse to the protobuf v3 wire format
+func (val *DeleteNamespaceRegionResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DeleteNamespaceRegionResponse from the protobuf v3 wire format
+func (val *DeleteNamespaceRegionResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DeleteNamespaceRegionResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DeleteNamespaceRegionResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DeleteNamespaceRegionResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DeleteNamespaceRegionResponse
+	switch t := that.(type) {
+	case *DeleteNamespaceRegionResponse:
+		that1 = t
+	case DeleteNamespaceRegionResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type GetRegionsRequest to the protobuf v3 wire format
 func (val *GetRegionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

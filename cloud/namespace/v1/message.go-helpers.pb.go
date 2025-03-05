@@ -175,6 +175,80 @@ func (this *CodecServerSpec) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type LifecycleSpec to the protobuf v3 wire format
+func (val *LifecycleSpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type LifecycleSpec from the protobuf v3 wire format
+func (val *LifecycleSpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *LifecycleSpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two LifecycleSpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *LifecycleSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *LifecycleSpec
+	switch t := that.(type) {
+	case *LifecycleSpec:
+		that1 = t
+	case LifecycleSpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type HighAvailabilitySpec to the protobuf v3 wire format
+func (val *HighAvailabilitySpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type HighAvailabilitySpec from the protobuf v3 wire format
+func (val *HighAvailabilitySpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *HighAvailabilitySpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two HighAvailabilitySpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *HighAvailabilitySpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *HighAvailabilitySpec
+	switch t := that.(type) {
+	case *HighAvailabilitySpec:
+		that1 = t
+	case HighAvailabilitySpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type NamespaceSpec to the protobuf v3 wire format
 func (val *NamespaceSpec) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

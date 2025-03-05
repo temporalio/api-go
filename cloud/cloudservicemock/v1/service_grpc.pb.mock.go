@@ -278,6 +278,26 @@ func (mr *MockCloudServiceClientMockRecorder) DeleteNamespaceExportSink(ctx, in 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespaceExportSink", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteNamespaceExportSink), varargs...)
 }
 
+// DeleteNamespaceRegion mocks base method.
+func (m *MockCloudServiceClient) DeleteNamespaceRegion(ctx context.Context, in *cloudservice.DeleteNamespaceRegionRequest, opts ...grpc.CallOption) (*cloudservice.DeleteNamespaceRegionResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteNamespaceRegion", varargs...)
+	ret0, _ := ret[0].(*cloudservice.DeleteNamespaceRegionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteNamespaceRegion indicates an expected call of DeleteNamespaceRegion.
+func (mr *MockCloudServiceClientMockRecorder) DeleteNamespaceRegion(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespaceRegion", reflect.TypeOf((*MockCloudServiceClient)(nil).DeleteNamespaceRegion), varargs...)
+}
+
 // DeleteNexusEndpoint mocks base method.
 func (m *MockCloudServiceClient) DeleteNexusEndpoint(ctx context.Context, in *cloudservice.DeleteNexusEndpointRequest, opts ...grpc.CallOption) (*cloudservice.DeleteNexusEndpointResponse, error) {
 	m.ctrl.T.Helper()
@@ -1187,6 +1207,21 @@ func (m *MockCloudServiceServer) DeleteNamespaceExportSink(arg0 context.Context,
 func (mr *MockCloudServiceServerMockRecorder) DeleteNamespaceExportSink(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespaceExportSink", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteNamespaceExportSink), arg0, arg1)
+}
+
+// DeleteNamespaceRegion mocks base method.
+func (m *MockCloudServiceServer) DeleteNamespaceRegion(arg0 context.Context, arg1 *cloudservice.DeleteNamespaceRegionRequest) (*cloudservice.DeleteNamespaceRegionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteNamespaceRegion", arg0, arg1)
+	ret0, _ := ret[0].(*cloudservice.DeleteNamespaceRegionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteNamespaceRegion indicates an expected call of DeleteNamespaceRegion.
+func (mr *MockCloudServiceServerMockRecorder) DeleteNamespaceRegion(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteNamespaceRegion", reflect.TypeOf((*MockCloudServiceServer)(nil).DeleteNamespaceRegion), arg0, arg1)
 }
 
 // DeleteNexusEndpoint mocks base method.

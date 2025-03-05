@@ -57,6 +57,7 @@ const (
 	CloudService_DeleteNamespace_FullMethodName             = "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteNamespace"
 	CloudService_FailoverNamespaceRegion_FullMethodName     = "/temporal.api.cloud.cloudservice.v1.CloudService/FailoverNamespaceRegion"
 	CloudService_AddNamespaceRegion_FullMethodName          = "/temporal.api.cloud.cloudservice.v1.CloudService/AddNamespaceRegion"
+	CloudService_DeleteNamespaceRegion_FullMethodName       = "/temporal.api.cloud.cloudservice.v1.CloudService/DeleteNamespaceRegion"
 	CloudService_GetRegions_FullMethodName                  = "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegions"
 	CloudService_GetRegion_FullMethodName                   = "/temporal.api.cloud.cloudservice.v1.CloudService/GetRegion"
 	CloudService_GetApiKeys_FullMethodName                  = "/temporal.api.cloud.cloudservice.v1.CloudService/GetApiKeys"
@@ -128,6 +129,8 @@ type CloudServiceClient interface {
 	FailoverNamespaceRegion(ctx context.Context, in *FailoverNamespaceRegionRequest, opts ...grpc.CallOption) (*FailoverNamespaceRegionResponse, error)
 	// Add a new region to a namespace
 	AddNamespaceRegion(ctx context.Context, in *AddNamespaceRegionRequest, opts ...grpc.CallOption) (*AddNamespaceRegionResponse, error)
+	// Delete a region from a namespace
+	DeleteNamespaceRegion(ctx context.Context, in *DeleteNamespaceRegionRequest, opts ...grpc.CallOption) (*DeleteNamespaceRegionResponse, error)
 	// Get all regions
 	GetRegions(ctx context.Context, in *GetRegionsRequest, opts ...grpc.CallOption) (*GetRegionsResponse, error)
 	// Get a region
@@ -348,6 +351,16 @@ func (c *cloudServiceClient) AddNamespaceRegion(ctx context.Context, in *AddName
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddNamespaceRegionResponse)
 	err := c.cc.Invoke(ctx, CloudService_AddNamespaceRegion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *cloudServiceClient) DeleteNamespaceRegion(ctx context.Context, in *DeleteNamespaceRegionRequest, opts ...grpc.CallOption) (*DeleteNamespaceRegionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteNamespaceRegionResponse)
+	err := c.cc.Invoke(ctx, CloudService_DeleteNamespaceRegion_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -711,6 +724,8 @@ type CloudServiceServer interface {
 	FailoverNamespaceRegion(context.Context, *FailoverNamespaceRegionRequest) (*FailoverNamespaceRegionResponse, error)
 	// Add a new region to a namespace
 	AddNamespaceRegion(context.Context, *AddNamespaceRegionRequest) (*AddNamespaceRegionResponse, error)
+	// Delete a region from a namespace
+	DeleteNamespaceRegion(context.Context, *DeleteNamespaceRegionRequest) (*DeleteNamespaceRegionResponse, error)
 	// Get all regions
 	GetRegions(context.Context, *GetRegionsRequest) (*GetRegionsResponse, error)
 	// Get a region
@@ -831,6 +846,9 @@ func (UnimplementedCloudServiceServer) FailoverNamespaceRegion(context.Context, 
 }
 func (UnimplementedCloudServiceServer) AddNamespaceRegion(context.Context, *AddNamespaceRegionRequest) (*AddNamespaceRegionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddNamespaceRegion not implemented")
+}
+func (UnimplementedCloudServiceServer) DeleteNamespaceRegion(context.Context, *DeleteNamespaceRegionRequest) (*DeleteNamespaceRegionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteNamespaceRegion not implemented")
 }
 func (UnimplementedCloudServiceServer) GetRegions(context.Context, *GetRegionsRequest) (*GetRegionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRegions not implemented")
@@ -1215,6 +1233,24 @@ func _CloudService_AddNamespaceRegion_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CloudServiceServer).AddNamespaceRegion(ctx, req.(*AddNamespaceRegionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CloudService_DeleteNamespaceRegion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteNamespaceRegionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CloudServiceServer).DeleteNamespaceRegion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CloudService_DeleteNamespaceRegion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CloudServiceServer).DeleteNamespaceRegion(ctx, req.(*DeleteNamespaceRegionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1861,6 +1897,10 @@ var CloudService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddNamespaceRegion",
 			Handler:    _CloudService_AddNamespaceRegion_Handler,
+		},
+		{
+			MethodName: "DeleteNamespaceRegion",
+			Handler:    _CloudService_DeleteNamespaceRegion_Handler,
 		},
 		{
 			MethodName: "GetRegions",

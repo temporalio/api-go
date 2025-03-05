@@ -325,6 +325,43 @@ func (this *GoogleGroupSpec) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type SCIMGroupSpec to the protobuf v3 wire format
+func (val *SCIMGroupSpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type SCIMGroupSpec from the protobuf v3 wire format
+func (val *SCIMGroupSpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *SCIMGroupSpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two SCIMGroupSpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *SCIMGroupSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *SCIMGroupSpec
+	switch t := that.(type) {
+	case *SCIMGroupSpec:
+		that1 = t
+	case SCIMGroupSpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type UserGroupSpec to the protobuf v3 wire format
 func (val *UserGroupSpec) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
