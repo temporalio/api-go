@@ -29,6 +29,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -511,12 +512,13 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 
 		err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
 			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
-				fmt.Println("FOUND")
+				fmt.Print("FOUND")
 				require.Equal(1, *count)
 				*count--
 				return p, nil
 			},
 		})
+		fmt.Println()
 		require.NoError(err)
 		return
 	case *anypb.Any:
@@ -562,17 +564,97 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 	for i := 0; i < fields.Len(); i++ {
 		fd := fields.Get(i)
 		value := m.Get(fd)
-		fmt.Printf("[%s] %s, %s\n", fd.Name(), value, value.Interface())
+		fmt.Printf("[%s]\n", fd.Name())
+		fmt.Printf("\t%s, %s, %t, %t\n", fd.Name(), fd.Kind(), fd.IsList(), fd.IsMap())
+		fmt.Printf("\t%v\n", value.Interface())
 
 		if oneof := fd.ContainingOneof(); oneof != nil && fd.Kind() == protoreflect.MessageKind {
+			fmt.Println("\toneof")
 			//fmt.Printf("Found oneof field: %s (Group: %s)\n", fd.Name(), oneof.Name())
 			newMsg := value.Message().New()
 			m.Set(fd, protoreflect.ValueOf(newMsg))
 			//fmt.Println("RECURSING into (oneof)", fd.Name(), newMsg, newMsg.Interface())
+			fmt.Println("RECURSING oneof")
 			populatePayload(root, newMsg.Interface(), require, totalCount, count)
 			// This ensures only 1 payload is set and discoverable from root at a time.
 			m.Clear(fd)
+		} else if fd.Kind() == protoreflect.MessageKind && fd.IsMap() {
+			fmt.Println("\tMap")
+			mapVal := m.Mutable(fd).Map()
+			require.Equal(0, mapVal.Len())
+			// TODO: should only have to handle string and maybe int32 for keys,
+			if fd.MapKey().Kind() == protoreflect.StringKind &&
+				fd.MapValue().Kind() == protoreflect.MessageKind &&
+				string(fd.MapValue().Message().FullName()) == "temporal.api.common.v1.Payload" {
+				//fmt.Println("✅ Found a map<string, Payload>! len", mapVal.Len(), "IsValid()", mapVal.IsValid())
+				sampleKey := protoreflect.ValueOf("sample_key").MapKey()
+				mapVal.Set(sampleKey, protoreflect.ValueOf(inputPayload().ProtoReflect()))
+				mapVal.Range(func(key protoreflect.MapKey, val protoreflect.Value) bool {
+					//fmt.Printf("  Map Key: %v\n", key)
+
+					// **Handle map of messages**
+					if fd.MapValue().Kind() == protoreflect.MessageKind {
+						// TODO: Why are we testing with newMsg that isn't being set to mapVal?
+						newMsg := val.Message().New()
+						fmt.Println("RECURSING map2")
+						populatePayload(root, newMsg.Interface(), require, totalCount, count)
+					}
+					return true
+				})
+				mapVal.Clear(sampleKey)
+				//}
+			} else if fd.MapValue().Kind() == protoreflect.MessageKind {
+				fmt.Println("mapkind123")
+				var sampleKey protoreflect.MapKey
+				switch fd.MapKey().Kind() {
+				case protoreflect.StringKind:
+					sampleKey = protoreflect.ValueOf("sample_key").MapKey()
+				case protoreflect.Int32Kind, protoreflect.Sint32Kind, protoreflect.Sfixed32Kind:
+					sampleKey = protoreflect.ValueOf(int32(1)).MapKey()
+				case protoreflect.Int64Kind, protoreflect.Sint64Kind, protoreflect.Uint64Kind:
+					sampleKey = protoreflect.ValueOf(int64(1)).MapKey()
+				case protoreflect.BoolKind:
+					sampleKey = protoreflect.ValueOf(true).MapKey()
+				default:
+					fmt.Println("Skipping unsupported map key type:", fd.MapKey().Kind())
+					return
+				}
+				fmt.Println("[sampleKey]", sampleKey, sampleKey.Interface())
+				fmt.Println("[mapVal]", reflect.TypeOf(mapVal.NewValue()))
+				// TODO: This is not setting the value properly?
+				mapVal.Set(sampleKey, mapVal.NewValue())
+				fmt.Println("map len", mapVal.Len())
+				mapVal.Range(func(key protoreflect.MapKey, val protoreflect.Value) bool {
+					if fd.MapValue().Kind() == protoreflect.MessageKind {
+						newMsg := val.Message()
+						//fmt.Println("RECURSING into map value", fd.Name(), key, newMsg, newMsg.Interface())
+						fmt.Println("RECURSING map1")
+						populatePayload(root, newMsg.Interface(), require, totalCount, count)
+					}
+					return true
+				})
+				//populatePayload(root, newMsg.Interface(), require, totalCount, count)
+				mapVal.Clear(sampleKey)
+			}
+		} else if fd.Kind() == protoreflect.MessageKind && fd.IsList() {
+			listVal := m.Mutable(fd).List()
+			// We expect this list to be empty
+			require.Equal(0, listVal.Len())
+
+			// Create a sample val
+			sampleVal := listVal.NewElement()
+			listVal.Append(sampleVal)
+
+			val := listVal.Get(0)
+
+			require.True(val.Message().IsValid())
+
+			newMsg := val.Message()
+			fmt.Println("RECURSING list")
+			populatePayload(root, newMsg.Interface(), require, totalCount, count)
+			listVal.Truncate(0)
 		} else if fd.Kind() == protoreflect.MessageKind && !fd.IsList() && !fd.IsMap() {
+			fmt.Println("\tMessageKind")
 			// Avoid cycles
 			if value.Message().Descriptor().FullName() == m.Descriptor().FullName() {
 				fmt.Println("Avoiding cycles for", fd.Name(), m.Descriptor().FullName())
@@ -580,58 +662,20 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 			}
 
 			var newMsg protoreflect.Message
-			//if value.Message().Descriptor().FullName() == "google.protobuf.Any" {
-			//	fmt.Println("[any]")
-			//	//anyMsg := &anypb.Any{}
-			//	//payloads := inputPayload()
-			//	//err := anypb.MarshalFrom(anyMsg, payloads, proto.MarshalOptions{})
-			//	//require.NoError(err)
-			//
-			//	anyMsg, err := anypb.New(inputPayload())
-			//	require.NoError(err)
-			//	m.Set(fd, protoreflect.ValueOf(anyMsg.ProtoReflect()))
-			//	unpackedPayload := &common.Payload{}
-			//	err = anyMsg.UnmarshalTo(unpackedPayload)
-			//	require.NoError(err)
-			//	populatePayload(root, unpackedPayload, require, totalCount, count)
-			//} else {
 			// If field is not set, create a new message
 			newMsg = value.Message().New()
 			m.Set(fd, protoreflect.ValueOf(newMsg))
+			fmt.Println("RECURSING")
 			populatePayload(root, newMsg.Interface(), require, totalCount, count)
 			//}
 
 			// This ensures only 1 payload is set and discoverable from root at a time.
 			m.Clear(fd)
-		} else if fd.IsMap() {
-			mapVal := m.Mutable(fd).Map()
-
-			if fd.MapKey().Kind() == protoreflect.StringKind &&
-				fd.MapValue().Kind() == protoreflect.MessageKind &&
-				string(fd.MapValue().Message().FullName()) == "temporal.api.common.v1.Payload" {
-				//fmt.Println("✅ Found a map<string, Payload>! len", mapVal.Len(), "IsValid()", mapVal.IsValid())
-				sampleKey := protoreflect.ValueOf("sample_key").MapKey()
-				mapVal.Set(sampleKey, protoreflect.ValueOf(inputPayload().ProtoReflect()))
-				//fmt.Printf("Processing map field: %s (size: %d)\n", fd.Name(), mapVal.Len())
-				mapVal.Range(func(key protoreflect.MapKey, val protoreflect.Value) bool {
-					//fmt.Printf("  Map Key: %v\n", key)
-
-					// **Handle map of messages**
-					if fd.MapValue().Kind() == protoreflect.MessageKind {
-						newMsg := val.Message().New()
-						//fmt.Println("RECURSING into map value", fd.Name(), key, newMsg, newMsg.Interface())
-						populatePayload(root, newMsg.Interface(), require, totalCount, count)
-					}
-					return true
-				})
-				mapVal.Clear(sampleKey)
-			}
-
 		}
 	}
 
 	// Validate that all Payloads were found
-	require.Equal(0, *count)
+	//require.Equal(0, *count)
 
 	fmt.Println("EXITING RECURSION")
 }
@@ -677,6 +721,28 @@ func TestUpdateRejectionCount(t *testing.T) {
 	require.False(true)
 }
 
+func TestPayloadsCount(t *testing.T) {
+	require := require.New(t)
+
+	// answer - Payloads
+	// failure - 5
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.query.v1.WorkflowQueryResult") { // should have 5
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	var totalCount, count int
+	populatePayload(&msg, msg, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(6, totalCount)
+}
+
 func TestAnyCount(t *testing.T) {
 	require := require.New(t)
 
@@ -700,31 +766,16 @@ func TestAnyCount(t *testing.T) {
 func TestMapCount(t *testing.T) {
 	require := require.New(t)
 
-	// map<
 	var messageType protoreflect.MessageType
-	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.common.v1.SearchAttributes") {
-			messageType = mt
-		}
-		return true
-	})
-
-	// Create empty instance and populate with test values
-	//msg := messageType.New().Interface().(proto.Message)
 	var totalCount, count int
-	//populatePayload(&msg, msg, require, &totalCount, &count)
 
-	//require.Equal(0, count)
-	//require.Equal(1, totalCount)
-
-	//test for map<string,WorkflowQuery>, where WorkflowQuery has a payload
-
-	// repeated temporal.api.command.v1.Command commands = 2; - appears to have 36
-	//  UserMetadata - 2
-	// map<string, temporal.api.query.v1.WorkflowQueryResult> query_results
-	//  temporal.api.common.v1.Payloads answer = 2;
-	// repeated temporal.api.protocol.v1.Message messages = 11;
-	//  google.protobuf.Any body = 5;
+	// 	repeated temporal.api.command.v1.Command commands = 2; - 37
+	// 	map<string, temporal.api.query.v1.WorkflowQueryResult> query_results - 6
+	//		answer - 1
+	//		failure - 5
+	// 	repeated temporal.api.protocol.v1.Message messages - 1
+	//  	google.protobuf.Any body - 1
+	// TOTAL - 44
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
 		if string(mt.Descriptor().FullName()) == "temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedRequest" {
 			messageType = mt
@@ -739,12 +790,47 @@ func TestMapCount(t *testing.T) {
 	populatePayload(&msg1, msg1, require, &totalCount, &count)
 
 	require.Equal(0, count)
-	require.Equal(4, totalCount)
+	require.Equal(44, totalCount)
 }
 
 func TestCommandCount(t *testing.T) {
 	require := require.New(t)
 
+	// UserMetadata - 2
+	// ScheduleActivityTaskCommandAttributes - 2
+	// 		header - 1
+	//  	payloads - 1
+	//	CompleteWorkflowExecutionCommandAttributes - 1
+	//	FailWorkflowExecutionCommandAttributes - 5
+	//		failure - 5
+	//	CancelWorkflowExecutionCommandAttributes - 1
+	//	RecordMarkerCommandAttributes - 7
+	//		details - 1
+	//		header - 1
+	//		failure - 5
+	// 	ContinueAsNewWorkflowExecutionCommandAttributes - 10
+	//		input - 1
+	//		failure - 5
+	//		last_completion_result - 1
+	//		header - 1
+	//		memo - 1
+	//		SearchAttributes - 1
+	//
+	//	StartChildWorkflowExecutionCommandAttributes - 4
+	//		input - 1
+	//		header
+	//		memo
+	//		searchAttributes
+	//	SignalExternalWorkflowExecutionCommandAttributes - 2
+	//		header - 1
+	//		input - 1
+	//	UpsertWorkflowSearchAttributesCommandAttributes - 1
+	//		searchAttributes - 1
+	//	ModifyWorkflowPropertiesCommandAttributes - 1
+	//		memo - 1
+	//	ScheduleNexusOperationCommandAttributes - 1
+	//		input - 1
+	// TOTAL : 37
 	var messageType protoreflect.MessageType
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
 		if string(mt.Descriptor().FullName()) == "temporal.api.command.v1.Command" {
@@ -759,11 +845,11 @@ func TestCommandCount(t *testing.T) {
 	populatePayload(&msg, msg, require, &totalCount, &count)
 
 	require.Equal(0, count)
-	require.Equal(36, totalCount)
-	require.True(false)
+	require.Equal(37, totalCount)
+	//require.True(false)
 }
 
-func TestSandbox(t *testing.T) {
+func TestEverything(t *testing.T) {
 	require := require.New(t)
 
 	var messageType []protoreflect.MessageType
@@ -784,7 +870,47 @@ func TestSandbox(t *testing.T) {
 		require.Equal(0, count)
 
 	}
-	//	// TODO: need to fail to print
 	//require.True(false)
+}
 
+func TestResponseCount(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if string(mt.Descriptor().FullName()) == "temporal.api.update.v1.Response" {
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	var totalCount, count int
+	populatePayload(&msg, msg, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(6, totalCount)
+}
+
+func TestSandbox(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		// sdk.UserMetadata works, gets 2
+		//
+		if string(mt.Descriptor().FullName()) == "temporal.api.command.v1.Command" {
+			messageType = mt
+		}
+		return true
+	})
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	var totalCount, count int
+	populatePayload(&msg, msg, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(36, totalCount)
+	require.True(false)
 }

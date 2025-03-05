@@ -474,6 +474,7 @@ func containsMessage(
 	memo map[protoreflect.FullName]bool,
 ) bool {
 	fullName := md.FullName()
+	fmt.Println("[fullName]", fullName)
 	// If we've already computed for this message, return the cached result.
 	if res, ok := memo[fullName]; ok {
 		return res
@@ -503,7 +504,7 @@ func containsMessage(
 }
 
 // checkMessage examines the given message descriptor md and, if it (transitively) contains a
-// payload, appends it result slice.
+// payload, appends its result slice.
 func checkMessage(md protoreflect.MessageDescriptor,
 	targetMessages []string,
 	memo map[protoreflect.FullName]bool,
@@ -590,10 +591,10 @@ func protoFullNameToGoPackageAndType(md protoreflect.MessageDescriptor) (pkgPath
 	return pkgPath, typeName, nil
 }
 
-func gatherMatchesToRypeRecords(
+func gatherMatchesToTypeRecords(
 	mds []protoreflect.MessageDescriptor,
-	targetTypes []types.Type,
-	directMatchTypes []types.Type,
+	targetTypes []types.Type, // [go.temporal.io/api/common/v1.Payloads go.temporal.io/api/common/v1.Payload]
+	directMatchTypes []types.Type, // [go.temporal.io/api/common/v1.Payload]
 ) (map[string]*TypeRecord, error) {
 	matchingRecords := map[string]*TypeRecord{}
 	packagesToTypes := map[string][]string{}
@@ -657,6 +658,7 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 	record := TypeRecord{}
 	(*records)[typeName] = &record
 
+	// Look for all functions with this `typ` type
 	for _, meth := range typeutil.IntuitiveMethodSet(elemType(typ), nil) {
 		// Ignore non-exported methods
 		if !meth.Obj().Exported() {
@@ -667,15 +669,19 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 		// The protobuf types have a Get.. method for every protobuf they refer to
 		// We walk only these methods to avoid cycles or other nasty issues
 		if !strings.HasPrefix(methodName, "Get") {
+			// i.e. Descriptor, Enum, Number, String, Type, ProtoMessage...
 			continue
 		}
 
 		sig := meth.Obj().Type().(*types.Signature)
 		// All the Get... methods return the relevant protobuf as the first result
 		resultType := sig.Results().At(0).Type()
+		fmt.Println("[resultType]", resultType) // map[string][string], string,
 
 		hasDirectMatch := false
 		for _, directMatchType := range directMatchTypes {
+			fmt.Println("resultType.String()", resultType.String())
+			fmt.Println("types.NewPointer(directMatchType).String()", types.NewPointer(directMatchType).String())
 			if resultType.String() == types.NewPointer(directMatchType).String() {
 				hasDirectMatch = true
 				break
@@ -744,6 +750,9 @@ func generateInterceptor(cfg config) error {
 		payloadTypes = append(payloadTypes, anyTypes...)
 		failureTypes = append(failureTypes, anyTypes...)
 	}
+	fmt.Println("[payloadTypes]", payloadTypes)
+	fmt.Println("[payloadDirectMatchType]", payloadDirectMatchType)
+	fmt.Println("[failureTypes]", failureTypes)
 
 	protoFiles, err := getProtoRegistryFromDescriptor(cfg.descriptorPath)
 	if err != nil {
@@ -760,19 +769,33 @@ func generateInterceptor(cfg config) error {
 		"google.protobuf.Any",
 	}
 	allPayloadContainingMessages, err := gatherMessagesContainingTargets(protoFiles, payloadMessageNames, excludedEntryPoints)
+	fmt.Println("[allPayloadContainingMessages]")
+	for msg := range allPayloadContainingMessages {
+		asdf := allPayloadContainingMessages[msg]
+		fmt.Println("\t", asdf.FullName())
+	}
 	failureMessageNames := []string{
 		"temporal.api.failure.v1.Failure",
 		"google.protobuf.Any",
 	}
 	allFailureContainingMessages, err := gatherMessagesContainingTargets(protoFiles, failureMessageNames, excludedEntryPoints)
 
-	payloadRecords, err := gatherMatchesToRypeRecords(allPayloadContainingMessages, payloadTypes, payloadDirectMatchType)
+	payloadRecords, err := gatherMatchesToTypeRecords(allPayloadContainingMessages, payloadTypes, payloadDirectMatchType)
 	if err != nil {
 		return err
 	}
-	failureRecords, err := gatherMatchesToRypeRecords(allFailureContainingMessages, failureTypes, make([]types.Type, 0))
+	failureRecords, err := gatherMatchesToTypeRecords(allFailureContainingMessages, failureTypes, make([]types.Type, 0))
 	if err != nil {
 		return err
+	}
+
+	fmt.Println("[payloadRecords]")
+	for a, payload := range payloadRecords {
+		fmt.Println("\t[", a, "]", payload)
+	}
+	fmt.Println("[failureRecords]")
+	for _, failure := range failureRecords {
+		fmt.Println("\t", failure)
 	}
 
 	buf := &bytes.Buffer{}
