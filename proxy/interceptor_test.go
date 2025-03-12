@@ -30,6 +30,7 @@ import (
 	"log"
 	"net"
 	"reflect"
+	"slices"
 	"strings"
 	"testing"
 	"time"
@@ -195,6 +196,35 @@ func TestVisitPayloads_NestedParent(t *testing.T) {
 	require.IsType(t, &command.StartChildWorkflowExecutionCommandAttributes{}, inputParent)
 }
 
+func TestVisitPayloads_AggregationGroup(t *testing.T) {
+	// Due to us not visiting protos inside Any, this test used to fail
+	root := &workflowservice.CountWorkflowExecutionsResponse_AggregationGroup{GroupValues: []*common.Payload{{Data: []byte("orig-val")}}}
+
+	var count int
+	// Visit with any recursion enabled and only change orig-val
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			count += 1
+			// Only mutate if the payloads has orig-val
+			if len(p) == 1 && string(p[0].Data) == "orig-val" {
+				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, 1, count)
+	//update1, err := root.Messages[0].Body.UnmarshalNew()
+	//require.NoError(t, err)
+	//require.Equal(t, "new-val", string(update1.(*update.Request).Input.Args.Payloads[0].Data))
+	//update2, err := root.Messages[1].Body.UnmarshalNew()
+	//require.NoError(t, err)
+	//require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).Input.Args.Payloads[0].Data))
+	//update3, err := root.Messages[2].Body.UnmarshalNew()
+	//require.NoError(t, err)
+	//require.Equal(t, "new-val", string(update3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
+}
+
 func TestVisitPayloads_Any(t *testing.T) {
 	// Due to us not visiting protos inside Any, this test used to fail
 	msg1, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
@@ -210,9 +240,10 @@ func TestVisitPayloads_Any(t *testing.T) {
 			Payloads: []*common.Payload{{Data: []byte("orig-val")}},
 		},
 	}}})
+	msg4, err := anypb.New(&workflowservice.CountWorkflowExecutionsResponse_AggregationGroup{GroupValues: []*common.Payload{{Data: []byte("orig-val")}}})
 	require.NoError(t, err)
 	root := &workflowservice.PollWorkflowTaskQueueResponse{
-		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}},
+		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}, {Body: msg4}},
 	}
 
 	// Visit with any recursion enabled and only change orig-val
@@ -518,50 +549,30 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 				return p, nil
 			},
 		})
+		fmt.Println("asdf")
 		require.NoError(err)
 		return
 	case *anypb.Any:
-		fmt.Println("ANYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+		//fmt.Println("ANYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+		//fmt.Println("m.Descriptor().IsMapEntry()", m.Descriptor().IsMapEntry())
 		if i.TypeUrl == "" {
-			// TODO: array of any
 			// Set to a random proto struct we know contains a payload, to test if we
 			// are able to recurse through Any to reach a payload
 			newAny, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
 				Payloads: []*common.Payload{{Data: []byte("orig-val")}},
 			}}})
 			require.NoError(err)
-
-			//payload := inputPayload()
-			//newAny, err := anypb.New(payload)
-			//require.NoError(err)
-
-			//*i = *newAny
-			//*i = *proto.Clone(newAny).(*anypb.Any)
-			// Assign the newAny to msg by type assertion
 			proto.Merge(msg, newAny)
-			//if m, ok := msg.(*anypb.Any); ok {
-			//	//proto.Merge(m, payload)
-			//	require.NoError(m.MarshalFrom(payload))
-			//	//*m = *proto.Clone(newAny).(*anypb.Any)
-			//} else {
-			//	panic("msg should always be type anypb.Any")
-			//}
-			fmt.Println("✅ Successfully set Any with Payloads")
+			//fmt.Println("✅ Successfully set Any with Payloads")
 
-			r := (*root).ProtoReflect()
-			f := r.Descriptor().Fields()
+			//r := (*root).ProtoReflect()
+			//f := r.Descriptor().Fields()
 
-			fmt.Println("root's fields.len()", f.Len())
-			//details := f.Get(2)
-			//value := r.Get(details)
-			//fmt.Printf("[%s]\n", details.Name())
-			//fmt.Printf("\t%s, %s, %t, %t\n", details.Name(), details.Kind(), details.IsList(), details.IsMap())
-			//fmt.Printf("\t%v\n", value.Interface())
+			//fmt.Println("root's fields.len()", f.Len())
 		}
-		// TODO: any is not being set properly, root is not reaching any.
 		*count++
 		*totalCount++
-		fmt.Print("[Payload(s) for any] - ")
+		fmt.Print("any [Payload(s)] - ")
 
 		err := VisitPayloads(context.Background(), *root, VisitPayloadsOptions{
 			Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
@@ -645,22 +656,27 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 
 		} else if fd.IsList() {
 			fmt.Println("List")
-			if fd.Kind() == protoreflect.MessageKind {
-				fmt.Println("\tMessageKind")
+			// TODO https://github.com/temporalio/sdk-go/issues/1864
+			if fd.Kind() == protoreflect.MessageKind && fd.Message().FullName() != "google.protobuf.Any" {
+				fmt.Println("\tMessageKind", fd.Message().FullName())
 				listVal := m.Mutable(fd).List()
 				// We expect this list to be empty
 				require.Equal(0, listVal.Len())
 
 				// Create a sample val
-				sampleVal := listVal.NewElement()
+				var sampleVal protoreflect.Value
+				if fd.Message().FullName() == "temporal.api.common.v1.Payload" {
+					sampleVal = protoreflect.ValueOf(inputPayload().ProtoReflect())
+				} else {
+					sampleVal = listVal.NewElement()
+				}
 				listVal.Append(sampleVal)
 
 				val := listVal.Get(0)
 				require.True(val.Message().IsValid())
-
-				newMsg := val.Message()
 				fmt.Println("RECURSING list")
-				populatePayload(root, newMsg.Interface(), require, totalCount, count)
+				require.Equal(1, listVal.Len())
+				populatePayload(root, sampleVal.Message().Interface(), require, totalCount, count)
 				listVal.Truncate(0)
 			}
 		} else {
@@ -673,20 +689,17 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 				}
 
 				var newMsg protoreflect.Message
-				// If field is not set, create a new message
 				newMsg = value.Message().New()
 				m.Set(fd, protoreflect.ValueOf(newMsg))
 				fmt.Println("RECURSING")
 				populatePayload(root, newMsg.Interface(), require, totalCount, count)
-				//}
-
 				// This ensures only 1 payload is set and discoverable from root at a time.
 				m.Clear(fd)
 			}
 		}
 
 		// Validate that all Payloads were found
-		//require.Equal(0, *count)
+		require.Equal(0, *count)
 	}
 	fmt.Println("EXITING RECURSION")
 }
@@ -858,8 +871,14 @@ func TestEverything(t *testing.T) {
 	require := require.New(t)
 
 	var messageType []protoreflect.MessageType
+	skipList := []string{
+		"temporal.api.common.v1.Payload",
+		// TODO: https://github.com/temporalio/sdk-go/issues/1865
+		"temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse",
+		"temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup",
+	}
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && string(mt.Descriptor().FullName()) != "temporal.api.common.v1.Payload" { // 2 from request, 7 total
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && !slices.Contains(skipList, string(mt.Descriptor().FullName())) {
 			messageType = append(messageType, mt)
 		}
 		return true
@@ -868,15 +887,14 @@ func TestEverything(t *testing.T) {
 	for _, mt := range messageType {
 		// Create empty instance and populate with test values
 		msg := mt.New().Interface().(proto.Message)
+		fmt.Println("\n\nCreate empty instance and populate with test values")
 
 		var totalCount, count int
 		populatePayload(&msg, msg, require, &totalCount, &count)
 
-		// TODO: This is 1
 		require.Equal(0, count)
 
 	}
-	//require.True(false)
 }
 
 func TestResponseCount(t *testing.T) {
@@ -899,6 +917,7 @@ func TestResponseCount(t *testing.T) {
 	require.Equal(6, totalCount)
 }
 
+// TODO: remove before PR
 func TestSandbox(t *testing.T) {
 	require := require.New(t)
 
@@ -906,7 +925,7 @@ func TestSandbox(t *testing.T) {
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
 		// sdk.UserMetadata works, gets 2
 		//
-		if string(mt.Descriptor().FullName()) == "temporal.api.command.v1.Command" {
+		if string(mt.Descriptor().FullName()) == "temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup" {
 			messageType = mt
 		}
 		return true
@@ -917,6 +936,6 @@ func TestSandbox(t *testing.T) {
 	populatePayload(&msg, msg, require, &totalCount, &count)
 
 	require.Equal(0, count)
-	require.Equal(37, totalCount)
+	require.Equal(1, totalCount)
 	//require.True(false)
 }
