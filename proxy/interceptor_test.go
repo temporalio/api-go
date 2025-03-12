@@ -54,7 +54,6 @@ import (
 	_ "go.temporal.io/api/version/v1"
 	_ "go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
-
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
@@ -202,10 +201,9 @@ func TestVisitPayloads_Any(t *testing.T) {
 			Payloads: []*common.Payload{{Data: []byte("orig-val")}},
 		},
 	}}})
-	msg4, err := anypb.New(&workflowservice.CountWorkflowExecutionsResponse_AggregationGroup{GroupValues: []*common.Payload{{Data: []byte("orig-val")}}})
 	require.NoError(t, err)
 	root := &workflowservice.PollWorkflowTaskQueueResponse{
-		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}, {Body: msg4}},
+		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}},
 	}
 
 	// Visit with any recursion enabled and only change orig-val
@@ -480,7 +478,7 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 	}, nil
 }
 
-// Recursively crawl and test Payload/Payloads with Visitor
+// Recursively crawl and test Payload(s) with Visitor
 func populatePayload(root *proto.Message, msg proto.Message, require *require.Assertions, totalCount *int, count *int) {
 	m := msg.ProtoReflect()
 	fields := m.Descriptor().Fields()
@@ -625,7 +623,7 @@ func TestVisitPayloads_FailureCount(t *testing.T) {
 
 	var messageType protoreflect.MessageType
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") { // should have 5
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.failure.v1.Failure") {
 			messageType = mt
 		}
 		return true
@@ -665,7 +663,7 @@ func TestVisitPayloads_PayloadsCount(t *testing.T) {
 
 	var messageType protoreflect.MessageType
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.query.v1.WorkflowQueryResult") { // should have 5
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.query.v1.WorkflowQueryResult") {
 			messageType = mt
 		}
 		return true

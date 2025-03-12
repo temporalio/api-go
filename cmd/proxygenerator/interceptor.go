@@ -592,8 +592,8 @@ func protoFullNameToGoPackageAndType(md protoreflect.MessageDescriptor) (pkgPath
 
 func gatherMatchesToTypeRecords(
 	mds []protoreflect.MessageDescriptor,
-	targetTypes []types.Type, // [go.temporal.io/api/common/v1.Payloads go.temporal.io/api/common/v1.Payload]
-	directMatchTypes []types.Type, // [go.temporal.io/api/common/v1.Payload]
+	targetTypes []types.Type,
+	directMatchTypes []types.Type,
 ) (map[string]*TypeRecord, error) {
 	matchingRecords := map[string]*TypeRecord{}
 	packagesToTypes := map[string][]string{}
@@ -668,7 +668,6 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 		// The protobuf types have a Get.. method for every protobuf they refer to
 		// We walk only these methods to avoid cycles or other nasty issues
 		if !strings.HasPrefix(methodName, "Get") {
-			// i.e. Descriptor, Enum, Number, String, Type, ProtoMessage...
 			continue
 		}
 
@@ -746,9 +745,6 @@ func generateInterceptor(cfg config) error {
 		payloadTypes = append(payloadTypes, anyTypes...)
 		failureTypes = append(failureTypes, anyTypes...)
 	}
-	fmt.Println("[payloadTypes]", payloadTypes)
-	fmt.Println("[payloadDirectMatchType]", payloadDirectMatchType)
-	fmt.Println("[failureTypes]", failureTypes)
 
 	protoFiles, err := getProtoRegistryFromDescriptor(cfg.descriptorPath)
 	if err != nil {
@@ -765,11 +761,6 @@ func generateInterceptor(cfg config) error {
 		"google.protobuf.Any",
 	}
 	allPayloadContainingMessages, err := gatherMessagesContainingTargets(protoFiles, payloadMessageNames, excludedEntryPoints)
-	fmt.Println("[allPayloadContainingMessages]")
-	for msg := range allPayloadContainingMessages {
-		asdf := allPayloadContainingMessages[msg]
-		fmt.Println("\t", asdf.FullName())
-	}
 	failureMessageNames := []string{
 		"temporal.api.failure.v1.Failure",
 		"google.protobuf.Any",
@@ -783,15 +774,6 @@ func generateInterceptor(cfg config) error {
 	failureRecords, err := gatherMatchesToTypeRecords(allFailureContainingMessages, failureTypes, make([]types.Type, 0))
 	if err != nil {
 		return err
-	}
-
-	fmt.Println("[payloadRecords]")
-	for a, payload := range payloadRecords {
-		fmt.Println("\t[", a, "]", payload)
-	}
-	fmt.Println("[failureRecords]")
-	for _, failure := range failureRecords {
-		fmt.Println("\t", failure)
 	}
 
 	buf := &bytes.Buffer{}
