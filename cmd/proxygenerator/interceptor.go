@@ -474,7 +474,6 @@ func containsMessage(
 	memo map[protoreflect.FullName]bool,
 ) bool {
 	fullName := md.FullName()
-	fmt.Println("[fullName]", fullName)
 	// If we've already computed for this message, return the cached result.
 	if res, ok := memo[fullName]; ok {
 		return res
@@ -676,12 +675,9 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 		sig := meth.Obj().Type().(*types.Signature)
 		// All the Get... methods return the relevant protobuf as the first result
 		resultType := sig.Results().At(0).Type()
-		fmt.Println("[resultType]", resultType) // map[string][string], string,
 
 		hasDirectMatch := false
 		for _, directMatchType := range directMatchTypes {
-			fmt.Println("resultType.String()", resultType.String())
-			fmt.Println("types.NewPointer(directMatchType).String()", types.NewPointer(directMatchType).String())
 			if resultType.String() == types.NewPointer(directMatchType).String() {
 				hasDirectMatch = true
 				break
