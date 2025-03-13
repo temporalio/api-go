@@ -27,35 +27,35 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// Marshal an object of type Action to the protobuf v3 wire format
-func (val *Action) Marshal() ([]byte, error) {
+// Marshal an object of type WorkflowRuleAction to the protobuf v3 wire format
+func (val *WorkflowRuleAction) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
-// Unmarshal an object of type Action from the protobuf v3 wire format
-func (val *Action) Unmarshal(buf []byte) error {
+// Unmarshal an object of type WorkflowRuleAction from the protobuf v3 wire format
+func (val *WorkflowRuleAction) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
 // Size returns the size of the object, in bytes, once serialized
-func (val *Action) Size() int {
+func (val *WorkflowRuleAction) Size() int {
 	return proto.Size(val)
 }
 
-// Equal returns whether two Action values are equivalent by recursively
+// Equal returns whether two WorkflowRuleAction values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
 // https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *Action) Equal(that interface{}) bool {
+func (this *WorkflowRuleAction) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	var that1 *Action
+	var that1 *WorkflowRuleAction
 	switch t := that.(type) {
-	case *Action:
+	case *WorkflowRuleAction:
 		that1 = t
-	case Action:
+	case WorkflowRuleAction:
 		that1 = &t
 	default:
 		return false
