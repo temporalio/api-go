@@ -158,20 +158,20 @@ func NexusOperationCancellationStateFromString(s string) (NexusOperationCancella
 }
 
 var (
-	RuleActionScope_shorthandValue = map[string]int32{
+	WorkflowRuleActionScope_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Workflow":    1,
 		"Activity":    2,
 	}
 )
 
-// RuleActionScopeFromString parses a RuleActionScope value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to RuleActionScope
-func RuleActionScopeFromString(s string) (RuleActionScope, error) {
-	if v, ok := RuleActionScope_value[s]; ok {
-		return RuleActionScope(v), nil
-	} else if v, ok := RuleActionScope_shorthandValue[s]; ok {
-		return RuleActionScope(v), nil
+// WorkflowRuleActionScopeFromString parses a WorkflowRuleActionScope value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to WorkflowRuleActionScope
+func WorkflowRuleActionScopeFromString(s string) (WorkflowRuleActionScope, error) {
+	if v, ok := WorkflowRuleActionScope_value[s]; ok {
+		return WorkflowRuleActionScope(v), nil
+	} else if v, ok := WorkflowRuleActionScope_shorthandValue[s]; ok {
+		return WorkflowRuleActionScope(v), nil
 	}
-	return RuleActionScope(0), fmt.Errorf("%s is not a valid RuleActionScope", s)
+	return WorkflowRuleActionScope(0), fmt.Errorf("%s is not a valid WorkflowRuleActionScope", s)
 }

@@ -662,15 +662,18 @@ type WorkflowServiceClient interface {
 	//
 	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
 	ResetActivity(ctx context.Context, in *ResetActivityRequest, opts ...grpc.CallOption) (*ResetActivityResponse, error)
-	// Create a new workflow rule.
-	// If the rule with such ID already exist this call will fail.
+	// Create a new workflow rule. The rules are used to control the workflow execution.
+	// The rule will be applied to all running and new workflows in the namespace.
+	// If the rule with such ID already exist this call will fail
+	// Note: the rules are part of namespace configuration and will be stored in the namespace config.
+	// Namespace config is eventually consistent.
 	CreateWorkflowRule(ctx context.Context, in *CreateWorkflowRuleRequest, opts ...grpc.CallOption) (*CreateWorkflowRuleResponse, error)
 	// DescribeWorkflowRule return the rule specification for existing rule id.
-	// If there is no rule with such id - NO FOUND error will be returned.
+	// If there is no rule with such id - NOT FOUND error will be returned.
 	DescribeWorkflowRule(ctx context.Context, in *DescribeWorkflowRuleRequest, opts ...grpc.CallOption) (*DescribeWorkflowRuleResponse, error)
 	// Delete rule by rule id
 	DeleteWorkflowRule(ctx context.Context, in *DeleteWorkflowRuleRequest, opts ...grpc.CallOption) (*DeleteWorkflowRuleResponse, error)
-	// Return all namespace rules
+	// Return all namespace workflow rules
 	ListWorkflowRules(ctx context.Context, in *ListWorkflowRulesRequest, opts ...grpc.CallOption) (*ListWorkflowRulesResponse, error)
 }
 
@@ -2074,15 +2077,18 @@ type WorkflowServiceServer interface {
 	//
 	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
 	ResetActivity(context.Context, *ResetActivityRequest) (*ResetActivityResponse, error)
-	// Create a new workflow rule.
-	// If the rule with such ID already exist this call will fail.
+	// Create a new workflow rule. The rules are used to control the workflow execution.
+	// The rule will be applied to all running and new workflows in the namespace.
+	// If the rule with such ID already exist this call will fail
+	// Note: the rules are part of namespace configuration and will be stored in the namespace config.
+	// Namespace config is eventually consistent.
 	CreateWorkflowRule(context.Context, *CreateWorkflowRuleRequest) (*CreateWorkflowRuleResponse, error)
 	// DescribeWorkflowRule return the rule specification for existing rule id.
-	// If there is no rule with such id - NO FOUND error will be returned.
+	// If there is no rule with such id - NOT FOUND error will be returned.
 	DescribeWorkflowRule(context.Context, *DescribeWorkflowRuleRequest) (*DescribeWorkflowRuleResponse, error)
 	// Delete rule by rule id
 	DeleteWorkflowRule(context.Context, *DeleteWorkflowRuleRequest) (*DeleteWorkflowRuleResponse, error)
-	// Return all namespace rules
+	// Return all namespace workflow rules
 	ListWorkflowRules(context.Context, *ListWorkflowRulesRequest) (*ListWorkflowRulesResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }

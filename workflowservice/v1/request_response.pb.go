@@ -12163,8 +12163,9 @@ type CreateWorkflowRuleRequest struct {
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The rule specification .
 	Spec *v120.WorkflowRuleSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
-	// If true, the rule will be applied immediately via batch job.
-	// Visibility query in the rule will be used to select the workflows to apply the rule to.
+	// If true, the rule will be applied to the currently running workflows via batch job.
+	// If not set , the rule will only be applied when triggering condition is satisfied.
+	// visibility_query in the rule will be used to select the workflows to apply the rule to.
 	ForceScan bool `protobuf:"varint,3,opt,name=force_scan,json=forceScan,proto3" json:"force_scan,omitempty"`
 	// Used to de-dupe requests. Typically should be UUID.
 	RequestId     string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
@@ -12234,7 +12235,7 @@ type CreateWorkflowRuleResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Created rule.
 	Rule *v120.WorkflowRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
-	// Job ID if force-scan flag was provided. Otherwise empty.
+	// Batch Job ID if force-scan flag was provided. Otherwise empty.
 	JobId         string `protobuf:"bytes,2,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -12287,7 +12288,7 @@ func (x *CreateWorkflowRuleResponse) GetJobId() string {
 type DescribeWorkflowRuleRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// ID of the rule to read. Unique within the namespace.
+	// User-specified ID of the rule to read. Unique within the namespace.
 	RuleId        string `protobuf:"bytes,2,opt,name=rule_id,json=ruleId,proto3" json:"rule_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
