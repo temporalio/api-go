@@ -503,7 +503,7 @@ func containsMessage(
 }
 
 // checkMessage examines the given message descriptor md and, if it (transitively) contains a
-// payload, appends it result slice.
+// payload, appends its result slice.
 func checkMessage(md protoreflect.MessageDescriptor,
 	targetMessages []string,
 	memo map[protoreflect.FullName]bool,
@@ -590,7 +590,7 @@ func protoFullNameToGoPackageAndType(md protoreflect.MessageDescriptor) (pkgPath
 	return pkgPath, typeName, nil
 }
 
-func gatherMatchesToRypeRecords(
+func gatherMatchesToTypeRecords(
 	mds []protoreflect.MessageDescriptor,
 	targetTypes []types.Type,
 	directMatchTypes []types.Type,
@@ -657,6 +657,7 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 	record := TypeRecord{}
 	(*records)[typeName] = &record
 
+	// Look for all functions with this `typ` type
 	for _, meth := range typeutil.IntuitiveMethodSet(elemType(typ), nil) {
 		// Ignore non-exported methods
 		if !meth.Obj().Exported() {
@@ -766,11 +767,11 @@ func generateInterceptor(cfg config) error {
 	}
 	allFailureContainingMessages, err := gatherMessagesContainingTargets(protoFiles, failureMessageNames, excludedEntryPoints)
 
-	payloadRecords, err := gatherMatchesToRypeRecords(allPayloadContainingMessages, payloadTypes, payloadDirectMatchType)
+	payloadRecords, err := gatherMatchesToTypeRecords(allPayloadContainingMessages, payloadTypes, payloadDirectMatchType)
 	if err != nil {
 		return err
 	}
-	failureRecords, err := gatherMatchesToRypeRecords(allFailureContainingMessages, failureTypes, make([]types.Type, 0))
+	failureRecords, err := gatherMatchesToTypeRecords(allFailureContainingMessages, failureTypes, make([]types.Type, 0))
 	if err != nil {
 		return err
 	}
