@@ -27,6 +27,8 @@ package proxy
 import (
 	"context"
 	"fmt"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"log"
 	"net"
 	"testing"
@@ -386,6 +388,60 @@ func TestClientInterceptor(t *testing.T) {
 	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
 }
 
+func TestClientInterceptorFailures(t *testing.T) {
+	require := require.New(t)
+
+	server, err := startTestGRPCServer()
+	require.NoError(err)
+
+	inputs := inputPayloads()
+	var inboundPayload *common.Payload
+	//var outboundPayload *common.Payload
+
+	interceptor, err := NewPayloadVisitorInterceptor(
+		PayloadVisitorInterceptorOptions{
+			Outbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					fmt.Println("[outbound]", vpc.Parent.ProtoReflect().Descriptor().Name())
+					//outboundPayload = payloads[0]
+					return payloads, nil
+				},
+			},
+			Inbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					fmt.Println("[inbound]", vpc.Parent.ProtoReflect().Descriptor().Name())
+					inboundPayload = payloads[0]
+					return payloads, nil
+				},
+			},
+		},
+	)
+	require.NoError(err)
+
+	c, err := grpc.Dial(
+		server.addr,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithChainUnaryInterceptor(interceptor),
+	)
+	require.NoError(err)
+
+	client := workflowservice.NewWorkflowServiceClient(c)
+
+	_, err = client.StartWorkflowExecution(
+		context.Background(),
+		&workflowservice.StartWorkflowExecutionRequest{
+			Input: inputPayloads(),
+		},
+	)
+	require.NoError(err)
+
+	_, err = client.ExecuteMultiOperation(context.Background(), &workflowservice.ExecuteMultiOperationRequest{})
+	// We expect that even though an error is returned, the Payload visitor visited the payload
+	// included in the GRPC error details
+	require.Error(err)
+	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
+}
+
 type testGRPCServer struct {
 	workflowservice.UnimplementedWorkflowServiceServer
 	*grpc.Server
@@ -463,4 +519,23 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 	return &workflowservice.PollActivityTaskQueueResponse{
 		Input: inputPayloads(),
 	}, nil
+}
+
+func (t *testGRPCServer) ExecuteMultiOperation(
+	ctx context.Context,
+	req *workflowservice.ExecuteMultiOperationRequest) (*workflowservice.ExecuteMultiOperationResponse, error) {
+
+	anyDetail, err := anypb.New(inputPayloads())
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal payload to Any: %w", err)
+	}
+
+	st := status.New(codes.Internal, "Operation failed due to a user error")
+
+	stWithDetails, err := st.WithDetails(anyDetail)
+	if err != nil {
+		return nil, st.Err()
+	}
+
+	return nil, stWithDetails.Err()
 }

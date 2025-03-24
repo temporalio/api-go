@@ -46,6 +46,7 @@ import (
 	"go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/anypb"
 )
@@ -98,7 +99,22 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 
 		err := invoker(ctx, method, req, response, cc, opts...)
 		if err != nil {
-			return err
+			if options.Inbound != nil {
+				stat, ok := status.FromError(err)
+				if !ok {
+					return fmt.Errorf("Error returned from rpc invoker should be a status.Status")
+				}
+				// user provided payloads can sometimes end up in the status details of
+				// gRPC errors, make sure to visit those as well
+				for _, detail := range stat.Details() {
+					detailAny, ok := detail.(*anypb.Any)
+					if !ok {
+						return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
+					}
+					VisitPayloads(ctx, detailAny, *options.Inbound)
+				}
+				return err
+			}
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
