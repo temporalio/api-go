@@ -34,8 +34,6 @@ import (
 	"testing"
 	"time"
 
-
-
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
@@ -410,6 +408,7 @@ func TestClientInterceptorFailures(t *testing.T) {
 
 	inputs := inputPayloads()
 	var inboundPayload *common.Payload
+	var inboundFailure string
 
 	interceptor, err := NewPayloadVisitorInterceptor(
 		PayloadVisitorInterceptorOptions{
@@ -423,10 +422,18 @@ func TestClientInterceptorFailures(t *testing.T) {
 	)
 	require.NoError(err)
 
+	failureInterceptor, err := NewFailureVisitorInterceptor(
+		FailureVisitorInterceptorOptions{
+			Inbound: &VisitFailuresOptions{Visitor: func(vpc *VisitFailuresContext, f *failure.Failure) error {
+				inboundFailure = f.Message
+				return nil
+			}},
+		})
+
 	c, err := grpc.Dial(
 		server.addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithChainUnaryInterceptor(interceptor),
+		grpc.WithChainUnaryInterceptor(interceptor, failureInterceptor),
 	)
 	require.NoError(err)
 
@@ -445,6 +452,10 @@ func TestClientInterceptorFailures(t *testing.T) {
 	// included in the GRPC error details
 	require.Error(err)
 	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
+
+	_, err = client.QueryWorkflow(context.Background(), &workflowservice.QueryWorkflowRequest{})
+	require.Error(err)
+	require.Equal("test failure", inboundFailure)
 }
 
 type testGRPCServer struct {
@@ -531,6 +542,28 @@ func (t *testGRPCServer) ExecuteMultiOperation(
 	req *workflowservice.ExecuteMultiOperationRequest) (*workflowservice.ExecuteMultiOperationResponse, error) {
 
 	anyDetail, err := anypb.New(inputPayloads())
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal payload to Any: %w", err)
+	}
+
+	st := status.New(codes.Internal, "Operation failed due to a user error")
+
+	stWithDetails, err := st.WithDetails(anyDetail)
+	if err != nil {
+		return nil, st.Err()
+	}
+
+	return nil, stWithDetails.Err()
+}
+
+func (t *testGRPCServer) QueryWorkflow(
+	ctx context.Context,
+	req *workflowservice.QueryWorkflowRequest) (*workflowservice.QueryWorkflowResponse, error) {
+	failureMessage := failure.Failure{
+		Message: "test failure",
+	}
+
+	anyDetail, err := anypb.New(failureMessage.ProtoReflect().Interface())
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal payload to Any: %w", err)
 	}
