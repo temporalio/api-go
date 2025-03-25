@@ -1598,6 +1598,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) TerminateWorkflowExecution(ctx,
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TerminateWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).TerminateWorkflowExecution), varargs...)
 }
 
+// TriggerWorkflowRule mocks base method.
+func (m *MockWorkflowServiceClient) TriggerWorkflowRule(ctx context.Context, in *workflowservice.TriggerWorkflowRuleRequest, opts ...grpc.CallOption) (*workflowservice.TriggerWorkflowRuleResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "TriggerWorkflowRule", varargs...)
+	ret0, _ := ret[0].(*workflowservice.TriggerWorkflowRuleResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// TriggerWorkflowRule indicates an expected call of TriggerWorkflowRule.
+func (mr *MockWorkflowServiceClientMockRecorder) TriggerWorkflowRule(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TriggerWorkflowRule", reflect.TypeOf((*MockWorkflowServiceClient)(nil).TriggerWorkflowRule), varargs...)
+}
+
 // UnpauseActivity mocks base method.
 func (m *MockWorkflowServiceClient) UnpauseActivity(ctx context.Context, in *workflowservice.UnpauseActivityRequest, opts ...grpc.CallOption) (*workflowservice.UnpauseActivityResponse, error) {
 	m.ctrl.T.Helper()
@@ -2957,6 +2977,21 @@ func (m *MockWorkflowServiceServer) TerminateWorkflowExecution(arg0 context.Cont
 func (mr *MockWorkflowServiceServerMockRecorder) TerminateWorkflowExecution(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TerminateWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).TerminateWorkflowExecution), arg0, arg1)
+}
+
+// TriggerWorkflowRule mocks base method.
+func (m *MockWorkflowServiceServer) TriggerWorkflowRule(arg0 context.Context, arg1 *workflowservice.TriggerWorkflowRuleRequest) (*workflowservice.TriggerWorkflowRuleResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "TriggerWorkflowRule", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.TriggerWorkflowRuleResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// TriggerWorkflowRule indicates an expected call of TriggerWorkflowRule.
+func (mr *MockWorkflowServiceServerMockRecorder) TriggerWorkflowRule(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "TriggerWorkflowRule", reflect.TypeOf((*MockWorkflowServiceServer)(nil).TriggerWorkflowRule), arg0, arg1)
 }
 
 // UnpauseActivity mocks base method.

@@ -362,6 +362,10 @@ func (s *workflowServiceProxyServer) TerminateWorkflowExecution(ctx context.Cont
 	return s.client.TerminateWorkflowExecution(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) TriggerWorkflowRule(ctx context.Context, in0 *workflowservice.TriggerWorkflowRuleRequest) (*workflowservice.TriggerWorkflowRuleResponse, error) {
+	return s.client.TriggerWorkflowRule(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) UnpauseActivity(ctx context.Context, in0 *workflowservice.UnpauseActivityRequest) (*workflowservice.UnpauseActivityResponse, error) {
 	return s.client.UnpauseActivity(s.reqCtx(ctx), in0)
 }
