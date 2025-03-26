@@ -27,15 +27,13 @@ package proxy
 import (
 	"context"
 	"fmt"
+	"go.temporal.io/api/errordetails/v1"
 	"log"
 	"net"
 	"slices"
 	"strings"
 	"testing"
 	"time"
-
-	"google.golang.org/protobuf/reflect/protoreflect"
-	"google.golang.org/protobuf/reflect/protoregistry"
 
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/command/v1"
@@ -55,9 +53,13 @@ import (
 	_ "go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoregistry"
 	"google.golang.org/protobuf/types/known/anypb"
 )
 
@@ -399,6 +401,97 @@ func TestClientInterceptor(t *testing.T) {
 	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
 }
 
+func TestClientInterceptorGrpcFailures(t *testing.T) {
+	require := require.New(t)
+
+	server, err := startTestGRPCServer()
+	require.NoError(err)
+
+	inputs := inputPayloads()
+	var inboundPayload *common.Payload
+	var inboundFailure string
+
+	interceptor, err := NewPayloadVisitorInterceptor(
+		PayloadVisitorInterceptorOptions{
+			Inbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					inboundPayload = payloads[0]
+					payloads[0] = &common.Payload{Data: []byte("new-val")}
+					return payloads, nil
+				},
+			},
+		},
+	)
+	require.NoError(err)
+
+	failureInterceptor, err := NewFailureVisitorInterceptor(
+		FailureVisitorInterceptorOptions{
+			Inbound: &VisitFailuresOptions{Visitor: func(vpc *VisitFailuresContext, f *failure.Failure) error {
+				inboundFailure = f.Message
+				f.Message = "new failure message"
+				return nil
+			}},
+		})
+
+	c, err := grpc.Dial(
+		server.addr,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithChainUnaryInterceptor(interceptor, failureInterceptor),
+	)
+	require.NoError(err)
+
+	client := workflowservice.NewWorkflowServiceClient(c)
+
+	_, err = client.StartWorkflowExecution(
+		context.Background(),
+		&workflowservice.StartWorkflowExecutionRequest{
+			Input: inputPayloads(),
+		},
+	)
+	require.NoError(err)
+
+	_, err = client.ExecuteMultiOperation(context.Background(), &workflowservice.ExecuteMultiOperationRequest{})
+	// We expect that even though an error is returned, the Payload visitor visited the payload
+	// included in the GRPC error details
+	require.Error(err)
+	// TODO: https://github.com/temporalio/sdk-go/issues/1864
+	// This check should be switched to True once the issue above is closed
+	require.False(proto.Equal(inputs.Payloads[0], inboundPayload))
+	stat, ok := status.FromError(err)
+	require.True(ok)
+	for _, detail := range stat.Details() {
+		detailAny, ok := detail.(*anypb.Any)
+		require.True(ok)
+		multiOpFailure := &errordetails.MultiOperationExecutionFailure{}
+		err = detailAny.UnmarshalTo(multiOpFailure)
+		require.NoError(err)
+		payload := &common.Payload{}
+		err = multiOpFailure.Statuses[0].Details[0].UnmarshalTo(payload)
+		require.NoError(err)
+
+		newPayload := &common.Payload{Data: []byte("new-val")}
+		// This check should be switched to True once the issue above is closed
+		require.False(proto.Equal(newPayload, multiOpFailure.Statuses[0].Details[0]))
+	}
+
+	_, err = client.QueryWorkflow(context.Background(), &workflowservice.QueryWorkflowRequest{})
+	require.Error(err)
+	require.Equal("test failure", inboundFailure)
+	stat, ok = status.FromError(err)
+	require.True(ok)
+	for _, detail := range stat.Details() {
+		detailAny, ok := detail.(*anypb.Any)
+		fmt.Println("detail", detailAny, ok)
+		require.True(ok)
+		queryFailure := &errordetails.QueryFailedFailure{}
+		err := detailAny.UnmarshalTo(queryFailure)
+		require.NoError(err)
+		//var failure *failure.Failure
+		require.Equal("new failure message", queryFailure.Failure.Message)
+	}
+
+}
+
 type testGRPCServer struct {
 	workflowservice.UnimplementedWorkflowServiceServer
 	*grpc.Server
@@ -476,6 +569,54 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 	return &workflowservice.PollActivityTaskQueueResponse{
 		Input: inputPayloads(),
 	}, nil
+}
+
+func (t *testGRPCServer) ExecuteMultiOperation(
+	ctx context.Context,
+	req *workflowservice.ExecuteMultiOperationRequest) (*workflowservice.ExecuteMultiOperationResponse, error) {
+	anyDetail, err := anypb.New(inputPayload())
+	if err != nil {
+		return nil, err
+	}
+	operationStatus := &errordetails.MultiOperationExecutionFailure_OperationStatus{Details: []*anypb.Any{anyDetail}}
+	multiOpFailure := errordetails.MultiOperationExecutionFailure{
+		Statuses: []*errordetails.MultiOperationExecutionFailure_OperationStatus{operationStatus},
+	}
+	anyMultiOpFailure, err := anypb.New(&multiOpFailure)
+	if err != nil {
+		return nil, err
+	}
+	st := status.New(codes.Internal, "Operation failed due to a user error")
+
+	stWithDetails, err := st.WithDetails(anyMultiOpFailure)
+	if err != nil {
+		return nil, st.Err()
+	}
+
+	return nil, stWithDetails.Err()
+}
+
+func (t *testGRPCServer) QueryWorkflow(
+	ctx context.Context,
+	req *workflowservice.QueryWorkflowRequest) (*workflowservice.QueryWorkflowResponse, error) {
+	failureMessage := failure.Failure{
+		Message: "test failure",
+	}
+	queryFailure := errordetails.QueryFailedFailure{Failure: &failureMessage}
+
+	anyDetail, err := anypb.New(queryFailure.ProtoReflect().Interface())
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal payload to Any: %w", err)
+	}
+
+	st := status.New(codes.Internal, "Operation failed due to a user error")
+
+	stWithDetails, err := st.WithDetails(anyDetail)
+	if err != nil {
+		return nil, st.Err()
+	}
+
+	return nil, stWithDetails.Err()
 }
 
 // Recursively crawl and test Payload(s) with Visitor
