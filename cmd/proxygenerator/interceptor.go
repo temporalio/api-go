@@ -104,20 +104,17 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 		}
 
 		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil {
-			if options.Inbound != nil {
-				stat, ok := status.FromError(err)
-				if !ok {
-					return err
-				}
+		if err != nil && options.Inbound != nil {
+			stat, ok := status.FromError(err)
+			if ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
 				for _, detail := range stat.Details() {
 					detailAny, ok := detail.(*anypb.Any)
+					if !ok {
+						return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
+					}
 					if {{ range $i, $name := .GrpcPayload }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }} {
-						if !ok {
-							return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
-						}
 						VisitPayloads(ctx, detailAny, *options.Inbound)
 					}
 				}
@@ -176,20 +173,17 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 		}
 
 		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil {
-			if options.Inbound != nil {
-				stat, ok := status.FromError(err)
-				if !ok {
-					return err
-				}
+		if err != nil && options.Inbound != nil{
+			stat, ok := status.FromError(err)
+			if ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
 				for _, detail := range stat.Details() {
 					detailAny, ok := detail.(*anypb.Any)
+					if !ok {
+						return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
+					}
 					if {{ range $i, $name := .GrpcFailure }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }} {
-						if !ok {
-							return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
-						}
 						VisitFailures(ctx, detailAny, *options.Inbound)
 					}
 				}
