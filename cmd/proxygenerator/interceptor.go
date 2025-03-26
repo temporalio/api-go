@@ -114,7 +114,7 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 				// gRPC errors, make sure to visit those as well
 				for _, detail := range stat.Details() {
 					detailAny, ok := detail.(*anypb.Any)
-					if detailAny.MessageName() == "temporal.api.errordetails.v1.QueryFailedFailure" || detailAny.MessageName() == "temporal.api.errordetails.v1.MultiOperationExecutionFailure" {
+					if {{ range $i, $name := .GrpcPayload }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }} {
 						if !ok {
 							return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
 						}
@@ -186,7 +186,7 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 				// gRPC errors, make sure to visit those as well
 				for _, detail := range stat.Details() {
 					detailAny, ok := detail.(*anypb.Any)
-					if detailAny.MessageName() == "temporal.api.errordetails.v1.QueryFailedFailure" || detailAny.MessageName() == "temporal.api.errordetails.v1.MultiOperationExecutionFailure" {
+					if {{ range $i, $name := .GrpcFailure }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }} {
 						if !ok {
 							return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
 						}
@@ -403,6 +403,13 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 `
 
 var interceptorTemplate = template.Must(template.New("interceptor").Parse(InterceptorTemplateText))
+
+type TemplateInput struct {
+	PayloadTypes map[string]*TypeRecord
+	FailureTypes map[string]*TypeRecord
+	GrpcPayload  []string
+	GrpcFailure  []string
+}
 
 // TypeRecord holds the state for a type referred to by the workflow service
 type TypeRecord struct {
@@ -811,11 +818,31 @@ func generateInterceptor(cfg config) error {
 		return err
 	}
 
+	// gather a list of errordetails that can contain user payloads when included in
+	// gRPC error messages
+	var grpcPayload []string
+	for _, msg := range allPayloadContainingMessages {
+		if strings.Contains(string(msg.FullName()), "temporal.api.errordetails.v1.") && strings.Count(string(msg.FullName()), ".") == 4 {
+			grpcPayload = append(grpcPayload, string(msg.FullName()))
+		}
+	}
+
+	var grpcFailure []string
+	for _, msg := range allFailureContainingMessages {
+		if strings.Contains(string(msg.FullName()), "temporal.api.errordetails.v1.") && strings.Count(string(msg.FullName()), ".") == 4 {
+			grpcFailure = append(grpcFailure, string(msg.FullName()))
+		}
+	}
+
 	buf := &bytes.Buffer{}
 	fmt.Fprint(buf, cfg.license)
 
-	err = interceptorTemplate.Execute(buf, map[string]map[string]*TypeRecord{
-		"PayloadTypes": payloadRecords, "FailureTypes": failureRecords})
+	err = interceptorTemplate.Execute(buf, TemplateInput{
+		PayloadTypes: payloadRecords,
+		FailureTypes: failureRecords,
+		GrpcFailure:  grpcFailure,
+		GrpcPayload:  grpcPayload,
+	})
 	if err != nil {
 		return err
 	}

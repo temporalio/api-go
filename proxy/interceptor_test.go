@@ -401,7 +401,7 @@ func TestClientInterceptor(t *testing.T) {
 	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
 }
 
-func TestClientInterceptorFailures(t *testing.T) {
+func TestClientInterceptorGrpcFailures(t *testing.T) {
 	require := require.New(t)
 
 	server, err := startTestGRPCServer()
