@@ -55,6 +55,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
     "google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/protoadapt"
 )
 
 // VisitPayloadsContext provides Payload context for visitor functions.
@@ -114,6 +115,7 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 					// user provided payloads can sometimes end up in the status details of
 					// gRPC errors, make sure to visit those as well
 					newStatus := status.New(stat.Code(), stat.Message())
+					var newDetails []protoadapt.MessageV1
 					for _, detail := range stat.Details() {
 						detailAny, ok := detail.(*anypb.Any)
 						if ok && ({{ range $i, $name := .GrpcPayload }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }}) {
@@ -122,10 +124,11 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 								return err
 							}
 						}
-						newStatus, err = newStatus.WithDetails(detailAny)
-						if err != nil {
-							return err
-						}
+						newDetails = append(newDetails, detailAny)
+					}
+					newStatus, err = newStatus.WithDetails(newDetails...)
+					if err != nil {
+						return err
 					}
 					return newStatus.Err()
 				}
@@ -194,6 +197,7 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 					// user provided payloads can sometimes end up in the status details of
 					// gRPC errors, make sure to visit those as well
 					newStatus := status.New(stat.Code(), stat.Message())
+					var newDetails []protoadapt.MessageV1
 					for _, detail := range stat.Details() {
 						detailAny, ok := detail.(*anypb.Any)
 						if ok && ({{ range $i, $name := .GrpcFailure }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }}) {
@@ -202,10 +206,11 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 								return err
 							}
 						}
-						newStatus, err = newStatus.WithDetails(detailAny)
-						if err != nil {
-							return err
-						}
+						newDetails = append(newDetails, detailAny)
+					}
+					newStatus, err = newStatus.WithDetails(newDetails...)
+					if err != nil {
+						return err
 					}
 					return newStatus.Err()
 				}
