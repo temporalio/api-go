@@ -416,6 +416,7 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 			Inbound: &VisitPayloadsOptions{
 				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
 					inboundPayload = payloads[0]
+					payloads[0] = &common.Payload{Data: []byte("new-val")}
 					return payloads, nil
 				},
 			},
@@ -427,6 +428,7 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 		FailureVisitorInterceptorOptions{
 			Inbound: &VisitFailuresOptions{Visitor: func(vpc *VisitFailuresContext, f *failure.Failure) error {
 				inboundFailure = f.Message
+				f.Message = "new failure message"
 				return nil
 			}},
 		})
@@ -455,10 +457,39 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 	// TODO: https://github.com/temporalio/sdk-go/issues/1864
 	// This check should be switched to True once the issue above is closed
 	require.False(proto.Equal(inputs.Payloads[0], inboundPayload))
+	stat, ok := status.FromError(err)
+	require.True(ok)
+	for _, detail := range stat.Details() {
+		detailAny, ok := detail.(*anypb.Any)
+		require.True(ok)
+		multiOpFailure := &errordetails.MultiOperationExecutionFailure{}
+		err = detailAny.UnmarshalTo(multiOpFailure)
+		require.NoError(err)
+		payload := &common.Payload{}
+		err = multiOpFailure.Statuses[0].Details[0].UnmarshalTo(payload)
+		require.NoError(err)
+
+		newPayload := &common.Payload{Data: []byte("new-val")}
+		// This check should be switched to True once the issue above is closed
+		require.False(proto.Equal(newPayload, multiOpFailure.Statuses[0].Details[0]))
+	}
 
 	_, err = client.QueryWorkflow(context.Background(), &workflowservice.QueryWorkflowRequest{})
 	require.Error(err)
 	require.Equal("test failure", inboundFailure)
+	stat, ok = status.FromError(err)
+	require.True(ok)
+	for _, detail := range stat.Details() {
+		detailAny, ok := detail.(*anypb.Any)
+		fmt.Println("detail", detailAny, ok)
+		require.True(ok)
+		queryFailure := &errordetails.QueryFailedFailure{}
+		err := detailAny.UnmarshalTo(queryFailure)
+		require.NoError(err)
+		//var failure *failure.Failure
+		require.Equal("new failure message", queryFailure.Failure.Message)
+	}
+
 }
 
 type testGRPCServer struct {
@@ -543,7 +574,7 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 func (t *testGRPCServer) ExecuteMultiOperation(
 	ctx context.Context,
 	req *workflowservice.ExecuteMultiOperationRequest) (*workflowservice.ExecuteMultiOperationResponse, error) {
-	anyDetail, err := anypb.New(inputPayloads())
+	anyDetail, err := anypb.New(inputPayload())
 	if err != nil {
 		return nil, err
 	}

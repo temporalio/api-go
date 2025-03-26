@@ -104,22 +104,30 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 		}
 
 		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil && options.Inbound != nil {
-			stat, ok := status.FromError(err)
-			if ok {
-				// user provided payloads can sometimes end up in the status details of
-				// gRPC errors, make sure to visit those as well
-				for _, detail := range stat.Details() {
-					detailAny, ok := detail.(*anypb.Any)
-					if !ok {
-						return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
+		if err != nil {
+			if options.Inbound != nil {
+				stat, ok := status.FromError(err)
+				if ok {
+					// user provided payloads can sometimes end up in the status details of
+					// gRPC errors, make sure to visit those as well
+					newStatus := status.New(stat.Code(), stat.Message())
+					for _, detail := range stat.Details() {
+						detailAny, ok := detail.(*anypb.Any)
+						if ok && {{ range $i, $name := .GrpcPayload }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }} {
+							err = VisitPayloads(ctx, detailAny, *options.Inbound)
+							if err != nil {
+								return err
+							}
+						}
+						newStatus, err = newStatus.WithDetails(detailAny)
+						if err != nil {
+							return err
+						}
 					}
-					if {{ range $i, $name := .GrpcPayload }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }} {
-						VisitPayloads(ctx, detailAny, *options.Inbound)
-					}
+					return newStatus.Err()
 				}
-				return err
 			}
+			return err
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
@@ -173,22 +181,30 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 		}
 
 		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil && options.Inbound != nil{
-			stat, ok := status.FromError(err)
-			if ok {
-				// user provided payloads can sometimes end up in the status details of
-				// gRPC errors, make sure to visit those as well
-				for _, detail := range stat.Details() {
-					detailAny, ok := detail.(*anypb.Any)
-					if !ok {
-						return fmt.Errorf("Error returned from rpc invoker should be anypb.Any")
+		if err != nil {
+			if options.Inbound != nil {
+				stat, ok := status.FromError(err)
+				if ok {
+					// user provided payloads can sometimes end up in the status details of
+					// gRPC errors, make sure to visit those as well
+					newStatus := status.New(stat.Code(), stat.Message())
+					for _, detail := range stat.Details() {
+						detailAny, ok := detail.(*anypb.Any)
+						if ok && {{ range $i, $name := .GrpcFailure }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }} {
+							err = VisitFailures(ctx, detailAny, *options.Inbound)
+							if err != nil {	
+								return err
+							}
+						}
+						newStatus, err = newStatus.WithDetails(detailAny)
+						if err != nil {
+							return err
+						}
 					}
-					if {{ range $i, $name := .GrpcFailure }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }} {
-						VisitFailures(ctx, detailAny, *options.Inbound)
-					}
+					return newStatus.Err()
 				}
-				return err
 			}
+			return err
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
