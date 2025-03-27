@@ -109,31 +109,7 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 
 		err := invoker(ctx, method, req, response, cc, opts...)
 		if err != nil {
-			if options.Inbound != nil {
-				stat, ok := status.FromError(err)
-				if ok {
-					// user provided payloads can sometimes end up in the status details of
-					// gRPC errors, make sure to visit those as well
-					newStatus := status.New(stat.Code(), stat.Message())
-					var newDetails []protoadapt.MessageV1
-					for _, detail := range stat.Details() {
-						detailAny, ok := detail.(*anypb.Any)
-						if ok && ({{ range $i, $name := .GrpcPayload }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }}) {
-							err = VisitPayloads(ctx, detailAny, *options.Inbound)
-							if err != nil {
-								return err
-							}
-						}
-						newDetails = append(newDetails, detailAny)
-					}
-					newStatus, err = newStatus.WithDetails(newDetails...)
-					if err != nil {
-						return err
-					}
-					return newStatus.Err()
-				}
-			}
-			return err
+			return parseGrpcPayload(ctx, err, options.Inbound)
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
@@ -142,6 +118,56 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 		
 		return nil
 	}, nil
+}
+
+func parseGrpcPayload(ctx context.Context, err error, inbound *VisitPayloadsOptions) error {
+	if inbound != nil {
+		stat, ok := status.FromError(err)
+		if ok {
+			// user provided payloads can sometimes end up in the status details of
+			// gRPC errors, make sure to visit those as well
+			newStatus := status.New(stat.Code(), stat.Message())
+			var newDetails []protoadapt.MessageV1
+			for _, detail := range stat.Details() {
+				detailAny, okAny := detail.(*anypb.Any)
+				detailV1, okDetail := detail.(protoadapt.MessageV1)
+				payloadTypes := []string{ {{ range $i, $name := .GrpcPayload }}{{ if $i }}, {{ end }}"{{$name}}"{{ end }} }
+				if okAny {
+					if slices.Contains(payloadTypes, string(detailAny.MessageName())) {
+						err = VisitPayloads(ctx, detailAny, *inbound)
+						if err != nil {
+							return err
+						}
+					}
+					//newDetails = append(newDetails, detailAny)
+					newStatus, err = newStatus.WithDetails(detailAny)
+					if err != nil {
+						return err
+					}
+				} else if okDetail {
+					msg := protoadapt.MessageV2Of(detailV1)
+					if slices.Contains(payloadTypes, string(msg.ProtoReflect().Descriptor().FullName())) {
+						err = VisitPayloads(ctx, msg, *inbound)
+					}
+					newDetails = append(newDetails, detailV1)
+				} else {
+					// stat.Details() returned an error
+					detailErr, ok := detail.(error)
+					if !ok {
+						return fmt.Errorf("unreachable")
+					}
+						return detailErr
+				}
+			}
+			newStatus, err = newStatus.WithDetails(newDetails...)
+
+			if err != nil {
+				return err
+			}
+			return newStatus.Err()
+		}
+	}
+	return err
 }
 
 // VisitFailuresContext provides Failure context for visitor functions.
@@ -191,31 +217,7 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 
 		err := invoker(ctx, method, req, response, cc, opts...)
 		if err != nil {
-			if options.Inbound != nil {
-				stat, ok := status.FromError(err)
-				if ok {
-					// user provided payloads can sometimes end up in the status details of
-					// gRPC errors, make sure to visit those as well
-					newStatus := status.New(stat.Code(), stat.Message())
-					var newDetails []protoadapt.MessageV1
-					for _, detail := range stat.Details() {
-						detailAny, ok := detail.(*anypb.Any)
-						if ok && ({{ range $i, $name := .GrpcFailure }}{{ if $i }} || {{ end }}detailAny.MessageName() == "{{$name}}"{{ end }}) {
-							err = VisitFailures(ctx, detailAny, *options.Inbound)
-							if err != nil {	
-								return err
-							}
-						}
-						newDetails = append(newDetails, detailAny)
-					}
-					newStatus, err = newStatus.WithDetails(newDetails...)
-					if err != nil {
-						return err
-					}
-					return newStatus.Err()
-				}
-			}
-			return err
+			return parseGrpcFailure(ctx, err, options.Inbound)
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
@@ -225,6 +227,57 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 		return nil
 	}, nil
 }
+
+func parseGrpcFailure(ctx context.Context, err error, inbound *VisitFailuresOptions) error {
+	if inbound != nil {
+		stat, ok := status.FromError(err)
+		if ok {
+			// user provided payloads can sometimes end up in the status details of
+			// gRPC errors, make sure to visit those as well
+			newStatus := status.New(stat.Code(), stat.Message())
+			var newDetails []protoadapt.MessageV1
+			for _, detail := range stat.Details() {
+				detailAny, okAny := detail.(*anypb.Any)
+				detailV1, okDetail := detail.(protoadapt.MessageV1)
+				failureTypes := []string{ {{ range $i, $name := .GrpcFailure }}{{ if $i }}, {{ end }}"{{$name}}"{{ end }} }
+				if okAny {
+					if slices.Contains(failureTypes, string(detailAny.MessageName())) {
+						err = VisitFailures(ctx, detailAny, *inbound)
+						if err != nil {
+							return err
+						}
+					}
+					//newDetails = append(newDetails, detailAny)
+					newStatus, err = newStatus.WithDetails(detailAny)
+					if err != nil {
+						return err
+					}
+				} else if okDetail {
+					msg := protoadapt.MessageV2Of(detailV1)
+					if slices.Contains(failureTypes, string(msg.ProtoReflect().Descriptor().FullName())) {
+						err = VisitFailures(ctx, msg, *inbound)
+					}
+					newDetails = append(newDetails, detailV1)
+				} else {
+					// stat.Details() returned an error
+					detailErr, ok := detail.(error)
+					if !ok {
+						return fmt.Errorf("unreachable")
+					}
+						return detailErr
+				}
+			}
+			newStatus, err = newStatus.WithDetails(newDetails...)
+
+			if err != nil {
+				return err
+			}
+			return newStatus.Err()
+		}
+	}
+	return err
+}
+
 
 func (o *VisitFailuresOptions) defaultWellKnownAnyVisitor(ctx *VisitFailuresContext, p *anypb.Any) error {
 	child, err := p.UnmarshalNew()
