@@ -27,13 +27,14 @@ package proxy
 import (
 	"context"
 	"fmt"
-	"go.temporal.io/api/errordetails/v1"
 	"log"
 	"net"
 	"slices"
 	"strings"
 	"testing"
 	"time"
+
+	"go.temporal.io/api/errordetails/v1"
 
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/command/v1"
