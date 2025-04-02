@@ -124,6 +124,11 @@ const (
 	WorkflowService_PauseActivity_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/PauseActivity"
 	WorkflowService_UnpauseActivity_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseActivity"
 	WorkflowService_ResetActivity_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/ResetActivity"
+	WorkflowService_CreateWorkflowRule_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/CreateWorkflowRule"
+	WorkflowService_DescribeWorkflowRule_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowRule"
+	WorkflowService_DeleteWorkflowRule_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkflowRule"
+	WorkflowService_ListWorkflowRules_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkflowRules"
+	WorkflowService_TriggerWorkflowRule_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/TriggerWorkflowRule"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -658,6 +663,25 @@ type WorkflowServiceClient interface {
 	//
 	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
 	ResetActivity(ctx context.Context, in *ResetActivityRequest, opts ...grpc.CallOption) (*ResetActivityResponse, error)
+	// Create a new workflow rule. The rules are used to control the workflow execution.
+	// The rule will be applied to all running and new workflows in the namespace.
+	// If the rule with such ID already exist this call will fail
+	// Note: the rules are part of namespace configuration and will be stored in the namespace config.
+	// Namespace config is eventually consistent.
+	CreateWorkflowRule(ctx context.Context, in *CreateWorkflowRuleRequest, opts ...grpc.CallOption) (*CreateWorkflowRuleResponse, error)
+	// DescribeWorkflowRule return the rule specification for existing rule id.
+	// If there is no rule with such id - NOT FOUND error will be returned.
+	DescribeWorkflowRule(ctx context.Context, in *DescribeWorkflowRuleRequest, opts ...grpc.CallOption) (*DescribeWorkflowRuleResponse, error)
+	// Delete rule by rule id
+	DeleteWorkflowRule(ctx context.Context, in *DeleteWorkflowRuleRequest, opts ...grpc.CallOption) (*DeleteWorkflowRuleResponse, error)
+	// Return all namespace workflow rules
+	ListWorkflowRules(ctx context.Context, in *ListWorkflowRulesRequest, opts ...grpc.CallOption) (*ListWorkflowRulesResponse, error)
+	// TriggerWorkflowRule allows to:
+	//   - trigger existing rule for a specific workflow execution;
+	//   - trigger rule for a specific workflow execution without creating a rule;
+	//
+	// This is useful for one-off operations.
+	TriggerWorkflowRule(ctx context.Context, in *TriggerWorkflowRuleRequest, opts ...grpc.CallOption) (*TriggerWorkflowRuleResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1488,6 +1512,56 @@ func (c *workflowServiceClient) ResetActivity(ctx context.Context, in *ResetActi
 	return out, nil
 }
 
+func (c *workflowServiceClient) CreateWorkflowRule(ctx context.Context, in *CreateWorkflowRuleRequest, opts ...grpc.CallOption) (*CreateWorkflowRuleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateWorkflowRuleResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_CreateWorkflowRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) DescribeWorkflowRule(ctx context.Context, in *DescribeWorkflowRuleRequest, opts ...grpc.CallOption) (*DescribeWorkflowRuleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeWorkflowRuleResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkflowRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) DeleteWorkflowRule(ctx context.Context, in *DeleteWorkflowRuleRequest, opts ...grpc.CallOption) (*DeleteWorkflowRuleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteWorkflowRuleResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkflowRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ListWorkflowRules(ctx context.Context, in *ListWorkflowRulesRequest, opts ...grpc.CallOption) (*ListWorkflowRulesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWorkflowRulesResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ListWorkflowRules_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) TriggerWorkflowRule(ctx context.Context, in *TriggerWorkflowRuleRequest, opts ...grpc.CallOption) (*TriggerWorkflowRuleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TriggerWorkflowRuleResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_TriggerWorkflowRule_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -2020,6 +2094,25 @@ type WorkflowServiceServer interface {
 	//
 	// Returns a `NotFound` error if there is no pending activity with the provided ID or type.
 	ResetActivity(context.Context, *ResetActivityRequest) (*ResetActivityResponse, error)
+	// Create a new workflow rule. The rules are used to control the workflow execution.
+	// The rule will be applied to all running and new workflows in the namespace.
+	// If the rule with such ID already exist this call will fail
+	// Note: the rules are part of namespace configuration and will be stored in the namespace config.
+	// Namespace config is eventually consistent.
+	CreateWorkflowRule(context.Context, *CreateWorkflowRuleRequest) (*CreateWorkflowRuleResponse, error)
+	// DescribeWorkflowRule return the rule specification for existing rule id.
+	// If there is no rule with such id - NOT FOUND error will be returned.
+	DescribeWorkflowRule(context.Context, *DescribeWorkflowRuleRequest) (*DescribeWorkflowRuleResponse, error)
+	// Delete rule by rule id
+	DeleteWorkflowRule(context.Context, *DeleteWorkflowRuleRequest) (*DeleteWorkflowRuleResponse, error)
+	// Return all namespace workflow rules
+	ListWorkflowRules(context.Context, *ListWorkflowRulesRequest) (*ListWorkflowRulesResponse, error)
+	// TriggerWorkflowRule allows to:
+	//   - trigger existing rule for a specific workflow execution;
+	//   - trigger rule for a specific workflow execution without creating a rule;
+	//
+	// This is useful for one-off operations.
+	TriggerWorkflowRule(context.Context, *TriggerWorkflowRuleRequest) (*TriggerWorkflowRuleResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2275,6 +2368,21 @@ func (UnimplementedWorkflowServiceServer) UnpauseActivity(context.Context, *Unpa
 }
 func (UnimplementedWorkflowServiceServer) ResetActivity(context.Context, *ResetActivityRequest) (*ResetActivityResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResetActivity not implemented")
+}
+func (UnimplementedWorkflowServiceServer) CreateWorkflowRule(context.Context, *CreateWorkflowRuleRequest) (*CreateWorkflowRuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkflowRule not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DescribeWorkflowRule(context.Context, *DescribeWorkflowRuleRequest) (*DescribeWorkflowRuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkflowRule not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DeleteWorkflowRule(context.Context, *DeleteWorkflowRuleRequest) (*DeleteWorkflowRuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkflowRule not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ListWorkflowRules(context.Context, *ListWorkflowRulesRequest) (*ListWorkflowRulesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkflowRules not implemented")
+}
+func (UnimplementedWorkflowServiceServer) TriggerWorkflowRule(context.Context, *TriggerWorkflowRuleRequest) (*TriggerWorkflowRuleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TriggerWorkflowRule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -3773,6 +3881,96 @@ func _WorkflowService_ResetActivity_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_CreateWorkflowRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateWorkflowRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).CreateWorkflowRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_CreateWorkflowRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).CreateWorkflowRule(ctx, req.(*CreateWorkflowRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_DescribeWorkflowRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeWorkflowRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DescribeWorkflowRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DescribeWorkflowRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DescribeWorkflowRule(ctx, req.(*DescribeWorkflowRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_DeleteWorkflowRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteWorkflowRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DeleteWorkflowRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DeleteWorkflowRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DeleteWorkflowRule(ctx, req.(*DeleteWorkflowRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_ListWorkflowRules_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkflowRulesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ListWorkflowRules(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ListWorkflowRules_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ListWorkflowRules(ctx, req.(*ListWorkflowRulesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_TriggerWorkflowRule_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TriggerWorkflowRuleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).TriggerWorkflowRule(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_TriggerWorkflowRule_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).TriggerWorkflowRule(ctx, req.(*TriggerWorkflowRuleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -4107,6 +4305,26 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResetActivity",
 			Handler:    _WorkflowService_ResetActivity_Handler,
+		},
+		{
+			MethodName: "CreateWorkflowRule",
+			Handler:    _WorkflowService_CreateWorkflowRule_Handler,
+		},
+		{
+			MethodName: "DescribeWorkflowRule",
+			Handler:    _WorkflowService_DescribeWorkflowRule_Handler,
+		},
+		{
+			MethodName: "DeleteWorkflowRule",
+			Handler:    _WorkflowService_DeleteWorkflowRule_Handler,
+		},
+		{
+			MethodName: "ListWorkflowRules",
+			Handler:    _WorkflowService_ListWorkflowRules_Handler,
+		},
+		{
+			MethodName: "TriggerWorkflowRule",
+			Handler:    _WorkflowService_TriggerWorkflowRule_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
