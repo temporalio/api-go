@@ -138,6 +138,8 @@ var (
 		"Scheduled":       1,
 		"Started":         2,
 		"CancelRequested": 3,
+		"Paused":          4,
+		"PauseRequested":  5,
 	}
 )
 

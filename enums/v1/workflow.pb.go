@@ -430,6 +430,10 @@ const (
 	PENDING_ACTIVITY_STATE_SCHEDULED        PendingActivityState = 1
 	PENDING_ACTIVITY_STATE_STARTED          PendingActivityState = 2
 	PENDING_ACTIVITY_STATE_CANCEL_REQUESTED PendingActivityState = 3
+	// PAUSED means activity is paused on the server, and is not running in the worker
+	PENDING_ACTIVITY_STATE_PAUSED PendingActivityState = 4
+	// PAUSE_REQUESTED means activity is currently running on the worker, but paused on the server
+	PENDING_ACTIVITY_STATE_PAUSE_REQUESTED PendingActivityState = 5
 )
 
 // Enum value maps for PendingActivityState.
@@ -439,12 +443,16 @@ var (
 		1: "PENDING_ACTIVITY_STATE_SCHEDULED",
 		2: "PENDING_ACTIVITY_STATE_STARTED",
 		3: "PENDING_ACTIVITY_STATE_CANCEL_REQUESTED",
+		4: "PENDING_ACTIVITY_STATE_PAUSED",
+		5: "PENDING_ACTIVITY_STATE_PAUSE_REQUESTED",
 	}
 	PendingActivityState_value = map[string]int32{
 		"PENDING_ACTIVITY_STATE_UNSPECIFIED":      0,
 		"PENDING_ACTIVITY_STATE_SCHEDULED":        1,
 		"PENDING_ACTIVITY_STATE_STARTED":          2,
 		"PENDING_ACTIVITY_STATE_CANCEL_REQUESTED": 3,
+		"PENDING_ACTIVITY_STATE_PAUSED":           4,
+		"PENDING_ACTIVITY_STATE_PAUSE_REQUESTED":  5,
 	}
 )
 
@@ -464,6 +472,10 @@ func (x PendingActivityState) String() string {
 		return "Started"
 	case PENDING_ACTIVITY_STATE_CANCEL_REQUESTED:
 		return "CancelRequested"
+	case PENDING_ACTIVITY_STATE_PAUSED:
+		return "Paused"
+	case PENDING_ACTIVITY_STATE_PAUSE_REQUESTED:
+		return "PauseRequested"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -887,12 +899,14 @@ const file_temporal_api_enums_v1_workflow_proto_rawDesc = "" +
 	"\"WORKFLOW_EXECUTION_STATUS_CANCELED\x10\x04\x12(\n" +
 	"$WORKFLOW_EXECUTION_STATUS_TERMINATED\x10\x05\x12.\n" +
 	"*WORKFLOW_EXECUTION_STATUS_CONTINUED_AS_NEW\x10\x06\x12'\n" +
-	"#WORKFLOW_EXECUTION_STATUS_TIMED_OUT\x10\a*\xb5\x01\n" +
+	"#WORKFLOW_EXECUTION_STATUS_TIMED_OUT\x10\a*\x84\x02\n" +
 	"\x14PendingActivityState\x12&\n" +
 	"\"PENDING_ACTIVITY_STATE_UNSPECIFIED\x10\x00\x12$\n" +
 	" PENDING_ACTIVITY_STATE_SCHEDULED\x10\x01\x12\"\n" +
 	"\x1ePENDING_ACTIVITY_STATE_STARTED\x10\x02\x12+\n" +
-	"'PENDING_ACTIVITY_STATE_CANCEL_REQUESTED\x10\x03*\x9b\x01\n" +
+	"'PENDING_ACTIVITY_STATE_CANCEL_REQUESTED\x10\x03\x12!\n" +
+	"\x1dPENDING_ACTIVITY_STATE_PAUSED\x10\x04\x12*\n" +
+	"&PENDING_ACTIVITY_STATE_PAUSE_REQUESTED\x10\x05*\x9b\x01\n" +
 	"\x18PendingWorkflowTaskState\x12+\n" +
 	"'PENDING_WORKFLOW_TASK_STATE_UNSPECIFIED\x10\x00\x12)\n" +
 	"%PENDING_WORKFLOW_TASK_STATE_SCHEDULED\x10\x01\x12'\n" +
