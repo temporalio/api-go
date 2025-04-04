@@ -341,8 +341,10 @@ type WorkflowExecutionExtendedInfo struct {
 	LastResetTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=last_reset_time,json=lastResetTime,proto3" json:"last_reset_time,omitempty"`
 	// Original workflow start time.
 	OriginalStartTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=original_start_time,json=originalStartTime,proto3" json:"original_start_time,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Reset Run ID points to the new run when this execution is reset. If the execution is reset multiple times, it points to the latest run.
+	ResetRunId    string `protobuf:"bytes,6,opt,name=reset_run_id,json=resetRunId,proto3" json:"reset_run_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionExtendedInfo) Reset() {
@@ -408,6 +410,13 @@ func (x *WorkflowExecutionExtendedInfo) GetOriginalStartTime() *timestamppb.Time
 		return x.OriginalStartTime
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) GetResetRunId() string {
+	if x != nil {
+		return x.ResetRunId
+	}
+	return ""
 }
 
 // Holds all the information about worker versioning for a particular workflow execution.
@@ -2220,13 +2229,15 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"firstRunId\x12b\n" +
 	"\x0fversioning_info\x18\x16 \x01(\v29.temporal.api.workflow.v1.WorkflowExecutionVersioningInfoR\x0eversioningInfo\x124\n" +
 	"\x16worker_deployment_name\x18\x17 \x01(\tR\x14workerDeploymentName\x12<\n" +
-	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xfe\x02\n" +
+	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xa0\x03\n" +
 	"\x1dWorkflowExecutionExtendedInfo\x12V\n" +
 	"\x19execution_expiration_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x17executionExpirationTime\x12J\n" +
 	"\x13run_expiration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x11runExpirationTime\x12)\n" +
 	"\x10cancel_requested\x18\x03 \x01(\bR\x0fcancelRequested\x12B\n" +
 	"\x0flast_reset_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\rlastResetTime\x12J\n" +
-	"\x13original_start_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x11originalStartTime\"\xfc\x03\n" +
+	"\x13original_start_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x11originalStartTime\x12 \n" +
+	"\freset_run_id\x18\x06 \x01(\tR\n" +
+	"resetRunId\"\xfc\x03\n" +
 	"\x1fWorkflowExecutionVersioningInfo\x12E\n" +
 	"\bbehavior\x18\x01 \x01(\x0e2).temporal.api.enums.v1.VersioningBehaviorR\bbehavior\x12J\n" +
 	"\n" +
