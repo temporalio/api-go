@@ -189,6 +189,25 @@ func TestVisitPayloads_NestedParent(t *testing.T) {
 	require.IsType(t, &command.StartChildWorkflowExecutionCommandAttributes{}, inputParent)
 }
 
+func TestVisitPayloads_RepeatedPayload(t *testing.T) {
+	root := &workflowservice.CountWorkflowExecutionsResponse_AggregationGroup{GroupValues: []*common.Payload{{Data: []byte("orig-val")}}}
+
+	var count int
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			count += 1
+			// Only mutate if the payloads has orig-val
+			if len(p) == 1 && string(p[0].Data) == "orig-val" {
+				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, 1, count)
+	require.Equal(t, []*common.Payload{{Data: []byte("new-val")}}, root.GroupValues)
+}
+
 func TestVisitPayloads_Any(t *testing.T) {
 	// Due to us not visiting protos inside Any, this test used to fail
 	msg1, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
@@ -921,6 +940,29 @@ func TestVisitPayloads_MapCount(t *testing.T) {
 	require.Equal(44, totalCount)
 }
 
+func TestVisitPayloads_CountWorkflowExecutionsResponse(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	var totalCount, count int
+
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if string(mt.Descriptor().FullName()) == "temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse" {
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg1 := messageType.New().Interface().(proto.Message)
+	totalCount = 0
+	count = 0
+	populatePayload(&msg1, msg1, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(1, totalCount)
+}
+
 func TestVisitPayloads_ResponseCount(t *testing.T) {
 	require := require.New(t)
 
@@ -945,14 +987,10 @@ func TestVisitPayloads_Everything(t *testing.T) {
 	require := require.New(t)
 
 	var messageType []protoreflect.MessageType
-	skipList := []string{
-		"temporal.api.common.v1.Payload",
-		// TODO: https://github.com/temporalio/sdk-go/issues/1865
-		"temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse",
-		"temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup",
-	}
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && !slices.Contains(skipList, string(mt.Descriptor().FullName())) {
+		// The base case of passing Payload into the visitor is not supported.
+		// See godoc for VisitPayloads
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && string(mt.Descriptor().FullName()) != "temporal.api.common.v1.Payload" {
 			messageType = append(messageType, mt)
 		}
 		return true
