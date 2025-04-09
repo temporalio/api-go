@@ -156,6 +156,26 @@ func (mr *MockOperatorServiceClientMockRecorder) GetNexusEndpoint(ctx, in interf
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNexusEndpoint", reflect.TypeOf((*MockOperatorServiceClient)(nil).GetNexusEndpoint), varargs...)
 }
 
+// GetNexusServices mocks base method.
+func (m *MockOperatorServiceClient) GetNexusServices(ctx context.Context, in *operatorservice.GetNexusServicesRequest, opts ...grpc.CallOption) (*operatorservice.GetNexusServicesResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetNexusServices", varargs...)
+	ret0, _ := ret[0].(*operatorservice.GetNexusServicesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNexusServices indicates an expected call of GetNexusServices.
+func (mr *MockOperatorServiceClientMockRecorder) GetNexusServices(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNexusServices", reflect.TypeOf((*MockOperatorServiceClient)(nil).GetNexusServices), varargs...)
+}
+
 // ListClusters mocks base method.
 func (m *MockOperatorServiceClient) ListClusters(ctx context.Context, in *operatorservice.ListClustersRequest, opts ...grpc.CallOption) (*operatorservice.ListClustersResponse, error) {
 	m.ctrl.T.Helper()
@@ -214,6 +234,26 @@ func (mr *MockOperatorServiceClientMockRecorder) ListSearchAttributes(ctx, in in
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSearchAttributes", reflect.TypeOf((*MockOperatorServiceClient)(nil).ListSearchAttributes), varargs...)
+}
+
+// PublishNexusServices mocks base method.
+func (m *MockOperatorServiceClient) PublishNexusServices(ctx context.Context, in *operatorservice.PublishNexusServicesRequest, opts ...grpc.CallOption) (*operatorservice.PublishNexusServicesResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PublishNexusServices", varargs...)
+	ret0, _ := ret[0].(*operatorservice.PublishNexusServicesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PublishNexusServices indicates an expected call of PublishNexusServices.
+func (mr *MockOperatorServiceClientMockRecorder) PublishNexusServices(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PublishNexusServices", reflect.TypeOf((*MockOperatorServiceClient)(nil).PublishNexusServices), varargs...)
 }
 
 // RemoveRemoteCluster mocks base method.
@@ -392,6 +432,21 @@ func (mr *MockOperatorServiceServerMockRecorder) GetNexusEndpoint(arg0, arg1 int
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNexusEndpoint", reflect.TypeOf((*MockOperatorServiceServer)(nil).GetNexusEndpoint), arg0, arg1)
 }
 
+// GetNexusServices mocks base method.
+func (m *MockOperatorServiceServer) GetNexusServices(arg0 context.Context, arg1 *operatorservice.GetNexusServicesRequest) (*operatorservice.GetNexusServicesResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetNexusServices", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.GetNexusServicesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNexusServices indicates an expected call of GetNexusServices.
+func (mr *MockOperatorServiceServerMockRecorder) GetNexusServices(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNexusServices", reflect.TypeOf((*MockOperatorServiceServer)(nil).GetNexusServices), arg0, arg1)
+}
+
 // ListClusters mocks base method.
 func (m *MockOperatorServiceServer) ListClusters(arg0 context.Context, arg1 *operatorservice.ListClustersRequest) (*operatorservice.ListClustersResponse, error) {
 	m.ctrl.T.Helper()
@@ -435,6 +490,21 @@ func (m *MockOperatorServiceServer) ListSearchAttributes(arg0 context.Context, a
 func (mr *MockOperatorServiceServerMockRecorder) ListSearchAttributes(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListSearchAttributes", reflect.TypeOf((*MockOperatorServiceServer)(nil).ListSearchAttributes), arg0, arg1)
+}
+
+// PublishNexusServices mocks base method.
+func (m *MockOperatorServiceServer) PublishNexusServices(arg0 context.Context, arg1 *operatorservice.PublishNexusServicesRequest) (*operatorservice.PublishNexusServicesResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PublishNexusServices", arg0, arg1)
+	ret0, _ := ret[0].(*operatorservice.PublishNexusServicesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PublishNexusServices indicates an expected call of PublishNexusServices.
+func (mr *MockOperatorServiceServerMockRecorder) PublishNexusServices(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PublishNexusServices", reflect.TypeOf((*MockOperatorServiceServer)(nil).PublishNexusServices), arg0, arg1)
 }
 
 // RemoveRemoteCluster mocks base method.

@@ -32,6 +32,8 @@ const (
 	OperatorService_UpdateNexusEndpoint_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/UpdateNexusEndpoint"
 	OperatorService_DeleteNexusEndpoint_FullMethodName      = "/temporal.api.operatorservice.v1.OperatorService/DeleteNexusEndpoint"
 	OperatorService_ListNexusEndpoints_FullMethodName       = "/temporal.api.operatorservice.v1.OperatorService/ListNexusEndpoints"
+	OperatorService_PublishNexusServices_FullMethodName     = "/temporal.api.operatorservice.v1.OperatorService/PublishNexusServices"
+	OperatorService_GetNexusServices_FullMethodName         = "/temporal.api.operatorservice.v1.OperatorService/GetNexusServices"
 )
 
 // OperatorServiceClient is the client API for OperatorService service.
@@ -81,6 +83,8 @@ type OperatorServiceClient interface {
 	// indicates that there are no more results. During pagination, a newly added service with an ID lexicographically
 	// earlier than the previous page's last endpoint's ID may be missed.
 	ListNexusEndpoints(ctx context.Context, in *ListNexusEndpointsRequest, opts ...grpc.CallOption) (*ListNexusEndpointsResponse, error)
+	PublishNexusServices(ctx context.Context, in *PublishNexusServicesRequest, opts ...grpc.CallOption) (*PublishNexusServicesResponse, error)
+	GetNexusServices(ctx context.Context, in *GetNexusServicesRequest, opts ...grpc.CallOption) (*GetNexusServicesResponse, error)
 }
 
 type operatorServiceClient struct {
@@ -211,6 +215,26 @@ func (c *operatorServiceClient) ListNexusEndpoints(ctx context.Context, in *List
 	return out, nil
 }
 
+func (c *operatorServiceClient) PublishNexusServices(ctx context.Context, in *PublishNexusServicesRequest, opts ...grpc.CallOption) (*PublishNexusServicesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PublishNexusServicesResponse)
+	err := c.cc.Invoke(ctx, OperatorService_PublishNexusServices_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *operatorServiceClient) GetNexusServices(ctx context.Context, in *GetNexusServicesRequest, opts ...grpc.CallOption) (*GetNexusServicesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetNexusServicesResponse)
+	err := c.cc.Invoke(ctx, OperatorService_GetNexusServices_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OperatorServiceServer is the server API for OperatorService service.
 // All implementations must embed UnimplementedOperatorServiceServer
 // for forward compatibility.
@@ -258,6 +282,8 @@ type OperatorServiceServer interface {
 	// indicates that there are no more results. During pagination, a newly added service with an ID lexicographically
 	// earlier than the previous page's last endpoint's ID may be missed.
 	ListNexusEndpoints(context.Context, *ListNexusEndpointsRequest) (*ListNexusEndpointsResponse, error)
+	PublishNexusServices(context.Context, *PublishNexusServicesRequest) (*PublishNexusServicesResponse, error)
+	GetNexusServices(context.Context, *GetNexusServicesRequest) (*GetNexusServicesResponse, error)
 	mustEmbedUnimplementedOperatorServiceServer()
 }
 
@@ -303,6 +329,12 @@ func (UnimplementedOperatorServiceServer) DeleteNexusEndpoint(context.Context, *
 }
 func (UnimplementedOperatorServiceServer) ListNexusEndpoints(context.Context, *ListNexusEndpointsRequest) (*ListNexusEndpointsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNexusEndpoints not implemented")
+}
+func (UnimplementedOperatorServiceServer) PublishNexusServices(context.Context, *PublishNexusServicesRequest) (*PublishNexusServicesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PublishNexusServices not implemented")
+}
+func (UnimplementedOperatorServiceServer) GetNexusServices(context.Context, *GetNexusServicesRequest) (*GetNexusServicesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNexusServices not implemented")
 }
 func (UnimplementedOperatorServiceServer) mustEmbedUnimplementedOperatorServiceServer() {}
 func (UnimplementedOperatorServiceServer) testEmbeddedByValue()                         {}
@@ -541,6 +573,42 @@ func _OperatorService_ListNexusEndpoints_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OperatorService_PublishNexusServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PublishNexusServicesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).PublishNexusServices(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_PublishNexusServices_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).PublishNexusServices(ctx, req.(*PublishNexusServicesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OperatorService_GetNexusServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNexusServicesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OperatorServiceServer).GetNexusServices(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OperatorService_GetNexusServices_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OperatorServiceServer).GetNexusServices(ctx, req.(*GetNexusServicesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OperatorService_ServiceDesc is the grpc.ServiceDesc for OperatorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -595,6 +663,14 @@ var OperatorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListNexusEndpoints",
 			Handler:    _OperatorService_ListNexusEndpoints_Handler,
+		},
+		{
+			MethodName: "PublishNexusServices",
+			Handler:    _OperatorService_PublishNexusServices_Handler,
+		},
+		{
+			MethodName: "GetNexusServices",
+			Handler:    _OperatorService_GetNexusServices_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

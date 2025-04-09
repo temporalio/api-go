@@ -1300,6 +1300,182 @@ func (x *ListNexusEndpointsResponse) GetEndpoints() []*v11.Endpoint {
 	return nil
 }
 
+type PublishNexusServicesRequest struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Namespace     string                  `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Services      []*v11.NexusServiceSpec `protobuf:"bytes,2,rep,name=services,proto3" json:"services,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PublishNexusServicesRequest) Reset() {
+	*x = PublishNexusServicesRequest{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PublishNexusServicesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PublishNexusServicesRequest) ProtoMessage() {}
+
+func (x *PublishNexusServicesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PublishNexusServicesRequest.ProtoReflect.Descriptor instead.
+func (*PublishNexusServicesRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *PublishNexusServicesRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *PublishNexusServicesRequest) GetServices() []*v11.NexusServiceSpec {
+	if x != nil {
+		return x.Services
+	}
+	return nil
+}
+
+type PublishNexusServicesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PublishNexusServicesResponse) Reset() {
+	*x = PublishNexusServicesResponse{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PublishNexusServicesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PublishNexusServicesResponse) ProtoMessage() {}
+
+func (x *PublishNexusServicesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PublishNexusServicesResponse.ProtoReflect.Descriptor instead.
+func (*PublishNexusServicesResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{26}
+}
+
+type GetNexusServicesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetNexusServicesRequest) Reset() {
+	*x = GetNexusServicesRequest{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetNexusServicesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetNexusServicesRequest) ProtoMessage() {}
+
+func (x *GetNexusServicesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetNexusServicesRequest.ProtoReflect.Descriptor instead.
+func (*GetNexusServicesRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *GetNexusServicesRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+type GetNexusServicesResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Services      []*v11.NexusServiceSpec `protobuf:"bytes,1,rep,name=services,proto3" json:"services,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetNexusServicesResponse) Reset() {
+	*x = GetNexusServicesResponse{}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetNexusServicesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetNexusServicesResponse) ProtoMessage() {}
+
+func (x *GetNexusServicesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetNexusServicesResponse.ProtoReflect.Descriptor instead.
+func (*GetNexusServicesResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *GetNexusServicesResponse) GetServices() []*v11.NexusServiceSpec {
+	if x != nil {
+		return x.Services
+	}
+	return nil
+}
+
 var File_temporal_api_operatorservice_v1_request_response_proto protoreflect.FileDescriptor
 
 const file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = "" +
@@ -1384,7 +1560,15 @@ const file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = "" +
 	"\x04name\x18\x03 \x01(\tR\x04name\"\x83\x01\n" +
 	"\x1aListNexusEndpointsResponse\x12&\n" +
 	"\x0fnext_page_token\x18\x01 \x01(\fR\rnextPageToken\x12=\n" +
-	"\tendpoints\x18\x02 \x03(\v2\x1f.temporal.api.nexus.v1.EndpointR\tendpointsB\xbe\x01\n" +
+	"\tendpoints\x18\x02 \x03(\v2\x1f.temporal.api.nexus.v1.EndpointR\tendpoints\"\x80\x01\n" +
+	"\x1bPublishNexusServicesRequest\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12C\n" +
+	"\bservices\x18\x02 \x03(\v2'.temporal.api.nexus.v1.NexusServiceSpecR\bservices\"\x1e\n" +
+	"\x1cPublishNexusServicesResponse\"7\n" +
+	"\x17GetNexusServicesRequest\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\"_\n" +
+	"\x18GetNexusServicesResponse\x12C\n" +
+	"\bservices\x18\x01 \x03(\v2'.temporal.api.nexus.v1.NexusServiceSpecR\bservicesB\xbe\x01\n" +
 	"\"io.temporal.api.operatorservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/operatorservice/v1;operatorservice\xaa\x02!Temporalio.Api.OperatorService.V1\xea\x02$Temporalio::Api::OperatorService::V1b\x06proto3"
 
 var (
@@ -1399,7 +1583,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP() [
 	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescData
 }
 
-var file_temporal_api_operatorservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
+var file_temporal_api_operatorservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 33)
 var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []any{
 	(*AddSearchAttributesRequest)(nil),       // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest
 	(*AddSearchAttributesResponse)(nil),      // 1: temporal.api.operatorservice.v1.AddSearchAttributesResponse
@@ -1426,36 +1610,43 @@ var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []any{
 	(*DeleteNexusEndpointResponse)(nil),      // 22: temporal.api.operatorservice.v1.DeleteNexusEndpointResponse
 	(*ListNexusEndpointsRequest)(nil),        // 23: temporal.api.operatorservice.v1.ListNexusEndpointsRequest
 	(*ListNexusEndpointsResponse)(nil),       // 24: temporal.api.operatorservice.v1.ListNexusEndpointsResponse
-	nil,                                      // 25: temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry
-	nil,                                      // 26: temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry
-	nil,                                      // 27: temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry
-	nil,                                      // 28: temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntry
-	(*durationpb.Duration)(nil),              // 29: google.protobuf.Duration
-	(*v11.Endpoint)(nil),                     // 30: temporal.api.nexus.v1.Endpoint
-	(*v11.EndpointSpec)(nil),                 // 31: temporal.api.nexus.v1.EndpointSpec
-	(v1.IndexedValueType)(0),                 // 32: temporal.api.enums.v1.IndexedValueType
+	(*PublishNexusServicesRequest)(nil),      // 25: temporal.api.operatorservice.v1.PublishNexusServicesRequest
+	(*PublishNexusServicesResponse)(nil),     // 26: temporal.api.operatorservice.v1.PublishNexusServicesResponse
+	(*GetNexusServicesRequest)(nil),          // 27: temporal.api.operatorservice.v1.GetNexusServicesRequest
+	(*GetNexusServicesResponse)(nil),         // 28: temporal.api.operatorservice.v1.GetNexusServicesResponse
+	nil,                                      // 29: temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry
+	nil,                                      // 30: temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry
+	nil,                                      // 31: temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry
+	nil,                                      // 32: temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntry
+	(*durationpb.Duration)(nil),              // 33: google.protobuf.Duration
+	(*v11.Endpoint)(nil),                     // 34: temporal.api.nexus.v1.Endpoint
+	(*v11.EndpointSpec)(nil),                 // 35: temporal.api.nexus.v1.EndpointSpec
+	(*v11.NexusServiceSpec)(nil),             // 36: temporal.api.nexus.v1.NexusServiceSpec
+	(v1.IndexedValueType)(0),                 // 37: temporal.api.enums.v1.IndexedValueType
 }
 var file_temporal_api_operatorservice_v1_request_response_proto_depIdxs = []int32{
-	25, // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest.search_attributes:type_name -> temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry
-	26, // 1: temporal.api.operatorservice.v1.ListSearchAttributesResponse.custom_attributes:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry
-	27, // 2: temporal.api.operatorservice.v1.ListSearchAttributesResponse.system_attributes:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry
-	28, // 3: temporal.api.operatorservice.v1.ListSearchAttributesResponse.storage_schema:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntry
-	29, // 4: temporal.api.operatorservice.v1.DeleteNamespaceRequest.namespace_delete_delay:type_name -> google.protobuf.Duration
+	29, // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest.search_attributes:type_name -> temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry
+	30, // 1: temporal.api.operatorservice.v1.ListSearchAttributesResponse.custom_attributes:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry
+	31, // 2: temporal.api.operatorservice.v1.ListSearchAttributesResponse.system_attributes:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry
+	32, // 3: temporal.api.operatorservice.v1.ListSearchAttributesResponse.storage_schema:type_name -> temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntry
+	33, // 4: temporal.api.operatorservice.v1.DeleteNamespaceRequest.namespace_delete_delay:type_name -> google.protobuf.Duration
 	14, // 5: temporal.api.operatorservice.v1.ListClustersResponse.clusters:type_name -> temporal.api.operatorservice.v1.ClusterMetadata
-	30, // 6: temporal.api.operatorservice.v1.GetNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
-	31, // 7: temporal.api.operatorservice.v1.CreateNexusEndpointRequest.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
-	30, // 8: temporal.api.operatorservice.v1.CreateNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
-	31, // 9: temporal.api.operatorservice.v1.UpdateNexusEndpointRequest.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
-	30, // 10: temporal.api.operatorservice.v1.UpdateNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
-	30, // 11: temporal.api.operatorservice.v1.ListNexusEndpointsResponse.endpoints:type_name -> temporal.api.nexus.v1.Endpoint
-	32, // 12: temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	32, // 13: temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	32, // 14: temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
-	15, // [15:15] is the sub-list for method output_type
-	15, // [15:15] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	34, // 6: temporal.api.operatorservice.v1.GetNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
+	35, // 7: temporal.api.operatorservice.v1.CreateNexusEndpointRequest.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
+	34, // 8: temporal.api.operatorservice.v1.CreateNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
+	35, // 9: temporal.api.operatorservice.v1.UpdateNexusEndpointRequest.spec:type_name -> temporal.api.nexus.v1.EndpointSpec
+	34, // 10: temporal.api.operatorservice.v1.UpdateNexusEndpointResponse.endpoint:type_name -> temporal.api.nexus.v1.Endpoint
+	34, // 11: temporal.api.operatorservice.v1.ListNexusEndpointsResponse.endpoints:type_name -> temporal.api.nexus.v1.Endpoint
+	36, // 12: temporal.api.operatorservice.v1.PublishNexusServicesRequest.services:type_name -> temporal.api.nexus.v1.NexusServiceSpec
+	36, // 13: temporal.api.operatorservice.v1.GetNexusServicesResponse.services:type_name -> temporal.api.nexus.v1.NexusServiceSpec
+	37, // 14: temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	37, // 15: temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	37, // 16: temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntry.value:type_name -> temporal.api.enums.v1.IndexedValueType
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_operatorservice_v1_request_response_proto_init() }
@@ -1469,7 +1660,7 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc), len(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   29,
+			NumMessages:   33,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

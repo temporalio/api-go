@@ -485,3 +485,77 @@ func (this *EndpointTarget) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type NexusOperationSpec to the protobuf v3 wire format
+func (val *NexusOperationSpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusOperationSpec from the protobuf v3 wire format
+func (val *NexusOperationSpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusOperationSpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusOperationSpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusOperationSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusOperationSpec
+	switch t := that.(type) {
+	case *NexusOperationSpec:
+		that1 = t
+	case NexusOperationSpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type NexusServiceSpec to the protobuf v3 wire format
+func (val *NexusServiceSpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type NexusServiceSpec from the protobuf v3 wire format
+func (val *NexusServiceSpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *NexusServiceSpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two NexusServiceSpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *NexusServiceSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *NexusServiceSpec
+	switch t := that.(type) {
+	case *NexusServiceSpec:
+		that1 = t
+	case NexusServiceSpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
