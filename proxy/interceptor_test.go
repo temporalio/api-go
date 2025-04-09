@@ -270,6 +270,31 @@ func TestVisitPayloads_Any(t *testing.T) {
 	require.Equal(t, "orig-val", string(update3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
 }
 
+func TestVisitPayloads_RepeatedAny(t *testing.T) {
+	msg, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("orig-val")}},
+	}}})
+	require.NoError(t, err)
+	root := &errordetails.MultiOperationExecutionFailure_OperationStatus{Details: []*anypb.Any{msg}}
+	var anyCount int
+	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			anyCount++
+			// Only mutate if the payloads has "test"
+			if len(p) == 1 && string(p[0].Data) == "orig-val" {
+				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, 1, anyCount)
+	update1, err := root.Details[0].UnmarshalNew()
+
+	require.NoError(t, err)
+	require.Equal(t, "new-val", string(update1.(*update.Request).Input.Args.Payloads[0].Data))
+}
+
 func TestVisitFailures(t *testing.T) {
 	require := require.New(t)
 
@@ -724,8 +749,7 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 				mapVal.Clear(sampleKey)
 			}
 		} else if fd.IsList() {
-			// TODO https://github.com/temporalio/sdk-go/issues/1864
-			if fd.Kind() == protoreflect.MessageKind && fd.Message().FullName() != "google.protobuf.Any" {
+			if fd.Kind() == protoreflect.MessageKind {
 				listVal := m.Mutable(fd).List()
 				require.Equal(0, listVal.Len())
 
@@ -939,6 +963,26 @@ func TestVisitPayloads_ResponseCount(t *testing.T) {
 
 	require.Equal(0, count)
 	require.Equal(6, totalCount)
+}
+
+func TestVisitPayloads_OperationStatus(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if string(mt.Descriptor().FullName()) == "temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus" {
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	var totalCount, count int
+	populatePayload(&msg, msg, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(1, totalCount)
 }
 
 func TestVisitPayloads_Everything(t *testing.T) {

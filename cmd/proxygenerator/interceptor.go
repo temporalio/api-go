@@ -329,6 +329,12 @@ func visitPayloads(
 			if err != nil {
 				return err
 			}
+		case []*anypb.Any:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
 {{range $type, $record := .PayloadTypes}}
 		{{if $record.Slice}}
 			case []{{$type}}:
@@ -395,6 +401,12 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx.Parent = nil
 				if err != nil {
 					return err
+				}
+			case []*anypb.Any:
+				for _, x := range o {
+					if err := visitFailures(ctx, options, x); err != nil {
+						return err
+					}
 				}
 {{range $type, $record := .FailureTypes}}
 		{{if $record.Slice}}
