@@ -338,6 +338,12 @@ func visitPayloads(
 			if err != nil {
 				return err
 			}
+		case []*anypb.Any:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
 
 		case *batch.BatchOperationSignal:
 
@@ -2957,6 +2963,12 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			ctx.Parent = nil
 			if err != nil {
 				return err
+			}
+		case []*anypb.Any:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
 			}
 
 		case []*command.Command:
