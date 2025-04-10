@@ -9997,7 +9997,9 @@ type PauseActivityRequest struct {
 	//
 	//	*PauseActivityRequest_Id
 	//	*PauseActivityRequest_Type
-	Activity      isPauseActivityRequest_Activity `protobuf_oneof:"activity"`
+	Activity isPauseActivityRequest_Activity `protobuf_oneof:"activity"`
+	// Reason to pause the activity.
+	Reason        string `protobuf:"bytes,6,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10074,6 +10076,13 @@ func (x *PauseActivityRequest) GetType() string {
 		if x, ok := x.Activity.(*PauseActivityRequest_Type); ok {
 			return x.Type
 		}
+	}
+	return ""
+}
+
+func (x *PauseActivityRequest) GetReason() string {
+	if x != nil {
+		return x.Reason
 	}
 	return ""
 }
@@ -14592,13 +14601,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\n" +
 	"\bactivity\"u\n" +
 	"\x1dUpdateActivityOptionsResponse\x12T\n" +
-	"\x10activity_options\x18\x01 \x01(\v2).temporal.api.activity.v1.ActivityOptionsR\x0factivityOptions\"\xcd\x01\n" +
+	"\x10activity_options\x18\x01 \x01(\v2).temporal.api.activity.v1.ActivityOptionsR\x0factivityOptions\"\xe5\x01\n" +
 	"\x14PauseActivityRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
 	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x10\n" +
 	"\x02id\x18\x04 \x01(\tH\x00R\x02id\x12\x14\n" +
-	"\x04type\x18\x05 \x01(\tH\x00R\x04typeB\n" +
+	"\x04type\x18\x05 \x01(\tH\x00R\x04type\x12\x16\n" +
+	"\x06reason\x18\x06 \x01(\tR\x06reasonB\n" +
 	"\n" +
 	"\bactivity\"\x17\n" +
 	"\x15PauseActivityResponse\"\xf5\x02\n" +
