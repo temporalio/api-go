@@ -119,22 +119,32 @@ type WorkflowExecutionStartedEventAttributes struct {
 	CompletionCallbacks []*v1.Callback `protobuf:"bytes,30,rep,name=completion_callbacks,json=completionCallbacks,proto3" json:"completion_callbacks,omitempty"`
 	// Contains information about the root workflow execution.
 	// The root workflow execution is defined as follows:
-	// 1. A workflow without parent workflow is its own root workflow.
-	// 2. A workflow that has a parent workflow has the same root workflow as its parent workflow.
+	//  1. A workflow without parent workflow is its own root workflow.
+	//  2. A workflow that has a parent workflow has the same root workflow as its parent workflow.
+	//
+	// When the workflow is its own root workflow, then root_workflow_execution is nil.
 	// Note: workflows continued as new or reseted may or may not have parents, check examples below.
 	//
 	// Examples:
 	//
 	//	Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3.
 	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
 	//	Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3.
 	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
 	//	Scenario 3: Workflow W1 continued as new W2.
 	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//	  - W1 and W2 have root_workflow_execution set to nil.
 	//	Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3
 	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
 	//	Scenario 5: Workflow W1 is reseted, creating W2.
 	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//	  - W1 and W2 have root_workflow_execution set to nil.
 	RootWorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,31,opt,name=root_workflow_execution,json=rootWorkflowExecution,proto3" json:"root_workflow_execution,omitempty"`
 	// When present, this execution is assigned to the build ID of its parent or previous execution.
 	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
