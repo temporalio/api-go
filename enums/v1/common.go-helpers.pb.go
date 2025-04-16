@@ -175,3 +175,21 @@ func WorkflowRuleActionScopeFromString(s string) (WorkflowRuleActionScope, error
 	}
 	return WorkflowRuleActionScope(0), fmt.Errorf("%s is not a valid WorkflowRuleActionScope", s)
 }
+
+var (
+	ApplicationErrorCategory_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Benign":      1,
+	}
+)
+
+// ApplicationErrorCategoryFromString parses a ApplicationErrorCategory value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ApplicationErrorCategory
+func ApplicationErrorCategoryFromString(s string) (ApplicationErrorCategory, error) {
+	if v, ok := ApplicationErrorCategory_value[s]; ok {
+		return ApplicationErrorCategory(v), nil
+	} else if v, ok := ApplicationErrorCategory_shorthandValue[s]; ok {
+		return ApplicationErrorCategory(v), nil
+	}
+	return ApplicationErrorCategory(0), fmt.Errorf("%s is not a valid ApplicationErrorCategory", s)
+}

@@ -56,7 +56,8 @@ type ApplicationFailureInfo struct {
 	// retry interval calculated by the retry policy. Retry attempts will
 	// still be subject to the maximum retries limit and total time limit
 	// defined by the policy.
-	NextRetryDelay *durationpb.Duration `protobuf:"bytes,4,opt,name=next_retry_delay,json=nextRetryDelay,proto3" json:"next_retry_delay,omitempty"`
+	NextRetryDelay *durationpb.Duration         `protobuf:"bytes,4,opt,name=next_retry_delay,json=nextRetryDelay,proto3" json:"next_retry_delay,omitempty"`
+	Category       v11.ApplicationErrorCategory `protobuf:"varint,5,opt,name=category,proto3,enum=temporal.api.enums.v1.ApplicationErrorCategory" json:"category,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -117,6 +118,13 @@ func (x *ApplicationFailureInfo) GetNextRetryDelay() *durationpb.Duration {
 		return x.NextRetryDelay
 	}
 	return nil
+}
+
+func (x *ApplicationFailureInfo) GetCategory() v11.ApplicationErrorCategory {
+	if x != nil {
+		return x.Category
+	}
+	return v11.ApplicationErrorCategory(0)
 }
 
 type TimeoutFailureInfo struct {
@@ -961,12 +969,13 @@ var File_temporal_api_failure_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_failure_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/failure/v1/message.proto\x12\x17temporal.api.failure.v1\x1a$temporal/api/common/v1/message.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a\x1egoogle/protobuf/duration.proto\"\xd2\x01\n" +
+	"%temporal/api/failure/v1/message.proto\x12\x17temporal.api.failure.v1\x1a$temporal/api/common/v1/message.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a!temporal/api/enums/v1/nexus.proto\x1a\"temporal/api/enums/v1/common.proto\x1a\x1egoogle/protobuf/duration.proto\"\x9f\x02\n" +
 	"\x16ApplicationFailureInfo\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12#\n" +
 	"\rnon_retryable\x18\x02 \x01(\bR\fnonRetryable\x12:\n" +
 	"\adetails\x18\x03 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12C\n" +
-	"\x10next_retry_delay\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\x0enextRetryDelay\"\xb3\x01\n" +
+	"\x10next_retry_delay\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\x0enextRetryDelay\x12K\n" +
+	"\bcategory\x18\x05 \x01(\x0e2/.temporal.api.enums.v1.ApplicationErrorCategoryR\bcategory\"\xb3\x01\n" +
 	"\x12TimeoutFailureInfo\x12E\n" +
 	"\ftimeout_type\x18\x01 \x01(\x0e2\".temporal.api.enums.v1.TimeoutTypeR\vtimeoutType\x12V\n" +
 	"\x16last_heartbeat_details\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\x14lastHeartbeatDetails\"Q\n" +
@@ -1055,44 +1064,46 @@ var file_temporal_api_failure_v1_message_proto_goTypes = []any{
 	(*MultiOperationExecutionAborted)(nil),    // 11: temporal.api.failure.v1.MultiOperationExecutionAborted
 	(*v1.Payloads)(nil),                       // 12: temporal.api.common.v1.Payloads
 	(*durationpb.Duration)(nil),               // 13: google.protobuf.Duration
-	(v11.TimeoutType)(0),                      // 14: temporal.api.enums.v1.TimeoutType
-	(*v1.ActivityType)(nil),                   // 15: temporal.api.common.v1.ActivityType
-	(v11.RetryState)(0),                       // 16: temporal.api.enums.v1.RetryState
-	(*v1.WorkflowExecution)(nil),              // 17: temporal.api.common.v1.WorkflowExecution
-	(*v1.WorkflowType)(nil),                   // 18: temporal.api.common.v1.WorkflowType
-	(v11.NexusHandlerErrorRetryBehavior)(0),   // 19: temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
-	(*v1.Payload)(nil),                        // 20: temporal.api.common.v1.Payload
+	(v11.ApplicationErrorCategory)(0),         // 14: temporal.api.enums.v1.ApplicationErrorCategory
+	(v11.TimeoutType)(0),                      // 15: temporal.api.enums.v1.TimeoutType
+	(*v1.ActivityType)(nil),                   // 16: temporal.api.common.v1.ActivityType
+	(v11.RetryState)(0),                       // 17: temporal.api.enums.v1.RetryState
+	(*v1.WorkflowExecution)(nil),              // 18: temporal.api.common.v1.WorkflowExecution
+	(*v1.WorkflowType)(nil),                   // 19: temporal.api.common.v1.WorkflowType
+	(v11.NexusHandlerErrorRetryBehavior)(0),   // 20: temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
+	(*v1.Payload)(nil),                        // 21: temporal.api.common.v1.Payload
 }
 var file_temporal_api_failure_v1_message_proto_depIdxs = []int32{
 	12, // 0: temporal.api.failure.v1.ApplicationFailureInfo.details:type_name -> temporal.api.common.v1.Payloads
 	13, // 1: temporal.api.failure.v1.ApplicationFailureInfo.next_retry_delay:type_name -> google.protobuf.Duration
-	14, // 2: temporal.api.failure.v1.TimeoutFailureInfo.timeout_type:type_name -> temporal.api.enums.v1.TimeoutType
-	12, // 3: temporal.api.failure.v1.TimeoutFailureInfo.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	12, // 4: temporal.api.failure.v1.CanceledFailureInfo.details:type_name -> temporal.api.common.v1.Payloads
-	12, // 5: temporal.api.failure.v1.ResetWorkflowFailureInfo.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	15, // 6: temporal.api.failure.v1.ActivityFailureInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	16, // 7: temporal.api.failure.v1.ActivityFailureInfo.retry_state:type_name -> temporal.api.enums.v1.RetryState
-	17, // 8: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	18, // 9: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	16, // 10: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.retry_state:type_name -> temporal.api.enums.v1.RetryState
-	19, // 11: temporal.api.failure.v1.NexusHandlerFailureInfo.retry_behavior:type_name -> temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
-	20, // 12: temporal.api.failure.v1.Failure.encoded_attributes:type_name -> temporal.api.common.v1.Payload
-	10, // 13: temporal.api.failure.v1.Failure.cause:type_name -> temporal.api.failure.v1.Failure
-	0,  // 14: temporal.api.failure.v1.Failure.application_failure_info:type_name -> temporal.api.failure.v1.ApplicationFailureInfo
-	1,  // 15: temporal.api.failure.v1.Failure.timeout_failure_info:type_name -> temporal.api.failure.v1.TimeoutFailureInfo
-	2,  // 16: temporal.api.failure.v1.Failure.canceled_failure_info:type_name -> temporal.api.failure.v1.CanceledFailureInfo
-	3,  // 17: temporal.api.failure.v1.Failure.terminated_failure_info:type_name -> temporal.api.failure.v1.TerminatedFailureInfo
-	4,  // 18: temporal.api.failure.v1.Failure.server_failure_info:type_name -> temporal.api.failure.v1.ServerFailureInfo
-	5,  // 19: temporal.api.failure.v1.Failure.reset_workflow_failure_info:type_name -> temporal.api.failure.v1.ResetWorkflowFailureInfo
-	6,  // 20: temporal.api.failure.v1.Failure.activity_failure_info:type_name -> temporal.api.failure.v1.ActivityFailureInfo
-	7,  // 21: temporal.api.failure.v1.Failure.child_workflow_execution_failure_info:type_name -> temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo
-	8,  // 22: temporal.api.failure.v1.Failure.nexus_operation_execution_failure_info:type_name -> temporal.api.failure.v1.NexusOperationFailureInfo
-	9,  // 23: temporal.api.failure.v1.Failure.nexus_handler_failure_info:type_name -> temporal.api.failure.v1.NexusHandlerFailureInfo
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	14, // 2: temporal.api.failure.v1.ApplicationFailureInfo.category:type_name -> temporal.api.enums.v1.ApplicationErrorCategory
+	15, // 3: temporal.api.failure.v1.TimeoutFailureInfo.timeout_type:type_name -> temporal.api.enums.v1.TimeoutType
+	12, // 4: temporal.api.failure.v1.TimeoutFailureInfo.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	12, // 5: temporal.api.failure.v1.CanceledFailureInfo.details:type_name -> temporal.api.common.v1.Payloads
+	12, // 6: temporal.api.failure.v1.ResetWorkflowFailureInfo.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	16, // 7: temporal.api.failure.v1.ActivityFailureInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	17, // 8: temporal.api.failure.v1.ActivityFailureInfo.retry_state:type_name -> temporal.api.enums.v1.RetryState
+	18, // 9: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	19, // 10: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	17, // 11: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.retry_state:type_name -> temporal.api.enums.v1.RetryState
+	20, // 12: temporal.api.failure.v1.NexusHandlerFailureInfo.retry_behavior:type_name -> temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
+	21, // 13: temporal.api.failure.v1.Failure.encoded_attributes:type_name -> temporal.api.common.v1.Payload
+	10, // 14: temporal.api.failure.v1.Failure.cause:type_name -> temporal.api.failure.v1.Failure
+	0,  // 15: temporal.api.failure.v1.Failure.application_failure_info:type_name -> temporal.api.failure.v1.ApplicationFailureInfo
+	1,  // 16: temporal.api.failure.v1.Failure.timeout_failure_info:type_name -> temporal.api.failure.v1.TimeoutFailureInfo
+	2,  // 17: temporal.api.failure.v1.Failure.canceled_failure_info:type_name -> temporal.api.failure.v1.CanceledFailureInfo
+	3,  // 18: temporal.api.failure.v1.Failure.terminated_failure_info:type_name -> temporal.api.failure.v1.TerminatedFailureInfo
+	4,  // 19: temporal.api.failure.v1.Failure.server_failure_info:type_name -> temporal.api.failure.v1.ServerFailureInfo
+	5,  // 20: temporal.api.failure.v1.Failure.reset_workflow_failure_info:type_name -> temporal.api.failure.v1.ResetWorkflowFailureInfo
+	6,  // 21: temporal.api.failure.v1.Failure.activity_failure_info:type_name -> temporal.api.failure.v1.ActivityFailureInfo
+	7,  // 22: temporal.api.failure.v1.Failure.child_workflow_execution_failure_info:type_name -> temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo
+	8,  // 23: temporal.api.failure.v1.Failure.nexus_operation_execution_failure_info:type_name -> temporal.api.failure.v1.NexusOperationFailureInfo
+	9,  // 24: temporal.api.failure.v1.Failure.nexus_handler_failure_info:type_name -> temporal.api.failure.v1.NexusHandlerFailureInfo
+	25, // [25:25] is the sub-list for method output_type
+	25, // [25:25] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
+	0,  // [0:25] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_failure_v1_message_proto_init() }

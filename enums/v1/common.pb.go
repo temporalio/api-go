@@ -565,6 +565,61 @@ func (WorkflowRuleActionScope) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{6}
 }
 
+type ApplicationErrorCategory int32
+
+const (
+	APPLICATION_ERROR_CATEGORY_UNSPECIFIED ApplicationErrorCategory = 0
+	// Expected application error with little/no severity.
+	APPLICATION_ERROR_CATEGORY_BENIGN ApplicationErrorCategory = 1
+)
+
+// Enum value maps for ApplicationErrorCategory.
+var (
+	ApplicationErrorCategory_name = map[int32]string{
+		0: "APPLICATION_ERROR_CATEGORY_UNSPECIFIED",
+		1: "APPLICATION_ERROR_CATEGORY_BENIGN",
+	}
+	ApplicationErrorCategory_value = map[string]int32{
+		"APPLICATION_ERROR_CATEGORY_UNSPECIFIED": 0,
+		"APPLICATION_ERROR_CATEGORY_BENIGN":      1,
+	}
+)
+
+func (x ApplicationErrorCategory) Enum() *ApplicationErrorCategory {
+	p := new(ApplicationErrorCategory)
+	*p = x
+	return p
+}
+
+func (x ApplicationErrorCategory) String() string {
+	switch x {
+	case APPLICATION_ERROR_CATEGORY_UNSPECIFIED:
+		return "Unspecified"
+	case APPLICATION_ERROR_CATEGORY_BENIGN:
+		return "Benign"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (ApplicationErrorCategory) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_enums_v1_common_proto_enumTypes[7].Descriptor()
+}
+
+func (ApplicationErrorCategory) Type() protoreflect.EnumType {
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[7]
+}
+
+func (x ApplicationErrorCategory) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ApplicationErrorCategory.Descriptor instead.
+func (ApplicationErrorCategory) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{7}
+}
+
 var File_temporal_api_enums_v1_common_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
@@ -613,7 +668,10 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x17WorkflowRuleActionScope\x12*\n" +
 	"&WORKFLOW_RULE_ACTION_SCOPE_UNSPECIFIED\x10\x00\x12'\n" +
 	"#WORKFLOW_RULE_ACTION_SCOPE_WORKFLOW\x10\x01\x12'\n" +
-	"#WORKFLOW_RULE_ACTION_SCOPE_ACTIVITY\x10\x02B\x83\x01\n" +
+	"#WORKFLOW_RULE_ACTION_SCOPE_ACTIVITY\x10\x02*m\n" +
+	"\x18ApplicationErrorCategory\x12*\n" +
+	"&APPLICATION_ERROR_CATEGORY_UNSPECIFIED\x10\x00\x12%\n" +
+	"!APPLICATION_ERROR_CATEGORY_BENIGN\x10\x01B\x83\x01\n" +
 	"\x18io.temporal.api.enums.v1B\vCommonProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (
@@ -628,7 +686,7 @@ func file_temporal_api_enums_v1_common_proto_rawDescGZIP() []byte {
 	return file_temporal_api_enums_v1_common_proto_rawDescData
 }
 
-var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
+var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
 var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(EncodingType)(0),                    // 0: temporal.api.enums.v1.EncodingType
 	(IndexedValueType)(0),                // 1: temporal.api.enums.v1.IndexedValueType
@@ -637,6 +695,7 @@ var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(PendingNexusOperationState)(0),      // 4: temporal.api.enums.v1.PendingNexusOperationState
 	(NexusOperationCancellationState)(0), // 5: temporal.api.enums.v1.NexusOperationCancellationState
 	(WorkflowRuleActionScope)(0),         // 6: temporal.api.enums.v1.WorkflowRuleActionScope
+	(ApplicationErrorCategory)(0),        // 7: temporal.api.enums.v1.ApplicationErrorCategory
 }
 var file_temporal_api_enums_v1_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -656,7 +715,7 @@ func file_temporal_api_enums_v1_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_common_proto_rawDesc), len(file_temporal_api_enums_v1_common_proto_rawDesc)),
-			NumEnums:      7,
+			NumEnums:      8,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,
