@@ -5092,8 +5092,10 @@ type NexusOperationCancelRequestCompletedEventAttributes struct {
 	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported
 	// with.
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
+	// The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to.
+	ScheduledEventId int64 `protobuf:"varint,3,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *NexusOperationCancelRequestCompletedEventAttributes) Reset() {
@@ -5140,6 +5142,13 @@ func (x *NexusOperationCancelRequestCompletedEventAttributes) GetWorkflowTaskCom
 	return 0
 }
 
+func (x *NexusOperationCancelRequestCompletedEventAttributes) GetScheduledEventId() int64 {
+	if x != nil {
+		return x.ScheduledEventId
+	}
+	return 0
+}
+
 type NexusOperationCancelRequestFailedEventAttributes struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The ID of the `NEXUS_OPERATION_CANCEL_REQUESTED` event.
@@ -5148,9 +5157,11 @@ type NexusOperationCancelRequestFailedEventAttributes struct {
 	// with.
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// Failure details. A NexusOperationFailureInfo wrapping a CanceledFailureInfo.
-	Failure       *v13.Failure `protobuf:"bytes,3,opt,name=failure,proto3" json:"failure,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Failure *v13.Failure `protobuf:"bytes,3,opt,name=failure,proto3" json:"failure,omitempty"`
+	// The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to.
+	ScheduledEventId int64 `protobuf:"varint,4,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *NexusOperationCancelRequestFailedEventAttributes) Reset() {
@@ -5202,6 +5213,13 @@ func (x *NexusOperationCancelRequestFailedEventAttributes) GetFailure() *v13.Fai
 		return x.Failure
 	}
 	return nil
+}
+
+func (x *NexusOperationCancelRequestFailedEventAttributes) GetScheduledEventId() int64 {
+	if x != nil {
+		return x.ScheduledEventId
+	}
+	return 0
 }
 
 // History events are the method by which Temporal SDKs advance (or recreate) workflow state.
@@ -6734,14 +6752,16 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"request_id\x18\x03 \x01(\tR\trequestId\"\xa4\x01\n" +
 	",NexusOperationCancelRequestedEventAttributes\x12,\n" +
 	"\x12scheduled_event_id\x18\x01 \x01(\x03R\x10scheduledEventId\x12F\n" +
-	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\"\xab\x01\n" +
+	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\"\xd9\x01\n" +
 	"3NexusOperationCancelRequestCompletedEventAttributes\x12,\n" +
 	"\x12requested_event_id\x18\x01 \x01(\x03R\x10requestedEventId\x12F\n" +
-	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\"\xe4\x01\n" +
+	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12,\n" +
+	"\x12scheduled_event_id\x18\x03 \x01(\x03R\x10scheduledEventId\"\x92\x02\n" +
 	"0NexusOperationCancelRequestFailedEventAttributes\x12,\n" +
 	"\x12requested_event_id\x18\x01 \x01(\x03R\x10requestedEventId\x12F\n" +
 	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12:\n" +
-	"\afailure\x18\x03 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\"\xf7O\n" +
+	"\afailure\x18\x03 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\x12,\n" +
+	"\x12scheduled_event_id\x18\x04 \x01(\x03R\x10scheduledEventId\"\xf7O\n" +
 	"\fHistoryEvent\x12\x19\n" +
 	"\bevent_id\x18\x01 \x01(\x03R\aeventId\x129\n" +
 	"\n" +
