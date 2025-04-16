@@ -12623,7 +12623,9 @@ type TriggerWorkflowRuleRequest struct {
 	//
 	//	*TriggerWorkflowRuleRequest_Id
 	//	*TriggerWorkflowRuleRequest_Spec
-	Rule          isTriggerWorkflowRuleRequest_Rule `protobuf_oneof:"rule"`
+	Rule isTriggerWorkflowRuleRequest_Rule `protobuf_oneof:"rule"`
+	// The identity of the client who initiated this request
+	Identity      string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12695,6 +12697,13 @@ func (x *TriggerWorkflowRuleRequest) GetSpec() *v120.WorkflowRuleSpec {
 		}
 	}
 	return nil
+}
+
+func (x *TriggerWorkflowRuleRequest) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
 }
 
 type isTriggerWorkflowRuleRequest_Rule interface {
@@ -14780,12 +14789,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"~\n" +
 	"\x19ListWorkflowRulesResponse\x129\n" +
 	"\x05rules\x18\x01 \x03(\v2#.temporal.api.rules.v1.WorkflowRuleR\x05rules\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\xdc\x01\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\xf8\x01\n" +
 	"\x1aTriggerWorkflowRuleRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
 	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x12\x10\n" +
 	"\x02id\x18\x04 \x01(\tH\x00R\x02id\x12=\n" +
-	"\x04spec\x18\x05 \x01(\v2'.temporal.api.rules.v1.WorkflowRuleSpecH\x00R\x04specB\x06\n" +
+	"\x04spec\x18\x05 \x01(\v2'.temporal.api.rules.v1.WorkflowRuleSpecH\x00R\x04spec\x12\x1a\n" +
+	"\bidentity\x18\x03 \x01(\tR\bidentityB\x06\n" +
 	"\x04rule\"7\n" +
 	"\x1bTriggerWorkflowRuleResponse\x12\x18\n" +
 	"\aapplied\x18\x01 \x01(\bR\aappliedB\xbe\x01\n" +
