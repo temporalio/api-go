@@ -24,7 +24,6 @@ COLOR := "\e[1;36m%s\e[0m\n"
 PINNED_DEPENDENCIES := \
 
 PROTO_ROOT := proto/api
-PROTO_CLOUD_ROOT := proto/api-cloud
 PROTO_OUT := .
 PROTO_IMPORTS = \
 	-I=$(PROTO_ROOT)
@@ -55,7 +54,6 @@ go-grpc: clean .go-helpers-installed $(PROTO_OUT)
 	printf $(COLOR) "Compile for go-gRPC..."
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
-		--root=$(PROTO_CLOUD_ROOT) \
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
 		--exclude=proto/api/google \
@@ -82,10 +80,8 @@ grpc-mock:
 	printf $(COLOR) "Generate gRPC mocks..."
 	mockgen -package operatorservicemock -source operatorservice/v1/service_grpc.pb.go -destination operatorservicemock/v1/service_grpc.pb.mock.go
 	mockgen -package workflowservicemock -source workflowservice/v1/service_grpc.pb.go -destination workflowservicemock/v1/service_grpc.pb.mock.go
-	mockgen -package cloudservicemock -source cloud/cloudservice/v1/service_grpc.pb.go -destination cloud/cloudservicemock/v1/service_grpc.pb.mock.go
 	go run ./cmd/mockgen-fix OperatorService operatorservicemock/v1/service_grpc.pb.mock.go
 	go run ./cmd/mockgen-fix WorkflowService workflowservicemock/v1/service_grpc.pb.mock.go
-	go run ./cmd/mockgen-fix CloudService cloud/cloudservicemock/v1/service_grpc.pb.mock.go
 
 .PHONY: proxy
 proxy: gen-proto-desc
@@ -100,7 +96,6 @@ gen-proto-desc:
 	printf $(COLOR) "Generating proto descriptors..."
 	go run ./cmd/protogen \
 		--root=$(PROTO_ROOT) \
-		--root=$(PROTO_CLOUD_ROOT) \
 		--output=$(PROTO_OUT) \
 		--exclude=internal \
 		--exclude=proto/api/google \
@@ -156,5 +151,3 @@ clean:
 	printf $(COLOR) "Deleting generated go files..."
 	# Delete all directories with *.pb.go and *.mock.go files from $(PROTO_OUT)
 	find $(PROTO_OUT) \( -name "*.pb.go" -o -name "*.mock.go" -o -name "*.go-helpers.go" \) | xargs -I{} dirname {} | egrep -v 'testprotos' | sort -u | xargs rm -rf
-	# Delete entire cloud dir
-	rm -rf cloud
