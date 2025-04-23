@@ -615,7 +615,7 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 func (t *testGRPCServer) ExecuteMultiOperation(
 	ctx context.Context,
 	req *workflowservice.ExecuteMultiOperationRequest) (*workflowservice.ExecuteMultiOperationResponse, error) {
-	anyDetail, err := anypb.New(inputPayload())
+	anyDetail, err := anypb.New(inputPayloads())
 	if err != nil {
 		return nil, err
 	}
