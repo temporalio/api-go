@@ -74,6 +74,9 @@ type VisitPayloadsOptions struct {
 }
 
 // VisitPayloads calls the options.Visitor function for every Payload proto within msg.
+//
+// Note: Directly visiting *common.Payload is not supported. Payloads must be passed through
+// a parent proto.
 func VisitPayloads(ctx context.Context, msg proto.Message, options VisitPayloadsOptions) error {
 	visitCtx := VisitPayloadsContext{Context: ctx, Parent: msg}
 
@@ -311,6 +314,14 @@ func visitPayloads(
 					return err
 				}
 			}
+		case []*common.Payload:
+			for ix, x := range o {
+				if nx, err := visitPayload(ctx, options, parent, x); err != nil {
+					return err
+				} else {
+					o[ix] = nx
+				}
+			}
 		case *anypb.Any:
 			if o == nil {
 				continue
@@ -324,6 +335,12 @@ func visitPayloads(
 			ctx.Parent = nil
 			if err != nil {
 				return err
+			}
+		case []*anypb.Any:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
 			}
 
 		case *batch.BatchOperationSignal:
@@ -1050,6 +1067,7 @@ func visitPayloads(
 				o.GetChildWorkflowExecutionFailedEventAttributes(),
 				o.GetChildWorkflowExecutionStartedEventAttributes(),
 				o.GetMarkerRecordedEventAttributes(),
+				o.GetNexusOperationCancelRequestFailedEventAttributes(),
 				o.GetNexusOperationCanceledEventAttributes(),
 				o.GetNexusOperationCompletedEventAttributes(),
 				o.GetNexusOperationFailedEventAttributes(),
@@ -1090,6 +1108,21 @@ func visitPayloads(
 				o.GetDetails(),
 				o.GetFailure(),
 				o.GetHeader(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationCancelRequestFailedEventAttributes:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
@@ -2929,6 +2962,12 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err != nil {
 				return err
 			}
+		case []*anypb.Any:
+			for _, x := range o {
+				if err := visitFailures(ctx, options, x); err != nil {
+					return err
+				}
+			}
 
 		case []*command.Command:
 			for _, x := range o {
@@ -3155,6 +3194,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				o.GetActivityTaskTimedOutEventAttributes(),
 				o.GetChildWorkflowExecutionFailedEventAttributes(),
 				o.GetMarkerRecordedEventAttributes(),
+				o.GetNexusOperationCancelRequestFailedEventAttributes(),
 				o.GetNexusOperationCanceledEventAttributes(),
 				o.GetNexusOperationFailedEventAttributes(),
 				o.GetNexusOperationTimedOutEventAttributes(),
@@ -3169,6 +3209,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			}
 
 		case *history.MarkerRecordedEventAttributes:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *history.NexusOperationCancelRequestFailedEventAttributes:
 			if o == nil {
 				continue
 			}

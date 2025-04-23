@@ -80,6 +80,9 @@ type VisitPayloadsOptions struct {
 }
 
 // VisitPayloads calls the options.Visitor function for every Payload proto within msg.
+//
+// Note: Directly visiting *common.Payload is not supported. Payloads must be passed through
+// a parent proto.
 func VisitPayloads(ctx context.Context, msg proto.Message, options VisitPayloadsOptions) error {
 	visitCtx := VisitPayloadsContext{Context: ctx, Parent: msg}
 
@@ -314,6 +317,14 @@ func visitPayloads(
 						return err
 					}
 				}
+			case []*common.Payload:
+				for ix, x := range o {
+					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
+						return err
+					} else {
+						o[ix] = nx
+					}
+				}
 		case *anypb.Any:
 			if o == nil {
 				continue
@@ -327,6 +338,12 @@ func visitPayloads(
 			ctx.Parent = nil
 			if err != nil {
 				return err
+			}
+		case []*anypb.Any:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
 			}
 {{range $type, $record := .PayloadTypes}}
 		{{if $record.Slice}}
@@ -394,6 +411,12 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx.Parent = nil
 				if err != nil {
 					return err
+				}
+			case []*anypb.Any:
+				for _, x := range o {
+					if err := visitFailures(ctx, options, x); err != nil {
+						return err
+					}
 				}
 {{range $type, $record := .FailureTypes}}
 		{{if $record.Slice}}

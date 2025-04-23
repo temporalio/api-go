@@ -27,13 +27,13 @@ package proxy
 import (
 	"context"
 	"fmt"
-	"go.temporal.io/api/errordetails/v1"
 	"log"
 	"net"
-	"slices"
 	"strings"
 	"testing"
 	"time"
+
+	"go.temporal.io/api/errordetails/v1"
 
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/api/command/v1"
@@ -188,6 +188,25 @@ func TestVisitPayloads_NestedParent(t *testing.T) {
 	require.IsType(t, &command.StartChildWorkflowExecutionCommandAttributes{}, inputParent)
 }
 
+func TestVisitPayloads_RepeatedPayload(t *testing.T) {
+	root := &workflowservice.CountWorkflowExecutionsResponse_AggregationGroup{GroupValues: []*common.Payload{{Data: []byte("orig-val")}}}
+
+	var count int
+	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			count += 1
+			// Only mutate if the payloads has orig-val
+			if len(p) == 1 && string(p[0].Data) == "orig-val" {
+				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, 1, count)
+	require.Equal(t, []*common.Payload{{Data: []byte("new-val")}}, root.GroupValues)
+}
+
 func TestVisitPayloads_Any(t *testing.T) {
 	// Due to us not visiting protos inside Any, this test used to fail
 	msg1, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
@@ -267,6 +286,31 @@ func TestVisitPayloads_Any(t *testing.T) {
 	update3, err = root.Messages[2].Body.UnmarshalNew()
 	require.NoError(t, err)
 	require.Equal(t, "orig-val", string(update3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
+}
+
+func TestVisitPayloads_RepeatedAny(t *testing.T) {
+	msg, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
+		Payloads: []*common.Payload{{Data: []byte("orig-val")}},
+	}}})
+	require.NoError(t, err)
+	root := &errordetails.MultiOperationExecutionFailure_OperationStatus{Details: []*anypb.Any{msg}}
+	var anyCount int
+	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
+		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
+			anyCount++
+			// Only mutate if the payloads has "test"
+			if len(p) == 1 && string(p[0].Data) == "orig-val" {
+				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			}
+			return p, nil
+		},
+	})
+	require.NoError(t, err)
+	require.Equal(t, 1, anyCount)
+	update1, err := root.Details[0].UnmarshalNew()
+
+	require.NoError(t, err)
+	require.Equal(t, "new-val", string(update1.(*update.Request).Input.Args.Payloads[0].Data))
 }
 
 func TestVisitFailures(t *testing.T) {
@@ -723,8 +767,7 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 				mapVal.Clear(sampleKey)
 			}
 		} else if fd.IsList() {
-			// TODO https://github.com/temporalio/sdk-go/issues/1864
-			if fd.Kind() == protoreflect.MessageKind && fd.Message().FullName() != "google.protobuf.Any" {
+			if fd.Kind() == protoreflect.MessageKind {
 				listVal := m.Mutable(fd).List()
 				require.Equal(0, listVal.Len())
 
@@ -920,6 +963,29 @@ func TestVisitPayloads_MapCount(t *testing.T) {
 	require.Equal(44, totalCount)
 }
 
+func TestVisitPayloads_CountWorkflowExecutionsResponse(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	var totalCount, count int
+
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if string(mt.Descriptor().FullName()) == "temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse" {
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg1 := messageType.New().Interface().(proto.Message)
+	totalCount = 0
+	count = 0
+	populatePayload(&msg1, msg1, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(1, totalCount)
+}
+
 func TestVisitPayloads_ResponseCount(t *testing.T) {
 	require := require.New(t)
 
@@ -940,18 +1006,34 @@ func TestVisitPayloads_ResponseCount(t *testing.T) {
 	require.Equal(6, totalCount)
 }
 
+func TestVisitPayloads_OperationStatus(t *testing.T) {
+	require := require.New(t)
+
+	var messageType protoreflect.MessageType
+	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
+		if string(mt.Descriptor().FullName()) == "temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus" {
+			messageType = mt
+		}
+		return true
+	})
+
+	// Create empty instance and populate with test values
+	msg := messageType.New().Interface().(proto.Message)
+	var totalCount, count int
+	populatePayload(&msg, msg, require, &totalCount, &count)
+
+	require.Equal(0, count)
+	require.Equal(1, totalCount)
+}
+
 func TestVisitPayloads_Everything(t *testing.T) {
 	require := require.New(t)
 
 	var messageType []protoreflect.MessageType
-	skipList := []string{
-		"temporal.api.common.v1.Payload",
-		// TODO: https://github.com/temporalio/sdk-go/issues/1865
-		"temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse",
-		"temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse.AggregationGroup",
-	}
 	protoregistry.GlobalTypes.RangeMessages(func(mt protoreflect.MessageType) bool {
-		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && !slices.Contains(skipList, string(mt.Descriptor().FullName())) {
+		// The base case of passing Payload into the visitor is not supported.
+		// See godoc for VisitPayloads
+		if strings.HasPrefix(string(mt.Descriptor().FullName()), "temporal.api.") && string(mt.Descriptor().FullName()) != "temporal.api.common.v1.Payload" {
 			messageType = append(messageType, mt)
 		}
 		return true

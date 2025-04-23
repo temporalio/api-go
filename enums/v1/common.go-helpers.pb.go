@@ -156,3 +156,40 @@ func NexusOperationCancellationStateFromString(s string) (NexusOperationCancella
 	}
 	return NexusOperationCancellationState(0), fmt.Errorf("%s is not a valid NexusOperationCancellationState", s)
 }
+
+var (
+	WorkflowRuleActionScope_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Workflow":    1,
+		"Activity":    2,
+	}
+)
+
+// WorkflowRuleActionScopeFromString parses a WorkflowRuleActionScope value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to WorkflowRuleActionScope
+func WorkflowRuleActionScopeFromString(s string) (WorkflowRuleActionScope, error) {
+	if v, ok := WorkflowRuleActionScope_value[s]; ok {
+		return WorkflowRuleActionScope(v), nil
+	} else if v, ok := WorkflowRuleActionScope_shorthandValue[s]; ok {
+		return WorkflowRuleActionScope(v), nil
+	}
+	return WorkflowRuleActionScope(0), fmt.Errorf("%s is not a valid WorkflowRuleActionScope", s)
+}
+
+var (
+	ApplicationErrorCategory_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Benign":      1,
+	}
+)
+
+// ApplicationErrorCategoryFromString parses a ApplicationErrorCategory value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ApplicationErrorCategory
+func ApplicationErrorCategoryFromString(s string) (ApplicationErrorCategory, error) {
+	if v, ok := ApplicationErrorCategory_value[s]; ok {
+		return ApplicationErrorCategory(v), nil
+	} else if v, ok := ApplicationErrorCategory_shorthandValue[s]; ok {
+		return ApplicationErrorCategory(v), nil
+	}
+	return ApplicationErrorCategory(0), fmt.Errorf("%s is not a valid ApplicationErrorCategory", s)
+}
