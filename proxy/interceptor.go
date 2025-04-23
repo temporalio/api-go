@@ -106,6 +106,9 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 
 		err := invoker(ctx, method, req, response, cc, opts...)
 		if err != nil {
+			if options.Inbound == nil {
+				return err
+			}
 			if s, ok := status.FromError(err); ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
@@ -122,9 +125,6 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 }
 
 func visitGrpcErrorPayload(ctx context.Context, err error, s *status.Status, inbound *VisitPayloadsOptions) error {
-	if inbound == nil {
-		return err
-	}
 	p := s.Proto()
 	for _, detail := range p.Details {
 		payloadTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
@@ -187,6 +187,9 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 
 		err := invoker(ctx, method, req, response, cc, opts...)
 		if err != nil {
+			if options.Inbound == nil {
+				return err
+			}
 			if s, ok := status.FromError(err); ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
@@ -203,9 +206,6 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 }
 
 func visitGrpcErrorFailure(ctx context.Context, err error, s *status.Status, inbound *VisitFailuresOptions) error {
-	if inbound == nil {
-		return err
-	}
 	p := s.Proto()
 	for _, detail := range p.Details {
 		failureTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
