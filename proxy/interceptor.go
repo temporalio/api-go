@@ -109,7 +109,7 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 			if s, ok := status.FromError(err); ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
-				return parseGrpcPayload(ctx, err, s, options.Inbound)
+				return visitGrpcErrorPayload(ctx, err, s, options.Inbound)
 			}
 		}
 
@@ -121,7 +121,7 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 	}, nil
 }
 
-func parseGrpcPayload(ctx context.Context, err error, s *status.Status, inbound *VisitPayloadsOptions) error {
+func visitGrpcErrorPayload(ctx context.Context, err error, s *status.Status, inbound *VisitPayloadsOptions) error {
 	if inbound == nil {
 		return err
 	}
@@ -133,8 +133,8 @@ func parseGrpcPayload(ctx context.Context, err error, s *status.Status, inbound 
 				if vErr := VisitPayloads(ctx, detail, *inbound); vErr != nil {
 					return vErr
 				}
+				break
 			}
-			break
 		}
 	}
 	return status.ErrorProto(p)
@@ -190,7 +190,7 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 			if s, ok := status.FromError(err); ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
-				return parseGrpcFailure(ctx, err, s, options.Inbound)
+				return visitGrpcErrorFailure(ctx, err, s, options.Inbound)
 			}
 		}
 
@@ -202,7 +202,7 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 	}, nil
 }
 
-func parseGrpcFailure(ctx context.Context, err error, s *status.Status, inbound *VisitFailuresOptions) error {
+func visitGrpcErrorFailure(ctx context.Context, err error, s *status.Status, inbound *VisitFailuresOptions) error {
 	if inbound == nil {
 		return err
 	}
@@ -214,8 +214,8 @@ func parseGrpcFailure(ctx context.Context, err error, s *status.Status, inbound 
 				if vErr := VisitFailures(ctx, detail, *inbound); vErr != nil {
 					return vErr
 				}
+				break
 			}
-			break
 		}
 	}
 	return status.ErrorProto(p)
