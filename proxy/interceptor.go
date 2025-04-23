@@ -103,7 +103,11 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 
 		err := invoker(ctx, method, req, response, cc, opts...)
 		if err != nil {
-			return parseGrpcPayload(ctx, err, options.Inbound)
+			if s, ok := status.FromError(err); ok {
+				// user provided payloads can sometimes end up in the status details of
+				// gRPC errors, make sure to visit those as well
+				return parseGrpcPayload(ctx, err, s, options.Inbound)
+			}
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
@@ -114,14 +118,8 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 	}, nil
 }
 
-func parseGrpcPayload(ctx context.Context, err error, inbound *VisitPayloadsOptions) error {
+func parseGrpcPayload(ctx context.Context, err error, s *status.Status, inbound *VisitPayloadsOptions) error {
 	if inbound == nil {
-		return err
-	}
-	// user provided payloads can sometimes end up in the status details of
-	// gRPC errors, make sure to visit those as well
-	s, ok := status.FromError(err)
-	if !ok {
 		return err
 	}
 	p := s.Proto()
@@ -186,7 +184,11 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 
 		err := invoker(ctx, method, req, response, cc, opts...)
 		if err != nil {
-			return parseGrpcFailure(ctx, err, options.Inbound)
+			if s, ok := status.FromError(err); ok {
+				// user provided payloads can sometimes end up in the status details of
+				// gRPC errors, make sure to visit those as well
+				return parseGrpcFailure(ctx, err, s, options.Inbound)
+			}
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
@@ -197,14 +199,8 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 	}, nil
 }
 
-func parseGrpcFailure(ctx context.Context, err error, inbound *VisitFailuresOptions) error {
+func parseGrpcFailure(ctx context.Context, err error, s *status.Status, inbound *VisitFailuresOptions) error {
 	if inbound == nil {
-		return err
-	}
-	// user provided payloads can sometimes end up in the status details of
-	// gRPC errors, make sure to visit those as well
-	s, ok := status.FromError(err)
-	if !ok {
 		return err
 	}
 	p := s.Proto()
