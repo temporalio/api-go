@@ -27,7 +27,7 @@ package proxy
 import (
 	"context"
 	"fmt"
-	"slices"
+	"strings"
 
 	"go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
@@ -49,7 +49,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/protoadapt"
 	"google.golang.org/protobuf/types/known/anypb"
 )
 
@@ -116,53 +115,28 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 }
 
 func parseGrpcPayload(ctx context.Context, err error, inbound *VisitPayloadsOptions) error {
-	if inbound != nil {
-		stat, ok := status.FromError(err)
-		if ok {
-			// user provided payloads can sometimes end up in the status details of
-			// gRPC errors, make sure to visit those as well
-			newStatus := status.New(stat.Code(), stat.Message())
-			var newDetails []protoadapt.MessageV1
-			for _, detail := range stat.Details() {
-				detailAny, okAny := detail.(*anypb.Any)
-				detailV1, okDetail := detail.(protoadapt.MessageV1)
-				payloadTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
-				if okAny {
-					if slices.Contains(payloadTypes, string(detailAny.MessageName())) {
-						err = VisitPayloads(ctx, detailAny, *inbound)
-						if err != nil {
-							return err
-						}
-					}
-					//newDetails = append(newDetails, detailAny)
-					newStatus, err = newStatus.WithDetails(detailAny)
-					if err != nil {
-						return err
-					}
-				} else if okDetail {
-					msg := protoadapt.MessageV2Of(detailV1)
-					if slices.Contains(payloadTypes, string(msg.ProtoReflect().Descriptor().FullName())) {
-						err = VisitPayloads(ctx, msg, *inbound)
-					}
-					newDetails = append(newDetails, detailV1)
-				} else {
-					// stat.Details() returned an error
-					detailErr, ok := detail.(error)
-					if !ok {
-						return fmt.Errorf("unreachable")
-					}
-					return detailErr
+	if inbound == nil {
+		return err
+	}
+	// user provided payloads can sometimes end up in the status details of
+	// gRPC errors, make sure to visit those as well
+	s, ok := status.FromError(err)
+	if !ok {
+		return err
+	}
+	p := s.Proto()
+	for _, detail := range p.Details {
+		payloadTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
+		for _, payloadType := range payloadTypes {
+			if strings.Contains(detail.String(), payloadType) {
+				if vErr := VisitPayloads(ctx, detail, *inbound); vErr != nil {
+					return vErr
 				}
 			}
-			newStatus, err = newStatus.WithDetails(newDetails...)
-
-			if err != nil {
-				return err
-			}
-			return newStatus.Err()
+			break
 		}
 	}
-	return err
+	return status.ErrorProto(p)
 }
 
 // VisitFailuresContext provides Failure context for visitor functions.
@@ -224,53 +198,28 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 }
 
 func parseGrpcFailure(ctx context.Context, err error, inbound *VisitFailuresOptions) error {
-	if inbound != nil {
-		stat, ok := status.FromError(err)
-		if ok {
-			// user provided payloads can sometimes end up in the status details of
-			// gRPC errors, make sure to visit those as well
-			newStatus := status.New(stat.Code(), stat.Message())
-			var newDetails []protoadapt.MessageV1
-			for _, detail := range stat.Details() {
-				detailAny, okAny := detail.(*anypb.Any)
-				detailV1, okDetail := detail.(protoadapt.MessageV1)
-				failureTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
-				if okAny {
-					if slices.Contains(failureTypes, string(detailAny.MessageName())) {
-						err = VisitFailures(ctx, detailAny, *inbound)
-						if err != nil {
-							return err
-						}
-					}
-					//newDetails = append(newDetails, detailAny)
-					newStatus, err = newStatus.WithDetails(detailAny)
-					if err != nil {
-						return err
-					}
-				} else if okDetail {
-					msg := protoadapt.MessageV2Of(detailV1)
-					if slices.Contains(failureTypes, string(msg.ProtoReflect().Descriptor().FullName())) {
-						err = VisitFailures(ctx, msg, *inbound)
-					}
-					newDetails = append(newDetails, detailV1)
-				} else {
-					// stat.Details() returned an error
-					detailErr, ok := detail.(error)
-					if !ok {
-						return fmt.Errorf("unreachable")
-					}
-					return detailErr
+	if inbound == nil {
+		return err
+	}
+	// user provided payloads can sometimes end up in the status details of
+	// gRPC errors, make sure to visit those as well
+	s, ok := status.FromError(err)
+	if !ok {
+		return err
+	}
+	p := s.Proto()
+	for _, detail := range p.Details {
+		failureTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
+		for _, failureType := range failureTypes {
+			if strings.Contains(detail.String(), failureType) {
+				if vErr := VisitFailures(ctx, detail, *inbound); vErr != nil {
+					return vErr
 				}
 			}
-			newStatus, err = newStatus.WithDetails(newDetails...)
-
-			if err != nil {
-				return err
-			}
-			return newStatus.Err()
+			break
 		}
 	}
-	return err
+	return status.ErrorProto(p)
 }
 
 func (o *VisitFailuresOptions) defaultWellKnownAnyVisitor(ctx *VisitFailuresContext, p *anypb.Any) error {
