@@ -454,6 +454,7 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 	inputs := inputPayloads()
 	var inboundPayload *common.Payload
 	var inboundFailure string
+	failureMessage := "new failure message"
 
 	interceptor, err := NewPayloadVisitorInterceptor(
 		PayloadVisitorInterceptorOptions{
@@ -472,7 +473,7 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 		FailureVisitorInterceptorOptions{
 			Inbound: &VisitFailuresOptions{Visitor: func(vpc *VisitFailuresContext, f *failure.Failure) error {
 				inboundFailure = f.Message
-				f.Message = "new failure message"
+				f.Message = failureMessage
 				return nil
 			}},
 		})
@@ -504,11 +505,8 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 	stat, ok := status.FromError(err)
 	require.True(ok)
 	for _, detail := range stat.Details() {
-		detailAny, ok := detail.(*anypb.Any)
+		multiOpFailure, ok := detail.(*errordetails.MultiOperationExecutionFailure)
 		require.True(ok)
-		multiOpFailure := &errordetails.MultiOperationExecutionFailure{}
-		err = detailAny.UnmarshalTo(multiOpFailure)
-		require.NoError(err)
 		payload := &common.Payload{}
 		err = multiOpFailure.Statuses[0].Details[0].UnmarshalTo(payload)
 		require.NoError(err)
@@ -524,14 +522,9 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 	stat, ok = status.FromError(err)
 	require.True(ok)
 	for _, detail := range stat.Details() {
-		detailAny, ok := detail.(*anypb.Any)
-		fmt.Println("detail", detailAny, ok)
+		queryFailure, ok := detail.(*errordetails.QueryFailedFailure)
 		require.True(ok)
-		queryFailure := &errordetails.QueryFailedFailure{}
-		err := detailAny.UnmarshalTo(queryFailure)
-		require.NoError(err)
-		//var failure *failure.Failure
-		require.Equal("new failure message", queryFailure.Failure.Message)
+		require.Equal(failureMessage, queryFailure.Failure.Message)
 	}
 
 }
@@ -626,13 +619,9 @@ func (t *testGRPCServer) ExecuteMultiOperation(
 	multiOpFailure := errordetails.MultiOperationExecutionFailure{
 		Statuses: []*errordetails.MultiOperationExecutionFailure_OperationStatus{operationStatus},
 	}
-	anyMultiOpFailure, err := anypb.New(&multiOpFailure)
-	if err != nil {
-		return nil, err
-	}
 	st := status.New(codes.Internal, "Operation failed due to a user error")
 
-	stWithDetails, err := st.WithDetails(anyMultiOpFailure)
+	stWithDetails, err := st.WithDetails(&multiOpFailure)
 	if err != nil {
 		return nil, st.Err()
 	}
@@ -648,14 +637,9 @@ func (t *testGRPCServer) QueryWorkflow(
 	}
 	queryFailure := errordetails.QueryFailedFailure{Failure: &failureMessage}
 
-	anyDetail, err := anypb.New(queryFailure.ProtoReflect().Interface())
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal payload to Any: %w", err)
-	}
-
 	st := status.New(codes.Internal, "Operation failed due to a user error")
 
-	stWithDetails, err := st.WithDetails(anyDetail)
+	stWithDetails, err := st.WithDetails(&queryFailure)
 	if err != nil {
 		return nil, st.Err()
 	}

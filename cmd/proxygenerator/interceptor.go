@@ -134,12 +134,9 @@ func visitGrpcErrorPayload(ctx context.Context, err error, s *status.Status, inb
 	p := s.Proto()
 	for _, detail := range p.Details {
 		payloadTypes := []string{ {{ range $i, $name := .GrpcPayload }}{{ if $i }}, {{ end }}"{{$name}}"{{ end }} }
-		for _, payloadType := range payloadTypes {
-			if strings.Contains(detail.String(), payloadType) {
-				if vErr := VisitPayloads(ctx, detail, *inbound); vErr != nil {
-					return vErr
-				}
-				break
+		if slices.Contains(payloadTypes, string(detail.MessageName())) {
+			if vErr := VisitPayloads(ctx, detail, *inbound); vErr != nil {
+				return vErr
 			}
 		}
 	}
@@ -215,12 +212,9 @@ func visitGrpcErrorFailure(ctx context.Context, err error, s *status.Status, inb
 	p := s.Proto()
 	for _, detail := range p.Details {
 		failureTypes := []string{ {{ range $i, $name := .GrpcFailure }}{{ if $i }}, {{ end }}"{{$name}}"{{ end }} }
-		for _, failureType := range failureTypes {
-			if strings.Contains(detail.String(), failureType) {
-				if vErr := VisitFailures(ctx, detail, *inbound); vErr != nil {
-					return vErr
-				}
-				break
+		if slices.Contains(failureTypes, string(detail.MessageName())) {
+			if vErr := VisitFailures(ctx, detail, *inbound); vErr != nil {
+				return vErr
 			}
 		}
 	}

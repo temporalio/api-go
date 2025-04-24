@@ -27,7 +27,7 @@ package proxy
 import (
 	"context"
 	"fmt"
-	"strings"
+	"slices"
 
 	"go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
@@ -128,12 +128,9 @@ func visitGrpcErrorPayload(ctx context.Context, err error, s *status.Status, inb
 	p := s.Proto()
 	for _, detail := range p.Details {
 		payloadTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
-		for _, payloadType := range payloadTypes {
-			if strings.Contains(detail.String(), payloadType) {
-				if vErr := VisitPayloads(ctx, detail, *inbound); vErr != nil {
-					return vErr
-				}
-				break
+		if slices.Contains(payloadTypes, string(detail.MessageName())) {
+			if vErr := VisitPayloads(ctx, detail, *inbound); vErr != nil {
+				return vErr
 			}
 		}
 	}
@@ -209,12 +206,9 @@ func visitGrpcErrorFailure(ctx context.Context, err error, s *status.Status, inb
 	p := s.Proto()
 	for _, detail := range p.Details {
 		failureTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
-		for _, failureType := range failureTypes {
-			if strings.Contains(detail.String(), failureType) {
-				if vErr := VisitFailures(ctx, detail, *inbound); vErr != nil {
-					return vErr
-				}
-				break
+		if slices.Contains(failureTypes, string(detail.MessageName())) {
+			if vErr := VisitFailures(ctx, detail, *inbound); vErr != nil {
+				return vErr
 			}
 		}
 	}
