@@ -12213,7 +12213,11 @@ type CreateWorkflowRuleRequest struct {
 	// visibility_query in the rule will be used to select the workflows to apply the rule to.
 	ForceScan bool `protobuf:"varint,3,opt,name=force_scan,json=forceScan,proto3" json:"force_scan,omitempty"`
 	// Used to de-dupe requests. Typically should be UUID.
-	RequestId     string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	RequestId string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// Identity of the actor who created the rule. Will be stored with the rule.
+	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
+	// Rule description.Will be stored with the rule.
+	Description   string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12272,6 +12276,20 @@ func (x *CreateWorkflowRuleRequest) GetForceScan() bool {
 func (x *CreateWorkflowRuleRequest) GetRequestId() string {
 	if x != nil {
 		return x.RequestId
+	}
+	return ""
+}
+
+func (x *CreateWorkflowRuleRequest) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
+}
+
+func (x *CreateWorkflowRuleRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
 	}
 	return ""
 }
@@ -14774,14 +14792,16 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"!GetDeploymentReachabilityResponse\x12S\n" +
 	"\x0fdeployment_info\x18\x01 \x01(\v2*.temporal.api.deployment.v1.DeploymentInfoR\x0edeploymentInfo\x12Q\n" +
 	"\freachability\x18\x02 \x01(\x0e2-.temporal.api.enums.v1.DeploymentReachabilityR\freachability\x12D\n" +
-	"\x10last_update_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0elastUpdateTime\"\xb4\x01\n" +
+	"\x10last_update_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0elastUpdateTime\"\xf2\x01\n" +
 	"\x19CreateWorkflowRuleRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12;\n" +
 	"\x04spec\x18\x02 \x01(\v2'.temporal.api.rules.v1.WorkflowRuleSpecR\x04spec\x12\x1d\n" +
 	"\n" +
 	"force_scan\x18\x03 \x01(\bR\tforceScan\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x04 \x01(\tR\trequestId\"l\n" +
+	"request_id\x18\x04 \x01(\tR\trequestId\x12\x1a\n" +
+	"\bidentity\x18\x05 \x01(\tR\bidentity\x12 \n" +
+	"\vdescription\x18\x06 \x01(\tR\vdescription\"l\n" +
 	"\x1aCreateWorkflowRuleResponse\x127\n" +
 	"\x04rule\x18\x01 \x01(\v2#.temporal.api.rules.v1.WorkflowRuleR\x04rule\x12\x15\n" +
 	"\x06job_id\x18\x02 \x01(\tR\x05jobId\"T\n" +
