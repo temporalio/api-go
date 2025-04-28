@@ -233,7 +233,18 @@ type WorkflowRule struct {
 	// Rule creation time.
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	// Rule specification
-	Spec          *WorkflowRuleSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
+	Spec *WorkflowRuleSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
+	// Identity of the actor that created the rule
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: It is better reflect the intent this way, we will also have updated_by. --)
+	//
+	// (-- api-linter: core::0142::time-field-names=disabled
+	//
+	//	aip.dev/not-precedent: Same as above. All other options sounds clumsy --)
+	CreatedByIdentity string `protobuf:"bytes,3,opt,name=created_by_identity,json=createdByIdentity,proto3" json:"created_by_identity,omitempty"`
+	// Rule description.
+	Description   string `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -280,6 +291,20 @@ func (x *WorkflowRule) GetSpec() *WorkflowRuleSpec {
 		return x.Spec
 	}
 	return nil
+}
+
+func (x *WorkflowRule) GetCreatedByIdentity() string {
+	if x != nil {
+		return x.CreatedByIdentity
+	}
+	return ""
+}
+
+func (x *WorkflowRule) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
 }
 
 type WorkflowRuleAction_ActionActivityPause struct {
@@ -394,11 +419,13 @@ const file_temporal_api_rules_v1_message_proto_rawDesc = "" +
 	"\x0fexpiration_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0eexpirationTime\x1a7\n" +
 	"\x17ActivityStartingTrigger\x12\x1c\n" +
 	"\tpredicate\x18\x01 \x01(\tR\tpredicateB\t\n" +
-	"\atrigger\"\x88\x01\n" +
+	"\atrigger\"\xda\x01\n" +
 	"\fWorkflowRule\x12;\n" +
 	"\vcreate_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12;\n" +
-	"\x04spec\x18\x02 \x01(\v2'.temporal.api.rules.v1.WorkflowRuleSpecR\x04specB\x84\x01\n" +
+	"\x04spec\x18\x02 \x01(\v2'.temporal.api.rules.v1.WorkflowRuleSpecR\x04spec\x12.\n" +
+	"\x13created_by_identity\x18\x03 \x01(\tR\x11createdByIdentity\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescriptionB\x84\x01\n" +
 	"\x18io.temporal.api.rules.v1B\fMessageProtoP\x01Z!go.temporal.io/api/rules/v1;rules\xaa\x02\x17Temporalio.Api.Rules.V1\xea\x02\x1aTemporalio::Api::Rules::V1b\x06proto3"
 
 var (
