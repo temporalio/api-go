@@ -1727,6 +1727,126 @@ func (x *AddNamespaceRegionResponse) GetAsyncOperation() *v11.AsyncOperation {
 	return nil
 }
 
+type DeleteNamespaceRegionRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The namespace to delete a region.
+	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	// The id of the standby region to be deleted.
+	// The GetRegions API can be used to get the list of valid region ids.
+	// Example: "aws-us-west-2".
+	Region string `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
+	// The version of the namespace for which this delete region operation is intended for.
+	// The latest version can be found in the GetNamespace operation response.
+	ResourceVersion string `protobuf:"bytes,3,opt,name=resource_version,json=resourceVersion,proto3" json:"resource_version,omitempty"`
+	// The id to use for this async operation - optional.
+	AsyncOperationId string `protobuf:"bytes,4,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *DeleteNamespaceRegionRequest) Reset() {
+	*x = DeleteNamespaceRegionRequest{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteNamespaceRegionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteNamespaceRegionRequest) ProtoMessage() {}
+
+func (x *DeleteNamespaceRegionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteNamespaceRegionRequest.ProtoReflect.Descriptor instead.
+func (*DeleteNamespaceRegionRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *DeleteNamespaceRegionRequest) GetNamespace() string {
+	if x != nil {
+		return x.Namespace
+	}
+	return ""
+}
+
+func (x *DeleteNamespaceRegionRequest) GetRegion() string {
+	if x != nil {
+		return x.Region
+	}
+	return ""
+}
+
+func (x *DeleteNamespaceRegionRequest) GetResourceVersion() string {
+	if x != nil {
+		return x.ResourceVersion
+	}
+	return ""
+}
+
+func (x *DeleteNamespaceRegionRequest) GetAsyncOperationId() string {
+	if x != nil {
+		return x.AsyncOperationId
+	}
+	return ""
+}
+
+type DeleteNamespaceRegionResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The async operation.
+	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *DeleteNamespaceRegionResponse) Reset() {
+	*x = DeleteNamespaceRegionResponse{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteNamespaceRegionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteNamespaceRegionResponse) ProtoMessage() {}
+
+func (x *DeleteNamespaceRegionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteNamespaceRegionResponse.ProtoReflect.Descriptor instead.
+func (*DeleteNamespaceRegionResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *DeleteNamespaceRegionResponse) GetAsyncOperation() *v11.AsyncOperation {
+	if x != nil {
+		return x.AsyncOperation
+	}
+	return nil
+}
+
 type GetRegionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -1735,7 +1855,7 @@ type GetRegionsRequest struct {
 
 func (x *GetRegionsRequest) Reset() {
 	*x = GetRegionsRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[30]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1747,7 +1867,7 @@ func (x *GetRegionsRequest) String() string {
 func (*GetRegionsRequest) ProtoMessage() {}
 
 func (x *GetRegionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[30]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1760,7 +1880,7 @@ func (x *GetRegionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRegionsRequest.ProtoReflect.Descriptor instead.
 func (*GetRegionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{30}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{32}
 }
 
 type GetRegionsResponse struct {
@@ -1773,7 +1893,7 @@ type GetRegionsResponse struct {
 
 func (x *GetRegionsResponse) Reset() {
 	*x = GetRegionsResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[31]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1785,7 +1905,7 @@ func (x *GetRegionsResponse) String() string {
 func (*GetRegionsResponse) ProtoMessage() {}
 
 func (x *GetRegionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[31]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1798,7 +1918,7 @@ func (x *GetRegionsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRegionsResponse.ProtoReflect.Descriptor instead.
 func (*GetRegionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{31}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *GetRegionsResponse) GetRegions() []*v13.Region {
@@ -1818,7 +1938,7 @@ type GetRegionRequest struct {
 
 func (x *GetRegionRequest) Reset() {
 	*x = GetRegionRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[32]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1830,7 +1950,7 @@ func (x *GetRegionRequest) String() string {
 func (*GetRegionRequest) ProtoMessage() {}
 
 func (x *GetRegionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[32]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1843,7 +1963,7 @@ func (x *GetRegionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRegionRequest.ProtoReflect.Descriptor instead.
 func (*GetRegionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{32}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *GetRegionRequest) GetRegion() string {
@@ -1863,7 +1983,7 @@ type GetRegionResponse struct {
 
 func (x *GetRegionResponse) Reset() {
 	*x = GetRegionResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[33]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1875,7 +1995,7 @@ func (x *GetRegionResponse) String() string {
 func (*GetRegionResponse) ProtoMessage() {}
 
 func (x *GetRegionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[33]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1888,7 +2008,7 @@ func (x *GetRegionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetRegionResponse.ProtoReflect.Descriptor instead.
 func (*GetRegionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{33}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *GetRegionResponse) GetRegion() *v13.Region {
@@ -1921,7 +2041,7 @@ type GetApiKeysRequest struct {
 
 func (x *GetApiKeysRequest) Reset() {
 	*x = GetApiKeysRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[34]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1933,7 +2053,7 @@ func (x *GetApiKeysRequest) String() string {
 func (*GetApiKeysRequest) ProtoMessage() {}
 
 func (x *GetApiKeysRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[34]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1946,7 +2066,7 @@ func (x *GetApiKeysRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetApiKeysRequest.ProtoReflect.Descriptor instead.
 func (*GetApiKeysRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{34}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *GetApiKeysRequest) GetPageSize() int32 {
@@ -1997,7 +2117,7 @@ type GetApiKeysResponse struct {
 
 func (x *GetApiKeysResponse) Reset() {
 	*x = GetApiKeysResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[35]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2009,7 +2129,7 @@ func (x *GetApiKeysResponse) String() string {
 func (*GetApiKeysResponse) ProtoMessage() {}
 
 func (x *GetApiKeysResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[35]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2022,7 +2142,7 @@ func (x *GetApiKeysResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetApiKeysResponse.ProtoReflect.Descriptor instead.
 func (*GetApiKeysResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{35}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *GetApiKeysResponse) GetApiKeys() []*v1.ApiKey {
@@ -2049,7 +2169,7 @@ type GetApiKeyRequest struct {
 
 func (x *GetApiKeyRequest) Reset() {
 	*x = GetApiKeyRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[36]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2061,7 +2181,7 @@ func (x *GetApiKeyRequest) String() string {
 func (*GetApiKeyRequest) ProtoMessage() {}
 
 func (x *GetApiKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[36]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2074,7 +2194,7 @@ func (x *GetApiKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetApiKeyRequest.ProtoReflect.Descriptor instead.
 func (*GetApiKeyRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{36}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *GetApiKeyRequest) GetKeyId() string {
@@ -2094,7 +2214,7 @@ type GetApiKeyResponse struct {
 
 func (x *GetApiKeyResponse) Reset() {
 	*x = GetApiKeyResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[37]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2106,7 +2226,7 @@ func (x *GetApiKeyResponse) String() string {
 func (*GetApiKeyResponse) ProtoMessage() {}
 
 func (x *GetApiKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[37]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2119,7 +2239,7 @@ func (x *GetApiKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetApiKeyResponse.ProtoReflect.Descriptor instead.
 func (*GetApiKeyResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{37}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *GetApiKeyResponse) GetApiKey() *v1.ApiKey {
@@ -2142,7 +2262,7 @@ type CreateApiKeyRequest struct {
 
 func (x *CreateApiKeyRequest) Reset() {
 	*x = CreateApiKeyRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[38]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2154,7 +2274,7 @@ func (x *CreateApiKeyRequest) String() string {
 func (*CreateApiKeyRequest) ProtoMessage() {}
 
 func (x *CreateApiKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[38]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2167,7 +2287,7 @@ func (x *CreateApiKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateApiKeyRequest.ProtoReflect.Descriptor instead.
 func (*CreateApiKeyRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{38}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *CreateApiKeyRequest) GetSpec() *v1.ApiKeySpec {
@@ -2200,7 +2320,7 @@ type CreateApiKeyResponse struct {
 
 func (x *CreateApiKeyResponse) Reset() {
 	*x = CreateApiKeyResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[39]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2212,7 +2332,7 @@ func (x *CreateApiKeyResponse) String() string {
 func (*CreateApiKeyResponse) ProtoMessage() {}
 
 func (x *CreateApiKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[39]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2225,7 +2345,7 @@ func (x *CreateApiKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateApiKeyResponse.ProtoReflect.Descriptor instead.
 func (*CreateApiKeyResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{39}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *CreateApiKeyResponse) GetKeyId() string {
@@ -2266,7 +2386,7 @@ type UpdateApiKeyRequest struct {
 
 func (x *UpdateApiKeyRequest) Reset() {
 	*x = UpdateApiKeyRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[40]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2278,7 +2398,7 @@ func (x *UpdateApiKeyRequest) String() string {
 func (*UpdateApiKeyRequest) ProtoMessage() {}
 
 func (x *UpdateApiKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[40]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2291,7 +2411,7 @@ func (x *UpdateApiKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateApiKeyRequest.ProtoReflect.Descriptor instead.
 func (*UpdateApiKeyRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{40}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *UpdateApiKeyRequest) GetKeyId() string {
@@ -2332,7 +2452,7 @@ type UpdateApiKeyResponse struct {
 
 func (x *UpdateApiKeyResponse) Reset() {
 	*x = UpdateApiKeyResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[41]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2344,7 +2464,7 @@ func (x *UpdateApiKeyResponse) String() string {
 func (*UpdateApiKeyResponse) ProtoMessage() {}
 
 func (x *UpdateApiKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[41]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2357,7 +2477,7 @@ func (x *UpdateApiKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateApiKeyResponse.ProtoReflect.Descriptor instead.
 func (*UpdateApiKeyResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{41}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *UpdateApiKeyResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -2382,7 +2502,7 @@ type DeleteApiKeyRequest struct {
 
 func (x *DeleteApiKeyRequest) Reset() {
 	*x = DeleteApiKeyRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[42]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2394,7 +2514,7 @@ func (x *DeleteApiKeyRequest) String() string {
 func (*DeleteApiKeyRequest) ProtoMessage() {}
 
 func (x *DeleteApiKeyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[42]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2407,7 +2527,7 @@ func (x *DeleteApiKeyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteApiKeyRequest.ProtoReflect.Descriptor instead.
 func (*DeleteApiKeyRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{42}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *DeleteApiKeyRequest) GetKeyId() string {
@@ -2441,7 +2561,7 @@ type DeleteApiKeyResponse struct {
 
 func (x *DeleteApiKeyResponse) Reset() {
 	*x = DeleteApiKeyResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[43]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2453,7 +2573,7 @@ func (x *DeleteApiKeyResponse) String() string {
 func (*DeleteApiKeyResponse) ProtoMessage() {}
 
 func (x *DeleteApiKeyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[43]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2466,7 +2586,7 @@ func (x *DeleteApiKeyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteApiKeyResponse.ProtoReflect.Descriptor instead.
 func (*DeleteApiKeyResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{43}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *DeleteApiKeyResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -2495,7 +2615,7 @@ type GetNexusEndpointsRequest struct {
 
 func (x *GetNexusEndpointsRequest) Reset() {
 	*x = GetNexusEndpointsRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[44]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2507,7 +2627,7 @@ func (x *GetNexusEndpointsRequest) String() string {
 func (*GetNexusEndpointsRequest) ProtoMessage() {}
 
 func (x *GetNexusEndpointsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[44]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2520,7 +2640,7 @@ func (x *GetNexusEndpointsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNexusEndpointsRequest.ProtoReflect.Descriptor instead.
 func (*GetNexusEndpointsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{44}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *GetNexusEndpointsRequest) GetPageSize() int32 {
@@ -2570,7 +2690,7 @@ type GetNexusEndpointsResponse struct {
 
 func (x *GetNexusEndpointsResponse) Reset() {
 	*x = GetNexusEndpointsResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[45]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2582,7 +2702,7 @@ func (x *GetNexusEndpointsResponse) String() string {
 func (*GetNexusEndpointsResponse) ProtoMessage() {}
 
 func (x *GetNexusEndpointsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[45]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2595,7 +2715,7 @@ func (x *GetNexusEndpointsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNexusEndpointsResponse.ProtoReflect.Descriptor instead.
 func (*GetNexusEndpointsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{45}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *GetNexusEndpointsResponse) GetEndpoints() []*v14.Endpoint {
@@ -2622,7 +2742,7 @@ type GetNexusEndpointRequest struct {
 
 func (x *GetNexusEndpointRequest) Reset() {
 	*x = GetNexusEndpointRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[46]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2634,7 +2754,7 @@ func (x *GetNexusEndpointRequest) String() string {
 func (*GetNexusEndpointRequest) ProtoMessage() {}
 
 func (x *GetNexusEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[46]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2647,7 +2767,7 @@ func (x *GetNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNexusEndpointRequest.ProtoReflect.Descriptor instead.
 func (*GetNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{46}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *GetNexusEndpointRequest) GetEndpointId() string {
@@ -2667,7 +2787,7 @@ type GetNexusEndpointResponse struct {
 
 func (x *GetNexusEndpointResponse) Reset() {
 	*x = GetNexusEndpointResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[47]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2679,7 +2799,7 @@ func (x *GetNexusEndpointResponse) String() string {
 func (*GetNexusEndpointResponse) ProtoMessage() {}
 
 func (x *GetNexusEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[47]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2692,7 +2812,7 @@ func (x *GetNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNexusEndpointResponse.ProtoReflect.Descriptor instead.
 func (*GetNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{47}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *GetNexusEndpointResponse) GetEndpoint() *v14.Endpoint {
@@ -2714,7 +2834,7 @@ type CreateNexusEndpointRequest struct {
 
 func (x *CreateNexusEndpointRequest) Reset() {
 	*x = CreateNexusEndpointRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[48]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2726,7 +2846,7 @@ func (x *CreateNexusEndpointRequest) String() string {
 func (*CreateNexusEndpointRequest) ProtoMessage() {}
 
 func (x *CreateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[48]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2739,7 +2859,7 @@ func (x *CreateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNexusEndpointRequest.ProtoReflect.Descriptor instead.
 func (*CreateNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{48}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *CreateNexusEndpointRequest) GetSpec() *v14.EndpointSpec {
@@ -2768,7 +2888,7 @@ type CreateNexusEndpointResponse struct {
 
 func (x *CreateNexusEndpointResponse) Reset() {
 	*x = CreateNexusEndpointResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[49]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2780,7 +2900,7 @@ func (x *CreateNexusEndpointResponse) String() string {
 func (*CreateNexusEndpointResponse) ProtoMessage() {}
 
 func (x *CreateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[49]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2793,7 +2913,7 @@ func (x *CreateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNexusEndpointResponse.ProtoReflect.Descriptor instead.
 func (*CreateNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{49}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *CreateNexusEndpointResponse) GetEndpointId() string {
@@ -2827,7 +2947,7 @@ type UpdateNexusEndpointRequest struct {
 
 func (x *UpdateNexusEndpointRequest) Reset() {
 	*x = UpdateNexusEndpointRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[50]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2839,7 +2959,7 @@ func (x *UpdateNexusEndpointRequest) String() string {
 func (*UpdateNexusEndpointRequest) ProtoMessage() {}
 
 func (x *UpdateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[50]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2852,7 +2972,7 @@ func (x *UpdateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNexusEndpointRequest.ProtoReflect.Descriptor instead.
 func (*UpdateNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{50}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *UpdateNexusEndpointRequest) GetEndpointId() string {
@@ -2893,7 +3013,7 @@ type UpdateNexusEndpointResponse struct {
 
 func (x *UpdateNexusEndpointResponse) Reset() {
 	*x = UpdateNexusEndpointResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[51]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2905,7 +3025,7 @@ func (x *UpdateNexusEndpointResponse) String() string {
 func (*UpdateNexusEndpointResponse) ProtoMessage() {}
 
 func (x *UpdateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[51]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2918,7 +3038,7 @@ func (x *UpdateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNexusEndpointResponse.ProtoReflect.Descriptor instead.
 func (*UpdateNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{51}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *UpdateNexusEndpointResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -2943,7 +3063,7 @@ type DeleteNexusEndpointRequest struct {
 
 func (x *DeleteNexusEndpointRequest) Reset() {
 	*x = DeleteNexusEndpointRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[52]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2955,7 +3075,7 @@ func (x *DeleteNexusEndpointRequest) String() string {
 func (*DeleteNexusEndpointRequest) ProtoMessage() {}
 
 func (x *DeleteNexusEndpointRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[52]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2968,7 +3088,7 @@ func (x *DeleteNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNexusEndpointRequest.ProtoReflect.Descriptor instead.
 func (*DeleteNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{52}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *DeleteNexusEndpointRequest) GetEndpointId() string {
@@ -3002,7 +3122,7 @@ type DeleteNexusEndpointResponse struct {
 
 func (x *DeleteNexusEndpointResponse) Reset() {
 	*x = DeleteNexusEndpointResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[53]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3014,7 +3134,7 @@ func (x *DeleteNexusEndpointResponse) String() string {
 func (*DeleteNexusEndpointResponse) ProtoMessage() {}
 
 func (x *DeleteNexusEndpointResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[53]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3027,7 +3147,7 @@ func (x *DeleteNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNexusEndpointResponse.ProtoReflect.Descriptor instead.
 func (*DeleteNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{53}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *DeleteNexusEndpointResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -3049,14 +3169,16 @@ type GetUserGroupsRequest struct {
 	// Filter groups by the display name - optional.
 	DisplayName string `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Filter groups by the google group specification - optional.
-	GoogleGroup   *GetUserGroupsRequest_GoogleGroupFilter `protobuf:"bytes,5,opt,name=google_group,json=googleGroup,proto3" json:"google_group,omitempty"`
+	GoogleGroup *GetUserGroupsRequest_GoogleGroupFilter `protobuf:"bytes,5,opt,name=google_group,json=googleGroup,proto3" json:"google_group,omitempty"`
+	// Filter groups by the SCIM group specification - optional.
+	ScimGroup     *GetUserGroupsRequest_SCIMGroupFilter `protobuf:"bytes,6,opt,name=scim_group,json=scimGroup,proto3" json:"scim_group,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetUserGroupsRequest) Reset() {
 	*x = GetUserGroupsRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[54]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3068,7 +3190,7 @@ func (x *GetUserGroupsRequest) String() string {
 func (*GetUserGroupsRequest) ProtoMessage() {}
 
 func (x *GetUserGroupsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[54]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3081,7 +3203,7 @@ func (x *GetUserGroupsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserGroupsRequest.ProtoReflect.Descriptor instead.
 func (*GetUserGroupsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{54}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *GetUserGroupsRequest) GetPageSize() int32 {
@@ -3119,6 +3241,13 @@ func (x *GetUserGroupsRequest) GetGoogleGroup() *GetUserGroupsRequest_GoogleGrou
 	return nil
 }
 
+func (x *GetUserGroupsRequest) GetScimGroup() *GetUserGroupsRequest_SCIMGroupFilter {
+	if x != nil {
+		return x.ScimGroup
+	}
+	return nil
+}
+
 type GetUserGroupsResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The list of groups in ascending name order.
@@ -3131,7 +3260,7 @@ type GetUserGroupsResponse struct {
 
 func (x *GetUserGroupsResponse) Reset() {
 	*x = GetUserGroupsResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[55]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3143,7 +3272,7 @@ func (x *GetUserGroupsResponse) String() string {
 func (*GetUserGroupsResponse) ProtoMessage() {}
 
 func (x *GetUserGroupsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[55]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3156,7 +3285,7 @@ func (x *GetUserGroupsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserGroupsResponse.ProtoReflect.Descriptor instead.
 func (*GetUserGroupsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{55}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *GetUserGroupsResponse) GetGroups() []*v1.UserGroup {
@@ -3183,7 +3312,7 @@ type GetUserGroupRequest struct {
 
 func (x *GetUserGroupRequest) Reset() {
 	*x = GetUserGroupRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[56]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[58]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3195,7 +3324,7 @@ func (x *GetUserGroupRequest) String() string {
 func (*GetUserGroupRequest) ProtoMessage() {}
 
 func (x *GetUserGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[56]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[58]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3208,7 +3337,7 @@ func (x *GetUserGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserGroupRequest.ProtoReflect.Descriptor instead.
 func (*GetUserGroupRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{56}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{58}
 }
 
 func (x *GetUserGroupRequest) GetGroupId() string {
@@ -3228,7 +3357,7 @@ type GetUserGroupResponse struct {
 
 func (x *GetUserGroupResponse) Reset() {
 	*x = GetUserGroupResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[57]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[59]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3240,7 +3369,7 @@ func (x *GetUserGroupResponse) String() string {
 func (*GetUserGroupResponse) ProtoMessage() {}
 
 func (x *GetUserGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[57]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[59]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3253,7 +3382,7 @@ func (x *GetUserGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserGroupResponse.ProtoReflect.Descriptor instead.
 func (*GetUserGroupResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{57}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *GetUserGroupResponse) GetGroup() *v1.UserGroup {
@@ -3276,7 +3405,7 @@ type CreateUserGroupRequest struct {
 
 func (x *CreateUserGroupRequest) Reset() {
 	*x = CreateUserGroupRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[58]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[60]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3288,7 +3417,7 @@ func (x *CreateUserGroupRequest) String() string {
 func (*CreateUserGroupRequest) ProtoMessage() {}
 
 func (x *CreateUserGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[58]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[60]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3301,7 +3430,7 @@ func (x *CreateUserGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserGroupRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserGroupRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{58}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{60}
 }
 
 func (x *CreateUserGroupRequest) GetSpec() *v1.UserGroupSpec {
@@ -3330,7 +3459,7 @@ type CreateUserGroupResponse struct {
 
 func (x *CreateUserGroupResponse) Reset() {
 	*x = CreateUserGroupResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[59]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[61]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3342,7 +3471,7 @@ func (x *CreateUserGroupResponse) String() string {
 func (*CreateUserGroupResponse) ProtoMessage() {}
 
 func (x *CreateUserGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[59]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[61]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3355,7 +3484,7 @@ func (x *CreateUserGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserGroupResponse.ProtoReflect.Descriptor instead.
 func (*CreateUserGroupResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{59}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{61}
 }
 
 func (x *CreateUserGroupResponse) GetGroupId() string {
@@ -3390,7 +3519,7 @@ type UpdateUserGroupRequest struct {
 
 func (x *UpdateUserGroupRequest) Reset() {
 	*x = UpdateUserGroupRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[60]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[62]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3402,7 +3531,7 @@ func (x *UpdateUserGroupRequest) String() string {
 func (*UpdateUserGroupRequest) ProtoMessage() {}
 
 func (x *UpdateUserGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[60]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[62]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3415,7 +3544,7 @@ func (x *UpdateUserGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserGroupRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserGroupRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{60}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{62}
 }
 
 func (x *UpdateUserGroupRequest) GetGroupId() string {
@@ -3456,7 +3585,7 @@ type UpdateUserGroupResponse struct {
 
 func (x *UpdateUserGroupResponse) Reset() {
 	*x = UpdateUserGroupResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[61]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[63]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3468,7 +3597,7 @@ func (x *UpdateUserGroupResponse) String() string {
 func (*UpdateUserGroupResponse) ProtoMessage() {}
 
 func (x *UpdateUserGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[61]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[63]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3481,7 +3610,7 @@ func (x *UpdateUserGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserGroupResponse.ProtoReflect.Descriptor instead.
 func (*UpdateUserGroupResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{61}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{63}
 }
 
 func (x *UpdateUserGroupResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -3507,7 +3636,7 @@ type DeleteUserGroupRequest struct {
 
 func (x *DeleteUserGroupRequest) Reset() {
 	*x = DeleteUserGroupRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[62]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[64]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3519,7 +3648,7 @@ func (x *DeleteUserGroupRequest) String() string {
 func (*DeleteUserGroupRequest) ProtoMessage() {}
 
 func (x *DeleteUserGroupRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[62]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[64]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3532,7 +3661,7 @@ func (x *DeleteUserGroupRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserGroupRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserGroupRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{62}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{64}
 }
 
 func (x *DeleteUserGroupRequest) GetGroupId() string {
@@ -3566,7 +3695,7 @@ type DeleteUserGroupResponse struct {
 
 func (x *DeleteUserGroupResponse) Reset() {
 	*x = DeleteUserGroupResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[63]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3578,7 +3707,7 @@ func (x *DeleteUserGroupResponse) String() string {
 func (*DeleteUserGroupResponse) ProtoMessage() {}
 
 func (x *DeleteUserGroupResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[63]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3591,7 +3720,7 @@ func (x *DeleteUserGroupResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserGroupResponse.ProtoReflect.Descriptor instead.
 func (*DeleteUserGroupResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{63}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *DeleteUserGroupResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -3620,7 +3749,7 @@ type SetUserGroupNamespaceAccessRequest struct {
 
 func (x *SetUserGroupNamespaceAccessRequest) Reset() {
 	*x = SetUserGroupNamespaceAccessRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[64]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3632,7 +3761,7 @@ func (x *SetUserGroupNamespaceAccessRequest) String() string {
 func (*SetUserGroupNamespaceAccessRequest) ProtoMessage() {}
 
 func (x *SetUserGroupNamespaceAccessRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[64]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3645,7 +3774,7 @@ func (x *SetUserGroupNamespaceAccessRequest) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use SetUserGroupNamespaceAccessRequest.ProtoReflect.Descriptor instead.
 func (*SetUserGroupNamespaceAccessRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{64}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *SetUserGroupNamespaceAccessRequest) GetNamespace() string {
@@ -3693,7 +3822,7 @@ type SetUserGroupNamespaceAccessResponse struct {
 
 func (x *SetUserGroupNamespaceAccessResponse) Reset() {
 	*x = SetUserGroupNamespaceAccessResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[65]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3705,7 +3834,7 @@ func (x *SetUserGroupNamespaceAccessResponse) String() string {
 func (*SetUserGroupNamespaceAccessResponse) ProtoMessage() {}
 
 func (x *SetUserGroupNamespaceAccessResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[65]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3718,7 +3847,7 @@ func (x *SetUserGroupNamespaceAccessResponse) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use SetUserGroupNamespaceAccessResponse.ProtoReflect.Descriptor instead.
 func (*SetUserGroupNamespaceAccessResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{65}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *SetUserGroupNamespaceAccessResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -3726,6 +3855,342 @@ func (x *SetUserGroupNamespaceAccessResponse) GetAsyncOperation() *v11.AsyncOper
 		return x.AsyncOperation
 	}
 	return nil
+}
+
+type AddUserGroupMemberRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The id of the group to add the member for.
+	GroupId string `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
+	// The member id to add to the group.
+	MemberId *v1.UserGroupMemberId `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	// The id to use for this async operation.
+	// Optional, if not provided a random id will be generated.
+	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *AddUserGroupMemberRequest) Reset() {
+	*x = AddUserGroupMemberRequest{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[68]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddUserGroupMemberRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddUserGroupMemberRequest) ProtoMessage() {}
+
+func (x *AddUserGroupMemberRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[68]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddUserGroupMemberRequest.ProtoReflect.Descriptor instead.
+func (*AddUserGroupMemberRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{68}
+}
+
+func (x *AddUserGroupMemberRequest) GetGroupId() string {
+	if x != nil {
+		return x.GroupId
+	}
+	return ""
+}
+
+func (x *AddUserGroupMemberRequest) GetMemberId() *v1.UserGroupMemberId {
+	if x != nil {
+		return x.MemberId
+	}
+	return nil
+}
+
+func (x *AddUserGroupMemberRequest) GetAsyncOperationId() string {
+	if x != nil {
+		return x.AsyncOperationId
+	}
+	return ""
+}
+
+type AddUserGroupMemberResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The async operation.
+	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *AddUserGroupMemberResponse) Reset() {
+	*x = AddUserGroupMemberResponse{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[69]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddUserGroupMemberResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddUserGroupMemberResponse) ProtoMessage() {}
+
+func (x *AddUserGroupMemberResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[69]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddUserGroupMemberResponse.ProtoReflect.Descriptor instead.
+func (*AddUserGroupMemberResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{69}
+}
+
+func (x *AddUserGroupMemberResponse) GetAsyncOperation() *v11.AsyncOperation {
+	if x != nil {
+		return x.AsyncOperation
+	}
+	return nil
+}
+
+type RemoveUserGroupMemberRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The id of the group to add the member for.
+	GroupId string `protobuf:"bytes,1,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
+	// The member id to add to the group.
+	MemberId *v1.UserGroupMemberId `protobuf:"bytes,2,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	// The id to use for this async operation.
+	// Optional, if not provided a random id will be generated.
+	AsyncOperationId string `protobuf:"bytes,3,opt,name=async_operation_id,json=asyncOperationId,proto3" json:"async_operation_id,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *RemoveUserGroupMemberRequest) Reset() {
+	*x = RemoveUserGroupMemberRequest{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[70]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RemoveUserGroupMemberRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveUserGroupMemberRequest) ProtoMessage() {}
+
+func (x *RemoveUserGroupMemberRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[70]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveUserGroupMemberRequest.ProtoReflect.Descriptor instead.
+func (*RemoveUserGroupMemberRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{70}
+}
+
+func (x *RemoveUserGroupMemberRequest) GetGroupId() string {
+	if x != nil {
+		return x.GroupId
+	}
+	return ""
+}
+
+func (x *RemoveUserGroupMemberRequest) GetMemberId() *v1.UserGroupMemberId {
+	if x != nil {
+		return x.MemberId
+	}
+	return nil
+}
+
+func (x *RemoveUserGroupMemberRequest) GetAsyncOperationId() string {
+	if x != nil {
+		return x.AsyncOperationId
+	}
+	return ""
+}
+
+type RemoveUserGroupMemberResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The async operation.
+	AsyncOperation *v11.AsyncOperation `protobuf:"bytes,1,opt,name=async_operation,json=asyncOperation,proto3" json:"async_operation,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *RemoveUserGroupMemberResponse) Reset() {
+	*x = RemoveUserGroupMemberResponse{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[71]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RemoveUserGroupMemberResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveUserGroupMemberResponse) ProtoMessage() {}
+
+func (x *RemoveUserGroupMemberResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[71]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveUserGroupMemberResponse.ProtoReflect.Descriptor instead.
+func (*RemoveUserGroupMemberResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{71}
+}
+
+func (x *RemoveUserGroupMemberResponse) GetAsyncOperation() *v11.AsyncOperation {
+	if x != nil {
+		return x.AsyncOperation
+	}
+	return nil
+}
+
+type GetUserGroupMembersRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The requested size of the page to retrieve - optional.
+	// Cannot exceed 1000. Defaults to 100.
+	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	// The page token if this is continuing from another response - optional.
+	PageToken string `protobuf:"bytes,2,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	// The group id to list members of.
+	GroupId       string `protobuf:"bytes,3,opt,name=group_id,json=groupId,proto3" json:"group_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserGroupMembersRequest) Reset() {
+	*x = GetUserGroupMembersRequest{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[72]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserGroupMembersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserGroupMembersRequest) ProtoMessage() {}
+
+func (x *GetUserGroupMembersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[72]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserGroupMembersRequest.ProtoReflect.Descriptor instead.
+func (*GetUserGroupMembersRequest) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{72}
+}
+
+func (x *GetUserGroupMembersRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *GetUserGroupMembersRequest) GetPageToken() string {
+	if x != nil {
+		return x.PageToken
+	}
+	return ""
+}
+
+func (x *GetUserGroupMembersRequest) GetGroupId() string {
+	if x != nil {
+		return x.GroupId
+	}
+	return ""
+}
+
+type GetUserGroupMembersResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The list of group members
+	Members []*v1.UserGroupMember `protobuf:"bytes,1,rep,name=members,proto3" json:"members,omitempty"`
+	// The next page's token.
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserGroupMembersResponse) Reset() {
+	*x = GetUserGroupMembersResponse{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[73]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserGroupMembersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserGroupMembersResponse) ProtoMessage() {}
+
+func (x *GetUserGroupMembersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[73]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserGroupMembersResponse.ProtoReflect.Descriptor instead.
+func (*GetUserGroupMembersResponse) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{73}
+}
+
+func (x *GetUserGroupMembersResponse) GetMembers() []*v1.UserGroupMember {
+	if x != nil {
+		return x.Members
+	}
+	return nil
+}
+
+func (x *GetUserGroupMembersResponse) GetNextPageToken() string {
+	if x != nil {
+		return x.NextPageToken
+	}
+	return ""
 }
 
 type CreateServiceAccountRequest struct {
@@ -3740,7 +4205,7 @@ type CreateServiceAccountRequest struct {
 
 func (x *CreateServiceAccountRequest) Reset() {
 	*x = CreateServiceAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[66]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3752,7 +4217,7 @@ func (x *CreateServiceAccountRequest) String() string {
 func (*CreateServiceAccountRequest) ProtoMessage() {}
 
 func (x *CreateServiceAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[66]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3765,7 +4230,7 @@ func (x *CreateServiceAccountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateServiceAccountRequest.ProtoReflect.Descriptor instead.
 func (*CreateServiceAccountRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{66}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *CreateServiceAccountRequest) GetSpec() *v1.ServiceAccountSpec {
@@ -3794,7 +4259,7 @@ type CreateServiceAccountResponse struct {
 
 func (x *CreateServiceAccountResponse) Reset() {
 	*x = CreateServiceAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[67]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3806,7 +4271,7 @@ func (x *CreateServiceAccountResponse) String() string {
 func (*CreateServiceAccountResponse) ProtoMessage() {}
 
 func (x *CreateServiceAccountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[67]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3819,7 +4284,7 @@ func (x *CreateServiceAccountResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateServiceAccountResponse.ProtoReflect.Descriptor instead.
 func (*CreateServiceAccountResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{67}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *CreateServiceAccountResponse) GetServiceAccountId() string {
@@ -3846,7 +4311,7 @@ type GetServiceAccountRequest struct {
 
 func (x *GetServiceAccountRequest) Reset() {
 	*x = GetServiceAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[68]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3858,7 +4323,7 @@ func (x *GetServiceAccountRequest) String() string {
 func (*GetServiceAccountRequest) ProtoMessage() {}
 
 func (x *GetServiceAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[68]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3871,7 +4336,7 @@ func (x *GetServiceAccountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetServiceAccountRequest.ProtoReflect.Descriptor instead.
 func (*GetServiceAccountRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{68}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *GetServiceAccountRequest) GetServiceAccountId() string {
@@ -3891,7 +4356,7 @@ type GetServiceAccountResponse struct {
 
 func (x *GetServiceAccountResponse) Reset() {
 	*x = GetServiceAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[69]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3903,7 +4368,7 @@ func (x *GetServiceAccountResponse) String() string {
 func (*GetServiceAccountResponse) ProtoMessage() {}
 
 func (x *GetServiceAccountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[69]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3916,7 +4381,7 @@ func (x *GetServiceAccountResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetServiceAccountResponse.ProtoReflect.Descriptor instead.
 func (*GetServiceAccountResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{69}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{77}
 }
 
 func (x *GetServiceAccountResponse) GetServiceAccount() *v1.ServiceAccount {
@@ -3939,7 +4404,7 @@ type GetServiceAccountsRequest struct {
 
 func (x *GetServiceAccountsRequest) Reset() {
 	*x = GetServiceAccountsRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[70]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[78]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3951,7 +4416,7 @@ func (x *GetServiceAccountsRequest) String() string {
 func (*GetServiceAccountsRequest) ProtoMessage() {}
 
 func (x *GetServiceAccountsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[70]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[78]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3964,7 +4429,7 @@ func (x *GetServiceAccountsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetServiceAccountsRequest.ProtoReflect.Descriptor instead.
 func (*GetServiceAccountsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{70}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{78}
 }
 
 func (x *GetServiceAccountsRequest) GetPageSize() int32 {
@@ -3993,7 +4458,7 @@ type GetServiceAccountsResponse struct {
 
 func (x *GetServiceAccountsResponse) Reset() {
 	*x = GetServiceAccountsResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[71]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[79]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4005,7 +4470,7 @@ func (x *GetServiceAccountsResponse) String() string {
 func (*GetServiceAccountsResponse) ProtoMessage() {}
 
 func (x *GetServiceAccountsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[71]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[79]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4018,7 +4483,7 @@ func (x *GetServiceAccountsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetServiceAccountsResponse.ProtoReflect.Descriptor instead.
 func (*GetServiceAccountsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{71}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *GetServiceAccountsResponse) GetServiceAccount() []*v1.ServiceAccount {
@@ -4052,7 +4517,7 @@ type UpdateServiceAccountRequest struct {
 
 func (x *UpdateServiceAccountRequest) Reset() {
 	*x = UpdateServiceAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[72]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[80]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4064,7 +4529,7 @@ func (x *UpdateServiceAccountRequest) String() string {
 func (*UpdateServiceAccountRequest) ProtoMessage() {}
 
 func (x *UpdateServiceAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[72]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[80]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4077,7 +4542,7 @@ func (x *UpdateServiceAccountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateServiceAccountRequest.ProtoReflect.Descriptor instead.
 func (*UpdateServiceAccountRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{72}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{80}
 }
 
 func (x *UpdateServiceAccountRequest) GetServiceAccountId() string {
@@ -4118,7 +4583,7 @@ type UpdateServiceAccountResponse struct {
 
 func (x *UpdateServiceAccountResponse) Reset() {
 	*x = UpdateServiceAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[73]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[81]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4130,7 +4595,7 @@ func (x *UpdateServiceAccountResponse) String() string {
 func (*UpdateServiceAccountResponse) ProtoMessage() {}
 
 func (x *UpdateServiceAccountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[73]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[81]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4143,7 +4608,7 @@ func (x *UpdateServiceAccountResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateServiceAccountResponse.ProtoReflect.Descriptor instead.
 func (*UpdateServiceAccountResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{73}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{81}
 }
 
 func (x *UpdateServiceAccountResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -4168,7 +4633,7 @@ type DeleteServiceAccountRequest struct {
 
 func (x *DeleteServiceAccountRequest) Reset() {
 	*x = DeleteServiceAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[74]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[82]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4180,7 +4645,7 @@ func (x *DeleteServiceAccountRequest) String() string {
 func (*DeleteServiceAccountRequest) ProtoMessage() {}
 
 func (x *DeleteServiceAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[74]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[82]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4193,7 +4658,7 @@ func (x *DeleteServiceAccountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteServiceAccountRequest.ProtoReflect.Descriptor instead.
 func (*DeleteServiceAccountRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{74}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{82}
 }
 
 func (x *DeleteServiceAccountRequest) GetServiceAccountId() string {
@@ -4227,7 +4692,7 @@ type DeleteServiceAccountResponse struct {
 
 func (x *DeleteServiceAccountResponse) Reset() {
 	*x = DeleteServiceAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[75]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[83]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4239,7 +4704,7 @@ func (x *DeleteServiceAccountResponse) String() string {
 func (*DeleteServiceAccountResponse) ProtoMessage() {}
 
 func (x *DeleteServiceAccountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[75]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[83]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4252,7 +4717,7 @@ func (x *DeleteServiceAccountResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteServiceAccountResponse.ProtoReflect.Descriptor instead.
 func (*DeleteServiceAccountResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{75}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{83}
 }
 
 func (x *DeleteServiceAccountResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -4286,7 +4751,7 @@ type GetUsageRequest struct {
 
 func (x *GetUsageRequest) Reset() {
 	*x = GetUsageRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[76]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[84]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4298,7 +4763,7 @@ func (x *GetUsageRequest) String() string {
 func (*GetUsageRequest) ProtoMessage() {}
 
 func (x *GetUsageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[76]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[84]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4311,7 +4776,7 @@ func (x *GetUsageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsageRequest.ProtoReflect.Descriptor instead.
 func (*GetUsageRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{76}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{84}
 }
 
 func (x *GetUsageRequest) GetStartTimeInclusive() *timestamppb.Timestamp {
@@ -4355,7 +4820,7 @@ type GetUsageResponse struct {
 
 func (x *GetUsageResponse) Reset() {
 	*x = GetUsageResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[77]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[85]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4367,7 +4832,7 @@ func (x *GetUsageResponse) String() string {
 func (*GetUsageResponse) ProtoMessage() {}
 
 func (x *GetUsageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[77]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[85]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4380,7 +4845,7 @@ func (x *GetUsageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUsageResponse.ProtoReflect.Descriptor instead.
 func (*GetUsageResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{77}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{85}
 }
 
 func (x *GetUsageResponse) GetSummaries() []*v15.Summary {
@@ -4405,7 +4870,7 @@ type GetAccountRequest struct {
 
 func (x *GetAccountRequest) Reset() {
 	*x = GetAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[78]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[86]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4417,7 +4882,7 @@ func (x *GetAccountRequest) String() string {
 func (*GetAccountRequest) ProtoMessage() {}
 
 func (x *GetAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[78]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[86]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4430,7 +4895,7 @@ func (x *GetAccountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccountRequest.ProtoReflect.Descriptor instead.
 func (*GetAccountRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{78}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{86}
 }
 
 type GetAccountResponse struct {
@@ -4443,7 +4908,7 @@ type GetAccountResponse struct {
 
 func (x *GetAccountResponse) Reset() {
 	*x = GetAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[79]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[87]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4455,7 +4920,7 @@ func (x *GetAccountResponse) String() string {
 func (*GetAccountResponse) ProtoMessage() {}
 
 func (x *GetAccountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[79]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[87]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4468,7 +4933,7 @@ func (x *GetAccountResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAccountResponse.ProtoReflect.Descriptor instead.
 func (*GetAccountResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{79}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{87}
 }
 
 func (x *GetAccountResponse) GetAccount() *v16.Account {
@@ -4494,7 +4959,7 @@ type UpdateAccountRequest struct {
 
 func (x *UpdateAccountRequest) Reset() {
 	*x = UpdateAccountRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[80]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[88]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4506,7 +4971,7 @@ func (x *UpdateAccountRequest) String() string {
 func (*UpdateAccountRequest) ProtoMessage() {}
 
 func (x *UpdateAccountRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[80]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[88]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4519,7 +4984,7 @@ func (x *UpdateAccountRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAccountRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAccountRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{80}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{88}
 }
 
 func (x *UpdateAccountRequest) GetSpec() *v16.AccountSpec {
@@ -4553,7 +5018,7 @@ type UpdateAccountResponse struct {
 
 func (x *UpdateAccountResponse) Reset() {
 	*x = UpdateAccountResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[81]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[89]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4565,7 +5030,7 @@ func (x *UpdateAccountResponse) String() string {
 func (*UpdateAccountResponse) ProtoMessage() {}
 
 func (x *UpdateAccountResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[81]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[89]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4578,7 +5043,7 @@ func (x *UpdateAccountResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAccountResponse.ProtoReflect.Descriptor instead.
 func (*UpdateAccountResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{81}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{89}
 }
 
 func (x *UpdateAccountResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -4602,7 +5067,7 @@ type CreateNamespaceExportSinkRequest struct {
 
 func (x *CreateNamespaceExportSinkRequest) Reset() {
 	*x = CreateNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[82]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[90]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4614,7 +5079,7 @@ func (x *CreateNamespaceExportSinkRequest) String() string {
 func (*CreateNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *CreateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[82]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[90]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4627,7 +5092,7 @@ func (x *CreateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNamespaceExportSinkRequest.ProtoReflect.Descriptor instead.
 func (*CreateNamespaceExportSinkRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{82}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{90}
 }
 
 func (x *CreateNamespaceExportSinkRequest) GetNamespace() string {
@@ -4661,7 +5126,7 @@ type CreateNamespaceExportSinkResponse struct {
 
 func (x *CreateNamespaceExportSinkResponse) Reset() {
 	*x = CreateNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[83]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[91]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4673,7 +5138,7 @@ func (x *CreateNamespaceExportSinkResponse) String() string {
 func (*CreateNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *CreateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[83]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[91]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4686,7 +5151,7 @@ func (x *CreateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use CreateNamespaceExportSinkResponse.ProtoReflect.Descriptor instead.
 func (*CreateNamespaceExportSinkResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{83}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{91}
 }
 
 func (x *CreateNamespaceExportSinkResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -4708,7 +5173,7 @@ type GetNamespaceExportSinkRequest struct {
 
 func (x *GetNamespaceExportSinkRequest) Reset() {
 	*x = GetNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[84]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[92]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4720,7 +5185,7 @@ func (x *GetNamespaceExportSinkRequest) String() string {
 func (*GetNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *GetNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[84]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[92]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4733,7 +5198,7 @@ func (x *GetNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNamespaceExportSinkRequest.ProtoReflect.Descriptor instead.
 func (*GetNamespaceExportSinkRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{84}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{92}
 }
 
 func (x *GetNamespaceExportSinkRequest) GetNamespace() string {
@@ -4760,7 +5225,7 @@ type GetNamespaceExportSinkResponse struct {
 
 func (x *GetNamespaceExportSinkResponse) Reset() {
 	*x = GetNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[85]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[93]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4772,7 +5237,7 @@ func (x *GetNamespaceExportSinkResponse) String() string {
 func (*GetNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *GetNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[85]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[93]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4785,7 +5250,7 @@ func (x *GetNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNamespaceExportSinkResponse.ProtoReflect.Descriptor instead.
 func (*GetNamespaceExportSinkResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{85}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{93}
 }
 
 func (x *GetNamespaceExportSinkResponse) GetSink() *v12.ExportSink {
@@ -4810,7 +5275,7 @@ type GetNamespaceExportSinksRequest struct {
 
 func (x *GetNamespaceExportSinksRequest) Reset() {
 	*x = GetNamespaceExportSinksRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[86]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[94]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4822,7 +5287,7 @@ func (x *GetNamespaceExportSinksRequest) String() string {
 func (*GetNamespaceExportSinksRequest) ProtoMessage() {}
 
 func (x *GetNamespaceExportSinksRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[86]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[94]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4835,7 +5300,7 @@ func (x *GetNamespaceExportSinksRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNamespaceExportSinksRequest.ProtoReflect.Descriptor instead.
 func (*GetNamespaceExportSinksRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{86}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{94}
 }
 
 func (x *GetNamespaceExportSinksRequest) GetNamespace() string {
@@ -4871,7 +5336,7 @@ type GetNamespaceExportSinksResponse struct {
 
 func (x *GetNamespaceExportSinksResponse) Reset() {
 	*x = GetNamespaceExportSinksResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[87]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[95]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4883,7 +5348,7 @@ func (x *GetNamespaceExportSinksResponse) String() string {
 func (*GetNamespaceExportSinksResponse) ProtoMessage() {}
 
 func (x *GetNamespaceExportSinksResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[87]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[95]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4896,7 +5361,7 @@ func (x *GetNamespaceExportSinksResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNamespaceExportSinksResponse.ProtoReflect.Descriptor instead.
 func (*GetNamespaceExportSinksResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{87}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{95}
 }
 
 func (x *GetNamespaceExportSinksResponse) GetSinks() []*v12.ExportSink {
@@ -4930,7 +5395,7 @@ type UpdateNamespaceExportSinkRequest struct {
 
 func (x *UpdateNamespaceExportSinkRequest) Reset() {
 	*x = UpdateNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[88]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[96]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4942,7 +5407,7 @@ func (x *UpdateNamespaceExportSinkRequest) String() string {
 func (*UpdateNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *UpdateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[88]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[96]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4955,7 +5420,7 @@ func (x *UpdateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNamespaceExportSinkRequest.ProtoReflect.Descriptor instead.
 func (*UpdateNamespaceExportSinkRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{88}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{96}
 }
 
 func (x *UpdateNamespaceExportSinkRequest) GetNamespace() string {
@@ -4996,7 +5461,7 @@ type UpdateNamespaceExportSinkResponse struct {
 
 func (x *UpdateNamespaceExportSinkResponse) Reset() {
 	*x = UpdateNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[89]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[97]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5008,7 +5473,7 @@ func (x *UpdateNamespaceExportSinkResponse) String() string {
 func (*UpdateNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *UpdateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[89]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[97]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5021,7 +5486,7 @@ func (x *UpdateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use UpdateNamespaceExportSinkResponse.ProtoReflect.Descriptor instead.
 func (*UpdateNamespaceExportSinkResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{89}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{97}
 }
 
 func (x *UpdateNamespaceExportSinkResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -5048,7 +5513,7 @@ type DeleteNamespaceExportSinkRequest struct {
 
 func (x *DeleteNamespaceExportSinkRequest) Reset() {
 	*x = DeleteNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[90]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[98]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5060,7 +5525,7 @@ func (x *DeleteNamespaceExportSinkRequest) String() string {
 func (*DeleteNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *DeleteNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[90]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[98]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5073,7 +5538,7 @@ func (x *DeleteNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNamespaceExportSinkRequest.ProtoReflect.Descriptor instead.
 func (*DeleteNamespaceExportSinkRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{90}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{98}
 }
 
 func (x *DeleteNamespaceExportSinkRequest) GetNamespace() string {
@@ -5114,7 +5579,7 @@ type DeleteNamespaceExportSinkResponse struct {
 
 func (x *DeleteNamespaceExportSinkResponse) Reset() {
 	*x = DeleteNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[91]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[99]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5126,7 +5591,7 @@ func (x *DeleteNamespaceExportSinkResponse) String() string {
 func (*DeleteNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *DeleteNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[91]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[99]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5139,7 +5604,7 @@ func (x *DeleteNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use DeleteNamespaceExportSinkResponse.ProtoReflect.Descriptor instead.
 func (*DeleteNamespaceExportSinkResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{91}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{99}
 }
 
 func (x *DeleteNamespaceExportSinkResponse) GetAsyncOperation() *v11.AsyncOperation {
@@ -5161,7 +5626,7 @@ type ValidateNamespaceExportSinkRequest struct {
 
 func (x *ValidateNamespaceExportSinkRequest) Reset() {
 	*x = ValidateNamespaceExportSinkRequest{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[92]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[100]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5173,7 +5638,7 @@ func (x *ValidateNamespaceExportSinkRequest) String() string {
 func (*ValidateNamespaceExportSinkRequest) ProtoMessage() {}
 
 func (x *ValidateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[92]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[100]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5186,7 +5651,7 @@ func (x *ValidateNamespaceExportSinkRequest) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use ValidateNamespaceExportSinkRequest.ProtoReflect.Descriptor instead.
 func (*ValidateNamespaceExportSinkRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{92}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{100}
 }
 
 func (x *ValidateNamespaceExportSinkRequest) GetNamespace() string {
@@ -5211,7 +5676,7 @@ type ValidateNamespaceExportSinkResponse struct {
 
 func (x *ValidateNamespaceExportSinkResponse) Reset() {
 	*x = ValidateNamespaceExportSinkResponse{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[93]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[101]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5223,7 +5688,7 @@ func (x *ValidateNamespaceExportSinkResponse) String() string {
 func (*ValidateNamespaceExportSinkResponse) ProtoMessage() {}
 
 func (x *ValidateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[93]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[101]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5236,7 +5701,7 @@ func (x *ValidateNamespaceExportSinkResponse) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use ValidateNamespaceExportSinkResponse.ProtoReflect.Descriptor instead.
 func (*ValidateNamespaceExportSinkResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{93}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{101}
 }
 
 type GetUserGroupsRequest_GoogleGroupFilter struct {
@@ -5249,7 +5714,7 @@ type GetUserGroupsRequest_GoogleGroupFilter struct {
 
 func (x *GetUserGroupsRequest_GoogleGroupFilter) Reset() {
 	*x = GetUserGroupsRequest_GoogleGroupFilter{}
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[94]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[102]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -5261,7 +5726,7 @@ func (x *GetUserGroupsRequest_GoogleGroupFilter) String() string {
 func (*GetUserGroupsRequest_GoogleGroupFilter) ProtoMessage() {}
 
 func (x *GetUserGroupsRequest_GoogleGroupFilter) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[94]
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[102]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -5274,12 +5739,57 @@ func (x *GetUserGroupsRequest_GoogleGroupFilter) ProtoReflect() protoreflect.Mes
 
 // Deprecated: Use GetUserGroupsRequest_GoogleGroupFilter.ProtoReflect.Descriptor instead.
 func (*GetUserGroupsRequest_GoogleGroupFilter) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{54, 0}
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{56, 0}
 }
 
 func (x *GetUserGroupsRequest_GoogleGroupFilter) GetEmailAddress() string {
 	if x != nil {
 		return x.EmailAddress
+	}
+	return ""
+}
+
+type GetUserGroupsRequest_SCIMGroupFilter struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Filter groups by the SCIM IDP id - optional.
+	IdpId         string `protobuf:"bytes,1,opt,name=idp_id,json=idpId,proto3" json:"idp_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserGroupsRequest_SCIMGroupFilter) Reset() {
+	*x = GetUserGroupsRequest_SCIMGroupFilter{}
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[103]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserGroupsRequest_SCIMGroupFilter) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserGroupsRequest_SCIMGroupFilter) ProtoMessage() {}
+
+func (x *GetUserGroupsRequest_SCIMGroupFilter) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes[103]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserGroupsRequest_SCIMGroupFilter.ProtoReflect.Descriptor instead.
+func (*GetUserGroupsRequest_SCIMGroupFilter) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(), []int{56, 1}
+}
+
+func (x *GetUserGroupsRequest_SCIMGroupFilter) GetIdpId() string {
+	if x != nil {
+		return x.IdpId
 	}
 	return ""
 }
@@ -5386,6 +5896,13 @@ const file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc = "
 	"\x10resource_version\x18\x03 \x01(\tR\x0fresourceVersion\x12,\n" +
 	"\x12async_operation_id\x18\x04 \x01(\tR\x10asyncOperationId\"v\n" +
 	"\x1aAddNamespaceRegionResponse\x12X\n" +
+	"\x0fasync_operation\x18\x01 \x01(\v2/.temporal.api.cloud.operation.v1.AsyncOperationR\x0easyncOperation\"\xad\x01\n" +
+	"\x1cDeleteNamespaceRegionRequest\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x16\n" +
+	"\x06region\x18\x02 \x01(\tR\x06region\x12)\n" +
+	"\x10resource_version\x18\x03 \x01(\tR\x0fresourceVersion\x12,\n" +
+	"\x12async_operation_id\x18\x04 \x01(\tR\x10asyncOperationId\"y\n" +
+	"\x1dDeleteNamespaceRegionResponse\x12X\n" +
 	"\x0fasync_operation\x18\x01 \x01(\v2/.temporal.api.cloud.operation.v1.AsyncOperationR\x0easyncOperation\"\x13\n" +
 	"\x11GetRegionsRequest\"T\n" +
 	"\x12GetRegionsResponse\x12>\n" +
@@ -5465,16 +5982,20 @@ const file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc = "
 	"\x10resource_version\x18\x02 \x01(\tR\x0fresourceVersion\x12,\n" +
 	"\x12async_operation_id\x18\x03 \x01(\tR\x10asyncOperationId\"w\n" +
 	"\x1bDeleteNexusEndpointResponse\x12X\n" +
-	"\x0fasync_operation\x18\x01 \x01(\v2/.temporal.api.cloud.operation.v1.AsyncOperationR\x0easyncOperation\"\xbc\x02\n" +
+	"\x0fasync_operation\x18\x01 \x01(\v2/.temporal.api.cloud.operation.v1.AsyncOperationR\x0easyncOperation\"\xcf\x03\n" +
 	"\x14GetUserGroupsRequest\x12\x1b\n" +
 	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
 	"\n" +
 	"page_token\x18\x02 \x01(\tR\tpageToken\x12\x1c\n" +
 	"\tnamespace\x18\x03 \x01(\tR\tnamespace\x12!\n" +
 	"\fdisplay_name\x18\x04 \x01(\tR\vdisplayName\x12m\n" +
-	"\fgoogle_group\x18\x05 \x01(\v2J.temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.GoogleGroupFilterR\vgoogleGroup\x1a8\n" +
+	"\fgoogle_group\x18\x05 \x01(\v2J.temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.GoogleGroupFilterR\vgoogleGroup\x12g\n" +
+	"\n" +
+	"scim_group\x18\x06 \x01(\v2H.temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.SCIMGroupFilterR\tscimGroup\x1a8\n" +
 	"\x11GoogleGroupFilter\x12#\n" +
-	"\remail_address\x18\x01 \x01(\tR\femailAddress\"\x82\x01\n" +
+	"\remail_address\x18\x01 \x01(\tR\femailAddress\x1a(\n" +
+	"\x0fSCIMGroupFilter\x12\x15\n" +
+	"\x06idp_id\x18\x01 \x01(\tR\x05idpId\"\x82\x01\n" +
 	"\x15GetUserGroupsResponse\x12A\n" +
 	"\x06groups\x18\x01 \x03(\v2).temporal.api.cloud.identity.v1.UserGroupR\x06groups\x12&\n" +
 	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"0\n" +
@@ -5508,7 +6029,27 @@ const file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc = "
 	"\x10resource_version\x18\x04 \x01(\tR\x0fresourceVersion\x12,\n" +
 	"\x12async_operation_id\x18\x05 \x01(\tR\x10asyncOperationId\"\x7f\n" +
 	"#SetUserGroupNamespaceAccessResponse\x12X\n" +
-	"\x0fasync_operation\x18\x01 \x01(\v2/.temporal.api.cloud.operation.v1.AsyncOperationR\x0easyncOperation\"\x93\x01\n" +
+	"\x0fasync_operation\x18\x01 \x01(\v2/.temporal.api.cloud.operation.v1.AsyncOperationR\x0easyncOperation\"\xb4\x01\n" +
+	"\x19AddUserGroupMemberRequest\x12\x19\n" +
+	"\bgroup_id\x18\x01 \x01(\tR\agroupId\x12N\n" +
+	"\tmember_id\x18\x02 \x01(\v21.temporal.api.cloud.identity.v1.UserGroupMemberIdR\bmemberId\x12,\n" +
+	"\x12async_operation_id\x18\x03 \x01(\tR\x10asyncOperationId\"v\n" +
+	"\x1aAddUserGroupMemberResponse\x12X\n" +
+	"\x0fasync_operation\x18\x01 \x01(\v2/.temporal.api.cloud.operation.v1.AsyncOperationR\x0easyncOperation\"\xb7\x01\n" +
+	"\x1cRemoveUserGroupMemberRequest\x12\x19\n" +
+	"\bgroup_id\x18\x01 \x01(\tR\agroupId\x12N\n" +
+	"\tmember_id\x18\x02 \x01(\v21.temporal.api.cloud.identity.v1.UserGroupMemberIdR\bmemberId\x12,\n" +
+	"\x12async_operation_id\x18\x03 \x01(\tR\x10asyncOperationId\"y\n" +
+	"\x1dRemoveUserGroupMemberResponse\x12X\n" +
+	"\x0fasync_operation\x18\x01 \x01(\v2/.temporal.api.cloud.operation.v1.AsyncOperationR\x0easyncOperation\"s\n" +
+	"\x1aGetUserGroupMembersRequest\x12\x1b\n" +
+	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12\x1d\n" +
+	"\n" +
+	"page_token\x18\x02 \x01(\tR\tpageToken\x12\x19\n" +
+	"\bgroup_id\x18\x03 \x01(\tR\agroupId\"\x90\x01\n" +
+	"\x1bGetUserGroupMembersResponse\x12I\n" +
+	"\amembers\x18\x01 \x03(\v2/.temporal.api.cloud.identity.v1.UserGroupMemberR\amembers\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x93\x01\n" +
 	"\x1bCreateServiceAccountRequest\x12F\n" +
 	"\x04spec\x18\x01 \x01(\v22.temporal.api.cloud.identity.v1.ServiceAccountSpecR\x04spec\x12,\n" +
 	"\x12async_operation_id\x18\x02 \x01(\tR\x10asyncOperationId\"\xa6\x01\n" +
@@ -5608,7 +6149,7 @@ func file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescGZIP(
 	return file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDescData
 }
 
-var file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 95)
+var file_temporal_api_cloud_cloudservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 104)
 var file_temporal_api_cloud_cloudservice_v1_request_response_proto_goTypes = []any{
 	(*GetUsersRequest)(nil),                        // 0: temporal.api.cloud.cloudservice.v1.GetUsersRequest
 	(*GetUsersResponse)(nil),                       // 1: temporal.api.cloud.cloudservice.v1.GetUsersResponse
@@ -5640,168 +6181,186 @@ var file_temporal_api_cloud_cloudservice_v1_request_response_proto_goTypes = []a
 	(*FailoverNamespaceRegionResponse)(nil),        // 27: temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionResponse
 	(*AddNamespaceRegionRequest)(nil),              // 28: temporal.api.cloud.cloudservice.v1.AddNamespaceRegionRequest
 	(*AddNamespaceRegionResponse)(nil),             // 29: temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse
-	(*GetRegionsRequest)(nil),                      // 30: temporal.api.cloud.cloudservice.v1.GetRegionsRequest
-	(*GetRegionsResponse)(nil),                     // 31: temporal.api.cloud.cloudservice.v1.GetRegionsResponse
-	(*GetRegionRequest)(nil),                       // 32: temporal.api.cloud.cloudservice.v1.GetRegionRequest
-	(*GetRegionResponse)(nil),                      // 33: temporal.api.cloud.cloudservice.v1.GetRegionResponse
-	(*GetApiKeysRequest)(nil),                      // 34: temporal.api.cloud.cloudservice.v1.GetApiKeysRequest
-	(*GetApiKeysResponse)(nil),                     // 35: temporal.api.cloud.cloudservice.v1.GetApiKeysResponse
-	(*GetApiKeyRequest)(nil),                       // 36: temporal.api.cloud.cloudservice.v1.GetApiKeyRequest
-	(*GetApiKeyResponse)(nil),                      // 37: temporal.api.cloud.cloudservice.v1.GetApiKeyResponse
-	(*CreateApiKeyRequest)(nil),                    // 38: temporal.api.cloud.cloudservice.v1.CreateApiKeyRequest
-	(*CreateApiKeyResponse)(nil),                   // 39: temporal.api.cloud.cloudservice.v1.CreateApiKeyResponse
-	(*UpdateApiKeyRequest)(nil),                    // 40: temporal.api.cloud.cloudservice.v1.UpdateApiKeyRequest
-	(*UpdateApiKeyResponse)(nil),                   // 41: temporal.api.cloud.cloudservice.v1.UpdateApiKeyResponse
-	(*DeleteApiKeyRequest)(nil),                    // 42: temporal.api.cloud.cloudservice.v1.DeleteApiKeyRequest
-	(*DeleteApiKeyResponse)(nil),                   // 43: temporal.api.cloud.cloudservice.v1.DeleteApiKeyResponse
-	(*GetNexusEndpointsRequest)(nil),               // 44: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsRequest
-	(*GetNexusEndpointsResponse)(nil),              // 45: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsResponse
-	(*GetNexusEndpointRequest)(nil),                // 46: temporal.api.cloud.cloudservice.v1.GetNexusEndpointRequest
-	(*GetNexusEndpointResponse)(nil),               // 47: temporal.api.cloud.cloudservice.v1.GetNexusEndpointResponse
-	(*CreateNexusEndpointRequest)(nil),             // 48: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointRequest
-	(*CreateNexusEndpointResponse)(nil),            // 49: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointResponse
-	(*UpdateNexusEndpointRequest)(nil),             // 50: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointRequest
-	(*UpdateNexusEndpointResponse)(nil),            // 51: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointResponse
-	(*DeleteNexusEndpointRequest)(nil),             // 52: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointRequest
-	(*DeleteNexusEndpointResponse)(nil),            // 53: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointResponse
-	(*GetUserGroupsRequest)(nil),                   // 54: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest
-	(*GetUserGroupsResponse)(nil),                  // 55: temporal.api.cloud.cloudservice.v1.GetUserGroupsResponse
-	(*GetUserGroupRequest)(nil),                    // 56: temporal.api.cloud.cloudservice.v1.GetUserGroupRequest
-	(*GetUserGroupResponse)(nil),                   // 57: temporal.api.cloud.cloudservice.v1.GetUserGroupResponse
-	(*CreateUserGroupRequest)(nil),                 // 58: temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest
-	(*CreateUserGroupResponse)(nil),                // 59: temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse
-	(*UpdateUserGroupRequest)(nil),                 // 60: temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest
-	(*UpdateUserGroupResponse)(nil),                // 61: temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse
-	(*DeleteUserGroupRequest)(nil),                 // 62: temporal.api.cloud.cloudservice.v1.DeleteUserGroupRequest
-	(*DeleteUserGroupResponse)(nil),                // 63: temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse
-	(*SetUserGroupNamespaceAccessRequest)(nil),     // 64: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest
-	(*SetUserGroupNamespaceAccessResponse)(nil),    // 65: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse
-	(*CreateServiceAccountRequest)(nil),            // 66: temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest
-	(*CreateServiceAccountResponse)(nil),           // 67: temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse
-	(*GetServiceAccountRequest)(nil),               // 68: temporal.api.cloud.cloudservice.v1.GetServiceAccountRequest
-	(*GetServiceAccountResponse)(nil),              // 69: temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse
-	(*GetServiceAccountsRequest)(nil),              // 70: temporal.api.cloud.cloudservice.v1.GetServiceAccountsRequest
-	(*GetServiceAccountsResponse)(nil),             // 71: temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse
-	(*UpdateServiceAccountRequest)(nil),            // 72: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountRequest
-	(*UpdateServiceAccountResponse)(nil),           // 73: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountResponse
-	(*DeleteServiceAccountRequest)(nil),            // 74: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountRequest
-	(*DeleteServiceAccountResponse)(nil),           // 75: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountResponse
-	(*GetUsageRequest)(nil),                        // 76: temporal.api.cloud.cloudservice.v1.GetUsageRequest
-	(*GetUsageResponse)(nil),                       // 77: temporal.api.cloud.cloudservice.v1.GetUsageResponse
-	(*GetAccountRequest)(nil),                      // 78: temporal.api.cloud.cloudservice.v1.GetAccountRequest
-	(*GetAccountResponse)(nil),                     // 79: temporal.api.cloud.cloudservice.v1.GetAccountResponse
-	(*UpdateAccountRequest)(nil),                   // 80: temporal.api.cloud.cloudservice.v1.UpdateAccountRequest
-	(*UpdateAccountResponse)(nil),                  // 81: temporal.api.cloud.cloudservice.v1.UpdateAccountResponse
-	(*CreateNamespaceExportSinkRequest)(nil),       // 82: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkRequest
-	(*CreateNamespaceExportSinkResponse)(nil),      // 83: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkResponse
-	(*GetNamespaceExportSinkRequest)(nil),          // 84: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkRequest
-	(*GetNamespaceExportSinkResponse)(nil),         // 85: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkResponse
-	(*GetNamespaceExportSinksRequest)(nil),         // 86: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksRequest
-	(*GetNamespaceExportSinksResponse)(nil),        // 87: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksResponse
-	(*UpdateNamespaceExportSinkRequest)(nil),       // 88: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkRequest
-	(*UpdateNamespaceExportSinkResponse)(nil),      // 89: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkResponse
-	(*DeleteNamespaceExportSinkRequest)(nil),       // 90: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkRequest
-	(*DeleteNamespaceExportSinkResponse)(nil),      // 91: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkResponse
-	(*ValidateNamespaceExportSinkRequest)(nil),     // 92: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkRequest
-	(*ValidateNamespaceExportSinkResponse)(nil),    // 93: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkResponse
-	(*GetUserGroupsRequest_GoogleGroupFilter)(nil), // 94: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.GoogleGroupFilter
-	(*v1.User)(nil),                                // 95: temporal.api.cloud.identity.v1.User
-	(*v1.UserSpec)(nil),                            // 96: temporal.api.cloud.identity.v1.UserSpec
-	(*v11.AsyncOperation)(nil),                     // 97: temporal.api.cloud.operation.v1.AsyncOperation
-	(*v1.NamespaceAccess)(nil),                     // 98: temporal.api.cloud.identity.v1.NamespaceAccess
-	(*v12.NamespaceSpec)(nil),                      // 99: temporal.api.cloud.namespace.v1.NamespaceSpec
-	(*v12.Namespace)(nil),                          // 100: temporal.api.cloud.namespace.v1.Namespace
-	(*v13.Region)(nil),                             // 101: temporal.api.cloud.region.v1.Region
-	(v1.OwnerType)(0),                              // 102: temporal.api.cloud.identity.v1.OwnerType
-	(*v1.ApiKey)(nil),                              // 103: temporal.api.cloud.identity.v1.ApiKey
-	(*v1.ApiKeySpec)(nil),                          // 104: temporal.api.cloud.identity.v1.ApiKeySpec
-	(*v14.Endpoint)(nil),                           // 105: temporal.api.cloud.nexus.v1.Endpoint
-	(*v14.EndpointSpec)(nil),                       // 106: temporal.api.cloud.nexus.v1.EndpointSpec
-	(*v1.UserGroup)(nil),                           // 107: temporal.api.cloud.identity.v1.UserGroup
-	(*v1.UserGroupSpec)(nil),                       // 108: temporal.api.cloud.identity.v1.UserGroupSpec
-	(*v1.ServiceAccountSpec)(nil),                  // 109: temporal.api.cloud.identity.v1.ServiceAccountSpec
-	(*v1.ServiceAccount)(nil),                      // 110: temporal.api.cloud.identity.v1.ServiceAccount
-	(*timestamppb.Timestamp)(nil),                  // 111: google.protobuf.Timestamp
-	(*v15.Summary)(nil),                            // 112: temporal.api.cloud.usage.v1.Summary
-	(*v16.Account)(nil),                            // 113: temporal.api.cloud.account.v1.Account
-	(*v16.AccountSpec)(nil),                        // 114: temporal.api.cloud.account.v1.AccountSpec
-	(*v12.ExportSinkSpec)(nil),                     // 115: temporal.api.cloud.namespace.v1.ExportSinkSpec
-	(*v12.ExportSink)(nil),                         // 116: temporal.api.cloud.namespace.v1.ExportSink
+	(*DeleteNamespaceRegionRequest)(nil),           // 30: temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionRequest
+	(*DeleteNamespaceRegionResponse)(nil),          // 31: temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionResponse
+	(*GetRegionsRequest)(nil),                      // 32: temporal.api.cloud.cloudservice.v1.GetRegionsRequest
+	(*GetRegionsResponse)(nil),                     // 33: temporal.api.cloud.cloudservice.v1.GetRegionsResponse
+	(*GetRegionRequest)(nil),                       // 34: temporal.api.cloud.cloudservice.v1.GetRegionRequest
+	(*GetRegionResponse)(nil),                      // 35: temporal.api.cloud.cloudservice.v1.GetRegionResponse
+	(*GetApiKeysRequest)(nil),                      // 36: temporal.api.cloud.cloudservice.v1.GetApiKeysRequest
+	(*GetApiKeysResponse)(nil),                     // 37: temporal.api.cloud.cloudservice.v1.GetApiKeysResponse
+	(*GetApiKeyRequest)(nil),                       // 38: temporal.api.cloud.cloudservice.v1.GetApiKeyRequest
+	(*GetApiKeyResponse)(nil),                      // 39: temporal.api.cloud.cloudservice.v1.GetApiKeyResponse
+	(*CreateApiKeyRequest)(nil),                    // 40: temporal.api.cloud.cloudservice.v1.CreateApiKeyRequest
+	(*CreateApiKeyResponse)(nil),                   // 41: temporal.api.cloud.cloudservice.v1.CreateApiKeyResponse
+	(*UpdateApiKeyRequest)(nil),                    // 42: temporal.api.cloud.cloudservice.v1.UpdateApiKeyRequest
+	(*UpdateApiKeyResponse)(nil),                   // 43: temporal.api.cloud.cloudservice.v1.UpdateApiKeyResponse
+	(*DeleteApiKeyRequest)(nil),                    // 44: temporal.api.cloud.cloudservice.v1.DeleteApiKeyRequest
+	(*DeleteApiKeyResponse)(nil),                   // 45: temporal.api.cloud.cloudservice.v1.DeleteApiKeyResponse
+	(*GetNexusEndpointsRequest)(nil),               // 46: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsRequest
+	(*GetNexusEndpointsResponse)(nil),              // 47: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsResponse
+	(*GetNexusEndpointRequest)(nil),                // 48: temporal.api.cloud.cloudservice.v1.GetNexusEndpointRequest
+	(*GetNexusEndpointResponse)(nil),               // 49: temporal.api.cloud.cloudservice.v1.GetNexusEndpointResponse
+	(*CreateNexusEndpointRequest)(nil),             // 50: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointRequest
+	(*CreateNexusEndpointResponse)(nil),            // 51: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointResponse
+	(*UpdateNexusEndpointRequest)(nil),             // 52: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointRequest
+	(*UpdateNexusEndpointResponse)(nil),            // 53: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointResponse
+	(*DeleteNexusEndpointRequest)(nil),             // 54: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointRequest
+	(*DeleteNexusEndpointResponse)(nil),            // 55: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointResponse
+	(*GetUserGroupsRequest)(nil),                   // 56: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest
+	(*GetUserGroupsResponse)(nil),                  // 57: temporal.api.cloud.cloudservice.v1.GetUserGroupsResponse
+	(*GetUserGroupRequest)(nil),                    // 58: temporal.api.cloud.cloudservice.v1.GetUserGroupRequest
+	(*GetUserGroupResponse)(nil),                   // 59: temporal.api.cloud.cloudservice.v1.GetUserGroupResponse
+	(*CreateUserGroupRequest)(nil),                 // 60: temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest
+	(*CreateUserGroupResponse)(nil),                // 61: temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse
+	(*UpdateUserGroupRequest)(nil),                 // 62: temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest
+	(*UpdateUserGroupResponse)(nil),                // 63: temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse
+	(*DeleteUserGroupRequest)(nil),                 // 64: temporal.api.cloud.cloudservice.v1.DeleteUserGroupRequest
+	(*DeleteUserGroupResponse)(nil),                // 65: temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse
+	(*SetUserGroupNamespaceAccessRequest)(nil),     // 66: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest
+	(*SetUserGroupNamespaceAccessResponse)(nil),    // 67: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse
+	(*AddUserGroupMemberRequest)(nil),              // 68: temporal.api.cloud.cloudservice.v1.AddUserGroupMemberRequest
+	(*AddUserGroupMemberResponse)(nil),             // 69: temporal.api.cloud.cloudservice.v1.AddUserGroupMemberResponse
+	(*RemoveUserGroupMemberRequest)(nil),           // 70: temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberRequest
+	(*RemoveUserGroupMemberResponse)(nil),          // 71: temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberResponse
+	(*GetUserGroupMembersRequest)(nil),             // 72: temporal.api.cloud.cloudservice.v1.GetUserGroupMembersRequest
+	(*GetUserGroupMembersResponse)(nil),            // 73: temporal.api.cloud.cloudservice.v1.GetUserGroupMembersResponse
+	(*CreateServiceAccountRequest)(nil),            // 74: temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest
+	(*CreateServiceAccountResponse)(nil),           // 75: temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse
+	(*GetServiceAccountRequest)(nil),               // 76: temporal.api.cloud.cloudservice.v1.GetServiceAccountRequest
+	(*GetServiceAccountResponse)(nil),              // 77: temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse
+	(*GetServiceAccountsRequest)(nil),              // 78: temporal.api.cloud.cloudservice.v1.GetServiceAccountsRequest
+	(*GetServiceAccountsResponse)(nil),             // 79: temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse
+	(*UpdateServiceAccountRequest)(nil),            // 80: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountRequest
+	(*UpdateServiceAccountResponse)(nil),           // 81: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountResponse
+	(*DeleteServiceAccountRequest)(nil),            // 82: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountRequest
+	(*DeleteServiceAccountResponse)(nil),           // 83: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountResponse
+	(*GetUsageRequest)(nil),                        // 84: temporal.api.cloud.cloudservice.v1.GetUsageRequest
+	(*GetUsageResponse)(nil),                       // 85: temporal.api.cloud.cloudservice.v1.GetUsageResponse
+	(*GetAccountRequest)(nil),                      // 86: temporal.api.cloud.cloudservice.v1.GetAccountRequest
+	(*GetAccountResponse)(nil),                     // 87: temporal.api.cloud.cloudservice.v1.GetAccountResponse
+	(*UpdateAccountRequest)(nil),                   // 88: temporal.api.cloud.cloudservice.v1.UpdateAccountRequest
+	(*UpdateAccountResponse)(nil),                  // 89: temporal.api.cloud.cloudservice.v1.UpdateAccountResponse
+	(*CreateNamespaceExportSinkRequest)(nil),       // 90: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkRequest
+	(*CreateNamespaceExportSinkResponse)(nil),      // 91: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkResponse
+	(*GetNamespaceExportSinkRequest)(nil),          // 92: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkRequest
+	(*GetNamespaceExportSinkResponse)(nil),         // 93: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkResponse
+	(*GetNamespaceExportSinksRequest)(nil),         // 94: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksRequest
+	(*GetNamespaceExportSinksResponse)(nil),        // 95: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksResponse
+	(*UpdateNamespaceExportSinkRequest)(nil),       // 96: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkRequest
+	(*UpdateNamespaceExportSinkResponse)(nil),      // 97: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkResponse
+	(*DeleteNamespaceExportSinkRequest)(nil),       // 98: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkRequest
+	(*DeleteNamespaceExportSinkResponse)(nil),      // 99: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkResponse
+	(*ValidateNamespaceExportSinkRequest)(nil),     // 100: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkRequest
+	(*ValidateNamespaceExportSinkResponse)(nil),    // 101: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkResponse
+	(*GetUserGroupsRequest_GoogleGroupFilter)(nil), // 102: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.GoogleGroupFilter
+	(*GetUserGroupsRequest_SCIMGroupFilter)(nil),   // 103: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.SCIMGroupFilter
+	(*v1.User)(nil),                                // 104: temporal.api.cloud.identity.v1.User
+	(*v1.UserSpec)(nil),                            // 105: temporal.api.cloud.identity.v1.UserSpec
+	(*v11.AsyncOperation)(nil),                     // 106: temporal.api.cloud.operation.v1.AsyncOperation
+	(*v1.NamespaceAccess)(nil),                     // 107: temporal.api.cloud.identity.v1.NamespaceAccess
+	(*v12.NamespaceSpec)(nil),                      // 108: temporal.api.cloud.namespace.v1.NamespaceSpec
+	(*v12.Namespace)(nil),                          // 109: temporal.api.cloud.namespace.v1.Namespace
+	(*v13.Region)(nil),                             // 110: temporal.api.cloud.region.v1.Region
+	(v1.OwnerType)(0),                              // 111: temporal.api.cloud.identity.v1.OwnerType
+	(*v1.ApiKey)(nil),                              // 112: temporal.api.cloud.identity.v1.ApiKey
+	(*v1.ApiKeySpec)(nil),                          // 113: temporal.api.cloud.identity.v1.ApiKeySpec
+	(*v14.Endpoint)(nil),                           // 114: temporal.api.cloud.nexus.v1.Endpoint
+	(*v14.EndpointSpec)(nil),                       // 115: temporal.api.cloud.nexus.v1.EndpointSpec
+	(*v1.UserGroup)(nil),                           // 116: temporal.api.cloud.identity.v1.UserGroup
+	(*v1.UserGroupSpec)(nil),                       // 117: temporal.api.cloud.identity.v1.UserGroupSpec
+	(*v1.UserGroupMemberId)(nil),                   // 118: temporal.api.cloud.identity.v1.UserGroupMemberId
+	(*v1.UserGroupMember)(nil),                     // 119: temporal.api.cloud.identity.v1.UserGroupMember
+	(*v1.ServiceAccountSpec)(nil),                  // 120: temporal.api.cloud.identity.v1.ServiceAccountSpec
+	(*v1.ServiceAccount)(nil),                      // 121: temporal.api.cloud.identity.v1.ServiceAccount
+	(*timestamppb.Timestamp)(nil),                  // 122: google.protobuf.Timestamp
+	(*v15.Summary)(nil),                            // 123: temporal.api.cloud.usage.v1.Summary
+	(*v16.Account)(nil),                            // 124: temporal.api.cloud.account.v1.Account
+	(*v16.AccountSpec)(nil),                        // 125: temporal.api.cloud.account.v1.AccountSpec
+	(*v12.ExportSinkSpec)(nil),                     // 126: temporal.api.cloud.namespace.v1.ExportSinkSpec
+	(*v12.ExportSink)(nil),                         // 127: temporal.api.cloud.namespace.v1.ExportSink
 }
 var file_temporal_api_cloud_cloudservice_v1_request_response_proto_depIdxs = []int32{
-	95,  // 0: temporal.api.cloud.cloudservice.v1.GetUsersResponse.users:type_name -> temporal.api.cloud.identity.v1.User
-	95,  // 1: temporal.api.cloud.cloudservice.v1.GetUserResponse.user:type_name -> temporal.api.cloud.identity.v1.User
-	96,  // 2: temporal.api.cloud.cloudservice.v1.CreateUserRequest.spec:type_name -> temporal.api.cloud.identity.v1.UserSpec
-	97,  // 3: temporal.api.cloud.cloudservice.v1.CreateUserResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	96,  // 4: temporal.api.cloud.cloudservice.v1.UpdateUserRequest.spec:type_name -> temporal.api.cloud.identity.v1.UserSpec
-	97,  // 5: temporal.api.cloud.cloudservice.v1.UpdateUserResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 6: temporal.api.cloud.cloudservice.v1.DeleteUserResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	98,  // 7: temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessRequest.access:type_name -> temporal.api.cloud.identity.v1.NamespaceAccess
-	97,  // 8: temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 9: temporal.api.cloud.cloudservice.v1.GetAsyncOperationResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	99,  // 10: temporal.api.cloud.cloudservice.v1.CreateNamespaceRequest.spec:type_name -> temporal.api.cloud.namespace.v1.NamespaceSpec
-	97,  // 11: temporal.api.cloud.cloudservice.v1.CreateNamespaceResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	100, // 12: temporal.api.cloud.cloudservice.v1.GetNamespacesResponse.namespaces:type_name -> temporal.api.cloud.namespace.v1.Namespace
-	100, // 13: temporal.api.cloud.cloudservice.v1.GetNamespaceResponse.namespace:type_name -> temporal.api.cloud.namespace.v1.Namespace
-	99,  // 14: temporal.api.cloud.cloudservice.v1.UpdateNamespaceRequest.spec:type_name -> temporal.api.cloud.namespace.v1.NamespaceSpec
-	97,  // 15: temporal.api.cloud.cloudservice.v1.UpdateNamespaceResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 16: temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 17: temporal.api.cloud.cloudservice.v1.DeleteNamespaceResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 18: temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 19: temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	101, // 20: temporal.api.cloud.cloudservice.v1.GetRegionsResponse.regions:type_name -> temporal.api.cloud.region.v1.Region
-	101, // 21: temporal.api.cloud.cloudservice.v1.GetRegionResponse.region:type_name -> temporal.api.cloud.region.v1.Region
-	102, // 22: temporal.api.cloud.cloudservice.v1.GetApiKeysRequest.owner_type:type_name -> temporal.api.cloud.identity.v1.OwnerType
-	103, // 23: temporal.api.cloud.cloudservice.v1.GetApiKeysResponse.api_keys:type_name -> temporal.api.cloud.identity.v1.ApiKey
-	103, // 24: temporal.api.cloud.cloudservice.v1.GetApiKeyResponse.api_key:type_name -> temporal.api.cloud.identity.v1.ApiKey
-	104, // 25: temporal.api.cloud.cloudservice.v1.CreateApiKeyRequest.spec:type_name -> temporal.api.cloud.identity.v1.ApiKeySpec
-	97,  // 26: temporal.api.cloud.cloudservice.v1.CreateApiKeyResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	104, // 27: temporal.api.cloud.cloudservice.v1.UpdateApiKeyRequest.spec:type_name -> temporal.api.cloud.identity.v1.ApiKeySpec
-	97,  // 28: temporal.api.cloud.cloudservice.v1.UpdateApiKeyResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 29: temporal.api.cloud.cloudservice.v1.DeleteApiKeyResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	105, // 30: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsResponse.endpoints:type_name -> temporal.api.cloud.nexus.v1.Endpoint
-	105, // 31: temporal.api.cloud.cloudservice.v1.GetNexusEndpointResponse.endpoint:type_name -> temporal.api.cloud.nexus.v1.Endpoint
-	106, // 32: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointRequest.spec:type_name -> temporal.api.cloud.nexus.v1.EndpointSpec
-	97,  // 33: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	106, // 34: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointRequest.spec:type_name -> temporal.api.cloud.nexus.v1.EndpointSpec
-	97,  // 35: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 36: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	94,  // 37: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.google_group:type_name -> temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.GoogleGroupFilter
-	107, // 38: temporal.api.cloud.cloudservice.v1.GetUserGroupsResponse.groups:type_name -> temporal.api.cloud.identity.v1.UserGroup
-	107, // 39: temporal.api.cloud.cloudservice.v1.GetUserGroupResponse.group:type_name -> temporal.api.cloud.identity.v1.UserGroup
-	108, // 40: temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest.spec:type_name -> temporal.api.cloud.identity.v1.UserGroupSpec
-	97,  // 41: temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	108, // 42: temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest.spec:type_name -> temporal.api.cloud.identity.v1.UserGroupSpec
-	97,  // 43: temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 44: temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	98,  // 45: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest.access:type_name -> temporal.api.cloud.identity.v1.NamespaceAccess
-	97,  // 46: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	109, // 47: temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest.spec:type_name -> temporal.api.cloud.identity.v1.ServiceAccountSpec
-	97,  // 48: temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	110, // 49: temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse.service_account:type_name -> temporal.api.cloud.identity.v1.ServiceAccount
-	110, // 50: temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse.service_account:type_name -> temporal.api.cloud.identity.v1.ServiceAccount
-	109, // 51: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountRequest.spec:type_name -> temporal.api.cloud.identity.v1.ServiceAccountSpec
-	97,  // 52: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 53: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	111, // 54: temporal.api.cloud.cloudservice.v1.GetUsageRequest.start_time_inclusive:type_name -> google.protobuf.Timestamp
-	111, // 55: temporal.api.cloud.cloudservice.v1.GetUsageRequest.end_time_exclusive:type_name -> google.protobuf.Timestamp
-	112, // 56: temporal.api.cloud.cloudservice.v1.GetUsageResponse.summaries:type_name -> temporal.api.cloud.usage.v1.Summary
-	113, // 57: temporal.api.cloud.cloudservice.v1.GetAccountResponse.account:type_name -> temporal.api.cloud.account.v1.Account
-	114, // 58: temporal.api.cloud.cloudservice.v1.UpdateAccountRequest.spec:type_name -> temporal.api.cloud.account.v1.AccountSpec
-	97,  // 59: temporal.api.cloud.cloudservice.v1.UpdateAccountResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	115, // 60: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkRequest.spec:type_name -> temporal.api.cloud.namespace.v1.ExportSinkSpec
-	97,  // 61: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	116, // 62: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkResponse.sink:type_name -> temporal.api.cloud.namespace.v1.ExportSink
-	116, // 63: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksResponse.sinks:type_name -> temporal.api.cloud.namespace.v1.ExportSink
-	115, // 64: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkRequest.spec:type_name -> temporal.api.cloud.namespace.v1.ExportSinkSpec
-	97,  // 65: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	97,  // 66: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
-	115, // 67: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkRequest.spec:type_name -> temporal.api.cloud.namespace.v1.ExportSinkSpec
-	68,  // [68:68] is the sub-list for method output_type
-	68,  // [68:68] is the sub-list for method input_type
-	68,  // [68:68] is the sub-list for extension type_name
-	68,  // [68:68] is the sub-list for extension extendee
-	0,   // [0:68] is the sub-list for field type_name
+	104, // 0: temporal.api.cloud.cloudservice.v1.GetUsersResponse.users:type_name -> temporal.api.cloud.identity.v1.User
+	104, // 1: temporal.api.cloud.cloudservice.v1.GetUserResponse.user:type_name -> temporal.api.cloud.identity.v1.User
+	105, // 2: temporal.api.cloud.cloudservice.v1.CreateUserRequest.spec:type_name -> temporal.api.cloud.identity.v1.UserSpec
+	106, // 3: temporal.api.cloud.cloudservice.v1.CreateUserResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	105, // 4: temporal.api.cloud.cloudservice.v1.UpdateUserRequest.spec:type_name -> temporal.api.cloud.identity.v1.UserSpec
+	106, // 5: temporal.api.cloud.cloudservice.v1.UpdateUserResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 6: temporal.api.cloud.cloudservice.v1.DeleteUserResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	107, // 7: temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessRequest.access:type_name -> temporal.api.cloud.identity.v1.NamespaceAccess
+	106, // 8: temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 9: temporal.api.cloud.cloudservice.v1.GetAsyncOperationResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	108, // 10: temporal.api.cloud.cloudservice.v1.CreateNamespaceRequest.spec:type_name -> temporal.api.cloud.namespace.v1.NamespaceSpec
+	106, // 11: temporal.api.cloud.cloudservice.v1.CreateNamespaceResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	109, // 12: temporal.api.cloud.cloudservice.v1.GetNamespacesResponse.namespaces:type_name -> temporal.api.cloud.namespace.v1.Namespace
+	109, // 13: temporal.api.cloud.cloudservice.v1.GetNamespaceResponse.namespace:type_name -> temporal.api.cloud.namespace.v1.Namespace
+	108, // 14: temporal.api.cloud.cloudservice.v1.UpdateNamespaceRequest.spec:type_name -> temporal.api.cloud.namespace.v1.NamespaceSpec
+	106, // 15: temporal.api.cloud.cloudservice.v1.UpdateNamespaceResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 16: temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 17: temporal.api.cloud.cloudservice.v1.DeleteNamespaceResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 18: temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 19: temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 20: temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	110, // 21: temporal.api.cloud.cloudservice.v1.GetRegionsResponse.regions:type_name -> temporal.api.cloud.region.v1.Region
+	110, // 22: temporal.api.cloud.cloudservice.v1.GetRegionResponse.region:type_name -> temporal.api.cloud.region.v1.Region
+	111, // 23: temporal.api.cloud.cloudservice.v1.GetApiKeysRequest.owner_type:type_name -> temporal.api.cloud.identity.v1.OwnerType
+	112, // 24: temporal.api.cloud.cloudservice.v1.GetApiKeysResponse.api_keys:type_name -> temporal.api.cloud.identity.v1.ApiKey
+	112, // 25: temporal.api.cloud.cloudservice.v1.GetApiKeyResponse.api_key:type_name -> temporal.api.cloud.identity.v1.ApiKey
+	113, // 26: temporal.api.cloud.cloudservice.v1.CreateApiKeyRequest.spec:type_name -> temporal.api.cloud.identity.v1.ApiKeySpec
+	106, // 27: temporal.api.cloud.cloudservice.v1.CreateApiKeyResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	113, // 28: temporal.api.cloud.cloudservice.v1.UpdateApiKeyRequest.spec:type_name -> temporal.api.cloud.identity.v1.ApiKeySpec
+	106, // 29: temporal.api.cloud.cloudservice.v1.UpdateApiKeyResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 30: temporal.api.cloud.cloudservice.v1.DeleteApiKeyResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	114, // 31: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsResponse.endpoints:type_name -> temporal.api.cloud.nexus.v1.Endpoint
+	114, // 32: temporal.api.cloud.cloudservice.v1.GetNexusEndpointResponse.endpoint:type_name -> temporal.api.cloud.nexus.v1.Endpoint
+	115, // 33: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointRequest.spec:type_name -> temporal.api.cloud.nexus.v1.EndpointSpec
+	106, // 34: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	115, // 35: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointRequest.spec:type_name -> temporal.api.cloud.nexus.v1.EndpointSpec
+	106, // 36: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 37: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	102, // 38: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.google_group:type_name -> temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.GoogleGroupFilter
+	103, // 39: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.scim_group:type_name -> temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest.SCIMGroupFilter
+	116, // 40: temporal.api.cloud.cloudservice.v1.GetUserGroupsResponse.groups:type_name -> temporal.api.cloud.identity.v1.UserGroup
+	116, // 41: temporal.api.cloud.cloudservice.v1.GetUserGroupResponse.group:type_name -> temporal.api.cloud.identity.v1.UserGroup
+	117, // 42: temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest.spec:type_name -> temporal.api.cloud.identity.v1.UserGroupSpec
+	106, // 43: temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	117, // 44: temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest.spec:type_name -> temporal.api.cloud.identity.v1.UserGroupSpec
+	106, // 45: temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 46: temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	107, // 47: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest.access:type_name -> temporal.api.cloud.identity.v1.NamespaceAccess
+	106, // 48: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	118, // 49: temporal.api.cloud.cloudservice.v1.AddUserGroupMemberRequest.member_id:type_name -> temporal.api.cloud.identity.v1.UserGroupMemberId
+	106, // 50: temporal.api.cloud.cloudservice.v1.AddUserGroupMemberResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	118, // 51: temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberRequest.member_id:type_name -> temporal.api.cloud.identity.v1.UserGroupMemberId
+	106, // 52: temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	119, // 53: temporal.api.cloud.cloudservice.v1.GetUserGroupMembersResponse.members:type_name -> temporal.api.cloud.identity.v1.UserGroupMember
+	120, // 54: temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest.spec:type_name -> temporal.api.cloud.identity.v1.ServiceAccountSpec
+	106, // 55: temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	121, // 56: temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse.service_account:type_name -> temporal.api.cloud.identity.v1.ServiceAccount
+	121, // 57: temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse.service_account:type_name -> temporal.api.cloud.identity.v1.ServiceAccount
+	120, // 58: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountRequest.spec:type_name -> temporal.api.cloud.identity.v1.ServiceAccountSpec
+	106, // 59: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 60: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	122, // 61: temporal.api.cloud.cloudservice.v1.GetUsageRequest.start_time_inclusive:type_name -> google.protobuf.Timestamp
+	122, // 62: temporal.api.cloud.cloudservice.v1.GetUsageRequest.end_time_exclusive:type_name -> google.protobuf.Timestamp
+	123, // 63: temporal.api.cloud.cloudservice.v1.GetUsageResponse.summaries:type_name -> temporal.api.cloud.usage.v1.Summary
+	124, // 64: temporal.api.cloud.cloudservice.v1.GetAccountResponse.account:type_name -> temporal.api.cloud.account.v1.Account
+	125, // 65: temporal.api.cloud.cloudservice.v1.UpdateAccountRequest.spec:type_name -> temporal.api.cloud.account.v1.AccountSpec
+	106, // 66: temporal.api.cloud.cloudservice.v1.UpdateAccountResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	126, // 67: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkRequest.spec:type_name -> temporal.api.cloud.namespace.v1.ExportSinkSpec
+	106, // 68: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	127, // 69: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkResponse.sink:type_name -> temporal.api.cloud.namespace.v1.ExportSink
+	127, // 70: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksResponse.sinks:type_name -> temporal.api.cloud.namespace.v1.ExportSink
+	126, // 71: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkRequest.spec:type_name -> temporal.api.cloud.namespace.v1.ExportSinkSpec
+	106, // 72: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	106, // 73: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkResponse.async_operation:type_name -> temporal.api.cloud.operation.v1.AsyncOperation
+	126, // 74: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkRequest.spec:type_name -> temporal.api.cloud.namespace.v1.ExportSinkSpec
+	75,  // [75:75] is the sub-list for method output_type
+	75,  // [75:75] is the sub-list for method input_type
+	75,  // [75:75] is the sub-list for extension type_name
+	75,  // [75:75] is the sub-list for extension extendee
+	0,   // [0:75] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_cloud_cloudservice_v1_request_response_proto_init() }
@@ -5815,7 +6374,7 @@ func file_temporal_api_cloud_cloudservice_v1_request_response_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc), len(file_temporal_api_cloud_cloudservice_v1_request_response_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   95,
+			NumMessages:   104,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

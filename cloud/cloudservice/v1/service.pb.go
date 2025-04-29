@@ -48,7 +48,7 @@ var File_temporal_api_cloud_cloudservice_v1_service_proto protoreflect.FileDescr
 
 const file_temporal_api_cloud_cloudservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"0temporal/api/cloud/cloudservice/v1/service.proto\x12\"temporal.api.cloud.cloudservice.v1\x1a9temporal/api/cloud/cloudservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\xafD\n" +
+	"0temporal/api/cloud/cloudservice/v1/service.proto\x12\"temporal.api.cloud.cloudservice.v1\x1a9temporal/api/cloud/cloudservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\xedJ\n" +
 	"\fCloudService\x12\x8b\x01\n" +
 	"\bGetUsers\x123.temporal.api.cloud.cloudservice.v1.GetUsersRequest\x1a4.temporal.api.cloud.cloudservice.v1.GetUsersResponse\"\x14\x82\xd3\xe4\x93\x02\x0e\x12\f/cloud/users\x12\x92\x01\n" +
 	"\aGetUser\x122.temporal.api.cloud.cloudservice.v1.GetUserRequest\x1a3.temporal.api.cloud.cloudservice.v1.GetUserResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/cloud/users/{user_id}\x12\x94\x01\n" +
@@ -67,7 +67,8 @@ const file_temporal_api_cloud_cloudservice_v1_service_proto_rawDesc = "" +
 	"\x1bRenameCustomSearchAttribute\x12F.temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeRequest\x1aG.temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeResponse\"G\x82\xd3\xe4\x93\x02A:\x01*\"</cloud/namespaces/{namespace}/rename-custom-search-attribute\x12\xb1\x01\n" +
 	"\x0fDeleteNamespace\x12:.temporal.api.cloud.cloudservice.v1.DeleteNamespaceRequest\x1a;.temporal.api.cloud.cloudservice.v1.DeleteNamespaceResponse\"%\x82\xd3\xe4\x93\x02\x1f*\x1d/cloud/namespaces/{namespace}\x12\xdc\x01\n" +
 	"\x17FailoverNamespaceRegion\x12B.temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionRequest\x1aC.temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionResponse\"8\x82\xd3\xe4\x93\x022:\x01*\"-/cloud/namespaces/{namespace}/failover-region\x12\xc8\x01\n" +
-	"\x12AddNamespaceRegion\x12=.temporal.api.cloud.cloudservice.v1.AddNamespaceRegionRequest\x1a>.temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse\"3\x82\xd3\xe4\x93\x02-:\x01*\"(/cloud/namespaces/{namespace}/add-region\x12\x93\x01\n" +
+	"\x12AddNamespaceRegion\x12=.temporal.api.cloud.cloudservice.v1.AddNamespaceRegionRequest\x1a>.temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse\"3\x82\xd3\xe4\x93\x02-:\x01*\"(/cloud/namespaces/{namespace}/add-region\x12\xd4\x01\n" +
+	"\x15DeleteNamespaceRegion\x12@.temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionRequest\x1aA.temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionResponse\"6\x82\xd3\xe4\x93\x020*./cloud/namespaces/{namespace}/regions/{region}\x12\x93\x01\n" +
 	"\n" +
 	"GetRegions\x125.temporal.api.cloud.cloudservice.v1.GetRegionsRequest\x1a6.temporal.api.cloud.cloudservice.v1.GetRegionsResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/cloud/regions\x12\x99\x01\n" +
 	"\tGetRegion\x124.temporal.api.cloud.cloudservice.v1.GetRegionRequest\x1a5.temporal.api.cloud.cloudservice.v1.GetRegionResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/cloud/regions/{region}\x12\x94\x01\n" +
@@ -87,7 +88,10 @@ const file_temporal_api_cloud_cloudservice_v1_service_proto_rawDesc = "" +
 	"\x0fCreateUserGroup\x12:.temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest\x1a;.temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/cloud/user-groups\x12\xb4\x01\n" +
 	"\x0fUpdateUserGroup\x12:.temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest\x1a;.temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse\"(\x82\xd3\xe4\x93\x02\":\x01*\"\x1d/cloud/user-groups/{group_id}\x12\xb1\x01\n" +
 	"\x0fDeleteUserGroup\x12:.temporal.api.cloud.cloudservice.v1.DeleteUserGroupRequest\x1a;.temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse\"%\x82\xd3\xe4\x93\x02\x1f*\x1d/cloud/user-groups/{group_id}\x12\xf6\x01\n" +
-	"\x1bSetUserGroupNamespaceAccess\x12F.temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest\x1aG.temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse\"F\x82\xd3\xe4\x93\x02@:\x01*\";/cloud/namespaces/{namespace}/user-groups/{group_id}/access\x12\xbd\x01\n" +
+	"\x1bSetUserGroupNamespaceAccess\x12F.temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest\x1aG.temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse\"F\x82\xd3\xe4\x93\x02@:\x01*\";/cloud/namespaces/{namespace}/user-groups/{group_id}/access\x12\xc5\x01\n" +
+	"\x12AddUserGroupMember\x12=.temporal.api.cloud.cloudservice.v1.AddUserGroupMemberRequest\x1a>.temporal.api.cloud.cloudservice.v1.AddUserGroupMemberResponse\"0\x82\xd3\xe4\x93\x02*:\x01*\"%/cloud/user-groups/{group_id}/members\x12\xd4\x01\n" +
+	"\x15RemoveUserGroupMember\x12@.temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberRequest\x1aA.temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberResponse\"6\x82\xd3\xe4\x93\x020:\x01*\"+/cloud/user-groups/{group_id}/remove-member\x12\xc5\x01\n" +
+	"\x13GetUserGroupMembers\x12>.temporal.api.cloud.cloudservice.v1.GetUserGroupMembersRequest\x1a?.temporal.api.cloud.cloudservice.v1.GetUserGroupMembersResponse\"-\x82\xd3\xe4\x93\x02'\x12%/cloud/user-groups/{group_id}/members\x12\xbd\x01\n" +
 	"\x14CreateServiceAccount\x12?.temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest\x1a@.temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/cloud/service-accounts\x12\xc6\x01\n" +
 	"\x11GetServiceAccount\x12<.temporal.api.cloud.cloudservice.v1.GetServiceAccountRequest\x1a=.temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse\"4\x82\xd3\xe4\x93\x02.\x12,/cloud/service-accounts/{service_account_id}\x12\xb4\x01\n" +
 	"\x12GetServiceAccounts\x12=.temporal.api.cloud.cloudservice.v1.GetServiceAccountsRequest\x1a>.temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/cloud/service-accounts\x12\xd2\x01\n" +
@@ -121,186 +125,202 @@ var file_temporal_api_cloud_cloudservice_v1_service_proto_goTypes = []any{
 	(*DeleteNamespaceRequest)(nil),              // 12: temporal.api.cloud.cloudservice.v1.DeleteNamespaceRequest
 	(*FailoverNamespaceRegionRequest)(nil),      // 13: temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionRequest
 	(*AddNamespaceRegionRequest)(nil),           // 14: temporal.api.cloud.cloudservice.v1.AddNamespaceRegionRequest
-	(*GetRegionsRequest)(nil),                   // 15: temporal.api.cloud.cloudservice.v1.GetRegionsRequest
-	(*GetRegionRequest)(nil),                    // 16: temporal.api.cloud.cloudservice.v1.GetRegionRequest
-	(*GetApiKeysRequest)(nil),                   // 17: temporal.api.cloud.cloudservice.v1.GetApiKeysRequest
-	(*GetApiKeyRequest)(nil),                    // 18: temporal.api.cloud.cloudservice.v1.GetApiKeyRequest
-	(*CreateApiKeyRequest)(nil),                 // 19: temporal.api.cloud.cloudservice.v1.CreateApiKeyRequest
-	(*UpdateApiKeyRequest)(nil),                 // 20: temporal.api.cloud.cloudservice.v1.UpdateApiKeyRequest
-	(*DeleteApiKeyRequest)(nil),                 // 21: temporal.api.cloud.cloudservice.v1.DeleteApiKeyRequest
-	(*GetNexusEndpointsRequest)(nil),            // 22: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsRequest
-	(*GetNexusEndpointRequest)(nil),             // 23: temporal.api.cloud.cloudservice.v1.GetNexusEndpointRequest
-	(*CreateNexusEndpointRequest)(nil),          // 24: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointRequest
-	(*UpdateNexusEndpointRequest)(nil),          // 25: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointRequest
-	(*DeleteNexusEndpointRequest)(nil),          // 26: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointRequest
-	(*GetUserGroupsRequest)(nil),                // 27: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest
-	(*GetUserGroupRequest)(nil),                 // 28: temporal.api.cloud.cloudservice.v1.GetUserGroupRequest
-	(*CreateUserGroupRequest)(nil),              // 29: temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest
-	(*UpdateUserGroupRequest)(nil),              // 30: temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest
-	(*DeleteUserGroupRequest)(nil),              // 31: temporal.api.cloud.cloudservice.v1.DeleteUserGroupRequest
-	(*SetUserGroupNamespaceAccessRequest)(nil),  // 32: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest
-	(*CreateServiceAccountRequest)(nil),         // 33: temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest
-	(*GetServiceAccountRequest)(nil),            // 34: temporal.api.cloud.cloudservice.v1.GetServiceAccountRequest
-	(*GetServiceAccountsRequest)(nil),           // 35: temporal.api.cloud.cloudservice.v1.GetServiceAccountsRequest
-	(*UpdateServiceAccountRequest)(nil),         // 36: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountRequest
-	(*DeleteServiceAccountRequest)(nil),         // 37: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountRequest
-	(*GetUsageRequest)(nil),                     // 38: temporal.api.cloud.cloudservice.v1.GetUsageRequest
-	(*GetAccountRequest)(nil),                   // 39: temporal.api.cloud.cloudservice.v1.GetAccountRequest
-	(*UpdateAccountRequest)(nil),                // 40: temporal.api.cloud.cloudservice.v1.UpdateAccountRequest
-	(*CreateNamespaceExportSinkRequest)(nil),    // 41: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkRequest
-	(*GetNamespaceExportSinkRequest)(nil),       // 42: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkRequest
-	(*GetNamespaceExportSinksRequest)(nil),      // 43: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksRequest
-	(*UpdateNamespaceExportSinkRequest)(nil),    // 44: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkRequest
-	(*DeleteNamespaceExportSinkRequest)(nil),    // 45: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkRequest
-	(*ValidateNamespaceExportSinkRequest)(nil),  // 46: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkRequest
-	(*GetUsersResponse)(nil),                    // 47: temporal.api.cloud.cloudservice.v1.GetUsersResponse
-	(*GetUserResponse)(nil),                     // 48: temporal.api.cloud.cloudservice.v1.GetUserResponse
-	(*CreateUserResponse)(nil),                  // 49: temporal.api.cloud.cloudservice.v1.CreateUserResponse
-	(*UpdateUserResponse)(nil),                  // 50: temporal.api.cloud.cloudservice.v1.UpdateUserResponse
-	(*DeleteUserResponse)(nil),                  // 51: temporal.api.cloud.cloudservice.v1.DeleteUserResponse
-	(*SetUserNamespaceAccessResponse)(nil),      // 52: temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessResponse
-	(*GetAsyncOperationResponse)(nil),           // 53: temporal.api.cloud.cloudservice.v1.GetAsyncOperationResponse
-	(*CreateNamespaceResponse)(nil),             // 54: temporal.api.cloud.cloudservice.v1.CreateNamespaceResponse
-	(*GetNamespacesResponse)(nil),               // 55: temporal.api.cloud.cloudservice.v1.GetNamespacesResponse
-	(*GetNamespaceResponse)(nil),                // 56: temporal.api.cloud.cloudservice.v1.GetNamespaceResponse
-	(*UpdateNamespaceResponse)(nil),             // 57: temporal.api.cloud.cloudservice.v1.UpdateNamespaceResponse
-	(*RenameCustomSearchAttributeResponse)(nil), // 58: temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeResponse
-	(*DeleteNamespaceResponse)(nil),             // 59: temporal.api.cloud.cloudservice.v1.DeleteNamespaceResponse
-	(*FailoverNamespaceRegionResponse)(nil),     // 60: temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionResponse
-	(*AddNamespaceRegionResponse)(nil),          // 61: temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse
-	(*GetRegionsResponse)(nil),                  // 62: temporal.api.cloud.cloudservice.v1.GetRegionsResponse
-	(*GetRegionResponse)(nil),                   // 63: temporal.api.cloud.cloudservice.v1.GetRegionResponse
-	(*GetApiKeysResponse)(nil),                  // 64: temporal.api.cloud.cloudservice.v1.GetApiKeysResponse
-	(*GetApiKeyResponse)(nil),                   // 65: temporal.api.cloud.cloudservice.v1.GetApiKeyResponse
-	(*CreateApiKeyResponse)(nil),                // 66: temporal.api.cloud.cloudservice.v1.CreateApiKeyResponse
-	(*UpdateApiKeyResponse)(nil),                // 67: temporal.api.cloud.cloudservice.v1.UpdateApiKeyResponse
-	(*DeleteApiKeyResponse)(nil),                // 68: temporal.api.cloud.cloudservice.v1.DeleteApiKeyResponse
-	(*GetNexusEndpointsResponse)(nil),           // 69: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsResponse
-	(*GetNexusEndpointResponse)(nil),            // 70: temporal.api.cloud.cloudservice.v1.GetNexusEndpointResponse
-	(*CreateNexusEndpointResponse)(nil),         // 71: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointResponse
-	(*UpdateNexusEndpointResponse)(nil),         // 72: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointResponse
-	(*DeleteNexusEndpointResponse)(nil),         // 73: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointResponse
-	(*GetUserGroupsResponse)(nil),               // 74: temporal.api.cloud.cloudservice.v1.GetUserGroupsResponse
-	(*GetUserGroupResponse)(nil),                // 75: temporal.api.cloud.cloudservice.v1.GetUserGroupResponse
-	(*CreateUserGroupResponse)(nil),             // 76: temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse
-	(*UpdateUserGroupResponse)(nil),             // 77: temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse
-	(*DeleteUserGroupResponse)(nil),             // 78: temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse
-	(*SetUserGroupNamespaceAccessResponse)(nil), // 79: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse
-	(*CreateServiceAccountResponse)(nil),        // 80: temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse
-	(*GetServiceAccountResponse)(nil),           // 81: temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse
-	(*GetServiceAccountsResponse)(nil),          // 82: temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse
-	(*UpdateServiceAccountResponse)(nil),        // 83: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountResponse
-	(*DeleteServiceAccountResponse)(nil),        // 84: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountResponse
-	(*GetUsageResponse)(nil),                    // 85: temporal.api.cloud.cloudservice.v1.GetUsageResponse
-	(*GetAccountResponse)(nil),                  // 86: temporal.api.cloud.cloudservice.v1.GetAccountResponse
-	(*UpdateAccountResponse)(nil),               // 87: temporal.api.cloud.cloudservice.v1.UpdateAccountResponse
-	(*CreateNamespaceExportSinkResponse)(nil),   // 88: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkResponse
-	(*GetNamespaceExportSinkResponse)(nil),      // 89: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkResponse
-	(*GetNamespaceExportSinksResponse)(nil),     // 90: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksResponse
-	(*UpdateNamespaceExportSinkResponse)(nil),   // 91: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkResponse
-	(*DeleteNamespaceExportSinkResponse)(nil),   // 92: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkResponse
-	(*ValidateNamespaceExportSinkResponse)(nil), // 93: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkResponse
+	(*DeleteNamespaceRegionRequest)(nil),        // 15: temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionRequest
+	(*GetRegionsRequest)(nil),                   // 16: temporal.api.cloud.cloudservice.v1.GetRegionsRequest
+	(*GetRegionRequest)(nil),                    // 17: temporal.api.cloud.cloudservice.v1.GetRegionRequest
+	(*GetApiKeysRequest)(nil),                   // 18: temporal.api.cloud.cloudservice.v1.GetApiKeysRequest
+	(*GetApiKeyRequest)(nil),                    // 19: temporal.api.cloud.cloudservice.v1.GetApiKeyRequest
+	(*CreateApiKeyRequest)(nil),                 // 20: temporal.api.cloud.cloudservice.v1.CreateApiKeyRequest
+	(*UpdateApiKeyRequest)(nil),                 // 21: temporal.api.cloud.cloudservice.v1.UpdateApiKeyRequest
+	(*DeleteApiKeyRequest)(nil),                 // 22: temporal.api.cloud.cloudservice.v1.DeleteApiKeyRequest
+	(*GetNexusEndpointsRequest)(nil),            // 23: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsRequest
+	(*GetNexusEndpointRequest)(nil),             // 24: temporal.api.cloud.cloudservice.v1.GetNexusEndpointRequest
+	(*CreateNexusEndpointRequest)(nil),          // 25: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointRequest
+	(*UpdateNexusEndpointRequest)(nil),          // 26: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointRequest
+	(*DeleteNexusEndpointRequest)(nil),          // 27: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointRequest
+	(*GetUserGroupsRequest)(nil),                // 28: temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest
+	(*GetUserGroupRequest)(nil),                 // 29: temporal.api.cloud.cloudservice.v1.GetUserGroupRequest
+	(*CreateUserGroupRequest)(nil),              // 30: temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest
+	(*UpdateUserGroupRequest)(nil),              // 31: temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest
+	(*DeleteUserGroupRequest)(nil),              // 32: temporal.api.cloud.cloudservice.v1.DeleteUserGroupRequest
+	(*SetUserGroupNamespaceAccessRequest)(nil),  // 33: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest
+	(*AddUserGroupMemberRequest)(nil),           // 34: temporal.api.cloud.cloudservice.v1.AddUserGroupMemberRequest
+	(*RemoveUserGroupMemberRequest)(nil),        // 35: temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberRequest
+	(*GetUserGroupMembersRequest)(nil),          // 36: temporal.api.cloud.cloudservice.v1.GetUserGroupMembersRequest
+	(*CreateServiceAccountRequest)(nil),         // 37: temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest
+	(*GetServiceAccountRequest)(nil),            // 38: temporal.api.cloud.cloudservice.v1.GetServiceAccountRequest
+	(*GetServiceAccountsRequest)(nil),           // 39: temporal.api.cloud.cloudservice.v1.GetServiceAccountsRequest
+	(*UpdateServiceAccountRequest)(nil),         // 40: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountRequest
+	(*DeleteServiceAccountRequest)(nil),         // 41: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountRequest
+	(*GetUsageRequest)(nil),                     // 42: temporal.api.cloud.cloudservice.v1.GetUsageRequest
+	(*GetAccountRequest)(nil),                   // 43: temporal.api.cloud.cloudservice.v1.GetAccountRequest
+	(*UpdateAccountRequest)(nil),                // 44: temporal.api.cloud.cloudservice.v1.UpdateAccountRequest
+	(*CreateNamespaceExportSinkRequest)(nil),    // 45: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkRequest
+	(*GetNamespaceExportSinkRequest)(nil),       // 46: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkRequest
+	(*GetNamespaceExportSinksRequest)(nil),      // 47: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksRequest
+	(*UpdateNamespaceExportSinkRequest)(nil),    // 48: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkRequest
+	(*DeleteNamespaceExportSinkRequest)(nil),    // 49: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkRequest
+	(*ValidateNamespaceExportSinkRequest)(nil),  // 50: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkRequest
+	(*GetUsersResponse)(nil),                    // 51: temporal.api.cloud.cloudservice.v1.GetUsersResponse
+	(*GetUserResponse)(nil),                     // 52: temporal.api.cloud.cloudservice.v1.GetUserResponse
+	(*CreateUserResponse)(nil),                  // 53: temporal.api.cloud.cloudservice.v1.CreateUserResponse
+	(*UpdateUserResponse)(nil),                  // 54: temporal.api.cloud.cloudservice.v1.UpdateUserResponse
+	(*DeleteUserResponse)(nil),                  // 55: temporal.api.cloud.cloudservice.v1.DeleteUserResponse
+	(*SetUserNamespaceAccessResponse)(nil),      // 56: temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessResponse
+	(*GetAsyncOperationResponse)(nil),           // 57: temporal.api.cloud.cloudservice.v1.GetAsyncOperationResponse
+	(*CreateNamespaceResponse)(nil),             // 58: temporal.api.cloud.cloudservice.v1.CreateNamespaceResponse
+	(*GetNamespacesResponse)(nil),               // 59: temporal.api.cloud.cloudservice.v1.GetNamespacesResponse
+	(*GetNamespaceResponse)(nil),                // 60: temporal.api.cloud.cloudservice.v1.GetNamespaceResponse
+	(*UpdateNamespaceResponse)(nil),             // 61: temporal.api.cloud.cloudservice.v1.UpdateNamespaceResponse
+	(*RenameCustomSearchAttributeResponse)(nil), // 62: temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeResponse
+	(*DeleteNamespaceResponse)(nil),             // 63: temporal.api.cloud.cloudservice.v1.DeleteNamespaceResponse
+	(*FailoverNamespaceRegionResponse)(nil),     // 64: temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionResponse
+	(*AddNamespaceRegionResponse)(nil),          // 65: temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse
+	(*DeleteNamespaceRegionResponse)(nil),       // 66: temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionResponse
+	(*GetRegionsResponse)(nil),                  // 67: temporal.api.cloud.cloudservice.v1.GetRegionsResponse
+	(*GetRegionResponse)(nil),                   // 68: temporal.api.cloud.cloudservice.v1.GetRegionResponse
+	(*GetApiKeysResponse)(nil),                  // 69: temporal.api.cloud.cloudservice.v1.GetApiKeysResponse
+	(*GetApiKeyResponse)(nil),                   // 70: temporal.api.cloud.cloudservice.v1.GetApiKeyResponse
+	(*CreateApiKeyResponse)(nil),                // 71: temporal.api.cloud.cloudservice.v1.CreateApiKeyResponse
+	(*UpdateApiKeyResponse)(nil),                // 72: temporal.api.cloud.cloudservice.v1.UpdateApiKeyResponse
+	(*DeleteApiKeyResponse)(nil),                // 73: temporal.api.cloud.cloudservice.v1.DeleteApiKeyResponse
+	(*GetNexusEndpointsResponse)(nil),           // 74: temporal.api.cloud.cloudservice.v1.GetNexusEndpointsResponse
+	(*GetNexusEndpointResponse)(nil),            // 75: temporal.api.cloud.cloudservice.v1.GetNexusEndpointResponse
+	(*CreateNexusEndpointResponse)(nil),         // 76: temporal.api.cloud.cloudservice.v1.CreateNexusEndpointResponse
+	(*UpdateNexusEndpointResponse)(nil),         // 77: temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointResponse
+	(*DeleteNexusEndpointResponse)(nil),         // 78: temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointResponse
+	(*GetUserGroupsResponse)(nil),               // 79: temporal.api.cloud.cloudservice.v1.GetUserGroupsResponse
+	(*GetUserGroupResponse)(nil),                // 80: temporal.api.cloud.cloudservice.v1.GetUserGroupResponse
+	(*CreateUserGroupResponse)(nil),             // 81: temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse
+	(*UpdateUserGroupResponse)(nil),             // 82: temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse
+	(*DeleteUserGroupResponse)(nil),             // 83: temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse
+	(*SetUserGroupNamespaceAccessResponse)(nil), // 84: temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse
+	(*AddUserGroupMemberResponse)(nil),          // 85: temporal.api.cloud.cloudservice.v1.AddUserGroupMemberResponse
+	(*RemoveUserGroupMemberResponse)(nil),       // 86: temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberResponse
+	(*GetUserGroupMembersResponse)(nil),         // 87: temporal.api.cloud.cloudservice.v1.GetUserGroupMembersResponse
+	(*CreateServiceAccountResponse)(nil),        // 88: temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse
+	(*GetServiceAccountResponse)(nil),           // 89: temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse
+	(*GetServiceAccountsResponse)(nil),          // 90: temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse
+	(*UpdateServiceAccountResponse)(nil),        // 91: temporal.api.cloud.cloudservice.v1.UpdateServiceAccountResponse
+	(*DeleteServiceAccountResponse)(nil),        // 92: temporal.api.cloud.cloudservice.v1.DeleteServiceAccountResponse
+	(*GetUsageResponse)(nil),                    // 93: temporal.api.cloud.cloudservice.v1.GetUsageResponse
+	(*GetAccountResponse)(nil),                  // 94: temporal.api.cloud.cloudservice.v1.GetAccountResponse
+	(*UpdateAccountResponse)(nil),               // 95: temporal.api.cloud.cloudservice.v1.UpdateAccountResponse
+	(*CreateNamespaceExportSinkResponse)(nil),   // 96: temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkResponse
+	(*GetNamespaceExportSinkResponse)(nil),      // 97: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkResponse
+	(*GetNamespaceExportSinksResponse)(nil),     // 98: temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksResponse
+	(*UpdateNamespaceExportSinkResponse)(nil),   // 99: temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkResponse
+	(*DeleteNamespaceExportSinkResponse)(nil),   // 100: temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkResponse
+	(*ValidateNamespaceExportSinkResponse)(nil), // 101: temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkResponse
 }
 var file_temporal_api_cloud_cloudservice_v1_service_proto_depIdxs = []int32{
-	0,  // 0: temporal.api.cloud.cloudservice.v1.CloudService.GetUsers:input_type -> temporal.api.cloud.cloudservice.v1.GetUsersRequest
-	1,  // 1: temporal.api.cloud.cloudservice.v1.CloudService.GetUser:input_type -> temporal.api.cloud.cloudservice.v1.GetUserRequest
-	2,  // 2: temporal.api.cloud.cloudservice.v1.CloudService.CreateUser:input_type -> temporal.api.cloud.cloudservice.v1.CreateUserRequest
-	3,  // 3: temporal.api.cloud.cloudservice.v1.CloudService.UpdateUser:input_type -> temporal.api.cloud.cloudservice.v1.UpdateUserRequest
-	4,  // 4: temporal.api.cloud.cloudservice.v1.CloudService.DeleteUser:input_type -> temporal.api.cloud.cloudservice.v1.DeleteUserRequest
-	5,  // 5: temporal.api.cloud.cloudservice.v1.CloudService.SetUserNamespaceAccess:input_type -> temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessRequest
-	6,  // 6: temporal.api.cloud.cloudservice.v1.CloudService.GetAsyncOperation:input_type -> temporal.api.cloud.cloudservice.v1.GetAsyncOperationRequest
-	7,  // 7: temporal.api.cloud.cloudservice.v1.CloudService.CreateNamespace:input_type -> temporal.api.cloud.cloudservice.v1.CreateNamespaceRequest
-	8,  // 8: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaces:input_type -> temporal.api.cloud.cloudservice.v1.GetNamespacesRequest
-	9,  // 9: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespace:input_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceRequest
-	10, // 10: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNamespace:input_type -> temporal.api.cloud.cloudservice.v1.UpdateNamespaceRequest
-	11, // 11: temporal.api.cloud.cloudservice.v1.CloudService.RenameCustomSearchAttribute:input_type -> temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeRequest
-	12, // 12: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespace:input_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceRequest
-	13, // 13: temporal.api.cloud.cloudservice.v1.CloudService.FailoverNamespaceRegion:input_type -> temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionRequest
-	14, // 14: temporal.api.cloud.cloudservice.v1.CloudService.AddNamespaceRegion:input_type -> temporal.api.cloud.cloudservice.v1.AddNamespaceRegionRequest
-	15, // 15: temporal.api.cloud.cloudservice.v1.CloudService.GetRegions:input_type -> temporal.api.cloud.cloudservice.v1.GetRegionsRequest
-	16, // 16: temporal.api.cloud.cloudservice.v1.CloudService.GetRegion:input_type -> temporal.api.cloud.cloudservice.v1.GetRegionRequest
-	17, // 17: temporal.api.cloud.cloudservice.v1.CloudService.GetApiKeys:input_type -> temporal.api.cloud.cloudservice.v1.GetApiKeysRequest
-	18, // 18: temporal.api.cloud.cloudservice.v1.CloudService.GetApiKey:input_type -> temporal.api.cloud.cloudservice.v1.GetApiKeyRequest
-	19, // 19: temporal.api.cloud.cloudservice.v1.CloudService.CreateApiKey:input_type -> temporal.api.cloud.cloudservice.v1.CreateApiKeyRequest
-	20, // 20: temporal.api.cloud.cloudservice.v1.CloudService.UpdateApiKey:input_type -> temporal.api.cloud.cloudservice.v1.UpdateApiKeyRequest
-	21, // 21: temporal.api.cloud.cloudservice.v1.CloudService.DeleteApiKey:input_type -> temporal.api.cloud.cloudservice.v1.DeleteApiKeyRequest
-	22, // 22: temporal.api.cloud.cloudservice.v1.CloudService.GetNexusEndpoints:input_type -> temporal.api.cloud.cloudservice.v1.GetNexusEndpointsRequest
-	23, // 23: temporal.api.cloud.cloudservice.v1.CloudService.GetNexusEndpoint:input_type -> temporal.api.cloud.cloudservice.v1.GetNexusEndpointRequest
-	24, // 24: temporal.api.cloud.cloudservice.v1.CloudService.CreateNexusEndpoint:input_type -> temporal.api.cloud.cloudservice.v1.CreateNexusEndpointRequest
-	25, // 25: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNexusEndpoint:input_type -> temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointRequest
-	26, // 26: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNexusEndpoint:input_type -> temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointRequest
-	27, // 27: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroups:input_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest
-	28, // 28: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroup:input_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupRequest
-	29, // 29: temporal.api.cloud.cloudservice.v1.CloudService.CreateUserGroup:input_type -> temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest
-	30, // 30: temporal.api.cloud.cloudservice.v1.CloudService.UpdateUserGroup:input_type -> temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest
-	31, // 31: temporal.api.cloud.cloudservice.v1.CloudService.DeleteUserGroup:input_type -> temporal.api.cloud.cloudservice.v1.DeleteUserGroupRequest
-	32, // 32: temporal.api.cloud.cloudservice.v1.CloudService.SetUserGroupNamespaceAccess:input_type -> temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest
-	33, // 33: temporal.api.cloud.cloudservice.v1.CloudService.CreateServiceAccount:input_type -> temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest
-	34, // 34: temporal.api.cloud.cloudservice.v1.CloudService.GetServiceAccount:input_type -> temporal.api.cloud.cloudservice.v1.GetServiceAccountRequest
-	35, // 35: temporal.api.cloud.cloudservice.v1.CloudService.GetServiceAccounts:input_type -> temporal.api.cloud.cloudservice.v1.GetServiceAccountsRequest
-	36, // 36: temporal.api.cloud.cloudservice.v1.CloudService.UpdateServiceAccount:input_type -> temporal.api.cloud.cloudservice.v1.UpdateServiceAccountRequest
-	37, // 37: temporal.api.cloud.cloudservice.v1.CloudService.DeleteServiceAccount:input_type -> temporal.api.cloud.cloudservice.v1.DeleteServiceAccountRequest
-	38, // 38: temporal.api.cloud.cloudservice.v1.CloudService.GetUsage:input_type -> temporal.api.cloud.cloudservice.v1.GetUsageRequest
-	39, // 39: temporal.api.cloud.cloudservice.v1.CloudService.GetAccount:input_type -> temporal.api.cloud.cloudservice.v1.GetAccountRequest
-	40, // 40: temporal.api.cloud.cloudservice.v1.CloudService.UpdateAccount:input_type -> temporal.api.cloud.cloudservice.v1.UpdateAccountRequest
-	41, // 41: temporal.api.cloud.cloudservice.v1.CloudService.CreateNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkRequest
-	42, // 42: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkRequest
-	43, // 43: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaceExportSinks:input_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksRequest
-	44, // 44: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkRequest
-	45, // 45: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkRequest
-	46, // 46: temporal.api.cloud.cloudservice.v1.CloudService.ValidateNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkRequest
-	47, // 47: temporal.api.cloud.cloudservice.v1.CloudService.GetUsers:output_type -> temporal.api.cloud.cloudservice.v1.GetUsersResponse
-	48, // 48: temporal.api.cloud.cloudservice.v1.CloudService.GetUser:output_type -> temporal.api.cloud.cloudservice.v1.GetUserResponse
-	49, // 49: temporal.api.cloud.cloudservice.v1.CloudService.CreateUser:output_type -> temporal.api.cloud.cloudservice.v1.CreateUserResponse
-	50, // 50: temporal.api.cloud.cloudservice.v1.CloudService.UpdateUser:output_type -> temporal.api.cloud.cloudservice.v1.UpdateUserResponse
-	51, // 51: temporal.api.cloud.cloudservice.v1.CloudService.DeleteUser:output_type -> temporal.api.cloud.cloudservice.v1.DeleteUserResponse
-	52, // 52: temporal.api.cloud.cloudservice.v1.CloudService.SetUserNamespaceAccess:output_type -> temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessResponse
-	53, // 53: temporal.api.cloud.cloudservice.v1.CloudService.GetAsyncOperation:output_type -> temporal.api.cloud.cloudservice.v1.GetAsyncOperationResponse
-	54, // 54: temporal.api.cloud.cloudservice.v1.CloudService.CreateNamespace:output_type -> temporal.api.cloud.cloudservice.v1.CreateNamespaceResponse
-	55, // 55: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaces:output_type -> temporal.api.cloud.cloudservice.v1.GetNamespacesResponse
-	56, // 56: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespace:output_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceResponse
-	57, // 57: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNamespace:output_type -> temporal.api.cloud.cloudservice.v1.UpdateNamespaceResponse
-	58, // 58: temporal.api.cloud.cloudservice.v1.CloudService.RenameCustomSearchAttribute:output_type -> temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeResponse
-	59, // 59: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespace:output_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceResponse
-	60, // 60: temporal.api.cloud.cloudservice.v1.CloudService.FailoverNamespaceRegion:output_type -> temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionResponse
-	61, // 61: temporal.api.cloud.cloudservice.v1.CloudService.AddNamespaceRegion:output_type -> temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse
-	62, // 62: temporal.api.cloud.cloudservice.v1.CloudService.GetRegions:output_type -> temporal.api.cloud.cloudservice.v1.GetRegionsResponse
-	63, // 63: temporal.api.cloud.cloudservice.v1.CloudService.GetRegion:output_type -> temporal.api.cloud.cloudservice.v1.GetRegionResponse
-	64, // 64: temporal.api.cloud.cloudservice.v1.CloudService.GetApiKeys:output_type -> temporal.api.cloud.cloudservice.v1.GetApiKeysResponse
-	65, // 65: temporal.api.cloud.cloudservice.v1.CloudService.GetApiKey:output_type -> temporal.api.cloud.cloudservice.v1.GetApiKeyResponse
-	66, // 66: temporal.api.cloud.cloudservice.v1.CloudService.CreateApiKey:output_type -> temporal.api.cloud.cloudservice.v1.CreateApiKeyResponse
-	67, // 67: temporal.api.cloud.cloudservice.v1.CloudService.UpdateApiKey:output_type -> temporal.api.cloud.cloudservice.v1.UpdateApiKeyResponse
-	68, // 68: temporal.api.cloud.cloudservice.v1.CloudService.DeleteApiKey:output_type -> temporal.api.cloud.cloudservice.v1.DeleteApiKeyResponse
-	69, // 69: temporal.api.cloud.cloudservice.v1.CloudService.GetNexusEndpoints:output_type -> temporal.api.cloud.cloudservice.v1.GetNexusEndpointsResponse
-	70, // 70: temporal.api.cloud.cloudservice.v1.CloudService.GetNexusEndpoint:output_type -> temporal.api.cloud.cloudservice.v1.GetNexusEndpointResponse
-	71, // 71: temporal.api.cloud.cloudservice.v1.CloudService.CreateNexusEndpoint:output_type -> temporal.api.cloud.cloudservice.v1.CreateNexusEndpointResponse
-	72, // 72: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNexusEndpoint:output_type -> temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointResponse
-	73, // 73: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNexusEndpoint:output_type -> temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointResponse
-	74, // 74: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroups:output_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupsResponse
-	75, // 75: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroup:output_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupResponse
-	76, // 76: temporal.api.cloud.cloudservice.v1.CloudService.CreateUserGroup:output_type -> temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse
-	77, // 77: temporal.api.cloud.cloudservice.v1.CloudService.UpdateUserGroup:output_type -> temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse
-	78, // 78: temporal.api.cloud.cloudservice.v1.CloudService.DeleteUserGroup:output_type -> temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse
-	79, // 79: temporal.api.cloud.cloudservice.v1.CloudService.SetUserGroupNamespaceAccess:output_type -> temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse
-	80, // 80: temporal.api.cloud.cloudservice.v1.CloudService.CreateServiceAccount:output_type -> temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse
-	81, // 81: temporal.api.cloud.cloudservice.v1.CloudService.GetServiceAccount:output_type -> temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse
-	82, // 82: temporal.api.cloud.cloudservice.v1.CloudService.GetServiceAccounts:output_type -> temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse
-	83, // 83: temporal.api.cloud.cloudservice.v1.CloudService.UpdateServiceAccount:output_type -> temporal.api.cloud.cloudservice.v1.UpdateServiceAccountResponse
-	84, // 84: temporal.api.cloud.cloudservice.v1.CloudService.DeleteServiceAccount:output_type -> temporal.api.cloud.cloudservice.v1.DeleteServiceAccountResponse
-	85, // 85: temporal.api.cloud.cloudservice.v1.CloudService.GetUsage:output_type -> temporal.api.cloud.cloudservice.v1.GetUsageResponse
-	86, // 86: temporal.api.cloud.cloudservice.v1.CloudService.GetAccount:output_type -> temporal.api.cloud.cloudservice.v1.GetAccountResponse
-	87, // 87: temporal.api.cloud.cloudservice.v1.CloudService.UpdateAccount:output_type -> temporal.api.cloud.cloudservice.v1.UpdateAccountResponse
-	88, // 88: temporal.api.cloud.cloudservice.v1.CloudService.CreateNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkResponse
-	89, // 89: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkResponse
-	90, // 90: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaceExportSinks:output_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksResponse
-	91, // 91: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkResponse
-	92, // 92: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkResponse
-	93, // 93: temporal.api.cloud.cloudservice.v1.CloudService.ValidateNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkResponse
-	47, // [47:94] is the sub-list for method output_type
-	0,  // [0:47] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	0,   // 0: temporal.api.cloud.cloudservice.v1.CloudService.GetUsers:input_type -> temporal.api.cloud.cloudservice.v1.GetUsersRequest
+	1,   // 1: temporal.api.cloud.cloudservice.v1.CloudService.GetUser:input_type -> temporal.api.cloud.cloudservice.v1.GetUserRequest
+	2,   // 2: temporal.api.cloud.cloudservice.v1.CloudService.CreateUser:input_type -> temporal.api.cloud.cloudservice.v1.CreateUserRequest
+	3,   // 3: temporal.api.cloud.cloudservice.v1.CloudService.UpdateUser:input_type -> temporal.api.cloud.cloudservice.v1.UpdateUserRequest
+	4,   // 4: temporal.api.cloud.cloudservice.v1.CloudService.DeleteUser:input_type -> temporal.api.cloud.cloudservice.v1.DeleteUserRequest
+	5,   // 5: temporal.api.cloud.cloudservice.v1.CloudService.SetUserNamespaceAccess:input_type -> temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessRequest
+	6,   // 6: temporal.api.cloud.cloudservice.v1.CloudService.GetAsyncOperation:input_type -> temporal.api.cloud.cloudservice.v1.GetAsyncOperationRequest
+	7,   // 7: temporal.api.cloud.cloudservice.v1.CloudService.CreateNamespace:input_type -> temporal.api.cloud.cloudservice.v1.CreateNamespaceRequest
+	8,   // 8: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaces:input_type -> temporal.api.cloud.cloudservice.v1.GetNamespacesRequest
+	9,   // 9: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespace:input_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceRequest
+	10,  // 10: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNamespace:input_type -> temporal.api.cloud.cloudservice.v1.UpdateNamespaceRequest
+	11,  // 11: temporal.api.cloud.cloudservice.v1.CloudService.RenameCustomSearchAttribute:input_type -> temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeRequest
+	12,  // 12: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespace:input_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceRequest
+	13,  // 13: temporal.api.cloud.cloudservice.v1.CloudService.FailoverNamespaceRegion:input_type -> temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionRequest
+	14,  // 14: temporal.api.cloud.cloudservice.v1.CloudService.AddNamespaceRegion:input_type -> temporal.api.cloud.cloudservice.v1.AddNamespaceRegionRequest
+	15,  // 15: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespaceRegion:input_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionRequest
+	16,  // 16: temporal.api.cloud.cloudservice.v1.CloudService.GetRegions:input_type -> temporal.api.cloud.cloudservice.v1.GetRegionsRequest
+	17,  // 17: temporal.api.cloud.cloudservice.v1.CloudService.GetRegion:input_type -> temporal.api.cloud.cloudservice.v1.GetRegionRequest
+	18,  // 18: temporal.api.cloud.cloudservice.v1.CloudService.GetApiKeys:input_type -> temporal.api.cloud.cloudservice.v1.GetApiKeysRequest
+	19,  // 19: temporal.api.cloud.cloudservice.v1.CloudService.GetApiKey:input_type -> temporal.api.cloud.cloudservice.v1.GetApiKeyRequest
+	20,  // 20: temporal.api.cloud.cloudservice.v1.CloudService.CreateApiKey:input_type -> temporal.api.cloud.cloudservice.v1.CreateApiKeyRequest
+	21,  // 21: temporal.api.cloud.cloudservice.v1.CloudService.UpdateApiKey:input_type -> temporal.api.cloud.cloudservice.v1.UpdateApiKeyRequest
+	22,  // 22: temporal.api.cloud.cloudservice.v1.CloudService.DeleteApiKey:input_type -> temporal.api.cloud.cloudservice.v1.DeleteApiKeyRequest
+	23,  // 23: temporal.api.cloud.cloudservice.v1.CloudService.GetNexusEndpoints:input_type -> temporal.api.cloud.cloudservice.v1.GetNexusEndpointsRequest
+	24,  // 24: temporal.api.cloud.cloudservice.v1.CloudService.GetNexusEndpoint:input_type -> temporal.api.cloud.cloudservice.v1.GetNexusEndpointRequest
+	25,  // 25: temporal.api.cloud.cloudservice.v1.CloudService.CreateNexusEndpoint:input_type -> temporal.api.cloud.cloudservice.v1.CreateNexusEndpointRequest
+	26,  // 26: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNexusEndpoint:input_type -> temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointRequest
+	27,  // 27: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNexusEndpoint:input_type -> temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointRequest
+	28,  // 28: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroups:input_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupsRequest
+	29,  // 29: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroup:input_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupRequest
+	30,  // 30: temporal.api.cloud.cloudservice.v1.CloudService.CreateUserGroup:input_type -> temporal.api.cloud.cloudservice.v1.CreateUserGroupRequest
+	31,  // 31: temporal.api.cloud.cloudservice.v1.CloudService.UpdateUserGroup:input_type -> temporal.api.cloud.cloudservice.v1.UpdateUserGroupRequest
+	32,  // 32: temporal.api.cloud.cloudservice.v1.CloudService.DeleteUserGroup:input_type -> temporal.api.cloud.cloudservice.v1.DeleteUserGroupRequest
+	33,  // 33: temporal.api.cloud.cloudservice.v1.CloudService.SetUserGroupNamespaceAccess:input_type -> temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessRequest
+	34,  // 34: temporal.api.cloud.cloudservice.v1.CloudService.AddUserGroupMember:input_type -> temporal.api.cloud.cloudservice.v1.AddUserGroupMemberRequest
+	35,  // 35: temporal.api.cloud.cloudservice.v1.CloudService.RemoveUserGroupMember:input_type -> temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberRequest
+	36,  // 36: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroupMembers:input_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupMembersRequest
+	37,  // 37: temporal.api.cloud.cloudservice.v1.CloudService.CreateServiceAccount:input_type -> temporal.api.cloud.cloudservice.v1.CreateServiceAccountRequest
+	38,  // 38: temporal.api.cloud.cloudservice.v1.CloudService.GetServiceAccount:input_type -> temporal.api.cloud.cloudservice.v1.GetServiceAccountRequest
+	39,  // 39: temporal.api.cloud.cloudservice.v1.CloudService.GetServiceAccounts:input_type -> temporal.api.cloud.cloudservice.v1.GetServiceAccountsRequest
+	40,  // 40: temporal.api.cloud.cloudservice.v1.CloudService.UpdateServiceAccount:input_type -> temporal.api.cloud.cloudservice.v1.UpdateServiceAccountRequest
+	41,  // 41: temporal.api.cloud.cloudservice.v1.CloudService.DeleteServiceAccount:input_type -> temporal.api.cloud.cloudservice.v1.DeleteServiceAccountRequest
+	42,  // 42: temporal.api.cloud.cloudservice.v1.CloudService.GetUsage:input_type -> temporal.api.cloud.cloudservice.v1.GetUsageRequest
+	43,  // 43: temporal.api.cloud.cloudservice.v1.CloudService.GetAccount:input_type -> temporal.api.cloud.cloudservice.v1.GetAccountRequest
+	44,  // 44: temporal.api.cloud.cloudservice.v1.CloudService.UpdateAccount:input_type -> temporal.api.cloud.cloudservice.v1.UpdateAccountRequest
+	45,  // 45: temporal.api.cloud.cloudservice.v1.CloudService.CreateNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkRequest
+	46,  // 46: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkRequest
+	47,  // 47: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaceExportSinks:input_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksRequest
+	48,  // 48: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkRequest
+	49,  // 49: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkRequest
+	50,  // 50: temporal.api.cloud.cloudservice.v1.CloudService.ValidateNamespaceExportSink:input_type -> temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkRequest
+	51,  // 51: temporal.api.cloud.cloudservice.v1.CloudService.GetUsers:output_type -> temporal.api.cloud.cloudservice.v1.GetUsersResponse
+	52,  // 52: temporal.api.cloud.cloudservice.v1.CloudService.GetUser:output_type -> temporal.api.cloud.cloudservice.v1.GetUserResponse
+	53,  // 53: temporal.api.cloud.cloudservice.v1.CloudService.CreateUser:output_type -> temporal.api.cloud.cloudservice.v1.CreateUserResponse
+	54,  // 54: temporal.api.cloud.cloudservice.v1.CloudService.UpdateUser:output_type -> temporal.api.cloud.cloudservice.v1.UpdateUserResponse
+	55,  // 55: temporal.api.cloud.cloudservice.v1.CloudService.DeleteUser:output_type -> temporal.api.cloud.cloudservice.v1.DeleteUserResponse
+	56,  // 56: temporal.api.cloud.cloudservice.v1.CloudService.SetUserNamespaceAccess:output_type -> temporal.api.cloud.cloudservice.v1.SetUserNamespaceAccessResponse
+	57,  // 57: temporal.api.cloud.cloudservice.v1.CloudService.GetAsyncOperation:output_type -> temporal.api.cloud.cloudservice.v1.GetAsyncOperationResponse
+	58,  // 58: temporal.api.cloud.cloudservice.v1.CloudService.CreateNamespace:output_type -> temporal.api.cloud.cloudservice.v1.CreateNamespaceResponse
+	59,  // 59: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaces:output_type -> temporal.api.cloud.cloudservice.v1.GetNamespacesResponse
+	60,  // 60: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespace:output_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceResponse
+	61,  // 61: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNamespace:output_type -> temporal.api.cloud.cloudservice.v1.UpdateNamespaceResponse
+	62,  // 62: temporal.api.cloud.cloudservice.v1.CloudService.RenameCustomSearchAttribute:output_type -> temporal.api.cloud.cloudservice.v1.RenameCustomSearchAttributeResponse
+	63,  // 63: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespace:output_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceResponse
+	64,  // 64: temporal.api.cloud.cloudservice.v1.CloudService.FailoverNamespaceRegion:output_type -> temporal.api.cloud.cloudservice.v1.FailoverNamespaceRegionResponse
+	65,  // 65: temporal.api.cloud.cloudservice.v1.CloudService.AddNamespaceRegion:output_type -> temporal.api.cloud.cloudservice.v1.AddNamespaceRegionResponse
+	66,  // 66: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespaceRegion:output_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceRegionResponse
+	67,  // 67: temporal.api.cloud.cloudservice.v1.CloudService.GetRegions:output_type -> temporal.api.cloud.cloudservice.v1.GetRegionsResponse
+	68,  // 68: temporal.api.cloud.cloudservice.v1.CloudService.GetRegion:output_type -> temporal.api.cloud.cloudservice.v1.GetRegionResponse
+	69,  // 69: temporal.api.cloud.cloudservice.v1.CloudService.GetApiKeys:output_type -> temporal.api.cloud.cloudservice.v1.GetApiKeysResponse
+	70,  // 70: temporal.api.cloud.cloudservice.v1.CloudService.GetApiKey:output_type -> temporal.api.cloud.cloudservice.v1.GetApiKeyResponse
+	71,  // 71: temporal.api.cloud.cloudservice.v1.CloudService.CreateApiKey:output_type -> temporal.api.cloud.cloudservice.v1.CreateApiKeyResponse
+	72,  // 72: temporal.api.cloud.cloudservice.v1.CloudService.UpdateApiKey:output_type -> temporal.api.cloud.cloudservice.v1.UpdateApiKeyResponse
+	73,  // 73: temporal.api.cloud.cloudservice.v1.CloudService.DeleteApiKey:output_type -> temporal.api.cloud.cloudservice.v1.DeleteApiKeyResponse
+	74,  // 74: temporal.api.cloud.cloudservice.v1.CloudService.GetNexusEndpoints:output_type -> temporal.api.cloud.cloudservice.v1.GetNexusEndpointsResponse
+	75,  // 75: temporal.api.cloud.cloudservice.v1.CloudService.GetNexusEndpoint:output_type -> temporal.api.cloud.cloudservice.v1.GetNexusEndpointResponse
+	76,  // 76: temporal.api.cloud.cloudservice.v1.CloudService.CreateNexusEndpoint:output_type -> temporal.api.cloud.cloudservice.v1.CreateNexusEndpointResponse
+	77,  // 77: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNexusEndpoint:output_type -> temporal.api.cloud.cloudservice.v1.UpdateNexusEndpointResponse
+	78,  // 78: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNexusEndpoint:output_type -> temporal.api.cloud.cloudservice.v1.DeleteNexusEndpointResponse
+	79,  // 79: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroups:output_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupsResponse
+	80,  // 80: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroup:output_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupResponse
+	81,  // 81: temporal.api.cloud.cloudservice.v1.CloudService.CreateUserGroup:output_type -> temporal.api.cloud.cloudservice.v1.CreateUserGroupResponse
+	82,  // 82: temporal.api.cloud.cloudservice.v1.CloudService.UpdateUserGroup:output_type -> temporal.api.cloud.cloudservice.v1.UpdateUserGroupResponse
+	83,  // 83: temporal.api.cloud.cloudservice.v1.CloudService.DeleteUserGroup:output_type -> temporal.api.cloud.cloudservice.v1.DeleteUserGroupResponse
+	84,  // 84: temporal.api.cloud.cloudservice.v1.CloudService.SetUserGroupNamespaceAccess:output_type -> temporal.api.cloud.cloudservice.v1.SetUserGroupNamespaceAccessResponse
+	85,  // 85: temporal.api.cloud.cloudservice.v1.CloudService.AddUserGroupMember:output_type -> temporal.api.cloud.cloudservice.v1.AddUserGroupMemberResponse
+	86,  // 86: temporal.api.cloud.cloudservice.v1.CloudService.RemoveUserGroupMember:output_type -> temporal.api.cloud.cloudservice.v1.RemoveUserGroupMemberResponse
+	87,  // 87: temporal.api.cloud.cloudservice.v1.CloudService.GetUserGroupMembers:output_type -> temporal.api.cloud.cloudservice.v1.GetUserGroupMembersResponse
+	88,  // 88: temporal.api.cloud.cloudservice.v1.CloudService.CreateServiceAccount:output_type -> temporal.api.cloud.cloudservice.v1.CreateServiceAccountResponse
+	89,  // 89: temporal.api.cloud.cloudservice.v1.CloudService.GetServiceAccount:output_type -> temporal.api.cloud.cloudservice.v1.GetServiceAccountResponse
+	90,  // 90: temporal.api.cloud.cloudservice.v1.CloudService.GetServiceAccounts:output_type -> temporal.api.cloud.cloudservice.v1.GetServiceAccountsResponse
+	91,  // 91: temporal.api.cloud.cloudservice.v1.CloudService.UpdateServiceAccount:output_type -> temporal.api.cloud.cloudservice.v1.UpdateServiceAccountResponse
+	92,  // 92: temporal.api.cloud.cloudservice.v1.CloudService.DeleteServiceAccount:output_type -> temporal.api.cloud.cloudservice.v1.DeleteServiceAccountResponse
+	93,  // 93: temporal.api.cloud.cloudservice.v1.CloudService.GetUsage:output_type -> temporal.api.cloud.cloudservice.v1.GetUsageResponse
+	94,  // 94: temporal.api.cloud.cloudservice.v1.CloudService.GetAccount:output_type -> temporal.api.cloud.cloudservice.v1.GetAccountResponse
+	95,  // 95: temporal.api.cloud.cloudservice.v1.CloudService.UpdateAccount:output_type -> temporal.api.cloud.cloudservice.v1.UpdateAccountResponse
+	96,  // 96: temporal.api.cloud.cloudservice.v1.CloudService.CreateNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.CreateNamespaceExportSinkResponse
+	97,  // 97: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinkResponse
+	98,  // 98: temporal.api.cloud.cloudservice.v1.CloudService.GetNamespaceExportSinks:output_type -> temporal.api.cloud.cloudservice.v1.GetNamespaceExportSinksResponse
+	99,  // 99: temporal.api.cloud.cloudservice.v1.CloudService.UpdateNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.UpdateNamespaceExportSinkResponse
+	100, // 100: temporal.api.cloud.cloudservice.v1.CloudService.DeleteNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.DeleteNamespaceExportSinkResponse
+	101, // 101: temporal.api.cloud.cloudservice.v1.CloudService.ValidateNamespaceExportSink:output_type -> temporal.api.cloud.cloudservice.v1.ValidateNamespaceExportSinkResponse
+	51,  // [51:102] is the sub-list for method output_type
+	0,   // [0:51] is the sub-list for method input_type
+	0,   // [0:0] is the sub-list for extension type_name
+	0,   // [0:0] is the sub-list for extension extendee
+	0,   // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_cloud_cloudservice_v1_service_proto_init() }

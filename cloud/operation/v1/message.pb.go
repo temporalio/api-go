@@ -132,13 +132,13 @@ type AsyncOperation struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The current state of this operation.
 	// Possible values are: pending, in_progress, failed, cancelled, fulfilled.
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use state instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use state instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/operation/v1/message.proto.
 	StateDeprecated string `protobuf:"bytes,2,opt,name=state_deprecated,json=stateDeprecated,proto3" json:"state_deprecated,omitempty"`
 	// The current state of this operation.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=state_deprecated
 	State AsyncOperation_State `protobuf:"varint,9,opt,name=state,proto3,enum=temporal.api.cloud.operation.v1.AsyncOperation_State" json:"state,omitempty"`
 	// The recommended duration to check back for an update in the operation's state.
