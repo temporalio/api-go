@@ -498,9 +498,7 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 	// We expect that even though an error is returned, the Payload visitor visited the payload
 	// included in the GRPC error details
 	require.Error(err)
-	// TODO: https://github.com/temporalio/sdk-go/issues/1864
-	// This check should be switched to True once the issue above is closed
-	require.False(proto.Equal(inputs.Payloads[0], inboundPayload))
+	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
 	stat, ok := status.FromError(err)
 	require.True(ok)
 	for _, detail := range stat.Details() {
@@ -509,13 +507,12 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 		multiOpFailure := &errordetails.MultiOperationExecutionFailure{}
 		err = detailAny.UnmarshalTo(multiOpFailure)
 		require.NoError(err)
-		payload := &common.Payload{}
-		err = multiOpFailure.Statuses[0].Details[0].UnmarshalTo(payload)
+		payloads := &common.Payloads{}
+		err = multiOpFailure.Statuses[0].Details[0].UnmarshalTo(payloads)
 		require.NoError(err)
 
 		newPayload := &common.Payload{Data: []byte("new-val")}
-		// This check should be switched to True once the issue above is closed
-		require.False(proto.Equal(newPayload, multiOpFailure.Statuses[0].Details[0]))
+		require.True(proto.Equal(payloads.Payloads[0], newPayload))
 	}
 
 	_, err = client.QueryWorkflow(context.Background(), &workflowservice.QueryWorkflowRequest{})
@@ -618,7 +615,7 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 func (t *testGRPCServer) ExecuteMultiOperation(
 	ctx context.Context,
 	req *workflowservice.ExecuteMultiOperationRequest) (*workflowservice.ExecuteMultiOperationResponse, error) {
-	anyDetail, err := anypb.New(inputPayload())
+	anyDetail, err := anypb.New(inputPayloads())
 	if err != nil {
 		return nil, err
 	}
