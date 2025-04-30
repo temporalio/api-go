@@ -112,12 +112,15 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 			if s, ok := status.FromError(err); ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
-				return visitGrpcErrorPayload(ctx, err, s, options.Inbound)
+				err = visitGrpcErrorPayload(ctx, err, s, options.Inbound)
 			}
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
-			return VisitPayloads(ctx, resMsg, *options.Inbound)
+			if visitErr := VisitPayloads(ctx, resMsg, *options.Inbound); visitErr != nil {
+				// We are choosing visit error over RPC error in this basically-never-should-happen case
+				err = visitErr
+			}
 		}
 
 		return err
@@ -186,12 +189,15 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 			if s, ok := status.FromError(err); ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
-				return visitGrpcErrorFailure(ctx, err, s, options.Inbound)
+				err = visitGrpcErrorFailure(ctx, err, s, options.Inbound)
 			}
 		}
 
 		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
-			return VisitFailures(ctx, resMsg, *options.Inbound)
+			if visitErr := VisitFailures(ctx, resMsg, *options.Inbound); visitErr != nil {
+				// We are choosing visit error over RPC error in this basically-never-should-happen case
+				err = visitErr
+			}
 		}
 
 		return err
