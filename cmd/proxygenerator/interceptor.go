@@ -605,16 +605,10 @@ func checkMessage(md protoreflect.MessageDescriptor,
 func gatherMessagesContainingTargets(
 	protoFiles *protoregistry.Files,
 	targetMessages []string,
-	excludedPathPrefixes []string,
 ) ([]protoreflect.MessageDescriptor, error) {
 	messagesWithPayload := make([]protoreflect.MessageDescriptor, 0)
 	memo := make(map[protoreflect.FullName]bool)
 	protoFiles.RangeFiles(func(fd protoreflect.FileDescriptor) bool {
-		for _, prefix := range excludedPathPrefixes {
-			if strings.HasPrefix(fd.Path(), prefix) {
-				return true
-			}
-		}
 		msgs := fd.Messages()
 		for i := 0; i < msgs.Len(); i++ {
 			checkMessage(msgs.Get(i), targetMessages, memo, &messagesWithPayload)
@@ -831,21 +825,17 @@ func generateInterceptor(cfg config) error {
 		return fmt.Errorf("loading descriptor set: %w", err)
 	}
 
-	// Cloud protos currently not included in interceptor
-	excludedEntryPoints := []string{
-		"temporal/api/cloud",
-	}
 	payloadMessageNames := []string{
 		"temporal.api.common.v1.Payload",
 		"temporal.api.common.v1.Payloads",
 		"google.protobuf.Any",
 	}
-	allPayloadContainingMessages, err := gatherMessagesContainingTargets(protoFiles, payloadMessageNames, excludedEntryPoints)
+	allPayloadContainingMessages, err := gatherMessagesContainingTargets(protoFiles, payloadMessageNames)
 	failureMessageNames := []string{
 		"temporal.api.failure.v1.Failure",
 		"google.protobuf.Any",
 	}
-	allFailureContainingMessages, err := gatherMessagesContainingTargets(protoFiles, failureMessageNames, excludedEntryPoints)
+	allFailureContainingMessages, err := gatherMessagesContainingTargets(protoFiles, failureMessageNames)
 
 	payloadRecords, err := gatherMatchesToTypeRecords(allPayloadContainingMessages, payloadTypes, payloadDirectMatchType)
 	if err != nil {
