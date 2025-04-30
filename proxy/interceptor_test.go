@@ -766,7 +766,6 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 			if fd.Kind() == protoreflect.MessageKind {
 				// Avoid cycles
 				if value.Message().Descriptor().FullName() == m.Descriptor().FullName() {
-					fmt.Println("Avoiding cycles for", fd.Name(), m.Descriptor().FullName())
 					continue
 				}
 

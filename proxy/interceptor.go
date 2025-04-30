@@ -91,6 +91,9 @@ type PayloadVisitorInterceptorOptions struct {
 	Inbound *VisitPayloadsOptions
 }
 
+var payloadTypes = []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
+var failureTypes = []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
+
 // NewPayloadVisitorInterceptor creates a new gRPC interceptor for workflowservice messages.
 //
 // Note: Failure converters should come before payload codec converts, to allow the
@@ -105,10 +108,7 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 		}
 
 		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil {
-			if options.Inbound == nil {
-				return err
-			}
+		if err != nil && options.Inbound != nil {
 			if s, ok := status.FromError(err); ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
@@ -120,14 +120,13 @@ func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grp
 			return VisitPayloads(ctx, resMsg, *options.Inbound)
 		}
 
-		return nil
+		return err
 	}, nil
 }
 
 func visitGrpcErrorPayload(ctx context.Context, err error, s *status.Status, inbound *VisitPayloadsOptions) error {
 	p := s.Proto()
 	for _, detail := range p.Details {
-		payloadTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
 		if slices.Contains(payloadTypes, string(detail.MessageName())) {
 			if vErr := VisitPayloads(ctx, detail, *inbound); vErr != nil {
 				return vErr
@@ -183,10 +182,7 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 		}
 
 		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil {
-			if options.Inbound == nil {
-				return err
-			}
+		if err != nil && options.Inbound != nil {
 			if s, ok := status.FromError(err); ok {
 				// user provided payloads can sometimes end up in the status details of
 				// gRPC errors, make sure to visit those as well
@@ -198,14 +194,13 @@ func NewFailureVisitorInterceptor(options FailureVisitorInterceptorOptions) (grp
 			return VisitFailures(ctx, resMsg, *options.Inbound)
 		}
 
-		return nil
+		return err
 	}, nil
 }
 
 func visitGrpcErrorFailure(ctx context.Context, err error, s *status.Status, inbound *VisitFailuresOptions) error {
 	p := s.Proto()
 	for _, detail := range p.Details {
-		failureTypes := []string{"temporal.api.errordetails.v1.QueryFailedFailure", "temporal.api.errordetails.v1.MultiOperationExecutionFailure"}
 		if slices.Contains(failureTypes, string(detail.MessageName())) {
 			if vErr := VisitFailures(ctx, detail, *inbound); vErr != nil {
 				return vErr
