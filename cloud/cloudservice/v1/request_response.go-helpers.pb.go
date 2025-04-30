@@ -1137,6 +1137,80 @@ func (this *AddNamespaceRegionResponse) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type DeleteNamespaceRegionRequest to the protobuf v3 wire format
+func (val *DeleteNamespaceRegionRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DeleteNamespaceRegionRequest from the protobuf v3 wire format
+func (val *DeleteNamespaceRegionRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DeleteNamespaceRegionRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DeleteNamespaceRegionRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DeleteNamespaceRegionRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DeleteNamespaceRegionRequest
+	switch t := that.(type) {
+	case *DeleteNamespaceRegionRequest:
+		that1 = t
+	case DeleteNamespaceRegionRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type DeleteNamespaceRegionResponse to the protobuf v3 wire format
+func (val *DeleteNamespaceRegionResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DeleteNamespaceRegionResponse from the protobuf v3 wire format
+func (val *DeleteNamespaceRegionResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DeleteNamespaceRegionResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DeleteNamespaceRegionResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DeleteNamespaceRegionResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DeleteNamespaceRegionResponse
+	switch t := that.(type) {
+	case *DeleteNamespaceRegionResponse:
+		that1 = t
+	case DeleteNamespaceRegionResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type GetRegionsRequest to the protobuf v3 wire format
 func (val *GetRegionsRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -2461,6 +2535,228 @@ func (this *SetUserGroupNamespaceAccessResponse) Equal(that interface{}) bool {
 	case *SetUserGroupNamespaceAccessResponse:
 		that1 = t
 	case SetUserGroupNamespaceAccessResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type AddUserGroupMemberRequest to the protobuf v3 wire format
+func (val *AddUserGroupMemberRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type AddUserGroupMemberRequest from the protobuf v3 wire format
+func (val *AddUserGroupMemberRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *AddUserGroupMemberRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two AddUserGroupMemberRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *AddUserGroupMemberRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *AddUserGroupMemberRequest
+	switch t := that.(type) {
+	case *AddUserGroupMemberRequest:
+		that1 = t
+	case AddUserGroupMemberRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type AddUserGroupMemberResponse to the protobuf v3 wire format
+func (val *AddUserGroupMemberResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type AddUserGroupMemberResponse from the protobuf v3 wire format
+func (val *AddUserGroupMemberResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *AddUserGroupMemberResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two AddUserGroupMemberResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *AddUserGroupMemberResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *AddUserGroupMemberResponse
+	switch t := that.(type) {
+	case *AddUserGroupMemberResponse:
+		that1 = t
+	case AddUserGroupMemberResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RemoveUserGroupMemberRequest to the protobuf v3 wire format
+func (val *RemoveUserGroupMemberRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RemoveUserGroupMemberRequest from the protobuf v3 wire format
+func (val *RemoveUserGroupMemberRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RemoveUserGroupMemberRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RemoveUserGroupMemberRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RemoveUserGroupMemberRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RemoveUserGroupMemberRequest
+	switch t := that.(type) {
+	case *RemoveUserGroupMemberRequest:
+		that1 = t
+	case RemoveUserGroupMemberRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type RemoveUserGroupMemberResponse to the protobuf v3 wire format
+func (val *RemoveUserGroupMemberResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type RemoveUserGroupMemberResponse from the protobuf v3 wire format
+func (val *RemoveUserGroupMemberResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *RemoveUserGroupMemberResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two RemoveUserGroupMemberResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *RemoveUserGroupMemberResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *RemoveUserGroupMemberResponse
+	switch t := that.(type) {
+	case *RemoveUserGroupMemberResponse:
+		that1 = t
+	case RemoveUserGroupMemberResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type GetUserGroupMembersRequest to the protobuf v3 wire format
+func (val *GetUserGroupMembersRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetUserGroupMembersRequest from the protobuf v3 wire format
+func (val *GetUserGroupMembersRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetUserGroupMembersRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetUserGroupMembersRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetUserGroupMembersRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetUserGroupMembersRequest
+	switch t := that.(type) {
+	case *GetUserGroupMembersRequest:
+		that1 = t
+	case GetUserGroupMembersRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type GetUserGroupMembersResponse to the protobuf v3 wire format
+func (val *GetUserGroupMembersResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type GetUserGroupMembersResponse from the protobuf v3 wire format
+func (val *GetUserGroupMembersResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *GetUserGroupMembersResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two GetUserGroupMembersResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *GetUserGroupMembersResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *GetUserGroupMembersResponse
+	switch t := that.(type) {
+	case *GetUserGroupMembersResponse:
+		that1 = t
+	case GetUserGroupMembersResponse:
 		that1 = &t
 	default:
 		return false

@@ -258,13 +258,13 @@ type AccountAccess struct {
 	// developer - gives access to create namespaces on the account
 	// financeadmin - gives read only access and write access for billing
 	// read - gives read only access to the account
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use role instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use role instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/identity/v1/message.proto.
 	RoleDeprecated string `protobuf:"bytes,1,opt,name=role_deprecated,json=roleDeprecated,proto3" json:"role_deprecated,omitempty"`
 	// The role on the account.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=role_deprecated
 	Role          AccountAccess_Role `protobuf:"varint,2,opt,name=role,proto3,enum=temporal.api.cloud.identity.v1.AccountAccess_Role" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -322,13 +322,13 @@ type NamespaceAccess struct {
 	// admin - gives full access to the namespace, including assigning namespace access to other users
 	// write - gives write access to the namespace configuration and workflows within the namespace
 	// read - gives read only access to the namespace configuration and workflows within the namespace
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use permission instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use permission instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/identity/v1/message.proto.
 	PermissionDeprecated string `protobuf:"bytes,1,opt,name=permission_deprecated,json=permissionDeprecated,proto3" json:"permission_deprecated,omitempty"`
 	// The permission to the namespace.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=permission_deprecated
 	Permission    NamespaceAccess_Permission `protobuf:"varint,2,opt,name=permission,proto3,enum=temporal.api.cloud.identity.v1.NamespaceAccess_Permission" json:"permission,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -607,14 +607,14 @@ type User struct {
 	// The user specification
 	Spec *UserSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The current state of the user
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use state instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use state instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/identity/v1/message.proto.
 	StateDeprecated string `protobuf:"bytes,4,opt,name=state_deprecated,json=stateDeprecated,proto3" json:"state_deprecated,omitempty"`
 	// The current state of the user.
 	// For any failed state, reach out to Temporal Cloud support for remediation.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=state_deprecated
 	State v1.ResourceState `protobuf:"varint,9,opt,name=state,proto3,enum=temporal.api.cloud.resource.v1.ResourceState" json:"state,omitempty"`
 	// The id of the async operation that is creating/updating/deleting the user, if any
@@ -770,22 +770,106 @@ func (x *GoogleGroupSpec) GetEmailAddress() string {
 	return ""
 }
 
+type SCIMGroupSpec struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The id used in the upstream identity provider.
+	IdpId         string `protobuf:"bytes,1,opt,name=idp_id,json=idpId,proto3" json:"idp_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SCIMGroupSpec) Reset() {
+	*x = SCIMGroupSpec{}
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SCIMGroupSpec) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SCIMGroupSpec) ProtoMessage() {}
+
+func (x *SCIMGroupSpec) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SCIMGroupSpec.ProtoReflect.Descriptor instead.
+func (*SCIMGroupSpec) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *SCIMGroupSpec) GetIdpId() string {
+	if x != nil {
+		return x.IdpId
+	}
+	return ""
+}
+
+type CloudGroupSpec struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CloudGroupSpec) Reset() {
+	*x = CloudGroupSpec{}
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CloudGroupSpec) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloudGroupSpec) ProtoMessage() {}
+
+func (x *CloudGroupSpec) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloudGroupSpec.ProtoReflect.Descriptor instead.
+func (*CloudGroupSpec) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{9}
+}
+
 type UserGroupSpec struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The display name of the group.
 	DisplayName string `protobuf:"bytes,1,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// The access assigned to the group.
 	Access *Access `protobuf:"bytes,2,opt,name=access,proto3" json:"access,omitempty"`
-	// The specification of the google group that this group is associated with.
-	// For now only google groups are supported, and this field is required.
-	GoogleGroup   *GoogleGroupSpec `protobuf:"bytes,3,opt,name=google_group,json=googleGroup,proto3" json:"google_group,omitempty"`
+	// Types that are valid to be assigned to GroupType:
+	//
+	//	*UserGroupSpec_GoogleGroup
+	//	*UserGroupSpec_ScimGroup
+	//	*UserGroupSpec_CloudGroup
+	GroupType     isUserGroupSpec_GroupType `protobuf_oneof:"group_type"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UserGroupSpec) Reset() {
 	*x = UserGroupSpec{}
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[8]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -797,7 +881,7 @@ func (x *UserGroupSpec) String() string {
 func (*UserGroupSpec) ProtoMessage() {}
 
 func (x *UserGroupSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[8]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -810,7 +894,7 @@ func (x *UserGroupSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserGroupSpec.ProtoReflect.Descriptor instead.
 func (*UserGroupSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{8}
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UserGroupSpec) GetDisplayName() string {
@@ -827,12 +911,66 @@ func (x *UserGroupSpec) GetAccess() *Access {
 	return nil
 }
 
-func (x *UserGroupSpec) GetGoogleGroup() *GoogleGroupSpec {
+func (x *UserGroupSpec) GetGroupType() isUserGroupSpec_GroupType {
 	if x != nil {
-		return x.GoogleGroup
+		return x.GroupType
 	}
 	return nil
 }
+
+func (x *UserGroupSpec) GetGoogleGroup() *GoogleGroupSpec {
+	if x != nil {
+		if x, ok := x.GroupType.(*UserGroupSpec_GoogleGroup); ok {
+			return x.GoogleGroup
+		}
+	}
+	return nil
+}
+
+func (x *UserGroupSpec) GetScimGroup() *SCIMGroupSpec {
+	if x != nil {
+		if x, ok := x.GroupType.(*UserGroupSpec_ScimGroup); ok {
+			return x.ScimGroup
+		}
+	}
+	return nil
+}
+
+func (x *UserGroupSpec) GetCloudGroup() *CloudGroupSpec {
+	if x != nil {
+		if x, ok := x.GroupType.(*UserGroupSpec_CloudGroup); ok {
+			return x.CloudGroup
+		}
+	}
+	return nil
+}
+
+type isUserGroupSpec_GroupType interface {
+	isUserGroupSpec_GroupType()
+}
+
+type UserGroupSpec_GoogleGroup struct {
+	// The specification of the google group that this group is associated with.
+	GoogleGroup *GoogleGroupSpec `protobuf:"bytes,3,opt,name=google_group,json=googleGroup,proto3,oneof"`
+}
+
+type UserGroupSpec_ScimGroup struct {
+	// The specification of the SCIM group that this group is associated with.
+	// SCIM groups cannot be created or deleted directly, but their access can be managed.
+	ScimGroup *SCIMGroupSpec `protobuf:"bytes,4,opt,name=scim_group,json=scimGroup,proto3,oneof"`
+}
+
+type UserGroupSpec_CloudGroup struct {
+	// The specification for a Cloud group. Cloud groups can manage members using
+	// the add and remove member APIs.
+	CloudGroup *CloudGroupSpec `protobuf:"bytes,5,opt,name=cloud_group,json=cloudGroup,proto3,oneof"`
+}
+
+func (*UserGroupSpec_GoogleGroup) isUserGroupSpec_GroupType() {}
+
+func (*UserGroupSpec_ScimGroup) isUserGroupSpec_GroupType() {}
+
+func (*UserGroupSpec_CloudGroup) isUserGroupSpec_GroupType() {}
 
 type UserGroup struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -844,14 +982,14 @@ type UserGroup struct {
 	// The group specification
 	Spec *UserGroupSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
 	// The current state of the group.
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use state instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use state instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/identity/v1/message.proto.
 	StateDeprecated string `protobuf:"bytes,4,opt,name=state_deprecated,json=stateDeprecated,proto3" json:"state_deprecated,omitempty"`
 	// The current state of the group.
 	// For any failed state, reach out to Temporal Cloud support for remediation.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=state_deprecated
 	State v1.ResourceState `protobuf:"varint,8,opt,name=state,proto3,enum=temporal.api.cloud.resource.v1.ResourceState" json:"state,omitempty"`
 	// The id of the async operation that is creating/updating/deleting the group, if any
@@ -867,7 +1005,7 @@ type UserGroup struct {
 
 func (x *UserGroup) Reset() {
 	*x = UserGroup{}
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[9]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -879,7 +1017,7 @@ func (x *UserGroup) String() string {
 func (*UserGroup) ProtoMessage() {}
 
 func (x *UserGroup) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[9]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -892,7 +1030,7 @@ func (x *UserGroup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserGroup.ProtoReflect.Descriptor instead.
 func (*UserGroup) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{9}
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UserGroup) GetId() string {
@@ -952,6 +1090,124 @@ func (x *UserGroup) GetLastModifiedTime() *timestamppb.Timestamp {
 	return nil
 }
 
+type UserGroupMemberId struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to MemberType:
+	//
+	//	*UserGroupMemberId_UserId
+	MemberType    isUserGroupMemberId_MemberType `protobuf_oneof:"member_type"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserGroupMemberId) Reset() {
+	*x = UserGroupMemberId{}
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserGroupMemberId) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserGroupMemberId) ProtoMessage() {}
+
+func (x *UserGroupMemberId) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserGroupMemberId.ProtoReflect.Descriptor instead.
+func (*UserGroupMemberId) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UserGroupMemberId) GetMemberType() isUserGroupMemberId_MemberType {
+	if x != nil {
+		return x.MemberType
+	}
+	return nil
+}
+
+func (x *UserGroupMemberId) GetUserId() string {
+	if x != nil {
+		if x, ok := x.MemberType.(*UserGroupMemberId_UserId); ok {
+			return x.UserId
+		}
+	}
+	return ""
+}
+
+type isUserGroupMemberId_MemberType interface {
+	isUserGroupMemberId_MemberType()
+}
+
+type UserGroupMemberId_UserId struct {
+	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3,oneof"`
+}
+
+func (*UserGroupMemberId_UserId) isUserGroupMemberId_MemberType() {}
+
+type UserGroupMember struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	MemberId      *UserGroupMemberId     `protobuf:"bytes,1,opt,name=member_id,json=memberId,proto3" json:"member_id,omitempty"`
+	CreatedTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=created_time,json=createdTime,proto3" json:"created_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserGroupMember) Reset() {
+	*x = UserGroupMember{}
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserGroupMember) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserGroupMember) ProtoMessage() {}
+
+func (x *UserGroupMember) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserGroupMember.ProtoReflect.Descriptor instead.
+func (*UserGroupMember) Descriptor() ([]byte, []int) {
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UserGroupMember) GetMemberId() *UserGroupMemberId {
+	if x != nil {
+		return x.MemberId
+	}
+	return nil
+}
+
+func (x *UserGroupMember) GetCreatedTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedTime
+	}
+	return nil
+}
+
 type ServiceAccount struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The id of the service account.
@@ -964,14 +1220,14 @@ type ServiceAccount struct {
 	// The current state of the service account.
 	// Possible values: activating, activationfailed, active, updating, updatefailed, deleting, deletefailed, deleted, suspending, suspendfailed, suspended.
 	// For any failed state, reach out to Temporal Cloud support for remediation.
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use state instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use state instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/identity/v1/message.proto.
 	StateDeprecated string `protobuf:"bytes,4,opt,name=state_deprecated,json=stateDeprecated,proto3" json:"state_deprecated,omitempty"`
 	// The current state of the service account.
 	// For any failed state, reach out to Temporal Cloud support for remediation.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=state_deprecated
 	State v1.ResourceState `protobuf:"varint,8,opt,name=state,proto3,enum=temporal.api.cloud.resource.v1.ResourceState" json:"state,omitempty"`
 	// The id of the async operation that is creating/updating/deleting the service account, if any.
@@ -987,7 +1243,7 @@ type ServiceAccount struct {
 
 func (x *ServiceAccount) Reset() {
 	*x = ServiceAccount{}
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[10]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -999,7 +1255,7 @@ func (x *ServiceAccount) String() string {
 func (*ServiceAccount) ProtoMessage() {}
 
 func (x *ServiceAccount) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[10]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1012,7 +1268,7 @@ func (x *ServiceAccount) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceAccount.ProtoReflect.Descriptor instead.
 func (*ServiceAccount) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{10}
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ServiceAccount) GetId() string {
@@ -1096,7 +1352,7 @@ type ServiceAccountSpec struct {
 
 func (x *ServiceAccountSpec) Reset() {
 	*x = ServiceAccountSpec{}
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[11]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1108,7 +1364,7 @@ func (x *ServiceAccountSpec) String() string {
 func (*ServiceAccountSpec) ProtoMessage() {}
 
 func (x *ServiceAccountSpec) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[11]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1121,7 +1377,7 @@ func (x *ServiceAccountSpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServiceAccountSpec.ProtoReflect.Descriptor instead.
 func (*ServiceAccountSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{11}
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *ServiceAccountSpec) GetName() string {
@@ -1164,13 +1420,13 @@ type ApiKey struct {
 	// The current state of the API key.
 	// Possible values: activating, activationfailed, active, updating, updatefailed, deleting, deletefailed, deleted, suspending, suspendfailed, suspended.
 	// For any failed state, reach out to Temporal Cloud support for remediation.
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use state instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use state instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/identity/v1/message.proto.
 	StateDeprecated string `protobuf:"bytes,4,opt,name=state_deprecated,json=stateDeprecated,proto3" json:"state_deprecated,omitempty"`
 	// The current state of the API key.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=state_deprecated
 	State v1.ResourceState `protobuf:"varint,8,opt,name=state,proto3,enum=temporal.api.cloud.resource.v1.ResourceState" json:"state,omitempty"`
 	// The id of the async operation that is creating/updating/deleting the API key, if any.
@@ -1186,7 +1442,7 @@ type ApiKey struct {
 
 func (x *ApiKey) Reset() {
 	*x = ApiKey{}
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[12]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1198,7 +1454,7 @@ func (x *ApiKey) String() string {
 func (*ApiKey) ProtoMessage() {}
 
 func (x *ApiKey) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[12]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1211,7 +1467,7 @@ func (x *ApiKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApiKey.ProtoReflect.Descriptor instead.
 func (*ApiKey) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{12}
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *ApiKey) GetId() string {
@@ -1281,13 +1537,13 @@ type ApiKeySpec struct {
 	// The type of the owner to create the API key for.
 	// The owner type is immutable. Once set during creation, it cannot be changed.
 	// Possible values: user, service-account.
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use owner_type instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use owner_type instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/identity/v1/message.proto.
 	OwnerTypeDeprecated string `protobuf:"bytes,2,opt,name=owner_type_deprecated,json=ownerTypeDeprecated,proto3" json:"owner_type_deprecated,omitempty"`
 	// The type of the owner to create the API key for.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=owner_type_deprecated
 	OwnerType OwnerType `protobuf:"varint,7,opt,name=owner_type,json=ownerType,proto3,enum=temporal.api.cloud.identity.v1.OwnerType" json:"owner_type,omitempty"`
 	// The display name of the API key.
@@ -1304,7 +1560,7 @@ type ApiKeySpec struct {
 
 func (x *ApiKeySpec) Reset() {
 	*x = ApiKeySpec{}
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1316,7 +1572,7 @@ func (x *ApiKeySpec) String() string {
 func (*ApiKeySpec) ProtoMessage() {}
 
 func (x *ApiKeySpec) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_cloud_identity_v1_message_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1329,7 +1585,7 @@ func (x *ApiKeySpec) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ApiKeySpec.ProtoReflect.Descriptor instead.
 func (*ApiKeySpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{13}
+	return file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *ApiKeySpec) GetOwnerId() string {
@@ -1439,11 +1695,20 @@ const file_temporal_api_cloud_identity_v1_message_proto_rawDesc = "" +
 	"\fcreated_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12H\n" +
 	"\x12last_modified_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x10lastModifiedTime\"6\n" +
 	"\x0fGoogleGroupSpec\x12#\n" +
-	"\remail_address\x18\x01 \x01(\tR\femailAddress\"\xc6\x01\n" +
+	"\remail_address\x18\x01 \x01(\tR\femailAddress\"&\n" +
+	"\rSCIMGroupSpec\x12\x15\n" +
+	"\x06idp_id\x18\x01 \x01(\tR\x05idpId\"\x10\n" +
+	"\x0eCloudGroupSpec\"\xf9\x02\n" +
 	"\rUserGroupSpec\x12!\n" +
 	"\fdisplay_name\x18\x01 \x01(\tR\vdisplayName\x12>\n" +
-	"\x06access\x18\x02 \x01(\v2&.temporal.api.cloud.identity.v1.AccessR\x06access\x12R\n" +
-	"\fgoogle_group\x18\x03 \x01(\v2/.temporal.api.cloud.identity.v1.GoogleGroupSpecR\vgoogleGroup\"\xb4\x03\n" +
+	"\x06access\x18\x02 \x01(\v2&.temporal.api.cloud.identity.v1.AccessR\x06access\x12T\n" +
+	"\fgoogle_group\x18\x03 \x01(\v2/.temporal.api.cloud.identity.v1.GoogleGroupSpecH\x00R\vgoogleGroup\x12N\n" +
+	"\n" +
+	"scim_group\x18\x04 \x01(\v2-.temporal.api.cloud.identity.v1.SCIMGroupSpecH\x00R\tscimGroup\x12Q\n" +
+	"\vcloud_group\x18\x05 \x01(\v2..temporal.api.cloud.identity.v1.CloudGroupSpecH\x00R\n" +
+	"cloudGroupB\f\n" +
+	"\n" +
+	"group_type\"\xb4\x03\n" +
 	"\tUserGroup\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12)\n" +
 	"\x10resource_version\x18\x02 \x01(\tR\x0fresourceVersion\x12A\n" +
@@ -1452,7 +1717,13 @@ const file_temporal_api_cloud_identity_v1_message_proto_rawDesc = "" +
 	"\x05state\x18\b \x01(\x0e2-.temporal.api.cloud.resource.v1.ResourceStateR\x05state\x12,\n" +
 	"\x12async_operation_id\x18\x05 \x01(\tR\x10asyncOperationId\x12=\n" +
 	"\fcreated_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\x12H\n" +
-	"\x12last_modified_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x10lastModifiedTime\"\xbe\x03\n" +
+	"\x12last_modified_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x10lastModifiedTime\"=\n" +
+	"\x11UserGroupMemberId\x12\x19\n" +
+	"\auser_id\x18\x01 \x01(\tH\x00R\x06userIdB\r\n" +
+	"\vmember_type\"\xa0\x01\n" +
+	"\x0fUserGroupMember\x12N\n" +
+	"\tmember_id\x18\x01 \x01(\v21.temporal.api.cloud.identity.v1.UserGroupMemberIdR\bmemberId\x12=\n" +
+	"\fcreated_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vcreatedTime\"\xbe\x03\n" +
 	"\x0eServiceAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12)\n" +
 	"\x10resource_version\x18\x02 \x01(\tR\x0fresourceVersion\x12F\n" +
@@ -1506,7 +1777,7 @@ func file_temporal_api_cloud_identity_v1_message_proto_rawDescGZIP() []byte {
 }
 
 var file_temporal_api_cloud_identity_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_temporal_api_cloud_identity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_temporal_api_cloud_identity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_temporal_api_cloud_identity_v1_message_proto_goTypes = []any{
 	(OwnerType)(0),                  // 0: temporal.api.cloud.identity.v1.OwnerType
 	(AccountAccess_Role)(0),         // 1: temporal.api.cloud.identity.v1.AccountAccess.Role
@@ -1519,54 +1790,62 @@ var file_temporal_api_cloud_identity_v1_message_proto_goTypes = []any{
 	(*Invitation)(nil),              // 8: temporal.api.cloud.identity.v1.Invitation
 	(*User)(nil),                    // 9: temporal.api.cloud.identity.v1.User
 	(*GoogleGroupSpec)(nil),         // 10: temporal.api.cloud.identity.v1.GoogleGroupSpec
-	(*UserGroupSpec)(nil),           // 11: temporal.api.cloud.identity.v1.UserGroupSpec
-	(*UserGroup)(nil),               // 12: temporal.api.cloud.identity.v1.UserGroup
-	(*ServiceAccount)(nil),          // 13: temporal.api.cloud.identity.v1.ServiceAccount
-	(*ServiceAccountSpec)(nil),      // 14: temporal.api.cloud.identity.v1.ServiceAccountSpec
-	(*ApiKey)(nil),                  // 15: temporal.api.cloud.identity.v1.ApiKey
-	(*ApiKeySpec)(nil),              // 16: temporal.api.cloud.identity.v1.ApiKeySpec
-	nil,                             // 17: temporal.api.cloud.identity.v1.Access.NamespaceAccessesEntry
-	(*timestamppb.Timestamp)(nil),   // 18: google.protobuf.Timestamp
-	(v1.ResourceState)(0),           // 19: temporal.api.cloud.resource.v1.ResourceState
+	(*SCIMGroupSpec)(nil),           // 11: temporal.api.cloud.identity.v1.SCIMGroupSpec
+	(*CloudGroupSpec)(nil),          // 12: temporal.api.cloud.identity.v1.CloudGroupSpec
+	(*UserGroupSpec)(nil),           // 13: temporal.api.cloud.identity.v1.UserGroupSpec
+	(*UserGroup)(nil),               // 14: temporal.api.cloud.identity.v1.UserGroup
+	(*UserGroupMemberId)(nil),       // 15: temporal.api.cloud.identity.v1.UserGroupMemberId
+	(*UserGroupMember)(nil),         // 16: temporal.api.cloud.identity.v1.UserGroupMember
+	(*ServiceAccount)(nil),          // 17: temporal.api.cloud.identity.v1.ServiceAccount
+	(*ServiceAccountSpec)(nil),      // 18: temporal.api.cloud.identity.v1.ServiceAccountSpec
+	(*ApiKey)(nil),                  // 19: temporal.api.cloud.identity.v1.ApiKey
+	(*ApiKeySpec)(nil),              // 20: temporal.api.cloud.identity.v1.ApiKeySpec
+	nil,                             // 21: temporal.api.cloud.identity.v1.Access.NamespaceAccessesEntry
+	(*timestamppb.Timestamp)(nil),   // 22: google.protobuf.Timestamp
+	(v1.ResourceState)(0),           // 23: temporal.api.cloud.resource.v1.ResourceState
 }
 var file_temporal_api_cloud_identity_v1_message_proto_depIdxs = []int32{
 	1,  // 0: temporal.api.cloud.identity.v1.AccountAccess.role:type_name -> temporal.api.cloud.identity.v1.AccountAccess.Role
 	2,  // 1: temporal.api.cloud.identity.v1.NamespaceAccess.permission:type_name -> temporal.api.cloud.identity.v1.NamespaceAccess.Permission
 	3,  // 2: temporal.api.cloud.identity.v1.Access.account_access:type_name -> temporal.api.cloud.identity.v1.AccountAccess
-	17, // 3: temporal.api.cloud.identity.v1.Access.namespace_accesses:type_name -> temporal.api.cloud.identity.v1.Access.NamespaceAccessesEntry
+	21, // 3: temporal.api.cloud.identity.v1.Access.namespace_accesses:type_name -> temporal.api.cloud.identity.v1.Access.NamespaceAccessesEntry
 	4,  // 4: temporal.api.cloud.identity.v1.NamespaceScopedAccess.access:type_name -> temporal.api.cloud.identity.v1.NamespaceAccess
 	5,  // 5: temporal.api.cloud.identity.v1.UserSpec.access:type_name -> temporal.api.cloud.identity.v1.Access
-	18, // 6: temporal.api.cloud.identity.v1.Invitation.created_time:type_name -> google.protobuf.Timestamp
-	18, // 7: temporal.api.cloud.identity.v1.Invitation.expired_time:type_name -> google.protobuf.Timestamp
+	22, // 6: temporal.api.cloud.identity.v1.Invitation.created_time:type_name -> google.protobuf.Timestamp
+	22, // 7: temporal.api.cloud.identity.v1.Invitation.expired_time:type_name -> google.protobuf.Timestamp
 	7,  // 8: temporal.api.cloud.identity.v1.User.spec:type_name -> temporal.api.cloud.identity.v1.UserSpec
-	19, // 9: temporal.api.cloud.identity.v1.User.state:type_name -> temporal.api.cloud.resource.v1.ResourceState
+	23, // 9: temporal.api.cloud.identity.v1.User.state:type_name -> temporal.api.cloud.resource.v1.ResourceState
 	8,  // 10: temporal.api.cloud.identity.v1.User.invitation:type_name -> temporal.api.cloud.identity.v1.Invitation
-	18, // 11: temporal.api.cloud.identity.v1.User.created_time:type_name -> google.protobuf.Timestamp
-	18, // 12: temporal.api.cloud.identity.v1.User.last_modified_time:type_name -> google.protobuf.Timestamp
+	22, // 11: temporal.api.cloud.identity.v1.User.created_time:type_name -> google.protobuf.Timestamp
+	22, // 12: temporal.api.cloud.identity.v1.User.last_modified_time:type_name -> google.protobuf.Timestamp
 	5,  // 13: temporal.api.cloud.identity.v1.UserGroupSpec.access:type_name -> temporal.api.cloud.identity.v1.Access
 	10, // 14: temporal.api.cloud.identity.v1.UserGroupSpec.google_group:type_name -> temporal.api.cloud.identity.v1.GoogleGroupSpec
-	11, // 15: temporal.api.cloud.identity.v1.UserGroup.spec:type_name -> temporal.api.cloud.identity.v1.UserGroupSpec
-	19, // 16: temporal.api.cloud.identity.v1.UserGroup.state:type_name -> temporal.api.cloud.resource.v1.ResourceState
-	18, // 17: temporal.api.cloud.identity.v1.UserGroup.created_time:type_name -> google.protobuf.Timestamp
-	18, // 18: temporal.api.cloud.identity.v1.UserGroup.last_modified_time:type_name -> google.protobuf.Timestamp
-	14, // 19: temporal.api.cloud.identity.v1.ServiceAccount.spec:type_name -> temporal.api.cloud.identity.v1.ServiceAccountSpec
-	19, // 20: temporal.api.cloud.identity.v1.ServiceAccount.state:type_name -> temporal.api.cloud.resource.v1.ResourceState
-	18, // 21: temporal.api.cloud.identity.v1.ServiceAccount.created_time:type_name -> google.protobuf.Timestamp
-	18, // 22: temporal.api.cloud.identity.v1.ServiceAccount.last_modified_time:type_name -> google.protobuf.Timestamp
-	5,  // 23: temporal.api.cloud.identity.v1.ServiceAccountSpec.access:type_name -> temporal.api.cloud.identity.v1.Access
-	6,  // 24: temporal.api.cloud.identity.v1.ServiceAccountSpec.namespace_scoped_access:type_name -> temporal.api.cloud.identity.v1.NamespaceScopedAccess
-	16, // 25: temporal.api.cloud.identity.v1.ApiKey.spec:type_name -> temporal.api.cloud.identity.v1.ApiKeySpec
-	19, // 26: temporal.api.cloud.identity.v1.ApiKey.state:type_name -> temporal.api.cloud.resource.v1.ResourceState
-	18, // 27: temporal.api.cloud.identity.v1.ApiKey.created_time:type_name -> google.protobuf.Timestamp
-	18, // 28: temporal.api.cloud.identity.v1.ApiKey.last_modified_time:type_name -> google.protobuf.Timestamp
-	0,  // 29: temporal.api.cloud.identity.v1.ApiKeySpec.owner_type:type_name -> temporal.api.cloud.identity.v1.OwnerType
-	18, // 30: temporal.api.cloud.identity.v1.ApiKeySpec.expiry_time:type_name -> google.protobuf.Timestamp
-	4,  // 31: temporal.api.cloud.identity.v1.Access.NamespaceAccessesEntry.value:type_name -> temporal.api.cloud.identity.v1.NamespaceAccess
-	32, // [32:32] is the sub-list for method output_type
-	32, // [32:32] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	11, // 15: temporal.api.cloud.identity.v1.UserGroupSpec.scim_group:type_name -> temporal.api.cloud.identity.v1.SCIMGroupSpec
+	12, // 16: temporal.api.cloud.identity.v1.UserGroupSpec.cloud_group:type_name -> temporal.api.cloud.identity.v1.CloudGroupSpec
+	13, // 17: temporal.api.cloud.identity.v1.UserGroup.spec:type_name -> temporal.api.cloud.identity.v1.UserGroupSpec
+	23, // 18: temporal.api.cloud.identity.v1.UserGroup.state:type_name -> temporal.api.cloud.resource.v1.ResourceState
+	22, // 19: temporal.api.cloud.identity.v1.UserGroup.created_time:type_name -> google.protobuf.Timestamp
+	22, // 20: temporal.api.cloud.identity.v1.UserGroup.last_modified_time:type_name -> google.protobuf.Timestamp
+	15, // 21: temporal.api.cloud.identity.v1.UserGroupMember.member_id:type_name -> temporal.api.cloud.identity.v1.UserGroupMemberId
+	22, // 22: temporal.api.cloud.identity.v1.UserGroupMember.created_time:type_name -> google.protobuf.Timestamp
+	18, // 23: temporal.api.cloud.identity.v1.ServiceAccount.spec:type_name -> temporal.api.cloud.identity.v1.ServiceAccountSpec
+	23, // 24: temporal.api.cloud.identity.v1.ServiceAccount.state:type_name -> temporal.api.cloud.resource.v1.ResourceState
+	22, // 25: temporal.api.cloud.identity.v1.ServiceAccount.created_time:type_name -> google.protobuf.Timestamp
+	22, // 26: temporal.api.cloud.identity.v1.ServiceAccount.last_modified_time:type_name -> google.protobuf.Timestamp
+	5,  // 27: temporal.api.cloud.identity.v1.ServiceAccountSpec.access:type_name -> temporal.api.cloud.identity.v1.Access
+	6,  // 28: temporal.api.cloud.identity.v1.ServiceAccountSpec.namespace_scoped_access:type_name -> temporal.api.cloud.identity.v1.NamespaceScopedAccess
+	20, // 29: temporal.api.cloud.identity.v1.ApiKey.spec:type_name -> temporal.api.cloud.identity.v1.ApiKeySpec
+	23, // 30: temporal.api.cloud.identity.v1.ApiKey.state:type_name -> temporal.api.cloud.resource.v1.ResourceState
+	22, // 31: temporal.api.cloud.identity.v1.ApiKey.created_time:type_name -> google.protobuf.Timestamp
+	22, // 32: temporal.api.cloud.identity.v1.ApiKey.last_modified_time:type_name -> google.protobuf.Timestamp
+	0,  // 33: temporal.api.cloud.identity.v1.ApiKeySpec.owner_type:type_name -> temporal.api.cloud.identity.v1.OwnerType
+	22, // 34: temporal.api.cloud.identity.v1.ApiKeySpec.expiry_time:type_name -> google.protobuf.Timestamp
+	4,  // 35: temporal.api.cloud.identity.v1.Access.NamespaceAccessesEntry.value:type_name -> temporal.api.cloud.identity.v1.NamespaceAccess
+	36, // [36:36] is the sub-list for method output_type
+	36, // [36:36] is the sub-list for method input_type
+	36, // [36:36] is the sub-list for extension type_name
+	36, // [36:36] is the sub-list for extension extendee
+	0,  // [0:36] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_cloud_identity_v1_message_proto_init() }
@@ -1574,13 +1853,21 @@ func file_temporal_api_cloud_identity_v1_message_proto_init() {
 	if File_temporal_api_cloud_identity_v1_message_proto != nil {
 		return
 	}
+	file_temporal_api_cloud_identity_v1_message_proto_msgTypes[10].OneofWrappers = []any{
+		(*UserGroupSpec_GoogleGroup)(nil),
+		(*UserGroupSpec_ScimGroup)(nil),
+		(*UserGroupSpec_CloudGroup)(nil),
+	}
+	file_temporal_api_cloud_identity_v1_message_proto_msgTypes[12].OneofWrappers = []any{
+		(*UserGroupMemberId_UserId)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_cloud_identity_v1_message_proto_rawDesc), len(file_temporal_api_cloud_identity_v1_message_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   15,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -59,13 +59,13 @@ type EndpointSpec struct {
 	// must match with at least one of the specs to be accepted by the endpoint.
 	// This field is mutable.
 	PolicySpecs []*EndpointPolicySpec `protobuf:"bytes,3,rep,name=policy_specs,json=policySpecs,proto3" json:"policy_specs,omitempty"`
-	// Deprecated: Not supported after 2025-01-01-00 api version. Use description instead.
-	// temporal:versioning:max_version=2025-01-01-00
+	// Deprecated: Not supported after v0.4.0 api version. Use description instead.
+	// temporal:versioning:max_version=v0.4.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/nexus/v1/message.proto.
 	DescriptionDeprecated string `protobuf:"bytes,4,opt,name=description_deprecated,json=descriptionDeprecated,proto3" json:"description_deprecated,omitempty"`
 	// The markdown description of the endpoint - optional.
-	// temporal:versioning:min_version=2025-01-01-00
+	// temporal:versioning:min_version=v0.4.0
 	Description   *v1.Payload `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

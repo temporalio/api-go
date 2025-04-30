@@ -325,6 +325,80 @@ func (this *GoogleGroupSpec) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type SCIMGroupSpec to the protobuf v3 wire format
+func (val *SCIMGroupSpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type SCIMGroupSpec from the protobuf v3 wire format
+func (val *SCIMGroupSpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *SCIMGroupSpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two SCIMGroupSpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *SCIMGroupSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *SCIMGroupSpec
+	switch t := that.(type) {
+	case *SCIMGroupSpec:
+		that1 = t
+	case SCIMGroupSpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CloudGroupSpec to the protobuf v3 wire format
+func (val *CloudGroupSpec) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CloudGroupSpec from the protobuf v3 wire format
+func (val *CloudGroupSpec) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CloudGroupSpec) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CloudGroupSpec values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CloudGroupSpec) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CloudGroupSpec
+	switch t := that.(type) {
+	case *CloudGroupSpec:
+		that1 = t
+	case CloudGroupSpec:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type UserGroupSpec to the protobuf v3 wire format
 func (val *UserGroupSpec) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -391,6 +465,80 @@ func (this *UserGroup) Equal(that interface{}) bool {
 	case *UserGroup:
 		that1 = t
 	case UserGroup:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UserGroupMemberId to the protobuf v3 wire format
+func (val *UserGroupMemberId) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UserGroupMemberId from the protobuf v3 wire format
+func (val *UserGroupMemberId) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UserGroupMemberId) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UserGroupMemberId values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UserGroupMemberId) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UserGroupMemberId
+	switch t := that.(type) {
+	case *UserGroupMemberId:
+		that1 = t
+	case UserGroupMemberId:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UserGroupMember to the protobuf v3 wire format
+func (val *UserGroupMember) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UserGroupMember from the protobuf v3 wire format
+func (val *UserGroupMember) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UserGroupMember) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UserGroupMember values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UserGroupMember) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UserGroupMember
+	switch t := that.(type) {
+	case *UserGroupMember:
+		that1 = t
+	case UserGroupMember:
 		that1 = &t
 	default:
 		return false

@@ -111,13 +111,13 @@ type Region struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// The name of the cloud provider that's hosting the region.
 	// Currently only "aws" is supported.
-	// Deprecated: Not supported after 2024-10-01-00 api version. Use cloud_provider instead.
-	// temporal:versioning:max_version=2024-10-01-00
+	// Deprecated: Not supported after v0.3.0 api version. Use cloud_provider instead.
+	// temporal:versioning:max_version=v0.3.0
 	//
 	// Deprecated: Marked as deprecated in temporal/api/cloud/region/v1/message.proto.
 	CloudProviderDeprecated string `protobuf:"bytes,2,opt,name=cloud_provider_deprecated,json=cloudProviderDeprecated,proto3" json:"cloud_provider_deprecated,omitempty"`
 	// The cloud provider that's hosting the region.
-	// temporal:versioning:min_version=2024-10-01-00
+	// temporal:versioning:min_version=v0.3.0
 	// temporal:enums:replaces=cloud_provider_deprecated
 	CloudProvider Region_CloudProvider `protobuf:"varint,5,opt,name=cloud_provider,json=cloudProvider,proto3,enum=temporal.api.cloud.region.v1.Region_CloudProvider" json:"cloud_provider,omitempty"`
 	// The region identifier as defined by the cloud provider.

@@ -150,8 +150,16 @@ func (s *workflowServiceProxyServer) GetSystemInfo(ctx context.Context, in0 *wor
 	return s.client.GetSystemInfo(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) GetTaskQueueStats(ctx context.Context, in0 *workflowservice.GetTaskQueueStatsRequest) (*workflowservice.GetTaskQueueStatsResponse, error) {
+	return s.client.GetTaskQueueStats(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) GetWorkerBuildIdCompatibility(ctx context.Context, in0 *workflowservice.GetWorkerBuildIdCompatibilityRequest) (*workflowservice.GetWorkerBuildIdCompatibilityResponse, error) {
 	return s.client.GetWorkerBuildIdCompatibility(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) GetWorkerDeploymentStats(ctx context.Context, in0 *workflowservice.GetWorkerDeploymentStatsRequest) (*workflowservice.GetWorkerDeploymentStatsResponse, error) {
+	return s.client.GetWorkerDeploymentStats(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) GetWorkerTaskReachability(ctx context.Context, in0 *workflowservice.GetWorkerTaskReachabilityRequest) (*workflowservice.GetWorkerTaskReachabilityResponse, error) {

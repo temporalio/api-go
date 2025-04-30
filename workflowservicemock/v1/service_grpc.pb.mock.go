@@ -538,6 +538,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetSystemInfo(ctx, in interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSystemInfo", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetSystemInfo), varargs...)
 }
 
+// GetTaskQueueStats mocks base method.
+func (m *MockWorkflowServiceClient) GetTaskQueueStats(ctx context.Context, in *workflowservice.GetTaskQueueStatsRequest, opts ...grpc.CallOption) (*workflowservice.GetTaskQueueStatsResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetTaskQueueStats", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetTaskQueueStatsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTaskQueueStats indicates an expected call of GetTaskQueueStats.
+func (mr *MockWorkflowServiceClientMockRecorder) GetTaskQueueStats(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTaskQueueStats", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetTaskQueueStats), varargs...)
+}
+
 // GetWorkerBuildIdCompatibility mocks base method.
 func (m *MockWorkflowServiceClient) GetWorkerBuildIdCompatibility(ctx context.Context, in *workflowservice.GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkerBuildIdCompatibilityResponse, error) {
 	m.ctrl.T.Helper()
@@ -556,6 +576,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) GetWorkerBuildIdCompatibility(c
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerBuildIdCompatibility", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkerBuildIdCompatibility), varargs...)
+}
+
+// GetWorkerDeploymentStats mocks base method.
+func (m *MockWorkflowServiceClient) GetWorkerDeploymentStats(ctx context.Context, in *workflowservice.GetWorkerDeploymentStatsRequest, opts ...grpc.CallOption) (*workflowservice.GetWorkerDeploymentStatsResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetWorkerDeploymentStats", varargs...)
+	ret0, _ := ret[0].(*workflowservice.GetWorkerDeploymentStatsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkerDeploymentStats indicates an expected call of GetWorkerDeploymentStats.
+func (mr *MockWorkflowServiceClientMockRecorder) GetWorkerDeploymentStats(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerDeploymentStats", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetWorkerDeploymentStats), varargs...)
 }
 
 // GetWorkerTaskReachability mocks base method.
@@ -2184,6 +2224,21 @@ func (mr *MockWorkflowServiceServerMockRecorder) GetSystemInfo(arg0, arg1 interf
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSystemInfo", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetSystemInfo), arg0, arg1)
 }
 
+// GetTaskQueueStats mocks base method.
+func (m *MockWorkflowServiceServer) GetTaskQueueStats(arg0 context.Context, arg1 *workflowservice.GetTaskQueueStatsRequest) (*workflowservice.GetTaskQueueStatsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTaskQueueStats", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetTaskQueueStatsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTaskQueueStats indicates an expected call of GetTaskQueueStats.
+func (mr *MockWorkflowServiceServerMockRecorder) GetTaskQueueStats(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTaskQueueStats", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetTaskQueueStats), arg0, arg1)
+}
+
 // GetWorkerBuildIdCompatibility mocks base method.
 func (m *MockWorkflowServiceServer) GetWorkerBuildIdCompatibility(arg0 context.Context, arg1 *workflowservice.GetWorkerBuildIdCompatibilityRequest) (*workflowservice.GetWorkerBuildIdCompatibilityResponse, error) {
 	m.ctrl.T.Helper()
@@ -2197,6 +2252,21 @@ func (m *MockWorkflowServiceServer) GetWorkerBuildIdCompatibility(arg0 context.C
 func (mr *MockWorkflowServiceServerMockRecorder) GetWorkerBuildIdCompatibility(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerBuildIdCompatibility", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkerBuildIdCompatibility), arg0, arg1)
+}
+
+// GetWorkerDeploymentStats mocks base method.
+func (m *MockWorkflowServiceServer) GetWorkerDeploymentStats(arg0 context.Context, arg1 *workflowservice.GetWorkerDeploymentStatsRequest) (*workflowservice.GetWorkerDeploymentStatsResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetWorkerDeploymentStats", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.GetWorkerDeploymentStatsResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetWorkerDeploymentStats indicates an expected call of GetWorkerDeploymentStats.
+func (mr *MockWorkflowServiceServerMockRecorder) GetWorkerDeploymentStats(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetWorkerDeploymentStats", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetWorkerDeploymentStats), arg0, arg1)
 }
 
 // GetWorkerTaskReachability mocks base method.

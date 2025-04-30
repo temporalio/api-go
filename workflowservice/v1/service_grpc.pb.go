@@ -82,6 +82,7 @@ const (
 	WorkflowService_QueryWorkflow_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/QueryWorkflow"
 	WorkflowService_DescribeWorkflowExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkflowExecution"
 	WorkflowService_DescribeTaskQueue_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/DescribeTaskQueue"
+	WorkflowService_GetTaskQueueStats_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/GetTaskQueueStats"
 	WorkflowService_GetClusterInfo_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/GetClusterInfo"
 	WorkflowService_GetSystemInfo_FullMethodName                         = "/temporal.api.workflowservice.v1.WorkflowService/GetSystemInfo"
 	WorkflowService_ListTaskQueuePartitions_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/ListTaskQueuePartitions"
@@ -105,6 +106,7 @@ const (
 	WorkflowService_SetCurrentDeployment_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/SetCurrentDeployment"
 	WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentCurrentVersion"
 	WorkflowService_DescribeWorkerDeployment_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeployment"
+	WorkflowService_GetWorkerDeploymentStats_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkerDeploymentStats"
 	WorkflowService_DeleteWorkerDeployment_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeployment"
 	WorkflowService_DeleteWorkerDeploymentVersion_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion"
 	WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentRampingVersion"
@@ -426,6 +428,8 @@ type WorkflowServiceClient interface {
 	//   - Workflow Reachability status
 	//   - Backlog info for Workflow and/or Activity tasks
 	DescribeTaskQueue(ctx context.Context, in *DescribeTaskQueueRequest, opts ...grpc.CallOption) (*DescribeTaskQueueResponse, error)
+	// GetTaskQueueStats returns stats for a single task queue.
+	GetTaskQueueStats(ctx context.Context, in *GetTaskQueueStatsRequest, opts ...grpc.CallOption) (*GetTaskQueueStatsResponse, error)
 	// GetClusterInfo returns information about temporal cluster
 	GetClusterInfo(ctx context.Context, in *GetClusterInfoRequest, opts ...grpc.CallOption) (*GetClusterInfoResponse, error)
 	// GetSystemInfo returns information about the system.
@@ -551,6 +555,8 @@ type WorkflowServiceClient interface {
 	// Describes a Worker Deployment.
 	// Experimental. This API might significantly change or be removed in a future release.
 	DescribeWorkerDeployment(ctx context.Context, in *DescribeWorkerDeploymentRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentResponse, error)
+	// GetWorkerDeploymentStats returns the stats for all task queues in a deployment version.
+	GetWorkerDeploymentStats(ctx context.Context, in *GetWorkerDeploymentStatsRequest, opts ...grpc.CallOption) (*GetWorkerDeploymentStatsResponse, error)
 	// Deletes records of (an old) Deployment. A deployment can only be deleted if
 	// it has no Version in it.
 	// Experimental. This API might significantly change or be removed in a future release.
@@ -1092,6 +1098,16 @@ func (c *workflowServiceClient) DescribeTaskQueue(ctx context.Context, in *Descr
 	return out, nil
 }
 
+func (c *workflowServiceClient) GetTaskQueueStats(ctx context.Context, in *GetTaskQueueStatsRequest, opts ...grpc.CallOption) (*GetTaskQueueStatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTaskQueueStatsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetTaskQueueStats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) GetClusterInfo(ctx context.Context, in *GetClusterInfoRequest, opts ...grpc.CallOption) (*GetClusterInfoResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetClusterInfoResponse)
@@ -1316,6 +1332,16 @@ func (c *workflowServiceClient) DescribeWorkerDeployment(ctx context.Context, in
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeWorkerDeploymentResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkerDeployment_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) GetWorkerDeploymentStats(ctx context.Context, in *GetWorkerDeploymentStatsRequest, opts ...grpc.CallOption) (*GetWorkerDeploymentStatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetWorkerDeploymentStatsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerDeploymentStats_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1857,6 +1883,8 @@ type WorkflowServiceServer interface {
 	//   - Workflow Reachability status
 	//   - Backlog info for Workflow and/or Activity tasks
 	DescribeTaskQueue(context.Context, *DescribeTaskQueueRequest) (*DescribeTaskQueueResponse, error)
+	// GetTaskQueueStats returns stats for a single task queue.
+	GetTaskQueueStats(context.Context, *GetTaskQueueStatsRequest) (*GetTaskQueueStatsResponse, error)
 	// GetClusterInfo returns information about temporal cluster
 	GetClusterInfo(context.Context, *GetClusterInfoRequest) (*GetClusterInfoResponse, error)
 	// GetSystemInfo returns information about the system.
@@ -1982,6 +2010,8 @@ type WorkflowServiceServer interface {
 	// Describes a Worker Deployment.
 	// Experimental. This API might significantly change or be removed in a future release.
 	DescribeWorkerDeployment(context.Context, *DescribeWorkerDeploymentRequest) (*DescribeWorkerDeploymentResponse, error)
+	// GetWorkerDeploymentStats returns the stats for all task queues in a deployment version.
+	GetWorkerDeploymentStats(context.Context, *GetWorkerDeploymentStatsRequest) (*GetWorkerDeploymentStatsResponse, error)
 	// Deletes records of (an old) Deployment. A deployment can only be deleted if
 	// it has no Version in it.
 	// Experimental. This API might significantly change or be removed in a future release.
@@ -2243,6 +2273,9 @@ func (UnimplementedWorkflowServiceServer) DescribeWorkflowExecution(context.Cont
 func (UnimplementedWorkflowServiceServer) DescribeTaskQueue(context.Context, *DescribeTaskQueueRequest) (*DescribeTaskQueueResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeTaskQueue not implemented")
 }
+func (UnimplementedWorkflowServiceServer) GetTaskQueueStats(context.Context, *GetTaskQueueStatsRequest) (*GetTaskQueueStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTaskQueueStats not implemented")
+}
 func (UnimplementedWorkflowServiceServer) GetClusterInfo(context.Context, *GetClusterInfoRequest) (*GetClusterInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetClusterInfo not implemented")
 }
@@ -2311,6 +2344,9 @@ func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentCurrentVersion(cont
 }
 func (UnimplementedWorkflowServiceServer) DescribeWorkerDeployment(context.Context, *DescribeWorkerDeploymentRequest) (*DescribeWorkerDeploymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkerDeployment not implemented")
+}
+func (UnimplementedWorkflowServiceServer) GetWorkerDeploymentStats(context.Context, *GetWorkerDeploymentStatsRequest) (*GetWorkerDeploymentStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerDeploymentStats not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DeleteWorkerDeployment(context.Context, *DeleteWorkerDeploymentRequest) (*DeleteWorkerDeploymentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkerDeployment not implemented")
@@ -3125,6 +3161,24 @@ func _WorkflowService_DescribeTaskQueue_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_GetTaskQueueStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaskQueueStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).GetTaskQueueStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_GetTaskQueueStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).GetTaskQueueStats(ctx, req.(*GetTaskQueueStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_GetClusterInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetClusterInfoRequest)
 	if err := dec(in); err != nil {
@@ -3535,6 +3589,24 @@ func _WorkflowService_DescribeWorkerDeployment_Handler(srv interface{}, ctx cont
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WorkflowServiceServer).DescribeWorkerDeployment(ctx, req.(*DescribeWorkerDeploymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_GetWorkerDeploymentStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetWorkerDeploymentStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).GetWorkerDeploymentStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_GetWorkerDeploymentStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).GetWorkerDeploymentStats(ctx, req.(*GetWorkerDeploymentStatsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4139,6 +4211,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_DescribeTaskQueue_Handler,
 		},
 		{
+			MethodName: "GetTaskQueueStats",
+			Handler:    _WorkflowService_GetTaskQueueStats_Handler,
+		},
+		{
 			MethodName: "GetClusterInfo",
 			Handler:    _WorkflowService_GetClusterInfo_Handler,
 		},
@@ -4229,6 +4305,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeWorkerDeployment",
 			Handler:    _WorkflowService_DescribeWorkerDeployment_Handler,
+		},
+		{
+			MethodName: "GetWorkerDeploymentStats",
+			Handler:    _WorkflowService_GetWorkerDeploymentStats_Handler,
 		},
 		{
 			MethodName: "DeleteWorkerDeployment",
