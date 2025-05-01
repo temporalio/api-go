@@ -912,7 +912,10 @@ type Callback struct {
 	//
 	//	*Callback_Nexus_
 	//	*Callback_Internal_
-	Variant       isCallback_Variant `protobuf_oneof:"variant"`
+	Variant isCallback_Variant `protobuf_oneof:"variant"`
+	// Links associated with the callback. It can be used to link to underlying resources of the
+	// callback.
+	Links         []*Link `protobuf:"bytes,100,rep,name=links,proto3" json:"links,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -968,6 +971,13 @@ func (x *Callback) GetInternal() *Callback_Internal {
 		if x, ok := x.Variant.(*Callback_Internal_); ok {
 			return x.Internal
 		}
+	}
+	return nil
+}
+
+func (x *Callback) GetLinks() []*Link {
+	if x != nil {
+		return x.Links
 	}
 	return nil
 }
@@ -1575,10 +1585,11 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	" \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeR\x10resetReapplyType\x12(\n" +
 	"\x10current_run_only\x18\v \x01(\bR\x0ecurrentRunOnly\x12m\n" +
 	"\x1breset_reapply_exclude_types\x18\f \x03(\x0e2..temporal.api.enums.v1.ResetReapplyExcludeTypeR\x18resetReapplyExcludeTypesB\b\n" +
-	"\x06target\"\xe7\x02\n" +
+	"\x06target\"\x9b\x03\n" +
 	"\bCallback\x12>\n" +
 	"\x05nexus\x18\x02 \x01(\v2&.temporal.api.common.v1.Callback.NexusH\x00R\x05nexus\x12G\n" +
-	"\binternal\x18\x03 \x01(\v2).temporal.api.common.v1.Callback.InternalH\x00R\binternal\x1a\xa0\x01\n" +
+	"\binternal\x18\x03 \x01(\v2).temporal.api.common.v1.Callback.InternalH\x00R\binternal\x122\n" +
+	"\x05links\x18d \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x1a\xa0\x01\n" +
 	"\x05Nexus\x12\x10\n" +
 	"\x03url\x18\x01 \x01(\tR\x03url\x12J\n" +
 	"\x06header\x18\x02 \x03(\v22.temporal.api.common.v1.Callback.Nexus.HeaderEntryR\x06header\x1a9\n" +
@@ -1679,21 +1690,22 @@ var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
 	32, // 11: temporal.api.common.v1.ResetOptions.reset_reapply_exclude_types:type_name -> temporal.api.enums.v1.ResetReapplyExcludeType
 	21, // 12: temporal.api.common.v1.Callback.nexus:type_name -> temporal.api.common.v1.Callback.Nexus
 	22, // 13: temporal.api.common.v1.Callback.internal:type_name -> temporal.api.common.v1.Callback.Internal
-	24, // 14: temporal.api.common.v1.Link.workflow_event:type_name -> temporal.api.common.v1.Link.WorkflowEvent
-	25, // 15: temporal.api.common.v1.Link.batch_job:type_name -> temporal.api.common.v1.Link.BatchJob
-	2,  // 16: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 17: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	2,  // 18: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	23, // 19: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
-	26, // 20: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
-	27, // 21: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
-	33, // 22: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	33, // 23: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	15, // 14: temporal.api.common.v1.Callback.links:type_name -> temporal.api.common.v1.Link
+	24, // 15: temporal.api.common.v1.Link.workflow_event:type_name -> temporal.api.common.v1.Link.WorkflowEvent
+	25, // 16: temporal.api.common.v1.Link.batch_job:type_name -> temporal.api.common.v1.Link.BatchJob
+	2,  // 17: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 18: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	2,  // 19: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
+	23, // 20: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
+	26, // 21: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
+	27, // 22: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
+	33, // 23: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	33, // 24: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	25, // [25:25] is the sub-list for method output_type
+	25, // [25:25] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
+	0,  // [0:25] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_common_v1_message_proto_init() }
