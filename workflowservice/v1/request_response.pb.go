@@ -2551,8 +2551,11 @@ type RecordActivityTaskHeartbeatResponse struct {
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancel_requested,json=cancelRequested,proto3" json:"cancel_requested,omitempty"`
 	// Will be set to true if the activity is paused.
 	ActivityPaused bool `protobuf:"varint,2,opt,name=activity_paused,json=activityPaused,proto3" json:"activity_paused,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Will be set to true if the activity was reset.
+	// Applies only to the current run.
+	ActivityReset bool `protobuf:"varint,3,opt,name=activity_reset,json=activityReset,proto3" json:"activity_reset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RecordActivityTaskHeartbeatResponse) Reset() {
@@ -2595,6 +2598,13 @@ func (x *RecordActivityTaskHeartbeatResponse) GetCancelRequested() bool {
 func (x *RecordActivityTaskHeartbeatResponse) GetActivityPaused() bool {
 	if x != nil {
 		return x.ActivityPaused
+	}
+	return false
+}
+
+func (x *RecordActivityTaskHeartbeatResponse) GetActivityReset() bool {
+	if x != nil {
+		return x.ActivityReset
 	}
 	return false
 }
@@ -2696,8 +2706,11 @@ type RecordActivityTaskHeartbeatByIdResponse struct {
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancel_requested,json=cancelRequested,proto3" json:"cancel_requested,omitempty"`
 	// Will be set to true if the activity is paused.
 	ActivityPaused bool `protobuf:"varint,2,opt,name=activity_paused,json=activityPaused,proto3" json:"activity_paused,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Will be set to true if the activity was reset.
+	// Applies only to the current run.
+	ActivityReset bool `protobuf:"varint,3,opt,name=activity_reset,json=activityReset,proto3" json:"activity_reset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RecordActivityTaskHeartbeatByIdResponse) Reset() {
@@ -2740,6 +2753,13 @@ func (x *RecordActivityTaskHeartbeatByIdResponse) GetCancelRequested() bool {
 func (x *RecordActivityTaskHeartbeatByIdResponse) GetActivityPaused() bool {
 	if x != nil {
 		return x.ActivityPaused
+	}
+	return false
+}
+
+func (x *RecordActivityTaskHeartbeatByIdResponse) GetActivityReset() bool {
+	if x != nil {
+		return x.ActivityReset
 	}
 	return false
 }
@@ -14037,10 +14057,11 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12:\n" +
 	"\adetails\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\x1c\n" +
-	"\tnamespace\x18\x04 \x01(\tR\tnamespace\"y\n" +
+	"\tnamespace\x18\x04 \x01(\tR\tnamespace\"\xa0\x01\n" +
 	"#RecordActivityTaskHeartbeatResponse\x12)\n" +
 	"\x10cancel_requested\x18\x01 \x01(\bR\x0fcancelRequested\x12'\n" +
-	"\x0factivity_paused\x18\x02 \x01(\bR\x0eactivityPaused\"\xf7\x01\n" +
+	"\x0factivity_paused\x18\x02 \x01(\bR\x0eactivityPaused\x12%\n" +
+	"\x0eactivity_reset\x18\x03 \x01(\bR\ractivityReset\"\xf7\x01\n" +
 	"&RecordActivityTaskHeartbeatByIdRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -14049,10 +14070,11 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\vactivity_id\x18\x04 \x01(\tR\n" +
 	"activityId\x12:\n" +
 	"\adetails\x18\x05 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12\x1a\n" +
-	"\bidentity\x18\x06 \x01(\tR\bidentity\"}\n" +
+	"\bidentity\x18\x06 \x01(\tR\bidentity\"\xa4\x01\n" +
 	"'RecordActivityTaskHeartbeatByIdResponse\x12)\n" +
 	"\x10cancel_requested\x18\x01 \x01(\bR\x0fcancelRequested\x12'\n" +
-	"\x0factivity_paused\x18\x02 \x01(\bR\x0eactivityPaused\"\xbf\x03\n" +
+	"\x0factivity_paused\x18\x02 \x01(\bR\x0eactivityPaused\x12%\n" +
+	"\x0eactivity_reset\x18\x03 \x01(\bR\ractivityReset\"\xbf\x03\n" +
 	"#RespondActivityTaskCompletedRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x128\n" +
