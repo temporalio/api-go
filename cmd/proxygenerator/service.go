@@ -55,7 +55,6 @@ func NewWorkflowServiceProxyServer(options WorkflowServiceProxyOptions) (workflo
 
 func generateService(cfg config) error {
 	buf := &bytes.Buffer{}
-	fmt.Fprint(buf, cfg.license)
 	fmt.Fprint(buf, ServiceHeader)
 
 	conf := &packages.Config{Mode: packages.NeedImports | packages.NeedTypes | packages.NeedTypesInfo}

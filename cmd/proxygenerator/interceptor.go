@@ -841,8 +841,6 @@ func generateInterceptor(cfg config) error {
 	}
 
 	buf := &bytes.Buffer{}
-	fmt.Fprint(buf, cfg.license)
-
 	err = interceptorTemplate.Execute(buf, TemplateInput{
 		PayloadTypes: payloadRecords,
 		FailureTypes: failureRecords,
