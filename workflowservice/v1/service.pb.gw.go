@@ -113,7 +113,6 @@ func request_WorkflowService_DescribeNamespace_0(ctx context.Context, marshaler 
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -164,7 +163,6 @@ func request_WorkflowService_DescribeNamespace_1(ctx context.Context, marshaler 
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -214,7 +212,6 @@ func request_WorkflowService_ListNamespaces_0(ctx context.Context, marshaler run
 		protoReq ListNamespacesRequest
 		metadata runtime.ServerMetadata
 	)
-	io.Copy(io.Discard, req.Body)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -247,7 +244,6 @@ func request_WorkflowService_ListNamespaces_1(ctx context.Context, marshaler run
 		protoReq ListNamespacesRequest
 		metadata runtime.ServerMetadata
 	)
-	io.Copy(io.Discard, req.Body)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -565,7 +561,6 @@ func request_WorkflowService_GetWorkflowExecutionHistory_0(ctx context.Context, 
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -632,7 +627,6 @@ func request_WorkflowService_GetWorkflowExecutionHistory_1(ctx context.Context, 
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -699,7 +693,6 @@ func request_WorkflowService_GetWorkflowExecutionHistoryReverse_0(ctx context.Co
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -766,7 +759,6 @@ func request_WorkflowService_GetWorkflowExecutionHistoryReverse_1(ctx context.Co
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2149,7 +2141,6 @@ func request_WorkflowService_ListWorkflowExecutions_0(ctx context.Context, marsh
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2200,7 +2191,6 @@ func request_WorkflowService_ListWorkflowExecutions_1(ctx context.Context, marsh
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2251,7 +2241,6 @@ func request_WorkflowService_ListArchivedWorkflowExecutions_0(ctx context.Contex
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2302,7 +2291,6 @@ func request_WorkflowService_ListArchivedWorkflowExecutions_1(ctx context.Contex
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2353,7 +2341,6 @@ func request_WorkflowService_CountWorkflowExecutions_0(ctx context.Context, mars
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2404,7 +2391,6 @@ func request_WorkflowService_CountWorkflowExecutions_1(ctx context.Context, mars
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2603,7 +2589,6 @@ func request_WorkflowService_DescribeWorkflowExecution_0(ctx context.Context, ma
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2670,7 +2655,6 @@ func request_WorkflowService_DescribeWorkflowExecution_1(ctx context.Context, ma
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2737,7 +2721,6 @@ func request_WorkflowService_DescribeTaskQueue_0(ctx context.Context, marshaler 
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2804,7 +2787,6 @@ func request_WorkflowService_DescribeTaskQueue_1(ctx context.Context, marshaler 
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -2868,7 +2850,6 @@ func request_WorkflowService_GetClusterInfo_0(ctx context.Context, marshaler run
 		protoReq GetClusterInfoRequest
 		metadata runtime.ServerMetadata
 	)
-	io.Copy(io.Discard, req.Body)
 	msg, err := client.GetClusterInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -2887,7 +2868,6 @@ func request_WorkflowService_GetClusterInfo_1(ctx context.Context, marshaler run
 		protoReq GetClusterInfoRequest
 		metadata runtime.ServerMetadata
 	)
-	io.Copy(io.Discard, req.Body)
 	msg, err := client.GetClusterInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -2906,7 +2886,6 @@ func request_WorkflowService_GetSystemInfo_0(ctx context.Context, marshaler runt
 		protoReq GetSystemInfoRequest
 		metadata runtime.ServerMetadata
 	)
-	io.Copy(io.Discard, req.Body)
 	msg, err := client.GetSystemInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -2925,7 +2904,6 @@ func request_WorkflowService_GetSystemInfo_1(ctx context.Context, marshaler runt
 		protoReq GetSystemInfoRequest
 		metadata runtime.ServerMetadata
 	)
-	io.Copy(io.Discard, req.Body)
 	msg, err := client.GetSystemInfo(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3061,7 +3039,6 @@ func request_WorkflowService_DescribeSchedule_0(ctx context.Context, marshaler r
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3114,7 +3091,6 @@ func request_WorkflowService_DescribeSchedule_1(ctx context.Context, marshaler r
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3401,7 +3377,6 @@ func request_WorkflowService_ListScheduleMatchingTimes_0(ctx context.Context, ma
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3468,7 +3443,6 @@ func request_WorkflowService_ListScheduleMatchingTimes_1(ctx context.Context, ma
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3535,7 +3509,6 @@ func request_WorkflowService_DeleteSchedule_0(ctx context.Context, marshaler run
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3602,7 +3575,6 @@ func request_WorkflowService_DeleteSchedule_1(ctx context.Context, marshaler run
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3669,7 +3641,6 @@ func request_WorkflowService_ListSchedules_0(ctx context.Context, marshaler runt
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3720,7 +3691,6 @@ func request_WorkflowService_ListSchedules_1(ctx context.Context, marshaler runt
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3771,7 +3741,6 @@ func request_WorkflowService_GetWorkerBuildIdCompatibility_0(ctx context.Context
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3838,7 +3807,6 @@ func request_WorkflowService_GetWorkerBuildIdCompatibility_1(ctx context.Context
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3903,7 +3871,6 @@ func request_WorkflowService_GetWorkerVersioningRules_0(ctx context.Context, mar
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -3956,7 +3923,6 @@ func request_WorkflowService_GetWorkerVersioningRules_1(ctx context.Context, mar
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4011,7 +3977,6 @@ func request_WorkflowService_GetWorkerTaskReachability_0(ctx context.Context, ma
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4062,7 +4027,6 @@ func request_WorkflowService_GetWorkerTaskReachability_1(ctx context.Context, ma
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4113,7 +4077,6 @@ func request_WorkflowService_DescribeDeployment_0(ctx context.Context, marshaler
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4196,7 +4159,6 @@ func request_WorkflowService_DescribeDeployment_1(ctx context.Context, marshaler
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4271,13 +4233,14 @@ func local_request_WorkflowService_DescribeDeployment_1(ctx context.Context, mar
 	return msg, metadata, err
 }
 
+var filter_WorkflowService_DescribeWorkerDeploymentVersion_0 = &utilities.DoubleArray{Encoding: map[string]int{"namespace": 0, "deployment_version": 1, "deployment_name": 2, "build_id": 3}, Base: []int{1, 1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 3, 3, 2, 4, 5}}
+
 func request_WorkflowService_DescribeWorkerDeploymentVersion_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq DescribeWorkerDeploymentVersionRequest
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4286,13 +4249,27 @@ func request_WorkflowService_DescribeWorkerDeploymentVersion_0(ctx context.Conte
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_WorkflowService_DescribeWorkerDeploymentVersion_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.DescribeWorkerDeploymentVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -4312,17 +4289,33 @@ func local_request_WorkflowService_DescribeWorkerDeploymentVersion_0(ctx context
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_WorkflowService_DescribeWorkerDeploymentVersion_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.DescribeWorkerDeploymentVersion(ctx, &protoReq)
 	return msg, metadata, err
 }
+
+var filter_WorkflowService_DescribeWorkerDeploymentVersion_1 = &utilities.DoubleArray{Encoding: map[string]int{"namespace": 0, "deployment_version": 1, "deployment_name": 2, "build_id": 3}, Base: []int{1, 1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 3, 3, 2, 4, 5}}
 
 func request_WorkflowService_DescribeWorkerDeploymentVersion_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
@@ -4330,7 +4323,6 @@ func request_WorkflowService_DescribeWorkerDeploymentVersion_1(ctx context.Conte
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4339,13 +4331,27 @@ func request_WorkflowService_DescribeWorkerDeploymentVersion_1(ctx context.Conte
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_WorkflowService_DescribeWorkerDeploymentVersion_1); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := client.DescribeWorkerDeploymentVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -4365,13 +4371,27 @@ func local_request_WorkflowService_DescribeWorkerDeploymentVersion_1(ctx context
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
+	}
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_WorkflowService_DescribeWorkerDeploymentVersion_1); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 	msg, err := server.DescribeWorkerDeploymentVersion(ctx, &protoReq)
 	return msg, metadata, err
@@ -4385,7 +4405,6 @@ func request_WorkflowService_ListDeployments_0(ctx context.Context, marshaler ru
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4436,7 +4455,6 @@ func request_WorkflowService_ListDeployments_1(ctx context.Context, marshaler ru
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4487,7 +4505,6 @@ func request_WorkflowService_GetDeploymentReachability_0(ctx context.Context, ma
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4570,7 +4587,6 @@ func request_WorkflowService_GetDeploymentReachability_1(ctx context.Context, ma
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4651,7 +4667,6 @@ func request_WorkflowService_GetCurrentDeployment_0(ctx context.Context, marshal
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4704,7 +4719,6 @@ func request_WorkflowService_GetCurrentDeployment_1(ctx context.Context, marshal
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -4989,7 +5003,6 @@ func request_WorkflowService_DescribeWorkerDeployment_0(ctx context.Context, mar
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -5042,7 +5055,6 @@ func request_WorkflowService_DescribeWorkerDeployment_1(ctx context.Context, mar
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -5097,7 +5109,6 @@ func request_WorkflowService_DeleteWorkerDeployment_0(ctx context.Context, marsh
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -5164,7 +5175,6 @@ func request_WorkflowService_DeleteWorkerDeployment_1(ctx context.Context, marsh
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -5223,7 +5233,7 @@ func local_request_WorkflowService_DeleteWorkerDeployment_1(ctx context.Context,
 	return msg, metadata, err
 }
 
-var filter_WorkflowService_DeleteWorkerDeploymentVersion_0 = &utilities.DoubleArray{Encoding: map[string]int{"namespace": 0, "version": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+var filter_WorkflowService_DeleteWorkerDeploymentVersion_0 = &utilities.DoubleArray{Encoding: map[string]int{"namespace": 0, "deployment_version": 1, "deployment_name": 2, "build_id": 3}, Base: []int{1, 1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 3, 3, 2, 4, 5}}
 
 func request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
@@ -5231,7 +5241,6 @@ func request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.Context
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -5240,13 +5249,21 @@ func request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.Context
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
 	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -5272,13 +5289,21 @@ func local_request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.C
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
 	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -5290,7 +5315,7 @@ func local_request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.C
 	return msg, metadata, err
 }
 
-var filter_WorkflowService_DeleteWorkerDeploymentVersion_1 = &utilities.DoubleArray{Encoding: map[string]int{"namespace": 0, "version": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+var filter_WorkflowService_DeleteWorkerDeploymentVersion_1 = &utilities.DoubleArray{Encoding: map[string]int{"namespace": 0, "deployment_version": 1, "deployment_name": 2, "build_id": 3}, Base: []int{1, 1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 3, 3, 2, 4, 5}}
 
 func request_WorkflowService_DeleteWorkerDeploymentVersion_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
@@ -5298,7 +5323,6 @@ func request_WorkflowService_DeleteWorkerDeploymentVersion_1(ctx context.Context
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -5307,13 +5331,21 @@ func request_WorkflowService_DeleteWorkerDeploymentVersion_1(ctx context.Context
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
 	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -5339,13 +5371,21 @@ func local_request_WorkflowService_DeleteWorkerDeploymentVersion_1(ctx context.C
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
 	}
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
@@ -5481,7 +5521,6 @@ func request_WorkflowService_ListWorkerDeployments_0(ctx context.Context, marsha
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -5532,7 +5571,6 @@ func request_WorkflowService_ListWorkerDeployments_1(ctx context.Context, marsha
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -5592,13 +5630,21 @@ func request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(ctx context
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
 	}
 	msg, err := client.UpdateWorkerDeploymentVersionMetadata(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -5621,13 +5667,21 @@ func local_request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(ctx c
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
 	}
 	msg, err := server.UpdateWorkerDeploymentVersionMetadata(ctx, &protoReq)
 	return msg, metadata, err
@@ -5650,13 +5704,21 @@ func request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(ctx context
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
 	}
 	msg, err := client.UpdateWorkerDeploymentVersionMetadata(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -5679,13 +5741,21 @@ func local_request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(ctx c
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
-	val, ok = pathParams["version"]
+	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "version")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
 	}
-	protoReq.Version, err = runtime.String(val)
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.deployment_name", val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "version", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.deployment_name", err)
+	}
+	val, ok = pathParams["deployment_version.build_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.build_id")
+	}
+	err = runtime.PopulateFieldFromPath(&protoReq, "deployment_version.build_id", val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_version.build_id", err)
 	}
 	msg, err := server.UpdateWorkerDeploymentVersionMetadata(ctx, &protoReq)
 	return msg, metadata, err
@@ -6077,7 +6147,6 @@ func request_WorkflowService_DescribeBatchOperation_0(ctx context.Context, marsh
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -6130,7 +6199,6 @@ func request_WorkflowService_DescribeBatchOperation_1(ctx context.Context, marsh
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -6185,7 +6253,6 @@ func request_WorkflowService_ListBatchOperations_0(ctx context.Context, marshale
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -6236,7 +6303,6 @@ func request_WorkflowService_ListBatchOperations_1(ctx context.Context, marshale
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -6821,7 +6887,6 @@ func request_WorkflowService_DescribeWorkflowRule_0(ctx context.Context, marshal
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -6874,7 +6939,6 @@ func request_WorkflowService_DescribeWorkflowRule_1(ctx context.Context, marshal
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -6927,7 +6991,6 @@ func request_WorkflowService_DeleteWorkflowRule_0(ctx context.Context, marshaler
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -6980,7 +7043,6 @@ func request_WorkflowService_DeleteWorkflowRule_1(ctx context.Context, marshaler
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -7035,7 +7097,6 @@ func request_WorkflowService_ListWorkflowRules_0(ctx context.Context, marshaler 
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -7086,7 +7147,6 @@ func request_WorkflowService_ListWorkflowRules_1(ctx context.Context, marshaler 
 		metadata runtime.ServerMetadata
 		err      error
 	)
-	io.Copy(io.Discard, req.Body)
 	val, ok := pathParams["namespace"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
@@ -8857,7 +8917,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -8877,7 +8937,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -9177,7 +9237,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -9197,7 +9257,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -9297,7 +9357,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}/update-metadata"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -9317,7 +9377,7 @@ func RegisterWorkflowServiceHandlerServer(ctx context.Context, mux *runtime.Serv
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}/update-metadata"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -11335,7 +11395,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -11352,7 +11412,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -11607,7 +11667,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -11624,7 +11684,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkerDeploymentVersion", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -11709,7 +11769,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}/update-metadata"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -11726,7 +11786,7 @@ func RegisterWorkflowServiceHandlerClient(ctx context.Context, mux *runtime.Serv
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{version}/update-metadata"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata", runtime.WithHTTPPathPattern("/api/v1/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}/update-metadata"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -12333,8 +12393,8 @@ var (
 	pattern_WorkflowService_GetWorkerTaskReachability_1             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "worker-task-reachability"}, ""))
 	pattern_WorkflowService_DescribeDeployment_0                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id"}, ""))
 	pattern_WorkflowService_DescribeDeployment_1                    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"api", "v1", "namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id"}, ""))
-	pattern_WorkflowService_DescribeWorkerDeploymentVersion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
-	pattern_WorkflowService_DescribeWorkerDeploymentVersion_1       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
+	pattern_WorkflowService_DescribeWorkerDeploymentVersion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"namespaces", "namespace", "worker-deployment-versions", "deployment_version.deployment_name", "deployment_version.build_id"}, ""))
+	pattern_WorkflowService_DescribeWorkerDeploymentVersion_1       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "deployment_version.deployment_name", "deployment_version.build_id"}, ""))
 	pattern_WorkflowService_ListDeployments_0                       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "deployments"}, ""))
 	pattern_WorkflowService_ListDeployments_1                       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "deployments"}, ""))
 	pattern_WorkflowService_GetDeploymentReachability_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"namespaces", "namespace", "deployments", "deployment.series_name", "deployment.build_id", "reachability"}, ""))
@@ -12349,14 +12409,14 @@ var (
 	pattern_WorkflowService_DescribeWorkerDeployment_1              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
 	pattern_WorkflowService_DeleteWorkerDeployment_0                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
 	pattern_WorkflowService_DeleteWorkerDeployment_1                = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name"}, ""))
-	pattern_WorkflowService_DeleteWorkerDeploymentVersion_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
-	pattern_WorkflowService_DeleteWorkerDeploymentVersion_1         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeploymentVersion_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"namespaces", "namespace", "worker-deployment-versions", "deployment_version.deployment_name", "deployment_version.build_id"}, ""))
+	pattern_WorkflowService_DeleteWorkerDeploymentVersion_1         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "deployment_version.deployment_name", "deployment_version.build_id"}, ""))
 	pattern_WorkflowService_SetWorkerDeploymentRampingVersion_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployments", "deployment_name", "set-ramping-version"}, ""))
 	pattern_WorkflowService_SetWorkerDeploymentRampingVersion_1     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments", "deployment_name", "set-ramping-version"}, ""))
 	pattern_WorkflowService_ListWorkerDeployments_0                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2}, []string{"namespaces", "namespace", "worker-deployments"}, ""))
 	pattern_WorkflowService_ListWorkerDeployments_1                 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"api", "v1", "namespaces", "namespace", "worker-deployments"}, ""))
-	pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4}, []string{"namespaces", "namespace", "worker-deployment-versions", "version", "update-metadata"}, ""))
-	pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "version", "update-metadata"}, ""))
+	pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"namespaces", "namespace", "worker-deployment-versions", "deployment_version.deployment_name", "deployment_version.build_id", "update-metadata"}, ""))
+	pattern_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 1, 0, 4, 1, 5, 6, 2, 7}, []string{"api", "v1", "namespaces", "namespace", "worker-deployment-versions", "deployment_version.deployment_name", "deployment_version.build_id", "update-metadata"}, ""))
 	pattern_WorkflowService_UpdateWorkflowExecution_0               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5}, []string{"namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update", "request.input.name"}, ""))
 	pattern_WorkflowService_UpdateWorkflowExecution_1               = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6, 1, 0, 4, 1, 5, 7}, []string{"api", "v1", "namespaces", "namespace", "workflows", "workflow_execution.workflow_id", "update", "request.input.name"}, ""))
 	pattern_WorkflowService_StartBatchOperation_0                   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"namespaces", "namespace", "batch-operations", "job_id"}, ""))
