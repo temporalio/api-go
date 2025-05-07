@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2020 Temporal Technologies Inc.  All rights reserved.
+// Copyright (c) 2022 Temporal Technologies Inc.  All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -54,12 +54,11 @@ type WorkerDeploymentOptions struct {
 	// Required. Worker Deployment name.
 	DeploymentName string `protobuf:"bytes,1,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// The Build ID of the worker. Required when `worker_versioning_mode==VERSIONED`, in which case,
-	// the worker will be part of a Deployment Version identified by "<deployment_name>.<build_id>".
+	// the worker will be part of a Deployment Version.
 	BuildId string `protobuf:"bytes,2,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// Required. Versioning Mode for this worker. Must be the same for all workers with the
 	// same `deployment_name` and `build_id` combination, across all Task Queues.
-	// When `worker_versioning_mode==VERSIONED`, the worker will be part of a Deployment Version
-	// identified by "<deployment_name>.<build_id>".
+	// When `worker_versioning_mode==VERSIONED`, the worker will be part of a Deployment Version.
 	WorkerVersioningMode v1.WorkerVersioningMode `protobuf:"varint,3,opt,name=worker_versioning_mode,json=workerVersioningMode,proto3,enum=temporal.api.enums.v1.WorkerVersioningMode" json:"worker_versioning_mode,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
