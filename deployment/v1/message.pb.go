@@ -1,6 +1,6 @@
 // The MIT License
 //
-// Copyright (c) 2020 Temporal Technologies Inc.  All rights reserved.
+// Copyright (c) 2022 Temporal Technologies Inc.  All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -408,6 +408,10 @@ type WorkerDeploymentVersionInfo struct {
 	//
 	// Nil if not ramping. Updated when the version first starts ramping, not on each ramp change.
 	RampingSinceTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=ramping_since_time,json=rampingSinceTime,proto3" json:"ramping_since_time,omitempty"`
+	// Timestamp when this version first became current or ramping.
+	FirstActivationTime *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=first_activation_time,json=firstActivationTime,proto3" json:"first_activation_time,omitempty"`
+	// Timestamp when this version last stopped being current or ramping.
+	LastDeactivationTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=last_deactivation_time,json=lastDeactivationTime,proto3" json:"last_deactivation_time,omitempty"`
 	// Range: [0, 100]. Must be zero if the version is not ramping (i.e. `ramping_since_time` is nil).
 	// Can be in the range [0, 100] if the version is ramping.
 	RampPercentage float32 `protobuf:"fixed32,7,opt,name=ramp_percentage,json=rampPercentage,proto3" json:"ramp_percentage,omitempty"`
@@ -501,6 +505,20 @@ func (x *WorkerDeploymentVersionInfo) GetCurrentSinceTime() *timestamppb.Timesta
 func (x *WorkerDeploymentVersionInfo) GetRampingSinceTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.RampingSinceTime
+	}
+	return nil
+}
+
+func (x *WorkerDeploymentVersionInfo) GetFirstActivationTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.FirstActivationTime
+	}
+	return nil
+}
+
+func (x *WorkerDeploymentVersionInfo) GetLastDeactivationTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastDeactivationTime
 	}
 	return nil
 }
@@ -963,11 +981,31 @@ func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) GetType() v1.TaskQueu
 type WorkerDeploymentInfo_WorkerDeploymentVersionSummary struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The fully-qualified string representation of the version, in the form "<deployment_name>.<build_id>".
-	Version        string                   `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
-	CreateTime     *timestamppb.Timestamp   `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	Version    string                 `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	CreateTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	// Deprecated. Use `drainage_info` instead.
 	DrainageStatus v1.VersionDrainageStatus `protobuf:"varint,3,opt,name=drainage_status,json=drainageStatus,proto3,enum=temporal.api.enums.v1.VersionDrainageStatus" json:"drainage_status,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Information about workflow drainage to help the user determine when it is safe
+	// to decommission a Version. Not present while version is current or ramping
+	DrainageInfo *VersionDrainageInfo `protobuf:"bytes,4,opt,name=drainage_info,json=drainageInfo,proto3" json:"drainage_info,omitempty"`
+	// Nil if not current.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
+	CurrentSinceTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=current_since_time,json=currentSinceTime,proto3" json:"current_since_time,omitempty"`
+	// Nil if not ramping. Updated when the version first starts ramping, not on each ramp change.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
+	RampingSinceTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=ramping_since_time,json=rampingSinceTime,proto3" json:"ramping_since_time,omitempty"`
+	// Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed.
+	RoutingUpdateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=routing_update_time,json=routingUpdateTime,proto3" json:"routing_update_time,omitempty"`
+	// Timestamp when this version first became current or ramping.
+	FirstActivationTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=first_activation_time,json=firstActivationTime,proto3" json:"first_activation_time,omitempty"`
+	// Timestamp when this version last stopped being current or ramping.
+	LastDeactivationTime *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=last_deactivation_time,json=lastDeactivationTime,proto3" json:"last_deactivation_time,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) Reset() {
@@ -1021,6 +1059,48 @@ func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetDrainageStatus(
 	return v1.VersionDrainageStatus(0)
 }
 
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetDrainageInfo() *VersionDrainageInfo {
+	if x != nil {
+		return x.DrainageInfo
+	}
+	return nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetCurrentSinceTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CurrentSinceTime
+	}
+	return nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetRampingSinceTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.RampingSinceTime
+	}
+	return nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetRoutingUpdateTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.RoutingUpdateTime
+	}
+	return nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetFirstActivationTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.FirstActivationTime
+	}
+	return nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetLastDeactivationTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastDeactivationTime
+	}
+	return nil
+}
+
 var File_temporal_api_deployment_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
@@ -1065,7 +1145,7 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\vcreate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12\x1d\n" +
 	"\n" +
-	"is_current\x18\x03 \x01(\bR\tisCurrent\"\xa5\x06\n" +
+	"is_current\x18\x03 \x01(\bR\tisCurrent\"\xc7\a\n" +
 	"\x1bWorkerDeploymentVersionInfo\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12'\n" +
 	"\x0fdeployment_name\x18\x02 \x01(\tR\x0edeploymentName\x12;\n" +
@@ -1073,7 +1153,9 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"createTime\x12L\n" +
 	"\x14routing_changed_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x12routingChangedTime\x12H\n" +
 	"\x12current_since_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x10currentSinceTime\x12H\n" +
-	"\x12ramping_since_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x10rampingSinceTime\x12'\n" +
+	"\x12ramping_since_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x10rampingSinceTime\x12N\n" +
+	"\x15first_activation_time\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\x13firstActivationTime\x12P\n" +
+	"\x16last_deactivation_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\x14lastDeactivationTime\x12'\n" +
 	"\x0framp_percentage\x18\a \x01(\x02R\x0erampPercentage\x12v\n" +
 	"\x10task_queue_infos\x18\b \x03(\v2L.temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfoR\x0etaskQueueInfos\x12T\n" +
 	"\rdrainage_info\x18\t \x01(\v2/.temporal.api.deployment.v1.VersionDrainageInfoR\fdrainageInfo\x12G\n" +
@@ -1085,19 +1167,25 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\x13VersionDrainageInfo\x12D\n" +
 	"\x06status\x18\x01 \x01(\x0e2,.temporal.api.enums.v1.VersionDrainageStatusR\x06status\x12F\n" +
 	"\x11last_changed_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x0flastChangedTime\x12F\n" +
-	"\x11last_checked_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0flastCheckedTime\"\xbe\x04\n" +
+	"\x11last_checked_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0flastCheckedTime\"\x96\b\n" +
 	"\x14WorkerDeploymentInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12|\n" +
 	"\x11version_summaries\x18\x02 \x03(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x10versionSummaries\x12;\n" +
 	"\vcreate_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12P\n" +
 	"\x0erouting_config\x18\x04 \x01(\v2).temporal.api.deployment.v1.RoutingConfigR\rroutingConfig\x124\n" +
-	"\x16last_modifier_identity\x18\x05 \x01(\tR\x14lastModifierIdentity\x1a\xce\x01\n" +
+	"\x16last_modifier_identity\x18\x05 \x01(\tR\x14lastModifierIdentity\x1a\xa6\x05\n" +
 	"\x1eWorkerDeploymentVersionSummary\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12;\n" +
 	"\vcreate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12U\n" +
-	"\x0fdrainage_status\x18\x03 \x01(\x0e2,.temporal.api.enums.v1.VersionDrainageStatusR\x0edrainageStatus\"\xc2\x01\n" +
+	"\x0fdrainage_status\x18\x03 \x01(\x0e2,.temporal.api.enums.v1.VersionDrainageStatusR\x0edrainageStatus\x12T\n" +
+	"\rdrainage_info\x18\x04 \x01(\v2/.temporal.api.deployment.v1.VersionDrainageInfoR\fdrainageInfo\x12H\n" +
+	"\x12current_since_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x10currentSinceTime\x12H\n" +
+	"\x12ramping_since_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x10rampingSinceTime\x12J\n" +
+	"\x13routing_update_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x11routingUpdateTime\x12N\n" +
+	"\x15first_activation_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x13firstActivationTime\x12P\n" +
+	"\x16last_deactivation_time\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x14lastDeactivationTime\"\xc2\x01\n" +
 	"\x0fVersionMetadata\x12R\n" +
 	"\aentries\x18\x01 \x03(\v28.temporal.api.deployment.v1.VersionMetadata.EntriesEntryR\aentries\x1a[\n" +
 	"\fEntriesEntry\x12\x10\n" +
@@ -1161,32 +1249,40 @@ var file_temporal_api_deployment_v1_message_proto_depIdxs = []int32{
 	17, // 9: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.routing_changed_time:type_name -> google.protobuf.Timestamp
 	17, // 10: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.current_since_time:type_name -> google.protobuf.Timestamp
 	17, // 11: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.ramping_since_time:type_name -> google.protobuf.Timestamp
-	13, // 12: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.task_queue_infos:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo
-	6,  // 13: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.drainage_info:type_name -> temporal.api.deployment.v1.VersionDrainageInfo
-	8,  // 14: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.metadata:type_name -> temporal.api.deployment.v1.VersionMetadata
-	18, // 15: temporal.api.deployment.v1.VersionDrainageInfo.status:type_name -> temporal.api.enums.v1.VersionDrainageStatus
-	17, // 16: temporal.api.deployment.v1.VersionDrainageInfo.last_changed_time:type_name -> google.protobuf.Timestamp
-	17, // 17: temporal.api.deployment.v1.VersionDrainageInfo.last_checked_time:type_name -> google.protobuf.Timestamp
-	14, // 18: temporal.api.deployment.v1.WorkerDeploymentInfo.version_summaries:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	17, // 19: temporal.api.deployment.v1.WorkerDeploymentInfo.create_time:type_name -> google.protobuf.Timestamp
-	9,  // 20: temporal.api.deployment.v1.WorkerDeploymentInfo.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
-	15, // 21: temporal.api.deployment.v1.VersionMetadata.entries:type_name -> temporal.api.deployment.v1.VersionMetadata.EntriesEntry
-	17, // 22: temporal.api.deployment.v1.RoutingConfig.current_version_changed_time:type_name -> google.protobuf.Timestamp
-	17, // 23: temporal.api.deployment.v1.RoutingConfig.ramping_version_changed_time:type_name -> google.protobuf.Timestamp
-	17, // 24: temporal.api.deployment.v1.RoutingConfig.ramping_version_percentage_changed_time:type_name -> google.protobuf.Timestamp
-	19, // 25: temporal.api.deployment.v1.DeploymentInfo.MetadataEntry.value:type_name -> temporal.api.common.v1.Payload
-	20, // 26: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
-	17, // 27: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.first_poller_time:type_name -> google.protobuf.Timestamp
-	19, // 28: temporal.api.deployment.v1.UpdateDeploymentMetadata.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	20, // 29: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
-	17, // 30: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.create_time:type_name -> google.protobuf.Timestamp
-	18, // 31: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.drainage_status:type_name -> temporal.api.enums.v1.VersionDrainageStatus
-	19, // 32: temporal.api.deployment.v1.VersionMetadata.EntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	33, // [33:33] is the sub-list for method output_type
-	33, // [33:33] is the sub-list for method input_type
-	33, // [33:33] is the sub-list for extension type_name
-	33, // [33:33] is the sub-list for extension extendee
-	0,  // [0:33] is the sub-list for field type_name
+	17, // 12: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.first_activation_time:type_name -> google.protobuf.Timestamp
+	17, // 13: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.last_deactivation_time:type_name -> google.protobuf.Timestamp
+	13, // 14: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.task_queue_infos:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo
+	6,  // 15: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.drainage_info:type_name -> temporal.api.deployment.v1.VersionDrainageInfo
+	8,  // 16: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.metadata:type_name -> temporal.api.deployment.v1.VersionMetadata
+	18, // 17: temporal.api.deployment.v1.VersionDrainageInfo.status:type_name -> temporal.api.enums.v1.VersionDrainageStatus
+	17, // 18: temporal.api.deployment.v1.VersionDrainageInfo.last_changed_time:type_name -> google.protobuf.Timestamp
+	17, // 19: temporal.api.deployment.v1.VersionDrainageInfo.last_checked_time:type_name -> google.protobuf.Timestamp
+	14, // 20: temporal.api.deployment.v1.WorkerDeploymentInfo.version_summaries:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
+	17, // 21: temporal.api.deployment.v1.WorkerDeploymentInfo.create_time:type_name -> google.protobuf.Timestamp
+	9,  // 22: temporal.api.deployment.v1.WorkerDeploymentInfo.routing_config:type_name -> temporal.api.deployment.v1.RoutingConfig
+	15, // 23: temporal.api.deployment.v1.VersionMetadata.entries:type_name -> temporal.api.deployment.v1.VersionMetadata.EntriesEntry
+	17, // 24: temporal.api.deployment.v1.RoutingConfig.current_version_changed_time:type_name -> google.protobuf.Timestamp
+	17, // 25: temporal.api.deployment.v1.RoutingConfig.ramping_version_changed_time:type_name -> google.protobuf.Timestamp
+	17, // 26: temporal.api.deployment.v1.RoutingConfig.ramping_version_percentage_changed_time:type_name -> google.protobuf.Timestamp
+	19, // 27: temporal.api.deployment.v1.DeploymentInfo.MetadataEntry.value:type_name -> temporal.api.common.v1.Payload
+	20, // 28: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
+	17, // 29: temporal.api.deployment.v1.DeploymentInfo.TaskQueueInfo.first_poller_time:type_name -> google.protobuf.Timestamp
+	19, // 30: temporal.api.deployment.v1.UpdateDeploymentMetadata.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	20, // 31: temporal.api.deployment.v1.WorkerDeploymentVersionInfo.VersionTaskQueueInfo.type:type_name -> temporal.api.enums.v1.TaskQueueType
+	17, // 32: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.create_time:type_name -> google.protobuf.Timestamp
+	18, // 33: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.drainage_status:type_name -> temporal.api.enums.v1.VersionDrainageStatus
+	6,  // 34: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.drainage_info:type_name -> temporal.api.deployment.v1.VersionDrainageInfo
+	17, // 35: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.current_since_time:type_name -> google.protobuf.Timestamp
+	17, // 36: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.ramping_since_time:type_name -> google.protobuf.Timestamp
+	17, // 37: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.routing_update_time:type_name -> google.protobuf.Timestamp
+	17, // 38: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.first_activation_time:type_name -> google.protobuf.Timestamp
+	17, // 39: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.last_deactivation_time:type_name -> google.protobuf.Timestamp
+	19, // 40: temporal.api.deployment.v1.VersionMetadata.EntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	41, // [41:41] is the sub-list for method output_type
+	41, // [41:41] is the sub-list for method input_type
+	41, // [41:41] is the sub-list for extension type_name
+	41, // [41:41] is the sub-list for extension extendee
+	0,  // [0:41] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_deployment_v1_message_proto_init() }

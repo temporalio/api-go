@@ -338,6 +338,21 @@ func visitPayloads(
 				}
 			}
 
+		case *batch.BatchOperationReset:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetPostResetOperations(),
+			); err != nil {
+				return err
+			}
+
 		case *batch.BatchOperationSignal:
 
 			if o == nil {
@@ -1996,6 +2011,44 @@ func visitPayloads(
 				return err
 			}
 
+		case []*workflow.PostResetOperation:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflow.PostResetOperation:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetSignalWorkflow(),
+			); err != nil {
+				return err
+			}
+
+		case *workflow.PostResetOperation_SignalWorkflow:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetHeader(),
+				o.GetInput(),
+			); err != nil {
+				return err
+			}
+
 		case *workflow.WorkflowExecutionConfig:
 
 			if o == nil {
@@ -2497,6 +2550,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.ResetWorkflowExecutionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetPostResetOperations(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.RespondActivityTaskCanceledByIdRequest:
 
 			if o == nil {
@@ -2791,6 +2859,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
+				o.GetResetOperation(),
 				o.GetSignalOperation(),
 				o.GetTerminationOperation(),
 			); err != nil {
