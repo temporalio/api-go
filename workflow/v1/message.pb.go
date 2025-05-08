@@ -1358,7 +1358,6 @@ func (x *ResetPoints) GetPoints() []*ResetPointInfo {
 type ResetPointInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Worker build id.
-	// todo carly
 	BuildId string `protobuf:"bytes,7,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// A worker binary version identifier (deprecated).
 	//
