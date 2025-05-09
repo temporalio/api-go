@@ -400,13 +400,13 @@ type WorkerDeploymentVersionInfo struct {
 	//
 	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
 	//
-	// Nil if not current.
+	// Unset if not current.
 	CurrentSinceTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=current_since_time,json=currentSinceTime,proto3" json:"current_since_time,omitempty"`
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
 	//
-	// Nil if not ramping. Updated when the version first starts ramping, not on each ramp change.
+	// Unset if not ramping. Updated when the version first starts ramping, not on each ramp change.
 	RampingSinceTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=ramping_since_time,json=rampingSinceTime,proto3" json:"ramping_since_time,omitempty"`
 	// Timestamp when this version first became current or ramping.
 	FirstActivationTime *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=first_activation_time,json=firstActivationTime,proto3" json:"first_activation_time,omitempty"`
@@ -988,18 +988,18 @@ type WorkerDeploymentInfo_WorkerDeploymentVersionSummary struct {
 	// Information about workflow drainage to help the user determine when it is safe
 	// to decommission a Version. Not present while version is current or ramping
 	DrainageInfo *VersionDrainageInfo `protobuf:"bytes,4,opt,name=drainage_info,json=drainageInfo,proto3" json:"drainage_info,omitempty"`
-	// Nil if not current.
+	// Unset if not current.
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
 	CurrentSinceTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=current_since_time,json=currentSinceTime,proto3" json:"current_since_time,omitempty"`
-	// Nil if not ramping. Updated when the version first starts ramping, not on each ramp change.
+	// Unset if not ramping. Updated when the version first starts ramping, not on each ramp change.
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
 	RampingSinceTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=ramping_since_time,json=rampingSinceTime,proto3" json:"ramping_since_time,omitempty"`
 	// Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed.
-	RoutingUpdateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=routing_update_time,json=routingUpdateTime,proto3" json:"routing_update_time,omitempty"`
+	LastRoutingUpdateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=last_routing_update_time,json=lastRoutingUpdateTime,proto3" json:"last_routing_update_time,omitempty"`
 	// Timestamp when this version first became current or ramping.
 	FirstActivationTime *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=first_activation_time,json=firstActivationTime,proto3" json:"first_activation_time,omitempty"`
 	// Timestamp when this version last stopped being current or ramping.
@@ -1080,9 +1080,9 @@ func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetRampingSinceTim
 	return nil
 }
 
-func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetRoutingUpdateTime() *timestamppb.Timestamp {
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetLastRoutingUpdateTime() *timestamppb.Timestamp {
 	if x != nil {
-		return x.RoutingUpdateTime
+		return x.LastRoutingUpdateTime
 	}
 	return nil
 }
@@ -1167,14 +1167,14 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\x13VersionDrainageInfo\x12D\n" +
 	"\x06status\x18\x01 \x01(\x0e2,.temporal.api.enums.v1.VersionDrainageStatusR\x06status\x12F\n" +
 	"\x11last_changed_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x0flastChangedTime\x12F\n" +
-	"\x11last_checked_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0flastCheckedTime\"\x96\b\n" +
+	"\x11last_checked_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0flastCheckedTime\"\x9f\b\n" +
 	"\x14WorkerDeploymentInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12|\n" +
 	"\x11version_summaries\x18\x02 \x03(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x10versionSummaries\x12;\n" +
 	"\vcreate_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\x12P\n" +
 	"\x0erouting_config\x18\x04 \x01(\v2).temporal.api.deployment.v1.RoutingConfigR\rroutingConfig\x124\n" +
-	"\x16last_modifier_identity\x18\x05 \x01(\tR\x14lastModifierIdentity\x1a\xa6\x05\n" +
+	"\x16last_modifier_identity\x18\x05 \x01(\tR\x14lastModifierIdentity\x1a\xaf\x05\n" +
 	"\x1eWorkerDeploymentVersionSummary\x12\x18\n" +
 	"\aversion\x18\x01 \x01(\tR\aversion\x12;\n" +
 	"\vcreate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
@@ -1182,8 +1182,8 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\x0fdrainage_status\x18\x03 \x01(\x0e2,.temporal.api.enums.v1.VersionDrainageStatusR\x0edrainageStatus\x12T\n" +
 	"\rdrainage_info\x18\x04 \x01(\v2/.temporal.api.deployment.v1.VersionDrainageInfoR\fdrainageInfo\x12H\n" +
 	"\x12current_since_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x10currentSinceTime\x12H\n" +
-	"\x12ramping_since_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x10rampingSinceTime\x12J\n" +
-	"\x13routing_update_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x11routingUpdateTime\x12N\n" +
+	"\x12ramping_since_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x10rampingSinceTime\x12S\n" +
+	"\x18last_routing_update_time\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\x15lastRoutingUpdateTime\x12N\n" +
 	"\x15first_activation_time\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\x13firstActivationTime\x12P\n" +
 	"\x16last_deactivation_time\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x14lastDeactivationTime\"\xc2\x01\n" +
 	"\x0fVersionMetadata\x12R\n" +
@@ -1274,7 +1274,7 @@ var file_temporal_api_deployment_v1_message_proto_depIdxs = []int32{
 	6,  // 34: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.drainage_info:type_name -> temporal.api.deployment.v1.VersionDrainageInfo
 	17, // 35: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.current_since_time:type_name -> google.protobuf.Timestamp
 	17, // 36: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.ramping_since_time:type_name -> google.protobuf.Timestamp
-	17, // 37: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.routing_update_time:type_name -> google.protobuf.Timestamp
+	17, // 37: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.last_routing_update_time:type_name -> google.protobuf.Timestamp
 	17, // 38: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.first_activation_time:type_name -> google.protobuf.Timestamp
 	17, // 39: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary.last_deactivation_time:type_name -> google.protobuf.Timestamp
 	19, // 40: temporal.api.deployment.v1.VersionMetadata.EntriesEntry.value:type_name -> temporal.api.common.v1.Payload
