@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"errors"
+	"fmt"
 
 	"go.temporal.io/api/errordetails/v1"
 	"google.golang.org/grpc/codes"
@@ -18,6 +19,11 @@ type MultiOperationExecution struct {
 // NewMultiOperationExecution returns a new MultiOperationExecution error.
 func NewMultiOperationExecution(message string, errs []error) error {
 	return &MultiOperationExecution{Message: message, errs: errs}
+}
+
+// NewMultiOperationExecutionf returns a new MultiOperationExecution error with formatted message.
+func NewMultiOperationExecutionf(format string, errs []error, args ...interface{}) error {
+	return &MultiOperationExecution{Message: fmt.Sprintf(format, args...), errs: errs}
 }
 
 // Error returns string message.

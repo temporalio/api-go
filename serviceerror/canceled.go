@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,6 +18,13 @@ type (
 func NewCanceled(message string) error {
 	return &Canceled{
 		Message: message,
+	}
+}
+
+// NewCanceledf returns new Canceled error with formatted message.
+func NewCanceledf(format string, args ...interface{}) error {
+	return &Canceled{
+		Message: fmt.Sprintf(format, args...),
 	}
 }
 

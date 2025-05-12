@@ -28,6 +28,15 @@ func NewServerVersionNotSupported(serverVersion, supportedVersions string) error
 	}
 }
 
+// NewServerVersionNotSupportedf returns new ServerVersionNotSupported error with formatted message.
+func NewServerVersionNotSupportedf(serverVersion, supportedVersions, format string, args ...interface{}) error {
+	return &ServerVersionNotSupported{
+		Message:                       fmt.Sprintf(format, args...),
+		ServerVersion:                 serverVersion,
+		ClientSupportedServerVersions: supportedVersions,
+	}
+}
+
 // Error returns string message.
 func (e *ServerVersionNotSupported) Error() string {
 	return e.Message

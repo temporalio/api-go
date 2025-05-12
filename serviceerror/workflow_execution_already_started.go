@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -21,6 +22,15 @@ type (
 func NewWorkflowExecutionAlreadyStarted(message, startRequestId, runId string) error {
 	return &WorkflowExecutionAlreadyStarted{
 		Message:        message,
+		StartRequestId: startRequestId,
+		RunId:          runId,
+	}
+}
+
+// NewWorkflowExecutionAlreadyStartedf returns new WorkflowExecutionAlreadyStarted error with formatted message.
+func NewWorkflowExecutionAlreadyStartedf(startRequestId, runId, format string, args ...interface{}) error {
+	return &WorkflowExecutionAlreadyStarted{
+		Message:        fmt.Sprintf(format, args...),
 		StartRequestId: startRequestId,
 		RunId:          runId,
 	}

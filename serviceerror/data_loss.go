@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,6 +18,13 @@ type (
 func NewDataLoss(message string) error {
 	return &DataLoss{
 		Message: message,
+	}
+}
+
+// NewDataLossf returns new DataLoss error with formatted message.
+func NewDataLossf(format string, args ...interface{}) error {
+	return &DataLoss{
+		Message: fmt.Sprintf(format, args...),
 	}
 }
 

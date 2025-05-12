@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -26,10 +27,25 @@ func NewQueryFailed(message string) error {
 	}
 }
 
+// NewQueryFailedf returns new QueryFailed error with formatted message.
+func NewQueryFailedf(format string, args ...interface{}) error {
+	return &QueryFailed{
+		Message: fmt.Sprintf(format, args...),
+	}
+}
+
 // NewQueryFailed returns new QueryFailed error.
 func NewQueryFailedWithFailure(message string, failure *failure.Failure) error {
 	return &QueryFailed{
 		Message: message,
+		Failure: failure,
+	}
+}
+
+// NewQueryFailedWithFailuref returns new QueryFailed error with failure and formatted message.
+func NewQueryFailedWithFailuref(failure *failure.Failure, format string, args ...interface{}) error {
+	return &QueryFailed{
+		Message: fmt.Sprintf(format, args...),
 		Failure: failure,
 	}
 }

@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -21,6 +22,13 @@ type (
 func NewNotFound(message string) error {
 	return &NotFound{
 		Message: message,
+	}
+}
+
+// NewNotFoundf returns new NotFound error with formatted message.
+func NewNotFoundf(format string, args ...interface{}) error {
+	return &NotFound{
+		Message: fmt.Sprintf(format, args...),
 	}
 }
 

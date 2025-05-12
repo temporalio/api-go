@@ -40,6 +40,16 @@ func NewNamespaceInvalidState(namespace string, state enumspb.NamespaceState, al
 	}
 }
 
+// NewNamespaceInvalidStatef returns new NamespaceInvalidState error with formatted message.
+func NewNamespaceInvalidStatef(namespace string, state enumspb.NamespaceState, allowedStates []enumspb.NamespaceState, format string, args ...interface{}) error {
+	return &NamespaceInvalidState{
+		Message:       fmt.Sprintf(format, args...),
+		Namespace:     namespace,
+		State:         state,
+		AllowedStates: allowedStates,
+	}
+}
+
 // Error returns string message.
 func (e *NamespaceInvalidState) Error() string {
 	return e.Message
