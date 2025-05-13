@@ -11,8 +11,8 @@ import (
 	sync "sync"
 	unsafe "unsafe"
 
-	v11 "go.temporal.io/api/common/v1"
-	v12 "go.temporal.io/api/deployment/v1"
+	v12 "go.temporal.io/api/common/v1"
+	v11 "go.temporal.io/api/deployment/v1"
 	v1 "go.temporal.io/api/enums/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -141,29 +141,30 @@ func (x *TaskQueueMetadata) GetMaxTasksPerSecond() *wrapperspb.DoubleValue {
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
 type TaskQueueVersioningInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Always present. Specifies which Deployment Version should receive new workflow
-	// executions and tasks of existing unversioned or AutoUpgrade workflows.
-	// Can be one of the following:
-	//   - A Deployment Version identifier in the form "<deployment_name>.<build_id>".
-	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
-	//     with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
+	// Specifies which Deployment Version should receive new workflow executions and tasks of
+	// existing unversioned or AutoUpgrade workflows.
+	// Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
+	// Note: Current Version is overridden by the Ramping Version for a portion of traffic when ramp percentage
+	// is non-zero (see `ramping_deployment_version` and `ramping_version_percentage`).
+	CurrentDeploymentVersion *v11.WorkerDeploymentVersion `protobuf:"bytes,7,opt,name=current_deployment_version,json=currentDeploymentVersion,proto3" json:"current_deployment_version,omitempty"`
+	// Deprecated. Use `current_deployment_version`.
 	//
-	// Note: Current Version is overridden by the Ramping Version for a portion of traffic when a ramp
-	// is set (see `ramping_version`.)
+	// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
 	CurrentVersion string `protobuf:"bytes,1,opt,name=current_version,json=currentVersion,proto3" json:"current_version,omitempty"`
-	// When present, it means the traffic is being shifted from the Current Version to the Ramping
-	// Version.
-	// Must always be different from `current_version`. Can be one of the following:
-	//   - A Deployment Version identifier in the form "<deployment_name>.<build_id>".
-	//   - Or, the "__unversioned__" special value, to represent all the unversioned workers (those
-	//     with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
-	//
+	// When ramp percentage is non-zero, that portion of traffic is shifted from the Current Version to the Ramping Version.
+	// Must always be different from `current_deployment_version` unless both are nil.
+	// Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
 	// Note that it is possible to ramp from one Version to another Version, or from unversioned
 	// workers to a particular Version, or from a particular Version to unversioned workers.
+	RampingDeploymentVersion *v11.WorkerDeploymentVersion `protobuf:"bytes,9,opt,name=ramping_deployment_version,json=rampingDeploymentVersion,proto3" json:"ramping_deployment_version,omitempty"`
+	// Deprecated. Use `ramping_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
 	RampingVersion string `protobuf:"bytes,2,opt,name=ramping_version,json=rampingVersion,proto3" json:"ramping_version,omitempty"`
 	// Percentage of tasks that are routed to the Ramping Version instead of the Current Version.
 	// Valid range: [0, 100]. A 100% value means the Ramping Version is receiving full traffic but
 	// not yet "promoted" to be the Current Version, likely due to pending validations.
+	// A 0% value means the Ramping Version is receiving no traffic.
 	RampingVersionPercentage float32 `protobuf:"fixed32,3,opt,name=ramping_version_percentage,json=rampingVersionPercentage,proto3" json:"ramping_version_percentage,omitempty"`
 	// Last time versioning information of this Task Queue changed.
 	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
@@ -201,6 +202,14 @@ func (*TaskQueueVersioningInfo) Descriptor() ([]byte, []int) {
 	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *TaskQueueVersioningInfo) GetCurrentDeploymentVersion() *v11.WorkerDeploymentVersion {
+	if x != nil {
+		return x.CurrentDeploymentVersion
+	}
+	return nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
 func (x *TaskQueueVersioningInfo) GetCurrentVersion() string {
 	if x != nil {
 		return x.CurrentVersion
@@ -208,6 +217,14 @@ func (x *TaskQueueVersioningInfo) GetCurrentVersion() string {
 	return ""
 }
 
+func (x *TaskQueueVersioningInfo) GetRampingDeploymentVersion() *v11.WorkerDeploymentVersion {
+	if x != nil {
+		return x.RampingDeploymentVersion
+	}
+	return nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
 func (x *TaskQueueVersioningInfo) GetRampingVersion() string {
 	if x != nil {
 		return x.RampingVersion
@@ -712,9 +729,9 @@ type PollerInfo struct {
 	// Deprecated. Replaced by deployment_options.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
-	WorkerVersionCapabilities *v11.WorkerVersionCapabilities `protobuf:"bytes,4,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
+	WorkerVersionCapabilities *v12.WorkerVersionCapabilities `protobuf:"bytes,4,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
 	// Worker deployment options that SDK sent to server.
-	DeploymentOptions *v12.WorkerDeploymentOptions `protobuf:"bytes,5,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
+	DeploymentOptions *v11.WorkerDeploymentOptions `protobuf:"bytes,5,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -771,14 +788,14 @@ func (x *PollerInfo) GetRatePerSecond() float64 {
 }
 
 // Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
-func (x *PollerInfo) GetWorkerVersionCapabilities() *v11.WorkerVersionCapabilities {
+func (x *PollerInfo) GetWorkerVersionCapabilities() *v12.WorkerVersionCapabilities {
 	if x != nil {
 		return x.WorkerVersionCapabilities
 	}
 	return nil
 }
 
-func (x *PollerInfo) GetDeploymentOptions() *v12.WorkerDeploymentOptions {
+func (x *PollerInfo) GetDeploymentOptions() *v11.WorkerDeploymentOptions {
 	if x != nil {
 		return x.DeploymentOptions
 	}
@@ -1405,10 +1422,12 @@ const file_temporal_api_taskqueue_v1_message_proto_rawDesc = "" +
 	"\vnormal_name\x18\x03 \x01(\tR\n" +
 	"normalName\"b\n" +
 	"\x11TaskQueueMetadata\x12M\n" +
-	"\x14max_tasks_per_second\x18\x01 \x01(\v2\x1c.google.protobuf.DoubleValueR\x11maxTasksPerSecond\"\xe6\x01\n" +
-	"\x17TaskQueueVersioningInfo\x12'\n" +
-	"\x0fcurrent_version\x18\x01 \x01(\tR\x0ecurrentVersion\x12'\n" +
-	"\x0framping_version\x18\x02 \x01(\tR\x0erampingVersion\x12<\n" +
+	"\x14max_tasks_per_second\x18\x01 \x01(\v2\x1c.google.protobuf.DoubleValueR\x11maxTasksPerSecond\"\xd4\x03\n" +
+	"\x17TaskQueueVersioningInfo\x12q\n" +
+	"\x1acurrent_deployment_version\x18\a \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x18currentDeploymentVersion\x12+\n" +
+	"\x0fcurrent_version\x18\x01 \x01(\tB\x02\x18\x01R\x0ecurrentVersion\x12q\n" +
+	"\x1aramping_deployment_version\x18\t \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x18rampingDeploymentVersion\x12+\n" +
+	"\x0framping_version\x18\x02 \x01(\tB\x02\x18\x01R\x0erampingVersion\x12<\n" +
 	"\x1aramping_version_percentage\x18\x03 \x01(\x02R\x18rampingVersionPercentage\x12;\n" +
 	"\vupdate_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"updateTime\"y\n" +
@@ -1523,41 +1542,44 @@ var file_temporal_api_taskqueue_v1_message_proto_goTypes = []any{
 	nil,                                              // 21: temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry
 	(v1.TaskQueueKind)(0),                            // 22: temporal.api.enums.v1.TaskQueueKind
 	(*wrapperspb.DoubleValue)(nil),                   // 23: google.protobuf.DoubleValue
-	(*timestamppb.Timestamp)(nil),                    // 24: google.protobuf.Timestamp
-	(v1.BuildIdTaskReachability)(0),                  // 25: temporal.api.enums.v1.BuildIdTaskReachability
-	(*durationpb.Duration)(nil),                      // 26: google.protobuf.Duration
-	(*v11.WorkerVersionCapabilities)(nil),            // 27: temporal.api.common.v1.WorkerVersionCapabilities
-	(*v12.WorkerDeploymentOptions)(nil),              // 28: temporal.api.deployment.v1.WorkerDeploymentOptions
-	(v1.TaskReachability)(0),                         // 29: temporal.api.enums.v1.TaskReachability
+	(*v11.WorkerDeploymentVersion)(nil),              // 24: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(*timestamppb.Timestamp)(nil),                    // 25: google.protobuf.Timestamp
+	(v1.BuildIdTaskReachability)(0),                  // 26: temporal.api.enums.v1.BuildIdTaskReachability
+	(*durationpb.Duration)(nil),                      // 27: google.protobuf.Duration
+	(*v12.WorkerVersionCapabilities)(nil),            // 28: temporal.api.common.v1.WorkerVersionCapabilities
+	(*v11.WorkerDeploymentOptions)(nil),              // 29: temporal.api.deployment.v1.WorkerDeploymentOptions
+	(v1.TaskReachability)(0),                         // 30: temporal.api.enums.v1.TaskReachability
 }
 var file_temporal_api_taskqueue_v1_message_proto_depIdxs = []int32{
 	22, // 0: temporal.api.taskqueue.v1.TaskQueue.kind:type_name -> temporal.api.enums.v1.TaskQueueKind
 	23, // 1: temporal.api.taskqueue.v1.TaskQueueMetadata.max_tasks_per_second:type_name -> google.protobuf.DoubleValue
-	24, // 2: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.update_time:type_name -> google.protobuf.Timestamp
-	21, // 3: temporal.api.taskqueue.v1.TaskQueueVersionInfo.types_info:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry
-	25, // 4: temporal.api.taskqueue.v1.TaskQueueVersionInfo.task_reachability:type_name -> temporal.api.enums.v1.BuildIdTaskReachability
-	10, // 5: temporal.api.taskqueue.v1.TaskQueueTypeInfo.pollers:type_name -> temporal.api.taskqueue.v1.PollerInfo
-	6,  // 6: temporal.api.taskqueue.v1.TaskQueueTypeInfo.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	26, // 7: temporal.api.taskqueue.v1.TaskQueueStats.approximate_backlog_age:type_name -> google.protobuf.Duration
-	8,  // 8: temporal.api.taskqueue.v1.TaskQueueStatus.task_id_block:type_name -> temporal.api.taskqueue.v1.TaskIdBlock
-	24, // 9: temporal.api.taskqueue.v1.PollerInfo.last_access_time:type_name -> google.protobuf.Timestamp
-	27, // 10: temporal.api.taskqueue.v1.PollerInfo.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
-	28, // 11: temporal.api.taskqueue.v1.PollerInfo.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
-	0,  // 12: temporal.api.taskqueue.v1.StickyExecutionAttributes.worker_task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	26, // 13: temporal.api.taskqueue.v1.StickyExecutionAttributes.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	29, // 14: temporal.api.taskqueue.v1.TaskQueueReachability.reachability:type_name -> temporal.api.enums.v1.TaskReachability
-	13, // 15: temporal.api.taskqueue.v1.BuildIdReachability.task_queue_reachability:type_name -> temporal.api.taskqueue.v1.TaskQueueReachability
-	15, // 16: temporal.api.taskqueue.v1.BuildIdAssignmentRule.percentage_ramp:type_name -> temporal.api.taskqueue.v1.RampByPercentage
-	16, // 17: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	24, // 18: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule.create_time:type_name -> google.protobuf.Timestamp
-	17, // 19: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	24, // 20: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule.create_time:type_name -> google.protobuf.Timestamp
-	5,  // 21: temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueTypeInfo
-	22, // [22:22] is the sub-list for method output_type
-	22, // [22:22] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	24, // 2: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.current_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	24, // 3: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.ramping_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	25, // 4: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.update_time:type_name -> google.protobuf.Timestamp
+	21, // 5: temporal.api.taskqueue.v1.TaskQueueVersionInfo.types_info:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry
+	26, // 6: temporal.api.taskqueue.v1.TaskQueueVersionInfo.task_reachability:type_name -> temporal.api.enums.v1.BuildIdTaskReachability
+	10, // 7: temporal.api.taskqueue.v1.TaskQueueTypeInfo.pollers:type_name -> temporal.api.taskqueue.v1.PollerInfo
+	6,  // 8: temporal.api.taskqueue.v1.TaskQueueTypeInfo.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
+	27, // 9: temporal.api.taskqueue.v1.TaskQueueStats.approximate_backlog_age:type_name -> google.protobuf.Duration
+	8,  // 10: temporal.api.taskqueue.v1.TaskQueueStatus.task_id_block:type_name -> temporal.api.taskqueue.v1.TaskIdBlock
+	25, // 11: temporal.api.taskqueue.v1.PollerInfo.last_access_time:type_name -> google.protobuf.Timestamp
+	28, // 12: temporal.api.taskqueue.v1.PollerInfo.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
+	29, // 13: temporal.api.taskqueue.v1.PollerInfo.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	0,  // 14: temporal.api.taskqueue.v1.StickyExecutionAttributes.worker_task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
+	27, // 15: temporal.api.taskqueue.v1.StickyExecutionAttributes.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	30, // 16: temporal.api.taskqueue.v1.TaskQueueReachability.reachability:type_name -> temporal.api.enums.v1.TaskReachability
+	13, // 17: temporal.api.taskqueue.v1.BuildIdReachability.task_queue_reachability:type_name -> temporal.api.taskqueue.v1.TaskQueueReachability
+	15, // 18: temporal.api.taskqueue.v1.BuildIdAssignmentRule.percentage_ramp:type_name -> temporal.api.taskqueue.v1.RampByPercentage
+	16, // 19: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
+	25, // 20: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule.create_time:type_name -> google.protobuf.Timestamp
+	17, // 21: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
+	25, // 22: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule.create_time:type_name -> google.protobuf.Timestamp
+	5,  // 23: temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueTypeInfo
+	24, // [24:24] is the sub-list for method output_type
+	24, // [24:24] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_taskqueue_v1_message_proto_init() }
