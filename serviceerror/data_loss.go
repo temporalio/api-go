@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -22,7 +23,7 @@ func NewDataLoss(message string) error {
 }
 
 // NewDataLossf returns new DataLoss error with formatted message.
-func NewDataLossf(format string, args ...interface{}) error {
+func NewDataLossf(format string, args ...any) error {
 	return &DataLoss{
 		Message: fmt.Sprintf(format, args...),
 	}

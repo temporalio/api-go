@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -22,7 +23,7 @@ func NewFailedPrecondition(message string) error {
 }
 
 // NewFailedPreconditionf returns new FailedPrecondition error with formatted message.
-func NewFailedPreconditionf(format string, args ...interface{}) error {
+func NewFailedPreconditionf(format string, args ...any) error {
 	return &FailedPrecondition{
 		Message: fmt.Sprintf(format, args...),
 	}

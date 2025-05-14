@@ -31,7 +31,7 @@ func NewClientVersionNotSupported(clientVersion, clientName, supportedVersions s
 }
 
 // NewClientVersionNotSupportedf returns new ClientVersionNotSupported error with formatted message.
-func NewClientVersionNotSupportedf(clientVersion, clientName, supportedVersions, format string, args ...interface{}) error {
+func NewClientVersionNotSupportedf(clientVersion, clientName, supportedVersions, format string, args ...any) error {
 	return &ClientVersionNotSupported{
 		Message:           fmt.Sprintf(format, args...),
 		ClientVersion:     clientVersion,

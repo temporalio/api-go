@@ -35,16 +35,6 @@ func NewNamespaceNotActive(namespace, currentCluster, activeCluster string) erro
 	}
 }
 
-// NewNamespaceNotActivef returns new NamespaceNotActive error with formatted message.
-func NewNamespaceNotActivef(namespace, currentCluster, activeCluster, format string, args ...interface{}) error {
-	return &NamespaceNotActive{
-		Message:        fmt.Sprintf(format, args...),
-		Namespace:      namespace,
-		CurrentCluster: currentCluster,
-		ActiveCluster:  activeCluster,
-	}
-}
-
 // Error returns string message.
 func (e *NamespaceNotActive) Error() string {
 	return e.Message

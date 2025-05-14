@@ -22,7 +22,7 @@ func NewMultiOperationExecution(message string, errs []error) error {
 }
 
 // NewMultiOperationExecutionf returns a new MultiOperationExecution error with formatted message.
-func NewMultiOperationExecutionf(format string, errs []error, args ...interface{}) error {
+func NewMultiOperationExecutionf(errs []error, format string, args ...any) error {
 	return &MultiOperationExecution{Message: fmt.Sprintf(format, args...), errs: errs}
 }
 

@@ -27,14 +27,6 @@ func NewNewerBuildExists(defaultBuildID string) error {
 	}
 }
 
-// NewNewerBuildExistsf returns new NewerBuildExists error with formatted message.
-func NewNewerBuildExistsf(defaultBuildID, format string, args ...interface{}) error {
-	return &NewerBuildExists{
-		Message:        fmt.Sprintf(format, args...),
-		DefaultBuildID: defaultBuildID,
-	}
-}
-
 // Error returns string message.
 func (e *NewerBuildExists) Error() string {
 	return e.Message

@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -22,7 +23,7 @@ func NewUnavailable(message string) error {
 }
 
 // NewUnavailablef returns new Unavailable error with formatted message.
-func NewUnavailablef(format string, args ...interface{}) error {
+func NewUnavailablef(format string, args ...any) error {
 	return &Unavailable{
 		Message: fmt.Sprintf(format, args...),
 	}

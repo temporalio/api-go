@@ -29,14 +29,6 @@ func NewNamespaceNotFound(namespace string) error {
 	}
 }
 
-// NewNamespaceNotFoundf returns new NamespaceNotFound error with formatted message.
-func NewNamespaceNotFoundf(namespace, format string, args ...interface{}) error {
-	return &NamespaceNotFound{
-		Message:   fmt.Sprintf(format, args...),
-		Namespace: namespace,
-	}
-}
-
 // Error returns string message.
 func (e *NamespaceNotFound) Error() string {
 	return e.Message

@@ -26,14 +26,6 @@ func NewNamespaceUnavailable(namespace string) error {
 	}
 }
 
-// NewNamespaceUnavailablef returns new NamespaceUnavailable error with formatted message.
-func NewNamespaceUnavailablef(namespace, format string, args ...interface{}) error {
-	return &NamespaceUnavailable{
-		Namespace: namespace,
-		st:        status.New(codes.Unavailable, fmt.Sprintf(format, args...)),
-	}
-}
-
 // Error returns string message.
 func (e *NamespaceUnavailable) Error() string {
 	// No need to do a nil check, that's handled in Message().

@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -24,7 +25,7 @@ func NewNamespaceAlreadyExists(message string) error {
 }
 
 // NewNamespaceAlreadyExistsf returns new NamespaceAlreadyExists error with formatted message.
-func NewNamespaceAlreadyExistsf(format string, args ...interface{}) error {
+func NewNamespaceAlreadyExistsf(format string, args ...any) error {
 	return &NamespaceAlreadyExists{
 		Message: fmt.Sprintf(format, args...),
 	}

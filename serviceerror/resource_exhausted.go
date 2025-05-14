@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -28,7 +29,7 @@ func NewResourceExhausted(cause enumspb.ResourceExhaustedCause, message string) 
 }
 
 // NewResourceExhaustedf returns new ResourceExhausted error with formatted message.
-func NewResourceExhaustedf(cause enumspb.ResourceExhaustedCause, format string, args ...interface{}) error {
+func NewResourceExhaustedf(cause enumspb.ResourceExhaustedCause, format string, args ...any) error {
 	return &ResourceExhausted{
 		Cause:   cause,
 		Message: fmt.Sprintf(format, args...),

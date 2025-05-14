@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	failurepb "go.temporal.io/api/failure/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -21,7 +22,7 @@ func NewMultiOperationAborted(message string) error {
 }
 
 // NewMultiOperationAbortedf returns MultiOperationAborted with formatted message.
-func NewMultiOperationAbortedf(format string, args ...interface{}) error {
+func NewMultiOperationAbortedf(format string, args ...any) error {
 	return &MultiOperationAborted{
 		Message: fmt.Sprintf(format, args...),
 	}

@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -14,15 +15,15 @@ type (
 	}
 )
 
-// NewAlreadyExist returns new AlreadyExists error.
-func NewAlreadyExist(message string) error {
+// NewAlreadyExists returns new AlreadyExists error.
+func NewAlreadyExists(message string) error {
 	return &AlreadyExists{
 		Message: message,
 	}
 }
 
-// NewAlreadyExistf returns new AlreadyExists error with formatted message.
-func NewAlreadyExistf(format string, args ...interface{}) error {
+// NewAlreadyExistsf returns new AlreadyExists error with formatted message.
+func NewAlreadyExistsf(format string, args ...any) error {
 	return &AlreadyExists{
 		Message: fmt.Sprintf(format, args...),
 	}

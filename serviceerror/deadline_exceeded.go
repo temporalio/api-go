@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -22,7 +23,7 @@ func NewDeadlineExceeded(message string) error {
 }
 
 // NewDeadlineExceededf returns new DeadlineExceeded error with formatted message.
-func NewDeadlineExceededf(format string, args ...interface{}) error {
+func NewDeadlineExceededf(format string, args ...any) error {
 	return &DeadlineExceeded{
 		Message: fmt.Sprintf(format, args...),
 	}

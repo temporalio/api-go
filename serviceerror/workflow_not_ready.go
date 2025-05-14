@@ -2,6 +2,7 @@ package serviceerror
 
 import (
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -24,7 +25,7 @@ func NewWorkflowNotReady(message string) error {
 }
 
 // NewWorkflowNotReadyf returns new WorkflowNotReady error with formatted message.
-func NewWorkflowNotReadyf(format string, args ...interface{}) error {
+func NewWorkflowNotReadyf(format string, args ...any) error {
 	return &WorkflowNotReady{
 		Message: fmt.Sprintf(format, args...),
 	}
