@@ -15,6 +15,11 @@ type (
 	}
 )
 
+// Deprecated. Typo in the name. Use NewAlreadyExists instead.
+func NewAlreadyExist(message string) error {
+	return NewAlreadyExists(message)
+}
+
 // NewAlreadyExists returns new AlreadyExists error.
 func NewAlreadyExists(message string) error {
 	return &AlreadyExists{
