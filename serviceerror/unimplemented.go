@@ -1,6 +1,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,6 +19,13 @@ type (
 func NewUnimplemented(message string) error {
 	return &Unimplemented{
 		Message: message,
+	}
+}
+
+// NewUnimplementedf returns new Unimplemented error with formatted message.
+func NewUnimplementedf(format string, args ...any) error {
+	return &Unimplemented{
+		Message: fmt.Sprintf(format, args...),
 	}
 }
 

@@ -1,6 +1,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,6 +19,13 @@ type (
 func NewInternal(message string) error {
 	return &Internal{
 		Message: message,
+	}
+}
+
+// NewInternalf returns new Internal error with formatted message.
+func NewInternalf(format string, args ...any) error {
+	return &Internal{
+		Message: fmt.Sprintf(format, args...),
 	}
 }
 

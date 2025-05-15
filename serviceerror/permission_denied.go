@@ -1,6 +1,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"go.temporal.io/api/errordetails/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -19,6 +21,14 @@ type (
 func NewPermissionDenied(message, reason string) error {
 	return &PermissionDenied{
 		Message: message,
+		Reason:  reason,
+	}
+}
+
+// NewPermissionDeniedf returns new PermissionDenied error with formatted message.
+func NewPermissionDeniedf(reason, format string, args ...any) error {
+	return &PermissionDenied{
+		Message: fmt.Sprintf(format, args...),
 		Reason:  reason,
 	}
 }

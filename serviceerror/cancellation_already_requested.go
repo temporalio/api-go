@@ -1,6 +1,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -19,6 +21,13 @@ type (
 func NewCancellationAlreadyRequested(message string) error {
 	return &CancellationAlreadyRequested{
 		Message: message,
+	}
+}
+
+// NewCancellationAlreadyRequestedf returns new CancellationAlreadyRequested error with formatted message.
+func NewCancellationAlreadyRequestedf(format string, args ...any) error {
+	return &CancellationAlreadyRequested{
+		Message: fmt.Sprintf(format, args...),
 	}
 }
 

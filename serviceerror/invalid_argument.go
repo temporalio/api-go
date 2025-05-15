@@ -1,6 +1,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,6 +19,13 @@ type (
 func NewInvalidArgument(message string) error {
 	return &InvalidArgument{
 		Message: message,
+	}
+}
+
+// NewInvalidArgumentf returns new InvalidArgument error with formatted message.
+func NewInvalidArgumentf(format string, args ...any) error {
+	return &InvalidArgument{
+		Message: fmt.Sprintf(format, args...),
 	}
 }
 
