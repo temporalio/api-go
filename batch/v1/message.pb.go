@@ -336,9 +336,13 @@ type BatchOperationReset struct {
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Describes what to reset to and how. If set, `reset_type` and `reset_reapply_type` are ignored.
 	Options *v11.ResetOptions `protobuf:"bytes,4,opt,name=options,proto3" json:"options,omitempty"`
-	// Reset type (deprecated, use `options`).
+	// Deprecated. Use `options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/batch/v1/message.proto.
 	ResetType v1.ResetType `protobuf:"varint,1,opt,name=reset_type,json=resetType,proto3,enum=temporal.api.enums.v1.ResetType" json:"reset_type,omitempty"`
-	// History event reapply options (deprecated, use `options`).
+	// Deprecated. Use `options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/batch/v1/message.proto.
 	ResetReapplyType v1.ResetReapplyType `protobuf:"varint,2,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
 	// Operations to perform after the workflow has been reset. These operations will be applied
 	// to the *new* run of the workflow execution in the order they are provided.
@@ -392,6 +396,7 @@ func (x *BatchOperationReset) GetOptions() *v11.ResetOptions {
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/batch/v1/message.proto.
 func (x *BatchOperationReset) GetResetType() v1.ResetType {
 	if x != nil {
 		return x.ResetType
@@ -399,6 +404,7 @@ func (x *BatchOperationReset) GetResetType() v1.ResetType {
 	return v1.ResetType(0)
 }
 
+// Deprecated: Marked as deprecated in temporal/api/batch/v1/message.proto.
 func (x *BatchOperationReset) GetResetReapplyType() v1.ResetReapplyType {
 	if x != nil {
 		return x.ResetReapplyType
@@ -718,13 +724,13 @@ const file_temporal_api_batch_v1_message_proto_rawDesc = "" +
 	"\x1aBatchOperationCancellation\x12\x1a\n" +
 	"\bidentity\x18\x01 \x01(\tR\bidentity\"4\n" +
 	"\x16BatchOperationDeletion\x12\x1a\n" +
-	"\bidentity\x18\x01 \x01(\tR\bidentity\"\xeb\x02\n" +
+	"\bidentity\x18\x01 \x01(\tR\bidentity\"\xf3\x02\n" +
 	"\x13BatchOperationReset\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12>\n" +
-	"\aoptions\x18\x04 \x01(\v2$.temporal.api.common.v1.ResetOptionsR\aoptions\x12?\n" +
+	"\aoptions\x18\x04 \x01(\v2$.temporal.api.common.v1.ResetOptionsR\aoptions\x12C\n" +
 	"\n" +
-	"reset_type\x18\x01 \x01(\x0e2 .temporal.api.enums.v1.ResetTypeR\tresetType\x12U\n" +
-	"\x12reset_reapply_type\x18\x02 \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeR\x10resetReapplyType\x12`\n" +
+	"reset_type\x18\x01 \x01(\x0e2 .temporal.api.enums.v1.ResetTypeB\x02\x18\x01R\tresetType\x12Y\n" +
+	"\x12reset_reapply_type\x18\x02 \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeB\x02\x18\x01R\x10resetReapplyType\x12`\n" +
 	"\x15post_reset_operations\x18\x05 \x03(\v2,.temporal.api.workflow.v1.PostResetOperationR\x13postResetOperations\"\xf9\x01\n" +
 	",BatchOperationUpdateWorkflowExecutionOptions\x12\x1a\n" +
 	"\bidentity\x18\x01 \x01(\tR\bidentity\x12p\n" +

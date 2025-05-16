@@ -1407,15 +1407,15 @@ type PollWorkflowTaskQueueRequest struct {
 	TaskQueue *v14.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// The identity of the worker/client who is polling this task queue
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
-	// DEPRECATED since 1.21 - use `deployment_options` instead.
+	// Deprecated. Use deployment_options instead.
 	// Each worker process should provide an ID unique to the specific set of code it is running
 	// "checksum" in this field name isn't very accurate, it should be though of as an id.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	BinaryChecksum string `protobuf:"bytes,4,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
+	// Deprecated. Use deployment_options instead.
 	// Information about this worker's build identifier and if it is choosing to use the versioning
 	// feature. See the `WorkerVersionCapabilities` docstring for more.
-	// Deprecated. Replaced by deployment_options.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	WorkerVersionCapabilities *v13.WorkerVersionCapabilities `protobuf:"bytes,5,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
@@ -1718,7 +1718,7 @@ type RespondWorkflowTaskCompletedRequest struct {
 	// something useful, but cannot complete it within the workflow task timeout. Local activities
 	// which run for longer than the task timeout being the prime example.
 	ForceCreateNewWorkflowTask bool `protobuf:"varint,6,opt,name=force_create_new_workflow_task,json=forceCreateNewWorkflowTask,proto3" json:"force_create_new_workflow_task,omitempty"`
-	// DEPRECATED since 1.21 - use `deployment_options` instead.
+	// Deprecated. Use `deployment_options` instead.
 	// Worker process' unique binary id
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
@@ -1985,7 +1985,7 @@ type RespondWorkflowTaskFailedRequest struct {
 	Failure *v15.Failure `protobuf:"bytes,3,opt,name=failure,proto3" json:"failure,omitempty"`
 	// The identity of the worker/client
 	Identity string `protobuf:"bytes,4,opt,name=identity,proto3" json:"identity,omitempty"`
-	// DEPRECATED since 1.21 - use `deployment_options` instead.
+	// Deprecated. Use `deployment_options` instead.
 	// Worker process' unique binary id
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
@@ -3764,7 +3764,9 @@ type SignalWorkflowExecutionRequest struct {
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Used to de-dupe sent signals
 	RequestId string `protobuf:"bytes,6,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	Control string `protobuf:"bytes,7,opt,name=control,proto3" json:"control,omitempty"`
 	// Headers that are passed with the signal to the processing workflow.
 	// These can include things like auth or tracing tokens.
@@ -3847,6 +3849,7 @@ func (x *SignalWorkflowExecutionRequest) GetRequestId() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *SignalWorkflowExecutionRequest) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -3938,7 +3941,9 @@ type SignalWithStartWorkflowExecutionRequest struct {
 	SignalName string `protobuf:"bytes,12,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
 	// Serialized value(s) to provide with the signal
 	SignalInput *v13.Payloads `protobuf:"bytes,13,opt,name=signal_input,json=signalInput,proto3" json:"signal_input,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	Control string `protobuf:"bytes,14,opt,name=control,proto3" json:"control,omitempty"`
 	// Retry policy for the workflow
 	RetryPolicy *v13.RetryPolicy `protobuf:"bytes,15,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
@@ -4096,6 +4101,7 @@ func (x *SignalWithStartWorkflowExecutionRequest) GetSignalInput() *v13.Payloads
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *SignalWithStartWorkflowExecutionRequest) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -4240,8 +4246,10 @@ type ResetWorkflowExecutionRequest struct {
 	WorkflowTaskFinishEventId int64 `protobuf:"varint,4,opt,name=workflow_task_finish_event_id,json=workflowTaskFinishEventId,proto3" json:"workflow_task_finish_event_id,omitempty"`
 	// Used to de-dupe reset requests
 	RequestId string `protobuf:"bytes,5,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	// Event types to be reapplied (deprecated)
+	// Deprecated. Use `options`.
 	// Default: RESET_REAPPLY_TYPE_SIGNAL
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	ResetReapplyType v11.ResetReapplyType `protobuf:"varint,6,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
 	// Event types not to be reapplied
 	ResetReapplyExcludeTypes []v11.ResetReapplyExcludeType `protobuf:"varint,7,rep,packed,name=reset_reapply_exclude_types,json=resetReapplyExcludeTypes,proto3,enum=temporal.api.enums.v1.ResetReapplyExcludeType" json:"reset_reapply_exclude_types,omitempty"`
@@ -4318,6 +4326,7 @@ func (x *ResetWorkflowExecutionRequest) GetRequestId() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *ResetWorkflowExecutionRequest) GetResetReapplyType() v11.ResetReapplyType {
 	if x != nil {
 		return x.ResetReapplyType
@@ -6120,8 +6129,12 @@ type DescribeTaskQueueRequest struct {
 	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Deprecated. Use `ENHANCED` mode with `task_queue_types`. Ignored in `ENHANCED` mode.
 	// If unspecified (TASK_QUEUE_TYPE_UNSPECIFIED), then default value (TASK_QUEUE_TYPE_WORKFLOW) will be used.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	TaskQueueType v11.TaskQueueType `protobuf:"varint,3,opt,name=task_queue_type,json=taskQueueType,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"task_queue_type,omitempty"`
 	// Deprecated. Ignored in `ENHANCED` mode.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	IncludeTaskQueueStatus bool `protobuf:"varint,4,opt,name=include_task_queue_status,json=includeTaskQueueStatus,proto3" json:"include_task_queue_status,omitempty"`
 	// All options except `task_queue_type` and `include_task_queue_status` are only available in the `ENHANCED` mode.
 	ApiMode v11.DescribeTaskQueueMode `protobuf:"varint,5,opt,name=api_mode,json=apiMode,proto3,enum=temporal.api.enums.v1.DescribeTaskQueueMode" json:"api_mode,omitempty"`
@@ -6187,6 +6200,7 @@ func (x *DescribeTaskQueueRequest) GetTaskQueue() *v14.TaskQueue {
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *DescribeTaskQueueRequest) GetTaskQueueType() v11.TaskQueueType {
 	if x != nil {
 		return x.TaskQueueType
@@ -6194,6 +6208,7 @@ func (x *DescribeTaskQueueRequest) GetTaskQueueType() v11.TaskQueueType {
 	return v11.TaskQueueType(0)
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *DescribeTaskQueueRequest) GetIncludeTaskQueueStatus() bool {
 	if x != nil {
 		return x.IncludeTaskQueueStatus
@@ -6247,8 +6262,12 @@ type DescribeTaskQueueResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Deprecated. Use `versions_info.types_info.pollers` with `ENHANCED` mode instead.
 	// Not set in `ENHANCED` mode.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	Pollers []*v14.PollerInfo `protobuf:"bytes,1,rep,name=pollers,proto3" json:"pollers,omitempty"`
 	// Deprecated. Not set in `ENHANCED` mode.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	TaskQueueStatus *v14.TaskQueueStatus `protobuf:"bytes,2,opt,name=task_queue_status,json=taskQueueStatus,proto3" json:"task_queue_status,omitempty"`
 	// This map contains Task Queue information for each Build ID. Empty string as key value means unversioned.
 	// Only set in `ENHANCED` mode.
@@ -6297,6 +6316,7 @@ func (*DescribeTaskQueueResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{77}
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *DescribeTaskQueueResponse) GetPollers() []*v14.PollerInfo {
 	if x != nil {
 		return x.Pollers
@@ -6304,6 +6324,7 @@ func (x *DescribeTaskQueueResponse) GetPollers() []*v14.PollerInfo {
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 func (x *DescribeTaskQueueResponse) GetTaskQueueStatus() *v14.TaskQueueStatus {
 	if x != nil {
 		return x.TaskQueueStatus
@@ -14250,7 +14271,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x16first_execution_run_id\x18\x05 \x01(\tR\x13firstExecutionRunId\x12\x16\n" +
 	"\x06reason\x18\x06 \x01(\tR\x06reason\x122\n" +
 	"\x05links\x18\a \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\"(\n" +
-	"&RequestCancelWorkflowExecutionResponse\"\xb8\x03\n" +
+	"&RequestCancelWorkflowExecutionResponse\"\xbc\x03\n" +
 	"\x1eSignalWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x1f\n" +
@@ -14259,13 +14280,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x05input\x18\x04 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05input\x12\x1a\n" +
 	"\bidentity\x18\x05 \x01(\tR\bidentity\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x06 \x01(\tR\trequestId\x12\x18\n" +
-	"\acontrol\x18\a \x01(\tR\acontrol\x126\n" +
+	"request_id\x18\x06 \x01(\tR\trequestId\x12\x1c\n" +
+	"\acontrol\x18\a \x01(\tB\x02\x18\x01R\acontrol\x126\n" +
 	"\x06header\x18\b \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x122\n" +
 	"\x05links\x18\n" +
 	" \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05linksJ\x04\b\t\x10\n" +
 	"\"!\n" +
-	"\x1fSignalWorkflowExecutionResponse\"\xd1\f\n" +
+	"\x1fSignalWorkflowExecutionResponse\"\xd5\f\n" +
 	"'SignalWithStartWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -14285,8 +14306,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1bworkflow_id_conflict_policy\x18\x16 \x01(\x0e2/.temporal.api.enums.v1.WorkflowIdConflictPolicyR\x18workflowIdConflictPolicy\x12\x1f\n" +
 	"\vsignal_name\x18\f \x01(\tR\n" +
 	"signalName\x12C\n" +
-	"\fsignal_input\x18\r \x01(\v2 .temporal.api.common.v1.PayloadsR\vsignalInput\x12\x18\n" +
-	"\acontrol\x18\x0e \x01(\tR\acontrol\x12F\n" +
+	"\fsignal_input\x18\r \x01(\v2 .temporal.api.common.v1.PayloadsR\vsignalInput\x12\x1c\n" +
+	"\acontrol\x18\x0e \x01(\tB\x02\x18\x01R\acontrol\x12F\n" +
 	"\fretry_policy\x18\x0f \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12#\n" +
 	"\rcron_schedule\x18\x10 \x01(\tR\fcronSchedule\x120\n" +
 	"\x04memo\x18\x11 \x01(\v2\x1c.temporal.api.common.v1.MemoR\x04memo\x12U\n" +
@@ -14299,15 +14320,15 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\bpriority\x18\x1a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriorityJ\x04\b\x15\x10\x16\"[\n" +
 	"(SignalWithStartWorkflowExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
-	"\astarted\x18\x02 \x01(\bR\astarted\"\xb8\x04\n" +
+	"\astarted\x18\x02 \x01(\bR\astarted\"\xbc\x04\n" +
 	"\x1dResetWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x16\n" +
 	"\x06reason\x18\x03 \x01(\tR\x06reason\x12@\n" +
 	"\x1dworkflow_task_finish_event_id\x18\x04 \x01(\x03R\x19workflowTaskFinishEventId\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x05 \x01(\tR\trequestId\x12U\n" +
-	"\x12reset_reapply_type\x18\x06 \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeR\x10resetReapplyType\x12m\n" +
+	"request_id\x18\x05 \x01(\tR\trequestId\x12Y\n" +
+	"\x12reset_reapply_type\x18\x06 \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeB\x02\x18\x01R\x10resetReapplyType\x12m\n" +
 	"\x1breset_reapply_exclude_types\x18\a \x03(\x0e2..temporal.api.enums.v1.ResetReapplyExcludeTypeR\x18resetReapplyExcludeTypes\x12`\n" +
 	"\x15post_reset_operations\x18\b \x03(\v2,.temporal.api.workflow.v1.PostResetOperationR\x13postResetOperations\"7\n" +
 	"\x1eResetWorkflowExecutionResponse\x12\x15\n" +
@@ -14437,23 +14458,23 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x15pending_workflow_task\x18\x05 \x01(\v21.temporal.api.workflow.v1.PendingWorkflowTaskInfoR\x13pendingWorkflowTask\x12D\n" +
 	"\tcallbacks\x18\x06 \x03(\v2&.temporal.api.workflow.v1.CallbackInfoR\tcallbacks\x12m\n" +
 	"\x18pending_nexus_operations\x18\a \x03(\v23.temporal.api.workflow.v1.PendingNexusOperationInfoR\x16pendingNexusOperations\x12m\n" +
-	"\x16workflow_extended_info\x18\b \x01(\v27.temporal.api.workflow.v1.WorkflowExecutionExtendedInfoR\x14workflowExtendedInfo\"\xf5\x04\n" +
+	"\x16workflow_extended_info\x18\b \x01(\v27.temporal.api.workflow.v1.WorkflowExecutionExtendedInfoR\x14workflowExtendedInfo\"\xfd\x04\n" +
 	"\x18DescribeTaskQueueRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12C\n" +
 	"\n" +
-	"task_queue\x18\x02 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12L\n" +
-	"\x0ftask_queue_type\x18\x03 \x01(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\rtaskQueueType\x129\n" +
-	"\x19include_task_queue_status\x18\x04 \x01(\bR\x16includeTaskQueueStatus\x12G\n" +
+	"task_queue\x18\x02 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12P\n" +
+	"\x0ftask_queue_type\x18\x03 \x01(\x0e2$.temporal.api.enums.v1.TaskQueueTypeB\x02\x18\x01R\rtaskQueueType\x12=\n" +
+	"\x19include_task_queue_status\x18\x04 \x01(\bB\x02\x18\x01R\x16includeTaskQueueStatus\x12G\n" +
 	"\bapi_mode\x18\x05 \x01(\x0e2,.temporal.api.enums.v1.DescribeTaskQueueModeR\aapiMode\x12P\n" +
 	"\bversions\x18\x06 \x01(\v24.temporal.api.taskqueue.v1.TaskQueueVersionSelectionR\bversions\x12N\n" +
 	"\x10task_queue_types\x18\a \x03(\x0e2$.temporal.api.enums.v1.TaskQueueTypeR\x0etaskQueueTypes\x12!\n" +
 	"\freport_stats\x18\b \x01(\bR\vreportStats\x12%\n" +
 	"\x0ereport_pollers\x18\t \x01(\bR\rreportPollers\x128\n" +
 	"\x18report_task_reachability\x18\n" +
-	" \x01(\bR\x16reportTaskReachability\"\xf6\x03\n" +
-	"\x19DescribeTaskQueueResponse\x12?\n" +
-	"\apollers\x18\x01 \x03(\v2%.temporal.api.taskqueue.v1.PollerInfoR\apollers\x12V\n" +
-	"\x11task_queue_status\x18\x02 \x01(\v2*.temporal.api.taskqueue.v1.TaskQueueStatusR\x0ftaskQueueStatus\x12q\n" +
+	" \x01(\bR\x16reportTaskReachability\"\xfe\x03\n" +
+	"\x19DescribeTaskQueueResponse\x12C\n" +
+	"\apollers\x18\x01 \x03(\v2%.temporal.api.taskqueue.v1.PollerInfoB\x02\x18\x01R\apollers\x12Z\n" +
+	"\x11task_queue_status\x18\x02 \x01(\v2*.temporal.api.taskqueue.v1.TaskQueueStatusB\x02\x18\x01R\x0ftaskQueueStatus\x12q\n" +
 	"\rversions_info\x18\x03 \x03(\v2L.temporal.api.workflowservice.v1.DescribeTaskQueueResponse.VersionsInfoEntryR\fversionsInfo\x12[\n" +
 	"\x0fversioning_info\x18\x04 \x01(\v22.temporal.api.taskqueue.v1.TaskQueueVersioningInfoR\x0eversioningInfo\x1ap\n" +
 	"\x11VersionsInfoEntry\x12\x10\n" +

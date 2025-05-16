@@ -505,7 +505,9 @@ type NexusOperationFailureInfo struct {
 	Operation string `protobuf:"bytes,4,opt,name=operation,proto3" json:"operation,omitempty"`
 	// Operation ID - may be empty if the operation completed synchronously.
 	//
-	// Deprecated: Renamed to operation_token.
+	// Deprecated. Renamed to operation_token.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/failure/v1/message.proto.
 	OperationId string `protobuf:"bytes,5,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 	// Operation token - may be empty if the operation completed synchronously.
 	OperationToken string `protobuf:"bytes,6,opt,name=operation_token,json=operationToken,proto3" json:"operation_token,omitempty"`
@@ -571,6 +573,7 @@ func (x *NexusOperationFailureInfo) GetOperation() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in temporal/api/failure/v1/message.proto.
 func (x *NexusOperationFailureInfo) GetOperationId() string {
 	if x != nil {
 		return x.OperationId
@@ -980,13 +983,13 @@ const file_temporal_api_failure_v1_message_proto_rawDesc = "" +
 	"\x12initiated_event_id\x18\x04 \x01(\x03R\x10initiatedEventId\x12(\n" +
 	"\x10started_event_id\x18\x05 \x01(\x03R\x0estartedEventId\x12B\n" +
 	"\vretry_state\x18\x06 \x01(\x0e2!.temporal.api.enums.v1.RetryStateR\n" +
-	"retryState\"\xe9\x01\n" +
+	"retryState\"\xed\x01\n" +
 	"\x19NexusOperationFailureInfo\x12,\n" +
 	"\x12scheduled_event_id\x18\x01 \x01(\x03R\x10scheduledEventId\x12\x1a\n" +
 	"\bendpoint\x18\x02 \x01(\tR\bendpoint\x12\x18\n" +
 	"\aservice\x18\x03 \x01(\tR\aservice\x12\x1c\n" +
-	"\toperation\x18\x04 \x01(\tR\toperation\x12!\n" +
-	"\foperation_id\x18\x05 \x01(\tR\voperationId\x12'\n" +
+	"\toperation\x18\x04 \x01(\tR\toperation\x12%\n" +
+	"\foperation_id\x18\x05 \x01(\tB\x02\x18\x01R\voperationId\x12'\n" +
 	"\x0foperation_token\x18\x06 \x01(\tR\x0eoperationToken\"\x8b\x01\n" +
 	"\x17NexusHandlerFailureInfo\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12\\\n" +

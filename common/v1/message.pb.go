@@ -739,8 +739,10 @@ type ResetOptions struct {
 	//	*ResetOptions_WorkflowTaskId
 	//	*ResetOptions_BuildId
 	Target isResetOptions_Target `protobuf_oneof:"target"`
-	// Event types to be reapplied (deprecated)
+	// Deprecated. Use `options`.
 	// Default: RESET_REAPPLY_TYPE_SIGNAL
+	//
+	// Deprecated: Marked as deprecated in temporal/api/common/v1/message.proto.
 	ResetReapplyType v1.ResetReapplyType `protobuf:"varint,10,opt,name=reset_reapply_type,json=resetReapplyType,proto3,enum=temporal.api.enums.v1.ResetReapplyType" json:"reset_reapply_type,omitempty"`
 	// If true, limit the reset to only within the current run. (Applies to build_id targets and
 	// possibly others in the future.)
@@ -824,6 +826,7 @@ func (x *ResetOptions) GetBuildId() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in temporal/api/common/v1/message.proto.
 func (x *ResetOptions) GetResetReapplyType() v1.ResetReapplyType {
 	if x != nil {
 		return x.ResetReapplyType
@@ -1553,14 +1556,14 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\x19WorkerVersionCapabilities\x12\x19\n" +
 	"\bbuild_id\x18\x01 \x01(\tR\abuildId\x12%\n" +
 	"\x0euse_versioning\x18\x02 \x01(\bR\ruseVersioning\x124\n" +
-	"\x16deployment_series_name\x18\x04 \x01(\tR\x14deploymentSeriesName\"\xe3\x03\n" +
+	"\x16deployment_series_name\x18\x04 \x01(\tR\x14deploymentSeriesName\"\xe7\x03\n" +
 	"\fResetOptions\x12H\n" +
 	"\x13first_workflow_task\x18\x01 \x01(\v2\x16.google.protobuf.EmptyH\x00R\x11firstWorkflowTask\x12F\n" +
 	"\x12last_workflow_task\x18\x02 \x01(\v2\x16.google.protobuf.EmptyH\x00R\x10lastWorkflowTask\x12*\n" +
 	"\x10workflow_task_id\x18\x03 \x01(\x03H\x00R\x0eworkflowTaskId\x12\x1b\n" +
-	"\bbuild_id\x18\x04 \x01(\tH\x00R\abuildId\x12U\n" +
+	"\bbuild_id\x18\x04 \x01(\tH\x00R\abuildId\x12Y\n" +
 	"\x12reset_reapply_type\x18\n" +
-	" \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeR\x10resetReapplyType\x12(\n" +
+	" \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeB\x02\x18\x01R\x10resetReapplyType\x12(\n" +
 	"\x10current_run_only\x18\v \x01(\bR\x0ecurrentRunOnly\x12m\n" +
 	"\x1breset_reapply_exclude_types\x18\f \x03(\x0e2..temporal.api.enums.v1.ResetReapplyExcludeTypeR\x18resetReapplyExcludeTypesB\b\n" +
 	"\x06target\"\x9b\x03\n" +

@@ -92,6 +92,8 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// If this workflow intends to use anything other than the current overall default version for
 	// the queue, then we include it here.
 	// Deprecated. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	SourceVersionStamp *v1.WorkerVersionStamp `protobuf:"bytes,29,opt,name=source_version_stamp,json=sourceVersionStamp,proto3" json:"source_version_stamp,omitempty"`
 	// Completion callbacks attached when this workflow was started.
 	CompletionCallbacks []*v1.Callback `protobuf:"bytes,30,rep,name=completion_callbacks,json=completionCallbacks,proto3" json:"completion_callbacks,omitempty"`
@@ -126,6 +128,8 @@ type WorkflowExecutionStartedEventAttributes struct {
 	RootWorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,31,opt,name=root_workflow_execution,json=rootWorkflowExecution,proto3" json:"root_workflow_execution,omitempty"`
 	// When present, this execution is assigned to the build ID of its parent or previous execution.
 	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	InheritedBuildId string `protobuf:"bytes,32,opt,name=inherited_build_id,json=inheritedBuildId,proto3" json:"inherited_build_id,omitempty"`
 	// Versioning override applied to this workflow when it was started.
 	VersioningOverride *v14.VersioningOverride `protobuf:"bytes,33,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
@@ -376,6 +380,7 @@ func (x *WorkflowExecutionStartedEventAttributes) GetWorkflowId() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *WorkflowExecutionStartedEventAttributes) GetSourceVersionStamp() *v1.WorkerVersionStamp {
 	if x != nil {
 		return x.SourceVersionStamp
@@ -397,6 +402,7 @@ func (x *WorkflowExecutionStartedEventAttributes) GetRootWorkflowExecution() *v1
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *WorkflowExecutionStartedEventAttributes) GetInheritedBuildId() string {
 	if x != nil {
 		return x.InheritedBuildId
@@ -640,6 +646,8 @@ type WorkflowExecutionContinuedAsNewEventAttributes struct {
 	// Deprecated. If a workflow's retry policy would cause a new run to start when the current one
 	// has failed, this field would be populated with that failure. Now (when supported by server
 	// and sdk) the final event will be `WORKFLOW_EXECUTION_FAILED` with `new_execution_run_id` set.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Failure *v13.Failure `protobuf:"bytes,10,opt,name=failure,proto3" json:"failure,omitempty"`
 	// TODO: Is this the result of *this* workflow as it continued-as-new?
 	LastCompletionResult *v1.Payloads         `protobuf:"bytes,11,opt,name=last_completion_result,json=lastCompletionResult,proto3" json:"last_completion_result,omitempty"`
@@ -746,6 +754,7 @@ func (x *WorkflowExecutionContinuedAsNewEventAttributes) GetInitiator() v12.Cont
 	return v12.ContinueAsNewInitiator(0)
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *WorkflowExecutionContinuedAsNewEventAttributes) GetFailure() *v13.Failure {
 	if x != nil {
 		return x.Failure
@@ -1218,7 +1227,7 @@ type WorkflowTaskFailedEventAttributes struct {
 	NewRunId string `protobuf:"bytes,7,opt,name=new_run_id,json=newRunId,proto3" json:"new_run_id,omitempty"`
 	// TODO: ?
 	ForkEventVersion int64 `protobuf:"varint,8,opt,name=fork_event_version,json=forkEventVersion,proto3" json:"fork_event_version,omitempty"`
-	// DEPRECATED since 1.21 - This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
 	// If a worker explicitly failed this task, its binary id
 	//
 	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
@@ -2428,7 +2437,7 @@ type WorkflowExecutionSignaledEventAttributes struct {
 	// Headers that were passed by the sender of the signal and copied by temporal
 	// server into the workflow task.
 	Header *v1.Header `protobuf:"bytes,4,opt,name=header,proto3" json:"header,omitempty"`
-	// This field is deprecated and never respected. It should always be set to false.
+	// Deprecated. This field is never respected and should always be set to false.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	SkipGenerateWorkflowTask bool `protobuf:"varint,5,opt,name=skip_generate_workflow_task,json=skipGenerateWorkflowTask,proto3" json:"skip_generate_workflow_task,omitempty"`
@@ -2582,7 +2591,9 @@ type RequestCancelExternalWorkflowExecutionInitiatedEventAttributes struct {
 	Namespace         string                `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	NamespaceId       string                `protobuf:"bytes,7,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	WorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Control string `protobuf:"bytes,4,opt,name=control,proto3" json:"control,omitempty"`
 	// Workers are expected to set this to true if the workflow they are requesting to cancel is
 	// a child of the workflow which issued the request
@@ -2651,6 +2662,7 @@ func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) GetWork
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -2685,7 +2697,9 @@ type RequestCancelExternalWorkflowExecutionFailedEventAttributes struct {
 	// id of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this failure
 	// corresponds to
 	InitiatedEventId int64 `protobuf:"varint,5,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Control       string `protobuf:"bytes,6,opt,name=control,proto3" json:"control,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -2763,6 +2777,7 @@ func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) GetInitiat
 	return 0
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -2855,7 +2870,9 @@ type SignalExternalWorkflowExecutionInitiatedEventAttributes struct {
 	SignalName string `protobuf:"bytes,4,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
 	// Serialized arguments to provide to the signal handler
 	Input *v1.Payloads `protobuf:"bytes,5,opt,name=input,proto3" json:"input,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Control string `protobuf:"bytes,6,opt,name=control,proto3" json:"control,omitempty"`
 	// Workers are expected to set this to true if the workflow they are requesting to cancel is
 	// a child of the workflow which issued the request
@@ -2937,6 +2954,7 @@ func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) GetInput() *v1
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -2969,7 +2987,9 @@ type SignalExternalWorkflowExecutionFailedEventAttributes struct {
 	NamespaceId       string                `protobuf:"bytes,7,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	WorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,4,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	InitiatedEventId  int64                 `protobuf:"varint,5,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Control       string `protobuf:"bytes,6,opt,name=control,proto3" json:"control,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -3047,6 +3067,7 @@ func (x *SignalExternalWorkflowExecutionFailedEventAttributes) GetInitiatedEvent
 	return 0
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *SignalExternalWorkflowExecutionFailedEventAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -3063,7 +3084,9 @@ type ExternalWorkflowExecutionSignaledEventAttributes struct {
 	Namespace         string                `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	NamespaceId       string                `protobuf:"bytes,5,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	WorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Control       string `protobuf:"bytes,4,opt,name=control,proto3" json:"control,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -3127,6 +3150,7 @@ func (x *ExternalWorkflowExecutionSignaledEventAttributes) GetWorkflowExecution(
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *ExternalWorkflowExecutionSignaledEventAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -3261,7 +3285,9 @@ type StartChildWorkflowExecutionInitiatedEventAttributes struct {
 	WorkflowTaskTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=workflow_task_timeout,json=workflowTaskTimeout,proto3" json:"workflow_task_timeout,omitempty"`
 	// Default: PARENT_CLOSE_POLICY_TERMINATE.
 	ParentClosePolicy v12.ParentClosePolicy `protobuf:"varint,9,opt,name=parent_close_policy,json=parentClosePolicy,proto3,enum=temporal.api.enums.v1.ParentClosePolicy" json:"parent_close_policy,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Control string `protobuf:"bytes,10,opt,name=control,proto3" json:"control,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,11,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
@@ -3382,6 +3408,7 @@ func (x *StartChildWorkflowExecutionInitiatedEventAttributes) GetParentClosePoli
 	return v12.ParentClosePolicy(0)
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *StartChildWorkflowExecutionInitiatedEventAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -3461,7 +3488,9 @@ type StartChildWorkflowExecutionFailedEventAttributes struct {
 	WorkflowId   string                                     `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	WorkflowType *v1.WorkflowType                           `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	Cause        v12.StartChildWorkflowExecutionFailedCause `protobuf:"varint,4,opt,name=cause,proto3,enum=temporal.api.enums.v1.StartChildWorkflowExecutionFailedCause" json:"cause,omitempty"`
-	// Deprecated
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Control string `protobuf:"bytes,5,opt,name=control,proto3" json:"control,omitempty"`
 	// Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to
 	InitiatedEventId int64 `protobuf:"varint,6,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
@@ -3536,6 +3565,7 @@ func (x *StartChildWorkflowExecutionFailedEventAttributes) GetCause() v12.StartC
 	return v12.StartChildWorkflowExecutionFailedCause(0)
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *StartChildWorkflowExecutionFailedEventAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -4753,6 +4783,8 @@ type NexusOperationStartedEventAttributes struct {
 	// This ID is used when canceling the operation.
 	//
 	// Deprecated: Renamed to operation_token.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	OperationId string `protobuf:"bytes,3,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 	// The request ID allocated at schedule time.
 	RequestId string `protobuf:"bytes,4,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
@@ -4800,6 +4832,7 @@ func (x *NexusOperationStartedEventAttributes) GetScheduledEventId() int64 {
 	return 0
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *NexusOperationStartedEventAttributes) GetOperationId() string {
 	if x != nil {
 		return x.OperationId
@@ -6373,7 +6406,7 @@ var File_temporal_api_history_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\xc8\x14\n" +
+	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\xd0\x14\n" +
 	"'WorkflowExecutionStartedEventAttributes\x12I\n" +
 	"\rworkflow_type\x18\x01 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12:\n" +
 	"\x19parent_workflow_namespace\x18\x02 \x01(\tR\x17parentWorkflowNamespace\x12?\n" +
@@ -6405,11 +6438,11 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x06header\x18\x19 \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x12C\n" +
 	"\x1eparent_initiated_event_version\x18\x1a \x01(\x03R\x1bparentInitiatedEventVersion\x12\x1f\n" +
 	"\vworkflow_id\x18\x1c \x01(\tR\n" +
-	"workflowId\x12\\\n" +
-	"\x14source_version_stamp\x18\x1d \x01(\v2*.temporal.api.common.v1.WorkerVersionStampR\x12sourceVersionStamp\x12S\n" +
+	"workflowId\x12`\n" +
+	"\x14source_version_stamp\x18\x1d \x01(\v2*.temporal.api.common.v1.WorkerVersionStampB\x02\x18\x01R\x12sourceVersionStamp\x12S\n" +
 	"\x14completion_callbacks\x18\x1e \x03(\v2 .temporal.api.common.v1.CallbackR\x13completionCallbacks\x12a\n" +
-	"\x17root_workflow_execution\x18\x1f \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x15rootWorkflowExecution\x12,\n" +
-	"\x12inherited_build_id\x18  \x01(\tR\x10inheritedBuildId\x12]\n" +
+	"\x17root_workflow_execution\x18\x1f \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x15rootWorkflowExecution\x120\n" +
+	"\x12inherited_build_id\x18  \x01(\tB\x02\x18\x01R\x10inheritedBuildId\x12]\n" +
 	"\x13versioning_override\x18! \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12X\n" +
 	"'parent_pinned_worker_deployment_version\x18\" \x01(\tB\x02\x18\x01R#parentPinnedWorkerDeploymentVersion\x12|\n" +
 	" parent_pinned_deployment_version\x18$ \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x1dparentPinnedDeploymentVersion\x12<\n" +
@@ -6427,7 +6460,7 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"(WorkflowExecutionTimedOutEventAttributes\x12B\n" +
 	"\vretry_state\x18\x01 \x01(\x0e2!.temporal.api.enums.v1.RetryStateR\n" +
 	"retryState\x12/\n" +
-	"\x14new_execution_run_id\x18\x02 \x01(\tR\x11newExecutionRunId\"\xaa\b\n" +
+	"\x14new_execution_run_id\x18\x02 \x01(\tR\x11newExecutionRunId\"\xae\b\n" +
 	".WorkflowExecutionContinuedAsNewEventAttributes\x12/\n" +
 	"\x14new_execution_run_id\x18\x01 \x01(\tR\x11newExecutionRunId\x12I\n" +
 	"\rworkflow_type\x18\x02 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12C\n" +
@@ -6438,9 +6471,9 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x15workflow_task_timeout\x18\x06 \x01(\v2\x19.google.protobuf.DurationR\x13workflowTaskTimeout\x12F\n" +
 	" workflow_task_completed_event_id\x18\a \x01(\x03R\x1cworkflowTaskCompletedEventId\x12O\n" +
 	"\x16backoff_start_interval\x18\b \x01(\v2\x19.google.protobuf.DurationR\x14backoffStartInterval\x12K\n" +
-	"\tinitiator\x18\t \x01(\x0e2-.temporal.api.enums.v1.ContinueAsNewInitiatorR\tinitiator\x12:\n" +
+	"\tinitiator\x18\t \x01(\x0e2-.temporal.api.enums.v1.ContinueAsNewInitiatorR\tinitiator\x12>\n" +
 	"\afailure\x18\n" +
-	" \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\x12V\n" +
+	" \x01(\v2 .temporal.api.failure.v1.FailureB\x02\x18\x01R\afailure\x12V\n" +
 	"\x16last_completion_result\x18\v \x01(\v2 .temporal.api.common.v1.PayloadsR\x14lastCompletionResult\x126\n" +
 	"\x06header\x18\f \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x120\n" +
 	"\x04memo\x18\r \x01(\v2\x1c.temporal.api.common.v1.MemoR\x04memo\x12U\n" +
@@ -6590,28 +6623,28 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"*WorkflowExecutionTerminatedEventAttributes\x12\x16\n" +
 	"\x06reason\x18\x01 \x01(\tR\x06reason\x12:\n" +
 	"\adetails\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\x12\x1a\n" +
-	"\bidentity\x18\x03 \x01(\tR\bidentity\"\x85\x03\n" +
+	"\bidentity\x18\x03 \x01(\tR\bidentity\"\x89\x03\n" +
 	">RequestCancelExternalWorkflowExecutionInitiatedEventAttributes\x12F\n" +
 	" workflow_task_completed_event_id\x18\x01 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12\x1c\n" +
 	"\tnamespace\x18\x02 \x01(\tR\tnamespace\x12!\n" +
 	"\fnamespace_id\x18\a \x01(\tR\vnamespaceId\x12X\n" +
-	"\x12workflow_execution\x18\x03 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x18\n" +
-	"\acontrol\x18\x04 \x01(\tR\acontrol\x12.\n" +
+	"\x12workflow_execution\x18\x03 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x1c\n" +
+	"\acontrol\x18\x04 \x01(\tB\x02\x18\x01R\acontrol\x12.\n" +
 	"\x13child_workflow_only\x18\x05 \x01(\bR\x11childWorkflowOnly\x12\x16\n" +
-	"\x06reason\x18\x06 \x01(\tR\x06reason\"\xc1\x03\n" +
+	"\x06reason\x18\x06 \x01(\tR\x06reason\"\xc5\x03\n" +
 	";RequestCancelExternalWorkflowExecutionFailedEventAttributes\x12W\n" +
 	"\x05cause\x18\x01 \x01(\x0e2A.temporal.api.enums.v1.CancelExternalWorkflowExecutionFailedCauseR\x05cause\x12F\n" +
 	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12\x1c\n" +
 	"\tnamespace\x18\x03 \x01(\tR\tnamespace\x12!\n" +
 	"\fnamespace_id\x18\a \x01(\tR\vnamespaceId\x12X\n" +
 	"\x12workflow_execution\x18\x04 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12,\n" +
-	"\x12initiated_event_id\x18\x05 \x01(\x03R\x10initiatedEventId\x12\x18\n" +
-	"\acontrol\x18\x06 \x01(\tR\acontrol\"\x82\x02\n" +
+	"\x12initiated_event_id\x18\x05 \x01(\x03R\x10initiatedEventId\x12\x1c\n" +
+	"\acontrol\x18\x06 \x01(\tB\x02\x18\x01R\acontrol\"\x82\x02\n" +
 	"7ExternalWorkflowExecutionCancelRequestedEventAttributes\x12,\n" +
 	"\x12initiated_event_id\x18\x01 \x01(\x03R\x10initiatedEventId\x12\x1c\n" +
 	"\tnamespace\x18\x02 \x01(\tR\tnamespace\x12!\n" +
 	"\fnamespace_id\x18\x04 \x01(\tR\vnamespaceId\x12X\n" +
-	"\x12workflow_execution\x18\x03 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\"\xf7\x03\n" +
+	"\x12workflow_execution\x18\x03 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\"\xfb\x03\n" +
 	"7SignalExternalWorkflowExecutionInitiatedEventAttributes\x12F\n" +
 	" workflow_task_completed_event_id\x18\x01 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12\x1c\n" +
 	"\tnamespace\x18\x02 \x01(\tR\tnamespace\x12!\n" +
@@ -6619,30 +6652,30 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x12workflow_execution\x18\x03 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x1f\n" +
 	"\vsignal_name\x18\x04 \x01(\tR\n" +
 	"signalName\x126\n" +
-	"\x05input\x18\x05 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05input\x12\x18\n" +
-	"\acontrol\x18\x06 \x01(\tR\acontrol\x12.\n" +
+	"\x05input\x18\x05 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05input\x12\x1c\n" +
+	"\acontrol\x18\x06 \x01(\tB\x02\x18\x01R\acontrol\x12.\n" +
 	"\x13child_workflow_only\x18\a \x01(\bR\x11childWorkflowOnly\x126\n" +
-	"\x06header\x18\b \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\"\xba\x03\n" +
+	"\x06header\x18\b \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\"\xbe\x03\n" +
 	"4SignalExternalWorkflowExecutionFailedEventAttributes\x12W\n" +
 	"\x05cause\x18\x01 \x01(\x0e2A.temporal.api.enums.v1.SignalExternalWorkflowExecutionFailedCauseR\x05cause\x12F\n" +
 	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12\x1c\n" +
 	"\tnamespace\x18\x03 \x01(\tR\tnamespace\x12!\n" +
 	"\fnamespace_id\x18\a \x01(\tR\vnamespaceId\x12X\n" +
 	"\x12workflow_execution\x18\x04 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12,\n" +
-	"\x12initiated_event_id\x18\x05 \x01(\x03R\x10initiatedEventId\x12\x18\n" +
-	"\acontrol\x18\x06 \x01(\tR\acontrol\"\x95\x02\n" +
+	"\x12initiated_event_id\x18\x05 \x01(\x03R\x10initiatedEventId\x12\x1c\n" +
+	"\acontrol\x18\x06 \x01(\tB\x02\x18\x01R\acontrol\"\x99\x02\n" +
 	"0ExternalWorkflowExecutionSignaledEventAttributes\x12,\n" +
 	"\x12initiated_event_id\x18\x01 \x01(\x03R\x10initiatedEventId\x12\x1c\n" +
 	"\tnamespace\x18\x02 \x01(\tR\tnamespace\x12!\n" +
 	"\fnamespace_id\x18\x05 \x01(\tR\vnamespaceId\x12X\n" +
-	"\x12workflow_execution\x18\x03 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x18\n" +
-	"\acontrol\x18\x04 \x01(\tR\acontrol\"\xce\x01\n" +
+	"\x12workflow_execution\x18\x03 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x1c\n" +
+	"\acontrol\x18\x04 \x01(\tB\x02\x18\x01R\acontrol\"\xce\x01\n" +
 	"-UpsertWorkflowSearchAttributesEventAttributes\x12F\n" +
 	" workflow_task_completed_event_id\x18\x01 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12U\n" +
 	"\x11search_attributes\x18\x02 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\"\xb6\x01\n" +
 	")WorkflowPropertiesModifiedEventAttributes\x12F\n" +
 	" workflow_task_completed_event_id\x18\x01 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12A\n" +
-	"\rupserted_memo\x18\x02 \x01(\v2\x1c.temporal.api.common.v1.MemoR\fupsertedMemo\"\x8d\n" +
+	"\rupserted_memo\x18\x02 \x01(\v2\x1c.temporal.api.common.v1.MemoR\fupsertedMemo\"\x91\n" +
 	"\n" +
 	"3StartChildWorkflowExecutionInitiatedEventAttributes\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
@@ -6656,9 +6689,9 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x1aworkflow_execution_timeout\x18\x06 \x01(\v2\x19.google.protobuf.DurationR\x18workflowExecutionTimeout\x12K\n" +
 	"\x14workflow_run_timeout\x18\a \x01(\v2\x19.google.protobuf.DurationR\x12workflowRunTimeout\x12M\n" +
 	"\x15workflow_task_timeout\x18\b \x01(\v2\x19.google.protobuf.DurationR\x13workflowTaskTimeout\x12X\n" +
-	"\x13parent_close_policy\x18\t \x01(\x0e2(.temporal.api.enums.v1.ParentClosePolicyR\x11parentClosePolicy\x12\x18\n" +
+	"\x13parent_close_policy\x18\t \x01(\x0e2(.temporal.api.enums.v1.ParentClosePolicyR\x11parentClosePolicy\x12\x1c\n" +
 	"\acontrol\x18\n" +
-	" \x01(\tR\acontrol\x12F\n" +
+	" \x01(\tB\x02\x18\x01R\acontrol\x12F\n" +
 	" workflow_task_completed_event_id\x18\v \x01(\x03R\x1cworkflowTaskCompletedEventId\x12e\n" +
 	"\x18workflow_id_reuse_policy\x18\f \x01(\x0e2,.temporal.api.enums.v1.WorkflowIdReusePolicyR\x15workflowIdReusePolicy\x12F\n" +
 	"\fretry_policy\x18\r \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12#\n" +
@@ -6667,15 +6700,15 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x04memo\x18\x10 \x01(\v2\x1c.temporal.api.common.v1.MemoR\x04memo\x12U\n" +
 	"\x11search_attributes\x18\x11 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12(\n" +
 	"\x10inherit_build_id\x18\x13 \x01(\bR\x0einheritBuildId\x12<\n" +
-	"\bpriority\x18\x14 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xc4\x03\n" +
+	"\bpriority\x18\x14 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xc8\x03\n" +
 	"0StartChildWorkflowExecutionFailedEventAttributes\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
 	"\fnamespace_id\x18\b \x01(\tR\vnamespaceId\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
 	"workflowId\x12I\n" +
 	"\rworkflow_type\x18\x03 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12S\n" +
-	"\x05cause\x18\x04 \x01(\x0e2=.temporal.api.enums.v1.StartChildWorkflowExecutionFailedCauseR\x05cause\x12\x18\n" +
-	"\acontrol\x18\x05 \x01(\tR\acontrol\x12,\n" +
+	"\x05cause\x18\x04 \x01(\x0e2=.temporal.api.enums.v1.StartChildWorkflowExecutionFailedCauseR\x05cause\x12\x1c\n" +
+	"\acontrol\x18\x05 \x01(\tB\x02\x18\x01R\acontrol\x12,\n" +
 	"\x12initiated_event_id\x18\x06 \x01(\x03R\x10initiatedEventId\x12F\n" +
 	" workflow_task_completed_event_id\x18\a \x01(\x03R\x1cworkflowTaskCompletedEventId\"\xfa\x02\n" +
 	",ChildWorkflowExecutionStartedEventAttributes\x12\x1c\n" +
@@ -6773,10 +6806,10 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"endpointId\x1a>\n" +
 	"\x10NexusHeaderEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xbf\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xc3\x01\n" +
 	"$NexusOperationStartedEventAttributes\x12,\n" +
-	"\x12scheduled_event_id\x18\x01 \x01(\x03R\x10scheduledEventId\x12!\n" +
-	"\foperation_id\x18\x03 \x01(\tR\voperationId\x12\x1d\n" +
+	"\x12scheduled_event_id\x18\x01 \x01(\x03R\x10scheduledEventId\x12%\n" +
+	"\foperation_id\x18\x03 \x01(\tB\x02\x18\x01R\voperationId\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x04 \x01(\tR\trequestId\x12'\n" +
 	"\x0foperation_token\x18\x05 \x01(\tR\x0eoperationToken\"\xae\x01\n" +

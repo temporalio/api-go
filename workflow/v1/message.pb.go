@@ -112,6 +112,8 @@ type WorkflowExecutionInfo struct {
 	HistorySizeBytes     int64                       `protobuf:"varint,15,opt,name=history_size_bytes,json=historySizeBytes,proto3" json:"history_size_bytes,omitempty"`
 	// If set, the most recent worker version stamp that appeared in a workflow task completion
 	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 	MostRecentWorkerVersionStamp *v1.WorkerVersionStamp `protobuf:"bytes,16,opt,name=most_recent_worker_version_stamp,json=mostRecentWorkerVersionStamp,proto3" json:"most_recent_worker_version_stamp,omitempty"`
 	// Workflow execution duration is defined as difference between close time and execution time.
 	// This field is only populated if the workflow is closed.
@@ -306,6 +308,7 @@ func (x *WorkflowExecutionInfo) GetHistorySizeBytes() int64 {
 	return 0
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 func (x *WorkflowExecutionInfo) GetMostRecentWorkerVersionStamp() *v1.WorkerVersionStamp {
 	if x != nil {
 		return x.MostRecentWorkerVersionStamp
@@ -857,8 +860,8 @@ type PendingActivityInfo struct {
 	//	*PendingActivityInfo_UseWorkflowBuildId
 	//	*PendingActivityInfo_LastIndependentlyAssignedBuildId
 	AssignedBuildId isPendingActivityInfo_AssignedBuildId `protobuf_oneof:"assigned_build_id"`
-	// The version stamp of the worker to whom this activity was most recently dispatched
-	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	// Deprecated. The version stamp of the worker to whom this activity was most recently dispatched
+	// This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 	LastWorkerVersionStamp *v1.WorkerVersionStamp `protobuf:"bytes,15,opt,name=last_worker_version_stamp,json=lastWorkerVersionStamp,proto3" json:"last_worker_version_stamp,omitempty"`
@@ -1123,14 +1126,14 @@ type isPendingActivityInfo_AssignedBuildId interface {
 }
 
 type PendingActivityInfo_UseWorkflowBuildId struct {
-	// When present, it means this activity is assigned to the build ID of its workflow.
+	// Deprecated. When present, it means this activity is assigned to the build ID of its workflow.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 	UseWorkflowBuildId *emptypb.Empty `protobuf:"bytes,13,opt,name=use_workflow_build_id,json=useWorkflowBuildId,proto3,oneof"`
 }
 
 type PendingActivityInfo_LastIndependentlyAssignedBuildId struct {
-	// This means the activity is independently versioned and not bound to the build ID of its workflow.
+	// Deprecated. This means the activity is independently versioned and not bound to the build ID of its workflow.
 	// The activity will use the build id in this field instead.
 	// If the task fails and is scheduled again, the assigned build ID may change according to the latest versioning
 	// rules.
@@ -1352,7 +1355,7 @@ type ResetPointInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Worker build id.
 	BuildId string `protobuf:"bytes,7,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
-	// A worker binary version identifier (deprecated).
+	// Deprecated. A worker binary version identifier.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 	BinaryChecksum string `protobuf:"bytes,1,opt,name=binary_checksum,json=binaryChecksum,proto3" json:"binary_checksum,omitempty"`
@@ -1762,7 +1765,9 @@ type PendingNexusOperationInfo struct {
 	Operation string `protobuf:"bytes,3,opt,name=operation,proto3" json:"operation,omitempty"`
 	// Operation ID. Only set for asynchronous operations after a successful StartOperation call.
 	//
-	// Deprecated: Renamed to operation_token.
+	// Deprecated. Renamed to operation_token.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 	OperationId string `protobuf:"bytes,4,opt,name=operation_id,json=operationId,proto3" json:"operation_id,omitempty"`
 	// Schedule-to-close timeout for this operation.
 	// This is the only timeout settable by a workflow.
@@ -1845,6 +1850,7 @@ func (x *PendingNexusOperationInfo) GetOperation() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 func (x *PendingNexusOperationInfo) GetOperationId() string {
 	if x != nil {
 		return x.OperationId
@@ -2928,7 +2934,7 @@ var File_temporal_api_workflow_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/workflow/v1/message.proto\x12\x18temporal.api.workflow.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a&temporal/api/activity/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x93\f\n" +
+	"&temporal/api/workflow/v1/message.proto\x12\x18temporal.api.workflow.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a&temporal/api/activity/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x97\f\n" +
 	"\x15WorkflowExecutionInfo\x12G\n" +
 	"\texecution\x18\x01 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x128\n" +
 	"\x04type\x18\x02 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\x04type\x129\n" +
@@ -2948,8 +2954,8 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"task_queue\x18\r \x01(\tR\ttaskQueue\x124\n" +
 	"\x16state_transition_count\x18\x0e \x01(\x03R\x14stateTransitionCount\x12,\n" +
-	"\x12history_size_bytes\x18\x0f \x01(\x03R\x10historySizeBytes\x12r\n" +
-	" most_recent_worker_version_stamp\x18\x10 \x01(\v2*.temporal.api.common.v1.WorkerVersionStampR\x1cmostRecentWorkerVersionStamp\x12H\n" +
+	"\x12history_size_bytes\x18\x0f \x01(\x03R\x10historySizeBytes\x12v\n" +
+	" most_recent_worker_version_stamp\x18\x10 \x01(\v2*.temporal.api.common.v1.WorkerVersionStampB\x02\x18\x01R\x1cmostRecentWorkerVersionStamp\x12H\n" +
 	"\x12execution_duration\x18\x11 \x01(\v2\x19.google.protobuf.DurationR\x11executionDuration\x12P\n" +
 	"\x0eroot_execution\x18\x12 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\rrootExecution\x12.\n" +
 	"\x11assigned_build_id\x18\x13 \x01(\tB\x02\x18\x01R\x0fassignedBuildId\x120\n" +
@@ -3098,12 +3104,12 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x0eWorkflowClosed\x1av\n" +
 	"\aTrigger\x12`\n" +
 	"\x0fworkflow_closed\x18\x01 \x01(\v25.temporal.api.workflow.v1.CallbackInfo.WorkflowClosedH\x00R\x0eworkflowClosedB\t\n" +
-	"\avariant\"\xf9\x06\n" +
+	"\avariant\"\xfd\x06\n" +
 	"\x19PendingNexusOperationInfo\x12\x1a\n" +
 	"\bendpoint\x18\x01 \x01(\tR\bendpoint\x12\x18\n" +
 	"\aservice\x18\x02 \x01(\tR\aservice\x12\x1c\n" +
-	"\toperation\x18\x03 \x01(\tR\toperation\x12!\n" +
-	"\foperation_id\x18\x04 \x01(\tR\voperationId\x12T\n" +
+	"\toperation\x18\x03 \x01(\tR\toperation\x12%\n" +
+	"\foperation_id\x18\x04 \x01(\tB\x02\x18\x01R\voperationId\x12T\n" +
 	"\x19schedule_to_close_timeout\x18\x05 \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToCloseTimeout\x12A\n" +
 	"\x0escheduled_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\rscheduledTime\x12G\n" +
 	"\x05state\x18\a \x01(\x0e21.temporal.api.enums.v1.PendingNexusOperationStateR\x05state\x12\x18\n" +

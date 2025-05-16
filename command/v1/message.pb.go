@@ -490,6 +490,8 @@ type RequestCancelExternalWorkflowExecutionCommandAttributes struct {
 	WorkflowId string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	RunId      string                 `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 	Control string `protobuf:"bytes,4,opt,name=control,proto3" json:"control,omitempty"`
 	// Set this to true if the workflow being cancelled is a child of the workflow originating this
 	// command. The request will be rejected if it is set to true and the target workflow is *not*
@@ -552,6 +554,7 @@ func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) GetRunId() str
 	return ""
 }
 
+// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -582,6 +585,8 @@ type SignalExternalWorkflowExecutionCommandAttributes struct {
 	// Serialized value(s) to provide with the signal.
 	Input *v1.Payloads `protobuf:"bytes,4,opt,name=input,proto3" json:"input,omitempty"`
 	// Deprecated
+	//
+	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 	Control string `protobuf:"bytes,5,opt,name=control,proto3" json:"control,omitempty"`
 	// Set this to true if the workflow being cancelled is a child of the workflow originating this
 	// command. The request will be rejected if it is set to true and the target workflow is *not*
@@ -652,6 +657,7 @@ func (x *SignalExternalWorkflowExecutionCommandAttributes) GetInput() *v1.Payloa
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 func (x *SignalExternalWorkflowExecutionCommandAttributes) GetControl() string {
 	if x != nil {
 		return x.Control
@@ -1765,22 +1771,22 @@ const file_temporal_api_command_v1_message_proto_rawDesc = "" +
 	"\x1cCancelTimerCommandAttributes\x12\x19\n" +
 	"\btimer_id\x18\x01 \x01(\tR\atimerId\"f\n" +
 	"(CancelWorkflowExecutionCommandAttributes\x12:\n" +
-	"\adetails\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\"\xf1\x01\n" +
+	"\adetails\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsR\adetails\"\xf5\x01\n" +
 	"7RequestCancelExternalWorkflowExecutionCommandAttributes\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
 	"workflowId\x12\x15\n" +
-	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12\x18\n" +
-	"\acontrol\x18\x04 \x01(\tR\acontrol\x12.\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12\x1c\n" +
+	"\acontrol\x18\x04 \x01(\tB\x02\x18\x01R\acontrol\x12.\n" +
 	"\x13child_workflow_only\x18\x05 \x01(\bR\x11childWorkflowOnly\x12\x16\n" +
-	"\x06reason\x18\x06 \x01(\tR\x06reason\"\xf4\x02\n" +
+	"\x06reason\x18\x06 \x01(\tR\x06reason\"\xf8\x02\n" +
 	"0SignalExternalWorkflowExecutionCommandAttributes\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
 	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x12\x1f\n" +
 	"\vsignal_name\x18\x03 \x01(\tR\n" +
 	"signalName\x126\n" +
-	"\x05input\x18\x04 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05input\x12\x18\n" +
-	"\acontrol\x18\x05 \x01(\tR\acontrol\x12.\n" +
+	"\x05input\x18\x04 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05input\x12\x1c\n" +
+	"\acontrol\x18\x05 \x01(\tB\x02\x18\x01R\acontrol\x12.\n" +
 	"\x13child_workflow_only\x18\x06 \x01(\bR\x11childWorkflowOnly\x126\n" +
 	"\x06header\x18\a \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\"\x88\x01\n" +
 	"/UpsertWorkflowSearchAttributesCommandAttributes\x12U\n" +
