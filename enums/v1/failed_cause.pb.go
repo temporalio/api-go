@@ -93,6 +93,8 @@ const (
 	// for the workflow's namespace).
 	// Check the workflow task failure message for more information.
 	WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED WorkflowTaskFailedCause = 35
+	// A workflow task failed because a grpc message was too large.
+	WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE WorkflowTaskFailedCause = 36
 )
 
 // Enum value maps for WorkflowTaskFailedCause.
@@ -134,6 +136,7 @@ var (
 		33: "WORKFLOW_TASK_FAILED_CAUSE_PENDING_NEXUS_OPERATIONS_LIMIT_EXCEEDED",
 		34: "WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_NEXUS_OPERATION_ATTRIBUTES",
 		35: "WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED",
+		36: "WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE",
 	}
 	WorkflowTaskFailedCause_value = map[string]int32{
 		"WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED":                                               0,
@@ -172,6 +175,7 @@ var (
 		"WORKFLOW_TASK_FAILED_CAUSE_PENDING_NEXUS_OPERATIONS_LIMIT_EXCEEDED":                   33,
 		"WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_NEXUS_OPERATION_ATTRIBUTES":             34,
 		"WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED":                                          35,
+		"WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE":                                    36,
 	}
 )
 
@@ -263,6 +267,8 @@ func (x WorkflowTaskFailedCause) String() string {
 
 		// Enum value maps for CancelExternalWorkflowExecutionFailedCause.
 		return "FeatureDisabled"
+	case WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE:
+		return "GrpcMessageTooLarge"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -634,7 +640,7 @@ var File_temporal_api_enums_v1_failed_cause_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	"\n" +
-	"(temporal/api/enums/v1/failed_cause.proto\x12\x15temporal.api.enums.v1*\xee\x11\n" +
+	"(temporal/api/enums/v1/failed_cause.proto\x12\x15temporal.api.enums.v1*\xa5\x12\n" +
 	"\x17WorkflowTaskFailedCause\x12*\n" +
 	"&WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED\x10\x00\x120\n" +
 	",WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_COMMAND\x10\x01\x12?\n" +
@@ -672,7 +678,8 @@ const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	"BWORKFLOW_TASK_FAILED_CAUSE_BAD_SCHEDULE_NEXUS_OPERATION_ATTRIBUTES\x10 \x12F\n" +
 	"BWORKFLOW_TASK_FAILED_CAUSE_PENDING_NEXUS_OPERATIONS_LIMIT_EXCEEDED\x10!\x12L\n" +
 	"HWORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_NEXUS_OPERATION_ATTRIBUTES\x10\"\x12/\n" +
-	"+WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED\x10#*\xf3\x01\n" +
+	"+WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED\x10#\x125\n" +
+	"1WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE\x10$*\xf3\x01\n" +
 	"&StartChildWorkflowExecutionFailedCause\x12;\n" +
 	"7START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED\x10\x00\x12G\n" +
 	"CSTART_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_WORKFLOW_ALREADY_EXISTS\x10\x01\x12C\n" +

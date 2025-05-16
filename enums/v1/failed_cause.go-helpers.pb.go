@@ -43,6 +43,7 @@ var (
 		"PendingNexusOperationsLimitExceeded":                 33,
 		"BadRequestCancelNexusOperationAttributes":            34,
 		"FeatureDisabled":                                     35,
+		"GrpcMessageTooLarge":                                 36,
 	}
 )
 
