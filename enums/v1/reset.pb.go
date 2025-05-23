@@ -99,9 +99,9 @@ func (ResetReapplyExcludeType) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_reset_proto_rawDescGZIP(), []int{0}
 }
 
-// Event types to include when reapplying events. Deprecated: applications
-// should use ResetReapplyExcludeType to specify exclusions from this set, and
-// new event types should be added to ResetReapplyExcludeType instead of here.
+// Deprecated: applications should use ResetReapplyExcludeType to specify
+// exclusions from this set, and new event types should be added to ResetReapplyExcludeType
+// instead of here.
 type ResetReapplyType int32
 
 const (
@@ -169,7 +169,7 @@ func (ResetReapplyType) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_reset_proto_rawDescGZIP(), []int{1}
 }
 
-// Reset type options. Deprecated, see temporal.api.common.v1.ResetOptions.
+// Deprecated, see temporal.api.common.v1.ResetOptions.
 type ResetType int32
 
 const (

@@ -461,9 +461,10 @@ type ScheduleSpec struct {
 	// Interval-based specifications of times.
 	Interval []*IntervalSpec `protobuf:"bytes,2,rep,name=interval,proto3" json:"interval,omitempty"`
 	// Any timestamps matching any of exclude_* will be skipped.
+	// Deprecated. Use exclude_structured_calendar.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/schedule/v1/message.proto.
-	ExcludeCalendar           []*CalendarSpec           `protobuf:"bytes,3,rep,name=exclude_calendar,json=excludeCalendar,proto3" json:"exclude_calendar,omitempty"` // use exclude_structured_calendar
+	ExcludeCalendar           []*CalendarSpec           `protobuf:"bytes,3,rep,name=exclude_calendar,json=excludeCalendar,proto3" json:"exclude_calendar,omitempty"`
 	ExcludeStructuredCalendar []*StructuredCalendarSpec `protobuf:"bytes,9,rep,name=exclude_structured_calendar,json=excludeStructuredCalendar,proto3" json:"exclude_structured_calendar,omitempty"`
 	// If start_time is set, any timestamps before start_time will be skipped.
 	// (Together, start_time and end_time make an inclusive interval.)
@@ -1127,6 +1128,8 @@ type ScheduleInfo struct {
 	// Timestamps of schedule creation and last update.
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	UpdateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
+	// Deprecated.
+	//
 	// Deprecated: Marked as deprecated in temporal/api/schedule/v1/message.proto.
 	InvalidScheduleError string `protobuf:"bytes,8,opt,name=invalid_schedule_error,json=invalidScheduleError,proto3" json:"invalid_schedule_error,omitempty"`
 	unknownFields        protoimpl.UnknownFields
