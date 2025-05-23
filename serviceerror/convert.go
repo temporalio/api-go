@@ -176,7 +176,7 @@ func FromStatus(st *status.Status) error {
 	return st.Err()
 }
 
-func extractErrorDetails(st *status.Status) interface{} {
+func extractErrorDetails(st *status.Status) any {
 	details := st.Details()
 	if len(details) > 0 {
 		return details[0]

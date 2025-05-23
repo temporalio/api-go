@@ -1,6 +1,8 @@
 package serviceerror
 
 import (
+	"fmt"
+
 	failurepb "go.temporal.io/api/failure/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -16,6 +18,13 @@ type MultiOperationAborted struct {
 func NewMultiOperationAborted(message string) error {
 	return &MultiOperationAborted{
 		Message: message,
+	}
+}
+
+// NewMultiOperationAbortedf returns MultiOperationAborted with formatted message.
+func NewMultiOperationAbortedf(format string, args ...any) error {
+	return &MultiOperationAborted{
+		Message: fmt.Sprintf(format, args...),
 	}
 }
 

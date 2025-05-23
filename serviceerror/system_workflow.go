@@ -27,6 +27,14 @@ func NewSystemWorkflow(workflowExecution *common.WorkflowExecution, workflowErro
 	}
 }
 
+// NewSystemWorkflowf returns new SystemWorkflow error with formatted workflow error.
+func NewSystemWorkflowf(workflowExecution *common.WorkflowExecution, format string, args ...any) error {
+	return &SystemWorkflow{
+		WorkflowExecution: workflowExecution,
+		WorkflowError:     fmt.Sprintf(format, args...),
+	}
+}
+
 // Error returns string message.
 func (e *SystemWorkflow) Error() string {
 	execution := e.WorkflowExecution
