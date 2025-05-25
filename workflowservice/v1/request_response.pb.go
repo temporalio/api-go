@@ -13884,7 +13884,6 @@ type ListWorkerDeploymentsResponse_WorkerDeploymentSummary struct {
 	LatestVersionSummary  *v19.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,4,opt,name=latest_version_summary,json=latestVersionSummary,proto3" json:"latest_version_summary,omitempty"`
 	CurrentVersionSummary *v19.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,5,opt,name=current_version_summary,json=currentVersionSummary,proto3" json:"current_version_summary,omitempty"`
 	RampingVersionSummary *v19.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,6,opt,name=ramping_version_summary,json=rampingVersionSummary,proto3" json:"ramping_version_summary,omitempty"`
-	Status                v11.VersionStatus                                        `protobuf:"varint,7,opt,name=status,proto3,enum=temporal.api.enums.v1.VersionStatus" json:"status,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -13959,13 +13958,6 @@ func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) GetRampingVersio
 		return x.RampingVersionSummary
 	}
 	return nil
-}
-
-func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) GetStatus() v11.VersionStatus {
-	if x != nil {
-		return x.Status
-	}
-	return v11.VersionStatus(0)
 }
 
 var File_temporal_api_workflowservice_v1_request_response_proto protoreflect.FileDescriptor
@@ -14943,10 +14935,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1cListWorkerDeploymentsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +
-	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\"\xe8\x06\n" +
+	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\"\xaa\x06\n" +
 	"\x1dListWorkerDeploymentsResponse\x12&\n" +
 	"\x0fnext_page_token\x18\x01 \x01(\fR\rnextPageToken\x12\x85\x01\n" +
-	"\x12worker_deployments\x18\x02 \x03(\v2V.temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummaryR\x11workerDeployments\x1a\x96\x05\n" +
+	"\x12worker_deployments\x18\x02 \x03(\v2V.temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummaryR\x11workerDeployments\x1a\xd8\x04\n" +
 	"\x17WorkerDeploymentSummary\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12;\n" +
 	"\vcreate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
@@ -14954,8 +14946,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0erouting_config\x18\x03 \x01(\v2).temporal.api.deployment.v1.RoutingConfigR\rroutingConfig\x12\x85\x01\n" +
 	"\x16latest_version_summary\x18\x04 \x01(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x14latestVersionSummary\x12\x87\x01\n" +
 	"\x17current_version_summary\x18\x05 \x01(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x15currentVersionSummary\x12\x87\x01\n" +
-	"\x17ramping_version_summary\x18\x06 \x01(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x15rampingVersionSummary\x12<\n" +
-	"\x06status\x18\a \x01(\x0e2$.temporal.api.enums.v1.VersionStatusR\x06status\"\x87\x02\n" +
+	"\x17ramping_version_summary\x18\x06 \x01(\v2O.temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummaryR\x15rampingVersionSummary\"\x87\x02\n" +
 	"$DeleteWorkerDeploymentVersionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1c\n" +
 	"\aversion\x18\x02 \x01(\tB\x02\x18\x01R\aversion\x12b\n" +
@@ -15362,7 +15353,6 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*v14.CompatibleBuildIdRedirectRule)(nil),                       // 313: temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
 	(*v19.RoutingConfig)(nil),                                       // 314: temporal.api.deployment.v1.RoutingConfig
 	(*v19.WorkerDeploymentInfo_WorkerDeploymentVersionSummary)(nil), // 315: temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	(v11.VersionStatus)(0),                                          // 316: temporal.api.enums.v1.VersionStatus
 }
 var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int32{
 	196, // 0: temporal.api.workflowservice.v1.RegisterNamespaceRequest.workflow_execution_retention_period:type_name -> google.protobuf.Duration
@@ -15687,13 +15677,12 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	315, // 319: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.latest_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
 	315, // 320: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.current_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
 	315, // 321: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.ramping_version_summary:type_name -> temporal.api.deployment.v1.WorkerDeploymentInfo.WorkerDeploymentVersionSummary
-	316, // 322: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse.WorkerDeploymentSummary.status:type_name -> temporal.api.enums.v1.VersionStatus
-	309, // 323: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
-	324, // [324:324] is the sub-list for method output_type
-	324, // [324:324] is the sub-list for method input_type
-	324, // [324:324] is the sub-list for extension type_name
-	324, // [324:324] is the sub-list for extension extendee
-	0,   // [0:324] is the sub-list for field type_name
+	309, // 322: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntry.value:type_name -> temporal.api.common.v1.Payload
+	323, // [323:323] is the sub-list for method output_type
+	323, // [323:323] is the sub-list for method input_type
+	323, // [323:323] is the sub-list for extension type_name
+	323, // [323:323] is the sub-list for extension extendee
+	0,   // [0:323] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_workflowservice_v1_request_response_proto_init() }
