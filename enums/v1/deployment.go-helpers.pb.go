@@ -62,3 +62,24 @@ func WorkerVersioningModeFromString(s string) (WorkerVersioningMode, error) {
 	}
 	return WorkerVersioningMode(0), fmt.Errorf("%s is not a valid WorkerVersioningMode", s)
 }
+
+var (
+	VersionStatus_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Current":     1,
+		"Ramping":     2,
+		"Draining":    3,
+		"Drained":     4,
+	}
+)
+
+// VersionStatusFromString parses a VersionStatus value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to VersionStatus
+func VersionStatusFromString(s string) (VersionStatus, error) {
+	if v, ok := VersionStatus_value[s]; ok {
+		return VersionStatus(v), nil
+	} else if v, ok := VersionStatus_shorthandValue[s]; ok {
+		return VersionStatus(v), nil
+	}
+	return VersionStatus(0), fmt.Errorf("%s is not a valid VersionStatus", s)
+}
