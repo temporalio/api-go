@@ -64,22 +64,23 @@ func WorkerVersioningModeFromString(s string) (WorkerVersioningMode, error) {
 }
 
 var (
-	VersionStatus_shorthandValue = map[string]int32{
+	WorkerDeploymentVersionStatus_shorthandValue = map[string]int32{
 		"Unspecified": 0,
-		"Current":     1,
-		"Ramping":     2,
-		"Draining":    3,
-		"Drained":     4,
+		"Inactive":    1,
+		"Current":     2,
+		"Ramping":     3,
+		"Draining":    4,
+		"Drained":     5,
 	}
 )
 
-// VersionStatusFromString parses a VersionStatus value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to VersionStatus
-func VersionStatusFromString(s string) (VersionStatus, error) {
-	if v, ok := VersionStatus_value[s]; ok {
-		return VersionStatus(v), nil
-	} else if v, ok := VersionStatus_shorthandValue[s]; ok {
-		return VersionStatus(v), nil
+// WorkerDeploymentVersionStatusFromString parses a WorkerDeploymentVersionStatus value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to WorkerDeploymentVersionStatus
+func WorkerDeploymentVersionStatusFromString(s string) (WorkerDeploymentVersionStatus, error) {
+	if v, ok := WorkerDeploymentVersionStatus_value[s]; ok {
+		return WorkerDeploymentVersionStatus(v), nil
+	} else if v, ok := WorkerDeploymentVersionStatus_shorthandValue[s]; ok {
+		return WorkerDeploymentVersionStatus(v), nil
 	}
-	return VersionStatus(0), fmt.Errorf("%s is not a valid VersionStatus", s)
+	return WorkerDeploymentVersionStatus(0), fmt.Errorf("%s is not a valid WorkerDeploymentVersionStatus", s)
 }

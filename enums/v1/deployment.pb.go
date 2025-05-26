@@ -259,63 +259,69 @@ func (WorkerVersioningMode) EnumDescriptor() ([]byte, []int) {
 //
 // Specify the status of a Worker Deployment Version.
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
-type VersionStatus int32
+type WorkerDeploymentVersionStatus int32
 
 const (
+	WORKER_DEPLOYMENT_VERSION_STATUS_UNSPECIFIED WorkerDeploymentVersionStatus = 0
 	// The Worker Deployment Version has been created inside the Worker Deployment but is not used by any
-	// workflow executions.
-	VERSION_STATUS_UNSPECIFIED VersionStatus = 0
+	// workflow executions. These Versions can still have workflows if they have an explicit Versioning Override targeting
+	// this Version. Such Versioning Override could be set at workflow start time, or at a later time via `UpdateWorkflowExecutionOptions`.
+	WORKER_DEPLOYMENT_VERSION_STATUS_INACTIVE WorkerDeploymentVersionStatus = 1
 	// The Worker Deployment Version is the current version of the Worker Deployment. All new workflow executions
 	// and tasks of existing unversioned or AutoUpgrade workflows are routed to this version.
-	VERSION_STATUS_CURRENT VersionStatus = 1
+	WORKER_DEPLOYMENT_VERSION_STATUS_CURRENT WorkerDeploymentVersionStatus = 2
 	// The Worker Deployment Version is the ramping version of the Worker Deployment. A subset of new Pinned workflow executions are
 	// routed to this version. Moreover, a portion of existing unversioned or AutoUpgrade workflow executions are also routed to this version.
-	VERSION_STATUS_RAMPING VersionStatus = 2
+	WORKER_DEPLOYMENT_VERSION_STATUS_RAMPING WorkerDeploymentVersionStatus = 3
 	// The Worker Deployment Version is not used by new workflows but is still used by
 	// open pinned workflows. The version cannot be decommissioned safely.
-	VERSION_STATUS_DRAINING VersionStatus = 3
+	WORKER_DEPLOYMENT_VERSION_STATUS_DRAINING WorkerDeploymentVersionStatus = 4
 	// The Worker Deployment Version is not used by new or open workflows, but might be still needed by
 	// Queries sent to closed workflows. The version can be decommissioned safely if user does
 	// not query closed workflows. If the user does query closed workflows for some time x after
 	// workflows are closed, they should decommission the version after it has been drained for that duration.
-	VERSION_STATUS_DRAINED VersionStatus = 4
+	WORKER_DEPLOYMENT_VERSION_STATUS_DRAINED WorkerDeploymentVersionStatus = 5
 )
 
-// Enum value maps for VersionStatus.
+// Enum value maps for WorkerDeploymentVersionStatus.
 var (
-	VersionStatus_name = map[int32]string{
-		0: "VERSION_STATUS_UNSPECIFIED",
-		1: "VERSION_STATUS_CURRENT",
-		2: "VERSION_STATUS_RAMPING",
-		3: "VERSION_STATUS_DRAINING",
-		4: "VERSION_STATUS_DRAINED",
+	WorkerDeploymentVersionStatus_name = map[int32]string{
+		0: "WORKER_DEPLOYMENT_VERSION_STATUS_UNSPECIFIED",
+		1: "WORKER_DEPLOYMENT_VERSION_STATUS_INACTIVE",
+		2: "WORKER_DEPLOYMENT_VERSION_STATUS_CURRENT",
+		3: "WORKER_DEPLOYMENT_VERSION_STATUS_RAMPING",
+		4: "WORKER_DEPLOYMENT_VERSION_STATUS_DRAINING",
+		5: "WORKER_DEPLOYMENT_VERSION_STATUS_DRAINED",
 	}
-	VersionStatus_value = map[string]int32{
-		"VERSION_STATUS_UNSPECIFIED": 0,
-		"VERSION_STATUS_CURRENT":     1,
-		"VERSION_STATUS_RAMPING":     2,
-		"VERSION_STATUS_DRAINING":    3,
-		"VERSION_STATUS_DRAINED":     4,
+	WorkerDeploymentVersionStatus_value = map[string]int32{
+		"WORKER_DEPLOYMENT_VERSION_STATUS_UNSPECIFIED": 0,
+		"WORKER_DEPLOYMENT_VERSION_STATUS_INACTIVE":    1,
+		"WORKER_DEPLOYMENT_VERSION_STATUS_CURRENT":     2,
+		"WORKER_DEPLOYMENT_VERSION_STATUS_RAMPING":     3,
+		"WORKER_DEPLOYMENT_VERSION_STATUS_DRAINING":    4,
+		"WORKER_DEPLOYMENT_VERSION_STATUS_DRAINED":     5,
 	}
 )
 
-func (x VersionStatus) Enum() *VersionStatus {
-	p := new(VersionStatus)
+func (x WorkerDeploymentVersionStatus) Enum() *WorkerDeploymentVersionStatus {
+	p := new(WorkerDeploymentVersionStatus)
 	*p = x
 	return p
 }
 
-func (x VersionStatus) String() string {
+func (x WorkerDeploymentVersionStatus) String() string {
 	switch x {
-	case VERSION_STATUS_UNSPECIFIED:
+	case WORKER_DEPLOYMENT_VERSION_STATUS_UNSPECIFIED:
 		return "Unspecified"
-	case VERSION_STATUS_CURRENT:
+	case WORKER_DEPLOYMENT_VERSION_STATUS_INACTIVE:
+		return "Inactive"
+	case WORKER_DEPLOYMENT_VERSION_STATUS_CURRENT:
 		return "Current"
-	case VERSION_STATUS_RAMPING:
+	case WORKER_DEPLOYMENT_VERSION_STATUS_RAMPING:
 		return "Ramping"
-	case VERSION_STATUS_DRAINING:
+	case WORKER_DEPLOYMENT_VERSION_STATUS_DRAINING:
 		return "Draining"
-	case VERSION_STATUS_DRAINED:
+	case WORKER_DEPLOYMENT_VERSION_STATUS_DRAINED:
 		return "Drained"
 	default:
 		return strconv.Itoa(int(x))
@@ -323,20 +329,20 @@ func (x VersionStatus) String() string {
 
 }
 
-func (VersionStatus) Descriptor() protoreflect.EnumDescriptor {
+func (WorkerDeploymentVersionStatus) Descriptor() protoreflect.EnumDescriptor {
 	return file_temporal_api_enums_v1_deployment_proto_enumTypes[3].Descriptor()
 }
 
-func (VersionStatus) Type() protoreflect.EnumType {
+func (WorkerDeploymentVersionStatus) Type() protoreflect.EnumType {
 	return &file_temporal_api_enums_v1_deployment_proto_enumTypes[3]
 }
 
-func (x VersionStatus) Number() protoreflect.EnumNumber {
+func (x WorkerDeploymentVersionStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use VersionStatus.Descriptor instead.
-func (VersionStatus) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use WorkerDeploymentVersionStatus.Descriptor instead.
+func (WorkerDeploymentVersionStatus) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_deployment_proto_rawDescGZIP(), []int{3}
 }
 
@@ -357,13 +363,14 @@ const file_temporal_api_enums_v1_deployment_proto_rawDesc = "" +
 	"\x14WorkerVersioningMode\x12&\n" +
 	"\"WORKER_VERSIONING_MODE_UNSPECIFIED\x10\x00\x12&\n" +
 	"\"WORKER_VERSIONING_MODE_UNVERSIONED\x10\x01\x12$\n" +
-	" WORKER_VERSIONING_MODE_VERSIONED\x10\x02*\xa0\x01\n" +
-	"\rVersionStatus\x12\x1e\n" +
-	"\x1aVERSION_STATUS_UNSPECIFIED\x10\x00\x12\x1a\n" +
-	"\x16VERSION_STATUS_CURRENT\x10\x01\x12\x1a\n" +
-	"\x16VERSION_STATUS_RAMPING\x10\x02\x12\x1b\n" +
-	"\x17VERSION_STATUS_DRAINING\x10\x03\x12\x1a\n" +
-	"\x16VERSION_STATUS_DRAINED\x10\x04B\x87\x01\n" +
+	" WORKER_VERSIONING_MODE_VERSIONED\x10\x02*\xb9\x02\n" +
+	"\x1dWorkerDeploymentVersionStatus\x120\n" +
+	",WORKER_DEPLOYMENT_VERSION_STATUS_UNSPECIFIED\x10\x00\x12-\n" +
+	")WORKER_DEPLOYMENT_VERSION_STATUS_INACTIVE\x10\x01\x12,\n" +
+	"(WORKER_DEPLOYMENT_VERSION_STATUS_CURRENT\x10\x02\x12,\n" +
+	"(WORKER_DEPLOYMENT_VERSION_STATUS_RAMPING\x10\x03\x12-\n" +
+	")WORKER_DEPLOYMENT_VERSION_STATUS_DRAINING\x10\x04\x12,\n" +
+	"(WORKER_DEPLOYMENT_VERSION_STATUS_DRAINED\x10\x05B\x87\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x0fDeploymentProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (
@@ -380,10 +387,10 @@ func file_temporal_api_enums_v1_deployment_proto_rawDescGZIP() []byte {
 
 var file_temporal_api_enums_v1_deployment_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_temporal_api_enums_v1_deployment_proto_goTypes = []any{
-	(DeploymentReachability)(0), // 0: temporal.api.enums.v1.DeploymentReachability
-	(VersionDrainageStatus)(0),  // 1: temporal.api.enums.v1.VersionDrainageStatus
-	(WorkerVersioningMode)(0),   // 2: temporal.api.enums.v1.WorkerVersioningMode
-	(VersionStatus)(0),          // 3: temporal.api.enums.v1.VersionStatus
+	(DeploymentReachability)(0),        // 0: temporal.api.enums.v1.DeploymentReachability
+	(VersionDrainageStatus)(0),         // 1: temporal.api.enums.v1.VersionDrainageStatus
+	(WorkerVersioningMode)(0),          // 2: temporal.api.enums.v1.WorkerVersioningMode
+	(WorkerDeploymentVersionStatus)(0), // 3: temporal.api.enums.v1.WorkerDeploymentVersionStatus
 }
 var file_temporal_api_enums_v1_deployment_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
