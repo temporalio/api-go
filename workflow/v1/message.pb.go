@@ -522,7 +522,8 @@ type WorkflowExecutionVersioningInfo struct {
 	// precedence over SDK-sent `behavior` (and `version` when override is PINNED). An
 	// override can be set when starting a new execution, as well as afterwards by calling the
 	// `UpdateWorkflowExecutionOptions` API.
-	// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows, and workflow retries.
+	// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
+	// workflow retries, and cron workflows.
 	VersioningOverride *VersioningOverride `protobuf:"bytes,3,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
 	// When present, indicates the workflow is transitioning to a different deployment. Can
 	// indicate one of the following transitions: unversioned -> versioned, versioned -> versioned
@@ -2085,6 +2086,8 @@ func (x *WorkflowExecutionOptions) GetVersioningOverride() *VersioningOverride {
 // `WorkflowExecutionInfo.VersioningInfo` for more information. To remove the override, call
 // `UpdateWorkflowExecutionOptions` with a null `VersioningOverride`, and use the `update_mask`
 // to indicate that it should be mutated.
+// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
+// workflow retries, and cron workflows.
 type VersioningOverride struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Indicates whether to override the workflow to be AutoUpgrade or Pinned.
