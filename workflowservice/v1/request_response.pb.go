@@ -9905,9 +9905,15 @@ type UpdateActivityOptionsRequest struct {
 	//
 	//	*UpdateActivityOptionsRequest_Id
 	//	*UpdateActivityOptionsRequest_Type
-	Activity      isUpdateActivityOptionsRequest_Activity `protobuf_oneof:"activity"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Activity isUpdateActivityOptionsRequest_Activity `protobuf_oneof:"activity"`
+	// If set, the activity options will be restored to the default.
+	// Default options are then options activity was created with.
+	// They are part of the first SCHEDULE event.
+	// This flag cannot be combined with any other option; if you supply
+	// restore_original together with other options, the request will be rejected.
+	RestoreOriginal bool `protobuf:"varint,8,opt,name=restore_original,json=restoreOriginal,proto3" json:"restore_original,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *UpdateActivityOptionsRequest) Reset() {
@@ -9998,6 +10004,13 @@ func (x *UpdateActivityOptionsRequest) GetType() string {
 		}
 	}
 	return ""
+}
+
+func (x *UpdateActivityOptionsRequest) GetRestoreOriginal() bool {
+	if x != nil {
+		return x.RestoreOriginal
+	}
+	return false
 }
 
 type isUpdateActivityOptionsRequest_Activity interface {
@@ -10436,9 +10449,13 @@ type ResetActivityRequest struct {
 	KeepPaused bool `protobuf:"varint,7,opt,name=keep_paused,json=keepPaused,proto3" json:"keep_paused,omitempty"`
 	// If set, and activity is in backoff, the activity will start at a random time within the specified jitter duration.
 	// (unless it is paused and keep_paused is set)
-	Jitter        *durationpb.Duration `protobuf:"bytes,8,opt,name=jitter,proto3" json:"jitter,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Jitter *durationpb.Duration `protobuf:"bytes,8,opt,name=jitter,proto3" json:"jitter,omitempty"`
+	// If set, the activity options will be restored to the defaults.
+	// Default options are then options activity was created with.
+	// They are part of the first SCHEDULE event.
+	RestoreOriginalOptions bool `protobuf:"varint,9,opt,name=restore_original_options,json=restoreOriginalOptions,proto3" json:"restore_original_options,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *ResetActivityRequest) Reset() {
@@ -10536,6 +10553,13 @@ func (x *ResetActivityRequest) GetJitter() *durationpb.Duration {
 		return x.Jitter
 	}
 	return nil
+}
+
+func (x *ResetActivityRequest) GetRestoreOriginalOptions() bool {
+	if x != nil {
+		return x.RestoreOriginalOptions
+	}
+	return false
 }
 
 type isResetActivityRequest_Activity interface {
@@ -14810,7 +14834,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0estart_workflow\x18\x01 \x01(\v2?.temporal.api.workflowservice.v1.StartWorkflowExecutionResponseH\x00R\rstartWorkflow\x12k\n" +
 	"\x0fupdate_workflow\x18\x02 \x01(\v2@.temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponseH\x00R\x0eupdateWorkflowB\n" +
 	"\n" +
-	"\bresponse\"\xe8\x02\n" +
+	"\bresponse\"\x93\x03\n" +
 	"\x1cUpdateActivityOptionsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
 	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x12\x1a\n" +
@@ -14819,7 +14843,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\vupdate_mask\x18\x05 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
 	"updateMask\x12\x10\n" +
 	"\x02id\x18\x06 \x01(\tH\x00R\x02id\x12\x14\n" +
-	"\x04type\x18\a \x01(\tH\x00R\x04typeB\n" +
+	"\x04type\x18\a \x01(\tH\x00R\x04type\x12)\n" +
+	"\x10restore_original\x18\b \x01(\bR\x0frestoreOriginalB\n" +
 	"\n" +
 	"\bactivity\"u\n" +
 	"\x1dUpdateActivityOptionsResponse\x12T\n" +
@@ -14847,7 +14872,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06jitter\x18\t \x01(\v2\x19.google.protobuf.DurationR\x06jitterB\n" +
 	"\n" +
 	"\bactivity\"\x19\n" +
-	"\x17UnpauseActivityResponse\"\xca\x02\n" +
+	"\x17UnpauseActivityResponse\"\x84\x03\n" +
 	"\x14ResetActivityRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12G\n" +
 	"\texecution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x12\x1a\n" +
@@ -14857,7 +14882,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0freset_heartbeat\x18\x06 \x01(\bR\x0eresetHeartbeat\x12\x1f\n" +
 	"\vkeep_paused\x18\a \x01(\bR\n" +
 	"keepPaused\x121\n" +
-	"\x06jitter\x18\b \x01(\v2\x19.google.protobuf.DurationR\x06jitterB\n" +
+	"\x06jitter\x18\b \x01(\v2\x19.google.protobuf.DurationR\x06jitter\x128\n" +
+	"\x18restore_original_options\x18\t \x01(\bR\x16restoreOriginalOptionsB\n" +
 	"\n" +
 	"\bactivity\"\x17\n" +
 	"\x15ResetActivityResponse\"\xce\x02\n" +
