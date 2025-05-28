@@ -13877,12 +13877,15 @@ func (*ExecuteMultiOperationResponse_Response_UpdateWorkflow) isExecuteMultiOper
 // (-- api-linter: core::0123::resource-annotation=disabled --)
 // A subset of WorkerDeploymentInfo
 type ListWorkerDeploymentsResponse_WorkerDeploymentSummary struct {
-	state                 protoimpl.MessageState                                   `protogen:"open.v1"`
-	Name                  string                                                   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	CreateTime            *timestamppb.Timestamp                                   `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
-	RoutingConfig         *v19.RoutingConfig                                       `protobuf:"bytes,3,opt,name=routing_config,json=routingConfig,proto3" json:"routing_config,omitempty"`
-	LatestVersionSummary  *v19.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,4,opt,name=latest_version_summary,json=latestVersionSummary,proto3" json:"latest_version_summary,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
+	RoutingConfig *v19.RoutingConfig     `protobuf:"bytes,3,opt,name=routing_config,json=routingConfig,proto3" json:"routing_config,omitempty"`
+	// Summary of the version that was added most recently in the Worker Deployment.
+	LatestVersionSummary *v19.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,4,opt,name=latest_version_summary,json=latestVersionSummary,proto3" json:"latest_version_summary,omitempty"`
+	// Summary of the current version of the Worker Deployment.
 	CurrentVersionSummary *v19.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,5,opt,name=current_version_summary,json=currentVersionSummary,proto3" json:"current_version_summary,omitempty"`
+	// Summary of the ramping version of the Worker Deployment.
 	RampingVersionSummary *v19.WorkerDeploymentInfo_WorkerDeploymentVersionSummary `protobuf:"bytes,6,opt,name=ramping_version_summary,json=rampingVersionSummary,proto3" json:"ramping_version_summary,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
