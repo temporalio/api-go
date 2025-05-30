@@ -12078,6 +12078,8 @@ type UpdateWorkerDeploymentVersionMetadataRequest struct {
 	UpsertEntries     map[string]*v13.Payload      `protobuf:"bytes,3,rep,name=upsert_entries,json=upsertEntries,proto3" json:"upsert_entries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// List of keys to remove from the metadata.
 	RemoveEntries []string `protobuf:"bytes,4,rep,name=remove_entries,json=removeEntries,proto3" json:"remove_entries,omitempty"`
+	// Optional. The identity of the client who initiated this request.
+	Identity      string `protobuf:"bytes,6,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12146,6 +12148,13 @@ func (x *UpdateWorkerDeploymentVersionMetadataRequest) GetRemoveEntries() []stri
 		return x.RemoveEntries
 	}
 	return nil
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
 }
 
 type UpdateWorkerDeploymentVersionMetadataResponse struct {
@@ -15016,13 +15025,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12'\n" +
 	"\x0fdeployment_name\x18\x02 \x01(\tR\x0edeploymentName\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\" \n" +
-	"\x1eDeleteWorkerDeploymentResponse\"\xe2\x03\n" +
+	"\x1eDeleteWorkerDeploymentResponse\"\xfe\x03\n" +
 	",UpdateWorkerDeploymentVersionMetadataRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1c\n" +
 	"\aversion\x18\x02 \x01(\tB\x02\x18\x01R\aversion\x12b\n" +
 	"\x12deployment_version\x18\x05 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12\x87\x01\n" +
 	"\x0eupsert_entries\x18\x03 \x03(\v2`.temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest.UpsertEntriesEntryR\rupsertEntries\x12%\n" +
-	"\x0eremove_entries\x18\x04 \x03(\tR\rremoveEntries\x1aa\n" +
+	"\x0eremove_entries\x18\x04 \x03(\tR\rremoveEntries\x12\x1a\n" +
+	"\bidentity\x18\x06 \x01(\tR\bidentity\x1aa\n" +
 	"\x12UpsertEntriesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x125\n" +
 	"\x05value\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\x05value:\x028\x01\"x\n" +
