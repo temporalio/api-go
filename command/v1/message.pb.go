@@ -863,6 +863,9 @@ type ContinueAsNewWorkflowExecutionCommandAttributes struct {
 	SearchAttributes *v1.SearchAttributes `protobuf:"bytes,14,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// If this is set, the new execution inherits the Build ID of the current execution. Otherwise,
 	// the assignment rules will be used to independently assign a Build ID to the new execution.
+	// Deprecated. Only considered for versioning v0.2.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 	InheritBuildId bool `protobuf:"varint,15,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -996,6 +999,7 @@ func (x *ContinueAsNewWorkflowExecutionCommandAttributes) GetSearchAttributes() 
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 func (x *ContinueAsNewWorkflowExecutionCommandAttributes) GetInheritBuildId() bool {
 	if x != nil {
 		return x.InheritBuildId
@@ -1029,6 +1033,9 @@ type StartChildWorkflowExecutionCommandAttributes struct {
 	SearchAttributes *v1.SearchAttributes `protobuf:"bytes,16,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment
 	// rules of the child's Task Queue will be used to independently assign a Build ID to it.
+	// Deprecated. Only considered for versioning v0.2.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 	InheritBuildId bool `protobuf:"varint,17,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
 	// Priority metadata. If this message is not present, or any fields are not
 	// present, they inherit the values from the workflow.
@@ -1179,6 +1186,7 @@ func (x *StartChildWorkflowExecutionCommandAttributes) GetSearchAttributes() *v1
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 func (x *StartChildWorkflowExecutionCommandAttributes) GetInheritBuildId() bool {
 	if x != nil {
 		return x.InheritBuildId
@@ -1801,7 +1809,7 @@ const file_temporal_api_command_v1_message_proto_rawDesc = "" +
 	"\afailure\x18\x04 \x01(\v2 .temporal.api.failure.v1.FailureR\afailure\x1a\\\n" +
 	"\fDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x126\n" +
-	"\x05value\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05value:\x028\x01\"\x9f\b\n" +
+	"\x05value\x18\x02 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05value:\x028\x01\"\xa3\b\n" +
 	"/ContinueAsNewWorkflowExecutionCommandAttributes\x12I\n" +
 	"\rworkflow_type\x18\x01 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12C\n" +
 	"\n" +
@@ -1818,8 +1826,8 @@ const file_temporal_api_command_v1_message_proto_rawDesc = "" +
 	"\rcron_schedule\x18\v \x01(\tR\fcronSchedule\x126\n" +
 	"\x06header\x18\f \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x120\n" +
 	"\x04memo\x18\r \x01(\v2\x1c.temporal.api.common.v1.MemoR\x04memo\x12U\n" +
-	"\x11search_attributes\x18\x0e \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12(\n" +
-	"\x10inherit_build_id\x18\x0f \x01(\bR\x0einheritBuildId\"\x9b\t\n" +
+	"\x11search_attributes\x18\x0e \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12,\n" +
+	"\x10inherit_build_id\x18\x0f \x01(\bB\x02\x18\x01R\x0einheritBuildId\"\x9f\t\n" +
 	",StartChildWorkflowExecutionCommandAttributes\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -1839,8 +1847,8 @@ const file_temporal_api_command_v1_message_proto_rawDesc = "" +
 	"\rcron_schedule\x18\r \x01(\tR\fcronSchedule\x126\n" +
 	"\x06header\x18\x0e \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x120\n" +
 	"\x04memo\x18\x0f \x01(\v2\x1c.temporal.api.common.v1.MemoR\x04memo\x12U\n" +
-	"\x11search_attributes\x18\x10 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12(\n" +
-	"\x10inherit_build_id\x18\x11 \x01(\bR\x0einheritBuildId\x12<\n" +
+	"\x11search_attributes\x18\x10 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12,\n" +
+	"\x10inherit_build_id\x18\x11 \x01(\bB\x02\x18\x01R\x0einheritBuildId\x12<\n" +
 	"\bpriority\x18\x12 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"A\n" +
 	" ProtocolMessageCommandAttributes\x12\x1d\n" +
 	"\n" +

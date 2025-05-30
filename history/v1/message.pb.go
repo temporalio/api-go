@@ -54,7 +54,7 @@ type WorkflowExecutionStartedEventAttributes struct {
 	WorkflowRunTimeout *durationpb.Duration `protobuf:"bytes,8,opt,name=workflow_run_timeout,json=workflowRunTimeout,proto3" json:"workflow_run_timeout,omitempty"`
 	// Timeout of a single workflow task.
 	WorkflowTaskTimeout *durationpb.Duration `protobuf:"bytes,9,opt,name=workflow_task_timeout,json=workflowTaskTimeout,proto3" json:"workflow_task_timeout,omitempty"`
-	// Run id of the previous workflow which continued-as-new or retired or cron executed into this
+	// Run id of the previous workflow which continued-as-new or retried or cron executed into this
 	// workflow.
 	ContinuedExecutionRunId string                     `protobuf:"bytes,10,opt,name=continued_execution_run_id,json=continuedExecutionRunId,proto3" json:"continued_execution_run_id,omitempty"`
 	Initiator               v12.ContinueAsNewInitiator `protobuf:"varint,11,opt,name=initiator,proto3,enum=temporal.api.enums.v1.ContinueAsNewInitiator" json:"initiator,omitempty"`
@@ -132,26 +132,37 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	InheritedBuildId string `protobuf:"bytes,32,opt,name=inherited_build_id,json=inheritedBuildId,proto3" json:"inherited_build_id,omitempty"`
 	// Versioning override applied to this workflow when it was started.
+	// Children, crons, retries, and continue-as-new will inherit source run's override if pinned
+	// and if the new workflow's Task Queue belongs to the override version.
 	VersioningOverride *v14.VersioningOverride `protobuf:"bytes,33,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
 	// When present, it means this is a child workflow of a parent that is Pinned to this Worker
 	// Deployment Version. In this case, child workflow will start as Pinned to this Version instead
 	// of starting on the Current Version of its Task Queue.
 	// This is set only if the child workflow is starting on a Task Queue belonging to the same
 	// Worker Deployment Version.
-	// Deprecated. Use `parent_pinned_deployment_version`.
+	// Deprecated. Use `parent_versioning_info`.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	ParentPinnedWorkerDeploymentVersion string `protobuf:"bytes,34,opt,name=parent_pinned_worker_deployment_version,json=parentPinnedWorkerDeploymentVersion,proto3" json:"parent_pinned_worker_deployment_version,omitempty"`
-	// When present, it means this is a child workflow of a parent that is Pinned to this Worker
-	// Deployment Version. In this case, child workflow will start as Pinned to this Version instead
-	// of starting on the Current Version of its Task Queue.
-	// This is set only if the child workflow is starting on a Task Queue belonging to the same
-	// Worker Deployment Version.
-	ParentPinnedDeploymentVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,36,opt,name=parent_pinned_deployment_version,json=parentPinnedDeploymentVersion,proto3" json:"parent_pinned_deployment_version,omitempty"`
 	// Priority metadata
-	Priority      *v1.Priority `protobuf:"bytes,35,opt,name=priority,proto3" json:"priority,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Priority *v1.Priority `protobuf:"bytes,35,opt,name=priority,proto3" json:"priority,omitempty"`
+	// If present, the new workflow should start on this version with pinned base behavior.
+	// Child of pinned parent will inherit the parent's version if the Child's Task Queue belongs to that version.
+	//
+	// New run initiated by workflow ContinueAsNew of pinned run, will inherit the previous run's version if the
+	// new run's Task Queue belongs to that version.
+	//
+	// New run initiated by workflow Cron will never inherit.
+	//
+	// New run initiated by workflow Retry will only inherit if the retried run is effectively pinned at the time
+	// of retry, and the retried run inherited a pinned version when it started (ie. it is a child of a pinned
+	// parent, or a CaN of a pinned run, and is running on a Task Queue in the inherited version).
+	//
+	// Pinned override is inherited if Task Queue of new run is compatible with the override version.
+	// Override is inherited separately and takes precedence over inherited base version.
+	InheritedPinnedVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,37,opt,name=inherited_pinned_version,json=inheritedPinnedVersion,proto3" json:"inherited_pinned_version,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionStartedEventAttributes) Reset() {
@@ -425,16 +436,16 @@ func (x *WorkflowExecutionStartedEventAttributes) GetParentPinnedWorkerDeploymen
 	return ""
 }
 
-func (x *WorkflowExecutionStartedEventAttributes) GetParentPinnedDeploymentVersion() *v15.WorkerDeploymentVersion {
+func (x *WorkflowExecutionStartedEventAttributes) GetPriority() *v1.Priority {
 	if x != nil {
-		return x.ParentPinnedDeploymentVersion
+		return x.Priority
 	}
 	return nil
 }
 
-func (x *WorkflowExecutionStartedEventAttributes) GetPriority() *v1.Priority {
+func (x *WorkflowExecutionStartedEventAttributes) GetInheritedPinnedVersion() *v15.WorkerDeploymentVersion {
 	if x != nil {
-		return x.Priority
+		return x.InheritedPinnedVersion
 	}
 	return nil
 }
@@ -656,6 +667,9 @@ type WorkflowExecutionContinuedAsNewEventAttributes struct {
 	SearchAttributes     *v1.SearchAttributes `protobuf:"bytes,14,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// If this is set, the new execution inherits the Build ID of the current execution. Otherwise,
 	// the assignment rules will be used to independently assign a Build ID to the new execution.
+	// Deprecated. Only considered for versioning v0.2.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	InheritBuildId bool `protobuf:"varint,15,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -790,6 +804,7 @@ func (x *WorkflowExecutionContinuedAsNewEventAttributes) GetSearchAttributes() *
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *WorkflowExecutionContinuedAsNewEventAttributes) GetInheritBuildId() bool {
 	if x != nil {
 		return x.InheritBuildId
@@ -3301,6 +3316,9 @@ type StartChildWorkflowExecutionInitiatedEventAttributes struct {
 	SearchAttributes *v1.SearchAttributes `protobuf:"bytes,17,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	// If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment
 	// rules of the child's Task Queue will be used to independently assign a Build ID to it.
+	// Deprecated. Only considered for versioning v0.2.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	InheritBuildId bool `protobuf:"varint,19,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
 	// Priority metadata
 	Priority      *v1.Priority `protobuf:"bytes,20,opt,name=priority,proto3" json:"priority,omitempty"`
@@ -3465,6 +3483,7 @@ func (x *StartChildWorkflowExecutionInitiatedEventAttributes) GetSearchAttribute
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 func (x *StartChildWorkflowExecutionInitiatedEventAttributes) GetInheritBuildId() bool {
 	if x != nil {
 		return x.InheritBuildId
@@ -6406,7 +6425,7 @@ var File_temporal_api_history_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\xd0\x14\n" +
+	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\xe9\x14\n" +
 	"'WorkflowExecutionStartedEventAttributes\x12I\n" +
 	"\rworkflow_type\x18\x01 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12:\n" +
 	"\x19parent_workflow_namespace\x18\x02 \x01(\tR\x17parentWorkflowNamespace\x12?\n" +
@@ -6444,9 +6463,9 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x17root_workflow_execution\x18\x1f \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x15rootWorkflowExecution\x120\n" +
 	"\x12inherited_build_id\x18  \x01(\tB\x02\x18\x01R\x10inheritedBuildId\x12]\n" +
 	"\x13versioning_override\x18! \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12X\n" +
-	"'parent_pinned_worker_deployment_version\x18\" \x01(\tB\x02\x18\x01R#parentPinnedWorkerDeploymentVersion\x12|\n" +
-	" parent_pinned_deployment_version\x18$ \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x1dparentPinnedDeploymentVersion\x12<\n" +
-	"\bpriority\x18# \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xde\x01\n" +
+	"'parent_pinned_worker_deployment_version\x18\" \x01(\tB\x02\x18\x01R#parentPinnedWorkerDeploymentVersion\x12<\n" +
+	"\bpriority\x18# \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12m\n" +
+	"\x18inherited_pinned_version\x18% \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x16inheritedPinnedVersionJ\x04\b$\x10%R parent_pinned_deployment_version\"\xde\x01\n" +
 	")WorkflowExecutionCompletedEventAttributes\x128\n" +
 	"\x06result\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsR\x06result\x12F\n" +
 	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12/\n" +
@@ -6460,7 +6479,7 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"(WorkflowExecutionTimedOutEventAttributes\x12B\n" +
 	"\vretry_state\x18\x01 \x01(\x0e2!.temporal.api.enums.v1.RetryStateR\n" +
 	"retryState\x12/\n" +
-	"\x14new_execution_run_id\x18\x02 \x01(\tR\x11newExecutionRunId\"\xae\b\n" +
+	"\x14new_execution_run_id\x18\x02 \x01(\tR\x11newExecutionRunId\"\xb2\b\n" +
 	".WorkflowExecutionContinuedAsNewEventAttributes\x12/\n" +
 	"\x14new_execution_run_id\x18\x01 \x01(\tR\x11newExecutionRunId\x12I\n" +
 	"\rworkflow_type\x18\x02 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12C\n" +
@@ -6477,8 +6496,8 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x16last_completion_result\x18\v \x01(\v2 .temporal.api.common.v1.PayloadsR\x14lastCompletionResult\x126\n" +
 	"\x06header\x18\f \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x120\n" +
 	"\x04memo\x18\r \x01(\v2\x1c.temporal.api.common.v1.MemoR\x04memo\x12U\n" +
-	"\x11search_attributes\x18\x0e \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12(\n" +
-	"\x10inherit_build_id\x18\x0f \x01(\bR\x0einheritBuildId\"\xd5\x01\n" +
+	"\x11search_attributes\x18\x0e \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12,\n" +
+	"\x10inherit_build_id\x18\x0f \x01(\bB\x02\x18\x01R\x0einheritBuildId\"\xd5\x01\n" +
 	"$WorkflowTaskScheduledEventAttributes\x12C\n" +
 	"\n" +
 	"task_queue\x18\x01 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12N\n" +
@@ -6675,7 +6694,7 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x11search_attributes\x18\x02 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\"\xb6\x01\n" +
 	")WorkflowPropertiesModifiedEventAttributes\x12F\n" +
 	" workflow_task_completed_event_id\x18\x01 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12A\n" +
-	"\rupserted_memo\x18\x02 \x01(\v2\x1c.temporal.api.common.v1.MemoR\fupsertedMemo\"\x91\n" +
+	"\rupserted_memo\x18\x02 \x01(\v2\x1c.temporal.api.common.v1.MemoR\fupsertedMemo\"\x95\n" +
 	"\n" +
 	"3StartChildWorkflowExecutionInitiatedEventAttributes\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
@@ -6698,8 +6717,8 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\rcron_schedule\x18\x0e \x01(\tR\fcronSchedule\x126\n" +
 	"\x06header\x18\x0f \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x120\n" +
 	"\x04memo\x18\x10 \x01(\v2\x1c.temporal.api.common.v1.MemoR\x04memo\x12U\n" +
-	"\x11search_attributes\x18\x11 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12(\n" +
-	"\x10inherit_build_id\x18\x13 \x01(\bR\x0einheritBuildId\x12<\n" +
+	"\x11search_attributes\x18\x11 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12,\n" +
+	"\x10inherit_build_id\x18\x13 \x01(\bB\x02\x18\x01R\x0einheritBuildId\x12<\n" +
 	"\bpriority\x18\x14 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xc8\x03\n" +
 	"0StartChildWorkflowExecutionFailedEventAttributes\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
@@ -7011,8 +7030,8 @@ var file_temporal_api_history_v1_message_proto_goTypes = []any{
 	(*v1.WorkerVersionStamp)(nil),                                          // 74: temporal.api.common.v1.WorkerVersionStamp
 	(*v1.Callback)(nil),                                                    // 75: temporal.api.common.v1.Callback
 	(*v14.VersioningOverride)(nil),                                         // 76: temporal.api.workflow.v1.VersioningOverride
-	(*v15.WorkerDeploymentVersion)(nil),                                    // 77: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(*v1.Priority)(nil),                                                    // 78: temporal.api.common.v1.Priority
+	(*v1.Priority)(nil),                                                    // 77: temporal.api.common.v1.Priority
+	(*v15.WorkerDeploymentVersion)(nil),                                    // 78: temporal.api.deployment.v1.WorkerDeploymentVersion
 	(v12.RetryState)(0),                                                    // 79: temporal.api.enums.v1.RetryState
 	(*v16.WorkflowTaskCompletedMetadata)(nil),                              // 80: temporal.api.sdk.v1.WorkflowTaskCompletedMetadata
 	(*v1.MeteringMetadata)(nil),                                            // 81: temporal.api.common.v1.MeteringMetadata
@@ -7057,8 +7076,8 @@ var file_temporal_api_history_v1_message_proto_depIdxs = []int32{
 	75,  // 18: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.completion_callbacks:type_name -> temporal.api.common.v1.Callback
 	62,  // 19: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.root_workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
 	76,  // 20: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
-	77,  // 21: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.parent_pinned_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	78,  // 22: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.priority:type_name -> temporal.api.common.v1.Priority
+	77,  // 21: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.priority:type_name -> temporal.api.common.v1.Priority
+	78,  // 22: temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.inherited_pinned_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	64,  // 23: temporal.api.history.v1.WorkflowExecutionCompletedEventAttributes.result:type_name -> temporal.api.common.v1.Payloads
 	67,  // 24: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes.failure:type_name -> temporal.api.failure.v1.Failure
 	79,  // 25: temporal.api.history.v1.WorkflowExecutionFailedEventAttributes.retry_state:type_name -> temporal.api.enums.v1.RetryState
@@ -7083,7 +7102,7 @@ var file_temporal_api_history_v1_message_proto_depIdxs = []int32{
 	81,  // 44: temporal.api.history.v1.WorkflowTaskCompletedEventAttributes.metering_metadata:type_name -> temporal.api.common.v1.MeteringMetadata
 	82,  // 45: temporal.api.history.v1.WorkflowTaskCompletedEventAttributes.deployment:type_name -> temporal.api.deployment.v1.Deployment
 	83,  // 46: temporal.api.history.v1.WorkflowTaskCompletedEventAttributes.versioning_behavior:type_name -> temporal.api.enums.v1.VersioningBehavior
-	77,  // 47: temporal.api.history.v1.WorkflowTaskCompletedEventAttributes.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	78,  // 47: temporal.api.history.v1.WorkflowTaskCompletedEventAttributes.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	84,  // 48: temporal.api.history.v1.WorkflowTaskTimedOutEventAttributes.timeout_type:type_name -> temporal.api.enums.v1.TimeoutType
 	85,  // 49: temporal.api.history.v1.WorkflowTaskFailedEventAttributes.cause:type_name -> temporal.api.enums.v1.WorkflowTaskFailedCause
 	67,  // 50: temporal.api.history.v1.WorkflowTaskFailedEventAttributes.failure:type_name -> temporal.api.failure.v1.Failure
@@ -7097,7 +7116,7 @@ var file_temporal_api_history_v1_message_proto_depIdxs = []int32{
 	65,  // 58: temporal.api.history.v1.ActivityTaskScheduledEventAttributes.start_to_close_timeout:type_name -> google.protobuf.Duration
 	65,  // 59: temporal.api.history.v1.ActivityTaskScheduledEventAttributes.heartbeat_timeout:type_name -> google.protobuf.Duration
 	68,  // 60: temporal.api.history.v1.ActivityTaskScheduledEventAttributes.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	78,  // 61: temporal.api.history.v1.ActivityTaskScheduledEventAttributes.priority:type_name -> temporal.api.common.v1.Priority
+	77,  // 61: temporal.api.history.v1.ActivityTaskScheduledEventAttributes.priority:type_name -> temporal.api.common.v1.Priority
 	67,  // 62: temporal.api.history.v1.ActivityTaskStartedEventAttributes.last_failure:type_name -> temporal.api.failure.v1.Failure
 	74,  // 63: temporal.api.history.v1.ActivityTaskStartedEventAttributes.worker_version:type_name -> temporal.api.common.v1.WorkerVersionStamp
 	64,  // 64: temporal.api.history.v1.ActivityTaskCompletedEventAttributes.result:type_name -> temporal.api.common.v1.Payloads
@@ -7143,7 +7162,7 @@ var file_temporal_api_history_v1_message_proto_depIdxs = []int32{
 	73,  // 104: temporal.api.history.v1.StartChildWorkflowExecutionInitiatedEventAttributes.header:type_name -> temporal.api.common.v1.Header
 	70,  // 105: temporal.api.history.v1.StartChildWorkflowExecutionInitiatedEventAttributes.memo:type_name -> temporal.api.common.v1.Memo
 	71,  // 106: temporal.api.history.v1.StartChildWorkflowExecutionInitiatedEventAttributes.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	78,  // 107: temporal.api.history.v1.StartChildWorkflowExecutionInitiatedEventAttributes.priority:type_name -> temporal.api.common.v1.Priority
+	77,  // 107: temporal.api.history.v1.StartChildWorkflowExecutionInitiatedEventAttributes.priority:type_name -> temporal.api.common.v1.Priority
 	61,  // 108: temporal.api.history.v1.StartChildWorkflowExecutionFailedEventAttributes.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
 	91,  // 109: temporal.api.history.v1.StartChildWorkflowExecutionFailedEventAttributes.cause:type_name -> temporal.api.enums.v1.StartChildWorkflowExecutionFailedCause
 	62,  // 110: temporal.api.history.v1.ChildWorkflowExecutionStartedEventAttributes.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
