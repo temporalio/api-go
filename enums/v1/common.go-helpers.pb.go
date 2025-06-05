@@ -174,10 +174,10 @@ func ApplicationErrorCategoryFromString(s string) (ApplicationErrorCategory, err
 
 var (
 	WorkerStatus_shorthandValue = map[string]int32{
-		"Unspecified":   0,
-		"StatusRunning": 1,
-		"ShuttingDown":  2,
-		"Shutdown":      3,
+		"Unspecified":  0,
+		"Running":      1,
+		"ShuttingDown": 2,
+		"Shutdown":     3,
 	}
 )
 

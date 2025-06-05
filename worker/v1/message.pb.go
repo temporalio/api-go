@@ -27,10 +27,11 @@ const (
 )
 
 type WorkerPollerInfo struct {
-	state                  protoimpl.MessageState `protogen:"open.v1"`
-	ActivePollers          int32                  `protobuf:"varint,1,opt,name=active_pollers,json=activePollers,proto3" json:"active_pollers,omitempty"`
-	AvailablePollers       int32                  `protobuf:"varint,2,opt,name=available_pollers,json=availablePollers,proto3" json:"available_pollers,omitempty"`
-	LastSuccessfulPollTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=last_successful_poll_time,json=lastSuccessfulPollTime,proto3" json:"last_successful_poll_time,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Number of polling RPCs that are currently in flight.
+	CurrentPollers         int32                  `protobuf:"varint,1,opt,name=current_pollers,json=currentPollers,proto3" json:"current_pollers,omitempty"`
+	LastSuccessfulPollTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=last_successful_poll_time,json=lastSuccessfulPollTime,proto3" json:"last_successful_poll_time,omitempty"`
+	IsAutoscaling          bool                   `protobuf:"varint,3,opt,name=is_autoscaling,json=isAutoscaling,proto3" json:"is_autoscaling,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -65,16 +66,9 @@ func (*WorkerPollerInfo) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *WorkerPollerInfo) GetActivePollers() int32 {
+func (x *WorkerPollerInfo) GetCurrentPollers() int32 {
 	if x != nil {
-		return x.ActivePollers
-	}
-	return 0
-}
-
-func (x *WorkerPollerInfo) GetAvailablePollers() int32 {
-	if x != nil {
-		return x.AvailablePollers
+		return x.CurrentPollers
 	}
 	return 0
 }
@@ -86,22 +80,36 @@ func (x *WorkerPollerInfo) GetLastSuccessfulPollTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *WorkerPollerInfo) GetIsAutoscaling() bool {
+	if x != nil {
+		return x.IsAutoscaling
+	}
+	return false
+}
+
 type WorkerSlotsInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Number of slots available for the worker to specific tasks.
-	SlotsAvailable int32 `protobuf:"varint,1,opt,name=slots_available,json=slotsAvailable,proto3" json:"slots_available,omitempty"`
+	// May be -1 if the upper bound is not known.
+	CurrentAvailableSlots int32 `protobuf:"varint,1,opt,name=current_available_slots,json=currentAvailableSlots,proto3" json:"current_available_slots,omitempty"`
 	// Number of slots used by the worker for specific tasks.
-	SlotsUsed int32 `protobuf:"varint,2,opt,name=slots_used,json=slotsUsed,proto3" json:"slots_used,omitempty"`
-	// Total number of tasks processed by the worker so far.
-	ProcessedTasks int32 `protobuf:"varint,3,opt,name=processed_tasks,json=processedTasks,proto3" json:"processed_tasks,omitempty"`
+	CurrentUsedSlots int32 `protobuf:"varint,2,opt,name=current_used_slots,json=currentUsedSlots,proto3" json:"current_used_slots,omitempty"`
+	// Kind of the slot supplier, which is used to determine how the slots are allocated.
+	// Possible values: "Fixed | ResourceBased | Custom String"
+	SlotSupplierKind string `protobuf:"bytes,3,opt,name=slot_supplier_kind,json=slotSupplierKind,proto3" json:"slot_supplier_kind,omitempty"`
+	// Total number of tasks processed (completed both successfully and unsuccesfully, or any other way)
+	// by the worker since the worker started. This is a cumulative counter.
+	TotalProcessedTasks int32 `protobuf:"varint,4,opt,name=total_processed_tasks,json=totalProcessedTasks,proto3" json:"total_processed_tasks,omitempty"`
 	// Total number of failed tasks processed by the worker so far.
-	FailedTasks int32 `protobuf:"varint,4,opt,name=failed_tasks,json=failedTasks,proto3" json:"failed_tasks,omitempty"`
-	// Number of tasks processed in the last minute.
-	ProcessedTasksLastMinute int32 `protobuf:"varint,5,opt,name=processed_tasks_last_minute,json=processedTasksLastMinute,proto3" json:"processed_tasks_last_minute,omitempty"`
-	// Number of failed tasks processed in the last minute.
-	FailureTasksLastMinute int32 `protobuf:"varint,6,opt,name=failure_tasks_last_minute,json=failureTasksLastMinute,proto3" json:"failure_tasks_last_minute,omitempty"`
-	unknownFields          protoimpl.UnknownFields
-	sizeCache              protoimpl.SizeCache
+	TotalFailedTasks int32 `protobuf:"varint,5,opt,name=total_failed_tasks,json=totalFailedTasks,proto3" json:"total_failed_tasks,omitempty"`
+	// Number of tasks processed in since the last heartbeat from the worker.
+	// This is a cumulative counter, and it is reset to 0 each time the worker sends a heartbeat.
+	// Contains both successful and failed tasks.
+	LastIntervalProcessedTasks int32 `protobuf:"varint,6,opt,name=last_interval_processed_tasks,json=lastIntervalProcessedTasks,proto3" json:"last_interval_processed_tasks,omitempty"`
+	// Number of failed tasks processed since the last heartbeat from the worker.
+	LastIntervalFailureTasks int32 `protobuf:"varint,7,opt,name=last_interval_failure_tasks,json=lastIntervalFailureTasks,proto3" json:"last_interval_failure_tasks,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *WorkerSlotsInfo) Reset() {
@@ -134,44 +142,51 @@ func (*WorkerSlotsInfo) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *WorkerSlotsInfo) GetSlotsAvailable() int32 {
+func (x *WorkerSlotsInfo) GetCurrentAvailableSlots() int32 {
 	if x != nil {
-		return x.SlotsAvailable
+		return x.CurrentAvailableSlots
 	}
 	return 0
 }
 
-func (x *WorkerSlotsInfo) GetSlotsUsed() int32 {
+func (x *WorkerSlotsInfo) GetCurrentUsedSlots() int32 {
 	if x != nil {
-		return x.SlotsUsed
+		return x.CurrentUsedSlots
 	}
 	return 0
 }
 
-func (x *WorkerSlotsInfo) GetProcessedTasks() int32 {
+func (x *WorkerSlotsInfo) GetSlotSupplierKind() string {
 	if x != nil {
-		return x.ProcessedTasks
+		return x.SlotSupplierKind
+	}
+	return ""
+}
+
+func (x *WorkerSlotsInfo) GetTotalProcessedTasks() int32 {
+	if x != nil {
+		return x.TotalProcessedTasks
 	}
 	return 0
 }
 
-func (x *WorkerSlotsInfo) GetFailedTasks() int32 {
+func (x *WorkerSlotsInfo) GetTotalFailedTasks() int32 {
 	if x != nil {
-		return x.FailedTasks
+		return x.TotalFailedTasks
 	}
 	return 0
 }
 
-func (x *WorkerSlotsInfo) GetProcessedTasksLastMinute() int32 {
+func (x *WorkerSlotsInfo) GetLastIntervalProcessedTasks() int32 {
 	if x != nil {
-		return x.ProcessedTasksLastMinute
+		return x.LastIntervalProcessedTasks
 	}
 	return 0
 }
 
-func (x *WorkerSlotsInfo) GetFailureTasksLastMinute() int32 {
+func (x *WorkerSlotsInfo) GetLastIntervalFailureTasks() int32 {
 	if x != nil {
-		return x.FailureTasksLastMinute
+		return x.LastIntervalFailureTasks
 	}
 	return 0
 }
@@ -179,15 +194,12 @@ func (x *WorkerSlotsInfo) GetFailureTasksLastMinute() int32 {
 // Holds everything needed to identify the worker host/process context
 type WorkerHostInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Worker host identifier, should be unique for the namespace.
+	// Worker host identifier.
 	HostName string `protobuf:"bytes,1,opt,name=host_name,json=hostName,proto3" json:"host_name,omitempty"`
 	// Worker process identifier, should be unique for the host.
-	ProcessId string `protobuf:"bytes,2,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
-	// Worker identity, set by the client, may not be unique.
-	// Usually host_name+(user group name)+process_id, but can be overwritten by the user.
-	WorkerIdentity string `protobuf:"bytes,3,opt,name=worker_identity,json=workerIdentity,proto3" json:"worker_identity,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	ProcessId     string `protobuf:"bytes,2,opt,name=process_id,json=processId,proto3" json:"process_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkerHostInfo) Reset() {
@@ -234,58 +246,267 @@ func (x *WorkerHostInfo) GetProcessId() string {
 	return ""
 }
 
-func (x *WorkerHostInfo) GetWorkerIdentity() string {
+// Worker info message, contains information about the worker and its current state.
+// All information is provided by the worker itself.
+// (-- api-linter: core::0140::prepositions=disabled
+//
+//	aip.dev/not-precedent: Removing those words make names less clear. --)
+type WorkerHeartbeat struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Worker identifier, should be unique for the namespace.
+	// It is distinct from worker identity, which is not necessarily namespace-unique.
+	WorkerInstanceKey string `protobuf:"bytes,1,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
+	// Worker identity, set by the client, may not be unique.
+	// Usually host_name+(user group name)+process_id, but can be overwritten by the user.
+	WorkerIdentity string `protobuf:"bytes,2,opt,name=worker_identity,json=workerIdentity,proto3" json:"worker_identity,omitempty"`
+	// Worker host information.
+	HostInfo *WorkerHostInfo `protobuf:"bytes,3,opt,name=host_info,json=hostInfo,proto3" json:"host_info,omitempty"`
+	// Task queue this worker is polling for tasks.
+	TaskQueue         string                      `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
+	DeploymentVersion *v1.WorkerDeploymentVersion `protobuf:"bytes,5,opt,name=deployment_version,json=deploymentVersion,proto3" json:"deployment_version,omitempty"`
+	SdkName           string                      `protobuf:"bytes,6,opt,name=sdk_name,json=sdkName,proto3" json:"sdk_name,omitempty"`
+	SdkVersion        string                      `protobuf:"bytes,7,opt,name=sdk_version,json=sdkVersion,proto3" json:"sdk_version,omitempty"`
+	// Worker status. Defined by SDK.
+	Status v11.WorkerStatus `protobuf:"varint,8,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkerStatus" json:"status,omitempty"`
+	// Worker start time.
+	// It can be used to determine worker uptime. (current time - start time)
+	StartTime *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	// Last heartbeat time, coming from the worker. Worker should set it to "now".
+	LastHeartbeatTime *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=last_heartbeat_time,json=lastHeartbeatTime,proto3" json:"last_heartbeat_time,omitempty"`
+	// Elapsed time since the last heartbeat from the worker.
+	ElapsedSinceLastHeartbeat *durationpb.Duration `protobuf:"bytes,11,opt,name=elapsed_since_last_heartbeat,json=elapsedSinceLastHeartbeat,proto3" json:"elapsed_since_last_heartbeat,omitempty"`
+	WorkflowTaskSlotsInfo     *WorkerSlotsInfo     `protobuf:"bytes,12,opt,name=workflow_task_slots_info,json=workflowTaskSlotsInfo,proto3" json:"workflow_task_slots_info,omitempty"`
+	ActivityTaskSlotsInfo     *WorkerSlotsInfo     `protobuf:"bytes,13,opt,name=activity_task_slots_info,json=activityTaskSlotsInfo,proto3" json:"activity_task_slots_info,omitempty"`
+	NexusTaskSlotsInfo        *WorkerSlotsInfo     `protobuf:"bytes,14,opt,name=nexus_task_slots_info,json=nexusTaskSlotsInfo,proto3" json:"nexus_task_slots_info,omitempty"`
+	LocalActivitySlotsInfo    *WorkerSlotsInfo     `protobuf:"bytes,15,opt,name=local_activity_slots_info,json=localActivitySlotsInfo,proto3" json:"local_activity_slots_info,omitempty"`
+	WorkflowPollerInfo        *WorkerPollerInfo    `protobuf:"bytes,16,opt,name=workflow_poller_info,json=workflowPollerInfo,proto3" json:"workflow_poller_info,omitempty"`
+	WorkflowStickyPollerInfo  *WorkerPollerInfo    `protobuf:"bytes,17,opt,name=workflow_sticky_poller_info,json=workflowStickyPollerInfo,proto3" json:"workflow_sticky_poller_info,omitempty"`
+	ActivityPollerInfo        *WorkerPollerInfo    `protobuf:"bytes,18,opt,name=activity_poller_info,json=activityPollerInfo,proto3" json:"activity_poller_info,omitempty"`
+	NexusPollerInfo           *WorkerPollerInfo    `protobuf:"bytes,19,opt,name=nexus_poller_info,json=nexusPollerInfo,proto3" json:"nexus_poller_info,omitempty"`
+	// System used CPU as a float in the range [0.0, 1.0] where 1.0 is defined as all
+	// cores on the host pegged.
+	CurrentHostCpuUsage float32 `protobuf:"fixed32,20,opt,name=current_host_cpu_usage,json=currentHostCpuUsage,proto3" json:"current_host_cpu_usage,omitempty"`
+	// System used memory as a float in the range [0.0, 1.0] where 1.0 is defined as
+	// all available memory on the host is used.
+	CurrentHostMemUsage float32 `protobuf:"fixed32,21,opt,name=current_host_mem_usage,json=currentHostMemUsage,proto3" json:"current_host_mem_usage,omitempty"`
+	// A Workflow Task found a cached Workflow Execution to run against.
+	TotalStickyCacheHit int32 `protobuf:"varint,22,opt,name=total_sticky_cache_hit,json=totalStickyCacheHit,proto3" json:"total_sticky_cache_hit,omitempty"`
+	// A Workflow Task did not find a cached Workflow execution to run against.
+	TotalStickyCacheMiss int32 `protobuf:"varint,23,opt,name=total_sticky_cache_miss,json=totalStickyCacheMiss,proto3" json:"total_sticky_cache_miss,omitempty"`
+	// Current cache size, expressed in number of Workflow Executions.
+	CurrentStickyCacheSize int32 `protobuf:"varint,24,opt,name=current_sticky_cache_size,json=currentStickyCacheSize,proto3" json:"current_sticky_cache_size,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *WorkerHeartbeat) Reset() {
+	*x = WorkerHeartbeat{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkerHeartbeat) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkerHeartbeat) ProtoMessage() {}
+
+func (x *WorkerHeartbeat) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkerHeartbeat.ProtoReflect.Descriptor instead.
+func (*WorkerHeartbeat) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *WorkerHeartbeat) GetWorkerInstanceKey() string {
+	if x != nil {
+		return x.WorkerInstanceKey
+	}
+	return ""
+}
+
+func (x *WorkerHeartbeat) GetWorkerIdentity() string {
 	if x != nil {
 		return x.WorkerIdentity
 	}
 	return ""
 }
 
-// Worker info message, contains information about the worker and its current state.
-// All information is provided by the worker itself.
+func (x *WorkerHeartbeat) GetHostInfo() *WorkerHostInfo {
+	if x != nil {
+		return x.HostInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetTaskQueue() string {
+	if x != nil {
+		return x.TaskQueue
+	}
+	return ""
+}
+
+func (x *WorkerHeartbeat) GetDeploymentVersion() *v1.WorkerDeploymentVersion {
+	if x != nil {
+		return x.DeploymentVersion
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetSdkName() string {
+	if x != nil {
+		return x.SdkName
+	}
+	return ""
+}
+
+func (x *WorkerHeartbeat) GetSdkVersion() string {
+	if x != nil {
+		return x.SdkVersion
+	}
+	return ""
+}
+
+func (x *WorkerHeartbeat) GetStatus() v11.WorkerStatus {
+	if x != nil {
+		return x.Status
+	}
+	return v11.WorkerStatus(0)
+}
+
+func (x *WorkerHeartbeat) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetLastHeartbeatTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastHeartbeatTime
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetElapsedSinceLastHeartbeat() *durationpb.Duration {
+	if x != nil {
+		return x.ElapsedSinceLastHeartbeat
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetWorkflowTaskSlotsInfo() *WorkerSlotsInfo {
+	if x != nil {
+		return x.WorkflowTaskSlotsInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetActivityTaskSlotsInfo() *WorkerSlotsInfo {
+	if x != nil {
+		return x.ActivityTaskSlotsInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetNexusTaskSlotsInfo() *WorkerSlotsInfo {
+	if x != nil {
+		return x.NexusTaskSlotsInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetLocalActivitySlotsInfo() *WorkerSlotsInfo {
+	if x != nil {
+		return x.LocalActivitySlotsInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetWorkflowPollerInfo() *WorkerPollerInfo {
+	if x != nil {
+		return x.WorkflowPollerInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetWorkflowStickyPollerInfo() *WorkerPollerInfo {
+	if x != nil {
+		return x.WorkflowStickyPollerInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetActivityPollerInfo() *WorkerPollerInfo {
+	if x != nil {
+		return x.ActivityPollerInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetNexusPollerInfo() *WorkerPollerInfo {
+	if x != nil {
+		return x.NexusPollerInfo
+	}
+	return nil
+}
+
+func (x *WorkerHeartbeat) GetCurrentHostCpuUsage() float32 {
+	if x != nil {
+		return x.CurrentHostCpuUsage
+	}
+	return 0
+}
+
+func (x *WorkerHeartbeat) GetCurrentHostMemUsage() float32 {
+	if x != nil {
+		return x.CurrentHostMemUsage
+	}
+	return 0
+}
+
+func (x *WorkerHeartbeat) GetTotalStickyCacheHit() int32 {
+	if x != nil {
+		return x.TotalStickyCacheHit
+	}
+	return 0
+}
+
+func (x *WorkerHeartbeat) GetTotalStickyCacheMiss() int32 {
+	if x != nil {
+		return x.TotalStickyCacheMiss
+	}
+	return 0
+}
+
+func (x *WorkerHeartbeat) GetCurrentStickyCacheSize() int32 {
+	if x != nil {
+		return x.CurrentStickyCacheSize
+	}
+	return 0
+}
+
 type WorkerInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Worker identifier, should be unique for the namespace.
-	// It is different from worker identity, which is usually a combination of host_name and process_id.
-	WorkerId string `protobuf:"bytes,1,opt,name=worker_id,json=workerId,proto3" json:"worker_id,omitempty"`
-	// Worker host information.
-	HostInfo *WorkerHostInfo `protobuf:"bytes,2,opt,name=host_info,json=hostInfo,proto3" json:"host_info,omitempty"`
-	// Task queue this worker is polling for tasks.
-	TaskQueue         string                      `protobuf:"bytes,3,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
-	DeploymentVersion *v1.WorkerDeploymentVersion `protobuf:"bytes,4,opt,name=deployment_version,json=deploymentVersion,proto3" json:"deployment_version,omitempty"`
-	SdkName           string                      `protobuf:"bytes,5,opt,name=sdk_name,json=sdkName,proto3" json:"sdk_name,omitempty"`
-	SdkVersion        string                      `protobuf:"bytes,6,opt,name=sdk_version,json=sdkVersion,proto3" json:"sdk_version,omitempty"`
-	// Worker status. Possible values - "running", "shutting_down", "shutdown".
-	Status v11.WorkerStatus `protobuf:"varint,7,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkerStatus" json:"status,omitempty"`
-	// Uptime of the worker, since it started.
-	// This is the time since the worker started, not the time since the last heartbeat.
-	// It can be used to determine worker start time. (current time - uptime)
-	Uptime *durationpb.Duration `protobuf:"bytes,8,opt,name=uptime,proto3" json:"uptime,omitempty"`
-	// Last heartbeat time, coming from the worker. Worker should set it to "now".
-	LastHeartbeatTime        *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=last_heartbeat_time,json=lastHeartbeatTime,proto3" json:"last_heartbeat_time,omitempty"`
-	WorkflowTaskSlotsInfo    *WorkerSlotsInfo       `protobuf:"bytes,10,opt,name=workflow_task_slots_info,json=workflowTaskSlotsInfo,proto3" json:"workflow_task_slots_info,omitempty"`
-	ActivityTaskSlotsInfo    *WorkerSlotsInfo       `protobuf:"bytes,11,opt,name=activity_task_slots_info,json=activityTaskSlotsInfo,proto3" json:"activity_task_slots_info,omitempty"`
-	NexusTaskSlotsInfo       *WorkerSlotsInfo       `protobuf:"bytes,12,opt,name=nexus_task_slots_info,json=nexusTaskSlotsInfo,proto3" json:"nexus_task_slots_info,omitempty"`
-	LocalActivitySlotsInfo   *WorkerSlotsInfo       `protobuf:"bytes,13,opt,name=local_activity_slots_info,json=localActivitySlotsInfo,proto3" json:"local_activity_slots_info,omitempty"`
-	WorkflowPollerInfo       *WorkerPollerInfo      `protobuf:"bytes,14,opt,name=workflow_poller_info,json=workflowPollerInfo,proto3" json:"workflow_poller_info,omitempty"`
-	WorkflowStickyPollerInfo *WorkerPollerInfo      `protobuf:"bytes,15,opt,name=workflow_sticky_poller_info,json=workflowStickyPollerInfo,proto3" json:"workflow_sticky_poller_info,omitempty"`
-	ActivityPollerInfo       *WorkerPollerInfo      `protobuf:"bytes,16,opt,name=activity_poller_info,json=activityPollerInfo,proto3" json:"activity_poller_info,omitempty"`
-	NexusPollerInfo          *WorkerPollerInfo      `protobuf:"bytes,17,opt,name=nexus_poller_info,json=nexusPollerInfo,proto3" json:"nexus_poller_info,omitempty"`
-	CpuUsagePercent          float32                `protobuf:"fixed32,18,opt,name=cpu_usage_percent,json=cpuUsagePercent,proto3" json:"cpu_usage_percent,omitempty"`
-	MemoryUsageBytes         int64                  `protobuf:"varint,19,opt,name=memory_usage_bytes,json=memoryUsageBytes,proto3" json:"memory_usage_bytes,omitempty"`
-	// A Workflow Task found a cached Workflow Execution to run against.
-	StickyCacheHit int32 `protobuf:"varint,20,opt,name=sticky_cache_hit,json=stickyCacheHit,proto3" json:"sticky_cache_hit,omitempty"`
-	// A Workflow Task did not find a cached Workflow execution to run against.
-	StickyCacheMiss int32 `protobuf:"varint,21,opt,name=sticky_cache_miss,json=stickyCacheMiss,proto3" json:"sticky_cache_miss,omitempty"`
-	// Current cache size, expressed in number of Workflow Executions.
-	StickyCacheSize int32 `protobuf:"varint,22,opt,name=sticky_cache_size,json=stickyCacheSize,proto3" json:"sticky_cache_size,omitempty"`
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	WorkerHeartbeat *WorkerHeartbeat       `protobuf:"bytes,1,opt,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
 
 func (x *WorkerInfo) Reset() {
 	*x = WorkerInfo{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[3]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -297,7 +518,7 @@ func (x *WorkerInfo) String() string {
 func (*WorkerInfo) ProtoMessage() {}
 
 func (x *WorkerInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[3]
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -310,212 +531,69 @@ func (x *WorkerInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WorkerInfo.ProtoReflect.Descriptor instead.
 func (*WorkerInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{3}
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *WorkerInfo) GetWorkerId() string {
+func (x *WorkerInfo) GetWorkerHeartbeat() *WorkerHeartbeat {
 	if x != nil {
-		return x.WorkerId
-	}
-	return ""
-}
-
-func (x *WorkerInfo) GetHostInfo() *WorkerHostInfo {
-	if x != nil {
-		return x.HostInfo
+		return x.WorkerHeartbeat
 	}
 	return nil
-}
-
-func (x *WorkerInfo) GetTaskQueue() string {
-	if x != nil {
-		return x.TaskQueue
-	}
-	return ""
-}
-
-func (x *WorkerInfo) GetDeploymentVersion() *v1.WorkerDeploymentVersion {
-	if x != nil {
-		return x.DeploymentVersion
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetSdkName() string {
-	if x != nil {
-		return x.SdkName
-	}
-	return ""
-}
-
-func (x *WorkerInfo) GetSdkVersion() string {
-	if x != nil {
-		return x.SdkVersion
-	}
-	return ""
-}
-
-func (x *WorkerInfo) GetStatus() v11.WorkerStatus {
-	if x != nil {
-		return x.Status
-	}
-	return v11.WorkerStatus(0)
-}
-
-func (x *WorkerInfo) GetUptime() *durationpb.Duration {
-	if x != nil {
-		return x.Uptime
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetLastHeartbeatTime() *timestamppb.Timestamp {
-	if x != nil {
-		return x.LastHeartbeatTime
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetWorkflowTaskSlotsInfo() *WorkerSlotsInfo {
-	if x != nil {
-		return x.WorkflowTaskSlotsInfo
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetActivityTaskSlotsInfo() *WorkerSlotsInfo {
-	if x != nil {
-		return x.ActivityTaskSlotsInfo
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetNexusTaskSlotsInfo() *WorkerSlotsInfo {
-	if x != nil {
-		return x.NexusTaskSlotsInfo
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetLocalActivitySlotsInfo() *WorkerSlotsInfo {
-	if x != nil {
-		return x.LocalActivitySlotsInfo
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetWorkflowPollerInfo() *WorkerPollerInfo {
-	if x != nil {
-		return x.WorkflowPollerInfo
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetWorkflowStickyPollerInfo() *WorkerPollerInfo {
-	if x != nil {
-		return x.WorkflowStickyPollerInfo
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetActivityPollerInfo() *WorkerPollerInfo {
-	if x != nil {
-		return x.ActivityPollerInfo
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetNexusPollerInfo() *WorkerPollerInfo {
-	if x != nil {
-		return x.NexusPollerInfo
-	}
-	return nil
-}
-
-func (x *WorkerInfo) GetCpuUsagePercent() float32 {
-	if x != nil {
-		return x.CpuUsagePercent
-	}
-	return 0
-}
-
-func (x *WorkerInfo) GetMemoryUsageBytes() int64 {
-	if x != nil {
-		return x.MemoryUsageBytes
-	}
-	return 0
-}
-
-func (x *WorkerInfo) GetStickyCacheHit() int32 {
-	if x != nil {
-		return x.StickyCacheHit
-	}
-	return 0
-}
-
-func (x *WorkerInfo) GetStickyCacheMiss() int32 {
-	if x != nil {
-		return x.StickyCacheMiss
-	}
-	return 0
-}
-
-func (x *WorkerInfo) GetStickyCacheSize() int32 {
-	if x != nil {
-		return x.StickyCacheSize
-	}
-	return 0
 }
 
 var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\"\xbd\x01\n" +
-	"\x10WorkerPollerInfo\x12%\n" +
-	"\x0eactive_pollers\x18\x01 \x01(\x05R\ractivePollers\x12+\n" +
-	"\x11available_pollers\x18\x02 \x01(\x05R\x10availablePollers\x12U\n" +
-	"\x19last_successful_poll_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x16lastSuccessfulPollTime\"\x9f\x02\n" +
-	"\x0fWorkerSlotsInfo\x12'\n" +
-	"\x0fslots_available\x18\x01 \x01(\x05R\x0eslotsAvailable\x12\x1d\n" +
-	"\n" +
-	"slots_used\x18\x02 \x01(\x05R\tslotsUsed\x12'\n" +
-	"\x0fprocessed_tasks\x18\x03 \x01(\x05R\x0eprocessedTasks\x12!\n" +
-	"\ffailed_tasks\x18\x04 \x01(\x05R\vfailedTasks\x12=\n" +
-	"\x1bprocessed_tasks_last_minute\x18\x05 \x01(\x05R\x18processedTasksLastMinute\x129\n" +
-	"\x19failure_tasks_last_minute\x18\x06 \x01(\x05R\x16failureTasksLastMinute\"u\n" +
+	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\"\xb9\x01\n" +
+	"\x10WorkerPollerInfo\x12'\n" +
+	"\x0fcurrent_pollers\x18\x01 \x01(\x05R\x0ecurrentPollers\x12U\n" +
+	"\x19last_successful_poll_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x16lastSuccessfulPollTime\x12%\n" +
+	"\x0eis_autoscaling\x18\x03 \x01(\bR\risAutoscaling\"\x89\x03\n" +
+	"\x0fWorkerSlotsInfo\x126\n" +
+	"\x17current_available_slots\x18\x01 \x01(\x05R\x15currentAvailableSlots\x12,\n" +
+	"\x12current_used_slots\x18\x02 \x01(\x05R\x10currentUsedSlots\x12,\n" +
+	"\x12slot_supplier_kind\x18\x03 \x01(\tR\x10slotSupplierKind\x122\n" +
+	"\x15total_processed_tasks\x18\x04 \x01(\x05R\x13totalProcessedTasks\x12,\n" +
+	"\x12total_failed_tasks\x18\x05 \x01(\x05R\x10totalFailedTasks\x12A\n" +
+	"\x1dlast_interval_processed_tasks\x18\x06 \x01(\x05R\x1alastIntervalProcessedTasks\x12=\n" +
+	"\x1blast_interval_failure_tasks\x18\a \x01(\x05R\x18lastIntervalFailureTasks\"L\n" +
 	"\x0eWorkerHostInfo\x12\x1b\n" +
 	"\thost_name\x18\x01 \x01(\tR\bhostName\x12\x1d\n" +
 	"\n" +
-	"process_id\x18\x02 \x01(\tR\tprocessId\x12'\n" +
-	"\x0fworker_identity\x18\x03 \x01(\tR\x0eworkerIdentity\"\xc0\v\n" +
+	"process_id\x18\x02 \x01(\tR\tprocessId\"\x9a\r\n" +
+	"\x0fWorkerHeartbeat\x12.\n" +
+	"\x13worker_instance_key\x18\x01 \x01(\tR\x11workerInstanceKey\x12'\n" +
+	"\x0fworker_identity\x18\x02 \x01(\tR\x0eworkerIdentity\x12C\n" +
+	"\thost_info\x18\x03 \x01(\v2&.temporal.api.worker.v1.WorkerHostInfoR\bhostInfo\x12\x1d\n" +
 	"\n" +
-	"WorkerInfo\x12\x1b\n" +
-	"\tworker_id\x18\x01 \x01(\tR\bworkerId\x12C\n" +
-	"\thost_info\x18\x02 \x01(\v2&.temporal.api.worker.v1.WorkerHostInfoR\bhostInfo\x12\x1d\n" +
-	"\n" +
-	"task_queue\x18\x03 \x01(\tR\ttaskQueue\x12b\n" +
-	"\x12deployment_version\x18\x04 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12\x19\n" +
-	"\bsdk_name\x18\x05 \x01(\tR\asdkName\x12\x1f\n" +
-	"\vsdk_version\x18\x06 \x01(\tR\n" +
+	"task_queue\x18\x04 \x01(\tR\ttaskQueue\x12b\n" +
+	"\x12deployment_version\x18\x05 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12\x19\n" +
+	"\bsdk_name\x18\x06 \x01(\tR\asdkName\x12\x1f\n" +
+	"\vsdk_version\x18\a \x01(\tR\n" +
 	"sdkVersion\x12;\n" +
-	"\x06status\x18\a \x01(\x0e2#.temporal.api.enums.v1.WorkerStatusR\x06status\x121\n" +
-	"\x06uptime\x18\b \x01(\v2\x19.google.protobuf.DurationR\x06uptime\x12J\n" +
-	"\x13last_heartbeat_time\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\x11lastHeartbeatTime\x12`\n" +
-	"\x18workflow_task_slots_info\x18\n" +
-	" \x01(\v2'.temporal.api.worker.v1.WorkerSlotsInfoR\x15workflowTaskSlotsInfo\x12`\n" +
-	"\x18activity_task_slots_info\x18\v \x01(\v2'.temporal.api.worker.v1.WorkerSlotsInfoR\x15activityTaskSlotsInfo\x12Z\n" +
-	"\x15nexus_task_slots_info\x18\f \x01(\v2'.temporal.api.worker.v1.WorkerSlotsInfoR\x12nexusTaskSlotsInfo\x12b\n" +
-	"\x19local_activity_slots_info\x18\r \x01(\v2'.temporal.api.worker.v1.WorkerSlotsInfoR\x16localActivitySlotsInfo\x12Z\n" +
-	"\x14workflow_poller_info\x18\x0e \x01(\v2(.temporal.api.worker.v1.WorkerPollerInfoR\x12workflowPollerInfo\x12g\n" +
-	"\x1bworkflow_sticky_poller_info\x18\x0f \x01(\v2(.temporal.api.worker.v1.WorkerPollerInfoR\x18workflowStickyPollerInfo\x12Z\n" +
-	"\x14activity_poller_info\x18\x10 \x01(\v2(.temporal.api.worker.v1.WorkerPollerInfoR\x12activityPollerInfo\x12T\n" +
-	"\x11nexus_poller_info\x18\x11 \x01(\v2(.temporal.api.worker.v1.WorkerPollerInfoR\x0fnexusPollerInfo\x12*\n" +
-	"\x11cpu_usage_percent\x18\x12 \x01(\x02R\x0fcpuUsagePercent\x12,\n" +
-	"\x12memory_usage_bytes\x18\x13 \x01(\x03R\x10memoryUsageBytes\x12(\n" +
-	"\x10sticky_cache_hit\x18\x14 \x01(\x05R\x0estickyCacheHit\x12*\n" +
-	"\x11sticky_cache_miss\x18\x15 \x01(\x05R\x0fstickyCacheMiss\x12*\n" +
-	"\x11sticky_cache_size\x18\x16 \x01(\x05R\x0fstickyCacheSizeB\x89\x01\n" +
+	"\x06status\x18\b \x01(\x0e2#.temporal.api.enums.v1.WorkerStatusR\x06status\x129\n" +
+	"\n" +
+	"start_time\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x12J\n" +
+	"\x13last_heartbeat_time\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\x11lastHeartbeatTime\x12Z\n" +
+	"\x1celapsed_since_last_heartbeat\x18\v \x01(\v2\x19.google.protobuf.DurationR\x19elapsedSinceLastHeartbeat\x12`\n" +
+	"\x18workflow_task_slots_info\x18\f \x01(\v2'.temporal.api.worker.v1.WorkerSlotsInfoR\x15workflowTaskSlotsInfo\x12`\n" +
+	"\x18activity_task_slots_info\x18\r \x01(\v2'.temporal.api.worker.v1.WorkerSlotsInfoR\x15activityTaskSlotsInfo\x12Z\n" +
+	"\x15nexus_task_slots_info\x18\x0e \x01(\v2'.temporal.api.worker.v1.WorkerSlotsInfoR\x12nexusTaskSlotsInfo\x12b\n" +
+	"\x19local_activity_slots_info\x18\x0f \x01(\v2'.temporal.api.worker.v1.WorkerSlotsInfoR\x16localActivitySlotsInfo\x12Z\n" +
+	"\x14workflow_poller_info\x18\x10 \x01(\v2(.temporal.api.worker.v1.WorkerPollerInfoR\x12workflowPollerInfo\x12g\n" +
+	"\x1bworkflow_sticky_poller_info\x18\x11 \x01(\v2(.temporal.api.worker.v1.WorkerPollerInfoR\x18workflowStickyPollerInfo\x12Z\n" +
+	"\x14activity_poller_info\x18\x12 \x01(\v2(.temporal.api.worker.v1.WorkerPollerInfoR\x12activityPollerInfo\x12T\n" +
+	"\x11nexus_poller_info\x18\x13 \x01(\v2(.temporal.api.worker.v1.WorkerPollerInfoR\x0fnexusPollerInfo\x123\n" +
+	"\x16current_host_cpu_usage\x18\x14 \x01(\x02R\x13currentHostCpuUsage\x123\n" +
+	"\x16current_host_mem_usage\x18\x15 \x01(\x02R\x13currentHostMemUsage\x123\n" +
+	"\x16total_sticky_cache_hit\x18\x16 \x01(\x05R\x13totalStickyCacheHit\x125\n" +
+	"\x17total_sticky_cache_miss\x18\x17 \x01(\x05R\x14totalStickyCacheMiss\x129\n" +
+	"\x19current_sticky_cache_size\x18\x18 \x01(\x05R\x16currentStickyCacheSize\"`\n" +
+	"\n" +
+	"WorkerInfo\x12R\n" +
+	"\x10worker_heartbeat\x18\x01 \x01(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeatB\x89\x01\n" +
 	"\x19io.temporal.api.worker.v1B\fMessageProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
 
 var (
@@ -530,37 +608,40 @@ func file_temporal_api_worker_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_worker_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_temporal_api_worker_v1_message_proto_goTypes = []any{
 	(*WorkerPollerInfo)(nil),           // 0: temporal.api.worker.v1.WorkerPollerInfo
 	(*WorkerSlotsInfo)(nil),            // 1: temporal.api.worker.v1.WorkerSlotsInfo
 	(*WorkerHostInfo)(nil),             // 2: temporal.api.worker.v1.WorkerHostInfo
-	(*WorkerInfo)(nil),                 // 3: temporal.api.worker.v1.WorkerInfo
-	(*timestamppb.Timestamp)(nil),      // 4: google.protobuf.Timestamp
-	(*v1.WorkerDeploymentVersion)(nil), // 5: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(v11.WorkerStatus)(0),              // 6: temporal.api.enums.v1.WorkerStatus
-	(*durationpb.Duration)(nil),        // 7: google.protobuf.Duration
+	(*WorkerHeartbeat)(nil),            // 3: temporal.api.worker.v1.WorkerHeartbeat
+	(*WorkerInfo)(nil),                 // 4: temporal.api.worker.v1.WorkerInfo
+	(*timestamppb.Timestamp)(nil),      // 5: google.protobuf.Timestamp
+	(*v1.WorkerDeploymentVersion)(nil), // 6: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(v11.WorkerStatus)(0),              // 7: temporal.api.enums.v1.WorkerStatus
+	(*durationpb.Duration)(nil),        // 8: google.protobuf.Duration
 }
 var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
-	4,  // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
-	2,  // 1: temporal.api.worker.v1.WorkerInfo.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
-	5,  // 2: temporal.api.worker.v1.WorkerInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	6,  // 3: temporal.api.worker.v1.WorkerInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	7,  // 4: temporal.api.worker.v1.WorkerInfo.uptime:type_name -> google.protobuf.Duration
-	4,  // 5: temporal.api.worker.v1.WorkerInfo.last_heartbeat_time:type_name -> google.protobuf.Timestamp
-	1,  // 6: temporal.api.worker.v1.WorkerInfo.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	1,  // 7: temporal.api.worker.v1.WorkerInfo.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	1,  // 8: temporal.api.worker.v1.WorkerInfo.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	1,  // 9: temporal.api.worker.v1.WorkerInfo.local_activity_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
-	0,  // 10: temporal.api.worker.v1.WorkerInfo.workflow_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	0,  // 11: temporal.api.worker.v1.WorkerInfo.workflow_sticky_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	0,  // 12: temporal.api.worker.v1.WorkerInfo.activity_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	0,  // 13: temporal.api.worker.v1.WorkerInfo.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	5,  // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
+	2,  // 1: temporal.api.worker.v1.WorkerHeartbeat.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
+	6,  // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	7,  // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	5,  // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
+	5,  // 5: temporal.api.worker.v1.WorkerHeartbeat.last_heartbeat_time:type_name -> google.protobuf.Timestamp
+	8,  // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
+	1,  // 7: temporal.api.worker.v1.WorkerHeartbeat.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	1,  // 8: temporal.api.worker.v1.WorkerHeartbeat.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	1,  // 9: temporal.api.worker.v1.WorkerHeartbeat.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	1,  // 10: temporal.api.worker.v1.WorkerHeartbeat.local_activity_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
+	0,  // 11: temporal.api.worker.v1.WorkerHeartbeat.workflow_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	0,  // 12: temporal.api.worker.v1.WorkerHeartbeat.workflow_sticky_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	0,  // 13: temporal.api.worker.v1.WorkerHeartbeat.activity_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	0,  // 14: temporal.api.worker.v1.WorkerHeartbeat.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
+	3,  // 15: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
+	16, // [16:16] is the sub-list for method output_type
+	16, // [16:16] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_worker_v1_message_proto_init() }
@@ -574,7 +655,7 @@ func file_temporal_api_worker_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_worker_v1_message_proto_rawDesc), len(file_temporal_api_worker_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

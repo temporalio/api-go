@@ -26,7 +26,7 @@ var File_temporal_api_workflowservice_v1_service_proto protoreflect.FileDescript
 
 const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\u05f6\x01\n" +
+	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2ض\x01\n" +
 	"\x0fWorkflowService\x12\xc3\x01\n" +
 	"\x11RegisterNamespace\x129.temporal.api.workflowservice.v1.RegisterNamespaceRequest\x1a:.temporal.api.workflowservice.v1.RegisterNamespaceResponse\"7\x82\xd3\xe4\x93\x021:\x01*Z\x17:\x01*\"\x12/api/v1/namespaces\"\x13/cluster/namespaces\x12\xd5\x01\n" +
 	"\x11DescribeNamespace\x129.temporal.api.workflowservice.v1.DescribeNamespaceRequest\x1a:.temporal.api.workflowservice.v1.DescribeNamespaceResponse\"I\x82\xd3\xe4\x93\x02CZ \x12\x1e/api/v1/namespaces/{namespace}\x12\x1f/cluster/namespaces/{namespace}\x12\xb4\x01\n" +
@@ -114,8 +114,8 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x14DescribeWorkflowRule\x12<.temporal.api.workflowservice.v1.DescribeWorkflowRuleRequest\x1a=.temporal.api.workflowservice.v1.DescribeWorkflowRuleResponse\"s\x82\xd3\xe4\x93\x02mZ9\x127/api/v1/namespaces/{namespace}/workflow-rules/{rule_id}\x120/namespaces/{namespace}/workflow-rules/{rule_id}\x12\x82\x02\n" +
 	"\x12DeleteWorkflowRule\x12:.temporal.api.workflowservice.v1.DeleteWorkflowRuleRequest\x1a;.temporal.api.workflowservice.v1.DeleteWorkflowRuleResponse\"s\x82\xd3\xe4\x93\x02mZ9*7/api/v1/namespaces/{namespace}/workflow-rules/{rule_id}*0/namespaces/{namespace}/workflow-rules/{rule_id}\x12\xeb\x01\n" +
 	"\x11ListWorkflowRules\x129.temporal.api.workflowservice.v1.ListWorkflowRulesRequest\x1a:.temporal.api.workflowservice.v1.ListWorkflowRulesResponse\"_\x82\xd3\xe4\x93\x02YZ/\x12-/api/v1/namespaces/{namespace}/workflow-rules\x12&/namespaces/{namespace}/workflow-rules\x12\xb9\x02\n" +
-	"\x13TriggerWorkflowRule\x12;.temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest\x1a<.temporal.api.workflowservice.v1.TriggerWorkflowRuleResponse\"\xa6\x01\x82\xd3\xe4\x93\x02\x9f\x01:\x01*ZR:\x01*\"M/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/trigger-rule\"F/namespaces/{namespace}/workflows/{execution.workflow_id}/trigger-rule\x12\x82\x02\n" +
-	"\x15RecordWorkerHeartbeat\x12=.temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest\x1a>.temporal.api.workflowservice.v1.RecordWorkerHeartbeatResponse\"j\x82\xd3\xe4\x93\x02d:\x01*Z5:\x01*\"0/api/v1/namespaces/{namespace}/workers/heartbeat\"(/namespaces/{namespace}/worker-heartbeat\x12\xcb\x01\n" +
+	"\x13TriggerWorkflowRule\x12;.temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest\x1a<.temporal.api.workflowservice.v1.TriggerWorkflowRuleResponse\"\xa6\x01\x82\xd3\xe4\x93\x02\x9f\x01:\x01*ZR:\x01*\"M/api/v1/namespaces/{namespace}/workflows/{execution.workflow_id}/trigger-rule\"F/namespaces/{namespace}/workflows/{execution.workflow_id}/trigger-rule\x12\x83\x02\n" +
+	"\x15RecordWorkerHeartbeat\x12=.temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest\x1a>.temporal.api.workflowservice.v1.RecordWorkerHeartbeatResponse\"k\x82\xd3\xe4\x93\x02e:\x01*Z5:\x01*\"0/api/v1/namespaces/{namespace}/workers/heartbeat\")/namespaces/{namespace}/workers/heartbeat\x12\xcb\x01\n" +
 	"\vListWorkers\x123.temporal.api.workflowservice.v1.ListWorkersRequest\x1a4.temporal.api.workflowservice.v1.ListWorkersResponse\"Q\x82\xd3\xe4\x93\x02KZ(\x12&/api/v1/namespaces/{namespace}/workers\x12\x1f/namespaces/{namespace}/workersB\xb6\x01\n" +
 	"\"io.temporal.api.workflowservice.v1B\fServiceProtoP\x01Z5go.temporal.io/api/workflowservice/v1;workflowservice\xaa\x02!Temporalio.Api.WorkflowService.V1\xea\x02$Temporalio::Api::WorkflowService::V1b\x06proto3"
 

@@ -116,6 +116,43 @@ func (this *WorkerHostInfo) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type WorkerHeartbeat to the protobuf v3 wire format
+func (val *WorkerHeartbeat) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type WorkerHeartbeat from the protobuf v3 wire format
+func (val *WorkerHeartbeat) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *WorkerHeartbeat) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two WorkerHeartbeat values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *WorkerHeartbeat) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *WorkerHeartbeat
+	switch t := that.(type) {
+	case *WorkerHeartbeat:
+		that1 = t
+	case WorkerHeartbeat:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type WorkerInfo to the protobuf v3 wire format
 func (val *WorkerInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)

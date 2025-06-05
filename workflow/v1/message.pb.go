@@ -488,7 +488,7 @@ type WorkflowExecutionVersioningInfo struct {
 	// behaviors.
 	// This field is first set after an execution completes its first workflow task on a versioned
 	// worker, and set again on completion of every subsequent workflow task.
-	// For child workflows of Pinned parents, this will be set to Pinned (along with `version`) when
+	// For child workflows of Pinned parents, this will be set to Pinned (along with `deployment_version`) when
 	// the the child starts so that child's first workflow task goes to the same Version as the
 	// parent. After the first workflow task, it depends on the child workflow itself if it wants
 	// to stay pinned or become unpinned (according to Versioning Behavior set in the worker).
@@ -522,7 +522,8 @@ type WorkflowExecutionVersioningInfo struct {
 	// precedence over SDK-sent `behavior` (and `version` when override is PINNED). An
 	// override can be set when starting a new execution, as well as afterwards by calling the
 	// `UpdateWorkflowExecutionOptions` API.
-	// Pinned overrides are automatically inherited by child workflows.
+	// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
+	// workflow retries, and cron workflows.
 	VersioningOverride *VersioningOverride `protobuf:"bytes,3,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
 	// When present, indicates the workflow is transitioning to a different deployment. Can
 	// indicate one of the following transitions: unversioned -> versioned, versioned -> versioned
@@ -559,7 +560,7 @@ type WorkflowExecutionVersioningInfo struct {
 	// start a transition to that version and continue execution there.
 	// A version transition can only exist while there is a pending or started workflow task.
 	// Once the pending workflow task completes on the transition's target version, the
-	// transition completes and the workflow's `behavior`, and `version` fields are updated per the
+	// transition completes and the workflow's `behavior`, and `deployment_version` fields are updated per the
 	// worker's task completion response.
 	// Pending activities will not start new attempts during a transition. Once the transition is
 	// completed, pending activities will start their next attempt on the new version.
@@ -2085,6 +2086,8 @@ func (x *WorkflowExecutionOptions) GetVersioningOverride() *VersioningOverride {
 // `WorkflowExecutionInfo.VersioningInfo` for more information. To remove the override, call
 // `UpdateWorkflowExecutionOptions` with a null `VersioningOverride`, and use the `update_mask`
 // to indicate that it should be mutated.
+// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
+// workflow retries, and cron workflows.
 type VersioningOverride struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Indicates whether to override the workflow to be AutoUpgrade or Pinned.

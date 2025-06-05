@@ -604,25 +604,25 @@ func (ApplicationErrorCategory) EnumDescriptor() ([]byte, []int) {
 type WorkerStatus int32
 
 const (
-	WORKER_STATUS_UNSPECIFIED    WorkerStatus = 0
-	WORKER_STATUS_STATUS_RUNNING WorkerStatus = 1
-	WORKER_STATUS_SHUTTING_DOWN  WorkerStatus = 2
-	WORKER_STATUS_SHUTDOWN       WorkerStatus = 3
+	WORKER_STATUS_UNSPECIFIED   WorkerStatus = 0
+	WORKER_STATUS_RUNNING       WorkerStatus = 1
+	WORKER_STATUS_SHUTTING_DOWN WorkerStatus = 2
+	WORKER_STATUS_SHUTDOWN      WorkerStatus = 3
 )
 
 // Enum value maps for WorkerStatus.
 var (
 	WorkerStatus_name = map[int32]string{
 		0: "WORKER_STATUS_UNSPECIFIED",
-		1: "WORKER_STATUS_STATUS_RUNNING",
+		1: "WORKER_STATUS_RUNNING",
 		2: "WORKER_STATUS_SHUTTING_DOWN",
 		3: "WORKER_STATUS_SHUTDOWN",
 	}
 	WorkerStatus_value = map[string]int32{
-		"WORKER_STATUS_UNSPECIFIED":    0,
-		"WORKER_STATUS_STATUS_RUNNING": 1,
-		"WORKER_STATUS_SHUTTING_DOWN":  2,
-		"WORKER_STATUS_SHUTDOWN":       3,
+		"WORKER_STATUS_UNSPECIFIED":   0,
+		"WORKER_STATUS_RUNNING":       1,
+		"WORKER_STATUS_SHUTTING_DOWN": 2,
+		"WORKER_STATUS_SHUTDOWN":      3,
 	}
 )
 
@@ -636,8 +636,8 @@ func (x WorkerStatus) String() string {
 	switch x {
 	case WORKER_STATUS_UNSPECIFIED:
 		return "Unspecified"
-	case WORKER_STATUS_STATUS_RUNNING:
-		return "StatusRunning"
+	case WORKER_STATUS_RUNNING:
+		return "Running"
 	case WORKER_STATUS_SHUTTING_DOWN:
 		return "ShuttingDown"
 	case WORKER_STATUS_SHUTDOWN:
@@ -716,10 +716,10 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"#WORKFLOW_RULE_ACTION_SCOPE_ACTIVITY\x10\x02*m\n" +
 	"\x18ApplicationErrorCategory\x12*\n" +
 	"&APPLICATION_ERROR_CATEGORY_UNSPECIFIED\x10\x00\x12%\n" +
-	"!APPLICATION_ERROR_CATEGORY_BENIGN\x10\x01*\x8c\x01\n" +
+	"!APPLICATION_ERROR_CATEGORY_BENIGN\x10\x01*\x85\x01\n" +
 	"\fWorkerStatus\x12\x1d\n" +
-	"\x19WORKER_STATUS_UNSPECIFIED\x10\x00\x12 \n" +
-	"\x1cWORKER_STATUS_STATUS_RUNNING\x10\x01\x12\x1f\n" +
+	"\x19WORKER_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15WORKER_STATUS_RUNNING\x10\x01\x12\x1f\n" +
 	"\x1bWORKER_STATUS_SHUTTING_DOWN\x10\x02\x12\x1a\n" +
 	"\x16WORKER_STATUS_SHUTDOWN\x10\x03B\x83\x01\n" +
 	"\x18io.temporal.api.enums.v1B\vCommonProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
