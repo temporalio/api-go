@@ -598,6 +598,73 @@ func (ApplicationErrorCategory) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{7}
 }
 
+// (-- api-linter: core::0216::synonyms=disabled
+//
+//	aip.dev/not-precedent: It seems we have both state and status, and status is a better fit for workers. --)
+type WorkerStatus int32
+
+const (
+	WORKER_STATUS_UNSPECIFIED   WorkerStatus = 0
+	WORKER_STATUS_RUNNING       WorkerStatus = 1
+	WORKER_STATUS_SHUTTING_DOWN WorkerStatus = 2
+	WORKER_STATUS_SHUTDOWN      WorkerStatus = 3
+)
+
+// Enum value maps for WorkerStatus.
+var (
+	WorkerStatus_name = map[int32]string{
+		0: "WORKER_STATUS_UNSPECIFIED",
+		1: "WORKER_STATUS_RUNNING",
+		2: "WORKER_STATUS_SHUTTING_DOWN",
+		3: "WORKER_STATUS_SHUTDOWN",
+	}
+	WorkerStatus_value = map[string]int32{
+		"WORKER_STATUS_UNSPECIFIED":   0,
+		"WORKER_STATUS_RUNNING":       1,
+		"WORKER_STATUS_SHUTTING_DOWN": 2,
+		"WORKER_STATUS_SHUTDOWN":      3,
+	}
+)
+
+func (x WorkerStatus) Enum() *WorkerStatus {
+	p := new(WorkerStatus)
+	*p = x
+	return p
+}
+
+func (x WorkerStatus) String() string {
+	switch x {
+	case WORKER_STATUS_UNSPECIFIED:
+		return "Unspecified"
+	case WORKER_STATUS_RUNNING:
+		return "Running"
+	case WORKER_STATUS_SHUTTING_DOWN:
+		return "ShuttingDown"
+	case WORKER_STATUS_SHUTDOWN:
+		return "Shutdown"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (WorkerStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_enums_v1_common_proto_enumTypes[8].Descriptor()
+}
+
+func (WorkerStatus) Type() protoreflect.EnumType {
+	return &file_temporal_api_enums_v1_common_proto_enumTypes[8]
+}
+
+func (x WorkerStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use WorkerStatus.Descriptor instead.
+func (WorkerStatus) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{8}
+}
+
 var File_temporal_api_enums_v1_common_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
@@ -649,7 +716,12 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"#WORKFLOW_RULE_ACTION_SCOPE_ACTIVITY\x10\x02*m\n" +
 	"\x18ApplicationErrorCategory\x12*\n" +
 	"&APPLICATION_ERROR_CATEGORY_UNSPECIFIED\x10\x00\x12%\n" +
-	"!APPLICATION_ERROR_CATEGORY_BENIGN\x10\x01B\x83\x01\n" +
+	"!APPLICATION_ERROR_CATEGORY_BENIGN\x10\x01*\x85\x01\n" +
+	"\fWorkerStatus\x12\x1d\n" +
+	"\x19WORKER_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15WORKER_STATUS_RUNNING\x10\x01\x12\x1f\n" +
+	"\x1bWORKER_STATUS_SHUTTING_DOWN\x10\x02\x12\x1a\n" +
+	"\x16WORKER_STATUS_SHUTDOWN\x10\x03B\x83\x01\n" +
 	"\x18io.temporal.api.enums.v1B\vCommonProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (
@@ -664,7 +736,7 @@ func file_temporal_api_enums_v1_common_proto_rawDescGZIP() []byte {
 	return file_temporal_api_enums_v1_common_proto_rawDescData
 }
 
-var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
+var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
 var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(EncodingType)(0),                    // 0: temporal.api.enums.v1.EncodingType
 	(IndexedValueType)(0),                // 1: temporal.api.enums.v1.IndexedValueType
@@ -674,6 +746,7 @@ var file_temporal_api_enums_v1_common_proto_goTypes = []any{
 	(NexusOperationCancellationState)(0), // 5: temporal.api.enums.v1.NexusOperationCancellationState
 	(WorkflowRuleActionScope)(0),         // 6: temporal.api.enums.v1.WorkflowRuleActionScope
 	(ApplicationErrorCategory)(0),        // 7: temporal.api.enums.v1.ApplicationErrorCategory
+	(WorkerStatus)(0),                    // 8: temporal.api.enums.v1.WorkerStatus
 }
 var file_temporal_api_enums_v1_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -693,7 +766,7 @@ func file_temporal_api_enums_v1_common_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_common_proto_rawDesc), len(file_temporal_api_enums_v1_common_proto_rawDesc)),
-			NumEnums:      8,
+			NumEnums:      9,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

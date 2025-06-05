@@ -107,6 +107,8 @@ const (
 	WorkflowService_DeleteWorkflowRule_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/DeleteWorkflowRule"
 	WorkflowService_ListWorkflowRules_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkflowRules"
 	WorkflowService_TriggerWorkflowRule_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/TriggerWorkflowRule"
+	WorkflowService_RecordWorkerHeartbeat_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/RecordWorkerHeartbeat"
+	WorkflowService_ListWorkers_FullMethodName                           = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkers"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -660,6 +662,10 @@ type WorkflowServiceClient interface {
 	//
 	// This is useful for one-off operations.
 	TriggerWorkflowRule(ctx context.Context, in *TriggerWorkflowRuleRequest, opts ...grpc.CallOption) (*TriggerWorkflowRuleResponse, error)
+	// WorkerHeartbeat receive heartbeat request from the worker.
+	RecordWorkerHeartbeat(ctx context.Context, in *RecordWorkerHeartbeatRequest, opts ...grpc.CallOption) (*RecordWorkerHeartbeatResponse, error)
+	// ListWorkers is a visibility API to list worker status information in a specific namespace.
+	ListWorkers(ctx context.Context, in *ListWorkersRequest, opts ...grpc.CallOption) (*ListWorkersResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1540,6 +1546,26 @@ func (c *workflowServiceClient) TriggerWorkflowRule(ctx context.Context, in *Tri
 	return out, nil
 }
 
+func (c *workflowServiceClient) RecordWorkerHeartbeat(ctx context.Context, in *RecordWorkerHeartbeatRequest, opts ...grpc.CallOption) (*RecordWorkerHeartbeatResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RecordWorkerHeartbeatResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_RecordWorkerHeartbeat_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) ListWorkers(ctx context.Context, in *ListWorkersRequest, opts ...grpc.CallOption) (*ListWorkersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListWorkersResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ListWorkers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -2091,6 +2117,10 @@ type WorkflowServiceServer interface {
 	//
 	// This is useful for one-off operations.
 	TriggerWorkflowRule(context.Context, *TriggerWorkflowRuleRequest) (*TriggerWorkflowRuleResponse, error)
+	// WorkerHeartbeat receive heartbeat request from the worker.
+	RecordWorkerHeartbeat(context.Context, *RecordWorkerHeartbeatRequest) (*RecordWorkerHeartbeatResponse, error)
+	// ListWorkers is a visibility API to list worker status information in a specific namespace.
+	ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2361,6 +2391,12 @@ func (UnimplementedWorkflowServiceServer) ListWorkflowRules(context.Context, *Li
 }
 func (UnimplementedWorkflowServiceServer) TriggerWorkflowRule(context.Context, *TriggerWorkflowRuleRequest) (*TriggerWorkflowRuleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TriggerWorkflowRule not implemented")
+}
+func (UnimplementedWorkflowServiceServer) RecordWorkerHeartbeat(context.Context, *RecordWorkerHeartbeatRequest) (*RecordWorkerHeartbeatResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RecordWorkerHeartbeat not implemented")
+}
+func (UnimplementedWorkflowServiceServer) ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkers not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -3949,6 +3985,42 @@ func _WorkflowService_TriggerWorkflowRule_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_RecordWorkerHeartbeat_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RecordWorkerHeartbeatRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).RecordWorkerHeartbeat(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_RecordWorkerHeartbeat_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).RecordWorkerHeartbeat(ctx, req.(*RecordWorkerHeartbeatRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_ListWorkers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListWorkersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).ListWorkers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_ListWorkers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).ListWorkers(ctx, req.(*ListWorkersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -4303,6 +4375,14 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TriggerWorkflowRule",
 			Handler:    _WorkflowService_TriggerWorkflowRule_Handler,
+		},
+		{
+			MethodName: "RecordWorkerHeartbeat",
+			Handler:    _WorkflowService_RecordWorkerHeartbeat_Handler,
+		},
+		{
+			MethodName: "ListWorkers",
+			Handler:    _WorkflowService_ListWorkers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

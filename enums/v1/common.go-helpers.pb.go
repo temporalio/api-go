@@ -171,3 +171,23 @@ func ApplicationErrorCategoryFromString(s string) (ApplicationErrorCategory, err
 	}
 	return ApplicationErrorCategory(0), fmt.Errorf("%s is not a valid ApplicationErrorCategory", s)
 }
+
+var (
+	WorkerStatus_shorthandValue = map[string]int32{
+		"Unspecified":  0,
+		"Running":      1,
+		"ShuttingDown": 2,
+		"Shutdown":     3,
+	}
+)
+
+// WorkerStatusFromString parses a WorkerStatus value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to WorkerStatus
+func WorkerStatusFromString(s string) (WorkerStatus, error) {
+	if v, ok := WorkerStatus_value[s]; ok {
+		return WorkerStatus(v), nil
+	} else if v, ok := WorkerStatus_shorthandValue[s]; ok {
+		return WorkerStatus(v), nil
+	}
+	return WorkerStatus(0), fmt.Errorf("%s is not a valid WorkerStatus", s)
+}

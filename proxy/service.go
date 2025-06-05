@@ -188,6 +188,10 @@ func (s *workflowServiceProxyServer) ListWorkerDeployments(ctx context.Context, 
 	return s.client.ListWorkerDeployments(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) ListWorkers(ctx context.Context, in0 *workflowservice.ListWorkersRequest) (*workflowservice.ListWorkersResponse, error) {
+	return s.client.ListWorkers(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) ListWorkflowExecutions(ctx context.Context, in0 *workflowservice.ListWorkflowExecutionsRequest) (*workflowservice.ListWorkflowExecutionsResponse, error) {
 	return s.client.ListWorkflowExecutions(s.reqCtx(ctx), in0)
 }
@@ -230,6 +234,10 @@ func (s *workflowServiceProxyServer) RecordActivityTaskHeartbeat(ctx context.Con
 
 func (s *workflowServiceProxyServer) RecordActivityTaskHeartbeatById(ctx context.Context, in0 *workflowservice.RecordActivityTaskHeartbeatByIdRequest) (*workflowservice.RecordActivityTaskHeartbeatByIdResponse, error) {
 	return s.client.RecordActivityTaskHeartbeatById(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) RecordWorkerHeartbeat(ctx context.Context, in0 *workflowservice.RecordWorkerHeartbeatRequest) (*workflowservice.RecordWorkerHeartbeatResponse, error) {
+	return s.client.RecordWorkerHeartbeat(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) RegisterNamespace(ctx context.Context, in0 *workflowservice.RegisterNamespaceRequest) (*workflowservice.RegisterNamespaceResponse, error) {
