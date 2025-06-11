@@ -4276,8 +4276,10 @@ type ResetWorkflowExecutionRequest struct {
 	// to the *new* run of the workflow execution in the order they are provided.
 	// All operations are applied to the workflow before the first new workflow task is generated
 	PostResetOperations []*v17.PostResetOperation `protobuf:"bytes,8,rep,name=post_reset_operations,json=postResetOperations,proto3" json:"post_reset_operations,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	// The identity of the worker/client
+	Identity      string `protobuf:"bytes,9,opt,name=identity,proto3" json:"identity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ResetWorkflowExecutionRequest) Reset() {
@@ -4365,6 +4367,13 @@ func (x *ResetWorkflowExecutionRequest) GetPostResetOperations() []*v17.PostRese
 		return x.PostResetOperations
 	}
 	return nil
+}
+
+func (x *ResetWorkflowExecutionRequest) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
 }
 
 type ResetWorkflowExecutionResponse struct {
@@ -14679,7 +14688,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\bpriority\x18\x1a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriorityJ\x04\b\x15\x10\x16\"[\n" +
 	"(SignalWithStartWorkflowExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
-	"\astarted\x18\x02 \x01(\bR\astarted\"\xbc\x04\n" +
+	"\astarted\x18\x02 \x01(\bR\astarted\"\xd8\x04\n" +
 	"\x1dResetWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x16\n" +
@@ -14689,7 +14698,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"request_id\x18\x05 \x01(\tR\trequestId\x12Y\n" +
 	"\x12reset_reapply_type\x18\x06 \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeB\x02\x18\x01R\x10resetReapplyType\x12m\n" +
 	"\x1breset_reapply_exclude_types\x18\a \x03(\x0e2..temporal.api.enums.v1.ResetReapplyExcludeTypeR\x18resetReapplyExcludeTypes\x12`\n" +
-	"\x15post_reset_operations\x18\b \x03(\v2,.temporal.api.workflow.v1.PostResetOperationR\x13postResetOperations\"7\n" +
+	"\x15post_reset_operations\x18\b \x03(\v2,.temporal.api.workflow.v1.PostResetOperationR\x13postResetOperations\x12\x1a\n" +
+	"\bidentity\x18\t \x01(\tR\bidentity\"7\n" +
 	"\x1eResetWorkflowExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\"\xf4\x02\n" +
 	"!TerminateWorkflowExecutionRequest\x12\x1c\n" +
