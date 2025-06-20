@@ -94,7 +94,7 @@ func FromStatus(st *status.Status) error {
 		case *failure.MultiOperationExecutionAborted:
 			return newMultiOperationAborted(st)
 		default:
-			// fall through to st.Err()
+			return newAborted(st)
 		}
 	case codes.Internal:
 		switch errDetails := errDetails.(type) {
