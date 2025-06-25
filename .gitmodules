@@ -1,6 +1,7 @@
 [submodule "proto/api"]
 	path = proto/api
 	url = https://github.com/temporalio/api
+	branch = release/v1.50.x
 [submodule "proto/api-cloud"]
 	path = proto/api-cloud
 	url = https://github.com/temporalio/api-cloud
