@@ -919,6 +919,8 @@ type TriggerImmediatelyRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// If set, override overlap policy for this one request.
 	OverlapPolicy v1.ScheduleOverlapPolicy `protobuf:"varint,1,opt,name=overlap_policy,json=overlapPolicy,proto3,enum=temporal.api.enums.v1.ScheduleOverlapPolicy" json:"overlap_policy,omitempty"`
+	// Timestamp for when this request should be triggered.
+	TriggerTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=trigger_time,json=triggerTime,proto3" json:"trigger_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -958,6 +960,13 @@ func (x *TriggerImmediatelyRequest) GetOverlapPolicy() v1.ScheduleOverlapPolicy 
 		return x.OverlapPolicy
 	}
 	return v1.ScheduleOverlapPolicy(0)
+}
+
+func (x *TriggerImmediatelyRequest) GetTriggerTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.TriggerTime
+	}
+	return nil
 }
 
 type BackfillRequest struct {
@@ -1539,9 +1548,10 @@ const file_temporal_api_schedule_v1_message_proto_rawDesc = "" +
 	"\x05notes\x18\x01 \x01(\tR\x05notes\x12\x16\n" +
 	"\x06paused\x18\x02 \x01(\bR\x06paused\x12'\n" +
 	"\x0flimited_actions\x18\x03 \x01(\bR\x0elimitedActions\x12+\n" +
-	"\x11remaining_actions\x18\x04 \x01(\x03R\x10remainingActions\"p\n" +
+	"\x11remaining_actions\x18\x04 \x01(\x03R\x10remainingActions\"\xaf\x01\n" +
 	"\x19TriggerImmediatelyRequest\x12S\n" +
-	"\x0eoverlap_policy\x18\x01 \x01(\x0e2,.temporal.api.enums.v1.ScheduleOverlapPolicyR\roverlapPolicy\"\xd8\x01\n" +
+	"\x0eoverlap_policy\x18\x01 \x01(\x0e2,.temporal.api.enums.v1.ScheduleOverlapPolicyR\roverlapPolicy\x12=\n" +
+	"\ftrigger_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\vtriggerTime\"\xd8\x01\n" +
 	"\x0fBackfillRequest\x129\n" +
 	"\n" +
 	"start_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
@@ -1654,32 +1664,33 @@ var file_temporal_api_schedule_v1_message_proto_depIdxs = []int32{
 	20, // 22: temporal.api.schedule.v1.ScheduleActionResult.start_workflow_result:type_name -> temporal.api.common.v1.WorkflowExecution
 	21, // 23: temporal.api.schedule.v1.ScheduleActionResult.start_workflow_status:type_name -> temporal.api.enums.v1.WorkflowExecutionStatus
 	18, // 24: temporal.api.schedule.v1.TriggerImmediatelyRequest.overlap_policy:type_name -> temporal.api.enums.v1.ScheduleOverlapPolicy
-	17, // 25: temporal.api.schedule.v1.BackfillRequest.start_time:type_name -> google.protobuf.Timestamp
-	17, // 26: temporal.api.schedule.v1.BackfillRequest.end_time:type_name -> google.protobuf.Timestamp
-	18, // 27: temporal.api.schedule.v1.BackfillRequest.overlap_policy:type_name -> temporal.api.enums.v1.ScheduleOverlapPolicy
-	9,  // 28: temporal.api.schedule.v1.SchedulePatch.trigger_immediately:type_name -> temporal.api.schedule.v1.TriggerImmediatelyRequest
-	10, // 29: temporal.api.schedule.v1.SchedulePatch.backfill_request:type_name -> temporal.api.schedule.v1.BackfillRequest
-	20, // 30: temporal.api.schedule.v1.ScheduleInfo.running_workflows:type_name -> temporal.api.common.v1.WorkflowExecution
-	7,  // 31: temporal.api.schedule.v1.ScheduleInfo.recent_actions:type_name -> temporal.api.schedule.v1.ScheduleActionResult
-	17, // 32: temporal.api.schedule.v1.ScheduleInfo.future_action_times:type_name -> google.protobuf.Timestamp
-	17, // 33: temporal.api.schedule.v1.ScheduleInfo.create_time:type_name -> google.protobuf.Timestamp
-	17, // 34: temporal.api.schedule.v1.ScheduleInfo.update_time:type_name -> google.protobuf.Timestamp
-	4,  // 35: temporal.api.schedule.v1.Schedule.spec:type_name -> temporal.api.schedule.v1.ScheduleSpec
-	6,  // 36: temporal.api.schedule.v1.Schedule.action:type_name -> temporal.api.schedule.v1.ScheduleAction
-	5,  // 37: temporal.api.schedule.v1.Schedule.policies:type_name -> temporal.api.schedule.v1.SchedulePolicies
-	8,  // 38: temporal.api.schedule.v1.Schedule.state:type_name -> temporal.api.schedule.v1.ScheduleState
-	4,  // 39: temporal.api.schedule.v1.ScheduleListInfo.spec:type_name -> temporal.api.schedule.v1.ScheduleSpec
-	22, // 40: temporal.api.schedule.v1.ScheduleListInfo.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	7,  // 41: temporal.api.schedule.v1.ScheduleListInfo.recent_actions:type_name -> temporal.api.schedule.v1.ScheduleActionResult
-	17, // 42: temporal.api.schedule.v1.ScheduleListInfo.future_action_times:type_name -> google.protobuf.Timestamp
-	23, // 43: temporal.api.schedule.v1.ScheduleListEntry.memo:type_name -> temporal.api.common.v1.Memo
-	24, // 44: temporal.api.schedule.v1.ScheduleListEntry.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
-	14, // 45: temporal.api.schedule.v1.ScheduleListEntry.info:type_name -> temporal.api.schedule.v1.ScheduleListInfo
-	46, // [46:46] is the sub-list for method output_type
-	46, // [46:46] is the sub-list for method input_type
-	46, // [46:46] is the sub-list for extension type_name
-	46, // [46:46] is the sub-list for extension extendee
-	0,  // [0:46] is the sub-list for field type_name
+	17, // 25: temporal.api.schedule.v1.TriggerImmediatelyRequest.trigger_time:type_name -> google.protobuf.Timestamp
+	17, // 26: temporal.api.schedule.v1.BackfillRequest.start_time:type_name -> google.protobuf.Timestamp
+	17, // 27: temporal.api.schedule.v1.BackfillRequest.end_time:type_name -> google.protobuf.Timestamp
+	18, // 28: temporal.api.schedule.v1.BackfillRequest.overlap_policy:type_name -> temporal.api.enums.v1.ScheduleOverlapPolicy
+	9,  // 29: temporal.api.schedule.v1.SchedulePatch.trigger_immediately:type_name -> temporal.api.schedule.v1.TriggerImmediatelyRequest
+	10, // 30: temporal.api.schedule.v1.SchedulePatch.backfill_request:type_name -> temporal.api.schedule.v1.BackfillRequest
+	20, // 31: temporal.api.schedule.v1.ScheduleInfo.running_workflows:type_name -> temporal.api.common.v1.WorkflowExecution
+	7,  // 32: temporal.api.schedule.v1.ScheduleInfo.recent_actions:type_name -> temporal.api.schedule.v1.ScheduleActionResult
+	17, // 33: temporal.api.schedule.v1.ScheduleInfo.future_action_times:type_name -> google.protobuf.Timestamp
+	17, // 34: temporal.api.schedule.v1.ScheduleInfo.create_time:type_name -> google.protobuf.Timestamp
+	17, // 35: temporal.api.schedule.v1.ScheduleInfo.update_time:type_name -> google.protobuf.Timestamp
+	4,  // 36: temporal.api.schedule.v1.Schedule.spec:type_name -> temporal.api.schedule.v1.ScheduleSpec
+	6,  // 37: temporal.api.schedule.v1.Schedule.action:type_name -> temporal.api.schedule.v1.ScheduleAction
+	5,  // 38: temporal.api.schedule.v1.Schedule.policies:type_name -> temporal.api.schedule.v1.SchedulePolicies
+	8,  // 39: temporal.api.schedule.v1.Schedule.state:type_name -> temporal.api.schedule.v1.ScheduleState
+	4,  // 40: temporal.api.schedule.v1.ScheduleListInfo.spec:type_name -> temporal.api.schedule.v1.ScheduleSpec
+	22, // 41: temporal.api.schedule.v1.ScheduleListInfo.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	7,  // 42: temporal.api.schedule.v1.ScheduleListInfo.recent_actions:type_name -> temporal.api.schedule.v1.ScheduleActionResult
+	17, // 43: temporal.api.schedule.v1.ScheduleListInfo.future_action_times:type_name -> google.protobuf.Timestamp
+	23, // 44: temporal.api.schedule.v1.ScheduleListEntry.memo:type_name -> temporal.api.common.v1.Memo
+	24, // 45: temporal.api.schedule.v1.ScheduleListEntry.search_attributes:type_name -> temporal.api.common.v1.SearchAttributes
+	14, // 46: temporal.api.schedule.v1.ScheduleListEntry.info:type_name -> temporal.api.schedule.v1.ScheduleListInfo
+	47, // [47:47] is the sub-list for method output_type
+	47, // [47:47] is the sub-list for method input_type
+	47, // [47:47] is the sub-list for extension type_name
+	47, // [47:47] is the sub-list for extension extendee
+	0,  // [0:47] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_schedule_v1_message_proto_init() }
