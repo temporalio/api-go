@@ -399,6 +399,7 @@ type WorkerDeploymentVersionInfo struct {
 	// Can be in the range [0, 100] if the version is ramping.
 	RampPercentage float32 `protobuf:"fixed32,7,opt,name=ramp_percentage,json=rampPercentage,proto3" json:"ramp_percentage,omitempty"`
 	// All the Task Queues that have ever polled from this Deployment version.
+	// Deprecated. Use `version_task_queues` in DescribeWorkerDeploymentVersionResponse instead.
 	TaskQueueInfos []*WorkerDeploymentVersionInfo_VersionTaskQueueInfo `protobuf:"bytes,8,rep,name=task_queue_infos,json=taskQueueInfos,proto3" json:"task_queue_infos,omitempty"`
 	// Helps user determine when it is safe to decommission the workers of this
 	// Version. Not present when version is current or ramping.
