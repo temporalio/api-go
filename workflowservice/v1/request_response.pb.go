@@ -9504,7 +9504,7 @@ type PollNexusTaskQueueRequest struct {
 	// Worker deployment options that user has set in the worker.
 	DeploymentOptions *v19.WorkerDeploymentOptions `protobuf:"bytes,6,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
 	// Worker info to be sent to the server.
-	WorkerHeartbeat *v110.WorkerHeartbeat `protobuf:"bytes,7,opt,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
+	WorkerHeartbeat []*v110.WorkerHeartbeat `protobuf:"bytes,7,rep,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -9575,7 +9575,7 @@ func (x *PollNexusTaskQueueRequest) GetDeploymentOptions() *v19.WorkerDeployment
 	return nil
 }
 
-func (x *PollNexusTaskQueueRequest) GetWorkerHeartbeat() *v110.WorkerHeartbeat {
+func (x *PollNexusTaskQueueRequest) GetWorkerHeartbeat() []*v110.WorkerHeartbeat {
 	if x != nil {
 		return x.WorkerHeartbeat
 	}
@@ -13087,8 +13087,8 @@ type RecordWorkerHeartbeatRequest struct {
 	// Namespace this worker belongs to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
-	Identity        string                `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
-	WorkerHeartbeat *v110.WorkerHeartbeat `protobuf:"bytes,3,opt,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
+	Identity        string                  `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
+	WorkerHeartbeat []*v110.WorkerHeartbeat `protobuf:"bytes,3,rep,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -13137,7 +13137,7 @@ func (x *RecordWorkerHeartbeatRequest) GetIdentity() string {
 	return ""
 }
 
-func (x *RecordWorkerHeartbeatRequest) GetWorkerHeartbeat() *v110.WorkerHeartbeat {
+func (x *RecordWorkerHeartbeatRequest) GetWorkerHeartbeat() []*v110.WorkerHeartbeat {
 	if x != nil {
 		return x.WorkerHeartbeat
 	}
@@ -15211,7 +15211,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"task_queue\x18\x03 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12u\n" +
 	"\x1bworker_version_capabilities\x18\x04 \x01(\v21.temporal.api.common.v1.WorkerVersionCapabilitiesB\x02\x18\x01R\x19workerVersionCapabilities\x12b\n" +
 	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\x12R\n" +
-	"\x10worker_heartbeat\x18\a \x01(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\xdf\x01\n" +
+	"\x10worker_heartbeat\x18\a \x03(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\xdf\x01\n" +
 	"\x1aPollNexusTaskQueueResponse\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x128\n" +
@@ -15472,7 +15472,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1cRecordWorkerHeartbeatRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12R\n" +
-	"\x10worker_heartbeat\x18\x03 \x01(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\x1f\n" +
+	"\x10worker_heartbeat\x18\x03 \x03(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\x1f\n" +
 	"\x1dRecordWorkerHeartbeatResponse\"\x8d\x01\n" +
 	"\x12ListWorkersRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
