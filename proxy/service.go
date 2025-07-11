@@ -387,3 +387,7 @@ func (s *workflowServiceProxyServer) UpdateWorkflowExecution(ctx context.Context
 func (s *workflowServiceProxyServer) UpdateWorkflowExecutionOptions(ctx context.Context, in0 *workflowservice.UpdateWorkflowExecutionOptionsRequest) (*workflowservice.UpdateWorkflowExecutionOptionsResponse, error) {
 	return s.client.UpdateWorkflowExecutionOptions(s.reqCtx(ctx), in0)
 }
+
+func (s *workflowServiceProxyServer) WorkerCommand(ctx context.Context, in0 *workflowservice.WorkerCommandRequest) (*workflowservice.WorkerCommandResponse, error) {
+	return s.client.WorkerCommand(s.reqCtx(ctx), in0)
+}

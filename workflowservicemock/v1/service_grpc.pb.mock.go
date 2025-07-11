@@ -1816,6 +1816,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateWorkflowExecutionOptions(
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflowExecutionOptions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateWorkflowExecutionOptions), varargs...)
 }
 
+// WorkerCommand mocks base method.
+func (m *MockWorkflowServiceClient) WorkerCommand(ctx context.Context, in *workflowservice.WorkerCommandRequest, opts ...grpc.CallOption) (*workflowservice.WorkerCommandResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "WorkerCommand", varargs...)
+	ret0, _ := ret[0].(*workflowservice.WorkerCommandResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// WorkerCommand indicates an expected call of WorkerCommand.
+func (mr *MockWorkflowServiceClientMockRecorder) WorkerCommand(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WorkerCommand", reflect.TypeOf((*MockWorkflowServiceClient)(nil).WorkerCommand), varargs...)
+}
+
 // MockWorkflowServiceServer is a mock of WorkflowServiceServer interface.
 type MockWorkflowServiceServer struct {
 	workflowservice.UnimplementedWorkflowServiceServer
@@ -3175,6 +3195,21 @@ func (m *MockWorkflowServiceServer) UpdateWorkflowExecutionOptions(arg0 context.
 func (mr *MockWorkflowServiceServerMockRecorder) UpdateWorkflowExecutionOptions(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateWorkflowExecutionOptions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateWorkflowExecutionOptions), arg0, arg1)
+}
+
+// WorkerCommand mocks base method.
+func (m *MockWorkflowServiceServer) WorkerCommand(arg0 context.Context, arg1 *workflowservice.WorkerCommandRequest) (*workflowservice.WorkerCommandResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WorkerCommand", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.WorkerCommandResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// WorkerCommand indicates an expected call of WorkerCommand.
+func (mr *MockWorkflowServiceServerMockRecorder) WorkerCommand(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WorkerCommand", reflect.TypeOf((*MockWorkflowServiceServer)(nil).WorkerCommand), arg0, arg1)
 }
 
 // mustEmbedUnimplementedWorkflowServiceServer mocks base method.
