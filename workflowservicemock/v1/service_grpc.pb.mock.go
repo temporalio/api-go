@@ -1716,6 +1716,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) UpdateSchedule(ctx, in interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSchedule", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateSchedule), varargs...)
 }
 
+// UpdateTaskQueueConfig mocks base method.
+func (m *MockWorkflowServiceClient) UpdateTaskQueueConfig(ctx context.Context, in *workflowservice.UpdateTaskQueueConfigRequest, opts ...grpc.CallOption) (*workflowservice.UpdateTaskQueueConfigResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateTaskQueueConfig", varargs...)
+	ret0, _ := ret[0].(*workflowservice.UpdateTaskQueueConfigResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateTaskQueueConfig indicates an expected call of UpdateTaskQueueConfig.
+func (mr *MockWorkflowServiceClientMockRecorder) UpdateTaskQueueConfig(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTaskQueueConfig", reflect.TypeOf((*MockWorkflowServiceClient)(nil).UpdateTaskQueueConfig), varargs...)
+}
+
 // UpdateWorkerBuildIdCompatibility mocks base method.
 func (m *MockWorkflowServiceClient) UpdateWorkerBuildIdCompatibility(ctx context.Context, in *workflowservice.UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*workflowservice.UpdateWorkerBuildIdCompatibilityResponse, error) {
 	m.ctrl.T.Helper()
@@ -3100,6 +3120,21 @@ func (m *MockWorkflowServiceServer) UpdateSchedule(arg0 context.Context, arg1 *w
 func (mr *MockWorkflowServiceServerMockRecorder) UpdateSchedule(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateSchedule", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateSchedule), arg0, arg1)
+}
+
+// UpdateTaskQueueConfig mocks base method.
+func (m *MockWorkflowServiceServer) UpdateTaskQueueConfig(arg0 context.Context, arg1 *workflowservice.UpdateTaskQueueConfigRequest) (*workflowservice.UpdateTaskQueueConfigResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTaskQueueConfig", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.UpdateTaskQueueConfigResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateTaskQueueConfig indicates an expected call of UpdateTaskQueueConfig.
+func (mr *MockWorkflowServiceServerMockRecorder) UpdateTaskQueueConfig(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTaskQueueConfig", reflect.TypeOf((*MockWorkflowServiceServer)(nil).UpdateTaskQueueConfig), arg0, arg1)
 }
 
 // UpdateWorkerBuildIdCompatibility mocks base method.

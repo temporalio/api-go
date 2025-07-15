@@ -381,6 +381,74 @@ func (DescribeTaskQueueMode) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{4}
 }
 
+// Source for the effective rate limit.
+type RateLimitSource int32
+
+const (
+	RATE_LIMIT_SOURCE_UNSPECIFIED RateLimitSource = 0
+	// The value was set by the API.
+	RATE_LIMIT_SOURCE_API RateLimitSource = 1
+	// The value was set by a worker.
+	RATE_LIMIT_SOURCE_WORKER RateLimitSource = 2
+	// The value was set as the system default.
+	RATE_LIMIT_SOURCE_SYSTEM RateLimitSource = 3
+)
+
+// Enum value maps for RateLimitSource.
+var (
+	RateLimitSource_name = map[int32]string{
+		0: "RATE_LIMIT_SOURCE_UNSPECIFIED",
+		1: "RATE_LIMIT_SOURCE_API",
+		2: "RATE_LIMIT_SOURCE_WORKER",
+		3: "RATE_LIMIT_SOURCE_SYSTEM",
+	}
+	RateLimitSource_value = map[string]int32{
+		"RATE_LIMIT_SOURCE_UNSPECIFIED": 0,
+		"RATE_LIMIT_SOURCE_API":         1,
+		"RATE_LIMIT_SOURCE_WORKER":      2,
+		"RATE_LIMIT_SOURCE_SYSTEM":      3,
+	}
+)
+
+func (x RateLimitSource) Enum() *RateLimitSource {
+	p := new(RateLimitSource)
+	*p = x
+	return p
+}
+
+func (x RateLimitSource) String() string {
+	switch x {
+	case RATE_LIMIT_SOURCE_UNSPECIFIED:
+		return "Unspecified"
+	case RATE_LIMIT_SOURCE_API:
+		return "Api"
+	case RATE_LIMIT_SOURCE_WORKER:
+		return "Worker"
+	case RATE_LIMIT_SOURCE_SYSTEM:
+		return "System"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (RateLimitSource) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_enums_v1_task_queue_proto_enumTypes[5].Descriptor()
+}
+
+func (RateLimitSource) Type() protoreflect.EnumType {
+	return &file_temporal_api_enums_v1_task_queue_proto_enumTypes[5]
+}
+
+func (x RateLimitSource) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RateLimitSource.Descriptor instead.
+func (RateLimitSource) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{5}
+}
+
 var File_temporal_api_enums_v1_task_queue_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_task_queue_proto_rawDesc = "" +
@@ -408,7 +476,12 @@ const file_temporal_api_enums_v1_task_queue_proto_rawDesc = "" +
 	"&BUILD_ID_TASK_REACHABILITY_UNREACHABLE\x10\x03*h\n" +
 	"\x15DescribeTaskQueueMode\x12(\n" +
 	"$DESCRIBE_TASK_QUEUE_MODE_UNSPECIFIED\x10\x00\x12%\n" +
-	"!DESCRIBE_TASK_QUEUE_MODE_ENHANCED\x10\x01B\x86\x01\n" +
+	"!DESCRIBE_TASK_QUEUE_MODE_ENHANCED\x10\x01*\x8b\x01\n" +
+	"\x0fRateLimitSource\x12!\n" +
+	"\x1dRATE_LIMIT_SOURCE_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15RATE_LIMIT_SOURCE_API\x10\x01\x12\x1c\n" +
+	"\x18RATE_LIMIT_SOURCE_WORKER\x10\x02\x12\x1c\n" +
+	"\x18RATE_LIMIT_SOURCE_SYSTEM\x10\x03B\x86\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x0eTaskQueueProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (
@@ -423,13 +496,14 @@ func file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP() []byte {
 	return file_temporal_api_enums_v1_task_queue_proto_rawDescData
 }
 
-var file_temporal_api_enums_v1_task_queue_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
+var file_temporal_api_enums_v1_task_queue_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
 var file_temporal_api_enums_v1_task_queue_proto_goTypes = []any{
 	(TaskQueueKind)(0),           // 0: temporal.api.enums.v1.TaskQueueKind
 	(TaskQueueType)(0),           // 1: temporal.api.enums.v1.TaskQueueType
 	(TaskReachability)(0),        // 2: temporal.api.enums.v1.TaskReachability
 	(BuildIdTaskReachability)(0), // 3: temporal.api.enums.v1.BuildIdTaskReachability
 	(DescribeTaskQueueMode)(0),   // 4: temporal.api.enums.v1.DescribeTaskQueueMode
+	(RateLimitSource)(0),         // 5: temporal.api.enums.v1.RateLimitSource
 }
 var file_temporal_api_enums_v1_task_queue_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -449,7 +523,7 @@ func file_temporal_api_enums_v1_task_queue_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_task_queue_proto_rawDesc), len(file_temporal_api_enums_v1_task_queue_proto_rawDesc)),
-			NumEnums:      5,
+			NumEnums:      6,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

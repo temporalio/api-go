@@ -1411,6 +1411,221 @@ func (x *PollerScalingDecision) GetPollRequestDeltaSuggestion() int32 {
 	return 0
 }
 
+type RateLimit struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Zero is a valid rate limit.
+	RequestsPerSecond float32 `protobuf:"fixed32,1,opt,name=requests_per_second,json=requestsPerSecond,proto3" json:"requests_per_second,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *RateLimit) Reset() {
+	*x = RateLimit{}
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RateLimit) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RateLimit) ProtoMessage() {}
+
+func (x *RateLimit) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RateLimit.ProtoReflect.Descriptor instead.
+func (*RateLimit) Descriptor() ([]byte, []int) {
+	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *RateLimit) GetRequestsPerSecond() float32 {
+	if x != nil {
+		return x.RequestsPerSecond
+	}
+	return 0
+}
+
+type ConfigMetadata struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Reason for why the config was set.
+	Reason string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	// Identity of the last updater.
+	// Set by the request's identity field.
+	UpdateIdentity string `protobuf:"bytes,2,opt,name=update_identity,json=updateIdentity,proto3" json:"update_identity,omitempty"`
+	// Time of the last update.
+	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConfigMetadata) Reset() {
+	*x = ConfigMetadata{}
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConfigMetadata) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfigMetadata) ProtoMessage() {}
+
+func (x *ConfigMetadata) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfigMetadata.ProtoReflect.Descriptor instead.
+func (*ConfigMetadata) Descriptor() ([]byte, []int) {
+	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *ConfigMetadata) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+func (x *ConfigMetadata) GetUpdateIdentity() string {
+	if x != nil {
+		return x.UpdateIdentity
+	}
+	return ""
+}
+
+func (x *ConfigMetadata) GetUpdateTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdateTime
+	}
+	return nil
+}
+
+type RateLimitConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RateLimit     *RateLimit             `protobuf:"bytes,1,opt,name=rate_limit,json=rateLimit,proto3" json:"rate_limit,omitempty"`
+	Metadata      *ConfigMetadata        `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RateLimitConfig) Reset() {
+	*x = RateLimitConfig{}
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RateLimitConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RateLimitConfig) ProtoMessage() {}
+
+func (x *RateLimitConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RateLimitConfig.ProtoReflect.Descriptor instead.
+func (*RateLimitConfig) Descriptor() ([]byte, []int) {
+	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *RateLimitConfig) GetRateLimit() *RateLimit {
+	if x != nil {
+		return x.RateLimit
+	}
+	return nil
+}
+
+func (x *RateLimitConfig) GetMetadata() *ConfigMetadata {
+	if x != nil {
+		return x.Metadata
+	}
+	return nil
+}
+
+type TaskQueueConfig struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Unless modified, this is the system-defined rate limit.
+	QueueRateLimit *RateLimitConfig `protobuf:"bytes,1,opt,name=queue_rate_limit,json=queueRateLimit,proto3" json:"queue_rate_limit,omitempty"`
+	// If set, each individual fairness key will be limited to this rate, scaled by the weight of the fairness key.
+	FairnessKeysRateLimitDefault *RateLimitConfig `protobuf:"bytes,2,opt,name=fairness_keys_rate_limit_default,json=fairnessKeysRateLimitDefault,proto3" json:"fairness_keys_rate_limit_default,omitempty"`
+	unknownFields                protoimpl.UnknownFields
+	sizeCache                    protoimpl.SizeCache
+}
+
+func (x *TaskQueueConfig) Reset() {
+	*x = TaskQueueConfig{}
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TaskQueueConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TaskQueueConfig) ProtoMessage() {}
+
+func (x *TaskQueueConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_taskqueue_v1_message_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TaskQueueConfig.ProtoReflect.Descriptor instead.
+func (*TaskQueueConfig) Descriptor() ([]byte, []int) {
+	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *TaskQueueConfig) GetQueueRateLimit() *RateLimitConfig {
+	if x != nil {
+		return x.QueueRateLimit
+	}
+	return nil
+}
+
+func (x *TaskQueueConfig) GetFairnessKeysRateLimitDefault() *RateLimitConfig {
+	if x != nil {
+		return x.FairnessKeysRateLimitDefault
+	}
+	return nil
+}
+
 var File_temporal_api_taskqueue_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_taskqueue_v1_message_proto_rawDesc = "" +
@@ -1501,7 +1716,21 @@ const file_temporal_api_taskqueue_v1_message_proto_rawDesc = "" +
 	"\vcreate_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
 	"createTime\"Z\n" +
 	"\x15PollerScalingDecision\x12A\n" +
-	"\x1dpoll_request_delta_suggestion\x18\x01 \x01(\x05R\x1apollRequestDeltaSuggestionB\x98\x01\n" +
+	"\x1dpoll_request_delta_suggestion\x18\x01 \x01(\x05R\x1apollRequestDeltaSuggestion\";\n" +
+	"\tRateLimit\x12.\n" +
+	"\x13requests_per_second\x18\x01 \x01(\x02R\x11requestsPerSecond\"\x8e\x01\n" +
+	"\x0eConfigMetadata\x12\x16\n" +
+	"\x06reason\x18\x01 \x01(\tR\x06reason\x12'\n" +
+	"\x0fupdate_identity\x18\x02 \x01(\tR\x0eupdateIdentity\x12;\n" +
+	"\vupdate_time\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"updateTime\"\x9d\x01\n" +
+	"\x0fRateLimitConfig\x12C\n" +
+	"\n" +
+	"rate_limit\x18\x01 \x01(\v2$.temporal.api.taskqueue.v1.RateLimitR\trateLimit\x12E\n" +
+	"\bmetadata\x18\x02 \x01(\v2).temporal.api.taskqueue.v1.ConfigMetadataR\bmetadata\"\xdb\x01\n" +
+	"\x0fTaskQueueConfig\x12T\n" +
+	"\x10queue_rate_limit\x18\x01 \x01(\v2*.temporal.api.taskqueue.v1.RateLimitConfigR\x0equeueRateLimit\x12r\n" +
+	" fairness_keys_rate_limit_default\x18\x02 \x01(\v2*.temporal.api.taskqueue.v1.RateLimitConfigR\x1cfairnessKeysRateLimitDefaultB\x98\x01\n" +
 	"\x1cio.temporal.api.taskqueue.v1B\fMessageProtoP\x01Z)go.temporal.io/api/taskqueue/v1;taskqueue\xaa\x02\x1bTemporalio.Api.TaskQueue.V1\xea\x02\x1eTemporalio::Api::TaskQueue::V1b\x06proto3"
 
 var (
@@ -1516,7 +1745,7 @@ func file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_taskqueue_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_taskqueue_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
+var file_temporal_api_taskqueue_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
 var file_temporal_api_taskqueue_v1_message_proto_goTypes = []any{
 	(*TaskQueue)(nil),                                // 0: temporal.api.taskqueue.v1.TaskQueue
 	(*TaskQueueMetadata)(nil),                        // 1: temporal.api.taskqueue.v1.TaskQueueMetadata
@@ -1539,47 +1768,56 @@ var file_temporal_api_taskqueue_v1_message_proto_goTypes = []any{
 	(*TimestampedBuildIdAssignmentRule)(nil),         // 18: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule
 	(*TimestampedCompatibleBuildIdRedirectRule)(nil), // 19: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule
 	(*PollerScalingDecision)(nil),                    // 20: temporal.api.taskqueue.v1.PollerScalingDecision
-	nil,                                              // 21: temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry
-	(v1.TaskQueueKind)(0),                            // 22: temporal.api.enums.v1.TaskQueueKind
-	(*wrapperspb.DoubleValue)(nil),                   // 23: google.protobuf.DoubleValue
-	(*v11.WorkerDeploymentVersion)(nil),              // 24: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(*timestamppb.Timestamp)(nil),                    // 25: google.protobuf.Timestamp
-	(v1.BuildIdTaskReachability)(0),                  // 26: temporal.api.enums.v1.BuildIdTaskReachability
-	(*durationpb.Duration)(nil),                      // 27: google.protobuf.Duration
-	(*v12.WorkerVersionCapabilities)(nil),            // 28: temporal.api.common.v1.WorkerVersionCapabilities
-	(*v11.WorkerDeploymentOptions)(nil),              // 29: temporal.api.deployment.v1.WorkerDeploymentOptions
-	(v1.TaskReachability)(0),                         // 30: temporal.api.enums.v1.TaskReachability
+	(*RateLimit)(nil),                                // 21: temporal.api.taskqueue.v1.RateLimit
+	(*ConfigMetadata)(nil),                           // 22: temporal.api.taskqueue.v1.ConfigMetadata
+	(*RateLimitConfig)(nil),                          // 23: temporal.api.taskqueue.v1.RateLimitConfig
+	(*TaskQueueConfig)(nil),                          // 24: temporal.api.taskqueue.v1.TaskQueueConfig
+	nil,                                              // 25: temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry
+	(v1.TaskQueueKind)(0),                            // 26: temporal.api.enums.v1.TaskQueueKind
+	(*wrapperspb.DoubleValue)(nil),                   // 27: google.protobuf.DoubleValue
+	(*v11.WorkerDeploymentVersion)(nil),              // 28: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(*timestamppb.Timestamp)(nil),                    // 29: google.protobuf.Timestamp
+	(v1.BuildIdTaskReachability)(0),                  // 30: temporal.api.enums.v1.BuildIdTaskReachability
+	(*durationpb.Duration)(nil),                      // 31: google.protobuf.Duration
+	(*v12.WorkerVersionCapabilities)(nil),            // 32: temporal.api.common.v1.WorkerVersionCapabilities
+	(*v11.WorkerDeploymentOptions)(nil),              // 33: temporal.api.deployment.v1.WorkerDeploymentOptions
+	(v1.TaskReachability)(0),                         // 34: temporal.api.enums.v1.TaskReachability
 }
 var file_temporal_api_taskqueue_v1_message_proto_depIdxs = []int32{
-	22, // 0: temporal.api.taskqueue.v1.TaskQueue.kind:type_name -> temporal.api.enums.v1.TaskQueueKind
-	23, // 1: temporal.api.taskqueue.v1.TaskQueueMetadata.max_tasks_per_second:type_name -> google.protobuf.DoubleValue
-	24, // 2: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.current_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	24, // 3: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.ramping_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	25, // 4: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.update_time:type_name -> google.protobuf.Timestamp
-	21, // 5: temporal.api.taskqueue.v1.TaskQueueVersionInfo.types_info:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry
-	26, // 6: temporal.api.taskqueue.v1.TaskQueueVersionInfo.task_reachability:type_name -> temporal.api.enums.v1.BuildIdTaskReachability
+	26, // 0: temporal.api.taskqueue.v1.TaskQueue.kind:type_name -> temporal.api.enums.v1.TaskQueueKind
+	27, // 1: temporal.api.taskqueue.v1.TaskQueueMetadata.max_tasks_per_second:type_name -> google.protobuf.DoubleValue
+	28, // 2: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.current_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	28, // 3: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.ramping_deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	29, // 4: temporal.api.taskqueue.v1.TaskQueueVersioningInfo.update_time:type_name -> google.protobuf.Timestamp
+	25, // 5: temporal.api.taskqueue.v1.TaskQueueVersionInfo.types_info:type_name -> temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry
+	30, // 6: temporal.api.taskqueue.v1.TaskQueueVersionInfo.task_reachability:type_name -> temporal.api.enums.v1.BuildIdTaskReachability
 	10, // 7: temporal.api.taskqueue.v1.TaskQueueTypeInfo.pollers:type_name -> temporal.api.taskqueue.v1.PollerInfo
 	6,  // 8: temporal.api.taskqueue.v1.TaskQueueTypeInfo.stats:type_name -> temporal.api.taskqueue.v1.TaskQueueStats
-	27, // 9: temporal.api.taskqueue.v1.TaskQueueStats.approximate_backlog_age:type_name -> google.protobuf.Duration
+	31, // 9: temporal.api.taskqueue.v1.TaskQueueStats.approximate_backlog_age:type_name -> google.protobuf.Duration
 	8,  // 10: temporal.api.taskqueue.v1.TaskQueueStatus.task_id_block:type_name -> temporal.api.taskqueue.v1.TaskIdBlock
-	25, // 11: temporal.api.taskqueue.v1.PollerInfo.last_access_time:type_name -> google.protobuf.Timestamp
-	28, // 12: temporal.api.taskqueue.v1.PollerInfo.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
-	29, // 13: temporal.api.taskqueue.v1.PollerInfo.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
+	29, // 11: temporal.api.taskqueue.v1.PollerInfo.last_access_time:type_name -> google.protobuf.Timestamp
+	32, // 12: temporal.api.taskqueue.v1.PollerInfo.worker_version_capabilities:type_name -> temporal.api.common.v1.WorkerVersionCapabilities
+	33, // 13: temporal.api.taskqueue.v1.PollerInfo.deployment_options:type_name -> temporal.api.deployment.v1.WorkerDeploymentOptions
 	0,  // 14: temporal.api.taskqueue.v1.StickyExecutionAttributes.worker_task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
-	27, // 15: temporal.api.taskqueue.v1.StickyExecutionAttributes.schedule_to_start_timeout:type_name -> google.protobuf.Duration
-	30, // 16: temporal.api.taskqueue.v1.TaskQueueReachability.reachability:type_name -> temporal.api.enums.v1.TaskReachability
+	31, // 15: temporal.api.taskqueue.v1.StickyExecutionAttributes.schedule_to_start_timeout:type_name -> google.protobuf.Duration
+	34, // 16: temporal.api.taskqueue.v1.TaskQueueReachability.reachability:type_name -> temporal.api.enums.v1.TaskReachability
 	13, // 17: temporal.api.taskqueue.v1.BuildIdReachability.task_queue_reachability:type_name -> temporal.api.taskqueue.v1.TaskQueueReachability
 	15, // 18: temporal.api.taskqueue.v1.BuildIdAssignmentRule.percentage_ramp:type_name -> temporal.api.taskqueue.v1.RampByPercentage
 	16, // 19: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule.rule:type_name -> temporal.api.taskqueue.v1.BuildIdAssignmentRule
-	25, // 20: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule.create_time:type_name -> google.protobuf.Timestamp
+	29, // 20: temporal.api.taskqueue.v1.TimestampedBuildIdAssignmentRule.create_time:type_name -> google.protobuf.Timestamp
 	17, // 21: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule.rule:type_name -> temporal.api.taskqueue.v1.CompatibleBuildIdRedirectRule
-	25, // 22: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule.create_time:type_name -> google.protobuf.Timestamp
-	5,  // 23: temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueTypeInfo
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	29, // 22: temporal.api.taskqueue.v1.TimestampedCompatibleBuildIdRedirectRule.create_time:type_name -> google.protobuf.Timestamp
+	29, // 23: temporal.api.taskqueue.v1.ConfigMetadata.update_time:type_name -> google.protobuf.Timestamp
+	21, // 24: temporal.api.taskqueue.v1.RateLimitConfig.rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimit
+	22, // 25: temporal.api.taskqueue.v1.RateLimitConfig.metadata:type_name -> temporal.api.taskqueue.v1.ConfigMetadata
+	23, // 26: temporal.api.taskqueue.v1.TaskQueueConfig.queue_rate_limit:type_name -> temporal.api.taskqueue.v1.RateLimitConfig
+	23, // 27: temporal.api.taskqueue.v1.TaskQueueConfig.fairness_keys_rate_limit_default:type_name -> temporal.api.taskqueue.v1.RateLimitConfig
+	5,  // 28: temporal.api.taskqueue.v1.TaskQueueVersionInfo.TypesInfoEntry.value:type_name -> temporal.api.taskqueue.v1.TaskQueueTypeInfo
+	29, // [29:29] is the sub-list for method output_type
+	29, // [29:29] is the sub-list for method input_type
+	29, // [29:29] is the sub-list for extension type_name
+	29, // [29:29] is the sub-list for extension extendee
+	0,  // [0:29] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_taskqueue_v1_message_proto_init() }
@@ -1596,7 +1834,7 @@ func file_temporal_api_taskqueue_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_taskqueue_v1_message_proto_rawDesc), len(file_temporal_api_taskqueue_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   22,
+			NumMessages:   26,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

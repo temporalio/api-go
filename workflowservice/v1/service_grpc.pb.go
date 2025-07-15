@@ -109,6 +109,7 @@ const (
 	WorkflowService_TriggerWorkflowRule_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/TriggerWorkflowRule"
 	WorkflowService_RecordWorkerHeartbeat_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/RecordWorkerHeartbeat"
 	WorkflowService_ListWorkers_FullMethodName                           = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkers"
+	WorkflowService_UpdateTaskQueueConfig_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/UpdateTaskQueueConfig"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -666,6 +667,11 @@ type WorkflowServiceClient interface {
 	RecordWorkerHeartbeat(ctx context.Context, in *RecordWorkerHeartbeatRequest, opts ...grpc.CallOption) (*RecordWorkerHeartbeatResponse, error)
 	// ListWorkers is a visibility API to list worker status information in a specific namespace.
 	ListWorkers(ctx context.Context, in *ListWorkersRequest, opts ...grpc.CallOption) (*ListWorkersResponse, error)
+	// Updates task queue configuration.
+	// For the overall queue rate limit: the rate limit set by this api overrides the worker-set rate limit,
+	// which uncouples the rate limit from the worker lifecycle.
+	// If the overall queue rate limit is unset, the worker-set rate limit takes effect.
+	UpdateTaskQueueConfig(ctx context.Context, in *UpdateTaskQueueConfigRequest, opts ...grpc.CallOption) (*UpdateTaskQueueConfigResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1566,6 +1572,16 @@ func (c *workflowServiceClient) ListWorkers(ctx context.Context, in *ListWorkers
 	return out, nil
 }
 
+func (c *workflowServiceClient) UpdateTaskQueueConfig(ctx context.Context, in *UpdateTaskQueueConfigRequest, opts ...grpc.CallOption) (*UpdateTaskQueueConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateTaskQueueConfigResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateTaskQueueConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -2121,6 +2137,11 @@ type WorkflowServiceServer interface {
 	RecordWorkerHeartbeat(context.Context, *RecordWorkerHeartbeatRequest) (*RecordWorkerHeartbeatResponse, error)
 	// ListWorkers is a visibility API to list worker status information in a specific namespace.
 	ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error)
+	// Updates task queue configuration.
+	// For the overall queue rate limit: the rate limit set by this api overrides the worker-set rate limit,
+	// which uncouples the rate limit from the worker lifecycle.
+	// If the overall queue rate limit is unset, the worker-set rate limit takes effect.
+	UpdateTaskQueueConfig(context.Context, *UpdateTaskQueueConfigRequest) (*UpdateTaskQueueConfigResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2397,6 +2418,9 @@ func (UnimplementedWorkflowServiceServer) RecordWorkerHeartbeat(context.Context,
 }
 func (UnimplementedWorkflowServiceServer) ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListWorkers not implemented")
+}
+func (UnimplementedWorkflowServiceServer) UpdateTaskQueueConfig(context.Context, *UpdateTaskQueueConfigRequest) (*UpdateTaskQueueConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTaskQueueConfig not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -4021,6 +4045,24 @@ func _WorkflowService_ListWorkers_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_UpdateTaskQueueConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTaskQueueConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).UpdateTaskQueueConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_UpdateTaskQueueConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).UpdateTaskQueueConfig(ctx, req.(*UpdateTaskQueueConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -4383,6 +4425,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListWorkers",
 			Handler:    _WorkflowService_ListWorkers_Handler,
+		},
+		{
+			MethodName: "UpdateTaskQueueConfig",
+			Handler:    _WorkflowService_UpdateTaskQueueConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

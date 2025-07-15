@@ -368,6 +368,10 @@ func (s *workflowServiceProxyServer) UpdateSchedule(ctx context.Context, in0 *wo
 	return s.client.UpdateSchedule(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) UpdateTaskQueueConfig(ctx context.Context, in0 *workflowservice.UpdateTaskQueueConfigRequest) (*workflowservice.UpdateTaskQueueConfigResponse, error) {
+	return s.client.UpdateTaskQueueConfig(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) UpdateWorkerBuildIdCompatibility(ctx context.Context, in0 *workflowservice.UpdateWorkerBuildIdCompatibilityRequest) (*workflowservice.UpdateWorkerBuildIdCompatibilityResponse, error) {
 	return s.client.UpdateWorkerBuildIdCompatibility(s.reqCtx(ctx), in0)
 }
