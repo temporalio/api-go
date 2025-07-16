@@ -108,6 +108,10 @@ func (s *workflowServiceProxyServer) ExecuteMultiOperation(ctx context.Context, 
 	return s.client.ExecuteMultiOperation(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) FetchWorkerConfig(ctx context.Context, in0 *workflowservice.FetchWorkerConfigRequest) (*workflowservice.FetchWorkerConfigResponse, error) {
+	return s.client.FetchWorkerConfig(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) GetClusterInfo(ctx context.Context, in0 *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
 	return s.client.GetClusterInfo(s.reqCtx(ctx), in0)
 }
@@ -368,8 +372,16 @@ func (s *workflowServiceProxyServer) UpdateSchedule(ctx context.Context, in0 *wo
 	return s.client.UpdateSchedule(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) UpdateTaskQueueConfig(ctx context.Context, in0 *workflowservice.UpdateTaskQueueConfigRequest) (*workflowservice.UpdateTaskQueueConfigResponse, error) {
+	return s.client.UpdateTaskQueueConfig(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) UpdateWorkerBuildIdCompatibility(ctx context.Context, in0 *workflowservice.UpdateWorkerBuildIdCompatibilityRequest) (*workflowservice.UpdateWorkerBuildIdCompatibilityResponse, error) {
 	return s.client.UpdateWorkerBuildIdCompatibility(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) UpdateWorkerConfig(ctx context.Context, in0 *workflowservice.UpdateWorkerConfigRequest) (*workflowservice.UpdateWorkerConfigResponse, error) {
+	return s.client.UpdateWorkerConfig(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in0 *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest) (*workflowservice.UpdateWorkerDeploymentVersionMetadataResponse, error) {
@@ -386,8 +398,4 @@ func (s *workflowServiceProxyServer) UpdateWorkflowExecution(ctx context.Context
 
 func (s *workflowServiceProxyServer) UpdateWorkflowExecutionOptions(ctx context.Context, in0 *workflowservice.UpdateWorkflowExecutionOptionsRequest) (*workflowservice.UpdateWorkflowExecutionOptionsResponse, error) {
 	return s.client.UpdateWorkflowExecutionOptions(s.reqCtx(ctx), in0)
-}
-
-func (s *workflowServiceProxyServer) WorkerCommand(ctx context.Context, in0 *workflowservice.WorkerCommandRequest) (*workflowservice.WorkerCommandResponse, error) {
-	return s.client.WorkerCommand(s.reqCtx(ctx), in0)
 }

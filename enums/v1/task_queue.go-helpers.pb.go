@@ -102,3 +102,23 @@ func DescribeTaskQueueModeFromString(s string) (DescribeTaskQueueMode, error) {
 	}
 	return DescribeTaskQueueMode(0), fmt.Errorf("%s is not a valid DescribeTaskQueueMode", s)
 }
+
+var (
+	RateLimitSource_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Api":         1,
+		"Worker":      2,
+		"System":      3,
+	}
+)
+
+// RateLimitSourceFromString parses a RateLimitSource value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to RateLimitSource
+func RateLimitSourceFromString(s string) (RateLimitSource, error) {
+	if v, ok := RateLimitSource_value[s]; ok {
+		return RateLimitSource(v), nil
+	} else if v, ok := RateLimitSource_shorthandValue[s]; ok {
+		return RateLimitSource(v), nil
+	}
+	return RateLimitSource(0), fmt.Errorf("%s is not a valid RateLimitSource", s)
+}
