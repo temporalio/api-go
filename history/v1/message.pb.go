@@ -161,6 +161,10 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// Pinned override is inherited if Task Queue of new run is compatible with the override version.
 	// Override is inherited separately and takes precedence over inherited base version.
 	InheritedPinnedVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,37,opt,name=inherited_pinned_version,json=inheritedPinnedVersion,proto3" json:"inherited_pinned_version,omitempty"`
+	// A boolean indicating whether the SDK has asked to eagerly execute the first workflow task for this workflow and
+	// eager execution was accepted by the server.
+	// Only populated by server with version >= 1.29.0.
+	EagerExecutionAccepted bool `protobuf:"varint,38,opt,name=eager_execution_accepted,json=eagerExecutionAccepted,proto3" json:"eager_execution_accepted,omitempty"`
 	unknownFields          protoimpl.UnknownFields
 	sizeCache              protoimpl.SizeCache
 }
@@ -448,6 +452,13 @@ func (x *WorkflowExecutionStartedEventAttributes) GetInheritedPinnedVersion() *v
 		return x.InheritedPinnedVersion
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) GetEagerExecutionAccepted() bool {
+	if x != nil {
+		return x.EagerExecutionAccepted
+	}
+	return false
 }
 
 type WorkflowExecutionCompletedEventAttributes struct {
@@ -6425,7 +6436,7 @@ var File_temporal_api_history_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\xe9\x14\n" +
+	"%temporal/api/history/v1/message.proto\x12\x17temporal.api.history.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a(temporal/api/enums/v1/failed_cause.proto\x1a\"temporal/api/enums/v1/update.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a$temporal/api/update/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\x1a0temporal/api/sdk/v1/task_complete_metadata.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\xa3\x15\n" +
 	"'WorkflowExecutionStartedEventAttributes\x12I\n" +
 	"\rworkflow_type\x18\x01 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12:\n" +
 	"\x19parent_workflow_namespace\x18\x02 \x01(\tR\x17parentWorkflowNamespace\x12?\n" +
@@ -6465,7 +6476,8 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x13versioning_override\x18! \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12X\n" +
 	"'parent_pinned_worker_deployment_version\x18\" \x01(\tB\x02\x18\x01R#parentPinnedWorkerDeploymentVersion\x12<\n" +
 	"\bpriority\x18# \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12m\n" +
-	"\x18inherited_pinned_version\x18% \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x16inheritedPinnedVersionJ\x04\b$\x10%R parent_pinned_deployment_version\"\xde\x01\n" +
+	"\x18inherited_pinned_version\x18% \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x16inheritedPinnedVersion\x128\n" +
+	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAcceptedJ\x04\b$\x10%R parent_pinned_deployment_version\"\xde\x01\n" +
 	")WorkflowExecutionCompletedEventAttributes\x128\n" +
 	"\x06result\x18\x01 \x01(\v2 .temporal.api.common.v1.PayloadsR\x06result\x12F\n" +
 	" workflow_task_completed_event_id\x18\x02 \x01(\x03R\x1cworkflowTaskCompletedEventId\x12/\n" +
