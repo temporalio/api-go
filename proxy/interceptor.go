@@ -316,6 +316,23 @@ func visitPayloads(
 				}
 			}
 
+		case *batch.BatchOperation:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetResetOperation(),
+				o.GetSignalOperation(),
+				o.GetTerminationOperation(),
+			); err != nil {
+				return err
+			}
+
 		case *batch.BatchOperationReset:
 
 			if o == nil {
