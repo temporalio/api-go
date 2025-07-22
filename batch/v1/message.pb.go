@@ -35,9 +35,9 @@ type BatchOperation struct {
 	// The namespace of the batch operation.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The query to perform.
-	Query             string                  `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
-	WorkflowExecution []*v1.WorkflowExecution `protobuf:"bytes,3,rep,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	Reason            string                  `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
+	Query              string                  `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
+	WorkflowExecutions []*v1.WorkflowExecution `protobuf:"bytes,3,rep,name=workflow_executions,json=workflowExecutions,proto3" json:"workflow_executions,omitempty"`
+	Reason             string                  `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
 	// Types that are valid to be assigned to Operation:
 	//
 	//	*BatchOperation_TerminationOperation
@@ -49,10 +49,14 @@ type BatchOperation struct {
 	//	*BatchOperation_UnpauseActivitiesOperation
 	//	*BatchOperation_UpdateActivityOptionsOperation
 	//	*BatchOperation_ResetActivitiesOperation
-	Operation     isBatchOperation_Operation `protobuf_oneof:"operation"`
-	Rps           float64                    `protobuf:"fixed64,14,opt,name=rps,proto3" json:"rps,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Operation                isBatchOperation_Operation `protobuf_oneof:"operation"`
+	Rps                      float64                    `protobuf:"fixed64,14,opt,name=rps,proto3" json:"rps,omitempty"`
+	Concurrency              int64                      `protobuf:"varint,15,opt,name=concurrency,proto3" json:"concurrency,omitempty"`
+	AttemptsOnRetryableError int64                      `protobuf:"varint,16,opt,name=attempts_on_retryable_error,json=attemptsOnRetryableError,proto3" json:"attempts_on_retryable_error,omitempty"`
+	ActivityHeartbeatTimeout *durationpb.Duration       `protobuf:"bytes,17,opt,name=activity_heartbeat_timeout,json=activityHeartbeatTimeout,proto3" json:"activity_heartbeat_timeout,omitempty"`
+	NonRetryableErrors       []string                   `protobuf:"bytes,18,rep,name=non_retryable_errors,json=nonRetryableErrors,proto3" json:"non_retryable_errors,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *BatchOperation) Reset() {
@@ -99,9 +103,9 @@ func (x *BatchOperation) GetQuery() string {
 	return ""
 }
 
-func (x *BatchOperation) GetWorkflowExecution() []*v1.WorkflowExecution {
+func (x *BatchOperation) GetWorkflowExecutions() []*v1.WorkflowExecution {
 	if x != nil {
-		return x.WorkflowExecution
+		return x.WorkflowExecutions
 	}
 	return nil
 }
@@ -206,6 +210,34 @@ func (x *BatchOperation) GetRps() float64 {
 		return x.Rps
 	}
 	return 0
+}
+
+func (x *BatchOperation) GetConcurrency() int64 {
+	if x != nil {
+		return x.Concurrency
+	}
+	return 0
+}
+
+func (x *BatchOperation) GetAttemptsOnRetryableError() int64 {
+	if x != nil {
+		return x.AttemptsOnRetryableError
+	}
+	return 0
+}
+
+func (x *BatchOperation) GetActivityHeartbeatTimeout() *durationpb.Duration {
+	if x != nil {
+		return x.ActivityHeartbeatTimeout
+	}
+	return nil
+}
+
+func (x *BatchOperation) GetNonRetryableErrors() []string {
+	if x != nil {
+		return x.NonRetryableErrors
+	}
+	return nil
 }
 
 type isBatchOperation_Operation interface {
@@ -1212,11 +1244,11 @@ var File_temporal_api_batch_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_batch_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"#temporal/api/batch/v1/message.proto\x12\x15temporal.api.batch.v1\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a+temporal/api/enums/v1/batch_operation.proto\x1a!temporal/api/enums/v1/reset.proto\x1a#temporal/api/rules/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\"\xdd\t\n" +
+	"#temporal/api/batch/v1/message.proto\x12\x15temporal.api.batch.v1\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a+temporal/api/enums/v1/batch_operation.proto\x1a!temporal/api/enums/v1/reset.proto\x1a#temporal/api/rules/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\"\xcb\v\n" +
 	"\x0eBatchOperation\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x14\n" +
-	"\x05query\x18\x02 \x01(\tR\x05query\x12X\n" +
-	"\x12workflow_execution\x18\x03 \x03(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x16\n" +
+	"\x05query\x18\x02 \x01(\tR\x05query\x12Z\n" +
+	"\x13workflow_executions\x18\x03 \x03(\v2).temporal.api.common.v1.WorkflowExecutionR\x12workflowExecutions\x12\x16\n" +
 	"\x06reason\x18\x04 \x01(\tR\x06reason\x12g\n" +
 	"\x15termination_operation\x18\x05 \x01(\v20.temporal.api.batch.v1.BatchOperationTerminationH\x00R\x14terminationOperation\x12j\n" +
 	"\x16cancellation_operation\x18\x06 \x01(\v21.temporal.api.batch.v1.BatchOperationCancellationH\x00R\x15cancellationOperation\x12X\n" +
@@ -1228,7 +1260,11 @@ const file_temporal_api_batch_v1_message_proto_rawDesc = "" +
 	"\x1cunpause_activities_operation\x18\v \x01(\v26.temporal.api.batch.v1.BatchOperationUnpauseActivitiesH\x00R\x1aunpauseActivitiesOperation\x12\x87\x01\n" +
 	"!update_activity_options_operation\x18\f \x01(\v2:.temporal.api.batch.v1.BatchOperationUpdateActivityOptionsH\x00R\x1eupdateActivityOptionsOperation\x12t\n" +
 	"\x1areset_activities_operation\x18\r \x01(\v24.temporal.api.batch.v1.BatchOperationResetActivitiesH\x00R\x18resetActivitiesOperation\x12\x10\n" +
-	"\x03rps\x18\x0e \x01(\x01R\x03rpsB\v\n" +
+	"\x03rps\x18\x0e \x01(\x01R\x03rps\x12 \n" +
+	"\vconcurrency\x18\x0f \x01(\x03R\vconcurrency\x12=\n" +
+	"\x1battempts_on_retryable_error\x18\x10 \x01(\x03R\x18attemptsOnRetryableError\x12W\n" +
+	"\x1aactivity_heartbeat_timeout\x18\x11 \x01(\v2\x19.google.protobuf.DurationR\x18activityHeartbeatTimeout\x120\n" +
+	"\x14non_retryable_errors\x18\x12 \x03(\tR\x12nonRetryableErrorsB\v\n" +
 	"\toperation\"\xe3\x01\n" +
 	"\x12BatchOperationInfo\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12@\n" +
@@ -1326,22 +1362,22 @@ var file_temporal_api_batch_v1_message_proto_goTypes = []any{
 	(*BatchOperationResetActivities)(nil),                // 10: temporal.api.batch.v1.BatchOperationResetActivities
 	(*BatchOperationUpdateActivityOptions)(nil),          // 11: temporal.api.batch.v1.BatchOperationUpdateActivityOptions
 	(*v1.WorkflowExecution)(nil),                         // 12: temporal.api.common.v1.WorkflowExecution
-	(v11.BatchOperationState)(0),                         // 13: temporal.api.enums.v1.BatchOperationState
-	(*timestamppb.Timestamp)(nil),                        // 14: google.protobuf.Timestamp
-	(*v1.Payloads)(nil),                                  // 15: temporal.api.common.v1.Payloads
-	(*v1.Header)(nil),                                    // 16: temporal.api.common.v1.Header
-	(*v1.ResetOptions)(nil),                              // 17: temporal.api.common.v1.ResetOptions
-	(v11.ResetType)(0),                                   // 18: temporal.api.enums.v1.ResetType
-	(v11.ResetReapplyType)(0),                            // 19: temporal.api.enums.v1.ResetReapplyType
-	(*v12.PostResetOperation)(nil),                       // 20: temporal.api.workflow.v1.PostResetOperation
-	(*v12.WorkflowExecutionOptions)(nil),                 // 21: temporal.api.workflow.v1.WorkflowExecutionOptions
-	(*fieldmaskpb.FieldMask)(nil),                        // 22: google.protobuf.FieldMask
-	(*durationpb.Duration)(nil),                          // 23: google.protobuf.Duration
+	(*durationpb.Duration)(nil),                          // 13: google.protobuf.Duration
+	(v11.BatchOperationState)(0),                         // 14: temporal.api.enums.v1.BatchOperationState
+	(*timestamppb.Timestamp)(nil),                        // 15: google.protobuf.Timestamp
+	(*v1.Payloads)(nil),                                  // 16: temporal.api.common.v1.Payloads
+	(*v1.Header)(nil),                                    // 17: temporal.api.common.v1.Header
+	(*v1.ResetOptions)(nil),                              // 18: temporal.api.common.v1.ResetOptions
+	(v11.ResetType)(0),                                   // 19: temporal.api.enums.v1.ResetType
+	(v11.ResetReapplyType)(0),                            // 20: temporal.api.enums.v1.ResetReapplyType
+	(*v12.PostResetOperation)(nil),                       // 21: temporal.api.workflow.v1.PostResetOperation
+	(*v12.WorkflowExecutionOptions)(nil),                 // 22: temporal.api.workflow.v1.WorkflowExecutionOptions
+	(*fieldmaskpb.FieldMask)(nil),                        // 23: google.protobuf.FieldMask
 	(*v13.WorkflowRuleSpec)(nil),                         // 24: temporal.api.rules.v1.WorkflowRuleSpec
 	(*v14.ActivityOptions)(nil),                          // 25: temporal.api.activity.v1.ActivityOptions
 }
 var file_temporal_api_batch_v1_message_proto_depIdxs = []int32{
-	12, // 0: temporal.api.batch.v1.BatchOperation.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	12, // 0: temporal.api.batch.v1.BatchOperation.workflow_executions:type_name -> temporal.api.common.v1.WorkflowExecution
 	2,  // 1: temporal.api.batch.v1.BatchOperation.termination_operation:type_name -> temporal.api.batch.v1.BatchOperationTermination
 	4,  // 2: temporal.api.batch.v1.BatchOperation.cancellation_operation:type_name -> temporal.api.batch.v1.BatchOperationCancellation
 	3,  // 3: temporal.api.batch.v1.BatchOperation.signal_operation:type_name -> temporal.api.batch.v1.BatchOperationSignal
@@ -1351,28 +1387,29 @@ var file_temporal_api_batch_v1_message_proto_depIdxs = []int32{
 	8,  // 7: temporal.api.batch.v1.BatchOperation.unpause_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationUnpauseActivities
 	11, // 8: temporal.api.batch.v1.BatchOperation.update_activity_options_operation:type_name -> temporal.api.batch.v1.BatchOperationUpdateActivityOptions
 	10, // 9: temporal.api.batch.v1.BatchOperation.reset_activities_operation:type_name -> temporal.api.batch.v1.BatchOperationResetActivities
-	13, // 10: temporal.api.batch.v1.BatchOperationInfo.state:type_name -> temporal.api.enums.v1.BatchOperationState
-	14, // 11: temporal.api.batch.v1.BatchOperationInfo.start_time:type_name -> google.protobuf.Timestamp
-	14, // 12: temporal.api.batch.v1.BatchOperationInfo.close_time:type_name -> google.protobuf.Timestamp
-	15, // 13: temporal.api.batch.v1.BatchOperationTermination.details:type_name -> temporal.api.common.v1.Payloads
-	15, // 14: temporal.api.batch.v1.BatchOperationSignal.input:type_name -> temporal.api.common.v1.Payloads
-	16, // 15: temporal.api.batch.v1.BatchOperationSignal.header:type_name -> temporal.api.common.v1.Header
-	17, // 16: temporal.api.batch.v1.BatchOperationReset.options:type_name -> temporal.api.common.v1.ResetOptions
-	18, // 17: temporal.api.batch.v1.BatchOperationReset.reset_type:type_name -> temporal.api.enums.v1.ResetType
-	19, // 18: temporal.api.batch.v1.BatchOperationReset.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
-	20, // 19: temporal.api.batch.v1.BatchOperationReset.post_reset_operations:type_name -> temporal.api.workflow.v1.PostResetOperation
-	21, // 20: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
-	22, // 21: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.update_mask:type_name -> google.protobuf.FieldMask
-	23, // 22: temporal.api.batch.v1.BatchOperationUnpauseActivities.jitter:type_name -> google.protobuf.Duration
-	24, // 23: temporal.api.batch.v1.BatchOperationTriggerWorkflowRule.spec:type_name -> temporal.api.rules.v1.WorkflowRuleSpec
-	23, // 24: temporal.api.batch.v1.BatchOperationResetActivities.jitter:type_name -> google.protobuf.Duration
-	25, // 25: temporal.api.batch.v1.BatchOperationUpdateActivityOptions.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
-	22, // 26: temporal.api.batch.v1.BatchOperationUpdateActivityOptions.update_mask:type_name -> google.protobuf.FieldMask
-	27, // [27:27] is the sub-list for method output_type
-	27, // [27:27] is the sub-list for method input_type
-	27, // [27:27] is the sub-list for extension type_name
-	27, // [27:27] is the sub-list for extension extendee
-	0,  // [0:27] is the sub-list for field type_name
+	13, // 10: temporal.api.batch.v1.BatchOperation.activity_heartbeat_timeout:type_name -> google.protobuf.Duration
+	14, // 11: temporal.api.batch.v1.BatchOperationInfo.state:type_name -> temporal.api.enums.v1.BatchOperationState
+	15, // 12: temporal.api.batch.v1.BatchOperationInfo.start_time:type_name -> google.protobuf.Timestamp
+	15, // 13: temporal.api.batch.v1.BatchOperationInfo.close_time:type_name -> google.protobuf.Timestamp
+	16, // 14: temporal.api.batch.v1.BatchOperationTermination.details:type_name -> temporal.api.common.v1.Payloads
+	16, // 15: temporal.api.batch.v1.BatchOperationSignal.input:type_name -> temporal.api.common.v1.Payloads
+	17, // 16: temporal.api.batch.v1.BatchOperationSignal.header:type_name -> temporal.api.common.v1.Header
+	18, // 17: temporal.api.batch.v1.BatchOperationReset.options:type_name -> temporal.api.common.v1.ResetOptions
+	19, // 18: temporal.api.batch.v1.BatchOperationReset.reset_type:type_name -> temporal.api.enums.v1.ResetType
+	20, // 19: temporal.api.batch.v1.BatchOperationReset.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
+	21, // 20: temporal.api.batch.v1.BatchOperationReset.post_reset_operations:type_name -> temporal.api.workflow.v1.PostResetOperation
+	22, // 21: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.workflow_execution_options:type_name -> temporal.api.workflow.v1.WorkflowExecutionOptions
+	23, // 22: temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.update_mask:type_name -> google.protobuf.FieldMask
+	13, // 23: temporal.api.batch.v1.BatchOperationUnpauseActivities.jitter:type_name -> google.protobuf.Duration
+	24, // 24: temporal.api.batch.v1.BatchOperationTriggerWorkflowRule.spec:type_name -> temporal.api.rules.v1.WorkflowRuleSpec
+	13, // 25: temporal.api.batch.v1.BatchOperationResetActivities.jitter:type_name -> google.protobuf.Duration
+	25, // 26: temporal.api.batch.v1.BatchOperationUpdateActivityOptions.activity_options:type_name -> temporal.api.activity.v1.ActivityOptions
+	23, // 27: temporal.api.batch.v1.BatchOperationUpdateActivityOptions.update_mask:type_name -> google.protobuf.FieldMask
+	28, // [28:28] is the sub-list for method output_type
+	28, // [28:28] is the sub-list for method input_type
+	28, // [28:28] is the sub-list for extension type_name
+	28, // [28:28] is the sub-list for extension extendee
+	0,  // [0:28] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_batch_v1_message_proto_init() }
