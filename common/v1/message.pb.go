@@ -1066,24 +1066,37 @@ func (*Link_WorkflowEvent_) isLink_Variant() {}
 func (*Link_BatchJob_) isLink_Variant() {}
 
 // Priority contains metadata that controls relative ordering of task processing
-// when tasks are backlogged in a queue. Initially, Priority will be used in
-// activity and workflow task queues, which are typically where backlogs exist.
-// Other queues in the server (such as transfer and timer queues) and rate
-// limiting decisions do not use Priority, but may in the future.
+// when tasks are backed up in a queue. Initially, Priority will be used in
+// matching (workflow and activity) task queues. Later it may be used in history
+// task queues and in rate limiting decisions.
 //
-// Priority is attached to workflows and activities. Activities and child
-// workflows inherit Priority from the workflow that created them, but may
-// override fields when they are started or modified. For each field of a
-// Priority on an activity/workflow, not present or equal to zero/empty string
-// means to inherit the value from the calling workflow, or if there is no
-// calling workflow, then use the default (documented below).
+// Priority is attached to workflows and activities. By default, activities
+// inherit Priority from the workflow that created them, but may override fields
+// when an activity is started or modified.
 //
-// Despite being named "Priority", this message will also contains fields that
+// Despite being named "Priority", this message also contains fields that
 // control "fairness" mechanisms.
 //
+// For all fields, the field not present or equal to zero/empty string means to
+// inherit the value from the calling workflow, or if there is no calling
+// workflow, then use the default value.
+//
+// For all fields other than fairness_key, the zero value isn't meaningful so
+// there's no confusion between inherit/default and a meaningful value. For
+// fairness_key, the empty string will be interpreted as "inherit". This means
+// that if a workflow has a non-empty fairness key, you can't override the
+// fairness key of its activity to the empty string.
+//
 // The overall semantics of Priority are:
-// 1. First, consider "priority_key": lower number goes first.
-// (more will be added here later)
+//  1. First, consider "priority": higher priority (lower number) goes first.
+//  2. Then, consider fairness: try to dispatch tasks for different fairness keys
+//     in proportion to their weight.
+//
+// Applications may use any subset of mechanisms that are useful to them and
+// leave the other fields to use default values.
+//
+// Not all queues in the system may support the "full" semantics of all priority
+// fields. (Currently only support in matching task queues is planned.)
 type Priority struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Priority key is a positive integer from 1 to n, where smaller integers
@@ -1094,11 +1107,46 @@ type Priority struct {
 	// The maximum priority value (minimum priority) is determined by server
 	// configuration, and defaults to 5.
 	//
-	// The default priority is (min+max)/2. With the default max of 5 and min of
-	// 1, that comes out to 3.
-	PriorityKey   int32 `protobuf:"varint,1,opt,name=priority_key,json=priorityKey,proto3" json:"priority_key,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// If priority is not present (or zero), then the effective priority will be
+	// the default priority, which is is calculated by (min+max)/2. With the
+	// default max of 5, and min of 1, that comes out to 3.
+	PriorityKey int32 `protobuf:"varint,1,opt,name=priority_key,json=priorityKey,proto3" json:"priority_key,omitempty"`
+	// Fairness key is a short string that's used as a key for a fairness
+	// balancing mechanism. It may correspond to a tenant id, or to a fixed
+	// string like "high" or "low". The default is the empty string.
+	//
+	// The fairness mechanism attempts to dispatch tasks for a given key in
+	// proportion to its weight. For example, using a thousand distinct tenant
+	// ids, each with a weight of 1.0 (the default) will result in each tenant
+	// getting a roughly equal share of task dispatch throughput.
+	//
+	// (Note: this does not imply equal share of worker capacity! Fairness
+	// decisions are made based on queue statistics, not
+	// current worker load.)
+	//
+	// As another example, using keys "high" and "low" with weight 9.0 and 1.0
+	// respectively will prefer dispatching "high" tasks over "low" tasks at a
+	// 9:1 ratio, while allowing either key to use all worker capacity if the
+	// other is not present.
+	//
+	// All fairness mechanisms, including rate limits, are best-effort and
+	// probabilistic. The results may not match what a "perfect" algorithm with
+	// infinite resources would produce. The more unique keys are used, the less
+	// accurate the results will be.
+	//
+	// Fairness keys are limited to 64 bytes.
+	FairnessKey string `protobuf:"bytes,2,opt,name=fairness_key,json=fairnessKey,proto3" json:"fairness_key,omitempty"`
+	// Fairness weight for a task can come from multiple sources for
+	// flexibility. From highest to lowest precedence:
+	//  1. Weights for a small set of keys can be overridden in task queue
+	//     configuration with an API.
+	//  2. It can be attached to the workflow/activity in this field.
+	//  3. The default weight of 1.0 will be used.
+	//
+	// Weight values are clamped to the range [0.001, 1000].
+	FairnessWeight float32 `protobuf:"fixed32,3,opt,name=fairness_weight,json=fairnessWeight,proto3" json:"fairness_weight,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Priority) Reset() {
@@ -1134,6 +1182,20 @@ func (*Priority) Descriptor() ([]byte, []int) {
 func (x *Priority) GetPriorityKey() int32 {
 	if x != nil {
 		return x.PriorityKey
+	}
+	return 0
+}
+
+func (x *Priority) GetFairnessKey() string {
+	if x != nil {
+		return x.FairnessKey
+	}
+	return ""
+}
+
+func (x *Priority) GetFairnessWeight() float32 {
+	if x != nil {
+		return x.FairnessWeight
 	}
 	return 0
 }
@@ -1682,9 +1744,11 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\treference\x1a!\n" +
 	"\bBatchJob\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobIdB\t\n" +
-	"\avariant\"-\n" +
+	"\avariant\"y\n" +
 	"\bPriority\x12!\n" +
-	"\fpriority_key\x18\x01 \x01(\x05R\vpriorityKey\"N\n" +
+	"\fpriority_key\x18\x01 \x01(\x05R\vpriorityKey\x12!\n" +
+	"\ffairness_key\x18\x02 \x01(\tR\vfairnessKey\x12'\n" +
+	"\x0ffairness_weight\x18\x03 \x01(\x02R\x0efairnessWeight\"N\n" +
 	"\x0eWorkerSelector\x120\n" +
 	"\x13worker_instance_key\x18\x01 \x01(\tH\x00R\x11workerInstanceKeyB\n" +
 	"\n" +
