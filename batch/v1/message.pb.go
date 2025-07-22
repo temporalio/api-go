@@ -35,9 +35,9 @@ type BatchOperation struct {
 	// The namespace of the batch operation.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The query to perform.
-	Query             string                `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
-	WorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
-	Reason            string                `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
+	Query             string                  `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
+	WorkflowExecution []*v1.WorkflowExecution `protobuf:"bytes,3,rep,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
+	Reason            string                  `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
 	// Types that are valid to be assigned to Operation:
 	//
 	//	*BatchOperation_TerminationOperation
@@ -50,6 +50,7 @@ type BatchOperation struct {
 	//	*BatchOperation_UpdateActivityOptionsOperation
 	//	*BatchOperation_ResetActivitiesOperation
 	Operation     isBatchOperation_Operation `protobuf_oneof:"operation"`
+	Rps           float64                    `protobuf:"fixed64,14,opt,name=rps,proto3" json:"rps,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -98,7 +99,7 @@ func (x *BatchOperation) GetQuery() string {
 	return ""
 }
 
-func (x *BatchOperation) GetWorkflowExecution() *v1.WorkflowExecution {
+func (x *BatchOperation) GetWorkflowExecution() []*v1.WorkflowExecution {
 	if x != nil {
 		return x.WorkflowExecution
 	}
@@ -198,6 +199,13 @@ func (x *BatchOperation) GetResetActivitiesOperation() *BatchOperationResetActiv
 		}
 	}
 	return nil
+}
+
+func (x *BatchOperation) GetRps() float64 {
+	if x != nil {
+		return x.Rps
+	}
+	return 0
 }
 
 type isBatchOperation_Operation interface {
@@ -1204,11 +1212,11 @@ var File_temporal_api_batch_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_batch_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"#temporal/api/batch/v1/message.proto\x12\x15temporal.api.batch.v1\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a+temporal/api/enums/v1/batch_operation.proto\x1a!temporal/api/enums/v1/reset.proto\x1a#temporal/api/rules/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\"\xcb\t\n" +
+	"#temporal/api/batch/v1/message.proto\x12\x15temporal.api.batch.v1\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a&temporal/api/activity/v1/message.proto\x1a$temporal/api/common/v1/message.proto\x1a+temporal/api/enums/v1/batch_operation.proto\x1a!temporal/api/enums/v1/reset.proto\x1a#temporal/api/rules/v1/message.proto\x1a&temporal/api/workflow/v1/message.proto\"\xdd\t\n" +
 	"\x0eBatchOperation\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x14\n" +
 	"\x05query\x18\x02 \x01(\tR\x05query\x12X\n" +
-	"\x12workflow_execution\x18\x03 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x16\n" +
+	"\x12workflow_execution\x18\x03 \x03(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12\x16\n" +
 	"\x06reason\x18\x04 \x01(\tR\x06reason\x12g\n" +
 	"\x15termination_operation\x18\x05 \x01(\v20.temporal.api.batch.v1.BatchOperationTerminationH\x00R\x14terminationOperation\x12j\n" +
 	"\x16cancellation_operation\x18\x06 \x01(\v21.temporal.api.batch.v1.BatchOperationCancellationH\x00R\x15cancellationOperation\x12X\n" +
@@ -1219,7 +1227,8 @@ const file_temporal_api_batch_v1_message_proto_rawDesc = "" +
 	" \x01(\v2C.temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptionsH\x00R'updateWorkflowExecutionOptionsOperation\x12z\n" +
 	"\x1cunpause_activities_operation\x18\v \x01(\v26.temporal.api.batch.v1.BatchOperationUnpauseActivitiesH\x00R\x1aunpauseActivitiesOperation\x12\x87\x01\n" +
 	"!update_activity_options_operation\x18\f \x01(\v2:.temporal.api.batch.v1.BatchOperationUpdateActivityOptionsH\x00R\x1eupdateActivityOptionsOperation\x12t\n" +
-	"\x1areset_activities_operation\x18\r \x01(\v24.temporal.api.batch.v1.BatchOperationResetActivitiesH\x00R\x18resetActivitiesOperationB\v\n" +
+	"\x1areset_activities_operation\x18\r \x01(\v24.temporal.api.batch.v1.BatchOperationResetActivitiesH\x00R\x18resetActivitiesOperation\x12\x10\n" +
+	"\x03rps\x18\x0e \x01(\x01R\x03rpsB\v\n" +
 	"\toperation\"\xe3\x01\n" +
 	"\x12BatchOperationInfo\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12@\n" +
