@@ -26,6 +26,7 @@ const (
 	WorkflowService_UpdateNamespace_FullMethodName                       = "/temporal.api.workflowservice.v1.WorkflowService/UpdateNamespace"
 	WorkflowService_DeprecateNamespace_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/DeprecateNamespace"
 	WorkflowService_StartWorkflowExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartWorkflowExecution"
+	WorkflowService_StartBatchWorkflowExecution_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchWorkflowExecution"
 	WorkflowService_ExecuteMultiOperation_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/ExecuteMultiOperation"
 	WorkflowService_GetWorkflowExecutionHistory_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistory"
 	WorkflowService_GetWorkflowExecutionHistoryReverse_FullMethodName    = "/temporal.api.workflowservice.v1.WorkflowService/GetWorkflowExecutionHistoryReverse"
@@ -160,6 +161,12 @@ type WorkflowServiceClient interface {
 	// also schedule the first workflow task. Returns `WorkflowExecutionAlreadyStarted`, if an
 	// instance already exists with same workflow id.
 	StartWorkflowExecution(ctx context.Context, in *StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartWorkflowExecutionResponse, error)
+	// StartWorkflowExecution starts a new workflow execution.
+	//
+	// It will create the execution with a `WORKFLOW_EXECUTION_STARTED` event in its history and
+	// also schedule the first workflow task. Returns `WorkflowExecutionAlreadyStarted`, if an
+	// instance already exists with same workflow id.
+	StartBatchWorkflowExecution(ctx context.Context, in *StartBatchWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartBatchWorkflowExecutionResponse, error)
 	// ExecuteMultiOperation executes multiple operations within a single workflow.
 	//
 	// Operations are started atomically, meaning if *any* operation fails to be started, none are,
@@ -744,6 +751,16 @@ func (c *workflowServiceClient) StartWorkflowExecution(ctx context.Context, in *
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StartWorkflowExecutionResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_StartWorkflowExecution_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) StartBatchWorkflowExecution(ctx context.Context, in *StartBatchWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartBatchWorkflowExecutionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StartBatchWorkflowExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_StartBatchWorkflowExecution_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1656,6 +1673,12 @@ type WorkflowServiceServer interface {
 	// also schedule the first workflow task. Returns `WorkflowExecutionAlreadyStarted`, if an
 	// instance already exists with same workflow id.
 	StartWorkflowExecution(context.Context, *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error)
+	// StartWorkflowExecution starts a new workflow execution.
+	//
+	// It will create the execution with a `WORKFLOW_EXECUTION_STARTED` event in its history and
+	// also schedule the first workflow task. Returns `WorkflowExecutionAlreadyStarted`, if an
+	// instance already exists with same workflow id.
+	StartBatchWorkflowExecution(context.Context, *StartBatchWorkflowExecutionRequest) (*StartBatchWorkflowExecutionResponse, error)
 	// ExecuteMultiOperation executes multiple operations within a single workflow.
 	//
 	// Operations are started atomically, meaning if *any* operation fails to be started, none are,
@@ -2204,6 +2227,9 @@ func (UnimplementedWorkflowServiceServer) DeprecateNamespace(context.Context, *D
 func (UnimplementedWorkflowServiceServer) StartWorkflowExecution(context.Context, *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StartWorkflowExecution not implemented")
 }
+func (UnimplementedWorkflowServiceServer) StartBatchWorkflowExecution(context.Context, *StartBatchWorkflowExecutionRequest) (*StartBatchWorkflowExecutionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartBatchWorkflowExecution not implemented")
+}
 func (UnimplementedWorkflowServiceServer) ExecuteMultiOperation(context.Context, *ExecuteMultiOperationRequest) (*ExecuteMultiOperationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExecuteMultiOperation not implemented")
 }
@@ -2587,6 +2613,24 @@ func _WorkflowService_StartWorkflowExecution_Handler(srv interface{}, ctx contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(WorkflowServiceServer).StartWorkflowExecution(ctx, req.(*StartWorkflowExecutionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_StartBatchWorkflowExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartBatchWorkflowExecutionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).StartBatchWorkflowExecution(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_StartBatchWorkflowExecution_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).StartBatchWorkflowExecution(ctx, req.(*StartBatchWorkflowExecutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4169,6 +4213,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "StartWorkflowExecution",
 			Handler:    _WorkflowService_StartWorkflowExecution_Handler,
+		},
+		{
+			MethodName: "StartBatchWorkflowExecution",
+			Handler:    _WorkflowService_StartBatchWorkflowExecution_Handler,
 		},
 		{
 			MethodName: "ExecuteMultiOperation",

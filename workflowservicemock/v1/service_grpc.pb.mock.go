@@ -1576,6 +1576,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) StartBatchOperation(ctx, in int
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartBatchOperation", reflect.TypeOf((*MockWorkflowServiceClient)(nil).StartBatchOperation), varargs...)
 }
 
+// StartBatchWorkflowExecution mocks base method.
+func (m *MockWorkflowServiceClient) StartBatchWorkflowExecution(ctx context.Context, in *workflowservice.StartBatchWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.StartBatchWorkflowExecutionResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "StartBatchWorkflowExecution", varargs...)
+	ret0, _ := ret[0].(*workflowservice.StartBatchWorkflowExecutionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// StartBatchWorkflowExecution indicates an expected call of StartBatchWorkflowExecution.
+func (mr *MockWorkflowServiceClientMockRecorder) StartBatchWorkflowExecution(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartBatchWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).StartBatchWorkflowExecution), varargs...)
+}
+
 // StartWorkflowExecution mocks base method.
 func (m *MockWorkflowServiceClient) StartWorkflowExecution(ctx context.Context, in *workflowservice.StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*workflowservice.StartWorkflowExecutionResponse, error) {
 	m.ctrl.T.Helper()
@@ -3055,6 +3075,21 @@ func (m *MockWorkflowServiceServer) StartBatchOperation(arg0 context.Context, ar
 func (mr *MockWorkflowServiceServerMockRecorder) StartBatchOperation(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartBatchOperation", reflect.TypeOf((*MockWorkflowServiceServer)(nil).StartBatchOperation), arg0, arg1)
+}
+
+// StartBatchWorkflowExecution mocks base method.
+func (m *MockWorkflowServiceServer) StartBatchWorkflowExecution(arg0 context.Context, arg1 *workflowservice.StartBatchWorkflowExecutionRequest) (*workflowservice.StartBatchWorkflowExecutionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "StartBatchWorkflowExecution", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.StartBatchWorkflowExecutionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// StartBatchWorkflowExecution indicates an expected call of StartBatchWorkflowExecution.
+func (mr *MockWorkflowServiceServerMockRecorder) StartBatchWorkflowExecution(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "StartBatchWorkflowExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).StartBatchWorkflowExecution), arg0, arg1)
 }
 
 // StartWorkflowExecution mocks base method.

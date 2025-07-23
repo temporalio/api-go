@@ -340,6 +340,10 @@ func (s *workflowServiceProxyServer) StartBatchOperation(ctx context.Context, in
 	return s.client.StartBatchOperation(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) StartBatchWorkflowExecution(ctx context.Context, in0 *workflowservice.StartBatchWorkflowExecutionRequest) (*workflowservice.StartBatchWorkflowExecutionResponse, error) {
+	return s.client.StartBatchWorkflowExecution(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) StartWorkflowExecution(ctx context.Context, in0 *workflowservice.StartWorkflowExecutionRequest) (*workflowservice.StartWorkflowExecutionResponse, error) {
 	return s.client.StartWorkflowExecution(s.reqCtx(ctx), in0)
 }
