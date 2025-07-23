@@ -2861,6 +2861,42 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.StartBatchWorkflowExecutionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetContinuedFailure(),
+				o.GetHeader(),
+				o.GetInput(),
+				o.GetLastCompletionResult(),
+				o.GetMemo(),
+				o.GetSearchAttributes(),
+				o.GetUserMetadata(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.StartBatchWorkflowExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetEagerWorkflowTask(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.StartWorkflowExecutionRequest:
 
 			if o == nil {
@@ -3801,6 +3837,32 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				options,
 				o.GetFailure(),
 				o.GetMessages(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.StartBatchWorkflowExecutionRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetContinuedFailure(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.StartBatchWorkflowExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetEagerWorkflowTask(),
 			); err != nil {
 				return err
 			}
