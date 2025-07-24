@@ -13,9 +13,11 @@ import (
 
 	v1 "go.temporal.io/api/deployment/v1"
 	v11 "go.temporal.io/api/enums/v1"
+	v12 "go.temporal.io/api/sdk/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -620,11 +622,121 @@ func (x *PluginInfo) GetVersion() string {
 	return ""
 }
 
+// Will be send to the worker as a payload of the FetchWorkerConfig command.
+type FetchWorkerConfigCommandPayload struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Worker identifier, should be unique for the namespace.
+	WorkerInstanceKey string `protobuf:"bytes,1,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *FetchWorkerConfigCommandPayload) Reset() {
+	*x = FetchWorkerConfigCommandPayload{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FetchWorkerConfigCommandPayload) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FetchWorkerConfigCommandPayload) ProtoMessage() {}
+
+func (x *FetchWorkerConfigCommandPayload) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FetchWorkerConfigCommandPayload.ProtoReflect.Descriptor instead.
+func (*FetchWorkerConfigCommandPayload) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *FetchWorkerConfigCommandPayload) GetWorkerInstanceKey() string {
+	if x != nil {
+		return x.WorkerInstanceKey
+	}
+	return ""
+}
+
+// Will be send to the worker as a payload of the UpdateWorkerConfig command.
+type UpdateWorkerConfigCommandPayload struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Worker identifier, should be unique for the namespace.
+	WorkerInstanceKey string `protobuf:"bytes,1,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
+	// The new worker config to be applied.
+	WorkerConfig *v12.WorkerConfig `protobuf:"bytes,2,opt,name=worker_config,json=workerConfig,proto3" json:"worker_config,omitempty"`
+	// Controls which fields from `worker_config` will be applied
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateWorkerConfigCommandPayload) Reset() {
+	*x = UpdateWorkerConfigCommandPayload{}
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateWorkerConfigCommandPayload) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateWorkerConfigCommandPayload) ProtoMessage() {}
+
+func (x *UpdateWorkerConfigCommandPayload) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateWorkerConfigCommandPayload.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerConfigCommandPayload) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateWorkerConfigCommandPayload) GetWorkerInstanceKey() string {
+	if x != nil {
+		return x.WorkerInstanceKey
+	}
+	return ""
+}
+
+func (x *UpdateWorkerConfigCommandPayload) GetWorkerConfig() *v12.WorkerConfig {
+	if x != nil {
+		return x.WorkerConfig
+	}
+	return nil
+}
+
+func (x *UpdateWorkerConfigCommandPayload) GetUpdateMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.UpdateMask
+	}
+	return nil
+}
+
 var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\"\xb9\x01\n" +
+	"$temporal/api/worker/v1/message.proto\x12\x16temporal.api.worker.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a(temporal/api/deployment/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a'temporal/api/sdk/v1/worker_config.proto\"\xb9\x01\n" +
 	"\x10WorkerPollerInfo\x12'\n" +
 	"\x0fcurrent_pollers\x18\x01 \x01(\x05R\x0ecurrentPollers\x12U\n" +
 	"\x19last_successful_poll_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x16lastSuccessfulPollTime\x12%\n" +
@@ -679,7 +791,14 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"PluginInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversionB\x89\x01\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\"Q\n" +
+	"\x1fFetchWorkerConfigCommandPayload\x12.\n" +
+	"\x13worker_instance_key\x18\x01 \x01(\tR\x11workerInstanceKey\"\xd7\x01\n" +
+	" UpdateWorkerConfigCommandPayload\x12.\n" +
+	"\x13worker_instance_key\x18\x01 \x01(\tR\x11workerInstanceKey\x12F\n" +
+	"\rworker_config\x18\x02 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigR\fworkerConfig\x12;\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
+	"updateMaskB\x89\x01\n" +
 	"\x19io.temporal.api.worker.v1B\fMessageProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
 
 var (
@@ -694,27 +813,31 @@ func file_temporal_api_worker_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_worker_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_temporal_api_worker_v1_message_proto_goTypes = []any{
-	(*WorkerPollerInfo)(nil),           // 0: temporal.api.worker.v1.WorkerPollerInfo
-	(*WorkerSlotsInfo)(nil),            // 1: temporal.api.worker.v1.WorkerSlotsInfo
-	(*WorkerHostInfo)(nil),             // 2: temporal.api.worker.v1.WorkerHostInfo
-	(*WorkerHeartbeat)(nil),            // 3: temporal.api.worker.v1.WorkerHeartbeat
-	(*WorkerInfo)(nil),                 // 4: temporal.api.worker.v1.WorkerInfo
-	(*PluginInfo)(nil),                 // 5: temporal.api.worker.v1.PluginInfo
-	(*timestamppb.Timestamp)(nil),      // 6: google.protobuf.Timestamp
-	(*v1.WorkerDeploymentVersion)(nil), // 7: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(v11.WorkerStatus)(0),              // 8: temporal.api.enums.v1.WorkerStatus
-	(*durationpb.Duration)(nil),        // 9: google.protobuf.Duration
+	(*WorkerPollerInfo)(nil),                 // 0: temporal.api.worker.v1.WorkerPollerInfo
+	(*WorkerSlotsInfo)(nil),                  // 1: temporal.api.worker.v1.WorkerSlotsInfo
+	(*WorkerHostInfo)(nil),                   // 2: temporal.api.worker.v1.WorkerHostInfo
+	(*WorkerHeartbeat)(nil),                  // 3: temporal.api.worker.v1.WorkerHeartbeat
+	(*WorkerInfo)(nil),                       // 4: temporal.api.worker.v1.WorkerInfo
+	(*PluginInfo)(nil),                       // 5: temporal.api.worker.v1.PluginInfo
+	(*FetchWorkerConfigCommandPayload)(nil),  // 6: temporal.api.worker.v1.FetchWorkerConfigCommandPayload
+	(*UpdateWorkerConfigCommandPayload)(nil), // 7: temporal.api.worker.v1.UpdateWorkerConfigCommandPayload
+	(*timestamppb.Timestamp)(nil),            // 8: google.protobuf.Timestamp
+	(*v1.WorkerDeploymentVersion)(nil),       // 9: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(v11.WorkerStatus)(0),                    // 10: temporal.api.enums.v1.WorkerStatus
+	(*durationpb.Duration)(nil),              // 11: google.protobuf.Duration
+	(*v12.WorkerConfig)(nil),                 // 12: temporal.api.sdk.v1.WorkerConfig
+	(*fieldmaskpb.FieldMask)(nil),            // 13: google.protobuf.FieldMask
 }
 var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
-	6,  // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
+	8,  // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
 	2,  // 1: temporal.api.worker.v1.WorkerHeartbeat.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
-	7,  // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	8,  // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	6,  // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
-	6,  // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
-	9,  // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
+	9,  // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	10, // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	8,  // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
+	8,  // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
+	11, // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
 	1,  // 7: temporal.api.worker.v1.WorkerHeartbeat.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
 	1,  // 8: temporal.api.worker.v1.WorkerHeartbeat.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
 	1,  // 9: temporal.api.worker.v1.WorkerHeartbeat.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
@@ -725,11 +848,13 @@ var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
 	0,  // 14: temporal.api.worker.v1.WorkerHeartbeat.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
 	5,  // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
 	3,  // 16: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	17, // [17:17] is the sub-list for method output_type
-	17, // [17:17] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	12, // 17: temporal.api.worker.v1.UpdateWorkerConfigCommandPayload.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
+	13, // 18: temporal.api.worker.v1.UpdateWorkerConfigCommandPayload.update_mask:type_name -> google.protobuf.FieldMask
+	19, // [19:19] is the sub-list for method output_type
+	19, // [19:19] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_worker_v1_message_proto_init() }
@@ -743,7 +868,7 @@ func file_temporal_api_worker_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_worker_v1_message_proto_rawDesc), len(file_temporal_api_worker_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
