@@ -681,7 +681,7 @@ type WorkflowServiceClient interface {
 	// Can be used to partially update the worker configuration.
 	// Can be used to update the configuration of multiple workers.
 	UpdateWorkerConfig(ctx context.Context, in *UpdateWorkerConfigRequest, opts ...grpc.CallOption) (*UpdateWorkerConfigResponse, error)
-	// DescribeWorker returns information about the specified worker execution.
+	// DescribeWorker returns information about the specified worker.
 	DescribeWorker(ctx context.Context, in *DescribeWorkerRequest, opts ...grpc.CallOption) (*DescribeWorkerResponse, error)
 }
 
@@ -2189,7 +2189,7 @@ type WorkflowServiceServer interface {
 	// Can be used to partially update the worker configuration.
 	// Can be used to update the configuration of multiple workers.
 	UpdateWorkerConfig(context.Context, *UpdateWorkerConfigRequest) (*UpdateWorkerConfigResponse, error)
-	// DescribeWorker returns information about the specified worker execution.
+	// DescribeWorker returns information about the specified worker.
 	DescribeWorker(context.Context, *DescribeWorkerRequest) (*DescribeWorkerResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }

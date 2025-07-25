@@ -13841,10 +13841,8 @@ type DescribeWorkerRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Namespace this worker belongs to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	// The identity of the client who initiated this request.
-	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Worker instance key to describe.
-	WorkerInstanceKey string `protobuf:"bytes,3,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
+	WorkerInstanceKey string `protobuf:"bytes,2,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -13882,13 +13880,6 @@ func (*DescribeWorkerRequest) Descriptor() ([]byte, []int) {
 func (x *DescribeWorkerRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
-	}
-	return ""
-}
-
-func (x *DescribeWorkerRequest) GetIdentity() string {
-	if x != nil {
-		return x.Identity
 	}
 	return ""
 }
@@ -16287,11 +16278,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x1aUpdateWorkerConfigResponse\x12H\n" +
 	"\rworker_config\x18\x01 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigH\x00R\fworkerConfigB\n" +
 	"\n" +
-	"\bresponse\"\x81\x01\n" +
+	"\bresponse\"e\n" +
 	"\x15DescribeWorkerRequest\x12\x1c\n" +
-	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
-	"\bidentity\x18\x02 \x01(\tR\bidentity\x12.\n" +
-	"\x13worker_instance_key\x18\x03 \x01(\tR\x11workerInstanceKey\"]\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12.\n" +
+	"\x13worker_instance_key\x18\x02 \x01(\tR\x11workerInstanceKey\"]\n" +
 	"\x16DescribeWorkerResponse\x12C\n" +
 	"\vworker_info\x18\x01 \x01(\v2\".temporal.api.worker.v1.WorkerInfoR\n" +
 	"workerInfoB\xbe\x01\n" +
