@@ -6501,16 +6501,18 @@ type GetClusterInfoResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Key is client name i.e "temporal-go", "temporal-java", or "temporal-cli".
 	// Value is ranges of supported versions of this client i.e ">1.1.1 <=1.4.0 || ^5.0.0".
-	SupportedClients  map[string]string `protobuf:"bytes,1,rep,name=supported_clients,json=supportedClients,proto3" json:"supported_clients,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ServerVersion     string            `protobuf:"bytes,2,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
-	ClusterId         string            `protobuf:"bytes,3,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
-	VersionInfo       *v115.VersionInfo `protobuf:"bytes,4,opt,name=version_info,json=versionInfo,proto3" json:"version_info,omitempty"`
-	ClusterName       string            `protobuf:"bytes,5,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
-	HistoryShardCount int32             `protobuf:"varint,6,opt,name=history_shard_count,json=historyShardCount,proto3" json:"history_shard_count,omitempty"`
-	PersistenceStore  string            `protobuf:"bytes,7,opt,name=persistence_store,json=persistenceStore,proto3" json:"persistence_store,omitempty"`
-	VisibilityStore   string            `protobuf:"bytes,8,opt,name=visibility_store,json=visibilityStore,proto3" json:"visibility_store,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	SupportedClients         map[string]string `protobuf:"bytes,1,rep,name=supported_clients,json=supportedClients,proto3" json:"supported_clients,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ServerVersion            string            `protobuf:"bytes,2,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
+	ClusterId                string            `protobuf:"bytes,3,opt,name=cluster_id,json=clusterId,proto3" json:"cluster_id,omitempty"`
+	VersionInfo              *v115.VersionInfo `protobuf:"bytes,4,opt,name=version_info,json=versionInfo,proto3" json:"version_info,omitempty"`
+	ClusterName              string            `protobuf:"bytes,5,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+	HistoryShardCount        int32             `protobuf:"varint,6,opt,name=history_shard_count,json=historyShardCount,proto3" json:"history_shard_count,omitempty"`
+	PersistenceStore         string            `protobuf:"bytes,7,opt,name=persistence_store,json=persistenceStore,proto3" json:"persistence_store,omitempty"`
+	VisibilityStore          string            `protobuf:"bytes,8,opt,name=visibility_store,json=visibilityStore,proto3" json:"visibility_store,omitempty"`
+	InitialFailoverVersion   int64             `protobuf:"varint,9,opt,name=initial_failover_version,json=initialFailoverVersion,proto3" json:"initial_failover_version,omitempty"`
+	FailoverVersionIncrement int64             `protobuf:"varint,10,opt,name=failover_version_increment,json=failoverVersionIncrement,proto3" json:"failover_version_increment,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *GetClusterInfoResponse) Reset() {
@@ -6597,6 +6599,20 @@ func (x *GetClusterInfoResponse) GetVisibilityStore() string {
 		return x.VisibilityStore
 	}
 	return ""
+}
+
+func (x *GetClusterInfoResponse) GetInitialFailoverVersion() int64 {
+	if x != nil {
+		return x.InitialFailoverVersion
+	}
+	return 0
+}
+
+func (x *GetClusterInfoResponse) GetFailoverVersionIncrement() int64 {
+	if x != nil {
+		return x.FailoverVersionIncrement
+	}
+	return 0
 }
 
 type GetSystemInfoRequest struct {
@@ -15696,7 +15712,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x11VersionsInfoEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12E\n" +
 	"\x05value\x18\x02 \x01(\v2/.temporal.api.taskqueue.v1.TaskQueueVersionInfoR\x05value:\x028\x01\"\x17\n" +
-	"\x15GetClusterInfoRequest\"\x93\x04\n" +
+	"\x15GetClusterInfoRequest\"\x8b\x05\n" +
 	"\x16GetClusterInfoResponse\x12z\n" +
 	"\x11supported_clients\x18\x01 \x03(\v2M.temporal.api.workflowservice.v1.GetClusterInfoResponse.SupportedClientsEntryR\x10supportedClients\x12%\n" +
 	"\x0eserver_version\x18\x02 \x01(\tR\rserverVersion\x12\x1d\n" +
@@ -15706,7 +15722,10 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\fcluster_name\x18\x05 \x01(\tR\vclusterName\x12.\n" +
 	"\x13history_shard_count\x18\x06 \x01(\x05R\x11historyShardCount\x12+\n" +
 	"\x11persistence_store\x18\a \x01(\tR\x10persistenceStore\x12)\n" +
-	"\x10visibility_store\x18\b \x01(\tR\x0fvisibilityStore\x1aC\n" +
+	"\x10visibility_store\x18\b \x01(\tR\x0fvisibilityStore\x128\n" +
+	"\x18initial_failover_version\x18\t \x01(\x03R\x16initialFailoverVersion\x12<\n" +
+	"\x1afailover_version_increment\x18\n" +
+	" \x01(\x03R\x18failoverVersionIncrement\x1aC\n" +
 	"\x15SupportedClientsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x16\n" +

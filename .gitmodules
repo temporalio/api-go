@@ -1,7 +1,7 @@
 [submodule "proto/api"]
 	path = proto/api
 	url = https://github.com/temporalio/api
-	branch = y_describe_worker
+	branch = y_worker_commands
 [submodule "proto/api-cloud"]
 	path = proto/api-cloud
 	url = https://github.com/temporalio/api-cloud
