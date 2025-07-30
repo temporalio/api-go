@@ -25,7 +25,7 @@ const (
 )
 
 // Will be sent to the worker as a payload of the FetchWorkerConfig command.
-type FetchWorkerConfigRequest struct {
+type FetchWorkerConfigRequestPayload struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// List of worker identifiers. For now only a single worker instance key is supported.
 	WorkerInstanceKey []string `protobuf:"bytes,1,rep,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
@@ -33,20 +33,20 @@ type FetchWorkerConfigRequest struct {
 	sizeCache         protoimpl.SizeCache
 }
 
-func (x *FetchWorkerConfigRequest) Reset() {
-	*x = FetchWorkerConfigRequest{}
+func (x *FetchWorkerConfigRequestPayload) Reset() {
+	*x = FetchWorkerConfigRequestPayload{}
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FetchWorkerConfigRequest) String() string {
+func (x *FetchWorkerConfigRequestPayload) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FetchWorkerConfigRequest) ProtoMessage() {}
+func (*FetchWorkerConfigRequestPayload) ProtoMessage() {}
 
-func (x *FetchWorkerConfigRequest) ProtoReflect() protoreflect.Message {
+func (x *FetchWorkerConfigRequestPayload) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -58,39 +58,41 @@ func (x *FetchWorkerConfigRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FetchWorkerConfigRequest.ProtoReflect.Descriptor instead.
-func (*FetchWorkerConfigRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use FetchWorkerConfigRequestPayload.ProtoReflect.Descriptor instead.
+func (*FetchWorkerConfigRequestPayload) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *FetchWorkerConfigRequest) GetWorkerInstanceKey() []string {
+func (x *FetchWorkerConfigRequestPayload) GetWorkerInstanceKey() []string {
 	if x != nil {
 		return x.WorkerInstanceKey
 	}
 	return nil
 }
 
-type FetchWorkerConfigResponse struct {
-	state         protoimpl.MessageState                         `protogen:"open.v1"`
-	WorkerConfigs []*FetchWorkerConfigResponse_WorkerConfigEntry `protobuf:"bytes,1,rep,name=worker_configs,json=workerConfigs,proto3" json:"worker_configs,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+type WorkerConfigEntry struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Worker instance key the config is for.
+	WorkerInstanceKey string           `protobuf:"bytes,1,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
+	WorkerConfig      *v1.WorkerConfig `protobuf:"bytes,2,opt,name=worker_config,json=workerConfig,proto3" json:"worker_config,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
-func (x *FetchWorkerConfigResponse) Reset() {
-	*x = FetchWorkerConfigResponse{}
+func (x *WorkerConfigEntry) Reset() {
+	*x = WorkerConfigEntry{}
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FetchWorkerConfigResponse) String() string {
+func (x *WorkerConfigEntry) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FetchWorkerConfigResponse) ProtoMessage() {}
+func (*WorkerConfigEntry) ProtoMessage() {}
 
-func (x *FetchWorkerConfigResponse) ProtoReflect() protoreflect.Message {
+func (x *WorkerConfigEntry) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -102,12 +104,63 @@ func (x *FetchWorkerConfigResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FetchWorkerConfigResponse.ProtoReflect.Descriptor instead.
-func (*FetchWorkerConfigResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use WorkerConfigEntry.ProtoReflect.Descriptor instead.
+func (*WorkerConfigEntry) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *FetchWorkerConfigResponse) GetWorkerConfigs() []*FetchWorkerConfigResponse_WorkerConfigEntry {
+func (x *WorkerConfigEntry) GetWorkerInstanceKey() string {
+	if x != nil {
+		return x.WorkerInstanceKey
+	}
+	return ""
+}
+
+func (x *WorkerConfigEntry) GetWorkerConfig() *v1.WorkerConfig {
+	if x != nil {
+		return x.WorkerConfig
+	}
+	return nil
+}
+
+type FetchWorkerConfigResponsePayload struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkerConfigs []*WorkerConfigEntry   `protobuf:"bytes,1,rep,name=worker_configs,json=workerConfigs,proto3" json:"worker_configs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FetchWorkerConfigResponsePayload) Reset() {
+	*x = FetchWorkerConfigResponsePayload{}
+	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FetchWorkerConfigResponsePayload) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FetchWorkerConfigResponsePayload) ProtoMessage() {}
+
+func (x *FetchWorkerConfigResponsePayload) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FetchWorkerConfigResponsePayload.ProtoReflect.Descriptor instead.
+func (*FetchWorkerConfigResponsePayload) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *FetchWorkerConfigResponsePayload) GetWorkerConfigs() []*WorkerConfigEntry {
 	if x != nil {
 		return x.WorkerConfigs
 	}
@@ -115,7 +168,7 @@ func (x *FetchWorkerConfigResponse) GetWorkerConfigs() []*FetchWorkerConfigRespo
 }
 
 // Will be sent to the worker as a payload of the UpdateWorkerConfig command.
-type UpdateWorkerConfigRequest struct {
+type UpdateWorkerConfigRequestPayload struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// List of worker identifiers.
 	WorkerInstanceKey []string `protobuf:"bytes,1,rep,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
@@ -127,21 +180,21 @@ type UpdateWorkerConfigRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UpdateWorkerConfigRequest) Reset() {
-	*x = UpdateWorkerConfigRequest{}
-	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[2]
+func (x *UpdateWorkerConfigRequestPayload) Reset() {
+	*x = UpdateWorkerConfigRequestPayload{}
+	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UpdateWorkerConfigRequest) String() string {
+func (x *UpdateWorkerConfigRequestPayload) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateWorkerConfigRequest) ProtoMessage() {}
+func (*UpdateWorkerConfigRequestPayload) ProtoMessage() {}
 
-func (x *UpdateWorkerConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[2]
+func (x *UpdateWorkerConfigRequestPayload) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -152,91 +205,53 @@ func (x *UpdateWorkerConfigRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerConfigRequest.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerConfigRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use UpdateWorkerConfigRequestPayload.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerConfigRequestPayload) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *UpdateWorkerConfigRequest) GetWorkerInstanceKey() []string {
+func (x *UpdateWorkerConfigRequestPayload) GetWorkerInstanceKey() []string {
 	if x != nil {
 		return x.WorkerInstanceKey
 	}
 	return nil
 }
 
-func (x *UpdateWorkerConfigRequest) GetWorkerConfig() *v1.WorkerConfig {
+func (x *UpdateWorkerConfigRequestPayload) GetWorkerConfig() *v1.WorkerConfig {
 	if x != nil {
 		return x.WorkerConfig
 	}
 	return nil
 }
 
-func (x *UpdateWorkerConfigRequest) GetUpdateMask() *fieldmaskpb.FieldMask {
+func (x *UpdateWorkerConfigRequestPayload) GetUpdateMask() *fieldmaskpb.FieldMask {
 	if x != nil {
 		return x.UpdateMask
 	}
 	return nil
 }
 
-type UpdateWorkerConfigResponse struct {
+type UpdateWorkerConfigResponsePayload struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkerConfigs []*WorkerConfigEntry   `protobuf:"bytes,1,rep,name=worker_configs,json=workerConfigs,proto3" json:"worker_configs,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UpdateWorkerConfigResponse) Reset() {
-	*x = UpdateWorkerConfigResponse{}
-	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateWorkerConfigResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateWorkerConfigResponse) ProtoMessage() {}
-
-func (x *UpdateWorkerConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateWorkerConfigResponse.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerConfigResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{3}
-}
-
-type FetchWorkerConfigResponse_WorkerConfigEntry struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Worker instance key the config is for.
-	WorkerInstanceKey string           `protobuf:"bytes,1,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
-	WorkerConfig      *v1.WorkerConfig `protobuf:"bytes,2,opt,name=worker_config,json=workerConfig,proto3" json:"worker_config,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *FetchWorkerConfigResponse_WorkerConfigEntry) Reset() {
-	*x = FetchWorkerConfigResponse_WorkerConfigEntry{}
+func (x *UpdateWorkerConfigResponsePayload) Reset() {
+	*x = UpdateWorkerConfigResponsePayload{}
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FetchWorkerConfigResponse_WorkerConfigEntry) String() string {
+func (x *UpdateWorkerConfigResponsePayload) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FetchWorkerConfigResponse_WorkerConfigEntry) ProtoMessage() {}
+func (*UpdateWorkerConfigResponsePayload) ProtoMessage() {}
 
-func (x *FetchWorkerConfigResponse_WorkerConfigEntry) ProtoReflect() protoreflect.Message {
+func (x *UpdateWorkerConfigResponsePayload) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -248,21 +263,14 @@ func (x *FetchWorkerConfigResponse_WorkerConfigEntry) ProtoReflect() protoreflec
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FetchWorkerConfigResponse_WorkerConfigEntry.ProtoReflect.Descriptor instead.
-func (*FetchWorkerConfigResponse_WorkerConfigEntry) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{1, 0}
+// Deprecated: Use UpdateWorkerConfigResponsePayload.ProtoReflect.Descriptor instead.
+func (*UpdateWorkerConfigResponsePayload) Descriptor() ([]byte, []int) {
+	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *FetchWorkerConfigResponse_WorkerConfigEntry) GetWorkerInstanceKey() string {
+func (x *UpdateWorkerConfigResponsePayload) GetWorkerConfigs() []*WorkerConfigEntry {
 	if x != nil {
-		return x.WorkerInstanceKey
-	}
-	return ""
-}
-
-func (x *FetchWorkerConfigResponse_WorkerConfigEntry) GetWorkerConfig() *v1.WorkerConfig {
-	if x != nil {
-		return x.WorkerConfig
+		return x.WorkerConfigs
 	}
 	return nil
 }
@@ -271,20 +279,21 @@ var File_temporal_api_worker_v1_worker_nexus_service_commands_proto protoreflect
 
 const file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDesc = "" +
 	"\n" +
-	":temporal/api/worker/v1/worker_nexus_service_commands.proto\x12\x16temporal.api.worker.v1\x1a google/protobuf/field_mask.proto\x1a'temporal/api/sdk/v1/worker_config.proto\"J\n" +
-	"\x18FetchWorkerConfigRequest\x12.\n" +
-	"\x13worker_instance_key\x18\x01 \x03(\tR\x11workerInstanceKey\"\x95\x02\n" +
-	"\x19FetchWorkerConfigResponse\x12j\n" +
-	"\x0eworker_configs\x18\x01 \x03(\v2C.temporal.api.worker.v1.FetchWorkerConfigResponse.WorkerConfigEntryR\rworkerConfigs\x1a\x8b\x01\n" +
+	":temporal/api/worker/v1/worker_nexus_service_commands.proto\x12\x16temporal.api.worker.v1\x1a google/protobuf/field_mask.proto\x1a'temporal/api/sdk/v1/worker_config.proto\"Q\n" +
+	"\x1fFetchWorkerConfigRequestPayload\x12.\n" +
+	"\x13worker_instance_key\x18\x01 \x03(\tR\x11workerInstanceKey\"\x8b\x01\n" +
 	"\x11WorkerConfigEntry\x12.\n" +
 	"\x13worker_instance_key\x18\x01 \x01(\tR\x11workerInstanceKey\x12F\n" +
-	"\rworker_config\x18\x02 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigR\fworkerConfig\"\xd0\x01\n" +
-	"\x19UpdateWorkerConfigRequest\x12.\n" +
+	"\rworker_config\x18\x02 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigR\fworkerConfig\"t\n" +
+	" FetchWorkerConfigResponsePayload\x12P\n" +
+	"\x0eworker_configs\x18\x01 \x03(\v2).temporal.api.worker.v1.WorkerConfigEntryR\rworkerConfigs\"\xd7\x01\n" +
+	" UpdateWorkerConfigRequestPayload\x12.\n" +
 	"\x13worker_instance_key\x18\x01 \x03(\tR\x11workerInstanceKey\x12F\n" +
 	"\rworker_config\x18\x02 \x01(\v2!.temporal.api.sdk.v1.WorkerConfigR\fworkerConfig\x12;\n" +
 	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
-	"updateMask\"\x1c\n" +
-	"\x1aUpdateWorkerConfigResponseB\x9c\x01\n" +
+	"updateMask\"u\n" +
+	"!UpdateWorkerConfigResponsePayload\x12P\n" +
+	"\x0eworker_configs\x18\x01 \x03(\v2).temporal.api.worker.v1.WorkerConfigEntryR\rworkerConfigsB\x9c\x01\n" +
 	"\x19io.temporal.api.worker.v1B\x1fWorkerNexusServiceCommandsProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
 
 var (
@@ -301,24 +310,25 @@ func file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP
 
 var file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_temporal_api_worker_v1_worker_nexus_service_commands_proto_goTypes = []any{
-	(*FetchWorkerConfigRequest)(nil),                    // 0: temporal.api.worker.v1.FetchWorkerConfigRequest
-	(*FetchWorkerConfigResponse)(nil),                   // 1: temporal.api.worker.v1.FetchWorkerConfigResponse
-	(*UpdateWorkerConfigRequest)(nil),                   // 2: temporal.api.worker.v1.UpdateWorkerConfigRequest
-	(*UpdateWorkerConfigResponse)(nil),                  // 3: temporal.api.worker.v1.UpdateWorkerConfigResponse
-	(*FetchWorkerConfigResponse_WorkerConfigEntry)(nil), // 4: temporal.api.worker.v1.FetchWorkerConfigResponse.WorkerConfigEntry
-	(*v1.WorkerConfig)(nil),                             // 5: temporal.api.sdk.v1.WorkerConfig
-	(*fieldmaskpb.FieldMask)(nil),                       // 6: google.protobuf.FieldMask
+	(*FetchWorkerConfigRequestPayload)(nil),   // 0: temporal.api.worker.v1.FetchWorkerConfigRequestPayload
+	(*WorkerConfigEntry)(nil),                 // 1: temporal.api.worker.v1.WorkerConfigEntry
+	(*FetchWorkerConfigResponsePayload)(nil),  // 2: temporal.api.worker.v1.FetchWorkerConfigResponsePayload
+	(*UpdateWorkerConfigRequestPayload)(nil),  // 3: temporal.api.worker.v1.UpdateWorkerConfigRequestPayload
+	(*UpdateWorkerConfigResponsePayload)(nil), // 4: temporal.api.worker.v1.UpdateWorkerConfigResponsePayload
+	(*v1.WorkerConfig)(nil),                   // 5: temporal.api.sdk.v1.WorkerConfig
+	(*fieldmaskpb.FieldMask)(nil),             // 6: google.protobuf.FieldMask
 }
 var file_temporal_api_worker_v1_worker_nexus_service_commands_proto_depIdxs = []int32{
-	4, // 0: temporal.api.worker.v1.FetchWorkerConfigResponse.worker_configs:type_name -> temporal.api.worker.v1.FetchWorkerConfigResponse.WorkerConfigEntry
-	5, // 1: temporal.api.worker.v1.UpdateWorkerConfigRequest.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
-	6, // 2: temporal.api.worker.v1.UpdateWorkerConfigRequest.update_mask:type_name -> google.protobuf.FieldMask
-	5, // 3: temporal.api.worker.v1.FetchWorkerConfigResponse.WorkerConfigEntry.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	5, // 0: temporal.api.worker.v1.WorkerConfigEntry.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
+	1, // 1: temporal.api.worker.v1.FetchWorkerConfigResponsePayload.worker_configs:type_name -> temporal.api.worker.v1.WorkerConfigEntry
+	5, // 2: temporal.api.worker.v1.UpdateWorkerConfigRequestPayload.worker_config:type_name -> temporal.api.sdk.v1.WorkerConfig
+	6, // 3: temporal.api.worker.v1.UpdateWorkerConfigRequestPayload.update_mask:type_name -> google.protobuf.FieldMask
+	1, // 4: temporal.api.worker.v1.UpdateWorkerConfigResponsePayload.worker_configs:type_name -> temporal.api.worker.v1.WorkerConfigEntry
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_worker_v1_worker_nexus_service_commands_proto_init() }
