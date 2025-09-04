@@ -11566,8 +11566,12 @@ type SetWorkerDeploymentCurrentVersionRequest struct {
 	// pollers have not reached to the server yet. Only set this if you expect those pollers to
 	// never arrive.
 	IgnoreMissingTaskQueues bool `protobuf:"varint,6,opt,name=ignore_missing_task_queues,json=ignoreMissingTaskQueues,proto3" json:"ignore_missing_task_queues,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// Optional. By default this request will be rejected if no pollers have been seen for the proposed
+	// Current Version, in order to protect users from routing tasks to pollers that do not exist, leading
+	// to possible timeouts. Pass `true` here to bypass this protection.
+	AllowNoPollers bool `protobuf:"varint,9,opt,name=allow_no_pollers,json=allowNoPollers,proto3" json:"allow_no_pollers,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *SetWorkerDeploymentCurrentVersionRequest) Reset() {
@@ -11646,6 +11650,13 @@ func (x *SetWorkerDeploymentCurrentVersionRequest) GetIdentity() string {
 func (x *SetWorkerDeploymentCurrentVersionRequest) GetIgnoreMissingTaskQueues() bool {
 	if x != nil {
 		return x.IgnoreMissingTaskQueues
+	}
+	return false
+}
+
+func (x *SetWorkerDeploymentCurrentVersionRequest) GetAllowNoPollers() bool {
+	if x != nil {
+		return x.AllowNoPollers
 	}
 	return false
 }
@@ -11758,8 +11769,12 @@ type SetWorkerDeploymentRampingVersionRequest struct {
 	// that the percentage changes. Also note that the check is against the deployment's Current
 	// Version, not the previous Ramping Version.
 	IgnoreMissingTaskQueues bool `protobuf:"varint,7,opt,name=ignore_missing_task_queues,json=ignoreMissingTaskQueues,proto3" json:"ignore_missing_task_queues,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
+	// Optional. By default this request will be rejected if no pollers have been seen for the proposed
+	// Current Version, in order to protect users from routing tasks to pollers that do not exist, leading
+	// to possible timeouts. Pass `true` here to bypass this protection.
+	AllowNoPollers bool `protobuf:"varint,10,opt,name=allow_no_pollers,json=allowNoPollers,proto3" json:"allow_no_pollers,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *SetWorkerDeploymentRampingVersionRequest) Reset() {
@@ -11845,6 +11860,13 @@ func (x *SetWorkerDeploymentRampingVersionRequest) GetIdentity() string {
 func (x *SetWorkerDeploymentRampingVersionRequest) GetIgnoreMissingTaskQueues() bool {
 	if x != nil {
 		return x.IgnoreMissingTaskQueues
+	}
+	return false
+}
+
+func (x *SetWorkerDeploymentRampingVersionRequest) GetAllowNoPollers() bool {
+	if x != nil {
+		return x.AllowNoPollers
 	}
 	return false
 }
@@ -16133,7 +16155,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0fupdate_metadata\x18\x04 \x01(\v24.temporal.api.deployment.v1.UpdateDeploymentMetadataR\x0eupdateMetadata\"\xe8\x01\n" +
 	"\x1cSetCurrentDeploymentResponse\x12b\n" +
 	"\x17current_deployment_info\x18\x01 \x01(\v2*.temporal.api.deployment.v1.DeploymentInfoR\x15currentDeploymentInfo\x12d\n" +
-	"\x18previous_deployment_info\x18\x02 \x01(\v2*.temporal.api.deployment.v1.DeploymentInfoR\x16previousDeploymentInfo\"\xaa\x02\n" +
+	"\x18previous_deployment_info\x18\x02 \x01(\v2*.temporal.api.deployment.v1.DeploymentInfoR\x16previousDeploymentInfo\"\xd4\x02\n" +
 	"(SetWorkerDeploymentCurrentVersionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12'\n" +
 	"\x0fdeployment_name\x18\x02 \x01(\tR\x0edeploymentName\x12\x1c\n" +
@@ -16141,11 +16163,12 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\bbuild_id\x18\a \x01(\tR\abuildId\x12%\n" +
 	"\x0econflict_token\x18\x04 \x01(\fR\rconflictToken\x12\x1a\n" +
 	"\bidentity\x18\x05 \x01(\tR\bidentity\x12;\n" +
-	"\x1aignore_missing_task_queues\x18\x06 \x01(\bR\x17ignoreMissingTaskQueues\"\xf6\x01\n" +
+	"\x1aignore_missing_task_queues\x18\x06 \x01(\bR\x17ignoreMissingTaskQueues\x12(\n" +
+	"\x10allow_no_pollers\x18\t \x01(\bR\x0eallowNoPollers\"\xf6\x01\n" +
 	")SetWorkerDeploymentCurrentVersionResponse\x12%\n" +
 	"\x0econflict_token\x18\x01 \x01(\fR\rconflictToken\x12-\n" +
 	"\x10previous_version\x18\x02 \x01(\tB\x02\x18\x01R\x0fpreviousVersion\x12s\n" +
-	"\x1bprevious_deployment_version\x18\x03 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x19previousDeploymentVersion\"\xca\x02\n" +
+	"\x1bprevious_deployment_version\x18\x03 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x19previousDeploymentVersion\"\xf4\x02\n" +
 	"(SetWorkerDeploymentRampingVersionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12'\n" +
 	"\x0fdeployment_name\x18\x02 \x01(\tR\x0edeploymentName\x12\x1c\n" +
@@ -16156,7 +16179,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"percentage\x12%\n" +
 	"\x0econflict_token\x18\x05 \x01(\fR\rconflictToken\x12\x1a\n" +
 	"\bidentity\x18\x06 \x01(\tR\bidentity\x12;\n" +
-	"\x1aignore_missing_task_queues\x18\a \x01(\bR\x17ignoreMissingTaskQueues\"\xa7\x02\n" +
+	"\x1aignore_missing_task_queues\x18\a \x01(\bR\x17ignoreMissingTaskQueues\x12(\n" +
+	"\x10allow_no_pollers\x18\n" +
+	" \x01(\bR\x0eallowNoPollers\"\xa7\x02\n" +
 	")SetWorkerDeploymentRampingVersionResponse\x12%\n" +
 	"\x0econflict_token\x18\x01 \x01(\fR\rconflictToken\x12-\n" +
 	"\x10previous_version\x18\x02 \x01(\tB\x02\x18\x01R\x0fpreviousVersion\x12s\n" +
