@@ -88,6 +88,7 @@ const (
 	WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentRampingVersion"
 	WorkflowService_ListWorkerDeployments_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkerDeployments"
 	WorkflowService_UpdateWorkerDeploymentVersionMetadata_FullMethodName = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata"
+	WorkflowService_SetWorkerDeploymentManager_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentManager"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
 	WorkflowService_StartBatchOperation_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
@@ -558,6 +559,9 @@ type WorkflowServiceClient interface {
 	// Updates the user-given metadata attached to a Worker Deployment Version.
 	// Experimental. This API might significantly change or be removed in a future release.
 	UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in *UpdateWorkerDeploymentVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerDeploymentVersionMetadataResponse, error)
+	// Set/unset the ManagerIdentity of a Worker Deployment.
+	// Experimental. This API might significantly change or be removed in a future release.
+	SetWorkerDeploymentManager(ctx context.Context, in *SetWorkerDeploymentManagerRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentManagerResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -1373,6 +1377,16 @@ func (c *workflowServiceClient) UpdateWorkerDeploymentVersionMetadata(ctx contex
 	return out, nil
 }
 
+func (c *workflowServiceClient) SetWorkerDeploymentManager(ctx context.Context, in *SetWorkerDeploymentManagerRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentManagerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetWorkerDeploymentManagerResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentManager_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkflowExecutionResponse)
@@ -2066,6 +2080,9 @@ type WorkflowServiceServer interface {
 	// Updates the user-given metadata attached to a Worker Deployment Version.
 	// Experimental. This API might significantly change or be removed in a future release.
 	UpdateWorkerDeploymentVersionMetadata(context.Context, *UpdateWorkerDeploymentVersionMetadataRequest) (*UpdateWorkerDeploymentVersionMetadataResponse, error)
+	// Set/unset the ManagerIdentity of a Worker Deployment.
+	// Experimental. This API might significantly change or be removed in a future release.
+	SetWorkerDeploymentManager(context.Context, *SetWorkerDeploymentManagerRequest) (*SetWorkerDeploymentManagerResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -2404,6 +2421,9 @@ func (UnimplementedWorkflowServiceServer) ListWorkerDeployments(context.Context,
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkerDeploymentVersionMetadata(context.Context, *UpdateWorkerDeploymentVersionMetadataRequest) (*UpdateWorkerDeploymentVersionMetadataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerDeploymentVersionMetadata not implemented")
+}
+func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentManager(context.Context, *SetWorkerDeploymentManagerRequest) (*SetWorkerDeploymentManagerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentManager not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
@@ -3725,6 +3745,24 @@ func _WorkflowService_UpdateWorkerDeploymentVersionMetadata_Handler(srv interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_SetWorkerDeploymentManager_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetWorkerDeploymentManagerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentManager(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_SetWorkerDeploymentManager_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentManager(ctx, req.(*SetWorkerDeploymentManagerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_UpdateWorkflowExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateWorkflowExecutionRequest)
 	if err := dec(in); err != nil {
@@ -4453,6 +4491,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateWorkerDeploymentVersionMetadata",
 			Handler:    _WorkflowService_UpdateWorkerDeploymentVersionMetadata_Handler,
+		},
+		{
+			MethodName: "SetWorkerDeploymentManager",
+			Handler:    _WorkflowService_SetWorkerDeploymentManager_Handler,
 		},
 		{
 			MethodName: "UpdateWorkflowExecution",
