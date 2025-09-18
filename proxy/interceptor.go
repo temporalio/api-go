@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"slices"
 
+	"go.temporal.io/api/activity/v1"
 	"go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
@@ -314,6 +315,48 @@ func visitPayloads(
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
+			}
+
+		case *activity.ActivityExecutionInfo:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetHeader(),
+				o.GetHeartbeatDetails(),
+				o.GetInput(),
+				o.GetLastFailure(),
+				o.GetSearchAttributes(),
+				o.GetUserMetadata(),
+			); err != nil {
+				return err
+			}
+
+		case []*activity.ActivityListInfo:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *activity.ActivityListInfo:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetSearchAttributes(),
+			); err != nil {
+				return err
 			}
 
 		case *batch.BatchOperationReset:
@@ -2065,6 +2108,43 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.CountActivityExecutionsResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetGroups(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflowservice.CountActivityExecutionsResponse_AggregationGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.CountActivityExecutionsResponse_AggregationGroup:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetGroupValues(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.CountWorkflowExecutionsResponse:
 
 			if o == nil {
@@ -2115,6 +2195,21 @@ func visitPayloads(
 				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.DescribeActivityExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetInfo(),
 			); err != nil {
 				return err
 			}
@@ -2261,6 +2356,22 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.GetActivityResultResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
+				o.GetResult(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.GetCurrentDeploymentResponse:
 
 			if o == nil {
@@ -2317,6 +2428,21 @@ func visitPayloads(
 				options,
 				o,
 				o.GetHistory(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.ListActivityExecutionsResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetExecutions(),
 			); err != nil {
 				return err
 			}
@@ -2827,6 +2953,40 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.StartActivityExecutionRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetHeader(),
+				o.GetInput(),
+				o.GetMemo(),
+				o.GetSearchAttributes(),
+				o.GetUserMetadata(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.StartActivityExecutionResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetEagerTask(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.StartBatchOperationRequest:
 
 			if o == nil {
@@ -3009,6 +3169,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				if err := visitFailures(ctx, options, x); err != nil {
 					return err
 				}
+			}
+
+		case *activity.ActivityExecutionInfo:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetLastFailure(),
+			); err != nil {
+				return err
 			}
 
 		case []*command.Command:
@@ -3546,6 +3719,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *workflowservice.DescribeActivityExecutionResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetInfo(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeWorkflowExecutionResponse:
 			if o == nil {
 				continue
@@ -3624,6 +3810,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				options,
 				o.GetStartWorkflow(),
 				o.GetUpdateWorkflow(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.GetActivityResultResponse:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
