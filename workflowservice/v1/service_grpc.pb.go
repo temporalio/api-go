@@ -88,6 +88,7 @@ const (
 	WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName     = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentRampingVersion"
 	WorkflowService_ListWorkerDeployments_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkerDeployments"
 	WorkflowService_UpdateWorkerDeploymentVersionMetadata_FullMethodName = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerDeploymentVersionMetadata"
+	WorkflowService_SetWorkerDeploymentManager_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/SetWorkerDeploymentManager"
 	WorkflowService_UpdateWorkflowExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkflowExecution"
 	WorkflowService_PollWorkflowExecutionUpdate_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/PollWorkflowExecutionUpdate"
 	WorkflowService_StartBatchOperation_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/StartBatchOperation"
@@ -109,6 +110,10 @@ const (
 	WorkflowService_TriggerWorkflowRule_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/TriggerWorkflowRule"
 	WorkflowService_RecordWorkerHeartbeat_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/RecordWorkerHeartbeat"
 	WorkflowService_ListWorkers_FullMethodName                           = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkers"
+	WorkflowService_UpdateTaskQueueConfig_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/UpdateTaskQueueConfig"
+	WorkflowService_FetchWorkerConfig_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/FetchWorkerConfig"
+	WorkflowService_UpdateWorkerConfig_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerConfig"
+	WorkflowService_DescribeWorker_FullMethodName                        = "/temporal.api.workflowservice.v1.WorkflowService/DescribeWorker"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -341,7 +346,8 @@ type WorkflowServiceClient interface {
 	ListWorkflowExecutions(ctx context.Context, in *ListWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListWorkflowExecutionsResponse, error)
 	// ListArchivedWorkflowExecutions is a visibility API to list archived workflow executions in a specific namespace.
 	ListArchivedWorkflowExecutions(ctx context.Context, in *ListArchivedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListArchivedWorkflowExecutionsResponse, error)
-	// ScanWorkflowExecutions is a visibility API to list large amount of workflow executions in a specific namespace without order.
+	// ScanWorkflowExecutions _was_ a visibility API to list large amount of workflow executions in a specific namespace without order.
+	// It has since been deprecated in favor of `ListWorkflowExecutions` and rewritten to use `ListWorkflowExecutions` internally.
 	//
 	// Deprecated: Replaced with `ListWorkflowExecutions`.
 	// (-- api-linter: core::0127::http-annotation=disabled
@@ -554,6 +560,9 @@ type WorkflowServiceClient interface {
 	// Updates the user-given metadata attached to a Worker Deployment Version.
 	// Experimental. This API might significantly change or be removed in a future release.
 	UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in *UpdateWorkerDeploymentVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerDeploymentVersionMetadataResponse, error)
+	// Set/unset the ManagerIdentity of a Worker Deployment.
+	// Experimental. This API might significantly change or be removed in a future release.
+	SetWorkerDeploymentManager(ctx context.Context, in *SetWorkerDeploymentManagerRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentManagerResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -666,6 +675,19 @@ type WorkflowServiceClient interface {
 	RecordWorkerHeartbeat(ctx context.Context, in *RecordWorkerHeartbeatRequest, opts ...grpc.CallOption) (*RecordWorkerHeartbeatResponse, error)
 	// ListWorkers is a visibility API to list worker status information in a specific namespace.
 	ListWorkers(ctx context.Context, in *ListWorkersRequest, opts ...grpc.CallOption) (*ListWorkersResponse, error)
+	// Updates task queue configuration.
+	// For the overall queue rate limit: the rate limit set by this api overrides the worker-set rate limit,
+	// which uncouples the rate limit from the worker lifecycle.
+	// If the overall queue rate limit is unset, the worker-set rate limit takes effect.
+	UpdateTaskQueueConfig(ctx context.Context, in *UpdateTaskQueueConfigRequest, opts ...grpc.CallOption) (*UpdateTaskQueueConfigResponse, error)
+	// FetchWorkerConfig returns the worker configuration for a specific worker.
+	FetchWorkerConfig(ctx context.Context, in *FetchWorkerConfigRequest, opts ...grpc.CallOption) (*FetchWorkerConfigResponse, error)
+	// UpdateWorkerConfig updates the worker configuration of one or more workers.
+	// Can be used to partially update the worker configuration.
+	// Can be used to update the configuration of multiple workers.
+	UpdateWorkerConfig(ctx context.Context, in *UpdateWorkerConfigRequest, opts ...grpc.CallOption) (*UpdateWorkerConfigResponse, error)
+	// DescribeWorker returns information about the specified worker.
+	DescribeWorker(ctx context.Context, in *DescribeWorkerRequest, opts ...grpc.CallOption) (*DescribeWorkerResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1356,6 +1378,16 @@ func (c *workflowServiceClient) UpdateWorkerDeploymentVersionMetadata(ctx contex
 	return out, nil
 }
 
+func (c *workflowServiceClient) SetWorkerDeploymentManager(ctx context.Context, in *SetWorkerDeploymentManagerRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentManagerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetWorkerDeploymentManagerResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentManager_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkflowExecutionResponse)
@@ -1560,6 +1592,46 @@ func (c *workflowServiceClient) ListWorkers(ctx context.Context, in *ListWorkers
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListWorkersResponse)
 	err := c.cc.Invoke(ctx, WorkflowService_ListWorkers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) UpdateTaskQueueConfig(ctx context.Context, in *UpdateTaskQueueConfigRequest, opts ...grpc.CallOption) (*UpdateTaskQueueConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateTaskQueueConfigResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateTaskQueueConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) FetchWorkerConfig(ctx context.Context, in *FetchWorkerConfigRequest, opts ...grpc.CallOption) (*FetchWorkerConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FetchWorkerConfigResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_FetchWorkerConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) UpdateWorkerConfig(ctx context.Context, in *UpdateWorkerConfigRequest, opts ...grpc.CallOption) (*UpdateWorkerConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateWorkerConfigResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) DescribeWorker(ctx context.Context, in *DescribeWorkerRequest, opts ...grpc.CallOption) (*DescribeWorkerResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DescribeWorkerResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorker_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1796,7 +1868,8 @@ type WorkflowServiceServer interface {
 	ListWorkflowExecutions(context.Context, *ListWorkflowExecutionsRequest) (*ListWorkflowExecutionsResponse, error)
 	// ListArchivedWorkflowExecutions is a visibility API to list archived workflow executions in a specific namespace.
 	ListArchivedWorkflowExecutions(context.Context, *ListArchivedWorkflowExecutionsRequest) (*ListArchivedWorkflowExecutionsResponse, error)
-	// ScanWorkflowExecutions is a visibility API to list large amount of workflow executions in a specific namespace without order.
+	// ScanWorkflowExecutions _was_ a visibility API to list large amount of workflow executions in a specific namespace without order.
+	// It has since been deprecated in favor of `ListWorkflowExecutions` and rewritten to use `ListWorkflowExecutions` internally.
 	//
 	// Deprecated: Replaced with `ListWorkflowExecutions`.
 	// (-- api-linter: core::0127::http-annotation=disabled
@@ -2009,6 +2082,9 @@ type WorkflowServiceServer interface {
 	// Updates the user-given metadata attached to a Worker Deployment Version.
 	// Experimental. This API might significantly change or be removed in a future release.
 	UpdateWorkerDeploymentVersionMetadata(context.Context, *UpdateWorkerDeploymentVersionMetadataRequest) (*UpdateWorkerDeploymentVersionMetadataResponse, error)
+	// Set/unset the ManagerIdentity of a Worker Deployment.
+	// Experimental. This API might significantly change or be removed in a future release.
+	SetWorkerDeploymentManager(context.Context, *SetWorkerDeploymentManagerRequest) (*SetWorkerDeploymentManagerResponse, error)
 	// Invokes the specified Update function on user Workflow code.
 	UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error)
 	// Polls a Workflow Execution for the outcome of a Workflow Update
@@ -2121,6 +2197,19 @@ type WorkflowServiceServer interface {
 	RecordWorkerHeartbeat(context.Context, *RecordWorkerHeartbeatRequest) (*RecordWorkerHeartbeatResponse, error)
 	// ListWorkers is a visibility API to list worker status information in a specific namespace.
 	ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error)
+	// Updates task queue configuration.
+	// For the overall queue rate limit: the rate limit set by this api overrides the worker-set rate limit,
+	// which uncouples the rate limit from the worker lifecycle.
+	// If the overall queue rate limit is unset, the worker-set rate limit takes effect.
+	UpdateTaskQueueConfig(context.Context, *UpdateTaskQueueConfigRequest) (*UpdateTaskQueueConfigResponse, error)
+	// FetchWorkerConfig returns the worker configuration for a specific worker.
+	FetchWorkerConfig(context.Context, *FetchWorkerConfigRequest) (*FetchWorkerConfigResponse, error)
+	// UpdateWorkerConfig updates the worker configuration of one or more workers.
+	// Can be used to partially update the worker configuration.
+	// Can be used to update the configuration of multiple workers.
+	UpdateWorkerConfig(context.Context, *UpdateWorkerConfigRequest) (*UpdateWorkerConfigResponse, error)
+	// DescribeWorker returns information about the specified worker.
+	DescribeWorker(context.Context, *DescribeWorkerRequest) (*DescribeWorkerResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2335,6 +2424,9 @@ func (UnimplementedWorkflowServiceServer) ListWorkerDeployments(context.Context,
 func (UnimplementedWorkflowServiceServer) UpdateWorkerDeploymentVersionMetadata(context.Context, *UpdateWorkerDeploymentVersionMetadataRequest) (*UpdateWorkerDeploymentVersionMetadataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerDeploymentVersionMetadata not implemented")
 }
+func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentManager(context.Context, *SetWorkerDeploymentManagerRequest) (*SetWorkerDeploymentManagerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentManager not implemented")
+}
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
 }
@@ -2397,6 +2489,18 @@ func (UnimplementedWorkflowServiceServer) RecordWorkerHeartbeat(context.Context,
 }
 func (UnimplementedWorkflowServiceServer) ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListWorkers not implemented")
+}
+func (UnimplementedWorkflowServiceServer) UpdateTaskQueueConfig(context.Context, *UpdateTaskQueueConfigRequest) (*UpdateTaskQueueConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTaskQueueConfig not implemented")
+}
+func (UnimplementedWorkflowServiceServer) FetchWorkerConfig(context.Context, *FetchWorkerConfigRequest) (*FetchWorkerConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FetchWorkerConfig not implemented")
+}
+func (UnimplementedWorkflowServiceServer) UpdateWorkerConfig(context.Context, *UpdateWorkerConfigRequest) (*UpdateWorkerConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerConfig not implemented")
+}
+func (UnimplementedWorkflowServiceServer) DescribeWorker(context.Context, *DescribeWorkerRequest) (*DescribeWorkerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorker not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -3643,6 +3747,24 @@ func _WorkflowService_UpdateWorkerDeploymentVersionMetadata_Handler(srv interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_SetWorkerDeploymentManager_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetWorkerDeploymentManagerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentManager(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_SetWorkerDeploymentManager_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).SetWorkerDeploymentManager(ctx, req.(*SetWorkerDeploymentManagerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_UpdateWorkflowExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateWorkflowExecutionRequest)
 	if err := dec(in); err != nil {
@@ -4021,6 +4143,78 @@ func _WorkflowService_ListWorkers_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_UpdateTaskQueueConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTaskQueueConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).UpdateTaskQueueConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_UpdateTaskQueueConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).UpdateTaskQueueConfig(ctx, req.(*UpdateTaskQueueConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_FetchWorkerConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FetchWorkerConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).FetchWorkerConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_FetchWorkerConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).FetchWorkerConfig(ctx, req.(*FetchWorkerConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_UpdateWorkerConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateWorkerConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).UpdateWorkerConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_UpdateWorkerConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).UpdateWorkerConfig(ctx, req.(*UpdateWorkerConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_DescribeWorker_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeWorkerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).DescribeWorker(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_DescribeWorker_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).DescribeWorker(ctx, req.(*DescribeWorkerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -4301,6 +4495,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_UpdateWorkerDeploymentVersionMetadata_Handler,
 		},
 		{
+			MethodName: "SetWorkerDeploymentManager",
+			Handler:    _WorkflowService_SetWorkerDeploymentManager_Handler,
+		},
+		{
 			MethodName: "UpdateWorkflowExecution",
 			Handler:    _WorkflowService_UpdateWorkflowExecution_Handler,
 		},
@@ -4383,6 +4581,22 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListWorkers",
 			Handler:    _WorkflowService_ListWorkers_Handler,
+		},
+		{
+			MethodName: "UpdateTaskQueueConfig",
+			Handler:    _WorkflowService_UpdateTaskQueueConfig_Handler,
+		},
+		{
+			MethodName: "FetchWorkerConfig",
+			Handler:    _WorkflowService_FetchWorkerConfig_Handler,
+		},
+		{
+			MethodName: "UpdateWorkerConfig",
+			Handler:    _WorkflowService_UpdateWorkerConfig_Handler,
+		},
+		{
+			MethodName: "DescribeWorker",
+			Handler:    _WorkflowService_DescribeWorker_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1066,24 +1066,37 @@ func (*Link_WorkflowEvent_) isLink_Variant() {}
 func (*Link_BatchJob_) isLink_Variant() {}
 
 // Priority contains metadata that controls relative ordering of task processing
-// when tasks are backlogged in a queue. Initially, Priority will be used in
-// activity and workflow task queues, which are typically where backlogs exist.
-// Other queues in the server (such as transfer and timer queues) and rate
-// limiting decisions do not use Priority, but may in the future.
+// when tasks are backed up in a queue. Initially, Priority will be used in
+// matching (workflow and activity) task queues. Later it may be used in history
+// task queues and in rate limiting decisions.
 //
-// Priority is attached to workflows and activities. Activities and child
-// workflows inherit Priority from the workflow that created them, but may
-// override fields when they are started or modified. For each field of a
-// Priority on an activity/workflow, not present or equal to zero/empty string
-// means to inherit the value from the calling workflow, or if there is no
-// calling workflow, then use the default (documented below).
+// Priority is attached to workflows and activities. By default, activities
+// inherit Priority from the workflow that created them, but may override fields
+// when an activity is started or modified.
 //
-// Despite being named "Priority", this message will also contains fields that
+// Despite being named "Priority", this message also contains fields that
 // control "fairness" mechanisms.
 //
+// For all fields, the field not present or equal to zero/empty string means to
+// inherit the value from the calling workflow, or if there is no calling
+// workflow, then use the default value.
+//
+// For all fields other than fairness_key, the zero value isn't meaningful so
+// there's no confusion between inherit/default and a meaningful value. For
+// fairness_key, the empty string will be interpreted as "inherit". This means
+// that if a workflow has a non-empty fairness key, you can't override the
+// fairness key of its activity to the empty string.
+//
 // The overall semantics of Priority are:
-// 1. First, consider "priority_key": lower number goes first.
-// (more will be added here later)
+//  1. First, consider "priority": higher priority (lower number) goes first.
+//  2. Then, consider fairness: try to dispatch tasks for different fairness keys
+//     in proportion to their weight.
+//
+// Applications may use any subset of mechanisms that are useful to them and
+// leave the other fields to use default values.
+//
+// Not all queues in the system may support the "full" semantics of all priority
+// fields. (Currently only support in matching task queues is planned.)
 type Priority struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Priority key is a positive integer from 1 to n, where smaller integers
@@ -1094,11 +1107,46 @@ type Priority struct {
 	// The maximum priority value (minimum priority) is determined by server
 	// configuration, and defaults to 5.
 	//
-	// The default priority is (min+max)/2. With the default max of 5 and min of
-	// 1, that comes out to 3.
-	PriorityKey   int32 `protobuf:"varint,1,opt,name=priority_key,json=priorityKey,proto3" json:"priority_key,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	// If priority is not present (or zero), then the effective priority will be
+	// the default priority, which is calculated by (min+max)/2. With the
+	// default max of 5, and min of 1, that comes out to 3.
+	PriorityKey int32 `protobuf:"varint,1,opt,name=priority_key,json=priorityKey,proto3" json:"priority_key,omitempty"`
+	// Fairness key is a short string that's used as a key for a fairness
+	// balancing mechanism. It may correspond to a tenant id, or to a fixed
+	// string like "high" or "low". The default is the empty string.
+	//
+	// The fairness mechanism attempts to dispatch tasks for a given key in
+	// proportion to its weight. For example, using a thousand distinct tenant
+	// ids, each with a weight of 1.0 (the default) will result in each tenant
+	// getting a roughly equal share of task dispatch throughput.
+	//
+	// (Note: this does not imply equal share of worker capacity! Fairness
+	// decisions are made based on queue statistics, not
+	// current worker load.)
+	//
+	// As another example, using keys "high" and "low" with weight 9.0 and 1.0
+	// respectively will prefer dispatching "high" tasks over "low" tasks at a
+	// 9:1 ratio, while allowing either key to use all worker capacity if the
+	// other is not present.
+	//
+	// All fairness mechanisms, including rate limits, are best-effort and
+	// probabilistic. The results may not match what a "perfect" algorithm with
+	// infinite resources would produce. The more unique keys are used, the less
+	// accurate the results will be.
+	//
+	// Fairness keys are limited to 64 bytes.
+	FairnessKey string `protobuf:"bytes,2,opt,name=fairness_key,json=fairnessKey,proto3" json:"fairness_key,omitempty"`
+	// Fairness weight for a task can come from multiple sources for
+	// flexibility. From highest to lowest precedence:
+	//  1. Weights for a small set of keys can be overridden in task queue
+	//     configuration with an API.
+	//  2. It can be attached to the workflow/activity in this field.
+	//  3. The default weight of 1.0 will be used.
+	//
+	// Weight values are clamped to the range [0.001, 1000].
+	FairnessWeight float32 `protobuf:"fixed32,3,opt,name=fairness_weight,json=fairnessWeight,proto3" json:"fairness_weight,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Priority) Reset() {
@@ -1138,6 +1186,100 @@ func (x *Priority) GetPriorityKey() int32 {
 	return 0
 }
 
+func (x *Priority) GetFairnessKey() string {
+	if x != nil {
+		return x.FairnessKey
+	}
+	return ""
+}
+
+func (x *Priority) GetFairnessWeight() float32 {
+	if x != nil {
+		return x.FairnessWeight
+	}
+	return 0
+}
+
+// This is used to send commands to a specific worker or a group of workers.
+// Right now, it is used to send commands to a specific worker instance.
+// Will be extended to be able to send command to multiple workers.
+type WorkerSelector struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Options are:
+	//   - query (will be used as query to ListWorkers, same format as in ListWorkersRequest.query)
+	//   - task queue (just a shortcut. Same as query=' "TaskQueue"="my-task-queue" ')
+	//   - etc.
+	//     All but 'query' are shortcuts, can be replaced with a query, but it is not convenient.
+	//
+	// string query = 5;
+	// string task_queue = 6;
+	// ...
+	//
+	// Types that are valid to be assigned to Selector:
+	//
+	//	*WorkerSelector_WorkerInstanceKey
+	Selector      isWorkerSelector_Selector `protobuf_oneof:"selector"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WorkerSelector) Reset() {
+	*x = WorkerSelector{}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *WorkerSelector) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*WorkerSelector) ProtoMessage() {}
+
+func (x *WorkerSelector) ProtoReflect() protoreflect.Message {
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use WorkerSelector.ProtoReflect.Descriptor instead.
+func (*WorkerSelector) Descriptor() ([]byte, []int) {
+	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *WorkerSelector) GetSelector() isWorkerSelector_Selector {
+	if x != nil {
+		return x.Selector
+	}
+	return nil
+}
+
+func (x *WorkerSelector) GetWorkerInstanceKey() string {
+	if x != nil {
+		if x, ok := x.Selector.(*WorkerSelector_WorkerInstanceKey); ok {
+			return x.WorkerInstanceKey
+		}
+	}
+	return ""
+}
+
+type isWorkerSelector_Selector interface {
+	isWorkerSelector_Selector()
+}
+
+type WorkerSelector_WorkerInstanceKey struct {
+	// Worker instance key to which the command should be sent.
+	WorkerInstanceKey string `protobuf:"bytes,1,opt,name=worker_instance_key,json=workerInstanceKey,proto3,oneof"`
+}
+
+func (*WorkerSelector_WorkerInstanceKey) isWorkerSelector_Selector() {}
+
 type Callback_Nexus struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Callback URL.
@@ -1150,7 +1292,7 @@ type Callback_Nexus struct {
 
 func (x *Callback_Nexus) Reset() {
 	*x = Callback_Nexus{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[21]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1162,7 +1304,7 @@ func (x *Callback_Nexus) String() string {
 func (*Callback_Nexus) ProtoMessage() {}
 
 func (x *Callback_Nexus) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[21]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1206,7 +1348,7 @@ type Callback_Internal struct {
 
 func (x *Callback_Internal) Reset() {
 	*x = Callback_Internal{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[22]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1218,7 +1360,7 @@ func (x *Callback_Internal) String() string {
 func (*Callback_Internal) ProtoMessage() {}
 
 func (x *Callback_Internal) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[22]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1260,7 +1402,7 @@ type Link_WorkflowEvent struct {
 
 func (x *Link_WorkflowEvent) Reset() {
 	*x = Link_WorkflowEvent{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1272,7 +1414,7 @@ func (x *Link_WorkflowEvent) String() string {
 func (*Link_WorkflowEvent) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1362,7 +1504,7 @@ type Link_BatchJob struct {
 
 func (x *Link_BatchJob) Reset() {
 	*x = Link_BatchJob{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[25]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1374,7 +1516,7 @@ func (x *Link_BatchJob) String() string {
 func (*Link_BatchJob) ProtoMessage() {}
 
 func (x *Link_BatchJob) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[25]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1408,7 +1550,7 @@ type Link_WorkflowEvent_EventReference struct {
 
 func (x *Link_WorkflowEvent_EventReference) Reset() {
 	*x = Link_WorkflowEvent_EventReference{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1420,7 +1562,7 @@ func (x *Link_WorkflowEvent_EventReference) String() string {
 func (*Link_WorkflowEvent_EventReference) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent_EventReference) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1461,7 +1603,7 @@ type Link_WorkflowEvent_RequestIdReference struct {
 
 func (x *Link_WorkflowEvent_RequestIdReference) Reset() {
 	*x = Link_WorkflowEvent_RequestIdReference{}
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1473,7 +1615,7 @@ func (x *Link_WorkflowEvent_RequestIdReference) String() string {
 func (*Link_WorkflowEvent_RequestIdReference) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent_RequestIdReference) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1602,9 +1744,15 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\treference\x1a!\n" +
 	"\bBatchJob\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobIdB\t\n" +
-	"\avariant\"-\n" +
+	"\avariant\"y\n" +
 	"\bPriority\x12!\n" +
-	"\fpriority_key\x18\x01 \x01(\x05R\vpriorityKeyB\x89\x01\n" +
+	"\fpriority_key\x18\x01 \x01(\x05R\vpriorityKey\x12!\n" +
+	"\ffairness_key\x18\x02 \x01(\tR\vfairnessKey\x12'\n" +
+	"\x0ffairness_weight\x18\x03 \x01(\x02R\x0efairnessWeight\"N\n" +
+	"\x0eWorkerSelector\x120\n" +
+	"\x13worker_instance_key\x18\x01 \x01(\tH\x00R\x11workerInstanceKeyB\n" +
+	"\n" +
+	"\bselectorB\x89\x01\n" +
 	"\x19io.temporal.api.common.v1B\fMessageProtoP\x01Z#go.temporal.io/api/common/v1;common\xaa\x02\x18Temporalio.Api.Common.V1\xea\x02\x1bTemporalio::Api::Common::V1b\x06proto3"
 
 var (
@@ -1619,7 +1767,7 @@ func file_temporal_api_common_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_common_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
+var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	(*DataBlob)(nil),                  // 0: temporal.api.common.v1.DataBlob
 	(*Payloads)(nil),                  // 1: temporal.api.common.v1.Payloads
@@ -1638,50 +1786,51 @@ var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	(*Callback)(nil),                  // 14: temporal.api.common.v1.Callback
 	(*Link)(nil),                      // 15: temporal.api.common.v1.Link
 	(*Priority)(nil),                  // 16: temporal.api.common.v1.Priority
-	nil,                               // 17: temporal.api.common.v1.Payload.MetadataEntry
-	nil,                               // 18: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
-	nil,                               // 19: temporal.api.common.v1.Memo.FieldsEntry
-	nil,                               // 20: temporal.api.common.v1.Header.FieldsEntry
-	(*Callback_Nexus)(nil),            // 21: temporal.api.common.v1.Callback.Nexus
-	(*Callback_Internal)(nil),         // 22: temporal.api.common.v1.Callback.Internal
-	nil,                               // 23: temporal.api.common.v1.Callback.Nexus.HeaderEntry
-	(*Link_WorkflowEvent)(nil),        // 24: temporal.api.common.v1.Link.WorkflowEvent
-	(*Link_BatchJob)(nil),             // 25: temporal.api.common.v1.Link.BatchJob
-	(*Link_WorkflowEvent_EventReference)(nil),     // 26: temporal.api.common.v1.Link.WorkflowEvent.EventReference
-	(*Link_WorkflowEvent_RequestIdReference)(nil), // 27: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
-	(v1.EncodingType)(0),                          // 28: temporal.api.enums.v1.EncodingType
-	(*durationpb.Duration)(nil),                   // 29: google.protobuf.Duration
-	(*emptypb.Empty)(nil),                         // 30: google.protobuf.Empty
-	(v1.ResetReapplyType)(0),                      // 31: temporal.api.enums.v1.ResetReapplyType
-	(v1.ResetReapplyExcludeType)(0),               // 32: temporal.api.enums.v1.ResetReapplyExcludeType
-	(v1.EventType)(0),                             // 33: temporal.api.enums.v1.EventType
+	(*WorkerSelector)(nil),            // 17: temporal.api.common.v1.WorkerSelector
+	nil,                               // 18: temporal.api.common.v1.Payload.MetadataEntry
+	nil,                               // 19: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
+	nil,                               // 20: temporal.api.common.v1.Memo.FieldsEntry
+	nil,                               // 21: temporal.api.common.v1.Header.FieldsEntry
+	(*Callback_Nexus)(nil),            // 22: temporal.api.common.v1.Callback.Nexus
+	(*Callback_Internal)(nil),         // 23: temporal.api.common.v1.Callback.Internal
+	nil,                               // 24: temporal.api.common.v1.Callback.Nexus.HeaderEntry
+	(*Link_WorkflowEvent)(nil),        // 25: temporal.api.common.v1.Link.WorkflowEvent
+	(*Link_BatchJob)(nil),             // 26: temporal.api.common.v1.Link.BatchJob
+	(*Link_WorkflowEvent_EventReference)(nil),     // 27: temporal.api.common.v1.Link.WorkflowEvent.EventReference
+	(*Link_WorkflowEvent_RequestIdReference)(nil), // 28: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
+	(v1.EncodingType)(0),                          // 29: temporal.api.enums.v1.EncodingType
+	(*durationpb.Duration)(nil),                   // 30: google.protobuf.Duration
+	(*emptypb.Empty)(nil),                         // 31: google.protobuf.Empty
+	(v1.ResetReapplyType)(0),                      // 32: temporal.api.enums.v1.ResetReapplyType
+	(v1.ResetReapplyExcludeType)(0),               // 33: temporal.api.enums.v1.ResetReapplyExcludeType
+	(v1.EventType)(0),                             // 34: temporal.api.enums.v1.EventType
 }
 var file_temporal_api_common_v1_message_proto_depIdxs = []int32{
-	28, // 0: temporal.api.common.v1.DataBlob.encoding_type:type_name -> temporal.api.enums.v1.EncodingType
+	29, // 0: temporal.api.common.v1.DataBlob.encoding_type:type_name -> temporal.api.enums.v1.EncodingType
 	2,  // 1: temporal.api.common.v1.Payloads.payloads:type_name -> temporal.api.common.v1.Payload
-	17, // 2: temporal.api.common.v1.Payload.metadata:type_name -> temporal.api.common.v1.Payload.MetadataEntry
-	18, // 3: temporal.api.common.v1.SearchAttributes.indexed_fields:type_name -> temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
-	19, // 4: temporal.api.common.v1.Memo.fields:type_name -> temporal.api.common.v1.Memo.FieldsEntry
-	20, // 5: temporal.api.common.v1.Header.fields:type_name -> temporal.api.common.v1.Header.FieldsEntry
-	29, // 6: temporal.api.common.v1.RetryPolicy.initial_interval:type_name -> google.protobuf.Duration
-	29, // 7: temporal.api.common.v1.RetryPolicy.maximum_interval:type_name -> google.protobuf.Duration
-	30, // 8: temporal.api.common.v1.ResetOptions.first_workflow_task:type_name -> google.protobuf.Empty
-	30, // 9: temporal.api.common.v1.ResetOptions.last_workflow_task:type_name -> google.protobuf.Empty
-	31, // 10: temporal.api.common.v1.ResetOptions.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
-	32, // 11: temporal.api.common.v1.ResetOptions.reset_reapply_exclude_types:type_name -> temporal.api.enums.v1.ResetReapplyExcludeType
-	21, // 12: temporal.api.common.v1.Callback.nexus:type_name -> temporal.api.common.v1.Callback.Nexus
-	22, // 13: temporal.api.common.v1.Callback.internal:type_name -> temporal.api.common.v1.Callback.Internal
+	18, // 2: temporal.api.common.v1.Payload.metadata:type_name -> temporal.api.common.v1.Payload.MetadataEntry
+	19, // 3: temporal.api.common.v1.SearchAttributes.indexed_fields:type_name -> temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry
+	20, // 4: temporal.api.common.v1.Memo.fields:type_name -> temporal.api.common.v1.Memo.FieldsEntry
+	21, // 5: temporal.api.common.v1.Header.fields:type_name -> temporal.api.common.v1.Header.FieldsEntry
+	30, // 6: temporal.api.common.v1.RetryPolicy.initial_interval:type_name -> google.protobuf.Duration
+	30, // 7: temporal.api.common.v1.RetryPolicy.maximum_interval:type_name -> google.protobuf.Duration
+	31, // 8: temporal.api.common.v1.ResetOptions.first_workflow_task:type_name -> google.protobuf.Empty
+	31, // 9: temporal.api.common.v1.ResetOptions.last_workflow_task:type_name -> google.protobuf.Empty
+	32, // 10: temporal.api.common.v1.ResetOptions.reset_reapply_type:type_name -> temporal.api.enums.v1.ResetReapplyType
+	33, // 11: temporal.api.common.v1.ResetOptions.reset_reapply_exclude_types:type_name -> temporal.api.enums.v1.ResetReapplyExcludeType
+	22, // 12: temporal.api.common.v1.Callback.nexus:type_name -> temporal.api.common.v1.Callback.Nexus
+	23, // 13: temporal.api.common.v1.Callback.internal:type_name -> temporal.api.common.v1.Callback.Internal
 	15, // 14: temporal.api.common.v1.Callback.links:type_name -> temporal.api.common.v1.Link
-	24, // 15: temporal.api.common.v1.Link.workflow_event:type_name -> temporal.api.common.v1.Link.WorkflowEvent
-	25, // 16: temporal.api.common.v1.Link.batch_job:type_name -> temporal.api.common.v1.Link.BatchJob
+	25, // 15: temporal.api.common.v1.Link.workflow_event:type_name -> temporal.api.common.v1.Link.WorkflowEvent
+	26, // 16: temporal.api.common.v1.Link.batch_job:type_name -> temporal.api.common.v1.Link.BatchJob
 	2,  // 17: temporal.api.common.v1.SearchAttributes.IndexedFieldsEntry.value:type_name -> temporal.api.common.v1.Payload
 	2,  // 18: temporal.api.common.v1.Memo.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
 	2,  // 19: temporal.api.common.v1.Header.FieldsEntry.value:type_name -> temporal.api.common.v1.Payload
-	23, // 20: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
-	26, // 21: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
-	27, // 22: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
-	33, // 23: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
-	33, // 24: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	24, // 20: temporal.api.common.v1.Callback.Nexus.header:type_name -> temporal.api.common.v1.Callback.Nexus.HeaderEntry
+	27, // 21: temporal.api.common.v1.Link.WorkflowEvent.event_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.EventReference
+	28, // 22: temporal.api.common.v1.Link.WorkflowEvent.request_id_ref:type_name -> temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference
+	34, // 23: temporal.api.common.v1.Link.WorkflowEvent.EventReference.event_type:type_name -> temporal.api.enums.v1.EventType
+	34, // 24: temporal.api.common.v1.Link.WorkflowEvent.RequestIdReference.event_type:type_name -> temporal.api.enums.v1.EventType
 	25, // [25:25] is the sub-list for method output_type
 	25, // [25:25] is the sub-list for method input_type
 	25, // [25:25] is the sub-list for extension type_name
@@ -1708,7 +1857,10 @@ func file_temporal_api_common_v1_message_proto_init() {
 		(*Link_WorkflowEvent_)(nil),
 		(*Link_BatchJob_)(nil),
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[24].OneofWrappers = []any{
+	file_temporal_api_common_v1_message_proto_msgTypes[17].OneofWrappers = []any{
+		(*WorkerSelector_WorkerInstanceKey)(nil),
+	}
+	file_temporal_api_common_v1_message_proto_msgTypes[25].OneofWrappers = []any{
 		(*Link_WorkflowEvent_EventRef)(nil),
 		(*Link_WorkflowEvent_RequestIdRef)(nil),
 	}
@@ -1718,7 +1870,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_common_v1_message_proto_rawDesc), len(file_temporal_api_common_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   28,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

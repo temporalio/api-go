@@ -88,6 +88,10 @@ func (s *workflowServiceProxyServer) DescribeTaskQueue(ctx context.Context, in0 
 	return s.client.DescribeTaskQueue(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) DescribeWorker(ctx context.Context, in0 *workflowservice.DescribeWorkerRequest) (*workflowservice.DescribeWorkerResponse, error) {
+	return s.client.DescribeWorker(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) DescribeWorkerDeployment(ctx context.Context, in0 *workflowservice.DescribeWorkerDeploymentRequest) (*workflowservice.DescribeWorkerDeploymentResponse, error) {
 	return s.client.DescribeWorkerDeployment(s.reqCtx(ctx), in0)
 }
@@ -106,6 +110,10 @@ func (s *workflowServiceProxyServer) DescribeWorkflowRule(ctx context.Context, i
 
 func (s *workflowServiceProxyServer) ExecuteMultiOperation(ctx context.Context, in0 *workflowservice.ExecuteMultiOperationRequest) (*workflowservice.ExecuteMultiOperationResponse, error) {
 	return s.client.ExecuteMultiOperation(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) FetchWorkerConfig(ctx context.Context, in0 *workflowservice.FetchWorkerConfigRequest) (*workflowservice.FetchWorkerConfigResponse, error) {
+	return s.client.FetchWorkerConfig(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) GetClusterInfo(ctx context.Context, in0 *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
@@ -316,6 +324,10 @@ func (s *workflowServiceProxyServer) SetWorkerDeploymentCurrentVersion(ctx conte
 	return s.client.SetWorkerDeploymentCurrentVersion(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) SetWorkerDeploymentManager(ctx context.Context, in0 *workflowservice.SetWorkerDeploymentManagerRequest) (*workflowservice.SetWorkerDeploymentManagerResponse, error) {
+	return s.client.SetWorkerDeploymentManager(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) SetWorkerDeploymentRampingVersion(ctx context.Context, in0 *workflowservice.SetWorkerDeploymentRampingVersionRequest) (*workflowservice.SetWorkerDeploymentRampingVersionResponse, error) {
 	return s.client.SetWorkerDeploymentRampingVersion(s.reqCtx(ctx), in0)
 }
@@ -368,8 +380,16 @@ func (s *workflowServiceProxyServer) UpdateSchedule(ctx context.Context, in0 *wo
 	return s.client.UpdateSchedule(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) UpdateTaskQueueConfig(ctx context.Context, in0 *workflowservice.UpdateTaskQueueConfigRequest) (*workflowservice.UpdateTaskQueueConfigResponse, error) {
+	return s.client.UpdateTaskQueueConfig(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) UpdateWorkerBuildIdCompatibility(ctx context.Context, in0 *workflowservice.UpdateWorkerBuildIdCompatibilityRequest) (*workflowservice.UpdateWorkerBuildIdCompatibilityResponse, error) {
 	return s.client.UpdateWorkerBuildIdCompatibility(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) UpdateWorkerConfig(ctx context.Context, in0 *workflowservice.UpdateWorkerConfigRequest) (*workflowservice.UpdateWorkerConfigResponse, error) {
+	return s.client.UpdateWorkerConfig(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in0 *workflowservice.UpdateWorkerDeploymentVersionMetadataRequest) (*workflowservice.UpdateWorkerDeploymentVersionMetadataResponse, error) {

@@ -5925,6 +5925,80 @@ func (this *UpdateWorkerDeploymentVersionMetadataResponse) Equal(that interface{
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type SetWorkerDeploymentManagerRequest to the protobuf v3 wire format
+func (val *SetWorkerDeploymentManagerRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type SetWorkerDeploymentManagerRequest from the protobuf v3 wire format
+func (val *SetWorkerDeploymentManagerRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *SetWorkerDeploymentManagerRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two SetWorkerDeploymentManagerRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *SetWorkerDeploymentManagerRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *SetWorkerDeploymentManagerRequest
+	switch t := that.(type) {
+	case *SetWorkerDeploymentManagerRequest:
+		that1 = t
+	case SetWorkerDeploymentManagerRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type SetWorkerDeploymentManagerResponse to the protobuf v3 wire format
+func (val *SetWorkerDeploymentManagerResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type SetWorkerDeploymentManagerResponse from the protobuf v3 wire format
+func (val *SetWorkerDeploymentManagerResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *SetWorkerDeploymentManagerResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two SetWorkerDeploymentManagerResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *SetWorkerDeploymentManagerResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *SetWorkerDeploymentManagerResponse
+	switch t := that.(type) {
+	case *SetWorkerDeploymentManagerResponse:
+		that1 = t
+	case SetWorkerDeploymentManagerResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type GetCurrentDeploymentRequest to the protobuf v3 wire format
 func (val *GetCurrentDeploymentRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
@@ -6583,6 +6657,302 @@ func (this *ListWorkersResponse) Equal(that interface{}) bool {
 	case *ListWorkersResponse:
 		that1 = t
 	case ListWorkersResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UpdateTaskQueueConfigRequest to the protobuf v3 wire format
+func (val *UpdateTaskQueueConfigRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UpdateTaskQueueConfigRequest from the protobuf v3 wire format
+func (val *UpdateTaskQueueConfigRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UpdateTaskQueueConfigRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UpdateTaskQueueConfigRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UpdateTaskQueueConfigRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UpdateTaskQueueConfigRequest
+	switch t := that.(type) {
+	case *UpdateTaskQueueConfigRequest:
+		that1 = t
+	case UpdateTaskQueueConfigRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UpdateTaskQueueConfigResponse to the protobuf v3 wire format
+func (val *UpdateTaskQueueConfigResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UpdateTaskQueueConfigResponse from the protobuf v3 wire format
+func (val *UpdateTaskQueueConfigResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UpdateTaskQueueConfigResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UpdateTaskQueueConfigResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UpdateTaskQueueConfigResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UpdateTaskQueueConfigResponse
+	switch t := that.(type) {
+	case *UpdateTaskQueueConfigResponse:
+		that1 = t
+	case UpdateTaskQueueConfigResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type FetchWorkerConfigRequest to the protobuf v3 wire format
+func (val *FetchWorkerConfigRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type FetchWorkerConfigRequest from the protobuf v3 wire format
+func (val *FetchWorkerConfigRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *FetchWorkerConfigRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two FetchWorkerConfigRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *FetchWorkerConfigRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *FetchWorkerConfigRequest
+	switch t := that.(type) {
+	case *FetchWorkerConfigRequest:
+		that1 = t
+	case FetchWorkerConfigRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type FetchWorkerConfigResponse to the protobuf v3 wire format
+func (val *FetchWorkerConfigResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type FetchWorkerConfigResponse from the protobuf v3 wire format
+func (val *FetchWorkerConfigResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *FetchWorkerConfigResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two FetchWorkerConfigResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *FetchWorkerConfigResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *FetchWorkerConfigResponse
+	switch t := that.(type) {
+	case *FetchWorkerConfigResponse:
+		that1 = t
+	case FetchWorkerConfigResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UpdateWorkerConfigRequest to the protobuf v3 wire format
+func (val *UpdateWorkerConfigRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UpdateWorkerConfigRequest from the protobuf v3 wire format
+func (val *UpdateWorkerConfigRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UpdateWorkerConfigRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UpdateWorkerConfigRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UpdateWorkerConfigRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UpdateWorkerConfigRequest
+	switch t := that.(type) {
+	case *UpdateWorkerConfigRequest:
+		that1 = t
+	case UpdateWorkerConfigRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type UpdateWorkerConfigResponse to the protobuf v3 wire format
+func (val *UpdateWorkerConfigResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type UpdateWorkerConfigResponse from the protobuf v3 wire format
+func (val *UpdateWorkerConfigResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *UpdateWorkerConfigResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two UpdateWorkerConfigResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *UpdateWorkerConfigResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *UpdateWorkerConfigResponse
+	switch t := that.(type) {
+	case *UpdateWorkerConfigResponse:
+		that1 = t
+	case UpdateWorkerConfigResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type DescribeWorkerRequest to the protobuf v3 wire format
+func (val *DescribeWorkerRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DescribeWorkerRequest from the protobuf v3 wire format
+func (val *DescribeWorkerRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DescribeWorkerRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DescribeWorkerRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DescribeWorkerRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DescribeWorkerRequest
+	switch t := that.(type) {
+	case *DescribeWorkerRequest:
+		that1 = t
+	case DescribeWorkerRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type DescribeWorkerResponse to the protobuf v3 wire format
+func (val *DescribeWorkerResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type DescribeWorkerResponse from the protobuf v3 wire format
+func (val *DescribeWorkerResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *DescribeWorkerResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two DescribeWorkerResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *DescribeWorkerResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *DescribeWorkerResponse
+	switch t := that.(type) {
+	case *DescribeWorkerResponse:
+		that1 = t
+	case DescribeWorkerResponse:
 		that1 = &t
 	default:
 		return false
