@@ -1,6 +1,7 @@
 [submodule "proto/api"]
 	path = proto/api
-	url = https://github.com/temporalio/api
+	url = https://github.com/sivagirish81/api
+	branch = TQFairnessWeightConfigOverrride
 [submodule "proto/api-cloud"]
 	path = proto/api-cloud
 	url = https://github.com/temporalio/api-cloud

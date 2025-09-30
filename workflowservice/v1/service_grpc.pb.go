@@ -346,7 +346,8 @@ type WorkflowServiceClient interface {
 	ListWorkflowExecutions(ctx context.Context, in *ListWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListWorkflowExecutionsResponse, error)
 	// ListArchivedWorkflowExecutions is a visibility API to list archived workflow executions in a specific namespace.
 	ListArchivedWorkflowExecutions(ctx context.Context, in *ListArchivedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListArchivedWorkflowExecutionsResponse, error)
-	// ScanWorkflowExecutions is a visibility API to list large amount of workflow executions in a specific namespace without order.
+	// ScanWorkflowExecutions _was_ a visibility API to list large amount of workflow executions in a specific namespace without order.
+	// It has since been deprecated in favor of `ListWorkflowExecutions` and rewritten to use `ListWorkflowExecutions` internally.
 	//
 	// Deprecated: Replaced with `ListWorkflowExecutions`.
 	// (-- api-linter: core::0127::http-annotation=disabled
@@ -1867,7 +1868,8 @@ type WorkflowServiceServer interface {
 	ListWorkflowExecutions(context.Context, *ListWorkflowExecutionsRequest) (*ListWorkflowExecutionsResponse, error)
 	// ListArchivedWorkflowExecutions is a visibility API to list archived workflow executions in a specific namespace.
 	ListArchivedWorkflowExecutions(context.Context, *ListArchivedWorkflowExecutionsRequest) (*ListArchivedWorkflowExecutionsResponse, error)
-	// ScanWorkflowExecutions is a visibility API to list large amount of workflow executions in a specific namespace without order.
+	// ScanWorkflowExecutions _was_ a visibility API to list large amount of workflow executions in a specific namespace without order.
+	// It has since been deprecated in favor of `ListWorkflowExecutions` and rewritten to use `ListWorkflowExecutions` internally.
 	//
 	// Deprecated: Replaced with `ListWorkflowExecutions`.
 	// (-- api-linter: core::0127::http-annotation=disabled
