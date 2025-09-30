@@ -10382,6 +10382,7 @@ type PauseActivityRequest_Id struct {
 
 type PauseActivityRequest_Type struct {
 	// Pause all running activities of this type.
+	// Note: Experimental - the behavior of pause by activity type might change in a future release.
 	Type string `protobuf:"bytes,5,opt,name=type,proto3,oneof"`
 }
 
