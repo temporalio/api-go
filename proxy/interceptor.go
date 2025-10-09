@@ -2356,7 +2356,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.GetActivityResultResponse:
+		case *workflowservice.GetActivityExecutionResultResponse:
 
 			if o == nil {
 				continue
@@ -3814,7 +3814,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *workflowservice.GetActivityResultResponse:
+		case *workflowservice.GetActivityExecutionResultResponse:
 			if o == nil {
 				continue
 			}

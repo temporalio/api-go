@@ -128,8 +128,8 @@ func (s *workflowServiceProxyServer) FetchWorkerConfig(ctx context.Context, in0 
 	return s.client.FetchWorkerConfig(s.reqCtx(ctx), in0)
 }
 
-func (s *workflowServiceProxyServer) GetActivityResult(ctx context.Context, in0 *workflowservice.GetActivityResultRequest) (*workflowservice.GetActivityResultResponse, error) {
-	return s.client.GetActivityResult(s.reqCtx(ctx), in0)
+func (s *workflowServiceProxyServer) GetActivityExecutionResult(ctx context.Context, in0 *workflowservice.GetActivityExecutionResultRequest) (*workflowservice.GetActivityExecutionResultResponse, error) {
+	return s.client.GetActivityExecutionResult(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) GetClusterInfo(ctx context.Context, in0 *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
@@ -236,6 +236,10 @@ func (s *workflowServiceProxyServer) PauseActivity(ctx context.Context, in0 *wor
 	return s.client.PauseActivity(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) PauseActivityExecution(ctx context.Context, in0 *workflowservice.PauseActivityExecutionRequest) (*workflowservice.PauseActivityExecutionResponse, error) {
+	return s.client.PauseActivityExecution(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) PollActivityTaskQueue(ctx context.Context, in0 *workflowservice.PollActivityTaskQueueRequest) (*workflowservice.PollActivityTaskQueueResponse, error) {
 	return s.client.PollActivityTaskQueue(s.reqCtx(ctx), in0)
 }
@@ -282,6 +286,10 @@ func (s *workflowServiceProxyServer) RequestCancelWorkflowExecution(ctx context.
 
 func (s *workflowServiceProxyServer) ResetActivity(ctx context.Context, in0 *workflowservice.ResetActivityRequest) (*workflowservice.ResetActivityResponse, error) {
 	return s.client.ResetActivity(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) ResetActivityExecution(ctx context.Context, in0 *workflowservice.ResetActivityExecutionRequest) (*workflowservice.ResetActivityExecutionResponse, error) {
+	return s.client.ResetActivityExecution(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) ResetStickyTaskQueue(ctx context.Context, in0 *workflowservice.ResetStickyTaskQueueRequest) (*workflowservice.ResetStickyTaskQueueResponse, error) {
@@ -398,6 +406,14 @@ func (s *workflowServiceProxyServer) TriggerWorkflowRule(ctx context.Context, in
 
 func (s *workflowServiceProxyServer) UnpauseActivity(ctx context.Context, in0 *workflowservice.UnpauseActivityRequest) (*workflowservice.UnpauseActivityResponse, error) {
 	return s.client.UnpauseActivity(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) UnpauseActivityExecution(ctx context.Context, in0 *workflowservice.UnpauseActivityExecutionRequest) (*workflowservice.UnpauseActivityExecutionResponse, error) {
+	return s.client.UnpauseActivityExecution(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) UpdateActivityExecutionOptions(ctx context.Context, in0 *workflowservice.UpdateActivityExecutionOptionsRequest) (*workflowservice.UpdateActivityExecutionOptionsResponse, error) {
+	return s.client.UpdateActivityExecutionOptions(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) UpdateActivityOptions(ctx context.Context, in0 *workflowservice.UpdateActivityOptionsRequest) (*workflowservice.UpdateActivityOptionsResponse, error) {
