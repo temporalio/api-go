@@ -16,8 +16,8 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.64.0 or later.
-const _ = grpc.SupportPackageIsVersion9
+// Requires gRPC-Go v1.32.0 or later.
+const _ = grpc.SupportPackageIsVersion7
 
 const (
 	WorkflowService_RegisterNamespace_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/RegisterNamespace"
@@ -119,18 +119,6 @@ const (
 // WorkflowServiceClient is the client API for WorkflowService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// WorkflowService API defines how Temporal SDKs and other clients interact with the Temporal server
-// to create and interact with workflows and activities.
-//
-// Users are expected to call `StartWorkflowExecution` to create a new workflow execution.
-//
-// To drive workflows, a worker using a Temporal SDK must exist which regularly polls for workflow
-// and activity tasks from the service. For each workflow task, the sdk must process the
-// (incremental or complete) event history and respond back with any newly generated commands.
-//
-// For each activity task, the worker is expected to execute the user's code which implements that
-// activity, responding with completion or failure.
 type WorkflowServiceClient interface {
 	// RegisterNamespace creates a new namespace which can be used as a container for all resources.
 	//
@@ -699,9 +687,8 @@ func NewWorkflowServiceClient(cc grpc.ClientConnInterface) WorkflowServiceClient
 }
 
 func (c *workflowServiceClient) RegisterNamespace(ctx context.Context, in *RegisterNamespaceRequest, opts ...grpc.CallOption) (*RegisterNamespaceResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RegisterNamespaceResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RegisterNamespace_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RegisterNamespace_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -709,9 +696,8 @@ func (c *workflowServiceClient) RegisterNamespace(ctx context.Context, in *Regis
 }
 
 func (c *workflowServiceClient) DescribeNamespace(ctx context.Context, in *DescribeNamespaceRequest, opts ...grpc.CallOption) (*DescribeNamespaceResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeNamespaceResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeNamespace_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeNamespace_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -719,9 +705,8 @@ func (c *workflowServiceClient) DescribeNamespace(ctx context.Context, in *Descr
 }
 
 func (c *workflowServiceClient) ListNamespaces(ctx context.Context, in *ListNamespacesRequest, opts ...grpc.CallOption) (*ListNamespacesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListNamespacesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListNamespaces_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListNamespaces_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -729,9 +714,8 @@ func (c *workflowServiceClient) ListNamespaces(ctx context.Context, in *ListName
 }
 
 func (c *workflowServiceClient) UpdateNamespace(ctx context.Context, in *UpdateNamespaceRequest, opts ...grpc.CallOption) (*UpdateNamespaceResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateNamespaceResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateNamespace_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateNamespace_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -739,9 +723,8 @@ func (c *workflowServiceClient) UpdateNamespace(ctx context.Context, in *UpdateN
 }
 
 func (c *workflowServiceClient) DeprecateNamespace(ctx context.Context, in *DeprecateNamespaceRequest, opts ...grpc.CallOption) (*DeprecateNamespaceResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeprecateNamespaceResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DeprecateNamespace_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DeprecateNamespace_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -749,9 +732,8 @@ func (c *workflowServiceClient) DeprecateNamespace(ctx context.Context, in *Depr
 }
 
 func (c *workflowServiceClient) StartWorkflowExecution(ctx context.Context, in *StartWorkflowExecutionRequest, opts ...grpc.CallOption) (*StartWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StartWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_StartWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_StartWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -759,9 +741,8 @@ func (c *workflowServiceClient) StartWorkflowExecution(ctx context.Context, in *
 }
 
 func (c *workflowServiceClient) ExecuteMultiOperation(ctx context.Context, in *ExecuteMultiOperationRequest, opts ...grpc.CallOption) (*ExecuteMultiOperationResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ExecuteMultiOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ExecuteMultiOperation_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ExecuteMultiOperation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -769,9 +750,8 @@ func (c *workflowServiceClient) ExecuteMultiOperation(ctx context.Context, in *E
 }
 
 func (c *workflowServiceClient) GetWorkflowExecutionHistory(ctx context.Context, in *GetWorkflowExecutionHistoryRequest, opts ...grpc.CallOption) (*GetWorkflowExecutionHistoryResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetWorkflowExecutionHistoryResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetWorkflowExecutionHistory_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkflowExecutionHistory_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -779,9 +759,8 @@ func (c *workflowServiceClient) GetWorkflowExecutionHistory(ctx context.Context,
 }
 
 func (c *workflowServiceClient) GetWorkflowExecutionHistoryReverse(ctx context.Context, in *GetWorkflowExecutionHistoryReverseRequest, opts ...grpc.CallOption) (*GetWorkflowExecutionHistoryReverseResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetWorkflowExecutionHistoryReverseResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetWorkflowExecutionHistoryReverse_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkflowExecutionHistoryReverse_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -789,9 +768,8 @@ func (c *workflowServiceClient) GetWorkflowExecutionHistoryReverse(ctx context.C
 }
 
 func (c *workflowServiceClient) PollWorkflowTaskQueue(ctx context.Context, in *PollWorkflowTaskQueueRequest, opts ...grpc.CallOption) (*PollWorkflowTaskQueueResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PollWorkflowTaskQueueResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_PollWorkflowTaskQueue_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_PollWorkflowTaskQueue_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -799,9 +777,8 @@ func (c *workflowServiceClient) PollWorkflowTaskQueue(ctx context.Context, in *P
 }
 
 func (c *workflowServiceClient) RespondWorkflowTaskCompleted(ctx context.Context, in *RespondWorkflowTaskCompletedRequest, opts ...grpc.CallOption) (*RespondWorkflowTaskCompletedResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondWorkflowTaskCompletedResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondWorkflowTaskCompleted_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondWorkflowTaskCompleted_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -809,9 +786,8 @@ func (c *workflowServiceClient) RespondWorkflowTaskCompleted(ctx context.Context
 }
 
 func (c *workflowServiceClient) RespondWorkflowTaskFailed(ctx context.Context, in *RespondWorkflowTaskFailedRequest, opts ...grpc.CallOption) (*RespondWorkflowTaskFailedResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondWorkflowTaskFailedResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondWorkflowTaskFailed_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondWorkflowTaskFailed_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -819,9 +795,8 @@ func (c *workflowServiceClient) RespondWorkflowTaskFailed(ctx context.Context, i
 }
 
 func (c *workflowServiceClient) PollActivityTaskQueue(ctx context.Context, in *PollActivityTaskQueueRequest, opts ...grpc.CallOption) (*PollActivityTaskQueueResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PollActivityTaskQueueResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_PollActivityTaskQueue_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_PollActivityTaskQueue_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -829,9 +804,8 @@ func (c *workflowServiceClient) PollActivityTaskQueue(ctx context.Context, in *P
 }
 
 func (c *workflowServiceClient) RecordActivityTaskHeartbeat(ctx context.Context, in *RecordActivityTaskHeartbeatRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RecordActivityTaskHeartbeatResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RecordActivityTaskHeartbeat_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RecordActivityTaskHeartbeat_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -839,9 +813,8 @@ func (c *workflowServiceClient) RecordActivityTaskHeartbeat(ctx context.Context,
 }
 
 func (c *workflowServiceClient) RecordActivityTaskHeartbeatById(ctx context.Context, in *RecordActivityTaskHeartbeatByIdRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RecordActivityTaskHeartbeatByIdResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RecordActivityTaskHeartbeatById_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RecordActivityTaskHeartbeatById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -849,9 +822,8 @@ func (c *workflowServiceClient) RecordActivityTaskHeartbeatById(ctx context.Cont
 }
 
 func (c *workflowServiceClient) RespondActivityTaskCompleted(ctx context.Context, in *RespondActivityTaskCompletedRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondActivityTaskCompletedResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskCompleted_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskCompleted_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -859,9 +831,8 @@ func (c *workflowServiceClient) RespondActivityTaskCompleted(ctx context.Context
 }
 
 func (c *workflowServiceClient) RespondActivityTaskCompletedById(ctx context.Context, in *RespondActivityTaskCompletedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondActivityTaskCompletedByIdResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskCompletedById_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskCompletedById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -869,9 +840,8 @@ func (c *workflowServiceClient) RespondActivityTaskCompletedById(ctx context.Con
 }
 
 func (c *workflowServiceClient) RespondActivityTaskFailed(ctx context.Context, in *RespondActivityTaskFailedRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondActivityTaskFailedResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskFailed_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskFailed_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -879,9 +849,8 @@ func (c *workflowServiceClient) RespondActivityTaskFailed(ctx context.Context, i
 }
 
 func (c *workflowServiceClient) RespondActivityTaskFailedById(ctx context.Context, in *RespondActivityTaskFailedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondActivityTaskFailedByIdResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskFailedById_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskFailedById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -889,9 +858,8 @@ func (c *workflowServiceClient) RespondActivityTaskFailedById(ctx context.Contex
 }
 
 func (c *workflowServiceClient) RespondActivityTaskCanceled(ctx context.Context, in *RespondActivityTaskCanceledRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondActivityTaskCanceledResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskCanceled_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskCanceled_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -899,9 +867,8 @@ func (c *workflowServiceClient) RespondActivityTaskCanceled(ctx context.Context,
 }
 
 func (c *workflowServiceClient) RespondActivityTaskCanceledById(ctx context.Context, in *RespondActivityTaskCanceledByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledByIdResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondActivityTaskCanceledByIdResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskCanceledById_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondActivityTaskCanceledById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -909,9 +876,8 @@ func (c *workflowServiceClient) RespondActivityTaskCanceledById(ctx context.Cont
 }
 
 func (c *workflowServiceClient) RequestCancelWorkflowExecution(ctx context.Context, in *RequestCancelWorkflowExecutionRequest, opts ...grpc.CallOption) (*RequestCancelWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RequestCancelWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RequestCancelWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RequestCancelWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -919,9 +885,8 @@ func (c *workflowServiceClient) RequestCancelWorkflowExecution(ctx context.Conte
 }
 
 func (c *workflowServiceClient) SignalWorkflowExecution(ctx context.Context, in *SignalWorkflowExecutionRequest, opts ...grpc.CallOption) (*SignalWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SignalWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_SignalWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_SignalWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -929,9 +894,8 @@ func (c *workflowServiceClient) SignalWorkflowExecution(ctx context.Context, in 
 }
 
 func (c *workflowServiceClient) SignalWithStartWorkflowExecution(ctx context.Context, in *SignalWithStartWorkflowExecutionRequest, opts ...grpc.CallOption) (*SignalWithStartWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SignalWithStartWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_SignalWithStartWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_SignalWithStartWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -939,9 +903,8 @@ func (c *workflowServiceClient) SignalWithStartWorkflowExecution(ctx context.Con
 }
 
 func (c *workflowServiceClient) ResetWorkflowExecution(ctx context.Context, in *ResetWorkflowExecutionRequest, opts ...grpc.CallOption) (*ResetWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ResetWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ResetWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ResetWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -949,9 +912,8 @@ func (c *workflowServiceClient) ResetWorkflowExecution(ctx context.Context, in *
 }
 
 func (c *workflowServiceClient) TerminateWorkflowExecution(ctx context.Context, in *TerminateWorkflowExecutionRequest, opts ...grpc.CallOption) (*TerminateWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TerminateWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_TerminateWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_TerminateWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -959,9 +921,8 @@ func (c *workflowServiceClient) TerminateWorkflowExecution(ctx context.Context, 
 }
 
 func (c *workflowServiceClient) DeleteWorkflowExecution(ctx context.Context, in *DeleteWorkflowExecutionRequest, opts ...grpc.CallOption) (*DeleteWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -969,9 +930,8 @@ func (c *workflowServiceClient) DeleteWorkflowExecution(ctx context.Context, in 
 }
 
 func (c *workflowServiceClient) ListOpenWorkflowExecutions(ctx context.Context, in *ListOpenWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListOpenWorkflowExecutionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListOpenWorkflowExecutionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListOpenWorkflowExecutions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListOpenWorkflowExecutions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -979,9 +939,8 @@ func (c *workflowServiceClient) ListOpenWorkflowExecutions(ctx context.Context, 
 }
 
 func (c *workflowServiceClient) ListClosedWorkflowExecutions(ctx context.Context, in *ListClosedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListClosedWorkflowExecutionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListClosedWorkflowExecutionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListClosedWorkflowExecutions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListClosedWorkflowExecutions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -989,9 +948,8 @@ func (c *workflowServiceClient) ListClosedWorkflowExecutions(ctx context.Context
 }
 
 func (c *workflowServiceClient) ListWorkflowExecutions(ctx context.Context, in *ListWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListWorkflowExecutionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListWorkflowExecutionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListWorkflowExecutions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListWorkflowExecutions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -999,9 +957,8 @@ func (c *workflowServiceClient) ListWorkflowExecutions(ctx context.Context, in *
 }
 
 func (c *workflowServiceClient) ListArchivedWorkflowExecutions(ctx context.Context, in *ListArchivedWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ListArchivedWorkflowExecutionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListArchivedWorkflowExecutionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListArchivedWorkflowExecutions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListArchivedWorkflowExecutions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1009,9 +966,8 @@ func (c *workflowServiceClient) ListArchivedWorkflowExecutions(ctx context.Conte
 }
 
 func (c *workflowServiceClient) ScanWorkflowExecutions(ctx context.Context, in *ScanWorkflowExecutionsRequest, opts ...grpc.CallOption) (*ScanWorkflowExecutionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ScanWorkflowExecutionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ScanWorkflowExecutions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ScanWorkflowExecutions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1019,9 +975,8 @@ func (c *workflowServiceClient) ScanWorkflowExecutions(ctx context.Context, in *
 }
 
 func (c *workflowServiceClient) CountWorkflowExecutions(ctx context.Context, in *CountWorkflowExecutionsRequest, opts ...grpc.CallOption) (*CountWorkflowExecutionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CountWorkflowExecutionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_CountWorkflowExecutions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_CountWorkflowExecutions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1029,9 +984,8 @@ func (c *workflowServiceClient) CountWorkflowExecutions(ctx context.Context, in 
 }
 
 func (c *workflowServiceClient) GetSearchAttributes(ctx context.Context, in *GetSearchAttributesRequest, opts ...grpc.CallOption) (*GetSearchAttributesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetSearchAttributesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetSearchAttributes_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetSearchAttributes_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1039,9 +993,8 @@ func (c *workflowServiceClient) GetSearchAttributes(ctx context.Context, in *Get
 }
 
 func (c *workflowServiceClient) RespondQueryTaskCompleted(ctx context.Context, in *RespondQueryTaskCompletedRequest, opts ...grpc.CallOption) (*RespondQueryTaskCompletedResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondQueryTaskCompletedResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondQueryTaskCompleted_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondQueryTaskCompleted_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1049,9 +1002,8 @@ func (c *workflowServiceClient) RespondQueryTaskCompleted(ctx context.Context, i
 }
 
 func (c *workflowServiceClient) ResetStickyTaskQueue(ctx context.Context, in *ResetStickyTaskQueueRequest, opts ...grpc.CallOption) (*ResetStickyTaskQueueResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ResetStickyTaskQueueResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ResetStickyTaskQueue_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ResetStickyTaskQueue_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1059,9 +1011,8 @@ func (c *workflowServiceClient) ResetStickyTaskQueue(ctx context.Context, in *Re
 }
 
 func (c *workflowServiceClient) ShutdownWorker(ctx context.Context, in *ShutdownWorkerRequest, opts ...grpc.CallOption) (*ShutdownWorkerResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ShutdownWorkerResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ShutdownWorker_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ShutdownWorker_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1069,9 +1020,8 @@ func (c *workflowServiceClient) ShutdownWorker(ctx context.Context, in *Shutdown
 }
 
 func (c *workflowServiceClient) QueryWorkflow(ctx context.Context, in *QueryWorkflowRequest, opts ...grpc.CallOption) (*QueryWorkflowResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(QueryWorkflowResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_QueryWorkflow_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_QueryWorkflow_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1079,9 +1029,8 @@ func (c *workflowServiceClient) QueryWorkflow(ctx context.Context, in *QueryWork
 }
 
 func (c *workflowServiceClient) DescribeWorkflowExecution(ctx context.Context, in *DescribeWorkflowExecutionRequest, opts ...grpc.CallOption) (*DescribeWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1089,9 +1038,8 @@ func (c *workflowServiceClient) DescribeWorkflowExecution(ctx context.Context, i
 }
 
 func (c *workflowServiceClient) DescribeTaskQueue(ctx context.Context, in *DescribeTaskQueueRequest, opts ...grpc.CallOption) (*DescribeTaskQueueResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeTaskQueueResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeTaskQueue_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeTaskQueue_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1099,9 +1047,8 @@ func (c *workflowServiceClient) DescribeTaskQueue(ctx context.Context, in *Descr
 }
 
 func (c *workflowServiceClient) GetClusterInfo(ctx context.Context, in *GetClusterInfoRequest, opts ...grpc.CallOption) (*GetClusterInfoResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetClusterInfoResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetClusterInfo_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetClusterInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1109,9 +1056,8 @@ func (c *workflowServiceClient) GetClusterInfo(ctx context.Context, in *GetClust
 }
 
 func (c *workflowServiceClient) GetSystemInfo(ctx context.Context, in *GetSystemInfoRequest, opts ...grpc.CallOption) (*GetSystemInfoResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetSystemInfoResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetSystemInfo_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetSystemInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1119,9 +1065,8 @@ func (c *workflowServiceClient) GetSystemInfo(ctx context.Context, in *GetSystem
 }
 
 func (c *workflowServiceClient) ListTaskQueuePartitions(ctx context.Context, in *ListTaskQueuePartitionsRequest, opts ...grpc.CallOption) (*ListTaskQueuePartitionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListTaskQueuePartitionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListTaskQueuePartitions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListTaskQueuePartitions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1129,9 +1074,8 @@ func (c *workflowServiceClient) ListTaskQueuePartitions(ctx context.Context, in 
 }
 
 func (c *workflowServiceClient) CreateSchedule(ctx context.Context, in *CreateScheduleRequest, opts ...grpc.CallOption) (*CreateScheduleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateScheduleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_CreateSchedule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_CreateSchedule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1139,9 +1083,8 @@ func (c *workflowServiceClient) CreateSchedule(ctx context.Context, in *CreateSc
 }
 
 func (c *workflowServiceClient) DescribeSchedule(ctx context.Context, in *DescribeScheduleRequest, opts ...grpc.CallOption) (*DescribeScheduleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeScheduleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeSchedule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeSchedule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1149,9 +1092,8 @@ func (c *workflowServiceClient) DescribeSchedule(ctx context.Context, in *Descri
 }
 
 func (c *workflowServiceClient) UpdateSchedule(ctx context.Context, in *UpdateScheduleRequest, opts ...grpc.CallOption) (*UpdateScheduleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateScheduleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateSchedule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateSchedule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1159,9 +1101,8 @@ func (c *workflowServiceClient) UpdateSchedule(ctx context.Context, in *UpdateSc
 }
 
 func (c *workflowServiceClient) PatchSchedule(ctx context.Context, in *PatchScheduleRequest, opts ...grpc.CallOption) (*PatchScheduleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PatchScheduleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_PatchSchedule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_PatchSchedule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1169,9 +1110,8 @@ func (c *workflowServiceClient) PatchSchedule(ctx context.Context, in *PatchSche
 }
 
 func (c *workflowServiceClient) ListScheduleMatchingTimes(ctx context.Context, in *ListScheduleMatchingTimesRequest, opts ...grpc.CallOption) (*ListScheduleMatchingTimesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListScheduleMatchingTimesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListScheduleMatchingTimes_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListScheduleMatchingTimes_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1179,9 +1119,8 @@ func (c *workflowServiceClient) ListScheduleMatchingTimes(ctx context.Context, i
 }
 
 func (c *workflowServiceClient) DeleteSchedule(ctx context.Context, in *DeleteScheduleRequest, opts ...grpc.CallOption) (*DeleteScheduleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteScheduleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DeleteSchedule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DeleteSchedule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1189,9 +1128,8 @@ func (c *workflowServiceClient) DeleteSchedule(ctx context.Context, in *DeleteSc
 }
 
 func (c *workflowServiceClient) ListSchedules(ctx context.Context, in *ListSchedulesRequest, opts ...grpc.CallOption) (*ListSchedulesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListSchedulesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListSchedules_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListSchedules_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1199,9 +1137,8 @@ func (c *workflowServiceClient) ListSchedules(ctx context.Context, in *ListSched
 }
 
 func (c *workflowServiceClient) UpdateWorkerBuildIdCompatibility(ctx context.Context, in *UpdateWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*UpdateWorkerBuildIdCompatibilityResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkerBuildIdCompatibilityResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerBuildIdCompatibility_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerBuildIdCompatibility_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1209,9 +1146,8 @@ func (c *workflowServiceClient) UpdateWorkerBuildIdCompatibility(ctx context.Con
 }
 
 func (c *workflowServiceClient) GetWorkerBuildIdCompatibility(ctx context.Context, in *GetWorkerBuildIdCompatibilityRequest, opts ...grpc.CallOption) (*GetWorkerBuildIdCompatibilityResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetWorkerBuildIdCompatibilityResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerBuildIdCompatibility_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerBuildIdCompatibility_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1219,9 +1155,8 @@ func (c *workflowServiceClient) GetWorkerBuildIdCompatibility(ctx context.Contex
 }
 
 func (c *workflowServiceClient) UpdateWorkerVersioningRules(ctx context.Context, in *UpdateWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*UpdateWorkerVersioningRulesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkerVersioningRulesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerVersioningRules_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerVersioningRules_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1229,9 +1164,8 @@ func (c *workflowServiceClient) UpdateWorkerVersioningRules(ctx context.Context,
 }
 
 func (c *workflowServiceClient) GetWorkerVersioningRules(ctx context.Context, in *GetWorkerVersioningRulesRequest, opts ...grpc.CallOption) (*GetWorkerVersioningRulesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetWorkerVersioningRulesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerVersioningRules_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerVersioningRules_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1239,9 +1173,8 @@ func (c *workflowServiceClient) GetWorkerVersioningRules(ctx context.Context, in
 }
 
 func (c *workflowServiceClient) GetWorkerTaskReachability(ctx context.Context, in *GetWorkerTaskReachabilityRequest, opts ...grpc.CallOption) (*GetWorkerTaskReachabilityResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetWorkerTaskReachabilityResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerTaskReachability_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetWorkerTaskReachability_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1249,9 +1182,8 @@ func (c *workflowServiceClient) GetWorkerTaskReachability(ctx context.Context, i
 }
 
 func (c *workflowServiceClient) DescribeDeployment(ctx context.Context, in *DescribeDeploymentRequest, opts ...grpc.CallOption) (*DescribeDeploymentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeDeploymentResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeDeployment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeDeployment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1259,9 +1191,8 @@ func (c *workflowServiceClient) DescribeDeployment(ctx context.Context, in *Desc
 }
 
 func (c *workflowServiceClient) DescribeWorkerDeploymentVersion(ctx context.Context, in *DescribeWorkerDeploymentVersionRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentVersionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeWorkerDeploymentVersionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkerDeploymentVersion_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkerDeploymentVersion_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1269,9 +1200,8 @@ func (c *workflowServiceClient) DescribeWorkerDeploymentVersion(ctx context.Cont
 }
 
 func (c *workflowServiceClient) ListDeployments(ctx context.Context, in *ListDeploymentsRequest, opts ...grpc.CallOption) (*ListDeploymentsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListDeploymentsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListDeployments_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListDeployments_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1279,9 +1209,8 @@ func (c *workflowServiceClient) ListDeployments(ctx context.Context, in *ListDep
 }
 
 func (c *workflowServiceClient) GetDeploymentReachability(ctx context.Context, in *GetDeploymentReachabilityRequest, opts ...grpc.CallOption) (*GetDeploymentReachabilityResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetDeploymentReachabilityResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetDeploymentReachability_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetDeploymentReachability_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1289,9 +1218,8 @@ func (c *workflowServiceClient) GetDeploymentReachability(ctx context.Context, i
 }
 
 func (c *workflowServiceClient) GetCurrentDeployment(ctx context.Context, in *GetCurrentDeploymentRequest, opts ...grpc.CallOption) (*GetCurrentDeploymentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetCurrentDeploymentResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetCurrentDeployment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_GetCurrentDeployment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1299,9 +1227,8 @@ func (c *workflowServiceClient) GetCurrentDeployment(ctx context.Context, in *Ge
 }
 
 func (c *workflowServiceClient) SetCurrentDeployment(ctx context.Context, in *SetCurrentDeploymentRequest, opts ...grpc.CallOption) (*SetCurrentDeploymentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetCurrentDeploymentResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_SetCurrentDeployment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_SetCurrentDeployment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1309,9 +1236,8 @@ func (c *workflowServiceClient) SetCurrentDeployment(ctx context.Context, in *Se
 }
 
 func (c *workflowServiceClient) SetWorkerDeploymentCurrentVersion(ctx context.Context, in *SetWorkerDeploymentCurrentVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentCurrentVersionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetWorkerDeploymentCurrentVersionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentCurrentVersion_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1319,9 +1245,8 @@ func (c *workflowServiceClient) SetWorkerDeploymentCurrentVersion(ctx context.Co
 }
 
 func (c *workflowServiceClient) DescribeWorkerDeployment(ctx context.Context, in *DescribeWorkerDeploymentRequest, opts ...grpc.CallOption) (*DescribeWorkerDeploymentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeWorkerDeploymentResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkerDeployment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkerDeployment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1329,9 +1254,8 @@ func (c *workflowServiceClient) DescribeWorkerDeployment(ctx context.Context, in
 }
 
 func (c *workflowServiceClient) DeleteWorkerDeployment(ctx context.Context, in *DeleteWorkerDeploymentRequest, opts ...grpc.CallOption) (*DeleteWorkerDeploymentResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteWorkerDeploymentResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkerDeployment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkerDeployment_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1339,9 +1263,8 @@ func (c *workflowServiceClient) DeleteWorkerDeployment(ctx context.Context, in *
 }
 
 func (c *workflowServiceClient) DeleteWorkerDeploymentVersion(ctx context.Context, in *DeleteWorkerDeploymentVersionRequest, opts ...grpc.CallOption) (*DeleteWorkerDeploymentVersionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteWorkerDeploymentVersionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkerDeploymentVersion_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkerDeploymentVersion_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1349,9 +1272,8 @@ func (c *workflowServiceClient) DeleteWorkerDeploymentVersion(ctx context.Contex
 }
 
 func (c *workflowServiceClient) SetWorkerDeploymentRampingVersion(ctx context.Context, in *SetWorkerDeploymentRampingVersionRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentRampingVersionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetWorkerDeploymentRampingVersionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentRampingVersion_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1359,9 +1281,8 @@ func (c *workflowServiceClient) SetWorkerDeploymentRampingVersion(ctx context.Co
 }
 
 func (c *workflowServiceClient) ListWorkerDeployments(ctx context.Context, in *ListWorkerDeploymentsRequest, opts ...grpc.CallOption) (*ListWorkerDeploymentsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListWorkerDeploymentsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListWorkerDeployments_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListWorkerDeployments_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1369,9 +1290,8 @@ func (c *workflowServiceClient) ListWorkerDeployments(ctx context.Context, in *L
 }
 
 func (c *workflowServiceClient) UpdateWorkerDeploymentVersionMetadata(ctx context.Context, in *UpdateWorkerDeploymentVersionMetadataRequest, opts ...grpc.CallOption) (*UpdateWorkerDeploymentVersionMetadataResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkerDeploymentVersionMetadataResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerDeploymentVersionMetadata_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerDeploymentVersionMetadata_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1379,9 +1299,8 @@ func (c *workflowServiceClient) UpdateWorkerDeploymentVersionMetadata(ctx contex
 }
 
 func (c *workflowServiceClient) SetWorkerDeploymentManager(ctx context.Context, in *SetWorkerDeploymentManagerRequest, opts ...grpc.CallOption) (*SetWorkerDeploymentManagerResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SetWorkerDeploymentManagerResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentManager_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_SetWorkerDeploymentManager_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1389,9 +1308,8 @@ func (c *workflowServiceClient) SetWorkerDeploymentManager(ctx context.Context, 
 }
 
 func (c *workflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in *UpdateWorkflowExecutionRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkflowExecutionResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkflowExecution_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkflowExecution_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1399,9 +1317,8 @@ func (c *workflowServiceClient) UpdateWorkflowExecution(ctx context.Context, in 
 }
 
 func (c *workflowServiceClient) PollWorkflowExecutionUpdate(ctx context.Context, in *PollWorkflowExecutionUpdateRequest, opts ...grpc.CallOption) (*PollWorkflowExecutionUpdateResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PollWorkflowExecutionUpdateResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_PollWorkflowExecutionUpdate_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_PollWorkflowExecutionUpdate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1409,9 +1326,8 @@ func (c *workflowServiceClient) PollWorkflowExecutionUpdate(ctx context.Context,
 }
 
 func (c *workflowServiceClient) StartBatchOperation(ctx context.Context, in *StartBatchOperationRequest, opts ...grpc.CallOption) (*StartBatchOperationResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StartBatchOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_StartBatchOperation_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_StartBatchOperation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1419,9 +1335,8 @@ func (c *workflowServiceClient) StartBatchOperation(ctx context.Context, in *Sta
 }
 
 func (c *workflowServiceClient) StopBatchOperation(ctx context.Context, in *StopBatchOperationRequest, opts ...grpc.CallOption) (*StopBatchOperationResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(StopBatchOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_StopBatchOperation_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_StopBatchOperation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1429,9 +1344,8 @@ func (c *workflowServiceClient) StopBatchOperation(ctx context.Context, in *Stop
 }
 
 func (c *workflowServiceClient) DescribeBatchOperation(ctx context.Context, in *DescribeBatchOperationRequest, opts ...grpc.CallOption) (*DescribeBatchOperationResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeBatchOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeBatchOperation_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeBatchOperation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1439,9 +1353,8 @@ func (c *workflowServiceClient) DescribeBatchOperation(ctx context.Context, in *
 }
 
 func (c *workflowServiceClient) ListBatchOperations(ctx context.Context, in *ListBatchOperationsRequest, opts ...grpc.CallOption) (*ListBatchOperationsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListBatchOperationsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListBatchOperations_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListBatchOperations_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1449,9 +1362,8 @@ func (c *workflowServiceClient) ListBatchOperations(ctx context.Context, in *Lis
 }
 
 func (c *workflowServiceClient) PollNexusTaskQueue(ctx context.Context, in *PollNexusTaskQueueRequest, opts ...grpc.CallOption) (*PollNexusTaskQueueResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PollNexusTaskQueueResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_PollNexusTaskQueue_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_PollNexusTaskQueue_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1459,9 +1371,8 @@ func (c *workflowServiceClient) PollNexusTaskQueue(ctx context.Context, in *Poll
 }
 
 func (c *workflowServiceClient) RespondNexusTaskCompleted(ctx context.Context, in *RespondNexusTaskCompletedRequest, opts ...grpc.CallOption) (*RespondNexusTaskCompletedResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondNexusTaskCompletedResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondNexusTaskCompleted_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondNexusTaskCompleted_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1469,9 +1380,8 @@ func (c *workflowServiceClient) RespondNexusTaskCompleted(ctx context.Context, i
 }
 
 func (c *workflowServiceClient) RespondNexusTaskFailed(ctx context.Context, in *RespondNexusTaskFailedRequest, opts ...grpc.CallOption) (*RespondNexusTaskFailedResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RespondNexusTaskFailedResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RespondNexusTaskFailed_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RespondNexusTaskFailed_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1479,9 +1389,8 @@ func (c *workflowServiceClient) RespondNexusTaskFailed(ctx context.Context, in *
 }
 
 func (c *workflowServiceClient) UpdateActivityOptions(ctx context.Context, in *UpdateActivityOptionsRequest, opts ...grpc.CallOption) (*UpdateActivityOptionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateActivityOptionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateActivityOptions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateActivityOptions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1489,9 +1398,8 @@ func (c *workflowServiceClient) UpdateActivityOptions(ctx context.Context, in *U
 }
 
 func (c *workflowServiceClient) UpdateWorkflowExecutionOptions(ctx context.Context, in *UpdateWorkflowExecutionOptionsRequest, opts ...grpc.CallOption) (*UpdateWorkflowExecutionOptionsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkflowExecutionOptionsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkflowExecutionOptions_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkflowExecutionOptions_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1499,9 +1407,8 @@ func (c *workflowServiceClient) UpdateWorkflowExecutionOptions(ctx context.Conte
 }
 
 func (c *workflowServiceClient) PauseActivity(ctx context.Context, in *PauseActivityRequest, opts ...grpc.CallOption) (*PauseActivityResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PauseActivityResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_PauseActivity_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_PauseActivity_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1509,9 +1416,8 @@ func (c *workflowServiceClient) PauseActivity(ctx context.Context, in *PauseActi
 }
 
 func (c *workflowServiceClient) UnpauseActivity(ctx context.Context, in *UnpauseActivityRequest, opts ...grpc.CallOption) (*UnpauseActivityResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UnpauseActivityResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UnpauseActivity_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UnpauseActivity_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1519,9 +1425,8 @@ func (c *workflowServiceClient) UnpauseActivity(ctx context.Context, in *Unpause
 }
 
 func (c *workflowServiceClient) ResetActivity(ctx context.Context, in *ResetActivityRequest, opts ...grpc.CallOption) (*ResetActivityResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ResetActivityResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ResetActivity_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ResetActivity_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1529,9 +1434,8 @@ func (c *workflowServiceClient) ResetActivity(ctx context.Context, in *ResetActi
 }
 
 func (c *workflowServiceClient) CreateWorkflowRule(ctx context.Context, in *CreateWorkflowRuleRequest, opts ...grpc.CallOption) (*CreateWorkflowRuleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateWorkflowRuleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_CreateWorkflowRule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_CreateWorkflowRule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1539,9 +1443,8 @@ func (c *workflowServiceClient) CreateWorkflowRule(ctx context.Context, in *Crea
 }
 
 func (c *workflowServiceClient) DescribeWorkflowRule(ctx context.Context, in *DescribeWorkflowRuleRequest, opts ...grpc.CallOption) (*DescribeWorkflowRuleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeWorkflowRuleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkflowRule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorkflowRule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1549,9 +1452,8 @@ func (c *workflowServiceClient) DescribeWorkflowRule(ctx context.Context, in *De
 }
 
 func (c *workflowServiceClient) DeleteWorkflowRule(ctx context.Context, in *DeleteWorkflowRuleRequest, opts ...grpc.CallOption) (*DeleteWorkflowRuleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteWorkflowRuleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkflowRule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DeleteWorkflowRule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1559,9 +1461,8 @@ func (c *workflowServiceClient) DeleteWorkflowRule(ctx context.Context, in *Dele
 }
 
 func (c *workflowServiceClient) ListWorkflowRules(ctx context.Context, in *ListWorkflowRulesRequest, opts ...grpc.CallOption) (*ListWorkflowRulesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListWorkflowRulesResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListWorkflowRules_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListWorkflowRules_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1569,9 +1470,8 @@ func (c *workflowServiceClient) ListWorkflowRules(ctx context.Context, in *ListW
 }
 
 func (c *workflowServiceClient) TriggerWorkflowRule(ctx context.Context, in *TriggerWorkflowRuleRequest, opts ...grpc.CallOption) (*TriggerWorkflowRuleResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TriggerWorkflowRuleResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_TriggerWorkflowRule_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_TriggerWorkflowRule_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1579,9 +1479,8 @@ func (c *workflowServiceClient) TriggerWorkflowRule(ctx context.Context, in *Tri
 }
 
 func (c *workflowServiceClient) RecordWorkerHeartbeat(ctx context.Context, in *RecordWorkerHeartbeatRequest, opts ...grpc.CallOption) (*RecordWorkerHeartbeatResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RecordWorkerHeartbeatResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RecordWorkerHeartbeat_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_RecordWorkerHeartbeat_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1589,9 +1488,8 @@ func (c *workflowServiceClient) RecordWorkerHeartbeat(ctx context.Context, in *R
 }
 
 func (c *workflowServiceClient) ListWorkers(ctx context.Context, in *ListWorkersRequest, opts ...grpc.CallOption) (*ListWorkersResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListWorkersResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListWorkers_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_ListWorkers_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1599,9 +1497,8 @@ func (c *workflowServiceClient) ListWorkers(ctx context.Context, in *ListWorkers
 }
 
 func (c *workflowServiceClient) UpdateTaskQueueConfig(ctx context.Context, in *UpdateTaskQueueConfigRequest, opts ...grpc.CallOption) (*UpdateTaskQueueConfigResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateTaskQueueConfigResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateTaskQueueConfig_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateTaskQueueConfig_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1609,9 +1506,8 @@ func (c *workflowServiceClient) UpdateTaskQueueConfig(ctx context.Context, in *U
 }
 
 func (c *workflowServiceClient) FetchWorkerConfig(ctx context.Context, in *FetchWorkerConfigRequest, opts ...grpc.CallOption) (*FetchWorkerConfigResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(FetchWorkerConfigResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_FetchWorkerConfig_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_FetchWorkerConfig_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1619,9 +1515,8 @@ func (c *workflowServiceClient) FetchWorkerConfig(ctx context.Context, in *Fetch
 }
 
 func (c *workflowServiceClient) UpdateWorkerConfig(ctx context.Context, in *UpdateWorkerConfigRequest, opts ...grpc.CallOption) (*UpdateWorkerConfigResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateWorkerConfigResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerConfig_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_UpdateWorkerConfig_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1629,9 +1524,8 @@ func (c *workflowServiceClient) UpdateWorkerConfig(ctx context.Context, in *Upda
 }
 
 func (c *workflowServiceClient) DescribeWorker(ctx context.Context, in *DescribeWorkerRequest, opts ...grpc.CallOption) (*DescribeWorkerResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DescribeWorkerResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorker_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeWorker_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1640,19 +1534,7 @@ func (c *workflowServiceClient) DescribeWorker(ctx context.Context, in *Describe
 
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
-// for forward compatibility.
-//
-// WorkflowService API defines how Temporal SDKs and other clients interact with the Temporal server
-// to create and interact with workflows and activities.
-//
-// Users are expected to call `StartWorkflowExecution` to create a new workflow execution.
-//
-// To drive workflows, a worker using a Temporal SDK must exist which regularly polls for workflow
-// and activity tasks from the service. For each workflow task, the sdk must process the
-// (incremental or complete) event history and respond back with any newly generated commands.
-//
-// For each activity task, the worker is expected to execute the user's code which implements that
-// activity, responding with completion or failure.
+// for forward compatibility
 type WorkflowServiceServer interface {
 	// RegisterNamespace creates a new namespace which can be used as a container for all resources.
 	//
@@ -2213,12 +2095,9 @@ type WorkflowServiceServer interface {
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
-// UnimplementedWorkflowServiceServer must be embedded to have
-// forward compatible implementations.
-//
-// NOTE: this should be embedded by value instead of pointer to avoid a nil
-// pointer dereference when methods are called.
-type UnimplementedWorkflowServiceServer struct{}
+// UnimplementedWorkflowServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedWorkflowServiceServer struct {
+}
 
 func (UnimplementedWorkflowServiceServer) RegisterNamespace(context.Context, *RegisterNamespaceRequest) (*RegisterNamespaceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterNamespace not implemented")
@@ -2503,7 +2382,6 @@ func (UnimplementedWorkflowServiceServer) DescribeWorker(context.Context, *Descr
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorker not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
-func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
 
 // UnsafeWorkflowServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to WorkflowServiceServer will
@@ -2513,13 +2391,6 @@ type UnsafeWorkflowServiceServer interface {
 }
 
 func RegisterWorkflowServiceServer(s grpc.ServiceRegistrar, srv WorkflowServiceServer) {
-	// If the following call pancis, it indicates UnimplementedWorkflowServiceServer was
-	// embedded by pointer and is nil.  This will cause panics if an
-	// unimplemented method is ever invoked, so we test this at initialization
-	// time to prevent it from happening at runtime later due to I/O.
-	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
-		t.testEmbeddedByValue()
-	}
 	s.RegisterService(&WorkflowService_ServiceDesc, srv)
 }
 
