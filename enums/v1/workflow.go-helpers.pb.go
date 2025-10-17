@@ -233,3 +233,23 @@ func VersioningBehaviorFromString(s string) (VersioningBehavior, error) {
 	}
 	return VersioningBehavior(0), fmt.Errorf("%s is not a valid VersioningBehavior", s)
 }
+
+var (
+	ContinueAsNewSuggestedReason_shorthandValue = map[string]int32{
+		"Unspecified":                    0,
+		"HistorySizeTooLarge":            1,
+		"UpdateRegistryTooLarge":         2,
+		"WorkerDeploymentVersionChanged": 3,
+	}
+)
+
+// ContinueAsNewSuggestedReasonFromString parses a ContinueAsNewSuggestedReason value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ContinueAsNewSuggestedReason
+func ContinueAsNewSuggestedReasonFromString(s string) (ContinueAsNewSuggestedReason, error) {
+	if v, ok := ContinueAsNewSuggestedReason_value[s]; ok {
+		return ContinueAsNewSuggestedReason(v), nil
+	} else if v, ok := ContinueAsNewSuggestedReason_shorthandValue[s]; ok {
+		return ContinueAsNewSuggestedReason(v), nil
+	}
+	return ContinueAsNewSuggestedReason(0), fmt.Errorf("%s is not a valid ContinueAsNewSuggestedReason", s)
+}
