@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -63,4 +64,11 @@ func newResourceExhausted(st *status.Status, errDetails *errordetails.ResourceEx
 		Message: st.Message(),
 		st:      st,
 	}
+}
+
+// IsResourceExhausted returns whether any error in the provided error's chain is a
+// ResourceExhausted error.
+func IsResourceExhausted(err error) bool {
+	var serr *ResourceExhausted
+	return errors.As(err, &serr)
 }

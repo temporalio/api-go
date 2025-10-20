@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	failurepb "go.temporal.io/api/failure/v1"
@@ -48,4 +49,11 @@ func newMultiOperationAborted(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
+}
+
+// IsMultiOperationAborted returns whether any error in the provided error's chain is a
+// MultiOperationAborted error.
+func IsMultiOperationAborted(err error) bool {
+	var serr *MultiOperationAborted
+	return errors.As(err, &serr)
 }

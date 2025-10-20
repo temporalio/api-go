@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -69,4 +70,11 @@ func newClientVersionNotSupported(st *status.Status, errDetails *errordetails.Cl
 		SupportedVersions: errDetails.GetSupportedVersions(),
 		st:                st,
 	}
+}
+
+// IsClientVersionNotSupported returns whether any error in the provided error's chain is a
+// ClientVersionNotSupported error.
+func IsClientVersionNotSupported(err error) bool {
+	var serr *ClientVersionNotSupported
+	return errors.As(err, &serr)
 }

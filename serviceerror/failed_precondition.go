@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -47,4 +48,11 @@ func newFailedPrecondition(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
+}
+
+// IsFailedPrecondition returns whether any error in the provided error's chain is a
+// FailedPrecondition error.
+func IsFailedPrecondition(err error) bool {
+	var serr *FailedPrecondition
+	return errors.As(err, &serr)
 }
