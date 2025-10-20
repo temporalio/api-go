@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -47,4 +48,11 @@ func newUnimplemented(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
+}
+
+// IsUnimplemented returns whether any error in the provided error's chain is an
+// Unimplemented error.
+func IsUnimplemented(err error) bool {
+	var serr *Unimplemented
+	return errors.As(err, &serr)
 }

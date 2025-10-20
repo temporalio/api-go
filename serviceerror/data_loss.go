@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -47,4 +48,11 @@ func newDataLoss(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
+}
+
+// IsDataLoss returns whether any error in the provided error's chain is a
+// DataLoss error.
+func IsDataLoss(err error) bool {
+	var serr *DataLoss
+	return errors.As(err, &serr)
 }

@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -47,4 +48,11 @@ func newDeadlineExceeded(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
+}
+
+// IsDeadlineExceeded returns whether any error in the provided error's chain is a
+// DeadlineExceeded error.
+func IsDeadlineExceeded(err error) bool {
+	var serr *DeadlineExceeded
+	return errors.As(err, &serr)
 }

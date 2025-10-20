@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -54,4 +55,11 @@ func newNamespaceNotFound(st *status.Status, errDetails *errordetails.NamespaceN
 		Namespace: errDetails.GetNamespace(),
 		st:        st,
 	}
+}
+
+// IsNamespaceNotFound returns whether any error in the provided error's chain is a
+// NamespaceNotFound error.
+func IsNamespaceNotFound(err error) bool {
+	var serr *NamespaceNotFound
+	return errors.As(err, &serr)
 }

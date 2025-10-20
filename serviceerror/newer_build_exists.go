@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -52,4 +53,11 @@ func newNewerBuildExists(st *status.Status, errDetails *errordetails.NewerBuildE
 		DefaultBuildID: errDetails.GetDefaultBuildId(),
 		st:             st,
 	}
+}
+
+// IsNewerBuildExists returns whether any error in the provided error's chain is a
+// NewerBuildExists error.
+func IsNewerBuildExists(err error) bool {
+	var serr *NewerBuildExists
+	return errors.As(err, &serr)
 }

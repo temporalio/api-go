@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -75,4 +76,11 @@ func newQueryFailed(st *status.Status, errDetails *errordetails.QueryFailedFailu
 		Failure: errDetails.Failure,
 		st:      st,
 	}
+}
+
+// IsQueryFailed returns whether any error in the provided error's chain is a
+// QueryFailed error.
+func IsQueryFailed(err error) bool {
+	var serr *QueryFailed
+	return errors.As(err, &serr)
 }

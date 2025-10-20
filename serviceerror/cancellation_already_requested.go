@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -53,4 +54,11 @@ func newCancellationAlreadyRequested(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
+}
+
+// IsCancellationAlreadyRequested returns whether any error in the provided error's chain is a
+// CancellationAlreadyRequested error.
+func IsCancellationAlreadyRequested(err error) bool {
+	var serr *CancellationAlreadyRequested
+	return errors.As(err, &serr)
 }

@@ -1,6 +1,7 @@
 package serviceerror
 
 import (
+	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -64,4 +65,11 @@ func newWorkflowExecutionAlreadyStarted(st *status.Status, errDetails *errordeta
 		RunId:          errDetails.GetRunId(),
 		st:             st,
 	}
+}
+
+// IsWorkflowExecutionAlreadyStarted returns whether any error in the provided error's chain is a
+// WorkflowExecutionAlreadyStarted error.
+func IsWorkflowExecutionAlreadyStarted(err error) bool {
+	var serr *WorkflowExecutionAlreadyStarted
+	return errors.As(err, &serr)
 }

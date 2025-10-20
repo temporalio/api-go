@@ -76,3 +76,10 @@ func newMultiOperationExecution(st *status.Status, errs []error) error {
 		st:      st,
 	}
 }
+
+// IsMultiOperationExecution returns whether any error in the provided error's chain is a
+// MultiOperationExecution error.
+func IsMultiOperationExecution(err error) bool {
+	var serr *MultiOperationExecution
+	return errors.As(err, &serr)
+}
