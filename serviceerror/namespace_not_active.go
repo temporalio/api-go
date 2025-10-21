@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -65,11 +64,4 @@ func newNamespaceNotActive(st *status.Status, errDetails *errordetails.Namespace
 		ActiveCluster:  errDetails.GetActiveCluster(),
 		st:             st,
 	}
-}
-
-// IsNamespaceNotActive returns whether any error in the provided error's chain is a
-// NamespaceNotActive error.
-func IsNamespaceNotActive(err error) bool {
-	var serr *NamespaceNotActive
-	return errors.As(err, &serr)
 }

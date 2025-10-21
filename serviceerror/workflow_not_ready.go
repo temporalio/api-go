@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -54,11 +53,4 @@ func newWorkflowNotReady(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
-}
-
-// IsWorkflowNotReady returns whether any error in the provided error's chain is a
-// WorkflowNotReady error.
-func IsWorkflowNotReady(err error) bool {
-	var serr *WorkflowNotReady
-	return errors.As(err, &serr)
 }

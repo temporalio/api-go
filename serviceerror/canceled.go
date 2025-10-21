@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -48,11 +47,4 @@ func newCanceled(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
-}
-
-// IsCanceled returns whether any error in the provided error's chain is a
-// Canceled error.
-func IsCanceled(err error) bool {
-	var serr *Canceled
-	return errors.As(err, &serr)
 }

@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"go.temporal.io/api/errordetails/v1"
@@ -59,11 +58,4 @@ func newPermissionDenied(st *status.Status, errDetails *errordetails.PermissionD
 		Reason:  errDetails.GetReason(),
 		st:      st,
 	}
-}
-
-// IsPermissionDenied returns whether any error in the provided error's chain is a
-// PermissionDenied error.
-func IsPermissionDenied(err error) bool {
-	var serr *PermissionDenied
-	return errors.As(err, &serr)
 }

@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -47,11 +46,4 @@ func newAborted(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
-}
-
-// IsAborted returns whether any error in the provided error's chain is an
-// Aborted error.
-func IsAborted(err error) bool {
-	var serr *Aborted
-	return errors.As(err, &serr)
 }

@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -54,11 +53,4 @@ func newNamespaceAlreadyExists(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
-}
-
-// IsNamespaceAlreadyExists returns whether any error in the provided error's chain is a
-// NamespaceAlreadyExists error.
-func IsNamespaceAlreadyExists(err error) bool {
-	var serr *NamespaceAlreadyExists
-	return errors.As(err, &serr)
 }
