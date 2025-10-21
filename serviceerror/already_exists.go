@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -53,11 +52,4 @@ func newAlreadyExists(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
-}
-
-// IsAlreadyExists returns whether any error in the provided error's chain is an
-// AlreadyExists error.
-func IsAlreadyExists(err error) bool {
-	var serr *AlreadyExists
-	return errors.As(err, &serr)
 }

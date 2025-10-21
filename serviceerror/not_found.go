@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -61,11 +60,4 @@ func newNotFound(st *status.Status, errDetails *errordetails.NotFoundFailure) er
 		ActiveCluster:  errDetails.GetActiveCluster(),
 		st:             st,
 	}
-}
-
-// IsNotFound returns whether any error in the provided error's chain is a
-// NotFound error.
-func IsNotFound(err error) bool {
-	var serr *NotFound
-	return errors.As(err, &serr)
 }

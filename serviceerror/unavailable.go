@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -48,11 +47,4 @@ func newUnavailable(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
-}
-
-// IsUnavailable returns whether any error in the provided error's chain is an
-// Unavailable error.
-func IsUnavailable(err error) bool {
-	var serr *Unavailable
-	return errors.As(err, &serr)
 }

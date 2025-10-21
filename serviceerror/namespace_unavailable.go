@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -57,11 +56,4 @@ func newNamespaceUnavailable(st *status.Status, errDetails *errordetails.Namespa
 		st:        st,
 		Namespace: errDetails.GetNamespace(),
 	}
-}
-
-// IsNamespaceUnavailable returns whether any error in the provided error's chain is a
-// NamespaceUnavailable error.
-func IsNamespaceUnavailable(err error) bool {
-	var serr *NamespaceUnavailable
-	return errors.As(err, &serr)
 }

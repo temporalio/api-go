@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
@@ -70,11 +69,4 @@ func newNamespaceInvalidState(st *status.Status, errDetails *errordetails.Namesp
 		AllowedStates: errDetails.GetAllowedStates(),
 		st:            st,
 	}
-}
-
-// IsNamespaceInvalidState returns whether any error in the provided error's chain is a
-// NamespaceInvalidState error.
-func IsNamespaceInvalidState(err error) bool {
-	var serr *NamespaceInvalidState
-	return errors.As(err, &serr)
 }

@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -64,11 +63,4 @@ func newSystemWorkflow(st *status.Status, errDetails *errordetails.SystemWorkflo
 		WorkflowError:     errDetails.WorkflowError,
 		st:                st,
 	}
-}
-
-// IsSystemWorkflow returns whether any error in the provided error's chain is a
-// SystemWorkflow error.
-func IsSystemWorkflow(err error) bool {
-	var serr *SystemWorkflow
-	return errors.As(err, &serr)
 }

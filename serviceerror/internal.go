@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -48,11 +47,4 @@ func newInternal(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
-}
-
-// IsInternal returns whether any error in the provided error's chain is an
-// Internal error.
-func IsInternal(err error) bool {
-	var serr *Internal
-	return errors.As(err, &serr)
 }

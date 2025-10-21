@@ -1,7 +1,6 @@
 package serviceerror
 
 import (
-	"errors"
 	"fmt"
 
 	"google.golang.org/grpc/codes"
@@ -48,11 +47,4 @@ func newInvalidArgument(st *status.Status) error {
 		Message: st.Message(),
 		st:      st,
 	}
-}
-
-// IsInvalidArgument returns whether any error in the provided error's chain is an
-// InvalidArgument error.
-func IsInvalidArgument(err error) bool {
-	var serr *InvalidArgument
-	return errors.As(err, &serr)
 }
