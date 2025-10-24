@@ -569,7 +569,7 @@ type WorkflowExecutionVersioningInfo struct {
 	// Incremented when a workflow execution routes to a new deployment version, which happens when a worker of the
 	// new deployment version completes a workflow task, and is used for staleness detection
 	// between history and matching when dispatching tasks to workers.
-	RevisionNumber int32 `protobuf:"varint,8,opt,name=revision_number,json=revisionNumber,proto3" json:"revision_number,omitempty"`
+	RevisionNumber int64 `protobuf:"varint,8,opt,name=revision_number,json=revisionNumber,proto3" json:"revision_number,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -656,7 +656,7 @@ func (x *WorkflowExecutionVersioningInfo) GetVersionTransition() *DeploymentVers
 	return nil
 }
 
-func (x *WorkflowExecutionVersioningInfo) GetRevisionNumber() int32 {
+func (x *WorkflowExecutionVersioningInfo) GetRevisionNumber() int64 {
 	if x != nil {
 		return x.RevisionNumber
 	}
@@ -3002,7 +3002,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x13versioning_override\x18\x03 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12g\n" +
 	"\x15deployment_transition\x18\x04 \x01(\v2..temporal.api.workflow.v1.DeploymentTransitionB\x02\x18\x01R\x14deploymentTransition\x12d\n" +
 	"\x12version_transition\x18\x06 \x01(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\x11versionTransition\x12'\n" +
-	"\x0frevision_number\x18\b \x01(\x05R\x0erevisionNumber\"^\n" +
+	"\x0frevision_number\x18\b \x01(\x03R\x0erevisionNumber\"^\n" +
 	"\x14DeploymentTransition\x12F\n" +
 	"\n" +
 	"deployment\x18\x01 \x01(\v2&.temporal.api.deployment.v1.DeploymentR\n" +
