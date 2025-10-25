@@ -256,26 +256,6 @@ func (mr *MockWorkflowServiceClientMockRecorder) DeprecateNamespace(ctx, in inte
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeprecateNamespace", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DeprecateNamespace), varargs...)
 }
 
-// DescribeActivityExecution mocks base method.
-func (m *MockWorkflowServiceClient) DescribeActivityExecution(ctx context.Context, in *workflowservice.DescribeActivityExecutionRequest, opts ...grpc.CallOption) (*workflowservice.DescribeActivityExecutionResponse, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "DescribeActivityExecution", varargs...)
-	ret0, _ := ret[0].(*workflowservice.DescribeActivityExecutionResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// DescribeActivityExecution indicates an expected call of DescribeActivityExecution.
-func (mr *MockWorkflowServiceClientMockRecorder) DescribeActivityExecution(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeActivityExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).DescribeActivityExecution), varargs...)
-}
-
 // DescribeBatchOperation mocks base method.
 func (m *MockWorkflowServiceClient) DescribeBatchOperation(ctx context.Context, in *workflowservice.DescribeBatchOperationRequest, opts ...grpc.CallOption) (*workflowservice.DescribeBatchOperationResponse, error) {
 	m.ctrl.T.Helper()
@@ -514,26 +494,6 @@ func (mr *MockWorkflowServiceClientMockRecorder) FetchWorkerConfig(ctx, in inter
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchWorkerConfig", reflect.TypeOf((*MockWorkflowServiceClient)(nil).FetchWorkerConfig), varargs...)
-}
-
-// GetActivityExecutionResult mocks base method.
-func (m *MockWorkflowServiceClient) GetActivityExecutionResult(ctx context.Context, in *workflowservice.GetActivityExecutionResultRequest, opts ...grpc.CallOption) (*workflowservice.GetActivityExecutionResultResponse, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "GetActivityExecutionResult", varargs...)
-	ret0, _ := ret[0].(*workflowservice.GetActivityExecutionResultResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetActivityExecutionResult indicates an expected call of GetActivityExecutionResult.
-func (mr *MockWorkflowServiceClientMockRecorder) GetActivityExecutionResult(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetActivityExecutionResult", reflect.TypeOf((*MockWorkflowServiceClient)(nil).GetActivityExecutionResult), varargs...)
 }
 
 // GetClusterInfo mocks base method.
@@ -1074,6 +1034,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) PauseActivityExecution(ctx, in 
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PauseActivityExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).PauseActivityExecution), varargs...)
+}
+
+// PollActivityExecution mocks base method.
+func (m *MockWorkflowServiceClient) PollActivityExecution(ctx context.Context, in *workflowservice.PollActivityExecutionRequest, opts ...grpc.CallOption) (*workflowservice.PollActivityExecutionResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PollActivityExecution", varargs...)
+	ret0, _ := ret[0].(*workflowservice.PollActivityExecutionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PollActivityExecution indicates an expected call of PollActivityExecution.
+func (mr *MockWorkflowServiceClientMockRecorder) PollActivityExecution(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollActivityExecution", reflect.TypeOf((*MockWorkflowServiceClient)(nil).PollActivityExecution), varargs...)
 }
 
 // PollActivityTaskQueue mocks base method.
@@ -2347,21 +2327,6 @@ func (mr *MockWorkflowServiceServerMockRecorder) DeprecateNamespace(arg0, arg1 i
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeprecateNamespace", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DeprecateNamespace), arg0, arg1)
 }
 
-// DescribeActivityExecution mocks base method.
-func (m *MockWorkflowServiceServer) DescribeActivityExecution(arg0 context.Context, arg1 *workflowservice.DescribeActivityExecutionRequest) (*workflowservice.DescribeActivityExecutionResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DescribeActivityExecution", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.DescribeActivityExecutionResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// DescribeActivityExecution indicates an expected call of DescribeActivityExecution.
-func (mr *MockWorkflowServiceServerMockRecorder) DescribeActivityExecution(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeActivityExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).DescribeActivityExecution), arg0, arg1)
-}
-
 // DescribeBatchOperation mocks base method.
 func (m *MockWorkflowServiceServer) DescribeBatchOperation(arg0 context.Context, arg1 *workflowservice.DescribeBatchOperationRequest) (*workflowservice.DescribeBatchOperationResponse, error) {
 	m.ctrl.T.Helper()
@@ -2540,21 +2505,6 @@ func (m *MockWorkflowServiceServer) FetchWorkerConfig(arg0 context.Context, arg1
 func (mr *MockWorkflowServiceServerMockRecorder) FetchWorkerConfig(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchWorkerConfig", reflect.TypeOf((*MockWorkflowServiceServer)(nil).FetchWorkerConfig), arg0, arg1)
-}
-
-// GetActivityExecutionResult mocks base method.
-func (m *MockWorkflowServiceServer) GetActivityExecutionResult(arg0 context.Context, arg1 *workflowservice.GetActivityExecutionResultRequest) (*workflowservice.GetActivityExecutionResultResponse, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetActivityExecutionResult", arg0, arg1)
-	ret0, _ := ret[0].(*workflowservice.GetActivityExecutionResultResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// GetActivityExecutionResult indicates an expected call of GetActivityExecutionResult.
-func (mr *MockWorkflowServiceServerMockRecorder) GetActivityExecutionResult(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetActivityExecutionResult", reflect.TypeOf((*MockWorkflowServiceServer)(nil).GetActivityExecutionResult), arg0, arg1)
 }
 
 // GetClusterInfo mocks base method.
@@ -2960,6 +2910,21 @@ func (m *MockWorkflowServiceServer) PauseActivityExecution(arg0 context.Context,
 func (mr *MockWorkflowServiceServerMockRecorder) PauseActivityExecution(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PauseActivityExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).PauseActivityExecution), arg0, arg1)
+}
+
+// PollActivityExecution mocks base method.
+func (m *MockWorkflowServiceServer) PollActivityExecution(arg0 context.Context, arg1 *workflowservice.PollActivityExecutionRequest) (*workflowservice.PollActivityExecutionResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PollActivityExecution", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.PollActivityExecutionResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PollActivityExecution indicates an expected call of PollActivityExecution.
+func (mr *MockWorkflowServiceServerMockRecorder) PollActivityExecution(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollActivityExecution", reflect.TypeOf((*MockWorkflowServiceServer)(nil).PollActivityExecution), arg0, arg1)
 }
 
 // PollActivityTaskQueue mocks base method.

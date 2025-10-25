@@ -116,35 +116,35 @@ func (this *ActivityExecutionInfo) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
-// Marshal an object of type ActivityListInfo to the protobuf v3 wire format
-func (val *ActivityListInfo) Marshal() ([]byte, error) {
+// Marshal an object of type ActivityExecutionListInfo to the protobuf v3 wire format
+func (val *ActivityExecutionListInfo) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
 }
 
-// Unmarshal an object of type ActivityListInfo from the protobuf v3 wire format
-func (val *ActivityListInfo) Unmarshal(buf []byte) error {
+// Unmarshal an object of type ActivityExecutionListInfo from the protobuf v3 wire format
+func (val *ActivityExecutionListInfo) Unmarshal(buf []byte) error {
 	return proto.Unmarshal(buf, val)
 }
 
 // Size returns the size of the object, in bytes, once serialized
-func (val *ActivityListInfo) Size() int {
+func (val *ActivityExecutionListInfo) Size() int {
 	return proto.Size(val)
 }
 
-// Equal returns whether two ActivityListInfo values are equivalent by recursively
+// Equal returns whether two ActivityExecutionListInfo values are equivalent by recursively
 // comparing the message's fields.
 // For more information see the documentation for
 // https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
-func (this *ActivityListInfo) Equal(that interface{}) bool {
+func (this *ActivityExecutionListInfo) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	var that1 *ActivityListInfo
+	var that1 *ActivityExecutionListInfo
 	switch t := that.(type) {
-	case *ActivityListInfo:
+	case *ActivityExecutionListInfo:
 		that1 = t
-	case ActivityListInfo:
+	case ActivityExecutionListInfo:
 		that1 = &t
 	default:
 		return false

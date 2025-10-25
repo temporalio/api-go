@@ -27,3 +27,43 @@ func ActivityExecutionStatusFromString(s string) (ActivityExecutionStatus, error
 	}
 	return ActivityExecutionStatus(0), fmt.Errorf("%s is not a valid ActivityExecutionStatus", s)
 }
+
+var (
+	ActivityIdReusePolicy_shorthandValue = map[string]int32{
+		"Unspecified":              0,
+		"AllowDuplicate":           1,
+		"AllowDuplicateFailedOnly": 2,
+		"RejectDuplicate":          3,
+	}
+)
+
+// ActivityIdReusePolicyFromString parses a ActivityIdReusePolicy value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ActivityIdReusePolicy
+func ActivityIdReusePolicyFromString(s string) (ActivityIdReusePolicy, error) {
+	if v, ok := ActivityIdReusePolicy_value[s]; ok {
+		return ActivityIdReusePolicy(v), nil
+	} else if v, ok := ActivityIdReusePolicy_shorthandValue[s]; ok {
+		return ActivityIdReusePolicy(v), nil
+	}
+	return ActivityIdReusePolicy(0), fmt.Errorf("%s is not a valid ActivityIdReusePolicy", s)
+}
+
+var (
+	ActivityIdConflictPolicy_shorthandValue = map[string]int32{
+		"Unspecified":       0,
+		"Fail":              1,
+		"UseExisting":       2,
+		"TerminateExisting": 3,
+	}
+)
+
+// ActivityIdConflictPolicyFromString parses a ActivityIdConflictPolicy value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ActivityIdConflictPolicy
+func ActivityIdConflictPolicyFromString(s string) (ActivityIdConflictPolicy, error) {
+	if v, ok := ActivityIdConflictPolicy_value[s]; ok {
+		return ActivityIdConflictPolicy(v), nil
+	} else if v, ok := ActivityIdConflictPolicy_shorthandValue[s]; ok {
+		return ActivityIdConflictPolicy(v), nil
+	}
+	return ActivityIdConflictPolicy(0), fmt.Errorf("%s is not a valid ActivityIdConflictPolicy", s)
+}

@@ -76,10 +76,6 @@ func (s *workflowServiceProxyServer) DeprecateNamespace(ctx context.Context, in0
 	return s.client.DeprecateNamespace(s.reqCtx(ctx), in0)
 }
 
-func (s *workflowServiceProxyServer) DescribeActivityExecution(ctx context.Context, in0 *workflowservice.DescribeActivityExecutionRequest) (*workflowservice.DescribeActivityExecutionResponse, error) {
-	return s.client.DescribeActivityExecution(s.reqCtx(ctx), in0)
-}
-
 func (s *workflowServiceProxyServer) DescribeBatchOperation(ctx context.Context, in0 *workflowservice.DescribeBatchOperationRequest) (*workflowservice.DescribeBatchOperationResponse, error) {
 	return s.client.DescribeBatchOperation(s.reqCtx(ctx), in0)
 }
@@ -126,10 +122,6 @@ func (s *workflowServiceProxyServer) ExecuteMultiOperation(ctx context.Context, 
 
 func (s *workflowServiceProxyServer) FetchWorkerConfig(ctx context.Context, in0 *workflowservice.FetchWorkerConfigRequest) (*workflowservice.FetchWorkerConfigResponse, error) {
 	return s.client.FetchWorkerConfig(s.reqCtx(ctx), in0)
-}
-
-func (s *workflowServiceProxyServer) GetActivityExecutionResult(ctx context.Context, in0 *workflowservice.GetActivityExecutionResultRequest) (*workflowservice.GetActivityExecutionResultResponse, error) {
-	return s.client.GetActivityExecutionResult(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) GetClusterInfo(ctx context.Context, in0 *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
@@ -238,6 +230,10 @@ func (s *workflowServiceProxyServer) PauseActivity(ctx context.Context, in0 *wor
 
 func (s *workflowServiceProxyServer) PauseActivityExecution(ctx context.Context, in0 *workflowservice.PauseActivityExecutionRequest) (*workflowservice.PauseActivityExecutionResponse, error) {
 	return s.client.PauseActivityExecution(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) PollActivityExecution(ctx context.Context, in0 *workflowservice.PollActivityExecutionRequest) (*workflowservice.PollActivityExecutionResponse, error) {
+	return s.client.PollActivityExecution(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) PollActivityTaskQueue(ctx context.Context, in0 *workflowservice.PollActivityTaskQueueRequest) (*workflowservice.PollActivityTaskQueueResponse, error) {
