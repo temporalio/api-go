@@ -1,6 +1,8 @@
 [submodule "proto/api"]
 	path = proto/api
 	url = https://github.com/temporalio/api
+    branch = cg/wf_pause_1
+    ignore = dirty
 [submodule "proto/api-cloud"]
 	path = proto/api-cloud
 	url = https://github.com/temporalio/api-cloud
