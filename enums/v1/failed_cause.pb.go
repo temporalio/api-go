@@ -583,10 +583,6 @@ const (
 	RESOURCE_EXHAUSTED_SCOPE_NAMESPACE ResourceExhaustedScope = 1
 	// Exhausted resource is a namespace-level resource.
 	RESOURCE_EXHAUSTED_SCOPE_SYSTEM ResourceExhaustedScope = 2
-	// Exhausted resource is a namespace-level, shard-level resource.
-	RESOURCE_EXHAUSTED_SCOPE_NAMESPACE_SHARD ResourceExhaustedScope = 3
-	// Exhausted resource is an execution-level resource.
-	RESOURCE_EXHAUSTED_SCOPE_EXECUTION ResourceExhaustedScope = 4
 )
 
 // Enum value maps for ResourceExhaustedScope.
@@ -595,15 +591,11 @@ var (
 		0: "RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED",
 		1: "RESOURCE_EXHAUSTED_SCOPE_NAMESPACE",
 		2: "RESOURCE_EXHAUSTED_SCOPE_SYSTEM",
-		3: "RESOURCE_EXHAUSTED_SCOPE_NAMESPACE_SHARD",
-		4: "RESOURCE_EXHAUSTED_SCOPE_EXECUTION",
 	}
 	ResourceExhaustedScope_value = map[string]int32{
-		"RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED":     0,
-		"RESOURCE_EXHAUSTED_SCOPE_NAMESPACE":       1,
-		"RESOURCE_EXHAUSTED_SCOPE_SYSTEM":          2,
-		"RESOURCE_EXHAUSTED_SCOPE_NAMESPACE_SHARD": 3,
-		"RESOURCE_EXHAUSTED_SCOPE_EXECUTION":       4,
+		"RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED": 0,
+		"RESOURCE_EXHAUSTED_SCOPE_NAMESPACE":   1,
+		"RESOURCE_EXHAUSTED_SCOPE_SYSTEM":      2,
 	}
 )
 
@@ -621,10 +613,6 @@ func (x ResourceExhaustedScope) String() string {
 		return "Namespace"
 	case RESOURCE_EXHAUSTED_SCOPE_SYSTEM:
 		return "System"
-	case RESOURCE_EXHAUSTED_SCOPE_NAMESPACE_SHARD:
-		return "NamespaceShard"
-	case RESOURCE_EXHAUSTED_SCOPE_EXECUTION:
-		return "Execution"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -715,13 +703,11 @@ const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	"\"RESOURCE_EXHAUSTED_CAUSE_APS_LIMIT\x10\x06\x126\n" +
 	"2RESOURCE_EXHAUSTED_CAUSE_PERSISTENCE_STORAGE_LIMIT\x10\a\x121\n" +
 	"-RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN\x10\b\x12&\n" +
-	"\"RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT\x10\t*\xe5\x01\n" +
+	"\"RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT\x10\t*\x8f\x01\n" +
 	"\x16ResourceExhaustedScope\x12(\n" +
 	"$RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED\x10\x00\x12&\n" +
 	"\"RESOURCE_EXHAUSTED_SCOPE_NAMESPACE\x10\x01\x12#\n" +
-	"\x1fRESOURCE_EXHAUSTED_SCOPE_SYSTEM\x10\x02\x12,\n" +
-	"(RESOURCE_EXHAUSTED_SCOPE_NAMESPACE_SHARD\x10\x03\x12&\n" +
-	"\"RESOURCE_EXHAUSTED_SCOPE_EXECUTION\x10\x04B\x88\x01\n" +
+	"\x1fRESOURCE_EXHAUSTED_SCOPE_SYSTEM\x10\x02B\x88\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x10FailedCauseProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
 var (
