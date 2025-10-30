@@ -144,11 +144,9 @@ func ResourceExhaustedCauseFromString(s string) (ResourceExhaustedCause, error) 
 
 var (
 	ResourceExhaustedScope_shorthandValue = map[string]int32{
-		"Unspecified":    0,
-		"Namespace":      1,
-		"System":         2,
-		"NamespaceShard": 3,
-		"Execution":      4,
+		"Unspecified": 0,
+		"Namespace":   1,
+		"System":      2,
 	}
 )
 
