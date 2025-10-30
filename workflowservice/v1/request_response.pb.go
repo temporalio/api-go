@@ -10833,7 +10833,9 @@ type UpdateWorkflowExecutionOptionsRequest struct {
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,3,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
 	// Controls which fields from `workflow_execution_options` will be applied.
 	// To unset a field, set it to null and use the update mask to indicate that it should be mutated.
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,4,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	UpdateMask *fieldmaskpb.FieldMask `protobuf:"bytes,4,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	// Optional. The identity of the client who initiated this request.
+	Identity      string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10894,6 +10896,13 @@ func (x *UpdateWorkflowExecutionOptionsRequest) GetUpdateMask() *fieldmaskpb.Fie
 		return x.UpdateMask
 	}
 	return nil
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
 }
 
 type UpdateWorkflowExecutionOptionsResponse struct {
@@ -16292,13 +16301,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x18restore_original_options\x18\t \x01(\bR\x16restoreOriginalOptionsB\n" +
 	"\n" +
 	"\bactivity\"\x17\n" +
-	"\x15ResetActivityResponse\"\xce\x02\n" +
+	"\x15ResetActivityResponse\"\xea\x02\n" +
 	"%UpdateWorkflowExecutionOptionsRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12X\n" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12p\n" +
 	"\x1aworkflow_execution_options\x18\x03 \x01(\v22.temporal.api.workflow.v1.WorkflowExecutionOptionsR\x18workflowExecutionOptions\x12;\n" +
 	"\vupdate_mask\x18\x04 \x01(\v2\x1a.google.protobuf.FieldMaskR\n" +
-	"updateMask\"\x9a\x01\n" +
+	"updateMask\x12\x1a\n" +
+	"\bidentity\x18\x05 \x01(\tR\bidentity\"\x9a\x01\n" +
 	"&UpdateWorkflowExecutionOptionsResponse\x12p\n" +
 	"\x1aworkflow_execution_options\x18\x01 \x01(\v22.temporal.api.workflow.v1.WorkflowExecutionOptionsR\x18workflowExecutionOptions\"\x81\x01\n" +
 	"\x19DescribeDeploymentRequest\x12\x1c\n" +
