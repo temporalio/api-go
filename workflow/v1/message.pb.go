@@ -565,8 +565,16 @@ type WorkflowExecutionVersioningInfo struct {
 	// Pending activities will not start new attempts during a transition. Once the transition is
 	// completed, pending activities will start their next attempt on the new version.
 	VersionTransition *DeploymentVersionTransition `protobuf:"bytes,6,opt,name=version_transition,json=versionTransition,proto3" json:"version_transition,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Monotonic counter reflecting the latest routing decision for this workflow execution.
+	// Used for staleness detection between history and matching when dispatching tasks to workers.
+	// Incremented when a workflow execution routes to a new deployment version, which happens
+	// when a worker of the new deployment version completes a workflow task.
+	// Note: Pinned tasks and sticky tasks send a value of 0 for this field since these tasks do not
+	// face the problem of inconsistent dispatching that arises from eventual consistency between
+	// task queues and their partitions.
+	RevisionNumber int64 `protobuf:"varint,8,opt,name=revision_number,json=revisionNumber,proto3" json:"revision_number,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionVersioningInfo) Reset() {
@@ -649,6 +657,13 @@ func (x *WorkflowExecutionVersioningInfo) GetVersionTransition() *DeploymentVers
 		return x.VersionTransition
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionVersioningInfo) GetRevisionNumber() int64 {
+	if x != nil {
+		return x.RevisionNumber
+	}
+	return 0
 }
 
 // Holds information about ongoing transition of a workflow execution from one deployment to another.
@@ -2979,7 +2994,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x10request_id_infos\x18\a \x03(\v2K.temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntryR\x0erequestIdInfos\x1aj\n" +
 	"\x13RequestIdInfosEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12=\n" +
-	"\x05value\x18\x02 \x01(\v2'.temporal.api.workflow.v1.RequestIdInfoR\x05value:\x028\x01\"\xe4\x04\n" +
+	"\x05value\x18\x02 \x01(\v2'.temporal.api.workflow.v1.RequestIdInfoR\x05value:\x028\x01\"\x8d\x05\n" +
 	"\x1fWorkflowExecutionVersioningInfo\x12E\n" +
 	"\bbehavior\x18\x01 \x01(\x0e2).temporal.api.enums.v1.VersioningBehaviorR\bbehavior\x12J\n" +
 	"\n" +
@@ -2989,7 +3004,8 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x12deployment_version\x18\a \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x11deploymentVersion\x12]\n" +
 	"\x13versioning_override\x18\x03 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12g\n" +
 	"\x15deployment_transition\x18\x04 \x01(\v2..temporal.api.workflow.v1.DeploymentTransitionB\x02\x18\x01R\x14deploymentTransition\x12d\n" +
-	"\x12version_transition\x18\x06 \x01(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\x11versionTransition\"^\n" +
+	"\x12version_transition\x18\x06 \x01(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\x11versionTransition\x12'\n" +
+	"\x0frevision_number\x18\b \x01(\x03R\x0erevisionNumber\"^\n" +
 	"\x14DeploymentTransition\x12F\n" +
 	"\n" +
 	"deployment\x18\x01 \x01(\v2&.temporal.api.deployment.v1.DeploymentR\n" +
