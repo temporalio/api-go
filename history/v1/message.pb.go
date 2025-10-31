@@ -4196,8 +4196,10 @@ type WorkflowExecutionOptionsUpdatedEventAttributes struct {
 	AttachedRequestId string `protobuf:"bytes,3,opt,name=attached_request_id,json=attachedRequestId,proto3" json:"attached_request_id,omitempty"`
 	// Completion callbacks attached to the running workflow execution.
 	AttachedCompletionCallbacks []*v1.Callback `protobuf:"bytes,4,rep,name=attached_completion_callbacks,json=attachedCompletionCallbacks,proto3" json:"attached_completion_callbacks,omitempty"`
-	unknownFields               protoimpl.UnknownFields
-	sizeCache                   protoimpl.SizeCache
+	// Optional. The identity of the client who initiated the request that created this event.
+	Identity      string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionOptionsUpdatedEventAttributes) Reset() {
@@ -4256,6 +4258,13 @@ func (x *WorkflowExecutionOptionsUpdatedEventAttributes) GetAttachedCompletionCa
 		return x.AttachedCompletionCallbacks
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) GetIdentity() string {
+	if x != nil {
+		return x.Identity
+	}
+	return ""
 }
 
 // Not used anywhere. Use case is replaced by WorkflowExecutionOptionsUpdatedEventAttributes
@@ -6790,12 +6799,13 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x12workflow_execution\x18\x02 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\x11workflowExecution\x12I\n" +
 	"\rworkflow_type\x18\x03 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\fworkflowType\x12,\n" +
 	"\x12initiated_event_id\x18\x04 \x01(\x03R\x10initiatedEventId\x12(\n" +
-	"\x10started_event_id\x18\x05 \x01(\x03R\x0estartedEventId\"\xe1\x02\n" +
+	"\x10started_event_id\x18\x05 \x01(\x03R\x0estartedEventId\"\xfd\x02\n" +
 	".WorkflowExecutionOptionsUpdatedEventAttributes\x12]\n" +
 	"\x13versioning_override\x18\x01 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12:\n" +
 	"\x19unset_versioning_override\x18\x02 \x01(\bR\x17unsetVersioningOverride\x12.\n" +
 	"\x13attached_request_id\x18\x03 \x01(\tR\x11attachedRequestId\x12d\n" +
-	"\x1dattached_completion_callbacks\x18\x04 \x03(\v2 .temporal.api.common.v1.CallbackR\x1battachedCompletionCallbacks\"\xa8\x03\n" +
+	"\x1dattached_completion_callbacks\x18\x04 \x03(\v2 .temporal.api.common.v1.CallbackR\x1battachedCompletionCallbacks\x12\x1a\n" +
+	"\bidentity\x18\x05 \x01(\tR\bidentity\"\xa8\x03\n" +
 	"3WorkflowPropertiesModifiedExternallyEventAttributes\x12$\n" +
 	"\x0enew_task_queue\x18\x01 \x01(\tR\fnewTaskQueue\x12T\n" +
 	"\x19new_workflow_task_timeout\x18\x02 \x01(\v2\x19.google.protobuf.DurationR\x16newWorkflowTaskTimeout\x12R\n" +
