@@ -661,17 +661,19 @@ type WorkflowExecutionContinuedAsNewEventAttributes struct {
 	WorkflowTaskTimeout *durationpb.Duration `protobuf:"bytes,6,opt,name=workflow_task_timeout,json=workflowTaskTimeout,proto3" json:"workflow_task_timeout,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,7,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
-	// TODO: How and is this used?
+	// How long the server will wait before scheduling the first workflow task for the new run.
+	// Used for cron, retry, and other continue-as-new cases that server may enforce some minimal
+	// delay between new runs for system protection purpose.
 	BackoffStartInterval *durationpb.Duration       `protobuf:"bytes,8,opt,name=backoff_start_interval,json=backoffStartInterval,proto3" json:"backoff_start_interval,omitempty"`
 	Initiator            v12.ContinueAsNewInitiator `protobuf:"varint,9,opt,name=initiator,proto3,enum=temporal.api.enums.v1.ContinueAsNewInitiator" json:"initiator,omitempty"`
-	// TODO: David are these right?
 	// Deprecated. If a workflow's retry policy would cause a new run to start when the current one
 	// has failed, this field would be populated with that failure. Now (when supported by server
 	// and sdk) the final event will be `WORKFLOW_EXECUTION_FAILED` with `new_execution_run_id` set.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
 	Failure *v13.Failure `protobuf:"bytes,10,opt,name=failure,proto3" json:"failure,omitempty"`
-	// TODO: Is this the result of *this* workflow as it continued-as-new?
+	// The result from the most recent completed run of this workflow. The SDK surfaces this to the
+	// new run via APIs such as `GetLastCompletionResult`.
 	LastCompletionResult *v1.Payloads         `protobuf:"bytes,11,opt,name=last_completion_result,json=lastCompletionResult,proto3" json:"last_completion_result,omitempty"`
 	Header               *v1.Header           `protobuf:"bytes,12,opt,name=header,proto3" json:"header,omitempty"`
 	Memo                 *v1.Memo             `protobuf:"bytes,13,opt,name=memo,proto3" json:"memo,omitempty"`
@@ -896,7 +898,12 @@ type WorkflowTaskStartedEventAttributes struct {
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Identity of the worker who picked up this task
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
-	// TODO: ? Appears unused?
+	// This field is populated from the RecordWorkflowTaskStartedRequest. Matching service would
+	// set the request_id on the RecordWorkflowTaskStartedRequest to a new UUID. This is useful
+	// in case a RecordWorkflowTaskStarted call succeed but matching doesn't get that response,
+	// so matching could retry and history service would return success if the request_id matches.
+	// In that case, matching will continue to deliver the task to worker. Without this field, history
+	// service would return AlreadyStarted error, and matching would drop the task.
 	RequestId string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// True if this workflow should continue-as-new soon because its history size (in
 	// either event count or bytes) is getting large.
@@ -1245,13 +1252,15 @@ type WorkflowTaskFailedEventAttributes struct {
 	Cause          v12.WorkflowTaskFailedCause `protobuf:"varint,3,opt,name=cause,proto3,enum=temporal.api.enums.v1.WorkflowTaskFailedCause" json:"cause,omitempty"`
 	// The failure details
 	Failure *v13.Failure `protobuf:"bytes,4,opt,name=failure,proto3" json:"failure,omitempty"`
-	// If a worker explicitly failed this task, it's identity. TODO: What is this set to if server fails the task?
+	// If a worker explicitly failed this task, this field contains the worker's identity.
+	// When the server generates the failure internally this field is set as 'history-service'.
 	Identity string `protobuf:"bytes,5,opt,name=identity,proto3" json:"identity,omitempty"`
 	// The original run id of the workflow. For reset workflow.
 	BaseRunId string `protobuf:"bytes,6,opt,name=base_run_id,json=baseRunId,proto3" json:"base_run_id,omitempty"`
 	// If the workflow is being reset, the new run id.
 	NewRunId string `protobuf:"bytes,7,opt,name=new_run_id,json=newRunId,proto3" json:"new_run_id,omitempty"`
-	// TODO: ?
+	// Version of the event where the history branch was forked. Used by multi-cluster replication
+	// during resets to identify the correct history branch.
 	ForkEventVersion int64 `protobuf:"varint,8,opt,name=fork_event_version,json=forkEventVersion,proto3" json:"fork_event_version,omitempty"`
 	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
 	// If a worker explicitly failed this task, its binary id
@@ -1552,7 +1561,12 @@ type ActivityTaskStartedEventAttributes struct {
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// id of the worker that picked up this task
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
-	// TODO ??
+	// This field is populated from the RecordActivityTaskStartedRequest. Matching service would
+	// set the request_id on the RecordActivityTaskStartedRequest to a new UUID. This is useful
+	// in case a RecordActivityTaskStarted call succeed but matching doesn't get that response,
+	// so matching could retry and history service would return success if the request_id matches.
+	// In that case, matching will continue to deliver the task to worker. Without this field, history
+	// service would return AlreadyStarted error, and matching would drop the task.
 	RequestId string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// Starting at 1, the number of times this task has been attempted
 	Attempt int32 `protobuf:"varint,4,opt,name=attempt,proto3" json:"attempt,omitempty"`
@@ -2250,9 +2264,9 @@ func (x *TimerCanceledEventAttributes) GetIdentity() string {
 type WorkflowExecutionCancelRequestedEventAttributes struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// User provided reason for requesting cancellation
-	// TODO: shall we create a new field with name "reason" and deprecate this one?
 	Cause string `protobuf:"bytes,1,opt,name=cause,proto3" json:"cause,omitempty"`
-	// TODO: Is this the ID of the event in the workflow which initiated this cancel, if there was one?
+	// The ID of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event in the external
+	// workflow history when the cancellation was requested by another workflow.
 	ExternalInitiatedEventId  int64                 `protobuf:"varint,2,opt,name=external_initiated_event_id,json=externalInitiatedEventId,proto3" json:"external_initiated_event_id,omitempty"`
 	ExternalWorkflowExecution *v1.WorkflowExecution `protobuf:"bytes,3,opt,name=external_workflow_execution,json=externalWorkflowExecution,proto3" json:"external_workflow_execution,omitempty"`
 	// id of the worker or client who requested this cancel
@@ -5350,9 +5364,11 @@ type HistoryEvent struct {
 	EventId   int64                  `protobuf:"varint,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
 	EventTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`
 	EventType v12.EventType          `protobuf:"varint,3,opt,name=event_type,json=eventType,proto3,enum=temporal.api.enums.v1.EventType" json:"event_type,omitempty"`
-	// TODO: What is this? Appears unused by SDKs
+	// Failover version of the event, used by the server for multi-cluster replication and history
+	// versioning. SDKs generally ignore this field.
 	Version int64 `protobuf:"varint,4,opt,name=version,proto3" json:"version,omitempty"`
-	// TODO: What is this? Appears unused by SDKs
+	// Identifier used by the service to order replication and transfer tasks associated with this
+	// event. SDKs generally ignore this field.
 	TaskId int64 `protobuf:"varint,5,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	// Set to true when the SDK may ignore the event as it does not impact workflow state or
 	// information in any way that the SDK need be concerned with. If an SDK encounters an event

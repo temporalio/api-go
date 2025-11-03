@@ -314,8 +314,9 @@ type WorkflowServiceClient interface {
 	SignalWithStartWorkflowExecution(ctx context.Context, in *SignalWithStartWorkflowExecutionRequest, opts ...grpc.CallOption) (*SignalWithStartWorkflowExecutionResponse, error)
 	// ResetWorkflowExecution will reset an existing workflow execution to a specified
 	// `WORKFLOW_TASK_COMPLETED` event (exclusive). It will immediately terminate the current
-	// execution instance.
-	// TODO: Does exclusive here mean *just* the completed event, or also WFT started? Otherwise the task is doomed to time out?
+	// execution instance. "Exclusive" means the identified completed event itself is not replayed
+	// in the reset history; the preceding `WORKFLOW_TASK_STARTED` event remains and will be marked as failed
+	// immediately, and a new workflow task will be scheduled to retry it.
 	ResetWorkflowExecution(ctx context.Context, in *ResetWorkflowExecutionRequest, opts ...grpc.CallOption) (*ResetWorkflowExecutionResponse, error)
 	// TerminateWorkflowExecution terminates an existing workflow execution by recording a
 	// `WORKFLOW_EXECUTION_TERMINATED` event in the history and immediately terminating the
@@ -1836,8 +1837,9 @@ type WorkflowServiceServer interface {
 	SignalWithStartWorkflowExecution(context.Context, *SignalWithStartWorkflowExecutionRequest) (*SignalWithStartWorkflowExecutionResponse, error)
 	// ResetWorkflowExecution will reset an existing workflow execution to a specified
 	// `WORKFLOW_TASK_COMPLETED` event (exclusive). It will immediately terminate the current
-	// execution instance.
-	// TODO: Does exclusive here mean *just* the completed event, or also WFT started? Otherwise the task is doomed to time out?
+	// execution instance. "Exclusive" means the identified completed event itself is not replayed
+	// in the reset history; the preceding `WORKFLOW_TASK_STARTED` event remains and will be marked as failed
+	// immediately, and a new workflow task will be scheduled to retry it.
 	ResetWorkflowExecution(context.Context, *ResetWorkflowExecutionRequest) (*ResetWorkflowExecutionResponse, error)
 	// TerminateWorkflowExecution terminates an existing workflow execution by recording a
 	// `WORKFLOW_EXECUTION_TERMINATED` event in the history and immediately terminating the
