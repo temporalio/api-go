@@ -807,8 +807,10 @@ type StartWorkflowExecutionRequest struct {
 	Priority *v13.Priority `protobuf:"bytes,27,opt,name=priority,proto3" json:"priority,omitempty"`
 	// Deployment Options of the worker who will process the eager task. Passed when `request_eager_execution=true`.
 	EagerWorkerDeploymentOptions *v18.WorkerDeploymentOptions `protobuf:"bytes,28,opt,name=eager_worker_deployment_options,json=eagerWorkerDeploymentOptions,proto3" json:"eager_worker_deployment_options,omitempty"`
-	unknownFields                protoimpl.UnknownFields
-	sizeCache                    protoimpl.SizeCache
+	// TODO (Shivam): Add a helpful commment here.
+	TaskDispatchRevisionNumber int64 `protobuf:"varint,29,opt,name=task_dispatch_revision_number,json=taskDispatchRevisionNumber,proto3" json:"task_dispatch_revision_number,omitempty"`
+	unknownFields              protoimpl.UnknownFields
+	sizeCache                  protoimpl.SizeCache
 }
 
 func (x *StartWorkflowExecutionRequest) Reset() {
@@ -1035,6 +1037,13 @@ func (x *StartWorkflowExecutionRequest) GetEagerWorkerDeploymentOptions() *v18.W
 		return x.EagerWorkerDeploymentOptions
 	}
 	return nil
+}
+
+func (x *StartWorkflowExecutionRequest) GetTaskDispatchRevisionNumber() int64 {
+	if x != nil {
+		return x.TaskDispatchRevisionNumber
+	}
+	return 0
 }
 
 type StartWorkflowExecutionResponse struct {
@@ -15439,7 +15448,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x19DeprecateNamespaceRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12%\n" +
 	"\x0esecurity_token\x18\x02 \x01(\tR\rsecurityToken\"\x1c\n" +
-	"\x1aDeprecateNamespaceResponse\"\xce\x0f\n" +
+	"\x1aDeprecateNamespaceResponse\"\x91\x10\n" +
 	"\x1dStartWorkflowExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vworkflow_id\x18\x02 \x01(\tR\n" +
@@ -15472,7 +15481,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x13versioning_override\x18\x19 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12[\n" +
 	"\x13on_conflict_options\x18\x1a \x01(\v2+.temporal.api.workflow.v1.OnConflictOptionsR\x11onConflictOptions\x12<\n" +
 	"\bpriority\x18\x1b \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12z\n" +
-	"\x1feager_worker_deployment_options\x18\x1c \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x1ceagerWorkerDeploymentOptions\"\xbb\x02\n" +
+	"\x1feager_worker_deployment_options\x18\x1c \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x1ceagerWorkerDeploymentOptions\x12A\n" +
+	"\x1dtask_dispatch_revision_number\x18\x1d \x01(\x03R\x1ataskDispatchRevisionNumber\"\xbb\x02\n" +
 	"\x1eStartWorkflowExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12\x18\n" +
 	"\astarted\x18\x03 \x01(\bR\astarted\x12F\n" +
