@@ -24,11 +24,16 @@ import (
 	"go.temporal.io/api/update/v1"
 	"go.temporal.io/api/workflow/v1"
 	"go.temporal.io/api/workflowservice/v1"
+	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/anypb"
 )
+
+type contextKey string
+
+var concurrencyKey = contextKey("payload-visitor-concurrency")
 
 // VisitPayloadsContext provides Payload context for visitor functions.
 type VisitPayloadsContext struct {
@@ -49,6 +54,7 @@ type VisitPayloadsOptions struct {
 	// Will be called for each Any encountered. If not set, the default is to recurse into the Any
 	// object, unmarshal it, visit, and re-marshal it always (even if there are no changes).
 	WellKnownAnyVisitor func(*VisitPayloadsContext, *anypb.Any) error
+	ConcurrencyLimit    int
 }
 
 // VisitPayloads calls the options.Visitor function for every Payload proto within msg.
@@ -258,42 +264,76 @@ func visitPayloads(
 	parent proto.Message,
 	objs ...interface{},
 ) error {
+	var waitOnErrGroup bool
+	eg, ok := ctx.Value(concurrencyKey).(*errgroup.Group)
+	if !ok {
+		var cctx context.Context
+		eg, cctx = errgroup.WithContext(ctx)
+		cctx = context.WithValue(cctx, concurrencyKey, eg)
+		ctx = &VisitPayloadsContext{
+			Context:               cctx,
+			Parent:                ctx.Parent,
+			SinglePayloadRequired: ctx.SinglePayloadRequired,
+		}
+		if options.ConcurrencyLimit > 0 {
+			eg.SetLimit(options.ConcurrencyLimit)
+		} else if options.ConcurrencyLimit == 0 {
+			eg.SetLimit(1)
+		}
+		waitOnErrGroup = true
+	}
+	// Make a copy of ctx since we may be modifying it in the goroutines
+	ctx = &VisitPayloadsContext{
+		Context:               ctx,
+		Parent:                ctx.Parent,
+		SinglePayloadRequired: ctx.SinglePayloadRequired,
+	}
+
 	for _, obj := range objs {
 		ctx.SinglePayloadRequired = false
 
 		switch o := obj.(type) {
 		case map[string]*common.Payload:
 			for ix, x := range o {
-				if nx, err := visitPayload(ctx, options, parent, x); err != nil {
-					return err
-				} else {
-					o[ix] = nx
-				}
+				eg.Go(func() error {
+					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
+						return err
+					} else {
+						o[ix] = nx
+					}
+					return nil
+				})
 			}
 		case *common.Payloads:
 			if o == nil {
 				continue
 			}
-			ctx.Parent = parent
-			newPayloads, err := options.Visitor(ctx, o.Payloads)
-			ctx.Parent = nil
-			if err != nil {
-				return err
-			}
-			o.Payloads = newPayloads
-		case map[string]*common.Payloads:
-			for _, x := range o {
-				if err := visitPayloads(ctx, options, parent, x); err != nil {
+			eg.Go(func() error {
+				ctx.Parent = parent
+				newPayloads, err := options.Visitor(ctx, o.Payloads)
+				ctx.Parent = nil
+				if err != nil {
 					return err
 				}
+				o.Payloads = newPayloads
+				return nil
+			})
+		case map[string]*common.Payloads:
+			for _, x := range o {
+				eg.Go(func() error {
+					return visitPayloads(ctx, options, parent, x)
+				})
 			}
 		case []*common.Payload:
 			for ix, x := range o {
-				if nx, err := visitPayload(ctx, options, parent, x); err != nil {
-					return err
-				} else {
-					o[ix] = nx
-				}
+				eg.Go(func() error {
+					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
+						return err
+					} else {
+						o[ix] = nx
+					}
+					return nil
+				})
 			}
 		case *anypb.Any:
 			if o == nil {
@@ -514,11 +554,14 @@ func visitPayloads(
 				continue
 			}
 			if o.Input != nil {
-				no, err := visitPayload(ctx, options, o, o.Input)
-				if err != nil {
-					return err
-				}
-				o.Input = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.Input)
+					if err != nil {
+						return err
+					}
+					o.Input = no
+					return nil
+				})
 			}
 
 		case *command.SignalExternalWorkflowExecutionCommandAttributes:
@@ -811,11 +854,14 @@ func visitPayloads(
 				continue
 			}
 			if o.EncodedAttributes != nil {
-				no, err := visitPayload(ctx, options, o, o.EncodedAttributes)
-				if err != nil {
-					return err
-				}
-				o.EncodedAttributes = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.EncodedAttributes)
+					if err != nil {
+						return err
+					}
+					o.EncodedAttributes = no
+					return nil
+				})
 			}
 
 			if err := visitPayloads(
@@ -1136,11 +1182,14 @@ func visitPayloads(
 				continue
 			}
 			if o.Result != nil {
-				no, err := visitPayload(ctx, options, o, o.Result)
-				if err != nil {
-					return err
-				}
-				o.Result = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.Result)
+					if err != nil {
+						return err
+					}
+					o.Result = no
+					return nil
+				})
 			}
 
 		case *history.NexusOperationFailedEventAttributes:
@@ -1164,11 +1213,14 @@ func visitPayloads(
 				continue
 			}
 			if o.Input != nil {
-				no, err := visitPayload(ctx, options, o, o.Input)
-				if err != nil {
-					return err
-				}
-				o.Input = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.Input)
+					if err != nil {
+						return err
+					}
+					o.Input = no
+					return nil
+				})
 			}
 
 		case *history.NexusOperationTimedOutEventAttributes:
@@ -1485,11 +1537,14 @@ func visitPayloads(
 				continue
 			}
 			if o.Description != nil {
-				no, err := visitPayload(ctx, options, o, o.Description)
-				if err != nil {
-					return err
-				}
-				o.Description = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.Description)
+					if err != nil {
+						return err
+					}
+					o.Description = no
+					return nil
+				})
 			}
 
 		case *nexus.Request:
@@ -1528,11 +1583,14 @@ func visitPayloads(
 				continue
 			}
 			if o.Payload != nil {
-				no, err := visitPayload(ctx, options, o, o.Payload)
-				if err != nil {
-					return err
-				}
-				o.Payload = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.Payload)
+					if err != nil {
+						return err
+					}
+					o.Payload = no
+					return nil
+				})
 			}
 
 		case *nexus.StartOperationResponse:
@@ -1556,11 +1614,14 @@ func visitPayloads(
 				continue
 			}
 			if o.Payload != nil {
-				no, err := visitPayload(ctx, options, o, o.Payload)
-				if err != nil {
-					return err
-				}
-				o.Payload = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.Payload)
+					if err != nil {
+						return err
+					}
+					o.Payload = no
+					return nil
+				})
 			}
 
 		case *operatorservice.CreateNexusEndpointRequest:
@@ -1780,18 +1841,24 @@ func visitPayloads(
 				continue
 			}
 			if o.Details != nil {
-				no, err := visitPayload(ctx, options, o, o.Details)
-				if err != nil {
-					return err
-				}
-				o.Details = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.Details)
+					if err != nil {
+						return err
+					}
+					o.Details = no
+					return nil
+				})
 			}
 			if o.Summary != nil {
-				no, err := visitPayload(ctx, options, o, o.Summary)
-				if err != nil {
-					return err
-				}
-				o.Summary = no
+				eg.Go(func() error {
+					no, err := visitPayload(ctx, options, o, o.Summary)
+					if err != nil {
+						return err
+					}
+					o.Summary = no
+					return nil
+				})
 			}
 
 		case *update.Acceptance:
@@ -2974,6 +3041,9 @@ func visitPayloads(
 		}
 	}
 
+	if waitOnErrGroup {
+		return eg.Wait()
+	}
 	return nil
 }
 

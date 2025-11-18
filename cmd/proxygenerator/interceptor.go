@@ -34,7 +34,11 @@ import (
 	"google.golang.org/grpc/status"
     "google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/protoadapt"
+	"golang.org/x/sync/errgroup"
 )
+
+type contextKey string
+var concurrencyKey = contextKey("payload-visitor-concurrency")
 
 // VisitPayloadsContext provides Payload context for visitor functions.
 type VisitPayloadsContext struct {
@@ -55,6 +59,7 @@ type VisitPayloadsOptions struct {
 	// Will be called for each Any encountered. If not set, the default is to recurse into the Any
 	// object, unmarshal it, visit, and re-marshal it always (even if there are no changes).
 	WellKnownAnyVisitor func(*VisitPayloadsContext, *anypb.Any) error
+	ConcurrencyLimit int
 }
 
 // VisitPayloads calls the options.Visitor function for every Payload proto within msg.
@@ -265,38 +270,72 @@ func visitPayloads(
 	parent proto.Message,
 	objs ...interface{},
 ) error {
+	var waitOnErrGroup bool
+	eg, ok := ctx.Value(concurrencyKey).(*errgroup.Group)
+	if !ok {
+		var cctx context.Context
+		eg, cctx = errgroup.WithContext(ctx)
+		cctx = context.WithValue(cctx, concurrencyKey, eg)
+		ctx = &VisitPayloadsContext{
+			Context:               cctx,
+			Parent:                ctx.Parent,
+			SinglePayloadRequired: ctx.SinglePayloadRequired,
+		}
+		if options.ConcurrencyLimit > 0 {
+			eg.SetLimit(options.ConcurrencyLimit)
+		} else if options.ConcurrencyLimit == 0 {
+			eg.SetLimit(1)
+		}
+		waitOnErrGroup = true
+	}
+	// Make a copy of ctx since we may be modifying it in the goroutines
+	ctx = &VisitPayloadsContext{
+		Context:               ctx,
+		Parent:                ctx.Parent,
+		SinglePayloadRequired: ctx.SinglePayloadRequired,
+	}
+
 	for _, obj := range objs {
 		ctx.SinglePayloadRequired = false
 
 		switch o := obj.(type) {
 			case map[string]*common.Payload:
 				for ix, x := range o {
-					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
-						return err
-					} else {
-						o[ix] = nx
-					}
+					eg.Go(func() error {
+						if nx, err := visitPayload(ctx, options, parent, x); err != nil {
+							return err
+						} else {
+							o[ix] = nx
+						}
+						return nil
+					})
 				}
 			case *common.Payloads:
 				if o == nil { continue }
-				ctx.Parent = parent
-				newPayloads, err := options.Visitor(ctx, o.Payloads)
-				ctx.Parent = nil
-				if err != nil { return err }
-				o.Payloads = newPayloads
+				eg.Go(func() error {
+					ctx.Parent = parent
+					newPayloads, err := options.Visitor(ctx, o.Payloads)
+					ctx.Parent = nil
+					if err != nil { return err }
+					o.Payloads = newPayloads
+					return nil
+				})
 			case map[string]*common.Payloads:
 				for _, x := range o {
-					if err := visitPayloads(ctx, options, parent, x); err != nil {
-						return err
-					}
+					eg.Go(func() error {
+						return visitPayloads(ctx, options, parent, x)
+					})
 				}
 			case []*common.Payload:
 				for ix, x := range o {
-					if nx, err := visitPayload(ctx, options, parent, x); err != nil {
-						return err
-					} else {
-						o[ix] = nx
-					}
+					eg.Go(func() error {
+						if nx, err := visitPayload(ctx, options, parent, x); err != nil {
+							return err
+						} else {
+							o[ix] = nx
+						}
+						return nil
+					})
 				}
 		case *anypb.Any:
 			if o == nil {
@@ -342,9 +381,12 @@ func visitPayloads(
 				if o == nil { continue }
 				{{range $record.Payloads -}}
 				if o.{{.}} != nil {
-					no, err := visitPayload(ctx, options, o, o.{{.}})
-					if err != nil { return err }
-					o.{{.}} = no
+					eg.Go(func() error {
+						no, err := visitPayload(ctx, options, o, o.{{.}})
+						if err != nil { return err }
+						o.{{.}} = no
+						return nil
+					})
 				}
 				{{end}}
 				{{if $record.Methods}}
@@ -361,6 +403,9 @@ func visitPayloads(
 		}
 	}
 
+	if waitOnErrGroup {			
+		return eg.Wait()
+	}
 	return nil
 }
 
