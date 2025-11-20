@@ -168,9 +168,7 @@ type WorkflowExecutionInfo struct {
 	// Experimental. Worker Deployments are experimental and might change in the future.
 	WorkerDeploymentName string `protobuf:"bytes,23,opt,name=worker_deployment_name,json=workerDeploymentName,proto3" json:"worker_deployment_name,omitempty"`
 	// Priority metadata
-	Priority *v1.Priority `protobuf:"bytes,24,opt,name=priority,proto3" json:"priority,omitempty"`
-	// Information about the workflow execution pause operation.
-	PauseInfo     *WorkflowExecutionPauseInfo `protobuf:"bytes,25,opt,name=pause_info,json=pauseInfo,proto3" json:"pause_info,omitempty"`
+	Priority      *v1.Priority `protobuf:"bytes,24,opt,name=priority,proto3" json:"priority,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -376,13 +374,6 @@ func (x *WorkflowExecutionInfo) GetPriority() *v1.Priority {
 	return nil
 }
 
-func (x *WorkflowExecutionInfo) GetPauseInfo() *WorkflowExecutionPauseInfo {
-	if x != nil {
-		return x.PauseInfo
-	}
-	return nil
-}
-
 // Holds all the extra information about workflow execution that is not part of Visibility.
 type WorkflowExecutionExtendedInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -404,8 +395,10 @@ type WorkflowExecutionExtendedInfo struct {
 	// calls (eg: if SignalWithStartWorkflowExecution starts a new workflow, then the request ID is
 	// used in the StartWorkflowExecution request).
 	RequestIdInfos map[string]*RequestIdInfo `protobuf:"bytes,7,rep,name=request_id_infos,json=requestIdInfos,proto3" json:"request_id_infos,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Information about the workflow execution pause operation.
+	PauseInfo     *WorkflowExecutionPauseInfo `protobuf:"bytes,8,opt,name=pause_info,json=pauseInfo,proto3" json:"pause_info,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionExtendedInfo) Reset() {
@@ -483,6 +476,13 @@ func (x *WorkflowExecutionExtendedInfo) GetResetRunId() string {
 func (x *WorkflowExecutionExtendedInfo) GetRequestIdInfos() map[string]*RequestIdInfo {
 	if x != nil {
 		return x.RequestIdInfos
+	}
+	return nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) GetPauseInfo() *WorkflowExecutionPauseInfo {
+	if x != nil {
+		return x.PauseInfo
 	}
 	return nil
 }
@@ -3025,7 +3025,7 @@ var File_temporal_api_workflow_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/workflow/v1/message.proto\x12\x18temporal.api.workflow.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a&temporal/api/activity/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\xec\f\n" +
+	"&temporal/api/workflow/v1/message.proto\x12\x18temporal.api.workflow.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a&temporal/api/activity/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x97\f\n" +
 	"\x15WorkflowExecutionInfo\x12G\n" +
 	"\texecution\x18\x01 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x128\n" +
 	"\x04type\x18\x02 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\x04type\x129\n" +
@@ -3055,9 +3055,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"firstRunId\x12b\n" +
 	"\x0fversioning_info\x18\x16 \x01(\v29.temporal.api.workflow.v1.WorkflowExecutionVersioningInfoR\x0eversioningInfo\x124\n" +
 	"\x16worker_deployment_name\x18\x17 \x01(\tR\x14workerDeploymentName\x12<\n" +
-	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12S\n" +
-	"\n" +
-	"pause_info\x18\x19 \x01(\v24.temporal.api.workflow.v1.WorkflowExecutionPauseInfoR\tpauseInfo\"\x83\x05\n" +
+	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xd8\x05\n" +
 	"\x1dWorkflowExecutionExtendedInfo\x12V\n" +
 	"\x19execution_expiration_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x17executionExpirationTime\x12J\n" +
 	"\x13run_expiration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x11runExpirationTime\x12)\n" +
@@ -3066,7 +3064,9 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x13original_start_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x11originalStartTime\x12 \n" +
 	"\freset_run_id\x18\x06 \x01(\tR\n" +
 	"resetRunId\x12u\n" +
-	"\x10request_id_infos\x18\a \x03(\v2K.temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntryR\x0erequestIdInfos\x1aj\n" +
+	"\x10request_id_infos\x18\a \x03(\v2K.temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntryR\x0erequestIdInfos\x12S\n" +
+	"\n" +
+	"pause_info\x18\b \x01(\v24.temporal.api.workflow.v1.WorkflowExecutionPauseInfoR\tpauseInfo\x1aj\n" +
 	"\x13RequestIdInfosEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12=\n" +
 	"\x05value\x18\x02 \x01(\v2'.temporal.api.workflow.v1.RequestIdInfoR\x05value:\x028\x01\"\x8d\x05\n" +
@@ -3367,12 +3367,12 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	31,  // 12: temporal.api.workflow.v1.WorkflowExecutionInfo.root_execution:type_name -> temporal.api.common.v1.WorkflowExecution
 	3,   // 13: temporal.api.workflow.v1.WorkflowExecutionInfo.versioning_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionVersioningInfo
 	39,  // 14: temporal.api.workflow.v1.WorkflowExecutionInfo.priority:type_name -> temporal.api.common.v1.Priority
-	21,  // 15: temporal.api.workflow.v1.WorkflowExecutionInfo.pause_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionPauseInfo
-	33,  // 16: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.execution_expiration_time:type_name -> google.protobuf.Timestamp
-	33,  // 17: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.run_expiration_time:type_name -> google.protobuf.Timestamp
-	33,  // 18: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.last_reset_time:type_name -> google.protobuf.Timestamp
-	33,  // 19: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.original_start_time:type_name -> google.protobuf.Timestamp
-	22,  // 20: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.request_id_infos:type_name -> temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry
+	33,  // 15: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.execution_expiration_time:type_name -> google.protobuf.Timestamp
+	33,  // 16: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.run_expiration_time:type_name -> google.protobuf.Timestamp
+	33,  // 17: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.last_reset_time:type_name -> google.protobuf.Timestamp
+	33,  // 18: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.original_start_time:type_name -> google.protobuf.Timestamp
+	22,  // 19: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.request_id_infos:type_name -> temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.RequestIdInfosEntry
+	21,  // 20: temporal.api.workflow.v1.WorkflowExecutionExtendedInfo.pause_info:type_name -> temporal.api.workflow.v1.WorkflowExecutionPauseInfo
 	40,  // 21: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.behavior:type_name -> temporal.api.enums.v1.VersioningBehavior
 	41,  // 22: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment:type_name -> temporal.api.deployment.v1.Deployment
 	42,  // 23: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
