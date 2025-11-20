@@ -161,22 +161,20 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// Pinned override is inherited if Task Queue of new run is compatible with the override version.
 	// Override is inherited separately and takes precedence over inherited base version.
 	//
-	// Note: This field is mutually exclusive with inherited_auto_upgrade_info. Only one should be set.
+	// Note: This field is mutually exclusive with inherited_auto_upgrade_info.
 	InheritedPinnedVersion *v15.WorkerDeploymentVersion `protobuf:"bytes,37,opt,name=inherited_pinned_version,json=inheritedPinnedVersion,proto3" json:"inherited_pinned_version,omitempty"`
-	// A boolean indicating whether the SDK has asked to eagerly execute the first workflow task for this workflow and
-	// eager execution was accepted by the server.
-	// Only populated by server with version >= 1.29.0.
-	EagerExecutionAccepted bool `protobuf:"varint,38,opt,name=eager_execution_accepted,json=eagerExecutionAccepted,proto3" json:"eager_execution_accepted,omitempty"`
-	// If present, the new workflow will commence with AutoUpgrade behavior on the current version of it's Task Queue's Deployment. UserData inconsistencies put forward
-	// by the eventual consistencies of the matching partitions shall be resolved with the help of the revision number and source deployment version passed in this field.
-	// In other words, the first workflow task of the new run will be dispatched either to the source deployment version or the current deployment version of the Task Queue's Deployment.
+	// If present, the new workflow will commence with AutoUpgrade behavior on the current version of it's Task Queue's Deployment.
+	// UserData inconsistencies put forward by the eventual consistencies of the matching partitions shall be resolved with the help
+	// of the revision number and source deployment version passed in this field. This shall schedule the first workflow task of the new run
+	// on the source deployment version or the current deployment version of the Task Queue's Deployment.
 	// After the first workflow task, the effective behavior of the workflow depends on worker sent values in subsequent workflow tasks.
 	// Note: This field is only populated if the Task Queue on which the new run is scheduled belongs to a deployment on which the parent run is running.
 	//
 	// New run initiated by workflow ContinueAsNew of an AutoUpgrade run, or a child workflow of an AutoUpgrade parent, will inherit the
 	// previous run's AutoUpgrade behavior and the source deployment version passed in this field.
-	// Both Matching and History service shall then use the revision number to determine the deployment version on which the new run will dispatch it's first workflow task.
-	// This deployment version shall either be the source deployment version, passed down from the parent run, or the current deployment version of the Task Queue's Deployment.
+	// Both Matching and History service shall then use the revision number to determine the deployment version on which the new run will
+	// dispatch its first workflow task. This deployment version shall either be the source deployment version, passed down from the parent run,
+	// or the current deployment version of the Task Queue's Deployment.
 	//
 	// New run initiated by workflow Cron will never inherit the AutoUpgrade behavior.
 	//
@@ -184,10 +182,14 @@ type WorkflowExecutionStartedEventAttributes struct {
 	// of retry, and the retried run inherited AutoUpgrade behavior when it started (ie. it is a child of a AutoUpgrade
 	// parent, or a CaN of a AutoUpgrade run, and is running on the same deployment as that of the parent).
 	//
-	// Note: This field is mutually exclusive with inherited_pinned_version. Only one should be set.
+	// Note: This field is mutually exclusive with `inherited_pinned_version.
 	InheritedAutoUpgradeInfo *WorkflowExecutionStartedEventAttributes_InheritedAutoUpgradeInfo `protobuf:"bytes,39,opt,name=inherited_auto_upgrade_info,json=inheritedAutoUpgradeInfo,proto3" json:"inherited_auto_upgrade_info,omitempty"`
-	unknownFields            protoimpl.UnknownFields
-	sizeCache                protoimpl.SizeCache
+	// A boolean indicating whether the SDK has asked to eagerly execute the first workflow task for this workflow and
+	// eager execution was accepted by the server.
+	// Only populated by server with version >= 1.29.0.
+	EagerExecutionAccepted bool `protobuf:"varint,38,opt,name=eager_execution_accepted,json=eagerExecutionAccepted,proto3" json:"eager_execution_accepted,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionStartedEventAttributes) Reset() {
@@ -475,18 +477,18 @@ func (x *WorkflowExecutionStartedEventAttributes) GetInheritedPinnedVersion() *v
 	return nil
 }
 
-func (x *WorkflowExecutionStartedEventAttributes) GetEagerExecutionAccepted() bool {
-	if x != nil {
-		return x.EagerExecutionAccepted
-	}
-	return false
-}
-
 func (x *WorkflowExecutionStartedEventAttributes) GetInheritedAutoUpgradeInfo() *WorkflowExecutionStartedEventAttributes_InheritedAutoUpgradeInfo {
 	if x != nil {
 		return x.InheritedAutoUpgradeInfo
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) GetEagerExecutionAccepted() bool {
+	if x != nil {
+		return x.EagerExecutionAccepted
+	}
+	return false
 }
 
 type WorkflowExecutionCompletedEventAttributes struct {
@@ -6743,9 +6745,9 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\x13versioning_override\x18! \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12X\n" +
 	"'parent_pinned_worker_deployment_version\x18\" \x01(\tB\x02\x18\x01R#parentPinnedWorkerDeploymentVersion\x12<\n" +
 	"\bpriority\x18# \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12m\n" +
-	"\x18inherited_pinned_version\x18% \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x16inheritedPinnedVersion\x128\n" +
-	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAccepted\x12\x98\x01\n" +
-	"\x1binherited_auto_upgrade_info\x18' \x01(\v2Y.temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.InheritedAutoUpgradeInfoR\x18inheritedAutoUpgradeInfo\x1a\xd6\x01\n" +
+	"\x18inherited_pinned_version\x18% \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x16inheritedPinnedVersion\x12\x98\x01\n" +
+	"\x1binherited_auto_upgrade_info\x18' \x01(\v2Y.temporal.api.history.v1.WorkflowExecutionStartedEventAttributes.InheritedAutoUpgradeInfoR\x18inheritedAutoUpgradeInfo\x128\n" +
+	"\x18eager_execution_accepted\x18& \x01(\bR\x16eagerExecutionAccepted\x1a\xd6\x01\n" +
 	"\x18InheritedAutoUpgradeInfo\x12o\n" +
 	"\x19source_deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x17sourceDeploymentVersion\x12I\n" +
 	"!source_deployment_revision_number\x18\x02 \x01(\x03R\x1esourceDeploymentRevisionNumberJ\x04\b$\x10%R parent_pinned_deployment_version\"\xde\x01\n" +
