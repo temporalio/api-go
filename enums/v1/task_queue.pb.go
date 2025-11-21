@@ -26,6 +26,11 @@ const (
 type TaskQueueKind int32
 
 const (
+	// Tasks from any non workflow task may be unspecified.
+	//
+	// Task queue kind is used to differentiate whether a workflow task queue is sticky or
+	// normal. If a task is not a workflow task, Task queue kind will sometimes be
+	// unspecified.
 	TASK_QUEUE_KIND_UNSPECIFIED TaskQueueKind = 0
 	// Tasks from a normal workflow task queue always include complete workflow history
 	//
