@@ -218,9 +218,10 @@ func TimeoutTypeFromString(s string) (TimeoutType, error) {
 
 var (
 	VersioningBehavior_shorthandValue = map[string]int32{
-		"Unspecified": 0,
-		"Pinned":      1,
-		"AutoUpgrade": 2,
+		"Unspecified":              0,
+		"Pinned":                   1,
+		"AutoUpgrade":              2,
+		"PinnedUntilContinueAsNew": 3,
 	}
 )
 
@@ -233,4 +234,25 @@ func VersioningBehaviorFromString(s string) (VersioningBehavior, error) {
 		return VersioningBehavior(v), nil
 	}
 	return VersioningBehavior(0), fmt.Errorf("%s is not a valid VersioningBehavior", s)
+}
+
+var (
+	SuggestContinueAsNewReason_shorthandValue = map[string]int32{
+		"Unspecified":                          0,
+		"HistorySizeTooLarge":                  1,
+		"TooManyHistoryEvents":                 2,
+		"TooManyUpdates":                       3,
+		"TargetWorkerDeploymentVersionChanged": 4,
+	}
+)
+
+// SuggestContinueAsNewReasonFromString parses a SuggestContinueAsNewReason value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to SuggestContinueAsNewReason
+func SuggestContinueAsNewReasonFromString(s string) (SuggestContinueAsNewReason, error) {
+	if v, ok := SuggestContinueAsNewReason_value[s]; ok {
+		return SuggestContinueAsNewReason(v), nil
+	} else if v, ok := SuggestContinueAsNewReason_shorthandValue[s]; ok {
+		return SuggestContinueAsNewReason(v), nil
+	}
+	return SuggestContinueAsNewReason(0), fmt.Errorf("%s is not a valid SuggestContinueAsNewReason", s)
 }

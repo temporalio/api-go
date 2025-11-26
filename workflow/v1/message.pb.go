@@ -42,6 +42,14 @@ const (
 	0
 	VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED VersioningOverride_PinnedOverrideBehavior = // Override workflow behavior to be Pinned.
 	1
+	VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW VersioningOverride_PinnedOverrideBehavior = // Override workflow behavior to be PinnedUntilContinueAsNew.
+	2
+	VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED_OR_KEEP_EXISTING VersioningOverride_PinnedOverrideBehavior = // If workflow is AutoUpgrade or Unversioned, override workflow behavior to Pinned.
+	// If workflow is already Pinned or PinnedUntilContinueAsNew, keep existing behavior.
+	3
+	VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW_OR_KEEP_EXISTING VersioningOverride_PinnedOverrideBehavior = // If workflow is AutoUpgrade or Unversioned, override workflow behavior to PinnedUntilContinueAsNew.
+	// If workflow is already Pinned or PinnedUntilContinueAsNew, keep existing behavior.
+	4
 )
 
 // Enum value maps for VersioningOverride_PinnedOverrideBehavior.
@@ -49,10 +57,16 @@ var (
 	VersioningOverride_PinnedOverrideBehavior_name = map[int32]string{
 		0: "PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED",
 		1: "PINNED_OVERRIDE_BEHAVIOR_PINNED",
+		2: "PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW",
+		3: "PINNED_OVERRIDE_BEHAVIOR_PINNED_OR_KEEP_EXISTING",
+		4: "PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW_OR_KEEP_EXISTING",
 	}
 	VersioningOverride_PinnedOverrideBehavior_value = map[string]int32{
-		"PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED": 0,
-		"PINNED_OVERRIDE_BEHAVIOR_PINNED":      1,
+		"PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED":                                   0,
+		"PINNED_OVERRIDE_BEHAVIOR_PINNED":                                        1,
+		"PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW":                  2,
+		"PINNED_OVERRIDE_BEHAVIOR_PINNED_OR_KEEP_EXISTING":                       3,
+		"PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW_OR_KEEP_EXISTING": 4,
 	}
 )
 
@@ -68,6 +82,15 @@ func (x VersioningOverride_PinnedOverrideBehavior) String() string {
 		return "VersioningOverridePinnedOverrideBehaviorUnspecified"
 	case VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED:
 		return "VersioningOverridePinnedOverrideBehaviorPinned"
+	case VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW:
+		return "VersioningOverridePinnedOverrideBehaviorPinnedUntilContinueAsNew"
+	case VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED_OR_KEEP_EXISTING:
+		return "VersioningOverridePinnedOverrideBehaviorPinnedOrKeepExisting"
+	case
+
+		// Deprecated: Use VersioningOverride_PinnedOverrideBehavior.Descriptor instead.
+		VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW_OR_KEEP_EXISTING:
+		return "VersioningOverridePinnedOverrideBehaviorPinnedUntilContinueAsNewOrKeepExisting"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -86,7 +109,6 @@ func (x VersioningOverride_PinnedOverrideBehavior) Number() protoreflect.EnumNum
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use VersioningOverride_PinnedOverrideBehavior.Descriptor instead.
 func (VersioningOverride_PinnedOverrideBehavior) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16, 0}
 }
@@ -2110,11 +2132,14 @@ func (x *WorkflowExecutionOptions) GetVersioningOverride() *VersioningOverride {
 // `WorkflowExecutionInfo.VersioningInfo` for more information. To remove the override, call
 // `UpdateWorkflowExecutionOptions` with a null `VersioningOverride`, and use the `update_mask`
 // to indicate that it should be mutated.
-// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
+// All types of Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
 // workflow retries, and cron workflows.
+// When a workflow with some type of Pinned override and effect versioning behavior PinnedUntilContinueAsNew
+// continues-as-new, the override version will not be inherited. If you want your workflow to run on the same
+// version across continue-as-new runs, use Pinned behavior, not PinnedUntilContinueAsNew.
 type VersioningOverride struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Indicates whether to override the workflow to be AutoUpgrade or Pinned.
+	// Indicates whether to override the workflow to be AutoUpgrade, Pinned, or PinnedUntilContinueAsNew.
 	//
 	// Types that are valid to be assigned to Override:
 	//
@@ -2840,7 +2865,10 @@ type VersioningOverride_PinnedOverride struct {
 	// Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.
 	// See `PinnedOverrideBehavior` for details.
 	Behavior VersioningOverride_PinnedOverrideBehavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=temporal.api.workflow.v1.VersioningOverride_PinnedOverrideBehavior" json:"behavior,omitempty"`
-	// Required.
+	// Required if the target workflow is not already pinned to a version.
+	// If the target workflow is already pinned to a version and this is omitted,
+	// the effective Pinned Version of the workflow will be the non-override pinned
+	// version.
 	Version       *v12.WorkerDeploymentVersion `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -3225,7 +3253,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x1anext_attempt_schedule_time\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12%\n" +
 	"\x0eblocked_reason\x18\a \x01(\tR\rblockedReason\"y\n" +
 	"\x18WorkflowExecutionOptions\x12]\n" +
-	"\x13versioning_override\x18\x01 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\"\x8a\x05\n" +
+	"\x13versioning_override\x18\x01 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\"\xc8\x06\n" +
 	"\x12VersioningOverride\x12U\n" +
 	"\x06pinned\x18\x03 \x01(\v2;.temporal.api.workflow.v1.VersioningOverride.PinnedOverrideH\x00R\x06pinned\x12#\n" +
 	"\fauto_upgrade\x18\x04 \x01(\bH\x00R\vautoUpgrade\x12I\n" +
@@ -3236,10 +3264,13 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x0epinned_version\x18\t \x01(\tB\x02\x18\x01R\rpinnedVersion\x1a\xc0\x01\n" +
 	"\x0ePinnedOverride\x12_\n" +
 	"\bbehavior\x18\x01 \x01(\x0e2C.temporal.api.workflow.v1.VersioningOverride.PinnedOverrideBehaviorR\bbehavior\x12M\n" +
-	"\aversion\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\aversion\"g\n" +
+	"\aversion\x18\x02 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\aversion\"\xa4\x02\n" +
 	"\x16PinnedOverrideBehavior\x12(\n" +
 	"$PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED\x10\x00\x12#\n" +
-	"\x1fPINNED_OVERRIDE_BEHAVIOR_PINNED\x10\x01B\n" +
+	"\x1fPINNED_OVERRIDE_BEHAVIOR_PINNED\x10\x01\x129\n" +
+	"5PINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW\x10\x02\x124\n" +
+	"0PINNED_OVERRIDE_BEHAVIOR_PINNED_OR_KEEP_EXISTING\x10\x03\x12J\n" +
+	"FPINNED_OVERRIDE_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW_OR_KEEP_EXISTING\x10\x04B\n" +
 	"\n" +
 	"\boverride\"\xa2\x01\n" +
 	"\x11OnConflictOptions\x12*\n" +
