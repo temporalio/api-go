@@ -55,8 +55,11 @@ type ActivityOptions struct {
 	// Maximum permitted time between successful worker heartbeats.
 	HeartbeatTimeout *durationpb.Duration `protobuf:"bytes,5,opt,name=heartbeat_timeout,json=heartbeatTimeout,proto3" json:"heartbeat_timeout,omitempty"`
 	RetryPolicy      *v11.RetryPolicy     `protobuf:"bytes,6,opt,name=retry_policy,json=retryPolicy,proto3" json:"retry_policy,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// Priority metadata. If this message is not present, or any fields are not
+	// present, they inherit the values from the workflow.
+	Priority      *v11.Priority `protobuf:"bytes,7,opt,name=priority,proto3" json:"priority,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ActivityOptions) Reset() {
@@ -131,11 +134,18 @@ func (x *ActivityOptions) GetRetryPolicy() *v11.RetryPolicy {
 	return nil
 }
 
+func (x *ActivityOptions) GetPriority() *v11.Priority {
+	if x != nil {
+		return x.Priority
+	}
+	return nil
+}
+
 var File_temporal_api_activity_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/activity/v1/message.proto\x12\x18temporal.api.activity.v1\x1a$temporal/api/common/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\"\xe2\x03\n" +
+	"&temporal/api/activity/v1/message.proto\x12\x18temporal.api.activity.v1\x1a$temporal/api/common/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\"\xa0\x04\n" +
 	"\x0fActivityOptions\x12C\n" +
 	"\n" +
 	"task_queue\x18\x01 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12T\n" +
@@ -143,7 +153,8 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x19schedule_to_start_timeout\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x16scheduleToStartTimeout\x12N\n" +
 	"\x16start_to_close_timeout\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\x13startToCloseTimeout\x12F\n" +
 	"\x11heartbeat_timeout\x18\x05 \x01(\v2\x19.google.protobuf.DurationR\x10heartbeatTimeout\x12F\n" +
-	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicyB\x93\x01\n" +
+	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
+	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriorityB\x93\x01\n" +
 	"\x1bio.temporal.api.activity.v1B\fMessageProtoP\x01Z'go.temporal.io/api/activity/v1;activity\xaa\x02\x1aTemporalio.Api.Activity.V1\xea\x02\x1dTemporalio::Api::Activity::V1b\x06proto3"
 
 var (
@@ -164,6 +175,7 @@ var file_temporal_api_activity_v1_message_proto_goTypes = []any{
 	(*v1.TaskQueue)(nil),        // 1: temporal.api.taskqueue.v1.TaskQueue
 	(*durationpb.Duration)(nil), // 2: google.protobuf.Duration
 	(*v11.RetryPolicy)(nil),     // 3: temporal.api.common.v1.RetryPolicy
+	(*v11.Priority)(nil),        // 4: temporal.api.common.v1.Priority
 }
 var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	1, // 0: temporal.api.activity.v1.ActivityOptions.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
@@ -172,11 +184,12 @@ var file_temporal_api_activity_v1_message_proto_depIdxs = []int32{
 	2, // 3: temporal.api.activity.v1.ActivityOptions.start_to_close_timeout:type_name -> google.protobuf.Duration
 	2, // 4: temporal.api.activity.v1.ActivityOptions.heartbeat_timeout:type_name -> google.protobuf.Duration
 	3, // 5: temporal.api.activity.v1.ActivityOptions.retry_policy:type_name -> temporal.api.common.v1.RetryPolicy
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	4, // 6: temporal.api.activity.v1.ActivityOptions.priority:type_name -> temporal.api.common.v1.Priority
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_activity_v1_message_proto_init() }
