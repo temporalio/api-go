@@ -428,8 +428,10 @@ type AddOrUpdateRemoteClusterRequest struct {
 	//
 	//	on update, the existing HTTP address will be removed.
 	FrontendHttpAddress string `protobuf:"bytes,3,opt,name=frontend_http_address,json=frontendHttpAddress,proto3" json:"frontend_http_address,omitempty"`
-	unknownFields       protoimpl.UnknownFields
-	sizeCache           protoimpl.SizeCache
+	// Controls whether replication streams are active.
+	IsReplicationEnabled bool `protobuf:"varint,4,opt,name=is_replication_enabled,json=isReplicationEnabled,proto3" json:"is_replication_enabled,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *AddOrUpdateRemoteClusterRequest) Reset() {
@@ -481,6 +483,13 @@ func (x *AddOrUpdateRemoteClusterRequest) GetFrontendHttpAddress() string {
 		return x.FrontendHttpAddress
 	}
 	return ""
+}
+
+func (x *AddOrUpdateRemoteClusterRequest) GetIsReplicationEnabled() bool {
+	if x != nil {
+		return x.IsReplicationEnabled
+	}
+	return false
 }
 
 type AddOrUpdateRemoteClusterResponse struct {
@@ -1336,11 +1345,12 @@ const file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = "" +
 	"\fnamespace_id\x18\x02 \x01(\tR\vnamespaceId\x12O\n" +
 	"\x16namespace_delete_delay\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x14namespaceDeleteDelay\"F\n" +
 	"\x17DeleteNamespaceResponse\x12+\n" +
-	"\x11deleted_namespace\x18\x01 \x01(\tR\x10deletedNamespace\"\xc9\x01\n" +
+	"\x11deleted_namespace\x18\x01 \x01(\tR\x10deletedNamespace\"\xff\x01\n" +
 	"\x1fAddOrUpdateRemoteClusterRequest\x12)\n" +
 	"\x10frontend_address\x18\x01 \x01(\tR\x0ffrontendAddress\x12G\n" +
 	" enable_remote_cluster_connection\x18\x02 \x01(\bR\x1denableRemoteClusterConnection\x122\n" +
-	"\x15frontend_http_address\x18\x03 \x01(\tR\x13frontendHttpAddress\"\"\n" +
+	"\x15frontend_http_address\x18\x03 \x01(\tR\x13frontendHttpAddress\x124\n" +
+	"\x16is_replication_enabled\x18\x04 \x01(\bR\x14isReplicationEnabled\"\"\n" +
 	" AddOrUpdateRemoteClusterResponse\"?\n" +
 	"\x1aRemoveRemoteClusterRequest\x12!\n" +
 	"\fcluster_name\x18\x01 \x01(\tR\vclusterName\"\x1d\n" +
