@@ -904,64 +904,6 @@ func (x *MultiOperationExecutionFailure) GetStatuses() []*MultiOperationExecutio
 	return nil
 }
 
-// An error indicating that an activity execution failed to start. Returned when there is an existing activity with the
-// given activity ID, and the given ID reuse and conflict policies do not permit starting a new one or attaching to an
-// existing one.
-type ActivityExecutionAlreadyStartedFailure struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	StartRequestId string `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
-	RunId          string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
-}
-
-func (x *ActivityExecutionAlreadyStartedFailure) Reset() {
-	*x = ActivityExecutionAlreadyStartedFailure{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[17]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ActivityExecutionAlreadyStartedFailure) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ActivityExecutionAlreadyStartedFailure) ProtoMessage() {}
-
-func (x *ActivityExecutionAlreadyStartedFailure) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[17]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ActivityExecutionAlreadyStartedFailure.ProtoReflect.Descriptor instead.
-func (*ActivityExecutionAlreadyStartedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *ActivityExecutionAlreadyStartedFailure) GetStartRequestId() string {
-	if x != nil {
-		return x.StartRequestId
-	}
-	return ""
-}
-
-func (x *ActivityExecutionAlreadyStartedFailure) GetRunId() string {
-	if x != nil {
-		return x.RunId
-	}
-	return ""
-}
-
 // NOTE: `OperationStatus` is modelled after
 // [`google.rpc.Status`](https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto).
 //
@@ -981,7 +923,7 @@ type MultiOperationExecutionFailure_OperationStatus struct {
 func (x *MultiOperationExecutionFailure_OperationStatus) Reset() {
 	*x = MultiOperationExecutionFailure_OperationStatus{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[18]
+		mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -994,7 +936,7 @@ func (x *MultiOperationExecutionFailure_OperationStatus) String() string {
 func (*MultiOperationExecutionFailure_OperationStatus) ProtoMessage() {}
 
 func (x *MultiOperationExecutionFailure_OperationStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[18]
+	mi := &file_temporal_api_errordetails_v1_message_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1165,25 +1107,18 @@ var file_temporal_api_errordetails_v1_message_proto_rawDesc = []byte{
 	0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x2e, 0x0a, 0x07,
 	0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e,
 	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
-	0x41, 0x6e, 0x79, 0x52, 0x07, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x22, 0x69, 0x0a, 0x26,
-	0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f,
-	0x6e, 0x41, 0x6c, 0x72, 0x65, 0x61, 0x64, 0x79, 0x53, 0x74, 0x61, 0x72, 0x74, 0x65, 0x64, 0x46,
-	0x61, 0x69, 0x6c, 0x75, 0x72, 0x65, 0x12, 0x28, 0x0a, 0x10, 0x73, 0x74, 0x61, 0x72, 0x74, 0x5f,
-	0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x0e, 0x73, 0x74, 0x61, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x49, 0x64,
-	0x12, 0x15, 0x0a, 0x06, 0x72, 0x75, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x05, 0x72, 0x75, 0x6e, 0x49, 0x64, 0x42, 0xa7, 0x01, 0x0a, 0x1f, 0x69, 0x6f, 0x2e, 0x74,
-	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x72, 0x72, 0x6f,
-	0x72, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2f, 0x67, 0x6f, 0x2e,
-	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f,
-	0x65, 0x72, 0x72, 0x6f, 0x72, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x2f, 0x76, 0x31, 0x3b,
-	0x65, 0x72, 0x72, 0x6f, 0x72, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0xaa, 0x02, 0x1e, 0x54,
-	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x45, 0x72,
-	0x72, 0x6f, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x21,
-	0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a,
-	0x3a, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x3a, 0x3a, 0x56,
-	0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x41, 0x6e, 0x79, 0x52, 0x07, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x42, 0xa7, 0x01, 0x0a,
+	0x1f, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x2e, 0x76, 0x31,
+	0x42, 0x0c, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
+	0x5a, 0x2f, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f,
+	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c,
+	0x73, 0x2f, 0x76, 0x31, 0x3b, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c,
+	0x73, 0xaa, 0x02, 0x1e, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41,
+	0x70, 0x69, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x2e,
+	0x56, 0x31, 0xea, 0x02, 0x21, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a,
+	0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69,
+	0x6c, 0x73, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1198,7 +1133,7 @@ func file_temporal_api_errordetails_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_errordetails_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_errordetails_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_temporal_api_errordetails_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_temporal_api_errordetails_v1_message_proto_goTypes = []interface{}{
 	(*NotFoundFailure)(nil),                                // 0: temporal.api.errordetails.v1.NotFoundFailure
 	(*WorkflowExecutionAlreadyStartedFailure)(nil),         // 1: temporal.api.errordetails.v1.WorkflowExecutionAlreadyStartedFailure
@@ -1217,24 +1152,23 @@ var file_temporal_api_errordetails_v1_message_proto_goTypes = []interface{}{
 	(*WorkflowNotReadyFailure)(nil),                        // 14: temporal.api.errordetails.v1.WorkflowNotReadyFailure
 	(*NewerBuildExistsFailure)(nil),                        // 15: temporal.api.errordetails.v1.NewerBuildExistsFailure
 	(*MultiOperationExecutionFailure)(nil),                 // 16: temporal.api.errordetails.v1.MultiOperationExecutionFailure
-	(*ActivityExecutionAlreadyStartedFailure)(nil),         // 17: temporal.api.errordetails.v1.ActivityExecutionAlreadyStartedFailure
-	(*MultiOperationExecutionFailure_OperationStatus)(nil), // 18: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
-	(v1.NamespaceState)(0),                                 // 19: temporal.api.enums.v1.NamespaceState
-	(*v11.Failure)(nil),                                    // 20: temporal.api.failure.v1.Failure
-	(v1.ResourceExhaustedCause)(0),                         // 21: temporal.api.enums.v1.ResourceExhaustedCause
-	(v1.ResourceExhaustedScope)(0),                         // 22: temporal.api.enums.v1.ResourceExhaustedScope
-	(*v12.WorkflowExecution)(nil),                          // 23: temporal.api.common.v1.WorkflowExecution
-	(*anypb.Any)(nil),                                      // 24: google.protobuf.Any
+	(*MultiOperationExecutionFailure_OperationStatus)(nil), // 17: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
+	(v1.NamespaceState)(0),                                 // 18: temporal.api.enums.v1.NamespaceState
+	(*v11.Failure)(nil),                                    // 19: temporal.api.failure.v1.Failure
+	(v1.ResourceExhaustedCause)(0),                         // 20: temporal.api.enums.v1.ResourceExhaustedCause
+	(v1.ResourceExhaustedScope)(0),                         // 21: temporal.api.enums.v1.ResourceExhaustedScope
+	(*v12.WorkflowExecution)(nil),                          // 22: temporal.api.common.v1.WorkflowExecution
+	(*anypb.Any)(nil),                                      // 23: google.protobuf.Any
 }
 var file_temporal_api_errordetails_v1_message_proto_depIdxs = []int32{
-	19, // 0: temporal.api.errordetails.v1.NamespaceInvalidStateFailure.state:type_name -> temporal.api.enums.v1.NamespaceState
-	19, // 1: temporal.api.errordetails.v1.NamespaceInvalidStateFailure.allowed_states:type_name -> temporal.api.enums.v1.NamespaceState
-	20, // 2: temporal.api.errordetails.v1.QueryFailedFailure.failure:type_name -> temporal.api.failure.v1.Failure
-	21, // 3: temporal.api.errordetails.v1.ResourceExhaustedFailure.cause:type_name -> temporal.api.enums.v1.ResourceExhaustedCause
-	22, // 4: temporal.api.errordetails.v1.ResourceExhaustedFailure.scope:type_name -> temporal.api.enums.v1.ResourceExhaustedScope
-	23, // 5: temporal.api.errordetails.v1.SystemWorkflowFailure.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	18, // 6: temporal.api.errordetails.v1.MultiOperationExecutionFailure.statuses:type_name -> temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
-	24, // 7: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus.details:type_name -> google.protobuf.Any
+	18, // 0: temporal.api.errordetails.v1.NamespaceInvalidStateFailure.state:type_name -> temporal.api.enums.v1.NamespaceState
+	18, // 1: temporal.api.errordetails.v1.NamespaceInvalidStateFailure.allowed_states:type_name -> temporal.api.enums.v1.NamespaceState
+	19, // 2: temporal.api.errordetails.v1.QueryFailedFailure.failure:type_name -> temporal.api.failure.v1.Failure
+	20, // 3: temporal.api.errordetails.v1.ResourceExhaustedFailure.cause:type_name -> temporal.api.enums.v1.ResourceExhaustedCause
+	21, // 4: temporal.api.errordetails.v1.ResourceExhaustedFailure.scope:type_name -> temporal.api.enums.v1.ResourceExhaustedScope
+	22, // 5: temporal.api.errordetails.v1.SystemWorkflowFailure.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	17, // 6: temporal.api.errordetails.v1.MultiOperationExecutionFailure.statuses:type_name -> temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus
+	23, // 7: temporal.api.errordetails.v1.MultiOperationExecutionFailure.OperationStatus.details:type_name -> google.protobuf.Any
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
@@ -1453,18 +1387,6 @@ func file_temporal_api_errordetails_v1_message_proto_init() {
 			}
 		}
 		file_temporal_api_errordetails_v1_message_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ActivityExecutionAlreadyStartedFailure); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_errordetails_v1_message_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*MultiOperationExecutionFailure_OperationStatus); i {
 			case 0:
 				return &v.state
@@ -1483,7 +1405,7 @@ func file_temporal_api_errordetails_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_temporal_api_errordetails_v1_message_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   19,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

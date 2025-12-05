@@ -50,9 +50,10 @@ func ActivityIdReusePolicyFromString(s string) (ActivityIdReusePolicy, error) {
 
 var (
 	ActivityIdConflictPolicy_shorthandValue = map[string]int32{
-		"Unspecified": 0,
-		"Fail":        1,
-		"UseExisting": 2,
+		"Unspecified":       0,
+		"Fail":              1,
+		"UseExisting":       2,
+		"TerminateExisting": 3,
 	}
 )
 
