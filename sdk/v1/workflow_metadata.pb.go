@@ -9,7 +9,6 @@ package sdk
 import (
 	reflect "reflect"
 	sync "sync"
-	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -24,21 +23,24 @@ const (
 
 // The name of the query to retrieve this information is `__temporal_workflow_metadata`.
 type WorkflowMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// Metadata provided at declaration or creation time.
 	Definition *WorkflowDefinition `protobuf:"bytes,1,opt,name=definition,proto3" json:"definition,omitempty"`
 	// Current long-form details of the workflow's state. This is used by user interfaces to show
 	// long-form text. This text may be formatted by the user interface.
 	CurrentDetails string `protobuf:"bytes,2,opt,name=current_details,json=currentDetails,proto3" json:"current_details,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
 }
 
 func (x *WorkflowMetadata) Reset() {
 	*x = WorkflowMetadata{}
-	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowMetadata) String() string {
@@ -49,7 +51,7 @@ func (*WorkflowMetadata) ProtoMessage() {}
 
 func (x *WorkflowMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -80,7 +82,10 @@ func (x *WorkflowMetadata) GetCurrentDetails() string {
 
 // (-- api-linter: core::0203::optional=disabled --)
 type WorkflowDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// A name scoped by the task queue that maps to this workflow definition.
 	// If missing, this workflow is a dynamic workflow.
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
@@ -90,15 +95,15 @@ type WorkflowDefinition struct {
 	SignalDefinitions []*WorkflowInteractionDefinition `protobuf:"bytes,3,rep,name=signal_definitions,json=signalDefinitions,proto3" json:"signal_definitions,omitempty"`
 	// Update definitions, sorted by name.
 	UpdateDefinitions []*WorkflowInteractionDefinition `protobuf:"bytes,4,rep,name=update_definitions,json=updateDefinitions,proto3" json:"update_definitions,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
 }
 
 func (x *WorkflowDefinition) Reset() {
 	*x = WorkflowDefinition{}
-	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowDefinition) String() string {
@@ -109,7 +114,7 @@ func (*WorkflowDefinition) ProtoMessage() {}
 
 func (x *WorkflowDefinition) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -158,7 +163,10 @@ func (x *WorkflowDefinition) GetUpdateDefinitions() []*WorkflowInteractionDefini
 //
 // (-- api-linter: core::0203::optional=disabled --)
 type WorkflowInteractionDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
 	// An optional name for the handler. If missing, it represents
 	// a dynamic handler that processes any interactions not handled by others.
 	// There is at most one dynamic handler per workflow and interaction kind.
@@ -166,16 +174,16 @@ type WorkflowInteractionDefinition struct {
 	// An optional interaction description provided by the application.
 	// By convention, external tools may interpret its first part,
 	// i.e., ending with a line break, as a summary of the description.
-	Description   string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (x *WorkflowInteractionDefinition) Reset() {
 	*x = WorkflowInteractionDefinition{}
-	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
+	if protoimpl.UnsafeEnabled {
+		mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
 }
 
 func (x *WorkflowInteractionDefinition) String() string {
@@ -186,7 +194,7 @@ func (*WorkflowInteractionDefinition) ProtoMessage() {}
 
 func (x *WorkflowInteractionDefinition) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2]
-	if x != nil {
+	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -217,38 +225,71 @@ func (x *WorkflowInteractionDefinition) GetDescription() string {
 
 var File_temporal_api_sdk_v1_workflow_metadata_proto protoreflect.FileDescriptor
 
-const file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc = "" +
-	"\n" +
-	"+temporal/api/sdk/v1/workflow_metadata.proto\x12\x13temporal.api.sdk.v1\"\x84\x01\n" +
-	"\x10WorkflowMetadata\x12G\n" +
-	"\n" +
-	"definition\x18\x01 \x01(\v2'.temporal.api.sdk.v1.WorkflowDefinitionR\n" +
-	"definition\x12'\n" +
-	"\x0fcurrent_details\x18\x02 \x01(\tR\x0ecurrentDetails\"\xcf\x02\n" +
-	"\x12WorkflowDefinition\x12\x12\n" +
-	"\x04type\x18\x01 \x01(\tR\x04type\x12_\n" +
-	"\x11query_definitions\x18\x02 \x03(\v22.temporal.api.sdk.v1.WorkflowInteractionDefinitionR\x10queryDefinitions\x12a\n" +
-	"\x12signal_definitions\x18\x03 \x03(\v22.temporal.api.sdk.v1.WorkflowInteractionDefinitionR\x11signalDefinitions\x12a\n" +
-	"\x12update_definitions\x18\x04 \x03(\v22.temporal.api.sdk.v1.WorkflowInteractionDefinitionR\x11updateDefinitions\"U\n" +
-	"\x1dWorkflowInteractionDefinition\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescriptionB\x83\x01\n" +
-	"\x16io.temporal.api.sdk.v1B\x15WorkflowMetadataProtoP\x01Z\x1dgo.temporal.io/api/sdk/v1;sdk\xaa\x02\x15Temporalio.Api.Sdk.V1\xea\x02\x18Temporalio::Api::Sdk::V1b\x06proto3"
+var file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc = []byte{
+	0x0a, 0x2b, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73,
+	0x64, 0x6b, 0x2f, 0x76, 0x31, 0x2f, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x5f, 0x6d,
+	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x13, 0x74,
+	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e,
+	0x76, 0x31, 0x22, 0x84, 0x01, 0x0a, 0x10, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x4d,
+	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x47, 0x0a, 0x0a, 0x64, 0x65, 0x66, 0x69, 0x6e,
+	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x74, 0x65,
+	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76,
+	0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x44, 0x65, 0x66, 0x69, 0x6e, 0x69,
+	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0a, 0x64, 0x65, 0x66, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e,
+	0x12, 0x27, 0x0a, 0x0f, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x5f, 0x64, 0x65, 0x74, 0x61,
+	0x69, 0x6c, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x63, 0x75, 0x72, 0x72, 0x65,
+	0x6e, 0x74, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x22, 0xcf, 0x02, 0x0a, 0x12, 0x57, 0x6f,
+	0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x44, 0x65, 0x66, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e,
+	0x12, 0x12, 0x0a, 0x04, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
+	0x74, 0x79, 0x70, 0x65, 0x12, 0x5f, 0x0a, 0x11, 0x71, 0x75, 0x65, 0x72, 0x79, 0x5f, 0x64, 0x65,
+	0x66, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x32, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73,
+	0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x49, 0x6e,
+	0x74, 0x65, 0x72, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x44, 0x65, 0x66, 0x69, 0x6e, 0x69, 0x74,
+	0x69, 0x6f, 0x6e, 0x52, 0x10, 0x71, 0x75, 0x65, 0x72, 0x79, 0x44, 0x65, 0x66, 0x69, 0x6e, 0x69,
+	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x61, 0x0a, 0x12, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x5f,
+	0x64, 0x65, 0x66, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x32, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77,
+	0x49, 0x6e, 0x74, 0x65, 0x72, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x44, 0x65, 0x66, 0x69, 0x6e,
+	0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x11, 0x73, 0x69, 0x67, 0x6e, 0x61, 0x6c, 0x44, 0x65, 0x66,
+	0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x61, 0x0a, 0x12, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x5f, 0x64, 0x65, 0x66, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x04,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66,
+	0x6c, 0x6f, 0x77, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x44, 0x65,
+	0x66, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x11, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x44, 0x65, 0x66, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x22, 0x55, 0x0a, 0x1d, 0x57,
+	0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x61, 0x63, 0x74, 0x69,
+	0x6f, 0x6e, 0x44, 0x65, 0x66, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04,
+	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
+	0x6f, 0x6e, 0x42, 0x83, 0x01, 0x0a, 0x16, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
+	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x73, 0x64, 0x6b, 0x2e, 0x76, 0x31, 0x42, 0x15, 0x57,
+	0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x50,
+	0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x1d, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f,
+	0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x64, 0x6b, 0x2f, 0x76,
+	0x31, 0x3b, 0x73, 0x64, 0x6b, 0xaa, 0x02, 0x15, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
+	0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x53, 0x64, 0x6b, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x18,
+	0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a,
+	0x3a, 0x53, 0x64, 0x6b, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+}
 
 var (
 	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData []byte
+	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData = file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc
 )
 
 func file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescGZIP() []byte {
 	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc), len(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc)))
+		file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData = protoimpl.X.CompressGZIP(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData)
 	})
 	return file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData
 }
 
 var file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_temporal_api_sdk_v1_workflow_metadata_proto_goTypes = []any{
+var file_temporal_api_sdk_v1_workflow_metadata_proto_goTypes = []interface{}{
 	(*WorkflowMetadata)(nil),              // 0: temporal.api.sdk.v1.WorkflowMetadata
 	(*WorkflowDefinition)(nil),            // 1: temporal.api.sdk.v1.WorkflowDefinition
 	(*WorkflowInteractionDefinition)(nil), // 2: temporal.api.sdk.v1.WorkflowInteractionDefinition
@@ -270,11 +311,49 @@ func file_temporal_api_sdk_v1_workflow_metadata_proto_init() {
 	if File_temporal_api_sdk_v1_workflow_metadata_proto != nil {
 		return
 	}
+	if !protoimpl.UnsafeEnabled {
+		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowMetadata); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowDefinition); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*WorkflowInteractionDefinition); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc), len(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc)),
+			RawDescriptor: file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
@@ -285,6 +364,7 @@ func file_temporal_api_sdk_v1_workflow_metadata_proto_init() {
 		MessageInfos:      file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes,
 	}.Build()
 	File_temporal_api_sdk_v1_workflow_metadata_proto = out.File
+	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc = nil
 	file_temporal_api_sdk_v1_workflow_metadata_proto_goTypes = nil
 	file_temporal_api_sdk_v1_workflow_metadata_proto_depIdxs = nil
 }
