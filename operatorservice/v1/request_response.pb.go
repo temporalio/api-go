@@ -9,6 +9,7 @@ package operatorservice
 import (
 	reflect "reflect"
 	sync "sync"
+	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/enums/v1"
 	v11 "go.temporal.io/api/nexus/v1"
@@ -25,22 +26,19 @@ const (
 )
 
 type AddSearchAttributesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Mapping between search attribute name and its IndexedValueType.
-	SearchAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.enums.v1.IndexedValueType"`
+	SearchAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	Namespace        string                         `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *AddSearchAttributesRequest) Reset() {
 	*x = AddSearchAttributesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *AddSearchAttributesRequest) String() string {
@@ -51,7 +49,7 @@ func (*AddSearchAttributesRequest) ProtoMessage() {}
 
 func (x *AddSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -81,18 +79,16 @@ func (x *AddSearchAttributesRequest) GetNamespace() string {
 }
 
 type AddSearchAttributesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AddSearchAttributesResponse) Reset() {
 	*x = AddSearchAttributesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *AddSearchAttributesResponse) String() string {
@@ -103,7 +99,7 @@ func (*AddSearchAttributesResponse) ProtoMessage() {}
 
 func (x *AddSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -119,22 +115,19 @@ func (*AddSearchAttributesResponse) Descriptor() ([]byte, []int) {
 }
 
 type RemoveSearchAttributesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Search attribute names to delete.
 	SearchAttributes []string `protobuf:"bytes,1,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	Namespace        string   `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *RemoveSearchAttributesRequest) Reset() {
 	*x = RemoveSearchAttributesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *RemoveSearchAttributesRequest) String() string {
@@ -145,7 +138,7 @@ func (*RemoveSearchAttributesRequest) ProtoMessage() {}
 
 func (x *RemoveSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -175,18 +168,16 @@ func (x *RemoveSearchAttributesRequest) GetNamespace() string {
 }
 
 type RemoveSearchAttributesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RemoveSearchAttributesResponse) Reset() {
 	*x = RemoveSearchAttributesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *RemoveSearchAttributesResponse) String() string {
@@ -197,7 +188,7 @@ func (*RemoveSearchAttributesResponse) ProtoMessage() {}
 
 func (x *RemoveSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -213,20 +204,17 @@ func (*RemoveSearchAttributesResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListSearchAttributesRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListSearchAttributesRequest) Reset() {
 	*x = ListSearchAttributesRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ListSearchAttributesRequest) String() string {
@@ -237,7 +225,7 @@ func (*ListSearchAttributesRequest) ProtoMessage() {}
 
 func (x *ListSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -260,25 +248,22 @@ func (x *ListSearchAttributesRequest) GetNamespace() string {
 }
 
 type ListSearchAttributesResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Mapping between custom (user-registered) search attribute name to its IndexedValueType.
-	CustomAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=custom_attributes,json=customAttributes,proto3" json:"custom_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.enums.v1.IndexedValueType"`
+	CustomAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=custom_attributes,json=customAttributes,proto3" json:"custom_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	// Mapping between system (predefined) search attribute name to its IndexedValueType.
-	SystemAttributes map[string]v1.IndexedValueType `protobuf:"bytes,2,rep,name=system_attributes,json=systemAttributes,proto3" json:"system_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3,enum=temporal.api.enums.v1.IndexedValueType"`
+	SystemAttributes map[string]v1.IndexedValueType `protobuf:"bytes,2,rep,name=system_attributes,json=systemAttributes,proto3" json:"system_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	// Mapping from the attribute name to the visibility storage native type.
-	StorageSchema map[string]string `protobuf:"bytes,3,rep,name=storage_schema,json=storageSchema,proto3" json:"storage_schema,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	StorageSchema map[string]string `protobuf:"bytes,3,rep,name=storage_schema,json=storageSchema,proto3" json:"storage_schema,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListSearchAttributesResponse) Reset() {
 	*x = ListSearchAttributesResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ListSearchAttributesResponse) String() string {
@@ -289,7 +274,7 @@ func (*ListSearchAttributesResponse) ProtoMessage() {}
 
 func (x *ListSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -326,25 +311,22 @@ func (x *ListSearchAttributesResponse) GetStorageSchema() map[string]string {
 }
 
 type DeleteNamespaceRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Only one of namespace or namespace_id must be specified to identify namespace.
 	Namespace   string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	NamespaceId string `protobuf:"bytes,2,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
 	// If provided, the deletion of namespace info will be delayed for the given duration (0 means no delay).
 	// If not provided, the default delay configured in the cluster will be used.
 	NamespaceDeleteDelay *durationpb.Duration `protobuf:"bytes,3,opt,name=namespace_delete_delay,json=namespaceDeleteDelay,proto3" json:"namespace_delete_delay,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *DeleteNamespaceRequest) Reset() {
 	*x = DeleteNamespaceRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *DeleteNamespaceRequest) String() string {
@@ -355,7 +337,7 @@ func (*DeleteNamespaceRequest) ProtoMessage() {}
 
 func (x *DeleteNamespaceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -392,21 +374,18 @@ func (x *DeleteNamespaceRequest) GetNamespaceDeleteDelay() *durationpb.Duration 
 }
 
 type DeleteNamespaceResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Temporary namespace name that is used during reclaim resources step.
 	DeletedNamespace string `protobuf:"bytes,1,opt,name=deleted_namespace,json=deletedNamespace,proto3" json:"deleted_namespace,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *DeleteNamespaceResponse) Reset() {
 	*x = DeleteNamespaceResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *DeleteNamespaceResponse) String() string {
@@ -417,7 +396,7 @@ func (*DeleteNamespaceResponse) ProtoMessage() {}
 
 func (x *DeleteNamespaceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -440,10 +419,7 @@ func (x *DeleteNamespaceResponse) GetDeletedNamespace() string {
 }
 
 type AddOrUpdateRemoteClusterRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Frontend Address is a cross cluster accessible address for gRPC traffic. This field is required.
 	FrontendAddress string `protobuf:"bytes,1,opt,name=frontend_address,json=frontendAddress,proto3" json:"frontend_address,omitempty"`
 	// Flag to enable / disable the cross cluster connection.
@@ -454,15 +430,15 @@ type AddOrUpdateRemoteClusterRequest struct {
 	FrontendHttpAddress string `protobuf:"bytes,3,opt,name=frontend_http_address,json=frontendHttpAddress,proto3" json:"frontend_http_address,omitempty"`
 	// Controls whether replication streams are active.
 	EnableReplication bool `protobuf:"varint,4,opt,name=enable_replication,json=enableReplication,proto3" json:"enable_replication,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *AddOrUpdateRemoteClusterRequest) Reset() {
 	*x = AddOrUpdateRemoteClusterRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *AddOrUpdateRemoteClusterRequest) String() string {
@@ -473,7 +449,7 @@ func (*AddOrUpdateRemoteClusterRequest) ProtoMessage() {}
 
 func (x *AddOrUpdateRemoteClusterRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -517,18 +493,16 @@ func (x *AddOrUpdateRemoteClusterRequest) GetEnableReplication() bool {
 }
 
 type AddOrUpdateRemoteClusterResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *AddOrUpdateRemoteClusterResponse) Reset() {
 	*x = AddOrUpdateRemoteClusterResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *AddOrUpdateRemoteClusterResponse) String() string {
@@ -539,7 +513,7 @@ func (*AddOrUpdateRemoteClusterResponse) ProtoMessage() {}
 
 func (x *AddOrUpdateRemoteClusterResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -555,21 +529,18 @@ func (*AddOrUpdateRemoteClusterResponse) Descriptor() ([]byte, []int) {
 }
 
 type RemoveRemoteClusterRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Remote cluster name to be removed.
-	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+	ClusterName   string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RemoveRemoteClusterRequest) Reset() {
 	*x = RemoveRemoteClusterRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *RemoveRemoteClusterRequest) String() string {
@@ -580,7 +551,7 @@ func (*RemoveRemoteClusterRequest) ProtoMessage() {}
 
 func (x *RemoveRemoteClusterRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -603,18 +574,16 @@ func (x *RemoveRemoteClusterRequest) GetClusterName() string {
 }
 
 type RemoveRemoteClusterResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RemoveRemoteClusterResponse) Reset() {
 	*x = RemoveRemoteClusterResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *RemoveRemoteClusterResponse) String() string {
@@ -625,7 +594,7 @@ func (*RemoveRemoteClusterResponse) ProtoMessage() {}
 
 func (x *RemoveRemoteClusterResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -641,21 +610,18 @@ func (*RemoveRemoteClusterResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListClustersRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PageSize      int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	NextPageToken []byte                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	PageSize      int32  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListClustersRequest) Reset() {
 	*x = ListClustersRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ListClustersRequest) String() string {
@@ -666,7 +632,7 @@ func (*ListClustersRequest) ProtoMessage() {}
 
 func (x *ListClustersRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -696,22 +662,19 @@ func (x *ListClustersRequest) GetNextPageToken() []byte {
 }
 
 type ListClustersResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// List of all cluster information
 	Clusters      []*ClusterMetadata `protobuf:"bytes,1,rep,name=clusters,proto3" json:"clusters,omitempty"`
 	NextPageToken []byte             `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListClustersResponse) Reset() {
 	*x = ListClustersResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ListClustersResponse) String() string {
@@ -722,7 +685,7 @@ func (*ListClustersResponse) ProtoMessage() {}
 
 func (x *ListClustersResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -752,10 +715,7 @@ func (x *ListClustersResponse) GetNextPageToken() []byte {
 }
 
 type ClusterMetadata struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Name of the cluster name.
 	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 	// Id of the cluster.
@@ -772,15 +732,15 @@ type ClusterMetadata struct {
 	IsConnectionEnabled bool `protobuf:"varint,6,opt,name=is_connection_enabled,json=isConnectionEnabled,proto3" json:"is_connection_enabled,omitempty"`
 	// A flag to indicate if replication is enabled.
 	IsReplicationEnabled bool `protobuf:"varint,8,opt,name=is_replication_enabled,json=isReplicationEnabled,proto3" json:"is_replication_enabled,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *ClusterMetadata) Reset() {
 	*x = ClusterMetadata{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ClusterMetadata) String() string {
@@ -791,7 +751,7 @@ func (*ClusterMetadata) ProtoMessage() {}
 
 func (x *ClusterMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -863,21 +823,18 @@ func (x *ClusterMetadata) GetIsReplicationEnabled() bool {
 }
 
 type GetNexusEndpointRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Server-generated unique endpoint ID.
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetNexusEndpointRequest) Reset() {
 	*x = GetNexusEndpointRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *GetNexusEndpointRequest) String() string {
@@ -888,7 +845,7 @@ func (*GetNexusEndpointRequest) ProtoMessage() {}
 
 func (x *GetNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -911,20 +868,17 @@ func (x *GetNexusEndpointRequest) GetId() string {
 }
 
 type GetNexusEndpointResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Endpoint      *v11.Endpoint          `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Endpoint *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetNexusEndpointResponse) Reset() {
 	*x = GetNexusEndpointResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *GetNexusEndpointResponse) String() string {
@@ -935,7 +889,7 @@ func (*GetNexusEndpointResponse) ProtoMessage() {}
 
 func (x *GetNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -958,21 +912,18 @@ func (x *GetNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 }
 
 type CreateNexusEndpointRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Endpoint definition to create.
-	Spec *v11.EndpointSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
+	Spec          *v11.EndpointSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateNexusEndpointRequest) Reset() {
 	*x = CreateNexusEndpointRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *CreateNexusEndpointRequest) String() string {
@@ -983,7 +934,7 @@ func (*CreateNexusEndpointRequest) ProtoMessage() {}
 
 func (x *CreateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1006,21 +957,18 @@ func (x *CreateNexusEndpointRequest) GetSpec() *v11.EndpointSpec {
 }
 
 type CreateNexusEndpointResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Data post acceptance. Can be used to issue additional updates to this record.
-	Endpoint *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	Endpoint      *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CreateNexusEndpointResponse) Reset() {
 	*x = CreateNexusEndpointResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *CreateNexusEndpointResponse) String() string {
@@ -1031,7 +979,7 @@ func (*CreateNexusEndpointResponse) ProtoMessage() {}
 
 func (x *CreateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1054,24 +1002,21 @@ func (x *CreateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 }
 
 type UpdateNexusEndpointRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Server-generated unique endpoint ID.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Data version for this endpoint. Must match current version.
-	Version int64             `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
-	Spec    *v11.EndpointSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
+	Version       int64             `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	Spec          *v11.EndpointSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateNexusEndpointRequest) Reset() {
 	*x = UpdateNexusEndpointRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *UpdateNexusEndpointRequest) String() string {
@@ -1082,7 +1027,7 @@ func (*UpdateNexusEndpointRequest) ProtoMessage() {}
 
 func (x *UpdateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1119,21 +1064,18 @@ func (x *UpdateNexusEndpointRequest) GetSpec() *v11.EndpointSpec {
 }
 
 type UpdateNexusEndpointResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Data post acceptance. Can be used to issue additional updates to this record.
-	Endpoint *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	Endpoint      *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UpdateNexusEndpointResponse) Reset() {
 	*x = UpdateNexusEndpointResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *UpdateNexusEndpointResponse) String() string {
@@ -1144,7 +1086,7 @@ func (*UpdateNexusEndpointResponse) ProtoMessage() {}
 
 func (x *UpdateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1167,23 +1109,20 @@ func (x *UpdateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 }
 
 type DeleteNexusEndpointRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Server-generated unique endpoint ID.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Data version for this endpoint. Must match current version.
-	Version int64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	Version       int64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteNexusEndpointRequest) Reset() {
 	*x = DeleteNexusEndpointRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *DeleteNexusEndpointRequest) String() string {
@@ -1194,7 +1133,7 @@ func (*DeleteNexusEndpointRequest) ProtoMessage() {}
 
 func (x *DeleteNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1224,18 +1163,16 @@ func (x *DeleteNexusEndpointRequest) GetVersion() int64 {
 }
 
 type DeleteNexusEndpointResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DeleteNexusEndpointResponse) Reset() {
 	*x = DeleteNexusEndpointResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *DeleteNexusEndpointResponse) String() string {
@@ -1246,7 +1183,7 @@ func (*DeleteNexusEndpointResponse) ProtoMessage() {}
 
 func (x *DeleteNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1262,11 +1199,8 @@ func (*DeleteNexusEndpointResponse) Descriptor() ([]byte, []int) {
 }
 
 type ListNexusEndpointsRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	PageSize int32 `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	PageSize int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// To get the next page, pass in `ListNexusEndpointsResponse.next_page_token` from the previous page's
 	// response, the token will be empty if there's no other page.
 	// Note: the last page may be empty if the total number of endpoints registered is a multiple of the page size.
@@ -1275,16 +1209,16 @@ type ListNexusEndpointsRequest struct {
 	// (-- api-linter: core::203::field-behavior-required=disabled
 	//
 	//	aip.dev/not-precedent: Not following linter rules. --)
-	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Name          string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListNexusEndpointsRequest) Reset() {
 	*x = ListNexusEndpointsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ListNexusEndpointsRequest) String() string {
@@ -1295,7 +1229,7 @@ func (*ListNexusEndpointsRequest) ProtoMessage() {}
 
 func (x *ListNexusEndpointsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1332,22 +1266,19 @@ func (x *ListNexusEndpointsRequest) GetName() string {
 }
 
 type ListNexusEndpointsResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Token for getting the next page.
 	NextPageToken []byte          `protobuf:"bytes,1,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Endpoints     []*v11.Endpoint `protobuf:"bytes,2,rep,name=endpoints,proto3" json:"endpoints,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ListNexusEndpointsResponse) Reset() {
 	*x = ListNexusEndpointsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ListNexusEndpointsResponse) String() string {
@@ -1358,7 +1289,7 @@ func (*ListNexusEndpointsResponse) ProtoMessage() {}
 
 func (x *ListNexusEndpointsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1389,257 +1320,107 @@ func (x *ListNexusEndpointsResponse) GetEndpoints() []*v11.Endpoint {
 
 var File_temporal_api_operatorservice_v1_request_response_proto protoreflect.FileDescriptor
 
-var file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = []byte{
-	0x0a, 0x36, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x76,
-	0x31, 0x2f, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x1f, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x1a, 0x22, 0x74, 0x65, 0x6d, 0x70, 0x6f,
-	0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2f, 0x76, 0x31,
-	0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x23, 0x74,
-	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6e, 0x65, 0x78, 0x75,
-	0x73, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x1a, 0x1e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x62, 0x75, 0x66, 0x2f, 0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x22, 0xa8, 0x02, 0x0a, 0x1a, 0x41, 0x64, 0x64, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68,
-	0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x12, 0x7e, 0x0a, 0x11, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x5f, 0x61, 0x74, 0x74, 0x72,
-	0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x51, 0x2e, 0x74,
-	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6f, 0x70, 0x65, 0x72,
-	0x61, 0x74, 0x6f, 0x72, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x41,
-	0x64, 0x64, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74,
-	0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68,
-	0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52,
-	0x10, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65,
-	0x73, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x1a,
-	0x6c, 0x0a, 0x15, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75,
-	0x74, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x3d, 0x0a, 0x05, 0x76, 0x61,
-	0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x27, 0x2e, 0x74, 0x65, 0x6d, 0x70,
-	0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76,
-	0x31, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x65, 0x64, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x54, 0x79,
-	0x70, 0x65, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x1d, 0x0a,
-	0x1b, 0x41, 0x64, 0x64, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62,
-	0x75, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x6a, 0x0a, 0x1d,
-	0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72,
-	0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2b, 0x0a,
-	0x11, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x5f, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74,
-	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x10, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68,
-	0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61,
-	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e,
-	0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x22, 0x20, 0x0a, 0x1e, 0x52, 0x65, 0x6d, 0x6f,
-	0x76, 0x65, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74,
-	0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3b, 0x0a, 0x1b, 0x4c, 0x69,
-	0x73, 0x74, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74,
-	0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d,
-	0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61,
-	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x22, 0xbb, 0x05, 0x0a, 0x1c, 0x4c, 0x69, 0x73, 0x74,
-	0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x80, 0x01, 0x0a, 0x11, 0x63, 0x75, 0x73,
-	0x74, 0x6f, 0x6d, 0x5f, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x18, 0x01,
-	0x20, 0x03, 0x28, 0x0b, 0x32, 0x53, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
-	0x61, 0x70, 0x69, 0x2e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x65, 0x61, 0x72, 0x63,
-	0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x2e, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62,
-	0x75, 0x74, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x10, 0x63, 0x75, 0x73, 0x74, 0x6f,
-	0x6d, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x12, 0x80, 0x01, 0x0a, 0x11,
-	0x73, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x5f, 0x61, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65,
-	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x53, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x65,
-	0x61, 0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x53, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x41, 0x74, 0x74,
-	0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x10, 0x73, 0x79,
-	0x73, 0x74, 0x65, 0x6d, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x12, 0x77,
-	0x0a, 0x0e, 0x73, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61,
-	0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x50, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x65,
-	0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x53, 0x65, 0x61,
-	0x72, 0x63, 0x68, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x53, 0x63, 0x68,
-	0x65, 0x6d, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x0d, 0x73, 0x74, 0x6f, 0x72, 0x61, 0x67,
-	0x65, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x1a, 0x6c, 0x0a, 0x15, 0x43, 0x75, 0x73, 0x74, 0x6f,
-	0x6d, 0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79,
-	0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b,
-	0x65, 0x79, 0x12, 0x3d, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0e, 0x32, 0x27, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x65,
-	0x64, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x6c, 0x0a, 0x15, 0x53, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x41,
-	0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10,
-	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
-	0x12, 0x3d, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32,
-	0x27, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65,
-	0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x65, 0x64, 0x56,
-	0x61, 0x6c, 0x75, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a,
-	0x02, 0x38, 0x01, 0x1a, 0x40, 0x0a, 0x12, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x53, 0x63,
-	0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
-	0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xaa, 0x01, 0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
-	0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x21,
-	0x0a, 0x0c, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x49,
-	0x64, 0x12, 0x4f, 0x0a, 0x16, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x5f, 0x64,
-	0x65, 0x6c, 0x65, 0x74, 0x65, 0x5f, 0x64, 0x65, 0x6c, 0x61, 0x79, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x14, 0x6e, 0x61,
-	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x44, 0x65, 0x6c,
-	0x61, 0x79, 0x22, 0x46, 0x0a, 0x17, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4e, 0x61, 0x6d, 0x65,
-	0x73, 0x70, 0x61, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2b, 0x0a,
-	0x11, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61,
-	0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x10, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65,
-	0x64, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x22, 0xf8, 0x01, 0x0a, 0x1f, 0x41,
-	0x64, 0x64, 0x4f, 0x72, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x6d, 0x6f, 0x74, 0x65,
-	0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x29,
-	0x0a, 0x10, 0x66, 0x72, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x64, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x66, 0x72, 0x6f, 0x6e, 0x74, 0x65,
-	0x6e, 0x64, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x47, 0x0a, 0x20, 0x65, 0x6e, 0x61,
-	0x62, 0x6c, 0x65, 0x5f, 0x72, 0x65, 0x6d, 0x6f, 0x74, 0x65, 0x5f, 0x63, 0x6c, 0x75, 0x73, 0x74,
-	0x65, 0x72, 0x5f, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x08, 0x52, 0x1d, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x6d, 0x6f, 0x74,
-	0x65, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x12, 0x32, 0x0a, 0x15, 0x66, 0x72, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x64, 0x5f, 0x68,
-	0x74, 0x74, 0x70, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x13, 0x66, 0x72, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x64, 0x48, 0x74, 0x74, 0x70, 0x41,
-	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2d, 0x0a, 0x12, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65,
-	0x5f, 0x72, 0x65, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x11, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x69, 0x63,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x22, 0x0a, 0x20, 0x41, 0x64, 0x64, 0x4f, 0x72, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x6d, 0x6f, 0x74, 0x65, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65,
-	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x3f, 0x0a, 0x1a, 0x52, 0x65, 0x6d,
-	0x6f, 0x76, 0x65, 0x52, 0x65, 0x6d, 0x6f, 0x74, 0x65, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a, 0x0c, 0x63, 0x6c, 0x75, 0x73, 0x74,
-	0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x63,
-	0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x1d, 0x0a, 0x1b, 0x52, 0x65,
-	0x6d, 0x6f, 0x76, 0x65, 0x52, 0x65, 0x6d, 0x6f, 0x74, 0x65, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65,
-	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x5a, 0x0a, 0x13, 0x4c, 0x69, 0x73,
-	0x74, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x26, 0x0a,
-	0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65,
-	0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x8c, 0x01, 0x0a, 0x14, 0x4c, 0x69, 0x73, 0x74, 0x43, 0x6c,
-	0x75, 0x73, 0x74, 0x65, 0x72, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x4c,
-	0x0a, 0x08, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x30, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
-	0x76, 0x31, 0x2e, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0x52, 0x08, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x73, 0x12, 0x26, 0x0a, 0x0f,
-	0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18,
-	0x04, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54,
-	0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xe4, 0x02, 0x0a, 0x0f, 0x43, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72,
-	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x21, 0x0a, 0x0c, 0x63, 0x6c, 0x75, 0x73,
-	0x74, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b,
-	0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x63,
-	0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x09, 0x63, 0x6c, 0x75, 0x73, 0x74, 0x65, 0x72, 0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64,
-	0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x12, 0x21, 0x0a, 0x0c, 0x68, 0x74, 0x74, 0x70, 0x5f, 0x61, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x68, 0x74, 0x74, 0x70,
-	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x38, 0x0a, 0x18, 0x69, 0x6e, 0x69, 0x74, 0x69,
-	0x61, 0x6c, 0x5f, 0x66, 0x61, 0x69, 0x6c, 0x6f, 0x76, 0x65, 0x72, 0x5f, 0x76, 0x65, 0x72, 0x73,
-	0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x03, 0x52, 0x16, 0x69, 0x6e, 0x69, 0x74, 0x69,
-	0x61, 0x6c, 0x46, 0x61, 0x69, 0x6c, 0x6f, 0x76, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
-	0x6e, 0x12, 0x2e, 0x0a, 0x13, 0x68, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x5f, 0x73, 0x68, 0x61,
-	0x72, 0x64, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05, 0x52, 0x11,
-	0x68, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x53, 0x68, 0x61, 0x72, 0x64, 0x43, 0x6f, 0x75, 0x6e,
-	0x74, 0x12, 0x32, 0x0a, 0x15, 0x69, 0x73, 0x5f, 0x63, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x64, 0x18, 0x06, 0x20, 0x01, 0x28, 0x08,
-	0x52, 0x13, 0x69, 0x73, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x45, 0x6e,
-	0x61, 0x62, 0x6c, 0x65, 0x64, 0x12, 0x34, 0x0a, 0x16, 0x69, 0x73, 0x5f, 0x72, 0x65, 0x70, 0x6c,
-	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x65, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x64, 0x18,
-	0x08, 0x20, 0x01, 0x28, 0x08, 0x52, 0x14, 0x69, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x69, 0x63, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x45, 0x6e, 0x61, 0x62, 0x6c, 0x65, 0x64, 0x22, 0x29, 0x0a, 0x17, 0x47,
-	0x65, 0x74, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x57, 0x0a, 0x18, 0x47, 0x65, 0x74, 0x4e, 0x65, 0x78,
-	0x75, 0x73, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x3b, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
-	0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e, 0x64,
-	0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x22,
-	0x55, 0x0a, 0x1a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x45, 0x6e,
-	0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x37, 0x0a,
-	0x04, 0x73, 0x70, 0x65, 0x63, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x74, 0x65,
-	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73,
-	0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x53, 0x70, 0x65, 0x63,
-	0x52, 0x04, 0x73, 0x70, 0x65, 0x63, 0x22, 0x5a, 0x0a, 0x1b, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
-	0x4e, 0x65, 0x78, 0x75, 0x73, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3b, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e,
-	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e,
-	0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69,
-	0x6e, 0x74, 0x22, 0x7f, 0x0a, 0x1a, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4e, 0x65, 0x78, 0x75,
-	0x73, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64,
-	0x12, 0x18, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x03, 0x52, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x37, 0x0a, 0x04, 0x73, 0x70,
-	0x65, 0x63, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f,
-	0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31,
-	0x2e, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x53, 0x70, 0x65, 0x63, 0x52, 0x04, 0x73,
-	0x70, 0x65, 0x63, 0x22, 0x5a, 0x0a, 0x1b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4e, 0x65, 0x78,
-	0x75, 0x73, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x3b, 0x0a, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e,
-	0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e, 0x64,
-	0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x08, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x22,
-	0x46, 0x0a, 0x1a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x45, 0x6e,
-	0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a,
-	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x18, 0x0a,
-	0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07,
-	0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x1d, 0x0a, 0x1b, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x74, 0x0a, 0x19, 0x4c, 0x69, 0x73, 0x74, 0x4e, 0x65,
-	0x78, 0x75, 0x73, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65,
-	0x12, 0x26, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f,
-	0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50,
-	0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x83, 0x01, 0x0a,
-	0x1a, 0x4c, 0x69, 0x73, 0x74, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x45, 0x6e, 0x64, 0x70, 0x6f, 0x69,
-	0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x26, 0x0a, 0x0f, 0x6e,
-	0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x0c, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f,
-	0x6b, 0x65, 0x6e, 0x12, 0x3d, 0x0a, 0x09, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x73,
-	0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45,
-	0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e, 0x74, 0x52, 0x09, 0x65, 0x6e, 0x64, 0x70, 0x6f, 0x69, 0x6e,
-	0x74, 0x73, 0x42, 0xbe, 0x01, 0x0a, 0x22, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x76, 0x31, 0x42, 0x14, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
-	0x01, 0x5a, 0x35, 0x67, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69,
-	0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x65,
-	0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x76, 0x31, 0x3b, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f,
-	0x72, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0xaa, 0x02, 0x21, 0x54, 0x65, 0x6d, 0x70, 0x6f,
-	0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70, 0x69, 0x2e, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74,
-	0x6f, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x24, 0x54,
-	0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a,
-	0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x3a,
-	0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
-}
+const file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = "" +
+	"\n" +
+	"6temporal/api/operatorservice/v1/request_response.proto\x12\x1ftemporal.api.operatorservice.v1\x1a\"temporal/api/enums/v1/common.proto\x1a#temporal/api/nexus/v1/message.proto\x1a\x1egoogle/protobuf/duration.proto\"\xa8\x02\n" +
+	"\x1aAddSearchAttributesRequest\x12~\n" +
+	"\x11search_attributes\x18\x01 \x03(\v2Q.temporal.api.operatorservice.v1.AddSearchAttributesRequest.SearchAttributesEntryR\x10searchAttributes\x12\x1c\n" +
+	"\tnamespace\x18\x02 \x01(\tR\tnamespace\x1al\n" +
+	"\x15SearchAttributesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12=\n" +
+	"\x05value\x18\x02 \x01(\x0e2'.temporal.api.enums.v1.IndexedValueTypeR\x05value:\x028\x01\"\x1d\n" +
+	"\x1bAddSearchAttributesResponse\"j\n" +
+	"\x1dRemoveSearchAttributesRequest\x12+\n" +
+	"\x11search_attributes\x18\x01 \x03(\tR\x10searchAttributes\x12\x1c\n" +
+	"\tnamespace\x18\x02 \x01(\tR\tnamespace\" \n" +
+	"\x1eRemoveSearchAttributesResponse\";\n" +
+	"\x1bListSearchAttributesRequest\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\"\xbb\x05\n" +
+	"\x1cListSearchAttributesResponse\x12\x80\x01\n" +
+	"\x11custom_attributes\x18\x01 \x03(\v2S.temporal.api.operatorservice.v1.ListSearchAttributesResponse.CustomAttributesEntryR\x10customAttributes\x12\x80\x01\n" +
+	"\x11system_attributes\x18\x02 \x03(\v2S.temporal.api.operatorservice.v1.ListSearchAttributesResponse.SystemAttributesEntryR\x10systemAttributes\x12w\n" +
+	"\x0estorage_schema\x18\x03 \x03(\v2P.temporal.api.operatorservice.v1.ListSearchAttributesResponse.StorageSchemaEntryR\rstorageSchema\x1al\n" +
+	"\x15CustomAttributesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12=\n" +
+	"\x05value\x18\x02 \x01(\x0e2'.temporal.api.enums.v1.IndexedValueTypeR\x05value:\x028\x01\x1al\n" +
+	"\x15SystemAttributesEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12=\n" +
+	"\x05value\x18\x02 \x01(\x0e2'.temporal.api.enums.v1.IndexedValueTypeR\x05value:\x028\x01\x1a@\n" +
+	"\x12StorageSchemaEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xaa\x01\n" +
+	"\x16DeleteNamespaceRequest\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12!\n" +
+	"\fnamespace_id\x18\x02 \x01(\tR\vnamespaceId\x12O\n" +
+	"\x16namespace_delete_delay\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x14namespaceDeleteDelay\"F\n" +
+	"\x17DeleteNamespaceResponse\x12+\n" +
+	"\x11deleted_namespace\x18\x01 \x01(\tR\x10deletedNamespace\"\xf8\x01\n" +
+	"\x1fAddOrUpdateRemoteClusterRequest\x12)\n" +
+	"\x10frontend_address\x18\x01 \x01(\tR\x0ffrontendAddress\x12G\n" +
+	" enable_remote_cluster_connection\x18\x02 \x01(\bR\x1denableRemoteClusterConnection\x122\n" +
+	"\x15frontend_http_address\x18\x03 \x01(\tR\x13frontendHttpAddress\x12-\n" +
+	"\x12enable_replication\x18\x04 \x01(\bR\x11enableReplication\"\"\n" +
+	" AddOrUpdateRemoteClusterResponse\"?\n" +
+	"\x1aRemoveRemoteClusterRequest\x12!\n" +
+	"\fcluster_name\x18\x01 \x01(\tR\vclusterName\"\x1d\n" +
+	"\x1bRemoveRemoteClusterResponse\"Z\n" +
+	"\x13ListClustersRequest\x12\x1b\n" +
+	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\x8c\x01\n" +
+	"\x14ListClustersResponse\x12L\n" +
+	"\bclusters\x18\x01 \x03(\v20.temporal.api.operatorservice.v1.ClusterMetadataR\bclusters\x12&\n" +
+	"\x0fnext_page_token\x18\x04 \x01(\fR\rnextPageToken\"\xe4\x02\n" +
+	"\x0fClusterMetadata\x12!\n" +
+	"\fcluster_name\x18\x01 \x01(\tR\vclusterName\x12\x1d\n" +
+	"\n" +
+	"cluster_id\x18\x02 \x01(\tR\tclusterId\x12\x18\n" +
+	"\aaddress\x18\x03 \x01(\tR\aaddress\x12!\n" +
+	"\fhttp_address\x18\a \x01(\tR\vhttpAddress\x128\n" +
+	"\x18initial_failover_version\x18\x04 \x01(\x03R\x16initialFailoverVersion\x12.\n" +
+	"\x13history_shard_count\x18\x05 \x01(\x05R\x11historyShardCount\x122\n" +
+	"\x15is_connection_enabled\x18\x06 \x01(\bR\x13isConnectionEnabled\x124\n" +
+	"\x16is_replication_enabled\x18\b \x01(\bR\x14isReplicationEnabled\")\n" +
+	"\x17GetNexusEndpointRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"W\n" +
+	"\x18GetNexusEndpointResponse\x12;\n" +
+	"\bendpoint\x18\x01 \x01(\v2\x1f.temporal.api.nexus.v1.EndpointR\bendpoint\"U\n" +
+	"\x1aCreateNexusEndpointRequest\x127\n" +
+	"\x04spec\x18\x01 \x01(\v2#.temporal.api.nexus.v1.EndpointSpecR\x04spec\"Z\n" +
+	"\x1bCreateNexusEndpointResponse\x12;\n" +
+	"\bendpoint\x18\x01 \x01(\v2\x1f.temporal.api.nexus.v1.EndpointR\bendpoint\"\x7f\n" +
+	"\x1aUpdateNexusEndpointRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\x03R\aversion\x127\n" +
+	"\x04spec\x18\x03 \x01(\v2#.temporal.api.nexus.v1.EndpointSpecR\x04spec\"Z\n" +
+	"\x1bUpdateNexusEndpointResponse\x12;\n" +
+	"\bendpoint\x18\x01 \x01(\v2\x1f.temporal.api.nexus.v1.EndpointR\bendpoint\"F\n" +
+	"\x1aDeleteNexusEndpointRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x18\n" +
+	"\aversion\x18\x02 \x01(\x03R\aversion\"\x1d\n" +
+	"\x1bDeleteNexusEndpointResponse\"t\n" +
+	"\x19ListNexusEndpointsRequest\x12\x1b\n" +
+	"\tpage_size\x18\x01 \x01(\x05R\bpageSize\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\"\x83\x01\n" +
+	"\x1aListNexusEndpointsResponse\x12&\n" +
+	"\x0fnext_page_token\x18\x01 \x01(\fR\rnextPageToken\x12=\n" +
+	"\tendpoints\x18\x02 \x03(\v2\x1f.temporal.api.nexus.v1.EndpointR\tendpointsB\xbe\x01\n" +
+	"\"io.temporal.api.operatorservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/operatorservice/v1;operatorservice\xaa\x02!Temporalio.Api.OperatorService.V1\xea\x02$Temporalio::Api::OperatorService::V1b\x06proto3"
 
 var (
 	file_temporal_api_operatorservice_v1_request_response_proto_rawDescOnce sync.Once
-	file_temporal_api_operatorservice_v1_request_response_proto_rawDescData = file_temporal_api_operatorservice_v1_request_response_proto_rawDesc
+	file_temporal_api_operatorservice_v1_request_response_proto_rawDescData []byte
 )
 
 func file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP() []byte {
 	file_temporal_api_operatorservice_v1_request_response_proto_rawDescOnce.Do(func() {
-		file_temporal_api_operatorservice_v1_request_response_proto_rawDescData = protoimpl.X.CompressGZIP(file_temporal_api_operatorservice_v1_request_response_proto_rawDescData)
+		file_temporal_api_operatorservice_v1_request_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc), len(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc)))
 	})
 	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescData
 }
 
 var file_temporal_api_operatorservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
-var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []interface{}{
+var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []any{
 	(*AddSearchAttributesRequest)(nil),       // 0: temporal.api.operatorservice.v1.AddSearchAttributesRequest
 	(*AddSearchAttributesResponse)(nil),      // 1: temporal.api.operatorservice.v1.AddSearchAttributesResponse
 	(*RemoveSearchAttributesRequest)(nil),    // 2: temporal.api.operatorservice.v1.RemoveSearchAttributesRequest
@@ -1702,313 +1483,11 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 	if File_temporal_api_operatorservice_v1_request_response_proto != nil {
 		return
 	}
-	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddSearchAttributesRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddSearchAttributesResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RemoveSearchAttributesRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RemoveSearchAttributesResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListSearchAttributesRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListSearchAttributesResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteNamespaceRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteNamespaceResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddOrUpdateRemoteClusterRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddOrUpdateRemoteClusterResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RemoveRemoteClusterRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RemoveRemoteClusterResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListClustersRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListClustersResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ClusterMetadata); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetNexusEndpointRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetNexusEndpointResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateNexusEndpointRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateNexusEndpointResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateNexusEndpointRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateNexusEndpointResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteNexusEndpointRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteNexusEndpointResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListNexusEndpointsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_operatorservice_v1_request_response_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListNexusEndpointsResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_temporal_api_operatorservice_v1_request_response_proto_rawDesc,
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc), len(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   29,
 			NumExtensions: 0,
@@ -2019,7 +1498,6 @@ func file_temporal_api_operatorservice_v1_request_response_proto_init() {
 		MessageInfos:      file_temporal_api_operatorservice_v1_request_response_proto_msgTypes,
 	}.Build()
 	File_temporal_api_operatorservice_v1_request_response_proto = out.File
-	file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = nil
 	file_temporal_api_operatorservice_v1_request_response_proto_goTypes = nil
 	file_temporal_api_operatorservice_v1_request_response_proto_depIdxs = nil
 }

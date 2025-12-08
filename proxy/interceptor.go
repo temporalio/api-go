@@ -358,6 +358,22 @@ func visitPayloads(
 				return err
 			}
 
+		case *activity.ActivityExecutionOutcome:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
+				o.GetResult(),
+			); err != nil {
+				return err
+			}
+
 		case *batch.BatchOperationReset:
 
 			if o == nil {
@@ -2208,10 +2224,9 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
-				o.GetFailure(),
 				o.GetInfo(),
 				o.GetInput(),
-				o.GetResult(),
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}
@@ -2368,8 +2383,7 @@ func visitPayloads(
 				ctx,
 				options,
 				o,
-				o.GetFailure(),
-				o.GetResult(),
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}
@@ -3170,6 +3184,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
+		case *activity.ActivityExecutionOutcome:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case []*command.Command:
 			for _, x := range o {
 				if err := visitFailures(ctx, options, x); err != nil {
@@ -3713,8 +3740,8 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
-				o.GetFailure(),
 				o.GetInfo(),
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}
@@ -3809,7 +3836,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 			if err := visitFailures(
 				ctx,
 				options,
-				o.GetFailure(),
+				o.GetOutcome(),
 			); err != nil {
 				return err
 			}

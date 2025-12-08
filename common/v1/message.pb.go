@@ -9,6 +9,7 @@ package common
 import (
 	reflect "reflect"
 	sync "sync"
+	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/enums/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -25,21 +26,18 @@ const (
 )
 
 type DataBlob struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EncodingType  v1.EncodingType        `protobuf:"varint,1,opt,name=encoding_type,json=encodingType,proto3,enum=temporal.api.enums.v1.EncodingType" json:"encoding_type,omitempty"`
+	Data          []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	EncodingType v1.EncodingType `protobuf:"varint,1,opt,name=encoding_type,json=encodingType,proto3,enum=temporal.api.enums.v1.EncodingType" json:"encoding_type,omitempty"`
-	Data         []byte          `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *DataBlob) Reset() {
 	*x = DataBlob{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *DataBlob) String() string {
@@ -50,7 +48,7 @@ func (*DataBlob) ProtoMessage() {}
 
 func (x *DataBlob) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -81,20 +79,17 @@ func (x *DataBlob) GetData() []byte {
 
 // See `Payload`
 type Payloads struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Payloads      []*Payload             `protobuf:"bytes,1,rep,name=payloads,proto3" json:"payloads,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Payloads []*Payload `protobuf:"bytes,1,rep,name=payloads,proto3" json:"payloads,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Payloads) Reset() {
 	*x = Payloads{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Payloads) String() string {
@@ -105,7 +100,7 @@ func (*Payloads) ProtoMessage() {}
 
 func (x *Payloads) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -131,23 +126,20 @@ func (x *Payloads) GetPayloads() []*Payload {
 // metadata which describes this binary data (format, encoding, encryption, etc). Serialization
 // of the data may be user-defined.
 type Payload struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Metadata map[string][]byte `protobuf:"bytes,1,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Data     []byte            `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	Metadata map[string][]byte      `protobuf:"bytes,1,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Data     []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	// Details about externally stored payloads associated with this payload.
 	ExternalPayloads []*Payload_ExternalPayloadDetails `protobuf:"bytes,3,rep,name=external_payloads,json=externalPayloads,proto3" json:"external_payloads,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Payload) Reset() {
 	*x = Payload{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Payload) String() string {
@@ -158,7 +150,7 @@ func (*Payload) ProtoMessage() {}
 
 func (x *Payload) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -197,20 +189,17 @@ func (x *Payload) GetExternalPayloads() []*Payload_ExternalPayloadDetails {
 // A user-defined set of *indexed* fields that are used/exposed when listing/searching workflows.
 // The payload is not serialized in a user-defined way.
 type SearchAttributes struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IndexedFields map[string]*Payload    `protobuf:"bytes,1,rep,name=indexed_fields,json=indexedFields,proto3" json:"indexed_fields,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
-
-	IndexedFields map[string]*Payload `protobuf:"bytes,1,rep,name=indexed_fields,json=indexedFields,proto3" json:"indexed_fields,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SearchAttributes) Reset() {
 	*x = SearchAttributes{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *SearchAttributes) String() string {
@@ -221,7 +210,7 @@ func (*SearchAttributes) ProtoMessage() {}
 
 func (x *SearchAttributes) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -245,20 +234,17 @@ func (x *SearchAttributes) GetIndexedFields() map[string]*Payload {
 
 // A user-defined set of *unindexed* fields that are exposed when listing/searching workflows
 type Memo struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Fields        map[string]*Payload    `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
-
-	Fields map[string]*Payload `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Memo) Reset() {
 	*x = Memo{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Memo) String() string {
@@ -269,7 +255,7 @@ func (*Memo) ProtoMessage() {}
 
 func (x *Memo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -294,20 +280,17 @@ func (x *Memo) GetFields() map[string]*Payload {
 // Contains metadata that can be attached to a variety of requests, like starting a workflow, and
 // can be propagated between, for example, workflows and activities.
 type Header struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Fields        map[string]*Payload    `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
-
-	Fields map[string]*Payload `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Header) Reset() {
 	*x = Header{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Header) String() string {
@@ -318,7 +301,7 @@ func (*Header) ProtoMessage() {}
 
 func (x *Header) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -344,21 +327,18 @@ func (x *Header) GetFields() map[string]*Payload {
 // uuid, a workflow execution is globally unique. Note that many commands allow specifying an empty
 // run id as a way of saying "target the latest run of the workflow".
 type WorkflowExecution struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	WorkflowId string `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId      string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowExecution) Reset() {
 	*x = WorkflowExecution{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkflowExecution) String() string {
@@ -369,7 +349,7 @@ func (*WorkflowExecution) ProtoMessage() {}
 
 func (x *WorkflowExecution) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -401,20 +381,17 @@ func (x *WorkflowExecution) GetRunId() string {
 // Represents the identifier used by a workflow author to define the workflow. Typically, the
 // name of a function. This is sometimes referred to as the workflow's "name"
 type WorkflowType struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkflowType) Reset() {
 	*x = WorkflowType{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkflowType) String() string {
@@ -425,7 +402,7 @@ func (*WorkflowType) ProtoMessage() {}
 
 func (x *WorkflowType) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -450,20 +427,17 @@ func (x *WorkflowType) GetName() string {
 // Represents the identifier used by a activity author to define the activity. Typically, the
 // name of a function. This is sometimes referred to as the activity's "name"
 type ActivityType struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ActivityType) Reset() {
 	*x = ActivityType{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[8]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ActivityType) String() string {
@@ -474,7 +448,7 @@ func (*ActivityType) ProtoMessage() {}
 
 func (x *ActivityType) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[8]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -498,10 +472,7 @@ func (x *ActivityType) GetName() string {
 
 // How retries ought to be handled, usable by both workflows and activities
 type RetryPolicy struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Interval of the first retry. If retryBackoffCoefficient is 1.0 then it is used for all retries.
 	InitialInterval *durationpb.Duration `protobuf:"bytes,1,opt,name=initial_interval,json=initialInterval,proto3" json:"initial_interval,omitempty"`
 	// Coefficient used to calculate the next retry interval.
@@ -517,15 +488,15 @@ type RetryPolicy struct {
 	// Non-Retryable errors types. Will stop retrying if the error type matches this list. Note that
 	// this is not a substring match, the error *type* (not message) must match exactly.
 	NonRetryableErrorTypes []string `protobuf:"bytes,5,rep,name=non_retryable_error_types,json=nonRetryableErrorTypes,proto3" json:"non_retryable_error_types,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *RetryPolicy) Reset() {
 	*x = RetryPolicy{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[9]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *RetryPolicy) String() string {
@@ -536,7 +507,7 @@ func (*RetryPolicy) ProtoMessage() {}
 
 func (x *RetryPolicy) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[9]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -588,10 +559,7 @@ func (x *RetryPolicy) GetNonRetryableErrorTypes() []string {
 
 // Metadata relevant for metering purposes
 type MeteringMetadata struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Count of local activities which have begun an execution attempt during this workflow task,
 	// and whose first attempt occurred in some previous task. This is used for metering
 	// purposes, and does not affect workflow state.
@@ -600,15 +568,15 @@ type MeteringMetadata struct {
 	//
 	//	aip.dev/not-precedent: Negative values make no sense to represent. --)
 	NonfirstLocalActivityExecutionAttempts uint32 `protobuf:"varint,13,opt,name=nonfirst_local_activity_execution_attempts,json=nonfirstLocalActivityExecutionAttempts,proto3" json:"nonfirst_local_activity_execution_attempts,omitempty"`
+	unknownFields                          protoimpl.UnknownFields
+	sizeCache                              protoimpl.SizeCache
 }
 
 func (x *MeteringMetadata) Reset() {
 	*x = MeteringMetadata{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *MeteringMetadata) String() string {
@@ -619,7 +587,7 @@ func (*MeteringMetadata) ProtoMessage() {}
 
 func (x *MeteringMetadata) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -644,25 +612,22 @@ func (x *MeteringMetadata) GetNonfirstLocalActivityExecutionAttempts() uint32 {
 // Deprecated. This message is replaced with `Deployment` and `VersioningBehavior`.
 // Identifies the version(s) of a worker that processed a task
 type WorkerVersionStamp struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// An opaque whole-worker identifier. Replaces the deprecated `binary_checksum` field when this
 	// message is included in requests which previously used that.
 	BuildId string `protobuf:"bytes,1,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// If set, the worker is opting in to worker versioning. Otherwise, this is used only as a
 	// marker for workflow reset points and the BuildIDs search attribute.
 	UseVersioning bool `protobuf:"varint,3,opt,name=use_versioning,json=useVersioning,proto3" json:"use_versioning,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkerVersionStamp) Reset() {
 	*x = WorkerVersionStamp{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkerVersionStamp) String() string {
@@ -673,7 +638,7 @@ func (*WorkerVersionStamp) ProtoMessage() {}
 
 func (x *WorkerVersionStamp) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -707,10 +672,7 @@ func (x *WorkerVersionStamp) GetUseVersioning() bool {
 // used by matching to determine which workers ought to receive what tasks.
 // Deprecated. Use WorkerDeploymentOptions instead.
 type WorkerVersionCapabilities struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// An opaque whole-worker identifier
 	BuildId string `protobuf:"bytes,1,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// If set, the worker is opting in to worker versioning, and wishes to only receive appropriate
@@ -718,15 +680,15 @@ type WorkerVersionCapabilities struct {
 	UseVersioning bool `protobuf:"varint,2,opt,name=use_versioning,json=useVersioning,proto3" json:"use_versioning,omitempty"`
 	// Must be sent if user has set a deployment series name (versioning-3).
 	DeploymentSeriesName string `protobuf:"bytes,4,opt,name=deployment_series_name,json=deploymentSeriesName,proto3" json:"deployment_series_name,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *WorkerVersionCapabilities) Reset() {
 	*x = WorkerVersionCapabilities{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkerVersionCapabilities) String() string {
@@ -737,7 +699,7 @@ func (*WorkerVersionCapabilities) ProtoMessage() {}
 
 func (x *WorkerVersionCapabilities) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -776,13 +738,10 @@ func (x *WorkerVersionCapabilities) GetDeploymentSeriesName() string {
 // Describes where and how to reset a workflow, used for batch reset currently
 // and may be used for single-workflow reset later.
 type ResetOptions struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Which workflow task to reset to.
 	//
-	// Types that are assignable to Target:
+	// Types that are valid to be assigned to Target:
 	//
 	//	*ResetOptions_FirstWorkflowTask
 	//	*ResetOptions_LastWorkflowTask
@@ -799,15 +758,15 @@ type ResetOptions struct {
 	CurrentRunOnly bool `protobuf:"varint,11,opt,name=current_run_only,json=currentRunOnly,proto3" json:"current_run_only,omitempty"`
 	// Event types not to be reapplied
 	ResetReapplyExcludeTypes []v1.ResetReapplyExcludeType `protobuf:"varint,12,rep,packed,name=reset_reapply_exclude_types,json=resetReapplyExcludeTypes,proto3,enum=temporal.api.enums.v1.ResetReapplyExcludeType" json:"reset_reapply_exclude_types,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *ResetOptions) Reset() {
 	*x = ResetOptions{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *ResetOptions) String() string {
@@ -818,7 +777,7 @@ func (*ResetOptions) ProtoMessage() {}
 
 func (x *ResetOptions) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -833,37 +792,45 @@ func (*ResetOptions) Descriptor() ([]byte, []int) {
 	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{13}
 }
 
-func (m *ResetOptions) GetTarget() isResetOptions_Target {
-	if m != nil {
-		return m.Target
+func (x *ResetOptions) GetTarget() isResetOptions_Target {
+	if x != nil {
+		return x.Target
 	}
 	return nil
 }
 
 func (x *ResetOptions) GetFirstWorkflowTask() *emptypb.Empty {
-	if x, ok := x.GetTarget().(*ResetOptions_FirstWorkflowTask); ok {
-		return x.FirstWorkflowTask
+	if x != nil {
+		if x, ok := x.Target.(*ResetOptions_FirstWorkflowTask); ok {
+			return x.FirstWorkflowTask
+		}
 	}
 	return nil
 }
 
 func (x *ResetOptions) GetLastWorkflowTask() *emptypb.Empty {
-	if x, ok := x.GetTarget().(*ResetOptions_LastWorkflowTask); ok {
-		return x.LastWorkflowTask
+	if x != nil {
+		if x, ok := x.Target.(*ResetOptions_LastWorkflowTask); ok {
+			return x.LastWorkflowTask
+		}
 	}
 	return nil
 }
 
 func (x *ResetOptions) GetWorkflowTaskId() int64 {
-	if x, ok := x.GetTarget().(*ResetOptions_WorkflowTaskId); ok {
-		return x.WorkflowTaskId
+	if x != nil {
+		if x, ok := x.Target.(*ResetOptions_WorkflowTaskId); ok {
+			return x.WorkflowTaskId
+		}
 	}
 	return 0
 }
 
 func (x *ResetOptions) GetBuildId() string {
-	if x, ok := x.GetTarget().(*ResetOptions_BuildId); ok {
-		return x.BuildId
+	if x != nil {
+		if x, ok := x.Target.(*ResetOptions_BuildId); ok {
+			return x.BuildId
+		}
 	}
 	return ""
 }
@@ -930,27 +897,24 @@ func (*ResetOptions_BuildId) isResetOptions_Target() {}
 
 // Callback to attach to various events in the system, e.g. workflow run completion.
 type Callback struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Types that are assignable to Variant:
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Variant:
 	//
 	//	*Callback_Nexus_
 	//	*Callback_Internal_
 	Variant isCallback_Variant `protobuf_oneof:"variant"`
 	// Links associated with the callback. It can be used to link to underlying resources of the
 	// callback.
-	Links []*Link `protobuf:"bytes,100,rep,name=links,proto3" json:"links,omitempty"`
+	Links         []*Link `protobuf:"bytes,100,rep,name=links,proto3" json:"links,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Callback) Reset() {
 	*x = Callback{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[14]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Callback) String() string {
@@ -961,7 +925,7 @@ func (*Callback) ProtoMessage() {}
 
 func (x *Callback) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[14]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -976,23 +940,27 @@ func (*Callback) Descriptor() ([]byte, []int) {
 	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{14}
 }
 
-func (m *Callback) GetVariant() isCallback_Variant {
-	if m != nil {
-		return m.Variant
+func (x *Callback) GetVariant() isCallback_Variant {
+	if x != nil {
+		return x.Variant
 	}
 	return nil
 }
 
 func (x *Callback) GetNexus() *Callback_Nexus {
-	if x, ok := x.GetVariant().(*Callback_Nexus_); ok {
-		return x.Nexus
+	if x != nil {
+		if x, ok := x.Variant.(*Callback_Nexus_); ok {
+			return x.Nexus
+		}
 	}
 	return nil
 }
 
 func (x *Callback) GetInternal() *Callback_Internal {
-	if x, ok := x.GetVariant().(*Callback_Internal_); ok {
-		return x.Internal
+	if x != nil {
+		if x, ok := x.Variant.(*Callback_Internal_); ok {
+			return x.Internal
+		}
 	}
 	return nil
 }
@@ -1025,25 +993,22 @@ func (*Callback_Internal_) isCallback_Variant() {}
 // in this case, a history event in workflow A could contain a Link to the workflow started event in
 // workflow B, and vice-versa.
 type Link struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	// Types that are assignable to Variant:
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Variant:
 	//
 	//	*Link_WorkflowEvent_
 	//	*Link_BatchJob_
 	//	*Link_Activity_
-	Variant isLink_Variant `protobuf_oneof:"variant"`
+	Variant       isLink_Variant `protobuf_oneof:"variant"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Link) Reset() {
 	*x = Link{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[15]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Link) String() string {
@@ -1054,7 +1019,7 @@ func (*Link) ProtoMessage() {}
 
 func (x *Link) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[15]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1069,30 +1034,36 @@ func (*Link) Descriptor() ([]byte, []int) {
 	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{15}
 }
 
-func (m *Link) GetVariant() isLink_Variant {
-	if m != nil {
-		return m.Variant
+func (x *Link) GetVariant() isLink_Variant {
+	if x != nil {
+		return x.Variant
 	}
 	return nil
 }
 
 func (x *Link) GetWorkflowEvent() *Link_WorkflowEvent {
-	if x, ok := x.GetVariant().(*Link_WorkflowEvent_); ok {
-		return x.WorkflowEvent
+	if x != nil {
+		if x, ok := x.Variant.(*Link_WorkflowEvent_); ok {
+			return x.WorkflowEvent
+		}
 	}
 	return nil
 }
 
 func (x *Link) GetBatchJob() *Link_BatchJob {
-	if x, ok := x.GetVariant().(*Link_BatchJob_); ok {
-		return x.BatchJob
+	if x != nil {
+		if x, ok := x.Variant.(*Link_BatchJob_); ok {
+			return x.BatchJob
+		}
 	}
 	return nil
 }
 
 func (x *Link) GetActivity() *Link_Activity {
-	if x, ok := x.GetVariant().(*Link_Activity_); ok {
-		return x.Activity
+	if x != nil {
+		if x, ok := x.Variant.(*Link_Activity_); ok {
+			return x.Activity
+		}
 	}
 	return nil
 }
@@ -1152,10 +1123,7 @@ func (*Link_Activity_) isLink_Variant() {}
 // Not all queues in the system may support the "full" semantics of all priority
 // fields. (Currently only support in matching task queues is planned.)
 type Priority struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Priority key is a positive integer from 1 to n, where smaller integers
 	// correspond to higher priorities (tasks run sooner). In general, tasks in
 	// a queue should be processed in close to priority order, although small
@@ -1202,15 +1170,15 @@ type Priority struct {
 	//
 	// Weight values are clamped to the range [0.001, 1000].
 	FairnessWeight float32 `protobuf:"fixed32,3,opt,name=fairness_weight,json=fairnessWeight,proto3" json:"fairness_weight,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Priority) Reset() {
 	*x = Priority{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[16]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Priority) String() string {
@@ -1221,7 +1189,7 @@ func (*Priority) ProtoMessage() {}
 
 func (x *Priority) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[16]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1261,10 +1229,7 @@ func (x *Priority) GetFairnessWeight() float32 {
 // Right now, it is used to send commands to a specific worker instance.
 // Will be extended to be able to send command to multiple workers.
 type WorkerSelector struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Options are:
 	//   - query (will be used as query to ListWorkers, same format as in ListWorkersRequest.query)
 	//   - task queue (just a shortcut. Same as query=' "TaskQueue"="my-task-queue" ')
@@ -1275,19 +1240,19 @@ type WorkerSelector struct {
 	// string task_queue = 6;
 	// ...
 	//
-	// Types that are assignable to Selector:
+	// Types that are valid to be assigned to Selector:
 	//
 	//	*WorkerSelector_WorkerInstanceKey
-	Selector isWorkerSelector_Selector `protobuf_oneof:"selector"`
+	Selector      isWorkerSelector_Selector `protobuf_oneof:"selector"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *WorkerSelector) Reset() {
 	*x = WorkerSelector{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[17]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *WorkerSelector) String() string {
@@ -1298,7 +1263,7 @@ func (*WorkerSelector) ProtoMessage() {}
 
 func (x *WorkerSelector) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[17]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1313,16 +1278,18 @@ func (*WorkerSelector) Descriptor() ([]byte, []int) {
 	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{17}
 }
 
-func (m *WorkerSelector) GetSelector() isWorkerSelector_Selector {
-	if m != nil {
-		return m.Selector
+func (x *WorkerSelector) GetSelector() isWorkerSelector_Selector {
+	if x != nil {
+		return x.Selector
 	}
 	return nil
 }
 
 func (x *WorkerSelector) GetWorkerInstanceKey() string {
-	if x, ok := x.GetSelector().(*WorkerSelector_WorkerInstanceKey); ok {
-		return x.WorkerInstanceKey
+	if x != nil {
+		if x, ok := x.Selector.(*WorkerSelector_WorkerInstanceKey); ok {
+			return x.WorkerInstanceKey
+		}
 	}
 	return ""
 }
@@ -1340,21 +1307,18 @@ func (*WorkerSelector_WorkerInstanceKey) isWorkerSelector_Selector() {}
 
 // Describes an externally stored object referenced by this payload.
 type Payload_ExternalPayloadDetails struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Size in bytes of the externally stored payload
-	SizeBytes int64 `protobuf:"varint,1,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
+	SizeBytes     int64 `protobuf:"varint,1,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Payload_ExternalPayloadDetails) Reset() {
 	*x = Payload_ExternalPayloadDetails{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Payload_ExternalPayloadDetails) String() string {
@@ -1365,7 +1329,7 @@ func (*Payload_ExternalPayloadDetails) ProtoMessage() {}
 
 func (x *Payload_ExternalPayloadDetails) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[19]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1388,23 +1352,20 @@ func (x *Payload_ExternalPayloadDetails) GetSizeBytes() int64 {
 }
 
 type Callback_Nexus struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Callback URL.
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// Header to attach to callback request.
-	Header map[string]string `protobuf:"bytes,2,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Header        map[string]string `protobuf:"bytes,2,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Callback_Nexus) Reset() {
 	*x = Callback_Nexus{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Callback_Nexus) String() string {
@@ -1415,7 +1376,7 @@ func (*Callback_Nexus) ProtoMessage() {}
 
 func (x *Callback_Nexus) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[23]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1449,21 +1410,18 @@ func (x *Callback_Nexus) GetHeader() map[string]string {
 // The only reason that this is exposed is because callbacks are replicated across clusters via the
 // WorkflowExecutionStarted event, which is defined in the public API.
 type Callback_Internal struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
+	state protoimpl.MessageState `protogen:"open.v1"`
 	// Opaque internal data.
-	Data []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	Data          []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Callback_Internal) Reset() {
 	*x = Callback_Internal{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Callback_Internal) String() string {
@@ -1474,7 +1432,7 @@ func (*Callback_Internal) ProtoMessage() {}
 
 func (x *Callback_Internal) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[24]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1497,30 +1455,27 @@ func (x *Callback_Internal) GetData() []byte {
 }
 
 type Link_WorkflowEvent struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Namespace  string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	WorkflowId string `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
-	RunId      string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	WorkflowId string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
+	RunId      string                 `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// Additional information about the workflow event.
 	// Eg: the caller workflow can send the history event details that made the Nexus call.
 	//
-	// Types that are assignable to Reference:
+	// Types that are valid to be assigned to Reference:
 	//
 	//	*Link_WorkflowEvent_EventRef
 	//	*Link_WorkflowEvent_RequestIdRef
-	Reference isLink_WorkflowEvent_Reference `protobuf_oneof:"reference"`
+	Reference     isLink_WorkflowEvent_Reference `protobuf_oneof:"reference"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Link_WorkflowEvent) Reset() {
 	*x = Link_WorkflowEvent{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Link_WorkflowEvent) String() string {
@@ -1531,7 +1486,7 @@ func (*Link_WorkflowEvent) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[26]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1567,23 +1522,27 @@ func (x *Link_WorkflowEvent) GetRunId() string {
 	return ""
 }
 
-func (m *Link_WorkflowEvent) GetReference() isLink_WorkflowEvent_Reference {
-	if m != nil {
-		return m.Reference
+func (x *Link_WorkflowEvent) GetReference() isLink_WorkflowEvent_Reference {
+	if x != nil {
+		return x.Reference
 	}
 	return nil
 }
 
 func (x *Link_WorkflowEvent) GetEventRef() *Link_WorkflowEvent_EventReference {
-	if x, ok := x.GetReference().(*Link_WorkflowEvent_EventRef); ok {
-		return x.EventRef
+	if x != nil {
+		if x, ok := x.Reference.(*Link_WorkflowEvent_EventRef); ok {
+			return x.EventRef
+		}
 	}
 	return nil
 }
 
 func (x *Link_WorkflowEvent) GetRequestIdRef() *Link_WorkflowEvent_RequestIdReference {
-	if x, ok := x.GetReference().(*Link_WorkflowEvent_RequestIdRef); ok {
-		return x.RequestIdRef
+	if x != nil {
+		if x, ok := x.Reference.(*Link_WorkflowEvent_RequestIdRef); ok {
+			return x.RequestIdRef
+		}
 	}
 	return nil
 }
@@ -1608,20 +1567,17 @@ func (*Link_WorkflowEvent_RequestIdRef) isLink_WorkflowEvent_Reference() {}
 // Batch jobs can be used to perform operations on a set of workflows (e.g. terminate, signal, cancel, etc).
 // This link can be put on workflow history events generated by actions taken by a batch job.
 type Link_BatchJob struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	JobId string `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Link_BatchJob) Reset() {
 	*x = Link_BatchJob{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Link_BatchJob) String() string {
@@ -1632,7 +1588,7 @@ func (*Link_BatchJob) ProtoMessage() {}
 
 func (x *Link_BatchJob) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[27]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1656,22 +1612,19 @@ func (x *Link_BatchJob) GetJobId() string {
 
 // A link to an activity.
 type Link_Activity struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	ActivityId    string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	RunId         string                 `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Namespace  string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	ActivityId string `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
-	RunId      string `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Link_Activity) Reset() {
 	*x = Link_Activity{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[28]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Link_Activity) String() string {
@@ -1682,7 +1635,7 @@ func (*Link_Activity) ProtoMessage() {}
 
 func (x *Link_Activity) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[28]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1720,21 +1673,18 @@ func (x *Link_Activity) GetRunId() string {
 
 // EventReference is a direct reference to a history event through the event ID.
 type Link_WorkflowEvent_EventReference struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EventId       int64                  `protobuf:"varint,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
+	EventType     v1.EventType           `protobuf:"varint,2,opt,name=event_type,json=eventType,proto3,enum=temporal.api.enums.v1.EventType" json:"event_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	EventId   int64        `protobuf:"varint,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
-	EventType v1.EventType `protobuf:"varint,2,opt,name=event_type,json=eventType,proto3,enum=temporal.api.enums.v1.EventType" json:"event_type,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Link_WorkflowEvent_EventReference) Reset() {
 	*x = Link_WorkflowEvent_EventReference{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[29]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Link_WorkflowEvent_EventReference) String() string {
@@ -1745,7 +1695,7 @@ func (*Link_WorkflowEvent_EventReference) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent_EventReference) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[29]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1776,21 +1726,18 @@ func (x *Link_WorkflowEvent_EventReference) GetEventType() v1.EventType {
 
 // RequestIdReference is a indirect reference to a history event through the request ID.
 type Link_WorkflowEvent_RequestIdReference struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RequestId     string                 `protobuf:"bytes,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	EventType     v1.EventType           `protobuf:"varint,2,opt,name=event_type,json=eventType,proto3,enum=temporal.api.enums.v1.EventType" json:"event_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	RequestId string       `protobuf:"bytes,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	EventType v1.EventType `protobuf:"varint,2,opt,name=event_type,json=eventType,proto3,enum=temporal.api.enums.v1.EventType" json:"event_type,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Link_WorkflowEvent_RequestIdReference) Reset() {
 	*x = Link_WorkflowEvent_RequestIdReference{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_temporal_api_common_v1_message_proto_msgTypes[30]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
+	mi := &file_temporal_api_common_v1_message_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
 }
 
 func (x *Link_WorkflowEvent_RequestIdReference) String() string {
@@ -1801,7 +1748,7 @@ func (*Link_WorkflowEvent_RequestIdReference) ProtoMessage() {}
 
 func (x *Link_WorkflowEvent_RequestIdReference) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_common_v1_message_proto_msgTypes[30]
-	if protoimpl.UnsafeEnabled && x != nil {
+	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
@@ -1832,291 +1779,138 @@ func (x *Link_WorkflowEvent_RequestIdReference) GetEventType() v1.EventType {
 
 var File_temporal_api_common_v1_message_proto protoreflect.FileDescriptor
 
-var file_temporal_api_common_v1_message_proto_rawDesc = []byte{
-	0x0a, 0x24, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x63,
-	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x76, 0x31, 0x2f, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x16, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
-	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x1a, 0x1e,
-	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f,
-	0x64, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1b,
-	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f,
-	0x65, 0x6d, 0x70, 0x74, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x22, 0x74, 0x65, 0x6d,
-	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2f,
-	0x76, 0x31, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
-	0x26, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x65, 0x6e,
-	0x75, 0x6d, 0x73, 0x2f, 0x76, 0x31, 0x2f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x5f, 0x74, 0x79, 0x70,
-	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x21, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2f, 0x76, 0x31, 0x2f, 0x72,
-	0x65, 0x73, 0x65, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x68, 0x0a, 0x08, 0x44, 0x61,
-	0x74, 0x61, 0x42, 0x6c, 0x6f, 0x62, 0x12, 0x48, 0x0a, 0x0d, 0x65, 0x6e, 0x63, 0x6f, 0x64, 0x69,
-	0x6e, 0x67, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x23, 0x2e,
-	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75,
-	0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x6e, 0x63, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x54, 0x79,
-	0x70, 0x65, 0x52, 0x0c, 0x65, 0x6e, 0x63, 0x6f, 0x64, 0x69, 0x6e, 0x67, 0x54, 0x79, 0x70, 0x65,
-	0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04,
-	0x64, 0x61, 0x74, 0x61, 0x22, 0x47, 0x0a, 0x08, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x73,
-	0x12, 0x3b, 0x0a, 0x08, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x79, 0x6c,
-	0x6f, 0x61, 0x64, 0x52, 0x08, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x73, 0x22, 0xc3, 0x02,
-	0x0a, 0x07, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x12, 0x49, 0x0a, 0x08, 0x6d, 0x65, 0x74,
-	0x61, 0x64, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x74, 0x65,
-	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
-	0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x2e, 0x4d, 0x65, 0x74,
-	0x61, 0x64, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x08, 0x6d, 0x65, 0x74, 0x61,
-	0x64, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x12, 0x63, 0x0a, 0x11, 0x65, 0x78, 0x74, 0x65,
-	0x72, 0x6e, 0x61, 0x6c, 0x5f, 0x70, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x73, 0x18, 0x03, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x36, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x79,
-	0x6c, 0x6f, 0x61, 0x64, 0x2e, 0x45, 0x78, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x50, 0x61, 0x79,
-	0x6c, 0x6f, 0x61, 0x64, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x52, 0x10, 0x65, 0x78, 0x74,
-	0x65, 0x72, 0x6e, 0x61, 0x6c, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x73, 0x1a, 0x3b, 0x0a,
-	0x0d, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10,
-	0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79,
-	0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52,
-	0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x37, 0x0a, 0x16, 0x45, 0x78,
-	0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x44, 0x65, 0x74,
-	0x61, 0x69, 0x6c, 0x73, 0x12, 0x1d, 0x0a, 0x0a, 0x73, 0x69, 0x7a, 0x65, 0x5f, 0x62, 0x79, 0x74,
-	0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x73, 0x69, 0x7a, 0x65, 0x42, 0x79,
-	0x74, 0x65, 0x73, 0x22, 0xd9, 0x01, 0x0a, 0x10, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x74,
-	0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x12, 0x62, 0x0a, 0x0e, 0x69, 0x6e, 0x64, 0x65,
-	0x78, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x3b, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68,
-	0x41, 0x74, 0x74, 0x72, 0x69, 0x62, 0x75, 0x74, 0x65, 0x73, 0x2e, 0x49, 0x6e, 0x64, 0x65, 0x78,
-	0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x0d, 0x69,
-	0x6e, 0x64, 0x65, 0x78, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x1a, 0x61, 0x0a, 0x12,
-	0x49, 0x6e, 0x64, 0x65, 0x78, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x45, 0x6e, 0x74,
-	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x03, 0x6b, 0x65, 0x79, 0x12, 0x35, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x79,
-	0x6c, 0x6f, 0x61, 0x64, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22,
-	0xa4, 0x01, 0x0a, 0x04, 0x4d, 0x65, 0x6d, 0x6f, 0x12, 0x40, 0x0a, 0x06, 0x66, 0x69, 0x65, 0x6c,
-	0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x28, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f,
-	0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76,
-	0x31, 0x2e, 0x4d, 0x65, 0x6d, 0x6f, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x45, 0x6e, 0x74,
-	0x72, 0x79, 0x52, 0x06, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x1a, 0x5a, 0x0a, 0x0b, 0x46, 0x69,
-	0x65, 0x6c, 0x64, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x35, 0x0a, 0x05, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d,
-	0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
-	0x2e, 0x76, 0x31, 0x2e, 0x50, 0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x05, 0x76, 0x61, 0x6c,
-	0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0xa8, 0x01, 0x0a, 0x06, 0x48, 0x65, 0x61, 0x64, 0x65,
-	0x72, 0x12, 0x42, 0x0a, 0x06, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x2a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69,
-	0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x48, 0x65, 0x61, 0x64, 0x65,
-	0x72, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x66,
-	0x69, 0x65, 0x6c, 0x64, 0x73, 0x1a, 0x5a, 0x0a, 0x0b, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x45,
-	0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x35, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
-	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x50,
-	0x61, 0x79, 0x6c, 0x6f, 0x61, 0x64, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38,
-	0x01, 0x22, 0x4b, 0x0a, 0x11, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x78, 0x65,
-	0x63, 0x75, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1f, 0x0a, 0x0b, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c,
-	0x6f, 0x77, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x77, 0x6f, 0x72,
-	0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x72, 0x75, 0x6e, 0x5f, 0x69,
-	0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x75, 0x6e, 0x49, 0x64, 0x22, 0x22,
-	0x0a, 0x0c, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x54, 0x79, 0x70, 0x65, 0x12, 0x12,
-	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
-	0x6d, 0x65, 0x22, 0x22, 0x0a, 0x0c, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x54, 0x79,
-	0x70, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0xb0, 0x02, 0x0a, 0x0b, 0x52, 0x65, 0x74, 0x72, 0x79,
-	0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x12, 0x44, 0x0a, 0x10, 0x69, 0x6e, 0x69, 0x74, 0x69, 0x61,
-	0x6c, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x76, 0x61, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0f, 0x69, 0x6e, 0x69,
-	0x74, 0x69, 0x61, 0x6c, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x76, 0x61, 0x6c, 0x12, 0x2f, 0x0a, 0x13,
-	0x62, 0x61, 0x63, 0x6b, 0x6f, 0x66, 0x66, 0x5f, 0x63, 0x6f, 0x65, 0x66, 0x66, 0x69, 0x63, 0x69,
-	0x65, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x12, 0x62, 0x61, 0x63, 0x6b, 0x6f,
-	0x66, 0x66, 0x43, 0x6f, 0x65, 0x66, 0x66, 0x69, 0x63, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x44, 0x0a,
-	0x10, 0x6d, 0x61, 0x78, 0x69, 0x6d, 0x75, 0x6d, 0x5f, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x76, 0x61,
-	0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x52, 0x0f, 0x6d, 0x61, 0x78, 0x69, 0x6d, 0x75, 0x6d, 0x49, 0x6e, 0x74, 0x65, 0x72,
-	0x76, 0x61, 0x6c, 0x12, 0x29, 0x0a, 0x10, 0x6d, 0x61, 0x78, 0x69, 0x6d, 0x75, 0x6d, 0x5f, 0x61,
-	0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0f, 0x6d,
-	0x61, 0x78, 0x69, 0x6d, 0x75, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x73, 0x12, 0x39,
-	0x0a, 0x19, 0x6e, 0x6f, 0x6e, 0x5f, 0x72, 0x65, 0x74, 0x72, 0x79, 0x61, 0x62, 0x6c, 0x65, 0x5f,
-	0x65, 0x72, 0x72, 0x6f, 0x72, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28,
-	0x09, 0x52, 0x16, 0x6e, 0x6f, 0x6e, 0x52, 0x65, 0x74, 0x72, 0x79, 0x61, 0x62, 0x6c, 0x65, 0x45,
-	0x72, 0x72, 0x6f, 0x72, 0x54, 0x79, 0x70, 0x65, 0x73, 0x22, 0x6e, 0x0a, 0x10, 0x4d, 0x65, 0x74,
-	0x65, 0x72, 0x69, 0x6e, 0x67, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0x12, 0x5a, 0x0a,
-	0x2a, 0x6e, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x73, 0x74, 0x5f, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x5f,
-	0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x5f, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69,
-	0x6f, 0x6e, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x73, 0x18, 0x0d, 0x20, 0x01, 0x28,
-	0x0d, 0x52, 0x26, 0x6e, 0x6f, 0x6e, 0x66, 0x69, 0x72, 0x73, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x6c,
-	0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x69, 0x6f,
-	0x6e, 0x41, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x73, 0x22, 0x56, 0x0a, 0x12, 0x57, 0x6f, 0x72,
-	0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x6d, 0x70, 0x12,
-	0x19, 0x0a, 0x08, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x07, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x12, 0x25, 0x0a, 0x0e, 0x75, 0x73,
-	0x65, 0x5f, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x0d, 0x75, 0x73, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e,
-	0x67, 0x22, 0x93, 0x01, 0x0a, 0x19, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x56, 0x65, 0x72, 0x73,
-	0x69, 0x6f, 0x6e, 0x43, 0x61, 0x70, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x69, 0x65, 0x73, 0x12,
-	0x19, 0x0a, 0x08, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x07, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x49, 0x64, 0x12, 0x25, 0x0a, 0x0e, 0x75, 0x73,
-	0x65, 0x5f, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x0d, 0x75, 0x73, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x69, 0x6e,
-	0x67, 0x12, 0x34, 0x0a, 0x16, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x5f,
-	0x73, 0x65, 0x72, 0x69, 0x65, 0x73, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x14, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x65, 0x72,
-	0x69, 0x65, 0x73, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0xe7, 0x03, 0x0a, 0x0c, 0x52, 0x65, 0x73, 0x65,
-	0x74, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x48, 0x0a, 0x13, 0x66, 0x69, 0x72, 0x73,
-	0x74, 0x5f, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x48, 0x00, 0x52,
-	0x11, 0x66, 0x69, 0x72, 0x73, 0x74, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x54, 0x61,
-	0x73, 0x6b, 0x12, 0x46, 0x0a, 0x12, 0x6c, 0x61, 0x73, 0x74, 0x5f, 0x77, 0x6f, 0x72, 0x6b, 0x66,
-	0x6c, 0x6f, 0x77, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16,
-	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
-	0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x48, 0x00, 0x52, 0x10, 0x6c, 0x61, 0x73, 0x74, 0x57, 0x6f,
-	0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x54, 0x61, 0x73, 0x6b, 0x12, 0x2a, 0x0a, 0x10, 0x77, 0x6f,
-	0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x5f, 0x74, 0x61, 0x73, 0x6b, 0x5f, 0x69, 0x64, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x03, 0x48, 0x00, 0x52, 0x0e, 0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77,
-	0x54, 0x61, 0x73, 0x6b, 0x49, 0x64, 0x12, 0x1b, 0x0a, 0x08, 0x62, 0x75, 0x69, 0x6c, 0x64, 0x5f,
-	0x69, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x07, 0x62, 0x75, 0x69, 0x6c,
-	0x64, 0x49, 0x64, 0x12, 0x59, 0x0a, 0x12, 0x72, 0x65, 0x73, 0x65, 0x74, 0x5f, 0x72, 0x65, 0x61,
-	0x70, 0x70, 0x6c, 0x79, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0e, 0x32,
-	0x27, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65,
-	0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x65, 0x74, 0x52, 0x65, 0x61,
-	0x70, 0x70, 0x6c, 0x79, 0x54, 0x79, 0x70, 0x65, 0x42, 0x02, 0x18, 0x01, 0x52, 0x10, 0x72, 0x65,
-	0x73, 0x65, 0x74, 0x52, 0x65, 0x61, 0x70, 0x70, 0x6c, 0x79, 0x54, 0x79, 0x70, 0x65, 0x12, 0x28,
-	0x0a, 0x10, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e, 0x74, 0x5f, 0x72, 0x75, 0x6e, 0x5f, 0x6f, 0x6e,
-	0x6c, 0x79, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0e, 0x63, 0x75, 0x72, 0x72, 0x65, 0x6e,
-	0x74, 0x52, 0x75, 0x6e, 0x4f, 0x6e, 0x6c, 0x79, 0x12, 0x6d, 0x0a, 0x1b, 0x72, 0x65, 0x73, 0x65,
-	0x74, 0x5f, 0x72, 0x65, 0x61, 0x70, 0x70, 0x6c, 0x79, 0x5f, 0x65, 0x78, 0x63, 0x6c, 0x75, 0x64,
-	0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x18, 0x0c, 0x20, 0x03, 0x28, 0x0e, 0x32, 0x2e, 0x2e,
-	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75,
-	0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x52, 0x65, 0x73, 0x65, 0x74, 0x52, 0x65, 0x61, 0x70, 0x70,
-	0x6c, 0x79, 0x45, 0x78, 0x63, 0x6c, 0x75, 0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x18, 0x72,
-	0x65, 0x73, 0x65, 0x74, 0x52, 0x65, 0x61, 0x70, 0x70, 0x6c, 0x79, 0x45, 0x78, 0x63, 0x6c, 0x75,
-	0x64, 0x65, 0x54, 0x79, 0x70, 0x65, 0x73, 0x42, 0x08, 0x0a, 0x06, 0x74, 0x61, 0x72, 0x67, 0x65,
-	0x74, 0x22, 0x9b, 0x03, 0x0a, 0x08, 0x43, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x12, 0x3e,
-	0x0a, 0x05, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e,
-	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d,
-	0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x2e,
-	0x4e, 0x65, 0x78, 0x75, 0x73, 0x48, 0x00, 0x52, 0x05, 0x6e, 0x65, 0x78, 0x75, 0x73, 0x12, 0x47,
-	0x0a, 0x08, 0x69, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x29, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x61, 0x6c, 0x6c, 0x62, 0x61,
-	0x63, 0x6b, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x48, 0x00, 0x52, 0x08, 0x69,
-	0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x12, 0x32, 0x0a, 0x05, 0x6c, 0x69, 0x6e, 0x6b, 0x73,
-	0x18, 0x64, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61,
-	0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e,
-	0x4c, 0x69, 0x6e, 0x6b, 0x52, 0x05, 0x6c, 0x69, 0x6e, 0x6b, 0x73, 0x1a, 0xa0, 0x01, 0x0a, 0x05,
-	0x4e, 0x65, 0x78, 0x75, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x12, 0x4a, 0x0a, 0x06, 0x68, 0x65, 0x61, 0x64, 0x65,
-	0x72, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72,
-	0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31,
-	0x2e, 0x43, 0x61, 0x6c, 0x6c, 0x62, 0x61, 0x63, 0x6b, 0x2e, 0x4e, 0x65, 0x78, 0x75, 0x73, 0x2e,
-	0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x06, 0x68, 0x65, 0x61,
-	0x64, 0x65, 0x72, 0x1a, 0x39, 0x0a, 0x0b, 0x48, 0x65, 0x61, 0x64, 0x65, 0x72, 0x45, 0x6e, 0x74,
-	0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x1a, 0x1e,
-	0x0a, 0x08, 0x49, 0x6e, 0x74, 0x65, 0x72, 0x6e, 0x61, 0x6c, 0x12, 0x12, 0x0a, 0x04, 0x64, 0x61,
-	0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x42, 0x09,
-	0x0a, 0x07, 0x76, 0x61, 0x72, 0x69, 0x61, 0x6e, 0x74, 0x4a, 0x04, 0x08, 0x01, 0x10, 0x02, 0x22,
-	0x90, 0x07, 0x0a, 0x04, 0x4c, 0x69, 0x6e, 0x6b, 0x12, 0x53, 0x0a, 0x0e, 0x77, 0x6f, 0x72, 0x6b,
-	0x66, 0x6c, 0x6f, 0x77, 0x5f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x2a, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x6e, 0x6b, 0x2e, 0x57,
-	0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x48, 0x00, 0x52, 0x0d,
-	0x77, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x44, 0x0a,
-	0x09, 0x62, 0x61, 0x74, 0x63, 0x68, 0x5f, 0x6a, 0x6f, 0x62, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x25, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e,
-	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x6e, 0x6b, 0x2e, 0x42,
-	0x61, 0x74, 0x63, 0x68, 0x4a, 0x6f, 0x62, 0x48, 0x00, 0x52, 0x08, 0x62, 0x61, 0x74, 0x63, 0x68,
-	0x4a, 0x6f, 0x62, 0x12, 0x43, 0x0a, 0x08, 0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c,
-	0x2e, 0x61, 0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4c,
-	0x69, 0x6e, 0x6b, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x48, 0x00, 0x52, 0x08,
-	0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x1a, 0x97, 0x04, 0x0a, 0x0d, 0x57, 0x6f, 0x72,
-	0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61,
-	0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e,
-	0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x77, 0x6f, 0x72, 0x6b,
-	0x66, 0x6c, 0x6f, 0x77, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x77,
-	0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x49, 0x64, 0x12, 0x15, 0x0a, 0x06, 0x72, 0x75, 0x6e,
-	0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x75, 0x6e, 0x49, 0x64,
-	0x12, 0x58, 0x0a, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x5f, 0x72, 0x65, 0x66, 0x18, 0x64, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x39, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x6e,
-	0x6b, 0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x2e,
-	0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x48, 0x00,
-	0x52, 0x08, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x66, 0x12, 0x65, 0x0a, 0x0e, 0x72, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x5f, 0x72, 0x65, 0x66, 0x18, 0x65, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x3d, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x69, 0x6e, 0x6b,
-	0x2e, 0x57, 0x6f, 0x72, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x2e, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x49, 0x64, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63,
-	0x65, 0x48, 0x00, 0x52, 0x0c, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x49, 0x64, 0x52, 0x65,
-	0x66, 0x1a, 0x6c, 0x0a, 0x0e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65,
-	0x6e, 0x63, 0x65, 0x12, 0x19, 0x0a, 0x08, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x5f, 0x69, 0x64, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x12, 0x3f,
-	0x0a, 0x0a, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x0e, 0x32, 0x20, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x76, 0x65, 0x6e, 0x74,
-	0x54, 0x79, 0x70, 0x65, 0x52, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x1a,
-	0x74, 0x0a, 0x12, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x49, 0x64, 0x52, 0x65, 0x66, 0x65,
-	0x72, 0x65, 0x6e, 0x63, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x72, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x49, 0x64, 0x12, 0x3f, 0x0a, 0x0a, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x5f, 0x74, 0x79,
-	0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x20, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f,
-	0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x65, 0x6e, 0x75, 0x6d, 0x73, 0x2e, 0x76, 0x31,
-	0x2e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x52, 0x09, 0x65, 0x76, 0x65, 0x6e,
-	0x74, 0x54, 0x79, 0x70, 0x65, 0x42, 0x0b, 0x0a, 0x09, 0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e,
-	0x63, 0x65, 0x1a, 0x21, 0x0a, 0x08, 0x42, 0x61, 0x74, 0x63, 0x68, 0x4a, 0x6f, 0x62, 0x12, 0x15,
-	0x0a, 0x06, 0x6a, 0x6f, 0x62, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
-	0x6a, 0x6f, 0x62, 0x49, 0x64, 0x1a, 0x60, 0x0a, 0x08, 0x41, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74,
-	0x79, 0x12, 0x1c, 0x0a, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x70, 0x61, 0x63, 0x65, 0x12,
-	0x1f, 0x0a, 0x0b, 0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x5f, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x61, 0x63, 0x74, 0x69, 0x76, 0x69, 0x74, 0x79, 0x49, 0x64,
-	0x12, 0x15, 0x0a, 0x06, 0x72, 0x75, 0x6e, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x05, 0x72, 0x75, 0x6e, 0x49, 0x64, 0x42, 0x09, 0x0a, 0x07, 0x76, 0x61, 0x72, 0x69, 0x61,
-	0x6e, 0x74, 0x22, 0x79, 0x0a, 0x08, 0x50, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x12, 0x21,
-	0x0a, 0x0c, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x05, 0x52, 0x0b, 0x70, 0x72, 0x69, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x4b, 0x65,
-	0x79, 0x12, 0x21, 0x0a, 0x0c, 0x66, 0x61, 0x69, 0x72, 0x6e, 0x65, 0x73, 0x73, 0x5f, 0x6b, 0x65,
-	0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x66, 0x61, 0x69, 0x72, 0x6e, 0x65, 0x73,
-	0x73, 0x4b, 0x65, 0x79, 0x12, 0x27, 0x0a, 0x0f, 0x66, 0x61, 0x69, 0x72, 0x6e, 0x65, 0x73, 0x73,
-	0x5f, 0x77, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x02, 0x52, 0x0e, 0x66,
-	0x61, 0x69, 0x72, 0x6e, 0x65, 0x73, 0x73, 0x57, 0x65, 0x69, 0x67, 0x68, 0x74, 0x22, 0x4e, 0x0a,
-	0x0e, 0x57, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x53, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x12,
-	0x30, 0x0a, 0x13, 0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e,
-	0x63, 0x65, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x11,
-	0x77, 0x6f, 0x72, 0x6b, 0x65, 0x72, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x4b, 0x65,
-	0x79, 0x42, 0x0a, 0x0a, 0x08, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x42, 0x89, 0x01,
-	0x0a, 0x19, 0x69, 0x6f, 0x2e, 0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x61, 0x70,
-	0x69, 0x2e, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x76, 0x31, 0x42, 0x0c, 0x4d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x23, 0x67, 0x6f, 0x2e,
-	0x74, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f,
-	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x76, 0x31, 0x3b, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e,
-	0xaa, 0x02, 0x18, 0x54, 0x65, 0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x2e, 0x41, 0x70,
-	0x69, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x56, 0x31, 0xea, 0x02, 0x1b, 0x54, 0x65,
-	0x6d, 0x70, 0x6f, 0x72, 0x61, 0x6c, 0x69, 0x6f, 0x3a, 0x3a, 0x41, 0x70, 0x69, 0x3a, 0x3a, 0x43,
-	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x3a, 0x3a, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
-}
+const file_temporal_api_common_v1_message_proto_rawDesc = "" +
+	"\n" +
+	"$temporal/api/common/v1/message.proto\x12\x16temporal.api.common.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a!temporal/api/enums/v1/reset.proto\"h\n" +
+	"\bDataBlob\x12H\n" +
+	"\rencoding_type\x18\x01 \x01(\x0e2#.temporal.api.enums.v1.EncodingTypeR\fencodingType\x12\x12\n" +
+	"\x04data\x18\x02 \x01(\fR\x04data\"G\n" +
+	"\bPayloads\x12;\n" +
+	"\bpayloads\x18\x01 \x03(\v2\x1f.temporal.api.common.v1.PayloadR\bpayloads\"\xc3\x02\n" +
+	"\aPayload\x12I\n" +
+	"\bmetadata\x18\x01 \x03(\v2-.temporal.api.common.v1.Payload.MetadataEntryR\bmetadata\x12\x12\n" +
+	"\x04data\x18\x02 \x01(\fR\x04data\x12c\n" +
+	"\x11external_payloads\x18\x03 \x03(\v26.temporal.api.common.v1.Payload.ExternalPayloadDetailsR\x10externalPayloads\x1a;\n" +
+	"\rMetadataEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\x1a7\n" +
+	"\x16ExternalPayloadDetails\x12\x1d\n" +
+	"\n" +
+	"size_bytes\x18\x01 \x01(\x03R\tsizeBytes\"\xd9\x01\n" +
+	"\x10SearchAttributes\x12b\n" +
+	"\x0eindexed_fields\x18\x01 \x03(\v2;.temporal.api.common.v1.SearchAttributes.IndexedFieldsEntryR\rindexedFields\x1aa\n" +
+	"\x12IndexedFieldsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x125\n" +
+	"\x05value\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\x05value:\x028\x01\"\xa4\x01\n" +
+	"\x04Memo\x12@\n" +
+	"\x06fields\x18\x01 \x03(\v2(.temporal.api.common.v1.Memo.FieldsEntryR\x06fields\x1aZ\n" +
+	"\vFieldsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x125\n" +
+	"\x05value\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\x05value:\x028\x01\"\xa8\x01\n" +
+	"\x06Header\x12B\n" +
+	"\x06fields\x18\x01 \x03(\v2*.temporal.api.common.v1.Header.FieldsEntryR\x06fields\x1aZ\n" +
+	"\vFieldsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x125\n" +
+	"\x05value\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\x05value:\x028\x01\"K\n" +
+	"\x11WorkflowExecution\x12\x1f\n" +
+	"\vworkflow_id\x18\x01 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x02 \x01(\tR\x05runId\"\"\n" +
+	"\fWorkflowType\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"\"\n" +
+	"\fActivityType\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"\xb0\x02\n" +
+	"\vRetryPolicy\x12D\n" +
+	"\x10initial_interval\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\x0finitialInterval\x12/\n" +
+	"\x13backoff_coefficient\x18\x02 \x01(\x01R\x12backoffCoefficient\x12D\n" +
+	"\x10maximum_interval\x18\x03 \x01(\v2\x19.google.protobuf.DurationR\x0fmaximumInterval\x12)\n" +
+	"\x10maximum_attempts\x18\x04 \x01(\x05R\x0fmaximumAttempts\x129\n" +
+	"\x19non_retryable_error_types\x18\x05 \x03(\tR\x16nonRetryableErrorTypes\"n\n" +
+	"\x10MeteringMetadata\x12Z\n" +
+	"*nonfirst_local_activity_execution_attempts\x18\r \x01(\rR&nonfirstLocalActivityExecutionAttempts\"V\n" +
+	"\x12WorkerVersionStamp\x12\x19\n" +
+	"\bbuild_id\x18\x01 \x01(\tR\abuildId\x12%\n" +
+	"\x0euse_versioning\x18\x03 \x01(\bR\ruseVersioning\"\x93\x01\n" +
+	"\x19WorkerVersionCapabilities\x12\x19\n" +
+	"\bbuild_id\x18\x01 \x01(\tR\abuildId\x12%\n" +
+	"\x0euse_versioning\x18\x02 \x01(\bR\ruseVersioning\x124\n" +
+	"\x16deployment_series_name\x18\x04 \x01(\tR\x14deploymentSeriesName\"\xe7\x03\n" +
+	"\fResetOptions\x12H\n" +
+	"\x13first_workflow_task\x18\x01 \x01(\v2\x16.google.protobuf.EmptyH\x00R\x11firstWorkflowTask\x12F\n" +
+	"\x12last_workflow_task\x18\x02 \x01(\v2\x16.google.protobuf.EmptyH\x00R\x10lastWorkflowTask\x12*\n" +
+	"\x10workflow_task_id\x18\x03 \x01(\x03H\x00R\x0eworkflowTaskId\x12\x1b\n" +
+	"\bbuild_id\x18\x04 \x01(\tH\x00R\abuildId\x12Y\n" +
+	"\x12reset_reapply_type\x18\n" +
+	" \x01(\x0e2'.temporal.api.enums.v1.ResetReapplyTypeB\x02\x18\x01R\x10resetReapplyType\x12(\n" +
+	"\x10current_run_only\x18\v \x01(\bR\x0ecurrentRunOnly\x12m\n" +
+	"\x1breset_reapply_exclude_types\x18\f \x03(\x0e2..temporal.api.enums.v1.ResetReapplyExcludeTypeR\x18resetReapplyExcludeTypesB\b\n" +
+	"\x06target\"\x9b\x03\n" +
+	"\bCallback\x12>\n" +
+	"\x05nexus\x18\x02 \x01(\v2&.temporal.api.common.v1.Callback.NexusH\x00R\x05nexus\x12G\n" +
+	"\binternal\x18\x03 \x01(\v2).temporal.api.common.v1.Callback.InternalH\x00R\binternal\x122\n" +
+	"\x05links\x18d \x03(\v2\x1c.temporal.api.common.v1.LinkR\x05links\x1a\xa0\x01\n" +
+	"\x05Nexus\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\x12J\n" +
+	"\x06header\x18\x02 \x03(\v22.temporal.api.common.v1.Callback.Nexus.HeaderEntryR\x06header\x1a9\n" +
+	"\vHeaderEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a\x1e\n" +
+	"\bInternal\x12\x12\n" +
+	"\x04data\x18\x01 \x01(\fR\x04dataB\t\n" +
+	"\avariantJ\x04\b\x01\x10\x02\"\x90\a\n" +
+	"\x04Link\x12S\n" +
+	"\x0eworkflow_event\x18\x01 \x01(\v2*.temporal.api.common.v1.Link.WorkflowEventH\x00R\rworkflowEvent\x12D\n" +
+	"\tbatch_job\x18\x02 \x01(\v2%.temporal.api.common.v1.Link.BatchJobH\x00R\bbatchJob\x12C\n" +
+	"\bactivity\x18\x03 \x01(\v2%.temporal.api.common.v1.Link.ActivityH\x00R\bactivity\x1a\x97\x04\n" +
+	"\rWorkflowEvent\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
+	"\vworkflow_id\x18\x02 \x01(\tR\n" +
+	"workflowId\x12\x15\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\x12X\n" +
+	"\tevent_ref\x18d \x01(\v29.temporal.api.common.v1.Link.WorkflowEvent.EventReferenceH\x00R\beventRef\x12e\n" +
+	"\x0erequest_id_ref\x18e \x01(\v2=.temporal.api.common.v1.Link.WorkflowEvent.RequestIdReferenceH\x00R\frequestIdRef\x1al\n" +
+	"\x0eEventReference\x12\x19\n" +
+	"\bevent_id\x18\x01 \x01(\x03R\aeventId\x12?\n" +
+	"\n" +
+	"event_type\x18\x02 \x01(\x0e2 .temporal.api.enums.v1.EventTypeR\teventType\x1at\n" +
+	"\x12RequestIdReference\x12\x1d\n" +
+	"\n" +
+	"request_id\x18\x01 \x01(\tR\trequestId\x12?\n" +
+	"\n" +
+	"event_type\x18\x02 \x01(\x0e2 .temporal.api.enums.v1.EventTypeR\teventTypeB\v\n" +
+	"\treference\x1a!\n" +
+	"\bBatchJob\x12\x15\n" +
+	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x1a`\n" +
+	"\bActivity\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
+	"\vactivity_id\x18\x02 \x01(\tR\n" +
+	"activityId\x12\x15\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runIdB\t\n" +
+	"\avariant\"y\n" +
+	"\bPriority\x12!\n" +
+	"\fpriority_key\x18\x01 \x01(\x05R\vpriorityKey\x12!\n" +
+	"\ffairness_key\x18\x02 \x01(\tR\vfairnessKey\x12'\n" +
+	"\x0ffairness_weight\x18\x03 \x01(\x02R\x0efairnessWeight\"N\n" +
+	"\x0eWorkerSelector\x120\n" +
+	"\x13worker_instance_key\x18\x01 \x01(\tH\x00R\x11workerInstanceKeyB\n" +
+	"\n" +
+	"\bselectorB\x89\x01\n" +
+	"\x19io.temporal.api.common.v1B\fMessageProtoP\x01Z#go.temporal.io/api/common/v1;common\xaa\x02\x18Temporalio.Api.Common.V1\xea\x02\x1bTemporalio::Api::Common::V1b\x06proto3"
 
 var (
 	file_temporal_api_common_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_common_v1_message_proto_rawDescData = file_temporal_api_common_v1_message_proto_rawDesc
+	file_temporal_api_common_v1_message_proto_rawDescData []byte
 )
 
 func file_temporal_api_common_v1_message_proto_rawDescGZIP() []byte {
 	file_temporal_api_common_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_common_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(file_temporal_api_common_v1_message_proto_rawDescData)
+		file_temporal_api_common_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_common_v1_message_proto_rawDesc), len(file_temporal_api_common_v1_message_proto_rawDesc)))
 	})
 	return file_temporal_api_common_v1_message_proto_rawDescData
 }
 
 var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
-var file_temporal_api_common_v1_message_proto_goTypes = []interface{}{
+var file_temporal_api_common_v1_message_proto_goTypes = []any{
 	(*DataBlob)(nil),                       // 0: temporal.api.common.v1.DataBlob
 	(*Payloads)(nil),                       // 1: temporal.api.common.v1.Payloads
 	(*Payload)(nil),                        // 2: temporal.api.common.v1.Payload
@@ -2195,339 +1989,25 @@ func file_temporal_api_common_v1_message_proto_init() {
 	if File_temporal_api_common_v1_message_proto != nil {
 		return
 	}
-	if !protoimpl.UnsafeEnabled {
-		file_temporal_api_common_v1_message_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DataBlob); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Payloads); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Payload); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SearchAttributes); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Memo); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Header); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WorkflowExecution); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WorkflowType); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ActivityType); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RetryPolicy); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*MeteringMetadata); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WorkerVersionStamp); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WorkerVersionCapabilities); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ResetOptions); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Callback); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Link); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Priority); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*WorkerSelector); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Payload_ExternalPayloadDetails); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Callback_Nexus); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Callback_Internal); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Link_WorkflowEvent); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Link_BatchJob); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Link_Activity); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Link_WorkflowEvent_EventReference); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_temporal_api_common_v1_message_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Link_WorkflowEvent_RequestIdReference); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-	}
-	file_temporal_api_common_v1_message_proto_msgTypes[13].OneofWrappers = []interface{}{
+	file_temporal_api_common_v1_message_proto_msgTypes[13].OneofWrappers = []any{
 		(*ResetOptions_FirstWorkflowTask)(nil),
 		(*ResetOptions_LastWorkflowTask)(nil),
 		(*ResetOptions_WorkflowTaskId)(nil),
 		(*ResetOptions_BuildId)(nil),
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[14].OneofWrappers = []interface{}{
+	file_temporal_api_common_v1_message_proto_msgTypes[14].OneofWrappers = []any{
 		(*Callback_Nexus_)(nil),
 		(*Callback_Internal_)(nil),
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[15].OneofWrappers = []interface{}{
+	file_temporal_api_common_v1_message_proto_msgTypes[15].OneofWrappers = []any{
 		(*Link_WorkflowEvent_)(nil),
 		(*Link_BatchJob_)(nil),
 		(*Link_Activity_)(nil),
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[17].OneofWrappers = []interface{}{
+	file_temporal_api_common_v1_message_proto_msgTypes[17].OneofWrappers = []any{
 		(*WorkerSelector_WorkerInstanceKey)(nil),
 	}
-	file_temporal_api_common_v1_message_proto_msgTypes[26].OneofWrappers = []interface{}{
+	file_temporal_api_common_v1_message_proto_msgTypes[26].OneofWrappers = []any{
 		(*Link_WorkflowEvent_EventRef)(nil),
 		(*Link_WorkflowEvent_RequestIdRef)(nil),
 	}
@@ -2535,7 +2015,7 @@ func file_temporal_api_common_v1_message_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_temporal_api_common_v1_message_proto_rawDesc,
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_common_v1_message_proto_rawDesc), len(file_temporal_api_common_v1_message_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   31,
 			NumExtensions: 0,
@@ -2546,7 +2026,6 @@ func file_temporal_api_common_v1_message_proto_init() {
 		MessageInfos:      file_temporal_api_common_v1_message_proto_msgTypes,
 	}.Build()
 	File_temporal_api_common_v1_message_proto = out.File
-	file_temporal_api_common_v1_message_proto_rawDesc = nil
 	file_temporal_api_common_v1_message_proto_goTypes = nil
 	file_temporal_api_common_v1_message_proto_depIdxs = nil
 }
