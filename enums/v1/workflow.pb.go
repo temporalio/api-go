@@ -805,18 +805,6 @@ const (
 	// Workflows stuck on a backlogged activity will still auto-upgrade if their Target Version
 	// changes, without having to wait for the backlogged activity to complete on the old Version.
 	VERSIONING_BEHAVIOR_AUTO_UPGRADE VersioningBehavior = 2
-	// The same semantics as PINNED, with the exception of Continue-As-New.
-	// When a PINNED_UNTIL_CONTINUE_AS_NEW workflow continues-as-new, the new execution
-	// will start on the workflow's Target Version, with AUTO_UPGRADE behavior.
-	// On the first workflow task completion of the new run, the workflow will assume
-	// the behavior specified for that workflow type on the Target Version. If that
-	// behavior is also PINNED_UNTIL_CONTINUE_AS_NEW, the new run will now be pinned to
-	// that version until the next time it continues-as-new.
-	//
-	// When the Target Version of a PINNED_UNTIL_CONTINUE_AS_NEW workflow is different
-	// from its Pinned Version, the workflow's continue_as_new_suggested flag will be true,
-	// so that these workflows can tell when continuing-as-new would cause a version change.
-	VERSIONING_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW VersioningBehavior = 3
 )
 
 // Enum value maps for VersioningBehavior.
@@ -825,13 +813,11 @@ var (
 		0: "VERSIONING_BEHAVIOR_UNSPECIFIED",
 		1: "VERSIONING_BEHAVIOR_PINNED",
 		2: "VERSIONING_BEHAVIOR_AUTO_UPGRADE",
-		3: "VERSIONING_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW",
 	}
 	VersioningBehavior_value = map[string]int32{
-		"VERSIONING_BEHAVIOR_UNSPECIFIED":                  0,
-		"VERSIONING_BEHAVIOR_PINNED":                       1,
-		"VERSIONING_BEHAVIOR_AUTO_UPGRADE":                 2,
-		"VERSIONING_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW": 3,
+		"VERSIONING_BEHAVIOR_UNSPECIFIED":  0,
+		"VERSIONING_BEHAVIOR_PINNED":       1,
+		"VERSIONING_BEHAVIOR_AUTO_UPGRADE": 2,
 	}
 )
 
@@ -849,8 +835,6 @@ func (x VersioningBehavior) String() string {
 		return "Pinned"
 	case VERSIONING_BEHAVIOR_AUTO_UPGRADE:
 		return "AutoUpgrade"
-	case VERSIONING_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW:
-		return "PinnedUntilContinueAsNew"
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -874,6 +858,64 @@ func (VersioningBehavior) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{10}
 }
 
+// Experimental. Defines the versioning behavior to be used by the first task of a new workflow run in a continue-as-new chain.
+type ContinueAsNewVersioningBehavior int32
+
+const (
+	CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_UNSPECIFIED ContinueAsNewVersioningBehavior = 0
+	// Start the new run with AutoUpgrade behavior. Use the Target Version of the workflow's task queue at
+	// start-time, as AutoUpgrade workflows do. After the first workflow task completes, use whatever
+	// Versioning Behavior the workflow is annotated with in the workflow code.
+	CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_AUTO_UPGRADE ContinueAsNewVersioningBehavior = 1
+)
+
+// Enum value maps for ContinueAsNewVersioningBehavior.
+var (
+	ContinueAsNewVersioningBehavior_name = map[int32]string{
+		0: "CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_UNSPECIFIED",
+		1: "CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_AUTO_UPGRADE",
+	}
+	ContinueAsNewVersioningBehavior_value = map[string]int32{
+		"CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_UNSPECIFIED":  0,
+		"CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_AUTO_UPGRADE": 1,
+	}
+)
+
+func (x ContinueAsNewVersioningBehavior) Enum() *ContinueAsNewVersioningBehavior {
+	p := new(ContinueAsNewVersioningBehavior)
+	*p = x
+	return p
+}
+
+func (x ContinueAsNewVersioningBehavior) String() string {
+	switch x {
+	case CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_UNSPECIFIED:
+		return "Unspecified"
+	case CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_AUTO_UPGRADE:
+		return "AutoUpgrade"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+func (ContinueAsNewVersioningBehavior) Descriptor() protoreflect.EnumDescriptor {
+	return file_temporal_api_enums_v1_workflow_proto_enumTypes[11].Descriptor()
+}
+
+func (ContinueAsNewVersioningBehavior) Type() protoreflect.EnumType {
+	return &file_temporal_api_enums_v1_workflow_proto_enumTypes[11]
+}
+
+func (x ContinueAsNewVersioningBehavior) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ContinueAsNewVersioningBehavior.Descriptor instead.
+func (ContinueAsNewVersioningBehavior) EnumDescriptor() ([]byte, []int) {
+	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{11}
+}
+
 // SuggestContinueAsNewReason specifies why SuggestContinueAsNew is true.
 type SuggestContinueAsNewReason int32
 
@@ -886,7 +928,7 @@ const (
 	// Workflow's count of completed plus in-flight updates is too large.
 	SUGGEST_CONTINUE_AS_NEW_REASON_TOO_MANY_UPDATES SuggestContinueAsNewReason = 3
 	// Workflow's Target Worker Deployment Version is different from its
-	// Pinned Version and the workflow's Versioning Behavior is PinnedUntilContinueAsNew.
+	// Current Version and the workflow is versioned.
 	SUGGEST_CONTINUE_AS_NEW_REASON_TARGET_WORKER_DEPLOYMENT_VERSION_CHANGED SuggestContinueAsNewReason = 4
 )
 
@@ -933,11 +975,11 @@ func (x SuggestContinueAsNewReason) String() string {
 }
 
 func (SuggestContinueAsNewReason) Descriptor() protoreflect.EnumDescriptor {
-	return file_temporal_api_enums_v1_workflow_proto_enumTypes[11].Descriptor()
+	return file_temporal_api_enums_v1_workflow_proto_enumTypes[12].Descriptor()
 }
 
 func (SuggestContinueAsNewReason) Type() protoreflect.EnumType {
-	return &file_temporal_api_enums_v1_workflow_proto_enumTypes[11]
+	return &file_temporal_api_enums_v1_workflow_proto_enumTypes[12]
 }
 
 func (x SuggestContinueAsNewReason) Number() protoreflect.EnumNumber {
@@ -946,7 +988,7 @@ func (x SuggestContinueAsNewReason) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use SuggestContinueAsNewReason.Descriptor instead.
 func (SuggestContinueAsNewReason) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{11}
+	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{12}
 }
 
 var File_temporal_api_enums_v1_workflow_proto protoreflect.FileDescriptor
@@ -1015,12 +1057,14 @@ const file_temporal_api_enums_v1_workflow_proto_rawDesc = "" +
 	"\x1bTIMEOUT_TYPE_START_TO_CLOSE\x10\x01\x12\"\n" +
 	"\x1eTIMEOUT_TYPE_SCHEDULE_TO_START\x10\x02\x12\"\n" +
 	"\x1eTIMEOUT_TYPE_SCHEDULE_TO_CLOSE\x10\x03\x12\x1a\n" +
-	"\x16TIMEOUT_TYPE_HEARTBEAT\x10\x04*\xb5\x01\n" +
+	"\x16TIMEOUT_TYPE_HEARTBEAT\x10\x04*\x7f\n" +
 	"\x12VersioningBehavior\x12#\n" +
 	"\x1fVERSIONING_BEHAVIOR_UNSPECIFIED\x10\x00\x12\x1e\n" +
 	"\x1aVERSIONING_BEHAVIOR_PINNED\x10\x01\x12$\n" +
-	" VERSIONING_BEHAVIOR_AUTO_UPGRADE\x10\x02\x124\n" +
-	"0VERSIONING_BEHAVIOR_PINNED_UNTIL_CONTINUE_AS_NEW\x10\x03*\xc5\x02\n" +
+	" VERSIONING_BEHAVIOR_AUTO_UPGRADE\x10\x02*\x8c\x01\n" +
+	"\x1fContinueAsNewVersioningBehavior\x123\n" +
+	"/CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_UNSPECIFIED\x10\x00\x124\n" +
+	"0CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_AUTO_UPGRADE\x10\x01*\xc5\x02\n" +
 	"\x1aSuggestContinueAsNewReason\x12.\n" +
 	"*SUGGEST_CONTINUE_AS_NEW_REASON_UNSPECIFIED\x10\x00\x129\n" +
 	"5SUGGEST_CONTINUE_AS_NEW_REASON_HISTORY_SIZE_TOO_LARGE\x10\x01\x12:\n" +
@@ -1041,20 +1085,21 @@ func file_temporal_api_enums_v1_workflow_proto_rawDescGZIP() []byte {
 	return file_temporal_api_enums_v1_workflow_proto_rawDescData
 }
 
-var file_temporal_api_enums_v1_workflow_proto_enumTypes = make([]protoimpl.EnumInfo, 12)
+var file_temporal_api_enums_v1_workflow_proto_enumTypes = make([]protoimpl.EnumInfo, 13)
 var file_temporal_api_enums_v1_workflow_proto_goTypes = []any{
-	(WorkflowIdReusePolicy)(0),      // 0: temporal.api.enums.v1.WorkflowIdReusePolicy
-	(WorkflowIdConflictPolicy)(0),   // 1: temporal.api.enums.v1.WorkflowIdConflictPolicy
-	(ParentClosePolicy)(0),          // 2: temporal.api.enums.v1.ParentClosePolicy
-	(ContinueAsNewInitiator)(0),     // 3: temporal.api.enums.v1.ContinueAsNewInitiator
-	(WorkflowExecutionStatus)(0),    // 4: temporal.api.enums.v1.WorkflowExecutionStatus
-	(PendingActivityState)(0),       // 5: temporal.api.enums.v1.PendingActivityState
-	(PendingWorkflowTaskState)(0),   // 6: temporal.api.enums.v1.PendingWorkflowTaskState
-	(HistoryEventFilterType)(0),     // 7: temporal.api.enums.v1.HistoryEventFilterType
-	(RetryState)(0),                 // 8: temporal.api.enums.v1.RetryState
-	(TimeoutType)(0),                // 9: temporal.api.enums.v1.TimeoutType
-	(VersioningBehavior)(0),         // 10: temporal.api.enums.v1.VersioningBehavior
-	(SuggestContinueAsNewReason)(0), // 11: temporal.api.enums.v1.SuggestContinueAsNewReason
+	(WorkflowIdReusePolicy)(0),           // 0: temporal.api.enums.v1.WorkflowIdReusePolicy
+	(WorkflowIdConflictPolicy)(0),        // 1: temporal.api.enums.v1.WorkflowIdConflictPolicy
+	(ParentClosePolicy)(0),               // 2: temporal.api.enums.v1.ParentClosePolicy
+	(ContinueAsNewInitiator)(0),          // 3: temporal.api.enums.v1.ContinueAsNewInitiator
+	(WorkflowExecutionStatus)(0),         // 4: temporal.api.enums.v1.WorkflowExecutionStatus
+	(PendingActivityState)(0),            // 5: temporal.api.enums.v1.PendingActivityState
+	(PendingWorkflowTaskState)(0),        // 6: temporal.api.enums.v1.PendingWorkflowTaskState
+	(HistoryEventFilterType)(0),          // 7: temporal.api.enums.v1.HistoryEventFilterType
+	(RetryState)(0),                      // 8: temporal.api.enums.v1.RetryState
+	(TimeoutType)(0),                     // 9: temporal.api.enums.v1.TimeoutType
+	(VersioningBehavior)(0),              // 10: temporal.api.enums.v1.VersioningBehavior
+	(ContinueAsNewVersioningBehavior)(0), // 11: temporal.api.enums.v1.ContinueAsNewVersioningBehavior
+	(SuggestContinueAsNewReason)(0),      // 12: temporal.api.enums.v1.SuggestContinueAsNewReason
 }
 var file_temporal_api_enums_v1_workflow_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -1074,7 +1119,7 @@ func file_temporal_api_enums_v1_workflow_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_workflow_proto_rawDesc), len(file_temporal_api_enums_v1_workflow_proto_rawDesc)),
-			NumEnums:      12,
+			NumEnums:      13,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   0,

@@ -218,10 +218,9 @@ func TimeoutTypeFromString(s string) (TimeoutType, error) {
 
 var (
 	VersioningBehavior_shorthandValue = map[string]int32{
-		"Unspecified":              0,
-		"Pinned":                   1,
-		"AutoUpgrade":              2,
-		"PinnedUntilContinueAsNew": 3,
+		"Unspecified": 0,
+		"Pinned":      1,
+		"AutoUpgrade": 2,
 	}
 )
 
@@ -234,6 +233,24 @@ func VersioningBehaviorFromString(s string) (VersioningBehavior, error) {
 		return VersioningBehavior(v), nil
 	}
 	return VersioningBehavior(0), fmt.Errorf("%s is not a valid VersioningBehavior", s)
+}
+
+var (
+	ContinueAsNewVersioningBehavior_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"AutoUpgrade": 1,
+	}
+)
+
+// ContinueAsNewVersioningBehaviorFromString parses a ContinueAsNewVersioningBehavior value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ContinueAsNewVersioningBehavior
+func ContinueAsNewVersioningBehaviorFromString(s string) (ContinueAsNewVersioningBehavior, error) {
+	if v, ok := ContinueAsNewVersioningBehavior_value[s]; ok {
+		return ContinueAsNewVersioningBehavior(v), nil
+	} else if v, ok := ContinueAsNewVersioningBehavior_shorthandValue[s]; ok {
+		return ContinueAsNewVersioningBehavior(v), nil
+	}
+	return ContinueAsNewVersioningBehavior(0), fmt.Errorf("%s is not a valid ContinueAsNewVersioningBehavior", s)
 }
 
 var (
