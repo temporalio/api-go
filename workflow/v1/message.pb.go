@@ -37,9 +37,9 @@ const (
 type VersioningOverride_PinnedOverrideBehavior int32
 
 const (
-	VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED VersioningOverride_PinnedOverrideBehavior = // Unspecified behavior.
+	VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED VersioningOverride_PinnedOverrideBehavior = // Unspecified.
 	0
-	VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED VersioningOverride_PinnedOverrideBehavior = // Make the effective behavior of the workflow Pinned.
+	VersioningOverride_PINNED_OVERRIDE_BEHAVIOR_PINNED VersioningOverride_PinnedOverrideBehavior = // Override workflow behavior to be Pinned.
 	1
 )
 
@@ -2245,14 +2245,12 @@ type isVersioningOverride_Override interface {
 }
 
 type VersioningOverride_Pinned struct {
-	// Override the workflow to have Pinned behavior, optionally specifying a pinned
-	// deployment version.
+	// Override the workflow to have Pinned behavior.
 	Pinned *VersioningOverride_PinnedOverride `protobuf:"bytes,3,opt,name=pinned,proto3,oneof"`
 }
 
 type VersioningOverride_AutoUpgrade struct {
-	// Override the workflow to use AutoUpgrade. The next workflow task will be sent
-	// to the current deployment version of the workflow's task queue.
+	// Override the workflow to have AutoUpgrade behavior.
 	AutoUpgrade bool `protobuf:"varint,4,opt,name=auto_upgrade,json=autoUpgrade,proto3,oneof"`
 }
 
@@ -2854,20 +2852,12 @@ type CallbackInfo_Trigger_WorkflowClosed struct {
 
 func (*CallbackInfo_Trigger_WorkflowClosed) isCallbackInfo_Trigger_Variant() {}
 
-// Describes which PinnedOverrideBehavior to apply and, when needed, which WorkerDeploymentVersion to pin to.
 type VersioningOverride_PinnedOverride struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.
 	// See `PinnedOverrideBehavior` for details.
 	Behavior VersioningOverride_PinnedOverrideBehavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=temporal.api.workflow.v1.VersioningOverride_PinnedOverrideBehavior" json:"behavior,omitempty"`
-	// Specifies the Worker Deployment Version to pin this workflow to.
-	// Required if the target workflow is not already pinned to a version.
-	//
-	// If omitted and the target workflow is already pinned, the effective
-	// pinned version will be the existing pinned version.
-	//
-	// If omitted and the target workflow is not pinned the override,
-	// request will be rejected.
+	// Required.
 	Version       *v12.WorkerDeploymentVersion `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

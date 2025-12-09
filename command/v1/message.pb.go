@@ -867,8 +867,7 @@ type ContinueAsNewWorkflowExecutionCommandAttributes struct {
 	//
 	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
 	InheritBuildId bool `protobuf:"varint,15,opt,name=inherit_build_id,json=inheritBuildId,proto3" json:"inherit_build_id,omitempty"`
-	// Experimental.
-	// Optionally decide the versioning behavior that the first task of the new run should use.
+	// Experimental. Optionally decide the versioning behavior that the first task of the new run should use.
 	// For example, choose to AutoUpgrade on continue-as-new instead of inheriting the pinned version
 	// of the previous run.
 	InitialVersioningBehavior v13.ContinueAsNewVersioningBehavior `protobuf:"varint,16,opt,name=initial_versioning_behavior,json=initialVersioningBehavior,proto3,enum=temporal.api.enums.v1.ContinueAsNewVersioningBehavior" json:"initial_versioning_behavior,omitempty"`
