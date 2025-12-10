@@ -128,10 +128,6 @@ func (s *workflowServiceProxyServer) FetchWorkerConfig(ctx context.Context, in0 
 	return s.client.FetchWorkerConfig(s.reqCtx(ctx), in0)
 }
 
-func (s *workflowServiceProxyServer) GetActivityExecutionOutcome(ctx context.Context, in0 *workflowservice.GetActivityExecutionOutcomeRequest) (*workflowservice.GetActivityExecutionOutcomeResponse, error) {
-	return s.client.GetActivityExecutionOutcome(s.reqCtx(ctx), in0)
-}
-
 func (s *workflowServiceProxyServer) GetClusterInfo(ctx context.Context, in0 *workflowservice.GetClusterInfoRequest) (*workflowservice.GetClusterInfoResponse, error) {
 	return s.client.GetClusterInfo(s.reqCtx(ctx), in0)
 }
@@ -238,6 +234,10 @@ func (s *workflowServiceProxyServer) PauseActivity(ctx context.Context, in0 *wor
 
 func (s *workflowServiceProxyServer) PauseWorkflowExecution(ctx context.Context, in0 *workflowservice.PauseWorkflowExecutionRequest) (*workflowservice.PauseWorkflowExecutionResponse, error) {
 	return s.client.PauseWorkflowExecution(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) PollActivityExecution(ctx context.Context, in0 *workflowservice.PollActivityExecutionRequest) (*workflowservice.PollActivityExecutionResponse, error) {
+	return s.client.PollActivityExecution(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) PollActivityTaskQueue(ctx context.Context, in0 *workflowservice.PollActivityTaskQueueRequest) (*workflowservice.PollActivityTaskQueueResponse, error) {

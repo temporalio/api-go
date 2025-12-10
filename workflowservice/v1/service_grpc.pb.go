@@ -118,7 +118,7 @@ const (
 	WorkflowService_UnpauseWorkflowExecution_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseWorkflowExecution"
 	WorkflowService_StartActivityExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartActivityExecution"
 	WorkflowService_DescribeActivityExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/DescribeActivityExecution"
-	WorkflowService_GetActivityExecutionOutcome_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/GetActivityExecutionOutcome"
+	WorkflowService_PollActivityExecution_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollActivityExecution"
 	WorkflowService_ListActivityExecutions_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/ListActivityExecutions"
 	WorkflowService_CountActivityExecutions_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/CountActivityExecutions"
 	WorkflowService_RequestCancelActivityExecution_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelActivityExecution"
@@ -734,9 +734,9 @@ type WorkflowServiceClient interface {
 	// - Long-poll for next state change and return new activity info
 	// Response can optionally include activity input or outcome (if the activity has completed).
 	DescribeActivityExecution(ctx context.Context, in *DescribeActivityExecutionRequest, opts ...grpc.CallOption) (*DescribeActivityExecutionResponse, error)
-	// GetActivityExecutionOutcome long-polls for an activity execution to complete and returns
-	// the outcome (result or failure).
-	GetActivityExecutionOutcome(ctx context.Context, in *GetActivityExecutionOutcomeRequest, opts ...grpc.CallOption) (*GetActivityExecutionOutcomeResponse, error)
+	// PollActivityExecution long-polls for an activity execution to complete and returns the
+	// outcome (result or failure).
+	PollActivityExecution(ctx context.Context, in *PollActivityExecutionRequest, opts ...grpc.CallOption) (*PollActivityExecutionResponse, error)
 	// ListActivityExecutions is a visibility API to list activity executions in a specific namespace.
 	ListActivityExecutions(ctx context.Context, in *ListActivityExecutionsRequest, opts ...grpc.CallOption) (*ListActivityExecutionsResponse, error)
 	// CountActivityExecutions is a visibility API to count of activity executions in a specific namespace.
@@ -1755,10 +1755,10 @@ func (c *workflowServiceClient) DescribeActivityExecution(ctx context.Context, i
 	return out, nil
 }
 
-func (c *workflowServiceClient) GetActivityExecutionOutcome(ctx context.Context, in *GetActivityExecutionOutcomeRequest, opts ...grpc.CallOption) (*GetActivityExecutionOutcomeResponse, error) {
+func (c *workflowServiceClient) PollActivityExecution(ctx context.Context, in *PollActivityExecutionRequest, opts ...grpc.CallOption) (*PollActivityExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetActivityExecutionOutcomeResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_GetActivityExecutionOutcome_FullMethodName, in, out, cOpts...)
+	out := new(PollActivityExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PollActivityExecution_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2423,9 +2423,9 @@ type WorkflowServiceServer interface {
 	// - Long-poll for next state change and return new activity info
 	// Response can optionally include activity input or outcome (if the activity has completed).
 	DescribeActivityExecution(context.Context, *DescribeActivityExecutionRequest) (*DescribeActivityExecutionResponse, error)
-	// GetActivityExecutionOutcome long-polls for an activity execution to complete and returns
-	// the outcome (result or failure).
-	GetActivityExecutionOutcome(context.Context, *GetActivityExecutionOutcomeRequest) (*GetActivityExecutionOutcomeResponse, error)
+	// PollActivityExecution long-polls for an activity execution to complete and returns the
+	// outcome (result or failure).
+	PollActivityExecution(context.Context, *PollActivityExecutionRequest) (*PollActivityExecutionResponse, error)
 	// ListActivityExecutions is a visibility API to list activity executions in a specific namespace.
 	ListActivityExecutions(context.Context, *ListActivityExecutionsRequest) (*ListActivityExecutionsResponse, error)
 	// CountActivityExecutions is a visibility API to count of activity executions in a specific namespace.
@@ -2758,8 +2758,8 @@ func (UnimplementedWorkflowServiceServer) StartActivityExecution(context.Context
 func (UnimplementedWorkflowServiceServer) DescribeActivityExecution(context.Context, *DescribeActivityExecutionRequest) (*DescribeActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeActivityExecution not implemented")
 }
-func (UnimplementedWorkflowServiceServer) GetActivityExecutionOutcome(context.Context, *GetActivityExecutionOutcomeRequest) (*GetActivityExecutionOutcomeResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetActivityExecutionOutcome not implemented")
+func (UnimplementedWorkflowServiceServer) PollActivityExecution(context.Context, *PollActivityExecutionRequest) (*PollActivityExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PollActivityExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListActivityExecutions(context.Context, *ListActivityExecutionsRequest) (*ListActivityExecutionsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListActivityExecutions not implemented")
@@ -4561,20 +4561,20 @@ func _WorkflowService_DescribeActivityExecution_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_GetActivityExecutionOutcome_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetActivityExecutionOutcomeRequest)
+func _WorkflowService_PollActivityExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PollActivityExecutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).GetActivityExecutionOutcome(ctx, in)
+		return srv.(WorkflowServiceServer).PollActivityExecution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_GetActivityExecutionOutcome_FullMethodName,
+		FullMethod: WorkflowService_PollActivityExecution_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).GetActivityExecutionOutcome(ctx, req.(*GetActivityExecutionOutcomeRequest))
+		return srv.(WorkflowServiceServer).PollActivityExecution(ctx, req.(*PollActivityExecutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5069,8 +5069,8 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_DescribeActivityExecution_Handler,
 		},
 		{
-			MethodName: "GetActivityExecutionOutcome",
-			Handler:    _WorkflowService_GetActivityExecutionOutcome_Handler,
+			MethodName: "PollActivityExecution",
+			Handler:    _WorkflowService_PollActivityExecution_Handler,
 		},
 		{
 			MethodName: "ListActivityExecutions",

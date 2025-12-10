@@ -26,7 +26,7 @@ var File_temporal_api_workflowservice_v1_service_proto protoreflect.FileDescript
 
 const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\xaf\xd6\x01\n" +
+	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\x9d\xd6\x01\n" +
 	"\x0fWorkflowService\x12\xc3\x01\n" +
 	"\x11RegisterNamespace\x129.temporal.api.workflowservice.v1.RegisterNamespaceRequest\x1a:.temporal.api.workflowservice.v1.RegisterNamespaceResponse\"7\x82\xd3\xe4\x93\x021:\x01*Z\x17:\x01*\"\x12/api/v1/namespaces\"\x13/cluster/namespaces\x12\xd5\x01\n" +
 	"\x11DescribeNamespace\x129.temporal.api.workflowservice.v1.DescribeNamespaceRequest\x1a:.temporal.api.workflowservice.v1.DescribeNamespaceResponse\"I\x82\xd3\xe4\x93\x02CZ \x12\x1e/api/v1/namespaces/{namespace}\x12\x1f/cluster/namespaces/{namespace}\x12\xb4\x01\n" +
@@ -125,8 +125,8 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x16PauseWorkflowExecution\x12>.temporal.api.workflowservice.v1.PauseWorkflowExecutionRequest\x1a?.temporal.api.workflowservice.v1.PauseWorkflowExecutionResponse\"@\x82\xd3\xe4\x93\x02::\x01*\"5/namespaces/{namespace}/workflows/{workflow_id}/pause\x12\xe3\x01\n" +
 	"\x18UnpauseWorkflowExecution\x12@.temporal.api.workflowservice.v1.UnpauseWorkflowExecutionRequest\x1aA.temporal.api.workflowservice.v1.UnpauseWorkflowExecutionResponse\"B\x82\xd3\xe4\x93\x02<:\x01*\"7/namespaces/{namespace}/workflows/{workflow_id}/unpause\x12\x94\x02\n" +
 	"\x16StartActivityExecution\x12>.temporal.api.workflowservice.v1.StartActivityExecutionRequest\x1a?.temporal.api.workflowservice.v1.StartActivityExecutionResponse\"y\x82\xd3\xe4\x93\x02s:\x01*Z<:\x01*\"7/api/v1/namespaces/{namespace}/activities/{activity_id}\"0/namespaces/{namespace}/activities/{activity_id}\x12\x97\x02\n" +
-	"\x19DescribeActivityExecution\x12A.temporal.api.workflowservice.v1.DescribeActivityExecutionRequest\x1aB.temporal.api.workflowservice.v1.DescribeActivityExecutionResponse\"s\x82\xd3\xe4\x93\x02mZ9\x127/api/v1/namespaces/{namespace}/activities/{activity_id}\x120/namespaces/{namespace}/activities/{activity_id}\x12\xae\x02\n" +
-	"\x1bGetActivityExecutionOutcome\x12C.temporal.api.workflowservice.v1.GetActivityExecutionOutcomeRequest\x1aD.temporal.api.workflowservice.v1.GetActivityExecutionOutcomeResponse\"\x83\x01\x82\xd3\xe4\x93\x02}ZA\x12?/api/v1/namespaces/{namespace}/activities/{activity_id}/outcome\x128/namespaces/{namespace}/activities/{activity_id}/outcome\x12\xf2\x01\n" +
+	"\x19DescribeActivityExecution\x12A.temporal.api.workflowservice.v1.DescribeActivityExecutionRequest\x1aB.temporal.api.workflowservice.v1.DescribeActivityExecutionResponse\"s\x82\xd3\xe4\x93\x02mZ9\x127/api/v1/namespaces/{namespace}/activities/{activity_id}\x120/namespaces/{namespace}/activities/{activity_id}\x12\x9c\x02\n" +
+	"\x15PollActivityExecution\x12=.temporal.api.workflowservice.v1.PollActivityExecutionRequest\x1a>.temporal.api.workflowservice.v1.PollActivityExecutionResponse\"\x83\x01\x82\xd3\xe4\x93\x02}ZA\x12?/api/v1/namespaces/{namespace}/activities/{activity_id}/outcome\x128/namespaces/{namespace}/activities/{activity_id}/outcome\x12\xf2\x01\n" +
 	"\x16ListActivityExecutions\x12>.temporal.api.workflowservice.v1.ListActivityExecutionsRequest\x1a?.temporal.api.workflowservice.v1.ListActivityExecutionsResponse\"W\x82\xd3\xe4\x93\x02QZ+\x12)/api/v1/namespaces/{namespace}/activities\x12\"/namespaces/{namespace}/activities\x12\xfd\x01\n" +
 	"\x17CountActivityExecutions\x12?.temporal.api.workflowservice.v1.CountActivityExecutionsRequest\x1a@.temporal.api.workflowservice.v1.CountActivityExecutionsResponse\"_\x82\xd3\xe4\x93\x02YZ/\x12-/api/v1/namespaces/{namespace}/activity-count\x12&/namespaces/{namespace}/activity-count\x12\xbc\x02\n" +
 	"\x1eRequestCancelActivityExecution\x12F.temporal.api.workflowservice.v1.RequestCancelActivityExecutionRequest\x1aG.temporal.api.workflowservice.v1.RequestCancelActivityExecutionResponse\"\x88\x01\x82\xd3\xe4\x93\x02\x81\x01:\x01*ZC:\x01*\">/api/v1/namespaces/{namespace}/activities/{activity_id}/cancel\"7/namespaces/{namespace}/activities/{activity_id}/cancel\x12\xb6\x02\n" +
@@ -233,7 +233,7 @@ var file_temporal_api_workflowservice_v1_service_proto_goTypes = []any{
 	(*UnpauseWorkflowExecutionRequest)(nil),               // 95: temporal.api.workflowservice.v1.UnpauseWorkflowExecutionRequest
 	(*StartActivityExecutionRequest)(nil),                 // 96: temporal.api.workflowservice.v1.StartActivityExecutionRequest
 	(*DescribeActivityExecutionRequest)(nil),              // 97: temporal.api.workflowservice.v1.DescribeActivityExecutionRequest
-	(*GetActivityExecutionOutcomeRequest)(nil),            // 98: temporal.api.workflowservice.v1.GetActivityExecutionOutcomeRequest
+	(*PollActivityExecutionRequest)(nil),                  // 98: temporal.api.workflowservice.v1.PollActivityExecutionRequest
 	(*ListActivityExecutionsRequest)(nil),                 // 99: temporal.api.workflowservice.v1.ListActivityExecutionsRequest
 	(*CountActivityExecutionsRequest)(nil),                // 100: temporal.api.workflowservice.v1.CountActivityExecutionsRequest
 	(*RequestCancelActivityExecutionRequest)(nil),         // 101: temporal.api.workflowservice.v1.RequestCancelActivityExecutionRequest
@@ -337,7 +337,7 @@ var file_temporal_api_workflowservice_v1_service_proto_goTypes = []any{
 	(*UnpauseWorkflowExecutionResponse)(nil),              // 199: temporal.api.workflowservice.v1.UnpauseWorkflowExecutionResponse
 	(*StartActivityExecutionResponse)(nil),                // 200: temporal.api.workflowservice.v1.StartActivityExecutionResponse
 	(*DescribeActivityExecutionResponse)(nil),             // 201: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
-	(*GetActivityExecutionOutcomeResponse)(nil),           // 202: temporal.api.workflowservice.v1.GetActivityExecutionOutcomeResponse
+	(*PollActivityExecutionResponse)(nil),                 // 202: temporal.api.workflowservice.v1.PollActivityExecutionResponse
 	(*ListActivityExecutionsResponse)(nil),                // 203: temporal.api.workflowservice.v1.ListActivityExecutionsResponse
 	(*CountActivityExecutionsResponse)(nil),               // 204: temporal.api.workflowservice.v1.CountActivityExecutionsResponse
 	(*RequestCancelActivityExecutionResponse)(nil),        // 205: temporal.api.workflowservice.v1.RequestCancelActivityExecutionResponse
@@ -443,7 +443,7 @@ var file_temporal_api_workflowservice_v1_service_proto_depIdxs = []int32{
 	95,  // 95: temporal.api.workflowservice.v1.WorkflowService.UnpauseWorkflowExecution:input_type -> temporal.api.workflowservice.v1.UnpauseWorkflowExecutionRequest
 	96,  // 96: temporal.api.workflowservice.v1.WorkflowService.StartActivityExecution:input_type -> temporal.api.workflowservice.v1.StartActivityExecutionRequest
 	97,  // 97: temporal.api.workflowservice.v1.WorkflowService.DescribeActivityExecution:input_type -> temporal.api.workflowservice.v1.DescribeActivityExecutionRequest
-	98,  // 98: temporal.api.workflowservice.v1.WorkflowService.GetActivityExecutionOutcome:input_type -> temporal.api.workflowservice.v1.GetActivityExecutionOutcomeRequest
+	98,  // 98: temporal.api.workflowservice.v1.WorkflowService.PollActivityExecution:input_type -> temporal.api.workflowservice.v1.PollActivityExecutionRequest
 	99,  // 99: temporal.api.workflowservice.v1.WorkflowService.ListActivityExecutions:input_type -> temporal.api.workflowservice.v1.ListActivityExecutionsRequest
 	100, // 100: temporal.api.workflowservice.v1.WorkflowService.CountActivityExecutions:input_type -> temporal.api.workflowservice.v1.CountActivityExecutionsRequest
 	101, // 101: temporal.api.workflowservice.v1.WorkflowService.RequestCancelActivityExecution:input_type -> temporal.api.workflowservice.v1.RequestCancelActivityExecutionRequest
@@ -547,7 +547,7 @@ var file_temporal_api_workflowservice_v1_service_proto_depIdxs = []int32{
 	199, // 199: temporal.api.workflowservice.v1.WorkflowService.UnpauseWorkflowExecution:output_type -> temporal.api.workflowservice.v1.UnpauseWorkflowExecutionResponse
 	200, // 200: temporal.api.workflowservice.v1.WorkflowService.StartActivityExecution:output_type -> temporal.api.workflowservice.v1.StartActivityExecutionResponse
 	201, // 201: temporal.api.workflowservice.v1.WorkflowService.DescribeActivityExecution:output_type -> temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
-	202, // 202: temporal.api.workflowservice.v1.WorkflowService.GetActivityExecutionOutcome:output_type -> temporal.api.workflowservice.v1.GetActivityExecutionOutcomeResponse
+	202, // 202: temporal.api.workflowservice.v1.WorkflowService.PollActivityExecution:output_type -> temporal.api.workflowservice.v1.PollActivityExecutionResponse
 	203, // 203: temporal.api.workflowservice.v1.WorkflowService.ListActivityExecutions:output_type -> temporal.api.workflowservice.v1.ListActivityExecutionsResponse
 	204, // 204: temporal.api.workflowservice.v1.WorkflowService.CountActivityExecutions:output_type -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse
 	205, // 205: temporal.api.workflowservice.v1.WorkflowService.RequestCancelActivityExecution:output_type -> temporal.api.workflowservice.v1.RequestCancelActivityExecutionResponse

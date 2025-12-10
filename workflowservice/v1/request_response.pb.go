@@ -14907,7 +14907,7 @@ func (x *DescribeActivityExecutionResponse) GetLongPollToken() []byte {
 	return nil
 }
 
-type GetActivityExecutionOutcomeRequest struct {
+type PollActivityExecutionRequest struct {
 	state      protoimpl.MessageState `protogen:"open.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	ActivityId string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
@@ -14917,20 +14917,20 @@ type GetActivityExecutionOutcomeRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetActivityExecutionOutcomeRequest) Reset() {
-	*x = GetActivityExecutionOutcomeRequest{}
+func (x *PollActivityExecutionRequest) Reset() {
+	*x = PollActivityExecutionRequest{}
 	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[196]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetActivityExecutionOutcomeRequest) String() string {
+func (x *PollActivityExecutionRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetActivityExecutionOutcomeRequest) ProtoMessage() {}
+func (*PollActivityExecutionRequest) ProtoMessage() {}
 
-func (x *GetActivityExecutionOutcomeRequest) ProtoReflect() protoreflect.Message {
+func (x *PollActivityExecutionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[196]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -14942,33 +14942,33 @@ func (x *GetActivityExecutionOutcomeRequest) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetActivityExecutionOutcomeRequest.ProtoReflect.Descriptor instead.
-func (*GetActivityExecutionOutcomeRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use PollActivityExecutionRequest.ProtoReflect.Descriptor instead.
+func (*PollActivityExecutionRequest) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{196}
 }
 
-func (x *GetActivityExecutionOutcomeRequest) GetNamespace() string {
+func (x *PollActivityExecutionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
 	}
 	return ""
 }
 
-func (x *GetActivityExecutionOutcomeRequest) GetActivityId() string {
+func (x *PollActivityExecutionRequest) GetActivityId() string {
 	if x != nil {
 		return x.ActivityId
 	}
 	return ""
 }
 
-func (x *GetActivityExecutionOutcomeRequest) GetRunId() string {
+func (x *PollActivityExecutionRequest) GetRunId() string {
 	if x != nil {
 		return x.RunId
 	}
 	return ""
 }
 
-type GetActivityExecutionOutcomeResponse struct {
+type PollActivityExecutionResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// The run ID of the activity, useful when run_id was not specified in the request.
 	RunId         string                         `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
@@ -14977,20 +14977,20 @@ type GetActivityExecutionOutcomeResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetActivityExecutionOutcomeResponse) Reset() {
-	*x = GetActivityExecutionOutcomeResponse{}
+func (x *PollActivityExecutionResponse) Reset() {
+	*x = PollActivityExecutionResponse{}
 	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[197]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetActivityExecutionOutcomeResponse) String() string {
+func (x *PollActivityExecutionResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetActivityExecutionOutcomeResponse) ProtoMessage() {}
+func (*PollActivityExecutionResponse) ProtoMessage() {}
 
-func (x *GetActivityExecutionOutcomeResponse) ProtoReflect() protoreflect.Message {
+func (x *PollActivityExecutionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_workflowservice_v1_request_response_proto_msgTypes[197]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -15002,19 +15002,19 @@ func (x *GetActivityExecutionOutcomeResponse) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetActivityExecutionOutcomeResponse.ProtoReflect.Descriptor instead.
-func (*GetActivityExecutionOutcomeResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use PollActivityExecutionResponse.ProtoReflect.Descriptor instead.
+func (*PollActivityExecutionResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{197}
 }
 
-func (x *GetActivityExecutionOutcomeResponse) GetRunId() string {
+func (x *PollActivityExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
 	}
 	return ""
 }
 
-func (x *GetActivityExecutionOutcomeResponse) GetOutcome() *v120.ActivityExecutionOutcome {
+func (x *PollActivityExecutionResponse) GetOutcome() *v120.ActivityExecutionOutcome {
 	if x != nil {
 		return x.Outcome
 	}
@@ -18086,13 +18086,13 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x04info\x18\x02 \x01(\v2/.temporal.api.activity.v1.ActivityExecutionInfoR\x04info\x126\n" +
 	"\x05input\x18\x03 \x01(\v2 .temporal.api.common.v1.PayloadsR\x05input\x12L\n" +
 	"\aoutcome\x18\x04 \x01(\v22.temporal.api.activity.v1.ActivityExecutionOutcomeR\aoutcome\x12&\n" +
-	"\x0flong_poll_token\x18\x05 \x01(\fR\rlongPollToken\"z\n" +
-	"\"GetActivityExecutionOutcomeRequest\x12\x1c\n" +
+	"\x0flong_poll_token\x18\x05 \x01(\fR\rlongPollToken\"t\n" +
+	"\x1cPollActivityExecutionRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1f\n" +
 	"\vactivity_id\x18\x02 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
-	"\x06run_id\x18\x03 \x01(\tR\x05runId\"\x8a\x01\n" +
-	"#GetActivityExecutionOutcomeResponse\x12\x15\n" +
+	"\x06run_id\x18\x03 \x01(\tR\x05runId\"\x84\x01\n" +
+	"\x1dPollActivityExecutionResponse\x12\x15\n" +
 	"\x06run_id\x18\x01 \x01(\tR\x05runId\x12L\n" +
 	"\aoutcome\x18\x02 \x01(\v22.temporal.api.activity.v1.ActivityExecutionOutcomeR\aoutcome\"\x98\x01\n" +
 	"\x1dListActivityExecutionsRequest\x12\x1c\n" +
@@ -18352,8 +18352,8 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*StartActivityExecutionResponse)(nil),                   // 193: temporal.api.workflowservice.v1.StartActivityExecutionResponse
 	(*DescribeActivityExecutionRequest)(nil),                 // 194: temporal.api.workflowservice.v1.DescribeActivityExecutionRequest
 	(*DescribeActivityExecutionResponse)(nil),                // 195: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
-	(*GetActivityExecutionOutcomeRequest)(nil),               // 196: temporal.api.workflowservice.v1.GetActivityExecutionOutcomeRequest
-	(*GetActivityExecutionOutcomeResponse)(nil),              // 197: temporal.api.workflowservice.v1.GetActivityExecutionOutcomeResponse
+	(*PollActivityExecutionRequest)(nil),                     // 196: temporal.api.workflowservice.v1.PollActivityExecutionRequest
+	(*PollActivityExecutionResponse)(nil),                    // 197: temporal.api.workflowservice.v1.PollActivityExecutionResponse
 	(*ListActivityExecutionsRequest)(nil),                    // 198: temporal.api.workflowservice.v1.ListActivityExecutionsRequest
 	(*ListActivityExecutionsResponse)(nil),                   // 199: temporal.api.workflowservice.v1.ListActivityExecutionsResponse
 	(*CountActivityExecutionsRequest)(nil),                   // 200: temporal.api.workflowservice.v1.CountActivityExecutionsRequest
@@ -18876,7 +18876,7 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	359, // 343: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.info:type_name -> temporal.api.activity.v1.ActivityExecutionInfo
 	248, // 344: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.input:type_name -> temporal.api.common.v1.Payloads
 	360, // 345: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
-	360, // 346: temporal.api.workflowservice.v1.GetActivityExecutionOutcomeResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
+	360, // 346: temporal.api.workflowservice.v1.PollActivityExecutionResponse.outcome:type_name -> temporal.api.activity.v1.ActivityExecutionOutcome
 	361, // 347: temporal.api.workflowservice.v1.ListActivityExecutionsResponse.executions:type_name -> temporal.api.activity.v1.ActivityExecutionListInfo
 	236, // 348: temporal.api.workflowservice.v1.CountActivityExecutionsResponse.groups:type_name -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse.AggregationGroup
 	269, // 349: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse.QueriesEntry.value:type_name -> temporal.api.query.v1.WorkflowQuery
