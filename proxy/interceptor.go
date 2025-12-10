@@ -2681,6 +2681,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.RespondNexusTaskFailedRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetFailure(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.RespondQueryTaskCompletedRequest:
 
 			if o == nil {
@@ -3769,6 +3784,19 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				ctx,
 				options,
 				o.GetResponse(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.RespondNexusTaskFailedRequest:
+			if o == nil {
+				continue
+			}
+			ctx.Parent = o
+			if err := visitFailures(
+				ctx,
+				options,
+				o.GetFailure(),
 			); err != nil {
 				return err
 			}
