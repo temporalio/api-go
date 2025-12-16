@@ -14470,8 +14470,12 @@ type StartActivityExecutionRequest struct {
 	// The identity of the client who initiated this request
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	// A unique identifier for this start request. Typically UUIDv4.
-	RequestId    string            `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
-	ActivityId   string            `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	RequestId string `protobuf:"bytes,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
+	// Identifier for this activity. Required. This identifier should be meaningful in the user's
+	// own system. It must be unique among activities in the same namespace, subject to the rules
+	// imposed by id_reuse_policy and id_conflict_policy.
+	ActivityId string `protobuf:"bytes,4,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
+	// The type of the activity, a string that corresponds to a registered activity on a worker.
 	ActivityType *v13.ActivityType `protobuf:"bytes,5,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
 	// Task queue to schedule this activity on.
 	TaskQueue *v14.TaskQueue `protobuf:"bytes,6,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`

@@ -277,9 +277,7 @@ type ActivityExecutionInfo struct {
 	LastHeartbeatTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=last_heartbeat_time,json=lastHeartbeatTime,proto3" json:"last_heartbeat_time,omitempty"`
 	// Time the last attempt was started.
 	LastStartedTime *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=last_started_time,json=lastStartedTime,proto3" json:"last_started_time,omitempty"`
-	// The attempt this activity is currently on.
-	// Incremented each time a new attempt is started.
-	// TODO(dandavison): Confirm if this is on scheduled or started.
+	// The attempt this activity is currently on. Incremented each time a new attempt is scheduled.
 	Attempt int32 `protobuf:"varint,15,opt,name=attempt,proto3" json:"attempt,omitempty"`
 	// How long this activity has been running for, including all attempts and backoff between attempts.
 	ExecutionDuration *durationpb.Duration `protobuf:"bytes,16,opt,name=execution_duration,json=executionDuration,proto3" json:"execution_duration,omitempty"`
@@ -310,13 +308,15 @@ type ActivityExecutionInfo struct {
 	// Priority metadata.
 	Priority *v1.Priority `protobuf:"bytes,26,opt,name=priority,proto3" json:"priority,omitempty"`
 	// Incremented each time the activity's state is mutated in persistence.
-	StateTransitionCount int64                `protobuf:"varint,27,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
-	SearchAttributes     *v1.SearchAttributes `protobuf:"bytes,28,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
-	Header               *v1.Header           `protobuf:"bytes,29,opt,name=header,proto3" json:"header,omitempty"`
+	StateTransitionCount int64 `protobuf:"varint,27,opt,name=state_transition_count,json=stateTransitionCount,proto3" json:"state_transition_count,omitempty"`
+	// Updated once on scheduled and once on terminal status.
+	StateSizeBytes   int64                `protobuf:"varint,28,opt,name=state_size_bytes,json=stateSizeBytes,proto3" json:"state_size_bytes,omitempty"`
+	SearchAttributes *v1.SearchAttributes `protobuf:"bytes,29,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
+	Header           *v1.Header           `protobuf:"bytes,30,opt,name=header,proto3" json:"header,omitempty"`
 	// Metadata for use by user interfaces to display the fixed as-of-start summary and details of the activity.
-	UserMetadata *v15.UserMetadata `protobuf:"bytes,30,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
+	UserMetadata *v15.UserMetadata `protobuf:"bytes,31,opt,name=user_metadata,json=userMetadata,proto3" json:"user_metadata,omitempty"`
 	// Set if activity cancelation was requested.
-	CanceledReason string `protobuf:"bytes,31,opt,name=canceled_reason,json=canceledReason,proto3" json:"canceled_reason,omitempty"`
+	CanceledReason string `protobuf:"bytes,32,opt,name=canceled_reason,json=canceledReason,proto3" json:"canceled_reason,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -540,6 +540,13 @@ func (x *ActivityExecutionInfo) GetStateTransitionCount() int64 {
 	return 0
 }
 
+func (x *ActivityExecutionInfo) GetStateSizeBytes() int64 {
+	if x != nil {
+		return x.StateSizeBytes
+	}
+	return 0
+}
+
 func (x *ActivityExecutionInfo) GetSearchAttributes() *v1.SearchAttributes {
 	if x != nil {
 		return x.SearchAttributes
@@ -725,7 +732,7 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x16start_to_close_timeout\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\x13startToCloseTimeout\x12F\n" +
 	"\x11heartbeat_timeout\x18\x05 \x01(\v2\x19.google.protobuf.DurationR\x10heartbeatTimeout\x12F\n" +
 	"\fretry_policy\x18\x06 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12<\n" +
-	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xba\x10\n" +
+	"\bpriority\x18\a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xe4\x10\n" +
 	"\x15ActivityExecutionInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +
@@ -757,11 +764,12 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	"\x1anext_attempt_schedule_time\x18\x18 \x01(\v2\x1a.google.protobuf.TimestampR\x17nextAttemptScheduleTime\x12k\n" +
 	"\x17last_deployment_version\x18\x19 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x15lastDeploymentVersion\x12<\n" +
 	"\bpriority\x18\x1a \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x124\n" +
-	"\x16state_transition_count\x18\x1b \x01(\x03R\x14stateTransitionCount\x12U\n" +
-	"\x11search_attributes\x18\x1c \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x126\n" +
-	"\x06header\x18\x1d \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x12F\n" +
-	"\ruser_metadata\x18\x1e \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x12'\n" +
-	"\x0fcanceled_reason\x18\x1f \x01(\tR\x0ecanceledReason\"\x82\x05\n" +
+	"\x16state_transition_count\x18\x1b \x01(\x03R\x14stateTransitionCount\x12(\n" +
+	"\x10state_size_bytes\x18\x1c \x01(\x03R\x0estateSizeBytes\x12U\n" +
+	"\x11search_attributes\x18\x1d \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x126\n" +
+	"\x06header\x18\x1e \x01(\v2\x1e.temporal.api.common.v1.HeaderR\x06header\x12F\n" +
+	"\ruser_metadata\x18\x1f \x01(\v2!.temporal.api.sdk.v1.UserMetadataR\fuserMetadata\x12'\n" +
+	"\x0fcanceled_reason\x18  \x01(\tR\x0ecanceledReason\"\x82\x05\n" +
 	"\x19ActivityExecutionListInfo\x12\x1f\n" +
 	"\vactivity_id\x18\x01 \x01(\tR\n" +
 	"activityId\x12\x15\n" +

@@ -725,7 +725,7 @@ type WorkflowServiceClient interface {
 	UnpauseWorkflowExecution(ctx context.Context, in *UnpauseWorkflowExecutionRequest, opts ...grpc.CallOption) (*UnpauseWorkflowExecutionResponse, error)
 	// StartActivityExecution starts a new activity execution.
 	//
-	// Returns an `ExecutionAlreadyStarted` error if an instance already exists with same activity ID in this namespace
+	// Returns an `ActivityExecutionAlreadyStarted` error if an instance already exists with same activity ID in this namespace
 	// unless permitted by the specified ID conflict policy.
 	StartActivityExecution(ctx context.Context, in *StartActivityExecutionRequest, opts ...grpc.CallOption) (*StartActivityExecutionResponse, error)
 	// DescribeActivityExecution returns information about an activity execution.
@@ -2414,7 +2414,7 @@ type WorkflowServiceServer interface {
 	UnpauseWorkflowExecution(context.Context, *UnpauseWorkflowExecutionRequest) (*UnpauseWorkflowExecutionResponse, error)
 	// StartActivityExecution starts a new activity execution.
 	//
-	// Returns an `ExecutionAlreadyStarted` error if an instance already exists with same activity ID in this namespace
+	// Returns an `ActivityExecutionAlreadyStarted` error if an instance already exists with same activity ID in this namespace
 	// unless permitted by the specified ID conflict policy.
 	StartActivityExecution(context.Context, *StartActivityExecutionRequest) (*StartActivityExecutionResponse, error)
 	// DescribeActivityExecution returns information about an activity execution.
