@@ -2277,292 +2277,292 @@ type WorkflowServiceServer interface {
 type UnimplementedWorkflowServiceServer struct{}
 
 func (UnimplementedWorkflowServiceServer) RegisterNamespace(context.Context, *RegisterNamespaceRequest) (*RegisterNamespaceResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RegisterNamespace not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterNamespace not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeNamespace(context.Context, *DescribeNamespaceRequest) (*DescribeNamespaceResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeNamespace not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeNamespace not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListNamespaces(context.Context, *ListNamespacesRequest) (*ListNamespacesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListNamespaces not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListNamespaces not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateNamespace(context.Context, *UpdateNamespaceRequest) (*UpdateNamespaceResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateNamespace not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNamespace not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DeprecateNamespace(context.Context, *DeprecateNamespaceRequest) (*DeprecateNamespaceResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeprecateNamespace not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DeprecateNamespace not implemented")
 }
 func (UnimplementedWorkflowServiceServer) StartWorkflowExecution(context.Context, *StartWorkflowExecutionRequest) (*StartWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method StartWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method StartWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ExecuteMultiOperation(context.Context, *ExecuteMultiOperationRequest) (*ExecuteMultiOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ExecuteMultiOperation not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ExecuteMultiOperation not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetWorkflowExecutionHistory(context.Context, *GetWorkflowExecutionHistoryRequest) (*GetWorkflowExecutionHistoryResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetWorkflowExecutionHistory not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkflowExecutionHistory not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetWorkflowExecutionHistoryReverse(context.Context, *GetWorkflowExecutionHistoryReverseRequest) (*GetWorkflowExecutionHistoryReverseResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetWorkflowExecutionHistoryReverse not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkflowExecutionHistoryReverse not implemented")
 }
 func (UnimplementedWorkflowServiceServer) PollWorkflowTaskQueue(context.Context, *PollWorkflowTaskQueueRequest) (*PollWorkflowTaskQueueResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PollWorkflowTaskQueue not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method PollWorkflowTaskQueue not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondWorkflowTaskCompleted(context.Context, *RespondWorkflowTaskCompletedRequest) (*RespondWorkflowTaskCompletedResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondWorkflowTaskCompleted not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondWorkflowTaskCompleted not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondWorkflowTaskFailed(context.Context, *RespondWorkflowTaskFailedRequest) (*RespondWorkflowTaskFailedResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondWorkflowTaskFailed not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondWorkflowTaskFailed not implemented")
 }
 func (UnimplementedWorkflowServiceServer) PollActivityTaskQueue(context.Context, *PollActivityTaskQueueRequest) (*PollActivityTaskQueueResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PollActivityTaskQueue not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method PollActivityTaskQueue not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RecordActivityTaskHeartbeat(context.Context, *RecordActivityTaskHeartbeatRequest) (*RecordActivityTaskHeartbeatResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RecordActivityTaskHeartbeat not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RecordActivityTaskHeartbeat not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RecordActivityTaskHeartbeatById(context.Context, *RecordActivityTaskHeartbeatByIdRequest) (*RecordActivityTaskHeartbeatByIdResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RecordActivityTaskHeartbeatById not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RecordActivityTaskHeartbeatById not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondActivityTaskCompleted(context.Context, *RespondActivityTaskCompletedRequest) (*RespondActivityTaskCompletedResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondActivityTaskCompleted not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondActivityTaskCompleted not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondActivityTaskCompletedById(context.Context, *RespondActivityTaskCompletedByIdRequest) (*RespondActivityTaskCompletedByIdResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondActivityTaskCompletedById not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondActivityTaskCompletedById not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondActivityTaskFailed(context.Context, *RespondActivityTaskFailedRequest) (*RespondActivityTaskFailedResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondActivityTaskFailed not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondActivityTaskFailed not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondActivityTaskFailedById(context.Context, *RespondActivityTaskFailedByIdRequest) (*RespondActivityTaskFailedByIdResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondActivityTaskFailedById not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondActivityTaskFailedById not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondActivityTaskCanceled(context.Context, *RespondActivityTaskCanceledRequest) (*RespondActivityTaskCanceledResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondActivityTaskCanceled not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondActivityTaskCanceled not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondActivityTaskCanceledById(context.Context, *RespondActivityTaskCanceledByIdRequest) (*RespondActivityTaskCanceledByIdResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondActivityTaskCanceledById not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondActivityTaskCanceledById not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RequestCancelWorkflowExecution(context.Context, *RequestCancelWorkflowExecutionRequest) (*RequestCancelWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RequestCancelWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RequestCancelWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) SignalWorkflowExecution(context.Context, *SignalWorkflowExecutionRequest) (*SignalWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SignalWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method SignalWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) SignalWithStartWorkflowExecution(context.Context, *SignalWithStartWorkflowExecutionRequest) (*SignalWithStartWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SignalWithStartWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method SignalWithStartWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ResetWorkflowExecution(context.Context, *ResetWorkflowExecutionRequest) (*ResetWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ResetWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ResetWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) TerminateWorkflowExecution(context.Context, *TerminateWorkflowExecutionRequest) (*TerminateWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method TerminateWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method TerminateWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DeleteWorkflowExecution(context.Context, *DeleteWorkflowExecutionRequest) (*DeleteWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListOpenWorkflowExecutions(context.Context, *ListOpenWorkflowExecutionsRequest) (*ListOpenWorkflowExecutionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListOpenWorkflowExecutions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListOpenWorkflowExecutions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListClosedWorkflowExecutions(context.Context, *ListClosedWorkflowExecutionsRequest) (*ListClosedWorkflowExecutionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListClosedWorkflowExecutions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListClosedWorkflowExecutions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListWorkflowExecutions(context.Context, *ListWorkflowExecutionsRequest) (*ListWorkflowExecutionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListWorkflowExecutions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkflowExecutions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListArchivedWorkflowExecutions(context.Context, *ListArchivedWorkflowExecutionsRequest) (*ListArchivedWorkflowExecutionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListArchivedWorkflowExecutions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListArchivedWorkflowExecutions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ScanWorkflowExecutions(context.Context, *ScanWorkflowExecutionsRequest) (*ScanWorkflowExecutionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ScanWorkflowExecutions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ScanWorkflowExecutions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) CountWorkflowExecutions(context.Context, *CountWorkflowExecutionsRequest) (*CountWorkflowExecutionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method CountWorkflowExecutions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method CountWorkflowExecutions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetSearchAttributes(context.Context, *GetSearchAttributesRequest) (*GetSearchAttributesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetSearchAttributes not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetSearchAttributes not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondQueryTaskCompleted(context.Context, *RespondQueryTaskCompletedRequest) (*RespondQueryTaskCompletedResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondQueryTaskCompleted not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondQueryTaskCompleted not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ResetStickyTaskQueue(context.Context, *ResetStickyTaskQueueRequest) (*ResetStickyTaskQueueResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ResetStickyTaskQueue not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ResetStickyTaskQueue not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ShutdownWorker(context.Context, *ShutdownWorkerRequest) (*ShutdownWorkerResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ShutdownWorker not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ShutdownWorker not implemented")
 }
 func (UnimplementedWorkflowServiceServer) QueryWorkflow(context.Context, *QueryWorkflowRequest) (*QueryWorkflowResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method QueryWorkflow not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method QueryWorkflow not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeWorkflowExecution(context.Context, *DescribeWorkflowExecutionRequest) (*DescribeWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeTaskQueue(context.Context, *DescribeTaskQueueRequest) (*DescribeTaskQueueResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeTaskQueue not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeTaskQueue not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetClusterInfo(context.Context, *GetClusterInfoRequest) (*GetClusterInfoResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetClusterInfo not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetClusterInfo not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetSystemInfo(context.Context, *GetSystemInfoRequest) (*GetSystemInfoResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetSystemInfo not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetSystemInfo not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListTaskQueuePartitions(context.Context, *ListTaskQueuePartitionsRequest) (*ListTaskQueuePartitionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListTaskQueuePartitions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListTaskQueuePartitions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) CreateSchedule(context.Context, *CreateScheduleRequest) (*CreateScheduleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateSchedule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSchedule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeSchedule(context.Context, *DescribeScheduleRequest) (*DescribeScheduleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeSchedule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeSchedule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateSchedule(context.Context, *UpdateScheduleRequest) (*UpdateScheduleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateSchedule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSchedule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) PatchSchedule(context.Context, *PatchScheduleRequest) (*PatchScheduleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PatchSchedule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method PatchSchedule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListScheduleMatchingTimes(context.Context, *ListScheduleMatchingTimesRequest) (*ListScheduleMatchingTimesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListScheduleMatchingTimes not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListScheduleMatchingTimes not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DeleteSchedule(context.Context, *DeleteScheduleRequest) (*DeleteScheduleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteSchedule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSchedule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListSchedules(context.Context, *ListSchedulesRequest) (*ListSchedulesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListSchedules not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListSchedules not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkerBuildIdCompatibility(context.Context, *UpdateWorkerBuildIdCompatibilityRequest) (*UpdateWorkerBuildIdCompatibilityResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateWorkerBuildIdCompatibility not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerBuildIdCompatibility not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetWorkerBuildIdCompatibility(context.Context, *GetWorkerBuildIdCompatibilityRequest) (*GetWorkerBuildIdCompatibilityResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetWorkerBuildIdCompatibility not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerBuildIdCompatibility not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkerVersioningRules(context.Context, *UpdateWorkerVersioningRulesRequest) (*UpdateWorkerVersioningRulesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateWorkerVersioningRules not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerVersioningRules not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetWorkerVersioningRules(context.Context, *GetWorkerVersioningRulesRequest) (*GetWorkerVersioningRulesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetWorkerVersioningRules not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerVersioningRules not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetWorkerTaskReachability(context.Context, *GetWorkerTaskReachabilityRequest) (*GetWorkerTaskReachabilityResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetWorkerTaskReachability not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetWorkerTaskReachability not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeDeployment(context.Context, *DescribeDeploymentRequest) (*DescribeDeploymentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeDeployment not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeDeployment not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeWorkerDeploymentVersion(context.Context, *DescribeWorkerDeploymentVersionRequest) (*DescribeWorkerDeploymentVersionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeWorkerDeploymentVersion not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkerDeploymentVersion not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListDeployments(context.Context, *ListDeploymentsRequest) (*ListDeploymentsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListDeployments not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListDeployments not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetDeploymentReachability(context.Context, *GetDeploymentReachabilityRequest) (*GetDeploymentReachabilityResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetDeploymentReachability not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetDeploymentReachability not implemented")
 }
 func (UnimplementedWorkflowServiceServer) GetCurrentDeployment(context.Context, *GetCurrentDeploymentRequest) (*GetCurrentDeploymentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetCurrentDeployment not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentDeployment not implemented")
 }
 func (UnimplementedWorkflowServiceServer) SetCurrentDeployment(context.Context, *SetCurrentDeploymentRequest) (*SetCurrentDeploymentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SetCurrentDeployment not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method SetCurrentDeployment not implemented")
 }
 func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentCurrentVersion(context.Context, *SetWorkerDeploymentCurrentVersionRequest) (*SetWorkerDeploymentCurrentVersionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SetWorkerDeploymentCurrentVersion not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentCurrentVersion not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeWorkerDeployment(context.Context, *DescribeWorkerDeploymentRequest) (*DescribeWorkerDeploymentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeWorkerDeployment not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkerDeployment not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DeleteWorkerDeployment(context.Context, *DeleteWorkerDeploymentRequest) (*DeleteWorkerDeploymentResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteWorkerDeployment not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkerDeployment not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DeleteWorkerDeploymentVersion(context.Context, *DeleteWorkerDeploymentVersionRequest) (*DeleteWorkerDeploymentVersionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteWorkerDeploymentVersion not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkerDeploymentVersion not implemented")
 }
 func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentRampingVersion(context.Context, *SetWorkerDeploymentRampingVersionRequest) (*SetWorkerDeploymentRampingVersionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SetWorkerDeploymentRampingVersion not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentRampingVersion not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListWorkerDeployments(context.Context, *ListWorkerDeploymentsRequest) (*ListWorkerDeploymentsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListWorkerDeployments not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkerDeployments not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkerDeploymentVersionMetadata(context.Context, *UpdateWorkerDeploymentVersionMetadataRequest) (*UpdateWorkerDeploymentVersionMetadataResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateWorkerDeploymentVersionMetadata not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerDeploymentVersionMetadata not implemented")
 }
 func (UnimplementedWorkflowServiceServer) SetWorkerDeploymentManager(context.Context, *SetWorkerDeploymentManagerRequest) (*SetWorkerDeploymentManagerResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method SetWorkerDeploymentManager not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method SetWorkerDeploymentManager not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecution(context.Context, *UpdateWorkflowExecutionRequest) (*UpdateWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) PollWorkflowExecutionUpdate(context.Context, *PollWorkflowExecutionUpdateRequest) (*PollWorkflowExecutionUpdateResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PollWorkflowExecutionUpdate not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method PollWorkflowExecutionUpdate not implemented")
 }
 func (UnimplementedWorkflowServiceServer) StartBatchOperation(context.Context, *StartBatchOperationRequest) (*StartBatchOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method StartBatchOperation not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method StartBatchOperation not implemented")
 }
 func (UnimplementedWorkflowServiceServer) StopBatchOperation(context.Context, *StopBatchOperationRequest) (*StopBatchOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method StopBatchOperation not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method StopBatchOperation not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeBatchOperation(context.Context, *DescribeBatchOperationRequest) (*DescribeBatchOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeBatchOperation not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeBatchOperation not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListBatchOperations(context.Context, *ListBatchOperationsRequest) (*ListBatchOperationsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListBatchOperations not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListBatchOperations not implemented")
 }
 func (UnimplementedWorkflowServiceServer) PollNexusTaskQueue(context.Context, *PollNexusTaskQueueRequest) (*PollNexusTaskQueueResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PollNexusTaskQueue not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method PollNexusTaskQueue not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondNexusTaskCompleted(context.Context, *RespondNexusTaskCompletedRequest) (*RespondNexusTaskCompletedResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondNexusTaskCompleted not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondNexusTaskCompleted not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RespondNexusTaskFailed(context.Context, *RespondNexusTaskFailedRequest) (*RespondNexusTaskFailedResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RespondNexusTaskFailed not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RespondNexusTaskFailed not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateActivityOptions(context.Context, *UpdateActivityOptionsRequest) (*UpdateActivityOptionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateActivityOptions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateActivityOptions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkflowExecutionOptions(context.Context, *UpdateWorkflowExecutionOptionsRequest) (*UpdateWorkflowExecutionOptionsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateWorkflowExecutionOptions not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkflowExecutionOptions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) PauseActivity(context.Context, *PauseActivityRequest) (*PauseActivityResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PauseActivity not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method PauseActivity not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UnpauseActivity(context.Context, *UnpauseActivityRequest) (*UnpauseActivityResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UnpauseActivity not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UnpauseActivity not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ResetActivity(context.Context, *ResetActivityRequest) (*ResetActivityResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ResetActivity not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ResetActivity not implemented")
 }
 func (UnimplementedWorkflowServiceServer) CreateWorkflowRule(context.Context, *CreateWorkflowRuleRequest) (*CreateWorkflowRuleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method CreateWorkflowRule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method CreateWorkflowRule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeWorkflowRule(context.Context, *DescribeWorkflowRuleRequest) (*DescribeWorkflowRuleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeWorkflowRule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorkflowRule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DeleteWorkflowRule(context.Context, *DeleteWorkflowRuleRequest) (*DeleteWorkflowRuleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteWorkflowRule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteWorkflowRule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListWorkflowRules(context.Context, *ListWorkflowRulesRequest) (*ListWorkflowRulesResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListWorkflowRules not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkflowRules not implemented")
 }
 func (UnimplementedWorkflowServiceServer) TriggerWorkflowRule(context.Context, *TriggerWorkflowRuleRequest) (*TriggerWorkflowRuleResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method TriggerWorkflowRule not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method TriggerWorkflowRule not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RecordWorkerHeartbeat(context.Context, *RecordWorkerHeartbeatRequest) (*RecordWorkerHeartbeatResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RecordWorkerHeartbeat not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method RecordWorkerHeartbeat not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListWorkers not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method ListWorkers not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateTaskQueueConfig(context.Context, *UpdateTaskQueueConfigRequest) (*UpdateTaskQueueConfigResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateTaskQueueConfig not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTaskQueueConfig not implemented")
 }
 func (UnimplementedWorkflowServiceServer) FetchWorkerConfig(context.Context, *FetchWorkerConfigRequest) (*FetchWorkerConfigResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method FetchWorkerConfig not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method FetchWorkerConfig not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateWorkerConfig(context.Context, *UpdateWorkerConfigRequest) (*UpdateWorkerConfigResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UpdateWorkerConfig not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateWorkerConfig not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeWorker(context.Context, *DescribeWorkerRequest) (*DescribeWorkerResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeWorker not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method DescribeWorker not implemented")
 }
 func (UnimplementedWorkflowServiceServer) PauseWorkflowExecution(context.Context, *PauseWorkflowExecutionRequest) (*PauseWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PauseWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method PauseWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UnpauseWorkflowExecution(context.Context, *UnpauseWorkflowExecutionRequest) (*UnpauseWorkflowExecutionResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method UnpauseWorkflowExecution not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method UnpauseWorkflowExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -2575,7 +2575,7 @@ type UnsafeWorkflowServiceServer interface {
 }
 
 func RegisterWorkflowServiceServer(s grpc.ServiceRegistrar, srv WorkflowServiceServer) {
-	// If the following call panics, it indicates UnimplementedWorkflowServiceServer was
+	// If the following call pancis, it indicates UnimplementedWorkflowServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
