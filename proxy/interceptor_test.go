@@ -53,6 +53,14 @@ func inputPayload() *common.Payload {
 			"encoding": []byte("plain/json"),
 		},
 		Data: []byte("test"),
+		ExternalPayloads: []*common.Payload_ExternalPayloadDetails{
+			{
+				SizeBytes: 2097152, // 2 MiB
+			},
+			{
+				SizeBytes: 1024, // 1 KiB
+			},
+		},
 	}
 }
 
@@ -421,6 +429,159 @@ func TestClientInterceptor(t *testing.T) {
 	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
 }
 
+func TestClientInterceptorDifferentPayloadsCount(t *testing.T) {
+	require := require.New(t)
+
+	server, err := startTestGRPCServer()
+	require.NoError(err)
+
+	interceptor, err := NewPayloadVisitorInterceptor(
+		PayloadVisitorInterceptorOptions{
+			Outbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					// Return empty array of payloads to validate length checks (interceptor expects same payload count)
+					return []*common.Payload{}, nil
+				},
+			},
+			Inbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					// Return array of 2 payloads to validate length checks (interceptor expects same payload count)
+					return make([]*common.Payload, 2), nil
+				},
+			},
+		},
+	)
+	require.NoError(err)
+
+	c, err := grpc.Dial(
+		server.addr,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithChainUnaryInterceptor(interceptor),
+	)
+	require.NoError(err)
+
+	client := workflowservice.NewWorkflowServiceClient(c)
+
+	_, err = client.StartWorkflowExecution(
+		context.Background(),
+		&workflowservice.StartWorkflowExecutionRequest{
+			Input: inputPayloads(),
+		},
+	)
+	require.ErrorContains(err, "expected payload count 1 but received 0")
+
+	_, err = client.PollActivityTaskQueue(
+		context.Background(),
+		&workflowservice.PollActivityTaskQueueRequest{},
+	)
+	require.ErrorContains(err, "expected payload count 1 but received 2")
+}
+
+func TestClientInterceptorExternalPayloadsPreserved(t *testing.T) {
+	require := require.New(t)
+
+	server, err := startTestGRPCServer()
+	require.NoError(err)
+
+	mutatingInterceptor, err := NewPayloadVisitorInterceptor(
+		PayloadVisitorInterceptorOptions{
+			Outbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					// Mutate external payloads to attempt to cause mutations that should be corrected by the interceptor
+					payloads[0].ExternalPayloads[0].SizeBytes = 1337
+					payloads[0].ExternalPayloads = nil
+					return payloads, nil
+				},
+			},
+			Inbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					// Mutate external payloads to attempt to cause mutations that should be corrected by the interceptor
+					payloads[0].ExternalPayloads[0].SizeBytes = 7331
+					payloads[0].ExternalPayloads = nil
+					return payloads, nil
+				},
+			},
+		},
+	)
+	require.NoError(err)
+
+	var externalPayload1SizeBytesExpected int64
+	var externalPayload2SizeBytesExpected int64
+
+	validatingInterceptor, err := newChainedPayloadVisitorInterceptor(
+		mutatingInterceptor,
+		PayloadVisitorInterceptorOptions{
+			Outbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					require.Equal(1, len(payloads))
+					require.Equal(2, len(payloads[0].ExternalPayloads))
+					externalPayload1SizeBytesExpected = payloads[0].ExternalPayloads[0].SizeBytes
+					externalPayload2SizeBytesExpected = payloads[0].ExternalPayloads[1].SizeBytes
+					return payloads, nil
+				},
+			},
+			Inbound: &VisitPayloadsOptions{
+				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+					require.Equal(1, len(payloads))
+					require.Equal(2, len(payloads[0].ExternalPayloads))
+					require.Equal(externalPayload1SizeBytesExpected, payloads[0].ExternalPayloads[0].SizeBytes)
+					require.Equal(externalPayload2SizeBytesExpected, payloads[0].ExternalPayloads[1].SizeBytes)
+					return payloads, nil
+				},
+			},
+		},
+	)
+	require.NoError(err)
+
+	c, err := grpc.Dial(
+		server.addr,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithChainUnaryInterceptor(validatingInterceptor),
+	)
+	require.NoError(err)
+
+	client := workflowservice.NewWorkflowServiceClient(c)
+
+	_, err = client.StartWorkflowExecution(
+		context.Background(),
+		&workflowservice.StartWorkflowExecutionRequest{
+			Input: inputPayloads(),
+		},
+	)
+	require.NoError(err)
+
+	_, err = client.PollActivityTaskQueue(
+		context.Background(),
+		&workflowservice.PollActivityTaskQueueRequest{},
+	)
+	require.NoError(err)
+}
+
+func newChainedPayloadVisitorInterceptor(interceptor grpc.UnaryClientInterceptor, options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
+	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
+			err := VisitPayloads(ctx, reqMsg, *options.Outbound)
+			if err != nil {
+				return err
+			}
+		}
+
+		err := interceptor(ctx, method, req, reply, cc, invoker, opts...)
+		if err != nil {
+			return err
+		}
+
+		if resMsg, ok := reply.(proto.Message); ok && options.Inbound != nil {
+			err := VisitPayloads(ctx, resMsg, *options.Inbound)
+			if err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}, nil
+}
+
 func TestClientInterceptorGrpcFailures(t *testing.T) {
 	require := require.New(t)
 
@@ -485,7 +646,18 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 		err = multiOpFailure.Statuses[0].Details[0].UnmarshalTo(payloads)
 		require.NoError(err)
 
-		newPayload := &common.Payload{Data: []byte("new-val")}
+		newPayload := &common.Payload{
+			Data: []byte("new-val"),
+			ExternalPayloads: []*common.Payload_ExternalPayloadDetails{
+				{
+					SizeBytes: 2097152, // 2 MiB
+				},
+				{
+					SizeBytes: 1024, // 1 KiB
+				},
+			},
+		}
+
 		require.True(proto.Equal(payloads.Payloads[0], newPayload))
 	}
 

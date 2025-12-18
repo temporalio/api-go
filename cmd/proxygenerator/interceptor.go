@@ -45,11 +45,15 @@ type VisitPayloadsContext struct {
 	SinglePayloadRequired bool
 }
 
+// PayloadsVisitor accepts a context and payloads array to be able to visit and optionally
+// transform the payloads as a return value.
+type PayloadsVisitor func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error)
+
 // VisitPayloadsOptions configure visitor behaviour.
 type VisitPayloadsOptions struct {
 	// Context is the same for every call of a visit, callers should not store it. This must never
 	// return an empty set of payloads.
-	Visitor func(*VisitPayloadsContext, []*common.Payload) ([]*common.Payload, error)
+	Visitor PayloadsVisitor
 	// Don't visit search attribute payloads.
 	SkipSearchAttributes bool
 	// Will be called for each Any encountered. If not set, the default is to recurse into the Any
@@ -85,28 +89,42 @@ var failureTypes = []string{ {{ range $i, $name := .GrpcFailure }}{{ if $i }}, {
 func NewPayloadVisitorInterceptor(options PayloadVisitorInterceptorOptions) (grpc.UnaryClientInterceptor, error) {
 	return func(ctx context.Context, method string, req, response interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		if reqMsg, ok := req.(proto.Message); ok && options.Outbound != nil {
-			err := VisitPayloads(ctx, reqMsg, *options.Outbound)
+			outboundVisitorOptions := VisitPayloadsOptions{
+				Visitor:              preserveExternalPayloadsVisitor(options.Outbound.Visitor),
+				SkipSearchAttributes: options.Outbound.SkipSearchAttributes,
+				WellKnownAnyVisitor:  options.Outbound.WellKnownAnyVisitor,
+			}
+
+			err := VisitPayloads(ctx, reqMsg, outboundVisitorOptions)
 			if err != nil {
 				return err
-			}	
+			}
 		}
 
 		err := invoker(ctx, method, req, response, cc, opts...)
-		if err != nil && options.Inbound != nil {
-			if s, ok := status.FromError(err); ok {
-				// user provided payloads can sometimes end up in the status details of
-				// gRPC errors, make sure to visit those as well
-				err = visitGrpcErrorPayload(ctx, err, s, options.Inbound)
+		if options.Inbound != nil {
+			inboundVisitorOptions := VisitPayloadsOptions{
+				Visitor:              preserveExternalPayloadsVisitor(options.Inbound.Visitor),
+				SkipSearchAttributes: options.Inbound.SkipSearchAttributes,
+				WellKnownAnyVisitor:  options.Inbound.WellKnownAnyVisitor,
+			}
+
+			if err != nil {
+				if s, ok := status.FromError(err); ok {
+					// user provided payloads can sometimes end up in the status details of
+					// gRPC errors, make sure to visit those as well
+					err = visitGrpcErrorPayload(ctx, err, s, &inboundVisitorOptions)
+				}
+			}
+
+			if resMsg, ok := response.(proto.Message); ok {
+				if visitErr := VisitPayloads(ctx, resMsg, inboundVisitorOptions); visitErr != nil {
+					// We are choosing visit error over RPC error in this basically-never-should-happen case
+					err = visitErr
+				}
 			}
 		}
 
-		if resMsg, ok := response.(proto.Message); ok && options.Inbound != nil {
-			if visitErr := VisitPayloads(ctx, resMsg, *options.Inbound); visitErr != nil {
-				// We are choosing visit error over RPC error in this basically-never-should-happen case
-				err = visitErr
-			}
-		}
-		
 		return err
 	}, nil
 }
@@ -121,6 +139,43 @@ func visitGrpcErrorPayload(ctx context.Context, err error, s *status.Status, inb
 		}
 	}
 	return status.ErrorProto(p)
+}
+
+func preserveExternalPayloadsVisitor(visitor PayloadsVisitor) PayloadsVisitor {
+	return func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
+		// Save a copy of external payload details
+		externalPayloadDetails := make([][]*common.Payload_ExternalPayloadDetails, len(payloads))
+		for payloadIndex, payload := range payloads {
+			if payload != nil {
+				externalPayloadDetails[payloadIndex] = make([]*common.Payload_ExternalPayloadDetails, len(payload.ExternalPayloads))
+				for detailsIndex, details := range payload.ExternalPayloads {
+					if details != nil {
+						externalPayloadDetails[payloadIndex][detailsIndex] = &common.Payload_ExternalPayloadDetails{
+							SizeBytes: details.SizeBytes,
+						}
+					}
+				}
+			}
+		}
+
+		newPayloads, err := visitor(vpc, payloads)
+		if err != nil {
+			return newPayloads, err
+		}
+
+		if len(payloads) != len(newPayloads) {
+			return newPayloads, fmt.Errorf("expected payload count %d but received %d", len(payloads), len(newPayloads))
+		}
+
+		// Restore external payload details
+		for payloadIndex, payload := range newPayloads {
+			if payload != nil {
+				payload.ExternalPayloads = externalPayloadDetails[payloadIndex]
+			}
+		}
+
+		return newPayloads, err
+	}
 }
 
 // VisitFailuresContext provides Failure context for visitor functions.
