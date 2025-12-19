@@ -397,6 +397,7 @@ type WorkerDeploymentVersionInfo struct {
 	// Can be used to determine whether a version has ever been Current.
 	LastCurrentTime *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=last_current_time,json=lastCurrentTime,proto3" json:"last_current_time,omitempty"`
 	// Timestamp when this version last stopped being current or ramping.
+	// Cleared if the version becomes current or ramping again.
 	LastDeactivationTime *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=last_deactivation_time,json=lastDeactivationTime,proto3" json:"last_deactivation_time,omitempty"`
 	// Range: [0, 100]. Must be zero if the version is not ramping (i.e. `ramping_since_time` is nil).
 	// Can be in the range [0, 100] if the version is ramping.
@@ -1188,6 +1189,7 @@ type WorkerDeploymentInfo_WorkerDeploymentVersionSummary struct {
 	// Can be used to determine whether a version has ever been Current.
 	LastCurrentTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=last_current_time,json=lastCurrentTime,proto3" json:"last_current_time,omitempty"`
 	// Timestamp when this version last stopped being current or ramping.
+	// Cleared if the version becomes current or ramping again.
 	LastDeactivationTime *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=last_deactivation_time,json=lastDeactivationTime,proto3" json:"last_deactivation_time,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache

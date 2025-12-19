@@ -39,10 +39,14 @@ const (
 	// Do not permit re-use of the workflow id for this workflow. Future start workflow requests
 	// could potentially change the policy, allowing re-use of the workflow id.
 	WORKFLOW_ID_REUSE_POLICY_REJECT_DUPLICATE WorkflowIdReusePolicy = 3
-	// This option belongs in WorkflowIdConflictPolicy but is here for backwards compatibility.
-	// If specified, it acts like ALLOW_DUPLICATE, but also the WorkflowId*Conflict*Policy on
-	// the request is treated as WORKFLOW_ID_CONFLICT_POLICY_TERMINATE_EXISTING.
-	// If no running workflow, then the behavior is the same as ALLOW_DUPLICATE.
+	// Terminate the current Workflow if one is already running; otherwise allow reusing the
+	// Workflow ID. When using this option, `WorkflowIdConflictPolicy` must be left unspecified.
+	//
+	// Deprecated. Instead, set `WorkflowIdReusePolicy` to `ALLOW_DUPLICATE` and
+	// `WorkflowIdConflictPolicy` to `TERMINATE_EXISTING`. Note that `WorkflowIdConflictPolicy`
+	// requires Temporal Server v1.24.0 or later.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/enums/v1/workflow.proto.
 	WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING WorkflowIdReusePolicy = 4
 )
 
@@ -852,13 +856,13 @@ var File_temporal_api_enums_v1_workflow_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_workflow_proto_rawDesc = "" +
 	"\n" +
-	"$temporal/api/enums/v1/workflow.proto\x12\x15temporal.api.enums.v1*\x8b\x02\n" +
+	"$temporal/api/enums/v1/workflow.proto\x12\x15temporal.api.enums.v1*\x8f\x02\n" +
 	"\x15WorkflowIdReusePolicy\x12(\n" +
 	"$WORKFLOW_ID_REUSE_POLICY_UNSPECIFIED\x10\x00\x12,\n" +
 	"(WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE\x10\x01\x128\n" +
 	"4WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY\x10\x02\x12-\n" +
-	")WORKFLOW_ID_REUSE_POLICY_REJECT_DUPLICATE\x10\x03\x121\n" +
-	"-WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING\x10\x04*\xcf\x01\n" +
+	")WORKFLOW_ID_REUSE_POLICY_REJECT_DUPLICATE\x10\x03\x125\n" +
+	"-WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING\x10\x04\x1a\x02\b\x01*\xcf\x01\n" +
 	"\x18WorkflowIdConflictPolicy\x12+\n" +
 	"'WORKFLOW_ID_CONFLICT_POLICY_UNSPECIFIED\x10\x00\x12$\n" +
 	" WORKFLOW_ID_CONFLICT_POLICY_FAIL\x10\x01\x12,\n" +
