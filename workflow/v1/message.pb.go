@@ -168,9 +168,13 @@ type WorkflowExecutionInfo struct {
 	// Experimental. Worker Deployments are experimental and might change in the future.
 	WorkerDeploymentName string `protobuf:"bytes,23,opt,name=worker_deployment_name,json=workerDeploymentName,proto3" json:"worker_deployment_name,omitempty"`
 	// Priority metadata
-	Priority      *v1.Priority `protobuf:"bytes,24,opt,name=priority,proto3" json:"priority,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Priority *v1.Priority `protobuf:"bytes,24,opt,name=priority,proto3" json:"priority,omitempty"`
+	// Total size in bytes of all external payloads referenced in workflow history.
+	ExternalPayloadSizeBytes int64 `protobuf:"varint,25,opt,name=external_payload_size_bytes,json=externalPayloadSizeBytes,proto3" json:"external_payload_size_bytes,omitempty"`
+	// Count of external payloads referenced in workflow history.
+	ExternalPayloadCount int64 `protobuf:"varint,26,opt,name=external_payload_count,json=externalPayloadCount,proto3" json:"external_payload_count,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionInfo) Reset() {
@@ -372,6 +376,20 @@ func (x *WorkflowExecutionInfo) GetPriority() *v1.Priority {
 		return x.Priority
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionInfo) GetExternalPayloadSizeBytes() int64 {
+	if x != nil {
+		return x.ExternalPayloadSizeBytes
+	}
+	return 0
+}
+
+func (x *WorkflowExecutionInfo) GetExternalPayloadCount() int64 {
+	if x != nil {
+		return x.ExternalPayloadCount
+	}
+	return 0
 }
 
 // Holds all the extra information about workflow execution that is not part of Visibility.
@@ -3042,7 +3060,7 @@ var File_temporal_api_workflow_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/workflow/v1/message.proto\x12\x18temporal.api.workflow.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a&temporal/api/activity/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x97\f\n" +
+	"&temporal/api/workflow/v1/message.proto\x12\x18temporal.api.workflow.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a&temporal/api/activity/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x8c\r\n" +
 	"\x15WorkflowExecutionInfo\x12G\n" +
 	"\texecution\x18\x01 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x128\n" +
 	"\x04type\x18\x02 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\x04type\x129\n" +
@@ -3072,7 +3090,9 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"firstRunId\x12b\n" +
 	"\x0fversioning_info\x18\x16 \x01(\v29.temporal.api.workflow.v1.WorkflowExecutionVersioningInfoR\x0eversioningInfo\x124\n" +
 	"\x16worker_deployment_name\x18\x17 \x01(\tR\x14workerDeploymentName\x12<\n" +
-	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xd8\x05\n" +
+	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12=\n" +
+	"\x1bexternal_payload_size_bytes\x18\x19 \x01(\x03R\x18externalPayloadSizeBytes\x124\n" +
+	"\x16external_payload_count\x18\x1a \x01(\x03R\x14externalPayloadCount\"\xd8\x05\n" +
 	"\x1dWorkflowExecutionExtendedInfo\x12V\n" +
 	"\x19execution_expiration_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x17executionExpirationTime\x12J\n" +
 	"\x13run_expiration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x11runExpirationTime\x12)\n" +

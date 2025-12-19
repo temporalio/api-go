@@ -244,10 +244,17 @@ type WorkflowServiceClient interface {
 	PollActivityTaskQueue(ctx context.Context, in *PollActivityTaskQueueRequest, opts ...grpc.CallOption) (*PollActivityTaskQueueResponse, error)
 	// RecordActivityTaskHeartbeat is optionally called by workers while they execute activities.
 	//
-	// If worker fails to heartbeat within the `heartbeat_timeout` interval for the activity task,
-	// then it will be marked as timed out and an `ACTIVITY_TASK_TIMED_OUT` event will be written to
-	// the workflow history. Calling `RecordActivityTaskHeartbeat` will fail with `NotFound` in
-	// such situations, in that event, the SDK should request cancellation of the activity.
+	// If a worker fails to heartbeat within the `heartbeat_timeout` interval for the activity task,
+	// then the current attempt times out. Depending on RetryPolicy, this may trigger a retry or
+	// time out the activity.
+	//
+	// For workflow activities, an `ACTIVITY_TASK_TIMED_OUT` event will be written to the workflow
+	// history. Calling `RecordActivityTaskHeartbeat` will fail with `NotFound` in such situations,
+	// in that event, the SDK should request cancellation of the activity.
+	//
+	// The request may contain response `details` which will be persisted by the server and may be
+	// used by the activity to checkpoint progress. The `cancel_requested` field in the response
+	// indicates whether cancellation has been requested for the activity.
 	RecordActivityTaskHeartbeat(ctx context.Context, in *RecordActivityTaskHeartbeatRequest, opts ...grpc.CallOption) (*RecordActivityTaskHeartbeatResponse, error)
 	// See `RecordActivityTaskHeartbeat`. This version allows clients to record heartbeats by
 	// namespace/workflow id/activity id instead of task token.
@@ -259,7 +266,7 @@ type WorkflowServiceClient interface {
 	// RespondActivityTaskCompleted is called by workers when they successfully complete an activity
 	// task.
 	//
-	// This results in a new `ACTIVITY_TASK_COMPLETED` event being written to the workflow history
+	// For workflow activities, this results in a new `ACTIVITY_TASK_COMPLETED` event being written to the workflow history
 	// and a new workflow task created for the workflow. Fails with `NotFound` if the task token is
 	// no longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskCompleted(ctx context.Context, in *RespondActivityTaskCompletedRequest, opts ...grpc.CallOption) (*RespondActivityTaskCompletedResponse, error)
@@ -285,7 +292,7 @@ type WorkflowServiceClient interface {
 	RespondActivityTaskFailedById(ctx context.Context, in *RespondActivityTaskFailedByIdRequest, opts ...grpc.CallOption) (*RespondActivityTaskFailedByIdResponse, error)
 	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
 	//
-	// This results in a new `ACTIVITY_TASK_CANCELED` event being written to the workflow history
+	// For workflow activities, this results in a new `ACTIVITY_TASK_CANCELED` event being written to the workflow history
 	// and a new workflow task created for the workflow. Fails with `NotFound` if the task token is
 	// no longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskCanceled(ctx context.Context, in *RespondActivityTaskCanceledRequest, opts ...grpc.CallOption) (*RespondActivityTaskCanceledResponse, error)
@@ -729,7 +736,7 @@ type WorkflowServiceClient interface {
 	// unless permitted by the specified ID conflict policy.
 	StartActivityExecution(ctx context.Context, in *StartActivityExecutionRequest, opts ...grpc.CallOption) (*StartActivityExecutionResponse, error)
 	// DescribeActivityExecution returns information about an activity execution.
-	// Supported use cases include:
+	// It can be used to:
 	// - Get current activity info without waiting
 	// - Long-poll for next state change and return new activity info
 	// Response can optionally include activity input or outcome (if the activity has completed).
@@ -739,26 +746,23 @@ type WorkflowServiceClient interface {
 	PollActivityExecution(ctx context.Context, in *PollActivityExecutionRequest, opts ...grpc.CallOption) (*PollActivityExecutionResponse, error)
 	// ListActivityExecutions is a visibility API to list activity executions in a specific namespace.
 	ListActivityExecutions(ctx context.Context, in *ListActivityExecutionsRequest, opts ...grpc.CallOption) (*ListActivityExecutionsResponse, error)
-	// CountActivityExecutions is a visibility API to count of activity executions in a specific namespace.
+	// CountActivityExecutions is a visibility API to count activity executions in a specific namespace.
 	CountActivityExecutions(ctx context.Context, in *CountActivityExecutionsRequest, opts ...grpc.CallOption) (*CountActivityExecutionsResponse, error)
 	// RequestCancelActivityExecution requests cancellation of an activity execution.
 	//
-	// Requesting to cancel an activity does not automatically transition the activity to canceled status. If the
-	// activity has a currently running attempt, the activity will only transition to canceled status if the current
-	// attempt is unsuccessful.
-	// TODO: Clarify what happens if there are no more allowed retries after the current attempt.
-	//
-	// It returns success if the requested activity is already closed.
-	// TODO: This ^^ is copied from RequestCancelWorkflowExecution, do we want to preserve this behavior?
+	// Cancellation is cooperative: this call records the request, but the activity must detect and
+	// acknowledge it for the activity to reach CANCELED status. The cancellation signal is
+	// delivered via `cancel_requested` in the heartbeat response; SDKs surface this via
+	// language-idiomatic mechanisms (context cancellation, exceptions, abort signals).
 	RequestCancelActivityExecution(ctx context.Context, in *RequestCancelActivityExecutionRequest, opts ...grpc.CallOption) (*RequestCancelActivityExecutionResponse, error)
 	// TerminateActivityExecution terminates an existing activity execution immediately.
 	//
 	// Termination does not reach the worker and the activity code cannot react to it. A terminated activity may have a
-	// running attempt and will be requested to be canceled by the server when it heartbeats.
+	// running attempt.
 	TerminateActivityExecution(ctx context.Context, in *TerminateActivityExecutionRequest, opts ...grpc.CallOption) (*TerminateActivityExecutionResponse, error)
 	// DeleteActivityExecution asynchronously deletes a specific activity execution (when
 	// ActivityExecution.run_id is provided) or the latest activity execution (when
-	// ActivityExecution.run_id is not provided). If the activity EXecution is running, it will be
+	// ActivityExecution.run_id is not provided). If the activity Execution is running, it will be
 	// terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
@@ -1933,10 +1937,17 @@ type WorkflowServiceServer interface {
 	PollActivityTaskQueue(context.Context, *PollActivityTaskQueueRequest) (*PollActivityTaskQueueResponse, error)
 	// RecordActivityTaskHeartbeat is optionally called by workers while they execute activities.
 	//
-	// If worker fails to heartbeat within the `heartbeat_timeout` interval for the activity task,
-	// then it will be marked as timed out and an `ACTIVITY_TASK_TIMED_OUT` event will be written to
-	// the workflow history. Calling `RecordActivityTaskHeartbeat` will fail with `NotFound` in
-	// such situations, in that event, the SDK should request cancellation of the activity.
+	// If a worker fails to heartbeat within the `heartbeat_timeout` interval for the activity task,
+	// then the current attempt times out. Depending on RetryPolicy, this may trigger a retry or
+	// time out the activity.
+	//
+	// For workflow activities, an `ACTIVITY_TASK_TIMED_OUT` event will be written to the workflow
+	// history. Calling `RecordActivityTaskHeartbeat` will fail with `NotFound` in such situations,
+	// in that event, the SDK should request cancellation of the activity.
+	//
+	// The request may contain response `details` which will be persisted by the server and may be
+	// used by the activity to checkpoint progress. The `cancel_requested` field in the response
+	// indicates whether cancellation has been requested for the activity.
 	RecordActivityTaskHeartbeat(context.Context, *RecordActivityTaskHeartbeatRequest) (*RecordActivityTaskHeartbeatResponse, error)
 	// See `RecordActivityTaskHeartbeat`. This version allows clients to record heartbeats by
 	// namespace/workflow id/activity id instead of task token.
@@ -1948,7 +1959,7 @@ type WorkflowServiceServer interface {
 	// RespondActivityTaskCompleted is called by workers when they successfully complete an activity
 	// task.
 	//
-	// This results in a new `ACTIVITY_TASK_COMPLETED` event being written to the workflow history
+	// For workflow activities, this results in a new `ACTIVITY_TASK_COMPLETED` event being written to the workflow history
 	// and a new workflow task created for the workflow. Fails with `NotFound` if the task token is
 	// no longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskCompleted(context.Context, *RespondActivityTaskCompletedRequest) (*RespondActivityTaskCompletedResponse, error)
@@ -1974,7 +1985,7 @@ type WorkflowServiceServer interface {
 	RespondActivityTaskFailedById(context.Context, *RespondActivityTaskFailedByIdRequest) (*RespondActivityTaskFailedByIdResponse, error)
 	// RespondActivityTaskFailed is called by workers when processing an activity task fails.
 	//
-	// This results in a new `ACTIVITY_TASK_CANCELED` event being written to the workflow history
+	// For workflow activities, this results in a new `ACTIVITY_TASK_CANCELED` event being written to the workflow history
 	// and a new workflow task created for the workflow. Fails with `NotFound` if the task token is
 	// no longer valid due to activity timeout, already being completed, or never having existed.
 	RespondActivityTaskCanceled(context.Context, *RespondActivityTaskCanceledRequest) (*RespondActivityTaskCanceledResponse, error)
@@ -2418,7 +2429,7 @@ type WorkflowServiceServer interface {
 	// unless permitted by the specified ID conflict policy.
 	StartActivityExecution(context.Context, *StartActivityExecutionRequest) (*StartActivityExecutionResponse, error)
 	// DescribeActivityExecution returns information about an activity execution.
-	// Supported use cases include:
+	// It can be used to:
 	// - Get current activity info without waiting
 	// - Long-poll for next state change and return new activity info
 	// Response can optionally include activity input or outcome (if the activity has completed).
@@ -2428,26 +2439,23 @@ type WorkflowServiceServer interface {
 	PollActivityExecution(context.Context, *PollActivityExecutionRequest) (*PollActivityExecutionResponse, error)
 	// ListActivityExecutions is a visibility API to list activity executions in a specific namespace.
 	ListActivityExecutions(context.Context, *ListActivityExecutionsRequest) (*ListActivityExecutionsResponse, error)
-	// CountActivityExecutions is a visibility API to count of activity executions in a specific namespace.
+	// CountActivityExecutions is a visibility API to count activity executions in a specific namespace.
 	CountActivityExecutions(context.Context, *CountActivityExecutionsRequest) (*CountActivityExecutionsResponse, error)
 	// RequestCancelActivityExecution requests cancellation of an activity execution.
 	//
-	// Requesting to cancel an activity does not automatically transition the activity to canceled status. If the
-	// activity has a currently running attempt, the activity will only transition to canceled status if the current
-	// attempt is unsuccessful.
-	// TODO: Clarify what happens if there are no more allowed retries after the current attempt.
-	//
-	// It returns success if the requested activity is already closed.
-	// TODO: This ^^ is copied from RequestCancelWorkflowExecution, do we want to preserve this behavior?
+	// Cancellation is cooperative: this call records the request, but the activity must detect and
+	// acknowledge it for the activity to reach CANCELED status. The cancellation signal is
+	// delivered via `cancel_requested` in the heartbeat response; SDKs surface this via
+	// language-idiomatic mechanisms (context cancellation, exceptions, abort signals).
 	RequestCancelActivityExecution(context.Context, *RequestCancelActivityExecutionRequest) (*RequestCancelActivityExecutionResponse, error)
 	// TerminateActivityExecution terminates an existing activity execution immediately.
 	//
 	// Termination does not reach the worker and the activity code cannot react to it. A terminated activity may have a
-	// running attempt and will be requested to be canceled by the server when it heartbeats.
+	// running attempt.
 	TerminateActivityExecution(context.Context, *TerminateActivityExecutionRequest) (*TerminateActivityExecutionResponse, error)
 	// DeleteActivityExecution asynchronously deletes a specific activity execution (when
 	// ActivityExecution.run_id is provided) or the latest activity execution (when
-	// ActivityExecution.run_id is not provided). If the activity EXecution is running, it will be
+	// ActivityExecution.run_id is not provided). If the activity Execution is running, it will be
 	// terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
