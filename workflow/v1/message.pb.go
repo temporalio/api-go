@@ -34,7 +34,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Used to specify different sub-types of Pinned override that we plan to add in the future.
 type VersioningOverride_PinnedOverrideBehavior int32
 
 const (
@@ -2141,12 +2140,14 @@ func (x *WorkflowExecutionOptions) GetPriority() *v1.Priority {
 }
 
 // Used to override the versioning behavior (and pinned deployment version, if applicable) of a
-// specific workflow execution. If set, takes precedence over the worker-sent values. See
-// `WorkflowExecutionInfo.VersioningInfo` for more information. To remove the override, call
-// `UpdateWorkflowExecutionOptions` with a null `VersioningOverride`, and use the `update_mask`
-// to indicate that it should be mutated.
-// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
-// workflow retries, and cron workflows.
+// specific workflow execution. If set, this override takes precedence over worker-sent values.
+// See `WorkflowExecutionInfo.VersioningInfo` for more information.
+//
+// To remove the override, call `UpdateWorkflowExecutionOptions` with a null
+// `VersioningOverride`, and use the `update_mask` to indicate that it should be mutated.
+//
+// Pinned behavior overrides are automatically inherited by child workflows, workflow retries, continue-as-new
+// workflows, and cron workflows.
 type VersioningOverride struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Indicates whether to override the workflow to be AutoUpgrade or Pinned.
@@ -2262,13 +2263,12 @@ type isVersioningOverride_Override interface {
 }
 
 type VersioningOverride_Pinned struct {
-	// Send the next workflow task to the Version specified in the override.
+	// Override the workflow to have Pinned behavior.
 	Pinned *VersioningOverride_PinnedOverride `protobuf:"bytes,3,opt,name=pinned,proto3,oneof"`
 }
 
 type VersioningOverride_AutoUpgrade struct {
-	// Send the next workflow task to the Current Deployment Version
-	// of its Task Queue when the next workflow task is dispatched.
+	// Override the workflow to have AutoUpgrade behavior.
 	AutoUpgrade bool `protobuf:"varint,4,opt,name=auto_upgrade,json=autoUpgrade,proto3,oneof"`
 }
 
