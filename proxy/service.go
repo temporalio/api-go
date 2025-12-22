@@ -32,6 +32,10 @@ func NewWorkflowServiceProxyServer(options WorkflowServiceProxyOptions) (workflo
 	}, nil
 }
 
+func (s *workflowServiceProxyServer) AddToStream(ctx context.Context, in0 *workflowservice.AddToStreamRequest) (*workflowservice.AddToStreamResponse, error) {
+	return s.client.AddToStream(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) CountActivityExecutions(ctx context.Context, in0 *workflowservice.CountActivityExecutionsRequest) (*workflowservice.CountActivityExecutionsResponse, error) {
 	return s.client.CountActivityExecutions(s.reqCtx(ctx), in0)
 }
@@ -246,6 +250,10 @@ func (s *workflowServiceProxyServer) PollActivityTaskQueue(ctx context.Context, 
 
 func (s *workflowServiceProxyServer) PollNexusTaskQueue(ctx context.Context, in0 *workflowservice.PollNexusTaskQueueRequest) (*workflowservice.PollNexusTaskQueueResponse, error) {
 	return s.client.PollNexusTaskQueue(s.reqCtx(ctx), in0)
+}
+
+func (s *workflowServiceProxyServer) PollStream(ctx context.Context, in0 *workflowservice.PollStreamRequest) (*workflowservice.PollStreamResponse, error) {
+	return s.client.PollStream(s.reqCtx(ctx), in0)
 }
 
 func (s *workflowServiceProxyServer) PollWorkflowExecutionUpdate(ctx context.Context, in0 *workflowservice.PollWorkflowExecutionUpdateRequest) (*workflowservice.PollWorkflowExecutionUpdateResponse, error) {

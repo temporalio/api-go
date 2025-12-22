@@ -36,6 +36,26 @@ func (m *MockWorkflowServiceClient) EXPECT() *MockWorkflowServiceClientMockRecor
 	return m.recorder
 }
 
+// AddToStream mocks base method.
+func (m *MockWorkflowServiceClient) AddToStream(ctx context.Context, in *workflowservice.AddToStreamRequest, opts ...grpc.CallOption) (*workflowservice.AddToStreamResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "AddToStream", varargs...)
+	ret0, _ := ret[0].(*workflowservice.AddToStreamResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddToStream indicates an expected call of AddToStream.
+func (mr *MockWorkflowServiceClientMockRecorder) AddToStream(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddToStream", reflect.TypeOf((*MockWorkflowServiceClient)(nil).AddToStream), varargs...)
+}
+
 // CountActivityExecutions mocks base method.
 func (m *MockWorkflowServiceClient) CountActivityExecutions(ctx context.Context, in *workflowservice.CountActivityExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.CountActivityExecutionsResponse, error) {
 	m.ctrl.T.Helper()
@@ -1116,6 +1136,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) PollNexusTaskQueue(ctx, in inte
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollNexusTaskQueue", reflect.TypeOf((*MockWorkflowServiceClient)(nil).PollNexusTaskQueue), varargs...)
 }
 
+// PollStream mocks base method.
+func (m *MockWorkflowServiceClient) PollStream(ctx context.Context, in *workflowservice.PollStreamRequest, opts ...grpc.CallOption) (*workflowservice.PollStreamResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "PollStream", varargs...)
+	ret0, _ := ret[0].(*workflowservice.PollStreamResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PollStream indicates an expected call of PollStream.
+func (mr *MockWorkflowServiceClientMockRecorder) PollStream(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollStream", reflect.TypeOf((*MockWorkflowServiceClient)(nil).PollStream), varargs...)
+}
+
 // PollWorkflowExecutionUpdate mocks base method.
 func (m *MockWorkflowServiceClient) PollWorkflowExecutionUpdate(ctx context.Context, in *workflowservice.PollWorkflowExecutionUpdateRequest, opts ...grpc.CallOption) (*workflowservice.PollWorkflowExecutionUpdateResponse, error) {
 	m.ctrl.T.Helper()
@@ -2142,6 +2182,21 @@ func (m *MockWorkflowServiceServer) EXPECT() *MockWorkflowServiceServerMockRecor
 	return m.recorder
 }
 
+// AddToStream mocks base method.
+func (m *MockWorkflowServiceServer) AddToStream(arg0 context.Context, arg1 *workflowservice.AddToStreamRequest) (*workflowservice.AddToStreamResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddToStream", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.AddToStreamResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddToStream indicates an expected call of AddToStream.
+func (mr *MockWorkflowServiceServerMockRecorder) AddToStream(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddToStream", reflect.TypeOf((*MockWorkflowServiceServer)(nil).AddToStream), arg0, arg1)
+}
+
 // CountActivityExecutions mocks base method.
 func (m *MockWorkflowServiceServer) CountActivityExecutions(arg0 context.Context, arg1 *workflowservice.CountActivityExecutionsRequest) (*workflowservice.CountActivityExecutionsResponse, error) {
 	m.ctrl.T.Helper()
@@ -2950,6 +3005,21 @@ func (m *MockWorkflowServiceServer) PollNexusTaskQueue(arg0 context.Context, arg
 func (mr *MockWorkflowServiceServerMockRecorder) PollNexusTaskQueue(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollNexusTaskQueue", reflect.TypeOf((*MockWorkflowServiceServer)(nil).PollNexusTaskQueue), arg0, arg1)
+}
+
+// PollStream mocks base method.
+func (m *MockWorkflowServiceServer) PollStream(arg0 context.Context, arg1 *workflowservice.PollStreamRequest) (*workflowservice.PollStreamResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "PollStream", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.PollStreamResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// PollStream indicates an expected call of PollStream.
+func (mr *MockWorkflowServiceServerMockRecorder) PollStream(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PollStream", reflect.TypeOf((*MockWorkflowServiceServer)(nil).PollStream), arg0, arg1)
 }
 
 // PollWorkflowExecutionUpdate mocks base method.

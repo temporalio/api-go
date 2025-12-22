@@ -2123,6 +2123,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.AddToStreamRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetMessages(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.CountActivityExecutionsResponse:
 
 			if o == nil {
@@ -2573,6 +2588,21 @@ func visitPayloads(
 				options,
 				o,
 				o.GetRequest(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.PollStreamResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetMessages(),
 			); err != nil {
 				return err
 			}

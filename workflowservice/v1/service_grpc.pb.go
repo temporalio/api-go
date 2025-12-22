@@ -124,6 +124,8 @@ const (
 	WorkflowService_RequestCancelActivityExecution_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelActivityExecution"
 	WorkflowService_TerminateActivityExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/TerminateActivityExecution"
 	WorkflowService_DeleteActivityExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/DeleteActivityExecution"
+	WorkflowService_AddToStream_FullMethodName                           = "/temporal.api.workflowservice.v1.WorkflowService/AddToStream"
+	WorkflowService_PollStream_FullMethodName                            = "/temporal.api.workflowservice.v1.WorkflowService/PollStream"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -769,6 +771,10 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(ctx context.Context, in *DeleteActivityExecutionRequest, opts ...grpc.CallOption) (*DeleteActivityExecutionResponse, error)
+	// AddToStream pushes messages to the stream.
+	AddToStream(ctx context.Context, in *AddToStreamRequest, opts ...grpc.CallOption) (*AddToStreamResponse, error)
+	// PollStream long-polls for new messages on the stream.
+	PollStream(ctx context.Context, in *PollStreamRequest, opts ...grpc.CallOption) (*PollStreamResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1819,6 +1825,26 @@ func (c *workflowServiceClient) DeleteActivityExecution(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *workflowServiceClient) AddToStream(ctx context.Context, in *AddToStreamRequest, opts ...grpc.CallOption) (*AddToStreamResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddToStreamResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_AddToStream_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *workflowServiceClient) PollStream(ctx context.Context, in *PollStreamRequest, opts ...grpc.CallOption) (*PollStreamResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PollStreamResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PollStream_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WorkflowServiceServer is the server API for WorkflowService service.
 // All implementations must embed UnimplementedWorkflowServiceServer
 // for forward compatibility.
@@ -2462,6 +2488,10 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error)
+	// AddToStream pushes messages to the stream.
+	AddToStream(context.Context, *AddToStreamRequest) (*AddToStreamResponse, error)
+	// PollStream long-polls for new messages on the stream.
+	PollStream(context.Context, *PollStreamRequest) (*PollStreamResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2783,6 +2813,12 @@ func (UnimplementedWorkflowServiceServer) TerminateActivityExecution(context.Con
 }
 func (UnimplementedWorkflowServiceServer) DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteActivityExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) AddToStream(context.Context, *AddToStreamRequest) (*AddToStreamResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddToStream not implemented")
+}
+func (UnimplementedWorkflowServiceServer) PollStream(context.Context, *PollStreamRequest) (*PollStreamResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PollStream not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -4677,6 +4713,42 @@ func _WorkflowService_DeleteActivityExecution_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_AddToStream_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddToStreamRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).AddToStream(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_AddToStream_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).AddToStream(ctx, req.(*AddToStreamRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _WorkflowService_PollStream_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PollStreamRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).PollStream(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_PollStream_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).PollStream(ctx, req.(*PollStreamRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // WorkflowService_ServiceDesc is the grpc.ServiceDesc for WorkflowService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -5099,6 +5171,14 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteActivityExecution",
 			Handler:    _WorkflowService_DeleteActivityExecution_Handler,
+		},
+		{
+			MethodName: "AddToStream",
+			Handler:    _WorkflowService_AddToStream_Handler,
+		},
+		{
+			MethodName: "PollStream",
+			Handler:    _WorkflowService_PollStream_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
