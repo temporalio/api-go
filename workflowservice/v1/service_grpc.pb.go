@@ -8,7 +8,6 @@ package workflowservice
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -124,6 +123,7 @@ const (
 	WorkflowService_RequestCancelActivityExecution_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelActivityExecution"
 	WorkflowService_TerminateActivityExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/TerminateActivityExecution"
 	WorkflowService_DeleteActivityExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/DeleteActivityExecution"
+	WorkflowService_CreateStream_FullMethodName                          = "/temporal.api.workflowservice.v1.WorkflowService/CreateStream"
 	WorkflowService_AddToStream_FullMethodName                           = "/temporal.api.workflowservice.v1.WorkflowService/AddToStream"
 	WorkflowService_PollStream_FullMethodName                            = "/temporal.api.workflowservice.v1.WorkflowService/PollStream"
 )
@@ -771,9 +771,23 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(ctx context.Context, in *DeleteActivityExecutionRequest, opts ...grpc.CallOption) (*DeleteActivityExecutionResponse, error)
+	// CreateStream creates a new stream with optional initial messages.
+	//
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Stream operations use custom patterns. --)
+	CreateStream(ctx context.Context, in *CreateStreamRequest, opts ...grpc.CallOption) (*CreateStreamResponse, error)
 	// AddToStream pushes messages to the stream.
+	//
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Stream operations use custom patterns. --)
 	AddToStream(ctx context.Context, in *AddToStreamRequest, opts ...grpc.CallOption) (*AddToStreamResponse, error)
 	// PollStream long-polls for new messages on the stream.
+	//
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Stream operations use custom patterns. --)
 	PollStream(ctx context.Context, in *PollStreamRequest, opts ...grpc.CallOption) (*PollStreamResponse, error)
 }
 
@@ -1825,6 +1839,16 @@ func (c *workflowServiceClient) DeleteActivityExecution(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *workflowServiceClient) CreateStream(ctx context.Context, in *CreateStreamRequest, opts ...grpc.CallOption) (*CreateStreamResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateStreamResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_CreateStream_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) AddToStream(ctx context.Context, in *AddToStreamRequest, opts ...grpc.CallOption) (*AddToStreamResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddToStreamResponse)
@@ -2488,9 +2512,23 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error)
+	// CreateStream creates a new stream with optional initial messages.
+	//
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Stream operations use custom patterns. --)
+	CreateStream(context.Context, *CreateStreamRequest) (*CreateStreamResponse, error)
 	// AddToStream pushes messages to the stream.
+	//
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Stream operations use custom patterns. --)
 	AddToStream(context.Context, *AddToStreamRequest) (*AddToStreamResponse, error)
 	// PollStream long-polls for new messages on the stream.
+	//
+	// (-- api-linter: core::0136::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Stream operations use custom patterns. --)
 	PollStream(context.Context, *PollStreamRequest) (*PollStreamResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
@@ -2813,6 +2851,9 @@ func (UnimplementedWorkflowServiceServer) TerminateActivityExecution(context.Con
 }
 func (UnimplementedWorkflowServiceServer) DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteActivityExecution not implemented")
+}
+func (UnimplementedWorkflowServiceServer) CreateStream(context.Context, *CreateStreamRequest) (*CreateStreamResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateStream not implemented")
 }
 func (UnimplementedWorkflowServiceServer) AddToStream(context.Context, *AddToStreamRequest) (*AddToStreamResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method AddToStream not implemented")
@@ -4713,6 +4754,24 @@ func _WorkflowService_DeleteActivityExecution_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_CreateStream_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateStreamRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).CreateStream(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_CreateStream_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).CreateStream(ctx, req.(*CreateStreamRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_AddToStream_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddToStreamRequest)
 	if err := dec(in); err != nil {
@@ -5171,6 +5230,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteActivityExecution",
 			Handler:    _WorkflowService_DeleteActivityExecution_Handler,
+		},
+		{
+			MethodName: "CreateStream",
+			Handler:    _WorkflowService_CreateStream_Handler,
 		},
 		{
 			MethodName: "AddToStream",
