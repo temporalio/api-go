@@ -2875,7 +2875,14 @@ type VersioningOverride_PinnedOverride struct {
 	// Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.
 	// See `PinnedOverrideBehavior` for details.
 	Behavior VersioningOverride_PinnedOverrideBehavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=temporal.api.workflow.v1.VersioningOverride_PinnedOverrideBehavior" json:"behavior,omitempty"`
-	// Required.
+	// Specifies the Worker Deployment Version to pin this workflow to.
+	// Required if the target workflow is not already pinned to a version.
+	//
+	// If omitted and the target workflow is already pinned, the effective
+	// pinned version will be the existing pinned version.
+	//
+	// If omitted and the target workflow is not pinned, the override request
+	// will be rejected with a PreconditionFailed error.
 	Version       *v12.WorkerDeploymentVersion `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
