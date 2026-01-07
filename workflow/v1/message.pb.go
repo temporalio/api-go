@@ -34,7 +34,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Used to specify different sub-types of Pinned override that we plan to add in the future.
 type VersioningOverride_PinnedOverrideBehavior int32
 
 const (
@@ -168,9 +167,13 @@ type WorkflowExecutionInfo struct {
 	// Experimental. Worker Deployments are experimental and might change in the future.
 	WorkerDeploymentName string `protobuf:"bytes,23,opt,name=worker_deployment_name,json=workerDeploymentName,proto3" json:"worker_deployment_name,omitempty"`
 	// Priority metadata
-	Priority      *v1.Priority `protobuf:"bytes,24,opt,name=priority,proto3" json:"priority,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Priority *v1.Priority `protobuf:"bytes,24,opt,name=priority,proto3" json:"priority,omitempty"`
+	// Total size in bytes of all external payloads referenced in workflow history.
+	ExternalPayloadSizeBytes int64 `protobuf:"varint,25,opt,name=external_payload_size_bytes,json=externalPayloadSizeBytes,proto3" json:"external_payload_size_bytes,omitempty"`
+	// Count of external payloads referenced in workflow history.
+	ExternalPayloadCount int64 `protobuf:"varint,26,opt,name=external_payload_count,json=externalPayloadCount,proto3" json:"external_payload_count,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionInfo) Reset() {
@@ -372,6 +375,20 @@ func (x *WorkflowExecutionInfo) GetPriority() *v1.Priority {
 		return x.Priority
 	}
 	return nil
+}
+
+func (x *WorkflowExecutionInfo) GetExternalPayloadSizeBytes() int64 {
+	if x != nil {
+		return x.ExternalPayloadSizeBytes
+	}
+	return 0
+}
+
+func (x *WorkflowExecutionInfo) GetExternalPayloadCount() int64 {
+	if x != nil {
+		return x.ExternalPayloadCount
+	}
+	return 0
 }
 
 // Holds all the extra information about workflow execution that is not part of Visibility.
@@ -2123,12 +2140,14 @@ func (x *WorkflowExecutionOptions) GetPriority() *v1.Priority {
 }
 
 // Used to override the versioning behavior (and pinned deployment version, if applicable) of a
-// specific workflow execution. If set, takes precedence over the worker-sent values. See
-// `WorkflowExecutionInfo.VersioningInfo` for more information. To remove the override, call
-// `UpdateWorkflowExecutionOptions` with a null `VersioningOverride`, and use the `update_mask`
-// to indicate that it should be mutated.
-// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
-// workflow retries, and cron workflows.
+// specific workflow execution. If set, this override takes precedence over worker-sent values.
+// See `WorkflowExecutionInfo.VersioningInfo` for more information.
+//
+// To remove the override, call `UpdateWorkflowExecutionOptions` with a null
+// `VersioningOverride`, and use the `update_mask` to indicate that it should be mutated.
+//
+// Pinned behavior overrides are automatically inherited by child workflows, workflow retries, continue-as-new
+// workflows, and cron workflows.
 type VersioningOverride struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Indicates whether to override the workflow to be AutoUpgrade or Pinned.
@@ -2244,13 +2263,12 @@ type isVersioningOverride_Override interface {
 }
 
 type VersioningOverride_Pinned struct {
-	// Send the next workflow task to the Version specified in the override.
+	// Override the workflow to have Pinned behavior.
 	Pinned *VersioningOverride_PinnedOverride `protobuf:"bytes,3,opt,name=pinned,proto3,oneof"`
 }
 
 type VersioningOverride_AutoUpgrade struct {
-	// Send the next workflow task to the Current Deployment Version
-	// of its Task Queue when the next workflow task is dispatched.
+	// Override the workflow to have AutoUpgrade behavior.
 	AutoUpgrade bool `protobuf:"varint,4,opt,name=auto_upgrade,json=autoUpgrade,proto3,oneof"`
 }
 
@@ -2857,7 +2875,14 @@ type VersioningOverride_PinnedOverride struct {
 	// Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.
 	// See `PinnedOverrideBehavior` for details.
 	Behavior VersioningOverride_PinnedOverrideBehavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=temporal.api.workflow.v1.VersioningOverride_PinnedOverrideBehavior" json:"behavior,omitempty"`
-	// Required.
+	// Specifies the Worker Deployment Version to pin this workflow to.
+	// Required if the target workflow is not already pinned to a version.
+	//
+	// If omitted and the target workflow is already pinned, the effective
+	// pinned version will be the existing pinned version.
+	//
+	// If omitted and the target workflow is not pinned, the override request
+	// will be rejected with a PreconditionFailed error.
 	Version       *v12.WorkerDeploymentVersion `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -3042,7 +3067,7 @@ var File_temporal_api_workflow_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\n" +
-	"&temporal/api/workflow/v1/message.proto\x12\x18temporal.api.workflow.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a&temporal/api/activity/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x97\f\n" +
+	"&temporal/api/workflow/v1/message.proto\x12\x18temporal.api.workflow.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a&temporal/api/activity/v1/message.proto\x1a\"temporal/api/enums/v1/common.proto\x1a&temporal/api/enums/v1/event_type.proto\x1a$temporal/api/enums/v1/workflow.proto\x1a$temporal/api/common/v1/message.proto\x1a(temporal/api/deployment/v1/message.proto\x1a%temporal/api/failure/v1/message.proto\x1a'temporal/api/taskqueue/v1/message.proto\x1a'temporal/api/sdk/v1/user_metadata.proto\"\x8c\r\n" +
 	"\x15WorkflowExecutionInfo\x12G\n" +
 	"\texecution\x18\x01 \x01(\v2).temporal.api.common.v1.WorkflowExecutionR\texecution\x128\n" +
 	"\x04type\x18\x02 \x01(\v2$.temporal.api.common.v1.WorkflowTypeR\x04type\x129\n" +
@@ -3072,7 +3097,9 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"firstRunId\x12b\n" +
 	"\x0fversioning_info\x18\x16 \x01(\v29.temporal.api.workflow.v1.WorkflowExecutionVersioningInfoR\x0eversioningInfo\x124\n" +
 	"\x16worker_deployment_name\x18\x17 \x01(\tR\x14workerDeploymentName\x12<\n" +
-	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xd8\x05\n" +
+	"\bpriority\x18\x18 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12=\n" +
+	"\x1bexternal_payload_size_bytes\x18\x19 \x01(\x03R\x18externalPayloadSizeBytes\x124\n" +
+	"\x16external_payload_count\x18\x1a \x01(\x03R\x14externalPayloadCount\"\xd8\x05\n" +
 	"\x1dWorkflowExecutionExtendedInfo\x12V\n" +
 	"\x19execution_expiration_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\x17executionExpirationTime\x12J\n" +
 	"\x13run_expiration_time\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x11runExpirationTime\x12)\n" +
