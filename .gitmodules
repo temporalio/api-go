@@ -1,6 +1,7 @@
 [submodule "proto/api"]
 	path = proto/api
-	url = https://github.com/temporalio/api
+	url = ../api
+	branch = worker_heartbeat_set_activities
 [submodule "proto/api-cloud"]
 	path = proto/api-cloud
 	url = https://github.com/temporalio/api-cloud
