@@ -116,6 +116,80 @@ func (this *WorkerHostInfo) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type ActivityBinding to the protobuf v3 wire format
+func (val *ActivityBinding) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ActivityBinding from the protobuf v3 wire format
+func (val *ActivityBinding) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ActivityBinding) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ActivityBinding values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ActivityBinding) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ActivityBinding
+	switch t := that.(type) {
+	case *ActivityBinding:
+		that1 = t
+	case ActivityBinding:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type ActivityInfo to the protobuf v3 wire format
+func (val *ActivityInfo) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ActivityInfo from the protobuf v3 wire format
+func (val *ActivityInfo) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ActivityInfo) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ActivityInfo values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ActivityInfo) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ActivityInfo
+	switch t := that.(type) {
+	case *ActivityInfo:
+		that1 = t
+	case ActivityInfo:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type WorkerHeartbeat to the protobuf v3 wire format
 func (val *WorkerHeartbeat) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
