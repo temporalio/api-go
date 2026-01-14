@@ -2306,7 +2306,9 @@ type PollActivityTaskQueueResponse struct {
 	// Server-advised information the SDK may use to adjust its poller count.
 	PollerScalingDecision *v14.PollerScalingDecision `protobuf:"bytes,18,opt,name=poller_scaling_decision,json=pollerScalingDecision,proto3" json:"poller_scaling_decision,omitempty"`
 	// Priority metadata
-	Priority      *v13.Priority `protobuf:"bytes,19,opt,name=priority,proto3" json:"priority,omitempty"`
+	Priority *v13.Priority `protobuf:"bytes,19,opt,name=priority,proto3" json:"priority,omitempty"`
+	// The run ID of the activity execution, only set for standalone activities.
+	ActivityRunId string `protobuf:"bytes,20,opt,name=activity_run_id,json=activityRunId,proto3" json:"activity_run_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2472,6 +2474,13 @@ func (x *PollActivityTaskQueueResponse) GetPriority() *v13.Priority {
 		return x.Priority
 	}
 	return nil
+}
+
+func (x *PollActivityTaskQueueResponse) GetActivityRunId() string {
+	if x != nil {
+		return x.ActivityRunId
+	}
+	return ""
 }
 
 type RecordActivityTaskHeartbeatRequest struct {
@@ -17080,7 +17089,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\\\n" +
 	"\x13task_queue_metadata\x18\x04 \x01(\v2,.temporal.api.taskqueue.v1.TaskQueueMetadataR\x11taskQueueMetadata\x12u\n" +
 	"\x1bworker_version_capabilities\x18\x05 \x01(\v21.temporal.api.common.v1.WorkerVersionCapabilitiesB\x02\x18\x01R\x19workerVersionCapabilities\x12b\n" +
-	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\"\x98\n" +
+	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\"\xc0\n" +
 	"\n" +
 	"\x1dPollActivityTaskQueueResponse\x12\x1d\n" +
 	"\n" +
@@ -17104,7 +17113,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x11heartbeat_timeout\x18\x10 \x01(\v2\x19.google.protobuf.DurationR\x10heartbeatTimeout\x12F\n" +
 	"\fretry_policy\x18\x11 \x01(\v2#.temporal.api.common.v1.RetryPolicyR\vretryPolicy\x12h\n" +
 	"\x17poller_scaling_decision\x18\x12 \x01(\v20.temporal.api.taskqueue.v1.PollerScalingDecisionR\x15pollerScalingDecision\x12<\n" +
-	"\bpriority\x18\x13 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\"\xb9\x01\n" +
+	"\bpriority\x18\x13 \x01(\v2 .temporal.api.common.v1.PriorityR\bpriority\x12&\n" +
+	"\x0factivity_run_id\x18\x14 \x01(\tR\ractivityRunId\"\xb9\x01\n" +
 	"\"RecordActivityTaskHeartbeatRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12:\n" +
