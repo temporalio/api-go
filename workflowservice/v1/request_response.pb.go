@@ -2176,8 +2176,15 @@ type PollActivityTaskQueueRequest struct {
 	WorkerVersionCapabilities *v13.WorkerVersionCapabilities `protobuf:"bytes,5,opt,name=worker_version_capabilities,json=workerVersionCapabilities,proto3" json:"worker_version_capabilities,omitempty"`
 	// Worker deployment options that user has set in the worker.
 	DeploymentOptions *v18.WorkerDeploymentOptions `protobuf:"bytes,6,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// Unique key identifying this worker instance.
+	// Used to construct the worker control queue for pushing control messages
+	// (e.g., activity cancellation) to this specific worker.
+	WorkerInstanceKey string `protobuf:"bytes,7,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
+	// Indicates whether this worker supports receiving control tasks via the control queue.
+	// If false, server will not attempt to send control tasks to this worker.
+	SupportsControlTasks bool `protobuf:"varint,8,opt,name=supports_control_tasks,json=supportsControlTasks,proto3" json:"supports_control_tasks,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *PollActivityTaskQueueRequest) Reset() {
@@ -2251,6 +2258,20 @@ func (x *PollActivityTaskQueueRequest) GetDeploymentOptions() *v18.WorkerDeploym
 		return x.DeploymentOptions
 	}
 	return nil
+}
+
+func (x *PollActivityTaskQueueRequest) GetWorkerInstanceKey() string {
+	if x != nil {
+		return x.WorkerInstanceKey
+	}
+	return ""
+}
+
+func (x *PollActivityTaskQueueRequest) GetSupportsControlTasks() bool {
+	if x != nil {
+		return x.SupportsControlTasks
+	}
+	return false
 }
 
 type PollActivityTaskQueueResponse struct {
@@ -17069,7 +17090,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"deployment\x12b\n" +
 	"\x12deployment_options\x18\n" +
 	" \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\"#\n" +
-	"!RespondWorkflowTaskFailedResponse\"\xd6\x03\n" +
+	"!RespondWorkflowTaskFailedResponse\"\xbc\x04\n" +
 	"\x1cPollActivityTaskQueueRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12C\n" +
 	"\n" +
@@ -17077,7 +17098,9 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12\\\n" +
 	"\x13task_queue_metadata\x18\x04 \x01(\v2,.temporal.api.taskqueue.v1.TaskQueueMetadataR\x11taskQueueMetadata\x12u\n" +
 	"\x1bworker_version_capabilities\x18\x05 \x01(\v21.temporal.api.common.v1.WorkerVersionCapabilitiesB\x02\x18\x01R\x19workerVersionCapabilities\x12b\n" +
-	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\"\xc0\n" +
+	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\x12.\n" +
+	"\x13worker_instance_key\x18\a \x01(\tR\x11workerInstanceKey\x124\n" +
+	"\x16supports_control_tasks\x18\b \x01(\bR\x14supportsControlTasks\"\xc0\n" +
 	"\n" +
 	"\x1dPollActivityTaskQueueResponse\x12\x1d\n" +
 	"\n" +

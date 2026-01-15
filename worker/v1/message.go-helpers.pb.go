@@ -226,3 +226,114 @@ func (this *PluginInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type WorkerControlPayload to the protobuf v3 wire format
+func (val *WorkerControlPayload) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type WorkerControlPayload from the protobuf v3 wire format
+func (val *WorkerControlPayload) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *WorkerControlPayload) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two WorkerControlPayload values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *WorkerControlPayload) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *WorkerControlPayload
+	switch t := that.(type) {
+	case *WorkerControlPayload:
+		that1 = t
+	case WorkerControlPayload:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type WorkerControlTask to the protobuf v3 wire format
+func (val *WorkerControlTask) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type WorkerControlTask from the protobuf v3 wire format
+func (val *WorkerControlTask) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *WorkerControlTask) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two WorkerControlTask values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *WorkerControlTask) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *WorkerControlTask
+	switch t := that.(type) {
+	case *WorkerControlTask:
+		that1 = t
+	case WorkerControlTask:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CancelActivityTask to the protobuf v3 wire format
+func (val *CancelActivityTask) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CancelActivityTask from the protobuf v3 wire format
+func (val *CancelActivityTask) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CancelActivityTask) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CancelActivityTask values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CancelActivityTask) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CancelActivityTask
+	switch t := that.(type) {
+	case *CancelActivityTask:
+		that1 = t
+	case CancelActivityTask:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
