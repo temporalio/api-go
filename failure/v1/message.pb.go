@@ -693,7 +693,7 @@ func (x *NexusSDKOperationFailureInfo) GetState() string {
 type NexusSDKFailureErrorFailureInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Metadata      map[string]string      `protobuf:"bytes,1,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Data          []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	Details       []byte                 `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -735,9 +735,9 @@ func (x *NexusSDKFailureErrorFailureInfo) GetMetadata() map[string]string {
 	return nil
 }
 
-func (x *NexusSDKFailureErrorFailureInfo) GetData() []byte {
+func (x *NexusSDKFailureErrorFailureInfo) GetDetails() []byte {
 	if x != nil {
-		return x.Data
+		return x.Details
 	}
 	return nil
 }
@@ -1126,10 +1126,10 @@ const file_temporal_api_failure_v1_message_proto_rawDesc = "" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12\\\n" +
 	"\x0eretry_behavior\x18\x02 \x01(\x0e25.temporal.api.enums.v1.NexusHandlerErrorRetryBehaviorR\rretryBehavior\"4\n" +
 	"\x1cNexusSDKOperationFailureInfo\x12\x14\n" +
-	"\x05state\x18\x01 \x01(\tR\x05state\"\xd6\x01\n" +
+	"\x05state\x18\x01 \x01(\tR\x05state\"\xdc\x01\n" +
 	"\x1fNexusSDKFailureErrorFailureInfo\x12b\n" +
-	"\bmetadata\x18\x01 \x03(\v2F.temporal.api.failure.v1.NexusSDKFailureErrorFailureInfo.MetadataEntryR\bmetadata\x12\x12\n" +
-	"\x04data\x18\x02 \x01(\fR\x04data\x1a;\n" +
+	"\bmetadata\x18\x01 \x03(\v2F.temporal.api.failure.v1.NexusSDKFailureErrorFailureInfo.MetadataEntryR\bmetadata\x12\x18\n" +
+	"\adetails\x18\x02 \x01(\fR\adetails\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd0\f\n" +
