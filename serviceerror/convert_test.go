@@ -166,6 +166,11 @@ func TestMultiOperationExecution_PreservesResourceExhaustedDetails(t *testing.T)
 	require.Equal(t, enumspb.RESOURCE_EXHAUSTED_SCOPE_NAMESPACE, reErr.Scope)
 	require.Equal(t, "rate limit exceeded", reErr.Message)
 
+	// Verify the second error is InvalidArgument with preserved details
+	invErr, ok := opErrors[1].(*serviceerror.InvalidArgument)
+	require.True(t, ok)
+	require.Equal(t, "other error", invErr.Message)
+
 	// Verify proto round-trip equality
 	reconstructedStatus := serviceerror.ToStatus(reconstructed)
 	require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
