@@ -14,6 +14,7 @@ import (
 	"google.golang.org/protobuf/types/known/anypb"
 	"google.golang.org/protobuf/types/known/durationpb"
 
+	enumspb "go.temporal.io/api/enums/v1"
 	"go.temporal.io/api/errordetails/v1"
 	"go.temporal.io/api/serviceerror"
 )
@@ -131,6 +132,43 @@ func TestMultiOperationExecution(t *testing.T) {
 		require.Len(t, st.Details(), 1)
 		require.Empty(t, st.Details()[0].(*errordetails.MultiOperationExecutionFailure).Statuses)
 	})
+}
+
+func TestMultiOperationExecution_PreservesResourceExhaustedDetails(t *testing.T) {
+	resourceErr := &serviceerror.ResourceExhausted{
+		Cause:   enumspb.RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT,
+		Scope:   enumspb.RESOURCE_EXHAUSTED_SCOPE_NAMESPACE,
+		Message: "rate limit exceeded",
+	}
+	multiErr := serviceerror.NewMultiOperationExecution(
+		"multi-op failed",
+		[]error{
+			resourceErr,
+			serviceerror.NewInvalidArgument("other error"),
+		},
+	)
+
+	// Check round-trip conversion
+	st := serviceerror.ToStatus(multiErr)
+	reconstructed := serviceerror.FromStatus(st)
+
+	multiOp, ok := reconstructed.(*serviceerror.MultiOperationExecution)
+	require.True(t, ok)
+
+	// Get the operation errors
+	opErrors := multiOp.OperationErrors()
+	require.Len(t, opErrors, 2)
+
+	// Verify the first error is ResourceExhausted with preserved details
+	reErr, ok := opErrors[0].(*serviceerror.ResourceExhausted)
+	require.True(t, ok)
+	require.Equal(t, enumspb.RESOURCE_EXHAUSTED_CAUSE_RPS_LIMIT, reErr.Cause)
+	require.Equal(t, enumspb.RESOURCE_EXHAUSTED_SCOPE_NAMESPACE, reErr.Scope)
+	require.Equal(t, "rate limit exceeded", reErr.Message)
+
+	// Verify proto round-trip equality
+	reconstructedStatus := serviceerror.ToStatus(reconstructed)
+	require.True(t, proto.Equal(st.Proto(), reconstructedStatus.Proto()))
 }
 
 func TestMultiOperationAborted(t *testing.T) {
