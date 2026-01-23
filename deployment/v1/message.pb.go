@@ -29,7 +29,7 @@ const (
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
 type WorkerDeploymentOptions struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Required. Worker Deployment name.
+	// Required when `worker_versioning_mode==VERSIONED`.
 	DeploymentName string `protobuf:"bytes,1,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// The Build ID of the worker. Required when `worker_versioning_mode==VERSIONED`, in which case,
 	// the worker will be part of a Deployment Version.
