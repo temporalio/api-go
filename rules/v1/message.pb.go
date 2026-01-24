@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/rules/v1/message.proto
 
+//go:build !protoopaque
+
 package rules
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -24,7 +26,7 @@ const (
 )
 
 type WorkflowRuleAction struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Supported actions.
 	//
 	// Types that are valid to be assigned to Variant:
@@ -60,11 +62,6 @@ func (x *WorkflowRuleAction) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowRuleAction.ProtoReflect.Descriptor instead.
-func (*WorkflowRuleAction) Descriptor() ([]byte, []int) {
-	return file_temporal_api_rules_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkflowRuleAction) GetVariant() isWorkflowRuleAction_Variant {
 	if x != nil {
 		return x.Variant
@@ -81,6 +78,88 @@ func (x *WorkflowRuleAction) GetActivityPause() *WorkflowRuleAction_ActionActivi
 	return nil
 }
 
+func (x *WorkflowRuleAction) SetActivityPause(v *WorkflowRuleAction_ActionActivityPause) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &WorkflowRuleAction_ActivityPause{v}
+}
+
+func (x *WorkflowRuleAction) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *WorkflowRuleAction) HasActivityPause() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*WorkflowRuleAction_ActivityPause)
+	return ok
+}
+
+func (x *WorkflowRuleAction) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *WorkflowRuleAction) ClearActivityPause() {
+	if _, ok := x.Variant.(*WorkflowRuleAction_ActivityPause); ok {
+		x.Variant = nil
+	}
+}
+
+const WorkflowRuleAction_Variant_not_set_case case_WorkflowRuleAction_Variant = 0
+const WorkflowRuleAction_ActivityPause_case case_WorkflowRuleAction_Variant = 1
+
+func (x *WorkflowRuleAction) WhichVariant() case_WorkflowRuleAction_Variant {
+	if x == nil {
+		return WorkflowRuleAction_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *WorkflowRuleAction_ActivityPause:
+		return WorkflowRuleAction_ActivityPause_case
+	default:
+		return WorkflowRuleAction_Variant_not_set_case
+	}
+}
+
+type WorkflowRuleAction_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Supported actions.
+
+	// Fields of oneof Variant:
+	ActivityPause *WorkflowRuleAction_ActionActivityPause
+	// -- end of Variant
+}
+
+func (b0 WorkflowRuleAction_builder) Build() *WorkflowRuleAction {
+	m0 := &WorkflowRuleAction{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.ActivityPause != nil {
+		x.Variant = &WorkflowRuleAction_ActivityPause{b.ActivityPause}
+	}
+	return m0
+}
+
+type case_WorkflowRuleAction_Variant protoreflect.FieldNumber
+
+func (x case_WorkflowRuleAction_Variant) String() string {
+	switch x {
+	case WorkflowRuleAction_Variant_not_set_case:
+		return "WorkflowRuleActionVariantNotSetCase"
+	case WorkflowRuleAction_ActivityPause_case:
+		return "WorkflowRuleActionActivityPauseCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isWorkflowRuleAction_Variant interface {
 	isWorkflowRuleAction_Variant()
 }
@@ -92,7 +171,7 @@ type WorkflowRuleAction_ActivityPause struct {
 func (*WorkflowRuleAction_ActivityPause) isWorkflowRuleAction_Variant() {}
 
 type WorkflowRuleSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the new workflow rule. Must be unique within the namespace.
 	// Can be set by the user, and can have business meaning.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -146,11 +225,6 @@ func (x *WorkflowRuleSpec) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowRuleSpec.ProtoReflect.Descriptor instead.
-func (*WorkflowRuleSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_rules_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *WorkflowRuleSpec) GetId() string {
 	if x != nil {
 		return x.Id
@@ -195,6 +269,137 @@ func (x *WorkflowRuleSpec) GetExpirationTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *WorkflowRuleSpec) SetId(v string) {
+	x.Id = v
+}
+
+func (x *WorkflowRuleSpec) SetActivityStart(v *WorkflowRuleSpec_ActivityStartingTrigger) {
+	if v == nil {
+		x.Trigger = nil
+		return
+	}
+	x.Trigger = &WorkflowRuleSpec_ActivityStart{v}
+}
+
+func (x *WorkflowRuleSpec) SetVisibilityQuery(v string) {
+	x.VisibilityQuery = v
+}
+
+func (x *WorkflowRuleSpec) SetActions(v []*WorkflowRuleAction) {
+	x.Actions = v
+}
+
+func (x *WorkflowRuleSpec) SetExpirationTime(v *timestamppb.Timestamp) {
+	x.ExpirationTime = v
+}
+
+func (x *WorkflowRuleSpec) HasTrigger() bool {
+	if x == nil {
+		return false
+	}
+	return x.Trigger != nil
+}
+
+func (x *WorkflowRuleSpec) HasActivityStart() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Trigger.(*WorkflowRuleSpec_ActivityStart)
+	return ok
+}
+
+func (x *WorkflowRuleSpec) HasExpirationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExpirationTime != nil
+}
+
+func (x *WorkflowRuleSpec) ClearTrigger() {
+	x.Trigger = nil
+}
+
+func (x *WorkflowRuleSpec) ClearActivityStart() {
+	if _, ok := x.Trigger.(*WorkflowRuleSpec_ActivityStart); ok {
+		x.Trigger = nil
+	}
+}
+
+func (x *WorkflowRuleSpec) ClearExpirationTime() {
+	x.ExpirationTime = nil
+}
+
+const WorkflowRuleSpec_Trigger_not_set_case case_WorkflowRuleSpec_Trigger = 0
+const WorkflowRuleSpec_ActivityStart_case case_WorkflowRuleSpec_Trigger = 2
+
+func (x *WorkflowRuleSpec) WhichTrigger() case_WorkflowRuleSpec_Trigger {
+	if x == nil {
+		return WorkflowRuleSpec_Trigger_not_set_case
+	}
+	switch x.Trigger.(type) {
+	case *WorkflowRuleSpec_ActivityStart:
+		return WorkflowRuleSpec_ActivityStart_case
+	default:
+		return WorkflowRuleSpec_Trigger_not_set_case
+	}
+}
+
+type WorkflowRuleSpec_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the new workflow rule. Must be unique within the namespace.
+	// Can be set by the user, and can have business meaning.
+	Id string
+	// Specifies how the rule should be triggered and evaluated.
+	// Currently, only "activity start" type is supported.
+
+	// Fields of oneof Trigger:
+	ActivityStart *WorkflowRuleSpec_ActivityStartingTrigger
+	// -- end of Trigger
+	// Restricted Visibility query.
+	// This query is used to filter workflows in this namespace to which this rule should apply.
+	// It is applied to any running workflow each time a triggering event occurs, before the trigger predicate is evaluated.
+	// The following workflow attributes are supported:
+	// - WorkflowType
+	// - WorkflowId
+	// - StartTime
+	// - ExecutionStatus
+	VisibilityQuery string
+	// WorkflowRuleAction to be taken when the rule is triggered and predicate is matched.
+	Actions []*WorkflowRuleAction
+	// Expiration time of the rule. After this time, the rule will be deleted.
+	// Can be empty if the rule should never expire.
+	ExpirationTime *timestamppb.Timestamp
+}
+
+func (b0 WorkflowRuleSpec_builder) Build() *WorkflowRuleSpec {
+	m0 := &WorkflowRuleSpec{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Id = b.Id
+	if b.ActivityStart != nil {
+		x.Trigger = &WorkflowRuleSpec_ActivityStart{b.ActivityStart}
+	}
+	x.VisibilityQuery = b.VisibilityQuery
+	x.Actions = b.Actions
+	x.ExpirationTime = b.ExpirationTime
+	return m0
+}
+
+type case_WorkflowRuleSpec_Trigger protoreflect.FieldNumber
+
+func (x case_WorkflowRuleSpec_Trigger) String() string {
+	switch x {
+	case WorkflowRuleSpec_Trigger_not_set_case:
+		return "WorkflowRuleSpecTriggerNotSetCase"
+	case WorkflowRuleSpec_ActivityStart_case:
+		return "WorkflowRuleSpecActivityStartCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isWorkflowRuleSpec_Trigger interface {
 	isWorkflowRuleSpec_Trigger()
 }
@@ -207,7 +412,7 @@ func (*WorkflowRuleSpec_ActivityStart) isWorkflowRuleSpec_Trigger() {}
 
 // WorkflowRule describes a rule that can be applied to any workflow in this namespace.
 type WorkflowRule struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Rule creation time.
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	// Rule specification
@@ -252,11 +457,6 @@ func (x *WorkflowRule) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowRule.ProtoReflect.Descriptor instead.
-func (*WorkflowRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_rules_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *WorkflowRule) GetCreateTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreateTime
@@ -285,8 +485,77 @@ func (x *WorkflowRule) GetDescription() string {
 	return ""
 }
 
+func (x *WorkflowRule) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *WorkflowRule) SetSpec(v *WorkflowRuleSpec) {
+	x.Spec = v
+}
+
+func (x *WorkflowRule) SetCreatedByIdentity(v string) {
+	x.CreatedByIdentity = v
+}
+
+func (x *WorkflowRule) SetDescription(v string) {
+	x.Description = v
+}
+
+func (x *WorkflowRule) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *WorkflowRule) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	return x.Spec != nil
+}
+
+func (x *WorkflowRule) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+func (x *WorkflowRule) ClearSpec() {
+	x.Spec = nil
+}
+
+type WorkflowRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Rule creation time.
+	CreateTime *timestamppb.Timestamp
+	// Rule specification
+	Spec *WorkflowRuleSpec
+	// Identity of the actor that created the rule
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: It is better reflect the intent this way, we will also have updated_by. --)
+	//
+	// (-- api-linter: core::0142::time-field-names=disabled
+	//
+	//	aip.dev/not-precedent: Same as above. All other options sounds clumsy --)
+	CreatedByIdentity string
+	// Rule description.
+	Description string
+}
+
+func (b0 WorkflowRule_builder) Build() *WorkflowRule {
+	m0 := &WorkflowRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CreateTime = b.CreateTime
+	x.Spec = b.Spec
+	x.CreatedByIdentity = b.CreatedByIdentity
+	x.Description = b.Description
+	return m0
+}
+
 type WorkflowRuleAction_ActionActivityPause struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -316,14 +585,21 @@ func (x *WorkflowRuleAction_ActionActivityPause) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowRuleAction_ActionActivityPause.ProtoReflect.Descriptor instead.
-func (*WorkflowRuleAction_ActionActivityPause) Descriptor() ([]byte, []int) {
-	return file_temporal_api_rules_v1_message_proto_rawDescGZIP(), []int{0, 0}
+type WorkflowRuleAction_ActionActivityPause_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 WorkflowRuleAction_ActionActivityPause_builder) Build() *WorkflowRuleAction_ActionActivityPause {
+	m0 := &WorkflowRuleAction_ActionActivityPause{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Activity trigger will be triggered when an activity is about to start.
 type WorkflowRuleSpec_ActivityStartingTrigger struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Activity predicate is a SQL-like string filter parameter.
 	// It is used to match against workflow data.
 	// The following activity attributes are supported as part of the predicate:
@@ -368,16 +644,43 @@ func (x *WorkflowRuleSpec_ActivityStartingTrigger) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowRuleSpec_ActivityStartingTrigger.ProtoReflect.Descriptor instead.
-func (*WorkflowRuleSpec_ActivityStartingTrigger) Descriptor() ([]byte, []int) {
-	return file_temporal_api_rules_v1_message_proto_rawDescGZIP(), []int{1, 0}
-}
-
 func (x *WorkflowRuleSpec_ActivityStartingTrigger) GetPredicate() string {
 	if x != nil {
 		return x.Predicate
 	}
 	return ""
+}
+
+func (x *WorkflowRuleSpec_ActivityStartingTrigger) SetPredicate(v string) {
+	x.Predicate = v
+}
+
+type WorkflowRuleSpec_ActivityStartingTrigger_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Activity predicate is a SQL-like string filter parameter.
+	// It is used to match against workflow data.
+	// The following activity attributes are supported as part of the predicate:
+	// - ActivityType: An Activity Type is the mapping of a name to an Activity Definition..
+	// - ActivityId: The ID of the activity.
+	// - ActivityAttempt: The number attempts of the activity.
+	// - BackoffInterval: The current amount of time between scheduled attempts of the activity.
+	// - ActivityStatus: The status of the activity. Can be one of "Scheduled", "Started", "Paused".
+	// - TaskQueue: The name of the task queue the workflow specified that the activity should run on.
+	// Activity predicate support the following operators:
+	//   - =, !=, >, >=, <, <=
+	//   - AND, OR, ()
+	//   - BETWEEN ... AND
+	//     STARTS_WITH
+	Predicate string
+}
+
+func (b0 WorkflowRuleSpec_ActivityStartingTrigger_builder) Build() *WorkflowRuleSpec_ActivityStartingTrigger {
+	m0 := &WorkflowRuleSpec_ActivityStartingTrigger{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Predicate = b.Predicate
+	return m0
 }
 
 var File_temporal_api_rules_v1_message_proto protoreflect.FileDescriptor
@@ -405,18 +708,6 @@ const file_temporal_api_rules_v1_message_proto_rawDesc = "" +
 	"\x13created_by_identity\x18\x03 \x01(\tR\x11createdByIdentity\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescriptionB\x84\x01\n" +
 	"\x18io.temporal.api.rules.v1B\fMessageProtoP\x01Z!go.temporal.io/api/rules/v1;rules\xaa\x02\x17Temporalio.Api.Rules.V1\xea\x02\x1aTemporalio::Api::Rules::V1b\x06proto3"
-
-var (
-	file_temporal_api_rules_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_rules_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_rules_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_rules_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_rules_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_rules_v1_message_proto_rawDesc), len(file_temporal_api_rules_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_rules_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_rules_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_temporal_api_rules_v1_message_proto_goTypes = []any{

@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/update/v1/message.proto
 
+//go:build !protoopaque
+
 package update
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v11 "go.temporal.io/api/common/v1"
@@ -27,7 +29,7 @@ const (
 
 // Specifies client's intent to wait for Update results.
 type WaitPolicy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Indicates the Update lifecycle stage that the Update must reach before
 	// API call is returned.
 	// NOTE: This field works together with API call timeout which is limited by
@@ -63,11 +65,6 @@ func (x *WaitPolicy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WaitPolicy.ProtoReflect.Descriptor instead.
-func (*WaitPolicy) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WaitPolicy) GetLifecycleStage() v1.UpdateWorkflowExecutionLifecycleStage {
 	if x != nil {
 		return x.LifecycleStage
@@ -75,9 +72,32 @@ func (x *WaitPolicy) GetLifecycleStage() v1.UpdateWorkflowExecutionLifecycleStag
 	return v1.UpdateWorkflowExecutionLifecycleStage(0)
 }
 
+func (x *WaitPolicy) SetLifecycleStage(v v1.UpdateWorkflowExecutionLifecycleStage) {
+	x.LifecycleStage = v
+}
+
+type WaitPolicy_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Indicates the Update lifecycle stage that the Update must reach before
+	// API call is returned.
+	// NOTE: This field works together with API call timeout which is limited by
+	// server timeout (maximum wait time). If server timeout is expired before
+	// user specified timeout, API call returns even if specified stage is not reached.
+	LifecycleStage v1.UpdateWorkflowExecutionLifecycleStage
+}
+
+func (b0 WaitPolicy_builder) Build() *WaitPolicy {
+	m0 := &WaitPolicy{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LifecycleStage = b.LifecycleStage
+	return m0
+}
+
 // The data needed by a client to refer to a previously invoked Workflow Update.
 type UpdateRef struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state             protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowExecution *v11.WorkflowExecution `protobuf:"bytes,1,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	UpdateId          string                 `protobuf:"bytes,2,opt,name=update_id,json=updateId,proto3" json:"update_id,omitempty"`
 	unknownFields     protoimpl.UnknownFields
@@ -109,11 +129,6 @@ func (x *UpdateRef) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateRef.ProtoReflect.Descriptor instead.
-func (*UpdateRef) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *UpdateRef) GetWorkflowExecution() *v11.WorkflowExecution {
 	if x != nil {
 		return x.WorkflowExecution
@@ -128,9 +143,44 @@ func (x *UpdateRef) GetUpdateId() string {
 	return ""
 }
 
+func (x *UpdateRef) SetWorkflowExecution(v *v11.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *UpdateRef) SetUpdateId(v string) {
+	x.UpdateId = v
+}
+
+func (x *UpdateRef) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *UpdateRef) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type UpdateRef_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowExecution *v11.WorkflowExecution
+	UpdateId          string
+}
+
+func (b0 UpdateRef_builder) Build() *UpdateRef {
+	m0 := &UpdateRef{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowExecution = b.WorkflowExecution
+	x.UpdateId = b.UpdateId
+	return m0
+}
+
 // The outcome of a Workflow Update: success or failure.
 type Outcome struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Value:
 	//
 	//	*Outcome_Success
@@ -165,11 +215,6 @@ func (x *Outcome) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Outcome.ProtoReflect.Descriptor instead.
-func (*Outcome) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *Outcome) GetValue() isOutcome_Value {
 	if x != nil {
 		return x.Value
@@ -195,6 +240,117 @@ func (x *Outcome) GetFailure() *v12.Failure {
 	return nil
 }
 
+func (x *Outcome) SetSuccess(v *v11.Payloads) {
+	if v == nil {
+		x.Value = nil
+		return
+	}
+	x.Value = &Outcome_Success{v}
+}
+
+func (x *Outcome) SetFailure(v *v12.Failure) {
+	if v == nil {
+		x.Value = nil
+		return
+	}
+	x.Value = &Outcome_Failure{v}
+}
+
+func (x *Outcome) HasValue() bool {
+	if x == nil {
+		return false
+	}
+	return x.Value != nil
+}
+
+func (x *Outcome) HasSuccess() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Value.(*Outcome_Success)
+	return ok
+}
+
+func (x *Outcome) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Value.(*Outcome_Failure)
+	return ok
+}
+
+func (x *Outcome) ClearValue() {
+	x.Value = nil
+}
+
+func (x *Outcome) ClearSuccess() {
+	if _, ok := x.Value.(*Outcome_Success); ok {
+		x.Value = nil
+	}
+}
+
+func (x *Outcome) ClearFailure() {
+	if _, ok := x.Value.(*Outcome_Failure); ok {
+		x.Value = nil
+	}
+}
+
+const Outcome_Value_not_set_case case_Outcome_Value = 0
+const Outcome_Success_case case_Outcome_Value = 1
+const Outcome_Failure_case case_Outcome_Value = 2
+
+func (x *Outcome) WhichValue() case_Outcome_Value {
+	if x == nil {
+		return Outcome_Value_not_set_case
+	}
+	switch x.Value.(type) {
+	case *Outcome_Success:
+		return Outcome_Success_case
+	case *Outcome_Failure:
+		return Outcome_Failure_case
+	default:
+		return Outcome_Value_not_set_case
+	}
+}
+
+type Outcome_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Value:
+	Success *v11.Payloads
+	Failure *v12.Failure
+	// -- end of Value
+}
+
+func (b0 Outcome_builder) Build() *Outcome {
+	m0 := &Outcome{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Success != nil {
+		x.Value = &Outcome_Success{b.Success}
+	}
+	if b.Failure != nil {
+		x.Value = &Outcome_Failure{b.Failure}
+	}
+	return m0
+}
+
+type case_Outcome_Value protoreflect.FieldNumber
+
+func (x case_Outcome_Value) String() string {
+	switch x {
+	case Outcome_Value_not_set_case:
+		return "OutcomeValueNotSetCase"
+	case Outcome_Success_case:
+		return "OutcomeSuccessCase"
+	case Outcome_Failure_case:
+		return "OutcomeFailureCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isOutcome_Value interface {
 	isOutcome_Value()
 }
@@ -213,7 +369,7 @@ func (*Outcome_Failure) isOutcome_Value() {}
 
 // Metadata about a Workflow Update.
 type Meta struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// An ID with workflow-scoped uniqueness for this Update.
 	UpdateId string `protobuf:"bytes,1,opt,name=update_id,json=updateId,proto3" json:"update_id,omitempty"`
 	// A string identifying the agent that requested this Update.
@@ -247,11 +403,6 @@ func (x *Meta) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Meta.ProtoReflect.Descriptor instead.
-func (*Meta) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *Meta) GetUpdateId() string {
 	if x != nil {
 		return x.UpdateId
@@ -266,8 +417,34 @@ func (x *Meta) GetIdentity() string {
 	return ""
 }
 
+func (x *Meta) SetUpdateId(v string) {
+	x.UpdateId = v
+}
+
+func (x *Meta) SetIdentity(v string) {
+	x.Identity = v
+}
+
+type Meta_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// An ID with workflow-scoped uniqueness for this Update.
+	UpdateId string
+	// A string identifying the agent that requested this Update.
+	Identity string
+}
+
+func (b0 Meta_builder) Build() *Meta {
+	m0 := &Meta{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.UpdateId = b.UpdateId
+	x.Identity = b.Identity
+	return m0
+}
+
 type Input struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Headers that are passed with the Update from the requesting entity.
 	// These can include things like auth or tracing tokens.
 	Header *v11.Header `protobuf:"bytes,1,opt,name=header,proto3" json:"header,omitempty"`
@@ -304,11 +481,6 @@ func (x *Input) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Input.ProtoReflect.Descriptor instead.
-func (*Input) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *Input) GetHeader() *v11.Header {
 	if x != nil {
 		return x.Header
@@ -330,9 +502,65 @@ func (x *Input) GetArgs() *v11.Payloads {
 	return nil
 }
 
+func (x *Input) SetHeader(v *v11.Header) {
+	x.Header = v
+}
+
+func (x *Input) SetName(v string) {
+	x.Name = v
+}
+
+func (x *Input) SetArgs(v *v11.Payloads) {
+	x.Args = v
+}
+
+func (x *Input) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *Input) HasArgs() bool {
+	if x == nil {
+		return false
+	}
+	return x.Args != nil
+}
+
+func (x *Input) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *Input) ClearArgs() {
+	x.Args = nil
+}
+
+type Input_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Headers that are passed with the Update from the requesting entity.
+	// These can include things like auth or tracing tokens.
+	Header *v11.Header
+	// The name of the Update handler to invoke on the target Workflow.
+	Name string
+	// The arguments to pass to the named Update handler.
+	Args *v11.Payloads
+}
+
+func (b0 Input_builder) Build() *Input {
+	m0 := &Input{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Header = b.Header
+	x.Name = b.Name
+	x.Args = b.Args
+	return m0
+}
+
 // The client request that triggers a Workflow Update.
 type Request struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Meta          *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
 	Input         *Input                 `protobuf:"bytes,2,opt,name=input,proto3" json:"input,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -364,11 +592,6 @@ func (x *Request) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Request.ProtoReflect.Descriptor instead.
-func (*Request) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *Request) GetMeta() *Meta {
 	if x != nil {
 		return x.Meta
@@ -383,9 +606,55 @@ func (x *Request) GetInput() *Input {
 	return nil
 }
 
+func (x *Request) SetMeta(v *Meta) {
+	x.Meta = v
+}
+
+func (x *Request) SetInput(v *Input) {
+	x.Input = v
+}
+
+func (x *Request) HasMeta() bool {
+	if x == nil {
+		return false
+	}
+	return x.Meta != nil
+}
+
+func (x *Request) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *Request) ClearMeta() {
+	x.Meta = nil
+}
+
+func (x *Request) ClearInput() {
+	x.Input = nil
+}
+
+type Request_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Meta  *Meta
+	Input *Input
+}
+
+func (b0 Request_builder) Build() *Request {
+	m0 := &Request{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Meta = b.Meta
+	x.Input = b.Input
+	return m0
+}
+
 // An Update protocol message indicating that a Workflow Update has been rejected.
 type Rejection struct {
-	state                            protoimpl.MessageState `protogen:"open.v1"`
+	state                            protoimpl.MessageState `protogen:"hybrid.v1"`
 	RejectedRequestMessageId         string                 `protobuf:"bytes,1,opt,name=rejected_request_message_id,json=rejectedRequestMessageId,proto3" json:"rejected_request_message_id,omitempty"`
 	RejectedRequestSequencingEventId int64                  `protobuf:"varint,2,opt,name=rejected_request_sequencing_event_id,json=rejectedRequestSequencingEventId,proto3" json:"rejected_request_sequencing_event_id,omitempty"`
 	RejectedRequest                  *Request               `protobuf:"bytes,3,opt,name=rejected_request,json=rejectedRequest,proto3" json:"rejected_request,omitempty"`
@@ -419,11 +688,6 @@ func (x *Rejection) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Rejection.ProtoReflect.Descriptor instead.
-func (*Rejection) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *Rejection) GetRejectedRequestMessageId() string {
 	if x != nil {
 		return x.RejectedRequestMessageId
@@ -452,10 +716,68 @@ func (x *Rejection) GetFailure() *v12.Failure {
 	return nil
 }
 
+func (x *Rejection) SetRejectedRequestMessageId(v string) {
+	x.RejectedRequestMessageId = v
+}
+
+func (x *Rejection) SetRejectedRequestSequencingEventId(v int64) {
+	x.RejectedRequestSequencingEventId = v
+}
+
+func (x *Rejection) SetRejectedRequest(v *Request) {
+	x.RejectedRequest = v
+}
+
+func (x *Rejection) SetFailure(v *v12.Failure) {
+	x.Failure = v
+}
+
+func (x *Rejection) HasRejectedRequest() bool {
+	if x == nil {
+		return false
+	}
+	return x.RejectedRequest != nil
+}
+
+func (x *Rejection) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *Rejection) ClearRejectedRequest() {
+	x.RejectedRequest = nil
+}
+
+func (x *Rejection) ClearFailure() {
+	x.Failure = nil
+}
+
+type Rejection_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	RejectedRequestMessageId         string
+	RejectedRequestSequencingEventId int64
+	RejectedRequest                  *Request
+	Failure                          *v12.Failure
+}
+
+func (b0 Rejection_builder) Build() *Rejection {
+	m0 := &Rejection{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RejectedRequestMessageId = b.RejectedRequestMessageId
+	x.RejectedRequestSequencingEventId = b.RejectedRequestSequencingEventId
+	x.RejectedRequest = b.RejectedRequest
+	x.Failure = b.Failure
+	return m0
+}
+
 // An Update protocol message indicating that a Workflow Update has
 // been accepted (i.e. passed the worker-side validation phase).
 type Acceptance struct {
-	state                            protoimpl.MessageState `protogen:"open.v1"`
+	state                            protoimpl.MessageState `protogen:"hybrid.v1"`
 	AcceptedRequestMessageId         string                 `protobuf:"bytes,1,opt,name=accepted_request_message_id,json=acceptedRequestMessageId,proto3" json:"accepted_request_message_id,omitempty"`
 	AcceptedRequestSequencingEventId int64                  `protobuf:"varint,2,opt,name=accepted_request_sequencing_event_id,json=acceptedRequestSequencingEventId,proto3" json:"accepted_request_sequencing_event_id,omitempty"`
 	AcceptedRequest                  *Request               `protobuf:"bytes,3,opt,name=accepted_request,json=acceptedRequest,proto3" json:"accepted_request,omitempty"`
@@ -488,11 +810,6 @@ func (x *Acceptance) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Acceptance.ProtoReflect.Descriptor instead.
-func (*Acceptance) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *Acceptance) GetAcceptedRequestMessageId() string {
 	if x != nil {
 		return x.AcceptedRequestMessageId
@@ -514,10 +831,51 @@ func (x *Acceptance) GetAcceptedRequest() *Request {
 	return nil
 }
 
+func (x *Acceptance) SetAcceptedRequestMessageId(v string) {
+	x.AcceptedRequestMessageId = v
+}
+
+func (x *Acceptance) SetAcceptedRequestSequencingEventId(v int64) {
+	x.AcceptedRequestSequencingEventId = v
+}
+
+func (x *Acceptance) SetAcceptedRequest(v *Request) {
+	x.AcceptedRequest = v
+}
+
+func (x *Acceptance) HasAcceptedRequest() bool {
+	if x == nil {
+		return false
+	}
+	return x.AcceptedRequest != nil
+}
+
+func (x *Acceptance) ClearAcceptedRequest() {
+	x.AcceptedRequest = nil
+}
+
+type Acceptance_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	AcceptedRequestMessageId         string
+	AcceptedRequestSequencingEventId int64
+	AcceptedRequest                  *Request
+}
+
+func (b0 Acceptance_builder) Build() *Acceptance {
+	m0 := &Acceptance{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AcceptedRequestMessageId = b.AcceptedRequestMessageId
+	x.AcceptedRequestSequencingEventId = b.AcceptedRequestSequencingEventId
+	x.AcceptedRequest = b.AcceptedRequest
+	return m0
+}
+
 // An Update protocol message indicating that a Workflow Update has
 // completed with the contained outcome.
 type Response struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Meta          *Meta                  `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
 	Outcome       *Outcome               `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -549,11 +907,6 @@ func (x *Response) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Response.ProtoReflect.Descriptor instead.
-func (*Response) Descriptor() ([]byte, []int) {
-	return file_temporal_api_update_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *Response) GetMeta() *Meta {
 	if x != nil {
 		return x.Meta
@@ -566,6 +919,52 @@ func (x *Response) GetOutcome() *Outcome {
 		return x.Outcome
 	}
 	return nil
+}
+
+func (x *Response) SetMeta(v *Meta) {
+	x.Meta = v
+}
+
+func (x *Response) SetOutcome(v *Outcome) {
+	x.Outcome = v
+}
+
+func (x *Response) HasMeta() bool {
+	if x == nil {
+		return false
+	}
+	return x.Meta != nil
+}
+
+func (x *Response) HasOutcome() bool {
+	if x == nil {
+		return false
+	}
+	return x.Outcome != nil
+}
+
+func (x *Response) ClearMeta() {
+	x.Meta = nil
+}
+
+func (x *Response) ClearOutcome() {
+	x.Outcome = nil
+}
+
+type Response_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Meta    *Meta
+	Outcome *Outcome
+}
+
+func (b0 Response_builder) Build() *Response {
+	m0 := &Response{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Meta = b.Meta
+	x.Outcome = b.Outcome
+	return m0
 }
 
 var File_temporal_api_update_v1_message_proto protoreflect.FileDescriptor
@@ -607,18 +1006,6 @@ const file_temporal_api_update_v1_message_proto_rawDesc = "" +
 	"\x04meta\x18\x01 \x01(\v2\x1c.temporal.api.update.v1.MetaR\x04meta\x129\n" +
 	"\aoutcome\x18\x02 \x01(\v2\x1f.temporal.api.update.v1.OutcomeR\aoutcomeB\x89\x01\n" +
 	"\x19io.temporal.api.update.v1B\fMessageProtoP\x01Z#go.temporal.io/api/update/v1;update\xaa\x02\x18Temporalio.Api.Update.V1\xea\x02\x1bTemporalio::Api::Update::V1b\x06proto3"
-
-var (
-	file_temporal_api_update_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_update_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_update_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_update_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_update_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_update_v1_message_proto_rawDesc), len(file_temporal_api_update_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_update_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_update_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_temporal_api_update_v1_message_proto_goTypes = []any{

@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/activity/v1/message.proto
 
+//go:build !protoopaque
+
 package activity
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/common/v1"
@@ -32,7 +34,7 @@ const (
 
 // The outcome of a completed activity execution: either a successful result or a failure.
 type ActivityExecutionOutcome struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Value:
 	//
 	//	*ActivityExecutionOutcome_Result
@@ -67,11 +69,6 @@ func (x *ActivityExecutionOutcome) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityExecutionOutcome.ProtoReflect.Descriptor instead.
-func (*ActivityExecutionOutcome) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ActivityExecutionOutcome) GetValue() isActivityExecutionOutcome_Value {
 	if x != nil {
 		return x.Value
@@ -97,6 +94,119 @@ func (x *ActivityExecutionOutcome) GetFailure() *v11.Failure {
 	return nil
 }
 
+func (x *ActivityExecutionOutcome) SetResult(v *v1.Payloads) {
+	if v == nil {
+		x.Value = nil
+		return
+	}
+	x.Value = &ActivityExecutionOutcome_Result{v}
+}
+
+func (x *ActivityExecutionOutcome) SetFailure(v *v11.Failure) {
+	if v == nil {
+		x.Value = nil
+		return
+	}
+	x.Value = &ActivityExecutionOutcome_Failure{v}
+}
+
+func (x *ActivityExecutionOutcome) HasValue() bool {
+	if x == nil {
+		return false
+	}
+	return x.Value != nil
+}
+
+func (x *ActivityExecutionOutcome) HasResult() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Value.(*ActivityExecutionOutcome_Result)
+	return ok
+}
+
+func (x *ActivityExecutionOutcome) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Value.(*ActivityExecutionOutcome_Failure)
+	return ok
+}
+
+func (x *ActivityExecutionOutcome) ClearValue() {
+	x.Value = nil
+}
+
+func (x *ActivityExecutionOutcome) ClearResult() {
+	if _, ok := x.Value.(*ActivityExecutionOutcome_Result); ok {
+		x.Value = nil
+	}
+}
+
+func (x *ActivityExecutionOutcome) ClearFailure() {
+	if _, ok := x.Value.(*ActivityExecutionOutcome_Failure); ok {
+		x.Value = nil
+	}
+}
+
+const ActivityExecutionOutcome_Value_not_set_case case_ActivityExecutionOutcome_Value = 0
+const ActivityExecutionOutcome_Result_case case_ActivityExecutionOutcome_Value = 1
+const ActivityExecutionOutcome_Failure_case case_ActivityExecutionOutcome_Value = 2
+
+func (x *ActivityExecutionOutcome) WhichValue() case_ActivityExecutionOutcome_Value {
+	if x == nil {
+		return ActivityExecutionOutcome_Value_not_set_case
+	}
+	switch x.Value.(type) {
+	case *ActivityExecutionOutcome_Result:
+		return ActivityExecutionOutcome_Result_case
+	case *ActivityExecutionOutcome_Failure:
+		return ActivityExecutionOutcome_Failure_case
+	default:
+		return ActivityExecutionOutcome_Value_not_set_case
+	}
+}
+
+type ActivityExecutionOutcome_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Value:
+	// The result if the activity completed successfully.
+	Result *v1.Payloads
+	// The failure if the activity completed unsuccessfully.
+	Failure *v11.Failure
+	// -- end of Value
+}
+
+func (b0 ActivityExecutionOutcome_builder) Build() *ActivityExecutionOutcome {
+	m0 := &ActivityExecutionOutcome{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Result != nil {
+		x.Value = &ActivityExecutionOutcome_Result{b.Result}
+	}
+	if b.Failure != nil {
+		x.Value = &ActivityExecutionOutcome_Failure{b.Failure}
+	}
+	return m0
+}
+
+type case_ActivityExecutionOutcome_Value protoreflect.FieldNumber
+
+func (x case_ActivityExecutionOutcome_Value) String() string {
+	switch x {
+	case ActivityExecutionOutcome_Value_not_set_case:
+		return "ActivityExecutionOutcomeValueNotSetCase"
+	case ActivityExecutionOutcome_Result_case:
+		return "ActivityExecutionOutcomeResultCase"
+	case ActivityExecutionOutcome_Failure_case:
+		return "ActivityExecutionOutcomeFailureCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isActivityExecutionOutcome_Value interface {
 	isActivityExecutionOutcome_Value()
 }
@@ -116,7 +226,7 @@ func (*ActivityExecutionOutcome_Result) isActivityExecutionOutcome_Value() {}
 func (*ActivityExecutionOutcome_Failure) isActivityExecutionOutcome_Value() {}
 
 type ActivityOptions struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	TaskQueue *v12.TaskQueue         `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Indicates how long the caller is willing to wait for an activity completion. Limits how long
 	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
@@ -178,11 +288,6 @@ func (x *ActivityOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityOptions.ProtoReflect.Descriptor instead.
-func (*ActivityOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *ActivityOptions) GetTaskQueue() *v12.TaskQueue {
 	if x != nil {
 		return x.TaskQueue
@@ -232,9 +337,165 @@ func (x *ActivityOptions) GetPriority() *v1.Priority {
 	return nil
 }
 
+func (x *ActivityOptions) SetTaskQueue(v *v12.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *ActivityOptions) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *ActivityOptions) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *ActivityOptions) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *ActivityOptions) SetHeartbeatTimeout(v *durationpb.Duration) {
+	x.HeartbeatTimeout = v
+}
+
+func (x *ActivityOptions) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *ActivityOptions) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *ActivityOptions) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *ActivityOptions) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *ActivityOptions) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *ActivityOptions) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *ActivityOptions) HasHeartbeatTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatTimeout != nil
+}
+
+func (x *ActivityOptions) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *ActivityOptions) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *ActivityOptions) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *ActivityOptions) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *ActivityOptions) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+func (x *ActivityOptions) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+func (x *ActivityOptions) ClearHeartbeatTimeout() {
+	x.HeartbeatTimeout = nil
+}
+
+func (x *ActivityOptions) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *ActivityOptions) ClearPriority() {
+	x.Priority = nil
+}
+
+type ActivityOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	TaskQueue *v12.TaskQueue
+	// Indicates how long the caller is willing to wait for an activity completion. Limits how long
+	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// Limits time an activity task can stay in a task queue before a worker picks it up. This
+	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
+	// queue. Defaults to `schedule_to_close_timeout` or workflow execution timeout if not
+	// specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToStartTimeout *durationpb.Duration
+	// Maximum time an activity is allowed to execute after being picked up by a worker. This
+	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be
+	// specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+	// Maximum permitted time between successful worker heartbeats.
+	HeartbeatTimeout *durationpb.Duration
+	// The retry policy for the activity. Will never exceed `schedule_to_close_timeout`.
+	RetryPolicy *v1.RetryPolicy
+	// Priority metadata. If this message is not present, or any fields are not
+	// present, they inherit the values from the workflow.
+	Priority *v1.Priority
+}
+
+func (b0 ActivityOptions_builder) Build() *ActivityOptions {
+	m0 := &ActivityOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskQueue = b.TaskQueue
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	x.HeartbeatTimeout = b.HeartbeatTimeout
+	x.RetryPolicy = b.RetryPolicy
+	x.Priority = b.Priority
+	return m0
+}
+
 // Information about a standalone activity.
 type ActivityExecutionInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Unique identifier of this activity within its namespace along with run ID (below).
 	ActivityId string `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	RunId      string `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
@@ -344,11 +605,6 @@ func (x *ActivityExecutionInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ActivityExecutionInfo.ProtoReflect.Descriptor instead.
-func (*ActivityExecutionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ActivityExecutionInfo) GetActivityId() string {
@@ -575,11 +831,507 @@ func (x *ActivityExecutionInfo) GetCanceledReason() string {
 	return ""
 }
 
+func (x *ActivityExecutionInfo) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *ActivityExecutionInfo) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *ActivityExecutionInfo) SetActivityType(v *v1.ActivityType) {
+	x.ActivityType = v
+}
+
+func (x *ActivityExecutionInfo) SetStatus(v v13.ActivityExecutionStatus) {
+	x.Status = v
+}
+
+func (x *ActivityExecutionInfo) SetRunState(v v13.PendingActivityState) {
+	x.RunState = v
+}
+
+func (x *ActivityExecutionInfo) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *ActivityExecutionInfo) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *ActivityExecutionInfo) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *ActivityExecutionInfo) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *ActivityExecutionInfo) SetHeartbeatTimeout(v *durationpb.Duration) {
+	x.HeartbeatTimeout = v
+}
+
+func (x *ActivityExecutionInfo) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *ActivityExecutionInfo) SetHeartbeatDetails(v *v1.Payloads) {
+	x.HeartbeatDetails = v
+}
+
+func (x *ActivityExecutionInfo) SetLastHeartbeatTime(v *timestamppb.Timestamp) {
+	x.LastHeartbeatTime = v
+}
+
+func (x *ActivityExecutionInfo) SetLastStartedTime(v *timestamppb.Timestamp) {
+	x.LastStartedTime = v
+}
+
+func (x *ActivityExecutionInfo) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *ActivityExecutionInfo) SetExecutionDuration(v *durationpb.Duration) {
+	x.ExecutionDuration = v
+}
+
+func (x *ActivityExecutionInfo) SetScheduleTime(v *timestamppb.Timestamp) {
+	x.ScheduleTime = v
+}
+
+func (x *ActivityExecutionInfo) SetExpirationTime(v *timestamppb.Timestamp) {
+	x.ExpirationTime = v
+}
+
+func (x *ActivityExecutionInfo) SetCloseTime(v *timestamppb.Timestamp) {
+	x.CloseTime = v
+}
+
+func (x *ActivityExecutionInfo) SetLastFailure(v *v11.Failure) {
+	x.LastFailure = v
+}
+
+func (x *ActivityExecutionInfo) SetLastWorkerIdentity(v string) {
+	x.LastWorkerIdentity = v
+}
+
+func (x *ActivityExecutionInfo) SetCurrentRetryInterval(v *durationpb.Duration) {
+	x.CurrentRetryInterval = v
+}
+
+func (x *ActivityExecutionInfo) SetLastAttemptCompleteTime(v *timestamppb.Timestamp) {
+	x.LastAttemptCompleteTime = v
+}
+
+func (x *ActivityExecutionInfo) SetNextAttemptScheduleTime(v *timestamppb.Timestamp) {
+	x.NextAttemptScheduleTime = v
+}
+
+func (x *ActivityExecutionInfo) SetLastDeploymentVersion(v *v14.WorkerDeploymentVersion) {
+	x.LastDeploymentVersion = v
+}
+
+func (x *ActivityExecutionInfo) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *ActivityExecutionInfo) SetStateTransitionCount(v int64) {
+	x.StateTransitionCount = v
+}
+
+func (x *ActivityExecutionInfo) SetStateSizeBytes(v int64) {
+	x.StateSizeBytes = v
+}
+
+func (x *ActivityExecutionInfo) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *ActivityExecutionInfo) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *ActivityExecutionInfo) SetUserMetadata(v *v15.UserMetadata) {
+	x.UserMetadata = v
+}
+
+func (x *ActivityExecutionInfo) SetCanceledReason(v string) {
+	x.CanceledReason = v
+}
+
+func (x *ActivityExecutionInfo) HasActivityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityType != nil
+}
+
+func (x *ActivityExecutionInfo) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *ActivityExecutionInfo) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *ActivityExecutionInfo) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *ActivityExecutionInfo) HasHeartbeatTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatTimeout != nil
+}
+
+func (x *ActivityExecutionInfo) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *ActivityExecutionInfo) HasHeartbeatDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatDetails != nil
+}
+
+func (x *ActivityExecutionInfo) HasLastHeartbeatTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastHeartbeatTime != nil
+}
+
+func (x *ActivityExecutionInfo) HasLastStartedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastStartedTime != nil
+}
+
+func (x *ActivityExecutionInfo) HasExecutionDuration() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExecutionDuration != nil
+}
+
+func (x *ActivityExecutionInfo) HasScheduleTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleTime != nil
+}
+
+func (x *ActivityExecutionInfo) HasExpirationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExpirationTime != nil
+}
+
+func (x *ActivityExecutionInfo) HasCloseTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CloseTime != nil
+}
+
+func (x *ActivityExecutionInfo) HasLastFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastFailure != nil
+}
+
+func (x *ActivityExecutionInfo) HasCurrentRetryInterval() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentRetryInterval != nil
+}
+
+func (x *ActivityExecutionInfo) HasLastAttemptCompleteTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAttemptCompleteTime != nil
+}
+
+func (x *ActivityExecutionInfo) HasNextAttemptScheduleTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.NextAttemptScheduleTime != nil
+}
+
+func (x *ActivityExecutionInfo) HasLastDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastDeploymentVersion != nil
+}
+
+func (x *ActivityExecutionInfo) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *ActivityExecutionInfo) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *ActivityExecutionInfo) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *ActivityExecutionInfo) HasUserMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UserMetadata != nil
+}
+
+func (x *ActivityExecutionInfo) ClearActivityType() {
+	x.ActivityType = nil
+}
+
+func (x *ActivityExecutionInfo) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *ActivityExecutionInfo) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+func (x *ActivityExecutionInfo) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+func (x *ActivityExecutionInfo) ClearHeartbeatTimeout() {
+	x.HeartbeatTimeout = nil
+}
+
+func (x *ActivityExecutionInfo) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *ActivityExecutionInfo) ClearHeartbeatDetails() {
+	x.HeartbeatDetails = nil
+}
+
+func (x *ActivityExecutionInfo) ClearLastHeartbeatTime() {
+	x.LastHeartbeatTime = nil
+}
+
+func (x *ActivityExecutionInfo) ClearLastStartedTime() {
+	x.LastStartedTime = nil
+}
+
+func (x *ActivityExecutionInfo) ClearExecutionDuration() {
+	x.ExecutionDuration = nil
+}
+
+func (x *ActivityExecutionInfo) ClearScheduleTime() {
+	x.ScheduleTime = nil
+}
+
+func (x *ActivityExecutionInfo) ClearExpirationTime() {
+	x.ExpirationTime = nil
+}
+
+func (x *ActivityExecutionInfo) ClearCloseTime() {
+	x.CloseTime = nil
+}
+
+func (x *ActivityExecutionInfo) ClearLastFailure() {
+	x.LastFailure = nil
+}
+
+func (x *ActivityExecutionInfo) ClearCurrentRetryInterval() {
+	x.CurrentRetryInterval = nil
+}
+
+func (x *ActivityExecutionInfo) ClearLastAttemptCompleteTime() {
+	x.LastAttemptCompleteTime = nil
+}
+
+func (x *ActivityExecutionInfo) ClearNextAttemptScheduleTime() {
+	x.NextAttemptScheduleTime = nil
+}
+
+func (x *ActivityExecutionInfo) ClearLastDeploymentVersion() {
+	x.LastDeploymentVersion = nil
+}
+
+func (x *ActivityExecutionInfo) ClearPriority() {
+	x.Priority = nil
+}
+
+func (x *ActivityExecutionInfo) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *ActivityExecutionInfo) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *ActivityExecutionInfo) ClearUserMetadata() {
+	x.UserMetadata = nil
+}
+
+type ActivityExecutionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Unique identifier of this activity within its namespace along with run ID (below).
+	ActivityId string
+	RunId      string
+	// The type of the activity, a string that maps to a registered activity on a worker.
+	ActivityType *v1.ActivityType
+	// A general status for this activity, indicates whether it is currently running or in one of the terminal statuses.
+	Status v13.ActivityExecutionStatus
+	// More detailed breakdown of ACTIVITY_EXECUTION_STATUS_RUNNING.
+	RunState  v13.PendingActivityState
+	TaskQueue string
+	// Indicates how long the caller is willing to wait for an activity completion. Limits how long
+	// retries will be attempted.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// Limits time an activity task can stay in a task queue before a worker picks it up. This
+	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
+	// queue. Defaults to `schedule_to_close_timeout`.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToStartTimeout *durationpb.Duration
+	// Maximum time a single activity attempt is allowed to execute after being picked up by a worker. This
+	// timeout is always retryable.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+	// Maximum permitted time between successful worker heartbeats.
+	HeartbeatTimeout *durationpb.Duration
+	// The retry policy for the activity. Will never exceed `schedule_to_close_timeout`.
+	RetryPolicy *v1.RetryPolicy
+	// Details provided in the last recorded activity heartbeat.
+	HeartbeatDetails *v1.Payloads
+	// Time the last heartbeat was recorded.
+	LastHeartbeatTime *timestamppb.Timestamp
+	// Time the last attempt was started.
+	LastStartedTime *timestamppb.Timestamp
+	// The attempt this activity is currently on. Incremented each time a new attempt is scheduled.
+	Attempt int32
+	// How long this activity has been running for, including all attempts and backoff between attempts.
+	ExecutionDuration *durationpb.Duration
+	// Time the activity was originally scheduled via a StartActivityExecution request.
+	ScheduleTime *timestamppb.Timestamp
+	// Scheduled time + schedule to close timeout.
+	ExpirationTime *timestamppb.Timestamp
+	// Time when the activity transitioned to a closed state.
+	CloseTime *timestamppb.Timestamp
+	// Failure details from the last failed attempt.
+	LastFailure        *v11.Failure
+	LastWorkerIdentity string
+	// Time from the last attempt failure to the next activity retry.
+	// If the activity is currently running, this represents the next retry interval in case the attempt fails.
+	// If activity is currently backing off between attempt, this represents the current retry interval.
+	// If there is no next retry allowed, this field will be null.
+	// This interval is typically calculated from the specified retry policy, but may be modified if an activity fails
+	// with a retryable application failure specifying a retry delay.
+	CurrentRetryInterval *durationpb.Duration
+	// The time when the last activity attempt completed. If activity has not been completed yet, it will be null.
+	LastAttemptCompleteTime *timestamppb.Timestamp
+	// The time when the next activity attempt will be scheduled.
+	// If activity is currently scheduled or started, this field will be null.
+	NextAttemptScheduleTime *timestamppb.Timestamp
+	// The Worker Deployment Version this activity was dispatched to most recently.
+	// If nil, the activity has not yet been dispatched or was last dispatched to an unversioned worker.
+	LastDeploymentVersion *v14.WorkerDeploymentVersion
+	// Priority metadata.
+	Priority *v1.Priority
+	// Incremented each time the activity's state is mutated in persistence.
+	StateTransitionCount int64
+	// Updated once on scheduled and once on terminal status.
+	StateSizeBytes   int64
+	SearchAttributes *v1.SearchAttributes
+	Header           *v1.Header
+	// Metadata for use by user interfaces to display the fixed as-of-start summary and details of the activity.
+	UserMetadata *v15.UserMetadata
+	// Set if activity cancelation was requested.
+	CanceledReason string
+}
+
+func (b0 ActivityExecutionInfo_builder) Build() *ActivityExecutionInfo {
+	m0 := &ActivityExecutionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActivityId = b.ActivityId
+	x.RunId = b.RunId
+	x.ActivityType = b.ActivityType
+	x.Status = b.Status
+	x.RunState = b.RunState
+	x.TaskQueue = b.TaskQueue
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	x.HeartbeatTimeout = b.HeartbeatTimeout
+	x.RetryPolicy = b.RetryPolicy
+	x.HeartbeatDetails = b.HeartbeatDetails
+	x.LastHeartbeatTime = b.LastHeartbeatTime
+	x.LastStartedTime = b.LastStartedTime
+	x.Attempt = b.Attempt
+	x.ExecutionDuration = b.ExecutionDuration
+	x.ScheduleTime = b.ScheduleTime
+	x.ExpirationTime = b.ExpirationTime
+	x.CloseTime = b.CloseTime
+	x.LastFailure = b.LastFailure
+	x.LastWorkerIdentity = b.LastWorkerIdentity
+	x.CurrentRetryInterval = b.CurrentRetryInterval
+	x.LastAttemptCompleteTime = b.LastAttemptCompleteTime
+	x.NextAttemptScheduleTime = b.NextAttemptScheduleTime
+	x.LastDeploymentVersion = b.LastDeploymentVersion
+	x.Priority = b.Priority
+	x.StateTransitionCount = b.StateTransitionCount
+	x.StateSizeBytes = b.StateSizeBytes
+	x.SearchAttributes = b.SearchAttributes
+	x.Header = b.Header
+	x.UserMetadata = b.UserMetadata
+	x.CanceledReason = b.CanceledReason
+	return m0
+}
+
 // Limited activity information returned in the list response.
 // When adding fields here, ensure that it is also present in ActivityExecutionInfo (note that it
 // may already be present in ActivityExecutionInfo but not at the top-level).
 type ActivityExecutionListInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A unique identifier of this activity within its namespace along with run ID (below).
 	ActivityId string `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	// The run ID of the standalone activity.
@@ -631,11 +1383,6 @@ func (x *ActivityExecutionListInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ActivityExecutionListInfo.ProtoReflect.Descriptor instead.
-func (*ActivityExecutionListInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_activity_v1_message_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ActivityExecutionListInfo) GetActivityId() string {
@@ -715,6 +1462,152 @@ func (x *ActivityExecutionListInfo) GetExecutionDuration() *durationpb.Duration 
 	return nil
 }
 
+func (x *ActivityExecutionListInfo) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *ActivityExecutionListInfo) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *ActivityExecutionListInfo) SetActivityType(v *v1.ActivityType) {
+	x.ActivityType = v
+}
+
+func (x *ActivityExecutionListInfo) SetScheduleTime(v *timestamppb.Timestamp) {
+	x.ScheduleTime = v
+}
+
+func (x *ActivityExecutionListInfo) SetCloseTime(v *timestamppb.Timestamp) {
+	x.CloseTime = v
+}
+
+func (x *ActivityExecutionListInfo) SetStatus(v v13.ActivityExecutionStatus) {
+	x.Status = v
+}
+
+func (x *ActivityExecutionListInfo) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *ActivityExecutionListInfo) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *ActivityExecutionListInfo) SetStateTransitionCount(v int64) {
+	x.StateTransitionCount = v
+}
+
+func (x *ActivityExecutionListInfo) SetStateSizeBytes(v int64) {
+	x.StateSizeBytes = v
+}
+
+func (x *ActivityExecutionListInfo) SetExecutionDuration(v *durationpb.Duration) {
+	x.ExecutionDuration = v
+}
+
+func (x *ActivityExecutionListInfo) HasActivityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityType != nil
+}
+
+func (x *ActivityExecutionListInfo) HasScheduleTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleTime != nil
+}
+
+func (x *ActivityExecutionListInfo) HasCloseTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CloseTime != nil
+}
+
+func (x *ActivityExecutionListInfo) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *ActivityExecutionListInfo) HasExecutionDuration() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExecutionDuration != nil
+}
+
+func (x *ActivityExecutionListInfo) ClearActivityType() {
+	x.ActivityType = nil
+}
+
+func (x *ActivityExecutionListInfo) ClearScheduleTime() {
+	x.ScheduleTime = nil
+}
+
+func (x *ActivityExecutionListInfo) ClearCloseTime() {
+	x.CloseTime = nil
+}
+
+func (x *ActivityExecutionListInfo) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *ActivityExecutionListInfo) ClearExecutionDuration() {
+	x.ExecutionDuration = nil
+}
+
+type ActivityExecutionListInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A unique identifier of this activity within its namespace along with run ID (below).
+	ActivityId string
+	// The run ID of the standalone activity.
+	RunId string
+	// The type of the activity, a string that maps to a registered activity on a worker.
+	ActivityType *v1.ActivityType
+	// Time the activity was originally scheduled via a StartActivityExecution request.
+	ScheduleTime *timestamppb.Timestamp
+	// If the activity is in a terminal status, this field represents the time the activity transitioned to that status.
+	CloseTime *timestamppb.Timestamp
+	// Only scheduled and terminal statuses appear here. More detailed information in PendingActivityInfo but not
+	// available in the list response.
+	Status v13.ActivityExecutionStatus
+	// Search attributes from the start request.
+	SearchAttributes *v1.SearchAttributes
+	// The task queue this activity was scheduled on when it was originally started, updated on activity options update.
+	TaskQueue string
+	// Updated on terminal status.
+	StateTransitionCount int64
+	// Updated once on scheduled and once on terminal status.
+	StateSizeBytes int64
+	// The difference between close time and scheduled time.
+	// This field is only populated if the activity is closed.
+	ExecutionDuration *durationpb.Duration
+}
+
+func (b0 ActivityExecutionListInfo_builder) Build() *ActivityExecutionListInfo {
+	m0 := &ActivityExecutionListInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActivityId = b.ActivityId
+	x.RunId = b.RunId
+	x.ActivityType = b.ActivityType
+	x.ScheduleTime = b.ScheduleTime
+	x.CloseTime = b.CloseTime
+	x.Status = b.Status
+	x.SearchAttributes = b.SearchAttributes
+	x.TaskQueue = b.TaskQueue
+	x.StateTransitionCount = b.StateTransitionCount
+	x.StateSizeBytes = b.StateSizeBytes
+	x.ExecutionDuration = b.ExecutionDuration
+	return m0
+}
+
 var File_temporal_api_activity_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
@@ -787,18 +1680,6 @@ const file_temporal_api_activity_v1_message_proto_rawDesc = "" +
 	" \x01(\x03R\x0estateSizeBytes\x12H\n" +
 	"\x12execution_duration\x18\v \x01(\v2\x19.google.protobuf.DurationR\x11executionDurationB\x93\x01\n" +
 	"\x1bio.temporal.api.activity.v1B\fMessageProtoP\x01Z'go.temporal.io/api/activity/v1;activity\xaa\x02\x1aTemporalio.Api.Activity.V1\xea\x02\x1dTemporalio::Api::Activity::V1b\x06proto3"
-
-var (
-	file_temporal_api_activity_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_activity_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_activity_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_activity_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_activity_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_activity_v1_message_proto_rawDesc), len(file_temporal_api_activity_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_activity_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_activity_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_temporal_api_activity_v1_message_proto_goTypes = []any{

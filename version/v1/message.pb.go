@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/version/v1/message.proto
 
+//go:build !protoopaque
+
 package version
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/enums/v1"
@@ -26,7 +27,7 @@ const (
 
 // ReleaseInfo contains information about specific version of temporal.
 type ReleaseInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Version       string                 `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
 	ReleaseTime   *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=release_time,json=releaseTime,proto3" json:"release_time,omitempty"`
 	Notes         string                 `protobuf:"bytes,3,opt,name=notes,proto3" json:"notes,omitempty"`
@@ -59,11 +60,6 @@ func (x *ReleaseInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ReleaseInfo.ProtoReflect.Descriptor instead.
-func (*ReleaseInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_version_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ReleaseInfo) GetVersion() string {
 	if x != nil {
 		return x.Version
@@ -85,9 +81,50 @@ func (x *ReleaseInfo) GetNotes() string {
 	return ""
 }
 
+func (x *ReleaseInfo) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *ReleaseInfo) SetReleaseTime(v *timestamppb.Timestamp) {
+	x.ReleaseTime = v
+}
+
+func (x *ReleaseInfo) SetNotes(v string) {
+	x.Notes = v
+}
+
+func (x *ReleaseInfo) HasReleaseTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReleaseTime != nil
+}
+
+func (x *ReleaseInfo) ClearReleaseTime() {
+	x.ReleaseTime = nil
+}
+
+type ReleaseInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Version     string
+	ReleaseTime *timestamppb.Timestamp
+	Notes       string
+}
+
+func (b0 ReleaseInfo_builder) Build() *ReleaseInfo {
+	m0 := &ReleaseInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Version = b.Version
+	x.ReleaseTime = b.ReleaseTime
+	x.Notes = b.Notes
+	return m0
+}
+
 // Alert contains notification and severity.
 type Alert struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	Severity      v1.Severity            `protobuf:"varint,2,opt,name=severity,proto3,enum=temporal.api.enums.v1.Severity" json:"severity,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -119,11 +156,6 @@ func (x *Alert) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Alert.ProtoReflect.Descriptor instead.
-func (*Alert) Descriptor() ([]byte, []int) {
-	return file_temporal_api_version_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *Alert) GetMessage() string {
 	if x != nil {
 		return x.Message
@@ -138,9 +170,33 @@ func (x *Alert) GetSeverity() v1.Severity {
 	return v1.Severity(0)
 }
 
+func (x *Alert) SetMessage(v string) {
+	x.Message = v
+}
+
+func (x *Alert) SetSeverity(v v1.Severity) {
+	x.Severity = v
+}
+
+type Alert_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Message  string
+	Severity v1.Severity
+}
+
+func (b0 Alert_builder) Build() *Alert {
+	m0 := &Alert{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Message = b.Message
+	x.Severity = b.Severity
+	return m0
+}
+
 // VersionInfo contains details about current and recommended release versions as well as alerts and upgrade instructions.
 type VersionInfo struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	Current        *ReleaseInfo           `protobuf:"bytes,1,opt,name=current,proto3" json:"current,omitempty"`
 	Recommended    *ReleaseInfo           `protobuf:"bytes,2,opt,name=recommended,proto3" json:"recommended,omitempty"`
 	Instructions   string                 `protobuf:"bytes,3,opt,name=instructions,proto3" json:"instructions,omitempty"`
@@ -173,11 +229,6 @@ func (x *VersionInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use VersionInfo.ProtoReflect.Descriptor instead.
-func (*VersionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_version_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *VersionInfo) GetCurrent() *ReleaseInfo {
@@ -215,6 +266,81 @@ func (x *VersionInfo) GetLastUpdateTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *VersionInfo) SetCurrent(v *ReleaseInfo) {
+	x.Current = v
+}
+
+func (x *VersionInfo) SetRecommended(v *ReleaseInfo) {
+	x.Recommended = v
+}
+
+func (x *VersionInfo) SetInstructions(v string) {
+	x.Instructions = v
+}
+
+func (x *VersionInfo) SetAlerts(v []*Alert) {
+	x.Alerts = v
+}
+
+func (x *VersionInfo) SetLastUpdateTime(v *timestamppb.Timestamp) {
+	x.LastUpdateTime = v
+}
+
+func (x *VersionInfo) HasCurrent() bool {
+	if x == nil {
+		return false
+	}
+	return x.Current != nil
+}
+
+func (x *VersionInfo) HasRecommended() bool {
+	if x == nil {
+		return false
+	}
+	return x.Recommended != nil
+}
+
+func (x *VersionInfo) HasLastUpdateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastUpdateTime != nil
+}
+
+func (x *VersionInfo) ClearCurrent() {
+	x.Current = nil
+}
+
+func (x *VersionInfo) ClearRecommended() {
+	x.Recommended = nil
+}
+
+func (x *VersionInfo) ClearLastUpdateTime() {
+	x.LastUpdateTime = nil
+}
+
+type VersionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Current        *ReleaseInfo
+	Recommended    *ReleaseInfo
+	Instructions   string
+	Alerts         []*Alert
+	LastUpdateTime *timestamppb.Timestamp
+}
+
+func (b0 VersionInfo_builder) Build() *VersionInfo {
+	m0 := &VersionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Current = b.Current
+	x.Recommended = b.Recommended
+	x.Instructions = b.Instructions
+	x.Alerts = b.Alerts
+	x.LastUpdateTime = b.LastUpdateTime
+	return m0
+}
+
 var File_temporal_api_version_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_version_v1_message_proto_rawDesc = "" +
@@ -234,18 +360,6 @@ const file_temporal_api_version_v1_message_proto_rawDesc = "" +
 	"\x06alerts\x18\x04 \x03(\v2\x1e.temporal.api.version.v1.AlertR\x06alerts\x12D\n" +
 	"\x10last_update_time\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0elastUpdateTimeB\x8e\x01\n" +
 	"\x1aio.temporal.api.version.v1B\fMessageProtoP\x01Z%go.temporal.io/api/version/v1;version\xaa\x02\x19Temporalio.Api.Version.V1\xea\x02\x1cTemporalio::Api::Version::V1b\x06proto3"
-
-var (
-	file_temporal_api_version_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_version_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_version_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_version_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_version_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_version_v1_message_proto_rawDesc), len(file_temporal_api_version_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_version_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_version_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_temporal_api_version_v1_message_proto_goTypes = []any{

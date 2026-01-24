@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/nexus/v1/message.proto
 
+//go:build !protoopaque
+
 package nexus
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v11 "go.temporal.io/api/common/v1"
@@ -28,7 +30,7 @@ const (
 // A general purpose failure message.
 // See: https://github.com/nexus-rpc/api/blob/main/SPEC.md#failure
 type Failure struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"hybrid.v1"`
 	Message  string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	Metadata map[string]string      `protobuf:"bytes,2,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// UTF-8 encoded JSON serializable details.
@@ -62,11 +64,6 @@ func (x *Failure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Failure.ProtoReflect.Descriptor instead.
-func (*Failure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *Failure) GetMessage() string {
 	if x != nil {
 		return x.Message
@@ -88,8 +85,42 @@ func (x *Failure) GetDetails() []byte {
 	return nil
 }
 
+func (x *Failure) SetMessage(v string) {
+	x.Message = v
+}
+
+func (x *Failure) SetMetadata(v map[string]string) {
+	x.Metadata = v
+}
+
+func (x *Failure) SetDetails(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.Details = v
+}
+
+type Failure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Message  string
+	Metadata map[string]string
+	// UTF-8 encoded JSON serializable details.
+	Details []byte
+}
+
+func (b0 Failure_builder) Build() *Failure {
+	m0 := &Failure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Message = b.Message
+	x.Metadata = b.Metadata
+	x.Details = b.Details
+	return m0
+}
+
 type HandlerError struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.
 	ErrorType string   `protobuf:"bytes,1,opt,name=error_type,json=errorType,proto3" json:"error_type,omitempty"`
 	Failure   *Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
@@ -124,11 +155,6 @@ func (x *HandlerError) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use HandlerError.ProtoReflect.Descriptor instead.
-func (*HandlerError) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *HandlerError) GetErrorType() string {
 	if x != nil {
 		return x.ErrorType
@@ -150,8 +176,51 @@ func (x *HandlerError) GetRetryBehavior() v1.NexusHandlerErrorRetryBehavior {
 	return v1.NexusHandlerErrorRetryBehavior(0)
 }
 
+func (x *HandlerError) SetErrorType(v string) {
+	x.ErrorType = v
+}
+
+func (x *HandlerError) SetFailure(v *Failure) {
+	x.Failure = v
+}
+
+func (x *HandlerError) SetRetryBehavior(v v1.NexusHandlerErrorRetryBehavior) {
+	x.RetryBehavior = v
+}
+
+func (x *HandlerError) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *HandlerError) ClearFailure() {
+	x.Failure = nil
+}
+
+type HandlerError_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.
+	ErrorType string
+	Failure   *Failure
+	// Retry behavior, defaults to the retry behavior of the error type as defined in the spec.
+	RetryBehavior v1.NexusHandlerErrorRetryBehavior
+}
+
+func (b0 HandlerError_builder) Build() *HandlerError {
+	m0 := &HandlerError{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ErrorType = b.ErrorType
+	x.Failure = b.Failure
+	x.RetryBehavior = b.RetryBehavior
+	return m0
+}
+
 type UnsuccessfulOperationError struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#operationinfo.
 	OperationState string   `protobuf:"bytes,1,opt,name=operation_state,json=operationState,proto3" json:"operation_state,omitempty"`
 	Failure        *Failure `protobuf:"bytes,2,opt,name=failure,proto3" json:"failure,omitempty"`
@@ -184,11 +253,6 @@ func (x *UnsuccessfulOperationError) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UnsuccessfulOperationError.ProtoReflect.Descriptor instead.
-func (*UnsuccessfulOperationError) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *UnsuccessfulOperationError) GetOperationState() string {
 	if x != nil {
 		return x.OperationState
@@ -203,8 +267,44 @@ func (x *UnsuccessfulOperationError) GetFailure() *Failure {
 	return nil
 }
 
+func (x *UnsuccessfulOperationError) SetOperationState(v string) {
+	x.OperationState = v
+}
+
+func (x *UnsuccessfulOperationError) SetFailure(v *Failure) {
+	x.Failure = v
+}
+
+func (x *UnsuccessfulOperationError) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *UnsuccessfulOperationError) ClearFailure() {
+	x.Failure = nil
+}
+
+type UnsuccessfulOperationError_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#operationinfo.
+	OperationState string
+	Failure        *Failure
+}
+
+func (b0 UnsuccessfulOperationError_builder) Build() *UnsuccessfulOperationError {
+	m0 := &UnsuccessfulOperationError{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.OperationState = b.OperationState
+	x.Failure = b.Failure
+	return m0
+}
+
 type Link struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#links.
 	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	Type          string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
@@ -237,11 +337,6 @@ func (x *Link) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Link.ProtoReflect.Descriptor instead.
-func (*Link) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *Link) GetUrl() string {
 	if x != nil {
 		return x.Url
@@ -256,9 +351,34 @@ func (x *Link) GetType() string {
 	return ""
 }
 
+func (x *Link) SetUrl(v string) {
+	x.Url = v
+}
+
+func (x *Link) SetType(v string) {
+	x.Type = v
+}
+
+type Link_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// See https://github.com/nexus-rpc/api/blob/main/SPEC.md#links.
+	Url  string
+	Type string
+}
+
+func (b0 Link_builder) Build() *Link {
+	m0 := &Link{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Url = b.Url
+	x.Type = b.Type
+	return m0
+}
+
 // A request to start an operation.
 type StartOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Name of service to start the operation in.
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	// Type of operation to start.
@@ -300,11 +420,6 @@ func (x *StartOperationRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StartOperationRequest.ProtoReflect.Descriptor instead.
-func (*StartOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *StartOperationRequest) GetService() string {
@@ -356,9 +471,81 @@ func (x *StartOperationRequest) GetLinks() []*Link {
 	return nil
 }
 
+func (x *StartOperationRequest) SetService(v string) {
+	x.Service = v
+}
+
+func (x *StartOperationRequest) SetOperation(v string) {
+	x.Operation = v
+}
+
+func (x *StartOperationRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *StartOperationRequest) SetCallback(v string) {
+	x.Callback = v
+}
+
+func (x *StartOperationRequest) SetPayload(v *v11.Payload) {
+	x.Payload = v
+}
+
+func (x *StartOperationRequest) SetCallbackHeader(v map[string]string) {
+	x.CallbackHeader = v
+}
+
+func (x *StartOperationRequest) SetLinks(v []*Link) {
+	x.Links = v
+}
+
+func (x *StartOperationRequest) HasPayload() bool {
+	if x == nil {
+		return false
+	}
+	return x.Payload != nil
+}
+
+func (x *StartOperationRequest) ClearPayload() {
+	x.Payload = nil
+}
+
+type StartOperationRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Name of service to start the operation in.
+	Service string
+	// Type of operation to start.
+	Operation string
+	// A request ID that can be used as an idempotentency key.
+	RequestId string
+	// Callback URL to call upon completion if the started operation is async.
+	Callback string
+	// Full request body from the incoming HTTP request.
+	Payload *v11.Payload
+	// Header that is expected to be attached to the callback request when the operation completes.
+	CallbackHeader map[string]string
+	// Links contain caller information and can be attached to the operations started by the handler.
+	Links []*Link
+}
+
+func (b0 StartOperationRequest_builder) Build() *StartOperationRequest {
+	m0 := &StartOperationRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Service = b.Service
+	x.Operation = b.Operation
+	x.RequestId = b.RequestId
+	x.Callback = b.Callback
+	x.Payload = b.Payload
+	x.CallbackHeader = b.CallbackHeader
+	x.Links = b.Links
+	return m0
+}
+
 // A request to cancel an operation.
 type CancelOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Service name.
 	Service string `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	// Type of operation to cancel.
@@ -400,11 +587,6 @@ func (x *CancelOperationRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelOperationRequest.ProtoReflect.Descriptor instead.
-func (*CancelOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *CancelOperationRequest) GetService() string {
 	if x != nil {
 		return x.Service
@@ -434,9 +616,54 @@ func (x *CancelOperationRequest) GetOperationToken() string {
 	return ""
 }
 
+func (x *CancelOperationRequest) SetService(v string) {
+	x.Service = v
+}
+
+func (x *CancelOperationRequest) SetOperation(v string) {
+	x.Operation = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
+func (x *CancelOperationRequest) SetOperationId(v string) {
+	x.OperationId = v
+}
+
+func (x *CancelOperationRequest) SetOperationToken(v string) {
+	x.OperationToken = v
+}
+
+type CancelOperationRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Service name.
+	Service string
+	// Type of operation to cancel.
+	Operation string
+	// Operation ID as originally generated by a Handler.
+	//
+	// Deprecated. Renamed to operation_token.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
+	OperationId string
+	// Operation token as originally generated by a Handler.
+	OperationToken string
+}
+
+func (b0 CancelOperationRequest_builder) Build() *CancelOperationRequest {
+	m0 := &CancelOperationRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Service = b.Service
+	x.Operation = b.Operation
+	x.OperationId = b.OperationId
+	x.OperationToken = b.OperationToken
+	return m0
+}
+
 // A Nexus request.
 type Request struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Headers extracted from the original request in the Temporal frontend.
 	// When using Nexus over HTTP, this includes the request's HTTP headers ignoring multiple values.
 	Header map[string]string `protobuf:"bytes,1,rep,name=header,proto3" json:"header,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -480,11 +707,6 @@ func (x *Request) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Request.ProtoReflect.Descriptor instead.
-func (*Request) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Request) GetHeader() map[string]string {
@@ -533,6 +755,154 @@ func (x *Request) GetEndpoint() string {
 	return ""
 }
 
+func (x *Request) SetHeader(v map[string]string) {
+	x.Header = v
+}
+
+func (x *Request) SetScheduledTime(v *timestamppb.Timestamp) {
+	x.ScheduledTime = v
+}
+
+func (x *Request) SetStartOperation(v *StartOperationRequest) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &Request_StartOperation{v}
+}
+
+func (x *Request) SetCancelOperation(v *CancelOperationRequest) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &Request_CancelOperation{v}
+}
+
+func (x *Request) SetEndpoint(v string) {
+	x.Endpoint = v
+}
+
+func (x *Request) HasScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduledTime != nil
+}
+
+func (x *Request) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *Request) HasStartOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*Request_StartOperation)
+	return ok
+}
+
+func (x *Request) HasCancelOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*Request_CancelOperation)
+	return ok
+}
+
+func (x *Request) ClearScheduledTime() {
+	x.ScheduledTime = nil
+}
+
+func (x *Request) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *Request) ClearStartOperation() {
+	if _, ok := x.Variant.(*Request_StartOperation); ok {
+		x.Variant = nil
+	}
+}
+
+func (x *Request) ClearCancelOperation() {
+	if _, ok := x.Variant.(*Request_CancelOperation); ok {
+		x.Variant = nil
+	}
+}
+
+const Request_Variant_not_set_case case_Request_Variant = 0
+const Request_StartOperation_case case_Request_Variant = 3
+const Request_CancelOperation_case case_Request_Variant = 4
+
+func (x *Request) WhichVariant() case_Request_Variant {
+	if x == nil {
+		return Request_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *Request_StartOperation:
+		return Request_StartOperation_case
+	case *Request_CancelOperation:
+		return Request_CancelOperation_case
+	default:
+		return Request_Variant_not_set_case
+	}
+}
+
+type Request_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Headers extracted from the original request in the Temporal frontend.
+	// When using Nexus over HTTP, this includes the request's HTTP headers ignoring multiple values.
+	Header map[string]string
+	// The timestamp when the request was scheduled in the frontend.
+	// (-- api-linter: core::0142::time-field-names=disabled
+	//
+	//	aip.dev/not-precedent: Not following linter rules. --)
+	ScheduledTime *timestamppb.Timestamp
+	// Fields of oneof Variant:
+	StartOperation  *StartOperationRequest
+	CancelOperation *CancelOperationRequest
+	// -- end of Variant
+	// The endpoint this request was addressed to before forwarding to the worker.
+	// Supported from server version 1.30.0.
+	Endpoint string
+}
+
+func (b0 Request_builder) Build() *Request {
+	m0 := &Request{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Header = b.Header
+	x.ScheduledTime = b.ScheduledTime
+	if b.StartOperation != nil {
+		x.Variant = &Request_StartOperation{b.StartOperation}
+	}
+	if b.CancelOperation != nil {
+		x.Variant = &Request_CancelOperation{b.CancelOperation}
+	}
+	x.Endpoint = b.Endpoint
+	return m0
+}
+
+type case_Request_Variant protoreflect.FieldNumber
+
+func (x case_Request_Variant) String() string {
+	switch x {
+	case Request_Variant_not_set_case:
+		return "RequestVariantNotSetCase"
+	case Request_StartOperation_case:
+		return "RequestStartOperationCase"
+	case Request_CancelOperation_case:
+		return "RequestCancelOperationCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isRequest_Variant interface {
 	isRequest_Variant()
 }
@@ -551,7 +921,7 @@ func (*Request_CancelOperation) isRequest_Variant() {}
 
 // Response variant for StartOperationRequest.
 type StartOperationResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Variant:
 	//
 	//	*StartOperationResponse_SyncSuccess
@@ -585,11 +955,6 @@ func (x *StartOperationResponse) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StartOperationResponse.ProtoReflect.Descriptor instead.
-func (*StartOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *StartOperationResponse) GetVariant() isStartOperationResponse_Variant {
@@ -626,6 +991,149 @@ func (x *StartOperationResponse) GetOperationError() *UnsuccessfulOperationError
 	return nil
 }
 
+func (x *StartOperationResponse) SetSyncSuccess(v *StartOperationResponse_Sync) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &StartOperationResponse_SyncSuccess{v}
+}
+
+func (x *StartOperationResponse) SetAsyncSuccess(v *StartOperationResponse_Async) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &StartOperationResponse_AsyncSuccess{v}
+}
+
+func (x *StartOperationResponse) SetOperationError(v *UnsuccessfulOperationError) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &StartOperationResponse_OperationError{v}
+}
+
+func (x *StartOperationResponse) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *StartOperationResponse) HasSyncSuccess() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*StartOperationResponse_SyncSuccess)
+	return ok
+}
+
+func (x *StartOperationResponse) HasAsyncSuccess() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*StartOperationResponse_AsyncSuccess)
+	return ok
+}
+
+func (x *StartOperationResponse) HasOperationError() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*StartOperationResponse_OperationError)
+	return ok
+}
+
+func (x *StartOperationResponse) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *StartOperationResponse) ClearSyncSuccess() {
+	if _, ok := x.Variant.(*StartOperationResponse_SyncSuccess); ok {
+		x.Variant = nil
+	}
+}
+
+func (x *StartOperationResponse) ClearAsyncSuccess() {
+	if _, ok := x.Variant.(*StartOperationResponse_AsyncSuccess); ok {
+		x.Variant = nil
+	}
+}
+
+func (x *StartOperationResponse) ClearOperationError() {
+	if _, ok := x.Variant.(*StartOperationResponse_OperationError); ok {
+		x.Variant = nil
+	}
+}
+
+const StartOperationResponse_Variant_not_set_case case_StartOperationResponse_Variant = 0
+const StartOperationResponse_SyncSuccess_case case_StartOperationResponse_Variant = 1
+const StartOperationResponse_AsyncSuccess_case case_StartOperationResponse_Variant = 2
+const StartOperationResponse_OperationError_case case_StartOperationResponse_Variant = 3
+
+func (x *StartOperationResponse) WhichVariant() case_StartOperationResponse_Variant {
+	if x == nil {
+		return StartOperationResponse_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *StartOperationResponse_SyncSuccess:
+		return StartOperationResponse_SyncSuccess_case
+	case *StartOperationResponse_AsyncSuccess:
+		return StartOperationResponse_AsyncSuccess_case
+	case *StartOperationResponse_OperationError:
+		return StartOperationResponse_OperationError_case
+	default:
+		return StartOperationResponse_Variant_not_set_case
+	}
+}
+
+type StartOperationResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Variant:
+	SyncSuccess  *StartOperationResponse_Sync
+	AsyncSuccess *StartOperationResponse_Async
+	// The operation completed unsuccessfully (failed or canceled).
+	OperationError *UnsuccessfulOperationError
+	// -- end of Variant
+}
+
+func (b0 StartOperationResponse_builder) Build() *StartOperationResponse {
+	m0 := &StartOperationResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.SyncSuccess != nil {
+		x.Variant = &StartOperationResponse_SyncSuccess{b.SyncSuccess}
+	}
+	if b.AsyncSuccess != nil {
+		x.Variant = &StartOperationResponse_AsyncSuccess{b.AsyncSuccess}
+	}
+	if b.OperationError != nil {
+		x.Variant = &StartOperationResponse_OperationError{b.OperationError}
+	}
+	return m0
+}
+
+type case_StartOperationResponse_Variant protoreflect.FieldNumber
+
+func (x case_StartOperationResponse_Variant) String() string {
+	switch x {
+	case StartOperationResponse_Variant_not_set_case:
+		return "StartOperationResponseVariantNotSetCase"
+	case StartOperationResponse_SyncSuccess_case:
+		return "StartOperationResponseSyncSuccessCase"
+	case StartOperationResponse_AsyncSuccess_case:
+		return "StartOperationResponseAsyncSuccessCase"
+	case StartOperationResponse_OperationError_case:
+		return "StartOperationResponseOperationErrorCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isStartOperationResponse_Variant interface {
 	isStartOperationResponse_Variant()
 }
@@ -651,7 +1159,7 @@ func (*StartOperationResponse_OperationError) isStartOperationResponse_Variant()
 
 // Response variant for CancelOperationRequest.
 type CancelOperationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -681,14 +1189,21 @@ func (x *CancelOperationResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelOperationResponse.ProtoReflect.Descriptor instead.
-func (*CancelOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{8}
+type CancelOperationResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 CancelOperationResponse_builder) Build() *CancelOperationResponse {
+	m0 := &CancelOperationResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // A response indicating that the handler has successfully processed a request.
 type Response struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Variant must correlate to the corresponding Request's variant.
 	//
 	// Types that are valid to be assigned to Variant:
@@ -725,11 +1240,6 @@ func (x *Response) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Response.ProtoReflect.Descriptor instead.
-func (*Response) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *Response) GetVariant() isResponse_Variant {
 	if x != nil {
 		return x.Variant
@@ -755,6 +1265,119 @@ func (x *Response) GetCancelOperation() *CancelOperationResponse {
 	return nil
 }
 
+func (x *Response) SetStartOperation(v *StartOperationResponse) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &Response_StartOperation{v}
+}
+
+func (x *Response) SetCancelOperation(v *CancelOperationResponse) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &Response_CancelOperation{v}
+}
+
+func (x *Response) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *Response) HasStartOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*Response_StartOperation)
+	return ok
+}
+
+func (x *Response) HasCancelOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*Response_CancelOperation)
+	return ok
+}
+
+func (x *Response) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *Response) ClearStartOperation() {
+	if _, ok := x.Variant.(*Response_StartOperation); ok {
+		x.Variant = nil
+	}
+}
+
+func (x *Response) ClearCancelOperation() {
+	if _, ok := x.Variant.(*Response_CancelOperation); ok {
+		x.Variant = nil
+	}
+}
+
+const Response_Variant_not_set_case case_Response_Variant = 0
+const Response_StartOperation_case case_Response_Variant = 1
+const Response_CancelOperation_case case_Response_Variant = 2
+
+func (x *Response) WhichVariant() case_Response_Variant {
+	if x == nil {
+		return Response_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *Response_StartOperation:
+		return Response_StartOperation_case
+	case *Response_CancelOperation:
+		return Response_CancelOperation_case
+	default:
+		return Response_Variant_not_set_case
+	}
+}
+
+type Response_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Variant must correlate to the corresponding Request's variant.
+
+	// Fields of oneof Variant:
+	StartOperation  *StartOperationResponse
+	CancelOperation *CancelOperationResponse
+	// -- end of Variant
+}
+
+func (b0 Response_builder) Build() *Response {
+	m0 := &Response{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.StartOperation != nil {
+		x.Variant = &Response_StartOperation{b.StartOperation}
+	}
+	if b.CancelOperation != nil {
+		x.Variant = &Response_CancelOperation{b.CancelOperation}
+	}
+	return m0
+}
+
+type case_Response_Variant protoreflect.FieldNumber
+
+func (x case_Response_Variant) String() string {
+	switch x {
+	case Response_Variant_not_set_case:
+		return "ResponseVariantNotSetCase"
+	case Response_StartOperation_case:
+		return "ResponseStartOperationCase"
+	case Response_CancelOperation_case:
+		return "ResponseCancelOperationCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isResponse_Variant interface {
 	isResponse_Variant()
 }
@@ -773,7 +1396,7 @@ func (*Response_CancelOperation) isResponse_Variant() {}
 
 // A cluster-global binding from an endpoint ID to a target for dispatching incoming Nexus requests.
 type Endpoint struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Data version for this endpoint, incremented for every update issued via the UpdateNexusEndpoint API.
 	Version int64 `protobuf:"varint,1,opt,name=version,proto3" json:"version,omitempty"`
 	// Unique server-generated endpoint ID.
@@ -824,11 +1447,6 @@ func (x *Endpoint) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Endpoint.ProtoReflect.Descriptor instead.
-func (*Endpoint) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *Endpoint) GetVersion() int64 {
 	if x != nil {
 		return x.Version
@@ -871,9 +1489,105 @@ func (x *Endpoint) GetUrlPrefix() string {
 	return ""
 }
 
+func (x *Endpoint) SetVersion(v int64) {
+	x.Version = v
+}
+
+func (x *Endpoint) SetId(v string) {
+	x.Id = v
+}
+
+func (x *Endpoint) SetSpec(v *EndpointSpec) {
+	x.Spec = v
+}
+
+func (x *Endpoint) SetCreatedTime(v *timestamppb.Timestamp) {
+	x.CreatedTime = v
+}
+
+func (x *Endpoint) SetLastModifiedTime(v *timestamppb.Timestamp) {
+	x.LastModifiedTime = v
+}
+
+func (x *Endpoint) SetUrlPrefix(v string) {
+	x.UrlPrefix = v
+}
+
+func (x *Endpoint) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	return x.Spec != nil
+}
+
+func (x *Endpoint) HasCreatedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreatedTime != nil
+}
+
+func (x *Endpoint) HasLastModifiedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastModifiedTime != nil
+}
+
+func (x *Endpoint) ClearSpec() {
+	x.Spec = nil
+}
+
+func (x *Endpoint) ClearCreatedTime() {
+	x.CreatedTime = nil
+}
+
+func (x *Endpoint) ClearLastModifiedTime() {
+	x.LastModifiedTime = nil
+}
+
+type Endpoint_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Data version for this endpoint, incremented for every update issued via the UpdateNexusEndpoint API.
+	Version int64
+	// Unique server-generated endpoint ID.
+	Id string
+	// Spec for the endpoint.
+	Spec *EndpointSpec
+	// The date and time when the endpoint was created.
+	// (-- api-linter: core::0142::time-field-names=disabled
+	//
+	//	aip.dev/not-precedent: Not following linter rules. --)
+	CreatedTime *timestamppb.Timestamp
+	// The date and time when the endpoint was last modified.
+	// Will not be set if the endpoint has never been modified.
+	// (-- api-linter: core::0142::time-field-names=disabled
+	//
+	//	aip.dev/not-precedent: Not following linter rules. --)
+	LastModifiedTime *timestamppb.Timestamp
+	// Server exposed URL prefix for invocation of operations on this endpoint.
+	// This doesn't include the protocol, hostname or port as the server does not know how it should be accessed
+	// publicly. The URL is stable in the face of endpoint renames.
+	UrlPrefix string
+}
+
+func (b0 Endpoint_builder) Build() *Endpoint {
+	m0 := &Endpoint{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Version = b.Version
+	x.Id = b.Id
+	x.Spec = b.Spec
+	x.CreatedTime = b.CreatedTime
+	x.LastModifiedTime = b.LastModifiedTime
+	x.UrlPrefix = b.UrlPrefix
+	return m0
+}
+
 // Contains mutable fields for an Endpoint.
 type EndpointSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Endpoint name, unique for this cluster. Must match `[a-zA-Z_][a-zA-Z0-9_]*`.
 	// Renaming an endpoint breaks all workflow callers that reference this endpoint, causing operations to fail.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -912,11 +1626,6 @@ func (x *EndpointSpec) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EndpointSpec.ProtoReflect.Descriptor instead.
-func (*EndpointSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *EndpointSpec) GetName() string {
 	if x != nil {
 		return x.Name
@@ -938,9 +1647,67 @@ func (x *EndpointSpec) GetTarget() *EndpointTarget {
 	return nil
 }
 
+func (x *EndpointSpec) SetName(v string) {
+	x.Name = v
+}
+
+func (x *EndpointSpec) SetDescription(v *v11.Payload) {
+	x.Description = v
+}
+
+func (x *EndpointSpec) SetTarget(v *EndpointTarget) {
+	x.Target = v
+}
+
+func (x *EndpointSpec) HasDescription() bool {
+	if x == nil {
+		return false
+	}
+	return x.Description != nil
+}
+
+func (x *EndpointSpec) HasTarget() bool {
+	if x == nil {
+		return false
+	}
+	return x.Target != nil
+}
+
+func (x *EndpointSpec) ClearDescription() {
+	x.Description = nil
+}
+
+func (x *EndpointSpec) ClearTarget() {
+	x.Target = nil
+}
+
+type EndpointSpec_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Endpoint name, unique for this cluster. Must match `[a-zA-Z_][a-zA-Z0-9_]*`.
+	// Renaming an endpoint breaks all workflow callers that reference this endpoint, causing operations to fail.
+	Name string
+	// Markdown description serialized as a single JSON string.
+	// If the Payload is encrypted, the UI and CLI may decrypt with the configured codec server endpoint.
+	// By default, the server enforces a limit of 20,000 bytes for this entire payload.
+	Description *v11.Payload
+	// Target to route requests to.
+	Target *EndpointTarget
+}
+
+func (b0 EndpointSpec_builder) Build() *EndpointSpec {
+	m0 := &EndpointSpec{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Description = b.Description
+	x.Target = b.Target
+	return m0
+}
+
 // Target to route requests to.
 type EndpointTarget struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Variant:
 	//
 	//	*EndpointTarget_Worker_
@@ -975,11 +1742,6 @@ func (x *EndpointTarget) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EndpointTarget.ProtoReflect.Descriptor instead.
-func (*EndpointTarget) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *EndpointTarget) GetVariant() isEndpointTarget_Variant {
 	if x != nil {
 		return x.Variant
@@ -1005,6 +1767,117 @@ func (x *EndpointTarget) GetExternal() *EndpointTarget_External {
 	return nil
 }
 
+func (x *EndpointTarget) SetWorker(v *EndpointTarget_Worker) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &EndpointTarget_Worker_{v}
+}
+
+func (x *EndpointTarget) SetExternal(v *EndpointTarget_External) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &EndpointTarget_External_{v}
+}
+
+func (x *EndpointTarget) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *EndpointTarget) HasWorker() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*EndpointTarget_Worker_)
+	return ok
+}
+
+func (x *EndpointTarget) HasExternal() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*EndpointTarget_External_)
+	return ok
+}
+
+func (x *EndpointTarget) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *EndpointTarget) ClearWorker() {
+	if _, ok := x.Variant.(*EndpointTarget_Worker_); ok {
+		x.Variant = nil
+	}
+}
+
+func (x *EndpointTarget) ClearExternal() {
+	if _, ok := x.Variant.(*EndpointTarget_External_); ok {
+		x.Variant = nil
+	}
+}
+
+const EndpointTarget_Variant_not_set_case case_EndpointTarget_Variant = 0
+const EndpointTarget_Worker_case case_EndpointTarget_Variant = 1
+const EndpointTarget_External_case case_EndpointTarget_Variant = 2
+
+func (x *EndpointTarget) WhichVariant() case_EndpointTarget_Variant {
+	if x == nil {
+		return EndpointTarget_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *EndpointTarget_Worker_:
+		return EndpointTarget_Worker_case
+	case *EndpointTarget_External_:
+		return EndpointTarget_External_case
+	default:
+		return EndpointTarget_Variant_not_set_case
+	}
+}
+
+type EndpointTarget_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Variant:
+	Worker   *EndpointTarget_Worker
+	External *EndpointTarget_External
+	// -- end of Variant
+}
+
+func (b0 EndpointTarget_builder) Build() *EndpointTarget {
+	m0 := &EndpointTarget{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Worker != nil {
+		x.Variant = &EndpointTarget_Worker_{b.Worker}
+	}
+	if b.External != nil {
+		x.Variant = &EndpointTarget_External_{b.External}
+	}
+	return m0
+}
+
+type case_EndpointTarget_Variant protoreflect.FieldNumber
+
+func (x case_EndpointTarget_Variant) String() string {
+	switch x {
+	case EndpointTarget_Variant_not_set_case:
+		return "EndpointTargetVariantNotSetCase"
+	case EndpointTarget_Worker_case:
+		return "EndpointTargetWorkerCase"
+	case EndpointTarget_External_case:
+		return "EndpointTargetExternalCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isEndpointTarget_Variant interface {
 	isEndpointTarget_Variant()
 }
@@ -1023,7 +1896,7 @@ func (*EndpointTarget_External_) isEndpointTarget_Variant() {}
 
 // An operation completed successfully.
 type StartOperationResponse_Sync struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Payload       *v11.Payload           `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
 	Links         []*Link                `protobuf:"bytes,2,rep,name=links,proto3" json:"links,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1055,11 +1928,6 @@ func (x *StartOperationResponse_Sync) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StartOperationResponse_Sync.ProtoReflect.Descriptor instead.
-func (*StartOperationResponse_Sync) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7, 0}
-}
-
 func (x *StartOperationResponse_Sync) GetPayload() *v11.Payload {
 	if x != nil {
 		return x.Payload
@@ -1074,10 +1942,45 @@ func (x *StartOperationResponse_Sync) GetLinks() []*Link {
 	return nil
 }
 
+func (x *StartOperationResponse_Sync) SetPayload(v *v11.Payload) {
+	x.Payload = v
+}
+
+func (x *StartOperationResponse_Sync) SetLinks(v []*Link) {
+	x.Links = v
+}
+
+func (x *StartOperationResponse_Sync) HasPayload() bool {
+	if x == nil {
+		return false
+	}
+	return x.Payload != nil
+}
+
+func (x *StartOperationResponse_Sync) ClearPayload() {
+	x.Payload = nil
+}
+
+type StartOperationResponse_Sync_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Payload *v11.Payload
+	Links   []*Link
+}
+
+func (b0 StartOperationResponse_Sync_builder) Build() *StartOperationResponse_Sync {
+	m0 := &StartOperationResponse_Sync{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Payload = b.Payload
+	x.Links = b.Links
+	return m0
+}
+
 // The operation will complete asynchronously.
 // The returned ID can be used to reference this operation.
 type StartOperationResponse_Async struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Deprecated. Renamed to operation_token.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
@@ -1113,11 +2016,6 @@ func (x *StartOperationResponse_Async) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StartOperationResponse_Async.ProtoReflect.Descriptor instead.
-func (*StartOperationResponse_Async) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{7, 1}
-}
-
 // Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
 func (x *StartOperationResponse_Async) GetOperationId() string {
 	if x != nil {
@@ -1140,9 +2038,43 @@ func (x *StartOperationResponse_Async) GetOperationToken() string {
 	return ""
 }
 
+// Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
+func (x *StartOperationResponse_Async) SetOperationId(v string) {
+	x.OperationId = v
+}
+
+func (x *StartOperationResponse_Async) SetLinks(v []*Link) {
+	x.Links = v
+}
+
+func (x *StartOperationResponse_Async) SetOperationToken(v string) {
+	x.OperationToken = v
+}
+
+type StartOperationResponse_Async_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Deprecated. Renamed to operation_token.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/nexus/v1/message.proto.
+	OperationId    string
+	Links          []*Link
+	OperationToken string
+}
+
+func (b0 StartOperationResponse_Async_builder) Build() *StartOperationResponse_Async {
+	m0 := &StartOperationResponse_Async{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.OperationId = b.OperationId
+	x.Links = b.Links
+	x.OperationToken = b.OperationToken
+	return m0
+}
+
 // Target a worker polling on a Nexus task queue in a specific namespace.
 type EndpointTarget_Worker struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace to route requests to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Nexus task queue to route requests to.
@@ -1176,11 +2108,6 @@ func (x *EndpointTarget_Worker) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EndpointTarget_Worker.ProtoReflect.Descriptor instead.
-func (*EndpointTarget_Worker) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12, 0}
-}
-
 func (x *EndpointTarget_Worker) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -1195,11 +2122,37 @@ func (x *EndpointTarget_Worker) GetTaskQueue() string {
 	return ""
 }
 
+func (x *EndpointTarget_Worker) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *EndpointTarget_Worker) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+type EndpointTarget_Worker_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace to route requests to.
+	Namespace string
+	// Nexus task queue to route requests to.
+	TaskQueue string
+}
+
+func (b0 EndpointTarget_Worker_builder) Build() *EndpointTarget_Worker {
+	m0 := &EndpointTarget_Worker{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	return m0
+}
+
 // Target an external server by URL.
 // At a later point, this will support providing credentials, in the meantime, an http.RoundTripper can be injected
 // into the server to modify the request.
 type EndpointTarget_External struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// URL to call.
 	Url           string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1231,16 +2184,30 @@ func (x *EndpointTarget_External) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EndpointTarget_External.ProtoReflect.Descriptor instead.
-func (*EndpointTarget_External) Descriptor() ([]byte, []int) {
-	return file_temporal_api_nexus_v1_message_proto_rawDescGZIP(), []int{12, 1}
-}
-
 func (x *EndpointTarget_External) GetUrl() string {
 	if x != nil {
 		return x.Url
 	}
 	return ""
+}
+
+func (x *EndpointTarget_External) SetUrl(v string) {
+	x.Url = v
+}
+
+type EndpointTarget_External_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// URL to call.
+	Url string
+}
+
+func (b0 EndpointTarget_External_builder) Build() *EndpointTarget_External {
+	m0 := &EndpointTarget_External{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Url = b.Url
+	return m0
 }
 
 var File_temporal_api_nexus_v1_message_proto protoreflect.FileDescriptor
@@ -1334,18 +2301,6 @@ const file_temporal_api_nexus_v1_message_proto_rawDesc = "" +
 	"\x03url\x18\x01 \x01(\tR\x03urlB\t\n" +
 	"\avariantB\x84\x01\n" +
 	"\x18io.temporal.api.nexus.v1B\fMessageProtoP\x01Z!go.temporal.io/api/nexus/v1;nexus\xaa\x02\x17Temporalio.Api.Nexus.V1\xea\x02\x1aTemporalio::Api::Nexus::V1b\x06proto3"
-
-var (
-	file_temporal_api_nexus_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_nexus_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_nexus_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_nexus_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_nexus_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_nexus_v1_message_proto_rawDesc), len(file_temporal_api_nexus_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_nexus_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_nexus_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_temporal_api_nexus_v1_message_proto_goTypes = []any{

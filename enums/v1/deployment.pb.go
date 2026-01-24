@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/deployment.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -92,11 +93,6 @@ func (x DeploymentReachability) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use DeploymentReachability.Descriptor instead.
-func (DeploymentReachability) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_deployment_proto_rawDescGZIP(), []int{0}
-}
-
 // (-- api-linter: core::0216::synonyms=disabled
 //
 //	aip.dev/not-precedent: Call this status because it is . --)
@@ -163,11 +159,6 @@ func (VersionDrainageStatus) Type() protoreflect.EnumType {
 
 func (x VersionDrainageStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use VersionDrainageStatus.Descriptor instead.
-func (VersionDrainageStatus) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_deployment_proto_rawDescGZIP(), []int{1}
 }
 
 // Versioning Mode of a worker is set by the app developer in the worker code, and specifies the
@@ -246,11 +237,6 @@ func (WorkerVersioningMode) Type() protoreflect.EnumType {
 
 func (x WorkerVersioningMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use WorkerVersioningMode.Descriptor instead.
-func (WorkerVersioningMode) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_deployment_proto_rawDescGZIP(), []int{2}
 }
 
 // (-- api-linter: core::0216::synonyms=disabled
@@ -341,11 +327,6 @@ func (x WorkerDeploymentVersionStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use WorkerDeploymentVersionStatus.Descriptor instead.
-func (WorkerDeploymentVersionStatus) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_deployment_proto_rawDescGZIP(), []int{3}
-}
-
 var File_temporal_api_enums_v1_deployment_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_deployment_proto_rawDesc = "" +
@@ -372,18 +353,6 @@ const file_temporal_api_enums_v1_deployment_proto_rawDesc = "" +
 	")WORKER_DEPLOYMENT_VERSION_STATUS_DRAINING\x10\x04\x12,\n" +
 	"(WORKER_DEPLOYMENT_VERSION_STATUS_DRAINED\x10\x05B\x87\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x0fDeploymentProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_deployment_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_deployment_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_deployment_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_deployment_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_deployment_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_deployment_proto_rawDesc), len(file_temporal_api_enums_v1_deployment_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_deployment_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_deployment_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
 var file_temporal_api_enums_v1_deployment_proto_goTypes = []any{

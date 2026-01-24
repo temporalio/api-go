@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/replication/v1/message.proto
 
+//go:build !protoopaque
+
 package replication
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/enums/v1"
@@ -25,7 +26,7 @@ const (
 )
 
 type ClusterReplicationConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	ClusterName   string                 `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -56,11 +57,6 @@ func (x *ClusterReplicationConfig) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ClusterReplicationConfig.ProtoReflect.Descriptor instead.
-func (*ClusterReplicationConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_replication_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ClusterReplicationConfig) GetClusterName() string {
 	if x != nil {
 		return x.ClusterName
@@ -68,8 +64,26 @@ func (x *ClusterReplicationConfig) GetClusterName() string {
 	return ""
 }
 
+func (x *ClusterReplicationConfig) SetClusterName(v string) {
+	x.ClusterName = v
+}
+
+type ClusterReplicationConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ClusterName string
+}
+
+func (b0 ClusterReplicationConfig_builder) Build() *ClusterReplicationConfig {
+	m0 := &ClusterReplicationConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ClusterName = b.ClusterName
+	return m0
+}
+
 type NamespaceReplicationConfig struct {
-	state             protoimpl.MessageState      `protogen:"open.v1"`
+	state             protoimpl.MessageState      `protogen:"hybrid.v1"`
 	ActiveClusterName string                      `protobuf:"bytes,1,opt,name=active_cluster_name,json=activeClusterName,proto3" json:"active_cluster_name,omitempty"`
 	Clusters          []*ClusterReplicationConfig `protobuf:"bytes,2,rep,name=clusters,proto3" json:"clusters,omitempty"`
 	State             v1.ReplicationState         `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.ReplicationState" json:"state,omitempty"`
@@ -102,11 +116,6 @@ func (x *NamespaceReplicationConfig) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NamespaceReplicationConfig.ProtoReflect.Descriptor instead.
-func (*NamespaceReplicationConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_replication_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *NamespaceReplicationConfig) GetActiveClusterName() string {
 	if x != nil {
 		return x.ActiveClusterName
@@ -128,9 +137,39 @@ func (x *NamespaceReplicationConfig) GetState() v1.ReplicationState {
 	return v1.ReplicationState(0)
 }
 
+func (x *NamespaceReplicationConfig) SetActiveClusterName(v string) {
+	x.ActiveClusterName = v
+}
+
+func (x *NamespaceReplicationConfig) SetClusters(v []*ClusterReplicationConfig) {
+	x.Clusters = v
+}
+
+func (x *NamespaceReplicationConfig) SetState(v v1.ReplicationState) {
+	x.State = v
+}
+
+type NamespaceReplicationConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ActiveClusterName string
+	Clusters          []*ClusterReplicationConfig
+	State             v1.ReplicationState
+}
+
+func (b0 NamespaceReplicationConfig_builder) Build() *NamespaceReplicationConfig {
+	m0 := &NamespaceReplicationConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActiveClusterName = b.ActiveClusterName
+	x.Clusters = b.Clusters
+	x.State = b.State
+	return m0
+}
+
 // Represents a historical replication status of a Namespace
 type FailoverStatus struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Timestamp when the Cluster switched to the following failover_version
 	FailoverTime    *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=failover_time,json=failoverTime,proto3" json:"failover_time,omitempty"`
 	FailoverVersion int64                  `protobuf:"varint,2,opt,name=failover_version,json=failoverVersion,proto3" json:"failover_version,omitempty"`
@@ -163,11 +202,6 @@ func (x *FailoverStatus) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FailoverStatus.ProtoReflect.Descriptor instead.
-func (*FailoverStatus) Descriptor() ([]byte, []int) {
-	return file_temporal_api_replication_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *FailoverStatus) GetFailoverTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.FailoverTime
@@ -180,6 +214,42 @@ func (x *FailoverStatus) GetFailoverVersion() int64 {
 		return x.FailoverVersion
 	}
 	return 0
+}
+
+func (x *FailoverStatus) SetFailoverTime(v *timestamppb.Timestamp) {
+	x.FailoverTime = v
+}
+
+func (x *FailoverStatus) SetFailoverVersion(v int64) {
+	x.FailoverVersion = v
+}
+
+func (x *FailoverStatus) HasFailoverTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.FailoverTime != nil
+}
+
+func (x *FailoverStatus) ClearFailoverTime() {
+	x.FailoverTime = nil
+}
+
+type FailoverStatus_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Timestamp when the Cluster switched to the following failover_version
+	FailoverTime    *timestamppb.Timestamp
+	FailoverVersion int64
+}
+
+func (b0 FailoverStatus_builder) Build() *FailoverStatus {
+	m0 := &FailoverStatus{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FailoverTime = b.FailoverTime
+	x.FailoverVersion = b.FailoverVersion
+	return m0
 }
 
 var File_temporal_api_replication_v1_message_proto protoreflect.FileDescriptor
@@ -197,18 +267,6 @@ const file_temporal_api_replication_v1_message_proto_rawDesc = "" +
 	"\rfailover_time\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\ffailoverTime\x12)\n" +
 	"\x10failover_version\x18\x02 \x01(\x03R\x0ffailoverVersionB\xa2\x01\n" +
 	"\x1eio.temporal.api.replication.v1B\fMessageProtoP\x01Z-go.temporal.io/api/replication/v1;replication\xaa\x02\x1dTemporalio.Api.Replication.V1\xea\x02 Temporalio::Api::Replication::V1b\x06proto3"
-
-var (
-	file_temporal_api_replication_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_replication_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_replication_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_replication_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_replication_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_replication_v1_message_proto_rawDesc), len(file_temporal_api_replication_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_replication_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_replication_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_temporal_api_replication_v1_message_proto_goTypes = []any{

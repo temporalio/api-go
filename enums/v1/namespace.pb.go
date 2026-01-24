@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/namespace.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -82,11 +83,6 @@ func (x NamespaceState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use NamespaceState.Descriptor instead.
-func (NamespaceState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{0}
-}
-
 type ArchivalState int32
 
 const (
@@ -139,11 +135,6 @@ func (ArchivalState) Type() protoreflect.EnumType {
 
 func (x ArchivalState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ArchivalState.Descriptor instead.
-func (ArchivalState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{1}
 }
 
 type ReplicationState int32
@@ -200,11 +191,6 @@ func (x ReplicationState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ReplicationState.Descriptor instead.
-func (ReplicationState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_namespace_proto_rawDescGZIP(), []int{2}
-}
-
 var File_temporal_api_enums_v1_namespace_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_namespace_proto_rawDesc = "" +
@@ -224,18 +210,6 @@ const file_temporal_api_enums_v1_namespace_proto_rawDesc = "" +
 	"\x18REPLICATION_STATE_NORMAL\x10\x01\x12\x1e\n" +
 	"\x1aREPLICATION_STATE_HANDOVER\x10\x02B\x86\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x0eNamespaceProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_namespace_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_namespace_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_namespace_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_namespace_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_namespace_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_namespace_proto_rawDesc), len(file_temporal_api_enums_v1_namespace_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_namespace_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_namespace_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_temporal_api_enums_v1_namespace_proto_goTypes = []any{

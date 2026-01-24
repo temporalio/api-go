@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/failure/v1/message.proto
 
+//go:build !protoopaque
+
 package failure
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/common/v1"
@@ -26,7 +28,7 @@ const (
 )
 
 type ApplicationFailureInfo struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
+	state        protoimpl.MessageState `protogen:"hybrid.v1"`
 	Type         string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	NonRetryable bool                   `protobuf:"varint,2,opt,name=non_retryable,json=nonRetryable,proto3" json:"non_retryable,omitempty"`
 	Details      *v1.Payloads           `protobuf:"bytes,3,opt,name=details,proto3" json:"details,omitempty"`
@@ -65,11 +67,6 @@ func (x *ApplicationFailureInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ApplicationFailureInfo.ProtoReflect.Descriptor instead.
-func (*ApplicationFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *ApplicationFailureInfo) GetType() string {
 	if x != nil {
 		return x.Type
@@ -105,8 +102,76 @@ func (x *ApplicationFailureInfo) GetCategory() v11.ApplicationErrorCategory {
 	return v11.ApplicationErrorCategory(0)
 }
 
+func (x *ApplicationFailureInfo) SetType(v string) {
+	x.Type = v
+}
+
+func (x *ApplicationFailureInfo) SetNonRetryable(v bool) {
+	x.NonRetryable = v
+}
+
+func (x *ApplicationFailureInfo) SetDetails(v *v1.Payloads) {
+	x.Details = v
+}
+
+func (x *ApplicationFailureInfo) SetNextRetryDelay(v *durationpb.Duration) {
+	x.NextRetryDelay = v
+}
+
+func (x *ApplicationFailureInfo) SetCategory(v v11.ApplicationErrorCategory) {
+	x.Category = v
+}
+
+func (x *ApplicationFailureInfo) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *ApplicationFailureInfo) HasNextRetryDelay() bool {
+	if x == nil {
+		return false
+	}
+	return x.NextRetryDelay != nil
+}
+
+func (x *ApplicationFailureInfo) ClearDetails() {
+	x.Details = nil
+}
+
+func (x *ApplicationFailureInfo) ClearNextRetryDelay() {
+	x.NextRetryDelay = nil
+}
+
+type ApplicationFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Type         string
+	NonRetryable bool
+	Details      *v1.Payloads
+	// next_retry_delay can be used by the client to override the activity
+	// retry interval calculated by the retry policy. Retry attempts will
+	// still be subject to the maximum retries limit and total time limit
+	// defined by the policy.
+	NextRetryDelay *durationpb.Duration
+	Category       v11.ApplicationErrorCategory
+}
+
+func (b0 ApplicationFailureInfo_builder) Build() *ApplicationFailureInfo {
+	m0 := &ApplicationFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Type = b.Type
+	x.NonRetryable = b.NonRetryable
+	x.Details = b.Details
+	x.NextRetryDelay = b.NextRetryDelay
+	x.Category = b.Category
+	return m0
+}
+
 type TimeoutFailureInfo struct {
-	state                protoimpl.MessageState `protogen:"open.v1"`
+	state                protoimpl.MessageState `protogen:"hybrid.v1"`
 	TimeoutType          v11.TimeoutType        `protobuf:"varint,1,opt,name=timeout_type,json=timeoutType,proto3,enum=temporal.api.enums.v1.TimeoutType" json:"timeout_type,omitempty"`
 	LastHeartbeatDetails *v1.Payloads           `protobuf:"bytes,2,opt,name=last_heartbeat_details,json=lastHeartbeatDetails,proto3" json:"last_heartbeat_details,omitempty"`
 	unknownFields        protoimpl.UnknownFields
@@ -138,11 +203,6 @@ func (x *TimeoutFailureInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TimeoutFailureInfo.ProtoReflect.Descriptor instead.
-func (*TimeoutFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *TimeoutFailureInfo) GetTimeoutType() v11.TimeoutType {
 	if x != nil {
 		return x.TimeoutType
@@ -157,8 +217,43 @@ func (x *TimeoutFailureInfo) GetLastHeartbeatDetails() *v1.Payloads {
 	return nil
 }
 
+func (x *TimeoutFailureInfo) SetTimeoutType(v v11.TimeoutType) {
+	x.TimeoutType = v
+}
+
+func (x *TimeoutFailureInfo) SetLastHeartbeatDetails(v *v1.Payloads) {
+	x.LastHeartbeatDetails = v
+}
+
+func (x *TimeoutFailureInfo) HasLastHeartbeatDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastHeartbeatDetails != nil
+}
+
+func (x *TimeoutFailureInfo) ClearLastHeartbeatDetails() {
+	x.LastHeartbeatDetails = nil
+}
+
+type TimeoutFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	TimeoutType          v11.TimeoutType
+	LastHeartbeatDetails *v1.Payloads
+}
+
+func (b0 TimeoutFailureInfo_builder) Build() *TimeoutFailureInfo {
+	m0 := &TimeoutFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TimeoutType = b.TimeoutType
+	x.LastHeartbeatDetails = b.LastHeartbeatDetails
+	return m0
+}
+
 type CanceledFailureInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Details       *v1.Payloads           `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -189,11 +284,6 @@ func (x *CanceledFailureInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CanceledFailureInfo.ProtoReflect.Descriptor instead.
-func (*CanceledFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *CanceledFailureInfo) GetDetails() *v1.Payloads {
 	if x != nil {
 		return x.Details
@@ -201,8 +291,37 @@ func (x *CanceledFailureInfo) GetDetails() *v1.Payloads {
 	return nil
 }
 
+func (x *CanceledFailureInfo) SetDetails(v *v1.Payloads) {
+	x.Details = v
+}
+
+func (x *CanceledFailureInfo) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *CanceledFailureInfo) ClearDetails() {
+	x.Details = nil
+}
+
+type CanceledFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Details *v1.Payloads
+}
+
+func (b0 CanceledFailureInfo_builder) Build() *CanceledFailureInfo {
+	m0 := &CanceledFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Details = b.Details
+	return m0
+}
+
 type TerminatedFailureInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -232,13 +351,20 @@ func (x *TerminatedFailureInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TerminatedFailureInfo.ProtoReflect.Descriptor instead.
-func (*TerminatedFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{3}
+type TerminatedFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 TerminatedFailureInfo_builder) Build() *TerminatedFailureInfo {
+	m0 := &TerminatedFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ServerFailureInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	NonRetryable  bool                   `protobuf:"varint,1,opt,name=non_retryable,json=nonRetryable,proto3" json:"non_retryable,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -269,11 +395,6 @@ func (x *ServerFailureInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServerFailureInfo.ProtoReflect.Descriptor instead.
-func (*ServerFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *ServerFailureInfo) GetNonRetryable() bool {
 	if x != nil {
 		return x.NonRetryable
@@ -281,8 +402,26 @@ func (x *ServerFailureInfo) GetNonRetryable() bool {
 	return false
 }
 
+func (x *ServerFailureInfo) SetNonRetryable(v bool) {
+	x.NonRetryable = v
+}
+
+type ServerFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	NonRetryable bool
+}
+
+func (b0 ServerFailureInfo_builder) Build() *ServerFailureInfo {
+	m0 := &ServerFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NonRetryable = b.NonRetryable
+	return m0
+}
+
 type ResetWorkflowFailureInfo struct {
-	state                protoimpl.MessageState `protogen:"open.v1"`
+	state                protoimpl.MessageState `protogen:"hybrid.v1"`
 	LastHeartbeatDetails *v1.Payloads           `protobuf:"bytes,1,opt,name=last_heartbeat_details,json=lastHeartbeatDetails,proto3" json:"last_heartbeat_details,omitempty"`
 	unknownFields        protoimpl.UnknownFields
 	sizeCache            protoimpl.SizeCache
@@ -313,11 +452,6 @@ func (x *ResetWorkflowFailureInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResetWorkflowFailureInfo.ProtoReflect.Descriptor instead.
-func (*ResetWorkflowFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *ResetWorkflowFailureInfo) GetLastHeartbeatDetails() *v1.Payloads {
 	if x != nil {
 		return x.LastHeartbeatDetails
@@ -325,8 +459,37 @@ func (x *ResetWorkflowFailureInfo) GetLastHeartbeatDetails() *v1.Payloads {
 	return nil
 }
 
+func (x *ResetWorkflowFailureInfo) SetLastHeartbeatDetails(v *v1.Payloads) {
+	x.LastHeartbeatDetails = v
+}
+
+func (x *ResetWorkflowFailureInfo) HasLastHeartbeatDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastHeartbeatDetails != nil
+}
+
+func (x *ResetWorkflowFailureInfo) ClearLastHeartbeatDetails() {
+	x.LastHeartbeatDetails = nil
+}
+
+type ResetWorkflowFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	LastHeartbeatDetails *v1.Payloads
+}
+
+func (b0 ResetWorkflowFailureInfo_builder) Build() *ResetWorkflowFailureInfo {
+	m0 := &ResetWorkflowFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LastHeartbeatDetails = b.LastHeartbeatDetails
+	return m0
+}
+
 type ActivityFailureInfo struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
+	state            protoimpl.MessageState `protogen:"hybrid.v1"`
 	ScheduledEventId int64                  `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	StartedEventId   int64                  `protobuf:"varint,2,opt,name=started_event_id,json=startedEventId,proto3" json:"started_event_id,omitempty"`
 	Identity         string                 `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -360,11 +523,6 @@ func (x *ActivityFailureInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ActivityFailureInfo.ProtoReflect.Descriptor instead.
-func (*ActivityFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ActivityFailureInfo) GetScheduledEventId() int64 {
@@ -409,8 +567,67 @@ func (x *ActivityFailureInfo) GetRetryState() v11.RetryState {
 	return v11.RetryState(0)
 }
 
+func (x *ActivityFailureInfo) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *ActivityFailureInfo) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ActivityFailureInfo) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *ActivityFailureInfo) SetActivityType(v *v1.ActivityType) {
+	x.ActivityType = v
+}
+
+func (x *ActivityFailureInfo) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *ActivityFailureInfo) SetRetryState(v v11.RetryState) {
+	x.RetryState = v
+}
+
+func (x *ActivityFailureInfo) HasActivityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityType != nil
+}
+
+func (x *ActivityFailureInfo) ClearActivityType() {
+	x.ActivityType = nil
+}
+
+type ActivityFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ScheduledEventId int64
+	StartedEventId   int64
+	Identity         string
+	ActivityType     *v1.ActivityType
+	ActivityId       string
+	RetryState       v11.RetryState
+}
+
+func (b0 ActivityFailureInfo_builder) Build() *ActivityFailureInfo {
+	m0 := &ActivityFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.StartedEventId = b.StartedEventId
+	x.Identity = b.Identity
+	x.ActivityType = b.ActivityType
+	x.ActivityId = b.ActivityId
+	x.RetryState = b.RetryState
+	return m0
+}
+
 type ChildWorkflowExecutionFailureInfo struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state             protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v1.WorkflowExecution  `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	WorkflowType      *v1.WorkflowType       `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
@@ -444,11 +661,6 @@ func (x *ChildWorkflowExecutionFailureInfo) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChildWorkflowExecutionFailureInfo.ProtoReflect.Descriptor instead.
-func (*ChildWorkflowExecutionFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ChildWorkflowExecutionFailureInfo) GetNamespace() string {
@@ -493,8 +705,78 @@ func (x *ChildWorkflowExecutionFailureInfo) GetRetryState() v11.RetryState {
 	return v11.RetryState(0)
 }
 
+func (x *ChildWorkflowExecutionFailureInfo) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) SetRetryState(v v11.RetryState) {
+	x.RetryState = v
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *ChildWorkflowExecutionFailureInfo) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+type ChildWorkflowExecutionFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace         string
+	WorkflowExecution *v1.WorkflowExecution
+	WorkflowType      *v1.WorkflowType
+	InitiatedEventId  int64
+	StartedEventId    int64
+	RetryState        v11.RetryState
+}
+
+func (b0 ChildWorkflowExecutionFailureInfo_builder) Build() *ChildWorkflowExecutionFailureInfo {
+	m0 := &ChildWorkflowExecutionFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowType = b.WorkflowType
+	x.InitiatedEventId = b.InitiatedEventId
+	x.StartedEventId = b.StartedEventId
+	x.RetryState = b.RetryState
+	return m0
+}
+
 type NexusOperationFailureInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The NexusOperationScheduled event ID.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Endpoint name.
@@ -540,11 +822,6 @@ func (x *NexusOperationFailureInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationFailureInfo.ProtoReflect.Descriptor instead.
-func (*NexusOperationFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *NexusOperationFailureInfo) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -588,8 +865,67 @@ func (x *NexusOperationFailureInfo) GetOperationToken() string {
 	return ""
 }
 
+func (x *NexusOperationFailureInfo) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *NexusOperationFailureInfo) SetEndpoint(v string) {
+	x.Endpoint = v
+}
+
+func (x *NexusOperationFailureInfo) SetService(v string) {
+	x.Service = v
+}
+
+func (x *NexusOperationFailureInfo) SetOperation(v string) {
+	x.Operation = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/failure/v1/message.proto.
+func (x *NexusOperationFailureInfo) SetOperationId(v string) {
+	x.OperationId = v
+}
+
+func (x *NexusOperationFailureInfo) SetOperationToken(v string) {
+	x.OperationToken = v
+}
+
+type NexusOperationFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The NexusOperationScheduled event ID.
+	ScheduledEventId int64
+	// Endpoint name.
+	Endpoint string
+	// Service name.
+	Service string
+	// Operation name.
+	Operation string
+	// Operation ID - may be empty if the operation completed synchronously.
+	//
+	// Deprecated. Renamed to operation_token.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/failure/v1/message.proto.
+	OperationId string
+	// Operation token - may be empty if the operation completed synchronously.
+	OperationToken string
+}
+
+func (b0 NexusOperationFailureInfo_builder) Build() *NexusOperationFailureInfo {
+	m0 := &NexusOperationFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.Endpoint = b.Endpoint
+	x.Service = b.Service
+	x.Operation = b.Operation
+	x.OperationId = b.OperationId
+	x.OperationToken = b.OperationToken
+	return m0
+}
+
 type NexusHandlerFailureInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The Nexus error type as defined in the spec:
 	// https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
@@ -624,11 +960,6 @@ func (x *NexusHandlerFailureInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusHandlerFailureInfo.ProtoReflect.Descriptor instead.
-func (*NexusHandlerFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *NexusHandlerFailureInfo) GetType() string {
 	if x != nil {
 		return x.Type
@@ -643,8 +974,35 @@ func (x *NexusHandlerFailureInfo) GetRetryBehavior() v11.NexusHandlerErrorRetryB
 	return v11.NexusHandlerErrorRetryBehavior(0)
 }
 
+func (x *NexusHandlerFailureInfo) SetType(v string) {
+	x.Type = v
+}
+
+func (x *NexusHandlerFailureInfo) SetRetryBehavior(v v11.NexusHandlerErrorRetryBehavior) {
+	x.RetryBehavior = v
+}
+
+type NexusHandlerFailureInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The Nexus error type as defined in the spec:
+	// https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors.
+	Type string
+	// Retry behavior, defaults to the retry behavior of the error type as defined in the spec.
+	RetryBehavior v11.NexusHandlerErrorRetryBehavior
+}
+
+func (b0 NexusHandlerFailureInfo_builder) Build() *NexusHandlerFailureInfo {
+	m0 := &NexusHandlerFailureInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Type = b.Type
+	x.RetryBehavior = b.RetryBehavior
+	return m0
+}
+
 type Failure struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
+	state   protoimpl.MessageState `protogen:"hybrid.v1"`
 	Message string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	// The source this Failure originated in, e.g. TypeScriptSDK / JavaSDK
 	// In some SDKs this is used to rehydrate the stack trace into an exception object.
@@ -707,11 +1065,6 @@ func (x *Failure) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Failure.ProtoReflect.Descriptor instead.
-func (*Failure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Failure) GetMessage() string {
@@ -846,6 +1199,434 @@ func (x *Failure) GetNexusHandlerFailureInfo() *NexusHandlerFailureInfo {
 	return nil
 }
 
+func (x *Failure) SetMessage(v string) {
+	x.Message = v
+}
+
+func (x *Failure) SetSource(v string) {
+	x.Source = v
+}
+
+func (x *Failure) SetStackTrace(v string) {
+	x.StackTrace = v
+}
+
+func (x *Failure) SetEncodedAttributes(v *v1.Payload) {
+	x.EncodedAttributes = v
+}
+
+func (x *Failure) SetCause(v *Failure) {
+	x.Cause = v
+}
+
+func (x *Failure) SetApplicationFailureInfo(v *ApplicationFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_ApplicationFailureInfo{v}
+}
+
+func (x *Failure) SetTimeoutFailureInfo(v *TimeoutFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_TimeoutFailureInfo{v}
+}
+
+func (x *Failure) SetCanceledFailureInfo(v *CanceledFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_CanceledFailureInfo{v}
+}
+
+func (x *Failure) SetTerminatedFailureInfo(v *TerminatedFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_TerminatedFailureInfo{v}
+}
+
+func (x *Failure) SetServerFailureInfo(v *ServerFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_ServerFailureInfo{v}
+}
+
+func (x *Failure) SetResetWorkflowFailureInfo(v *ResetWorkflowFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_ResetWorkflowFailureInfo{v}
+}
+
+func (x *Failure) SetActivityFailureInfo(v *ActivityFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_ActivityFailureInfo{v}
+}
+
+func (x *Failure) SetChildWorkflowExecutionFailureInfo(v *ChildWorkflowExecutionFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_ChildWorkflowExecutionFailureInfo{v}
+}
+
+func (x *Failure) SetNexusOperationExecutionFailureInfo(v *NexusOperationFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_NexusOperationExecutionFailureInfo{v}
+}
+
+func (x *Failure) SetNexusHandlerFailureInfo(v *NexusHandlerFailureInfo) {
+	if v == nil {
+		x.FailureInfo = nil
+		return
+	}
+	x.FailureInfo = &Failure_NexusHandlerFailureInfo{v}
+}
+
+func (x *Failure) HasEncodedAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.EncodedAttributes != nil
+}
+
+func (x *Failure) HasCause() bool {
+	if x == nil {
+		return false
+	}
+	return x.Cause != nil
+}
+
+func (x *Failure) HasFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.FailureInfo != nil
+}
+
+func (x *Failure) HasApplicationFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_ApplicationFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasTimeoutFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_TimeoutFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasCanceledFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_CanceledFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasTerminatedFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_TerminatedFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasServerFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_ServerFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasResetWorkflowFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_ResetWorkflowFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasActivityFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_ActivityFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasChildWorkflowExecutionFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_ChildWorkflowExecutionFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasNexusOperationExecutionFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_NexusOperationExecutionFailureInfo)
+	return ok
+}
+
+func (x *Failure) HasNexusHandlerFailureInfo() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.FailureInfo.(*Failure_NexusHandlerFailureInfo)
+	return ok
+}
+
+func (x *Failure) ClearEncodedAttributes() {
+	x.EncodedAttributes = nil
+}
+
+func (x *Failure) ClearCause() {
+	x.Cause = nil
+}
+
+func (x *Failure) ClearFailureInfo() {
+	x.FailureInfo = nil
+}
+
+func (x *Failure) ClearApplicationFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_ApplicationFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearTimeoutFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_TimeoutFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearCanceledFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_CanceledFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearTerminatedFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_TerminatedFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearServerFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_ServerFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearResetWorkflowFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_ResetWorkflowFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearActivityFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_ActivityFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearChildWorkflowExecutionFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_ChildWorkflowExecutionFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearNexusOperationExecutionFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_NexusOperationExecutionFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+func (x *Failure) ClearNexusHandlerFailureInfo() {
+	if _, ok := x.FailureInfo.(*Failure_NexusHandlerFailureInfo); ok {
+		x.FailureInfo = nil
+	}
+}
+
+const Failure_FailureInfo_not_set_case case_Failure_FailureInfo = 0
+const Failure_ApplicationFailureInfo_case case_Failure_FailureInfo = 5
+const Failure_TimeoutFailureInfo_case case_Failure_FailureInfo = 6
+const Failure_CanceledFailureInfo_case case_Failure_FailureInfo = 7
+const Failure_TerminatedFailureInfo_case case_Failure_FailureInfo = 8
+const Failure_ServerFailureInfo_case case_Failure_FailureInfo = 9
+const Failure_ResetWorkflowFailureInfo_case case_Failure_FailureInfo = 10
+const Failure_ActivityFailureInfo_case case_Failure_FailureInfo = 11
+const Failure_ChildWorkflowExecutionFailureInfo_case case_Failure_FailureInfo = 12
+const Failure_NexusOperationExecutionFailureInfo_case case_Failure_FailureInfo = 13
+const Failure_NexusHandlerFailureInfo_case case_Failure_FailureInfo = 14
+
+func (x *Failure) WhichFailureInfo() case_Failure_FailureInfo {
+	if x == nil {
+		return Failure_FailureInfo_not_set_case
+	}
+	switch x.FailureInfo.(type) {
+	case *Failure_ApplicationFailureInfo:
+		return Failure_ApplicationFailureInfo_case
+	case *Failure_TimeoutFailureInfo:
+		return Failure_TimeoutFailureInfo_case
+	case *Failure_CanceledFailureInfo:
+		return Failure_CanceledFailureInfo_case
+	case *Failure_TerminatedFailureInfo:
+		return Failure_TerminatedFailureInfo_case
+	case *Failure_ServerFailureInfo:
+		return Failure_ServerFailureInfo_case
+	case *Failure_ResetWorkflowFailureInfo:
+		return Failure_ResetWorkflowFailureInfo_case
+	case *Failure_ActivityFailureInfo:
+		return Failure_ActivityFailureInfo_case
+	case *Failure_ChildWorkflowExecutionFailureInfo:
+		return Failure_ChildWorkflowExecutionFailureInfo_case
+	case *Failure_NexusOperationExecutionFailureInfo:
+		return Failure_NexusOperationExecutionFailureInfo_case
+	case *Failure_NexusHandlerFailureInfo:
+		return Failure_NexusHandlerFailureInfo_case
+	default:
+		return Failure_FailureInfo_not_set_case
+	}
+}
+
+type Failure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Message string
+	// The source this Failure originated in, e.g. TypeScriptSDK / JavaSDK
+	// In some SDKs this is used to rehydrate the stack trace into an exception object.
+	Source     string
+	StackTrace string
+	// Alternative way to supply `message` and `stack_trace` and possibly other attributes, used for encryption of
+	// errors originating in user code which might contain sensitive information.
+	// The `encoded_attributes` Payload could represent any serializable object, e.g. JSON object or a `Failure` proto
+	// message.
+	//
+	// SDK authors:
+	// - The SDK should provide a default `encodeFailureAttributes` and `decodeFailureAttributes` implementation that:
+	//   - Uses a JSON object to represent `{ message, stack_trace }`.
+	//   - Overwrites the original message with "Encoded failure" to indicate that more information could be extracted.
+	//   - Overwrites the original stack_trace with an empty string.
+	//   - The resulting JSON object is converted to Payload using the default PayloadConverter and should be processed
+	//     by the user-provided PayloadCodec
+	//
+	// - If there's demand, we could allow overriding the default SDK implementation to encode other opaque Failure attributes.
+	// (-- api-linter: core::0203::optional=disabled --)
+	EncodedAttributes *v1.Payload
+	Cause             *Failure
+	// Fields of oneof FailureInfo:
+	ApplicationFailureInfo             *ApplicationFailureInfo
+	TimeoutFailureInfo                 *TimeoutFailureInfo
+	CanceledFailureInfo                *CanceledFailureInfo
+	TerminatedFailureInfo              *TerminatedFailureInfo
+	ServerFailureInfo                  *ServerFailureInfo
+	ResetWorkflowFailureInfo           *ResetWorkflowFailureInfo
+	ActivityFailureInfo                *ActivityFailureInfo
+	ChildWorkflowExecutionFailureInfo  *ChildWorkflowExecutionFailureInfo
+	NexusOperationExecutionFailureInfo *NexusOperationFailureInfo
+	NexusHandlerFailureInfo            *NexusHandlerFailureInfo
+	// -- end of FailureInfo
+}
+
+func (b0 Failure_builder) Build() *Failure {
+	m0 := &Failure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Message = b.Message
+	x.Source = b.Source
+	x.StackTrace = b.StackTrace
+	x.EncodedAttributes = b.EncodedAttributes
+	x.Cause = b.Cause
+	if b.ApplicationFailureInfo != nil {
+		x.FailureInfo = &Failure_ApplicationFailureInfo{b.ApplicationFailureInfo}
+	}
+	if b.TimeoutFailureInfo != nil {
+		x.FailureInfo = &Failure_TimeoutFailureInfo{b.TimeoutFailureInfo}
+	}
+	if b.CanceledFailureInfo != nil {
+		x.FailureInfo = &Failure_CanceledFailureInfo{b.CanceledFailureInfo}
+	}
+	if b.TerminatedFailureInfo != nil {
+		x.FailureInfo = &Failure_TerminatedFailureInfo{b.TerminatedFailureInfo}
+	}
+	if b.ServerFailureInfo != nil {
+		x.FailureInfo = &Failure_ServerFailureInfo{b.ServerFailureInfo}
+	}
+	if b.ResetWorkflowFailureInfo != nil {
+		x.FailureInfo = &Failure_ResetWorkflowFailureInfo{b.ResetWorkflowFailureInfo}
+	}
+	if b.ActivityFailureInfo != nil {
+		x.FailureInfo = &Failure_ActivityFailureInfo{b.ActivityFailureInfo}
+	}
+	if b.ChildWorkflowExecutionFailureInfo != nil {
+		x.FailureInfo = &Failure_ChildWorkflowExecutionFailureInfo{b.ChildWorkflowExecutionFailureInfo}
+	}
+	if b.NexusOperationExecutionFailureInfo != nil {
+		x.FailureInfo = &Failure_NexusOperationExecutionFailureInfo{b.NexusOperationExecutionFailureInfo}
+	}
+	if b.NexusHandlerFailureInfo != nil {
+		x.FailureInfo = &Failure_NexusHandlerFailureInfo{b.NexusHandlerFailureInfo}
+	}
+	return m0
+}
+
+type case_Failure_FailureInfo protoreflect.FieldNumber
+
+func (x case_Failure_FailureInfo) String() string {
+	switch x {
+	case Failure_FailureInfo_not_set_case:
+		return "FailureFailureInfoNotSetCase"
+	case Failure_ApplicationFailureInfo_case:
+		return "FailureApplicationFailureInfoCase"
+	case Failure_TimeoutFailureInfo_case:
+		return "FailureTimeoutFailureInfoCase"
+	case Failure_CanceledFailureInfo_case:
+		return "FailureCanceledFailureInfoCase"
+	case Failure_TerminatedFailureInfo_case:
+		return "FailureTerminatedFailureInfoCase"
+	case Failure_ServerFailureInfo_case:
+		return "FailureServerFailureInfoCase"
+	case Failure_ResetWorkflowFailureInfo_case:
+		return "FailureResetWorkflowFailureInfoCase"
+	case Failure_ActivityFailureInfo_case:
+		return "FailureActivityFailureInfoCase"
+	case Failure_ChildWorkflowExecutionFailureInfo_case:
+		return "FailureChildWorkflowExecutionFailureInfoCase"
+	case Failure_NexusOperationExecutionFailureInfo_case:
+		return "FailureNexusOperationExecutionFailureInfoCase"
+	case Failure_NexusHandlerFailureInfo_case:
+		return "FailureNexusHandlerFailureInfoCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isFailure_FailureInfo interface {
 	isFailure_FailureInfo()
 }
@@ -911,7 +1692,7 @@ func (*Failure_NexusOperationExecutionFailureInfo) isFailure_FailureInfo() {}
 func (*Failure_NexusHandlerFailureInfo) isFailure_FailureInfo() {}
 
 type MultiOperationExecutionAborted struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -941,9 +1722,16 @@ func (x *MultiOperationExecutionAborted) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MultiOperationExecutionAborted.ProtoReflect.Descriptor instead.
-func (*MultiOperationExecutionAborted) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{11}
+type MultiOperationExecutionAborted_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 MultiOperationExecutionAborted_builder) Build() *MultiOperationExecutionAborted {
+	m0 := &MultiOperationExecutionAborted{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 var File_temporal_api_failure_v1_message_proto protoreflect.FileDescriptor
@@ -1016,18 +1804,6 @@ const file_temporal_api_failure_v1_message_proto_rawDesc = "" +
 	"\ffailure_info\" \n" +
 	"\x1eMultiOperationExecutionAbortedB\x8e\x01\n" +
 	"\x1aio.temporal.api.failure.v1B\fMessageProtoP\x01Z%go.temporal.io/api/failure/v1;failure\xaa\x02\x19Temporalio.Api.Failure.V1\xea\x02\x1cTemporalio::Api::Failure::V1b\x06proto3"
-
-var (
-	file_temporal_api_failure_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_failure_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_failure_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_failure_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_failure_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_failure_v1_message_proto_rawDesc), len(file_temporal_api_failure_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_failure_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_failure_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_temporal_api_failure_v1_message_proto_goTypes = []any{

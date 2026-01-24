@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/worker/v1/message.proto
 
+//go:build !protoopaque
+
 package worker
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/deployment/v1"
@@ -27,7 +28,7 @@ const (
 )
 
 type WorkerPollerInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Number of polling RPCs that are currently in flight.
 	CurrentPollers         int32                  `protobuf:"varint,1,opt,name=current_pollers,json=currentPollers,proto3" json:"current_pollers,omitempty"`
 	LastSuccessfulPollTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=last_successful_poll_time,json=lastSuccessfulPollTime,proto3" json:"last_successful_poll_time,omitempty"`
@@ -62,11 +63,6 @@ func (x *WorkerPollerInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerPollerInfo.ProtoReflect.Descriptor instead.
-func (*WorkerPollerInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkerPollerInfo) GetCurrentPollers() int32 {
 	if x != nil {
 		return x.CurrentPollers
@@ -88,8 +84,51 @@ func (x *WorkerPollerInfo) GetIsAutoscaling() bool {
 	return false
 }
 
+func (x *WorkerPollerInfo) SetCurrentPollers(v int32) {
+	x.CurrentPollers = v
+}
+
+func (x *WorkerPollerInfo) SetLastSuccessfulPollTime(v *timestamppb.Timestamp) {
+	x.LastSuccessfulPollTime = v
+}
+
+func (x *WorkerPollerInfo) SetIsAutoscaling(v bool) {
+	x.IsAutoscaling = v
+}
+
+func (x *WorkerPollerInfo) HasLastSuccessfulPollTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastSuccessfulPollTime != nil
+}
+
+func (x *WorkerPollerInfo) ClearLastSuccessfulPollTime() {
+	x.LastSuccessfulPollTime = nil
+}
+
+type WorkerPollerInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Number of polling RPCs that are currently in flight.
+	CurrentPollers         int32
+	LastSuccessfulPollTime *timestamppb.Timestamp
+	// Set true if the number of concurrent pollers is auto-scaled
+	IsAutoscaling bool
+}
+
+func (b0 WorkerPollerInfo_builder) Build() *WorkerPollerInfo {
+	m0 := &WorkerPollerInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CurrentPollers = b.CurrentPollers
+	x.LastSuccessfulPollTime = b.LastSuccessfulPollTime
+	x.IsAutoscaling = b.IsAutoscaling
+	return m0
+}
+
 type WorkerSlotsInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Number of slots available for the worker to specific tasks.
 	// May be -1 if the upper bound is not known.
 	CurrentAvailableSlots int32 `protobuf:"varint,1,opt,name=current_available_slots,json=currentAvailableSlots,proto3" json:"current_available_slots,omitempty"`
@@ -136,11 +175,6 @@ func (x *WorkerSlotsInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkerSlotsInfo.ProtoReflect.Descriptor instead.
-func (*WorkerSlotsInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *WorkerSlotsInfo) GetCurrentAvailableSlots() int32 {
@@ -192,9 +226,75 @@ func (x *WorkerSlotsInfo) GetLastIntervalFailureTasks() int32 {
 	return 0
 }
 
+func (x *WorkerSlotsInfo) SetCurrentAvailableSlots(v int32) {
+	x.CurrentAvailableSlots = v
+}
+
+func (x *WorkerSlotsInfo) SetCurrentUsedSlots(v int32) {
+	x.CurrentUsedSlots = v
+}
+
+func (x *WorkerSlotsInfo) SetSlotSupplierKind(v string) {
+	x.SlotSupplierKind = v
+}
+
+func (x *WorkerSlotsInfo) SetTotalProcessedTasks(v int32) {
+	x.TotalProcessedTasks = v
+}
+
+func (x *WorkerSlotsInfo) SetTotalFailedTasks(v int32) {
+	x.TotalFailedTasks = v
+}
+
+func (x *WorkerSlotsInfo) SetLastIntervalProcessedTasks(v int32) {
+	x.LastIntervalProcessedTasks = v
+}
+
+func (x *WorkerSlotsInfo) SetLastIntervalFailureTasks(v int32) {
+	x.LastIntervalFailureTasks = v
+}
+
+type WorkerSlotsInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Number of slots available for the worker to specific tasks.
+	// May be -1 if the upper bound is not known.
+	CurrentAvailableSlots int32
+	// Number of slots used by the worker for specific tasks.
+	CurrentUsedSlots int32
+	// Kind of the slot supplier, which is used to determine how the slots are allocated.
+	// Possible values: "Fixed | ResourceBased | Custom String"
+	SlotSupplierKind string
+	// Total number of tasks processed (completed both successfully and unsuccesfully, or any other way)
+	// by the worker since the worker started. This is a cumulative counter.
+	TotalProcessedTasks int32
+	// Total number of failed tasks processed by the worker so far.
+	TotalFailedTasks int32
+	// Number of tasks processed in since the last heartbeat from the worker.
+	// This is a cumulative counter, and it is reset to 0 each time the worker sends a heartbeat.
+	// Contains both successful and failed tasks.
+	LastIntervalProcessedTasks int32
+	// Number of failed tasks processed since the last heartbeat from the worker.
+	LastIntervalFailureTasks int32
+}
+
+func (b0 WorkerSlotsInfo_builder) Build() *WorkerSlotsInfo {
+	m0 := &WorkerSlotsInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CurrentAvailableSlots = b.CurrentAvailableSlots
+	x.CurrentUsedSlots = b.CurrentUsedSlots
+	x.SlotSupplierKind = b.SlotSupplierKind
+	x.TotalProcessedTasks = b.TotalProcessedTasks
+	x.TotalFailedTasks = b.TotalFailedTasks
+	x.LastIntervalProcessedTasks = b.LastIntervalProcessedTasks
+	x.LastIntervalFailureTasks = b.LastIntervalFailureTasks
+	return m0
+}
+
 // Holds everything needed to identify the worker host/process context
 type WorkerHostInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Worker host identifier.
 	HostName string `protobuf:"bytes,1,opt,name=host_name,json=hostName,proto3" json:"host_name,omitempty"`
 	// Worker grouping identifier. A key to group workers that share the same client+namespace+process.
@@ -239,11 +339,6 @@ func (x *WorkerHostInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerHostInfo.ProtoReflect.Descriptor instead.
-func (*WorkerHostInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *WorkerHostInfo) GetHostName() string {
 	if x != nil {
 		return x.HostName
@@ -279,13 +374,65 @@ func (x *WorkerHostInfo) GetCurrentHostMemUsage() float32 {
 	return 0
 }
 
+func (x *WorkerHostInfo) SetHostName(v string) {
+	x.HostName = v
+}
+
+func (x *WorkerHostInfo) SetWorkerGroupingKey(v string) {
+	x.WorkerGroupingKey = v
+}
+
+func (x *WorkerHostInfo) SetProcessId(v string) {
+	x.ProcessId = v
+}
+
+func (x *WorkerHostInfo) SetCurrentHostCpuUsage(v float32) {
+	x.CurrentHostCpuUsage = v
+}
+
+func (x *WorkerHostInfo) SetCurrentHostMemUsage(v float32) {
+	x.CurrentHostMemUsage = v
+}
+
+type WorkerHostInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Worker host identifier.
+	HostName string
+	// Worker grouping identifier. A key to group workers that share the same client+namespace+process.
+	// This will be used to build the worker command nexus task queue name:
+	// "temporal-sys/worker-commands/{worker_grouping_key}"
+	WorkerGroupingKey string
+	// Worker process identifier. This id only needs to be unique
+	// within one host (so using e.g. a unix pid would be appropriate).
+	ProcessId string
+	// System used CPU as a float in the range [0.0, 1.0] where 1.0 is defined as all
+	// cores on the host pegged.
+	CurrentHostCpuUsage float32
+	// System used memory as a float in the range [0.0, 1.0] where 1.0 is defined as
+	// all available memory on the host is used.
+	CurrentHostMemUsage float32
+}
+
+func (b0 WorkerHostInfo_builder) Build() *WorkerHostInfo {
+	m0 := &WorkerHostInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.HostName = b.HostName
+	x.WorkerGroupingKey = b.WorkerGroupingKey
+	x.ProcessId = b.ProcessId
+	x.CurrentHostCpuUsage = b.CurrentHostCpuUsage
+	x.CurrentHostMemUsage = b.CurrentHostMemUsage
+	return m0
+}
+
 // Worker info message, contains information about the worker and its current state.
 // All information is provided by the worker itself.
 // (-- api-linter: core::0140::prepositions=disabled
 //
 //	aip.dev/not-precedent: Removing those words make names less clear. --)
 type WorkerHeartbeat struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Worker identifier, should be unique for the namespace.
 	// It is distinct from worker identity, which is not necessarily namespace-unique.
 	WorkerInstanceKey string `protobuf:"bytes,1,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
@@ -352,11 +499,6 @@ func (x *WorkerHeartbeat) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkerHeartbeat.ProtoReflect.Descriptor instead.
-func (*WorkerHeartbeat) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *WorkerHeartbeat) GetWorkerInstanceKey() string {
@@ -520,8 +662,317 @@ func (x *WorkerHeartbeat) GetPlugins() []*PluginInfo {
 	return nil
 }
 
+func (x *WorkerHeartbeat) SetWorkerInstanceKey(v string) {
+	x.WorkerInstanceKey = v
+}
+
+func (x *WorkerHeartbeat) SetWorkerIdentity(v string) {
+	x.WorkerIdentity = v
+}
+
+func (x *WorkerHeartbeat) SetHostInfo(v *WorkerHostInfo) {
+	x.HostInfo = v
+}
+
+func (x *WorkerHeartbeat) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *WorkerHeartbeat) SetDeploymentVersion(v *v1.WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+func (x *WorkerHeartbeat) SetSdkName(v string) {
+	x.SdkName = v
+}
+
+func (x *WorkerHeartbeat) SetSdkVersion(v string) {
+	x.SdkVersion = v
+}
+
+func (x *WorkerHeartbeat) SetStatus(v v11.WorkerStatus) {
+	x.Status = v
+}
+
+func (x *WorkerHeartbeat) SetStartTime(v *timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+func (x *WorkerHeartbeat) SetHeartbeatTime(v *timestamppb.Timestamp) {
+	x.HeartbeatTime = v
+}
+
+func (x *WorkerHeartbeat) SetElapsedSinceLastHeartbeat(v *durationpb.Duration) {
+	x.ElapsedSinceLastHeartbeat = v
+}
+
+func (x *WorkerHeartbeat) SetWorkflowTaskSlotsInfo(v *WorkerSlotsInfo) {
+	x.WorkflowTaskSlotsInfo = v
+}
+
+func (x *WorkerHeartbeat) SetActivityTaskSlotsInfo(v *WorkerSlotsInfo) {
+	x.ActivityTaskSlotsInfo = v
+}
+
+func (x *WorkerHeartbeat) SetNexusTaskSlotsInfo(v *WorkerSlotsInfo) {
+	x.NexusTaskSlotsInfo = v
+}
+
+func (x *WorkerHeartbeat) SetLocalActivitySlotsInfo(v *WorkerSlotsInfo) {
+	x.LocalActivitySlotsInfo = v
+}
+
+func (x *WorkerHeartbeat) SetWorkflowPollerInfo(v *WorkerPollerInfo) {
+	x.WorkflowPollerInfo = v
+}
+
+func (x *WorkerHeartbeat) SetWorkflowStickyPollerInfo(v *WorkerPollerInfo) {
+	x.WorkflowStickyPollerInfo = v
+}
+
+func (x *WorkerHeartbeat) SetActivityPollerInfo(v *WorkerPollerInfo) {
+	x.ActivityPollerInfo = v
+}
+
+func (x *WorkerHeartbeat) SetNexusPollerInfo(v *WorkerPollerInfo) {
+	x.NexusPollerInfo = v
+}
+
+func (x *WorkerHeartbeat) SetTotalStickyCacheHit(v int32) {
+	x.TotalStickyCacheHit = v
+}
+
+func (x *WorkerHeartbeat) SetTotalStickyCacheMiss(v int32) {
+	x.TotalStickyCacheMiss = v
+}
+
+func (x *WorkerHeartbeat) SetCurrentStickyCacheSize(v int32) {
+	x.CurrentStickyCacheSize = v
+}
+
+func (x *WorkerHeartbeat) SetPlugins(v []*PluginInfo) {
+	x.Plugins = v
+}
+
+func (x *WorkerHeartbeat) HasHostInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.HostInfo != nil
+}
+
+func (x *WorkerHeartbeat) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+func (x *WorkerHeartbeat) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *WorkerHeartbeat) HasHeartbeatTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatTime != nil
+}
+
+func (x *WorkerHeartbeat) HasElapsedSinceLastHeartbeat() bool {
+	if x == nil {
+		return false
+	}
+	return x.ElapsedSinceLastHeartbeat != nil
+}
+
+func (x *WorkerHeartbeat) HasWorkflowTaskSlotsInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskSlotsInfo != nil
+}
+
+func (x *WorkerHeartbeat) HasActivityTaskSlotsInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityTaskSlotsInfo != nil
+}
+
+func (x *WorkerHeartbeat) HasNexusTaskSlotsInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.NexusTaskSlotsInfo != nil
+}
+
+func (x *WorkerHeartbeat) HasLocalActivitySlotsInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.LocalActivitySlotsInfo != nil
+}
+
+func (x *WorkerHeartbeat) HasWorkflowPollerInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowPollerInfo != nil
+}
+
+func (x *WorkerHeartbeat) HasWorkflowStickyPollerInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowStickyPollerInfo != nil
+}
+
+func (x *WorkerHeartbeat) HasActivityPollerInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityPollerInfo != nil
+}
+
+func (x *WorkerHeartbeat) HasNexusPollerInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.NexusPollerInfo != nil
+}
+
+func (x *WorkerHeartbeat) ClearHostInfo() {
+	x.HostInfo = nil
+}
+
+func (x *WorkerHeartbeat) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+func (x *WorkerHeartbeat) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *WorkerHeartbeat) ClearHeartbeatTime() {
+	x.HeartbeatTime = nil
+}
+
+func (x *WorkerHeartbeat) ClearElapsedSinceLastHeartbeat() {
+	x.ElapsedSinceLastHeartbeat = nil
+}
+
+func (x *WorkerHeartbeat) ClearWorkflowTaskSlotsInfo() {
+	x.WorkflowTaskSlotsInfo = nil
+}
+
+func (x *WorkerHeartbeat) ClearActivityTaskSlotsInfo() {
+	x.ActivityTaskSlotsInfo = nil
+}
+
+func (x *WorkerHeartbeat) ClearNexusTaskSlotsInfo() {
+	x.NexusTaskSlotsInfo = nil
+}
+
+func (x *WorkerHeartbeat) ClearLocalActivitySlotsInfo() {
+	x.LocalActivitySlotsInfo = nil
+}
+
+func (x *WorkerHeartbeat) ClearWorkflowPollerInfo() {
+	x.WorkflowPollerInfo = nil
+}
+
+func (x *WorkerHeartbeat) ClearWorkflowStickyPollerInfo() {
+	x.WorkflowStickyPollerInfo = nil
+}
+
+func (x *WorkerHeartbeat) ClearActivityPollerInfo() {
+	x.ActivityPollerInfo = nil
+}
+
+func (x *WorkerHeartbeat) ClearNexusPollerInfo() {
+	x.NexusPollerInfo = nil
+}
+
+type WorkerHeartbeat_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Worker identifier, should be unique for the namespace.
+	// It is distinct from worker identity, which is not necessarily namespace-unique.
+	WorkerInstanceKey string
+	// Worker identity, set by the client, may not be unique.
+	// Usually host_name+(user group name)+process_id, but can be overwritten by the user.
+	WorkerIdentity string
+	// Worker host information.
+	HostInfo *WorkerHostInfo
+	// Task queue this worker is polling for tasks.
+	TaskQueue         string
+	DeploymentVersion *v1.WorkerDeploymentVersion
+	SdkName           string
+	SdkVersion        string
+	// Worker status. Defined by SDK.
+	Status v11.WorkerStatus
+	// Worker start time.
+	// It can be used to determine worker uptime. (current time - start time)
+	StartTime *timestamppb.Timestamp
+	// Timestamp of this heartbeat, coming from the worker. Worker should set it to "now".
+	// Note that this timestamp comes directly from the worker and is subject to workers' clock skew.
+	HeartbeatTime *timestamppb.Timestamp
+	// Elapsed time since the last heartbeat from the worker.
+	ElapsedSinceLastHeartbeat *durationpb.Duration
+	WorkflowTaskSlotsInfo     *WorkerSlotsInfo
+	ActivityTaskSlotsInfo     *WorkerSlotsInfo
+	NexusTaskSlotsInfo        *WorkerSlotsInfo
+	LocalActivitySlotsInfo    *WorkerSlotsInfo
+	WorkflowPollerInfo        *WorkerPollerInfo
+	WorkflowStickyPollerInfo  *WorkerPollerInfo
+	ActivityPollerInfo        *WorkerPollerInfo
+	NexusPollerInfo           *WorkerPollerInfo
+	// A Workflow Task found a cached Workflow Execution to run against.
+	TotalStickyCacheHit int32
+	// A Workflow Task did not find a cached Workflow execution to run against.
+	TotalStickyCacheMiss int32
+	// Current cache size, expressed in number of Workflow Executions.
+	CurrentStickyCacheSize int32
+	// Plugins currently in use by this SDK.
+	Plugins []*PluginInfo
+}
+
+func (b0 WorkerHeartbeat_builder) Build() *WorkerHeartbeat {
+	m0 := &WorkerHeartbeat{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkerInstanceKey = b.WorkerInstanceKey
+	x.WorkerIdentity = b.WorkerIdentity
+	x.HostInfo = b.HostInfo
+	x.TaskQueue = b.TaskQueue
+	x.DeploymentVersion = b.DeploymentVersion
+	x.SdkName = b.SdkName
+	x.SdkVersion = b.SdkVersion
+	x.Status = b.Status
+	x.StartTime = b.StartTime
+	x.HeartbeatTime = b.HeartbeatTime
+	x.ElapsedSinceLastHeartbeat = b.ElapsedSinceLastHeartbeat
+	x.WorkflowTaskSlotsInfo = b.WorkflowTaskSlotsInfo
+	x.ActivityTaskSlotsInfo = b.ActivityTaskSlotsInfo
+	x.NexusTaskSlotsInfo = b.NexusTaskSlotsInfo
+	x.LocalActivitySlotsInfo = b.LocalActivitySlotsInfo
+	x.WorkflowPollerInfo = b.WorkflowPollerInfo
+	x.WorkflowStickyPollerInfo = b.WorkflowStickyPollerInfo
+	x.ActivityPollerInfo = b.ActivityPollerInfo
+	x.NexusPollerInfo = b.NexusPollerInfo
+	x.TotalStickyCacheHit = b.TotalStickyCacheHit
+	x.TotalStickyCacheMiss = b.TotalStickyCacheMiss
+	x.CurrentStickyCacheSize = b.CurrentStickyCacheSize
+	x.Plugins = b.Plugins
+	return m0
+}
+
 type WorkerInfo struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state           protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkerHeartbeat *WorkerHeartbeat       `protobuf:"bytes,1,opt,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -552,11 +1003,6 @@ func (x *WorkerInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerInfo.ProtoReflect.Descriptor instead.
-func (*WorkerInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *WorkerInfo) GetWorkerHeartbeat() *WorkerHeartbeat {
 	if x != nil {
 		return x.WorkerHeartbeat
@@ -564,8 +1010,37 @@ func (x *WorkerInfo) GetWorkerHeartbeat() *WorkerHeartbeat {
 	return nil
 }
 
+func (x *WorkerInfo) SetWorkerHeartbeat(v *WorkerHeartbeat) {
+	x.WorkerHeartbeat = v
+}
+
+func (x *WorkerInfo) HasWorkerHeartbeat() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerHeartbeat != nil
+}
+
+func (x *WorkerInfo) ClearWorkerHeartbeat() {
+	x.WorkerHeartbeat = nil
+}
+
+type WorkerInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkerHeartbeat *WorkerHeartbeat
+}
+
+func (b0 WorkerInfo_builder) Build() *WorkerInfo {
+	m0 := &WorkerInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkerHeartbeat = b.WorkerHeartbeat
+	return m0
+}
+
 type PluginInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The name of the plugin, required.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The version of the plugin, may be empty.
@@ -599,11 +1074,6 @@ func (x *PluginInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PluginInfo.ProtoReflect.Descriptor instead.
-func (*PluginInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *PluginInfo) GetName() string {
 	if x != nil {
 		return x.Name
@@ -616,6 +1086,32 @@ func (x *PluginInfo) GetVersion() string {
 		return x.Version
 	}
 	return ""
+}
+
+func (x *PluginInfo) SetName(v string) {
+	x.Name = v
+}
+
+func (x *PluginInfo) SetVersion(v string) {
+	x.Version = v
+}
+
+type PluginInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The name of the plugin, required.
+	Name string
+	// The version of the plugin, may be empty.
+	Version string
+}
+
+func (b0 PluginInfo_builder) Build() *PluginInfo {
+	m0 := &PluginInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Version = b.Version
+	return m0
 }
 
 var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
@@ -678,18 +1174,6 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversionB\x89\x01\n" +
 	"\x19io.temporal.api.worker.v1B\fMessageProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
-
-var (
-	file_temporal_api_worker_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_worker_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_worker_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_worker_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_worker_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_worker_v1_message_proto_rawDesc), len(file_temporal_api_worker_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_worker_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_temporal_api_worker_v1_message_proto_goTypes = []any{

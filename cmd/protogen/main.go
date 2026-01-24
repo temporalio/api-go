@@ -119,6 +119,9 @@ func runProtoc(ctx context.Context, cfg genConfig, protoDirs []string) error {
 	}
 	if cfg.outputDescriptorPath == "" {
 		args = append(args, fmt.Sprintf("--go_out=paths=source_relative:%s", cfg.outputDir))
+		// Enable Hybrid API for gradual migration to Opaque API
+		// See: https://go.dev/blog/protobuf-opaque
+		args = append(args, "--go_opt=default_api_level=API_HYBRID")
 	} else {
 		args = append(args, "--include_imports")
 		args = append(args, "--include_source_info")

@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/protocol/v1/message.proto
 
+//go:build !protoopaque
+
 package protocol
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -27,7 +29,7 @@ const (
 //
 //	aip.dev/not-precedent: We want runtime extensibility for the body field --)
 type Message struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// An ID for this specific message.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Identifies the specific instance of a protocol to which this message
@@ -72,11 +74,6 @@ func (x *Message) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Message.ProtoReflect.Descriptor instead.
-func (*Message) Descriptor() ([]byte, []int) {
-	return file_temporal_api_protocol_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Message) GetId() string {
@@ -125,6 +122,147 @@ func (x *Message) GetBody() *anypb.Any {
 	return nil
 }
 
+func (x *Message) SetId(v string) {
+	x.Id = v
+}
+
+func (x *Message) SetProtocolInstanceId(v string) {
+	x.ProtocolInstanceId = v
+}
+
+func (x *Message) SetEventId(v int64) {
+	x.SequencingId = &Message_EventId{v}
+}
+
+func (x *Message) SetCommandIndex(v int64) {
+	x.SequencingId = &Message_CommandIndex{v}
+}
+
+func (x *Message) SetBody(v *anypb.Any) {
+	x.Body = v
+}
+
+func (x *Message) HasSequencingId() bool {
+	if x == nil {
+		return false
+	}
+	return x.SequencingId != nil
+}
+
+func (x *Message) HasEventId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SequencingId.(*Message_EventId)
+	return ok
+}
+
+func (x *Message) HasCommandIndex() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.SequencingId.(*Message_CommandIndex)
+	return ok
+}
+
+func (x *Message) HasBody() bool {
+	if x == nil {
+		return false
+	}
+	return x.Body != nil
+}
+
+func (x *Message) ClearSequencingId() {
+	x.SequencingId = nil
+}
+
+func (x *Message) ClearEventId() {
+	if _, ok := x.SequencingId.(*Message_EventId); ok {
+		x.SequencingId = nil
+	}
+}
+
+func (x *Message) ClearCommandIndex() {
+	if _, ok := x.SequencingId.(*Message_CommandIndex); ok {
+		x.SequencingId = nil
+	}
+}
+
+func (x *Message) ClearBody() {
+	x.Body = nil
+}
+
+const Message_SequencingId_not_set_case case_Message_SequencingId = 0
+const Message_EventId_case case_Message_SequencingId = 3
+const Message_CommandIndex_case case_Message_SequencingId = 4
+
+func (x *Message) WhichSequencingId() case_Message_SequencingId {
+	if x == nil {
+		return Message_SequencingId_not_set_case
+	}
+	switch x.SequencingId.(type) {
+	case *Message_EventId:
+		return Message_EventId_case
+	case *Message_CommandIndex:
+		return Message_CommandIndex_case
+	default:
+		return Message_SequencingId_not_set_case
+	}
+}
+
+type Message_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// An ID for this specific message.
+	Id string
+	// Identifies the specific instance of a protocol to which this message
+	// belongs.
+	ProtocolInstanceId string
+	// The event ID or command ID after which this message can be delivered. The
+	// effects of history up to and including this event ID should be visible to
+	// the code that handles this message. Omit to opt out of sequencing.
+
+	// Fields of oneof SequencingId:
+	EventId      *int64
+	CommandIndex *int64
+	// -- end of SequencingId
+	// The opaque data carried by this message. The protocol type can be
+	// extracted from the package name of the message carried inside the Any.
+	Body *anypb.Any
+}
+
+func (b0 Message_builder) Build() *Message {
+	m0 := &Message{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Id = b.Id
+	x.ProtocolInstanceId = b.ProtocolInstanceId
+	if b.EventId != nil {
+		x.SequencingId = &Message_EventId{*b.EventId}
+	}
+	if b.CommandIndex != nil {
+		x.SequencingId = &Message_CommandIndex{*b.CommandIndex}
+	}
+	x.Body = b.Body
+	return m0
+}
+
+type case_Message_SequencingId protoreflect.FieldNumber
+
+func (x case_Message_SequencingId) String() string {
+	switch x {
+	case Message_SequencingId_not_set_case:
+		return "MessageSequencingIdNotSetCase"
+	case Message_EventId_case:
+		return "MessageEventIdCase"
+	case Message_CommandIndex_case:
+		return "MessageCommandIndexCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isMessage_SequencingId interface {
 	isMessage_SequencingId()
 }
@@ -154,18 +292,6 @@ const file_temporal_api_protocol_v1_message_proto_rawDesc = "" +
 	"\x04body\x18\x05 \x01(\v2\x14.google.protobuf.AnyR\x04bodyB\x0f\n" +
 	"\rsequencing_idB\x93\x01\n" +
 	"\x1bio.temporal.api.protocol.v1B\fMessageProtoP\x01Z'go.temporal.io/api/protocol/v1;protocol\xaa\x02\x1aTemporalio.Api.Protocol.V1\xea\x02\x1dTemporalio::Api::Protocol::V1b\x06proto3"
-
-var (
-	file_temporal_api_protocol_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_protocol_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_protocol_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_protocol_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_protocol_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_protocol_v1_message_proto_rawDesc), len(file_temporal_api_protocol_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_protocol_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_protocol_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_temporal_api_protocol_v1_message_proto_goTypes = []any{

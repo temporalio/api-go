@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/taskqueue/v1/message.proto
 
+//go:build !protoopaque
+
 package taskqueue
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v12 "go.temporal.io/api/common/v1"
@@ -30,7 +32,7 @@ const (
 
 // See https://docs.temporal.io/docs/concepts/task-queues/
 type TaskQueue struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Default: TASK_QUEUE_KIND_NORMAL.
 	Kind v1.TaskQueueKind `protobuf:"varint,2,opt,name=kind,proto3,enum=temporal.api.enums.v1.TaskQueueKind" json:"kind,omitempty"`
@@ -66,11 +68,6 @@ func (x *TaskQueue) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueue.ProtoReflect.Descriptor instead.
-func (*TaskQueue) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *TaskQueue) GetName() string {
 	if x != nil {
 		return x.Name
@@ -92,9 +89,42 @@ func (x *TaskQueue) GetNormalName() string {
 	return ""
 }
 
+func (x *TaskQueue) SetName(v string) {
+	x.Name = v
+}
+
+func (x *TaskQueue) SetKind(v v1.TaskQueueKind) {
+	x.Kind = v
+}
+
+func (x *TaskQueue) SetNormalName(v string) {
+	x.NormalName = v
+}
+
+type TaskQueue_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name string
+	// Default: TASK_QUEUE_KIND_NORMAL.
+	Kind v1.TaskQueueKind
+	// Iff kind == TASK_QUEUE_KIND_STICKY, then this field contains the name of
+	// the normal task queue that the sticky worker is running on.
+	NormalName string
+}
+
+func (b0 TaskQueue_builder) Build() *TaskQueue {
+	m0 := &TaskQueue{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Kind = b.Kind
+	x.NormalName = b.NormalName
+	return m0
+}
+
 // Only applies to activity task queues
 type TaskQueueMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Allows throttling dispatch of tasks from this queue
 	MaxTasksPerSecond *wrapperspb.DoubleValue `protobuf:"bytes,1,opt,name=max_tasks_per_second,json=maxTasksPerSecond,proto3" json:"max_tasks_per_second,omitempty"`
 	unknownFields     protoimpl.UnknownFields
@@ -126,11 +156,6 @@ func (x *TaskQueueMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueueMetadata.ProtoReflect.Descriptor instead.
-func (*TaskQueueMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *TaskQueueMetadata) GetMaxTasksPerSecond() *wrapperspb.DoubleValue {
 	if x != nil {
 		return x.MaxTasksPerSecond
@@ -138,9 +163,39 @@ func (x *TaskQueueMetadata) GetMaxTasksPerSecond() *wrapperspb.DoubleValue {
 	return nil
 }
 
+func (x *TaskQueueMetadata) SetMaxTasksPerSecond(v *wrapperspb.DoubleValue) {
+	x.MaxTasksPerSecond = v
+}
+
+func (x *TaskQueueMetadata) HasMaxTasksPerSecond() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaxTasksPerSecond != nil
+}
+
+func (x *TaskQueueMetadata) ClearMaxTasksPerSecond() {
+	x.MaxTasksPerSecond = nil
+}
+
+type TaskQueueMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Allows throttling dispatch of tasks from this queue
+	MaxTasksPerSecond *wrapperspb.DoubleValue
+}
+
+func (b0 TaskQueueMetadata_builder) Build() *TaskQueueMetadata {
+	m0 := &TaskQueueMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MaxTasksPerSecond = b.MaxTasksPerSecond
+	return m0
+}
+
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
 type TaskQueueVersioningInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Specifies which Deployment Version should receive new workflow executions and tasks of
 	// existing unversioned or AutoUpgrade workflows.
 	// Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
@@ -197,11 +252,6 @@ func (x *TaskQueueVersioningInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueueVersioningInfo.ProtoReflect.Descriptor instead.
-func (*TaskQueueVersioningInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *TaskQueueVersioningInfo) GetCurrentDeploymentVersion() *v11.WorkerDeploymentVersion {
 	if x != nil {
 		return x.CurrentDeploymentVersion
@@ -246,9 +296,113 @@ func (x *TaskQueueVersioningInfo) GetUpdateTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *TaskQueueVersioningInfo) SetCurrentDeploymentVersion(v *v11.WorkerDeploymentVersion) {
+	x.CurrentDeploymentVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
+func (x *TaskQueueVersioningInfo) SetCurrentVersion(v string) {
+	x.CurrentVersion = v
+}
+
+func (x *TaskQueueVersioningInfo) SetRampingDeploymentVersion(v *v11.WorkerDeploymentVersion) {
+	x.RampingDeploymentVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
+func (x *TaskQueueVersioningInfo) SetRampingVersion(v string) {
+	x.RampingVersion = v
+}
+
+func (x *TaskQueueVersioningInfo) SetRampingVersionPercentage(v float32) {
+	x.RampingVersionPercentage = v
+}
+
+func (x *TaskQueueVersioningInfo) SetUpdateTime(v *timestamppb.Timestamp) {
+	x.UpdateTime = v
+}
+
+func (x *TaskQueueVersioningInfo) HasCurrentDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentDeploymentVersion != nil
+}
+
+func (x *TaskQueueVersioningInfo) HasRampingDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.RampingDeploymentVersion != nil
+}
+
+func (x *TaskQueueVersioningInfo) HasUpdateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateTime != nil
+}
+
+func (x *TaskQueueVersioningInfo) ClearCurrentDeploymentVersion() {
+	x.CurrentDeploymentVersion = nil
+}
+
+func (x *TaskQueueVersioningInfo) ClearRampingDeploymentVersion() {
+	x.RampingDeploymentVersion = nil
+}
+
+func (x *TaskQueueVersioningInfo) ClearUpdateTime() {
+	x.UpdateTime = nil
+}
+
+type TaskQueueVersioningInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Specifies which Deployment Version should receive new workflow executions and tasks of
+	// existing unversioned or AutoUpgrade workflows.
+	// Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
+	// Note: Current Version is overridden by the Ramping Version for a portion of traffic when ramp percentage
+	// is non-zero (see `ramping_deployment_version` and `ramping_version_percentage`).
+	CurrentDeploymentVersion *v11.WorkerDeploymentVersion
+	// Deprecated. Use `current_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
+	CurrentVersion string
+	// When ramp percentage is non-zero, that portion of traffic is shifted from the Current Version to the Ramping Version.
+	// Must always be different from `current_deployment_version` unless both are nil.
+	// Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
+	// Note that it is possible to ramp from one Version to another Version, or from unversioned
+	// workers to a particular Version, or from a particular Version to unversioned workers.
+	RampingDeploymentVersion *v11.WorkerDeploymentVersion
+	// Deprecated. Use `ramping_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
+	RampingVersion string
+	// Percentage of tasks that are routed to the Ramping Version instead of the Current Version.
+	// Valid range: [0, 100]. A 100% value means the Ramping Version is receiving full traffic but
+	// not yet "promoted" to be the Current Version, likely due to pending validations.
+	// A 0% value means the Ramping Version is receiving no traffic.
+	RampingVersionPercentage float32
+	// Last time versioning information of this Task Queue changed.
+	UpdateTime *timestamppb.Timestamp
+}
+
+func (b0 TaskQueueVersioningInfo_builder) Build() *TaskQueueVersioningInfo {
+	m0 := &TaskQueueVersioningInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CurrentDeploymentVersion = b.CurrentDeploymentVersion
+	x.CurrentVersion = b.CurrentVersion
+	x.RampingDeploymentVersion = b.RampingDeploymentVersion
+	x.RampingVersion = b.RampingVersion
+	x.RampingVersionPercentage = b.RampingVersionPercentage
+	x.UpdateTime = b.UpdateTime
+	return m0
+}
+
 // Used for specifying versions the caller is interested in.
 type TaskQueueVersionSelection struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Include specific Build IDs.
 	BuildIds []string `protobuf:"bytes,1,rep,name=build_ids,json=buildIds,proto3" json:"build_ids,omitempty"`
 	// Include the unversioned queue.
@@ -285,11 +439,6 @@ func (x *TaskQueueVersionSelection) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueueVersionSelection.ProtoReflect.Descriptor instead.
-func (*TaskQueueVersionSelection) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *TaskQueueVersionSelection) GetBuildIds() []string {
 	if x != nil {
 		return x.BuildIds
@@ -311,8 +460,42 @@ func (x *TaskQueueVersionSelection) GetAllActive() bool {
 	return false
 }
 
+func (x *TaskQueueVersionSelection) SetBuildIds(v []string) {
+	x.BuildIds = v
+}
+
+func (x *TaskQueueVersionSelection) SetUnversioned(v bool) {
+	x.Unversioned = v
+}
+
+func (x *TaskQueueVersionSelection) SetAllActive(v bool) {
+	x.AllActive = v
+}
+
+type TaskQueueVersionSelection_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Include specific Build IDs.
+	BuildIds []string
+	// Include the unversioned queue.
+	Unversioned bool
+	// Include all active versions. A version is considered active if, in the last few minutes,
+	// it has had new tasks or polls, or it has been the subject of certain task queue API calls.
+	AllActive bool
+}
+
+func (b0 TaskQueueVersionSelection_builder) Build() *TaskQueueVersionSelection {
+	m0 := &TaskQueueVersionSelection{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildIds = b.BuildIds
+	x.Unversioned = b.Unversioned
+	x.AllActive = b.AllActive
+	return m0
+}
+
 type TaskQueueVersionInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Task Queue info per Task Type. Key is the numerical value of the temporal.api.enums.v1.TaskQueueType enum.
 	TypesInfo map[int32]*TaskQueueTypeInfo `protobuf:"bytes,1,rep,name=types_info,json=typesInfo,proto3" json:"types_info,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// Task Reachability is eventually consistent; there may be a delay until it converges to the most
@@ -354,11 +537,6 @@ func (x *TaskQueueVersionInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueueVersionInfo.ProtoReflect.Descriptor instead.
-func (*TaskQueueVersionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *TaskQueueVersionInfo) GetTypesInfo() map[int32]*TaskQueueTypeInfo {
 	if x != nil {
 		return x.TypesInfo
@@ -373,8 +551,42 @@ func (x *TaskQueueVersionInfo) GetTaskReachability() v1.BuildIdTaskReachability 
 	return v1.BuildIdTaskReachability(0)
 }
 
+func (x *TaskQueueVersionInfo) SetTypesInfo(v map[int32]*TaskQueueTypeInfo) {
+	x.TypesInfo = v
+}
+
+func (x *TaskQueueVersionInfo) SetTaskReachability(v v1.BuildIdTaskReachability) {
+	x.TaskReachability = v
+}
+
+type TaskQueueVersionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Task Queue info per Task Type. Key is the numerical value of the temporal.api.enums.v1.TaskQueueType enum.
+	TypesInfo map[int32]*TaskQueueTypeInfo
+	// Task Reachability is eventually consistent; there may be a delay until it converges to the most
+	// accurate value but it is designed in a way to take the more conservative side until it converges.
+	// For example REACHABLE is more conservative than CLOSED_WORKFLOWS_ONLY.
+	//
+	// Note: future activities who inherit their workflow's Build ID but not its Task Queue will not be
+	// accounted for reachability as server cannot know if they'll happen as they do not use
+	// assignment rules of their Task Queue. Same goes for Child Workflows or Continue-As-New Workflows
+	// who inherit the parent/previous workflow's Build ID but not its Task Queue. In those cases, make
+	// sure to query reachability for the parent/previous workflow's Task Queue as well.
+	TaskReachability v1.BuildIdTaskReachability
+}
+
+func (b0 TaskQueueVersionInfo_builder) Build() *TaskQueueVersionInfo {
+	m0 := &TaskQueueVersionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TypesInfo = b.TypesInfo
+	x.TaskReachability = b.TaskReachability
+	return m0
+}
+
 type TaskQueueTypeInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Unversioned workers (with `useVersioning=false`) are reported in unversioned result even if they set a Build ID.
 	Pollers       []*PollerInfo   `protobuf:"bytes,1,rep,name=pollers,proto3" json:"pollers,omitempty"`
 	Stats         *TaskQueueStats `protobuf:"bytes,2,opt,name=stats,proto3" json:"stats,omitempty"`
@@ -407,11 +619,6 @@ func (x *TaskQueueTypeInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueueTypeInfo.ProtoReflect.Descriptor instead.
-func (*TaskQueueTypeInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *TaskQueueTypeInfo) GetPollers() []*PollerInfo {
 	if x != nil {
 		return x.Pollers
@@ -426,12 +633,48 @@ func (x *TaskQueueTypeInfo) GetStats() *TaskQueueStats {
 	return nil
 }
 
+func (x *TaskQueueTypeInfo) SetPollers(v []*PollerInfo) {
+	x.Pollers = v
+}
+
+func (x *TaskQueueTypeInfo) SetStats(v *TaskQueueStats) {
+	x.Stats = v
+}
+
+func (x *TaskQueueTypeInfo) HasStats() bool {
+	if x == nil {
+		return false
+	}
+	return x.Stats != nil
+}
+
+func (x *TaskQueueTypeInfo) ClearStats() {
+	x.Stats = nil
+}
+
+type TaskQueueTypeInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Unversioned workers (with `useVersioning=false`) are reported in unversioned result even if they set a Build ID.
+	Pollers []*PollerInfo
+	Stats   *TaskQueueStats
+}
+
+func (b0 TaskQueueTypeInfo_builder) Build() *TaskQueueTypeInfo {
+	m0 := &TaskQueueTypeInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Pollers = b.Pollers
+	x.Stats = b.Stats
+	return m0
+}
+
 // TaskQueueStats contains statistics about task queue backlog and activity.
 //
 // For workflow task queue type, this result is partial because tasks sent to sticky queues are not included. Read
 // comments above each metric to understand the impact of sticky queue exclusion on that metric accuracy.
 type TaskQueueStats struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The approximate number of tasks backlogged in this task queue. May count expired tasks but eventually
 	// converges to the right value. Can be relied upon for scaling decisions.
 	//
@@ -505,11 +748,6 @@ func (x *TaskQueueStats) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueueStats.ProtoReflect.Descriptor instead.
-func (*TaskQueueStats) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *TaskQueueStats) GetApproximateBacklogCount() int64 {
 	if x != nil {
 		return x.ApproximateBacklogCount
@@ -538,9 +776,96 @@ func (x *TaskQueueStats) GetTasksDispatchRate() float32 {
 	return 0
 }
 
+func (x *TaskQueueStats) SetApproximateBacklogCount(v int64) {
+	x.ApproximateBacklogCount = v
+}
+
+func (x *TaskQueueStats) SetApproximateBacklogAge(v *durationpb.Duration) {
+	x.ApproximateBacklogAge = v
+}
+
+func (x *TaskQueueStats) SetTasksAddRate(v float32) {
+	x.TasksAddRate = v
+}
+
+func (x *TaskQueueStats) SetTasksDispatchRate(v float32) {
+	x.TasksDispatchRate = v
+}
+
+func (x *TaskQueueStats) HasApproximateBacklogAge() bool {
+	if x == nil {
+		return false
+	}
+	return x.ApproximateBacklogAge != nil
+}
+
+func (x *TaskQueueStats) ClearApproximateBacklogAge() {
+	x.ApproximateBacklogAge = nil
+}
+
+type TaskQueueStats_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The approximate number of tasks backlogged in this task queue. May count expired tasks but eventually
+	// converges to the right value. Can be relied upon for scaling decisions.
+	//
+	// Special note for workflow task queue type: this metric does not count sticky queue tasks. However, because
+	// those tasks only remain valid for a few seconds, the inaccuracy becomes less significant as the backlog size
+	// grows.
+	ApproximateBacklogCount int64
+	// Approximate age of the oldest task in the backlog based on the creation time of the task at the head of
+	// the queue. Can be relied upon for scaling decisions.
+	//
+	// Special note for workflow task queue type: this metric does not count sticky queue tasks. However, because
+	// those tasks only remain valid for a few seconds, they should not affect the result when backlog is older than
+	// few seconds.
+	ApproximateBacklogAge *durationpb.Duration
+	// The approximate tasks per second added to the task queue, averaging the last 30 seconds. These includes tasks
+	// whether or not they were added to/dispatched from the backlog or they were dispatched immediately without going
+	// to the backlog (sync-matched).
+	//
+	// The difference between `tasks_add_rate` and `tasks_dispatch_rate` is a reliable metric for the rate at which
+	// backlog grows/shrinks.
+	//
+	// Note: the actual tasks delivered to the workers may significantly be higher than the numbers reported by
+	// tasks_add_rate, because:
+	//   - Tasks can be sent to workers without going to the task queue. This is called Eager dispatch. Eager dispatch is
+	//     enable for activities by default in the latest SDKs.
+	//   - Tasks going to Sticky queue are not accounted for. Note that, typically, only the first workflow task of each
+	//     workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
+	//     worker instance.
+	TasksAddRate float32
+	// The approximate tasks per second dispatched from the task queue, averaging the last 30 seconds. These includes
+	// tasks whether or not they were added to/dispatched from the backlog or they were dispatched immediately without
+	// going to the backlog (sync-matched).
+	//
+	// The difference between `tasks_add_rate` and `tasks_dispatch_rate` is a reliable metric for the rate at which
+	// backlog grows/shrinks.
+	//
+	// Note: the actual tasks delivered to the workers may significantly be higher than the numbers reported by
+	// tasks_dispatch_rate, because:
+	//   - Tasks can be sent to workers without going to the task queue. This is called Eager dispatch. Eager dispatch is
+	//     enable for activities by default in the latest SDKs.
+	//   - Tasks going to Sticky queue are not accounted for. Note that, typically, only the first workflow task of each
+	//     workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific
+	//     worker instance.
+	TasksDispatchRate float32
+}
+
+func (b0 TaskQueueStats_builder) Build() *TaskQueueStats {
+	m0 := &TaskQueueStats{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ApproximateBacklogCount = b.ApproximateBacklogCount
+	x.ApproximateBacklogAge = b.ApproximateBacklogAge
+	x.TasksAddRate = b.TasksAddRate
+	x.TasksDispatchRate = b.TasksDispatchRate
+	return m0
+}
+
 // Deprecated. Use `InternalTaskQueueStatus`. This is kept until `DescribeTaskQueue` supports legacy behavior.
 type TaskQueueStatus struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
+	state            protoimpl.MessageState `protogen:"hybrid.v1"`
 	BacklogCountHint int64                  `protobuf:"varint,1,opt,name=backlog_count_hint,json=backlogCountHint,proto3" json:"backlog_count_hint,omitempty"`
 	ReadLevel        int64                  `protobuf:"varint,2,opt,name=read_level,json=readLevel,proto3" json:"read_level,omitempty"`
 	AckLevel         int64                  `protobuf:"varint,3,opt,name=ack_level,json=ackLevel,proto3" json:"ack_level,omitempty"`
@@ -573,11 +898,6 @@ func (x *TaskQueueStatus) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use TaskQueueStatus.ProtoReflect.Descriptor instead.
-func (*TaskQueueStatus) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *TaskQueueStatus) GetBacklogCountHint() int64 {
@@ -615,8 +935,61 @@ func (x *TaskQueueStatus) GetTaskIdBlock() *TaskIdBlock {
 	return nil
 }
 
+func (x *TaskQueueStatus) SetBacklogCountHint(v int64) {
+	x.BacklogCountHint = v
+}
+
+func (x *TaskQueueStatus) SetReadLevel(v int64) {
+	x.ReadLevel = v
+}
+
+func (x *TaskQueueStatus) SetAckLevel(v int64) {
+	x.AckLevel = v
+}
+
+func (x *TaskQueueStatus) SetRatePerSecond(v float64) {
+	x.RatePerSecond = v
+}
+
+func (x *TaskQueueStatus) SetTaskIdBlock(v *TaskIdBlock) {
+	x.TaskIdBlock = v
+}
+
+func (x *TaskQueueStatus) HasTaskIdBlock() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskIdBlock != nil
+}
+
+func (x *TaskQueueStatus) ClearTaskIdBlock() {
+	x.TaskIdBlock = nil
+}
+
+type TaskQueueStatus_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	BacklogCountHint int64
+	ReadLevel        int64
+	AckLevel         int64
+	RatePerSecond    float64
+	TaskIdBlock      *TaskIdBlock
+}
+
+func (b0 TaskQueueStatus_builder) Build() *TaskQueueStatus {
+	m0 := &TaskQueueStatus{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BacklogCountHint = b.BacklogCountHint
+	x.ReadLevel = b.ReadLevel
+	x.AckLevel = b.AckLevel
+	x.RatePerSecond = b.RatePerSecond
+	x.TaskIdBlock = b.TaskIdBlock
+	return m0
+}
+
 type TaskIdBlock struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	StartId       int64                  `protobuf:"varint,1,opt,name=start_id,json=startId,proto3" json:"start_id,omitempty"`
 	EndId         int64                  `protobuf:"varint,2,opt,name=end_id,json=endId,proto3" json:"end_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -648,11 +1021,6 @@ func (x *TaskIdBlock) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskIdBlock.ProtoReflect.Descriptor instead.
-func (*TaskIdBlock) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *TaskIdBlock) GetStartId() int64 {
 	if x != nil {
 		return x.StartId
@@ -667,8 +1035,32 @@ func (x *TaskIdBlock) GetEndId() int64 {
 	return 0
 }
 
+func (x *TaskIdBlock) SetStartId(v int64) {
+	x.StartId = v
+}
+
+func (x *TaskIdBlock) SetEndId(v int64) {
+	x.EndId = v
+}
+
+type TaskIdBlock_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	StartId int64
+	EndId   int64
+}
+
+func (b0 TaskIdBlock_builder) Build() *TaskIdBlock {
+	m0 := &TaskIdBlock{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StartId = b.StartId
+	x.EndId = b.EndId
+	return m0
+}
+
 type TaskQueuePartitionMetadata struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	OwnerHostName string                 `protobuf:"bytes,2,opt,name=owner_host_name,json=ownerHostName,proto3" json:"owner_host_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -700,11 +1092,6 @@ func (x *TaskQueuePartitionMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueuePartitionMetadata.ProtoReflect.Descriptor instead.
-func (*TaskQueuePartitionMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *TaskQueuePartitionMetadata) GetKey() string {
 	if x != nil {
 		return x.Key
@@ -719,8 +1106,32 @@ func (x *TaskQueuePartitionMetadata) GetOwnerHostName() string {
 	return ""
 }
 
+func (x *TaskQueuePartitionMetadata) SetKey(v string) {
+	x.Key = v
+}
+
+func (x *TaskQueuePartitionMetadata) SetOwnerHostName(v string) {
+	x.OwnerHostName = v
+}
+
+type TaskQueuePartitionMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Key           string
+	OwnerHostName string
+}
+
+func (b0 TaskQueuePartitionMetadata_builder) Build() *TaskQueuePartitionMetadata {
+	m0 := &TaskQueuePartitionMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Key = b.Key
+	x.OwnerHostName = b.OwnerHostName
+	return m0
+}
+
 type PollerInfo struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	LastAccessTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=last_access_time,json=lastAccessTime,proto3" json:"last_access_time,omitempty"`
 	Identity       string                 `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	RatePerSecond  float64                `protobuf:"fixed64,3,opt,name=rate_per_second,json=ratePerSecond,proto3" json:"rate_per_second,omitempty"`
@@ -761,11 +1172,6 @@ func (x *PollerInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PollerInfo.ProtoReflect.Descriptor instead.
-func (*PollerInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *PollerInfo) GetLastAccessTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.LastAccessTime
@@ -802,8 +1208,92 @@ func (x *PollerInfo) GetDeploymentOptions() *v11.WorkerDeploymentOptions {
 	return nil
 }
 
+func (x *PollerInfo) SetLastAccessTime(v *timestamppb.Timestamp) {
+	x.LastAccessTime = v
+}
+
+func (x *PollerInfo) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PollerInfo) SetRatePerSecond(v float64) {
+	x.RatePerSecond = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
+func (x *PollerInfo) SetWorkerVersionCapabilities(v *v12.WorkerVersionCapabilities) {
+	x.WorkerVersionCapabilities = v
+}
+
+func (x *PollerInfo) SetDeploymentOptions(v *v11.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *PollerInfo) HasLastAccessTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAccessTime != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
+func (x *PollerInfo) HasWorkerVersionCapabilities() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersionCapabilities != nil
+}
+
+func (x *PollerInfo) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *PollerInfo) ClearLastAccessTime() {
+	x.LastAccessTime = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
+func (x *PollerInfo) ClearWorkerVersionCapabilities() {
+	x.WorkerVersionCapabilities = nil
+}
+
+func (x *PollerInfo) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type PollerInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	LastAccessTime *timestamppb.Timestamp
+	Identity       string
+	RatePerSecond  float64
+	// If a worker has opted into the worker versioning feature while polling, its capabilities will
+	// appear here.
+	// Deprecated. Replaced by deployment_options.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/taskqueue/v1/message.proto.
+	WorkerVersionCapabilities *v12.WorkerVersionCapabilities
+	// Worker deployment options that SDK sent to server.
+	DeploymentOptions *v11.WorkerDeploymentOptions
+}
+
+func (b0 PollerInfo_builder) Build() *PollerInfo {
+	m0 := &PollerInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LastAccessTime = b.LastAccessTime
+	x.Identity = b.Identity
+	x.RatePerSecond = b.RatePerSecond
+	x.WorkerVersionCapabilities = b.WorkerVersionCapabilities
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type StickyExecutionAttributes struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state           protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkerTaskQueue *TaskQueue             `protobuf:"bytes,1,opt,name=worker_task_queue,json=workerTaskQueue,proto3" json:"worker_task_queue,omitempty"`
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
@@ -838,11 +1328,6 @@ func (x *StickyExecutionAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StickyExecutionAttributes.ProtoReflect.Descriptor instead.
-func (*StickyExecutionAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *StickyExecutionAttributes) GetWorkerTaskQueue() *TaskQueue {
 	if x != nil {
 		return x.WorkerTaskQueue
@@ -857,10 +1342,59 @@ func (x *StickyExecutionAttributes) GetScheduleToStartTimeout() *durationpb.Dura
 	return nil
 }
 
+func (x *StickyExecutionAttributes) SetWorkerTaskQueue(v *TaskQueue) {
+	x.WorkerTaskQueue = v
+}
+
+func (x *StickyExecutionAttributes) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *StickyExecutionAttributes) HasWorkerTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerTaskQueue != nil
+}
+
+func (x *StickyExecutionAttributes) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *StickyExecutionAttributes) ClearWorkerTaskQueue() {
+	x.WorkerTaskQueue = nil
+}
+
+func (x *StickyExecutionAttributes) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+type StickyExecutionAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkerTaskQueue *TaskQueue
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToStartTimeout *durationpb.Duration
+}
+
+func (b0 StickyExecutionAttributes_builder) Build() *StickyExecutionAttributes {
+	m0 := &StickyExecutionAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkerTaskQueue = b.WorkerTaskQueue
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	return m0
+}
+
 // Used by the worker versioning APIs, represents an unordered set of one or more versions which are
 // considered to be compatible with each other. Currently the versions are always worker build IDs.
 type CompatibleVersionSet struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// All the compatible versions, unordered, except for the last element, which is considered the set "default".
 	BuildIds      []string `protobuf:"bytes,1,rep,name=build_ids,json=buildIds,proto3" json:"build_ids,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -892,11 +1426,6 @@ func (x *CompatibleVersionSet) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CompatibleVersionSet.ProtoReflect.Descriptor instead.
-func (*CompatibleVersionSet) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *CompatibleVersionSet) GetBuildIds() []string {
 	if x != nil {
 		return x.BuildIds
@@ -904,9 +1433,28 @@ func (x *CompatibleVersionSet) GetBuildIds() []string {
 	return nil
 }
 
+func (x *CompatibleVersionSet) SetBuildIds(v []string) {
+	x.BuildIds = v
+}
+
+type CompatibleVersionSet_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// All the compatible versions, unordered, except for the last element, which is considered the set "default".
+	BuildIds []string
+}
+
+func (b0 CompatibleVersionSet_builder) Build() *CompatibleVersionSet {
+	m0 := &CompatibleVersionSet{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildIds = b.BuildIds
+	return m0
+}
+
 // Reachability of tasks for a worker on a single task queue.
 type TaskQueueReachability struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	TaskQueue string                 `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// Task reachability for a worker in a single task queue.
 	// See the TaskReachability docstring for information about each enum variant.
@@ -941,11 +1489,6 @@ func (x *TaskQueueReachability) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueueReachability.ProtoReflect.Descriptor instead.
-func (*TaskQueueReachability) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *TaskQueueReachability) GetTaskQueue() string {
 	if x != nil {
 		return x.TaskQueue
@@ -960,9 +1503,36 @@ func (x *TaskQueueReachability) GetReachability() []v1.TaskReachability {
 	return nil
 }
 
+func (x *TaskQueueReachability) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *TaskQueueReachability) SetReachability(v []v1.TaskReachability) {
+	x.Reachability = v
+}
+
+type TaskQueueReachability_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	TaskQueue string
+	// Task reachability for a worker in a single task queue.
+	// See the TaskReachability docstring for information about each enum variant.
+	// If reachability is empty, this worker is considered unreachable in this task queue.
+	Reachability []v1.TaskReachability
+}
+
+func (b0 TaskQueueReachability_builder) Build() *TaskQueueReachability {
+	m0 := &TaskQueueReachability{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskQueue = b.TaskQueue
+	x.Reachability = b.Reachability
+	return m0
+}
+
 // Reachability of tasks for a worker by build id, in one or more task queues.
 type BuildIdReachability struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A build id or empty if unversioned.
 	BuildId string `protobuf:"bytes,1,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// Reachability per task queue.
@@ -996,11 +1566,6 @@ func (x *BuildIdReachability) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BuildIdReachability.ProtoReflect.Descriptor instead.
-func (*BuildIdReachability) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{14}
-}
-
 func (x *BuildIdReachability) GetBuildId() string {
 	if x != nil {
 		return x.BuildId
@@ -1015,8 +1580,34 @@ func (x *BuildIdReachability) GetTaskQueueReachability() []*TaskQueueReachabilit
 	return nil
 }
 
+func (x *BuildIdReachability) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+func (x *BuildIdReachability) SetTaskQueueReachability(v []*TaskQueueReachability) {
+	x.TaskQueueReachability = v
+}
+
+type BuildIdReachability_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A build id or empty if unversioned.
+	BuildId string
+	// Reachability per task queue.
+	TaskQueueReachability []*TaskQueueReachability
+}
+
+func (b0 BuildIdReachability_builder) Build() *BuildIdReachability {
+	m0 := &BuildIdReachability{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildId = b.BuildId
+	x.TaskQueueReachability = b.TaskQueueReachability
+	return m0
+}
+
 type RampByPercentage struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Acceptable range is [0,100).
 	RampPercentage float32 `protobuf:"fixed32,1,opt,name=ramp_percentage,json=rampPercentage,proto3" json:"ramp_percentage,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -1048,16 +1639,30 @@ func (x *RampByPercentage) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RampByPercentage.ProtoReflect.Descriptor instead.
-func (*RampByPercentage) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *RampByPercentage) GetRampPercentage() float32 {
 	if x != nil {
 		return x.RampPercentage
 	}
 	return 0
+}
+
+func (x *RampByPercentage) SetRampPercentage(v float32) {
+	x.RampPercentage = v
+}
+
+type RampByPercentage_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Acceptable range is [0,100).
+	RampPercentage float32
+}
+
+func (b0 RampByPercentage_builder) Build() *RampByPercentage {
+	m0 := &RampByPercentage{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RampPercentage = b.RampPercentage
+	return m0
 }
 
 // Assignment rules are applied to *new* Workflow and Activity executions at
@@ -1098,7 +1703,7 @@ func (x *RampByPercentage) GetRampPercentage() float32 {
 // Queue is simply not versioned), the tasks will be dispatched to an
 // unversioned Worker.
 type BuildIdAssignmentRule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	TargetBuildId string                 `protobuf:"bytes,1,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
 	// If a ramp is provided, this rule will be applied only to a sample of
 	// tasks according to the provided percentage.
@@ -1138,11 +1743,6 @@ func (x *BuildIdAssignmentRule) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BuildIdAssignmentRule.ProtoReflect.Descriptor instead.
-func (*BuildIdAssignmentRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *BuildIdAssignmentRule) GetTargetBuildId() string {
 	if x != nil {
 		return x.TargetBuildId
@@ -1164,6 +1764,100 @@ func (x *BuildIdAssignmentRule) GetPercentageRamp() *RampByPercentage {
 		}
 	}
 	return nil
+}
+
+func (x *BuildIdAssignmentRule) SetTargetBuildId(v string) {
+	x.TargetBuildId = v
+}
+
+func (x *BuildIdAssignmentRule) SetPercentageRamp(v *RampByPercentage) {
+	if v == nil {
+		x.Ramp = nil
+		return
+	}
+	x.Ramp = &BuildIdAssignmentRule_PercentageRamp{v}
+}
+
+func (x *BuildIdAssignmentRule) HasRamp() bool {
+	if x == nil {
+		return false
+	}
+	return x.Ramp != nil
+}
+
+func (x *BuildIdAssignmentRule) HasPercentageRamp() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Ramp.(*BuildIdAssignmentRule_PercentageRamp)
+	return ok
+}
+
+func (x *BuildIdAssignmentRule) ClearRamp() {
+	x.Ramp = nil
+}
+
+func (x *BuildIdAssignmentRule) ClearPercentageRamp() {
+	if _, ok := x.Ramp.(*BuildIdAssignmentRule_PercentageRamp); ok {
+		x.Ramp = nil
+	}
+}
+
+const BuildIdAssignmentRule_Ramp_not_set_case case_BuildIdAssignmentRule_Ramp = 0
+const BuildIdAssignmentRule_PercentageRamp_case case_BuildIdAssignmentRule_Ramp = 3
+
+func (x *BuildIdAssignmentRule) WhichRamp() case_BuildIdAssignmentRule_Ramp {
+	if x == nil {
+		return BuildIdAssignmentRule_Ramp_not_set_case
+	}
+	switch x.Ramp.(type) {
+	case *BuildIdAssignmentRule_PercentageRamp:
+		return BuildIdAssignmentRule_PercentageRamp_case
+	default:
+		return BuildIdAssignmentRule_Ramp_not_set_case
+	}
+}
+
+type BuildIdAssignmentRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	TargetBuildId string
+	// If a ramp is provided, this rule will be applied only to a sample of
+	// tasks according to the provided percentage.
+	// This option can be used only on "terminal" Build IDs (the ones not used
+	// as source in any redirect rules).
+
+	// Fields of oneof Ramp:
+	// This ramp is useful for gradual Blue/Green deployments (and similar)
+	// where you want to send a certain portion of the traffic to the target
+	// Build ID.
+	PercentageRamp *RampByPercentage
+	// -- end of Ramp
+}
+
+func (b0 BuildIdAssignmentRule_builder) Build() *BuildIdAssignmentRule {
+	m0 := &BuildIdAssignmentRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TargetBuildId = b.TargetBuildId
+	if b.PercentageRamp != nil {
+		x.Ramp = &BuildIdAssignmentRule_PercentageRamp{b.PercentageRamp}
+	}
+	return m0
+}
+
+type case_BuildIdAssignmentRule_Ramp protoreflect.FieldNumber
+
+func (x case_BuildIdAssignmentRule_Ramp) String() string {
+	switch x {
+	case BuildIdAssignmentRule_Ramp_not_set_case:
+		return "BuildIdAssignmentRuleRampNotSetCase"
+	case BuildIdAssignmentRule_PercentageRamp_case:
+		return "BuildIdAssignmentRulePercentageRampCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 type isBuildIdAssignmentRule_Ramp interface {
@@ -1200,7 +1894,7 @@ func (*BuildIdAssignmentRule_PercentageRamp) isBuildIdAssignmentRule_Ramp() {}
 //
 // Redirect rules can be chained.
 type CompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	SourceBuildId string                 `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
 	// Target Build ID must be compatible with the Source Build ID; that is it
 	// must be able to process event histories made by the Source Build ID by
@@ -1236,11 +1930,6 @@ func (x *CompatibleBuildIdRedirectRule) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
-func (*CompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{17}
-}
-
 func (x *CompatibleBuildIdRedirectRule) GetSourceBuildId() string {
 	if x != nil {
 		return x.SourceBuildId
@@ -1255,8 +1944,36 @@ func (x *CompatibleBuildIdRedirectRule) GetTargetBuildId() string {
 	return ""
 }
 
+func (x *CompatibleBuildIdRedirectRule) SetSourceBuildId(v string) {
+	x.SourceBuildId = v
+}
+
+func (x *CompatibleBuildIdRedirectRule) SetTargetBuildId(v string) {
+	x.TargetBuildId = v
+}
+
+type CompatibleBuildIdRedirectRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	SourceBuildId string
+	// Target Build ID must be compatible with the Source Build ID; that is it
+	// must be able to process event histories made by the Source Build ID by
+	// using [Patching](https://docs.temporal.io/workflows#patching) or other
+	// means.
+	TargetBuildId string
+}
+
+func (b0 CompatibleBuildIdRedirectRule_builder) Build() *CompatibleBuildIdRedirectRule {
+	m0 := &CompatibleBuildIdRedirectRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SourceBuildId = b.SourceBuildId
+	x.TargetBuildId = b.TargetBuildId
+	return m0
+}
+
 type TimestampedBuildIdAssignmentRule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Rule          *BuildIdAssignmentRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
 	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1288,11 +2005,6 @@ func (x *TimestampedBuildIdAssignmentRule) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TimestampedBuildIdAssignmentRule.ProtoReflect.Descriptor instead.
-func (*TimestampedBuildIdAssignmentRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{18}
-}
-
 func (x *TimestampedBuildIdAssignmentRule) GetRule() *BuildIdAssignmentRule {
 	if x != nil {
 		return x.Rule
@@ -1307,8 +2019,54 @@ func (x *TimestampedBuildIdAssignmentRule) GetCreateTime() *timestamppb.Timestam
 	return nil
 }
 
+func (x *TimestampedBuildIdAssignmentRule) SetRule(v *BuildIdAssignmentRule) {
+	x.Rule = v
+}
+
+func (x *TimestampedBuildIdAssignmentRule) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *TimestampedBuildIdAssignmentRule) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *TimestampedBuildIdAssignmentRule) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *TimestampedBuildIdAssignmentRule) ClearRule() {
+	x.Rule = nil
+}
+
+func (x *TimestampedBuildIdAssignmentRule) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+type TimestampedBuildIdAssignmentRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Rule       *BuildIdAssignmentRule
+	CreateTime *timestamppb.Timestamp
+}
+
+func (b0 TimestampedBuildIdAssignmentRule_builder) Build() *TimestampedBuildIdAssignmentRule {
+	m0 := &TimestampedBuildIdAssignmentRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Rule = b.Rule
+	x.CreateTime = b.CreateTime
+	return m0
+}
+
 type TimestampedCompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState         `protogen:"open.v1"`
+	state         protoimpl.MessageState         `protogen:"hybrid.v1"`
 	Rule          *CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
 	CreateTime    *timestamppb.Timestamp         `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1340,11 +2098,6 @@ func (x *TimestampedCompatibleBuildIdRedirectRule) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TimestampedCompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
-func (*TimestampedCompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{19}
-}
-
 func (x *TimestampedCompatibleBuildIdRedirectRule) GetRule() *CompatibleBuildIdRedirectRule {
 	if x != nil {
 		return x.Rule
@@ -1359,10 +2112,56 @@ func (x *TimestampedCompatibleBuildIdRedirectRule) GetCreateTime() *timestamppb.
 	return nil
 }
 
+func (x *TimestampedCompatibleBuildIdRedirectRule) SetRule(v *CompatibleBuildIdRedirectRule) {
+	x.Rule = v
+}
+
+func (x *TimestampedCompatibleBuildIdRedirectRule) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *TimestampedCompatibleBuildIdRedirectRule) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *TimestampedCompatibleBuildIdRedirectRule) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *TimestampedCompatibleBuildIdRedirectRule) ClearRule() {
+	x.Rule = nil
+}
+
+func (x *TimestampedCompatibleBuildIdRedirectRule) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+type TimestampedCompatibleBuildIdRedirectRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Rule       *CompatibleBuildIdRedirectRule
+	CreateTime *timestamppb.Timestamp
+}
+
+func (b0 TimestampedCompatibleBuildIdRedirectRule_builder) Build() *TimestampedCompatibleBuildIdRedirectRule {
+	m0 := &TimestampedCompatibleBuildIdRedirectRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Rule = b.Rule
+	x.CreateTime = b.CreateTime
+	return m0
+}
+
 // Attached to task responses to give hints to the SDK about how it may adjust its number of
 // pollers.
 type PollerScalingDecision struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// How many poll requests to suggest should be added or removed, if any. As of now, server only
 	// scales up or down by 1. However, SDKs should allow for other values (while staying within
 	// defined min/max).
@@ -1399,11 +2198,6 @@ func (x *PollerScalingDecision) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PollerScalingDecision.ProtoReflect.Descriptor instead.
-func (*PollerScalingDecision) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{20}
-}
-
 func (x *PollerScalingDecision) GetPollRequestDeltaSuggestion() int32 {
 	if x != nil {
 		return x.PollRequestDeltaSuggestion
@@ -1411,8 +2205,32 @@ func (x *PollerScalingDecision) GetPollRequestDeltaSuggestion() int32 {
 	return 0
 }
 
+func (x *PollerScalingDecision) SetPollRequestDeltaSuggestion(v int32) {
+	x.PollRequestDeltaSuggestion = v
+}
+
+type PollerScalingDecision_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// How many poll requests to suggest should be added or removed, if any. As of now, server only
+	// scales up or down by 1. However, SDKs should allow for other values (while staying within
+	// defined min/max).
+	//
+	// The SDK is free to ignore this suggestion, EX: making more polls would not make sense because
+	// all slots are already occupied.
+	PollRequestDeltaSuggestion int32
+}
+
+func (b0 PollerScalingDecision_builder) Build() *PollerScalingDecision {
+	m0 := &PollerScalingDecision{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PollRequestDeltaSuggestion = b.PollRequestDeltaSuggestion
+	return m0
+}
+
 type RateLimit struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Zero is a valid rate limit.
 	RequestsPerSecond float32 `protobuf:"fixed32,1,opt,name=requests_per_second,json=requestsPerSecond,proto3" json:"requests_per_second,omitempty"`
 	unknownFields     protoimpl.UnknownFields
@@ -1444,11 +2262,6 @@ func (x *RateLimit) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RateLimit.ProtoReflect.Descriptor instead.
-func (*RateLimit) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{21}
-}
-
 func (x *RateLimit) GetRequestsPerSecond() float32 {
 	if x != nil {
 		return x.RequestsPerSecond
@@ -1456,8 +2269,27 @@ func (x *RateLimit) GetRequestsPerSecond() float32 {
 	return 0
 }
 
+func (x *RateLimit) SetRequestsPerSecond(v float32) {
+	x.RequestsPerSecond = v
+}
+
+type RateLimit_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Zero is a valid rate limit.
+	RequestsPerSecond float32
+}
+
+func (b0 RateLimit_builder) Build() *RateLimit {
+	m0 := &RateLimit{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RequestsPerSecond = b.RequestsPerSecond
+	return m0
+}
+
 type ConfigMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Reason for why the config was set.
 	Reason string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
 	// Identity of the last updater.
@@ -1494,11 +2326,6 @@ func (x *ConfigMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ConfigMetadata.ProtoReflect.Descriptor instead.
-func (*ConfigMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{22}
-}
-
 func (x *ConfigMetadata) GetReason() string {
 	if x != nil {
 		return x.Reason
@@ -1520,8 +2347,53 @@ func (x *ConfigMetadata) GetUpdateTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *ConfigMetadata) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *ConfigMetadata) SetUpdateIdentity(v string) {
+	x.UpdateIdentity = v
+}
+
+func (x *ConfigMetadata) SetUpdateTime(v *timestamppb.Timestamp) {
+	x.UpdateTime = v
+}
+
+func (x *ConfigMetadata) HasUpdateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateTime != nil
+}
+
+func (x *ConfigMetadata) ClearUpdateTime() {
+	x.UpdateTime = nil
+}
+
+type ConfigMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Reason for why the config was set.
+	Reason string
+	// Identity of the last updater.
+	// Set by the request's identity field.
+	UpdateIdentity string
+	// Time of the last update.
+	UpdateTime *timestamppb.Timestamp
+}
+
+func (b0 ConfigMetadata_builder) Build() *ConfigMetadata {
+	m0 := &ConfigMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Reason = b.Reason
+	x.UpdateIdentity = b.UpdateIdentity
+	x.UpdateTime = b.UpdateTime
+	return m0
+}
+
 type RateLimitConfig struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	RateLimit     *RateLimit             `protobuf:"bytes,1,opt,name=rate_limit,json=rateLimit,proto3" json:"rate_limit,omitempty"`
 	Metadata      *ConfigMetadata        `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1553,11 +2425,6 @@ func (x *RateLimitConfig) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RateLimitConfig.ProtoReflect.Descriptor instead.
-func (*RateLimitConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{23}
-}
-
 func (x *RateLimitConfig) GetRateLimit() *RateLimit {
 	if x != nil {
 		return x.RateLimit
@@ -1572,8 +2439,54 @@ func (x *RateLimitConfig) GetMetadata() *ConfigMetadata {
 	return nil
 }
 
+func (x *RateLimitConfig) SetRateLimit(v *RateLimit) {
+	x.RateLimit = v
+}
+
+func (x *RateLimitConfig) SetMetadata(v *ConfigMetadata) {
+	x.Metadata = v
+}
+
+func (x *RateLimitConfig) HasRateLimit() bool {
+	if x == nil {
+		return false
+	}
+	return x.RateLimit != nil
+}
+
+func (x *RateLimitConfig) HasMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.Metadata != nil
+}
+
+func (x *RateLimitConfig) ClearRateLimit() {
+	x.RateLimit = nil
+}
+
+func (x *RateLimitConfig) ClearMetadata() {
+	x.Metadata = nil
+}
+
+type RateLimitConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	RateLimit *RateLimit
+	Metadata  *ConfigMetadata
+}
+
+func (b0 RateLimitConfig_builder) Build() *RateLimitConfig {
+	m0 := &RateLimitConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RateLimit = b.RateLimit
+	x.Metadata = b.Metadata
+	return m0
+}
+
 type TaskQueueConfig struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Unless modified, this is the system-defined rate limit.
 	QueueRateLimit *RateLimitConfig `protobuf:"bytes,1,opt,name=queue_rate_limit,json=queueRateLimit,proto3" json:"queue_rate_limit,omitempty"`
 	// If set, each individual fairness key will be limited to this rate, scaled by the weight of the fairness key.
@@ -1609,11 +2522,6 @@ func (x *TaskQueueConfig) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskQueueConfig.ProtoReflect.Descriptor instead.
-func (*TaskQueueConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP(), []int{24}
-}
-
 func (x *TaskQueueConfig) GetQueueRateLimit() *RateLimitConfig {
 	if x != nil {
 		return x.QueueRateLimit
@@ -1633,6 +2541,61 @@ func (x *TaskQueueConfig) GetFairnessWeightOverrides() map[string]float32 {
 		return x.FairnessWeightOverrides
 	}
 	return nil
+}
+
+func (x *TaskQueueConfig) SetQueueRateLimit(v *RateLimitConfig) {
+	x.QueueRateLimit = v
+}
+
+func (x *TaskQueueConfig) SetFairnessKeysRateLimitDefault(v *RateLimitConfig) {
+	x.FairnessKeysRateLimitDefault = v
+}
+
+func (x *TaskQueueConfig) SetFairnessWeightOverrides(v map[string]float32) {
+	x.FairnessWeightOverrides = v
+}
+
+func (x *TaskQueueConfig) HasQueueRateLimit() bool {
+	if x == nil {
+		return false
+	}
+	return x.QueueRateLimit != nil
+}
+
+func (x *TaskQueueConfig) HasFairnessKeysRateLimitDefault() bool {
+	if x == nil {
+		return false
+	}
+	return x.FairnessKeysRateLimitDefault != nil
+}
+
+func (x *TaskQueueConfig) ClearQueueRateLimit() {
+	x.QueueRateLimit = nil
+}
+
+func (x *TaskQueueConfig) ClearFairnessKeysRateLimitDefault() {
+	x.FairnessKeysRateLimitDefault = nil
+}
+
+type TaskQueueConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Unless modified, this is the system-defined rate limit.
+	QueueRateLimit *RateLimitConfig
+	// If set, each individual fairness key will be limited to this rate, scaled by the weight of the fairness key.
+	FairnessKeysRateLimitDefault *RateLimitConfig
+	// If set, overrides the fairness weights for the corresponding fairness keys.
+	FairnessWeightOverrides map[string]float32
+}
+
+func (b0 TaskQueueConfig_builder) Build() *TaskQueueConfig {
+	m0 := &TaskQueueConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.QueueRateLimit = b.QueueRateLimit
+	x.FairnessKeysRateLimitDefault = b.FairnessKeysRateLimitDefault
+	x.FairnessWeightOverrides = b.FairnessWeightOverrides
+	return m0
 }
 
 var File_temporal_api_taskqueue_v1_message_proto protoreflect.FileDescriptor
@@ -1745,18 +2708,6 @@ const file_temporal_api_taskqueue_v1_message_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\x02R\x05value:\x028\x01B\x98\x01\n" +
 	"\x1cio.temporal.api.taskqueue.v1B\fMessageProtoP\x01Z)go.temporal.io/api/taskqueue/v1;taskqueue\xaa\x02\x1bTemporalio.Api.TaskQueue.V1\xea\x02\x1eTemporalio::Api::TaskQueue::V1b\x06proto3"
-
-var (
-	file_temporal_api_taskqueue_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_taskqueue_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_taskqueue_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_taskqueue_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_taskqueue_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_taskqueue_v1_message_proto_rawDesc), len(file_temporal_api_taskqueue_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_taskqueue_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_taskqueue_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 27)
 var file_temporal_api_taskqueue_v1_message_proto_goTypes = []any{

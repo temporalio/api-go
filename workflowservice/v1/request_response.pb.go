@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/workflowservice/v1/request_response.proto
 
+//go:build !protoopaque
+
 package workflowservice
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v120 "go.temporal.io/api/activity/v1"
@@ -48,7 +50,7 @@ const (
 )
 
 type RegisterNamespaceRequest struct {
-	state                            protoimpl.MessageState         `protogen:"open.v1"`
+	state                            protoimpl.MessageState         `protogen:"hybrid.v1"`
 	Namespace                        string                         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Description                      string                         `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 	OwnerEmail                       string                         `protobuf:"bytes,3,opt,name=owner_email,json=ownerEmail,proto3" json:"owner_email,omitempty"`
@@ -92,11 +94,6 @@ func (x *RegisterNamespaceRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RegisterNamespaceRequest.ProtoReflect.Descriptor instead.
-func (*RegisterNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *RegisterNamespaceRequest) GetNamespace() string {
@@ -190,8 +187,112 @@ func (x *RegisterNamespaceRequest) GetVisibilityArchivalUri() string {
 	return ""
 }
 
+func (x *RegisterNamespaceRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RegisterNamespaceRequest) SetDescription(v string) {
+	x.Description = v
+}
+
+func (x *RegisterNamespaceRequest) SetOwnerEmail(v string) {
+	x.OwnerEmail = v
+}
+
+func (x *RegisterNamespaceRequest) SetWorkflowExecutionRetentionPeriod(v *durationpb.Duration) {
+	x.WorkflowExecutionRetentionPeriod = v
+}
+
+func (x *RegisterNamespaceRequest) SetClusters(v []*v1.ClusterReplicationConfig) {
+	x.Clusters = v
+}
+
+func (x *RegisterNamespaceRequest) SetActiveClusterName(v string) {
+	x.ActiveClusterName = v
+}
+
+func (x *RegisterNamespaceRequest) SetData(v map[string]string) {
+	x.Data = v
+}
+
+func (x *RegisterNamespaceRequest) SetSecurityToken(v string) {
+	x.SecurityToken = v
+}
+
+func (x *RegisterNamespaceRequest) SetIsGlobalNamespace(v bool) {
+	x.IsGlobalNamespace = v
+}
+
+func (x *RegisterNamespaceRequest) SetHistoryArchivalState(v v11.ArchivalState) {
+	x.HistoryArchivalState = v
+}
+
+func (x *RegisterNamespaceRequest) SetHistoryArchivalUri(v string) {
+	x.HistoryArchivalUri = v
+}
+
+func (x *RegisterNamespaceRequest) SetVisibilityArchivalState(v v11.ArchivalState) {
+	x.VisibilityArchivalState = v
+}
+
+func (x *RegisterNamespaceRequest) SetVisibilityArchivalUri(v string) {
+	x.VisibilityArchivalUri = v
+}
+
+func (x *RegisterNamespaceRequest) HasWorkflowExecutionRetentionPeriod() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionRetentionPeriod != nil
+}
+
+func (x *RegisterNamespaceRequest) ClearWorkflowExecutionRetentionPeriod() {
+	x.WorkflowExecutionRetentionPeriod = nil
+}
+
+type RegisterNamespaceRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace                        string
+	Description                      string
+	OwnerEmail                       string
+	WorkflowExecutionRetentionPeriod *durationpb.Duration
+	Clusters                         []*v1.ClusterReplicationConfig
+	ActiveClusterName                string
+	// A key-value map for any customized purpose.
+	Data              map[string]string
+	SecurityToken     string
+	IsGlobalNamespace bool
+	// If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used.
+	HistoryArchivalState v11.ArchivalState
+	HistoryArchivalUri   string
+	// If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used.
+	VisibilityArchivalState v11.ArchivalState
+	VisibilityArchivalUri   string
+}
+
+func (b0 RegisterNamespaceRequest_builder) Build() *RegisterNamespaceRequest {
+	m0 := &RegisterNamespaceRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Description = b.Description
+	x.OwnerEmail = b.OwnerEmail
+	x.WorkflowExecutionRetentionPeriod = b.WorkflowExecutionRetentionPeriod
+	x.Clusters = b.Clusters
+	x.ActiveClusterName = b.ActiveClusterName
+	x.Data = b.Data
+	x.SecurityToken = b.SecurityToken
+	x.IsGlobalNamespace = b.IsGlobalNamespace
+	x.HistoryArchivalState = b.HistoryArchivalState
+	x.HistoryArchivalUri = b.HistoryArchivalUri
+	x.VisibilityArchivalState = b.VisibilityArchivalState
+	x.VisibilityArchivalUri = b.VisibilityArchivalUri
+	return m0
+}
+
 type RegisterNamespaceResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -221,13 +322,20 @@ func (x *RegisterNamespaceResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RegisterNamespaceResponse.ProtoReflect.Descriptor instead.
-func (*RegisterNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{1}
+type RegisterNamespaceResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RegisterNamespaceResponse_builder) Build() *RegisterNamespaceResponse {
+	m0 := &RegisterNamespaceResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListNamespacesRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state           protoimpl.MessageState `protogen:"hybrid.v1"`
 	PageSize        int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken   []byte                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	NamespaceFilter *v12.NamespaceFilter   `protobuf:"bytes,3,opt,name=namespace_filter,json=namespaceFilter,proto3" json:"namespace_filter,omitempty"`
@@ -260,11 +368,6 @@ func (x *ListNamespacesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListNamespacesRequest.ProtoReflect.Descriptor instead.
-func (*ListNamespacesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *ListNamespacesRequest) GetPageSize() int32 {
 	if x != nil {
 		return x.PageSize
@@ -286,8 +389,52 @@ func (x *ListNamespacesRequest) GetNamespaceFilter() *v12.NamespaceFilter {
 	return nil
 }
 
+func (x *ListNamespacesRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListNamespacesRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListNamespacesRequest) SetNamespaceFilter(v *v12.NamespaceFilter) {
+	x.NamespaceFilter = v
+}
+
+func (x *ListNamespacesRequest) HasNamespaceFilter() bool {
+	if x == nil {
+		return false
+	}
+	return x.NamespaceFilter != nil
+}
+
+func (x *ListNamespacesRequest) ClearNamespaceFilter() {
+	x.NamespaceFilter = nil
+}
+
+type ListNamespacesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	PageSize        int32
+	NextPageToken   []byte
+	NamespaceFilter *v12.NamespaceFilter
+}
+
+func (b0 ListNamespacesRequest_builder) Build() *ListNamespacesRequest {
+	m0 := &ListNamespacesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	x.NamespaceFilter = b.NamespaceFilter
+	return m0
+}
+
 type ListNamespacesResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState       `protogen:"hybrid.v1"`
 	Namespaces    []*DescribeNamespaceResponse `protobuf:"bytes,1,rep,name=namespaces,proto3" json:"namespaces,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -319,11 +466,6 @@ func (x *ListNamespacesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListNamespacesResponse.ProtoReflect.Descriptor instead.
-func (*ListNamespacesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *ListNamespacesResponse) GetNamespaces() []*DescribeNamespaceResponse {
 	if x != nil {
 		return x.Namespaces
@@ -338,8 +480,35 @@ func (x *ListNamespacesResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListNamespacesResponse) SetNamespaces(v []*DescribeNamespaceResponse) {
+	x.Namespaces = v
+}
+
+func (x *ListNamespacesResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListNamespacesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespaces    []*DescribeNamespaceResponse
+	NextPageToken []byte
+}
+
+func (b0 ListNamespacesResponse_builder) Build() *ListNamespacesResponse {
+	m0 := &ListNamespacesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespaces = b.Namespaces
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type DescribeNamespaceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -371,11 +540,6 @@ func (x *DescribeNamespaceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeNamespaceRequest.ProtoReflect.Descriptor instead.
-func (*DescribeNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *DescribeNamespaceRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -390,8 +554,32 @@ func (x *DescribeNamespaceRequest) GetId() string {
 	return ""
 }
 
+func (x *DescribeNamespaceRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeNamespaceRequest) SetId(v string) {
+	x.Id = v
+}
+
+type DescribeNamespaceRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	Id        string
+}
+
+func (b0 DescribeNamespaceRequest_builder) Build() *DescribeNamespaceRequest {
+	m0 := &DescribeNamespaceRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Id = b.Id
+	return m0
+}
+
 type DescribeNamespaceResponse struct {
-	state             protoimpl.MessageState         `protogen:"open.v1"`
+	state             protoimpl.MessageState         `protogen:"hybrid.v1"`
 	NamespaceInfo     *v12.NamespaceInfo             `protobuf:"bytes,1,opt,name=namespace_info,json=namespaceInfo,proto3" json:"namespace_info,omitempty"`
 	Config            *v12.NamespaceConfig           `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 	ReplicationConfig *v1.NamespaceReplicationConfig `protobuf:"bytes,3,opt,name=replication_config,json=replicationConfig,proto3" json:"replication_config,omitempty"`
@@ -427,11 +615,6 @@ func (x *DescribeNamespaceResponse) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeNamespaceResponse.ProtoReflect.Descriptor instead.
-func (*DescribeNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DescribeNamespaceResponse) GetNamespaceInfo() *v12.NamespaceInfo {
@@ -476,8 +659,91 @@ func (x *DescribeNamespaceResponse) GetFailoverHistory() []*v1.FailoverStatus {
 	return nil
 }
 
+func (x *DescribeNamespaceResponse) SetNamespaceInfo(v *v12.NamespaceInfo) {
+	x.NamespaceInfo = v
+}
+
+func (x *DescribeNamespaceResponse) SetConfig(v *v12.NamespaceConfig) {
+	x.Config = v
+}
+
+func (x *DescribeNamespaceResponse) SetReplicationConfig(v *v1.NamespaceReplicationConfig) {
+	x.ReplicationConfig = v
+}
+
+func (x *DescribeNamespaceResponse) SetFailoverVersion(v int64) {
+	x.FailoverVersion = v
+}
+
+func (x *DescribeNamespaceResponse) SetIsGlobalNamespace(v bool) {
+	x.IsGlobalNamespace = v
+}
+
+func (x *DescribeNamespaceResponse) SetFailoverHistory(v []*v1.FailoverStatus) {
+	x.FailoverHistory = v
+}
+
+func (x *DescribeNamespaceResponse) HasNamespaceInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.NamespaceInfo != nil
+}
+
+func (x *DescribeNamespaceResponse) HasConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.Config != nil
+}
+
+func (x *DescribeNamespaceResponse) HasReplicationConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReplicationConfig != nil
+}
+
+func (x *DescribeNamespaceResponse) ClearNamespaceInfo() {
+	x.NamespaceInfo = nil
+}
+
+func (x *DescribeNamespaceResponse) ClearConfig() {
+	x.Config = nil
+}
+
+func (x *DescribeNamespaceResponse) ClearReplicationConfig() {
+	x.ReplicationConfig = nil
+}
+
+type DescribeNamespaceResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	NamespaceInfo     *v12.NamespaceInfo
+	Config            *v12.NamespaceConfig
+	ReplicationConfig *v1.NamespaceReplicationConfig
+	FailoverVersion   int64
+	IsGlobalNamespace bool
+	// Contains the historical state of failover_versions for the cluster, truncated to contain only the last N
+	// states to ensure that the list does not grow unbounded.
+	FailoverHistory []*v1.FailoverStatus
+}
+
+func (b0 DescribeNamespaceResponse_builder) Build() *DescribeNamespaceResponse {
+	m0 := &DescribeNamespaceResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NamespaceInfo = b.NamespaceInfo
+	x.Config = b.Config
+	x.ReplicationConfig = b.ReplicationConfig
+	x.FailoverVersion = b.FailoverVersion
+	x.IsGlobalNamespace = b.IsGlobalNamespace
+	x.FailoverHistory = b.FailoverHistory
+	return m0
+}
+
 type UpdateNamespaceRequest struct {
-	state             protoimpl.MessageState         `protogen:"open.v1"`
+	state             protoimpl.MessageState         `protogen:"hybrid.v1"`
 	Namespace         string                         `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	UpdateInfo        *v12.UpdateNamespaceInfo       `protobuf:"bytes,2,opt,name=update_info,json=updateInfo,proto3" json:"update_info,omitempty"`
 	Config            *v12.NamespaceConfig           `protobuf:"bytes,3,opt,name=config,proto3" json:"config,omitempty"`
@@ -513,11 +779,6 @@ func (x *UpdateNamespaceRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateNamespaceRequest.ProtoReflect.Descriptor instead.
-func (*UpdateNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UpdateNamespaceRequest) GetNamespace() string {
@@ -569,8 +830,96 @@ func (x *UpdateNamespaceRequest) GetPromoteNamespace() bool {
 	return false
 }
 
+func (x *UpdateNamespaceRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UpdateNamespaceRequest) SetUpdateInfo(v *v12.UpdateNamespaceInfo) {
+	x.UpdateInfo = v
+}
+
+func (x *UpdateNamespaceRequest) SetConfig(v *v12.NamespaceConfig) {
+	x.Config = v
+}
+
+func (x *UpdateNamespaceRequest) SetReplicationConfig(v *v1.NamespaceReplicationConfig) {
+	x.ReplicationConfig = v
+}
+
+func (x *UpdateNamespaceRequest) SetSecurityToken(v string) {
+	x.SecurityToken = v
+}
+
+func (x *UpdateNamespaceRequest) SetDeleteBadBinary(v string) {
+	x.DeleteBadBinary = v
+}
+
+func (x *UpdateNamespaceRequest) SetPromoteNamespace(v bool) {
+	x.PromoteNamespace = v
+}
+
+func (x *UpdateNamespaceRequest) HasUpdateInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateInfo != nil
+}
+
+func (x *UpdateNamespaceRequest) HasConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.Config != nil
+}
+
+func (x *UpdateNamespaceRequest) HasReplicationConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReplicationConfig != nil
+}
+
+func (x *UpdateNamespaceRequest) ClearUpdateInfo() {
+	x.UpdateInfo = nil
+}
+
+func (x *UpdateNamespaceRequest) ClearConfig() {
+	x.Config = nil
+}
+
+func (x *UpdateNamespaceRequest) ClearReplicationConfig() {
+	x.ReplicationConfig = nil
+}
+
+type UpdateNamespaceRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace         string
+	UpdateInfo        *v12.UpdateNamespaceInfo
+	Config            *v12.NamespaceConfig
+	ReplicationConfig *v1.NamespaceReplicationConfig
+	SecurityToken     string
+	DeleteBadBinary   string
+	// promote local namespace to global namespace. Ignored if namespace is already global namespace.
+	PromoteNamespace bool
+}
+
+func (b0 UpdateNamespaceRequest_builder) Build() *UpdateNamespaceRequest {
+	m0 := &UpdateNamespaceRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.UpdateInfo = b.UpdateInfo
+	x.Config = b.Config
+	x.ReplicationConfig = b.ReplicationConfig
+	x.SecurityToken = b.SecurityToken
+	x.DeleteBadBinary = b.DeleteBadBinary
+	x.PromoteNamespace = b.PromoteNamespace
+	return m0
+}
+
 type UpdateNamespaceResponse struct {
-	state             protoimpl.MessageState         `protogen:"open.v1"`
+	state             protoimpl.MessageState         `protogen:"hybrid.v1"`
 	NamespaceInfo     *v12.NamespaceInfo             `protobuf:"bytes,1,opt,name=namespace_info,json=namespaceInfo,proto3" json:"namespace_info,omitempty"`
 	Config            *v12.NamespaceConfig           `protobuf:"bytes,2,opt,name=config,proto3" json:"config,omitempty"`
 	ReplicationConfig *v1.NamespaceReplicationConfig `protobuf:"bytes,3,opt,name=replication_config,json=replicationConfig,proto3" json:"replication_config,omitempty"`
@@ -603,11 +952,6 @@ func (x *UpdateNamespaceResponse) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateNamespaceResponse.ProtoReflect.Descriptor instead.
-func (*UpdateNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *UpdateNamespaceResponse) GetNamespaceInfo() *v12.NamespaceInfo {
@@ -645,9 +989,84 @@ func (x *UpdateNamespaceResponse) GetIsGlobalNamespace() bool {
 	return false
 }
 
+func (x *UpdateNamespaceResponse) SetNamespaceInfo(v *v12.NamespaceInfo) {
+	x.NamespaceInfo = v
+}
+
+func (x *UpdateNamespaceResponse) SetConfig(v *v12.NamespaceConfig) {
+	x.Config = v
+}
+
+func (x *UpdateNamespaceResponse) SetReplicationConfig(v *v1.NamespaceReplicationConfig) {
+	x.ReplicationConfig = v
+}
+
+func (x *UpdateNamespaceResponse) SetFailoverVersion(v int64) {
+	x.FailoverVersion = v
+}
+
+func (x *UpdateNamespaceResponse) SetIsGlobalNamespace(v bool) {
+	x.IsGlobalNamespace = v
+}
+
+func (x *UpdateNamespaceResponse) HasNamespaceInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.NamespaceInfo != nil
+}
+
+func (x *UpdateNamespaceResponse) HasConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.Config != nil
+}
+
+func (x *UpdateNamespaceResponse) HasReplicationConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.ReplicationConfig != nil
+}
+
+func (x *UpdateNamespaceResponse) ClearNamespaceInfo() {
+	x.NamespaceInfo = nil
+}
+
+func (x *UpdateNamespaceResponse) ClearConfig() {
+	x.Config = nil
+}
+
+func (x *UpdateNamespaceResponse) ClearReplicationConfig() {
+	x.ReplicationConfig = nil
+}
+
+type UpdateNamespaceResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	NamespaceInfo     *v12.NamespaceInfo
+	Config            *v12.NamespaceConfig
+	ReplicationConfig *v1.NamespaceReplicationConfig
+	FailoverVersion   int64
+	IsGlobalNamespace bool
+}
+
+func (b0 UpdateNamespaceResponse_builder) Build() *UpdateNamespaceResponse {
+	m0 := &UpdateNamespaceResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NamespaceInfo = b.NamespaceInfo
+	x.Config = b.Config
+	x.ReplicationConfig = b.ReplicationConfig
+	x.FailoverVersion = b.FailoverVersion
+	x.IsGlobalNamespace = b.IsGlobalNamespace
+	return m0
+}
+
 // Deprecated.
 type DeprecateNamespaceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	SecurityToken string                 `protobuf:"bytes,2,opt,name=security_token,json=securityToken,proto3" json:"security_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -679,11 +1098,6 @@ func (x *DeprecateNamespaceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeprecateNamespaceRequest.ProtoReflect.Descriptor instead.
-func (*DeprecateNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *DeprecateNamespaceRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -698,9 +1112,33 @@ func (x *DeprecateNamespaceRequest) GetSecurityToken() string {
 	return ""
 }
 
+func (x *DeprecateNamespaceRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DeprecateNamespaceRequest) SetSecurityToken(v string) {
+	x.SecurityToken = v
+}
+
+type DeprecateNamespaceRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace     string
+	SecurityToken string
+}
+
+func (b0 DeprecateNamespaceRequest_builder) Build() *DeprecateNamespaceRequest {
+	m0 := &DeprecateNamespaceRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.SecurityToken = b.SecurityToken
+	return m0
+}
+
 // Deprecated.
 type DeprecateNamespaceResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -730,13 +1168,20 @@ func (x *DeprecateNamespaceResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeprecateNamespaceResponse.ProtoReflect.Descriptor instead.
-func (*DeprecateNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{9}
+type DeprecateNamespaceResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 DeprecateNamespaceResponse_builder) Build() *DeprecateNamespaceResponse {
+	m0 := &DeprecateNamespaceResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type StartWorkflowExecutionRequest struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
+	state        protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace    string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowId   string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	WorkflowType *v13.WorkflowType      `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
@@ -834,11 +1279,6 @@ func (x *StartWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StartWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*StartWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *StartWorkflowExecutionRequest) GetNamespace() string {
@@ -1037,8 +1477,428 @@ func (x *StartWorkflowExecutionRequest) GetEagerWorkerDeploymentOptions() *v18.W
 	return nil
 }
 
+func (x *StartWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetWorkflowType(v *v13.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetTaskQueue(v *v14.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetInput(v *v13.Payloads) {
+	x.Input = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetWorkflowExecutionTimeout(v *durationpb.Duration) {
+	x.WorkflowExecutionTimeout = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.WorkflowTaskTimeout = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetWorkflowIdReusePolicy(v v11.WorkflowIdReusePolicy) {
+	x.WorkflowIdReusePolicy = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetWorkflowIdConflictPolicy(v v11.WorkflowIdConflictPolicy) {
+	x.WorkflowIdConflictPolicy = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetRetryPolicy(v *v13.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetCronSchedule(v string) {
+	x.CronSchedule = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetMemo(v *v13.Memo) {
+	x.Memo = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetSearchAttributes(v *v13.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetHeader(v *v13.Header) {
+	x.Header = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetRequestEagerExecution(v bool) {
+	x.RequestEagerExecution = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetContinuedFailure(v *v15.Failure) {
+	x.ContinuedFailure = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetLastCompletionResult(v *v13.Payloads) {
+	x.LastCompletionResult = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetWorkflowStartDelay(v *durationpb.Duration) {
+	x.WorkflowStartDelay = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetCompletionCallbacks(v []*v13.Callback) {
+	x.CompletionCallbacks = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetUserMetadata(v *v16.UserMetadata) {
+	x.UserMetadata = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetLinks(v []*v13.Link) {
+	x.Links = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetVersioningOverride(v *v17.VersioningOverride) {
+	x.VersioningOverride = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetOnConflictOptions(v *v17.OnConflictOptions) {
+	x.OnConflictOptions = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetPriority(v *v13.Priority) {
+	x.Priority = v
+}
+
+func (x *StartWorkflowExecutionRequest) SetEagerWorkerDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.EagerWorkerDeploymentOptions = v
+}
+
+func (x *StartWorkflowExecutionRequest) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasWorkflowExecutionTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionTimeout != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskTimeout != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasContinuedFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.ContinuedFailure != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasLastCompletionResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastCompletionResult != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasWorkflowStartDelay() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowStartDelay != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasUserMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UserMetadata != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasVersioningOverride() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningOverride != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasOnConflictOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.OnConflictOptions != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *StartWorkflowExecutionRequest) HasEagerWorkerDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.EagerWorkerDeploymentOptions != nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearInput() {
+	x.Input = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearWorkflowExecutionTimeout() {
+	x.WorkflowExecutionTimeout = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearWorkflowTaskTimeout() {
+	x.WorkflowTaskTimeout = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearContinuedFailure() {
+	x.ContinuedFailure = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearLastCompletionResult() {
+	x.LastCompletionResult = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearWorkflowStartDelay() {
+	x.WorkflowStartDelay = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearUserMetadata() {
+	x.UserMetadata = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearVersioningOverride() {
+	x.VersioningOverride = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearOnConflictOptions() {
+	x.OnConflictOptions = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearPriority() {
+	x.Priority = nil
+}
+
+func (x *StartWorkflowExecutionRequest) ClearEagerWorkerDeploymentOptions() {
+	x.EagerWorkerDeploymentOptions = nil
+}
+
+type StartWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace    string
+	WorkflowId   string
+	WorkflowType *v13.WorkflowType
+	TaskQueue    *v14.TaskQueue
+	// Serialized arguments to the workflow. These are passed as arguments to the workflow function.
+	Input *v13.Payloads
+	// Total workflow execution timeout including retries and continue as new.
+	WorkflowExecutionTimeout *durationpb.Duration
+	// Timeout of a single workflow run.
+	WorkflowRunTimeout *durationpb.Duration
+	// Timeout of a single workflow task.
+	WorkflowTaskTimeout *durationpb.Duration
+	// The identity of the client who initiated this request
+	Identity string
+	// A unique identifier for this start request. Typically UUIDv4.
+	RequestId string
+	// Defines whether to allow re-using the workflow id from a previously *closed* workflow.
+	// The default policy is WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	//
+	// See `workflow_id_conflict_policy` for handling a workflow id duplication with a *running* workflow.
+	WorkflowIdReusePolicy v11.WorkflowIdReusePolicy
+	// Defines how to resolve a workflow id conflict with a *running* workflow.
+	// The default policy is WORKFLOW_ID_CONFLICT_POLICY_FAIL.
+	//
+	// See `workflow_id_reuse_policy` for handling a workflow id duplication with a *closed* workflow.
+	WorkflowIdConflictPolicy v11.WorkflowIdConflictPolicy
+	// The retry policy for the workflow. Will never exceed `workflow_execution_timeout`.
+	RetryPolicy *v13.RetryPolicy
+	// See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/
+	CronSchedule     string
+	Memo             *v13.Memo
+	SearchAttributes *v13.SearchAttributes
+	Header           *v13.Header
+	// Request to get the first workflow task inline in the response bypassing matching service and worker polling.
+	// If set to `true` the caller is expected to have a worker available and capable of processing the task.
+	// The returned task will be marked as started and is expected to be completed by the specified
+	// `workflow_task_timeout`.
+	RequestEagerExecution bool
+	// These values will be available as ContinuedFailure and LastCompletionResult in the
+	// WorkflowExecutionStarted event and through SDKs. The are currently only used by the
+	// server itself (for the schedules feature) and are not intended to be exposed in
+	// StartWorkflowExecution.
+	ContinuedFailure     *v15.Failure
+	LastCompletionResult *v13.Payloads
+	// Time to wait before dispatching the first workflow task. Cannot be used with `cron_schedule`.
+	// If the workflow gets a signal before the delay, a workflow task will be dispatched and the rest
+	// of the delay will be ignored.
+	WorkflowStartDelay *durationpb.Duration
+	// Callbacks to be called by the server when this workflow reaches a terminal state.
+	// If the workflow continues-as-new, these callbacks will be carried over to the new execution.
+	// Callback addresses must be whitelisted in the server's dynamic configuration.
+	CompletionCallbacks []*v13.Callback
+	// Metadata on the workflow if it is started. This is carried over to the WorkflowExecutionInfo
+	// for use by user interfaces to display the fixed as-of-start summary and details of the
+	// workflow.
+	UserMetadata *v16.UserMetadata
+	// Links to be associated with the workflow.
+	Links []*v13.Link
+	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
+	// To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.
+	VersioningOverride *v17.VersioningOverride
+	// Defines actions to be done to the existing running workflow when the conflict policy
+	// WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING is used. If not set (ie., nil value) or set to a
+	// empty object (ie., all options with default value), it won't do anything to the existing
+	// running workflow. If set, it will add a history event to the running workflow.
+	OnConflictOptions *v17.OnConflictOptions
+	// Priority metadata
+	Priority *v13.Priority
+	// Deployment Options of the worker who will process the eager task. Passed when `request_eager_execution=true`.
+	EagerWorkerDeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 StartWorkflowExecutionRequest_builder) Build() *StartWorkflowExecutionRequest {
+	m0 := &StartWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.WorkflowType = b.WorkflowType
+	x.TaskQueue = b.TaskQueue
+	x.Input = b.Input
+	x.WorkflowExecutionTimeout = b.WorkflowExecutionTimeout
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.WorkflowTaskTimeout = b.WorkflowTaskTimeout
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.WorkflowIdReusePolicy = b.WorkflowIdReusePolicy
+	x.WorkflowIdConflictPolicy = b.WorkflowIdConflictPolicy
+	x.RetryPolicy = b.RetryPolicy
+	x.CronSchedule = b.CronSchedule
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.Header = b.Header
+	x.RequestEagerExecution = b.RequestEagerExecution
+	x.ContinuedFailure = b.ContinuedFailure
+	x.LastCompletionResult = b.LastCompletionResult
+	x.WorkflowStartDelay = b.WorkflowStartDelay
+	x.CompletionCallbacks = b.CompletionCallbacks
+	x.UserMetadata = b.UserMetadata
+	x.Links = b.Links
+	x.VersioningOverride = b.VersioningOverride
+	x.OnConflictOptions = b.OnConflictOptions
+	x.Priority = b.Priority
+	x.EagerWorkerDeploymentOptions = b.EagerWorkerDeploymentOptions
+	return m0
+}
+
 type StartWorkflowExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The run id of the workflow that was started - or used (via WorkflowIdConflictPolicy USE_EXISTING).
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// If true, a new workflow was started.
@@ -1081,11 +1941,6 @@ func (x *StartWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StartWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*StartWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *StartWorkflowExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
@@ -1121,8 +1976,80 @@ func (x *StartWorkflowExecutionResponse) GetLink() *v13.Link {
 	return nil
 }
 
+func (x *StartWorkflowExecutionResponse) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *StartWorkflowExecutionResponse) SetStarted(v bool) {
+	x.Started = v
+}
+
+func (x *StartWorkflowExecutionResponse) SetStatus(v v11.WorkflowExecutionStatus) {
+	x.Status = v
+}
+
+func (x *StartWorkflowExecutionResponse) SetEagerWorkflowTask(v *PollWorkflowTaskQueueResponse) {
+	x.EagerWorkflowTask = v
+}
+
+func (x *StartWorkflowExecutionResponse) SetLink(v *v13.Link) {
+	x.Link = v
+}
+
+func (x *StartWorkflowExecutionResponse) HasEagerWorkflowTask() bool {
+	if x == nil {
+		return false
+	}
+	return x.EagerWorkflowTask != nil
+}
+
+func (x *StartWorkflowExecutionResponse) HasLink() bool {
+	if x == nil {
+		return false
+	}
+	return x.Link != nil
+}
+
+func (x *StartWorkflowExecutionResponse) ClearEagerWorkflowTask() {
+	x.EagerWorkflowTask = nil
+}
+
+func (x *StartWorkflowExecutionResponse) ClearLink() {
+	x.Link = nil
+}
+
+type StartWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The run id of the workflow that was started - or used (via WorkflowIdConflictPolicy USE_EXISTING).
+	RunId string
+	// If true, a new workflow was started.
+	Started bool
+	// Current execution status of the workflow. Typically remains WORKFLOW_EXECUTION_STATUS_RUNNING
+	// unless a de-dupe occurs or in specific scenarios handled within the ExecuteMultiOperation (refer to its docs).
+	Status v11.WorkflowExecutionStatus
+	// When `request_eager_execution` is set on the `StartWorkflowExecutionRequest`, the server - if supported - will
+	// return the first workflow task to be eagerly executed.
+	// The caller is expected to have a worker available to process the task.
+	EagerWorkflowTask *PollWorkflowTaskQueueResponse
+	// Link to the workflow event.
+	Link *v13.Link
+}
+
+func (b0 StartWorkflowExecutionResponse_builder) Build() *StartWorkflowExecutionResponse {
+	m0 := &StartWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RunId = b.RunId
+	x.Started = b.Started
+	x.Status = b.Status
+	x.EagerWorkflowTask = b.EagerWorkflowTask
+	x.Link = b.Link
+	return m0
+}
+
 type GetWorkflowExecutionHistoryRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state           protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution       *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,3,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
@@ -1163,11 +2090,6 @@ func (x *GetWorkflowExecutionHistoryRequest) ProtoReflect() protoreflect.Message
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetWorkflowExecutionHistoryRequest.ProtoReflect.Descriptor instead.
-func (*GetWorkflowExecutionHistoryRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetWorkflowExecutionHistoryRequest) GetNamespace() string {
@@ -1219,8 +2141,82 @@ func (x *GetWorkflowExecutionHistoryRequest) GetSkipArchival() bool {
 	return false
 }
 
+func (x *GetWorkflowExecutionHistoryRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *GetWorkflowExecutionHistoryRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *GetWorkflowExecutionHistoryRequest) SetMaximumPageSize(v int32) {
+	x.MaximumPageSize = v
+}
+
+func (x *GetWorkflowExecutionHistoryRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *GetWorkflowExecutionHistoryRequest) SetWaitNewEvent(v bool) {
+	x.WaitNewEvent = v
+}
+
+func (x *GetWorkflowExecutionHistoryRequest) SetHistoryEventFilterType(v v11.HistoryEventFilterType) {
+	x.HistoryEventFilterType = v
+}
+
+func (x *GetWorkflowExecutionHistoryRequest) SetSkipArchival(v bool) {
+	x.SkipArchival = v
+}
+
+func (x *GetWorkflowExecutionHistoryRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *GetWorkflowExecutionHistoryRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+type GetWorkflowExecutionHistoryRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace       string
+	Execution       *v13.WorkflowExecution
+	MaximumPageSize int32
+	// If a `GetWorkflowExecutionHistoryResponse` or a `PollWorkflowTaskQueueResponse` had one of
+	// these, it should be passed here to fetch the next page.
+	NextPageToken []byte
+	// If set to true, the RPC call will not resolve until there is a new event which matches
+	// the `history_event_filter_type`, or a timeout is hit.
+	WaitNewEvent bool
+	// Filter returned events such that they match the specified filter type.
+	// Default: HISTORY_EVENT_FILTER_TYPE_ALL_EVENT.
+	HistoryEventFilterType v11.HistoryEventFilterType
+	SkipArchival           bool
+}
+
+func (b0 GetWorkflowExecutionHistoryRequest_builder) Build() *GetWorkflowExecutionHistoryRequest {
+	m0 := &GetWorkflowExecutionHistoryRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	x.MaximumPageSize = b.MaximumPageSize
+	x.NextPageToken = b.NextPageToken
+	x.WaitNewEvent = b.WaitNewEvent
+	x.HistoryEventFilterType = b.HistoryEventFilterType
+	x.SkipArchival = b.SkipArchival
+	return m0
+}
+
 type GetWorkflowExecutionHistoryResponse struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
+	state   protoimpl.MessageState `protogen:"hybrid.v1"`
 	History *v19.History           `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
 	// Raw history is an alternate representation of history that may be returned if configured on
 	// the frontend. This is not supported by all SDKs. Either this or `history` will be set.
@@ -1257,11 +2253,6 @@ func (x *GetWorkflowExecutionHistoryResponse) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkflowExecutionHistoryResponse.ProtoReflect.Descriptor instead.
-func (*GetWorkflowExecutionHistoryResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *GetWorkflowExecutionHistoryResponse) GetHistory() *v19.History {
 	if x != nil {
 		return x.History
@@ -1290,8 +2281,61 @@ func (x *GetWorkflowExecutionHistoryResponse) GetArchived() bool {
 	return false
 }
 
+func (x *GetWorkflowExecutionHistoryResponse) SetHistory(v *v19.History) {
+	x.History = v
+}
+
+func (x *GetWorkflowExecutionHistoryResponse) SetRawHistory(v []*v13.DataBlob) {
+	x.RawHistory = v
+}
+
+func (x *GetWorkflowExecutionHistoryResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *GetWorkflowExecutionHistoryResponse) SetArchived(v bool) {
+	x.Archived = v
+}
+
+func (x *GetWorkflowExecutionHistoryResponse) HasHistory() bool {
+	if x == nil {
+		return false
+	}
+	return x.History != nil
+}
+
+func (x *GetWorkflowExecutionHistoryResponse) ClearHistory() {
+	x.History = nil
+}
+
+type GetWorkflowExecutionHistoryResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	History *v19.History
+	// Raw history is an alternate representation of history that may be returned if configured on
+	// the frontend. This is not supported by all SDKs. Either this or `history` will be set.
+	RawHistory []*v13.DataBlob
+	// Will be set if there are more history events than were included in this response
+	NextPageToken []byte
+	Archived      bool
+}
+
+func (b0 GetWorkflowExecutionHistoryResponse_builder) Build() *GetWorkflowExecutionHistoryResponse {
+	m0 := &GetWorkflowExecutionHistoryResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.History = b.History
+	x.RawHistory = b.RawHistory
+	x.NextPageToken = b.NextPageToken
+	x.Archived = b.Archived
+	return m0
+}
+
 type GetWorkflowExecutionHistoryReverseRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state           protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution       *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,3,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
@@ -1325,11 +2369,6 @@ func (x *GetWorkflowExecutionHistoryReverseRequest) ProtoReflect() protoreflect.
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkflowExecutionHistoryReverseRequest.ProtoReflect.Descriptor instead.
-func (*GetWorkflowExecutionHistoryReverseRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{14}
-}
-
 func (x *GetWorkflowExecutionHistoryReverseRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -1358,8 +2397,58 @@ func (x *GetWorkflowExecutionHistoryReverseRequest) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *GetWorkflowExecutionHistoryReverseRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *GetWorkflowExecutionHistoryReverseRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *GetWorkflowExecutionHistoryReverseRequest) SetMaximumPageSize(v int32) {
+	x.MaximumPageSize = v
+}
+
+func (x *GetWorkflowExecutionHistoryReverseRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *GetWorkflowExecutionHistoryReverseRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *GetWorkflowExecutionHistoryReverseRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+type GetWorkflowExecutionHistoryReverseRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace       string
+	Execution       *v13.WorkflowExecution
+	MaximumPageSize int32
+	NextPageToken   []byte
+}
+
+func (b0 GetWorkflowExecutionHistoryReverseRequest_builder) Build() *GetWorkflowExecutionHistoryReverseRequest {
+	m0 := &GetWorkflowExecutionHistoryReverseRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	x.MaximumPageSize = b.MaximumPageSize
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type GetWorkflowExecutionHistoryReverseResponse struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
+	state   protoimpl.MessageState `protogen:"hybrid.v1"`
 	History *v19.History           `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
 	// Will be set if there are more history events than were included in this response
 	NextPageToken []byte `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -1392,11 +2481,6 @@ func (x *GetWorkflowExecutionHistoryReverseResponse) ProtoReflect() protoreflect
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkflowExecutionHistoryReverseResponse.ProtoReflect.Descriptor instead.
-func (*GetWorkflowExecutionHistoryReverseResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *GetWorkflowExecutionHistoryReverseResponse) GetHistory() *v19.History {
 	if x != nil {
 		return x.History
@@ -1411,8 +2495,47 @@ func (x *GetWorkflowExecutionHistoryReverseResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *GetWorkflowExecutionHistoryReverseResponse) SetHistory(v *v19.History) {
+	x.History = v
+}
+
+func (x *GetWorkflowExecutionHistoryReverseResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *GetWorkflowExecutionHistoryReverseResponse) HasHistory() bool {
+	if x == nil {
+		return false
+	}
+	return x.History != nil
+}
+
+func (x *GetWorkflowExecutionHistoryReverseResponse) ClearHistory() {
+	x.History = nil
+}
+
+type GetWorkflowExecutionHistoryReverseResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	History *v19.History
+	// Will be set if there are more history events than were included in this response
+	NextPageToken []byte
+}
+
+func (b0 GetWorkflowExecutionHistoryReverseResponse_builder) Build() *GetWorkflowExecutionHistoryReverseResponse {
+	m0 := &GetWorkflowExecutionHistoryReverseResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.History = b.History
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type PollWorkflowTaskQueueRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskQueue *v14.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// The identity of the worker/client who is polling this task queue
@@ -1462,11 +2585,6 @@ func (x *PollWorkflowTaskQueueRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PollWorkflowTaskQueueRequest.ProtoReflect.Descriptor instead.
-func (*PollWorkflowTaskQueueRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *PollWorkflowTaskQueueRequest) GetNamespace() string {
@@ -1520,8 +2638,114 @@ func (x *PollWorkflowTaskQueueRequest) GetDeploymentOptions() *v18.WorkerDeploym
 	return nil
 }
 
+func (x *PollWorkflowTaskQueueRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *PollWorkflowTaskQueueRequest) SetTaskQueue(v *v14.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *PollWorkflowTaskQueueRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PollWorkflowTaskQueueRequest) SetWorkerInstanceKey(v string) {
+	x.WorkerInstanceKey = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollWorkflowTaskQueueRequest) SetBinaryChecksum(v string) {
+	x.BinaryChecksum = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollWorkflowTaskQueueRequest) SetWorkerVersionCapabilities(v *v13.WorkerVersionCapabilities) {
+	x.WorkerVersionCapabilities = v
+}
+
+func (x *PollWorkflowTaskQueueRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *PollWorkflowTaskQueueRequest) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollWorkflowTaskQueueRequest) HasWorkerVersionCapabilities() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersionCapabilities != nil
+}
+
+func (x *PollWorkflowTaskQueueRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *PollWorkflowTaskQueueRequest) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollWorkflowTaskQueueRequest) ClearWorkerVersionCapabilities() {
+	x.WorkerVersionCapabilities = nil
+}
+
+func (x *PollWorkflowTaskQueueRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type PollWorkflowTaskQueueRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	TaskQueue *v14.TaskQueue
+	// The identity of the worker/client who is polling this task queue
+	Identity string
+	// A unique key for this worker instance, used for tracking worker lifecycle.
+	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
+	WorkerInstanceKey string
+	// Deprecated. Use deployment_options instead.
+	// Each worker process should provide an ID unique to the specific set of code it is running
+	// "checksum" in this field name isn't very accurate, it should be though of as an id.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	BinaryChecksum string
+	// Deprecated. Use deployment_options instead.
+	// Information about this worker's build identifier and if it is choosing to use the versioning
+	// feature. See the `WorkerVersionCapabilities` docstring for more.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	WorkerVersionCapabilities *v13.WorkerVersionCapabilities
+	// Worker deployment options that user has set in the worker.
+	// Experimental. Worker Deployments are experimental and might significantly change in the future.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 PollWorkflowTaskQueueRequest_builder) Build() *PollWorkflowTaskQueueRequest {
+	m0 := &PollWorkflowTaskQueueRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	x.Identity = b.Identity
+	x.WorkerInstanceKey = b.WorkerInstanceKey
+	x.BinaryChecksum = b.BinaryChecksum
+	x.WorkerVersionCapabilities = b.WorkerVersionCapabilities
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type PollWorkflowTaskQueueResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A unique identifier for this task
 	TaskToken         []byte                 `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
@@ -1600,11 +2824,6 @@ func (x *PollWorkflowTaskQueueResponse) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PollWorkflowTaskQueueResponse.ProtoReflect.Descriptor instead.
-func (*PollWorkflowTaskQueueResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *PollWorkflowTaskQueueResponse) GetTaskToken() []byte {
@@ -1719,8 +2938,245 @@ func (x *PollWorkflowTaskQueueResponse) GetPollerScalingDecision() *v14.PollerSc
 	return nil
 }
 
+func (x *PollWorkflowTaskQueueResponse) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetWorkflowType(v *v13.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetPreviousStartedEventId(v int64) {
+	x.PreviousStartedEventId = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetBacklogCountHint(v int64) {
+	x.BacklogCountHint = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetHistory(v *v19.History) {
+	x.History = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetQuery(v *v110.WorkflowQuery) {
+	x.Query = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetWorkflowExecutionTaskQueue(v *v14.TaskQueue) {
+	x.WorkflowExecutionTaskQueue = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetScheduledTime(v *timestamppb.Timestamp) {
+	x.ScheduledTime = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetStartedTime(v *timestamppb.Timestamp) {
+	x.StartedTime = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetQueries(v map[string]*v110.WorkflowQuery) {
+	x.Queries = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetMessages(v []*v111.Message) {
+	x.Messages = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) SetPollerScalingDecision(v *v14.PollerScalingDecision) {
+	x.PollerScalingDecision = v
+}
+
+func (x *PollWorkflowTaskQueueResponse) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) HasHistory() bool {
+	if x == nil {
+		return false
+	}
+	return x.History != nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) HasQuery() bool {
+	if x == nil {
+		return false
+	}
+	return x.Query != nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) HasWorkflowExecutionTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionTaskQueue != nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) HasScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduledTime != nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) HasStartedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartedTime != nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) HasPollerScalingDecision() bool {
+	if x == nil {
+		return false
+	}
+	return x.PollerScalingDecision != nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) ClearHistory() {
+	x.History = nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) ClearQuery() {
+	x.Query = nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) ClearWorkflowExecutionTaskQueue() {
+	x.WorkflowExecutionTaskQueue = nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) ClearScheduledTime() {
+	x.ScheduledTime = nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) ClearStartedTime() {
+	x.StartedTime = nil
+}
+
+func (x *PollWorkflowTaskQueueResponse) ClearPollerScalingDecision() {
+	x.PollerScalingDecision = nil
+}
+
+type PollWorkflowTaskQueueResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A unique identifier for this task
+	TaskToken         []byte
+	WorkflowExecution *v13.WorkflowExecution
+	WorkflowType      *v13.WorkflowType
+	// The last workflow task started event which was processed by some worker for this execution.
+	// Will be zero if no task has ever started.
+	PreviousStartedEventId int64
+	// The id of the most recent workflow task started event, which will have been generated as a
+	// result of this poll request being served. Will be zero if the task
+	// does not contain any events which would advance history (no new WFT started).
+	// Currently this can happen for queries.
+	StartedEventId int64
+	// Starting at 1, the number of attempts to complete this task by any worker.
+	Attempt int32
+	// A hint that there are more tasks already present in this task queue
+	// partition. Can be used to prioritize draining a sticky queue.
+	//
+	// Specifically, the returned number is the number of tasks remaining in
+	// the in-memory buffer for this partition, which is currently capped at
+	// 1000. Because sticky queues only have one partition, this number is
+	// more useful when draining them. Normal queues, typically having more than one
+	// partition, will return a number representing only some portion of the
+	// overall backlog. Subsequent RPCs may not hit the same partition as
+	// this call.
+	BacklogCountHint int64
+	// The history for this workflow, which will either be complete or partial. Partial histories
+	// are sent to workers who have signaled that they are using a sticky queue when completing
+	// a workflow task.
+	History *v19.History
+	// Will be set if there are more history events than were included in this response. Such events
+	// should be fetched via `GetWorkflowExecutionHistory`.
+	NextPageToken []byte
+	// Legacy queries appear in this field. The query must be responded to via
+	// `RespondQueryTaskCompleted`. If the workflow is already closed (queries are permitted on
+	// closed workflows) then the `history` field will be populated with the entire history. It
+	// may also be populated if this task originates on a non-sticky queue.
+	Query *v110.WorkflowQuery
+	// The task queue this task originated from, which will always be the original non-sticky name
+	// for the queue, even if this response came from polling a sticky queue.
+	WorkflowExecutionTaskQueue *v14.TaskQueue
+	// When this task was scheduled by the server
+	ScheduledTime *timestamppb.Timestamp
+	// When the current workflow task started event was generated, meaning the current attempt.
+	StartedTime *timestamppb.Timestamp
+	// Queries that should be executed after applying the history in this task. Responses should be
+	// attached to `RespondWorkflowTaskCompletedRequest::query_results`
+	Queries map[string]*v110.WorkflowQuery
+	// Protocol messages piggybacking on a WFT as a transport
+	Messages []*v111.Message
+	// Server-advised information the SDK may use to adjust its poller count.
+	PollerScalingDecision *v14.PollerScalingDecision
+}
+
+func (b0 PollWorkflowTaskQueueResponse_builder) Build() *PollWorkflowTaskQueueResponse {
+	m0 := &PollWorkflowTaskQueueResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowType = b.WorkflowType
+	x.PreviousStartedEventId = b.PreviousStartedEventId
+	x.StartedEventId = b.StartedEventId
+	x.Attempt = b.Attempt
+	x.BacklogCountHint = b.BacklogCountHint
+	x.History = b.History
+	x.NextPageToken = b.NextPageToken
+	x.Query = b.Query
+	x.WorkflowExecutionTaskQueue = b.WorkflowExecutionTaskQueue
+	x.ScheduledTime = b.ScheduledTime
+	x.StartedTime = b.StartedTime
+	x.Queries = b.Queries
+	x.Messages = b.Messages
+	x.PollerScalingDecision = b.PollerScalingDecision
+	return m0
+}
+
 type RespondWorkflowTaskCompletedRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The task token as received in `PollWorkflowTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// A list of commands generated when driving the workflow code in response to the new task
@@ -1800,11 +3256,6 @@ func (x *RespondWorkflowTaskCompletedRequest) ProtoReflect() protoreflect.Messag
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RespondWorkflowTaskCompletedRequest.ProtoReflect.Descriptor instead.
-func (*RespondWorkflowTaskCompletedRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *RespondWorkflowTaskCompletedRequest) GetTaskToken() []byte {
@@ -1929,8 +3380,244 @@ func (x *RespondWorkflowTaskCompletedRequest) GetDeploymentOptions() *v18.Worker
 	return nil
 }
 
+func (x *RespondWorkflowTaskCompletedRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetCommands(v []*v112.Command) {
+	x.Commands = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetStickyAttributes(v *v14.StickyExecutionAttributes) {
+	x.StickyAttributes = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetReturnNewWorkflowTask(v bool) {
+	x.ReturnNewWorkflowTask = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetForceCreateNewWorkflowTask(v bool) {
+	x.ForceCreateNewWorkflowTask = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskCompletedRequest) SetBinaryChecksum(v string) {
+	x.BinaryChecksum = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetQueryResults(v map[string]*v110.WorkflowQueryResult) {
+	x.QueryResults = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskCompletedRequest) SetWorkerVersionStamp(v *v13.WorkerVersionStamp) {
+	x.WorkerVersionStamp = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetMessages(v []*v111.Message) {
+	x.Messages = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetSdkMetadata(v *v16.WorkflowTaskCompletedMetadata) {
+	x.SdkMetadata = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetMeteringMetadata(v *v13.MeteringMetadata) {
+	x.MeteringMetadata = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetCapabilities(v *RespondWorkflowTaskCompletedRequest_Capabilities) {
+	x.Capabilities = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskCompletedRequest) SetDeployment(v *v18.Deployment) {
+	x.Deployment = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetVersioningBehavior(v v11.VersioningBehavior) {
+	x.VersioningBehavior = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) HasStickyAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.StickyAttributes != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskCompletedRequest) HasWorkerVersionStamp() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersionStamp != nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) HasSdkMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.SdkMetadata != nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) HasMeteringMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.MeteringMetadata != nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) HasCapabilities() bool {
+	if x == nil {
+		return false
+	}
+	return x.Capabilities != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskCompletedRequest) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) ClearStickyAttributes() {
+	x.StickyAttributes = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskCompletedRequest) ClearWorkerVersionStamp() {
+	x.WorkerVersionStamp = nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) ClearSdkMetadata() {
+	x.SdkMetadata = nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) ClearMeteringMetadata() {
+	x.MeteringMetadata = nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) ClearCapabilities() {
+	x.Capabilities = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskCompletedRequest) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type RespondWorkflowTaskCompletedRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The task token as received in `PollWorkflowTaskQueueResponse`
+	TaskToken []byte
+	// A list of commands generated when driving the workflow code in response to the new task
+	Commands []*v112.Command
+	// The identity of the worker/client
+	Identity string
+	// May be set by workers to indicate that the worker desires future tasks to be provided with
+	// incremental history on a sticky queue.
+	StickyAttributes *v14.StickyExecutionAttributes
+	// If set, the worker wishes to immediately receive the next workflow task as a response to
+	// this completion. This can save on polling round-trips.
+	ReturnNewWorkflowTask bool
+	// Can be used to *force* creation of a new workflow task, even if no commands have resolved or
+	// one would not otherwise have been generated. This is used when the worker knows it is doing
+	// something useful, but cannot complete it within the workflow task timeout. Local activities
+	// which run for longer than the task timeout being the prime example.
+	ForceCreateNewWorkflowTask bool
+	// Deprecated. Use `deployment_options` instead.
+	// Worker process' unique binary id
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	BinaryChecksum string
+	// Responses to the `queries` field in the task being responded to
+	QueryResults map[string]*v110.WorkflowQueryResult
+	Namespace    string
+	// Version info of the worker who processed this task. This message's `build_id` field should
+	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
+	// field to true. See message docstrings for more.
+	// Deprecated. Use `deployment_options` and `versioning_behavior` instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	WorkerVersionStamp *v13.WorkerVersionStamp
+	// Protocol messages piggybacking on a WFT as a transport
+	Messages []*v111.Message
+	// Data the SDK wishes to record for itself, but server need not interpret, and does not
+	// directly impact workflow state.
+	SdkMetadata *v16.WorkflowTaskCompletedMetadata
+	// Local usage data collected for metering
+	MeteringMetadata *v13.MeteringMetadata
+	// All capabilities the SDK supports.
+	Capabilities *RespondWorkflowTaskCompletedRequest_Capabilities
+	// Deployment info of the worker that completed this task. Must be present if user has set
+	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
+	// Deprecated. Replaced with `deployment_options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Deployment *v18.Deployment
+	// Versioning behavior of this workflow execution as set on the worker that completed this task.
+	// UNSPECIFIED means versioning is not enabled in the worker.
+	VersioningBehavior v11.VersioningBehavior
+	// Worker deployment options that user has set in the worker.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 RespondWorkflowTaskCompletedRequest_builder) Build() *RespondWorkflowTaskCompletedRequest {
+	m0 := &RespondWorkflowTaskCompletedRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.Commands = b.Commands
+	x.Identity = b.Identity
+	x.StickyAttributes = b.StickyAttributes
+	x.ReturnNewWorkflowTask = b.ReturnNewWorkflowTask
+	x.ForceCreateNewWorkflowTask = b.ForceCreateNewWorkflowTask
+	x.BinaryChecksum = b.BinaryChecksum
+	x.QueryResults = b.QueryResults
+	x.Namespace = b.Namespace
+	x.WorkerVersionStamp = b.WorkerVersionStamp
+	x.Messages = b.Messages
+	x.SdkMetadata = b.SdkMetadata
+	x.MeteringMetadata = b.MeteringMetadata
+	x.Capabilities = b.Capabilities
+	x.Deployment = b.Deployment
+	x.VersioningBehavior = b.VersioningBehavior
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type RespondWorkflowTaskCompletedResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// See `RespondWorkflowTaskCompletedResponse::return_new_workflow_task`
 	WorkflowTask *PollWorkflowTaskQueueResponse `protobuf:"bytes,1,opt,name=workflow_task,json=workflowTask,proto3" json:"workflow_task,omitempty"`
 	// See `ScheduleActivityTaskCommandAttributes::request_eager_execution`
@@ -1968,11 +3655,6 @@ func (x *RespondWorkflowTaskCompletedResponse) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondWorkflowTaskCompletedResponse.ProtoReflect.Descriptor instead.
-func (*RespondWorkflowTaskCompletedResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{19}
-}
-
 func (x *RespondWorkflowTaskCompletedResponse) GetWorkflowTask() *PollWorkflowTaskQueueResponse {
 	if x != nil {
 		return x.WorkflowTask
@@ -1994,8 +3676,54 @@ func (x *RespondWorkflowTaskCompletedResponse) GetResetHistoryEventId() int64 {
 	return 0
 }
 
+func (x *RespondWorkflowTaskCompletedResponse) SetWorkflowTask(v *PollWorkflowTaskQueueResponse) {
+	x.WorkflowTask = v
+}
+
+func (x *RespondWorkflowTaskCompletedResponse) SetActivityTasks(v []*PollActivityTaskQueueResponse) {
+	x.ActivityTasks = v
+}
+
+func (x *RespondWorkflowTaskCompletedResponse) SetResetHistoryEventId(v int64) {
+	x.ResetHistoryEventId = v
+}
+
+func (x *RespondWorkflowTaskCompletedResponse) HasWorkflowTask() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTask != nil
+}
+
+func (x *RespondWorkflowTaskCompletedResponse) ClearWorkflowTask() {
+	x.WorkflowTask = nil
+}
+
+type RespondWorkflowTaskCompletedResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// See `RespondWorkflowTaskCompletedResponse::return_new_workflow_task`
+	WorkflowTask *PollWorkflowTaskQueueResponse
+	// See `ScheduleActivityTaskCommandAttributes::request_eager_execution`
+	ActivityTasks []*PollActivityTaskQueueResponse
+	// If non zero, indicates the server has discarded the workflow task that was being responded to.
+	// Will be the event ID of the last workflow task started event in the history before the new workflow task.
+	// Server is only expected to discard a workflow task if it could not have modified the workflow state.
+	ResetHistoryEventId int64
+}
+
+func (b0 RespondWorkflowTaskCompletedResponse_builder) Build() *RespondWorkflowTaskCompletedResponse {
+	m0 := &RespondWorkflowTaskCompletedResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowTask = b.WorkflowTask
+	x.ActivityTasks = b.ActivityTasks
+	x.ResetHistoryEventId = b.ResetHistoryEventId
+	return m0
+}
+
 type RespondWorkflowTaskFailedRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The task token as received in `PollWorkflowTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Why did the task fail? It's important to note that many of the variants in this enum cannot
@@ -2055,11 +3783,6 @@ func (x *RespondWorkflowTaskFailedRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RespondWorkflowTaskFailedRequest.ProtoReflect.Descriptor instead.
-func (*RespondWorkflowTaskFailedRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *RespondWorkflowTaskFailedRequest) GetTaskToken() []byte {
@@ -2135,8 +3858,156 @@ func (x *RespondWorkflowTaskFailedRequest) GetDeploymentOptions() *v18.WorkerDep
 	return nil
 }
 
+func (x *RespondWorkflowTaskFailedRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RespondWorkflowTaskFailedRequest) SetCause(v v11.WorkflowTaskFailedCause) {
+	x.Cause = v
+}
+
+func (x *RespondWorkflowTaskFailedRequest) SetFailure(v *v15.Failure) {
+	x.Failure = v
+}
+
+func (x *RespondWorkflowTaskFailedRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskFailedRequest) SetBinaryChecksum(v string) {
+	x.BinaryChecksum = v
+}
+
+func (x *RespondWorkflowTaskFailedRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RespondWorkflowTaskFailedRequest) SetMessages(v []*v111.Message) {
+	x.Messages = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskFailedRequest) SetWorkerVersion(v *v13.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskFailedRequest) SetDeployment(v *v18.Deployment) {
+	x.Deployment = v
+}
+
+func (x *RespondWorkflowTaskFailedRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *RespondWorkflowTaskFailedRequest) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskFailedRequest) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskFailedRequest) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *RespondWorkflowTaskFailedRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *RespondWorkflowTaskFailedRequest) ClearFailure() {
+	x.Failure = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskFailedRequest) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondWorkflowTaskFailedRequest) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *RespondWorkflowTaskFailedRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type RespondWorkflowTaskFailedRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The task token as received in `PollWorkflowTaskQueueResponse`
+	TaskToken []byte
+	// Why did the task fail? It's important to note that many of the variants in this enum cannot
+	// apply to worker responses. See the type's doc for more.
+	Cause v11.WorkflowTaskFailedCause
+	// Failure details
+	Failure *v15.Failure
+	// The identity of the worker/client
+	Identity string
+	// Deprecated. Use `deployment_options` instead.
+	// Worker process' unique binary id
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	BinaryChecksum string
+	Namespace      string
+	// Protocol messages piggybacking on a WFT as a transport
+	Messages []*v111.Message
+	// Version info of the worker who processed this task. This message's `build_id` field should
+	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
+	// field to true. See message docstrings for more.
+	// Deprecated. Use `deployment_options` instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	WorkerVersion *v13.WorkerVersionStamp
+	// Deployment info of the worker that completed this task. Must be present if user has set
+	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
+	// Deprecated. Replaced with `deployment_options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Deployment *v18.Deployment
+	// Worker deployment options that user has set in the worker.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 RespondWorkflowTaskFailedRequest_builder) Build() *RespondWorkflowTaskFailedRequest {
+	m0 := &RespondWorkflowTaskFailedRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.Cause = b.Cause
+	x.Failure = b.Failure
+	x.Identity = b.Identity
+	x.BinaryChecksum = b.BinaryChecksum
+	x.Namespace = b.Namespace
+	x.Messages = b.Messages
+	x.WorkerVersion = b.WorkerVersion
+	x.Deployment = b.Deployment
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type RespondWorkflowTaskFailedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2166,13 +4037,20 @@ func (x *RespondWorkflowTaskFailedResponse) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondWorkflowTaskFailedResponse.ProtoReflect.Descriptor instead.
-func (*RespondWorkflowTaskFailedResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{21}
+type RespondWorkflowTaskFailedResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RespondWorkflowTaskFailedResponse_builder) Build() *RespondWorkflowTaskFailedResponse {
+	m0 := &RespondWorkflowTaskFailedResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type PollActivityTaskQueueRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskQueue *v14.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// The identity of the worker/client
@@ -2216,11 +4094,6 @@ func (x *PollActivityTaskQueueRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PollActivityTaskQueueRequest.ProtoReflect.Descriptor instead.
-func (*PollActivityTaskQueueRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *PollActivityTaskQueueRequest) GetNamespace() string {
@@ -2273,8 +4146,118 @@ func (x *PollActivityTaskQueueRequest) GetDeploymentOptions() *v18.WorkerDeploym
 	return nil
 }
 
+func (x *PollActivityTaskQueueRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *PollActivityTaskQueueRequest) SetTaskQueue(v *v14.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *PollActivityTaskQueueRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PollActivityTaskQueueRequest) SetWorkerInstanceKey(v string) {
+	x.WorkerInstanceKey = v
+}
+
+func (x *PollActivityTaskQueueRequest) SetTaskQueueMetadata(v *v14.TaskQueueMetadata) {
+	x.TaskQueueMetadata = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollActivityTaskQueueRequest) SetWorkerVersionCapabilities(v *v13.WorkerVersionCapabilities) {
+	x.WorkerVersionCapabilities = v
+}
+
+func (x *PollActivityTaskQueueRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *PollActivityTaskQueueRequest) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *PollActivityTaskQueueRequest) HasTaskQueueMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueueMetadata != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollActivityTaskQueueRequest) HasWorkerVersionCapabilities() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersionCapabilities != nil
+}
+
+func (x *PollActivityTaskQueueRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *PollActivityTaskQueueRequest) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *PollActivityTaskQueueRequest) ClearTaskQueueMetadata() {
+	x.TaskQueueMetadata = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollActivityTaskQueueRequest) ClearWorkerVersionCapabilities() {
+	x.WorkerVersionCapabilities = nil
+}
+
+func (x *PollActivityTaskQueueRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type PollActivityTaskQueueRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	TaskQueue *v14.TaskQueue
+	// The identity of the worker/client
+	Identity string
+	// A unique key for this worker instance, used for tracking worker lifecycle.
+	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
+	WorkerInstanceKey string
+	TaskQueueMetadata *v14.TaskQueueMetadata
+	// Information about this worker's build identifier and if it is choosing to use the versioning
+	// feature. See the `WorkerVersionCapabilities` docstring for more.
+	// Deprecated. Replaced by deployment_options.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	WorkerVersionCapabilities *v13.WorkerVersionCapabilities
+	// Worker deployment options that user has set in the worker.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 PollActivityTaskQueueRequest_builder) Build() *PollActivityTaskQueueRequest {
+	m0 := &PollActivityTaskQueueRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	x.Identity = b.Identity
+	x.WorkerInstanceKey = b.WorkerInstanceKey
+	x.TaskQueueMetadata = b.TaskQueueMetadata
+	x.WorkerVersionCapabilities = b.WorkerVersionCapabilities
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type PollActivityTaskQueueResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A unique identifier for this task
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// The namespace the workflow which requested this activity lives in
@@ -2356,11 +4339,6 @@ func (x *PollActivityTaskQueueResponse) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PollActivityTaskQueueResponse.ProtoReflect.Descriptor instead.
-func (*PollActivityTaskQueueResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *PollActivityTaskQueueResponse) GetTaskToken() []byte {
@@ -2503,8 +4481,342 @@ func (x *PollActivityTaskQueueResponse) GetActivityRunId() string {
 	return ""
 }
 
+func (x *PollActivityTaskQueueResponse) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetWorkflowNamespace(v string) {
+	x.WorkflowNamespace = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetWorkflowType(v *v13.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetActivityType(v *v13.ActivityType) {
+	x.ActivityType = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetHeader(v *v13.Header) {
+	x.Header = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetInput(v *v13.Payloads) {
+	x.Input = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetHeartbeatDetails(v *v13.Payloads) {
+	x.HeartbeatDetails = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetScheduledTime(v *timestamppb.Timestamp) {
+	x.ScheduledTime = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetCurrentAttemptScheduledTime(v *timestamppb.Timestamp) {
+	x.CurrentAttemptScheduledTime = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetStartedTime(v *timestamppb.Timestamp) {
+	x.StartedTime = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetHeartbeatTimeout(v *durationpb.Duration) {
+	x.HeartbeatTimeout = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetRetryPolicy(v *v13.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetPollerScalingDecision(v *v14.PollerScalingDecision) {
+	x.PollerScalingDecision = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetPriority(v *v13.Priority) {
+	x.Priority = v
+}
+
+func (x *PollActivityTaskQueueResponse) SetActivityRunId(v string) {
+	x.ActivityRunId = v
+}
+
+func (x *PollActivityTaskQueueResponse) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasActivityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityType != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasHeartbeatDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatDetails != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduledTime != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasCurrentAttemptScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentAttemptScheduledTime != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasStartedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartedTime != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasHeartbeatTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatTimeout != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasPollerScalingDecision() bool {
+	if x == nil {
+		return false
+	}
+	return x.PollerScalingDecision != nil
+}
+
+func (x *PollActivityTaskQueueResponse) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearActivityType() {
+	x.ActivityType = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearInput() {
+	x.Input = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearHeartbeatDetails() {
+	x.HeartbeatDetails = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearScheduledTime() {
+	x.ScheduledTime = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearCurrentAttemptScheduledTime() {
+	x.CurrentAttemptScheduledTime = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearStartedTime() {
+	x.StartedTime = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearHeartbeatTimeout() {
+	x.HeartbeatTimeout = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearPollerScalingDecision() {
+	x.PollerScalingDecision = nil
+}
+
+func (x *PollActivityTaskQueueResponse) ClearPriority() {
+	x.Priority = nil
+}
+
+type PollActivityTaskQueueResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A unique identifier for this task
+	TaskToken []byte
+	// The namespace the workflow which requested this activity lives in
+	WorkflowNamespace string
+	// Type of the requesting workflow
+	WorkflowType *v13.WorkflowType
+	// Execution info of the requesting workflow
+	WorkflowExecution *v13.WorkflowExecution
+	ActivityType      *v13.ActivityType
+	// The autogenerated or user specified identifier of this activity. Can be used to complete the
+	// activity via `RespondActivityTaskCompletedById`. May be re-used as long as the last usage
+	// has resolved, but unique IDs for every activity invocation is a good idea.
+	// Note that only a workflow activity ID may be autogenerated.
+	ActivityId string
+	// Headers specified by the scheduling workflow. Commonly used to propagate contextual info
+	// from the workflow to its activities. For example, tracing contexts.
+	Header *v13.Header
+	// Arguments to the activity invocation
+	Input *v13.Payloads
+	// Details of the last heartbeat that was recorded for this activity as of the time this task
+	// was delivered.
+	HeartbeatDetails *v13.Payloads
+	// When was this task first scheduled
+	ScheduledTime *timestamppb.Timestamp
+	// When was this task attempt scheduled
+	CurrentAttemptScheduledTime *timestamppb.Timestamp
+	// When was this task started (this attempt)
+	StartedTime *timestamppb.Timestamp
+	// Starting at 1, the number of attempts to perform this activity
+	Attempt int32
+	// First scheduled -> final result reported timeout
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// Current attempt start -> final result reported timeout
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+	// Window within which the activity must report a heartbeat, or be timed out.
+	HeartbeatTimeout *durationpb.Duration
+	// This is the retry policy the service uses which may be different from the one provided
+	// (or not) during activity scheduling. The service can override the provided one if some
+	// values are not specified or exceed configured system limits.
+	RetryPolicy *v13.RetryPolicy
+	// Server-advised information the SDK may use to adjust its poller count.
+	PollerScalingDecision *v14.PollerScalingDecision
+	// Priority metadata
+	Priority *v13.Priority
+	// The run ID of the activity execution, only set for standalone activities.
+	ActivityRunId string
+}
+
+func (b0 PollActivityTaskQueueResponse_builder) Build() *PollActivityTaskQueueResponse {
+	m0 := &PollActivityTaskQueueResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.WorkflowNamespace = b.WorkflowNamespace
+	x.WorkflowType = b.WorkflowType
+	x.WorkflowExecution = b.WorkflowExecution
+	x.ActivityType = b.ActivityType
+	x.ActivityId = b.ActivityId
+	x.Header = b.Header
+	x.Input = b.Input
+	x.HeartbeatDetails = b.HeartbeatDetails
+	x.ScheduledTime = b.ScheduledTime
+	x.CurrentAttemptScheduledTime = b.CurrentAttemptScheduledTime
+	x.StartedTime = b.StartedTime
+	x.Attempt = b.Attempt
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	x.HeartbeatTimeout = b.HeartbeatTimeout
+	x.RetryPolicy = b.RetryPolicy
+	x.PollerScalingDecision = b.PollerScalingDecision
+	x.Priority = b.Priority
+	x.ActivityRunId = b.ActivityRunId
+	return m0
+}
+
 type RecordActivityTaskHeartbeatRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The task token as received in `PollActivityTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Arbitrary data, of which the most recent call is kept, to store for this activity
@@ -2541,11 +4853,6 @@ func (x *RecordActivityTaskHeartbeatRequest) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RecordActivityTaskHeartbeatRequest.ProtoReflect.Descriptor instead.
-func (*RecordActivityTaskHeartbeatRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{24}
-}
-
 func (x *RecordActivityTaskHeartbeatRequest) GetTaskToken() []byte {
 	if x != nil {
 		return x.TaskToken
@@ -2574,8 +4881,61 @@ func (x *RecordActivityTaskHeartbeatRequest) GetNamespace() string {
 	return ""
 }
 
+func (x *RecordActivityTaskHeartbeatRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RecordActivityTaskHeartbeatRequest) SetDetails(v *v13.Payloads) {
+	x.Details = v
+}
+
+func (x *RecordActivityTaskHeartbeatRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RecordActivityTaskHeartbeatRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RecordActivityTaskHeartbeatRequest) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *RecordActivityTaskHeartbeatRequest) ClearDetails() {
+	x.Details = nil
+}
+
+type RecordActivityTaskHeartbeatRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The task token as received in `PollActivityTaskQueueResponse`
+	TaskToken []byte
+	// Arbitrary data, of which the most recent call is kept, to store for this activity
+	Details *v13.Payloads
+	// The identity of the worker/client
+	Identity  string
+	Namespace string
+}
+
+func (b0 RecordActivityTaskHeartbeatRequest_builder) Build() *RecordActivityTaskHeartbeatRequest {
+	m0 := &RecordActivityTaskHeartbeatRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.Details = b.Details
+	x.Identity = b.Identity
+	x.Namespace = b.Namespace
+	return m0
+}
+
 type RecordActivityTaskHeartbeatResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Will be set to true if the activity has been asked to cancel itself. The SDK should then
 	// notify the activity of cancellation if it is still running.
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancel_requested,json=cancelRequested,proto3" json:"cancel_requested,omitempty"`
@@ -2613,11 +4973,6 @@ func (x *RecordActivityTaskHeartbeatResponse) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RecordActivityTaskHeartbeatResponse.ProtoReflect.Descriptor instead.
-func (*RecordActivityTaskHeartbeatResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{25}
-}
-
 func (x *RecordActivityTaskHeartbeatResponse) GetCancelRequested() bool {
 	if x != nil {
 		return x.CancelRequested
@@ -2639,8 +4994,43 @@ func (x *RecordActivityTaskHeartbeatResponse) GetActivityReset() bool {
 	return false
 }
 
+func (x *RecordActivityTaskHeartbeatResponse) SetCancelRequested(v bool) {
+	x.CancelRequested = v
+}
+
+func (x *RecordActivityTaskHeartbeatResponse) SetActivityPaused(v bool) {
+	x.ActivityPaused = v
+}
+
+func (x *RecordActivityTaskHeartbeatResponse) SetActivityReset(v bool) {
+	x.ActivityReset = v
+}
+
+type RecordActivityTaskHeartbeatResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Will be set to true if the activity has been asked to cancel itself. The SDK should then
+	// notify the activity of cancellation if it is still running.
+	CancelRequested bool
+	// Will be set to true if the activity is paused.
+	ActivityPaused bool
+	// Will be set to true if the activity was reset.
+	// Applies only to the current run.
+	ActivityReset bool
+}
+
+func (b0 RecordActivityTaskHeartbeatResponse_builder) Build() *RecordActivityTaskHeartbeatResponse {
+	m0 := &RecordActivityTaskHeartbeatResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CancelRequested = b.CancelRequested
+	x.ActivityPaused = b.ActivityPaused
+	x.ActivityReset = b.ActivityReset
+	return m0
+}
+
 type RecordActivityTaskHeartbeatByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Id of the workflow which scheduled this activity, leave empty to target a standalone activity
@@ -2681,11 +5071,6 @@ func (x *RecordActivityTaskHeartbeatByIdRequest) ProtoReflect() protoreflect.Mes
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RecordActivityTaskHeartbeatByIdRequest.ProtoReflect.Descriptor instead.
-func (*RecordActivityTaskHeartbeatByIdRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *RecordActivityTaskHeartbeatByIdRequest) GetNamespace() string {
@@ -2730,8 +5115,74 @@ func (x *RecordActivityTaskHeartbeatByIdRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *RecordActivityTaskHeartbeatByIdRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RecordActivityTaskHeartbeatByIdRequest) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *RecordActivityTaskHeartbeatByIdRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *RecordActivityTaskHeartbeatByIdRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *RecordActivityTaskHeartbeatByIdRequest) SetDetails(v *v13.Payloads) {
+	x.Details = v
+}
+
+func (x *RecordActivityTaskHeartbeatByIdRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RecordActivityTaskHeartbeatByIdRequest) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *RecordActivityTaskHeartbeatByIdRequest) ClearDetails() {
+	x.Details = nil
+}
+
+type RecordActivityTaskHeartbeatByIdRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow which scheduled this activity
+	Namespace string
+	// Id of the workflow which scheduled this activity, leave empty to target a standalone activity
+	WorkflowId string
+	// For a workflow activity - the run ID of the workflow which scheduled this activity.
+	// For a standalone activity - the run ID of the activity.
+	RunId string
+	// Id of the activity we're heartbeating
+	ActivityId string
+	// Arbitrary data, of which the most recent call is kept, to store for this activity
+	Details *v13.Payloads
+	// The identity of the worker/client
+	Identity string
+}
+
+func (b0 RecordActivityTaskHeartbeatByIdRequest_builder) Build() *RecordActivityTaskHeartbeatByIdRequest {
+	m0 := &RecordActivityTaskHeartbeatByIdRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	x.ActivityId = b.ActivityId
+	x.Details = b.Details
+	x.Identity = b.Identity
+	return m0
+}
+
 type RecordActivityTaskHeartbeatByIdResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Will be set to true if the activity has been asked to cancel itself. The SDK should then
 	// notify the activity of cancellation if it is still running.
 	CancelRequested bool `protobuf:"varint,1,opt,name=cancel_requested,json=cancelRequested,proto3" json:"cancel_requested,omitempty"`
@@ -2769,11 +5220,6 @@ func (x *RecordActivityTaskHeartbeatByIdResponse) ProtoReflect() protoreflect.Me
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RecordActivityTaskHeartbeatByIdResponse.ProtoReflect.Descriptor instead.
-func (*RecordActivityTaskHeartbeatByIdResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{27}
-}
-
 func (x *RecordActivityTaskHeartbeatByIdResponse) GetCancelRequested() bool {
 	if x != nil {
 		return x.CancelRequested
@@ -2795,8 +5241,43 @@ func (x *RecordActivityTaskHeartbeatByIdResponse) GetActivityReset() bool {
 	return false
 }
 
+func (x *RecordActivityTaskHeartbeatByIdResponse) SetCancelRequested(v bool) {
+	x.CancelRequested = v
+}
+
+func (x *RecordActivityTaskHeartbeatByIdResponse) SetActivityPaused(v bool) {
+	x.ActivityPaused = v
+}
+
+func (x *RecordActivityTaskHeartbeatByIdResponse) SetActivityReset(v bool) {
+	x.ActivityReset = v
+}
+
+type RecordActivityTaskHeartbeatByIdResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Will be set to true if the activity has been asked to cancel itself. The SDK should then
+	// notify the activity of cancellation if it is still running.
+	CancelRequested bool
+	// Will be set to true if the activity is paused.
+	ActivityPaused bool
+	// Will be set to true if the activity was reset.
+	// Applies only to the current run.
+	ActivityReset bool
+}
+
+func (b0 RecordActivityTaskHeartbeatByIdResponse_builder) Build() *RecordActivityTaskHeartbeatByIdResponse {
+	m0 := &RecordActivityTaskHeartbeatByIdResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CancelRequested = b.CancelRequested
+	x.ActivityPaused = b.ActivityPaused
+	x.ActivityReset = b.ActivityReset
+	return m0
+}
+
 type RespondActivityTaskCompletedRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The task token as received in `PollActivityTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// The result of successfully executing the activity
@@ -2846,11 +5327,6 @@ func (x *RespondActivityTaskCompletedRequest) ProtoReflect() protoreflect.Messag
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RespondActivityTaskCompletedRequest.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskCompletedRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *RespondActivityTaskCompletedRequest) GetTaskToken() []byte {
@@ -2904,8 +5380,130 @@ func (x *RespondActivityTaskCompletedRequest) GetDeploymentOptions() *v18.Worker
 	return nil
 }
 
+func (x *RespondActivityTaskCompletedRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RespondActivityTaskCompletedRequest) SetResult(v *v13.Payloads) {
+	x.Result = v
+}
+
+func (x *RespondActivityTaskCompletedRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondActivityTaskCompletedRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCompletedRequest) SetWorkerVersion(v *v13.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCompletedRequest) SetDeployment(v *v18.Deployment) {
+	x.Deployment = v
+}
+
+func (x *RespondActivityTaskCompletedRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *RespondActivityTaskCompletedRequest) HasResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.Result != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCompletedRequest) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCompletedRequest) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *RespondActivityTaskCompletedRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *RespondActivityTaskCompletedRequest) ClearResult() {
+	x.Result = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCompletedRequest) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCompletedRequest) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *RespondActivityTaskCompletedRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type RespondActivityTaskCompletedRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The task token as received in `PollActivityTaskQueueResponse`
+	TaskToken []byte
+	// The result of successfully executing the activity
+	Result *v13.Payloads
+	// The identity of the worker/client
+	Identity  string
+	Namespace string
+	// Version info of the worker who processed this task. This message's `build_id` field should
+	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
+	// field to true. See message docstrings for more.
+	// Deprecated. Use `deployment_options` instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	WorkerVersion *v13.WorkerVersionStamp
+	// Deployment info of the worker that completed this task. Must be present if user has set
+	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
+	// Deprecated. Replaced with `deployment_options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Deployment *v18.Deployment
+	// Worker deployment options that user has set in the worker.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 RespondActivityTaskCompletedRequest_builder) Build() *RespondActivityTaskCompletedRequest {
+	m0 := &RespondActivityTaskCompletedRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.Result = b.Result
+	x.Identity = b.Identity
+	x.Namespace = b.Namespace
+	x.WorkerVersion = b.WorkerVersion
+	x.Deployment = b.Deployment
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type RespondActivityTaskCompletedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2935,13 +5533,20 @@ func (x *RespondActivityTaskCompletedResponse) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondActivityTaskCompletedResponse.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskCompletedResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{29}
+type RespondActivityTaskCompletedResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RespondActivityTaskCompletedResponse_builder) Build() *RespondActivityTaskCompletedResponse {
+	m0 := &RespondActivityTaskCompletedResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type RespondActivityTaskCompletedByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Id of the workflow which scheduled this activity, leave empty to target a standalone activity
@@ -2982,11 +5587,6 @@ func (x *RespondActivityTaskCompletedByIdRequest) ProtoReflect() protoreflect.Me
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RespondActivityTaskCompletedByIdRequest.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskCompletedByIdRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *RespondActivityTaskCompletedByIdRequest) GetNamespace() string {
@@ -3031,8 +5631,74 @@ func (x *RespondActivityTaskCompletedByIdRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *RespondActivityTaskCompletedByIdRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RespondActivityTaskCompletedByIdRequest) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *RespondActivityTaskCompletedByIdRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *RespondActivityTaskCompletedByIdRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *RespondActivityTaskCompletedByIdRequest) SetResult(v *v13.Payloads) {
+	x.Result = v
+}
+
+func (x *RespondActivityTaskCompletedByIdRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondActivityTaskCompletedByIdRequest) HasResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.Result != nil
+}
+
+func (x *RespondActivityTaskCompletedByIdRequest) ClearResult() {
+	x.Result = nil
+}
+
+type RespondActivityTaskCompletedByIdRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow which scheduled this activity
+	Namespace string
+	// Id of the workflow which scheduled this activity, leave empty to target a standalone activity
+	WorkflowId string
+	// For a workflow activity - the run ID of the workflow which scheduled this activity.
+	// For a standalone activity - the run ID of the activity.
+	RunId string
+	// Id of the activity to complete
+	ActivityId string
+	// The serialized result of activity execution
+	Result *v13.Payloads
+	// The identity of the worker/client
+	Identity string
+}
+
+func (b0 RespondActivityTaskCompletedByIdRequest_builder) Build() *RespondActivityTaskCompletedByIdRequest {
+	m0 := &RespondActivityTaskCompletedByIdRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	x.ActivityId = b.ActivityId
+	x.Result = b.Result
+	x.Identity = b.Identity
+	return m0
+}
+
 type RespondActivityTaskCompletedByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3062,13 +5728,20 @@ func (x *RespondActivityTaskCompletedByIdResponse) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondActivityTaskCompletedByIdResponse.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskCompletedByIdResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{31}
+type RespondActivityTaskCompletedByIdResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RespondActivityTaskCompletedByIdResponse_builder) Build() *RespondActivityTaskCompletedByIdResponse {
+	m0 := &RespondActivityTaskCompletedByIdResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type RespondActivityTaskFailedRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The task token as received in `PollActivityTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Detailed failure information
@@ -3120,11 +5793,6 @@ func (x *RespondActivityTaskFailedRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RespondActivityTaskFailedRequest.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskFailedRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *RespondActivityTaskFailedRequest) GetTaskToken() []byte {
@@ -3185,8 +5853,148 @@ func (x *RespondActivityTaskFailedRequest) GetDeploymentOptions() *v18.WorkerDep
 	return nil
 }
 
+func (x *RespondActivityTaskFailedRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RespondActivityTaskFailedRequest) SetFailure(v *v15.Failure) {
+	x.Failure = v
+}
+
+func (x *RespondActivityTaskFailedRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondActivityTaskFailedRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RespondActivityTaskFailedRequest) SetLastHeartbeatDetails(v *v13.Payloads) {
+	x.LastHeartbeatDetails = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskFailedRequest) SetWorkerVersion(v *v13.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskFailedRequest) SetDeployment(v *v18.Deployment) {
+	x.Deployment = v
+}
+
+func (x *RespondActivityTaskFailedRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *RespondActivityTaskFailedRequest) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *RespondActivityTaskFailedRequest) HasLastHeartbeatDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastHeartbeatDetails != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskFailedRequest) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskFailedRequest) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *RespondActivityTaskFailedRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *RespondActivityTaskFailedRequest) ClearFailure() {
+	x.Failure = nil
+}
+
+func (x *RespondActivityTaskFailedRequest) ClearLastHeartbeatDetails() {
+	x.LastHeartbeatDetails = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskFailedRequest) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskFailedRequest) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *RespondActivityTaskFailedRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type RespondActivityTaskFailedRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The task token as received in `PollActivityTaskQueueResponse`
+	TaskToken []byte
+	// Detailed failure information
+	Failure *v15.Failure
+	// The identity of the worker/client
+	Identity  string
+	Namespace string
+	// Additional details to be stored as last activity heartbeat
+	LastHeartbeatDetails *v13.Payloads
+	// Version info of the worker who processed this task. This message's `build_id` field should
+	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
+	// field to true. See message docstrings for more.
+	// Deprecated. Use `deployment_options` instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	WorkerVersion *v13.WorkerVersionStamp
+	// Deployment info of the worker that completed this task. Must be present if user has set
+	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
+	// Deprecated. Replaced with `deployment_options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Deployment *v18.Deployment
+	// Worker deployment options that user has set in the worker.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 RespondActivityTaskFailedRequest_builder) Build() *RespondActivityTaskFailedRequest {
+	m0 := &RespondActivityTaskFailedRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.Failure = b.Failure
+	x.Identity = b.Identity
+	x.Namespace = b.Namespace
+	x.LastHeartbeatDetails = b.LastHeartbeatDetails
+	x.WorkerVersion = b.WorkerVersion
+	x.Deployment = b.Deployment
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type RespondActivityTaskFailedResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Server validation failures could include
 	// last_heartbeat_details payload is too large, request failure is too large
 	Failures      []*v15.Failure `protobuf:"bytes,1,rep,name=failures,proto3" json:"failures,omitempty"`
@@ -3219,11 +6027,6 @@ func (x *RespondActivityTaskFailedResponse) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondActivityTaskFailedResponse.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskFailedResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{33}
-}
-
 func (x *RespondActivityTaskFailedResponse) GetFailures() []*v15.Failure {
 	if x != nil {
 		return x.Failures
@@ -3231,8 +6034,28 @@ func (x *RespondActivityTaskFailedResponse) GetFailures() []*v15.Failure {
 	return nil
 }
 
+func (x *RespondActivityTaskFailedResponse) SetFailures(v []*v15.Failure) {
+	x.Failures = v
+}
+
+type RespondActivityTaskFailedResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Server validation failures could include
+	// last_heartbeat_details payload is too large, request failure is too large
+	Failures []*v15.Failure
+}
+
+func (b0 RespondActivityTaskFailedResponse_builder) Build() *RespondActivityTaskFailedResponse {
+	m0 := &RespondActivityTaskFailedResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Failures = b.Failures
+	return m0
+}
+
 type RespondActivityTaskFailedByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Id of the workflow which scheduled this activity, leave empty to target a standalone activity
@@ -3275,11 +6098,6 @@ func (x *RespondActivityTaskFailedByIdRequest) ProtoReflect() protoreflect.Messa
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RespondActivityTaskFailedByIdRequest.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskFailedByIdRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *RespondActivityTaskFailedByIdRequest) GetNamespace() string {
@@ -3331,8 +6149,92 @@ func (x *RespondActivityTaskFailedByIdRequest) GetLastHeartbeatDetails() *v13.Pa
 	return nil
 }
 
+func (x *RespondActivityTaskFailedByIdRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) SetFailure(v *v15.Failure) {
+	x.Failure = v
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) SetLastHeartbeatDetails(v *v13.Payloads) {
+	x.LastHeartbeatDetails = v
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) HasLastHeartbeatDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastHeartbeatDetails != nil
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) ClearFailure() {
+	x.Failure = nil
+}
+
+func (x *RespondActivityTaskFailedByIdRequest) ClearLastHeartbeatDetails() {
+	x.LastHeartbeatDetails = nil
+}
+
+type RespondActivityTaskFailedByIdRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow which scheduled this activity
+	Namespace string
+	// Id of the workflow which scheduled this activity, leave empty to target a standalone activity
+	WorkflowId string
+	// For a workflow activity - the run ID of the workflow which scheduled this activity.
+	// For a standalone activity - the run ID of the activity.
+	RunId string
+	// Id of the activity to fail
+	ActivityId string
+	// Detailed failure information
+	Failure *v15.Failure
+	// The identity of the worker/client
+	Identity string
+	// Additional details to be stored as last activity heartbeat
+	LastHeartbeatDetails *v13.Payloads
+}
+
+func (b0 RespondActivityTaskFailedByIdRequest_builder) Build() *RespondActivityTaskFailedByIdRequest {
+	m0 := &RespondActivityTaskFailedByIdRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	x.ActivityId = b.ActivityId
+	x.Failure = b.Failure
+	x.Identity = b.Identity
+	x.LastHeartbeatDetails = b.LastHeartbeatDetails
+	return m0
+}
+
 type RespondActivityTaskFailedByIdResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Server validation failures could include
 	// last_heartbeat_details payload is too large, request failure is too large
 	Failures      []*v15.Failure `protobuf:"bytes,1,rep,name=failures,proto3" json:"failures,omitempty"`
@@ -3365,11 +6267,6 @@ func (x *RespondActivityTaskFailedByIdResponse) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondActivityTaskFailedByIdResponse.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskFailedByIdResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{35}
-}
-
 func (x *RespondActivityTaskFailedByIdResponse) GetFailures() []*v15.Failure {
 	if x != nil {
 		return x.Failures
@@ -3377,8 +6274,28 @@ func (x *RespondActivityTaskFailedByIdResponse) GetFailures() []*v15.Failure {
 	return nil
 }
 
+func (x *RespondActivityTaskFailedByIdResponse) SetFailures(v []*v15.Failure) {
+	x.Failures = v
+}
+
+type RespondActivityTaskFailedByIdResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Server validation failures could include
+	// last_heartbeat_details payload is too large, request failure is too large
+	Failures []*v15.Failure
+}
+
+func (b0 RespondActivityTaskFailedByIdResponse_builder) Build() *RespondActivityTaskFailedByIdResponse {
+	m0 := &RespondActivityTaskFailedByIdResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Failures = b.Failures
+	return m0
+}
+
 type RespondActivityTaskCanceledRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The task token as received in `PollActivityTaskQueueResponse`
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Serialized additional information to attach to the cancellation
@@ -3428,11 +6345,6 @@ func (x *RespondActivityTaskCanceledRequest) ProtoReflect() protoreflect.Message
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RespondActivityTaskCanceledRequest.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskCanceledRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *RespondActivityTaskCanceledRequest) GetTaskToken() []byte {
@@ -3486,8 +6398,130 @@ func (x *RespondActivityTaskCanceledRequest) GetDeploymentOptions() *v18.WorkerD
 	return nil
 }
 
+func (x *RespondActivityTaskCanceledRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RespondActivityTaskCanceledRequest) SetDetails(v *v13.Payloads) {
+	x.Details = v
+}
+
+func (x *RespondActivityTaskCanceledRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondActivityTaskCanceledRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCanceledRequest) SetWorkerVersion(v *v13.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCanceledRequest) SetDeployment(v *v18.Deployment) {
+	x.Deployment = v
+}
+
+func (x *RespondActivityTaskCanceledRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *RespondActivityTaskCanceledRequest) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCanceledRequest) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCanceledRequest) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *RespondActivityTaskCanceledRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *RespondActivityTaskCanceledRequest) ClearDetails() {
+	x.Details = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCanceledRequest) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *RespondActivityTaskCanceledRequest) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *RespondActivityTaskCanceledRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type RespondActivityTaskCanceledRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The task token as received in `PollActivityTaskQueueResponse`
+	TaskToken []byte
+	// Serialized additional information to attach to the cancellation
+	Details *v13.Payloads
+	// The identity of the worker/client
+	Identity  string
+	Namespace string
+	// Version info of the worker who processed this task. This message's `build_id` field should
+	// always be set by SDKs. Workers opting into versioning will also set the `use_versioning`
+	// field to true. See message docstrings for more.
+	// Deprecated. Use `deployment_options` instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	WorkerVersion *v13.WorkerVersionStamp
+	// Deployment info of the worker that completed this task. Must be present if user has set
+	// `WorkerDeploymentOptions` regardless of versioning being enabled or not.
+	// Deprecated. Replaced with `deployment_options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Deployment *v18.Deployment
+	// Worker deployment options that user has set in the worker.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 RespondActivityTaskCanceledRequest_builder) Build() *RespondActivityTaskCanceledRequest {
+	m0 := &RespondActivityTaskCanceledRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.Details = b.Details
+	x.Identity = b.Identity
+	x.Namespace = b.Namespace
+	x.WorkerVersion = b.WorkerVersion
+	x.Deployment = b.Deployment
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type RespondActivityTaskCanceledResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3517,13 +6551,20 @@ func (x *RespondActivityTaskCanceledResponse) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondActivityTaskCanceledResponse.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskCanceledResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{37}
+type RespondActivityTaskCanceledResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RespondActivityTaskCanceledResponse_builder) Build() *RespondActivityTaskCanceledResponse {
+	m0 := &RespondActivityTaskCanceledResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type RespondActivityTaskCanceledByIdRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Id of the workflow which scheduled this activity, leave empty to target a standalone activity
@@ -3566,11 +6607,6 @@ func (x *RespondActivityTaskCanceledByIdRequest) ProtoReflect() protoreflect.Mes
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RespondActivityTaskCanceledByIdRequest.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskCanceledByIdRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *RespondActivityTaskCanceledByIdRequest) GetNamespace() string {
@@ -3622,8 +6658,92 @@ func (x *RespondActivityTaskCanceledByIdRequest) GetDeploymentOptions() *v18.Wor
 	return nil
 }
 
+func (x *RespondActivityTaskCanceledByIdRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) SetDetails(v *v13.Payloads) {
+	x.Details = v
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) ClearDetails() {
+	x.Details = nil
+}
+
+func (x *RespondActivityTaskCanceledByIdRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type RespondActivityTaskCanceledByIdRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow which scheduled this activity
+	Namespace string
+	// Id of the workflow which scheduled this activity, leave empty to target a standalone activity
+	WorkflowId string
+	// For a workflow activity - the run ID of the workflow which scheduled this activity.
+	// For a standalone activity - the run ID of the activity.
+	RunId string
+	// Id of the activity to confirm is cancelled
+	ActivityId string
+	// Serialized additional information to attach to the cancellation
+	Details *v13.Payloads
+	// The identity of the worker/client
+	Identity string
+	// Worker deployment options that user has set in the worker.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+}
+
+func (b0 RespondActivityTaskCanceledByIdRequest_builder) Build() *RespondActivityTaskCanceledByIdRequest {
+	m0 := &RespondActivityTaskCanceledByIdRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	x.ActivityId = b.ActivityId
+	x.Details = b.Details
+	x.Identity = b.Identity
+	x.DeploymentOptions = b.DeploymentOptions
+	return m0
+}
+
 type RespondActivityTaskCanceledByIdResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3653,13 +6773,20 @@ func (x *RespondActivityTaskCanceledByIdResponse) ProtoReflect() protoreflect.Me
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondActivityTaskCanceledByIdResponse.ProtoReflect.Descriptor instead.
-func (*RespondActivityTaskCanceledByIdResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{39}
+type RespondActivityTaskCanceledByIdResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RespondActivityTaskCanceledByIdResponse_builder) Build() *RespondActivityTaskCanceledByIdResponse {
+	m0 := &RespondActivityTaskCanceledByIdResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type RequestCancelWorkflowExecutionRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state             protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// The identity of the worker/client
@@ -3701,11 +6828,6 @@ func (x *RequestCancelWorkflowExecutionRequest) ProtoReflect() protoreflect.Mess
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestCancelWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*RequestCancelWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *RequestCancelWorkflowExecutionRequest) GetNamespace() string {
@@ -3757,8 +6879,80 @@ func (x *RequestCancelWorkflowExecutionRequest) GetLinks() []*v13.Link {
 	return nil
 }
 
+func (x *RequestCancelWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RequestCancelWorkflowExecutionRequest) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *RequestCancelWorkflowExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RequestCancelWorkflowExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *RequestCancelWorkflowExecutionRequest) SetFirstExecutionRunId(v string) {
+	x.FirstExecutionRunId = v
+}
+
+func (x *RequestCancelWorkflowExecutionRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *RequestCancelWorkflowExecutionRequest) SetLinks(v []*v13.Link) {
+	x.Links = v
+}
+
+func (x *RequestCancelWorkflowExecutionRequest) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *RequestCancelWorkflowExecutionRequest) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type RequestCancelWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace         string
+	WorkflowExecution *v13.WorkflowExecution
+	// The identity of the worker/client
+	Identity string
+	// Used to de-dupe cancellation requests
+	RequestId string
+	// If set, this call will error if the most recent (if no run id is set on
+	// `workflow_execution`), or specified (if it is) workflow execution is not part of the same
+	// execution chain as this id.
+	FirstExecutionRunId string
+	// Reason for requesting the cancellation
+	Reason string
+	// Links to be associated with the WorkflowExecutionCanceled event.
+	Links []*v13.Link
+}
+
+func (b0 RequestCancelWorkflowExecutionRequest_builder) Build() *RequestCancelWorkflowExecutionRequest {
+	m0 := &RequestCancelWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowExecution = b.WorkflowExecution
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.FirstExecutionRunId = b.FirstExecutionRunId
+	x.Reason = b.Reason
+	x.Links = b.Links
+	return m0
+}
+
 type RequestCancelWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3788,16 +6982,23 @@ func (x *RequestCancelWorkflowExecutionResponse) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequestCancelWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*RequestCancelWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{41}
+type RequestCancelWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RequestCancelWorkflowExecutionResponse_builder) Build() *RequestCancelWorkflowExecutionResponse {
+	m0 := &RequestCancelWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Keep the parameters in sync with:
 //   - temporal.api.batch.v1.BatchOperationSignal.
 //   - temporal.api.workflow.v1.PostResetOperation.SignalWorkflow.
 type SignalWorkflowExecutionRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state             protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	// The workflow author-defined name of the signal to send to the workflow
@@ -3844,11 +7045,6 @@ func (x *SignalWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SignalWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*SignalWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *SignalWorkflowExecutionRequest) GetNamespace() string {
@@ -3915,8 +7111,118 @@ func (x *SignalWorkflowExecutionRequest) GetLinks() []*v13.Link {
 	return nil
 }
 
+func (x *SignalWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SignalWorkflowExecutionRequest) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *SignalWorkflowExecutionRequest) SetSignalName(v string) {
+	x.SignalName = v
+}
+
+func (x *SignalWorkflowExecutionRequest) SetInput(v *v13.Payloads) {
+	x.Input = v
+}
+
+func (x *SignalWorkflowExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *SignalWorkflowExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SignalWorkflowExecutionRequest) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *SignalWorkflowExecutionRequest) SetHeader(v *v13.Header) {
+	x.Header = v
+}
+
+func (x *SignalWorkflowExecutionRequest) SetLinks(v []*v13.Link) {
+	x.Links = v
+}
+
+func (x *SignalWorkflowExecutionRequest) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *SignalWorkflowExecutionRequest) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *SignalWorkflowExecutionRequest) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *SignalWorkflowExecutionRequest) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *SignalWorkflowExecutionRequest) ClearInput() {
+	x.Input = nil
+}
+
+func (x *SignalWorkflowExecutionRequest) ClearHeader() {
+	x.Header = nil
+}
+
+type SignalWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace         string
+	WorkflowExecution *v13.WorkflowExecution
+	// The workflow author-defined name of the signal to send to the workflow
+	SignalName string
+	// Serialized value(s) to provide with the signal
+	Input *v13.Payloads
+	// The identity of the worker/client
+	Identity string
+	// Used to de-dupe sent signals
+	RequestId string
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Control string
+	// Headers that are passed with the signal to the processing workflow.
+	// These can include things like auth or tracing tokens.
+	Header *v13.Header
+	// Links to be associated with the WorkflowExecutionSignaled event.
+	Links []*v13.Link
+}
+
+func (b0 SignalWorkflowExecutionRequest_builder) Build() *SignalWorkflowExecutionRequest {
+	m0 := &SignalWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowExecution = b.WorkflowExecution
+	x.SignalName = b.SignalName
+	x.Input = b.Input
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.Control = b.Control
+	x.Header = b.Header
+	x.Links = b.Links
+	return m0
+}
+
 type SignalWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -3946,13 +7252,20 @@ func (x *SignalWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SignalWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*SignalWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{43}
+type SignalWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 SignalWorkflowExecutionResponse_builder) Build() *SignalWorkflowExecutionResponse {
+	m0 := &SignalWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type SignalWithStartWorkflowExecutionRequest struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
+	state        protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace    string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowId   string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	WorkflowType *v13.WorkflowType      `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
@@ -4040,11 +7353,6 @@ func (x *SignalWithStartWorkflowExecutionRequest) ProtoReflect() protoreflect.Me
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SignalWithStartWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*SignalWithStartWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *SignalWithStartWorkflowExecutionRequest) GetNamespace() string {
@@ -4223,8 +7531,371 @@ func (x *SignalWithStartWorkflowExecutionRequest) GetPriority() *v13.Priority {
 	return nil
 }
 
+func (x *SignalWithStartWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetWorkflowType(v *v13.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetTaskQueue(v *v14.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetInput(v *v13.Payloads) {
+	x.Input = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetWorkflowExecutionTimeout(v *durationpb.Duration) {
+	x.WorkflowExecutionTimeout = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.WorkflowTaskTimeout = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetWorkflowIdReusePolicy(v v11.WorkflowIdReusePolicy) {
+	x.WorkflowIdReusePolicy = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetWorkflowIdConflictPolicy(v v11.WorkflowIdConflictPolicy) {
+	x.WorkflowIdConflictPolicy = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetSignalName(v string) {
+	x.SignalName = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetSignalInput(v *v13.Payloads) {
+	x.SignalInput = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SignalWithStartWorkflowExecutionRequest) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetRetryPolicy(v *v13.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetCronSchedule(v string) {
+	x.CronSchedule = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetMemo(v *v13.Memo) {
+	x.Memo = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetSearchAttributes(v *v13.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetHeader(v *v13.Header) {
+	x.Header = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetWorkflowStartDelay(v *durationpb.Duration) {
+	x.WorkflowStartDelay = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetUserMetadata(v *v16.UserMetadata) {
+	x.UserMetadata = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetLinks(v []*v13.Link) {
+	x.Links = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetVersioningOverride(v *v17.VersioningOverride) {
+	x.VersioningOverride = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) SetPriority(v *v13.Priority) {
+	x.Priority = v
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasWorkflowExecutionTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionTimeout != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskTimeout != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasSignalInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.SignalInput != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasWorkflowStartDelay() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowStartDelay != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasUserMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UserMetadata != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasVersioningOverride() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningOverride != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearInput() {
+	x.Input = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearWorkflowExecutionTimeout() {
+	x.WorkflowExecutionTimeout = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearWorkflowTaskTimeout() {
+	x.WorkflowTaskTimeout = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearSignalInput() {
+	x.SignalInput = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearWorkflowStartDelay() {
+	x.WorkflowStartDelay = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearUserMetadata() {
+	x.UserMetadata = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearVersioningOverride() {
+	x.VersioningOverride = nil
+}
+
+func (x *SignalWithStartWorkflowExecutionRequest) ClearPriority() {
+	x.Priority = nil
+}
+
+type SignalWithStartWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace    string
+	WorkflowId   string
+	WorkflowType *v13.WorkflowType
+	// The task queue to start this workflow on, if it will be started
+	TaskQueue *v14.TaskQueue
+	// Serialized arguments to the workflow. These are passed as arguments to the workflow function.
+	Input *v13.Payloads
+	// Total workflow execution timeout including retries and continue as new
+	WorkflowExecutionTimeout *durationpb.Duration
+	// Timeout of a single workflow run
+	WorkflowRunTimeout *durationpb.Duration
+	// Timeout of a single workflow task
+	WorkflowTaskTimeout *durationpb.Duration
+	// The identity of the worker/client
+	Identity string
+	// Used to de-dupe signal w/ start requests
+	RequestId string
+	// Defines whether to allow re-using the workflow id from a previously *closed* workflow.
+	// The default policy is WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	//
+	// See `workflow_id_reuse_policy` for handling a workflow id duplication with a *running* workflow.
+	WorkflowIdReusePolicy v11.WorkflowIdReusePolicy
+	// Defines how to resolve a workflow id conflict with a *running* workflow.
+	// The default policy is WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING.
+	// Note that WORKFLOW_ID_CONFLICT_POLICY_FAIL is an invalid option.
+	//
+	// See `workflow_id_reuse_policy` for handling a workflow id duplication with a *closed* workflow.
+	WorkflowIdConflictPolicy v11.WorkflowIdConflictPolicy
+	// The workflow author-defined name of the signal to send to the workflow
+	SignalName string
+	// Serialized value(s) to provide with the signal
+	SignalInput *v13.Payloads
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Control string
+	// Retry policy for the workflow
+	RetryPolicy *v13.RetryPolicy
+	// See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/
+	CronSchedule     string
+	Memo             *v13.Memo
+	SearchAttributes *v13.SearchAttributes
+	Header           *v13.Header
+	// Time to wait before dispatching the first workflow task. Cannot be used with `cron_schedule`.
+	// Note that the signal will be delivered with the first workflow task. If the workflow gets
+	// another SignalWithStartWorkflow before the delay a workflow task will be dispatched immediately
+	// and the rest of the delay period will be ignored, even if that request also had a delay.
+	// Signal via SignalWorkflowExecution will not unblock the workflow.
+	WorkflowStartDelay *durationpb.Duration
+	// Metadata on the workflow if it is started. This is carried over to the WorkflowExecutionInfo
+	// for use by user interfaces to display the fixed as-of-start summary and details of the
+	// workflow.
+	UserMetadata *v16.UserMetadata
+	// Links to be associated with the WorkflowExecutionStarted and WorkflowExecutionSignaled events.
+	Links []*v13.Link
+	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
+	// To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.
+	VersioningOverride *v17.VersioningOverride
+	// Priority metadata
+	Priority *v13.Priority
+}
+
+func (b0 SignalWithStartWorkflowExecutionRequest_builder) Build() *SignalWithStartWorkflowExecutionRequest {
+	m0 := &SignalWithStartWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.WorkflowType = b.WorkflowType
+	x.TaskQueue = b.TaskQueue
+	x.Input = b.Input
+	x.WorkflowExecutionTimeout = b.WorkflowExecutionTimeout
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.WorkflowTaskTimeout = b.WorkflowTaskTimeout
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.WorkflowIdReusePolicy = b.WorkflowIdReusePolicy
+	x.WorkflowIdConflictPolicy = b.WorkflowIdConflictPolicy
+	x.SignalName = b.SignalName
+	x.SignalInput = b.SignalInput
+	x.Control = b.Control
+	x.RetryPolicy = b.RetryPolicy
+	x.CronSchedule = b.CronSchedule
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.Header = b.Header
+	x.WorkflowStartDelay = b.WorkflowStartDelay
+	x.UserMetadata = b.UserMetadata
+	x.Links = b.Links
+	x.VersioningOverride = b.VersioningOverride
+	x.Priority = b.Priority
+	return m0
+}
+
 type SignalWithStartWorkflowExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The run id of the workflow that was started - or just signaled, if it was already running.
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// If true, a new workflow was started.
@@ -4258,11 +7929,6 @@ func (x *SignalWithStartWorkflowExecutionResponse) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SignalWithStartWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*SignalWithStartWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{45}
-}
-
 func (x *SignalWithStartWorkflowExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
@@ -4277,8 +7943,34 @@ func (x *SignalWithStartWorkflowExecutionResponse) GetStarted() bool {
 	return false
 }
 
+func (x *SignalWithStartWorkflowExecutionResponse) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *SignalWithStartWorkflowExecutionResponse) SetStarted(v bool) {
+	x.Started = v
+}
+
+type SignalWithStartWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The run id of the workflow that was started - or just signaled, if it was already running.
+	RunId string
+	// If true, a new workflow was started.
+	Started bool
+}
+
+func (b0 SignalWithStartWorkflowExecutionResponse_builder) Build() *SignalWithStartWorkflowExecutionResponse {
+	m0 := &SignalWithStartWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RunId = b.RunId
+	x.Started = b.Started
+	return m0
+}
+
 type ResetWorkflowExecutionRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The workflow to reset. If this contains a run ID then the workflow will be reset back to the
 	// provided event ID in that run. Otherwise it will be reset to the provided event ID in the
@@ -4330,11 +8022,6 @@ func (x *ResetWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResetWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*ResetWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *ResetWorkflowExecutionRequest) GetNamespace() string {
@@ -4401,8 +8088,101 @@ func (x *ResetWorkflowExecutionRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *ResetWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ResetWorkflowExecutionRequest) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ResetWorkflowExecutionRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *ResetWorkflowExecutionRequest) SetWorkflowTaskFinishEventId(v int64) {
+	x.WorkflowTaskFinishEventId = v
+}
+
+func (x *ResetWorkflowExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *ResetWorkflowExecutionRequest) SetResetReapplyType(v v11.ResetReapplyType) {
+	x.ResetReapplyType = v
+}
+
+func (x *ResetWorkflowExecutionRequest) SetResetReapplyExcludeTypes(v []v11.ResetReapplyExcludeType) {
+	x.ResetReapplyExcludeTypes = v
+}
+
+func (x *ResetWorkflowExecutionRequest) SetPostResetOperations(v []*v17.PostResetOperation) {
+	x.PostResetOperations = v
+}
+
+func (x *ResetWorkflowExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *ResetWorkflowExecutionRequest) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ResetWorkflowExecutionRequest) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type ResetWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// The workflow to reset. If this contains a run ID then the workflow will be reset back to the
+	// provided event ID in that run. Otherwise it will be reset to the provided event ID in the
+	// current run. In all cases the current run will be terminated and a new run started.
+	WorkflowExecution *v13.WorkflowExecution
+	Reason            string
+	// The id of a `WORKFLOW_TASK_COMPLETED`,`WORKFLOW_TASK_TIMED_OUT`, `WORKFLOW_TASK_FAILED`, or
+	// `WORKFLOW_TASK_STARTED` event to reset to.
+	WorkflowTaskFinishEventId int64
+	// Used to de-dupe reset requests
+	RequestId string
+	// Deprecated. Use `options`.
+	// Default: RESET_REAPPLY_TYPE_SIGNAL
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	ResetReapplyType v11.ResetReapplyType
+	// Event types not to be reapplied
+	ResetReapplyExcludeTypes []v11.ResetReapplyExcludeType
+	// Operations to perform after the workflow has been reset. These operations will be applied
+	// to the *new* run of the workflow execution in the order they are provided.
+	// All operations are applied to the workflow before the first new workflow task is generated
+	PostResetOperations []*v17.PostResetOperation
+	// The identity of the worker/client
+	Identity string
+}
+
+func (b0 ResetWorkflowExecutionRequest_builder) Build() *ResetWorkflowExecutionRequest {
+	m0 := &ResetWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowExecution = b.WorkflowExecution
+	x.Reason = b.Reason
+	x.WorkflowTaskFinishEventId = b.WorkflowTaskFinishEventId
+	x.RequestId = b.RequestId
+	x.ResetReapplyType = b.ResetReapplyType
+	x.ResetReapplyExcludeTypes = b.ResetReapplyExcludeTypes
+	x.PostResetOperations = b.PostResetOperations
+	x.Identity = b.Identity
+	return m0
+}
+
 type ResetWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	RunId         string                 `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -4433,11 +8213,6 @@ func (x *ResetWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResetWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*ResetWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{47}
-}
-
 func (x *ResetWorkflowExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
@@ -4445,8 +8220,26 @@ func (x *ResetWorkflowExecutionResponse) GetRunId() string {
 	return ""
 }
 
+func (x *ResetWorkflowExecutionResponse) SetRunId(v string) {
+	x.RunId = v
+}
+
+type ResetWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	RunId string
+}
+
+func (b0 ResetWorkflowExecutionResponse_builder) Build() *ResetWorkflowExecutionResponse {
+	m0 := &ResetWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RunId = b.RunId
+	return m0
+}
+
 type TerminateWorkflowExecutionRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state             protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace         string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
 	Reason            string                 `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
@@ -4487,11 +8280,6 @@ func (x *TerminateWorkflowExecutionRequest) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use TerminateWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*TerminateWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *TerminateWorkflowExecutionRequest) GetNamespace() string {
@@ -4543,8 +8331,90 @@ func (x *TerminateWorkflowExecutionRequest) GetLinks() []*v13.Link {
 	return nil
 }
 
+func (x *TerminateWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *TerminateWorkflowExecutionRequest) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *TerminateWorkflowExecutionRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *TerminateWorkflowExecutionRequest) SetDetails(v *v13.Payloads) {
+	x.Details = v
+}
+
+func (x *TerminateWorkflowExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *TerminateWorkflowExecutionRequest) SetFirstExecutionRunId(v string) {
+	x.FirstExecutionRunId = v
+}
+
+func (x *TerminateWorkflowExecutionRequest) SetLinks(v []*v13.Link) {
+	x.Links = v
+}
+
+func (x *TerminateWorkflowExecutionRequest) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *TerminateWorkflowExecutionRequest) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *TerminateWorkflowExecutionRequest) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *TerminateWorkflowExecutionRequest) ClearDetails() {
+	x.Details = nil
+}
+
+type TerminateWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace         string
+	WorkflowExecution *v13.WorkflowExecution
+	Reason            string
+	// Serialized additional information to attach to the termination event
+	Details *v13.Payloads
+	// The identity of the worker/client
+	Identity string
+	// If set, this call will error if the most recent (if no run id is set on
+	// `workflow_execution`), or specified (if it is) workflow execution is not part of the same
+	// execution chain as this id.
+	FirstExecutionRunId string
+	// Links to be associated with the WorkflowExecutionTerminated event.
+	Links []*v13.Link
+}
+
+func (b0 TerminateWorkflowExecutionRequest_builder) Build() *TerminateWorkflowExecutionRequest {
+	m0 := &TerminateWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowExecution = b.WorkflowExecution
+	x.Reason = b.Reason
+	x.Details = b.Details
+	x.Identity = b.Identity
+	x.FirstExecutionRunId = b.FirstExecutionRunId
+	x.Links = b.Links
+	return m0
+}
+
 type TerminateWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4574,13 +8444,20 @@ func (x *TerminateWorkflowExecutionResponse) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TerminateWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*TerminateWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{49}
+type TerminateWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 TerminateWorkflowExecutionResponse_builder) Build() *TerminateWorkflowExecutionResponse {
+	m0 := &TerminateWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type DeleteWorkflowExecutionRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Workflow Execution to delete. If run_id is not specified, the latest one is used.
 	WorkflowExecution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
@@ -4613,11 +8490,6 @@ func (x *DeleteWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*DeleteWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{50}
-}
-
 func (x *DeleteWorkflowExecutionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -4632,8 +8504,44 @@ func (x *DeleteWorkflowExecutionRequest) GetWorkflowExecution() *v13.WorkflowExe
 	return nil
 }
 
+func (x *DeleteWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DeleteWorkflowExecutionRequest) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *DeleteWorkflowExecutionRequest) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *DeleteWorkflowExecutionRequest) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type DeleteWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Workflow Execution to delete. If run_id is not specified, the latest one is used.
+	WorkflowExecution *v13.WorkflowExecution
+}
+
+func (b0 DeleteWorkflowExecutionRequest_builder) Build() *DeleteWorkflowExecutionRequest {
+	m0 := &DeleteWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowExecution = b.WorkflowExecution
+	return m0
+}
+
 type DeleteWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -4663,13 +8571,20 @@ func (x *DeleteWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*DeleteWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{51}
+type DeleteWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 DeleteWorkflowExecutionResponse_builder) Build() *DeleteWorkflowExecutionResponse {
+	m0 := &DeleteWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListOpenWorkflowExecutionsRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state           protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,2,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
 	NextPageToken   []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -4706,11 +8621,6 @@ func (x *ListOpenWorkflowExecutionsRequest) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListOpenWorkflowExecutionsRequest.ProtoReflect.Descriptor instead.
-func (*ListOpenWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *ListOpenWorkflowExecutionsRequest) GetNamespace() string {
@@ -4766,6 +8676,155 @@ func (x *ListOpenWorkflowExecutionsRequest) GetTypeFilter() *v113.WorkflowTypeFi
 	return nil
 }
 
+func (x *ListOpenWorkflowExecutionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) SetMaximumPageSize(v int32) {
+	x.MaximumPageSize = v
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) SetStartTimeFilter(v *v113.StartTimeFilter) {
+	x.StartTimeFilter = v
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) SetExecutionFilter(v *v113.WorkflowExecutionFilter) {
+	if v == nil {
+		x.Filters = nil
+		return
+	}
+	x.Filters = &ListOpenWorkflowExecutionsRequest_ExecutionFilter{v}
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) SetTypeFilter(v *v113.WorkflowTypeFilter) {
+	if v == nil {
+		x.Filters = nil
+		return
+	}
+	x.Filters = &ListOpenWorkflowExecutionsRequest_TypeFilter{v}
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) HasStartTimeFilter() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTimeFilter != nil
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) HasFilters() bool {
+	if x == nil {
+		return false
+	}
+	return x.Filters != nil
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) HasExecutionFilter() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Filters.(*ListOpenWorkflowExecutionsRequest_ExecutionFilter)
+	return ok
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) HasTypeFilter() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Filters.(*ListOpenWorkflowExecutionsRequest_TypeFilter)
+	return ok
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) ClearStartTimeFilter() {
+	x.StartTimeFilter = nil
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) ClearFilters() {
+	x.Filters = nil
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) ClearExecutionFilter() {
+	if _, ok := x.Filters.(*ListOpenWorkflowExecutionsRequest_ExecutionFilter); ok {
+		x.Filters = nil
+	}
+}
+
+func (x *ListOpenWorkflowExecutionsRequest) ClearTypeFilter() {
+	if _, ok := x.Filters.(*ListOpenWorkflowExecutionsRequest_TypeFilter); ok {
+		x.Filters = nil
+	}
+}
+
+const ListOpenWorkflowExecutionsRequest_Filters_not_set_case case_ListOpenWorkflowExecutionsRequest_Filters = 0
+const ListOpenWorkflowExecutionsRequest_ExecutionFilter_case case_ListOpenWorkflowExecutionsRequest_Filters = 5
+const ListOpenWorkflowExecutionsRequest_TypeFilter_case case_ListOpenWorkflowExecutionsRequest_Filters = 6
+
+func (x *ListOpenWorkflowExecutionsRequest) WhichFilters() case_ListOpenWorkflowExecutionsRequest_Filters {
+	if x == nil {
+		return ListOpenWorkflowExecutionsRequest_Filters_not_set_case
+	}
+	switch x.Filters.(type) {
+	case *ListOpenWorkflowExecutionsRequest_ExecutionFilter:
+		return ListOpenWorkflowExecutionsRequest_ExecutionFilter_case
+	case *ListOpenWorkflowExecutionsRequest_TypeFilter:
+		return ListOpenWorkflowExecutionsRequest_TypeFilter_case
+	default:
+		return ListOpenWorkflowExecutionsRequest_Filters_not_set_case
+	}
+}
+
+type ListOpenWorkflowExecutionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace       string
+	MaximumPageSize int32
+	NextPageToken   []byte
+	StartTimeFilter *v113.StartTimeFilter
+	// Fields of oneof Filters:
+	ExecutionFilter *v113.WorkflowExecutionFilter
+	TypeFilter      *v113.WorkflowTypeFilter
+	// -- end of Filters
+}
+
+func (b0 ListOpenWorkflowExecutionsRequest_builder) Build() *ListOpenWorkflowExecutionsRequest {
+	m0 := &ListOpenWorkflowExecutionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.MaximumPageSize = b.MaximumPageSize
+	x.NextPageToken = b.NextPageToken
+	x.StartTimeFilter = b.StartTimeFilter
+	if b.ExecutionFilter != nil {
+		x.Filters = &ListOpenWorkflowExecutionsRequest_ExecutionFilter{b.ExecutionFilter}
+	}
+	if b.TypeFilter != nil {
+		x.Filters = &ListOpenWorkflowExecutionsRequest_TypeFilter{b.TypeFilter}
+	}
+	return m0
+}
+
+type case_ListOpenWorkflowExecutionsRequest_Filters protoreflect.FieldNumber
+
+func (x case_ListOpenWorkflowExecutionsRequest_Filters) String() string {
+	switch x {
+	case ListOpenWorkflowExecutionsRequest_Filters_not_set_case:
+		return "ListOpenWorkflowExecutionsRequestFiltersNotSetCase"
+	case ListOpenWorkflowExecutionsRequest_ExecutionFilter_case:
+		return "ListOpenWorkflowExecutionsRequestExecutionFilterCase"
+	case ListOpenWorkflowExecutionsRequest_TypeFilter_case:
+		return "ListOpenWorkflowExecutionsRequestTypeFilterCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isListOpenWorkflowExecutionsRequest_Filters interface {
 	isListOpenWorkflowExecutionsRequest_Filters()
 }
@@ -4784,7 +8843,7 @@ func (*ListOpenWorkflowExecutionsRequest_ExecutionFilter) isListOpenWorkflowExec
 func (*ListOpenWorkflowExecutionsRequest_TypeFilter) isListOpenWorkflowExecutionsRequest_Filters() {}
 
 type ListOpenWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState       `protogen:"hybrid.v1"`
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -4816,11 +8875,6 @@ func (x *ListOpenWorkflowExecutionsResponse) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListOpenWorkflowExecutionsResponse.ProtoReflect.Descriptor instead.
-func (*ListOpenWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{53}
-}
-
 func (x *ListOpenWorkflowExecutionsResponse) GetExecutions() []*v17.WorkflowExecutionInfo {
 	if x != nil {
 		return x.Executions
@@ -4835,8 +8889,35 @@ func (x *ListOpenWorkflowExecutionsResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListOpenWorkflowExecutionsResponse) SetExecutions(v []*v17.WorkflowExecutionInfo) {
+	x.Executions = v
+}
+
+func (x *ListOpenWorkflowExecutionsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListOpenWorkflowExecutionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Executions    []*v17.WorkflowExecutionInfo
+	NextPageToken []byte
+}
+
+func (b0 ListOpenWorkflowExecutionsResponse_builder) Build() *ListOpenWorkflowExecutionsResponse {
+	m0 := &ListOpenWorkflowExecutionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Executions = b.Executions
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type ListClosedWorkflowExecutionsRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
+	state           protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace       string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	MaximumPageSize int32                  `protobuf:"varint,2,opt,name=maximum_page_size,json=maximumPageSize,proto3" json:"maximum_page_size,omitempty"`
 	NextPageToken   []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -4874,11 +8955,6 @@ func (x *ListClosedWorkflowExecutionsRequest) ProtoReflect() protoreflect.Messag
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListClosedWorkflowExecutionsRequest.ProtoReflect.Descriptor instead.
-func (*ListClosedWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *ListClosedWorkflowExecutionsRequest) GetNamespace() string {
@@ -4943,6 +9019,186 @@ func (x *ListClosedWorkflowExecutionsRequest) GetStatusFilter() *v113.StatusFilt
 	return nil
 }
 
+func (x *ListClosedWorkflowExecutionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) SetMaximumPageSize(v int32) {
+	x.MaximumPageSize = v
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) SetStartTimeFilter(v *v113.StartTimeFilter) {
+	x.StartTimeFilter = v
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) SetExecutionFilter(v *v113.WorkflowExecutionFilter) {
+	if v == nil {
+		x.Filters = nil
+		return
+	}
+	x.Filters = &ListClosedWorkflowExecutionsRequest_ExecutionFilter{v}
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) SetTypeFilter(v *v113.WorkflowTypeFilter) {
+	if v == nil {
+		x.Filters = nil
+		return
+	}
+	x.Filters = &ListClosedWorkflowExecutionsRequest_TypeFilter{v}
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) SetStatusFilter(v *v113.StatusFilter) {
+	if v == nil {
+		x.Filters = nil
+		return
+	}
+	x.Filters = &ListClosedWorkflowExecutionsRequest_StatusFilter{v}
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) HasStartTimeFilter() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTimeFilter != nil
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) HasFilters() bool {
+	if x == nil {
+		return false
+	}
+	return x.Filters != nil
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) HasExecutionFilter() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_ExecutionFilter)
+	return ok
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) HasTypeFilter() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_TypeFilter)
+	return ok
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) HasStatusFilter() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_StatusFilter)
+	return ok
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) ClearStartTimeFilter() {
+	x.StartTimeFilter = nil
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) ClearFilters() {
+	x.Filters = nil
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) ClearExecutionFilter() {
+	if _, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_ExecutionFilter); ok {
+		x.Filters = nil
+	}
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) ClearTypeFilter() {
+	if _, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_TypeFilter); ok {
+		x.Filters = nil
+	}
+}
+
+func (x *ListClosedWorkflowExecutionsRequest) ClearStatusFilter() {
+	if _, ok := x.Filters.(*ListClosedWorkflowExecutionsRequest_StatusFilter); ok {
+		x.Filters = nil
+	}
+}
+
+const ListClosedWorkflowExecutionsRequest_Filters_not_set_case case_ListClosedWorkflowExecutionsRequest_Filters = 0
+const ListClosedWorkflowExecutionsRequest_ExecutionFilter_case case_ListClosedWorkflowExecutionsRequest_Filters = 5
+const ListClosedWorkflowExecutionsRequest_TypeFilter_case case_ListClosedWorkflowExecutionsRequest_Filters = 6
+const ListClosedWorkflowExecutionsRequest_StatusFilter_case case_ListClosedWorkflowExecutionsRequest_Filters = 7
+
+func (x *ListClosedWorkflowExecutionsRequest) WhichFilters() case_ListClosedWorkflowExecutionsRequest_Filters {
+	if x == nil {
+		return ListClosedWorkflowExecutionsRequest_Filters_not_set_case
+	}
+	switch x.Filters.(type) {
+	case *ListClosedWorkflowExecutionsRequest_ExecutionFilter:
+		return ListClosedWorkflowExecutionsRequest_ExecutionFilter_case
+	case *ListClosedWorkflowExecutionsRequest_TypeFilter:
+		return ListClosedWorkflowExecutionsRequest_TypeFilter_case
+	case *ListClosedWorkflowExecutionsRequest_StatusFilter:
+		return ListClosedWorkflowExecutionsRequest_StatusFilter_case
+	default:
+		return ListClosedWorkflowExecutionsRequest_Filters_not_set_case
+	}
+}
+
+type ListClosedWorkflowExecutionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace       string
+	MaximumPageSize int32
+	NextPageToken   []byte
+	StartTimeFilter *v113.StartTimeFilter
+	// Fields of oneof Filters:
+	ExecutionFilter *v113.WorkflowExecutionFilter
+	TypeFilter      *v113.WorkflowTypeFilter
+	StatusFilter    *v113.StatusFilter
+	// -- end of Filters
+}
+
+func (b0 ListClosedWorkflowExecutionsRequest_builder) Build() *ListClosedWorkflowExecutionsRequest {
+	m0 := &ListClosedWorkflowExecutionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.MaximumPageSize = b.MaximumPageSize
+	x.NextPageToken = b.NextPageToken
+	x.StartTimeFilter = b.StartTimeFilter
+	if b.ExecutionFilter != nil {
+		x.Filters = &ListClosedWorkflowExecutionsRequest_ExecutionFilter{b.ExecutionFilter}
+	}
+	if b.TypeFilter != nil {
+		x.Filters = &ListClosedWorkflowExecutionsRequest_TypeFilter{b.TypeFilter}
+	}
+	if b.StatusFilter != nil {
+		x.Filters = &ListClosedWorkflowExecutionsRequest_StatusFilter{b.StatusFilter}
+	}
+	return m0
+}
+
+type case_ListClosedWorkflowExecutionsRequest_Filters protoreflect.FieldNumber
+
+func (x case_ListClosedWorkflowExecutionsRequest_Filters) String() string {
+	switch x {
+	case ListClosedWorkflowExecutionsRequest_Filters_not_set_case:
+		return "ListClosedWorkflowExecutionsRequestFiltersNotSetCase"
+	case ListClosedWorkflowExecutionsRequest_ExecutionFilter_case:
+		return "ListClosedWorkflowExecutionsRequestExecutionFilterCase"
+	case ListClosedWorkflowExecutionsRequest_TypeFilter_case:
+		return "ListClosedWorkflowExecutionsRequestTypeFilterCase"
+	case ListClosedWorkflowExecutionsRequest_StatusFilter_case:
+		return "ListClosedWorkflowExecutionsRequestStatusFilterCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isListClosedWorkflowExecutionsRequest_Filters interface {
 	isListClosedWorkflowExecutionsRequest_Filters()
 }
@@ -4969,7 +9225,7 @@ func (*ListClosedWorkflowExecutionsRequest_StatusFilter) isListClosedWorkflowExe
 }
 
 type ListClosedWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState       `protogen:"hybrid.v1"`
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -5001,11 +9257,6 @@ func (x *ListClosedWorkflowExecutionsResponse) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListClosedWorkflowExecutionsResponse.ProtoReflect.Descriptor instead.
-func (*ListClosedWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{55}
-}
-
 func (x *ListClosedWorkflowExecutionsResponse) GetExecutions() []*v17.WorkflowExecutionInfo {
 	if x != nil {
 		return x.Executions
@@ -5020,8 +9271,35 @@ func (x *ListClosedWorkflowExecutionsResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListClosedWorkflowExecutionsResponse) SetExecutions(v []*v17.WorkflowExecutionInfo) {
+	x.Executions = v
+}
+
+func (x *ListClosedWorkflowExecutionsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListClosedWorkflowExecutionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Executions    []*v17.WorkflowExecutionInfo
+	NextPageToken []byte
+}
+
+func (b0 ListClosedWorkflowExecutionsResponse_builder) Build() *ListClosedWorkflowExecutionsResponse {
+	m0 := &ListClosedWorkflowExecutionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Executions = b.Executions
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type ListWorkflowExecutionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -5055,11 +9333,6 @@ func (x *ListWorkflowExecutionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWorkflowExecutionsRequest.ProtoReflect.Descriptor instead.
-func (*ListWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{56}
-}
-
 func (x *ListWorkflowExecutionsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -5088,8 +9361,47 @@ func (x *ListWorkflowExecutionsRequest) GetQuery() string {
 	return ""
 }
 
+func (x *ListWorkflowExecutionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListWorkflowExecutionsRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListWorkflowExecutionsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListWorkflowExecutionsRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+type ListWorkflowExecutionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace     string
+	PageSize      int32
+	NextPageToken []byte
+	Query         string
+}
+
+func (b0 ListWorkflowExecutionsRequest_builder) Build() *ListWorkflowExecutionsRequest {
+	m0 := &ListWorkflowExecutionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	x.Query = b.Query
+	return m0
+}
+
 type ListWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState       `protogen:"hybrid.v1"`
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -5121,11 +9433,6 @@ func (x *ListWorkflowExecutionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWorkflowExecutionsResponse.ProtoReflect.Descriptor instead.
-func (*ListWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{57}
-}
-
 func (x *ListWorkflowExecutionsResponse) GetExecutions() []*v17.WorkflowExecutionInfo {
 	if x != nil {
 		return x.Executions
@@ -5140,8 +9447,35 @@ func (x *ListWorkflowExecutionsResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListWorkflowExecutionsResponse) SetExecutions(v []*v17.WorkflowExecutionInfo) {
+	x.Executions = v
+}
+
+func (x *ListWorkflowExecutionsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListWorkflowExecutionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Executions    []*v17.WorkflowExecutionInfo
+	NextPageToken []byte
+}
+
+func (b0 ListWorkflowExecutionsResponse_builder) Build() *ListWorkflowExecutionsResponse {
+	m0 := &ListWorkflowExecutionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Executions = b.Executions
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type ListArchivedWorkflowExecutionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -5175,11 +9509,6 @@ func (x *ListArchivedWorkflowExecutionsRequest) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListArchivedWorkflowExecutionsRequest.ProtoReflect.Descriptor instead.
-func (*ListArchivedWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{58}
-}
-
 func (x *ListArchivedWorkflowExecutionsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -5208,8 +9537,47 @@ func (x *ListArchivedWorkflowExecutionsRequest) GetQuery() string {
 	return ""
 }
 
+func (x *ListArchivedWorkflowExecutionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListArchivedWorkflowExecutionsRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListArchivedWorkflowExecutionsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListArchivedWorkflowExecutionsRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+type ListArchivedWorkflowExecutionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace     string
+	PageSize      int32
+	NextPageToken []byte
+	Query         string
+}
+
+func (b0 ListArchivedWorkflowExecutionsRequest_builder) Build() *ListArchivedWorkflowExecutionsRequest {
+	m0 := &ListArchivedWorkflowExecutionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	x.Query = b.Query
+	return m0
+}
+
 type ListArchivedWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState       `protogen:"hybrid.v1"`
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -5241,11 +9609,6 @@ func (x *ListArchivedWorkflowExecutionsResponse) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListArchivedWorkflowExecutionsResponse.ProtoReflect.Descriptor instead.
-func (*ListArchivedWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{59}
-}
-
 func (x *ListArchivedWorkflowExecutionsResponse) GetExecutions() []*v17.WorkflowExecutionInfo {
 	if x != nil {
 		return x.Executions
@@ -5260,9 +9623,36 @@ func (x *ListArchivedWorkflowExecutionsResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListArchivedWorkflowExecutionsResponse) SetExecutions(v []*v17.WorkflowExecutionInfo) {
+	x.Executions = v
+}
+
+func (x *ListArchivedWorkflowExecutionsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListArchivedWorkflowExecutionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Executions    []*v17.WorkflowExecutionInfo
+	NextPageToken []byte
+}
+
+func (b0 ListArchivedWorkflowExecutionsResponse_builder) Build() *ListArchivedWorkflowExecutionsResponse {
+	m0 := &ListArchivedWorkflowExecutionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Executions = b.Executions
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 // Deprecated: Use with `ListWorkflowExecutions`.
 type ScanWorkflowExecutionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -5296,11 +9686,6 @@ func (x *ScanWorkflowExecutionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScanWorkflowExecutionsRequest.ProtoReflect.Descriptor instead.
-func (*ScanWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{60}
-}
-
 func (x *ScanWorkflowExecutionsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -5329,9 +9714,48 @@ func (x *ScanWorkflowExecutionsRequest) GetQuery() string {
 	return ""
 }
 
+func (x *ScanWorkflowExecutionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ScanWorkflowExecutionsRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ScanWorkflowExecutionsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ScanWorkflowExecutionsRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+type ScanWorkflowExecutionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace     string
+	PageSize      int32
+	NextPageToken []byte
+	Query         string
+}
+
+func (b0 ScanWorkflowExecutionsRequest_builder) Build() *ScanWorkflowExecutionsRequest {
+	m0 := &ScanWorkflowExecutionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	x.Query = b.Query
+	return m0
+}
+
 // Deprecated: Use with `ListWorkflowExecutions`.
 type ScanWorkflowExecutionsResponse struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState       `protogen:"hybrid.v1"`
 	Executions    []*v17.WorkflowExecutionInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	NextPageToken []byte                       `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -5363,11 +9787,6 @@ func (x *ScanWorkflowExecutionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScanWorkflowExecutionsResponse.ProtoReflect.Descriptor instead.
-func (*ScanWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{61}
-}
-
 func (x *ScanWorkflowExecutionsResponse) GetExecutions() []*v17.WorkflowExecutionInfo {
 	if x != nil {
 		return x.Executions
@@ -5382,8 +9801,35 @@ func (x *ScanWorkflowExecutionsResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ScanWorkflowExecutionsResponse) SetExecutions(v []*v17.WorkflowExecutionInfo) {
+	x.Executions = v
+}
+
+func (x *ScanWorkflowExecutionsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ScanWorkflowExecutionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Executions    []*v17.WorkflowExecutionInfo
+	NextPageToken []byte
+}
+
+func (b0 ScanWorkflowExecutionsResponse_builder) Build() *ScanWorkflowExecutionsResponse {
+	m0 := &ScanWorkflowExecutionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Executions = b.Executions
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type CountWorkflowExecutionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Query         string                 `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -5415,11 +9861,6 @@ func (x *CountWorkflowExecutionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CountWorkflowExecutionsRequest.ProtoReflect.Descriptor instead.
-func (*CountWorkflowExecutionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{62}
-}
-
 func (x *CountWorkflowExecutionsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -5434,8 +9875,32 @@ func (x *CountWorkflowExecutionsRequest) GetQuery() string {
 	return ""
 }
 
+func (x *CountWorkflowExecutionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *CountWorkflowExecutionsRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+type CountWorkflowExecutionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	Query     string
+}
+
+func (b0 CountWorkflowExecutionsRequest_builder) Build() *CountWorkflowExecutionsRequest {
+	m0 := &CountWorkflowExecutionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Query = b.Query
+	return m0
+}
+
 type CountWorkflowExecutionsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// If `query` is not grouping by any field, the count is an approximate number
 	// of workflows that matches the query.
 	// If `query` is grouping by a field, the count is simply the sum of the counts
@@ -5474,11 +9939,6 @@ func (x *CountWorkflowExecutionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CountWorkflowExecutionsResponse.ProtoReflect.Descriptor instead.
-func (*CountWorkflowExecutionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{63}
-}
-
 func (x *CountWorkflowExecutionsResponse) GetCount() int64 {
 	if x != nil {
 		return x.Count
@@ -5493,8 +9953,39 @@ func (x *CountWorkflowExecutionsResponse) GetGroups() []*CountWorkflowExecutions
 	return nil
 }
 
+func (x *CountWorkflowExecutionsResponse) SetCount(v int64) {
+	x.Count = v
+}
+
+func (x *CountWorkflowExecutionsResponse) SetGroups(v []*CountWorkflowExecutionsResponse_AggregationGroup) {
+	x.Groups = v
+}
+
+type CountWorkflowExecutionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// If `query` is not grouping by any field, the count is an approximate number
+	// of workflows that matches the query.
+	// If `query` is grouping by a field, the count is simply the sum of the counts
+	// of the groups returned in the response. This number can be smaller than the
+	// total number of workflows matching the query.
+	Count int64
+	// `groups` contains the groups if the request is grouping by a field.
+	// The list might not be complete, and the counts of each group is approximate.
+	Groups []*CountWorkflowExecutionsResponse_AggregationGroup
+}
+
+func (b0 CountWorkflowExecutionsResponse_builder) Build() *CountWorkflowExecutionsResponse {
+	m0 := &CountWorkflowExecutionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Count = b.Count
+	x.Groups = b.Groups
+	return m0
+}
+
 type GetSearchAttributesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -5524,13 +10015,20 @@ func (x *GetSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetSearchAttributesRequest.ProtoReflect.Descriptor instead.
-func (*GetSearchAttributesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{64}
+type GetSearchAttributesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 GetSearchAttributesRequest_builder) Build() *GetSearchAttributesRequest {
+	m0 := &GetSearchAttributesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type GetSearchAttributesResponse struct {
-	state         protoimpl.MessageState          `protogen:"open.v1"`
+	state         protoimpl.MessageState          `protogen:"hybrid.v1"`
 	Keys          map[string]v11.IndexedValueType `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -5561,11 +10059,6 @@ func (x *GetSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetSearchAttributesResponse.ProtoReflect.Descriptor instead.
-func (*GetSearchAttributesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{65}
-}
-
 func (x *GetSearchAttributesResponse) GetKeys() map[string]v11.IndexedValueType {
 	if x != nil {
 		return x.Keys
@@ -5573,8 +10066,26 @@ func (x *GetSearchAttributesResponse) GetKeys() map[string]v11.IndexedValueType 
 	return nil
 }
 
+func (x *GetSearchAttributesResponse) SetKeys(v map[string]v11.IndexedValueType) {
+	x.Keys = v
+}
+
+type GetSearchAttributesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Keys map[string]v11.IndexedValueType
+}
+
+func (b0 GetSearchAttributesResponse_builder) Build() *GetSearchAttributesResponse {
+	m0 := &GetSearchAttributesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Keys = b.Keys
+	return m0
+}
+
 type RespondQueryTaskCompletedRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	TaskToken     []byte                 `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	CompletedType v11.QueryResultType    `protobuf:"varint,2,opt,name=completed_type,json=completedType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"completed_type,omitempty"`
 	// The result of the query.
@@ -5626,11 +10137,6 @@ func (x *RespondQueryTaskCompletedRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondQueryTaskCompletedRequest.ProtoReflect.Descriptor instead.
-func (*RespondQueryTaskCompletedRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{66}
-}
-
 func (x *RespondQueryTaskCompletedRequest) GetTaskToken() []byte {
 	if x != nil {
 		return x.TaskToken
@@ -5680,8 +10186,102 @@ func (x *RespondQueryTaskCompletedRequest) GetCause() v11.WorkflowTaskFailedCaus
 	return v11.WorkflowTaskFailedCause(0)
 }
 
+func (x *RespondQueryTaskCompletedRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RespondQueryTaskCompletedRequest) SetCompletedType(v v11.QueryResultType) {
+	x.CompletedType = v
+}
+
+func (x *RespondQueryTaskCompletedRequest) SetQueryResult(v *v13.Payloads) {
+	x.QueryResult = v
+}
+
+func (x *RespondQueryTaskCompletedRequest) SetErrorMessage(v string) {
+	x.ErrorMessage = v
+}
+
+func (x *RespondQueryTaskCompletedRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RespondQueryTaskCompletedRequest) SetFailure(v *v15.Failure) {
+	x.Failure = v
+}
+
+func (x *RespondQueryTaskCompletedRequest) SetCause(v v11.WorkflowTaskFailedCause) {
+	x.Cause = v
+}
+
+func (x *RespondQueryTaskCompletedRequest) HasQueryResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.QueryResult != nil
+}
+
+func (x *RespondQueryTaskCompletedRequest) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *RespondQueryTaskCompletedRequest) ClearQueryResult() {
+	x.QueryResult = nil
+}
+
+func (x *RespondQueryTaskCompletedRequest) ClearFailure() {
+	x.Failure = nil
+}
+
+type RespondQueryTaskCompletedRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	TaskToken     []byte
+	CompletedType v11.QueryResultType
+	// The result of the query.
+	// Mutually exclusive with `error_message` and `failure`. Set when the query succeeds.
+	QueryResult *v13.Payloads
+	// A plain error message that must be set if completed_type is QUERY_RESULT_TYPE_FAILED.
+	// SDKs should also fill in the more complete `failure` field to provide the full context and
+	// support encryption of failure information.
+	// `error_message` will be duplicated if the `failure` field is present to support callers
+	// that pre-date the addition of that field, regardless of whether or not a custom failure
+	// converter is used.
+	// Mutually exclusive with `query_result`. Set when the query fails.
+	ErrorMessage string
+	Namespace    string
+	// The full reason for this query failure. This field is newer than `error_message` and can be
+	// encoded by the SDK's failure converter to support E2E encryption of messages and stack
+	// traces.
+	// Mutually exclusive with `query_result`. Set when the query fails.
+	Failure *v15.Failure
+	// Why did the task fail? It's important to note that many of the variants in this enum cannot
+	// apply to worker responses. See the type's doc for more.
+	Cause v11.WorkflowTaskFailedCause
+}
+
+func (b0 RespondQueryTaskCompletedRequest_builder) Build() *RespondQueryTaskCompletedRequest {
+	m0 := &RespondQueryTaskCompletedRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.CompletedType = b.CompletedType
+	x.QueryResult = b.QueryResult
+	x.ErrorMessage = b.ErrorMessage
+	x.Namespace = b.Namespace
+	x.Failure = b.Failure
+	x.Cause = b.Cause
+	return m0
+}
+
 type RespondQueryTaskCompletedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -5711,13 +10311,20 @@ func (x *RespondQueryTaskCompletedResponse) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondQueryTaskCompletedResponse.ProtoReflect.Descriptor instead.
-func (*RespondQueryTaskCompletedResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{67}
+type RespondQueryTaskCompletedResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RespondQueryTaskCompletedResponse_builder) Build() *RespondQueryTaskCompletedResponse {
+	m0 := &RespondQueryTaskCompletedResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ResetStickyTaskQueueRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution     *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -5749,11 +10356,6 @@ func (x *ResetStickyTaskQueueRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResetStickyTaskQueueRequest.ProtoReflect.Descriptor instead.
-func (*ResetStickyTaskQueueRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{68}
-}
-
 func (x *ResetStickyTaskQueueRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -5768,8 +10370,43 @@ func (x *ResetStickyTaskQueueRequest) GetExecution() *v13.WorkflowExecution {
 	return nil
 }
 
+func (x *ResetStickyTaskQueueRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ResetStickyTaskQueueRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *ResetStickyTaskQueueRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *ResetStickyTaskQueueRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+type ResetStickyTaskQueueRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	Execution *v13.WorkflowExecution
+}
+
+func (b0 ResetStickyTaskQueueRequest_builder) Build() *ResetStickyTaskQueueRequest {
+	m0 := &ResetStickyTaskQueueRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	return m0
+}
+
 type ResetStickyTaskQueueResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -5799,13 +10436,20 @@ func (x *ResetStickyTaskQueueResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResetStickyTaskQueueResponse.ProtoReflect.Descriptor instead.
-func (*ResetStickyTaskQueueResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{69}
+type ResetStickyTaskQueueResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 ResetStickyTaskQueueResponse_builder) Build() *ResetStickyTaskQueueResponse {
+	m0 := &ResetStickyTaskQueueResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ShutdownWorkerRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// sticky_task_queue may not always be populated. We want to ensure all workers
 	// send a shutdown request to update worker state for heartbeating, as well
@@ -5852,11 +10496,6 @@ func (x *ShutdownWorkerRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ShutdownWorkerRequest.ProtoReflect.Descriptor instead.
-func (*ShutdownWorkerRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *ShutdownWorkerRequest) GetNamespace() string {
@@ -5915,8 +10554,90 @@ func (x *ShutdownWorkerRequest) GetTaskQueueTypes() []v11.TaskQueueType {
 	return nil
 }
 
+func (x *ShutdownWorkerRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ShutdownWorkerRequest) SetStickyTaskQueue(v string) {
+	x.StickyTaskQueue = v
+}
+
+func (x *ShutdownWorkerRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *ShutdownWorkerRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *ShutdownWorkerRequest) SetWorkerHeartbeat(v *v114.WorkerHeartbeat) {
+	x.WorkerHeartbeat = v
+}
+
+func (x *ShutdownWorkerRequest) SetWorkerInstanceKey(v string) {
+	x.WorkerInstanceKey = v
+}
+
+func (x *ShutdownWorkerRequest) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *ShutdownWorkerRequest) SetTaskQueueTypes(v []v11.TaskQueueType) {
+	x.TaskQueueTypes = v
+}
+
+func (x *ShutdownWorkerRequest) HasWorkerHeartbeat() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerHeartbeat != nil
+}
+
+func (x *ShutdownWorkerRequest) ClearWorkerHeartbeat() {
+	x.WorkerHeartbeat = nil
+}
+
+type ShutdownWorkerRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// sticky_task_queue may not always be populated. We want to ensure all workers
+	// send a shutdown request to update worker state for heartbeating, as well
+	// as cancel pending poll calls early, instead of waiting for timeouts.
+	StickyTaskQueue string
+	Identity        string
+	Reason          string
+	WorkerHeartbeat *v114.WorkerHeartbeat
+	// Technically this is also sent in the WorkerHeartbeat, but
+	// since worker heartbeating can be turned off, this needs
+	// to be a separate, top-level field.
+	WorkerInstanceKey string
+	// Task queue name the worker is polling on. This allows server to cancel
+	// all outstanding poll RPC calls from SDK. This avoids a race condition that
+	// can lead to tasks being lost.
+	TaskQueue string
+	// Task queue types that help server cancel outstanding poll RPC
+	// calls from SDK. This avoids a race condition that can lead to tasks being lost.
+	TaskQueueTypes []v11.TaskQueueType
+}
+
+func (b0 ShutdownWorkerRequest_builder) Build() *ShutdownWorkerRequest {
+	m0 := &ShutdownWorkerRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.StickyTaskQueue = b.StickyTaskQueue
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	x.WorkerHeartbeat = b.WorkerHeartbeat
+	x.WorkerInstanceKey = b.WorkerInstanceKey
+	x.TaskQueue = b.TaskQueue
+	x.TaskQueueTypes = b.TaskQueueTypes
+	return m0
+}
+
 type ShutdownWorkerResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -5946,13 +10667,20 @@ func (x *ShutdownWorkerResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ShutdownWorkerResponse.ProtoReflect.Descriptor instead.
-func (*ShutdownWorkerResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{71}
+type ShutdownWorkerResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 ShutdownWorkerResponse_builder) Build() *ShutdownWorkerResponse {
+	m0 := &ShutdownWorkerResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type QueryWorkflowRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	Query     *v110.WorkflowQuery    `protobuf:"bytes,3,opt,name=query,proto3" json:"query,omitempty"`
@@ -5988,11 +10716,6 @@ func (x *QueryWorkflowRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryWorkflowRequest.ProtoReflect.Descriptor instead.
-func (*QueryWorkflowRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{72}
-}
-
 func (x *QueryWorkflowRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -6021,8 +10744,68 @@ func (x *QueryWorkflowRequest) GetQueryRejectCondition() v11.QueryRejectConditio
 	return v11.QueryRejectCondition(0)
 }
 
+func (x *QueryWorkflowRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *QueryWorkflowRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *QueryWorkflowRequest) SetQuery(v *v110.WorkflowQuery) {
+	x.Query = v
+}
+
+func (x *QueryWorkflowRequest) SetQueryRejectCondition(v v11.QueryRejectCondition) {
+	x.QueryRejectCondition = v
+}
+
+func (x *QueryWorkflowRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *QueryWorkflowRequest) HasQuery() bool {
+	if x == nil {
+		return false
+	}
+	return x.Query != nil
+}
+
+func (x *QueryWorkflowRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+func (x *QueryWorkflowRequest) ClearQuery() {
+	x.Query = nil
+}
+
+type QueryWorkflowRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	Execution *v13.WorkflowExecution
+	Query     *v110.WorkflowQuery
+	// QueryRejectCondition can used to reject the query if workflow state does not satisfy condition.
+	// Default: QUERY_REJECT_CONDITION_NONE.
+	QueryRejectCondition v11.QueryRejectCondition
+}
+
+func (b0 QueryWorkflowRequest_builder) Build() *QueryWorkflowRequest {
+	m0 := &QueryWorkflowRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	x.Query = b.Query
+	x.QueryRejectCondition = b.QueryRejectCondition
+	return m0
+}
+
 type QueryWorkflowResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	QueryResult   *v13.Payloads          `protobuf:"bytes,1,opt,name=query_result,json=queryResult,proto3" json:"query_result,omitempty"`
 	QueryRejected *v110.QueryRejected    `protobuf:"bytes,2,opt,name=query_rejected,json=queryRejected,proto3" json:"query_rejected,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -6054,11 +10837,6 @@ func (x *QueryWorkflowResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryWorkflowResponse.ProtoReflect.Descriptor instead.
-func (*QueryWorkflowResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{73}
-}
-
 func (x *QueryWorkflowResponse) GetQueryResult() *v13.Payloads {
 	if x != nil {
 		return x.QueryResult
@@ -6073,8 +10851,54 @@ func (x *QueryWorkflowResponse) GetQueryRejected() *v110.QueryRejected {
 	return nil
 }
 
+func (x *QueryWorkflowResponse) SetQueryResult(v *v13.Payloads) {
+	x.QueryResult = v
+}
+
+func (x *QueryWorkflowResponse) SetQueryRejected(v *v110.QueryRejected) {
+	x.QueryRejected = v
+}
+
+func (x *QueryWorkflowResponse) HasQueryResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.QueryResult != nil
+}
+
+func (x *QueryWorkflowResponse) HasQueryRejected() bool {
+	if x == nil {
+		return false
+	}
+	return x.QueryRejected != nil
+}
+
+func (x *QueryWorkflowResponse) ClearQueryResult() {
+	x.QueryResult = nil
+}
+
+func (x *QueryWorkflowResponse) ClearQueryRejected() {
+	x.QueryRejected = nil
+}
+
+type QueryWorkflowResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	QueryResult   *v13.Payloads
+	QueryRejected *v110.QueryRejected
+}
+
+func (b0 QueryWorkflowResponse_builder) Build() *QueryWorkflowResponse {
+	m0 := &QueryWorkflowResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.QueryResult = b.QueryResult
+	x.QueryRejected = b.QueryRejected
+	return m0
+}
+
 type DescribeWorkflowExecutionRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution     *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -6106,11 +10930,6 @@ func (x *DescribeWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*DescribeWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{74}
-}
-
 func (x *DescribeWorkflowExecutionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -6125,8 +10944,43 @@ func (x *DescribeWorkflowExecutionRequest) GetExecution() *v13.WorkflowExecution
 	return nil
 }
 
+func (x *DescribeWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeWorkflowExecutionRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *DescribeWorkflowExecutionRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *DescribeWorkflowExecutionRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+type DescribeWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	Execution *v13.WorkflowExecution
+}
+
+func (b0 DescribeWorkflowExecutionRequest_builder) Build() *DescribeWorkflowExecutionRequest {
+	m0 := &DescribeWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	return m0
+}
+
 type DescribeWorkflowExecutionResponse struct {
-	state                  protoimpl.MessageState             `protogen:"open.v1"`
+	state                  protoimpl.MessageState             `protogen:"hybrid.v1"`
 	ExecutionConfig        *v17.WorkflowExecutionConfig       `protobuf:"bytes,1,opt,name=execution_config,json=executionConfig,proto3" json:"execution_config,omitempty"`
 	WorkflowExecutionInfo  *v17.WorkflowExecutionInfo         `protobuf:"bytes,2,opt,name=workflow_execution_info,json=workflowExecutionInfo,proto3" json:"workflow_execution_info,omitempty"`
 	PendingActivities      []*v17.PendingActivityInfo         `protobuf:"bytes,3,rep,name=pending_activities,json=pendingActivities,proto3" json:"pending_activities,omitempty"`
@@ -6162,11 +11016,6 @@ func (x *DescribeWorkflowExecutionResponse) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*DescribeWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *DescribeWorkflowExecutionResponse) GetExecutionConfig() *v17.WorkflowExecutionConfig {
@@ -6225,11 +11074,115 @@ func (x *DescribeWorkflowExecutionResponse) GetWorkflowExtendedInfo() *v17.Workf
 	return nil
 }
 
+func (x *DescribeWorkflowExecutionResponse) SetExecutionConfig(v *v17.WorkflowExecutionConfig) {
+	x.ExecutionConfig = v
+}
+
+func (x *DescribeWorkflowExecutionResponse) SetWorkflowExecutionInfo(v *v17.WorkflowExecutionInfo) {
+	x.WorkflowExecutionInfo = v
+}
+
+func (x *DescribeWorkflowExecutionResponse) SetPendingActivities(v []*v17.PendingActivityInfo) {
+	x.PendingActivities = v
+}
+
+func (x *DescribeWorkflowExecutionResponse) SetPendingChildren(v []*v17.PendingChildExecutionInfo) {
+	x.PendingChildren = v
+}
+
+func (x *DescribeWorkflowExecutionResponse) SetPendingWorkflowTask(v *v17.PendingWorkflowTaskInfo) {
+	x.PendingWorkflowTask = v
+}
+
+func (x *DescribeWorkflowExecutionResponse) SetCallbacks(v []*v17.CallbackInfo) {
+	x.Callbacks = v
+}
+
+func (x *DescribeWorkflowExecutionResponse) SetPendingNexusOperations(v []*v17.PendingNexusOperationInfo) {
+	x.PendingNexusOperations = v
+}
+
+func (x *DescribeWorkflowExecutionResponse) SetWorkflowExtendedInfo(v *v17.WorkflowExecutionExtendedInfo) {
+	x.WorkflowExtendedInfo = v
+}
+
+func (x *DescribeWorkflowExecutionResponse) HasExecutionConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExecutionConfig != nil
+}
+
+func (x *DescribeWorkflowExecutionResponse) HasWorkflowExecutionInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionInfo != nil
+}
+
+func (x *DescribeWorkflowExecutionResponse) HasPendingWorkflowTask() bool {
+	if x == nil {
+		return false
+	}
+	return x.PendingWorkflowTask != nil
+}
+
+func (x *DescribeWorkflowExecutionResponse) HasWorkflowExtendedInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExtendedInfo != nil
+}
+
+func (x *DescribeWorkflowExecutionResponse) ClearExecutionConfig() {
+	x.ExecutionConfig = nil
+}
+
+func (x *DescribeWorkflowExecutionResponse) ClearWorkflowExecutionInfo() {
+	x.WorkflowExecutionInfo = nil
+}
+
+func (x *DescribeWorkflowExecutionResponse) ClearPendingWorkflowTask() {
+	x.PendingWorkflowTask = nil
+}
+
+func (x *DescribeWorkflowExecutionResponse) ClearWorkflowExtendedInfo() {
+	x.WorkflowExtendedInfo = nil
+}
+
+type DescribeWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ExecutionConfig        *v17.WorkflowExecutionConfig
+	WorkflowExecutionInfo  *v17.WorkflowExecutionInfo
+	PendingActivities      []*v17.PendingActivityInfo
+	PendingChildren        []*v17.PendingChildExecutionInfo
+	PendingWorkflowTask    *v17.PendingWorkflowTaskInfo
+	Callbacks              []*v17.CallbackInfo
+	PendingNexusOperations []*v17.PendingNexusOperationInfo
+	WorkflowExtendedInfo   *v17.WorkflowExecutionExtendedInfo
+}
+
+func (b0 DescribeWorkflowExecutionResponse_builder) Build() *DescribeWorkflowExecutionResponse {
+	m0 := &DescribeWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ExecutionConfig = b.ExecutionConfig
+	x.WorkflowExecutionInfo = b.WorkflowExecutionInfo
+	x.PendingActivities = b.PendingActivities
+	x.PendingChildren = b.PendingChildren
+	x.PendingWorkflowTask = b.PendingWorkflowTask
+	x.Callbacks = b.Callbacks
+	x.PendingNexusOperations = b.PendingNexusOperations
+	x.WorkflowExtendedInfo = b.WorkflowExtendedInfo
+	return m0
+}
+
 // (-- api-linter: core::0203::optional=disabled
 //
 //	aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
 type DescribeTaskQueueRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Sticky queues are not supported in deprecated ENHANCED mode.
 	TaskQueue *v14.TaskQueue `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
@@ -6302,11 +11255,6 @@ func (x *DescribeTaskQueueRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeTaskQueueRequest.ProtoReflect.Descriptor instead.
-func (*DescribeTaskQueueRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *DescribeTaskQueueRequest) GetNamespace() string {
@@ -6392,8 +11340,150 @@ func (x *DescribeTaskQueueRequest) GetReportTaskReachability() bool {
 	return false
 }
 
+func (x *DescribeTaskQueueRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeTaskQueueRequest) SetTaskQueue(v *v14.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *DescribeTaskQueueRequest) SetTaskQueueType(v v11.TaskQueueType) {
+	x.TaskQueueType = v
+}
+
+func (x *DescribeTaskQueueRequest) SetReportStats(v bool) {
+	x.ReportStats = v
+}
+
+func (x *DescribeTaskQueueRequest) SetReportConfig(v bool) {
+	x.ReportConfig = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueRequest) SetIncludeTaskQueueStatus(v bool) {
+	x.IncludeTaskQueueStatus = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueRequest) SetApiMode(v v11.DescribeTaskQueueMode) {
+	x.ApiMode = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueRequest) SetVersions(v *v14.TaskQueueVersionSelection) {
+	x.Versions = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueRequest) SetTaskQueueTypes(v []v11.TaskQueueType) {
+	x.TaskQueueTypes = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueRequest) SetReportPollers(v bool) {
+	x.ReportPollers = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueRequest) SetReportTaskReachability(v bool) {
+	x.ReportTaskReachability = v
+}
+
+func (x *DescribeTaskQueueRequest) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueRequest) HasVersions() bool {
+	if x == nil {
+		return false
+	}
+	return x.Versions != nil
+}
+
+func (x *DescribeTaskQueueRequest) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueRequest) ClearVersions() {
+	x.Versions = nil
+}
+
+type DescribeTaskQueueRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Sticky queues are not supported in deprecated ENHANCED mode.
+	TaskQueue *v14.TaskQueue
+	// If unspecified (TASK_QUEUE_TYPE_UNSPECIFIED), then default value (TASK_QUEUE_TYPE_WORKFLOW) will be used.
+	// Only supported in default mode (use `task_queue_types` in ENHANCED mode instead).
+	TaskQueueType v11.TaskQueueType
+	// Report stats for the requested task queue type(s).
+	ReportStats bool
+	// Report Task Queue Config
+	ReportConfig bool
+	// Deprecated, use `report_stats` instead.
+	// If true, the task queue status will be included in the response.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	IncludeTaskQueueStatus bool
+	// Deprecated. ENHANCED mode is also being deprecated.
+	// Select the API mode to use for this request: DEFAULT mode (if unset) or ENHANCED mode.
+	// Consult the documentation for each field to understand which mode it is supported in.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	ApiMode v11.DescribeTaskQueueMode
+	// Deprecated (as part of the ENHANCED mode deprecation).
+	// Optional. If not provided, the result for the default Build ID will be returned. The default Build ID is the one
+	// mentioned in the first unconditional Assignment Rule. If there is no default Build ID, the result for the
+	// unversioned queue will be returned.
+	// (-- api-linter: core::0140::prepositions --)
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Versions *v14.TaskQueueVersionSelection
+	// Deprecated (as part of the ENHANCED mode deprecation).
+	// Task queue types to report info about. If not specified, all types are considered.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	TaskQueueTypes []v11.TaskQueueType
+	// Deprecated (as part of the ENHANCED mode deprecation).
+	// Report list of pollers for requested task queue types and versions.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	ReportPollers bool
+	// Deprecated (as part of the ENHANCED mode deprecation).
+	// Report task reachability for the requested versions and all task types (task reachability is not reported
+	// per task type).
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	ReportTaskReachability bool
+}
+
+func (b0 DescribeTaskQueueRequest_builder) Build() *DescribeTaskQueueRequest {
+	m0 := &DescribeTaskQueueRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	x.TaskQueueType = b.TaskQueueType
+	x.ReportStats = b.ReportStats
+	x.ReportConfig = b.ReportConfig
+	x.IncludeTaskQueueStatus = b.IncludeTaskQueueStatus
+	x.ApiMode = b.ApiMode
+	x.Versions = b.Versions
+	x.TaskQueueTypes = b.TaskQueueTypes
+	x.ReportPollers = b.ReportPollers
+	x.ReportTaskReachability = b.ReportTaskReachability
+	return m0
+}
+
 type DescribeTaskQueueResponse struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
+	state   protoimpl.MessageState `protogen:"hybrid.v1"`
 	Pollers []*v14.PollerInfo      `protobuf:"bytes,1,rep,name=pollers,proto3" json:"pollers,omitempty"`
 	// Statistics for the task queue.
 	// Only set if `report_stats` is set on the request.
@@ -6457,11 +11547,6 @@ func (x *DescribeTaskQueueResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeTaskQueueResponse.ProtoReflect.Descriptor instead.
-func (*DescribeTaskQueueResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{77}
-}
-
 func (x *DescribeTaskQueueResponse) GetPollers() []*v14.PollerInfo {
 	if x != nil {
 		return x.Pollers
@@ -6520,8 +11605,153 @@ func (x *DescribeTaskQueueResponse) GetVersionsInfo() map[string]*v14.TaskQueueV
 	return nil
 }
 
+func (x *DescribeTaskQueueResponse) SetPollers(v []*v14.PollerInfo) {
+	x.Pollers = v
+}
+
+func (x *DescribeTaskQueueResponse) SetStats(v *v14.TaskQueueStats) {
+	x.Stats = v
+}
+
+func (x *DescribeTaskQueueResponse) SetStatsByPriorityKey(v map[int32]*v14.TaskQueueStats) {
+	x.StatsByPriorityKey = v
+}
+
+func (x *DescribeTaskQueueResponse) SetVersioningInfo(v *v14.TaskQueueVersioningInfo) {
+	x.VersioningInfo = v
+}
+
+func (x *DescribeTaskQueueResponse) SetConfig(v *v14.TaskQueueConfig) {
+	x.Config = v
+}
+
+func (x *DescribeTaskQueueResponse) SetEffectiveRateLimit(v *DescribeTaskQueueResponse_EffectiveRateLimit) {
+	x.EffectiveRateLimit = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueResponse) SetTaskQueueStatus(v *v14.TaskQueueStatus) {
+	x.TaskQueueStatus = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueResponse) SetVersionsInfo(v map[string]*v14.TaskQueueVersionInfo) {
+	x.VersionsInfo = v
+}
+
+func (x *DescribeTaskQueueResponse) HasStats() bool {
+	if x == nil {
+		return false
+	}
+	return x.Stats != nil
+}
+
+func (x *DescribeTaskQueueResponse) HasVersioningInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningInfo != nil
+}
+
+func (x *DescribeTaskQueueResponse) HasConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.Config != nil
+}
+
+func (x *DescribeTaskQueueResponse) HasEffectiveRateLimit() bool {
+	if x == nil {
+		return false
+	}
+	return x.EffectiveRateLimit != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueResponse) HasTaskQueueStatus() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueueStatus != nil
+}
+
+func (x *DescribeTaskQueueResponse) ClearStats() {
+	x.Stats = nil
+}
+
+func (x *DescribeTaskQueueResponse) ClearVersioningInfo() {
+	x.VersioningInfo = nil
+}
+
+func (x *DescribeTaskQueueResponse) ClearConfig() {
+	x.Config = nil
+}
+
+func (x *DescribeTaskQueueResponse) ClearEffectiveRateLimit() {
+	x.EffectiveRateLimit = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeTaskQueueResponse) ClearTaskQueueStatus() {
+	x.TaskQueueStatus = nil
+}
+
+type DescribeTaskQueueResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Pollers []*v14.PollerInfo
+	// Statistics for the task queue.
+	// Only set if `report_stats` is set on the request.
+	Stats *v14.TaskQueueStats
+	// Task queue stats breakdown by priority key. Only contains actively used priority keys.
+	// Only set if `report_stats` is set on the request.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "by" is used to clarify the keys and values. --)
+	StatsByPriorityKey map[int32]*v14.TaskQueueStats
+	// Specifies which Worker Deployment Version(s) Server routes this Task Queue's tasks to.
+	// When not present, it means the tasks are routed to Unversioned workers (workers with
+	// UNVERSIONED or unspecified WorkerVersioningMode.)
+	// Task Queue Versioning info is updated indirectly by calling SetWorkerDeploymentCurrentVersion
+	// and SetWorkerDeploymentRampingVersion on Worker Deployments.
+	// Note: This information is not relevant to Pinned workflow executions and their activities as
+	// they are always routed to their Pinned Deployment Version. However, new workflow executions
+	// are typically not Pinned until they complete their first task (unless they are started with
+	// a Pinned VersioningOverride or are Child Workflows of a Pinned parent).
+	VersioningInfo *v14.TaskQueueVersioningInfo
+	// Only populated if report_task_queue_config is set to true.
+	Config             *v14.TaskQueueConfig
+	EffectiveRateLimit *DescribeTaskQueueResponse_EffectiveRateLimit
+	// Deprecated.
+	// Status of the task queue. Only populated when `include_task_queue_status` is set to true in the request.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	TaskQueueStatus *v14.TaskQueueStatus
+	// Deprecated.
+	// Only returned in ENHANCED mode.
+	// This map contains Task Queue information for each Build ID. Empty string as key value means unversioned.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	VersionsInfo map[string]*v14.TaskQueueVersionInfo
+}
+
+func (b0 DescribeTaskQueueResponse_builder) Build() *DescribeTaskQueueResponse {
+	m0 := &DescribeTaskQueueResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Pollers = b.Pollers
+	x.Stats = b.Stats
+	x.StatsByPriorityKey = b.StatsByPriorityKey
+	x.VersioningInfo = b.VersioningInfo
+	x.Config = b.Config
+	x.EffectiveRateLimit = b.EffectiveRateLimit
+	x.TaskQueueStatus = b.TaskQueueStatus
+	x.VersionsInfo = b.VersionsInfo
+	return m0
+}
+
 type GetClusterInfoRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -6551,14 +11781,21 @@ func (x *GetClusterInfoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetClusterInfoRequest.ProtoReflect.Descriptor instead.
-func (*GetClusterInfoRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{78}
+type GetClusterInfoRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 GetClusterInfoRequest_builder) Build() *GetClusterInfoRequest {
+	m0 := &GetClusterInfoRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // GetClusterInfoResponse contains information about Temporal cluster.
 type GetClusterInfoResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Key is client name i.e "temporal-go", "temporal-java", or "temporal-cli".
 	// Value is ranges of supported versions of this client i.e ">1.1.1 <=1.4.0 || ^5.0.0".
 	SupportedClients         map[string]string `protobuf:"bytes,1,rep,name=supported_clients,json=supportedClients,proto3" json:"supported_clients,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
@@ -6598,11 +11835,6 @@ func (x *GetClusterInfoResponse) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetClusterInfoResponse.ProtoReflect.Descriptor instead.
-func (*GetClusterInfoResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{79}
 }
 
 func (x *GetClusterInfoResponse) GetSupportedClients() map[string]string {
@@ -6675,8 +11907,93 @@ func (x *GetClusterInfoResponse) GetFailoverVersionIncrement() int64 {
 	return 0
 }
 
+func (x *GetClusterInfoResponse) SetSupportedClients(v map[string]string) {
+	x.SupportedClients = v
+}
+
+func (x *GetClusterInfoResponse) SetServerVersion(v string) {
+	x.ServerVersion = v
+}
+
+func (x *GetClusterInfoResponse) SetClusterId(v string) {
+	x.ClusterId = v
+}
+
+func (x *GetClusterInfoResponse) SetVersionInfo(v *v115.VersionInfo) {
+	x.VersionInfo = v
+}
+
+func (x *GetClusterInfoResponse) SetClusterName(v string) {
+	x.ClusterName = v
+}
+
+func (x *GetClusterInfoResponse) SetHistoryShardCount(v int32) {
+	x.HistoryShardCount = v
+}
+
+func (x *GetClusterInfoResponse) SetPersistenceStore(v string) {
+	x.PersistenceStore = v
+}
+
+func (x *GetClusterInfoResponse) SetVisibilityStore(v string) {
+	x.VisibilityStore = v
+}
+
+func (x *GetClusterInfoResponse) SetInitialFailoverVersion(v int64) {
+	x.InitialFailoverVersion = v
+}
+
+func (x *GetClusterInfoResponse) SetFailoverVersionIncrement(v int64) {
+	x.FailoverVersionIncrement = v
+}
+
+func (x *GetClusterInfoResponse) HasVersionInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersionInfo != nil
+}
+
+func (x *GetClusterInfoResponse) ClearVersionInfo() {
+	x.VersionInfo = nil
+}
+
+type GetClusterInfoResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Key is client name i.e "temporal-go", "temporal-java", or "temporal-cli".
+	// Value is ranges of supported versions of this client i.e ">1.1.1 <=1.4.0 || ^5.0.0".
+	SupportedClients         map[string]string
+	ServerVersion            string
+	ClusterId                string
+	VersionInfo              *v115.VersionInfo
+	ClusterName              string
+	HistoryShardCount        int32
+	PersistenceStore         string
+	VisibilityStore          string
+	InitialFailoverVersion   int64
+	FailoverVersionIncrement int64
+}
+
+func (b0 GetClusterInfoResponse_builder) Build() *GetClusterInfoResponse {
+	m0 := &GetClusterInfoResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SupportedClients = b.SupportedClients
+	x.ServerVersion = b.ServerVersion
+	x.ClusterId = b.ClusterId
+	x.VersionInfo = b.VersionInfo
+	x.ClusterName = b.ClusterName
+	x.HistoryShardCount = b.HistoryShardCount
+	x.PersistenceStore = b.PersistenceStore
+	x.VisibilityStore = b.VisibilityStore
+	x.InitialFailoverVersion = b.InitialFailoverVersion
+	x.FailoverVersionIncrement = b.FailoverVersionIncrement
+	return m0
+}
+
 type GetSystemInfoRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -6706,13 +12023,20 @@ func (x *GetSystemInfoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetSystemInfoRequest.ProtoReflect.Descriptor instead.
-func (*GetSystemInfoRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{80}
+type GetSystemInfoRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 GetSystemInfoRequest_builder) Build() *GetSystemInfoRequest {
+	m0 := &GetSystemInfoRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type GetSystemInfoResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Version of the server.
 	ServerVersion string `protobuf:"bytes,1,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
 	// All capabilities the system supports.
@@ -6746,11 +12070,6 @@ func (x *GetSystemInfoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetSystemInfoResponse.ProtoReflect.Descriptor instead.
-func (*GetSystemInfoResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{81}
-}
-
 func (x *GetSystemInfoResponse) GetServerVersion() string {
 	if x != nil {
 		return x.ServerVersion
@@ -6765,8 +12084,45 @@ func (x *GetSystemInfoResponse) GetCapabilities() *GetSystemInfoResponse_Capabil
 	return nil
 }
 
+func (x *GetSystemInfoResponse) SetServerVersion(v string) {
+	x.ServerVersion = v
+}
+
+func (x *GetSystemInfoResponse) SetCapabilities(v *GetSystemInfoResponse_Capabilities) {
+	x.Capabilities = v
+}
+
+func (x *GetSystemInfoResponse) HasCapabilities() bool {
+	if x == nil {
+		return false
+	}
+	return x.Capabilities != nil
+}
+
+func (x *GetSystemInfoResponse) ClearCapabilities() {
+	x.Capabilities = nil
+}
+
+type GetSystemInfoResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Version of the server.
+	ServerVersion string
+	// All capabilities the system supports.
+	Capabilities *GetSystemInfoResponse_Capabilities
+}
+
+func (b0 GetSystemInfoResponse_builder) Build() *GetSystemInfoResponse {
+	m0 := &GetSystemInfoResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ServerVersion = b.ServerVersion
+	x.Capabilities = b.Capabilities
+	return m0
+}
+
 type ListTaskQueuePartitionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskQueue     *v14.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -6798,11 +12154,6 @@ func (x *ListTaskQueuePartitionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListTaskQueuePartitionsRequest.ProtoReflect.Descriptor instead.
-func (*ListTaskQueuePartitionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{82}
-}
-
 func (x *ListTaskQueuePartitionsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -6817,8 +12168,43 @@ func (x *ListTaskQueuePartitionsRequest) GetTaskQueue() *v14.TaskQueue {
 	return nil
 }
 
+func (x *ListTaskQueuePartitionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListTaskQueuePartitionsRequest) SetTaskQueue(v *v14.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *ListTaskQueuePartitionsRequest) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *ListTaskQueuePartitionsRequest) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+type ListTaskQueuePartitionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	TaskQueue *v14.TaskQueue
+}
+
+func (b0 ListTaskQueuePartitionsRequest_builder) Build() *ListTaskQueuePartitionsRequest {
+	m0 := &ListTaskQueuePartitionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	return m0
+}
+
 type ListTaskQueuePartitionsResponse struct {
-	state                       protoimpl.MessageState            `protogen:"open.v1"`
+	state                       protoimpl.MessageState            `protogen:"hybrid.v1"`
 	ActivityTaskQueuePartitions []*v14.TaskQueuePartitionMetadata `protobuf:"bytes,1,rep,name=activity_task_queue_partitions,json=activityTaskQueuePartitions,proto3" json:"activity_task_queue_partitions,omitempty"`
 	WorkflowTaskQueuePartitions []*v14.TaskQueuePartitionMetadata `protobuf:"bytes,2,rep,name=workflow_task_queue_partitions,json=workflowTaskQueuePartitions,proto3" json:"workflow_task_queue_partitions,omitempty"`
 	unknownFields               protoimpl.UnknownFields
@@ -6850,11 +12236,6 @@ func (x *ListTaskQueuePartitionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListTaskQueuePartitionsResponse.ProtoReflect.Descriptor instead.
-func (*ListTaskQueuePartitionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{83}
-}
-
 func (x *ListTaskQueuePartitionsResponse) GetActivityTaskQueuePartitions() []*v14.TaskQueuePartitionMetadata {
 	if x != nil {
 		return x.ActivityTaskQueuePartitions
@@ -6869,11 +12250,35 @@ func (x *ListTaskQueuePartitionsResponse) GetWorkflowTaskQueuePartitions() []*v1
 	return nil
 }
 
+func (x *ListTaskQueuePartitionsResponse) SetActivityTaskQueuePartitions(v []*v14.TaskQueuePartitionMetadata) {
+	x.ActivityTaskQueuePartitions = v
+}
+
+func (x *ListTaskQueuePartitionsResponse) SetWorkflowTaskQueuePartitions(v []*v14.TaskQueuePartitionMetadata) {
+	x.WorkflowTaskQueuePartitions = v
+}
+
+type ListTaskQueuePartitionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ActivityTaskQueuePartitions []*v14.TaskQueuePartitionMetadata
+	WorkflowTaskQueuePartitions []*v14.TaskQueuePartitionMetadata
+}
+
+func (b0 ListTaskQueuePartitionsResponse_builder) Build() *ListTaskQueuePartitionsResponse {
+	m0 := &ListTaskQueuePartitionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActivityTaskQueuePartitions = b.ActivityTaskQueuePartitions
+	x.WorkflowTaskQueuePartitions = b.WorkflowTaskQueuePartitions
+	return m0
+}
+
 // (-- api-linter: core::0203::optional=disabled
 //
 //	aip.dev/not-precedent: field_behavior annotation not available in our gogo fork --)
 type CreateScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace the schedule should be created in.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the new schedule.
@@ -6916,11 +12321,6 @@ func (x *CreateScheduleRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateScheduleRequest.ProtoReflect.Descriptor instead.
-func (*CreateScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{84}
 }
 
 func (x *CreateScheduleRequest) GetNamespace() string {
@@ -6979,8 +12379,119 @@ func (x *CreateScheduleRequest) GetSearchAttributes() *v13.SearchAttributes {
 	return nil
 }
 
+func (x *CreateScheduleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *CreateScheduleRequest) SetScheduleId(v string) {
+	x.ScheduleId = v
+}
+
+func (x *CreateScheduleRequest) SetSchedule(v *v116.Schedule) {
+	x.Schedule = v
+}
+
+func (x *CreateScheduleRequest) SetInitialPatch(v *v116.SchedulePatch) {
+	x.InitialPatch = v
+}
+
+func (x *CreateScheduleRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *CreateScheduleRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *CreateScheduleRequest) SetMemo(v *v13.Memo) {
+	x.Memo = v
+}
+
+func (x *CreateScheduleRequest) SetSearchAttributes(v *v13.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *CreateScheduleRequest) HasSchedule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schedule != nil
+}
+
+func (x *CreateScheduleRequest) HasInitialPatch() bool {
+	if x == nil {
+		return false
+	}
+	return x.InitialPatch != nil
+}
+
+func (x *CreateScheduleRequest) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *CreateScheduleRequest) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *CreateScheduleRequest) ClearSchedule() {
+	x.Schedule = nil
+}
+
+func (x *CreateScheduleRequest) ClearInitialPatch() {
+	x.InitialPatch = nil
+}
+
+func (x *CreateScheduleRequest) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *CreateScheduleRequest) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+type CreateScheduleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace the schedule should be created in.
+	Namespace string
+	// The id of the new schedule.
+	ScheduleId string
+	// The schedule spec, policies, action, and initial state.
+	Schedule *v116.Schedule
+	// Optional initial patch (e.g. to run the action once immediately).
+	InitialPatch *v116.SchedulePatch
+	// The identity of the client who initiated this request.
+	Identity string
+	// A unique identifier for this create request for idempotence. Typically UUIDv4.
+	RequestId string
+	// Memo and search attributes to attach to the schedule itself.
+	Memo             *v13.Memo
+	SearchAttributes *v13.SearchAttributes
+}
+
+func (b0 CreateScheduleRequest_builder) Build() *CreateScheduleRequest {
+	m0 := &CreateScheduleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ScheduleId = b.ScheduleId
+	x.Schedule = b.Schedule
+	x.InitialPatch = b.InitialPatch
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	return m0
+}
+
 type CreateScheduleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	ConflictToken []byte                 `protobuf:"bytes,1,opt,name=conflict_token,json=conflictToken,proto3" json:"conflict_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -7011,11 +12522,6 @@ func (x *CreateScheduleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateScheduleResponse.ProtoReflect.Descriptor instead.
-func (*CreateScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{85}
-}
-
 func (x *CreateScheduleResponse) GetConflictToken() []byte {
 	if x != nil {
 		return x.ConflictToken
@@ -7023,8 +12529,29 @@ func (x *CreateScheduleResponse) GetConflictToken() []byte {
 	return nil
 }
 
+func (x *CreateScheduleResponse) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+type CreateScheduleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ConflictToken []byte
+}
+
+func (b0 CreateScheduleResponse_builder) Build() *CreateScheduleResponse {
+	m0 := &CreateScheduleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ConflictToken = b.ConflictToken
+	return m0
+}
+
 type DescribeScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace of the schedule to describe.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to describe.
@@ -7058,11 +12585,6 @@ func (x *DescribeScheduleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeScheduleRequest.ProtoReflect.Descriptor instead.
-func (*DescribeScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{86}
-}
-
 func (x *DescribeScheduleRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -7077,8 +12599,34 @@ func (x *DescribeScheduleRequest) GetScheduleId() string {
 	return ""
 }
 
+func (x *DescribeScheduleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeScheduleRequest) SetScheduleId(v string) {
+	x.ScheduleId = v
+}
+
+type DescribeScheduleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace of the schedule to describe.
+	Namespace string
+	// The id of the schedule to describe.
+	ScheduleId string
+}
+
+func (b0 DescribeScheduleRequest_builder) Build() *DescribeScheduleRequest {
+	m0 := &DescribeScheduleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ScheduleId = b.ScheduleId
+	return m0
+}
+
 type DescribeScheduleResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The complete current schedule details. This may not match the schedule as
 	// created because:
 	//   - some types of schedule specs may get compiled into others (e.g.
@@ -7125,11 +12673,6 @@ func (x *DescribeScheduleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeScheduleResponse.ProtoReflect.Descriptor instead.
-func (*DescribeScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{87}
-}
-
 func (x *DescribeScheduleResponse) GetSchedule() *v116.Schedule {
 	if x != nil {
 		return x.Schedule
@@ -7165,8 +12708,109 @@ func (x *DescribeScheduleResponse) GetConflictToken() []byte {
 	return nil
 }
 
+func (x *DescribeScheduleResponse) SetSchedule(v *v116.Schedule) {
+	x.Schedule = v
+}
+
+func (x *DescribeScheduleResponse) SetInfo(v *v116.ScheduleInfo) {
+	x.Info = v
+}
+
+func (x *DescribeScheduleResponse) SetMemo(v *v13.Memo) {
+	x.Memo = v
+}
+
+func (x *DescribeScheduleResponse) SetSearchAttributes(v *v13.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *DescribeScheduleResponse) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+func (x *DescribeScheduleResponse) HasSchedule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schedule != nil
+}
+
+func (x *DescribeScheduleResponse) HasInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Info != nil
+}
+
+func (x *DescribeScheduleResponse) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *DescribeScheduleResponse) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *DescribeScheduleResponse) ClearSchedule() {
+	x.Schedule = nil
+}
+
+func (x *DescribeScheduleResponse) ClearInfo() {
+	x.Info = nil
+}
+
+func (x *DescribeScheduleResponse) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *DescribeScheduleResponse) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+type DescribeScheduleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The complete current schedule details. This may not match the schedule as
+	// created because:
+	//   - some types of schedule specs may get compiled into others (e.g.
+	//     CronString into StructuredCalendarSpec)
+	//   - some unspecified fields may be replaced by defaults
+	//   - some fields in the state are modified automatically
+	//   - the schedule may have been modified by UpdateSchedule or PatchSchedule
+	Schedule *v116.Schedule
+	// Extra schedule state info.
+	Info *v116.ScheduleInfo
+	// The memo and search attributes that the schedule was created with.
+	Memo             *v13.Memo
+	SearchAttributes *v13.SearchAttributes
+	// This value can be passed back to UpdateSchedule to ensure that the
+	// schedule was not modified between a Describe and an Update, which could
+	// lead to lost updates and other confusion.
+	ConflictToken []byte
+}
+
+func (b0 DescribeScheduleResponse_builder) Build() *DescribeScheduleResponse {
+	m0 := &DescribeScheduleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Schedule = b.Schedule
+	x.Info = b.Info
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.ConflictToken = b.ConflictToken
+	return m0
+}
+
 type UpdateScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace of the schedule to update.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to update.
@@ -7218,11 +12862,6 @@ func (x *UpdateScheduleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateScheduleRequest.ProtoReflect.Descriptor instead.
-func (*UpdateScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{88}
-}
-
 func (x *UpdateScheduleRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -7272,8 +12911,102 @@ func (x *UpdateScheduleRequest) GetSearchAttributes() *v13.SearchAttributes {
 	return nil
 }
 
+func (x *UpdateScheduleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UpdateScheduleRequest) SetScheduleId(v string) {
+	x.ScheduleId = v
+}
+
+func (x *UpdateScheduleRequest) SetSchedule(v *v116.Schedule) {
+	x.Schedule = v
+}
+
+func (x *UpdateScheduleRequest) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+func (x *UpdateScheduleRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *UpdateScheduleRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *UpdateScheduleRequest) SetSearchAttributes(v *v13.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *UpdateScheduleRequest) HasSchedule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Schedule != nil
+}
+
+func (x *UpdateScheduleRequest) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *UpdateScheduleRequest) ClearSchedule() {
+	x.Schedule = nil
+}
+
+func (x *UpdateScheduleRequest) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+type UpdateScheduleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace of the schedule to update.
+	Namespace string
+	// The id of the schedule to update.
+	ScheduleId string
+	// The new schedule. The four main fields of the schedule (spec, action,
+	// policies, state) are replaced completely by the values in this message.
+	Schedule *v116.Schedule
+	// This can be the value of conflict_token from a DescribeScheduleResponse,
+	// which will cause this request to fail if the schedule has been modified
+	// between the Describe and this Update.
+	// If missing, the schedule will be updated unconditionally.
+	ConflictToken []byte
+	// The identity of the client who initiated this request.
+	Identity string
+	// A unique identifier for this update request for idempotence. Typically UUIDv4.
+	RequestId string
+	// Schedule search attributes to be updated.
+	// Do not set this field if you do not want to update the search attributes.
+	// A non-null empty object will set the search attributes to an empty map.
+	// Note: you cannot only update the search attributes with `UpdateScheduleRequest`,
+	// you must also set the `schedule` field; otherwise, it will unset the schedule.
+	SearchAttributes *v13.SearchAttributes
+}
+
+func (b0 UpdateScheduleRequest_builder) Build() *UpdateScheduleRequest {
+	m0 := &UpdateScheduleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ScheduleId = b.ScheduleId
+	x.Schedule = b.Schedule
+	x.ConflictToken = b.ConflictToken
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.SearchAttributes = b.SearchAttributes
+	return m0
+}
+
 type UpdateScheduleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -7303,13 +13036,20 @@ func (x *UpdateScheduleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateScheduleResponse.ProtoReflect.Descriptor instead.
-func (*UpdateScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{89}
+type UpdateScheduleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 UpdateScheduleResponse_builder) Build() *UpdateScheduleResponse {
+	m0 := &UpdateScheduleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type PatchScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace of the schedule to patch.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to patch.
@@ -7348,11 +13088,6 @@ func (x *PatchScheduleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PatchScheduleRequest.ProtoReflect.Descriptor instead.
-func (*PatchScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{90}
-}
-
 func (x *PatchScheduleRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -7388,8 +13123,65 @@ func (x *PatchScheduleRequest) GetRequestId() string {
 	return ""
 }
 
+func (x *PatchScheduleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *PatchScheduleRequest) SetScheduleId(v string) {
+	x.ScheduleId = v
+}
+
+func (x *PatchScheduleRequest) SetPatch(v *v116.SchedulePatch) {
+	x.Patch = v
+}
+
+func (x *PatchScheduleRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PatchScheduleRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *PatchScheduleRequest) HasPatch() bool {
+	if x == nil {
+		return false
+	}
+	return x.Patch != nil
+}
+
+func (x *PatchScheduleRequest) ClearPatch() {
+	x.Patch = nil
+}
+
+type PatchScheduleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace of the schedule to patch.
+	Namespace string
+	// The id of the schedule to patch.
+	ScheduleId string
+	Patch      *v116.SchedulePatch
+	// The identity of the client who initiated this request.
+	Identity string
+	// A unique identifier for this update request for idempotence. Typically UUIDv4.
+	RequestId string
+}
+
+func (b0 PatchScheduleRequest_builder) Build() *PatchScheduleRequest {
+	m0 := &PatchScheduleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ScheduleId = b.ScheduleId
+	x.Patch = b.Patch
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	return m0
+}
+
 type PatchScheduleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -7419,13 +13211,20 @@ func (x *PatchScheduleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PatchScheduleResponse.ProtoReflect.Descriptor instead.
-func (*PatchScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{91}
+type PatchScheduleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 PatchScheduleResponse_builder) Build() *PatchScheduleResponse {
+	m0 := &PatchScheduleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListScheduleMatchingTimesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace of the schedule to query.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to query.
@@ -7462,11 +13261,6 @@ func (x *ListScheduleMatchingTimesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListScheduleMatchingTimesRequest.ProtoReflect.Descriptor instead.
-func (*ListScheduleMatchingTimesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{92}
-}
-
 func (x *ListScheduleMatchingTimesRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -7495,8 +13289,69 @@ func (x *ListScheduleMatchingTimesRequest) GetEndTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *ListScheduleMatchingTimesRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListScheduleMatchingTimesRequest) SetScheduleId(v string) {
+	x.ScheduleId = v
+}
+
+func (x *ListScheduleMatchingTimesRequest) SetStartTime(v *timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+func (x *ListScheduleMatchingTimesRequest) SetEndTime(v *timestamppb.Timestamp) {
+	x.EndTime = v
+}
+
+func (x *ListScheduleMatchingTimesRequest) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *ListScheduleMatchingTimesRequest) HasEndTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.EndTime != nil
+}
+
+func (x *ListScheduleMatchingTimesRequest) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *ListScheduleMatchingTimesRequest) ClearEndTime() {
+	x.EndTime = nil
+}
+
+type ListScheduleMatchingTimesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace of the schedule to query.
+	Namespace string
+	// The id of the schedule to query.
+	ScheduleId string
+	// Time range to query.
+	StartTime *timestamppb.Timestamp
+	EndTime   *timestamppb.Timestamp
+}
+
+func (b0 ListScheduleMatchingTimesRequest_builder) Build() *ListScheduleMatchingTimesRequest {
+	m0 := &ListScheduleMatchingTimesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ScheduleId = b.ScheduleId
+	x.StartTime = b.StartTime
+	x.EndTime = b.EndTime
+	return m0
+}
+
 type ListScheduleMatchingTimesResponse struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
+	state         protoimpl.MessageState   `protogen:"hybrid.v1"`
 	StartTime     []*timestamppb.Timestamp `protobuf:"bytes,1,rep,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -7527,11 +13382,6 @@ func (x *ListScheduleMatchingTimesResponse) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListScheduleMatchingTimesResponse.ProtoReflect.Descriptor instead.
-func (*ListScheduleMatchingTimesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{93}
-}
-
 func (x *ListScheduleMatchingTimesResponse) GetStartTime() []*timestamppb.Timestamp {
 	if x != nil {
 		return x.StartTime
@@ -7539,8 +13389,26 @@ func (x *ListScheduleMatchingTimesResponse) GetStartTime() []*timestamppb.Timest
 	return nil
 }
 
+func (x *ListScheduleMatchingTimesResponse) SetStartTime(v []*timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+type ListScheduleMatchingTimesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	StartTime []*timestamppb.Timestamp
+}
+
+func (b0 ListScheduleMatchingTimesResponse_builder) Build() *ListScheduleMatchingTimesResponse {
+	m0 := &ListScheduleMatchingTimesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StartTime = b.StartTime
+	return m0
+}
+
 type DeleteScheduleRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace of the schedule to delete.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The id of the schedule to delete.
@@ -7576,11 +13444,6 @@ func (x *DeleteScheduleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteScheduleRequest.ProtoReflect.Descriptor instead.
-func (*DeleteScheduleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{94}
-}
-
 func (x *DeleteScheduleRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -7602,8 +13465,41 @@ func (x *DeleteScheduleRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *DeleteScheduleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DeleteScheduleRequest) SetScheduleId(v string) {
+	x.ScheduleId = v
+}
+
+func (x *DeleteScheduleRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+type DeleteScheduleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace of the schedule to delete.
+	Namespace string
+	// The id of the schedule to delete.
+	ScheduleId string
+	// The identity of the client who initiated this request.
+	Identity string
+}
+
+func (b0 DeleteScheduleRequest_builder) Build() *DeleteScheduleRequest {
+	m0 := &DeleteScheduleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ScheduleId = b.ScheduleId
+	x.Identity = b.Identity
+	return m0
+}
+
 type DeleteScheduleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -7633,13 +13529,20 @@ func (x *DeleteScheduleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteScheduleResponse.ProtoReflect.Descriptor instead.
-func (*DeleteScheduleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{95}
+type DeleteScheduleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 DeleteScheduleResponse_builder) Build() *DeleteScheduleResponse {
+	m0 := &DeleteScheduleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListSchedulesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace to list schedules in.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// How many to return at once.
@@ -7677,11 +13580,6 @@ func (x *ListSchedulesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListSchedulesRequest.ProtoReflect.Descriptor instead.
-func (*ListSchedulesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{96}
-}
-
 func (x *ListSchedulesRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -7710,8 +13608,51 @@ func (x *ListSchedulesRequest) GetQuery() string {
 	return ""
 }
 
+func (x *ListSchedulesRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListSchedulesRequest) SetMaximumPageSize(v int32) {
+	x.MaximumPageSize = v
+}
+
+func (x *ListSchedulesRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListSchedulesRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+type ListSchedulesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace to list schedules in.
+	Namespace string
+	// How many to return at once.
+	MaximumPageSize int32
+	// Token to get the next page of results.
+	NextPageToken []byte
+	// Query to filter schedules.
+	Query string
+}
+
+func (b0 ListSchedulesRequest_builder) Build() *ListSchedulesRequest {
+	m0 := &ListSchedulesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.MaximumPageSize = b.MaximumPageSize
+	x.NextPageToken = b.NextPageToken
+	x.Query = b.Query
+	return m0
+}
+
 type ListSchedulesResponse struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
+	state         protoimpl.MessageState    `protogen:"hybrid.v1"`
 	Schedules     []*v116.ScheduleListEntry `protobuf:"bytes,1,rep,name=schedules,proto3" json:"schedules,omitempty"`
 	NextPageToken []byte                    `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -7743,11 +13684,6 @@ func (x *ListSchedulesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListSchedulesResponse.ProtoReflect.Descriptor instead.
-func (*ListSchedulesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{97}
-}
-
 func (x *ListSchedulesResponse) GetSchedules() []*v116.ScheduleListEntry {
 	if x != nil {
 		return x.Schedules
@@ -7762,9 +13698,36 @@ func (x *ListSchedulesResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListSchedulesResponse) SetSchedules(v []*v116.ScheduleListEntry) {
+	x.Schedules = v
+}
+
+func (x *ListSchedulesResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListSchedulesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Schedules     []*v116.ScheduleListEntry
+	NextPageToken []byte
+}
+
+func (b0 ListSchedulesResponse_builder) Build() *ListSchedulesResponse {
+	m0 := &ListSchedulesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Schedules = b.Schedules
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 // [cleanup-wv-pre-release]
 type UpdateWorkerBuildIdCompatibilityRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Must be set, the task queue to apply changes to. Because all workers on a given task queue
 	// must have the same set of workflow & activity implementations, there is no reason to specify
@@ -7805,11 +13768,6 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest) ProtoReflect() protoreflect.Me
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateWorkerBuildIdCompatibilityRequest.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerBuildIdCompatibilityRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{98}
 }
 
 func (x *UpdateWorkerBuildIdCompatibilityRequest) GetNamespace() string {
@@ -7878,11 +13836,159 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest) GetMergeSets() *UpdateWorkerBu
 	return nil
 }
 
-type isUpdateWorkerBuildIdCompatibilityRequest_Operation interface {
-	isUpdateWorkerBuildIdCompatibilityRequest_Operation()
+func (x *UpdateWorkerBuildIdCompatibilityRequest) SetNamespace(v string) {
+	x.Namespace = v
 }
 
-type UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet struct {
+func (x *UpdateWorkerBuildIdCompatibilityRequest) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) SetAddNewBuildIdInNewDefaultSet(v string) {
+	x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet{v}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) SetAddNewCompatibleBuildId(v *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId{v}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) SetPromoteSetByBuildId(v string) {
+	x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId{v}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) SetPromoteBuildIdWithinSet(v string) {
+	x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet{v}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) SetMergeSets(v *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_MergeSets_{v}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) HasOperation() bool {
+	if x == nil {
+		return false
+	}
+	return x.Operation != nil
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) HasAddNewBuildIdInNewDefaultSet() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet)
+	return ok
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) HasAddNewCompatibleBuildId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId)
+	return ok
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) HasPromoteSetByBuildId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId)
+	return ok
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) HasPromoteBuildIdWithinSet() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet)
+	return ok
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) HasMergeSets() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_)
+	return ok
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) ClearOperation() {
+	x.Operation = nil
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) ClearAddNewBuildIdInNewDefaultSet() {
+	if _, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) ClearAddNewCompatibleBuildId() {
+	if _, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) ClearPromoteSetByBuildId() {
+	if _, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) ClearPromoteBuildIdWithinSet() {
+	if _, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) ClearMergeSets() {
+	if _, ok := x.Operation.(*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_); ok {
+		x.Operation = nil
+	}
+}
+
+const UpdateWorkerBuildIdCompatibilityRequest_Operation_not_set_case case_UpdateWorkerBuildIdCompatibilityRequest_Operation = 0
+const UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet_case case_UpdateWorkerBuildIdCompatibilityRequest_Operation = 3
+const UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId_case case_UpdateWorkerBuildIdCompatibilityRequest_Operation = 4
+const UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId_case case_UpdateWorkerBuildIdCompatibilityRequest_Operation = 5
+const UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet_case case_UpdateWorkerBuildIdCompatibilityRequest_Operation = 6
+const UpdateWorkerBuildIdCompatibilityRequest_MergeSets_case case_UpdateWorkerBuildIdCompatibilityRequest_Operation = 7
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest) WhichOperation() case_UpdateWorkerBuildIdCompatibilityRequest_Operation {
+	if x == nil {
+		return UpdateWorkerBuildIdCompatibilityRequest_Operation_not_set_case
+	}
+	switch x.Operation.(type) {
+	case *UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet:
+		return UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet_case
+	case *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId:
+		return UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId_case
+	case *UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId:
+		return UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId_case
+	case *UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet:
+		return UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet_case
+	case *UpdateWorkerBuildIdCompatibilityRequest_MergeSets_:
+		return UpdateWorkerBuildIdCompatibilityRequest_MergeSets_case
+	default:
+		return UpdateWorkerBuildIdCompatibilityRequest_Operation_not_set_case
+	}
+}
+
+type UpdateWorkerBuildIdCompatibilityRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Must be set, the task queue to apply changes to. Because all workers on a given task queue
+	// must have the same set of workflow & activity implementations, there is no reason to specify
+	// a task queue type here.
+	TaskQueue string
+	// Fields of oneof Operation:
 	// A new build id. This operation will create a new set which will be the new overall
 	// default version for the queue, with this id as its only member. This new set is
 	// incompatible with all previous sets/versions.
@@ -7890,6 +13996,90 @@ type UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet struct
 	// (-- api-linter: core::0140::prepositions=disabled
 	//
 	//	aip.dev/not-precedent: In makes perfect sense here. --)
+	AddNewBuildIdInNewDefaultSet *string
+	// Adds a new id to an existing compatible set, see sub-message definition for more.
+	AddNewCompatibleBuildId *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion
+	// Promote an existing set to be the current default (if it isn't already) by targeting
+	// an existing build id within it. This field's value is the extant build id.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Names are hard. --)
+	PromoteSetByBuildId *string
+	// Promote an existing build id within some set to be the current default for that set.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: Within makes perfect sense here. --)
+	PromoteBuildIdWithinSet *string
+	// Merge two existing sets together, thus declaring all build IDs in both sets compatible
+	// with one another. The primary set's default will become the default for the merged set.
+	// This is useful if you've accidentally declared a new ID as incompatible you meant to
+	// declare as compatible. The unusual case of incomplete replication during failover could
+	// also result in a split set, which this operation can repair.
+	MergeSets *UpdateWorkerBuildIdCompatibilityRequest_MergeSets
+	// -- end of Operation
+}
+
+func (b0 UpdateWorkerBuildIdCompatibilityRequest_builder) Build() *UpdateWorkerBuildIdCompatibilityRequest {
+	m0 := &UpdateWorkerBuildIdCompatibilityRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	if b.AddNewBuildIdInNewDefaultSet != nil {
+		x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet{*b.AddNewBuildIdInNewDefaultSet}
+	}
+	if b.AddNewCompatibleBuildId != nil {
+		x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId{b.AddNewCompatibleBuildId}
+	}
+	if b.PromoteSetByBuildId != nil {
+		x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId{*b.PromoteSetByBuildId}
+	}
+	if b.PromoteBuildIdWithinSet != nil {
+		x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet{*b.PromoteBuildIdWithinSet}
+	}
+	if b.MergeSets != nil {
+		x.Operation = &UpdateWorkerBuildIdCompatibilityRequest_MergeSets_{b.MergeSets}
+	}
+	return m0
+}
+
+type case_UpdateWorkerBuildIdCompatibilityRequest_Operation protoreflect.FieldNumber
+
+func (x case_UpdateWorkerBuildIdCompatibilityRequest_Operation) String() string {
+	switch x {
+	case UpdateWorkerBuildIdCompatibilityRequest_Operation_not_set_case:
+		return "UpdateWorkerBuildIdCompatibilityRequestOperationNotSetCase"
+	case UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet_case:
+		return "UpdateWorkerBuildIdCompatibilityRequestAddNewBuildIdInNewDefaultSetCase"
+	case UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleBuildId_case:
+		return "UpdateWorkerBuildIdCompatibilityRequestAddNewCompatibleBuildIdCase"
+
+		// A new build id. This operation will create a new set which will be the new overall
+		// default version for the queue, with this id as its only member. This new set is
+		// incompatible with all previous sets/versions.
+		//
+		// (-- api-linter: core::0140::prepositions=disabled
+		//
+		//	aip.dev/not-precedent: In makes perfect sense here. --)
+	case UpdateWorkerBuildIdCompatibilityRequest_PromoteSetByBuildId_case:
+		return "UpdateWorkerBuildIdCompatibilityRequestPromoteSetByBuildIdCase"
+	case UpdateWorkerBuildIdCompatibilityRequest_PromoteBuildIdWithinSet_case:
+		return "UpdateWorkerBuildIdCompatibilityRequestPromoteBuildIdWithinSetCase"
+	case UpdateWorkerBuildIdCompatibilityRequest_MergeSets_case:
+		return "UpdateWorkerBuildIdCompatibilityRequestMergeSetsCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
+type isUpdateWorkerBuildIdCompatibilityRequest_Operation interface {
+	isUpdateWorkerBuildIdCompatibilityRequest_Operation()
+}
+
+type UpdateWorkerBuildIdCompatibilityRequest_AddNewBuildIdInNewDefaultSet struct {
 	AddNewBuildIdInNewDefaultSet string `protobuf:"bytes,3,opt,name=add_new_build_id_in_new_default_set,json=addNewBuildIdInNewDefaultSet,proto3,oneof"`
 }
 
@@ -7943,7 +14133,7 @@ func (*UpdateWorkerBuildIdCompatibilityRequest_MergeSets_) isUpdateWorkerBuildId
 
 // [cleanup-wv-pre-release]
 type UpdateWorkerBuildIdCompatibilityResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -7973,14 +14163,21 @@ func (x *UpdateWorkerBuildIdCompatibilityResponse) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerBuildIdCompatibilityResponse.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerBuildIdCompatibilityResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{99}
+type UpdateWorkerBuildIdCompatibilityResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 UpdateWorkerBuildIdCompatibilityResponse_builder) Build() *UpdateWorkerBuildIdCompatibilityResponse {
+	m0 := &UpdateWorkerBuildIdCompatibilityResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // [cleanup-wv-pre-release]
 type GetWorkerBuildIdCompatibilityRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Must be set, the task queue to interrogate about worker id compatibility.
 	TaskQueue string `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
@@ -8016,11 +14213,6 @@ func (x *GetWorkerBuildIdCompatibilityRequest) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkerBuildIdCompatibilityRequest.ProtoReflect.Descriptor instead.
-func (*GetWorkerBuildIdCompatibilityRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{100}
-}
-
 func (x *GetWorkerBuildIdCompatibilityRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -8042,9 +14234,42 @@ func (x *GetWorkerBuildIdCompatibilityRequest) GetMaxSets() int32 {
 	return 0
 }
 
+func (x *GetWorkerBuildIdCompatibilityRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *GetWorkerBuildIdCompatibilityRequest) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *GetWorkerBuildIdCompatibilityRequest) SetMaxSets(v int32) {
+	x.MaxSets = v
+}
+
+type GetWorkerBuildIdCompatibilityRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Must be set, the task queue to interrogate about worker id compatibility.
+	TaskQueue string
+	// Limits how many compatible sets will be returned. Specify 1 to only return the current
+	// default major version set. 0 returns all sets.
+	MaxSets int32
+}
+
+func (b0 GetWorkerBuildIdCompatibilityRequest_builder) Build() *GetWorkerBuildIdCompatibilityRequest {
+	m0 := &GetWorkerBuildIdCompatibilityRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	x.MaxSets = b.MaxSets
+	return m0
+}
+
 // [cleanup-wv-pre-release]
 type GetWorkerBuildIdCompatibilityResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Major version sets, in order from oldest to newest. The last element of the list will always
 	// be the current default major version. IE: New workflows will target the most recent version
 	// in that version set.
@@ -8080,16 +14305,34 @@ func (x *GetWorkerBuildIdCompatibilityResponse) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkerBuildIdCompatibilityResponse.ProtoReflect.Descriptor instead.
-func (*GetWorkerBuildIdCompatibilityResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{101}
-}
-
 func (x *GetWorkerBuildIdCompatibilityResponse) GetMajorVersionSets() []*v14.CompatibleVersionSet {
 	if x != nil {
 		return x.MajorVersionSets
 	}
 	return nil
+}
+
+func (x *GetWorkerBuildIdCompatibilityResponse) SetMajorVersionSets(v []*v14.CompatibleVersionSet) {
+	x.MajorVersionSets = v
+}
+
+type GetWorkerBuildIdCompatibilityResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Major version sets, in order from oldest to newest. The last element of the list will always
+	// be the current default major version. IE: New workflows will target the most recent version
+	// in that version set.
+	//
+	// There may be fewer sets returned than exist, if the request chose to limit this response.
+	MajorVersionSets []*v14.CompatibleVersionSet
+}
+
+func (b0 GetWorkerBuildIdCompatibilityResponse_builder) Build() *GetWorkerBuildIdCompatibilityResponse {
+	m0 := &GetWorkerBuildIdCompatibilityResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MajorVersionSets = b.MajorVersionSets
+	return m0
 }
 
 // (-- api-linter: core::0134::request-mask-required=disabled
@@ -8102,7 +14345,7 @@ func (x *GetWorkerBuildIdCompatibilityResponse) GetMajorVersionSets() []*v14.Com
 //
 // [cleanup-wv-pre-release]
 type UpdateWorkerVersioningRulesRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskQueue string                 `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// A valid conflict_token can be taken from the previous
@@ -8148,11 +14391,6 @@ func (x *UpdateWorkerVersioningRulesRequest) ProtoReflect() protoreflect.Message
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateWorkerVersioningRulesRequest.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102}
 }
 
 func (x *UpdateWorkerVersioningRulesRequest) GetNamespace() string {
@@ -8246,6 +14484,298 @@ func (x *UpdateWorkerVersioningRulesRequest) GetCommitBuildId() *UpdateWorkerVer
 	return nil
 }
 
+func (x *UpdateWorkerVersioningRulesRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetInsertAssignmentRule(v *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerVersioningRulesRequest_InsertAssignmentRule{v}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetReplaceAssignmentRule(v *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule{v}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetDeleteAssignmentRule(v *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule{v}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetAddCompatibleRedirectRule(v *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule{v}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetReplaceCompatibleRedirectRule(v *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule{v}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetDeleteCompatibleRedirectRule(v *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule{v}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) SetCommitBuildId(v *UpdateWorkerVersioningRulesRequest_CommitBuildId) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &UpdateWorkerVersioningRulesRequest_CommitBuildId_{v}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) HasOperation() bool {
+	if x == nil {
+		return false
+	}
+	return x.Operation != nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) HasInsertAssignmentRule() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule)
+	return ok
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) HasReplaceAssignmentRule() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule)
+	return ok
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) HasDeleteAssignmentRule() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule)
+	return ok
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) HasAddCompatibleRedirectRule() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule)
+	return ok
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) HasReplaceCompatibleRedirectRule() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule)
+	return ok
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) HasDeleteCompatibleRedirectRule() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule)
+	return ok
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) HasCommitBuildId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_CommitBuildId_)
+	return ok
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) ClearOperation() {
+	x.Operation = nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) ClearInsertAssignmentRule() {
+	if _, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_InsertAssignmentRule); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) ClearReplaceAssignmentRule() {
+	if _, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) ClearDeleteAssignmentRule() {
+	if _, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) ClearAddCompatibleRedirectRule() {
+	if _, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) ClearReplaceCompatibleRedirectRule() {
+	if _, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) ClearDeleteCompatibleRedirectRule() {
+	if _, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *UpdateWorkerVersioningRulesRequest) ClearCommitBuildId() {
+	if _, ok := x.Operation.(*UpdateWorkerVersioningRulesRequest_CommitBuildId_); ok {
+		x.Operation = nil
+	}
+}
+
+const UpdateWorkerVersioningRulesRequest_Operation_not_set_case case_UpdateWorkerVersioningRulesRequest_Operation = 0
+const UpdateWorkerVersioningRulesRequest_InsertAssignmentRule_case case_UpdateWorkerVersioningRulesRequest_Operation = 4
+const UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule_case case_UpdateWorkerVersioningRulesRequest_Operation = 5
+const UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule_case case_UpdateWorkerVersioningRulesRequest_Operation = 6
+const UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule_case case_UpdateWorkerVersioningRulesRequest_Operation = 7
+const UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule_case case_UpdateWorkerVersioningRulesRequest_Operation = 8
+const UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule_case case_UpdateWorkerVersioningRulesRequest_Operation = 9
+const UpdateWorkerVersioningRulesRequest_CommitBuildId_case case_UpdateWorkerVersioningRulesRequest_Operation = 10
+
+func (x *UpdateWorkerVersioningRulesRequest) WhichOperation() case_UpdateWorkerVersioningRulesRequest_Operation {
+	if x == nil {
+		return UpdateWorkerVersioningRulesRequest_Operation_not_set_case
+	}
+	switch x.Operation.(type) {
+	case *UpdateWorkerVersioningRulesRequest_InsertAssignmentRule:
+		return UpdateWorkerVersioningRulesRequest_InsertAssignmentRule_case
+	case *UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule:
+		return UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule_case
+	case *UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule:
+		return UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule_case
+	case *UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule:
+		return UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule_case
+	case *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule:
+		return UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule_case
+	case *UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule:
+		return UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule_case
+	case *UpdateWorkerVersioningRulesRequest_CommitBuildId_:
+		return UpdateWorkerVersioningRulesRequest_CommitBuildId_case
+	default:
+		return UpdateWorkerVersioningRulesRequest_Operation_not_set_case
+	}
+}
+
+type UpdateWorkerVersioningRulesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	TaskQueue string
+	// A valid conflict_token can be taken from the previous
+	// ListWorkerVersioningRulesResponse or UpdateWorkerVersioningRulesResponse.
+	// An invalid token will cause this request to fail, ensuring that if the rules
+	// for this Task Queue have been modified between the previous and current
+	// operation, the request will fail instead of causing an unpredictable mutation.
+	ConflictToken []byte
+	// Fields of oneof Operation:
+	InsertAssignmentRule          *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule
+	ReplaceAssignmentRule         *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule
+	DeleteAssignmentRule          *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule
+	AddCompatibleRedirectRule     *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule
+	ReplaceCompatibleRedirectRule *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule
+	DeleteCompatibleRedirectRule  *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule
+	CommitBuildId                 *UpdateWorkerVersioningRulesRequest_CommitBuildId
+	// -- end of Operation
+}
+
+func (b0 UpdateWorkerVersioningRulesRequest_builder) Build() *UpdateWorkerVersioningRulesRequest {
+	m0 := &UpdateWorkerVersioningRulesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	x.ConflictToken = b.ConflictToken
+	if b.InsertAssignmentRule != nil {
+		x.Operation = &UpdateWorkerVersioningRulesRequest_InsertAssignmentRule{b.InsertAssignmentRule}
+	}
+	if b.ReplaceAssignmentRule != nil {
+		x.Operation = &UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule{b.ReplaceAssignmentRule}
+	}
+	if b.DeleteAssignmentRule != nil {
+		x.Operation = &UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule{b.DeleteAssignmentRule}
+	}
+	if b.AddCompatibleRedirectRule != nil {
+		x.Operation = &UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule{b.AddCompatibleRedirectRule}
+	}
+	if b.ReplaceCompatibleRedirectRule != nil {
+		x.Operation = &UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule{b.ReplaceCompatibleRedirectRule}
+	}
+	if b.DeleteCompatibleRedirectRule != nil {
+		x.Operation = &UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule{b.DeleteCompatibleRedirectRule}
+	}
+	if b.CommitBuildId != nil {
+		x.Operation = &UpdateWorkerVersioningRulesRequest_CommitBuildId_{b.CommitBuildId}
+	}
+	return m0
+}
+
+type case_UpdateWorkerVersioningRulesRequest_Operation protoreflect.FieldNumber
+
+func (x case_UpdateWorkerVersioningRulesRequest_Operation) String() string {
+	switch x {
+	case UpdateWorkerVersioningRulesRequest_Operation_not_set_case:
+		return "UpdateWorkerVersioningRulesRequestOperationNotSetCase"
+	case UpdateWorkerVersioningRulesRequest_InsertAssignmentRule_case:
+		return "UpdateWorkerVersioningRulesRequestInsertAssignmentRuleCase"
+	case UpdateWorkerVersioningRulesRequest_ReplaceAssignmentRule_case:
+		return "UpdateWorkerVersioningRulesRequestReplaceAssignmentRuleCase"
+	case UpdateWorkerVersioningRulesRequest_DeleteAssignmentRule_case:
+		return "UpdateWorkerVersioningRulesRequestDeleteAssignmentRuleCase"
+	case UpdateWorkerVersioningRulesRequest_AddCompatibleRedirectRule_case:
+		return "UpdateWorkerVersioningRulesRequestAddCompatibleRedirectRuleCase"
+	case UpdateWorkerVersioningRulesRequest_ReplaceCompatibleRedirectRule_case:
+		return "UpdateWorkerVersioningRulesRequestReplaceCompatibleRedirectRuleCase"
+	case UpdateWorkerVersioningRulesRequest_DeleteCompatibleRedirectRule_case:
+		return "UpdateWorkerVersioningRulesRequestDeleteCompatibleRedirectRuleCase"
+	case UpdateWorkerVersioningRulesRequest_CommitBuildId_case:
+		return "UpdateWorkerVersioningRulesRequestCommitBuildIdCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isUpdateWorkerVersioningRulesRequest_Operation interface {
 	isUpdateWorkerVersioningRulesRequest_Operation()
 }
@@ -8301,7 +14831,7 @@ func (*UpdateWorkerVersioningRulesRequest_CommitBuildId_) isUpdateWorkerVersioni
 
 // [cleanup-wv-pre-release]
 type UpdateWorkerVersioningRulesResponse struct {
-	state                   protoimpl.MessageState                          `protogen:"open.v1"`
+	state                   protoimpl.MessageState                          `protogen:"hybrid.v1"`
 	AssignmentRules         []*v14.TimestampedBuildIdAssignmentRule         `protobuf:"bytes,1,rep,name=assignment_rules,json=assignmentRules,proto3" json:"assignment_rules,omitempty"`
 	CompatibleRedirectRules []*v14.TimestampedCompatibleBuildIdRedirectRule `protobuf:"bytes,2,rep,name=compatible_redirect_rules,json=compatibleRedirectRules,proto3" json:"compatible_redirect_rules,omitempty"`
 	// This value can be passed back to UpdateWorkerVersioningRulesRequest to
@@ -8337,11 +14867,6 @@ func (x *UpdateWorkerVersioningRulesResponse) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerVersioningRulesResponse.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{103}
-}
-
 func (x *UpdateWorkerVersioningRulesResponse) GetAssignmentRules() []*v14.TimestampedBuildIdAssignmentRule {
 	if x != nil {
 		return x.AssignmentRules
@@ -8363,9 +14888,45 @@ func (x *UpdateWorkerVersioningRulesResponse) GetConflictToken() []byte {
 	return nil
 }
 
+func (x *UpdateWorkerVersioningRulesResponse) SetAssignmentRules(v []*v14.TimestampedBuildIdAssignmentRule) {
+	x.AssignmentRules = v
+}
+
+func (x *UpdateWorkerVersioningRulesResponse) SetCompatibleRedirectRules(v []*v14.TimestampedCompatibleBuildIdRedirectRule) {
+	x.CompatibleRedirectRules = v
+}
+
+func (x *UpdateWorkerVersioningRulesResponse) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+type UpdateWorkerVersioningRulesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	AssignmentRules         []*v14.TimestampedBuildIdAssignmentRule
+	CompatibleRedirectRules []*v14.TimestampedCompatibleBuildIdRedirectRule
+	// This value can be passed back to UpdateWorkerVersioningRulesRequest to
+	// ensure that the rules were not modified between the two updates, which
+	// could lead to lost updates and other confusion.
+	ConflictToken []byte
+}
+
+func (b0 UpdateWorkerVersioningRulesResponse_builder) Build() *UpdateWorkerVersioningRulesResponse {
+	m0 := &UpdateWorkerVersioningRulesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AssignmentRules = b.AssignmentRules
+	x.CompatibleRedirectRules = b.CompatibleRedirectRules
+	x.ConflictToken = b.ConflictToken
+	return m0
+}
+
 // [cleanup-wv-pre-release]
 type GetWorkerVersioningRulesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	TaskQueue     string                 `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -8397,11 +14958,6 @@ func (x *GetWorkerVersioningRulesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkerVersioningRulesRequest.ProtoReflect.Descriptor instead.
-func (*GetWorkerVersioningRulesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{104}
-}
-
 func (x *GetWorkerVersioningRulesRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -8416,9 +14972,33 @@ func (x *GetWorkerVersioningRulesRequest) GetTaskQueue() string {
 	return ""
 }
 
+func (x *GetWorkerVersioningRulesRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *GetWorkerVersioningRulesRequest) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+type GetWorkerVersioningRulesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	TaskQueue string
+}
+
+func (b0 GetWorkerVersioningRulesRequest_builder) Build() *GetWorkerVersioningRulesRequest {
+	m0 := &GetWorkerVersioningRulesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.TaskQueue = b.TaskQueue
+	return m0
+}
+
 // [cleanup-wv-pre-release]
 type GetWorkerVersioningRulesResponse struct {
-	state                   protoimpl.MessageState                          `protogen:"open.v1"`
+	state                   protoimpl.MessageState                          `protogen:"hybrid.v1"`
 	AssignmentRules         []*v14.TimestampedBuildIdAssignmentRule         `protobuf:"bytes,1,rep,name=assignment_rules,json=assignmentRules,proto3" json:"assignment_rules,omitempty"`
 	CompatibleRedirectRules []*v14.TimestampedCompatibleBuildIdRedirectRule `protobuf:"bytes,2,rep,name=compatible_redirect_rules,json=compatibleRedirectRules,proto3" json:"compatible_redirect_rules,omitempty"`
 	// This value can be passed back to UpdateWorkerVersioningRulesRequest to
@@ -8454,11 +15034,6 @@ func (x *GetWorkerVersioningRulesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkerVersioningRulesResponse.ProtoReflect.Descriptor instead.
-func (*GetWorkerVersioningRulesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{105}
-}
-
 func (x *GetWorkerVersioningRulesResponse) GetAssignmentRules() []*v14.TimestampedBuildIdAssignmentRule {
 	if x != nil {
 		return x.AssignmentRules
@@ -8480,10 +15055,46 @@ func (x *GetWorkerVersioningRulesResponse) GetConflictToken() []byte {
 	return nil
 }
 
+func (x *GetWorkerVersioningRulesResponse) SetAssignmentRules(v []*v14.TimestampedBuildIdAssignmentRule) {
+	x.AssignmentRules = v
+}
+
+func (x *GetWorkerVersioningRulesResponse) SetCompatibleRedirectRules(v []*v14.TimestampedCompatibleBuildIdRedirectRule) {
+	x.CompatibleRedirectRules = v
+}
+
+func (x *GetWorkerVersioningRulesResponse) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+type GetWorkerVersioningRulesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	AssignmentRules         []*v14.TimestampedBuildIdAssignmentRule
+	CompatibleRedirectRules []*v14.TimestampedCompatibleBuildIdRedirectRule
+	// This value can be passed back to UpdateWorkerVersioningRulesRequest to
+	// ensure that the rules were not modified between this List and the Update,
+	// which could lead to lost updates and other confusion.
+	ConflictToken []byte
+}
+
+func (b0 GetWorkerVersioningRulesResponse_builder) Build() *GetWorkerVersioningRulesResponse {
+	m0 := &GetWorkerVersioningRulesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AssignmentRules = b.AssignmentRules
+	x.CompatibleRedirectRules = b.CompatibleRedirectRules
+	x.ConflictToken = b.ConflictToken
+	return m0
+}
+
 // [cleanup-wv-pre-release]
 // Deprecated. Use `DescribeTaskQueue`.
 type GetWorkerTaskReachabilityRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Build ids to retrieve reachability for. An empty string will be interpreted as an unversioned worker.
 	// The number of build ids that can be queried in a single API call is limited.
@@ -8532,11 +15143,6 @@ func (x *GetWorkerTaskReachabilityRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkerTaskReachabilityRequest.ProtoReflect.Descriptor instead.
-func (*GetWorkerTaskReachabilityRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{106}
-}
-
 func (x *GetWorkerTaskReachabilityRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -8565,10 +15171,61 @@ func (x *GetWorkerTaskReachabilityRequest) GetReachability() v11.TaskReachabilit
 	return v11.TaskReachability(0)
 }
 
+func (x *GetWorkerTaskReachabilityRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *GetWorkerTaskReachabilityRequest) SetBuildIds(v []string) {
+	x.BuildIds = v
+}
+
+func (x *GetWorkerTaskReachabilityRequest) SetTaskQueues(v []string) {
+	x.TaskQueues = v
+}
+
+func (x *GetWorkerTaskReachabilityRequest) SetReachability(v v11.TaskReachability) {
+	x.Reachability = v
+}
+
+type GetWorkerTaskReachabilityRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Build ids to retrieve reachability for. An empty string will be interpreted as an unversioned worker.
+	// The number of build ids that can be queried in a single API call is limited.
+	// Open source users can adjust this limit by setting the server's dynamic config value for
+	// `limit.reachabilityQueryBuildIds` with the caveat that this call can strain the visibility store.
+	BuildIds []string
+	// Task queues to retrieve reachability for. Leave this empty to query for all task queues associated with given
+	// build ids in the namespace.
+	// Must specify at least one task queue if querying for an unversioned worker.
+	// The number of task queues that the server will fetch reachability information for is limited.
+	// See the `GetWorkerTaskReachabilityResponse` documentation for more information.
+	TaskQueues []string
+	// Type of reachability to query for.
+	// `TASK_REACHABILITY_NEW_WORKFLOWS` is always returned in the response.
+	// Use `TASK_REACHABILITY_EXISTING_WORKFLOWS` if your application needs to respond to queries on closed workflows.
+	// Otherwise, use `TASK_REACHABILITY_OPEN_WORKFLOWS`. Default is `TASK_REACHABILITY_EXISTING_WORKFLOWS` if left
+	// unspecified.
+	// See the TaskReachability docstring for information about each enum variant.
+	Reachability v11.TaskReachability
+}
+
+func (b0 GetWorkerTaskReachabilityRequest_builder) Build() *GetWorkerTaskReachabilityRequest {
+	m0 := &GetWorkerTaskReachabilityRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.BuildIds = b.BuildIds
+	x.TaskQueues = b.TaskQueues
+	x.Reachability = b.Reachability
+	return m0
+}
+
 // [cleanup-wv-pre-release]
 // Deprecated. Use `DescribeTaskQueue`.
 type GetWorkerTaskReachabilityResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Task reachability, broken down by build id and then task queue.
 	// When requesting a large number of task queues or all task queues associated with the given build ids in a
 	// namespace, all task queues will be listed in the response but some of them may not contain reachability
@@ -8608,11 +15265,6 @@ func (x *GetWorkerTaskReachabilityResponse) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetWorkerTaskReachabilityResponse.ProtoReflect.Descriptor instead.
-func (*GetWorkerTaskReachabilityResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{107}
-}
-
 func (x *GetWorkerTaskReachabilityResponse) GetBuildIdReachability() []*v14.BuildIdReachability {
 	if x != nil {
 		return x.BuildIdReachability
@@ -8620,11 +15272,38 @@ func (x *GetWorkerTaskReachabilityResponse) GetBuildIdReachability() []*v14.Buil
 	return nil
 }
 
+func (x *GetWorkerTaskReachabilityResponse) SetBuildIdReachability(v []*v14.BuildIdReachability) {
+	x.BuildIdReachability = v
+}
+
+type GetWorkerTaskReachabilityResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Task reachability, broken down by build id and then task queue.
+	// When requesting a large number of task queues or all task queues associated with the given build ids in a
+	// namespace, all task queues will be listed in the response but some of them may not contain reachability
+	// information due to a server enforced limit. When reaching the limit, task queues that reachability information
+	// could not be retrieved for will be marked with a single TASK_REACHABILITY_UNSPECIFIED entry. The caller may issue
+	// another call to get the reachability for those task queues.
+	//
+	// Open source users can adjust this limit by setting the server's dynamic config value for
+	// `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store.
+	BuildIdReachability []*v14.BuildIdReachability
+}
+
+func (b0 GetWorkerTaskReachabilityResponse_builder) Build() *GetWorkerTaskReachabilityResponse {
+	m0 := &GetWorkerTaskReachabilityResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildIdReachability = b.BuildIdReachability
+	return m0
+}
+
 // (-- api-linter: core::0134=disabled
 //
 //	aip.dev/not-precedent: Update RPCs don't follow Google API format. --)
 type UpdateWorkflowExecutionRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace name of the target Workflow.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target Workflow Id and (optionally) a specific Run Id thereof.
@@ -8674,11 +15353,6 @@ func (x *UpdateWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*UpdateWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{108}
-}
-
 func (x *UpdateWorkflowExecutionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -8714,8 +15388,98 @@ func (x *UpdateWorkflowExecutionRequest) GetRequest() *v117.Request {
 	return nil
 }
 
+func (x *UpdateWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UpdateWorkflowExecutionRequest) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *UpdateWorkflowExecutionRequest) SetFirstExecutionRunId(v string) {
+	x.FirstExecutionRunId = v
+}
+
+func (x *UpdateWorkflowExecutionRequest) SetWaitPolicy(v *v117.WaitPolicy) {
+	x.WaitPolicy = v
+}
+
+func (x *UpdateWorkflowExecutionRequest) SetRequest(v *v117.Request) {
+	x.Request = v
+}
+
+func (x *UpdateWorkflowExecutionRequest) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *UpdateWorkflowExecutionRequest) HasWaitPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.WaitPolicy != nil
+}
+
+func (x *UpdateWorkflowExecutionRequest) HasRequest() bool {
+	if x == nil {
+		return false
+	}
+	return x.Request != nil
+}
+
+func (x *UpdateWorkflowExecutionRequest) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *UpdateWorkflowExecutionRequest) ClearWaitPolicy() {
+	x.WaitPolicy = nil
+}
+
+func (x *UpdateWorkflowExecutionRequest) ClearRequest() {
+	x.Request = nil
+}
+
+type UpdateWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace name of the target Workflow.
+	Namespace string
+	// The target Workflow Id and (optionally) a specific Run Id thereof.
+	// (-- api-linter: core::0203::optional=disabled
+	//
+	//	aip.dev/not-precedent: false positive triggered by the word "optional" --)
+	WorkflowExecution *v13.WorkflowExecution
+	// If set, this call will error if the most recent (if no Run Id is set on
+	// `workflow_execution`), or specified (if it is) Workflow Execution is not
+	// part of the same execution chain as this Id.
+	FirstExecutionRunId string
+	// Specifies client's intent to wait for Update results.
+	// NOTE: This field works together with API call timeout which is limited by
+	// server timeout (maximum wait time). If server timeout is expired before
+	// user specified timeout, API call returns even if specified stage is not reached.
+	// Actual reached stage will be included in the response.
+	WaitPolicy *v117.WaitPolicy
+	// The request information that will be delivered all the way down to the
+	// Workflow Execution.
+	Request *v117.Request
+}
+
+func (b0 UpdateWorkflowExecutionRequest_builder) Build() *UpdateWorkflowExecutionRequest {
+	m0 := &UpdateWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowExecution = b.WorkflowExecution
+	x.FirstExecutionRunId = b.FirstExecutionRunId
+	x.WaitPolicy = b.WaitPolicy
+	x.Request = b.Request
+	return m0
+}
+
 type UpdateWorkflowExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Enough information for subsequent poll calls if needed. Never null.
 	UpdateRef *v117.UpdateRef `protobuf:"bytes,1,opt,name=update_ref,json=updateRef,proto3" json:"update_ref,omitempty"`
 	// The outcome of the Update if and only if the Workflow Update
@@ -8762,11 +15526,6 @@ func (x *UpdateWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*UpdateWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{109}
-}
-
 func (x *UpdateWorkflowExecutionResponse) GetUpdateRef() *v117.UpdateRef {
 	if x != nil {
 		return x.UpdateRef
@@ -8788,8 +15547,74 @@ func (x *UpdateWorkflowExecutionResponse) GetStage() v11.UpdateWorkflowExecution
 	return v11.UpdateWorkflowExecutionLifecycleStage(0)
 }
 
+func (x *UpdateWorkflowExecutionResponse) SetUpdateRef(v *v117.UpdateRef) {
+	x.UpdateRef = v
+}
+
+func (x *UpdateWorkflowExecutionResponse) SetOutcome(v *v117.Outcome) {
+	x.Outcome = v
+}
+
+func (x *UpdateWorkflowExecutionResponse) SetStage(v v11.UpdateWorkflowExecutionLifecycleStage) {
+	x.Stage = v
+}
+
+func (x *UpdateWorkflowExecutionResponse) HasUpdateRef() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateRef != nil
+}
+
+func (x *UpdateWorkflowExecutionResponse) HasOutcome() bool {
+	if x == nil {
+		return false
+	}
+	return x.Outcome != nil
+}
+
+func (x *UpdateWorkflowExecutionResponse) ClearUpdateRef() {
+	x.UpdateRef = nil
+}
+
+func (x *UpdateWorkflowExecutionResponse) ClearOutcome() {
+	x.Outcome = nil
+}
+
+type UpdateWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Enough information for subsequent poll calls if needed. Never null.
+	UpdateRef *v117.UpdateRef
+	// The outcome of the Update if and only if the Workflow Update
+	// has completed. If this response is being returned before the Update has
+	// completed then this field will not be set.
+	Outcome *v117.Outcome
+	// The most advanced lifecycle stage that the Update is known to have
+	// reached, where lifecycle stages are ordered
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED <
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ADMITTED <
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED <
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_COMPLETED.
+	// UNSPECIFIED will be returned if and only if the server's maximum wait
+	// time was reached before the Update reached the stage specified in the
+	// request WaitPolicy, and before the context deadline expired; clients may
+	// may then retry the call as needed.
+	Stage v11.UpdateWorkflowExecutionLifecycleStage
+}
+
+func (b0 UpdateWorkflowExecutionResponse_builder) Build() *UpdateWorkflowExecutionResponse {
+	m0 := &UpdateWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.UpdateRef = b.UpdateRef
+	x.Outcome = b.Outcome
+	x.Stage = b.Stage
+	return m0
+}
+
 type StartBatchOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace that contains the batch operation
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Visibility query defines the the group of workflow to apply the batch operation
@@ -8850,11 +15675,6 @@ func (x *StartBatchOperationRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StartBatchOperationRequest.ProtoReflect.Descriptor instead.
-func (*StartBatchOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{110}
 }
 
 func (x *StartBatchOperationRequest) GetNamespace() string {
@@ -8987,6 +15807,385 @@ func (x *StartBatchOperationRequest) GetUpdateActivityOptionsOperation() *v118.B
 	return nil
 }
 
+func (x *StartBatchOperationRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *StartBatchOperationRequest) SetVisibilityQuery(v string) {
+	x.VisibilityQuery = v
+}
+
+func (x *StartBatchOperationRequest) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *StartBatchOperationRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *StartBatchOperationRequest) SetExecutions(v []*v13.WorkflowExecution) {
+	x.Executions = v
+}
+
+func (x *StartBatchOperationRequest) SetMaxOperationsPerSecond(v float32) {
+	x.MaxOperationsPerSecond = v
+}
+
+func (x *StartBatchOperationRequest) SetTerminationOperation(v *v118.BatchOperationTermination) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_TerminationOperation{v}
+}
+
+func (x *StartBatchOperationRequest) SetSignalOperation(v *v118.BatchOperationSignal) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_SignalOperation{v}
+}
+
+func (x *StartBatchOperationRequest) SetCancellationOperation(v *v118.BatchOperationCancellation) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_CancellationOperation{v}
+}
+
+func (x *StartBatchOperationRequest) SetDeletionOperation(v *v118.BatchOperationDeletion) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_DeletionOperation{v}
+}
+
+func (x *StartBatchOperationRequest) SetResetOperation(v *v118.BatchOperationReset) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_ResetOperation{v}
+}
+
+func (x *StartBatchOperationRequest) SetUpdateWorkflowOptionsOperation(v *v118.BatchOperationUpdateWorkflowExecutionOptions) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_UpdateWorkflowOptionsOperation{v}
+}
+
+func (x *StartBatchOperationRequest) SetUnpauseActivitiesOperation(v *v118.BatchOperationUnpauseActivities) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_UnpauseActivitiesOperation{v}
+}
+
+func (x *StartBatchOperationRequest) SetResetActivitiesOperation(v *v118.BatchOperationResetActivities) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_ResetActivitiesOperation{v}
+}
+
+func (x *StartBatchOperationRequest) SetUpdateActivityOptionsOperation(v *v118.BatchOperationUpdateActivityOptions) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &StartBatchOperationRequest_UpdateActivityOptionsOperation{v}
+}
+
+func (x *StartBatchOperationRequest) HasOperation() bool {
+	if x == nil {
+		return false
+	}
+	return x.Operation != nil
+}
+
+func (x *StartBatchOperationRequest) HasTerminationOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_TerminationOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) HasSignalOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_SignalOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) HasCancellationOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_CancellationOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) HasDeletionOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_DeletionOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) HasResetOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_ResetOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) HasUpdateWorkflowOptionsOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_UpdateWorkflowOptionsOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) HasUnpauseActivitiesOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_UnpauseActivitiesOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) HasResetActivitiesOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_ResetActivitiesOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) HasUpdateActivityOptionsOperation() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*StartBatchOperationRequest_UpdateActivityOptionsOperation)
+	return ok
+}
+
+func (x *StartBatchOperationRequest) ClearOperation() {
+	x.Operation = nil
+}
+
+func (x *StartBatchOperationRequest) ClearTerminationOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_TerminationOperation); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *StartBatchOperationRequest) ClearSignalOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_SignalOperation); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *StartBatchOperationRequest) ClearCancellationOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_CancellationOperation); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *StartBatchOperationRequest) ClearDeletionOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_DeletionOperation); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *StartBatchOperationRequest) ClearResetOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_ResetOperation); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *StartBatchOperationRequest) ClearUpdateWorkflowOptionsOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_UpdateWorkflowOptionsOperation); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *StartBatchOperationRequest) ClearUnpauseActivitiesOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_UnpauseActivitiesOperation); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *StartBatchOperationRequest) ClearResetActivitiesOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_ResetActivitiesOperation); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *StartBatchOperationRequest) ClearUpdateActivityOptionsOperation() {
+	if _, ok := x.Operation.(*StartBatchOperationRequest_UpdateActivityOptionsOperation); ok {
+		x.Operation = nil
+	}
+}
+
+const StartBatchOperationRequest_Operation_not_set_case case_StartBatchOperationRequest_Operation = 0
+const StartBatchOperationRequest_TerminationOperation_case case_StartBatchOperationRequest_Operation = 10
+const StartBatchOperationRequest_SignalOperation_case case_StartBatchOperationRequest_Operation = 11
+const StartBatchOperationRequest_CancellationOperation_case case_StartBatchOperationRequest_Operation = 12
+const StartBatchOperationRequest_DeletionOperation_case case_StartBatchOperationRequest_Operation = 13
+const StartBatchOperationRequest_ResetOperation_case case_StartBatchOperationRequest_Operation = 14
+const StartBatchOperationRequest_UpdateWorkflowOptionsOperation_case case_StartBatchOperationRequest_Operation = 15
+const StartBatchOperationRequest_UnpauseActivitiesOperation_case case_StartBatchOperationRequest_Operation = 16
+const StartBatchOperationRequest_ResetActivitiesOperation_case case_StartBatchOperationRequest_Operation = 17
+const StartBatchOperationRequest_UpdateActivityOptionsOperation_case case_StartBatchOperationRequest_Operation = 18
+
+func (x *StartBatchOperationRequest) WhichOperation() case_StartBatchOperationRequest_Operation {
+	if x == nil {
+		return StartBatchOperationRequest_Operation_not_set_case
+	}
+	switch x.Operation.(type) {
+	case *StartBatchOperationRequest_TerminationOperation:
+		return StartBatchOperationRequest_TerminationOperation_case
+	case *StartBatchOperationRequest_SignalOperation:
+		return StartBatchOperationRequest_SignalOperation_case
+	case *StartBatchOperationRequest_CancellationOperation:
+		return StartBatchOperationRequest_CancellationOperation_case
+	case *StartBatchOperationRequest_DeletionOperation:
+		return StartBatchOperationRequest_DeletionOperation_case
+	case *StartBatchOperationRequest_ResetOperation:
+		return StartBatchOperationRequest_ResetOperation_case
+	case *StartBatchOperationRequest_UpdateWorkflowOptionsOperation:
+		return StartBatchOperationRequest_UpdateWorkflowOptionsOperation_case
+	case *StartBatchOperationRequest_UnpauseActivitiesOperation:
+		return StartBatchOperationRequest_UnpauseActivitiesOperation_case
+	case *StartBatchOperationRequest_ResetActivitiesOperation:
+		return StartBatchOperationRequest_ResetActivitiesOperation_case
+	case *StartBatchOperationRequest_UpdateActivityOptionsOperation:
+		return StartBatchOperationRequest_UpdateActivityOptionsOperation_case
+	default:
+		return StartBatchOperationRequest_Operation_not_set_case
+	}
+}
+
+type StartBatchOperationRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace that contains the batch operation
+	Namespace string
+	// Visibility query defines the the group of workflow to apply the batch operation
+	// This field and `executions` are mutually exclusive
+	VisibilityQuery string
+	// Job ID defines the unique ID for the batch job
+	JobId string
+	// Reason to perform the batch operation
+	Reason string
+	// Executions to apply the batch operation
+	// This field and `visibility_query` are mutually exclusive
+	Executions []*v13.WorkflowExecution
+	// Limit for the number of operations processed per second within this batch.
+	// Its purpose is to reduce the stress on the system caused by batch operations, which helps to prevent system
+	// overload and minimize potential delays in executing ongoing tasks for user workers.
+	// Note that when no explicit limit is provided, the server will operate according to its limit defined by the
+	// dynamic configuration key `worker.batcherRPS`. This also applies if the value in this field exceeds the
+	// server's configured limit.
+	MaxOperationsPerSecond float32
+	// Operation input
+
+	// Fields of oneof Operation:
+	TerminationOperation           *v118.BatchOperationTermination
+	SignalOperation                *v118.BatchOperationSignal
+	CancellationOperation          *v118.BatchOperationCancellation
+	DeletionOperation              *v118.BatchOperationDeletion
+	ResetOperation                 *v118.BatchOperationReset
+	UpdateWorkflowOptionsOperation *v118.BatchOperationUpdateWorkflowExecutionOptions
+	UnpauseActivitiesOperation     *v118.BatchOperationUnpauseActivities
+	ResetActivitiesOperation       *v118.BatchOperationResetActivities
+	UpdateActivityOptionsOperation *v118.BatchOperationUpdateActivityOptions
+	// -- end of Operation
+}
+
+func (b0 StartBatchOperationRequest_builder) Build() *StartBatchOperationRequest {
+	m0 := &StartBatchOperationRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.VisibilityQuery = b.VisibilityQuery
+	x.JobId = b.JobId
+	x.Reason = b.Reason
+	x.Executions = b.Executions
+	x.MaxOperationsPerSecond = b.MaxOperationsPerSecond
+	if b.TerminationOperation != nil {
+		x.Operation = &StartBatchOperationRequest_TerminationOperation{b.TerminationOperation}
+	}
+	if b.SignalOperation != nil {
+		x.Operation = &StartBatchOperationRequest_SignalOperation{b.SignalOperation}
+	}
+	if b.CancellationOperation != nil {
+		x.Operation = &StartBatchOperationRequest_CancellationOperation{b.CancellationOperation}
+	}
+	if b.DeletionOperation != nil {
+		x.Operation = &StartBatchOperationRequest_DeletionOperation{b.DeletionOperation}
+	}
+	if b.ResetOperation != nil {
+		x.Operation = &StartBatchOperationRequest_ResetOperation{b.ResetOperation}
+	}
+	if b.UpdateWorkflowOptionsOperation != nil {
+		x.Operation = &StartBatchOperationRequest_UpdateWorkflowOptionsOperation{b.UpdateWorkflowOptionsOperation}
+	}
+	if b.UnpauseActivitiesOperation != nil {
+		x.Operation = &StartBatchOperationRequest_UnpauseActivitiesOperation{b.UnpauseActivitiesOperation}
+	}
+	if b.ResetActivitiesOperation != nil {
+		x.Operation = &StartBatchOperationRequest_ResetActivitiesOperation{b.ResetActivitiesOperation}
+	}
+	if b.UpdateActivityOptionsOperation != nil {
+		x.Operation = &StartBatchOperationRequest_UpdateActivityOptionsOperation{b.UpdateActivityOptionsOperation}
+	}
+	return m0
+}
+
+type case_StartBatchOperationRequest_Operation protoreflect.FieldNumber
+
+func (x case_StartBatchOperationRequest_Operation) String() string {
+	switch x {
+	case StartBatchOperationRequest_Operation_not_set_case:
+		return "StartBatchOperationRequestOperationNotSetCase"
+	case StartBatchOperationRequest_TerminationOperation_case:
+		return "StartBatchOperationRequestTerminationOperationCase"
+	case StartBatchOperationRequest_SignalOperation_case:
+		return "StartBatchOperationRequestSignalOperationCase"
+	case StartBatchOperationRequest_CancellationOperation_case:
+		return "StartBatchOperationRequestCancellationOperationCase"
+	case StartBatchOperationRequest_DeletionOperation_case:
+		return "StartBatchOperationRequestDeletionOperationCase"
+	case StartBatchOperationRequest_ResetOperation_case:
+		return "StartBatchOperationRequestResetOperationCase"
+	case StartBatchOperationRequest_UpdateWorkflowOptionsOperation_case:
+		return "StartBatchOperationRequestUpdateWorkflowOptionsOperationCase"
+	case StartBatchOperationRequest_UnpauseActivitiesOperation_case:
+		return "StartBatchOperationRequestUnpauseActivitiesOperationCase"
+	case StartBatchOperationRequest_ResetActivitiesOperation_case:
+		return "StartBatchOperationRequestResetActivitiesOperationCase"
+	case StartBatchOperationRequest_UpdateActivityOptionsOperation_case:
+		return "StartBatchOperationRequestUpdateActivityOptionsOperationCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isStartBatchOperationRequest_Operation interface {
 	isStartBatchOperationRequest_Operation()
 }
@@ -9050,7 +16249,7 @@ func (*StartBatchOperationRequest_UpdateActivityOptionsOperation) isStartBatchOp
 }
 
 type StartBatchOperationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -9080,13 +16279,20 @@ func (x *StartBatchOperationResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StartBatchOperationResponse.ProtoReflect.Descriptor instead.
-func (*StartBatchOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{111}
+type StartBatchOperationResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 StartBatchOperationResponse_builder) Build() *StartBatchOperationResponse {
+	m0 := &StartBatchOperationResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type StopBatchOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace that contains the batch operation
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Batch job id
@@ -9124,11 +16330,6 @@ func (x *StopBatchOperationRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StopBatchOperationRequest.ProtoReflect.Descriptor instead.
-func (*StopBatchOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{112}
-}
-
 func (x *StopBatchOperationRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -9157,8 +16358,48 @@ func (x *StopBatchOperationRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *StopBatchOperationRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *StopBatchOperationRequest) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *StopBatchOperationRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *StopBatchOperationRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+type StopBatchOperationRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace that contains the batch operation
+	Namespace string
+	// Batch job id
+	JobId string
+	// Reason to stop a batch operation
+	Reason string
+	// Identity of the operator
+	Identity string
+}
+
+func (b0 StopBatchOperationRequest_builder) Build() *StopBatchOperationRequest {
+	m0 := &StopBatchOperationRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.JobId = b.JobId
+	x.Reason = b.Reason
+	x.Identity = b.Identity
+	return m0
+}
+
 type StopBatchOperationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -9188,13 +16429,20 @@ func (x *StopBatchOperationResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StopBatchOperationResponse.ProtoReflect.Descriptor instead.
-func (*StopBatchOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{113}
+type StopBatchOperationResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 StopBatchOperationResponse_builder) Build() *StopBatchOperationResponse {
+	m0 := &StopBatchOperationResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type DescribeBatchOperationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace that contains the batch operation
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Batch job id
@@ -9228,11 +16476,6 @@ func (x *DescribeBatchOperationRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeBatchOperationRequest.ProtoReflect.Descriptor instead.
-func (*DescribeBatchOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{114}
-}
-
 func (x *DescribeBatchOperationRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -9247,8 +16490,34 @@ func (x *DescribeBatchOperationRequest) GetJobId() string {
 	return ""
 }
 
+func (x *DescribeBatchOperationRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeBatchOperationRequest) SetJobId(v string) {
+	x.JobId = v
+}
+
+type DescribeBatchOperationRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace that contains the batch operation
+	Namespace string
+	// Batch job id
+	JobId string
+}
+
+func (b0 DescribeBatchOperationRequest_builder) Build() *DescribeBatchOperationRequest {
+	m0 := &DescribeBatchOperationRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.JobId = b.JobId
+	return m0
+}
+
 type DescribeBatchOperationResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Batch operation type
 	OperationType v11.BatchOperationType `protobuf:"varint,1,opt,name=operation_type,json=operationType,proto3,enum=temporal.api.enums.v1.BatchOperationType" json:"operation_type,omitempty"`
 	// Batch job ID
@@ -9296,11 +16565,6 @@ func (x *DescribeBatchOperationResponse) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DescribeBatchOperationResponse.ProtoReflect.Descriptor instead.
-func (*DescribeBatchOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{115}
 }
 
 func (x *DescribeBatchOperationResponse) GetOperationType() v11.BatchOperationType {
@@ -9373,8 +16637,112 @@ func (x *DescribeBatchOperationResponse) GetReason() string {
 	return ""
 }
 
+func (x *DescribeBatchOperationResponse) SetOperationType(v v11.BatchOperationType) {
+	x.OperationType = v
+}
+
+func (x *DescribeBatchOperationResponse) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *DescribeBatchOperationResponse) SetState(v v11.BatchOperationState) {
+	x.State = v
+}
+
+func (x *DescribeBatchOperationResponse) SetStartTime(v *timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+func (x *DescribeBatchOperationResponse) SetCloseTime(v *timestamppb.Timestamp) {
+	x.CloseTime = v
+}
+
+func (x *DescribeBatchOperationResponse) SetTotalOperationCount(v int64) {
+	x.TotalOperationCount = v
+}
+
+func (x *DescribeBatchOperationResponse) SetCompleteOperationCount(v int64) {
+	x.CompleteOperationCount = v
+}
+
+func (x *DescribeBatchOperationResponse) SetFailureOperationCount(v int64) {
+	x.FailureOperationCount = v
+}
+
+func (x *DescribeBatchOperationResponse) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *DescribeBatchOperationResponse) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *DescribeBatchOperationResponse) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *DescribeBatchOperationResponse) HasCloseTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CloseTime != nil
+}
+
+func (x *DescribeBatchOperationResponse) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *DescribeBatchOperationResponse) ClearCloseTime() {
+	x.CloseTime = nil
+}
+
+type DescribeBatchOperationResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Batch operation type
+	OperationType v11.BatchOperationType
+	// Batch job ID
+	JobId string
+	// Batch operation state
+	State v11.BatchOperationState
+	// Batch operation start time
+	StartTime *timestamppb.Timestamp
+	// Batch operation close time
+	CloseTime *timestamppb.Timestamp
+	// Total operation count
+	TotalOperationCount int64
+	// Complete operation count
+	CompleteOperationCount int64
+	// Failure operation count
+	FailureOperationCount int64
+	// Identity indicates the operator identity
+	Identity string
+	// Reason indicates the reason to stop a operation
+	Reason string
+}
+
+func (b0 DescribeBatchOperationResponse_builder) Build() *DescribeBatchOperationResponse {
+	m0 := &DescribeBatchOperationResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.OperationType = b.OperationType
+	x.JobId = b.JobId
+	x.State = b.State
+	x.StartTime = b.StartTime
+	x.CloseTime = b.CloseTime
+	x.TotalOperationCount = b.TotalOperationCount
+	x.CompleteOperationCount = b.CompleteOperationCount
+	x.FailureOperationCount = b.FailureOperationCount
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	return m0
+}
+
 type ListBatchOperationsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace that contains the batch operation
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// List page size
@@ -9410,11 +16778,6 @@ func (x *ListBatchOperationsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListBatchOperationsRequest.ProtoReflect.Descriptor instead.
-func (*ListBatchOperationsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{116}
-}
-
 func (x *ListBatchOperationsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -9436,8 +16799,44 @@ func (x *ListBatchOperationsRequest) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListBatchOperationsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListBatchOperationsRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListBatchOperationsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListBatchOperationsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace that contains the batch operation
+	Namespace string
+	// List page size
+	PageSize int32
+	// Next page token
+	NextPageToken []byte
+}
+
+func (b0 ListBatchOperationsRequest_builder) Build() *ListBatchOperationsRequest {
+	m0 := &ListBatchOperationsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type ListBatchOperationsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// BatchOperationInfo contains the basic info about batch operation
 	OperationInfo []*v118.BatchOperationInfo `protobuf:"bytes,1,rep,name=operation_info,json=operationInfo,proto3" json:"operation_info,omitempty"`
 	NextPageToken []byte                     `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -9470,11 +16869,6 @@ func (x *ListBatchOperationsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListBatchOperationsResponse.ProtoReflect.Descriptor instead.
-func (*ListBatchOperationsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{117}
-}
-
 func (x *ListBatchOperationsResponse) GetOperationInfo() []*v118.BatchOperationInfo {
 	if x != nil {
 		return x.OperationInfo
@@ -9489,8 +16883,36 @@ func (x *ListBatchOperationsResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListBatchOperationsResponse) SetOperationInfo(v []*v118.BatchOperationInfo) {
+	x.OperationInfo = v
+}
+
+func (x *ListBatchOperationsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListBatchOperationsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// BatchOperationInfo contains the basic info about batch operation
+	OperationInfo []*v118.BatchOperationInfo
+	NextPageToken []byte
+}
+
+func (b0 ListBatchOperationsResponse_builder) Build() *ListBatchOperationsResponse {
+	m0 := &ListBatchOperationsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.OperationInfo = b.OperationInfo
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type PollWorkflowExecutionUpdateRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace of the Workflow Execution to which the Update was
 	// originally issued.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -9530,11 +16952,6 @@ func (x *PollWorkflowExecutionUpdateRequest) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PollWorkflowExecutionUpdateRequest.ProtoReflect.Descriptor instead.
-func (*PollWorkflowExecutionUpdateRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{118}
-}
-
 func (x *PollWorkflowExecutionUpdateRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -9563,8 +16980,72 @@ func (x *PollWorkflowExecutionUpdateRequest) GetWaitPolicy() *v117.WaitPolicy {
 	return nil
 }
 
+func (x *PollWorkflowExecutionUpdateRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *PollWorkflowExecutionUpdateRequest) SetUpdateRef(v *v117.UpdateRef) {
+	x.UpdateRef = v
+}
+
+func (x *PollWorkflowExecutionUpdateRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PollWorkflowExecutionUpdateRequest) SetWaitPolicy(v *v117.WaitPolicy) {
+	x.WaitPolicy = v
+}
+
+func (x *PollWorkflowExecutionUpdateRequest) HasUpdateRef() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateRef != nil
+}
+
+func (x *PollWorkflowExecutionUpdateRequest) HasWaitPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.WaitPolicy != nil
+}
+
+func (x *PollWorkflowExecutionUpdateRequest) ClearUpdateRef() {
+	x.UpdateRef = nil
+}
+
+func (x *PollWorkflowExecutionUpdateRequest) ClearWaitPolicy() {
+	x.WaitPolicy = nil
+}
+
+type PollWorkflowExecutionUpdateRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace of the Workflow Execution to which the Update was
+	// originally issued.
+	Namespace string
+	// The Update reference returned in the initial UpdateWorkflowExecutionResponse.
+	UpdateRef *v117.UpdateRef
+	// The identity of the worker/client who is polling this Update outcome.
+	Identity string
+	// Specifies client's intent to wait for Update results.
+	// Omit to request a non-blocking poll.
+	WaitPolicy *v117.WaitPolicy
+}
+
+func (b0 PollWorkflowExecutionUpdateRequest_builder) Build() *PollWorkflowExecutionUpdateRequest {
+	m0 := &PollWorkflowExecutionUpdateRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.UpdateRef = b.UpdateRef
+	x.Identity = b.Identity
+	x.WaitPolicy = b.WaitPolicy
+	return m0
+}
+
 type PollWorkflowExecutionUpdateResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The outcome of the update if and only if the update has completed. If
 	// this response is being returned before the update has completed (e.g. due
 	// to the specification of a wait policy that only waits on
@@ -9613,11 +17094,6 @@ func (x *PollWorkflowExecutionUpdateResponse) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PollWorkflowExecutionUpdateResponse.ProtoReflect.Descriptor instead.
-func (*PollWorkflowExecutionUpdateResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{119}
-}
-
 func (x *PollWorkflowExecutionUpdateResponse) GetOutcome() *v117.Outcome {
 	if x != nil {
 		return x.Outcome
@@ -9639,8 +17115,76 @@ func (x *PollWorkflowExecutionUpdateResponse) GetUpdateRef() *v117.UpdateRef {
 	return nil
 }
 
+func (x *PollWorkflowExecutionUpdateResponse) SetOutcome(v *v117.Outcome) {
+	x.Outcome = v
+}
+
+func (x *PollWorkflowExecutionUpdateResponse) SetStage(v v11.UpdateWorkflowExecutionLifecycleStage) {
+	x.Stage = v
+}
+
+func (x *PollWorkflowExecutionUpdateResponse) SetUpdateRef(v *v117.UpdateRef) {
+	x.UpdateRef = v
+}
+
+func (x *PollWorkflowExecutionUpdateResponse) HasOutcome() bool {
+	if x == nil {
+		return false
+	}
+	return x.Outcome != nil
+}
+
+func (x *PollWorkflowExecutionUpdateResponse) HasUpdateRef() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateRef != nil
+}
+
+func (x *PollWorkflowExecutionUpdateResponse) ClearOutcome() {
+	x.Outcome = nil
+}
+
+func (x *PollWorkflowExecutionUpdateResponse) ClearUpdateRef() {
+	x.UpdateRef = nil
+}
+
+type PollWorkflowExecutionUpdateResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The outcome of the update if and only if the update has completed. If
+	// this response is being returned before the update has completed (e.g. due
+	// to the specification of a wait policy that only waits on
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED) then this field will
+	// not be set.
+	Outcome *v117.Outcome
+	// The most advanced lifecycle stage that the Update is known to have
+	// reached, where lifecycle stages are ordered
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED <
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ADMITTED <
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED <
+	// UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_COMPLETED.
+	// UNSPECIFIED will be returned if and only if the server's maximum wait
+	// time was reached before the Update reached the stage specified in the
+	// request WaitPolicy, and before the context deadline expired; clients may
+	// may then retry the call as needed.
+	Stage v11.UpdateWorkflowExecutionLifecycleStage
+	// Sufficient information to address this Update.
+	UpdateRef *v117.UpdateRef
+}
+
+func (b0 PollWorkflowExecutionUpdateResponse_builder) Build() *PollWorkflowExecutionUpdateResponse {
+	m0 := &PollWorkflowExecutionUpdateResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Outcome = b.Outcome
+	x.Stage = b.Stage
+	x.UpdateRef = b.UpdateRef
+	return m0
+}
+
 type PollNexusTaskQueueRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -9685,11 +17229,6 @@ func (x *PollNexusTaskQueueRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PollNexusTaskQueueRequest.ProtoReflect.Descriptor instead.
-func (*PollNexusTaskQueueRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{120}
 }
 
 func (x *PollNexusTaskQueueRequest) GetNamespace() string {
@@ -9742,8 +17281,108 @@ func (x *PollNexusTaskQueueRequest) GetWorkerHeartbeat() []*v114.WorkerHeartbeat
 	return nil
 }
 
+func (x *PollNexusTaskQueueRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *PollNexusTaskQueueRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PollNexusTaskQueueRequest) SetWorkerInstanceKey(v string) {
+	x.WorkerInstanceKey = v
+}
+
+func (x *PollNexusTaskQueueRequest) SetTaskQueue(v *v14.TaskQueue) {
+	x.TaskQueue = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollNexusTaskQueueRequest) SetWorkerVersionCapabilities(v *v13.WorkerVersionCapabilities) {
+	x.WorkerVersionCapabilities = v
+}
+
+func (x *PollNexusTaskQueueRequest) SetDeploymentOptions(v *v18.WorkerDeploymentOptions) {
+	x.DeploymentOptions = v
+}
+
+func (x *PollNexusTaskQueueRequest) SetWorkerHeartbeat(v []*v114.WorkerHeartbeat) {
+	x.WorkerHeartbeat = v
+}
+
+func (x *PollNexusTaskQueueRequest) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollNexusTaskQueueRequest) HasWorkerVersionCapabilities() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersionCapabilities != nil
+}
+
+func (x *PollNexusTaskQueueRequest) HasDeploymentOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentOptions != nil
+}
+
+func (x *PollNexusTaskQueueRequest) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *PollNexusTaskQueueRequest) ClearWorkerVersionCapabilities() {
+	x.WorkerVersionCapabilities = nil
+}
+
+func (x *PollNexusTaskQueueRequest) ClearDeploymentOptions() {
+	x.DeploymentOptions = nil
+}
+
+type PollNexusTaskQueueRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// The identity of the client who initiated this request.
+	Identity string
+	// A unique key for this worker instance, used for tracking worker lifecycle.
+	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
+	WorkerInstanceKey string
+	TaskQueue         *v14.TaskQueue
+	// Information about this worker's build identifier and if it is choosing to use the versioning
+	// feature. See the `WorkerVersionCapabilities` docstring for more.
+	// Deprecated. Replaced by deployment_options.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	WorkerVersionCapabilities *v13.WorkerVersionCapabilities
+	// Worker deployment options that user has set in the worker.
+	DeploymentOptions *v18.WorkerDeploymentOptions
+	// Worker info to be sent to the server.
+	WorkerHeartbeat []*v114.WorkerHeartbeat
+}
+
+func (b0 PollNexusTaskQueueRequest_builder) Build() *PollNexusTaskQueueRequest {
+	m0 := &PollNexusTaskQueueRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Identity = b.Identity
+	x.WorkerInstanceKey = b.WorkerInstanceKey
+	x.TaskQueue = b.TaskQueue
+	x.WorkerVersionCapabilities = b.WorkerVersionCapabilities
+	x.DeploymentOptions = b.DeploymentOptions
+	x.WorkerHeartbeat = b.WorkerHeartbeat
+	return m0
+}
+
 type PollNexusTaskQueueResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// An opaque unique identifier for this task for correlating a completion request the embedded request.
 	TaskToken []byte `protobuf:"bytes,1,opt,name=task_token,json=taskToken,proto3" json:"task_token,omitempty"`
 	// Embedded request as translated from the incoming frontend request.
@@ -9779,11 +17418,6 @@ func (x *PollNexusTaskQueueResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PollNexusTaskQueueResponse.ProtoReflect.Descriptor instead.
-func (*PollNexusTaskQueueResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{121}
-}
-
 func (x *PollNexusTaskQueueResponse) GetTaskToken() []byte {
 	if x != nil {
 		return x.TaskToken
@@ -9805,8 +17439,66 @@ func (x *PollNexusTaskQueueResponse) GetPollerScalingDecision() *v14.PollerScali
 	return nil
 }
 
+func (x *PollNexusTaskQueueResponse) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *PollNexusTaskQueueResponse) SetRequest(v *v119.Request) {
+	x.Request = v
+}
+
+func (x *PollNexusTaskQueueResponse) SetPollerScalingDecision(v *v14.PollerScalingDecision) {
+	x.PollerScalingDecision = v
+}
+
+func (x *PollNexusTaskQueueResponse) HasRequest() bool {
+	if x == nil {
+		return false
+	}
+	return x.Request != nil
+}
+
+func (x *PollNexusTaskQueueResponse) HasPollerScalingDecision() bool {
+	if x == nil {
+		return false
+	}
+	return x.PollerScalingDecision != nil
+}
+
+func (x *PollNexusTaskQueueResponse) ClearRequest() {
+	x.Request = nil
+}
+
+func (x *PollNexusTaskQueueResponse) ClearPollerScalingDecision() {
+	x.PollerScalingDecision = nil
+}
+
+type PollNexusTaskQueueResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// An opaque unique identifier for this task for correlating a completion request the embedded request.
+	TaskToken []byte
+	// Embedded request as translated from the incoming frontend request.
+	Request *v119.Request
+	// Server-advised information the SDK may use to adjust its poller count.
+	PollerScalingDecision *v14.PollerScalingDecision
+}
+
+func (b0 PollNexusTaskQueueResponse_builder) Build() *PollNexusTaskQueueResponse {
+	m0 := &PollNexusTaskQueueResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskToken = b.TaskToken
+	x.Request = b.Request
+	x.PollerScalingDecision = b.PollerScalingDecision
+	return m0
+}
+
 type RespondNexusTaskCompletedRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -9843,11 +17535,6 @@ func (x *RespondNexusTaskCompletedRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondNexusTaskCompletedRequest.ProtoReflect.Descriptor instead.
-func (*RespondNexusTaskCompletedRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{122}
-}
-
 func (x *RespondNexusTaskCompletedRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -9876,8 +17563,61 @@ func (x *RespondNexusTaskCompletedRequest) GetResponse() *v119.Response {
 	return nil
 }
 
+func (x *RespondNexusTaskCompletedRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RespondNexusTaskCompletedRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondNexusTaskCompletedRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RespondNexusTaskCompletedRequest) SetResponse(v *v119.Response) {
+	x.Response = v
+}
+
+func (x *RespondNexusTaskCompletedRequest) HasResponse() bool {
+	if x == nil {
+		return false
+	}
+	return x.Response != nil
+}
+
+func (x *RespondNexusTaskCompletedRequest) ClearResponse() {
+	x.Response = nil
+}
+
+type RespondNexusTaskCompletedRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// The identity of the client who initiated this request.
+	Identity string
+	// A unique identifier for this task as received via a poll response.
+	TaskToken []byte
+	// Embedded response to be translated into a frontend response.
+	Response *v119.Response
+}
+
+func (b0 RespondNexusTaskCompletedRequest_builder) Build() *RespondNexusTaskCompletedRequest {
+	m0 := &RespondNexusTaskCompletedRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Identity = b.Identity
+	x.TaskToken = b.TaskToken
+	x.Response = b.Response
+	return m0
+}
+
 type RespondNexusTaskCompletedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -9907,13 +17647,20 @@ func (x *RespondNexusTaskCompletedResponse) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondNexusTaskCompletedResponse.ProtoReflect.Descriptor instead.
-func (*RespondNexusTaskCompletedResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{123}
+type RespondNexusTaskCompletedResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RespondNexusTaskCompletedResponse_builder) Build() *RespondNexusTaskCompletedResponse {
+	m0 := &RespondNexusTaskCompletedResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type RespondNexusTaskFailedRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -9950,11 +17697,6 @@ func (x *RespondNexusTaskFailedRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondNexusTaskFailedRequest.ProtoReflect.Descriptor instead.
-func (*RespondNexusTaskFailedRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{124}
-}
-
 func (x *RespondNexusTaskFailedRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -9983,8 +17725,61 @@ func (x *RespondNexusTaskFailedRequest) GetError() *v119.HandlerError {
 	return nil
 }
 
+func (x *RespondNexusTaskFailedRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RespondNexusTaskFailedRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RespondNexusTaskFailedRequest) SetTaskToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TaskToken = v
+}
+
+func (x *RespondNexusTaskFailedRequest) SetError(v *v119.HandlerError) {
+	x.Error = v
+}
+
+func (x *RespondNexusTaskFailedRequest) HasError() bool {
+	if x == nil {
+		return false
+	}
+	return x.Error != nil
+}
+
+func (x *RespondNexusTaskFailedRequest) ClearError() {
+	x.Error = nil
+}
+
+type RespondNexusTaskFailedRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// The identity of the client who initiated this request.
+	Identity string
+	// A unique identifier for this task.
+	TaskToken []byte
+	// The error the handler failed with.
+	Error *v119.HandlerError
+}
+
+func (b0 RespondNexusTaskFailedRequest_builder) Build() *RespondNexusTaskFailedRequest {
+	m0 := &RespondNexusTaskFailedRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Identity = b.Identity
+	x.TaskToken = b.TaskToken
+	x.Error = b.Error
+	return m0
+}
+
 type RespondNexusTaskFailedResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10014,13 +17809,20 @@ func (x *RespondNexusTaskFailedResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondNexusTaskFailedResponse.ProtoReflect.Descriptor instead.
-func (*RespondNexusTaskFailedResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{125}
+type RespondNexusTaskFailedResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RespondNexusTaskFailedResponse_builder) Build() *RespondNexusTaskFailedResponse {
+	m0 := &RespondNexusTaskFailedResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ExecuteMultiOperationRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// List of operations to execute within a single workflow.
 	//
@@ -10060,11 +17862,6 @@ func (x *ExecuteMultiOperationRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExecuteMultiOperationRequest.ProtoReflect.Descriptor instead.
-func (*ExecuteMultiOperationRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{126}
-}
-
 func (x *ExecuteMultiOperationRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -10079,6 +17876,38 @@ func (x *ExecuteMultiOperationRequest) GetOperations() []*ExecuteMultiOperationR
 	return nil
 }
 
+func (x *ExecuteMultiOperationRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ExecuteMultiOperationRequest) SetOperations(v []*ExecuteMultiOperationRequest_Operation) {
+	x.Operations = v
+}
+
+type ExecuteMultiOperationRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// List of operations to execute within a single workflow.
+	//
+	// Preconditions:
+	// - The list of operations must not be empty.
+	// - The workflow ids must match across operations.
+	// - The only valid list of operations at this time is [StartWorkflow, UpdateWorkflow], in this order.
+	//
+	// Note that additional operation-specific restrictions have to be considered.
+	Operations []*ExecuteMultiOperationRequest_Operation
+}
+
+func (b0 ExecuteMultiOperationRequest_builder) Build() *ExecuteMultiOperationRequest {
+	m0 := &ExecuteMultiOperationRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Operations = b.Operations
+	return m0
+}
+
 // IMPORTANT: For [StartWorkflow, UpdateWorkflow] combination ("Update-with-Start") when both
 //  1. the workflow update for the requested update ID has already completed, and
 //  2. the workflow for the requested workflow ID has already been closed,
@@ -10087,7 +17916,7 @@ func (x *ExecuteMultiOperationRequest) GetOperations() []*ExecuteMultiOperationR
 //   - an update response containing the update's outcome, and
 //   - a start response with a `status` field that reflects the workflow's current state.
 type ExecuteMultiOperationResponse struct {
-	state         protoimpl.MessageState                    `protogen:"open.v1"`
+	state         protoimpl.MessageState                    `protogen:"hybrid.v1"`
 	Responses     []*ExecuteMultiOperationResponse_Response `protobuf:"bytes,1,rep,name=responses,proto3" json:"responses,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -10118,11 +17947,6 @@ func (x *ExecuteMultiOperationResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExecuteMultiOperationResponse.ProtoReflect.Descriptor instead.
-func (*ExecuteMultiOperationResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{127}
-}
-
 func (x *ExecuteMultiOperationResponse) GetResponses() []*ExecuteMultiOperationResponse_Response {
 	if x != nil {
 		return x.Responses
@@ -10130,9 +17954,27 @@ func (x *ExecuteMultiOperationResponse) GetResponses() []*ExecuteMultiOperationR
 	return nil
 }
 
+func (x *ExecuteMultiOperationResponse) SetResponses(v []*ExecuteMultiOperationResponse_Response) {
+	x.Responses = v
+}
+
+type ExecuteMultiOperationResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Responses []*ExecuteMultiOperationResponse_Response
+}
+
+func (b0 ExecuteMultiOperationResponse_builder) Build() *ExecuteMultiOperationResponse {
+	m0 := &ExecuteMultiOperationResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Responses = b.Responses
+	return m0
+}
+
 // NOTE: keep in sync with temporal.api.batch.v1.BatchOperationUpdateActivityOptions
 type UpdateActivityOptionsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow which scheduled this activity
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Execution info of the workflow which scheduled this activity
@@ -10184,11 +18026,6 @@ func (x *UpdateActivityOptionsRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateActivityOptionsRequest.ProtoReflect.Descriptor instead.
-func (*UpdateActivityOptionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{128}
 }
 
 func (x *UpdateActivityOptionsRequest) GetNamespace() string {
@@ -10267,12 +18104,227 @@ func (x *UpdateActivityOptionsRequest) GetRestoreOriginal() bool {
 	return false
 }
 
+func (x *UpdateActivityOptionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UpdateActivityOptionsRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *UpdateActivityOptionsRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *UpdateActivityOptionsRequest) SetActivityOptions(v *v120.ActivityOptions) {
+	x.ActivityOptions = v
+}
+
+func (x *UpdateActivityOptionsRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
+	x.UpdateMask = v
+}
+
+func (x *UpdateActivityOptionsRequest) SetId(v string) {
+	x.Activity = &UpdateActivityOptionsRequest_Id{v}
+}
+
+func (x *UpdateActivityOptionsRequest) SetType(v string) {
+	x.Activity = &UpdateActivityOptionsRequest_Type{v}
+}
+
+func (x *UpdateActivityOptionsRequest) SetMatchAll(v bool) {
+	x.Activity = &UpdateActivityOptionsRequest_MatchAll{v}
+}
+
+func (x *UpdateActivityOptionsRequest) SetRestoreOriginal(v bool) {
+	x.RestoreOriginal = v
+}
+
+func (x *UpdateActivityOptionsRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *UpdateActivityOptionsRequest) HasActivityOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityOptions != nil
+}
+
+func (x *UpdateActivityOptionsRequest) HasUpdateMask() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateMask != nil
+}
+
+func (x *UpdateActivityOptionsRequest) HasActivity() bool {
+	if x == nil {
+		return false
+	}
+	return x.Activity != nil
+}
+
+func (x *UpdateActivityOptionsRequest) HasId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*UpdateActivityOptionsRequest_Id)
+	return ok
+}
+
+func (x *UpdateActivityOptionsRequest) HasType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*UpdateActivityOptionsRequest_Type)
+	return ok
+}
+
+func (x *UpdateActivityOptionsRequest) HasMatchAll() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*UpdateActivityOptionsRequest_MatchAll)
+	return ok
+}
+
+func (x *UpdateActivityOptionsRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+func (x *UpdateActivityOptionsRequest) ClearActivityOptions() {
+	x.ActivityOptions = nil
+}
+
+func (x *UpdateActivityOptionsRequest) ClearUpdateMask() {
+	x.UpdateMask = nil
+}
+
+func (x *UpdateActivityOptionsRequest) ClearActivity() {
+	x.Activity = nil
+}
+
+func (x *UpdateActivityOptionsRequest) ClearId() {
+	if _, ok := x.Activity.(*UpdateActivityOptionsRequest_Id); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *UpdateActivityOptionsRequest) ClearType() {
+	if _, ok := x.Activity.(*UpdateActivityOptionsRequest_Type); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *UpdateActivityOptionsRequest) ClearMatchAll() {
+	if _, ok := x.Activity.(*UpdateActivityOptionsRequest_MatchAll); ok {
+		x.Activity = nil
+	}
+}
+
+const UpdateActivityOptionsRequest_Activity_not_set_case case_UpdateActivityOptionsRequest_Activity = 0
+const UpdateActivityOptionsRequest_Id_case case_UpdateActivityOptionsRequest_Activity = 6
+const UpdateActivityOptionsRequest_Type_case case_UpdateActivityOptionsRequest_Activity = 7
+const UpdateActivityOptionsRequest_MatchAll_case case_UpdateActivityOptionsRequest_Activity = 9
+
+func (x *UpdateActivityOptionsRequest) WhichActivity() case_UpdateActivityOptionsRequest_Activity {
+	if x == nil {
+		return UpdateActivityOptionsRequest_Activity_not_set_case
+	}
+	switch x.Activity.(type) {
+	case *UpdateActivityOptionsRequest_Id:
+		return UpdateActivityOptionsRequest_Id_case
+	case *UpdateActivityOptionsRequest_Type:
+		return UpdateActivityOptionsRequest_Type_case
+	case *UpdateActivityOptionsRequest_MatchAll:
+		return UpdateActivityOptionsRequest_MatchAll_case
+	default:
+		return UpdateActivityOptionsRequest_Activity_not_set_case
+	}
+}
+
+type UpdateActivityOptionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow which scheduled this activity
+	Namespace string
+	// Execution info of the workflow which scheduled this activity
+	Execution *v13.WorkflowExecution
+	// The identity of the client who initiated this request
+	Identity string
+	// Activity options. Partial updates are accepted and controlled by update_mask
+	ActivityOptions *v120.ActivityOptions
+	// Controls which fields from `activity_options` will be applied
+	UpdateMask *fieldmaskpb.FieldMask
+	// either activity id, activity type or update_all must be provided
+
+	// Fields of oneof Activity:
+	// Only activity with this ID will be updated.
+	Id *string
+	// Update all running activities of this type.
+	Type *string
+	// Update all running activities.
+	MatchAll *bool
+	// -- end of Activity
+	// If set, the activity options will be restored to the default.
+	// Default options are then options activity was created with.
+	// They are part of the first SCHEDULE event.
+	// This flag cannot be combined with any other option; if you supply
+	// restore_original together with other options, the request will be rejected.
+	RestoreOriginal bool
+}
+
+func (b0 UpdateActivityOptionsRequest_builder) Build() *UpdateActivityOptionsRequest {
+	m0 := &UpdateActivityOptionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	x.Identity = b.Identity
+	x.ActivityOptions = b.ActivityOptions
+	x.UpdateMask = b.UpdateMask
+	if b.Id != nil {
+		x.Activity = &UpdateActivityOptionsRequest_Id{*b.Id}
+	}
+	if b.Type != nil {
+		x.Activity = &UpdateActivityOptionsRequest_Type{*b.Type}
+	}
+	if b.MatchAll != nil {
+		x.Activity = &UpdateActivityOptionsRequest_MatchAll{*b.MatchAll}
+	}
+	x.RestoreOriginal = b.RestoreOriginal
+	return m0
+}
+
+type case_UpdateActivityOptionsRequest_Activity protoreflect.FieldNumber
+
+func (x case_UpdateActivityOptionsRequest_Activity) String() string {
+	switch x {
+	case UpdateActivityOptionsRequest_Activity_not_set_case:
+		return "UpdateActivityOptionsRequestActivityNotSetCase"
+	case UpdateActivityOptionsRequest_Id_case:
+		return "UpdateActivityOptionsRequestIdCase"
+	case UpdateActivityOptionsRequest_Type_case:
+		return "UpdateActivityOptionsRequestTypeCase"
+	case UpdateActivityOptionsRequest_MatchAll_case:
+		return "UpdateActivityOptionsRequestMatchAllCase"
+
+		// Only activity with this ID will be updated.
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isUpdateActivityOptionsRequest_Activity interface {
 	isUpdateActivityOptionsRequest_Activity()
 }
 
 type UpdateActivityOptionsRequest_Id struct {
-	// Only activity with this ID will be updated.
 	Id string `protobuf:"bytes,6,opt,name=id,proto3,oneof"`
 }
 
@@ -10293,7 +18345,7 @@ func (*UpdateActivityOptionsRequest_Type) isUpdateActivityOptionsRequest_Activit
 func (*UpdateActivityOptionsRequest_MatchAll) isUpdateActivityOptionsRequest_Activity() {}
 
 type UpdateActivityOptionsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Activity options after an update
 	ActivityOptions *v120.ActivityOptions `protobuf:"bytes,1,opt,name=activity_options,json=activityOptions,proto3" json:"activity_options,omitempty"`
 	unknownFields   protoimpl.UnknownFields
@@ -10325,11 +18377,6 @@ func (x *UpdateActivityOptionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateActivityOptionsResponse.ProtoReflect.Descriptor instead.
-func (*UpdateActivityOptionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{129}
-}
-
 func (x *UpdateActivityOptionsResponse) GetActivityOptions() *v120.ActivityOptions {
 	if x != nil {
 		return x.ActivityOptions
@@ -10337,8 +18384,38 @@ func (x *UpdateActivityOptionsResponse) GetActivityOptions() *v120.ActivityOptio
 	return nil
 }
 
+func (x *UpdateActivityOptionsResponse) SetActivityOptions(v *v120.ActivityOptions) {
+	x.ActivityOptions = v
+}
+
+func (x *UpdateActivityOptionsResponse) HasActivityOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityOptions != nil
+}
+
+func (x *UpdateActivityOptionsResponse) ClearActivityOptions() {
+	x.ActivityOptions = nil
+}
+
+type UpdateActivityOptionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Activity options after an update
+	ActivityOptions *v120.ActivityOptions
+}
+
+func (b0 UpdateActivityOptionsResponse_builder) Build() *UpdateActivityOptionsResponse {
+	m0 := &UpdateActivityOptionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActivityOptions = b.ActivityOptions
+	return m0
+}
+
 type PauseActivityRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow which scheduled this activity.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Execution info of the workflow which scheduled this activity
@@ -10381,11 +18458,6 @@ func (x *PauseActivityRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PauseActivityRequest.ProtoReflect.Descriptor instead.
-func (*PauseActivityRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{130}
 }
 
 func (x *PauseActivityRequest) GetNamespace() string {
@@ -10441,6 +18513,153 @@ func (x *PauseActivityRequest) GetReason() string {
 	return ""
 }
 
+func (x *PauseActivityRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *PauseActivityRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *PauseActivityRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PauseActivityRequest) SetId(v string) {
+	x.Activity = &PauseActivityRequest_Id{v}
+}
+
+func (x *PauseActivityRequest) SetType(v string) {
+	x.Activity = &PauseActivityRequest_Type{v}
+}
+
+func (x *PauseActivityRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *PauseActivityRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *PauseActivityRequest) HasActivity() bool {
+	if x == nil {
+		return false
+	}
+	return x.Activity != nil
+}
+
+func (x *PauseActivityRequest) HasId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*PauseActivityRequest_Id)
+	return ok
+}
+
+func (x *PauseActivityRequest) HasType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*PauseActivityRequest_Type)
+	return ok
+}
+
+func (x *PauseActivityRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+func (x *PauseActivityRequest) ClearActivity() {
+	x.Activity = nil
+}
+
+func (x *PauseActivityRequest) ClearId() {
+	if _, ok := x.Activity.(*PauseActivityRequest_Id); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *PauseActivityRequest) ClearType() {
+	if _, ok := x.Activity.(*PauseActivityRequest_Type); ok {
+		x.Activity = nil
+	}
+}
+
+const PauseActivityRequest_Activity_not_set_case case_PauseActivityRequest_Activity = 0
+const PauseActivityRequest_Id_case case_PauseActivityRequest_Activity = 4
+const PauseActivityRequest_Type_case case_PauseActivityRequest_Activity = 5
+
+func (x *PauseActivityRequest) WhichActivity() case_PauseActivityRequest_Activity {
+	if x == nil {
+		return PauseActivityRequest_Activity_not_set_case
+	}
+	switch x.Activity.(type) {
+	case *PauseActivityRequest_Id:
+		return PauseActivityRequest_Id_case
+	case *PauseActivityRequest_Type:
+		return PauseActivityRequest_Type_case
+	default:
+		return PauseActivityRequest_Activity_not_set_case
+	}
+}
+
+type PauseActivityRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow which scheduled this activity.
+	Namespace string
+	// Execution info of the workflow which scheduled this activity
+	Execution *v13.WorkflowExecution
+	// The identity of the client who initiated this request.
+	Identity string
+	// either activity id or activity type must be provided
+
+	// Fields of oneof Activity:
+	// Only the activity with this ID will be paused.
+	Id *string
+	// Pause all running activities of this type.
+	// Note: Experimental - the behavior of pause by activity type might change in a future release.
+	Type *string
+	// -- end of Activity
+	// Reason to pause the activity.
+	Reason string
+}
+
+func (b0 PauseActivityRequest_builder) Build() *PauseActivityRequest {
+	m0 := &PauseActivityRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	x.Identity = b.Identity
+	if b.Id != nil {
+		x.Activity = &PauseActivityRequest_Id{*b.Id}
+	}
+	if b.Type != nil {
+		x.Activity = &PauseActivityRequest_Type{*b.Type}
+	}
+	x.Reason = b.Reason
+	return m0
+}
+
+type case_PauseActivityRequest_Activity protoreflect.FieldNumber
+
+func (x case_PauseActivityRequest_Activity) String() string {
+	switch x {
+	case PauseActivityRequest_Activity_not_set_case:
+		return "PauseActivityRequestActivityNotSetCase"
+	case PauseActivityRequest_Id_case:
+		return "PauseActivityRequestIdCase"
+	case PauseActivityRequest_Type_case:
+		return "PauseActivityRequestTypeCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isPauseActivityRequest_Activity interface {
 	isPauseActivityRequest_Activity()
 }
@@ -10461,7 +18680,7 @@ func (*PauseActivityRequest_Id) isPauseActivityRequest_Activity() {}
 func (*PauseActivityRequest_Type) isPauseActivityRequest_Activity() {}
 
 type PauseActivityResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10491,13 +18710,20 @@ func (x *PauseActivityResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PauseActivityResponse.ProtoReflect.Descriptor instead.
-func (*PauseActivityResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{131}
+type PauseActivityResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 PauseActivityResponse_builder) Build() *PauseActivityResponse {
+	m0 := &PauseActivityResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type UnpauseActivityRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow which scheduled this activity.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Execution info of the workflow which scheduled this activity
@@ -10545,11 +18771,6 @@ func (x *UnpauseActivityRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UnpauseActivityRequest.ProtoReflect.Descriptor instead.
-func (*UnpauseActivityRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{132}
 }
 
 func (x *UnpauseActivityRequest) GetNamespace() string {
@@ -10628,12 +18849,213 @@ func (x *UnpauseActivityRequest) GetJitter() *durationpb.Duration {
 	return nil
 }
 
+func (x *UnpauseActivityRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UnpauseActivityRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *UnpauseActivityRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *UnpauseActivityRequest) SetId(v string) {
+	x.Activity = &UnpauseActivityRequest_Id{v}
+}
+
+func (x *UnpauseActivityRequest) SetType(v string) {
+	x.Activity = &UnpauseActivityRequest_Type{v}
+}
+
+func (x *UnpauseActivityRequest) SetUnpauseAll(v bool) {
+	x.Activity = &UnpauseActivityRequest_UnpauseAll{v}
+}
+
+func (x *UnpauseActivityRequest) SetResetAttempts(v bool) {
+	x.ResetAttempts = v
+}
+
+func (x *UnpauseActivityRequest) SetResetHeartbeat(v bool) {
+	x.ResetHeartbeat = v
+}
+
+func (x *UnpauseActivityRequest) SetJitter(v *durationpb.Duration) {
+	x.Jitter = v
+}
+
+func (x *UnpauseActivityRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *UnpauseActivityRequest) HasActivity() bool {
+	if x == nil {
+		return false
+	}
+	return x.Activity != nil
+}
+
+func (x *UnpauseActivityRequest) HasId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*UnpauseActivityRequest_Id)
+	return ok
+}
+
+func (x *UnpauseActivityRequest) HasType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*UnpauseActivityRequest_Type)
+	return ok
+}
+
+func (x *UnpauseActivityRequest) HasUnpauseAll() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*UnpauseActivityRequest_UnpauseAll)
+	return ok
+}
+
+func (x *UnpauseActivityRequest) HasJitter() bool {
+	if x == nil {
+		return false
+	}
+	return x.Jitter != nil
+}
+
+func (x *UnpauseActivityRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+func (x *UnpauseActivityRequest) ClearActivity() {
+	x.Activity = nil
+}
+
+func (x *UnpauseActivityRequest) ClearId() {
+	if _, ok := x.Activity.(*UnpauseActivityRequest_Id); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *UnpauseActivityRequest) ClearType() {
+	if _, ok := x.Activity.(*UnpauseActivityRequest_Type); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *UnpauseActivityRequest) ClearUnpauseAll() {
+	if _, ok := x.Activity.(*UnpauseActivityRequest_UnpauseAll); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *UnpauseActivityRequest) ClearJitter() {
+	x.Jitter = nil
+}
+
+const UnpauseActivityRequest_Activity_not_set_case case_UnpauseActivityRequest_Activity = 0
+const UnpauseActivityRequest_Id_case case_UnpauseActivityRequest_Activity = 4
+const UnpauseActivityRequest_Type_case case_UnpauseActivityRequest_Activity = 5
+const UnpauseActivityRequest_UnpauseAll_case case_UnpauseActivityRequest_Activity = 6
+
+func (x *UnpauseActivityRequest) WhichActivity() case_UnpauseActivityRequest_Activity {
+	if x == nil {
+		return UnpauseActivityRequest_Activity_not_set_case
+	}
+	switch x.Activity.(type) {
+	case *UnpauseActivityRequest_Id:
+		return UnpauseActivityRequest_Id_case
+	case *UnpauseActivityRequest_Type:
+		return UnpauseActivityRequest_Type_case
+	case *UnpauseActivityRequest_UnpauseAll:
+		return UnpauseActivityRequest_UnpauseAll_case
+	default:
+		return UnpauseActivityRequest_Activity_not_set_case
+	}
+}
+
+type UnpauseActivityRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow which scheduled this activity.
+	Namespace string
+	// Execution info of the workflow which scheduled this activity
+	Execution *v13.WorkflowExecution
+	// The identity of the client who initiated this request.
+	Identity string
+	// either activity id or activity type must be provided
+
+	// Fields of oneof Activity:
+	// Only the activity with this ID will be unpaused.
+	Id *string
+	// Unpause all running activities with of this type.
+	Type *string
+	// Unpause all running activities.
+	UnpauseAll *bool
+	// -- end of Activity
+	// Providing this flag will also reset the number of attempts.
+	ResetAttempts bool
+	// Providing this flag will also reset the heartbeat details.
+	ResetHeartbeat bool
+	// If set, the activity will start at a random time within the specified jitter duration.
+	Jitter *durationpb.Duration
+}
+
+func (b0 UnpauseActivityRequest_builder) Build() *UnpauseActivityRequest {
+	m0 := &UnpauseActivityRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	x.Identity = b.Identity
+	if b.Id != nil {
+		x.Activity = &UnpauseActivityRequest_Id{*b.Id}
+	}
+	if b.Type != nil {
+		x.Activity = &UnpauseActivityRequest_Type{*b.Type}
+	}
+	if b.UnpauseAll != nil {
+		x.Activity = &UnpauseActivityRequest_UnpauseAll{*b.UnpauseAll}
+	}
+	x.ResetAttempts = b.ResetAttempts
+	x.ResetHeartbeat = b.ResetHeartbeat
+	x.Jitter = b.Jitter
+	return m0
+}
+
+type case_UnpauseActivityRequest_Activity protoreflect.FieldNumber
+
+func (x case_UnpauseActivityRequest_Activity) String() string {
+	switch x {
+	case UnpauseActivityRequest_Activity_not_set_case:
+		return "UnpauseActivityRequestActivityNotSetCase"
+	case UnpauseActivityRequest_Id_case:
+		return "UnpauseActivityRequestIdCase"
+	case UnpauseActivityRequest_Type_case:
+		return "UnpauseActivityRequestTypeCase"
+	case UnpauseActivityRequest_UnpauseAll_case:
+		return "UnpauseActivityRequestUnpauseAllCase"
+	default
+
+	// Only the activity with this ID will be unpaused.
+	:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isUnpauseActivityRequest_Activity interface {
 	isUnpauseActivityRequest_Activity()
 }
 
 type UnpauseActivityRequest_Id struct {
-	// Only the activity with this ID will be unpaused.
 	Id string `protobuf:"bytes,4,opt,name=id,proto3,oneof"`
 }
 
@@ -10654,7 +19076,7 @@ func (*UnpauseActivityRequest_Type) isUnpauseActivityRequest_Activity() {}
 func (*UnpauseActivityRequest_UnpauseAll) isUnpauseActivityRequest_Activity() {}
 
 type UnpauseActivityResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10684,14 +19106,21 @@ func (x *UnpauseActivityResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UnpauseActivityResponse.ProtoReflect.Descriptor instead.
-func (*UnpauseActivityResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{133}
+type UnpauseActivityResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 UnpauseActivityResponse_builder) Build() *UnpauseActivityResponse {
+	m0 := &UnpauseActivityResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // NOTE: keep in sync with temporal.api.batch.v1.BatchOperationResetActivities
 type ResetActivityRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow which scheduled this activity.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Execution info of the workflow which scheduled this activity
@@ -10745,11 +19174,6 @@ func (x *ResetActivityRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResetActivityRequest.ProtoReflect.Descriptor instead.
-func (*ResetActivityRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{134}
 }
 
 func (x *ResetActivityRequest) GetNamespace() string {
@@ -10835,12 +19259,224 @@ func (x *ResetActivityRequest) GetRestoreOriginalOptions() bool {
 	return false
 }
 
+func (x *ResetActivityRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ResetActivityRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *ResetActivityRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *ResetActivityRequest) SetId(v string) {
+	x.Activity = &ResetActivityRequest_Id{v}
+}
+
+func (x *ResetActivityRequest) SetType(v string) {
+	x.Activity = &ResetActivityRequest_Type{v}
+}
+
+func (x *ResetActivityRequest) SetMatchAll(v bool) {
+	x.Activity = &ResetActivityRequest_MatchAll{v}
+}
+
+func (x *ResetActivityRequest) SetResetHeartbeat(v bool) {
+	x.ResetHeartbeat = v
+}
+
+func (x *ResetActivityRequest) SetKeepPaused(v bool) {
+	x.KeepPaused = v
+}
+
+func (x *ResetActivityRequest) SetJitter(v *durationpb.Duration) {
+	x.Jitter = v
+}
+
+func (x *ResetActivityRequest) SetRestoreOriginalOptions(v bool) {
+	x.RestoreOriginalOptions = v
+}
+
+func (x *ResetActivityRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *ResetActivityRequest) HasActivity() bool {
+	if x == nil {
+		return false
+	}
+	return x.Activity != nil
+}
+
+func (x *ResetActivityRequest) HasId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*ResetActivityRequest_Id)
+	return ok
+}
+
+func (x *ResetActivityRequest) HasType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*ResetActivityRequest_Type)
+	return ok
+}
+
+func (x *ResetActivityRequest) HasMatchAll() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*ResetActivityRequest_MatchAll)
+	return ok
+}
+
+func (x *ResetActivityRequest) HasJitter() bool {
+	if x == nil {
+		return false
+	}
+	return x.Jitter != nil
+}
+
+func (x *ResetActivityRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+func (x *ResetActivityRequest) ClearActivity() {
+	x.Activity = nil
+}
+
+func (x *ResetActivityRequest) ClearId() {
+	if _, ok := x.Activity.(*ResetActivityRequest_Id); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *ResetActivityRequest) ClearType() {
+	if _, ok := x.Activity.(*ResetActivityRequest_Type); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *ResetActivityRequest) ClearMatchAll() {
+	if _, ok := x.Activity.(*ResetActivityRequest_MatchAll); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *ResetActivityRequest) ClearJitter() {
+	x.Jitter = nil
+}
+
+const ResetActivityRequest_Activity_not_set_case case_ResetActivityRequest_Activity = 0
+const ResetActivityRequest_Id_case case_ResetActivityRequest_Activity = 4
+const ResetActivityRequest_Type_case case_ResetActivityRequest_Activity = 5
+const ResetActivityRequest_MatchAll_case case_ResetActivityRequest_Activity = 10
+
+func (x *ResetActivityRequest) WhichActivity() case_ResetActivityRequest_Activity {
+	if x == nil {
+		return ResetActivityRequest_Activity_not_set_case
+	}
+	switch x.Activity.(type) {
+	case *ResetActivityRequest_Id:
+		return ResetActivityRequest_Id_case
+	case *ResetActivityRequest_Type:
+		return ResetActivityRequest_Type_case
+	case *ResetActivityRequest_MatchAll:
+		return ResetActivityRequest_MatchAll_case
+	default:
+		return ResetActivityRequest_Activity_not_set_case
+	}
+}
+
+type ResetActivityRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow which scheduled this activity.
+	Namespace string
+	// Execution info of the workflow which scheduled this activity
+	Execution *v13.WorkflowExecution
+	// The identity of the client who initiated this request.
+	Identity string
+	// either activity id, activity type or update_all must be provided
+
+	// Fields of oneof Activity:
+	// Only activity with this ID will be reset.
+	Id *string
+	// Reset all running activities with of this type.
+	Type *string
+	// Reset all running activities.
+	MatchAll *bool
+	// -- end of Activity
+	// Indicates that activity should reset heartbeat details.
+	// This flag will be applied only to the new instance of the activity.
+	ResetHeartbeat bool
+	// If activity is paused, it will remain paused after reset
+	KeepPaused bool
+	// If set, and activity is in backoff, the activity will start at a random time within the specified jitter duration.
+	// (unless it is paused and keep_paused is set)
+	Jitter *durationpb.Duration
+	// If set, the activity options will be restored to the defaults.
+	// Default options are then options activity was created with.
+	// They are part of the first SCHEDULE event.
+	RestoreOriginalOptions bool
+}
+
+func (b0 ResetActivityRequest_builder) Build() *ResetActivityRequest {
+	m0 := &ResetActivityRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	x.Identity = b.Identity
+	if b.Id != nil {
+		x.Activity = &ResetActivityRequest_Id{*b.Id}
+	}
+	if b.Type != nil {
+		x.Activity = &ResetActivityRequest_Type{*b.Type}
+	}
+	if b.MatchAll != nil {
+		x.Activity = &ResetActivityRequest_MatchAll{*b.MatchAll}
+	}
+	x.ResetHeartbeat = b.ResetHeartbeat
+	x.KeepPaused = b.KeepPaused
+	x.Jitter = b.Jitter
+	x.RestoreOriginalOptions = b.RestoreOriginalOptions
+	return m0
+}
+
+type case_ResetActivityRequest_Activity protoreflect.FieldNumber
+
+func (x case_ResetActivityRequest_Activity) String() string {
+	switch x {
+	case ResetActivityRequest_Activity_not_set_case:
+		return "ResetActivityRequestActivityNotSetCase"
+	case ResetActivityRequest_Id_case:
+		return "ResetActivityRequestIdCase"
+	case ResetActivityRequest_Type_case:
+		return "ResetActivityRequestTypeCase"
+	case ResetActivityRequest_MatchAll_case:
+		return "ResetActivityRequestMatchAllCase"
+	default:
+		return strconv.
+
+			// Only activity with this ID will be reset.
+			Itoa(int(x))
+	}
+
+}
+
 type isResetActivityRequest_Activity interface {
 	isResetActivityRequest_Activity()
 }
 
 type ResetActivityRequest_Id struct {
-	// Only activity with this ID will be reset.
 	Id string `protobuf:"bytes,4,opt,name=id,proto3,oneof"`
 }
 
@@ -10861,7 +19497,7 @@ func (*ResetActivityRequest_Type) isResetActivityRequest_Activity() {}
 func (*ResetActivityRequest_MatchAll) isResetActivityRequest_Activity() {}
 
 type ResetActivityResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -10891,16 +19527,23 @@ func (x *ResetActivityResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResetActivityResponse.ProtoReflect.Descriptor instead.
-func (*ResetActivityResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{135}
+type ResetActivityResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 ResetActivityResponse_builder) Build() *ResetActivityResponse {
+	m0 := &ResetActivityResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Keep the parameters in sync with:
 //   - temporal.api.batch.v1.BatchOperationUpdateWorkflowExecutionOptions.
 //   - temporal.api.workflow.v1.PostResetOperation.UpdateWorkflowOptions.
 type UpdateWorkflowExecutionOptionsRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The namespace name of the target Workflow.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The target Workflow Id and (optionally) a specific Run Id thereof.
@@ -10944,11 +19587,6 @@ func (x *UpdateWorkflowExecutionOptionsRequest) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkflowExecutionOptionsRequest.ProtoReflect.Descriptor instead.
-func (*UpdateWorkflowExecutionOptionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{136}
-}
-
 func (x *UpdateWorkflowExecutionOptionsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -10984,8 +19622,92 @@ func (x *UpdateWorkflowExecutionOptionsRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *UpdateWorkflowExecutionOptionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) SetWorkflowExecution(v *v13.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) SetWorkflowExecutionOptions(v *v17.WorkflowExecutionOptions) {
+	x.WorkflowExecutionOptions = v
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
+	x.UpdateMask = v
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) HasWorkflowExecutionOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionOptions != nil
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) HasUpdateMask() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateMask != nil
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) ClearWorkflowExecutionOptions() {
+	x.WorkflowExecutionOptions = nil
+}
+
+func (x *UpdateWorkflowExecutionOptionsRequest) ClearUpdateMask() {
+	x.UpdateMask = nil
+}
+
+type UpdateWorkflowExecutionOptionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The namespace name of the target Workflow.
+	Namespace string
+	// The target Workflow Id and (optionally) a specific Run Id thereof.
+	// (-- api-linter: core::0203::optional=disabled
+	//
+	//	aip.dev/not-precedent: false positive triggered by the word "optional" --)
+	WorkflowExecution *v13.WorkflowExecution
+	// Workflow Execution options. Partial updates are accepted and controlled by update_mask.
+	WorkflowExecutionOptions *v17.WorkflowExecutionOptions
+	// Controls which fields from `workflow_execution_options` will be applied.
+	// To unset a field, set it to null and use the update mask to indicate that it should be mutated.
+	UpdateMask *fieldmaskpb.FieldMask
+	// Optional. The identity of the client who initiated this request.
+	Identity string
+}
+
+func (b0 UpdateWorkflowExecutionOptionsRequest_builder) Build() *UpdateWorkflowExecutionOptionsRequest {
+	m0 := &UpdateWorkflowExecutionOptionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowExecutionOptions = b.WorkflowExecutionOptions
+	x.UpdateMask = b.UpdateMask
+	x.Identity = b.Identity
+	return m0
+}
+
 type UpdateWorkflowExecutionOptionsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Workflow Execution options after update.
 	WorkflowExecutionOptions *v17.WorkflowExecutionOptions `protobuf:"bytes,1,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
 	unknownFields            protoimpl.UnknownFields
@@ -11017,11 +19739,6 @@ func (x *UpdateWorkflowExecutionOptionsResponse) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkflowExecutionOptionsResponse.ProtoReflect.Descriptor instead.
-func (*UpdateWorkflowExecutionOptionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{137}
-}
-
 func (x *UpdateWorkflowExecutionOptionsResponse) GetWorkflowExecutionOptions() *v17.WorkflowExecutionOptions {
 	if x != nil {
 		return x.WorkflowExecutionOptions
@@ -11029,9 +19746,39 @@ func (x *UpdateWorkflowExecutionOptionsResponse) GetWorkflowExecutionOptions() *
 	return nil
 }
 
+func (x *UpdateWorkflowExecutionOptionsResponse) SetWorkflowExecutionOptions(v *v17.WorkflowExecutionOptions) {
+	x.WorkflowExecutionOptions = v
+}
+
+func (x *UpdateWorkflowExecutionOptionsResponse) HasWorkflowExecutionOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionOptions != nil
+}
+
+func (x *UpdateWorkflowExecutionOptionsResponse) ClearWorkflowExecutionOptions() {
+	x.WorkflowExecutionOptions = nil
+}
+
+type UpdateWorkflowExecutionOptionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Workflow Execution options after update.
+	WorkflowExecutionOptions *v17.WorkflowExecutionOptions
+}
+
+func (b0 UpdateWorkflowExecutionOptionsResponse_builder) Build() *UpdateWorkflowExecutionOptionsResponse {
+	m0 := &UpdateWorkflowExecutionOptionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowExecutionOptions = b.WorkflowExecutionOptions
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type DescribeDeploymentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Deployment    *v18.Deployment        `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -11063,11 +19810,6 @@ func (x *DescribeDeploymentRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeDeploymentRequest.ProtoReflect.Descriptor instead.
-func (*DescribeDeploymentRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{138}
-}
-
 func (x *DescribeDeploymentRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -11082,9 +19824,44 @@ func (x *DescribeDeploymentRequest) GetDeployment() *v18.Deployment {
 	return nil
 }
 
+func (x *DescribeDeploymentRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeDeploymentRequest) SetDeployment(v *v18.Deployment) {
+	x.Deployment = v
+}
+
+func (x *DescribeDeploymentRequest) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *DescribeDeploymentRequest) ClearDeployment() {
+	x.Deployment = nil
+}
+
+type DescribeDeploymentRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	Deployment *v18.Deployment
+}
+
+func (b0 DescribeDeploymentRequest_builder) Build() *DescribeDeploymentRequest {
+	m0 := &DescribeDeploymentRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Deployment = b.Deployment
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type DescribeDeploymentResponse struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	DeploymentInfo *v18.DeploymentInfo    `protobuf:"bytes,1,opt,name=deployment_info,json=deploymentInfo,proto3" json:"deployment_info,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -11115,11 +19892,6 @@ func (x *DescribeDeploymentResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeDeploymentResponse.ProtoReflect.Descriptor instead.
-func (*DescribeDeploymentResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{139}
-}
-
 func (x *DescribeDeploymentResponse) GetDeploymentInfo() *v18.DeploymentInfo {
 	if x != nil {
 		return x.DeploymentInfo
@@ -11127,8 +19899,37 @@ func (x *DescribeDeploymentResponse) GetDeploymentInfo() *v18.DeploymentInfo {
 	return nil
 }
 
+func (x *DescribeDeploymentResponse) SetDeploymentInfo(v *v18.DeploymentInfo) {
+	x.DeploymentInfo = v
+}
+
+func (x *DescribeDeploymentResponse) HasDeploymentInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentInfo != nil
+}
+
+func (x *DescribeDeploymentResponse) ClearDeploymentInfo() {
+	x.DeploymentInfo = nil
+}
+
+type DescribeDeploymentResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	DeploymentInfo *v18.DeploymentInfo
+}
+
+func (b0 DescribeDeploymentResponse_builder) Build() *DescribeDeploymentResponse {
+	m0 := &DescribeDeploymentResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DeploymentInfo = b.DeploymentInfo
+	return m0
+}
+
 type DescribeWorkerDeploymentVersionRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Deprecated. Use `deployment_version`.
 	//
@@ -11167,11 +19968,6 @@ func (x *DescribeWorkerDeploymentVersionRequest) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkerDeploymentVersionRequest.ProtoReflect.Descriptor instead.
-func (*DescribeWorkerDeploymentVersionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{140}
-}
-
 func (x *DescribeWorkerDeploymentVersionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -11201,8 +19997,61 @@ func (x *DescribeWorkerDeploymentVersionRequest) GetReportTaskQueueStats() bool 
 	return false
 }
 
+func (x *DescribeWorkerDeploymentVersionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DescribeWorkerDeploymentVersionRequest) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *DescribeWorkerDeploymentVersionRequest) SetDeploymentVersion(v *v18.WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+func (x *DescribeWorkerDeploymentVersionRequest) SetReportTaskQueueStats(v bool) {
+	x.ReportTaskQueueStats = v
+}
+
+func (x *DescribeWorkerDeploymentVersionRequest) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+func (x *DescribeWorkerDeploymentVersionRequest) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+type DescribeWorkerDeploymentVersionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Deprecated. Use `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Version string
+	// Required.
+	DeploymentVersion *v18.WorkerDeploymentVersion
+	// Report stats for task queues which have been polled by this version.
+	ReportTaskQueueStats bool
+}
+
+func (b0 DescribeWorkerDeploymentVersionRequest_builder) Build() *DescribeWorkerDeploymentVersionRequest {
+	m0 := &DescribeWorkerDeploymentVersionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Version = b.Version
+	x.DeploymentVersion = b.DeploymentVersion
+	x.ReportTaskQueueStats = b.ReportTaskQueueStats
+	return m0
+}
+
 type DescribeWorkerDeploymentVersionResponse struct {
-	state                       protoimpl.MessageState           `protogen:"open.v1"`
+	state                       protoimpl.MessageState           `protogen:"hybrid.v1"`
 	WorkerDeploymentVersionInfo *v18.WorkerDeploymentVersionInfo `protobuf:"bytes,1,opt,name=worker_deployment_version_info,json=workerDeploymentVersionInfo,proto3" json:"worker_deployment_version_info,omitempty"`
 	// All the Task Queues that have ever polled from this Deployment version.
 	VersionTaskQueues []*DescribeWorkerDeploymentVersionResponse_VersionTaskQueue `protobuf:"bytes,2,rep,name=version_task_queues,json=versionTaskQueues,proto3" json:"version_task_queues,omitempty"`
@@ -11235,11 +20084,6 @@ func (x *DescribeWorkerDeploymentVersionResponse) ProtoReflect() protoreflect.Me
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkerDeploymentVersionResponse.ProtoReflect.Descriptor instead.
-func (*DescribeWorkerDeploymentVersionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{141}
-}
-
 func (x *DescribeWorkerDeploymentVersionResponse) GetWorkerDeploymentVersionInfo() *v18.WorkerDeploymentVersionInfo {
 	if x != nil {
 		return x.WorkerDeploymentVersionInfo
@@ -11254,8 +20098,44 @@ func (x *DescribeWorkerDeploymentVersionResponse) GetVersionTaskQueues() []*Desc
 	return nil
 }
 
+func (x *DescribeWorkerDeploymentVersionResponse) SetWorkerDeploymentVersionInfo(v *v18.WorkerDeploymentVersionInfo) {
+	x.WorkerDeploymentVersionInfo = v
+}
+
+func (x *DescribeWorkerDeploymentVersionResponse) SetVersionTaskQueues(v []*DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) {
+	x.VersionTaskQueues = v
+}
+
+func (x *DescribeWorkerDeploymentVersionResponse) HasWorkerDeploymentVersionInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerDeploymentVersionInfo != nil
+}
+
+func (x *DescribeWorkerDeploymentVersionResponse) ClearWorkerDeploymentVersionInfo() {
+	x.WorkerDeploymentVersionInfo = nil
+}
+
+type DescribeWorkerDeploymentVersionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkerDeploymentVersionInfo *v18.WorkerDeploymentVersionInfo
+	// All the Task Queues that have ever polled from this Deployment version.
+	VersionTaskQueues []*DescribeWorkerDeploymentVersionResponse_VersionTaskQueue
+}
+
+func (b0 DescribeWorkerDeploymentVersionResponse_builder) Build() *DescribeWorkerDeploymentVersionResponse {
+	m0 := &DescribeWorkerDeploymentVersionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkerDeploymentVersionInfo = b.WorkerDeploymentVersionInfo
+	x.VersionTaskQueues = b.VersionTaskQueues
+	return m0
+}
+
 type DescribeWorkerDeploymentRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace      string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -11287,11 +20167,6 @@ func (x *DescribeWorkerDeploymentRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkerDeploymentRequest.ProtoReflect.Descriptor instead.
-func (*DescribeWorkerDeploymentRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{142}
-}
-
 func (x *DescribeWorkerDeploymentRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -11306,8 +20181,32 @@ func (x *DescribeWorkerDeploymentRequest) GetDeploymentName() string {
 	return ""
 }
 
+func (x *DescribeWorkerDeploymentRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeWorkerDeploymentRequest) SetDeploymentName(v string) {
+	x.DeploymentName = v
+}
+
+type DescribeWorkerDeploymentRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace      string
+	DeploymentName string
+}
+
+func (b0 DescribeWorkerDeploymentRequest_builder) Build() *DescribeWorkerDeploymentRequest {
+	m0 := &DescribeWorkerDeploymentRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.DeploymentName = b.DeploymentName
+	return m0
+}
+
 type DescribeWorkerDeploymentResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// This value is returned so that it can be optionally passed to APIs
 	// that write to the Worker Deployment state to ensure that the state
 	// did not change between this read and a future write.
@@ -11342,11 +20241,6 @@ func (x *DescribeWorkerDeploymentResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkerDeploymentResponse.ProtoReflect.Descriptor instead.
-func (*DescribeWorkerDeploymentResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{143}
-}
-
 func (x *DescribeWorkerDeploymentResponse) GetConflictToken() []byte {
 	if x != nil {
 		return x.ConflictToken
@@ -11361,9 +20255,50 @@ func (x *DescribeWorkerDeploymentResponse) GetWorkerDeploymentInfo() *v18.Worker
 	return nil
 }
 
+func (x *DescribeWorkerDeploymentResponse) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+func (x *DescribeWorkerDeploymentResponse) SetWorkerDeploymentInfo(v *v18.WorkerDeploymentInfo) {
+	x.WorkerDeploymentInfo = v
+}
+
+func (x *DescribeWorkerDeploymentResponse) HasWorkerDeploymentInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerDeploymentInfo != nil
+}
+
+func (x *DescribeWorkerDeploymentResponse) ClearWorkerDeploymentInfo() {
+	x.WorkerDeploymentInfo = nil
+}
+
+type DescribeWorkerDeploymentResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// This value is returned so that it can be optionally passed to APIs
+	// that write to the Worker Deployment state to ensure that the state
+	// did not change between this read and a future write.
+	ConflictToken        []byte
+	WorkerDeploymentInfo *v18.WorkerDeploymentInfo
+}
+
+func (b0 DescribeWorkerDeploymentResponse_builder) Build() *DescribeWorkerDeploymentResponse {
+	m0 := &DescribeWorkerDeploymentResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ConflictToken = b.ConflictToken
+	x.WorkerDeploymentInfo = b.WorkerDeploymentInfo
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type ListDeploymentsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -11398,11 +20333,6 @@ func (x *ListDeploymentsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListDeploymentsRequest.ProtoReflect.Descriptor instead.
-func (*ListDeploymentsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{144}
-}
-
 func (x *ListDeploymentsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -11431,9 +20361,49 @@ func (x *ListDeploymentsRequest) GetSeriesName() string {
 	return ""
 }
 
+func (x *ListDeploymentsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListDeploymentsRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListDeploymentsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListDeploymentsRequest) SetSeriesName(v string) {
+	x.SeriesName = v
+}
+
+type ListDeploymentsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace     string
+	PageSize      int32
+	NextPageToken []byte
+	// Optional. Use to filter based on exact series name match.
+	SeriesName string
+}
+
+func (b0 ListDeploymentsRequest_builder) Build() *ListDeploymentsRequest {
+	m0 := &ListDeploymentsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	x.SeriesName = b.SeriesName
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type ListDeploymentsResponse struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
+	state         protoimpl.MessageState    `protogen:"hybrid.v1"`
 	NextPageToken []byte                    `protobuf:"bytes,1,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Deployments   []*v18.DeploymentListInfo `protobuf:"bytes,2,rep,name=deployments,proto3" json:"deployments,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -11465,11 +20435,6 @@ func (x *ListDeploymentsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListDeploymentsResponse.ProtoReflect.Descriptor instead.
-func (*ListDeploymentsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{145}
-}
-
 func (x *ListDeploymentsResponse) GetNextPageToken() []byte {
 	if x != nil {
 		return x.NextPageToken
@@ -11484,9 +20449,36 @@ func (x *ListDeploymentsResponse) GetDeployments() []*v18.DeploymentListInfo {
 	return nil
 }
 
+func (x *ListDeploymentsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListDeploymentsResponse) SetDeployments(v []*v18.DeploymentListInfo) {
+	x.Deployments = v
+}
+
+type ListDeploymentsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	NextPageToken []byte
+	Deployments   []*v18.DeploymentListInfo
+}
+
+func (b0 ListDeploymentsResponse_builder) Build() *ListDeploymentsResponse {
+	m0 := &ListDeploymentsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NextPageToken = b.NextPageToken
+	x.Deployments = b.Deployments
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type SetCurrentDeploymentRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Deployment *v18.Deployment        `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	// Optional. The identity of the client who initiated this request.
@@ -11524,11 +20516,6 @@ func (x *SetCurrentDeploymentRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SetCurrentDeploymentRequest.ProtoReflect.Descriptor instead.
-func (*SetCurrentDeploymentRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{146}
-}
-
 func (x *SetCurrentDeploymentRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -11557,9 +20544,71 @@ func (x *SetCurrentDeploymentRequest) GetUpdateMetadata() *v18.UpdateDeploymentM
 	return nil
 }
 
+func (x *SetCurrentDeploymentRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SetCurrentDeploymentRequest) SetDeployment(v *v18.Deployment) {
+	x.Deployment = v
+}
+
+func (x *SetCurrentDeploymentRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *SetCurrentDeploymentRequest) SetUpdateMetadata(v *v18.UpdateDeploymentMetadata) {
+	x.UpdateMetadata = v
+}
+
+func (x *SetCurrentDeploymentRequest) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *SetCurrentDeploymentRequest) HasUpdateMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateMetadata != nil
+}
+
+func (x *SetCurrentDeploymentRequest) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *SetCurrentDeploymentRequest) ClearUpdateMetadata() {
+	x.UpdateMetadata = nil
+}
+
+type SetCurrentDeploymentRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	Deployment *v18.Deployment
+	// Optional. The identity of the client who initiated this request.
+	Identity string
+	// Optional. Use to add or remove user-defined metadata entries. Metadata entries are exposed
+	// when describing a deployment. It is a good place for information such as operator name,
+	// links to internal deployment pipelines, etc.
+	UpdateMetadata *v18.UpdateDeploymentMetadata
+}
+
+func (b0 SetCurrentDeploymentRequest_builder) Build() *SetCurrentDeploymentRequest {
+	m0 := &SetCurrentDeploymentRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Deployment = b.Deployment
+	x.Identity = b.Identity
+	x.UpdateMetadata = b.UpdateMetadata
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type SetCurrentDeploymentResponse struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
+	state                 protoimpl.MessageState `protogen:"hybrid.v1"`
 	CurrentDeploymentInfo *v18.DeploymentInfo    `protobuf:"bytes,1,opt,name=current_deployment_info,json=currentDeploymentInfo,proto3" json:"current_deployment_info,omitempty"`
 	// Info of the deployment that was current before executing this operation.
 	PreviousDeploymentInfo *v18.DeploymentInfo `protobuf:"bytes,2,opt,name=previous_deployment_info,json=previousDeploymentInfo,proto3" json:"previous_deployment_info,omitempty"`
@@ -11592,11 +20641,6 @@ func (x *SetCurrentDeploymentResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SetCurrentDeploymentResponse.ProtoReflect.Descriptor instead.
-func (*SetCurrentDeploymentResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{147}
-}
-
 func (x *SetCurrentDeploymentResponse) GetCurrentDeploymentInfo() *v18.DeploymentInfo {
 	if x != nil {
 		return x.CurrentDeploymentInfo
@@ -11611,9 +20655,56 @@ func (x *SetCurrentDeploymentResponse) GetPreviousDeploymentInfo() *v18.Deployme
 	return nil
 }
 
+func (x *SetCurrentDeploymentResponse) SetCurrentDeploymentInfo(v *v18.DeploymentInfo) {
+	x.CurrentDeploymentInfo = v
+}
+
+func (x *SetCurrentDeploymentResponse) SetPreviousDeploymentInfo(v *v18.DeploymentInfo) {
+	x.PreviousDeploymentInfo = v
+}
+
+func (x *SetCurrentDeploymentResponse) HasCurrentDeploymentInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentDeploymentInfo != nil
+}
+
+func (x *SetCurrentDeploymentResponse) HasPreviousDeploymentInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.PreviousDeploymentInfo != nil
+}
+
+func (x *SetCurrentDeploymentResponse) ClearCurrentDeploymentInfo() {
+	x.CurrentDeploymentInfo = nil
+}
+
+func (x *SetCurrentDeploymentResponse) ClearPreviousDeploymentInfo() {
+	x.PreviousDeploymentInfo = nil
+}
+
+type SetCurrentDeploymentResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	CurrentDeploymentInfo *v18.DeploymentInfo
+	// Info of the deployment that was current before executing this operation.
+	PreviousDeploymentInfo *v18.DeploymentInfo
+}
+
+func (b0 SetCurrentDeploymentResponse_builder) Build() *SetCurrentDeploymentResponse {
+	m0 := &SetCurrentDeploymentResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CurrentDeploymentInfo = b.CurrentDeploymentInfo
+	x.PreviousDeploymentInfo = b.PreviousDeploymentInfo
+	return m0
+}
+
 // Set/unset the Current Version of a Worker Deployment.
 type SetWorkerDeploymentCurrentVersionRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace      string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// Deprecated. Use `build_id`.
@@ -11679,11 +20770,6 @@ func (x *SetWorkerDeploymentCurrentVersionRequest) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SetWorkerDeploymentCurrentVersionRequest.ProtoReflect.Descriptor instead.
-func (*SetWorkerDeploymentCurrentVersionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{148}
-}
-
 func (x *SetWorkerDeploymentCurrentVersionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -11741,8 +20827,100 @@ func (x *SetWorkerDeploymentCurrentVersionRequest) GetAllowNoPollers() bool {
 	return false
 }
 
+func (x *SetWorkerDeploymentCurrentVersionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SetWorkerDeploymentCurrentVersionRequest) SetDeploymentName(v string) {
+	x.DeploymentName = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentCurrentVersionRequest) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *SetWorkerDeploymentCurrentVersionRequest) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+func (x *SetWorkerDeploymentCurrentVersionRequest) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+func (x *SetWorkerDeploymentCurrentVersionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *SetWorkerDeploymentCurrentVersionRequest) SetIgnoreMissingTaskQueues(v bool) {
+	x.IgnoreMissingTaskQueues = v
+}
+
+func (x *SetWorkerDeploymentCurrentVersionRequest) SetAllowNoPollers(v bool) {
+	x.AllowNoPollers = v
+}
+
+type SetWorkerDeploymentCurrentVersionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace      string
+	DeploymentName string
+	// Deprecated. Use `build_id`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Version string
+	// The build id of the Version that you want to set as Current.
+	// Pass an empty value to set the Current Version to nil.
+	// A nil Current Version represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
+	BuildId string
+	// Optional. This can be the value of conflict_token from a Describe, or another Worker
+	// Deployment API. Passing a non-nil conflict token will cause this request to fail if the
+	// Deployment's configuration has been modified between the API call that generated the
+	// token and this one.
+	ConflictToken []byte
+	// Optional. The identity of the client who initiated this request.
+	Identity string
+	// Optional. By default this request would be rejected if not all the expected Task Queues are
+	// being polled by the new Version, to protect against accidental removal of Task Queues, or
+	// worker health issues. Pass `true` here to bypass this protection.
+	// The set of expected Task Queues is the set of all the Task Queues that were ever poller by
+	// the existing Current Version of the Deployment, with the following exclusions:
+	//   - Task Queues that are not used anymore (inferred by having empty backlog and a task
+	//     add_rate of 0.)
+	//   - Task Queues that are moved to another Worker Deployment (inferred by the Task Queue
+	//     having a different Current Version than the Current Version of this deployment.)
+	//
+	// WARNING: Do not set this flag unless you are sure that the missing task queue pollers are not
+	// needed. If the request is unexpectedly rejected due to missing pollers, then that means the
+	// pollers have not reached to the server yet. Only set this if you expect those pollers to
+	// never arrive.
+	IgnoreMissingTaskQueues bool
+	// Optional. By default this request will be rejected if no pollers have been seen for the proposed
+	// Current Version, in order to protect users from routing tasks to pollers that do not exist, leading
+	// to possible timeouts. Pass `true` here to bypass this protection.
+	AllowNoPollers bool
+}
+
+func (b0 SetWorkerDeploymentCurrentVersionRequest_builder) Build() *SetWorkerDeploymentCurrentVersionRequest {
+	m0 := &SetWorkerDeploymentCurrentVersionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.DeploymentName = b.DeploymentName
+	x.Version = b.Version
+	x.BuildId = b.BuildId
+	x.ConflictToken = b.ConflictToken
+	x.Identity = b.Identity
+	x.IgnoreMissingTaskQueues = b.IgnoreMissingTaskQueues
+	x.AllowNoPollers = b.AllowNoPollers
+	return m0
+}
+
 type SetWorkerDeploymentCurrentVersionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// This value is returned so that it can be optionally passed to APIs
 	// that write to the Worker Deployment state to ensure that the state
 	// did not change between this API call and a future write.
@@ -11788,11 +20966,6 @@ func (x *SetWorkerDeploymentCurrentVersionResponse) ProtoReflect() protoreflect.
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SetWorkerDeploymentCurrentVersionResponse.ProtoReflect.Descriptor instead.
-func (*SetWorkerDeploymentCurrentVersionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{149}
-}
-
 func (x *SetWorkerDeploymentCurrentVersionResponse) GetConflictToken() []byte {
 	if x != nil {
 		return x.ConflictToken
@@ -11816,9 +20989,70 @@ func (x *SetWorkerDeploymentCurrentVersionResponse) GetPreviousDeploymentVersion
 	return nil
 }
 
+func (x *SetWorkerDeploymentCurrentVersionResponse) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentCurrentVersionResponse) SetPreviousVersion(v string) {
+	x.PreviousVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentCurrentVersionResponse) SetPreviousDeploymentVersion(v *v18.WorkerDeploymentVersion) {
+	x.PreviousDeploymentVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentCurrentVersionResponse) HasPreviousDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.PreviousDeploymentVersion != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentCurrentVersionResponse) ClearPreviousDeploymentVersion() {
+	x.PreviousDeploymentVersion = nil
+}
+
+type SetWorkerDeploymentCurrentVersionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// This value is returned so that it can be optionally passed to APIs
+	// that write to the Worker Deployment state to ensure that the state
+	// did not change between this API call and a future write.
+	ConflictToken []byte
+	// Deprecated. Use `previous_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	PreviousVersion string
+	// The version that was current before executing this operation.
+	// Deprecated in favor of idempotency of the API. Use `DescribeWorkerDeployment` to get the
+	// Current version info before calling this API. By passing the `conflict_token` got from the
+	// `DescribeWorkerDeployment` call to this API you can ensure there is no interfering changes
+	// between the two calls.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	PreviousDeploymentVersion *v18.WorkerDeploymentVersion
+}
+
+func (b0 SetWorkerDeploymentCurrentVersionResponse_builder) Build() *SetWorkerDeploymentCurrentVersionResponse {
+	m0 := &SetWorkerDeploymentCurrentVersionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ConflictToken = b.ConflictToken
+	x.PreviousVersion = b.PreviousVersion
+	x.PreviousDeploymentVersion = b.PreviousDeploymentVersion
+	return m0
+}
+
 // Set/unset the Ramping Version of a Worker Deployment and its ramp percentage.
 type SetWorkerDeploymentRampingVersionRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace      string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// Deprecated. Use `build_id`.
@@ -11889,11 +21123,6 @@ func (x *SetWorkerDeploymentRampingVersionRequest) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SetWorkerDeploymentRampingVersionRequest.ProtoReflect.Descriptor instead.
-func (*SetWorkerDeploymentRampingVersionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{150}
-}
-
 func (x *SetWorkerDeploymentRampingVersionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -11958,8 +21187,110 @@ func (x *SetWorkerDeploymentRampingVersionRequest) GetAllowNoPollers() bool {
 	return false
 }
 
+func (x *SetWorkerDeploymentRampingVersionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SetWorkerDeploymentRampingVersionRequest) SetDeploymentName(v string) {
+	x.DeploymentName = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentRampingVersionRequest) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *SetWorkerDeploymentRampingVersionRequest) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+func (x *SetWorkerDeploymentRampingVersionRequest) SetPercentage(v float32) {
+	x.Percentage = v
+}
+
+func (x *SetWorkerDeploymentRampingVersionRequest) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+func (x *SetWorkerDeploymentRampingVersionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *SetWorkerDeploymentRampingVersionRequest) SetIgnoreMissingTaskQueues(v bool) {
+	x.IgnoreMissingTaskQueues = v
+}
+
+func (x *SetWorkerDeploymentRampingVersionRequest) SetAllowNoPollers(v bool) {
+	x.AllowNoPollers = v
+}
+
+type SetWorkerDeploymentRampingVersionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace      string
+	DeploymentName string
+	// Deprecated. Use `build_id`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Version string
+	// The build id of the Version that you want to ramp traffic to.
+	// Pass an empty value to set the Ramping Version to nil.
+	// A nil Ramping Version represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
+	BuildId string
+	// Ramp percentage to set. Valid range: [0,100].
+	Percentage float32
+	// Optional. This can be the value of conflict_token from a Describe, or another Worker
+	// Deployment API. Passing a non-nil conflict token will cause this request to fail if the
+	// Deployment's configuration has been modified between the API call that generated the
+	// token and this one.
+	ConflictToken []byte
+	// Optional. The identity of the client who initiated this request.
+	Identity string
+	// Optional. By default this request would be rejected if not all the expected Task Queues are
+	// being polled by the new Version, to protect against accidental removal of Task Queues, or
+	// worker health issues. Pass `true` here to bypass this protection.
+	// The set of expected Task Queues equals to all the Task Queues ever polled from the existing
+	// Current Version of the Deployment, with the following exclusions:
+	//   - Task Queues that are not used anymore (inferred by having empty backlog and a task
+	//     add_rate of 0.)
+	//   - Task Queues that are moved to another Worker Deployment (inferred by the Task Queue
+	//     having a different Current Version than the Current Version of this deployment.)
+	//
+	// WARNING: Do not set this flag unless you are sure that the missing task queue poller are not
+	// needed. If the request is unexpectedly rejected due to missing pollers, then that means the
+	// pollers have not reached to the server yet. Only set this if you expect those pollers to
+	// never arrive.
+	// Note: this check only happens when the ramping version is about to change, not every time
+	// that the percentage changes. Also note that the check is against the deployment's Current
+	// Version, not the previous Ramping Version.
+	IgnoreMissingTaskQueues bool
+	// Optional. By default this request will be rejected if no pollers have been seen for the proposed
+	// Current Version, in order to protect users from routing tasks to pollers that do not exist, leading
+	// to possible timeouts. Pass `true` here to bypass this protection.
+	AllowNoPollers bool
+}
+
+func (b0 SetWorkerDeploymentRampingVersionRequest_builder) Build() *SetWorkerDeploymentRampingVersionRequest {
+	m0 := &SetWorkerDeploymentRampingVersionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.DeploymentName = b.DeploymentName
+	x.Version = b.Version
+	x.BuildId = b.BuildId
+	x.Percentage = b.Percentage
+	x.ConflictToken = b.ConflictToken
+	x.Identity = b.Identity
+	x.IgnoreMissingTaskQueues = b.IgnoreMissingTaskQueues
+	x.AllowNoPollers = b.AllowNoPollers
+	return m0
+}
+
 type SetWorkerDeploymentRampingVersionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// This value is returned so that it can be optionally passed to APIs
 	// that write to the Worker Deployment state to ensure that the state
 	// did not change between this API call and a future write.
@@ -12013,11 +21344,6 @@ func (x *SetWorkerDeploymentRampingVersionResponse) ProtoReflect() protoreflect.
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SetWorkerDeploymentRampingVersionResponse.ProtoReflect.Descriptor instead.
-func (*SetWorkerDeploymentRampingVersionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{151}
-}
-
 func (x *SetWorkerDeploymentRampingVersionResponse) GetConflictToken() []byte {
 	if x != nil {
 		return x.ConflictToken
@@ -12049,8 +21375,83 @@ func (x *SetWorkerDeploymentRampingVersionResponse) GetPreviousPercentage() floa
 	return 0
 }
 
+func (x *SetWorkerDeploymentRampingVersionResponse) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentRampingVersionResponse) SetPreviousVersion(v string) {
+	x.PreviousVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentRampingVersionResponse) SetPreviousDeploymentVersion(v *v18.WorkerDeploymentVersion) {
+	x.PreviousDeploymentVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentRampingVersionResponse) SetPreviousPercentage(v float32) {
+	x.PreviousPercentage = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentRampingVersionResponse) HasPreviousDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.PreviousDeploymentVersion != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentRampingVersionResponse) ClearPreviousDeploymentVersion() {
+	x.PreviousDeploymentVersion = nil
+}
+
+type SetWorkerDeploymentRampingVersionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// This value is returned so that it can be optionally passed to APIs
+	// that write to the Worker Deployment state to ensure that the state
+	// did not change between this API call and a future write.
+	ConflictToken []byte
+	// Deprecated. Use `previous_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	PreviousVersion string
+	// The version that was ramping before executing this operation.
+	// Deprecated in favor of idempotency of the API. Use `DescribeWorkerDeployment` to get the
+	// Ramping version info before calling this API. By passing the `conflict_token` got from the
+	// `DescribeWorkerDeployment` call to this API you can ensure there is no interfering changes
+	// between the two calls.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	PreviousDeploymentVersion *v18.WorkerDeploymentVersion
+	// The ramping version percentage before executing this operation.
+	// Deprecated in favor of idempotency of the API. Use `DescribeWorkerDeployment` to get the
+	// Ramping version info before calling this API. By passing the `conflict_token` got from the
+	// `DescribeWorkerDeployment` call to this API you can ensure there is no interfering changes
+	// between the two calls.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	PreviousPercentage float32
+}
+
+func (b0 SetWorkerDeploymentRampingVersionResponse_builder) Build() *SetWorkerDeploymentRampingVersionResponse {
+	m0 := &SetWorkerDeploymentRampingVersionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ConflictToken = b.ConflictToken
+	x.PreviousVersion = b.PreviousVersion
+	x.PreviousDeploymentVersion = b.PreviousDeploymentVersion
+	x.PreviousPercentage = b.PreviousPercentage
+	return m0
+}
+
 type ListWorkerDeploymentsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -12083,11 +21484,6 @@ func (x *ListWorkerDeploymentsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWorkerDeploymentsRequest.ProtoReflect.Descriptor instead.
-func (*ListWorkerDeploymentsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{152}
-}
-
 func (x *ListWorkerDeploymentsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -12109,8 +21505,41 @@ func (x *ListWorkerDeploymentsRequest) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListWorkerDeploymentsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListWorkerDeploymentsRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListWorkerDeploymentsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListWorkerDeploymentsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace     string
+	PageSize      int32
+	NextPageToken []byte
+}
+
+func (b0 ListWorkerDeploymentsRequest_builder) Build() *ListWorkerDeploymentsRequest {
+	m0 := &ListWorkerDeploymentsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type ListWorkerDeploymentsResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	NextPageToken []byte                 `protobuf:"bytes,1,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// The list of worker deployments.
 	WorkerDeployments []*ListWorkerDeploymentsResponse_WorkerDeploymentSummary `protobuf:"bytes,2,rep,name=worker_deployments,json=workerDeployments,proto3" json:"worker_deployments,omitempty"`
@@ -12143,11 +21572,6 @@ func (x *ListWorkerDeploymentsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWorkerDeploymentsResponse.ProtoReflect.Descriptor instead.
-func (*ListWorkerDeploymentsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{153}
-}
-
 func (x *ListWorkerDeploymentsResponse) GetNextPageToken() []byte {
 	if x != nil {
 		return x.NextPageToken
@@ -12162,6 +21586,34 @@ func (x *ListWorkerDeploymentsResponse) GetWorkerDeployments() []*ListWorkerDepl
 	return nil
 }
 
+func (x *ListWorkerDeploymentsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListWorkerDeploymentsResponse) SetWorkerDeployments(v []*ListWorkerDeploymentsResponse_WorkerDeploymentSummary) {
+	x.WorkerDeployments = v
+}
+
+type ListWorkerDeploymentsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	NextPageToken []byte
+	// The list of worker deployments.
+	WorkerDeployments []*ListWorkerDeploymentsResponse_WorkerDeploymentSummary
+}
+
+func (b0 ListWorkerDeploymentsResponse_builder) Build() *ListWorkerDeploymentsResponse {
+	m0 := &ListWorkerDeploymentsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NextPageToken = b.NextPageToken
+	x.WorkerDeployments = b.WorkerDeployments
+	return m0
+}
+
 // Used for manual deletion of Versions. User can delete a Version only when all the
 // following conditions are met:
 //   - It is not the Current or Ramping Version of its Deployment.
@@ -12169,7 +21621,7 @@ func (x *ListWorkerDeploymentsResponse) GetWorkerDeployments() []*ListWorkerDepl
 //   - It is not draining (see WorkerDeploymentVersionInfo.drainage_info). This condition
 //     can be skipped by passing `skip-drainage=true`.
 type DeleteWorkerDeploymentVersionRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Deprecated. Use `deployment_version`.
 	//
@@ -12211,11 +21663,6 @@ func (x *DeleteWorkerDeploymentVersionRequest) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteWorkerDeploymentVersionRequest.ProtoReflect.Descriptor instead.
-func (*DeleteWorkerDeploymentVersionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{154}
-}
-
 func (x *DeleteWorkerDeploymentVersionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -12252,8 +21699,69 @@ func (x *DeleteWorkerDeploymentVersionRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *DeleteWorkerDeploymentVersionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *DeleteWorkerDeploymentVersionRequest) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *DeleteWorkerDeploymentVersionRequest) SetDeploymentVersion(v *v18.WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+func (x *DeleteWorkerDeploymentVersionRequest) SetSkipDrainage(v bool) {
+	x.SkipDrainage = v
+}
+
+func (x *DeleteWorkerDeploymentVersionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *DeleteWorkerDeploymentVersionRequest) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+func (x *DeleteWorkerDeploymentVersionRequest) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+type DeleteWorkerDeploymentVersionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Deprecated. Use `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Version string
+	// Required.
+	DeploymentVersion *v18.WorkerDeploymentVersion
+	// Pass to force deletion even if the Version is draining. In this case the open pinned
+	// workflows will be stuck until manually moved to another version by UpdateWorkflowExecutionOptions.
+	SkipDrainage bool
+	// Optional. The identity of the client who initiated this request.
+	Identity string
+}
+
+func (b0 DeleteWorkerDeploymentVersionRequest_builder) Build() *DeleteWorkerDeploymentVersionRequest {
+	m0 := &DeleteWorkerDeploymentVersionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Version = b.Version
+	x.DeploymentVersion = b.DeploymentVersion
+	x.SkipDrainage = b.SkipDrainage
+	x.Identity = b.Identity
+	return m0
+}
+
 type DeleteWorkerDeploymentVersionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12283,15 +21791,22 @@ func (x *DeleteWorkerDeploymentVersionResponse) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteWorkerDeploymentVersionResponse.ProtoReflect.Descriptor instead.
-func (*DeleteWorkerDeploymentVersionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{155}
+type DeleteWorkerDeploymentVersionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 DeleteWorkerDeploymentVersionResponse_builder) Build() *DeleteWorkerDeploymentVersionResponse {
+	m0 := &DeleteWorkerDeploymentVersionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Deletes records of (an old) Deployment. A deployment can only be deleted if
 // it has no Version in it.
 type DeleteWorkerDeploymentRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace      string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// Optional. The identity of the client who initiated this request.
@@ -12325,11 +21840,6 @@ func (x *DeleteWorkerDeploymentRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteWorkerDeploymentRequest.ProtoReflect.Descriptor instead.
-func (*DeleteWorkerDeploymentRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{156}
-}
-
 func (x *DeleteWorkerDeploymentRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -12351,8 +21861,39 @@ func (x *DeleteWorkerDeploymentRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *DeleteWorkerDeploymentRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DeleteWorkerDeploymentRequest) SetDeploymentName(v string) {
+	x.DeploymentName = v
+}
+
+func (x *DeleteWorkerDeploymentRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+type DeleteWorkerDeploymentRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace      string
+	DeploymentName string
+	// Optional. The identity of the client who initiated this request.
+	Identity string
+}
+
+func (b0 DeleteWorkerDeploymentRequest_builder) Build() *DeleteWorkerDeploymentRequest {
+	m0 := &DeleteWorkerDeploymentRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.DeploymentName = b.DeploymentName
+	x.Identity = b.Identity
+	return m0
+}
+
 type DeleteWorkerDeploymentResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -12382,14 +21923,21 @@ func (x *DeleteWorkerDeploymentResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteWorkerDeploymentResponse.ProtoReflect.Descriptor instead.
-func (*DeleteWorkerDeploymentResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{157}
+type DeleteWorkerDeploymentResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 DeleteWorkerDeploymentResponse_builder) Build() *DeleteWorkerDeploymentResponse {
+	m0 := &DeleteWorkerDeploymentResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // Used to update the user-defined metadata of a Worker Deployment Version.
 type UpdateWorkerDeploymentVersionMetadataRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Deprecated. Use `deployment_version`.
 	//
@@ -12429,11 +21977,6 @@ func (x *UpdateWorkerDeploymentVersionMetadataRequest) ProtoReflect() protorefle
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateWorkerDeploymentVersionMetadataRequest.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerDeploymentVersionMetadataRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{158}
 }
 
 func (x *UpdateWorkerDeploymentVersionMetadataRequest) GetNamespace() string {
@@ -12479,8 +22022,74 @@ func (x *UpdateWorkerDeploymentVersionMetadataRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) SetDeploymentVersion(v *v18.WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) SetUpsertEntries(v map[string]*v13.Payload) {
+	x.UpsertEntries = v
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) SetRemoveEntries(v []string) {
+	x.RemoveEntries = v
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataRequest) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+type UpdateWorkerDeploymentVersionMetadataRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Deprecated. Use `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	Version string
+	// Required.
+	DeploymentVersion *v18.WorkerDeploymentVersion
+	UpsertEntries     map[string]*v13.Payload
+	// List of keys to remove from the metadata.
+	RemoveEntries []string
+	// Optional. The identity of the client who initiated this request.
+	Identity string
+}
+
+func (b0 UpdateWorkerDeploymentVersionMetadataRequest_builder) Build() *UpdateWorkerDeploymentVersionMetadataRequest {
+	m0 := &UpdateWorkerDeploymentVersionMetadataRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Version = b.Version
+	x.DeploymentVersion = b.DeploymentVersion
+	x.UpsertEntries = b.UpsertEntries
+	x.RemoveEntries = b.RemoveEntries
+	x.Identity = b.Identity
+	return m0
+}
+
 type UpdateWorkerDeploymentVersionMetadataResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Full metadata after performing the update.
 	Metadata      *v18.VersionMetadata `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -12512,11 +22121,6 @@ func (x *UpdateWorkerDeploymentVersionMetadataResponse) ProtoReflect() protorefl
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerDeploymentVersionMetadataResponse.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerDeploymentVersionMetadataResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{159}
-}
-
 func (x *UpdateWorkerDeploymentVersionMetadataResponse) GetMetadata() *v18.VersionMetadata {
 	if x != nil {
 		return x.Metadata
@@ -12524,9 +22128,39 @@ func (x *UpdateWorkerDeploymentVersionMetadataResponse) GetMetadata() *v18.Versi
 	return nil
 }
 
+func (x *UpdateWorkerDeploymentVersionMetadataResponse) SetMetadata(v *v18.VersionMetadata) {
+	x.Metadata = v
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataResponse) HasMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.Metadata != nil
+}
+
+func (x *UpdateWorkerDeploymentVersionMetadataResponse) ClearMetadata() {
+	x.Metadata = nil
+}
+
+type UpdateWorkerDeploymentVersionMetadataResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Full metadata after performing the update.
+	Metadata *v18.VersionMetadata
+}
+
+func (b0 UpdateWorkerDeploymentVersionMetadataResponse_builder) Build() *UpdateWorkerDeploymentVersionMetadataResponse {
+	m0 := &UpdateWorkerDeploymentVersionMetadataResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Metadata = b.Metadata
+	return m0
+}
+
 // Update the ManagerIdentity of a Worker Deployment.
 type SetWorkerDeploymentManagerRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace      string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	DeploymentName string                 `protobuf:"bytes,2,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// Types that are valid to be assigned to NewManagerIdentity:
@@ -12568,11 +22202,6 @@ func (x *SetWorkerDeploymentManagerRequest) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SetWorkerDeploymentManagerRequest.ProtoReflect.Descriptor instead.
-func (*SetWorkerDeploymentManagerRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{160}
 }
 
 func (x *SetWorkerDeploymentManagerRequest) GetNamespace() string {
@@ -12628,6 +22257,144 @@ func (x *SetWorkerDeploymentManagerRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *SetWorkerDeploymentManagerRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SetWorkerDeploymentManagerRequest) SetDeploymentName(v string) {
+	x.DeploymentName = v
+}
+
+func (x *SetWorkerDeploymentManagerRequest) SetManagerIdentity(v string) {
+	x.NewManagerIdentity = &SetWorkerDeploymentManagerRequest_ManagerIdentity{v}
+}
+
+func (x *SetWorkerDeploymentManagerRequest) SetSelf(v bool) {
+	x.NewManagerIdentity = &SetWorkerDeploymentManagerRequest_Self{v}
+}
+
+func (x *SetWorkerDeploymentManagerRequest) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+func (x *SetWorkerDeploymentManagerRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *SetWorkerDeploymentManagerRequest) HasNewManagerIdentity() bool {
+	if x == nil {
+		return false
+	}
+	return x.NewManagerIdentity != nil
+}
+
+func (x *SetWorkerDeploymentManagerRequest) HasManagerIdentity() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.NewManagerIdentity.(*SetWorkerDeploymentManagerRequest_ManagerIdentity)
+	return ok
+}
+
+func (x *SetWorkerDeploymentManagerRequest) HasSelf() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.NewManagerIdentity.(*SetWorkerDeploymentManagerRequest_Self)
+	return ok
+}
+
+func (x *SetWorkerDeploymentManagerRequest) ClearNewManagerIdentity() {
+	x.NewManagerIdentity = nil
+}
+
+func (x *SetWorkerDeploymentManagerRequest) ClearManagerIdentity() {
+	if _, ok := x.NewManagerIdentity.(*SetWorkerDeploymentManagerRequest_ManagerIdentity); ok {
+		x.NewManagerIdentity = nil
+	}
+}
+
+func (x *SetWorkerDeploymentManagerRequest) ClearSelf() {
+	if _, ok := x.NewManagerIdentity.(*SetWorkerDeploymentManagerRequest_Self); ok {
+		x.NewManagerIdentity = nil
+	}
+}
+
+const SetWorkerDeploymentManagerRequest_NewManagerIdentity_not_set_case case_SetWorkerDeploymentManagerRequest_NewManagerIdentity = 0
+const SetWorkerDeploymentManagerRequest_ManagerIdentity_case case_SetWorkerDeploymentManagerRequest_NewManagerIdentity = 3
+const SetWorkerDeploymentManagerRequest_Self_case case_SetWorkerDeploymentManagerRequest_NewManagerIdentity = 4
+
+func (x *SetWorkerDeploymentManagerRequest) WhichNewManagerIdentity() case_SetWorkerDeploymentManagerRequest_NewManagerIdentity {
+	if x == nil {
+		return SetWorkerDeploymentManagerRequest_NewManagerIdentity_not_set_case
+	}
+	switch x.NewManagerIdentity.(type) {
+	case *SetWorkerDeploymentManagerRequest_ManagerIdentity:
+		return SetWorkerDeploymentManagerRequest_ManagerIdentity_case
+	case *SetWorkerDeploymentManagerRequest_Self:
+		return SetWorkerDeploymentManagerRequest_Self_case
+	default:
+		return SetWorkerDeploymentManagerRequest_NewManagerIdentity_not_set_case
+	}
+}
+
+type SetWorkerDeploymentManagerRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace      string
+	DeploymentName string
+	// Fields of oneof NewManagerIdentity:
+	// Arbitrary value for `manager_identity`.
+	// Empty will unset the field.
+	ManagerIdentity *string
+	// True will set `manager_identity` to `identity`.
+	Self *bool
+	// -- end of NewManagerIdentity
+	// Optional. This can be the value of conflict_token from a Describe, or another Worker
+	// Deployment API. Passing a non-nil conflict token will cause this request to fail if the
+	// Deployment's configuration has been modified between the API call that generated the
+	// token and this one.
+	ConflictToken []byte
+	// Required. The identity of the client who initiated this request.
+	Identity string
+}
+
+func (b0 SetWorkerDeploymentManagerRequest_builder) Build() *SetWorkerDeploymentManagerRequest {
+	m0 := &SetWorkerDeploymentManagerRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.DeploymentName = b.DeploymentName
+	if b.ManagerIdentity != nil {
+		x.NewManagerIdentity = &SetWorkerDeploymentManagerRequest_ManagerIdentity{*b.ManagerIdentity}
+	}
+	if b.Self != nil {
+		x.NewManagerIdentity = &SetWorkerDeploymentManagerRequest_Self{*b.Self}
+	}
+	x.ConflictToken = b.ConflictToken
+	x.Identity = b.Identity
+	return m0
+}
+
+type case_SetWorkerDeploymentManagerRequest_NewManagerIdentity protoreflect.FieldNumber
+
+func (x case_SetWorkerDeploymentManagerRequest_NewManagerIdentity) String() string {
+	switch x {
+	case SetWorkerDeploymentManagerRequest_NewManagerIdentity_not_set_case:
+		return "SetWorkerDeploymentManagerRequestNewManagerIdentityNotSetCase"
+	case SetWorkerDeploymentManagerRequest_ManagerIdentity_case:
+		return "SetWorkerDeploymentManagerRequestManagerIdentityCase"
+	case SetWorkerDeploymentManagerRequest_Self_case:
+		return "SetWorkerDeploymentManagerRequestSelfCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isSetWorkerDeploymentManagerRequest_NewManagerIdentity interface {
 	isSetWorkerDeploymentManagerRequest_NewManagerIdentity()
 }
@@ -12650,7 +22417,7 @@ func (*SetWorkerDeploymentManagerRequest_Self) isSetWorkerDeploymentManagerReque
 }
 
 type SetWorkerDeploymentManagerResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// This value is returned so that it can be optionally passed to APIs
 	// that write to the Worker Deployment state to ensure that the state
 	// did not change between this API call and a future write.
@@ -12692,11 +22459,6 @@ func (x *SetWorkerDeploymentManagerResponse) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SetWorkerDeploymentManagerResponse.ProtoReflect.Descriptor instead.
-func (*SetWorkerDeploymentManagerResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{161}
-}
-
 func (x *SetWorkerDeploymentManagerResponse) GetConflictToken() []byte {
 	if x != nil {
 		return x.ConflictToken
@@ -12712,10 +22474,48 @@ func (x *SetWorkerDeploymentManagerResponse) GetPreviousManagerIdentity() string
 	return ""
 }
 
+func (x *SetWorkerDeploymentManagerResponse) SetConflictToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.ConflictToken = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+func (x *SetWorkerDeploymentManagerResponse) SetPreviousManagerIdentity(v string) {
+	x.PreviousManagerIdentity = v
+}
+
+type SetWorkerDeploymentManagerResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// This value is returned so that it can be optionally passed to APIs
+	// that write to the Worker Deployment state to ensure that the state
+	// did not change between this API call and a future write.
+	ConflictToken []byte
+	// What the `manager_identity` field was before this change.
+	// Deprecated in favor of idempotency of the API. Use `DescribeWorkerDeployment` to get the
+	// manager identity before calling this API. By passing the `conflict_token` got from the
+	// `DescribeWorkerDeployment` call to this API you can ensure there is no interfering changes
+	// between the two calls.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
+	PreviousManagerIdentity string
+}
+
+func (b0 SetWorkerDeploymentManagerResponse_builder) Build() *SetWorkerDeploymentManagerResponse {
+	m0 := &SetWorkerDeploymentManagerResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ConflictToken = b.ConflictToken
+	x.PreviousManagerIdentity = b.PreviousManagerIdentity
+	return m0
+}
+
 // Returns the Current Deployment of a deployment series.
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type GetCurrentDeploymentRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	SeriesName    string                 `protobuf:"bytes,2,opt,name=series_name,json=seriesName,proto3" json:"series_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -12747,11 +22547,6 @@ func (x *GetCurrentDeploymentRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCurrentDeploymentRequest.ProtoReflect.Descriptor instead.
-func (*GetCurrentDeploymentRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{162}
-}
-
 func (x *GetCurrentDeploymentRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -12766,9 +22561,33 @@ func (x *GetCurrentDeploymentRequest) GetSeriesName() string {
 	return ""
 }
 
+func (x *GetCurrentDeploymentRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *GetCurrentDeploymentRequest) SetSeriesName(v string) {
+	x.SeriesName = v
+}
+
+type GetCurrentDeploymentRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	SeriesName string
+}
+
+func (b0 GetCurrentDeploymentRequest_builder) Build() *GetCurrentDeploymentRequest {
+	m0 := &GetCurrentDeploymentRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.SeriesName = b.SeriesName
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type GetCurrentDeploymentResponse struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
+	state                 protoimpl.MessageState `protogen:"hybrid.v1"`
 	CurrentDeploymentInfo *v18.DeploymentInfo    `protobuf:"bytes,1,opt,name=current_deployment_info,json=currentDeploymentInfo,proto3" json:"current_deployment_info,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
@@ -12799,11 +22618,6 @@ func (x *GetCurrentDeploymentResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCurrentDeploymentResponse.ProtoReflect.Descriptor instead.
-func (*GetCurrentDeploymentResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{163}
-}
-
 func (x *GetCurrentDeploymentResponse) GetCurrentDeploymentInfo() *v18.DeploymentInfo {
 	if x != nil {
 		return x.CurrentDeploymentInfo
@@ -12811,9 +22625,38 @@ func (x *GetCurrentDeploymentResponse) GetCurrentDeploymentInfo() *v18.Deploymen
 	return nil
 }
 
+func (x *GetCurrentDeploymentResponse) SetCurrentDeploymentInfo(v *v18.DeploymentInfo) {
+	x.CurrentDeploymentInfo = v
+}
+
+func (x *GetCurrentDeploymentResponse) HasCurrentDeploymentInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentDeploymentInfo != nil
+}
+
+func (x *GetCurrentDeploymentResponse) ClearCurrentDeploymentInfo() {
+	x.CurrentDeploymentInfo = nil
+}
+
+type GetCurrentDeploymentResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	CurrentDeploymentInfo *v18.DeploymentInfo
+}
+
+func (b0 GetCurrentDeploymentResponse_builder) Build() *GetCurrentDeploymentResponse {
+	m0 := &GetCurrentDeploymentResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CurrentDeploymentInfo = b.CurrentDeploymentInfo
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type GetDeploymentReachabilityRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Deployment    *v18.Deployment        `protobuf:"bytes,2,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -12845,11 +22688,6 @@ func (x *GetDeploymentReachabilityRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetDeploymentReachabilityRequest.ProtoReflect.Descriptor instead.
-func (*GetDeploymentReachabilityRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{164}
-}
-
 func (x *GetDeploymentReachabilityRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -12864,9 +22702,44 @@ func (x *GetDeploymentReachabilityRequest) GetDeployment() *v18.Deployment {
 	return nil
 }
 
+func (x *GetDeploymentReachabilityRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *GetDeploymentReachabilityRequest) SetDeployment(v *v18.Deployment) {
+	x.Deployment = v
+}
+
+func (x *GetDeploymentReachabilityRequest) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *GetDeploymentReachabilityRequest) ClearDeployment() {
+	x.Deployment = nil
+}
+
+type GetDeploymentReachabilityRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	Deployment *v18.Deployment
+}
+
+func (b0 GetDeploymentReachabilityRequest_builder) Build() *GetDeploymentReachabilityRequest {
+	m0 := &GetDeploymentReachabilityRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Deployment = b.Deployment
+	return m0
+}
+
 // [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later
 type GetDeploymentReachabilityResponse struct {
-	state          protoimpl.MessageState     `protogen:"open.v1"`
+	state          protoimpl.MessageState     `protogen:"hybrid.v1"`
 	DeploymentInfo *v18.DeploymentInfo        `protobuf:"bytes,1,opt,name=deployment_info,json=deploymentInfo,proto3" json:"deployment_info,omitempty"`
 	Reachability   v11.DeploymentReachability `protobuf:"varint,2,opt,name=reachability,proto3,enum=temporal.api.enums.v1.DeploymentReachability" json:"reachability,omitempty"`
 	// Reachability level might come from server cache. This timestamp specifies when the value
@@ -12901,11 +22774,6 @@ func (x *GetDeploymentReachabilityResponse) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetDeploymentReachabilityResponse.ProtoReflect.Descriptor instead.
-func (*GetDeploymentReachabilityResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{165}
-}
-
 func (x *GetDeploymentReachabilityResponse) GetDeploymentInfo() *v18.DeploymentInfo {
 	if x != nil {
 		return x.DeploymentInfo
@@ -12927,8 +22795,62 @@ func (x *GetDeploymentReachabilityResponse) GetLastUpdateTime() *timestamppb.Tim
 	return nil
 }
 
+func (x *GetDeploymentReachabilityResponse) SetDeploymentInfo(v *v18.DeploymentInfo) {
+	x.DeploymentInfo = v
+}
+
+func (x *GetDeploymentReachabilityResponse) SetReachability(v v11.DeploymentReachability) {
+	x.Reachability = v
+}
+
+func (x *GetDeploymentReachabilityResponse) SetLastUpdateTime(v *timestamppb.Timestamp) {
+	x.LastUpdateTime = v
+}
+
+func (x *GetDeploymentReachabilityResponse) HasDeploymentInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentInfo != nil
+}
+
+func (x *GetDeploymentReachabilityResponse) HasLastUpdateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastUpdateTime != nil
+}
+
+func (x *GetDeploymentReachabilityResponse) ClearDeploymentInfo() {
+	x.DeploymentInfo = nil
+}
+
+func (x *GetDeploymentReachabilityResponse) ClearLastUpdateTime() {
+	x.LastUpdateTime = nil
+}
+
+type GetDeploymentReachabilityResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	DeploymentInfo *v18.DeploymentInfo
+	Reachability   v11.DeploymentReachability
+	// Reachability level might come from server cache. This timestamp specifies when the value
+	// was actually calculated.
+	LastUpdateTime *timestamppb.Timestamp
+}
+
+func (b0 GetDeploymentReachabilityResponse_builder) Build() *GetDeploymentReachabilityResponse {
+	m0 := &GetDeploymentReachabilityResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DeploymentInfo = b.DeploymentInfo
+	x.Reachability = b.Reachability
+	x.LastUpdateTime = b.LastUpdateTime
+	return m0
+}
+
 type CreateWorkflowRuleRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The rule specification .
 	Spec *v121.WorkflowRuleSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
@@ -12969,11 +22891,6 @@ func (x *CreateWorkflowRuleRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateWorkflowRuleRequest.ProtoReflect.Descriptor instead.
-func (*CreateWorkflowRuleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{166}
 }
 
 func (x *CreateWorkflowRuleRequest) GetNamespace() string {
@@ -13018,8 +22935,74 @@ func (x *CreateWorkflowRuleRequest) GetDescription() string {
 	return ""
 }
 
+func (x *CreateWorkflowRuleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *CreateWorkflowRuleRequest) SetSpec(v *v121.WorkflowRuleSpec) {
+	x.Spec = v
+}
+
+func (x *CreateWorkflowRuleRequest) SetForceScan(v bool) {
+	x.ForceScan = v
+}
+
+func (x *CreateWorkflowRuleRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *CreateWorkflowRuleRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *CreateWorkflowRuleRequest) SetDescription(v string) {
+	x.Description = v
+}
+
+func (x *CreateWorkflowRuleRequest) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	return x.Spec != nil
+}
+
+func (x *CreateWorkflowRuleRequest) ClearSpec() {
+	x.Spec = nil
+}
+
+type CreateWorkflowRuleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// The rule specification .
+	Spec *v121.WorkflowRuleSpec
+	// If true, the rule will be applied to the currently running workflows via batch job.
+	// If not set , the rule will only be applied when triggering condition is satisfied.
+	// visibility_query in the rule will be used to select the workflows to apply the rule to.
+	ForceScan bool
+	// Used to de-dupe requests. Typically should be UUID.
+	RequestId string
+	// Identity of the actor who created the rule. Will be stored with the rule.
+	Identity string
+	// Rule description.Will be stored with the rule.
+	Description string
+}
+
+func (b0 CreateWorkflowRuleRequest_builder) Build() *CreateWorkflowRuleRequest {
+	m0 := &CreateWorkflowRuleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Spec = b.Spec
+	x.ForceScan = b.ForceScan
+	x.RequestId = b.RequestId
+	x.Identity = b.Identity
+	x.Description = b.Description
+	return m0
+}
+
 type CreateWorkflowRuleResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Created rule.
 	Rule *v121.WorkflowRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
 	// Batch Job ID if force-scan flag was provided. Otherwise empty.
@@ -13053,11 +23036,6 @@ func (x *CreateWorkflowRuleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateWorkflowRuleResponse.ProtoReflect.Descriptor instead.
-func (*CreateWorkflowRuleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{167}
-}
-
 func (x *CreateWorkflowRuleResponse) GetRule() *v121.WorkflowRule {
 	if x != nil {
 		return x.Rule
@@ -13072,8 +23050,45 @@ func (x *CreateWorkflowRuleResponse) GetJobId() string {
 	return ""
 }
 
+func (x *CreateWorkflowRuleResponse) SetRule(v *v121.WorkflowRule) {
+	x.Rule = v
+}
+
+func (x *CreateWorkflowRuleResponse) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *CreateWorkflowRuleResponse) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *CreateWorkflowRuleResponse) ClearRule() {
+	x.Rule = nil
+}
+
+type CreateWorkflowRuleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Created rule.
+	Rule *v121.WorkflowRule
+	// Batch Job ID if force-scan flag was provided. Otherwise empty.
+	JobId string
+}
+
+func (b0 CreateWorkflowRuleResponse_builder) Build() *CreateWorkflowRuleResponse {
+	m0 := &CreateWorkflowRuleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Rule = b.Rule
+	x.JobId = b.JobId
+	return m0
+}
+
 type DescribeWorkflowRuleRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// User-specified ID of the rule to read. Unique within the namespace.
 	RuleId        string `protobuf:"bytes,2,opt,name=rule_id,json=ruleId,proto3" json:"rule_id,omitempty"`
@@ -13106,11 +23121,6 @@ func (x *DescribeWorkflowRuleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkflowRuleRequest.ProtoReflect.Descriptor instead.
-func (*DescribeWorkflowRuleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{168}
-}
-
 func (x *DescribeWorkflowRuleRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -13125,8 +23135,33 @@ func (x *DescribeWorkflowRuleRequest) GetRuleId() string {
 	return ""
 }
 
+func (x *DescribeWorkflowRuleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeWorkflowRuleRequest) SetRuleId(v string) {
+	x.RuleId = v
+}
+
+type DescribeWorkflowRuleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// User-specified ID of the rule to read. Unique within the namespace.
+	RuleId string
+}
+
+func (b0 DescribeWorkflowRuleRequest_builder) Build() *DescribeWorkflowRuleRequest {
+	m0 := &DescribeWorkflowRuleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.RuleId = b.RuleId
+	return m0
+}
+
 type DescribeWorkflowRuleResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The rule that was read.
 	Rule          *v121.WorkflowRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -13158,11 +23193,6 @@ func (x *DescribeWorkflowRuleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkflowRuleResponse.ProtoReflect.Descriptor instead.
-func (*DescribeWorkflowRuleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{169}
-}
-
 func (x *DescribeWorkflowRuleResponse) GetRule() *v121.WorkflowRule {
 	if x != nil {
 		return x.Rule
@@ -13170,8 +23200,38 @@ func (x *DescribeWorkflowRuleResponse) GetRule() *v121.WorkflowRule {
 	return nil
 }
 
+func (x *DescribeWorkflowRuleResponse) SetRule(v *v121.WorkflowRule) {
+	x.Rule = v
+}
+
+func (x *DescribeWorkflowRuleResponse) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *DescribeWorkflowRuleResponse) ClearRule() {
+	x.Rule = nil
+}
+
+type DescribeWorkflowRuleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The rule that was read.
+	Rule *v121.WorkflowRule
+}
+
+func (b0 DescribeWorkflowRuleResponse_builder) Build() *DescribeWorkflowRuleResponse {
+	m0 := &DescribeWorkflowRuleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Rule = b.Rule
+	return m0
+}
+
 type DeleteWorkflowRuleRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// ID of the rule to delete. Unique within the namespace.
 	RuleId        string `protobuf:"bytes,2,opt,name=rule_id,json=ruleId,proto3" json:"rule_id,omitempty"`
@@ -13204,11 +23264,6 @@ func (x *DeleteWorkflowRuleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteWorkflowRuleRequest.ProtoReflect.Descriptor instead.
-func (*DeleteWorkflowRuleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{170}
-}
-
 func (x *DeleteWorkflowRuleRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -13223,8 +23278,33 @@ func (x *DeleteWorkflowRuleRequest) GetRuleId() string {
 	return ""
 }
 
+func (x *DeleteWorkflowRuleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DeleteWorkflowRuleRequest) SetRuleId(v string) {
+	x.RuleId = v
+}
+
+type DeleteWorkflowRuleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// ID of the rule to delete. Unique within the namespace.
+	RuleId string
+}
+
+func (b0 DeleteWorkflowRuleRequest_builder) Build() *DeleteWorkflowRuleRequest {
+	m0 := &DeleteWorkflowRuleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.RuleId = b.RuleId
+	return m0
+}
+
 type DeleteWorkflowRuleResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -13254,13 +23334,20 @@ func (x *DeleteWorkflowRuleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteWorkflowRuleResponse.ProtoReflect.Descriptor instead.
-func (*DeleteWorkflowRuleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{171}
+type DeleteWorkflowRuleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 DeleteWorkflowRuleResponse_builder) Build() *DeleteWorkflowRuleResponse {
+	m0 := &DeleteWorkflowRuleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListWorkflowRulesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -13292,11 +23379,6 @@ func (x *ListWorkflowRulesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWorkflowRulesRequest.ProtoReflect.Descriptor instead.
-func (*ListWorkflowRulesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{172}
-}
-
 func (x *ListWorkflowRulesRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -13311,8 +23393,35 @@ func (x *ListWorkflowRulesRequest) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListWorkflowRulesRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListWorkflowRulesRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListWorkflowRulesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace     string
+	NextPageToken []byte
+}
+
+func (b0 ListWorkflowRulesRequest_builder) Build() *ListWorkflowRulesRequest {
+	m0 := &ListWorkflowRulesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type ListWorkflowRulesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Rules         []*v121.WorkflowRule   `protobuf:"bytes,1,rep,name=rules,proto3" json:"rules,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -13344,11 +23453,6 @@ func (x *ListWorkflowRulesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWorkflowRulesResponse.ProtoReflect.Descriptor instead.
-func (*ListWorkflowRulesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{173}
-}
-
 func (x *ListWorkflowRulesResponse) GetRules() []*v121.WorkflowRule {
 	if x != nil {
 		return x.Rules
@@ -13363,8 +23467,35 @@ func (x *ListWorkflowRulesResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListWorkflowRulesResponse) SetRules(v []*v121.WorkflowRule) {
+	x.Rules = v
+}
+
+func (x *ListWorkflowRulesResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListWorkflowRulesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Rules         []*v121.WorkflowRule
+	NextPageToken []byte
+}
+
+func (b0 ListWorkflowRulesResponse_builder) Build() *ListWorkflowRulesResponse {
+	m0 := &ListWorkflowRulesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Rules = b.Rules
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type TriggerWorkflowRuleRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Execution info of the workflow which scheduled this activity
 	Execution *v13.WorkflowExecution `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
@@ -13404,11 +23535,6 @@ func (x *TriggerWorkflowRuleRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use TriggerWorkflowRuleRequest.ProtoReflect.Descriptor instead.
-func (*TriggerWorkflowRuleRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{174}
 }
 
 func (x *TriggerWorkflowRuleRequest) GetNamespace() string {
@@ -13457,6 +23583,147 @@ func (x *TriggerWorkflowRuleRequest) GetIdentity() string {
 	return ""
 }
 
+func (x *TriggerWorkflowRuleRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *TriggerWorkflowRuleRequest) SetExecution(v *v13.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *TriggerWorkflowRuleRequest) SetId(v string) {
+	x.Rule = &TriggerWorkflowRuleRequest_Id{v}
+}
+
+func (x *TriggerWorkflowRuleRequest) SetSpec(v *v121.WorkflowRuleSpec) {
+	if v == nil {
+		x.Rule = nil
+		return
+	}
+	x.Rule = &TriggerWorkflowRuleRequest_Spec{v}
+}
+
+func (x *TriggerWorkflowRuleRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *TriggerWorkflowRuleRequest) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *TriggerWorkflowRuleRequest) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *TriggerWorkflowRuleRequest) HasId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Rule.(*TriggerWorkflowRuleRequest_Id)
+	return ok
+}
+
+func (x *TriggerWorkflowRuleRequest) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Rule.(*TriggerWorkflowRuleRequest_Spec)
+	return ok
+}
+
+func (x *TriggerWorkflowRuleRequest) ClearExecution() {
+	x.Execution = nil
+}
+
+func (x *TriggerWorkflowRuleRequest) ClearRule() {
+	x.Rule = nil
+}
+
+func (x *TriggerWorkflowRuleRequest) ClearId() {
+	if _, ok := x.Rule.(*TriggerWorkflowRuleRequest_Id); ok {
+		x.Rule = nil
+	}
+}
+
+func (x *TriggerWorkflowRuleRequest) ClearSpec() {
+	if _, ok := x.Rule.(*TriggerWorkflowRuleRequest_Spec); ok {
+		x.Rule = nil
+	}
+}
+
+const TriggerWorkflowRuleRequest_Rule_not_set_case case_TriggerWorkflowRuleRequest_Rule = 0
+const TriggerWorkflowRuleRequest_Id_case case_TriggerWorkflowRuleRequest_Rule = 4
+const TriggerWorkflowRuleRequest_Spec_case case_TriggerWorkflowRuleRequest_Rule = 5
+
+func (x *TriggerWorkflowRuleRequest) WhichRule() case_TriggerWorkflowRuleRequest_Rule {
+	if x == nil {
+		return TriggerWorkflowRuleRequest_Rule_not_set_case
+	}
+	switch x.Rule.(type) {
+	case *TriggerWorkflowRuleRequest_Id:
+		return TriggerWorkflowRuleRequest_Id_case
+	case *TriggerWorkflowRuleRequest_Spec:
+		return TriggerWorkflowRuleRequest_Spec_case
+	default:
+		return TriggerWorkflowRuleRequest_Rule_not_set_case
+	}
+}
+
+type TriggerWorkflowRuleRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Execution info of the workflow which scheduled this activity
+	Execution *v13.WorkflowExecution
+	// Either provide id of existing rule, or rule specification
+
+	// Fields of oneof Rule:
+	Id *string
+	// Note: Rule ID and expiration date are not used in the trigger request.
+	Spec *v121.WorkflowRuleSpec
+	// -- end of Rule
+	// The identity of the client who initiated this request
+	Identity string
+}
+
+func (b0 TriggerWorkflowRuleRequest_builder) Build() *TriggerWorkflowRuleRequest {
+	m0 := &TriggerWorkflowRuleRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	if b.Id != nil {
+		x.Rule = &TriggerWorkflowRuleRequest_Id{*b.Id}
+	}
+	if b.Spec != nil {
+		x.Rule = &TriggerWorkflowRuleRequest_Spec{b.Spec}
+	}
+	x.Identity = b.Identity
+	return m0
+}
+
+type case_TriggerWorkflowRuleRequest_Rule protoreflect.FieldNumber
+
+func (x case_TriggerWorkflowRuleRequest_Rule) String() string {
+	switch x {
+	case TriggerWorkflowRuleRequest_Rule_not_set_case:
+		return "TriggerWorkflowRuleRequestRuleNotSetCase"
+	case TriggerWorkflowRuleRequest_Id_case:
+		return "TriggerWorkflowRuleRequestIdCase"
+	case TriggerWorkflowRuleRequest_Spec_case:
+		return "TriggerWorkflowRuleRequestSpecCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isTriggerWorkflowRuleRequest_Rule interface {
 	isTriggerWorkflowRuleRequest_Rule()
 }
@@ -13475,7 +23742,7 @@ func (*TriggerWorkflowRuleRequest_Id) isTriggerWorkflowRuleRequest_Rule() {}
 func (*TriggerWorkflowRuleRequest_Spec) isTriggerWorkflowRuleRequest_Rule() {}
 
 type TriggerWorkflowRuleResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// True is the rule was applied, based on the rule conditions (predicate/visibility_query).
 	Applied       bool `protobuf:"varint,1,opt,name=applied,proto3" json:"applied,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -13507,11 +23774,6 @@ func (x *TriggerWorkflowRuleResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TriggerWorkflowRuleResponse.ProtoReflect.Descriptor instead.
-func (*TriggerWorkflowRuleResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{175}
-}
-
 func (x *TriggerWorkflowRuleResponse) GetApplied() bool {
 	if x != nil {
 		return x.Applied
@@ -13519,8 +23781,27 @@ func (x *TriggerWorkflowRuleResponse) GetApplied() bool {
 	return false
 }
 
+func (x *TriggerWorkflowRuleResponse) SetApplied(v bool) {
+	x.Applied = v
+}
+
+type TriggerWorkflowRuleResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// True is the rule was applied, based on the rule conditions (predicate/visibility_query).
+	Applied bool
+}
+
+func (b0 TriggerWorkflowRuleResponse_builder) Build() *TriggerWorkflowRuleResponse {
+	m0 := &TriggerWorkflowRuleResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Applied = b.Applied
+	return m0
+}
+
 type RecordWorkerHeartbeatRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace this worker belongs to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
@@ -13555,11 +23836,6 @@ func (x *RecordWorkerHeartbeatRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RecordWorkerHeartbeatRequest.ProtoReflect.Descriptor instead.
-func (*RecordWorkerHeartbeatRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{176}
-}
-
 func (x *RecordWorkerHeartbeatRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -13581,8 +23857,40 @@ func (x *RecordWorkerHeartbeatRequest) GetWorkerHeartbeat() []*v114.WorkerHeartb
 	return nil
 }
 
+func (x *RecordWorkerHeartbeatRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RecordWorkerHeartbeatRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RecordWorkerHeartbeatRequest) SetWorkerHeartbeat(v []*v114.WorkerHeartbeat) {
+	x.WorkerHeartbeat = v
+}
+
+type RecordWorkerHeartbeatRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace this worker belongs to.
+	Namespace string
+	// The identity of the client who initiated this request.
+	Identity        string
+	WorkerHeartbeat []*v114.WorkerHeartbeat
+}
+
+func (b0 RecordWorkerHeartbeatRequest_builder) Build() *RecordWorkerHeartbeatRequest {
+	m0 := &RecordWorkerHeartbeatRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Identity = b.Identity
+	x.WorkerHeartbeat = b.WorkerHeartbeat
+	return m0
+}
+
 type RecordWorkerHeartbeatResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -13612,13 +23920,20 @@ func (x *RecordWorkerHeartbeatResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RecordWorkerHeartbeatResponse.ProtoReflect.Descriptor instead.
-func (*RecordWorkerHeartbeatResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{177}
+type RecordWorkerHeartbeatResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RecordWorkerHeartbeatResponse_builder) Build() *RecordWorkerHeartbeatResponse {
+	m0 := &RecordWorkerHeartbeatResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListWorkersRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -13666,11 +23981,6 @@ func (x *ListWorkersRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWorkersRequest.ProtoReflect.Descriptor instead.
-func (*ListWorkersRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{178}
-}
-
 func (x *ListWorkersRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -13699,8 +24009,61 @@ func (x *ListWorkersRequest) GetQuery() string {
 	return ""
 }
 
+func (x *ListWorkersRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListWorkersRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListWorkersRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListWorkersRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+type ListWorkersRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace     string
+	PageSize      int32
+	NextPageToken []byte
+	// `query` in ListWorkers is used to filter workers based on worker status info.
+	// The following worker status attributes are expected are supported as part of the query:
+	// * WorkerInstanceKey
+	// * WorkerIdentity
+	// * HostName
+	// * TaskQueue
+	// * DeploymentName
+	// * BuildId
+	// * SdkName
+	// * SdkVersion
+	// * StartTime
+	// * LastHeartbeatTime
+	// * Status
+	// Currently metrics are not supported as a part of ListWorkers query.
+	Query string
+}
+
+func (b0 ListWorkersRequest_builder) Build() *ListWorkersRequest {
+	m0 := &ListWorkersRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	x.Query = b.Query
+	return m0
+}
+
 type ListWorkersResponse struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
+	state       protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkersInfo []*v114.WorkerInfo     `protobuf:"bytes,1,rep,name=workers_info,json=workersInfo,proto3" json:"workers_info,omitempty"`
 	// Next page token
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -13733,11 +24096,6 @@ func (x *ListWorkersResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListWorkersResponse.ProtoReflect.Descriptor instead.
-func (*ListWorkersResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{179}
-}
-
 func (x *ListWorkersResponse) GetWorkersInfo() []*v114.WorkerInfo {
 	if x != nil {
 		return x.WorkersInfo
@@ -13752,8 +24110,36 @@ func (x *ListWorkersResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListWorkersResponse) SetWorkersInfo(v []*v114.WorkerInfo) {
+	x.WorkersInfo = v
+}
+
+func (x *ListWorkersResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListWorkersResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkersInfo []*v114.WorkerInfo
+	// Next page token
+	NextPageToken []byte
+}
+
+func (b0 ListWorkersResponse_builder) Build() *ListWorkersResponse {
+	m0 := &ListWorkersResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkersInfo = b.WorkersInfo
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type UpdateTaskQueueConfigRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Identity  string                 `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Selects the task queue to update.
@@ -13802,11 +24188,6 @@ func (x *UpdateTaskQueueConfigRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateTaskQueueConfigRequest.ProtoReflect.Descriptor instead.
-func (*UpdateTaskQueueConfigRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{180}
 }
 
 func (x *UpdateTaskQueueConfigRequest) GetNamespace() string {
@@ -13865,8 +24246,103 @@ func (x *UpdateTaskQueueConfigRequest) GetUnsetFairnessWeightOverrides() []strin
 	return nil
 }
 
+func (x *UpdateTaskQueueConfigRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UpdateTaskQueueConfigRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *UpdateTaskQueueConfigRequest) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *UpdateTaskQueueConfigRequest) SetTaskQueueType(v v11.TaskQueueType) {
+	x.TaskQueueType = v
+}
+
+func (x *UpdateTaskQueueConfigRequest) SetUpdateQueueRateLimit(v *UpdateTaskQueueConfigRequest_RateLimitUpdate) {
+	x.UpdateQueueRateLimit = v
+}
+
+func (x *UpdateTaskQueueConfigRequest) SetUpdateFairnessKeyRateLimitDefault(v *UpdateTaskQueueConfigRequest_RateLimitUpdate) {
+	x.UpdateFairnessKeyRateLimitDefault = v
+}
+
+func (x *UpdateTaskQueueConfigRequest) SetSetFairnessWeightOverrides(v map[string]float32) {
+	x.SetFairnessWeightOverrides = v
+}
+
+func (x *UpdateTaskQueueConfigRequest) SetUnsetFairnessWeightOverrides(v []string) {
+	x.UnsetFairnessWeightOverrides = v
+}
+
+func (x *UpdateTaskQueueConfigRequest) HasUpdateQueueRateLimit() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateQueueRateLimit != nil
+}
+
+func (x *UpdateTaskQueueConfigRequest) HasUpdateFairnessKeyRateLimitDefault() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateFairnessKeyRateLimitDefault != nil
+}
+
+func (x *UpdateTaskQueueConfigRequest) ClearUpdateQueueRateLimit() {
+	x.UpdateQueueRateLimit = nil
+}
+
+func (x *UpdateTaskQueueConfigRequest) ClearUpdateFairnessKeyRateLimitDefault() {
+	x.UpdateFairnessKeyRateLimitDefault = nil
+}
+
+type UpdateTaskQueueConfigRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	Identity  string
+	// Selects the task queue to update.
+	TaskQueue     string
+	TaskQueueType v11.TaskQueueType
+	// Update to queue-wide rate limit.
+	// If not set, this configuration is unchanged.
+	// NOTE: A limit set by the worker is overriden; and restored again when reset.
+	// If the `rate_limit` field in the `RateLimitUpdate` is missing, remove the existing rate limit.
+	UpdateQueueRateLimit *UpdateTaskQueueConfigRequest_RateLimitUpdate
+	// Update to the default fairness key rate limit.
+	// If not set, this configuration is unchanged.
+	// If the `rate_limit` field in the `RateLimitUpdate` is missing, remove the existing rate limit.
+	UpdateFairnessKeyRateLimitDefault *UpdateTaskQueueConfigRequest_RateLimitUpdate
+	// If set, overrides the fairness weight for each specified fairness key.
+	// Fairness keys not listed in this map will keep their existing overrides (if any).
+	SetFairnessWeightOverrides map[string]float32
+	// If set, removes any existing fairness weight overrides for each specified fairness key.
+	// Fairness weights for corresponding keys fall back to the values set during task creation (if any),
+	// or to the default weight of 1.0.
+	UnsetFairnessWeightOverrides []string
+}
+
+func (b0 UpdateTaskQueueConfigRequest_builder) Build() *UpdateTaskQueueConfigRequest {
+	m0 := &UpdateTaskQueueConfigRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Identity = b.Identity
+	x.TaskQueue = b.TaskQueue
+	x.TaskQueueType = b.TaskQueueType
+	x.UpdateQueueRateLimit = b.UpdateQueueRateLimit
+	x.UpdateFairnessKeyRateLimitDefault = b.UpdateFairnessKeyRateLimitDefault
+	x.SetFairnessWeightOverrides = b.SetFairnessWeightOverrides
+	x.UnsetFairnessWeightOverrides = b.UnsetFairnessWeightOverrides
+	return m0
+}
+
 type UpdateTaskQueueConfigResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Config        *v14.TaskQueueConfig   `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -13897,11 +24373,6 @@ func (x *UpdateTaskQueueConfigResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateTaskQueueConfigResponse.ProtoReflect.Descriptor instead.
-func (*UpdateTaskQueueConfigResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{181}
-}
-
 func (x *UpdateTaskQueueConfigResponse) GetConfig() *v14.TaskQueueConfig {
 	if x != nil {
 		return x.Config
@@ -13909,8 +24380,37 @@ func (x *UpdateTaskQueueConfigResponse) GetConfig() *v14.TaskQueueConfig {
 	return nil
 }
 
+func (x *UpdateTaskQueueConfigResponse) SetConfig(v *v14.TaskQueueConfig) {
+	x.Config = v
+}
+
+func (x *UpdateTaskQueueConfigResponse) HasConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.Config != nil
+}
+
+func (x *UpdateTaskQueueConfigResponse) ClearConfig() {
+	x.Config = nil
+}
+
+type UpdateTaskQueueConfigResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Config *v14.TaskQueueConfig
+}
+
+func (b0 UpdateTaskQueueConfigResponse_builder) Build() *UpdateTaskQueueConfigResponse {
+	m0 := &UpdateTaskQueueConfigResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Config = b.Config
+	return m0
+}
+
 type FetchWorkerConfigRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace this worker belongs to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
@@ -13949,11 +24449,6 @@ func (x *FetchWorkerConfigRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FetchWorkerConfigRequest.ProtoReflect.Descriptor instead.
-func (*FetchWorkerConfigRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{182}
-}
-
 func (x *FetchWorkerConfigRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -13982,8 +24477,60 @@ func (x *FetchWorkerConfigRequest) GetSelector() *v13.WorkerSelector {
 	return nil
 }
 
+func (x *FetchWorkerConfigRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *FetchWorkerConfigRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *FetchWorkerConfigRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *FetchWorkerConfigRequest) SetSelector(v *v13.WorkerSelector) {
+	x.Selector = v
+}
+
+func (x *FetchWorkerConfigRequest) HasSelector() bool {
+	if x == nil {
+		return false
+	}
+	return x.Selector != nil
+}
+
+func (x *FetchWorkerConfigRequest) ClearSelector() {
+	x.Selector = nil
+}
+
+type FetchWorkerConfigRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace this worker belongs to.
+	Namespace string
+	// The identity of the client who initiated this request.
+	Identity string
+	// Reason for sending worker command, can be used for audit purpose.
+	Reason string
+	// Defines which workers should receive this command.
+	// only single worker is supported at this time.
+	Selector *v13.WorkerSelector
+}
+
+func (b0 FetchWorkerConfigRequest_builder) Build() *FetchWorkerConfigRequest {
+	m0 := &FetchWorkerConfigRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	x.Selector = b.Selector
+	return m0
+}
+
 type FetchWorkerConfigResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The worker configuration.
 	WorkerConfig  *v16.WorkerConfig `protobuf:"bytes,1,opt,name=worker_config,json=workerConfig,proto3" json:"worker_config,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -14015,11 +24562,6 @@ func (x *FetchWorkerConfigResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FetchWorkerConfigResponse.ProtoReflect.Descriptor instead.
-func (*FetchWorkerConfigResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{183}
-}
-
 func (x *FetchWorkerConfigResponse) GetWorkerConfig() *v16.WorkerConfig {
 	if x != nil {
 		return x.WorkerConfig
@@ -14027,8 +24569,38 @@ func (x *FetchWorkerConfigResponse) GetWorkerConfig() *v16.WorkerConfig {
 	return nil
 }
 
+func (x *FetchWorkerConfigResponse) SetWorkerConfig(v *v16.WorkerConfig) {
+	x.WorkerConfig = v
+}
+
+func (x *FetchWorkerConfigResponse) HasWorkerConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerConfig != nil
+}
+
+func (x *FetchWorkerConfigResponse) ClearWorkerConfig() {
+	x.WorkerConfig = nil
+}
+
+type FetchWorkerConfigResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The worker configuration.
+	WorkerConfig *v16.WorkerConfig
+}
+
+func (b0 FetchWorkerConfigResponse_builder) Build() *FetchWorkerConfigResponse {
+	m0 := &FetchWorkerConfigResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkerConfig = b.WorkerConfig
+	return m0
+}
+
 type UpdateWorkerConfigRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace this worker belongs to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request.
@@ -14069,11 +24641,6 @@ func (x *UpdateWorkerConfigRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateWorkerConfigRequest.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerConfigRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{184}
 }
 
 func (x *UpdateWorkerConfigRequest) GetNamespace() string {
@@ -14118,8 +24685,96 @@ func (x *UpdateWorkerConfigRequest) GetSelector() *v13.WorkerSelector {
 	return nil
 }
 
+func (x *UpdateWorkerConfigRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UpdateWorkerConfigRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *UpdateWorkerConfigRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *UpdateWorkerConfigRequest) SetWorkerConfig(v *v16.WorkerConfig) {
+	x.WorkerConfig = v
+}
+
+func (x *UpdateWorkerConfigRequest) SetUpdateMask(v *fieldmaskpb.FieldMask) {
+	x.UpdateMask = v
+}
+
+func (x *UpdateWorkerConfigRequest) SetSelector(v *v13.WorkerSelector) {
+	x.Selector = v
+}
+
+func (x *UpdateWorkerConfigRequest) HasWorkerConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerConfig != nil
+}
+
+func (x *UpdateWorkerConfigRequest) HasUpdateMask() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateMask != nil
+}
+
+func (x *UpdateWorkerConfigRequest) HasSelector() bool {
+	if x == nil {
+		return false
+	}
+	return x.Selector != nil
+}
+
+func (x *UpdateWorkerConfigRequest) ClearWorkerConfig() {
+	x.WorkerConfig = nil
+}
+
+func (x *UpdateWorkerConfigRequest) ClearUpdateMask() {
+	x.UpdateMask = nil
+}
+
+func (x *UpdateWorkerConfigRequest) ClearSelector() {
+	x.Selector = nil
+}
+
+type UpdateWorkerConfigRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace this worker belongs to.
+	Namespace string
+	// The identity of the client who initiated this request.
+	Identity string
+	// Reason for sending worker command, can be used for audit purpose.
+	Reason string
+	// Partial updates are accepted and controlled by update_mask.
+	// The worker configuration to set.
+	WorkerConfig *v16.WorkerConfig
+	// Controls which fields from `worker_config` will be applied
+	UpdateMask *fieldmaskpb.FieldMask
+	// Defines which workers should receive this command.
+	Selector *v13.WorkerSelector
+}
+
+func (b0 UpdateWorkerConfigRequest_builder) Build() *UpdateWorkerConfigRequest {
+	m0 := &UpdateWorkerConfigRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	x.WorkerConfig = b.WorkerConfig
+	x.UpdateMask = b.UpdateMask
+	x.Selector = b.Selector
+	return m0
+}
+
 type UpdateWorkerConfigResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Response:
 	//
 	//	*UpdateWorkerConfigResponse_WorkerConfig
@@ -14153,11 +24808,6 @@ func (x *UpdateWorkerConfigResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerConfigResponse.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerConfigResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{185}
-}
-
 func (x *UpdateWorkerConfigResponse) GetResponse() isUpdateWorkerConfigResponse_Response {
 	if x != nil {
 		return x.Response
@@ -14174,6 +24824,87 @@ func (x *UpdateWorkerConfigResponse) GetWorkerConfig() *v16.WorkerConfig {
 	return nil
 }
 
+func (x *UpdateWorkerConfigResponse) SetWorkerConfig(v *v16.WorkerConfig) {
+	if v == nil {
+		x.Response = nil
+		return
+	}
+	x.Response = &UpdateWorkerConfigResponse_WorkerConfig{v}
+}
+
+func (x *UpdateWorkerConfigResponse) HasResponse() bool {
+	if x == nil {
+		return false
+	}
+	return x.Response != nil
+}
+
+func (x *UpdateWorkerConfigResponse) HasWorkerConfig() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Response.(*UpdateWorkerConfigResponse_WorkerConfig)
+	return ok
+}
+
+func (x *UpdateWorkerConfigResponse) ClearResponse() {
+	x.Response = nil
+}
+
+func (x *UpdateWorkerConfigResponse) ClearWorkerConfig() {
+	if _, ok := x.Response.(*UpdateWorkerConfigResponse_WorkerConfig); ok {
+		x.Response = nil
+	}
+}
+
+const UpdateWorkerConfigResponse_Response_not_set_case case_UpdateWorkerConfigResponse_Response = 0
+const UpdateWorkerConfigResponse_WorkerConfig_case case_UpdateWorkerConfigResponse_Response = 1
+
+func (x *UpdateWorkerConfigResponse) WhichResponse() case_UpdateWorkerConfigResponse_Response {
+	if x == nil {
+		return UpdateWorkerConfigResponse_Response_not_set_case
+	}
+	switch x.Response.(type) {
+	case *UpdateWorkerConfigResponse_WorkerConfig:
+		return UpdateWorkerConfigResponse_WorkerConfig_case
+	default:
+		return UpdateWorkerConfigResponse_Response_not_set_case
+	}
+}
+
+type UpdateWorkerConfigResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Response:
+	// The worker configuration. Will be returned if the command was sent to a single worker.
+	WorkerConfig *v16.WorkerConfig
+	// -- end of Response
+}
+
+func (b0 UpdateWorkerConfigResponse_builder) Build() *UpdateWorkerConfigResponse {
+	m0 := &UpdateWorkerConfigResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.WorkerConfig != nil {
+		x.Response = &UpdateWorkerConfigResponse_WorkerConfig{b.WorkerConfig}
+	}
+	return m0
+}
+
+type case_UpdateWorkerConfigResponse_Response protoreflect.FieldNumber
+
+func (x case_UpdateWorkerConfigResponse_Response) String() string {
+	switch x {
+	case UpdateWorkerConfigResponse_Response_not_set_case:
+		return "UpdateWorkerConfigResponseResponseNotSetCase"
+	case UpdateWorkerConfigResponse_WorkerConfig_case:
+		return "UpdateWorkerConfigResponseWorkerConfigCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isUpdateWorkerConfigResponse_Response interface {
 	isUpdateWorkerConfigResponse_Response()
 }
@@ -14186,7 +24917,7 @@ type UpdateWorkerConfigResponse_WorkerConfig struct {
 func (*UpdateWorkerConfigResponse_WorkerConfig) isUpdateWorkerConfigResponse_Response() {}
 
 type DescribeWorkerRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace this worker belongs to.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Worker instance key to describe.
@@ -14220,11 +24951,6 @@ func (x *DescribeWorkerRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkerRequest.ProtoReflect.Descriptor instead.
-func (*DescribeWorkerRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{186}
-}
-
 func (x *DescribeWorkerRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -14239,8 +24965,34 @@ func (x *DescribeWorkerRequest) GetWorkerInstanceKey() string {
 	return ""
 }
 
+func (x *DescribeWorkerRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeWorkerRequest) SetWorkerInstanceKey(v string) {
+	x.WorkerInstanceKey = v
+}
+
+type DescribeWorkerRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace this worker belongs to.
+	Namespace string
+	// Worker instance key to describe.
+	WorkerInstanceKey string
+}
+
+func (b0 DescribeWorkerRequest_builder) Build() *DescribeWorkerRequest {
+	m0 := &DescribeWorkerRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkerInstanceKey = b.WorkerInstanceKey
+	return m0
+}
+
 type DescribeWorkerResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkerInfo    *v114.WorkerInfo       `protobuf:"bytes,1,opt,name=worker_info,json=workerInfo,proto3" json:"worker_info,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -14271,11 +25023,6 @@ func (x *DescribeWorkerResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkerResponse.ProtoReflect.Descriptor instead.
-func (*DescribeWorkerResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{187}
-}
-
 func (x *DescribeWorkerResponse) GetWorkerInfo() *v114.WorkerInfo {
 	if x != nil {
 		return x.WorkerInfo
@@ -14283,9 +25030,38 @@ func (x *DescribeWorkerResponse) GetWorkerInfo() *v114.WorkerInfo {
 	return nil
 }
 
+func (x *DescribeWorkerResponse) SetWorkerInfo(v *v114.WorkerInfo) {
+	x.WorkerInfo = v
+}
+
+func (x *DescribeWorkerResponse) HasWorkerInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerInfo != nil
+}
+
+func (x *DescribeWorkerResponse) ClearWorkerInfo() {
+	x.WorkerInfo = nil
+}
+
+type DescribeWorkerResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkerInfo *v114.WorkerInfo
+}
+
+func (b0 DescribeWorkerResponse_builder) Build() *DescribeWorkerResponse {
+	m0 := &DescribeWorkerResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkerInfo = b.WorkerInfo
+	return m0
+}
+
 // Request to pause a workflow execution.
 type PauseWorkflowExecutionRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow to pause.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// ID of the workflow execution to be paused. Required.
@@ -14325,11 +25101,6 @@ func (x *PauseWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PauseWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*PauseWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{188}
 }
 
 func (x *PauseWorkflowExecutionRequest) GetNamespace() string {
@@ -14374,9 +25145,63 @@ func (x *PauseWorkflowExecutionRequest) GetRequestId() string {
 	return ""
 }
 
+func (x *PauseWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *PauseWorkflowExecutionRequest) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *PauseWorkflowExecutionRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *PauseWorkflowExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PauseWorkflowExecutionRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *PauseWorkflowExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+type PauseWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow to pause.
+	Namespace string
+	// ID of the workflow execution to be paused. Required.
+	WorkflowId string
+	// Run ID of the workflow execution to be paused. Optional. If not provided, the current run of the workflow will be paused.
+	RunId string
+	// The identity of the client who initiated this request.
+	Identity string
+	// Reason to pause the workflow execution.
+	Reason string
+	// A unique identifier for this pause request for idempotence. Typically UUIDv4.
+	RequestId string
+}
+
+func (b0 PauseWorkflowExecutionRequest_builder) Build() *PauseWorkflowExecutionRequest {
+	m0 := &PauseWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	x.RequestId = b.RequestId
+	return m0
+}
+
 // Response to a successful PauseWorkflowExecution request.
 type PauseWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -14406,13 +25231,20 @@ func (x *PauseWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PauseWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*PauseWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{189}
+type PauseWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 PauseWorkflowExecutionResponse_builder) Build() *PauseWorkflowExecutionResponse {
+	m0 := &PauseWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type UnpauseWorkflowExecutionRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the workflow to unpause.
 	Namespace string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// ID of the workflow execution to be paused. Required.
@@ -14452,11 +25284,6 @@ func (x *UnpauseWorkflowExecutionRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UnpauseWorkflowExecutionRequest.ProtoReflect.Descriptor instead.
-func (*UnpauseWorkflowExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{190}
 }
 
 func (x *UnpauseWorkflowExecutionRequest) GetNamespace() string {
@@ -14501,9 +25328,63 @@ func (x *UnpauseWorkflowExecutionRequest) GetRequestId() string {
 	return ""
 }
 
+func (x *UnpauseWorkflowExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *UnpauseWorkflowExecutionRequest) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *UnpauseWorkflowExecutionRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *UnpauseWorkflowExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *UnpauseWorkflowExecutionRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *UnpauseWorkflowExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+type UnpauseWorkflowExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the workflow to unpause.
+	Namespace string
+	// ID of the workflow execution to be paused. Required.
+	WorkflowId string
+	// Run ID of the workflow execution to be paused. Optional. If not provided, the current run of the workflow will be paused.
+	RunId string
+	// The identity of the client who initiated this request.
+	Identity string
+	// Reason to unpause the workflow execution.
+	Reason string
+	// A unique identifier for this unpause request for idempotence. Typically UUIDv4.
+	RequestId string
+}
+
+func (b0 UnpauseWorkflowExecutionRequest_builder) Build() *UnpauseWorkflowExecutionRequest {
+	m0 := &UnpauseWorkflowExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	x.RequestId = b.RequestId
+	return m0
+}
+
 // Response to a successful UnpauseWorkflowExecution request.
 type UnpauseWorkflowExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -14533,13 +25414,20 @@ func (x *UnpauseWorkflowExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UnpauseWorkflowExecutionResponse.ProtoReflect.Descriptor instead.
-func (*UnpauseWorkflowExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{191}
+type UnpauseWorkflowExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 UnpauseWorkflowExecutionResponse_builder) Build() *UnpauseWorkflowExecutionResponse {
+	m0 := &UnpauseWorkflowExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type StartActivityExecutionRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// The identity of the client who initiated this request
 	Identity string `protobuf:"bytes,2,opt,name=identity,proto3" json:"identity,omitempty"`
@@ -14623,11 +25511,6 @@ func (x *StartActivityExecutionRequest) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StartActivityExecutionRequest.ProtoReflect.Descriptor instead.
-func (*StartActivityExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{192}
 }
 
 func (x *StartActivityExecutionRequest) GetNamespace() string {
@@ -14756,8 +25639,298 @@ func (x *StartActivityExecutionRequest) GetPriority() *v13.Priority {
 	return nil
 }
 
+func (x *StartActivityExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *StartActivityExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *StartActivityExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *StartActivityExecutionRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *StartActivityExecutionRequest) SetActivityType(v *v13.ActivityType) {
+	x.ActivityType = v
+}
+
+func (x *StartActivityExecutionRequest) SetTaskQueue(v *v14.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *StartActivityExecutionRequest) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *StartActivityExecutionRequest) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *StartActivityExecutionRequest) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *StartActivityExecutionRequest) SetHeartbeatTimeout(v *durationpb.Duration) {
+	x.HeartbeatTimeout = v
+}
+
+func (x *StartActivityExecutionRequest) SetRetryPolicy(v *v13.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *StartActivityExecutionRequest) SetInput(v *v13.Payloads) {
+	x.Input = v
+}
+
+func (x *StartActivityExecutionRequest) SetIdReusePolicy(v v11.ActivityIdReusePolicy) {
+	x.IdReusePolicy = v
+}
+
+func (x *StartActivityExecutionRequest) SetIdConflictPolicy(v v11.ActivityIdConflictPolicy) {
+	x.IdConflictPolicy = v
+}
+
+func (x *StartActivityExecutionRequest) SetSearchAttributes(v *v13.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *StartActivityExecutionRequest) SetHeader(v *v13.Header) {
+	x.Header = v
+}
+
+func (x *StartActivityExecutionRequest) SetUserMetadata(v *v16.UserMetadata) {
+	x.UserMetadata = v
+}
+
+func (x *StartActivityExecutionRequest) SetPriority(v *v13.Priority) {
+	x.Priority = v
+}
+
+func (x *StartActivityExecutionRequest) HasActivityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityType != nil
+}
+
+func (x *StartActivityExecutionRequest) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *StartActivityExecutionRequest) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *StartActivityExecutionRequest) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *StartActivityExecutionRequest) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *StartActivityExecutionRequest) HasHeartbeatTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatTimeout != nil
+}
+
+func (x *StartActivityExecutionRequest) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *StartActivityExecutionRequest) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *StartActivityExecutionRequest) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *StartActivityExecutionRequest) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *StartActivityExecutionRequest) HasUserMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UserMetadata != nil
+}
+
+func (x *StartActivityExecutionRequest) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *StartActivityExecutionRequest) ClearActivityType() {
+	x.ActivityType = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearHeartbeatTimeout() {
+	x.HeartbeatTimeout = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearInput() {
+	x.Input = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearUserMetadata() {
+	x.UserMetadata = nil
+}
+
+func (x *StartActivityExecutionRequest) ClearPriority() {
+	x.Priority = nil
+}
+
+type StartActivityExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// The identity of the client who initiated this request
+	Identity string
+	// A unique identifier for this start request. Typically UUIDv4.
+	RequestId string
+	// Identifier for this activity. Required. This identifier should be meaningful in the user's
+	// own system. It must be unique among activities in the same namespace, subject to the rules
+	// imposed by id_reuse_policy and id_conflict_policy.
+	ActivityId string
+	// The type of the activity, a string that corresponds to a registered activity on a worker.
+	ActivityType *v13.ActivityType
+	// Task queue to schedule this activity on.
+	TaskQueue *v14.TaskQueue
+	// Indicates how long the caller is willing to wait for an activity completion. Limits how long
+	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// Limits time an activity task can stay in a task queue before a worker picks it up. This
+	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
+	// queue. Defaults to `schedule_to_close_timeout` if not specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToStartTimeout *durationpb.Duration
+	// Maximum time an activity is allowed to execute after being picked up by a worker. This
+	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be
+	// specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+	// Maximum permitted time between successful worker heartbeats.
+	HeartbeatTimeout *durationpb.Duration
+	// The retry policy for the activity. Will never exceed `schedule_to_close_timeout`.
+	RetryPolicy *v13.RetryPolicy
+	// Serialized arguments to the activity. These are passed as arguments to the activity function.
+	Input *v13.Payloads
+	// Defines whether to allow re-using the activity id from a previously *closed* activity.
+	// The default policy is ACTIVITY_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	IdReusePolicy v11.ActivityIdReusePolicy
+	// Defines how to resolve an activity id conflict with a *running* activity.
+	// The default policy is ACTIVITY_ID_CONFLICT_POLICY_FAIL.
+	IdConflictPolicy v11.ActivityIdConflictPolicy
+	// Search attributes for indexing.
+	SearchAttributes *v13.SearchAttributes
+	// Header for context propagation and tracing purposes.
+	Header *v13.Header
+	// Metadata for use by user interfaces to display the fixed as-of-start summary and details of the activity.
+	UserMetadata *v16.UserMetadata
+	// Priority metadata.
+	Priority *v13.Priority
+}
+
+func (b0 StartActivityExecutionRequest_builder) Build() *StartActivityExecutionRequest {
+	m0 := &StartActivityExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.ActivityId = b.ActivityId
+	x.ActivityType = b.ActivityType
+	x.TaskQueue = b.TaskQueue
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	x.HeartbeatTimeout = b.HeartbeatTimeout
+	x.RetryPolicy = b.RetryPolicy
+	x.Input = b.Input
+	x.IdReusePolicy = b.IdReusePolicy
+	x.IdConflictPolicy = b.IdConflictPolicy
+	x.SearchAttributes = b.SearchAttributes
+	x.Header = b.Header
+	x.UserMetadata = b.UserMetadata
+	x.Priority = b.Priority
+	return m0
+}
+
 type StartActivityExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The run ID of the activity that was started - or used (via ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING).
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// If true, a new activity was started.
@@ -14791,11 +25964,6 @@ func (x *StartActivityExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StartActivityExecutionResponse.ProtoReflect.Descriptor instead.
-func (*StartActivityExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{193}
-}
-
 func (x *StartActivityExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
@@ -14810,8 +25978,34 @@ func (x *StartActivityExecutionResponse) GetStarted() bool {
 	return false
 }
 
+func (x *StartActivityExecutionResponse) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *StartActivityExecutionResponse) SetStarted(v bool) {
+	x.Started = v
+}
+
+type StartActivityExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The run ID of the activity that was started - or used (via ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING).
+	RunId string
+	// If true, a new activity was started.
+	Started bool
+}
+
+func (b0 StartActivityExecutionResponse_builder) Build() *StartActivityExecutionResponse {
+	m0 := &StartActivityExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RunId = b.RunId
+	x.Started = b.Started
+	return m0
+}
+
 type DescribeActivityExecutionRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	ActivityId string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	// Activity run ID. If empty the request targets the latest run.
@@ -14856,11 +26050,6 @@ func (x *DescribeActivityExecutionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeActivityExecutionRequest.ProtoReflect.Descriptor instead.
-func (*DescribeActivityExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{194}
-}
-
 func (x *DescribeActivityExecutionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -14903,8 +26092,68 @@ func (x *DescribeActivityExecutionRequest) GetLongPollToken() []byte {
 	return nil
 }
 
+func (x *DescribeActivityExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DescribeActivityExecutionRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *DescribeActivityExecutionRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *DescribeActivityExecutionRequest) SetIncludeInput(v bool) {
+	x.IncludeInput = v
+}
+
+func (x *DescribeActivityExecutionRequest) SetIncludeOutcome(v bool) {
+	x.IncludeOutcome = v
+}
+
+func (x *DescribeActivityExecutionRequest) SetLongPollToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.LongPollToken = v
+}
+
+type DescribeActivityExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	ActivityId string
+	// Activity run ID. If empty the request targets the latest run.
+	RunId string
+	// Include the input field in the response.
+	IncludeInput bool
+	// Include the outcome (result/failure) in the response if the activity has completed.
+	IncludeOutcome bool
+	// Token from a previous DescribeActivityExecutionResponse. If present, long-poll until activity
+	// state changes from the state encoded in this token. If absent, return current state immediately.
+	// If present, run_id must also be present.
+	// Note that activity state may change multiple times between requests, therefore it is not
+	// guaranteed that a client making a sequence of long-poll requests will see a complete
+	// sequence of state changes.
+	LongPollToken []byte
+}
+
+func (b0 DescribeActivityExecutionRequest_builder) Build() *DescribeActivityExecutionRequest {
+	m0 := &DescribeActivityExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ActivityId = b.ActivityId
+	x.RunId = b.RunId
+	x.IncludeInput = b.IncludeInput
+	x.IncludeOutcome = b.IncludeOutcome
+	x.LongPollToken = b.LongPollToken
+	return m0
+}
+
 type DescribeActivityExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The run ID of the activity, useful when run_id was not specified in the request.
 	RunId string `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	// Information about the activity execution.
@@ -14945,11 +26194,6 @@ func (x *DescribeActivityExecutionResponse) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeActivityExecutionResponse.ProtoReflect.Descriptor instead.
-func (*DescribeActivityExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{195}
-}
-
 func (x *DescribeActivityExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
@@ -14985,8 +26229,92 @@ func (x *DescribeActivityExecutionResponse) GetLongPollToken() []byte {
 	return nil
 }
 
+func (x *DescribeActivityExecutionResponse) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *DescribeActivityExecutionResponse) SetInfo(v *v120.ActivityExecutionInfo) {
+	x.Info = v
+}
+
+func (x *DescribeActivityExecutionResponse) SetInput(v *v13.Payloads) {
+	x.Input = v
+}
+
+func (x *DescribeActivityExecutionResponse) SetOutcome(v *v120.ActivityExecutionOutcome) {
+	x.Outcome = v
+}
+
+func (x *DescribeActivityExecutionResponse) SetLongPollToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.LongPollToken = v
+}
+
+func (x *DescribeActivityExecutionResponse) HasInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Info != nil
+}
+
+func (x *DescribeActivityExecutionResponse) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *DescribeActivityExecutionResponse) HasOutcome() bool {
+	if x == nil {
+		return false
+	}
+	return x.Outcome != nil
+}
+
+func (x *DescribeActivityExecutionResponse) ClearInfo() {
+	x.Info = nil
+}
+
+func (x *DescribeActivityExecutionResponse) ClearInput() {
+	x.Input = nil
+}
+
+func (x *DescribeActivityExecutionResponse) ClearOutcome() {
+	x.Outcome = nil
+}
+
+type DescribeActivityExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The run ID of the activity, useful when run_id was not specified in the request.
+	RunId string
+	// Information about the activity execution.
+	Info *v120.ActivityExecutionInfo
+	// Serialized activity input, passed as arguments to the activity function.
+	// Only set if include_input was true in the request.
+	Input *v13.Payloads
+	// Only set if the activity is completed and include_outcome was true in the request.
+	Outcome *v120.ActivityExecutionOutcome
+	// Token for follow-on long-poll requests. Absent only if the activity is complete.
+	LongPollToken []byte
+}
+
+func (b0 DescribeActivityExecutionResponse_builder) Build() *DescribeActivityExecutionResponse {
+	m0 := &DescribeActivityExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RunId = b.RunId
+	x.Info = b.Info
+	x.Input = b.Input
+	x.Outcome = b.Outcome
+	x.LongPollToken = b.LongPollToken
+	return m0
+}
+
 type PollActivityExecutionRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	ActivityId string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	// Activity run ID. If empty the request targets the latest run.
@@ -15020,11 +26348,6 @@ func (x *PollActivityExecutionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PollActivityExecutionRequest.ProtoReflect.Descriptor instead.
-func (*PollActivityExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{196}
-}
-
 func (x *PollActivityExecutionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -15046,8 +26369,39 @@ func (x *PollActivityExecutionRequest) GetRunId() string {
 	return ""
 }
 
+func (x *PollActivityExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *PollActivityExecutionRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *PollActivityExecutionRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+type PollActivityExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	ActivityId string
+	// Activity run ID. If empty the request targets the latest run.
+	RunId string
+}
+
+func (b0 PollActivityExecutionRequest_builder) Build() *PollActivityExecutionRequest {
+	m0 := &PollActivityExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ActivityId = b.ActivityId
+	x.RunId = b.RunId
+	return m0
+}
+
 type PollActivityExecutionResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The run ID of the activity, useful when run_id was not specified in the request.
 	RunId         string                         `protobuf:"bytes,1,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	Outcome       *v120.ActivityExecutionOutcome `protobuf:"bytes,2,opt,name=outcome,proto3" json:"outcome,omitempty"`
@@ -15080,11 +26434,6 @@ func (x *PollActivityExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PollActivityExecutionResponse.ProtoReflect.Descriptor instead.
-func (*PollActivityExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{197}
-}
-
 func (x *PollActivityExecutionResponse) GetRunId() string {
 	if x != nil {
 		return x.RunId
@@ -15099,8 +26448,44 @@ func (x *PollActivityExecutionResponse) GetOutcome() *v120.ActivityExecutionOutc
 	return nil
 }
 
+func (x *PollActivityExecutionResponse) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *PollActivityExecutionResponse) SetOutcome(v *v120.ActivityExecutionOutcome) {
+	x.Outcome = v
+}
+
+func (x *PollActivityExecutionResponse) HasOutcome() bool {
+	if x == nil {
+		return false
+	}
+	return x.Outcome != nil
+}
+
+func (x *PollActivityExecutionResponse) ClearOutcome() {
+	x.Outcome = nil
+}
+
+type PollActivityExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The run ID of the activity, useful when run_id was not specified in the request.
+	RunId   string
+	Outcome *v120.ActivityExecutionOutcome
+}
+
+func (b0 PollActivityExecutionResponse_builder) Build() *PollActivityExecutionResponse {
+	m0 := &PollActivityExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RunId = b.RunId
+	x.Outcome = b.Outcome
+	return m0
+}
+
 type ListActivityExecutionsRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Max number of executions to return per page.
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
@@ -15137,11 +26522,6 @@ func (x *ListActivityExecutionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListActivityExecutionsRequest.ProtoReflect.Descriptor instead.
-func (*ListActivityExecutionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{198}
-}
-
 func (x *ListActivityExecutionsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -15170,8 +26550,50 @@ func (x *ListActivityExecutionsRequest) GetQuery() string {
 	return ""
 }
 
+func (x *ListActivityExecutionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ListActivityExecutionsRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListActivityExecutionsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListActivityExecutionsRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+type ListActivityExecutionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Max number of executions to return per page.
+	PageSize int32
+	// Token returned in ListActivityExecutionsResponse.
+	NextPageToken []byte
+	// Visibility query, see https://docs.temporal.io/list-filter for the syntax.
+	Query string
+}
+
+func (b0 ListActivityExecutionsRequest_builder) Build() *ListActivityExecutionsRequest {
+	m0 := &ListActivityExecutionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	x.Query = b.Query
+	return m0
+}
+
 type ListActivityExecutionsResponse struct {
-	state      protoimpl.MessageState            `protogen:"open.v1"`
+	state      protoimpl.MessageState            `protogen:"hybrid.v1"`
 	Executions []*v120.ActivityExecutionListInfo `protobuf:"bytes,1,rep,name=executions,proto3" json:"executions,omitempty"`
 	// Token to use to fetch the next page. If empty, there is no next page.
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -15204,11 +26626,6 @@ func (x *ListActivityExecutionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListActivityExecutionsResponse.ProtoReflect.Descriptor instead.
-func (*ListActivityExecutionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{199}
-}
-
 func (x *ListActivityExecutionsResponse) GetExecutions() []*v120.ActivityExecutionListInfo {
 	if x != nil {
 		return x.Executions
@@ -15223,8 +26640,36 @@ func (x *ListActivityExecutionsResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListActivityExecutionsResponse) SetExecutions(v []*v120.ActivityExecutionListInfo) {
+	x.Executions = v
+}
+
+func (x *ListActivityExecutionsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListActivityExecutionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Executions []*v120.ActivityExecutionListInfo
+	// Token to use to fetch the next page. If empty, there is no next page.
+	NextPageToken []byte
+}
+
+func (b0 ListActivityExecutionsResponse_builder) Build() *ListActivityExecutionsResponse {
+	m0 := &ListActivityExecutionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Executions = b.Executions
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type CountActivityExecutionsRequest struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Visibility query, see https://docs.temporal.io/list-filter for the syntax.
 	Query         string `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
@@ -15257,11 +26702,6 @@ func (x *CountActivityExecutionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CountActivityExecutionsRequest.ProtoReflect.Descriptor instead.
-func (*CountActivityExecutionsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{200}
-}
-
 func (x *CountActivityExecutionsRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -15276,8 +26716,33 @@ func (x *CountActivityExecutionsRequest) GetQuery() string {
 	return ""
 }
 
+func (x *CountActivityExecutionsRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *CountActivityExecutionsRequest) SetQuery(v string) {
+	x.Query = v
+}
+
+type CountActivityExecutionsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Visibility query, see https://docs.temporal.io/list-filter for the syntax.
+	Query string
+}
+
+func (b0 CountActivityExecutionsRequest_builder) Build() *CountActivityExecutionsRequest {
+	m0 := &CountActivityExecutionsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Query = b.Query
+	return m0
+}
+
 type CountActivityExecutionsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// If `query` is not grouping by any field, the count is an approximate number
 	// of activities that match the query.
 	// If `query` is grouping by a field, the count is simply the sum of the counts
@@ -15316,11 +26781,6 @@ func (x *CountActivityExecutionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CountActivityExecutionsResponse.ProtoReflect.Descriptor instead.
-func (*CountActivityExecutionsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{201}
-}
-
 func (x *CountActivityExecutionsResponse) GetCount() int64 {
 	if x != nil {
 		return x.Count
@@ -15335,8 +26795,39 @@ func (x *CountActivityExecutionsResponse) GetGroups() []*CountActivityExecutions
 	return nil
 }
 
+func (x *CountActivityExecutionsResponse) SetCount(v int64) {
+	x.Count = v
+}
+
+func (x *CountActivityExecutionsResponse) SetGroups(v []*CountActivityExecutionsResponse_AggregationGroup) {
+	x.Groups = v
+}
+
+type CountActivityExecutionsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// If `query` is not grouping by any field, the count is an approximate number
+	// of activities that match the query.
+	// If `query` is grouping by a field, the count is simply the sum of the counts
+	// of the groups returned in the response. This number can be smaller than the
+	// total number of activities matching the query.
+	Count int64
+	// Contains the groups if the request is grouping by a field.
+	// The list might not be complete, and the counts of each group is approximate.
+	Groups []*CountActivityExecutionsResponse_AggregationGroup
+}
+
+func (b0 CountActivityExecutionsResponse_builder) Build() *CountActivityExecutionsResponse {
+	m0 := &CountActivityExecutionsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Count = b.Count
+	x.Groups = b.Groups
+	return m0
+}
+
 type RequestCancelActivityExecutionRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	ActivityId string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	// Activity run ID, targets the latest run if run_id is empty.
@@ -15375,11 +26866,6 @@ func (x *RequestCancelActivityExecutionRequest) ProtoReflect() protoreflect.Mess
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestCancelActivityExecutionRequest.ProtoReflect.Descriptor instead.
-func (*RequestCancelActivityExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{202}
 }
 
 func (x *RequestCancelActivityExecutionRequest) GetNamespace() string {
@@ -15424,8 +26910,61 @@ func (x *RequestCancelActivityExecutionRequest) GetReason() string {
 	return ""
 }
 
+func (x *RequestCancelActivityExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RequestCancelActivityExecutionRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *RequestCancelActivityExecutionRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *RequestCancelActivityExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *RequestCancelActivityExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *RequestCancelActivityExecutionRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+type RequestCancelActivityExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	ActivityId string
+	// Activity run ID, targets the latest run if run_id is empty.
+	RunId string
+	// The identity of the worker/client.
+	Identity string
+	// Used to de-dupe cancellation requests.
+	RequestId string
+	// Reason for requesting the cancellation, recorded and available via the PollActivityExecution API.
+	// Not propagated to a worker if an activity attempt is currently running.
+	Reason string
+}
+
+func (b0 RequestCancelActivityExecutionRequest_builder) Build() *RequestCancelActivityExecutionRequest {
+	m0 := &RequestCancelActivityExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ActivityId = b.ActivityId
+	x.RunId = b.RunId
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.Reason = b.Reason
+	return m0
+}
+
 type RequestCancelActivityExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -15455,13 +26994,20 @@ func (x *RequestCancelActivityExecutionResponse) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequestCancelActivityExecutionResponse.ProtoReflect.Descriptor instead.
-func (*RequestCancelActivityExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{203}
+type RequestCancelActivityExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RequestCancelActivityExecutionResponse_builder) Build() *RequestCancelActivityExecutionResponse {
+	m0 := &RequestCancelActivityExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type TerminateActivityExecutionRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	ActivityId string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	// Activity run ID, targets the latest run if run_id is empty.
@@ -15499,11 +27045,6 @@ func (x *TerminateActivityExecutionRequest) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use TerminateActivityExecutionRequest.ProtoReflect.Descriptor instead.
-func (*TerminateActivityExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{204}
 }
 
 func (x *TerminateActivityExecutionRequest) GetNamespace() string {
@@ -15548,8 +27089,60 @@ func (x *TerminateActivityExecutionRequest) GetReason() string {
 	return ""
 }
 
+func (x *TerminateActivityExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *TerminateActivityExecutionRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *TerminateActivityExecutionRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *TerminateActivityExecutionRequest) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *TerminateActivityExecutionRequest) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *TerminateActivityExecutionRequest) SetReason(v string) {
+	x.Reason = v
+}
+
+type TerminateActivityExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	ActivityId string
+	// Activity run ID, targets the latest run if run_id is empty.
+	RunId string
+	// The identity of the worker/client.
+	Identity string
+	// Used to de-dupe termination requests.
+	RequestId string
+	// Reason for requesting the termination, recorded in in the activity's result failure outcome.
+	Reason string
+}
+
+func (b0 TerminateActivityExecutionRequest_builder) Build() *TerminateActivityExecutionRequest {
+	m0 := &TerminateActivityExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ActivityId = b.ActivityId
+	x.RunId = b.RunId
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.Reason = b.Reason
+	return m0
+}
+
 type TerminateActivityExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -15579,13 +27172,20 @@ func (x *TerminateActivityExecutionResponse) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TerminateActivityExecutionResponse.ProtoReflect.Descriptor instead.
-func (*TerminateActivityExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{205}
+type TerminateActivityExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 TerminateActivityExecutionResponse_builder) Build() *TerminateActivityExecutionResponse {
+	m0 := &TerminateActivityExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type DeleteActivityExecutionRequest struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	ActivityId string                 `protobuf:"bytes,2,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	// Activity run ID, targets the latest run if run_id is empty.
@@ -15619,11 +27219,6 @@ func (x *DeleteActivityExecutionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteActivityExecutionRequest.ProtoReflect.Descriptor instead.
-func (*DeleteActivityExecutionRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{206}
-}
-
 func (x *DeleteActivityExecutionRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -15645,8 +27240,39 @@ func (x *DeleteActivityExecutionRequest) GetRunId() string {
 	return ""
 }
 
+func (x *DeleteActivityExecutionRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DeleteActivityExecutionRequest) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *DeleteActivityExecutionRequest) SetRunId(v string) {
+	x.RunId = v
+}
+
+type DeleteActivityExecutionRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	ActivityId string
+	// Activity run ID, targets the latest run if run_id is empty.
+	RunId string
+}
+
+func (b0 DeleteActivityExecutionRequest_builder) Build() *DeleteActivityExecutionRequest {
+	m0 := &DeleteActivityExecutionRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.ActivityId = b.ActivityId
+	x.RunId = b.RunId
+	return m0
+}
+
 type DeleteActivityExecutionResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -15676,14 +27302,21 @@ func (x *DeleteActivityExecutionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteActivityExecutionResponse.ProtoReflect.Descriptor instead.
-func (*DeleteActivityExecutionResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{207}
+type DeleteActivityExecutionResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 DeleteActivityExecutionResponse_builder) Build() *DeleteActivityExecutionResponse {
+	m0 := &DeleteActivityExecutionResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 // SDK capability details.
 type RespondWorkflowTaskCompletedRequest_Capabilities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// True if the SDK can handle speculative workflow task with command events. If true, the
 	// server may choose, at its discretion, to discard a speculative workflow task even if that
 	// speculative task included command events the SDK had not previously processed.
@@ -15721,11 +27354,6 @@ func (x *RespondWorkflowTaskCompletedRequest_Capabilities) ProtoReflect() protor
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RespondWorkflowTaskCompletedRequest_Capabilities.ProtoReflect.Descriptor instead.
-func (*RespondWorkflowTaskCompletedRequest_Capabilities) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{18, 1}
-}
-
 func (x *RespondWorkflowTaskCompletedRequest_Capabilities) GetDiscardSpeculativeWorkflowTaskWithEvents() bool {
 	if x != nil {
 		return x.DiscardSpeculativeWorkflowTaskWithEvents
@@ -15733,8 +27361,33 @@ func (x *RespondWorkflowTaskCompletedRequest_Capabilities) GetDiscardSpeculative
 	return false
 }
 
+func (x *RespondWorkflowTaskCompletedRequest_Capabilities) SetDiscardSpeculativeWorkflowTaskWithEvents(v bool) {
+	x.DiscardSpeculativeWorkflowTaskWithEvents = v
+}
+
+type RespondWorkflowTaskCompletedRequest_Capabilities_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// True if the SDK can handle speculative workflow task with command events. If true, the
+	// server may choose, at its discretion, to discard a speculative workflow task even if that
+	// speculative task included command events the SDK had not previously processed.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "with" used to describe the workflow task. --)
+	DiscardSpeculativeWorkflowTaskWithEvents bool
+}
+
+func (b0 RespondWorkflowTaskCompletedRequest_Capabilities_builder) Build() *RespondWorkflowTaskCompletedRequest_Capabilities {
+	m0 := &RespondWorkflowTaskCompletedRequest_Capabilities{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DiscardSpeculativeWorkflowTaskWithEvents = b.DiscardSpeculativeWorkflowTaskWithEvents
+	return m0
+}
+
 type CountWorkflowExecutionsResponse_AggregationGroup struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	GroupValues   []*v13.Payload         `protobuf:"bytes,1,rep,name=group_values,json=groupValues,proto3" json:"group_values,omitempty"`
 	Count         int64                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -15766,11 +27419,6 @@ func (x *CountWorkflowExecutionsResponse_AggregationGroup) ProtoReflect() protor
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CountWorkflowExecutionsResponse_AggregationGroup.ProtoReflect.Descriptor instead.
-func (*CountWorkflowExecutionsResponse_AggregationGroup) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{63, 0}
-}
-
 func (x *CountWorkflowExecutionsResponse_AggregationGroup) GetGroupValues() []*v13.Payload {
 	if x != nil {
 		return x.GroupValues
@@ -15785,8 +27433,32 @@ func (x *CountWorkflowExecutionsResponse_AggregationGroup) GetCount() int64 {
 	return 0
 }
 
+func (x *CountWorkflowExecutionsResponse_AggregationGroup) SetGroupValues(v []*v13.Payload) {
+	x.GroupValues = v
+}
+
+func (x *CountWorkflowExecutionsResponse_AggregationGroup) SetCount(v int64) {
+	x.Count = v
+}
+
+type CountWorkflowExecutionsResponse_AggregationGroup_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	GroupValues []*v13.Payload
+	Count       int64
+}
+
+func (b0 CountWorkflowExecutionsResponse_AggregationGroup_builder) Build() *CountWorkflowExecutionsResponse_AggregationGroup {
+	m0 := &CountWorkflowExecutionsResponse_AggregationGroup{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.GroupValues = b.GroupValues
+	x.Count = b.Count
+	return m0
+}
+
 type DescribeTaskQueueResponse_EffectiveRateLimit struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The effective rate limit for the task queue.
 	RequestsPerSecond float32 `protobuf:"fixed32,1,opt,name=requests_per_second,json=requestsPerSecond,proto3" json:"requests_per_second,omitempty"`
 	// Source of the RateLimit Configuration,which can be one of the following values:
@@ -15823,11 +27495,6 @@ func (x *DescribeTaskQueueResponse_EffectiveRateLimit) ProtoReflect() protorefle
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeTaskQueueResponse_EffectiveRateLimit.ProtoReflect.Descriptor instead.
-func (*DescribeTaskQueueResponse_EffectiveRateLimit) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{77, 1}
-}
-
 func (x *DescribeTaskQueueResponse_EffectiveRateLimit) GetRequestsPerSecond() float32 {
 	if x != nil {
 		return x.RequestsPerSecond
@@ -15842,9 +27509,38 @@ func (x *DescribeTaskQueueResponse_EffectiveRateLimit) GetRateLimitSource() v11.
 	return v11.RateLimitSource(0)
 }
 
+func (x *DescribeTaskQueueResponse_EffectiveRateLimit) SetRequestsPerSecond(v float32) {
+	x.RequestsPerSecond = v
+}
+
+func (x *DescribeTaskQueueResponse_EffectiveRateLimit) SetRateLimitSource(v v11.RateLimitSource) {
+	x.RateLimitSource = v
+}
+
+type DescribeTaskQueueResponse_EffectiveRateLimit_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The effective rate limit for the task queue.
+	RequestsPerSecond float32
+	// Source of the RateLimit Configuration,which can be one of the following values:
+	// - SOURCE_API: The rate limit that is set via the TaskQueueConfig api.
+	// - SOURCE_WORKER: The rate limit is the value set using the workerOptions in TaskQueueActivitiesPerSecond.
+	// - SOURCE_SYSTEM: The rate limit is the default value set by the system
+	RateLimitSource v11.RateLimitSource
+}
+
+func (b0 DescribeTaskQueueResponse_EffectiveRateLimit_builder) Build() *DescribeTaskQueueResponse_EffectiveRateLimit {
+	m0 := &DescribeTaskQueueResponse_EffectiveRateLimit{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RequestsPerSecond = b.RequestsPerSecond
+	x.RateLimitSource = b.RateLimitSource
+	return m0
+}
+
 // System capability details.
 type GetSystemInfoResponse_Capabilities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// True if signal and query headers are supported.
 	SignalAndQueryHeader bool `protobuf:"varint,1,opt,name=signal_and_query_header,json=signalAndQueryHeader,proto3" json:"signal_and_query_header,omitempty"`
 	// True if internal errors are differentiated from other types of errors for purposes of
@@ -15903,11 +27599,6 @@ func (x *GetSystemInfoResponse_Capabilities) ProtoReflect() protoreflect.Message
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetSystemInfoResponse_Capabilities.ProtoReflect.Descriptor instead.
-func (*GetSystemInfoResponse_Capabilities) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{81, 0}
 }
 
 func (x *GetSystemInfoResponse_Capabilities) GetSignalAndQueryHeader() bool {
@@ -15987,8 +27678,106 @@ func (x *GetSystemInfoResponse_Capabilities) GetNexus() bool {
 	return false
 }
 
+func (x *GetSystemInfoResponse_Capabilities) SetSignalAndQueryHeader(v bool) {
+	x.SignalAndQueryHeader = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetInternalErrorDifferentiation(v bool) {
+	x.InternalErrorDifferentiation = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetActivityFailureIncludeHeartbeat(v bool) {
+	x.ActivityFailureIncludeHeartbeat = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetSupportsSchedules(v bool) {
+	x.SupportsSchedules = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetEncodedFailureAttributes(v bool) {
+	x.EncodedFailureAttributes = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetBuildIdBasedVersioning(v bool) {
+	x.BuildIdBasedVersioning = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetUpsertMemo(v bool) {
+	x.UpsertMemo = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetEagerWorkflowStart(v bool) {
+	x.EagerWorkflowStart = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetSdkMetadata(v bool) {
+	x.SdkMetadata = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetCountGroupByExecutionStatus(v bool) {
+	x.CountGroupByExecutionStatus = v
+}
+
+func (x *GetSystemInfoResponse_Capabilities) SetNexus(v bool) {
+	x.Nexus = v
+}
+
+type GetSystemInfoResponse_Capabilities_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// True if signal and query headers are supported.
+	SignalAndQueryHeader bool
+	// True if internal errors are differentiated from other types of errors for purposes of
+	// retrying non-internal errors.
+	//
+	// When unset/false, clients retry all failures. When true, clients should only retry
+	// non-internal errors.
+	InternalErrorDifferentiation bool
+	// True if RespondActivityTaskFailed API supports including heartbeat details
+	ActivityFailureIncludeHeartbeat bool
+	// Supports scheduled workflow features.
+	SupportsSchedules bool
+	// True if server uses protos that include temporal.api.failure.v1.Failure.encoded_attributes
+	EncodedFailureAttributes bool
+	// True if server supports dispatching Workflow and Activity tasks based on a worker's build_id
+	// (see:
+	// https://github.com/temporalio/proposals/blob/a123af3b559f43db16ea6dd31870bfb754c4dc5e/versioning/worker-versions.md)
+	BuildIdBasedVersioning bool
+	// True if server supports upserting workflow memo
+	UpsertMemo bool
+	// True if server supports eager workflow task dispatching for the StartWorkflowExecution API
+	EagerWorkflowStart bool
+	// True if the server knows about the sdk metadata field on WFT completions and will record
+	// it in history
+	SdkMetadata bool
+	// True if the server supports count group by execution status
+	// (-- api-linter: core::0140::prepositions=disabled --)
+	CountGroupByExecutionStatus bool
+	// True if the server supports Nexus operations.
+	// This flag is dependent both on server version and for Nexus to be enabled via server configuration.
+	Nexus bool
+}
+
+func (b0 GetSystemInfoResponse_Capabilities_builder) Build() *GetSystemInfoResponse_Capabilities {
+	m0 := &GetSystemInfoResponse_Capabilities{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SignalAndQueryHeader = b.SignalAndQueryHeader
+	x.InternalErrorDifferentiation = b.InternalErrorDifferentiation
+	x.ActivityFailureIncludeHeartbeat = b.ActivityFailureIncludeHeartbeat
+	x.SupportsSchedules = b.SupportsSchedules
+	x.EncodedFailureAttributes = b.EncodedFailureAttributes
+	x.BuildIdBasedVersioning = b.BuildIdBasedVersioning
+	x.UpsertMemo = b.UpsertMemo
+	x.EagerWorkflowStart = b.EagerWorkflowStart
+	x.SdkMetadata = b.SdkMetadata
+	x.CountGroupByExecutionStatus = b.CountGroupByExecutionStatus
+	x.Nexus = b.Nexus
+	return m0
+}
+
 type UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A new id to be added to an existing compatible set.
 	NewBuildId string `protobuf:"bytes,1,opt,name=new_build_id,json=newBuildId,proto3" json:"new_build_id,omitempty"`
 	// A build id which must already exist in the version sets known by the task queue. The new
@@ -16028,11 +27817,6 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) ProtoR
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{98, 0}
-}
-
 func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) GetNewBuildId() string {
 	if x != nil {
 		return x.NewBuildId
@@ -16054,8 +27838,45 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) GetMak
 	return false
 }
 
+func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) SetNewBuildId(v string) {
+	x.NewBuildId = v
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) SetExistingCompatibleBuildId(v string) {
+	x.ExistingCompatibleBuildId = v
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion) SetMakeSetDefault(v bool) {
+	x.MakeSetDefault = v
+}
+
+type UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A new id to be added to an existing compatible set.
+	NewBuildId string
+	// A build id which must already exist in the version sets known by the task queue. The new
+	// id will be stored in the set containing this id, marking it as compatible with
+	// the versions within.
+	ExistingCompatibleBuildId string
+	// When set, establishes the compatible set being targeted as the overall default for the
+	// queue. If a different set was the current default, the targeted set will replace it as
+	// the new default.
+	MakeSetDefault bool
+}
+
+func (b0 UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion_builder) Build() *UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion {
+	m0 := &UpdateWorkerBuildIdCompatibilityRequest_AddNewCompatibleVersion{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NewBuildId = b.NewBuildId
+	x.ExistingCompatibleBuildId = b.ExistingCompatibleBuildId
+	x.MakeSetDefault = b.MakeSetDefault
+	return m0
+}
+
 type UpdateWorkerBuildIdCompatibilityRequest_MergeSets struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A build ID in the set whose default will become the merged set default
 	PrimarySetBuildId string `protobuf:"bytes,1,opt,name=primary_set_build_id,json=primarySetBuildId,proto3" json:"primary_set_build_id,omitempty"`
 	// A build ID in the set which will be merged into the primary set
@@ -16089,11 +27910,6 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) ProtoReflect() proto
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerBuildIdCompatibilityRequest_MergeSets.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerBuildIdCompatibilityRequest_MergeSets) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{98, 1}
-}
-
 func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) GetPrimarySetBuildId() string {
 	if x != nil {
 		return x.PrimarySetBuildId
@@ -16108,11 +27924,37 @@ func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) GetSecondarySetBuild
 	return ""
 }
 
+func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) SetPrimarySetBuildId(v string) {
+	x.PrimarySetBuildId = v
+}
+
+func (x *UpdateWorkerBuildIdCompatibilityRequest_MergeSets) SetSecondarySetBuildId(v string) {
+	x.SecondarySetBuildId = v
+}
+
+type UpdateWorkerBuildIdCompatibilityRequest_MergeSets_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A build ID in the set whose default will become the merged set default
+	PrimarySetBuildId string
+	// A build ID in the set which will be merged into the primary set
+	SecondarySetBuildId string
+}
+
+func (b0 UpdateWorkerBuildIdCompatibilityRequest_MergeSets_builder) Build() *UpdateWorkerBuildIdCompatibilityRequest_MergeSets {
+	m0 := &UpdateWorkerBuildIdCompatibilityRequest_MergeSets{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PrimarySetBuildId = b.PrimarySetBuildId
+	x.SecondarySetBuildId = b.SecondarySetBuildId
+	return m0
+}
+
 // Inserts the rule to the list of assignment rules for this Task Queue.
 // The rules are evaluated in order, starting from index 0. The first
 // applicable rule will be applied and the rest will be ignored.
 type UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Use this option to insert the rule in a particular index. By
 	// default, the new rule is inserted at the beginning of the list
 	// (index 0). If the given index is too larger the rule will be
@@ -16148,11 +27990,6 @@ func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) ProtoRe
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102, 0}
-}
-
 func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) GetRuleIndex() int32 {
 	if x != nil {
 		return x.RuleIndex
@@ -16167,9 +28004,48 @@ func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) GetRule
 	return nil
 }
 
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) SetRuleIndex(v int32) {
+	x.RuleIndex = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) SetRule(v *v14.BuildIdAssignmentRule) {
+	x.Rule = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule) ClearRule() {
+	x.Rule = nil
+}
+
+type UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Use this option to insert the rule in a particular index. By
+	// default, the new rule is inserted at the beginning of the list
+	// (index 0). If the given index is too larger the rule will be
+	// inserted at the end of the list.
+	RuleIndex int32
+	Rule      *v14.BuildIdAssignmentRule
+}
+
+func (b0 UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule_builder) Build() *UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule {
+	m0 := &UpdateWorkerVersioningRulesRequest_InsertBuildIdAssignmentRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RuleIndex = b.RuleIndex
+	x.Rule = b.Rule
+	return m0
+}
+
 // Replaces the assignment rule at a given index.
 type UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule struct {
-	state     protoimpl.MessageState     `protogen:"open.v1"`
+	state     protoimpl.MessageState     `protogen:"hybrid.v1"`
 	RuleIndex int32                      `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
 	Rule      *v14.BuildIdAssignmentRule `protobuf:"bytes,2,opt,name=rule,proto3" json:"rule,omitempty"`
 	// By default presence of one unconditional rule is enforced, otherwise
@@ -16207,11 +28083,6 @@ func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) ProtoR
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102, 1}
-}
-
 func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) GetRuleIndex() int32 {
 	if x != nil {
 		return x.RuleIndex
@@ -16233,8 +28104,54 @@ func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) GetFor
 	return false
 }
 
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) SetRuleIndex(v int32) {
+	x.RuleIndex = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) SetRule(v *v14.BuildIdAssignmentRule) {
+	x.Rule = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) SetForce(v bool) {
+	x.Force = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule) ClearRule() {
+	x.Rule = nil
+}
+
+type UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	RuleIndex int32
+	Rule      *v14.BuildIdAssignmentRule
+	// By default presence of one unconditional rule is enforced, otherwise
+	// the replace operation will be rejected. Set `force` to true to
+	// bypass this validation. An unconditional assignment rule:
+	//   - Has no hint filter
+	//   - Has no ramp
+	Force bool
+}
+
+func (b0 UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule_builder) Build() *UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule {
+	m0 := &UpdateWorkerVersioningRulesRequest_ReplaceBuildIdAssignmentRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RuleIndex = b.RuleIndex
+	x.Rule = b.Rule
+	x.Force = b.Force
+	return m0
+}
+
 type UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	RuleIndex int32                  `protobuf:"varint,1,opt,name=rule_index,json=ruleIndex,proto3" json:"rule_index,omitempty"`
 	// By default presence of one unconditional rule is enforced, otherwise
 	// the delete operation will be rejected. Set `force` to true to
@@ -16271,11 +28188,6 @@ func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) ProtoRe
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102, 2}
-}
-
 func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) GetRuleIndex() int32 {
 	if x != nil {
 		return x.RuleIndex
@@ -16290,10 +28202,39 @@ func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) GetForc
 	return false
 }
 
+func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) SetRuleIndex(v int32) {
+	x.RuleIndex = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule) SetForce(v bool) {
+	x.Force = v
+}
+
+type UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	RuleIndex int32
+	// By default presence of one unconditional rule is enforced, otherwise
+	// the delete operation will be rejected. Set `force` to true to
+	// bypass this validation. An unconditional assignment rule:
+	//   - Has no hint filter
+	//   - Has no ramp
+	Force bool
+}
+
+func (b0 UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule_builder) Build() *UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule {
+	m0 := &UpdateWorkerVersioningRulesRequest_DeleteBuildIdAssignmentRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RuleIndex = b.RuleIndex
+	x.Force = b.Force
+	return m0
+}
+
 // Adds the rule to the list of redirect rules for this Task Queue. There
 // can be at most one redirect rule for each distinct Source Build ID.
 type UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState             `protogen:"open.v1"`
+	state         protoimpl.MessageState             `protogen:"hybrid.v1"`
 	Rule          *v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -16324,11 +28265,6 @@ func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) Pr
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102, 3}
-}
-
 func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) GetRule() *v14.CompatibleBuildIdRedirectRule {
 	if x != nil {
 		return x.Rule
@@ -16336,9 +28272,38 @@ func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) Ge
 	return nil
 }
 
+func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) SetRule(v *v14.CompatibleBuildIdRedirectRule) {
+	x.Rule = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule) ClearRule() {
+	x.Rule = nil
+}
+
+type UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Rule *v14.CompatibleBuildIdRedirectRule
+}
+
+func (b0 UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule_builder) Build() *UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule {
+	m0 := &UpdateWorkerVersioningRulesRequest_AddCompatibleBuildIdRedirectRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Rule = b.Rule
+	return m0
+}
+
 // Replaces the routing rule with the given source Build ID.
 type UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState             `protogen:"open.v1"`
+	state         protoimpl.MessageState             `protogen:"hybrid.v1"`
 	Rule          *v14.CompatibleBuildIdRedirectRule `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -16369,11 +28334,6 @@ func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102, 4}
-}
-
 func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) GetRule() *v14.CompatibleBuildIdRedirectRule {
 	if x != nil {
 		return x.Rule
@@ -16381,8 +28341,37 @@ func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule
 	return nil
 }
 
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) SetRule(v *v14.CompatibleBuildIdRedirectRule) {
+	x.Rule = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule) ClearRule() {
+	x.Rule = nil
+}
+
+type UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Rule *v14.CompatibleBuildIdRedirectRule
+}
+
+func (b0 UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule_builder) Build() *UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule {
+	m0 := &UpdateWorkerVersioningRulesRequest_ReplaceCompatibleBuildIdRedirectRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Rule = b.Rule
+	return m0
+}
+
 type UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	SourceBuildId string                 `protobuf:"bytes,1,opt,name=source_build_id,json=sourceBuildId,proto3" json:"source_build_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -16413,16 +28402,29 @@ func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule)
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102, 5}
-}
-
 func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) GetSourceBuildId() string {
 	if x != nil {
 		return x.SourceBuildId
 	}
 	return ""
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule) SetSourceBuildId(v string) {
+	x.SourceBuildId = v
+}
+
+type UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	SourceBuildId string
+}
+
+func (b0 UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule_builder) Build() *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule {
+	m0 := &UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SourceBuildId = b.SourceBuildId
+	return m0
 }
 
 // This command is intended to be used to complete the rollout of a Build
@@ -16435,7 +28437,7 @@ func (x *UpdateWorkerVersioningRulesRequest_DeleteCompatibleBuildIdRedirectRule)
 //     Build ID (if any).
 //  3. Removes any fully-ramped assignment rule for other Build IDs.
 type UpdateWorkerVersioningRulesRequest_CommitBuildId struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	TargetBuildId string                 `protobuf:"bytes,1,opt,name=target_build_id,json=targetBuildId,proto3" json:"target_build_id,omitempty"`
 	// To prevent committing invalid Build IDs, we reject the request if no
 	// pollers has been seen recently for this Build ID. Use the `force`
@@ -16470,11 +28472,6 @@ func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) ProtoReflect() protor
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateWorkerVersioningRulesRequest_CommitBuildId.ProtoReflect.Descriptor instead.
-func (*UpdateWorkerVersioningRulesRequest_CommitBuildId) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{102, 6}
-}
-
 func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) GetTargetBuildId() string {
 	if x != nil {
 		return x.TargetBuildId
@@ -16489,8 +28486,35 @@ func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) GetForce() bool {
 	return false
 }
 
+func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) SetTargetBuildId(v string) {
+	x.TargetBuildId = v
+}
+
+func (x *UpdateWorkerVersioningRulesRequest_CommitBuildId) SetForce(v bool) {
+	x.Force = v
+}
+
+type UpdateWorkerVersioningRulesRequest_CommitBuildId_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	TargetBuildId string
+	// To prevent committing invalid Build IDs, we reject the request if no
+	// pollers has been seen recently for this Build ID. Use the `force`
+	// option to disable this validation.
+	Force bool
+}
+
+func (b0 UpdateWorkerVersioningRulesRequest_CommitBuildId_builder) Build() *UpdateWorkerVersioningRulesRequest_CommitBuildId {
+	m0 := &UpdateWorkerVersioningRulesRequest_CommitBuildId{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TargetBuildId = b.TargetBuildId
+	x.Force = b.Force
+	return m0
+}
+
 type ExecuteMultiOperationRequest_Operation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Operation:
 	//
 	//	*ExecuteMultiOperationRequest_Operation_StartWorkflow
@@ -16525,11 +28549,6 @@ func (x *ExecuteMultiOperationRequest_Operation) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExecuteMultiOperationRequest_Operation.ProtoReflect.Descriptor instead.
-func (*ExecuteMultiOperationRequest_Operation) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{126, 0}
-}
-
 func (x *ExecuteMultiOperationRequest_Operation) GetOperation() isExecuteMultiOperationRequest_Operation_Operation {
 	if x != nil {
 		return x.Operation
@@ -16555,15 +28574,135 @@ func (x *ExecuteMultiOperationRequest_Operation) GetUpdateWorkflow() *UpdateWork
 	return nil
 }
 
+func (x *ExecuteMultiOperationRequest_Operation) SetStartWorkflow(v *StartWorkflowExecutionRequest) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &ExecuteMultiOperationRequest_Operation_StartWorkflow{v}
+}
+
+func (x *ExecuteMultiOperationRequest_Operation) SetUpdateWorkflow(v *UpdateWorkflowExecutionRequest) {
+	if v == nil {
+		x.Operation = nil
+		return
+	}
+	x.Operation = &ExecuteMultiOperationRequest_Operation_UpdateWorkflow{v}
+}
+
+func (x *ExecuteMultiOperationRequest_Operation) HasOperation() bool {
+	if x == nil {
+		return false
+	}
+	return x.Operation != nil
+}
+
+func (x *ExecuteMultiOperationRequest_Operation) HasStartWorkflow() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*ExecuteMultiOperationRequest_Operation_StartWorkflow)
+	return ok
+}
+
+func (x *ExecuteMultiOperationRequest_Operation) HasUpdateWorkflow() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Operation.(*ExecuteMultiOperationRequest_Operation_UpdateWorkflow)
+	return ok
+}
+
+func (x *ExecuteMultiOperationRequest_Operation) ClearOperation() {
+	x.Operation = nil
+}
+
+func (x *ExecuteMultiOperationRequest_Operation) ClearStartWorkflow() {
+	if _, ok := x.Operation.(*ExecuteMultiOperationRequest_Operation_StartWorkflow); ok {
+		x.Operation = nil
+	}
+}
+
+func (x *ExecuteMultiOperationRequest_Operation) ClearUpdateWorkflow() {
+	if _, ok := x.Operation.(*ExecuteMultiOperationRequest_Operation_UpdateWorkflow); ok {
+		x.Operation = nil
+	}
+}
+
+const ExecuteMultiOperationRequest_Operation_Operation_not_set_case case_ExecuteMultiOperationRequest_Operation_Operation = 0
+const ExecuteMultiOperationRequest_Operation_StartWorkflow_case case_ExecuteMultiOperationRequest_Operation_Operation = 1
+const ExecuteMultiOperationRequest_Operation_UpdateWorkflow_case case_ExecuteMultiOperationRequest_Operation_Operation = 2
+
+func (x *ExecuteMultiOperationRequest_Operation) WhichOperation() case_ExecuteMultiOperationRequest_Operation_Operation {
+	if x == nil {
+		return ExecuteMultiOperationRequest_Operation_Operation_not_set_case
+	}
+	switch x.Operation.(type) {
+	case *ExecuteMultiOperationRequest_Operation_StartWorkflow:
+		return ExecuteMultiOperationRequest_Operation_StartWorkflow_case
+	case *ExecuteMultiOperationRequest_Operation_UpdateWorkflow:
+		return ExecuteMultiOperationRequest_Operation_UpdateWorkflow_case
+	default:
+		return ExecuteMultiOperationRequest_Operation_Operation_not_set_case
+	}
+}
+
+type ExecuteMultiOperationRequest_Operation_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Operation:
+	// Additional restrictions:
+	// - setting `cron_schedule` is invalid
+	// - setting `request_eager_execution` is invalid
+	// - setting `workflow_start_delay` is invalid
+	StartWorkflow *StartWorkflowExecutionRequest
+	// Additional restrictions:
+	// - setting `first_execution_run_id` is invalid
+	// - setting `workflow_execution.run_id` is invalid
+	UpdateWorkflow *UpdateWorkflowExecutionRequest
+	// -- end of Operation
+}
+
+func (b0 ExecuteMultiOperationRequest_Operation_builder) Build() *ExecuteMultiOperationRequest_Operation {
+	m0 := &ExecuteMultiOperationRequest_Operation{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.StartWorkflow != nil {
+		x.Operation = &ExecuteMultiOperationRequest_Operation_StartWorkflow{b.StartWorkflow}
+	}
+	if b.UpdateWorkflow != nil {
+		x.Operation = &ExecuteMultiOperationRequest_Operation_UpdateWorkflow{b.UpdateWorkflow}
+	}
+	return m0
+}
+
+type case_ExecuteMultiOperationRequest_Operation_Operation protoreflect.FieldNumber
+
+func (x case_ExecuteMultiOperationRequest_Operation_Operation) String() string {
+	switch x {
+	case ExecuteMultiOperationRequest_Operation_Operation_not_set_case:
+		return "ExecuteMultiOperationRequestOperationOperationNotSetCase"
+	case ExecuteMultiOperationRequest_Operation_StartWorkflow_case:
+		return "ExecuteMultiOperationRequestOperationStartWorkflowCase"
+	case ExecuteMultiOperationRequest_Operation_UpdateWorkflow_case:
+		return "ExecuteMultiOperationRequestOperationUpdateWorkflowCase"
+	default:
+		return strconv.
+
+			// Additional restrictions:
+			// - setting `cron_schedule` is invalid
+			// - setting `request_eager_execution` is invalid
+			// - setting `workflow_start_delay` is invalid
+			Itoa(int(x))
+	}
+
+}
+
 type isExecuteMultiOperationRequest_Operation_Operation interface {
 	isExecuteMultiOperationRequest_Operation_Operation()
 }
 
 type ExecuteMultiOperationRequest_Operation_StartWorkflow struct {
-	// Additional restrictions:
-	// - setting `cron_schedule` is invalid
-	// - setting `request_eager_execution` is invalid
-	// - setting `workflow_start_delay` is invalid
 	StartWorkflow *StartWorkflowExecutionRequest `protobuf:"bytes,1,opt,name=start_workflow,json=startWorkflow,proto3,oneof"`
 }
 
@@ -16581,7 +28720,7 @@ func (*ExecuteMultiOperationRequest_Operation_UpdateWorkflow) isExecuteMultiOper
 }
 
 type ExecuteMultiOperationResponse_Response struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Response:
 	//
 	//	*ExecuteMultiOperationResponse_Response_StartWorkflow
@@ -16616,11 +28755,6 @@ func (x *ExecuteMultiOperationResponse_Response) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExecuteMultiOperationResponse_Response.ProtoReflect.Descriptor instead.
-func (*ExecuteMultiOperationResponse_Response) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{127, 0}
-}
-
 func (x *ExecuteMultiOperationResponse_Response) GetResponse() isExecuteMultiOperationResponse_Response_Response {
 	if x != nil {
 		return x.Response
@@ -16646,6 +28780,117 @@ func (x *ExecuteMultiOperationResponse_Response) GetUpdateWorkflow() *UpdateWork
 	return nil
 }
 
+func (x *ExecuteMultiOperationResponse_Response) SetStartWorkflow(v *StartWorkflowExecutionResponse) {
+	if v == nil {
+		x.Response = nil
+		return
+	}
+	x.Response = &ExecuteMultiOperationResponse_Response_StartWorkflow{v}
+}
+
+func (x *ExecuteMultiOperationResponse_Response) SetUpdateWorkflow(v *UpdateWorkflowExecutionResponse) {
+	if v == nil {
+		x.Response = nil
+		return
+	}
+	x.Response = &ExecuteMultiOperationResponse_Response_UpdateWorkflow{v}
+}
+
+func (x *ExecuteMultiOperationResponse_Response) HasResponse() bool {
+	if x == nil {
+		return false
+	}
+	return x.Response != nil
+}
+
+func (x *ExecuteMultiOperationResponse_Response) HasStartWorkflow() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Response.(*ExecuteMultiOperationResponse_Response_StartWorkflow)
+	return ok
+}
+
+func (x *ExecuteMultiOperationResponse_Response) HasUpdateWorkflow() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Response.(*ExecuteMultiOperationResponse_Response_UpdateWorkflow)
+	return ok
+}
+
+func (x *ExecuteMultiOperationResponse_Response) ClearResponse() {
+	x.Response = nil
+}
+
+func (x *ExecuteMultiOperationResponse_Response) ClearStartWorkflow() {
+	if _, ok := x.Response.(*ExecuteMultiOperationResponse_Response_StartWorkflow); ok {
+		x.Response = nil
+	}
+}
+
+func (x *ExecuteMultiOperationResponse_Response) ClearUpdateWorkflow() {
+	if _, ok := x.Response.(*ExecuteMultiOperationResponse_Response_UpdateWorkflow); ok {
+		x.Response = nil
+	}
+}
+
+const ExecuteMultiOperationResponse_Response_Response_not_set_case case_ExecuteMultiOperationResponse_Response_Response = 0
+const ExecuteMultiOperationResponse_Response_StartWorkflow_case case_ExecuteMultiOperationResponse_Response_Response = 1
+const ExecuteMultiOperationResponse_Response_UpdateWorkflow_case case_ExecuteMultiOperationResponse_Response_Response = 2
+
+func (x *ExecuteMultiOperationResponse_Response) WhichResponse() case_ExecuteMultiOperationResponse_Response_Response {
+	if x == nil {
+		return ExecuteMultiOperationResponse_Response_Response_not_set_case
+	}
+	switch x.Response.(type) {
+	case *ExecuteMultiOperationResponse_Response_StartWorkflow:
+		return ExecuteMultiOperationResponse_Response_StartWorkflow_case
+	case *ExecuteMultiOperationResponse_Response_UpdateWorkflow:
+		return ExecuteMultiOperationResponse_Response_UpdateWorkflow_case
+	default:
+		return ExecuteMultiOperationResponse_Response_Response_not_set_case
+	}
+}
+
+type ExecuteMultiOperationResponse_Response_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Response:
+	StartWorkflow  *StartWorkflowExecutionResponse
+	UpdateWorkflow *UpdateWorkflowExecutionResponse
+	// -- end of Response
+}
+
+func (b0 ExecuteMultiOperationResponse_Response_builder) Build() *ExecuteMultiOperationResponse_Response {
+	m0 := &ExecuteMultiOperationResponse_Response{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.StartWorkflow != nil {
+		x.Response = &ExecuteMultiOperationResponse_Response_StartWorkflow{b.StartWorkflow}
+	}
+	if b.UpdateWorkflow != nil {
+		x.Response = &ExecuteMultiOperationResponse_Response_UpdateWorkflow{b.UpdateWorkflow}
+	}
+	return m0
+}
+
+type case_ExecuteMultiOperationResponse_Response_Response protoreflect.FieldNumber
+
+func (x case_ExecuteMultiOperationResponse_Response_Response) String() string {
+	switch x {
+	case ExecuteMultiOperationResponse_Response_Response_not_set_case:
+		return "ExecuteMultiOperationResponseResponseResponseNotSetCase"
+	case ExecuteMultiOperationResponse_Response_StartWorkflow_case:
+		return "ExecuteMultiOperationResponseResponseStartWorkflowCase"
+	case ExecuteMultiOperationResponse_Response_UpdateWorkflow_case:
+		return "ExecuteMultiOperationResponseResponseUpdateWorkflowCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isExecuteMultiOperationResponse_Response_Response interface {
 	isExecuteMultiOperationResponse_Response_Response()
 }
@@ -16666,7 +28911,7 @@ func (*ExecuteMultiOperationResponse_Response_UpdateWorkflow) isExecuteMultiOper
 
 // (-- api-linter: core::0123::resource-annotation=disabled --)
 type DescribeWorkerDeploymentVersionResponse_VersionTaskQueue struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Type  v11.TaskQueueType      `protobuf:"varint,2,opt,name=type,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"type,omitempty"`
 	// Only set if `report_task_queue_stats` is set on the request.
@@ -16706,11 +28951,6 @@ func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) ProtoReflect(
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DescribeWorkerDeploymentVersionResponse_VersionTaskQueue.ProtoReflect.Descriptor instead.
-func (*DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{141, 0}
-}
-
 func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) GetName() string {
 	if x != nil {
 		return x.Name
@@ -16739,10 +28979,63 @@ func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) GetStatsByPri
 	return nil
 }
 
+func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) SetName(v string) {
+	x.Name = v
+}
+
+func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) SetType(v v11.TaskQueueType) {
+	x.Type = v
+}
+
+func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) SetStats(v *v14.TaskQueueStats) {
+	x.Stats = v
+}
+
+func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) SetStatsByPriorityKey(v map[int32]*v14.TaskQueueStats) {
+	x.StatsByPriorityKey = v
+}
+
+func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) HasStats() bool {
+	if x == nil {
+		return false
+	}
+	return x.Stats != nil
+}
+
+func (x *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue) ClearStats() {
+	x.Stats = nil
+}
+
+type DescribeWorkerDeploymentVersionResponse_VersionTaskQueue_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name string
+	Type v11.TaskQueueType
+	// Only set if `report_task_queue_stats` is set on the request.
+	Stats *v14.TaskQueueStats
+	// Task queue stats breakdown by priority key. Only contains actively used priority keys.
+	// Only set if `report_task_queue_stats` is set to true in the request.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "by" is used to clarify the key. --)
+	StatsByPriorityKey map[int32]*v14.TaskQueueStats
+}
+
+func (b0 DescribeWorkerDeploymentVersionResponse_VersionTaskQueue_builder) Build() *DescribeWorkerDeploymentVersionResponse_VersionTaskQueue {
+	m0 := &DescribeWorkerDeploymentVersionResponse_VersionTaskQueue{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Type = b.Type
+	x.Stats = b.Stats
+	x.StatsByPriorityKey = b.StatsByPriorityKey
+	return m0
+}
+
 // (-- api-linter: core::0123::resource-annotation=disabled --)
 // A subset of WorkerDeploymentInfo
 type ListWorkerDeploymentsResponse_WorkerDeploymentSummary struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	RoutingConfig *v18.RoutingConfig     `protobuf:"bytes,3,opt,name=routing_config,json=routingConfig,proto3" json:"routing_config,omitempty"`
@@ -16779,11 +29072,6 @@ func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) ProtoReflect() p
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListWorkerDeploymentsResponse_WorkerDeploymentSummary.ProtoReflect.Descriptor instead.
-func (*ListWorkerDeploymentsResponse_WorkerDeploymentSummary) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{153, 0}
 }
 
 func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) GetName() string {
@@ -16828,8 +29116,114 @@ func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) GetRampingVersio
 	return nil
 }
 
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) SetName(v string) {
+	x.Name = v
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) SetRoutingConfig(v *v18.RoutingConfig) {
+	x.RoutingConfig = v
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) SetLatestVersionSummary(v *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary) {
+	x.LatestVersionSummary = v
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) SetCurrentVersionSummary(v *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary) {
+	x.CurrentVersionSummary = v
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) SetRampingVersionSummary(v *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary) {
+	x.RampingVersionSummary = v
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) HasRoutingConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.RoutingConfig != nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) HasLatestVersionSummary() bool {
+	if x == nil {
+		return false
+	}
+	return x.LatestVersionSummary != nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) HasCurrentVersionSummary() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentVersionSummary != nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) HasRampingVersionSummary() bool {
+	if x == nil {
+		return false
+	}
+	return x.RampingVersionSummary != nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) ClearRoutingConfig() {
+	x.RoutingConfig = nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) ClearLatestVersionSummary() {
+	x.LatestVersionSummary = nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) ClearCurrentVersionSummary() {
+	x.CurrentVersionSummary = nil
+}
+
+func (x *ListWorkerDeploymentsResponse_WorkerDeploymentSummary) ClearRampingVersionSummary() {
+	x.RampingVersionSummary = nil
+}
+
+type ListWorkerDeploymentsResponse_WorkerDeploymentSummary_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name          string
+	CreateTime    *timestamppb.Timestamp
+	RoutingConfig *v18.RoutingConfig
+	// Summary of the version that was added most recently in the Worker Deployment.
+	LatestVersionSummary *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary
+	// Summary of the current version of the Worker Deployment.
+	CurrentVersionSummary *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary
+	// Summary of the ramping version of the Worker Deployment.
+	RampingVersionSummary *v18.WorkerDeploymentInfo_WorkerDeploymentVersionSummary
+}
+
+func (b0 ListWorkerDeploymentsResponse_WorkerDeploymentSummary_builder) Build() *ListWorkerDeploymentsResponse_WorkerDeploymentSummary {
+	m0 := &ListWorkerDeploymentsResponse_WorkerDeploymentSummary{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.CreateTime = b.CreateTime
+	x.RoutingConfig = b.RoutingConfig
+	x.LatestVersionSummary = b.LatestVersionSummary
+	x.CurrentVersionSummary = b.CurrentVersionSummary
+	x.RampingVersionSummary = b.RampingVersionSummary
+	return m0
+}
+
 type UpdateTaskQueueConfigRequest_RateLimitUpdate struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Rate Limit to be updated
 	RateLimit *v14.RateLimit `protobuf:"bytes,1,opt,name=rate_limit,json=rateLimit,proto3" json:"rate_limit,omitempty"`
 	// Reason for why the rate limit was set.
@@ -16863,11 +29257,6 @@ func (x *UpdateTaskQueueConfigRequest_RateLimitUpdate) ProtoReflect() protorefle
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateTaskQueueConfigRequest_RateLimitUpdate.ProtoReflect.Descriptor instead.
-func (*UpdateTaskQueueConfigRequest_RateLimitUpdate) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{180, 0}
-}
-
 func (x *UpdateTaskQueueConfigRequest_RateLimitUpdate) GetRateLimit() *v14.RateLimit {
 	if x != nil {
 		return x.RateLimit
@@ -16882,8 +29271,45 @@ func (x *UpdateTaskQueueConfigRequest_RateLimitUpdate) GetReason() string {
 	return ""
 }
 
+func (x *UpdateTaskQueueConfigRequest_RateLimitUpdate) SetRateLimit(v *v14.RateLimit) {
+	x.RateLimit = v
+}
+
+func (x *UpdateTaskQueueConfigRequest_RateLimitUpdate) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *UpdateTaskQueueConfigRequest_RateLimitUpdate) HasRateLimit() bool {
+	if x == nil {
+		return false
+	}
+	return x.RateLimit != nil
+}
+
+func (x *UpdateTaskQueueConfigRequest_RateLimitUpdate) ClearRateLimit() {
+	x.RateLimit = nil
+}
+
+type UpdateTaskQueueConfigRequest_RateLimitUpdate_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Rate Limit to be updated
+	RateLimit *v14.RateLimit
+	// Reason for why the rate limit was set.
+	Reason string
+}
+
+func (b0 UpdateTaskQueueConfigRequest_RateLimitUpdate_builder) Build() *UpdateTaskQueueConfigRequest_RateLimitUpdate {
+	m0 := &UpdateTaskQueueConfigRequest_RateLimitUpdate{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RateLimit = b.RateLimit
+	x.Reason = b.Reason
+	return m0
+}
+
 type CountActivityExecutionsResponse_AggregationGroup struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	GroupValues   []*v13.Payload         `protobuf:"bytes,1,rep,name=group_values,json=groupValues,proto3" json:"group_values,omitempty"`
 	Count         int64                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -16915,11 +29341,6 @@ func (x *CountActivityExecutionsResponse_AggregationGroup) ProtoReflect() protor
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CountActivityExecutionsResponse_AggregationGroup.ProtoReflect.Descriptor instead.
-func (*CountActivityExecutionsResponse_AggregationGroup) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP(), []int{201, 0}
-}
-
 func (x *CountActivityExecutionsResponse_AggregationGroup) GetGroupValues() []*v13.Payload {
 	if x != nil {
 		return x.GroupValues
@@ -16932,6 +29353,30 @@ func (x *CountActivityExecutionsResponse_AggregationGroup) GetCount() int64 {
 		return x.Count
 	}
 	return 0
+}
+
+func (x *CountActivityExecutionsResponse_AggregationGroup) SetGroupValues(v []*v13.Payload) {
+	x.GroupValues = v
+}
+
+func (x *CountActivityExecutionsResponse_AggregationGroup) SetCount(v int64) {
+	x.Count = v
+}
+
+type CountActivityExecutionsResponse_AggregationGroup_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	GroupValues []*v13.Payload
+	Count       int64
+}
+
+func (b0 CountActivityExecutionsResponse_AggregationGroup_builder) Build() *CountActivityExecutionsResponse_AggregationGroup {
+	m0 := &CountActivityExecutionsResponse_AggregationGroup{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.GroupValues = b.GroupValues
+	x.Count = b.Count
+	return m0
 }
 
 var File_temporal_api_workflowservice_v1_request_response_proto protoreflect.FileDescriptor
@@ -18227,18 +30672,6 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x06run_id\x18\x03 \x01(\tR\x05runId\"!\n" +
 	"\x1fDeleteActivityExecutionResponseB\xbe\x01\n" +
 	"\"io.temporal.api.workflowservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/workflowservice/v1;workflowservice\xaa\x02!Temporalio.Api.WorkflowService.V1\xea\x02$Temporalio::Api::WorkflowService::V1b\x06proto3"
-
-var (
-	file_temporal_api_workflowservice_v1_request_response_proto_rawDescOnce sync.Once
-	file_temporal_api_workflowservice_v1_request_response_proto_rawDescData []byte
-)
-
-func file_temporal_api_workflowservice_v1_request_response_proto_rawDescGZIP() []byte {
-	file_temporal_api_workflowservice_v1_request_response_proto_rawDescOnce.Do(func() {
-		file_temporal_api_workflowservice_v1_request_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_workflowservice_v1_request_response_proto_rawDesc), len(file_temporal_api_workflowservice_v1_request_response_proto_rawDesc)))
-	})
-	return file_temporal_api_workflowservice_v1_request_response_proto_rawDescData
-}
 
 var file_temporal_api_workflowservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 237)
 var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{

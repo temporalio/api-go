@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/workflow.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -104,11 +105,6 @@ func (x WorkflowIdReusePolicy) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use WorkflowIdReusePolicy.Descriptor instead.
-func (WorkflowIdReusePolicy) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{0}
-}
-
 // Defines what to do when trying to start a workflow with the same workflow id as a *running* workflow.
 // Note that it is *never* valid to have two actively running instances of the same workflow id.
 //
@@ -175,11 +171,6 @@ func (x WorkflowIdConflictPolicy) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use WorkflowIdConflictPolicy.Descriptor instead.
-func (WorkflowIdConflictPolicy) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{1}
-}
-
 // Defines how child workflows will react to their parent completing
 type ParentClosePolicy int32
 
@@ -243,11 +234,6 @@ func (x ParentClosePolicy) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ParentClosePolicy.Descriptor instead.
-func (ParentClosePolicy) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{2}
-}
-
 type ContinueAsNewInitiator int32
 
 const (
@@ -308,11 +294,6 @@ func (ContinueAsNewInitiator) Type() protoreflect.EnumType {
 
 func (x ContinueAsNewInitiator) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ContinueAsNewInitiator.Descriptor instead.
-func (ContinueAsNewInitiator) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{3}
 }
 
 // (-- api-linter: core::0216::synonyms=disabled
@@ -383,10 +364,7 @@ func (x WorkflowExecutionStatus) String() string {
 		return "ContinuedAsNew"
 	case WORKFLOW_EXECUTION_STATUS_TIMED_OUT:
 		return "TimedOut"
-	case
-
-		// Deprecated: Use WorkflowExecutionStatus.Descriptor instead.
-		WORKFLOW_EXECUTION_STATUS_PAUSED:
+	case WORKFLOW_EXECUTION_STATUS_PAUSED:
 		return "Paused"
 	default:
 		return strconv.Itoa(int(x))
@@ -404,10 +382,6 @@ func (WorkflowExecutionStatus) Type() protoreflect.EnumType {
 
 func (x WorkflowExecutionStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-func (WorkflowExecutionStatus) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{4}
 }
 
 type PendingActivityState int32
@@ -481,11 +455,6 @@ func (x PendingActivityState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use PendingActivityState.Descriptor instead.
-func (PendingActivityState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{5}
-}
-
 type PendingWorkflowTaskState int32
 
 const (
@@ -540,11 +509,6 @@ func (x PendingWorkflowTaskState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use PendingWorkflowTaskState.Descriptor instead.
-func (PendingWorkflowTaskState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{6}
-}
-
 type HistoryEventFilterType int32
 
 const (
@@ -597,11 +561,6 @@ func (HistoryEventFilterType) Type() protoreflect.EnumType {
 
 func (x HistoryEventFilterType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use HistoryEventFilterType.Descriptor instead.
-func (HistoryEventFilterType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{7}
 }
 
 type RetryState int32
@@ -664,8 +623,6 @@ func (x RetryState) String() string {
 	case RETRY_STATE_INTERNAL_SERVER_ERROR:
 		return "InternalServerError"
 	case RETRY_STATE_CANCEL_REQUESTED:
-
-		// Deprecated: Use RetryState.Descriptor instead.
 		return "CancelRequested"
 	default:
 		return strconv.Itoa(int(x))
@@ -683,10 +640,6 @@ func (RetryState) Type() protoreflect.EnumType {
 
 func (x RetryState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-func (RetryState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{8}
 }
 
 type TimeoutType int32
@@ -751,11 +704,6 @@ func (TimeoutType) Type() protoreflect.EnumType {
 
 func (x TimeoutType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use TimeoutType.Descriptor instead.
-func (TimeoutType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{9}
 }
 
 // Versioning Behavior specifies if and how a workflow execution moves between Worker Deployment
@@ -857,11 +805,6 @@ func (x VersioningBehavior) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use VersioningBehavior.Descriptor instead.
-func (VersioningBehavior) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{10}
-}
-
 // Experimental. Defines the versioning behavior to be used by the first task of a new workflow run in a continue-as-new chain.
 type ContinueAsNewVersioningBehavior int32
 
@@ -919,11 +862,6 @@ func (ContinueAsNewVersioningBehavior) Type() protoreflect.EnumType {
 
 func (x ContinueAsNewVersioningBehavior) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ContinueAsNewVersioningBehavior.Descriptor instead.
-func (ContinueAsNewVersioningBehavior) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{11}
 }
 
 // SuggestContinueAsNewReason specifies why SuggestContinueAsNew is true.
@@ -994,11 +932,6 @@ func (SuggestContinueAsNewReason) Type() protoreflect.EnumType {
 
 func (x SuggestContinueAsNewReason) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use SuggestContinueAsNewReason.Descriptor instead.
-func (SuggestContinueAsNewReason) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_workflow_proto_rawDescGZIP(), []int{12}
 }
 
 var File_temporal_api_enums_v1_workflow_proto protoreflect.FileDescriptor
@@ -1082,18 +1015,6 @@ const file_temporal_api_enums_v1_workflow_proto_rawDesc = "" +
 	"/SUGGEST_CONTINUE_AS_NEW_REASON_TOO_MANY_UPDATES\x10\x03\x12K\n" +
 	"GSUGGEST_CONTINUE_AS_NEW_REASON_TARGET_WORKER_DEPLOYMENT_VERSION_CHANGED\x10\x04B\x85\x01\n" +
 	"\x18io.temporal.api.enums.v1B\rWorkflowProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_workflow_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_workflow_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_workflow_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_workflow_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_workflow_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_workflow_proto_rawDesc), len(file_temporal_api_enums_v1_workflow_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_workflow_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_workflow_proto_enumTypes = make([]protoimpl.EnumInfo, 13)
 var file_temporal_api_enums_v1_workflow_proto_goTypes = []any{

@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/command/v1/message.proto
 
+//go:build !protoopaque
+
 package command
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/common/v1"
@@ -29,7 +31,7 @@ const (
 )
 
 type ScheduleActivityTaskCommandAttributes struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
+	state        protoimpl.MessageState `protogen:"hybrid.v1"`
 	ActivityId   string                 `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	ActivityType *v1.ActivityType       `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
 	TaskQueue    *v11.TaskQueue         `protobuf:"bytes,4,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
@@ -105,11 +107,6 @@ func (x *ScheduleActivityTaskCommandAttributes) ProtoReflect() protoreflect.Mess
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ScheduleActivityTaskCommandAttributes.ProtoReflect.Descriptor instead.
-func (*ScheduleActivityTaskCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ScheduleActivityTaskCommandAttributes) GetActivityId() string {
@@ -203,8 +200,243 @@ func (x *ScheduleActivityTaskCommandAttributes) GetPriority() *v1.Priority {
 	return nil
 }
 
+func (x *ScheduleActivityTaskCommandAttributes) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetActivityType(v *v1.ActivityType) {
+	x.ActivityType = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetTaskQueue(v *v11.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetHeartbeatTimeout(v *durationpb.Duration) {
+	x.HeartbeatTimeout = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetRequestEagerExecution(v bool) {
+	x.RequestEagerExecution = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetUseWorkflowBuildId(v bool) {
+	x.UseWorkflowBuildId = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasActivityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityType != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasHeartbeatTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatTimeout != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearActivityType() {
+	x.ActivityType = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearHeartbeatTimeout() {
+	x.HeartbeatTimeout = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *ScheduleActivityTaskCommandAttributes) ClearPriority() {
+	x.Priority = nil
+}
+
+type ScheduleActivityTaskCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ActivityId   string
+	ActivityType *v1.ActivityType
+	TaskQueue    *v11.TaskQueue
+	Header       *v1.Header
+	Input        *v1.Payloads
+	// Indicates how long the caller is willing to wait for activity completion. The "schedule" time
+	// is when the activity is initially scheduled, not when the most recent retry is scheduled.
+	// Limits how long retries will be attempted. Either this or `start_to_close_timeout` must be
+	// specified. When not specified, defaults to the workflow execution timeout.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// Limits the time an activity task can stay in a task queue before a worker picks it up. The
+	// "schedule" time is when the most recent retry is scheduled. This timeout should usually not
+	// be set: it's useful in specific scenarios like worker-specific task queues. This timeout is
+	// always non retryable, as all a retry would achieve is to put it back into the same queue.
+	// Defaults to `schedule_to_close_timeout` or workflow execution timeout if that is not
+	// specified. More info:
+	// https://docs.temporal.io/docs/content/what-is-a-schedule-to-start-timeout/
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToStartTimeout *durationpb.Duration
+	// Maximum time an activity is allowed to execute after being picked up by a worker. This
+	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+	// Maximum permitted time between successful worker heartbeats.
+	HeartbeatTimeout *durationpb.Duration
+	// Activities are provided by a default retry policy which is controlled through the service's
+	// dynamic configuration. Retries will be attempted until `schedule_to_close_timeout` has
+	// elapsed. To disable retries set retry_policy.maximum_attempts to 1.
+	RetryPolicy *v1.RetryPolicy
+	// Request to start the activity directly bypassing matching service and worker polling
+	// The slot for executing the activity should be reserved when setting this field to true.
+	RequestEagerExecution bool
+	// If this is set, the activity would be assigned to the Build ID of the workflow. Otherwise,
+	// Assignment rules of the activity's Task Queue will be used to determine the Build ID.
+	UseWorkflowBuildId bool
+	// Priority metadata. If this message is not present, or any fields are not
+	// present, they inherit the values from the workflow.
+	Priority *v1.Priority
+}
+
+func (b0 ScheduleActivityTaskCommandAttributes_builder) Build() *ScheduleActivityTaskCommandAttributes {
+	m0 := &ScheduleActivityTaskCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActivityId = b.ActivityId
+	x.ActivityType = b.ActivityType
+	x.TaskQueue = b.TaskQueue
+	x.Header = b.Header
+	x.Input = b.Input
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	x.HeartbeatTimeout = b.HeartbeatTimeout
+	x.RetryPolicy = b.RetryPolicy
+	x.RequestEagerExecution = b.RequestEagerExecution
+	x.UseWorkflowBuildId = b.UseWorkflowBuildId
+	x.Priority = b.Priority
+	return m0
+}
+
 type RequestCancelActivityTaskCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The `ACTIVITY_TASK_SCHEDULED` event id for the activity being cancelled.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -236,11 +468,6 @@ func (x *RequestCancelActivityTaskCommandAttributes) ProtoReflect() protoreflect
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequestCancelActivityTaskCommandAttributes.ProtoReflect.Descriptor instead.
-func (*RequestCancelActivityTaskCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *RequestCancelActivityTaskCommandAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -248,8 +475,27 @@ func (x *RequestCancelActivityTaskCommandAttributes) GetScheduledEventId() int64
 	return 0
 }
 
+func (x *RequestCancelActivityTaskCommandAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+type RequestCancelActivityTaskCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The `ACTIVITY_TASK_SCHEDULED` event id for the activity being cancelled.
+	ScheduledEventId int64
+}
+
+func (b0 RequestCancelActivityTaskCommandAttributes_builder) Build() *RequestCancelActivityTaskCommandAttributes {
+	m0 := &RequestCancelActivityTaskCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	return m0
+}
+
 type StartTimerCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// An id for the timer, currently live timers must have different ids. Typically autogenerated
 	// by the SDK.
 	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
@@ -288,11 +534,6 @@ func (x *StartTimerCommandAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StartTimerCommandAttributes.ProtoReflect.Descriptor instead.
-func (*StartTimerCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *StartTimerCommandAttributes) GetTimerId() string {
 	if x != nil {
 		return x.TimerId
@@ -307,8 +548,50 @@ func (x *StartTimerCommandAttributes) GetStartToFireTimeout() *durationpb.Durati
 	return nil
 }
 
+func (x *StartTimerCommandAttributes) SetTimerId(v string) {
+	x.TimerId = v
+}
+
+func (x *StartTimerCommandAttributes) SetStartToFireTimeout(v *durationpb.Duration) {
+	x.StartToFireTimeout = v
+}
+
+func (x *StartTimerCommandAttributes) HasStartToFireTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToFireTimeout != nil
+}
+
+func (x *StartTimerCommandAttributes) ClearStartToFireTimeout() {
+	x.StartToFireTimeout = nil
+}
+
+type StartTimerCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// An id for the timer, currently live timers must have different ids. Typically autogenerated
+	// by the SDK.
+	TimerId string
+	// How long until the timer fires, producing a `TIMER_FIRED` event.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToFireTimeout *durationpb.Duration
+}
+
+func (b0 StartTimerCommandAttributes_builder) Build() *StartTimerCommandAttributes {
+	m0 := &StartTimerCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TimerId = b.TimerId
+	x.StartToFireTimeout = b.StartToFireTimeout
+	return m0
+}
+
 type CompleteWorkflowExecutionCommandAttributes struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Result        *v1.Payloads           `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -339,11 +622,6 @@ func (x *CompleteWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CompleteWorkflowExecutionCommandAttributes.ProtoReflect.Descriptor instead.
-func (*CompleteWorkflowExecutionCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *CompleteWorkflowExecutionCommandAttributes) GetResult() *v1.Payloads {
 	if x != nil {
 		return x.Result
@@ -351,8 +629,37 @@ func (x *CompleteWorkflowExecutionCommandAttributes) GetResult() *v1.Payloads {
 	return nil
 }
 
+func (x *CompleteWorkflowExecutionCommandAttributes) SetResult(v *v1.Payloads) {
+	x.Result = v
+}
+
+func (x *CompleteWorkflowExecutionCommandAttributes) HasResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.Result != nil
+}
+
+func (x *CompleteWorkflowExecutionCommandAttributes) ClearResult() {
+	x.Result = nil
+}
+
+type CompleteWorkflowExecutionCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Result *v1.Payloads
+}
+
+func (b0 CompleteWorkflowExecutionCommandAttributes_builder) Build() *CompleteWorkflowExecutionCommandAttributes {
+	m0 := &CompleteWorkflowExecutionCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Result = b.Result
+	return m0
+}
+
 type FailWorkflowExecutionCommandAttributes struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Failure       *v12.Failure           `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -383,11 +690,6 @@ func (x *FailWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FailWorkflowExecutionCommandAttributes.ProtoReflect.Descriptor instead.
-func (*FailWorkflowExecutionCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *FailWorkflowExecutionCommandAttributes) GetFailure() *v12.Failure {
 	if x != nil {
 		return x.Failure
@@ -395,8 +697,37 @@ func (x *FailWorkflowExecutionCommandAttributes) GetFailure() *v12.Failure {
 	return nil
 }
 
+func (x *FailWorkflowExecutionCommandAttributes) SetFailure(v *v12.Failure) {
+	x.Failure = v
+}
+
+func (x *FailWorkflowExecutionCommandAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *FailWorkflowExecutionCommandAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type FailWorkflowExecutionCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Failure *v12.Failure
+}
+
+func (b0 FailWorkflowExecutionCommandAttributes_builder) Build() *FailWorkflowExecutionCommandAttributes {
+	m0 := &FailWorkflowExecutionCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Failure = b.Failure
+	return m0
+}
+
 type CancelTimerCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The same timer id from the start timer command
 	TimerId       string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -428,11 +759,6 @@ func (x *CancelTimerCommandAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelTimerCommandAttributes.ProtoReflect.Descriptor instead.
-func (*CancelTimerCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *CancelTimerCommandAttributes) GetTimerId() string {
 	if x != nil {
 		return x.TimerId
@@ -440,8 +766,27 @@ func (x *CancelTimerCommandAttributes) GetTimerId() string {
 	return ""
 }
 
+func (x *CancelTimerCommandAttributes) SetTimerId(v string) {
+	x.TimerId = v
+}
+
+type CancelTimerCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The same timer id from the start timer command
+	TimerId string
+}
+
+func (b0 CancelTimerCommandAttributes_builder) Build() *CancelTimerCommandAttributes {
+	m0 := &CancelTimerCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TimerId = b.TimerId
+	return m0
+}
+
 type CancelWorkflowExecutionCommandAttributes struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Details       *v1.Payloads           `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -472,11 +817,6 @@ func (x *CancelWorkflowExecutionCommandAttributes) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelWorkflowExecutionCommandAttributes.ProtoReflect.Descriptor instead.
-func (*CancelWorkflowExecutionCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *CancelWorkflowExecutionCommandAttributes) GetDetails() *v1.Payloads {
 	if x != nil {
 		return x.Details
@@ -484,8 +824,37 @@ func (x *CancelWorkflowExecutionCommandAttributes) GetDetails() *v1.Payloads {
 	return nil
 }
 
+func (x *CancelWorkflowExecutionCommandAttributes) SetDetails(v *v1.Payloads) {
+	x.Details = v
+}
+
+func (x *CancelWorkflowExecutionCommandAttributes) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *CancelWorkflowExecutionCommandAttributes) ClearDetails() {
+	x.Details = nil
+}
+
+type CancelWorkflowExecutionCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Details *v1.Payloads
+}
+
+func (b0 CancelWorkflowExecutionCommandAttributes_builder) Build() *CancelWorkflowExecutionCommandAttributes {
+	m0 := &CancelWorkflowExecutionCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Details = b.Details
+	return m0
+}
+
 type RequestCancelExternalWorkflowExecutionCommandAttributes struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowId string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	RunId      string                 `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
@@ -526,11 +895,6 @@ func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) ProtoReflect()
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestCancelExternalWorkflowExecutionCommandAttributes.ProtoReflect.Descriptor instead.
-func (*RequestCancelExternalWorkflowExecutionCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) GetNamespace() string {
@@ -576,8 +940,64 @@ func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) GetReason() st
 	return ""
 }
 
+func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) SetRunId(v string) {
+	x.RunId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
+func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) SetChildWorkflowOnly(v bool) {
+	x.ChildWorkflowOnly = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionCommandAttributes) SetReason(v string) {
+	x.Reason = v
+}
+
+type RequestCancelExternalWorkflowExecutionCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	WorkflowId string
+	RunId      string
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
+	Control string
+	// Set this to true if the workflow being cancelled is a child of the workflow originating this
+	// command. The request will be rejected if it is set to true and the target workflow is *not*
+	// a child of the requesting workflow.
+	ChildWorkflowOnly bool
+	// Reason for requesting the cancellation
+	Reason string
+}
+
+func (b0 RequestCancelExternalWorkflowExecutionCommandAttributes_builder) Build() *RequestCancelExternalWorkflowExecutionCommandAttributes {
+	m0 := &RequestCancelExternalWorkflowExecutionCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	x.Control = b.Control
+	x.ChildWorkflowOnly = b.ChildWorkflowOnly
+	x.Reason = b.Reason
+	return m0
+}
+
 type SignalExternalWorkflowExecutionCommandAttributes struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	Execution *v1.WorkflowExecution  `protobuf:"bytes,2,opt,name=execution,proto3" json:"execution,omitempty"`
 	// The workflow author-defined name of the signal to send to the workflow.
@@ -622,11 +1042,6 @@ func (x *SignalExternalWorkflowExecutionCommandAttributes) ProtoReflect() protor
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SignalExternalWorkflowExecutionCommandAttributes.ProtoReflect.Descriptor instead.
-func (*SignalExternalWorkflowExecutionCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *SignalExternalWorkflowExecutionCommandAttributes) GetNamespace() string {
@@ -679,8 +1094,106 @@ func (x *SignalExternalWorkflowExecutionCommandAttributes) GetHeader() *v1.Heade
 	return nil
 }
 
+func (x *SignalExternalWorkflowExecutionCommandAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) SetExecution(v *v1.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) SetSignalName(v string) {
+	x.SignalName = v
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
+func (x *SignalExternalWorkflowExecutionCommandAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) SetChildWorkflowOnly(v bool) {
+	x.ChildWorkflowOnly = v
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) ClearExecution() {
+	x.Execution = nil
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *SignalExternalWorkflowExecutionCommandAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+type SignalExternalWorkflowExecutionCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	Execution *v1.WorkflowExecution
+	// The workflow author-defined name of the signal to send to the workflow.
+	SignalName string
+	// Serialized value(s) to provide with the signal.
+	Input *v1.Payloads
+	// Deprecated
+	//
+	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
+	Control string
+	// Set this to true if the workflow being cancelled is a child of the workflow originating this
+	// command. The request will be rejected if it is set to true and the target workflow is *not*
+	// a child of the requesting workflow.
+	ChildWorkflowOnly bool
+	// Headers that are passed by the workflow that is sending a signal to the external
+	// workflow that is receiving this signal.
+	Header *v1.Header
+}
+
+func (b0 SignalExternalWorkflowExecutionCommandAttributes_builder) Build() *SignalExternalWorkflowExecutionCommandAttributes {
+	m0 := &SignalExternalWorkflowExecutionCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.Execution = b.Execution
+	x.SignalName = b.SignalName
+	x.Input = b.Input
+	x.Control = b.Control
+	x.ChildWorkflowOnly = b.ChildWorkflowOnly
+	x.Header = b.Header
+	return m0
+}
+
 type UpsertWorkflowSearchAttributesCommandAttributes struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
+	state            protoimpl.MessageState `protogen:"hybrid.v1"`
 	SearchAttributes *v1.SearchAttributes   `protobuf:"bytes,1,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
@@ -711,11 +1224,6 @@ func (x *UpsertWorkflowSearchAttributesCommandAttributes) ProtoReflect() protore
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpsertWorkflowSearchAttributesCommandAttributes.ProtoReflect.Descriptor instead.
-func (*UpsertWorkflowSearchAttributesCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *UpsertWorkflowSearchAttributesCommandAttributes) GetSearchAttributes() *v1.SearchAttributes {
 	if x != nil {
 		return x.SearchAttributes
@@ -723,8 +1231,37 @@ func (x *UpsertWorkflowSearchAttributesCommandAttributes) GetSearchAttributes() 
 	return nil
 }
 
+func (x *UpsertWorkflowSearchAttributesCommandAttributes) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *UpsertWorkflowSearchAttributesCommandAttributes) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *UpsertWorkflowSearchAttributesCommandAttributes) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+type UpsertWorkflowSearchAttributesCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	SearchAttributes *v1.SearchAttributes
+}
+
+func (b0 UpsertWorkflowSearchAttributesCommandAttributes_builder) Build() *UpsertWorkflowSearchAttributesCommandAttributes {
+	m0 := &UpsertWorkflowSearchAttributesCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SearchAttributes = b.SearchAttributes
+	return m0
+}
+
 type ModifyWorkflowPropertiesCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// If set, update the workflow memo with the provided values. The values will be merged with
 	// the existing memo. If the user wants to delete values, a default/empty Payload should be
 	// used as the value for the key being deleted.
@@ -758,11 +1295,6 @@ func (x *ModifyWorkflowPropertiesCommandAttributes) ProtoReflect() protoreflect.
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ModifyWorkflowPropertiesCommandAttributes.ProtoReflect.Descriptor instead.
-func (*ModifyWorkflowPropertiesCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *ModifyWorkflowPropertiesCommandAttributes) GetUpsertedMemo() *v1.Memo {
 	if x != nil {
 		return x.UpsertedMemo
@@ -770,8 +1302,40 @@ func (x *ModifyWorkflowPropertiesCommandAttributes) GetUpsertedMemo() *v1.Memo {
 	return nil
 }
 
+func (x *ModifyWorkflowPropertiesCommandAttributes) SetUpsertedMemo(v *v1.Memo) {
+	x.UpsertedMemo = v
+}
+
+func (x *ModifyWorkflowPropertiesCommandAttributes) HasUpsertedMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpsertedMemo != nil
+}
+
+func (x *ModifyWorkflowPropertiesCommandAttributes) ClearUpsertedMemo() {
+	x.UpsertedMemo = nil
+}
+
+type ModifyWorkflowPropertiesCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// If set, update the workflow memo with the provided values. The values will be merged with
+	// the existing memo. If the user wants to delete values, a default/empty Payload should be
+	// used as the value for the key being deleted.
+	UpsertedMemo *v1.Memo
+}
+
+func (b0 ModifyWorkflowPropertiesCommandAttributes_builder) Build() *ModifyWorkflowPropertiesCommandAttributes {
+	m0 := &ModifyWorkflowPropertiesCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.UpsertedMemo = b.UpsertedMemo
+	return m0
+}
+
 type RecordMarkerCommandAttributes struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
+	state         protoimpl.MessageState  `protogen:"hybrid.v1"`
 	MarkerName    string                  `protobuf:"bytes,1,opt,name=marker_name,json=markerName,proto3" json:"marker_name,omitempty"`
 	Details       map[string]*v1.Payloads `protobuf:"bytes,2,rep,name=details,proto3" json:"details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Header        *v1.Header              `protobuf:"bytes,3,opt,name=header,proto3" json:"header,omitempty"`
@@ -805,11 +1369,6 @@ func (x *RecordMarkerCommandAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RecordMarkerCommandAttributes.ProtoReflect.Descriptor instead.
-func (*RecordMarkerCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *RecordMarkerCommandAttributes) GetMarkerName() string {
 	if x != nil {
 		return x.MarkerName
@@ -838,8 +1397,66 @@ func (x *RecordMarkerCommandAttributes) GetFailure() *v12.Failure {
 	return nil
 }
 
+func (x *RecordMarkerCommandAttributes) SetMarkerName(v string) {
+	x.MarkerName = v
+}
+
+func (x *RecordMarkerCommandAttributes) SetDetails(v map[string]*v1.Payloads) {
+	x.Details = v
+}
+
+func (x *RecordMarkerCommandAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *RecordMarkerCommandAttributes) SetFailure(v *v12.Failure) {
+	x.Failure = v
+}
+
+func (x *RecordMarkerCommandAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *RecordMarkerCommandAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *RecordMarkerCommandAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *RecordMarkerCommandAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type RecordMarkerCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	MarkerName string
+	Details    map[string]*v1.Payloads
+	Header     *v1.Header
+	Failure    *v12.Failure
+}
+
+func (b0 RecordMarkerCommandAttributes_builder) Build() *RecordMarkerCommandAttributes {
+	m0 := &RecordMarkerCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MarkerName = b.MarkerName
+	x.Details = b.Details
+	x.Header = b.Header
+	x.Failure = b.Failure
+	return m0
+}
+
 type ContinueAsNewWorkflowExecutionCommandAttributes struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
+	state        protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowType *v1.WorkflowType       `protobuf:"bytes,1,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	TaskQueue    *v11.TaskQueue         `protobuf:"bytes,2,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	Input        *v1.Payloads           `protobuf:"bytes,3,opt,name=input,proto3" json:"input,omitempty"`
@@ -898,11 +1515,6 @@ func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ProtoReflect() protore
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ContinueAsNewWorkflowExecutionCommandAttributes.ProtoReflect.Descriptor instead.
-func (*ContinueAsNewWorkflowExecutionCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ContinueAsNewWorkflowExecutionCommandAttributes) GetWorkflowType() *v1.WorkflowType {
@@ -1018,8 +1630,264 @@ func (x *ContinueAsNewWorkflowExecutionCommandAttributes) GetInitialVersioningBe
 	return v13.ContinueAsNewVersioningBehavior(0)
 }
 
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetTaskQueue(v *v11.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.WorkflowTaskTimeout = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetBackoffStartInterval(v *durationpb.Duration) {
+	x.BackoffStartInterval = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetInitiator(v v13.ContinueAsNewInitiator) {
+	x.Initiator = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetFailure(v *v12.Failure) {
+	x.Failure = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetLastCompletionResult(v *v1.Payloads) {
+	x.LastCompletionResult = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetCronSchedule(v string) {
+	x.CronSchedule = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetMemo(v *v1.Memo) {
+	x.Memo = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetInheritBuildId(v bool) {
+	x.InheritBuildId = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) SetInitialVersioningBehavior(v v13.ContinueAsNewVersioningBehavior) {
+	x.InitialVersioningBehavior = v
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskTimeout != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasBackoffStartInterval() bool {
+	if x == nil {
+		return false
+	}
+	return x.BackoffStartInterval != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasLastCompletionResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastCompletionResult != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearWorkflowTaskTimeout() {
+	x.WorkflowTaskTimeout = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearBackoffStartInterval() {
+	x.BackoffStartInterval = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearLastCompletionResult() {
+	x.LastCompletionResult = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *ContinueAsNewWorkflowExecutionCommandAttributes) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+type ContinueAsNewWorkflowExecutionCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowType *v1.WorkflowType
+	TaskQueue    *v11.TaskQueue
+	Input        *v1.Payloads
+	// Timeout of a single workflow run.
+	WorkflowRunTimeout *durationpb.Duration
+	// Timeout of a single workflow task.
+	WorkflowTaskTimeout *durationpb.Duration
+	// How long the workflow start will be delayed - not really a "backoff" in the traditional sense.
+	BackoffStartInterval *durationpb.Duration
+	RetryPolicy          *v1.RetryPolicy
+	// Should be removed
+	Initiator v13.ContinueAsNewInitiator
+	// Should be removed
+	Failure *v12.Failure
+	// Should be removed
+	LastCompletionResult *v1.Payloads
+	// Should be removed. Not necessarily unused but unclear and not exposed by SDKs.
+	CronSchedule     string
+	Header           *v1.Header
+	Memo             *v1.Memo
+	SearchAttributes *v1.SearchAttributes
+	// If this is set, the new execution inherits the Build ID of the current execution. Otherwise,
+	// the assignment rules will be used to independently assign a Build ID to the new execution.
+	// Deprecated. Only considered for versioning v0.2.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
+	InheritBuildId bool
+	// Experimental. Optionally decide the versioning behavior that the first task of the new run should use.
+	// For example, choose to AutoUpgrade on continue-as-new instead of inheriting the pinned version
+	// of the previous run.
+	InitialVersioningBehavior v13.ContinueAsNewVersioningBehavior
+}
+
+func (b0 ContinueAsNewWorkflowExecutionCommandAttributes_builder) Build() *ContinueAsNewWorkflowExecutionCommandAttributes {
+	m0 := &ContinueAsNewWorkflowExecutionCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowType = b.WorkflowType
+	x.TaskQueue = b.TaskQueue
+	x.Input = b.Input
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.WorkflowTaskTimeout = b.WorkflowTaskTimeout
+	x.BackoffStartInterval = b.BackoffStartInterval
+	x.RetryPolicy = b.RetryPolicy
+	x.Initiator = b.Initiator
+	x.Failure = b.Failure
+	x.LastCompletionResult = b.LastCompletionResult
+	x.CronSchedule = b.CronSchedule
+	x.Header = b.Header
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.InheritBuildId = b.InheritBuildId
+	x.InitialVersioningBehavior = b.InitialVersioningBehavior
+	return m0
+}
+
 type StartChildWorkflowExecutionCommandAttributes struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
+	state        protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace    string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowId   string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	WorkflowType *v1.WorkflowType       `protobuf:"bytes,3,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
@@ -1078,11 +1946,6 @@ func (x *StartChildWorkflowExecutionCommandAttributes) ProtoReflect() protorefle
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StartChildWorkflowExecutionCommandAttributes.ProtoReflect.Descriptor instead.
-func (*StartChildWorkflowExecutionCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *StartChildWorkflowExecutionCommandAttributes) GetNamespace() string {
@@ -1212,8 +2075,263 @@ func (x *StartChildWorkflowExecutionCommandAttributes) GetPriority() *v1.Priorit
 	return nil
 }
 
+func (x *StartChildWorkflowExecutionCommandAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetTaskQueue(v *v11.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetWorkflowExecutionTimeout(v *durationpb.Duration) {
+	x.WorkflowExecutionTimeout = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.WorkflowTaskTimeout = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetParentClosePolicy(v v13.ParentClosePolicy) {
+	x.ParentClosePolicy = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetWorkflowIdReusePolicy(v v13.WorkflowIdReusePolicy) {
+	x.WorkflowIdReusePolicy = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetCronSchedule(v string) {
+	x.CronSchedule = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetMemo(v *v1.Memo) {
+	x.Memo = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
+func (x *StartChildWorkflowExecutionCommandAttributes) SetInheritBuildId(v bool) {
+	x.InheritBuildId = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasWorkflowExecutionTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionTimeout != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskTimeout != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearWorkflowExecutionTimeout() {
+	x.WorkflowExecutionTimeout = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearWorkflowTaskTimeout() {
+	x.WorkflowTaskTimeout = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *StartChildWorkflowExecutionCommandAttributes) ClearPriority() {
+	x.Priority = nil
+}
+
+type StartChildWorkflowExecutionCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace    string
+	WorkflowId   string
+	WorkflowType *v1.WorkflowType
+	TaskQueue    *v11.TaskQueue
+	Input        *v1.Payloads
+	// Total workflow execution timeout including retries and continue as new.
+	WorkflowExecutionTimeout *durationpb.Duration
+	// Timeout of a single workflow run.
+	WorkflowRunTimeout *durationpb.Duration
+	// Timeout of a single workflow task.
+	WorkflowTaskTimeout *durationpb.Duration
+	// Default: PARENT_CLOSE_POLICY_TERMINATE.
+	ParentClosePolicy v13.ParentClosePolicy
+	Control           string
+	// Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	WorkflowIdReusePolicy v13.WorkflowIdReusePolicy
+	RetryPolicy           *v1.RetryPolicy
+	// Establish a cron schedule for the child workflow.
+	CronSchedule     string
+	Header           *v1.Header
+	Memo             *v1.Memo
+	SearchAttributes *v1.SearchAttributes
+	// If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment
+	// rules of the child's Task Queue will be used to independently assign a Build ID to it.
+	// Deprecated. Only considered for versioning v0.2.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/command/v1/message.proto.
+	InheritBuildId bool
+	// Priority metadata. If this message is not present, or any fields are not
+	// present, they inherit the values from the workflow.
+	Priority *v1.Priority
+}
+
+func (b0 StartChildWorkflowExecutionCommandAttributes_builder) Build() *StartChildWorkflowExecutionCommandAttributes {
+	m0 := &StartChildWorkflowExecutionCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.WorkflowType = b.WorkflowType
+	x.TaskQueue = b.TaskQueue
+	x.Input = b.Input
+	x.WorkflowExecutionTimeout = b.WorkflowExecutionTimeout
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.WorkflowTaskTimeout = b.WorkflowTaskTimeout
+	x.ParentClosePolicy = b.ParentClosePolicy
+	x.Control = b.Control
+	x.WorkflowIdReusePolicy = b.WorkflowIdReusePolicy
+	x.RetryPolicy = b.RetryPolicy
+	x.CronSchedule = b.CronSchedule
+	x.Header = b.Header
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.InheritBuildId = b.InheritBuildId
+	x.Priority = b.Priority
+	return m0
+}
+
 type ProtocolMessageCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The message ID of the message to which this command is a pointer.
 	MessageId     string `protobuf:"bytes,1,opt,name=message_id,json=messageId,proto3" json:"message_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1245,11 +2363,6 @@ func (x *ProtocolMessageCommandAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ProtocolMessageCommandAttributes.ProtoReflect.Descriptor instead.
-func (*ProtocolMessageCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{14}
-}
-
 func (x *ProtocolMessageCommandAttributes) GetMessageId() string {
 	if x != nil {
 		return x.MessageId
@@ -1257,8 +2370,27 @@ func (x *ProtocolMessageCommandAttributes) GetMessageId() string {
 	return ""
 }
 
+func (x *ProtocolMessageCommandAttributes) SetMessageId(v string) {
+	x.MessageId = v
+}
+
+type ProtocolMessageCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The message ID of the message to which this command is a pointer.
+	MessageId string
+}
+
+func (b0 ProtocolMessageCommandAttributes_builder) Build() *ProtocolMessageCommandAttributes {
+	m0 := &ProtocolMessageCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MessageId = b.MessageId
+	return m0
+}
+
 type ScheduleNexusOperationCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Endpoint name, must exist in the endpoint registry or this command will fail.
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	// Service name.
@@ -1335,11 +2467,6 @@ func (x *ScheduleNexusOperationCommandAttributes) ProtoReflect() protoreflect.Me
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScheduleNexusOperationCommandAttributes.ProtoReflect.Descriptor instead.
-func (*ScheduleNexusOperationCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *ScheduleNexusOperationCommandAttributes) GetEndpoint() string {
 	if x != nil {
 		return x.Endpoint
@@ -1396,8 +2523,151 @@ func (x *ScheduleNexusOperationCommandAttributes) GetStartToCloseTimeout() *dura
 	return nil
 }
 
+func (x *ScheduleNexusOperationCommandAttributes) SetEndpoint(v string) {
+	x.Endpoint = v
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) SetService(v string) {
+	x.Service = v
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) SetOperation(v string) {
+	x.Operation = v
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) SetInput(v *v1.Payload) {
+	x.Input = v
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) SetNexusHeader(v map[string]string) {
+	x.NexusHeader = v
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+func (x *ScheduleNexusOperationCommandAttributes) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+type ScheduleNexusOperationCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Endpoint name, must exist in the endpoint registry or this command will fail.
+	Endpoint string
+	// Service name.
+	Service string
+	// Operation name.
+	Operation string
+	// Input for the operation. The server converts this into Nexus request content and the appropriate content headers
+	// internally when sending the StartOperation request. On the handler side, if it is also backed by Temporal, the
+	// content is transformed back to the original Payload sent in this command.
+	Input *v1.Payload
+	// Schedule-to-close timeout for this operation.
+	// Indicates how long the caller is willing to wait for operation completion.
+	// Calls are retried internally by the server.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// Header to attach to the Nexus request.
+	// Users are responsible for encrypting sensitive data in this header as it is stored in workflow history and
+	// transmitted to external services as-is.
+	// This is useful for propagating tracing information.
+	// Note these headers are not the same as Temporal headers on internal activities and child workflows, these are
+	// transmitted to Nexus operations that may be external and are not traditional payloads.
+	NexusHeader map[string]string
+	// Schedule-to-start timeout for this operation.
+	// Indicates how long the caller is willing to wait for the operation to be started (or completed if synchronous)
+	// by the handler. If the operation is not started within this timeout, it will fail with
+	// TIMEOUT_TYPE_SCHEDULE_TO_START.
+	// If not set or zero, no schedule-to-start timeout is enforced.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	// Requires server version 1.31.0 or later.
+	ScheduleToStartTimeout *durationpb.Duration
+	// Start-to-close timeout for this operation.
+	// Indicates how long the caller is willing to wait for an asynchronous operation to complete after it has been
+	// started. If the operation does not complete within this timeout after starting, it will fail with
+	// TIMEOUT_TYPE_START_TO_CLOSE.
+	// Only applies to asynchronous operations. Synchronous operations ignore this timeout.
+	// If not set or zero, no start-to-close timeout is enforced.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	//
+	// Requires server version 1.31.0 or later.
+	StartToCloseTimeout *durationpb.Duration
+}
+
+func (b0 ScheduleNexusOperationCommandAttributes_builder) Build() *ScheduleNexusOperationCommandAttributes {
+	m0 := &ScheduleNexusOperationCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Endpoint = b.Endpoint
+	x.Service = b.Service
+	x.Operation = b.Operation
+	x.Input = b.Input
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.NexusHeader = b.NexusHeader
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	return m0
+}
+
 type RequestCancelNexusOperationCommandAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The `NEXUS_OPERATION_SCHEDULED` event ID (a unique identifier) for the operation to be canceled.
 	// The operation may ignore cancellation and end up with any completion state.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
@@ -1430,11 +2700,6 @@ func (x *RequestCancelNexusOperationCommandAttributes) ProtoReflect() protorefle
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequestCancelNexusOperationCommandAttributes.ProtoReflect.Descriptor instead.
-func (*RequestCancelNexusOperationCommandAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *RequestCancelNexusOperationCommandAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -1442,8 +2707,28 @@ func (x *RequestCancelNexusOperationCommandAttributes) GetScheduledEventId() int
 	return 0
 }
 
+func (x *RequestCancelNexusOperationCommandAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+type RequestCancelNexusOperationCommandAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The `NEXUS_OPERATION_SCHEDULED` event ID (a unique identifier) for the operation to be canceled.
+	// The operation may ignore cancellation and end up with any completion state.
+	ScheduledEventId int64
+}
+
+func (b0 RequestCancelNexusOperationCommandAttributes_builder) Build() *RequestCancelNexusOperationCommandAttributes {
+	m0 := &RequestCancelNexusOperationCommandAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	return m0
+}
+
 type Command struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
+	state       protoimpl.MessageState `protogen:"hybrid.v1"`
 	CommandType v13.CommandType        `protobuf:"varint,1,opt,name=command_type,json=commandType,proto3,enum=temporal.api.enums.v1.CommandType" json:"command_type,omitempty"`
 	// Metadata on the command. This is sometimes carried over to the history event if one is
 	// created as a result of the command. Most commands won't have this information, and how this
@@ -1505,11 +2790,6 @@ func (x *Command) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Command.ProtoReflect.Descriptor instead.
-func (*Command) Descriptor() ([]byte, []int) {
-	return file_temporal_api_command_v1_message_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *Command) GetCommandType() v13.CommandType {
@@ -1684,6 +2964,618 @@ func (x *Command) GetRequestCancelNexusOperationCommandAttributes() *RequestCanc
 		}
 	}
 	return nil
+}
+
+func (x *Command) SetCommandType(v v13.CommandType) {
+	x.CommandType = v
+}
+
+func (x *Command) SetUserMetadata(v *v14.UserMetadata) {
+	x.UserMetadata = v
+}
+
+func (x *Command) SetScheduleActivityTaskCommandAttributes(v *ScheduleActivityTaskCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_ScheduleActivityTaskCommandAttributes{v}
+}
+
+func (x *Command) SetStartTimerCommandAttributes(v *StartTimerCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_StartTimerCommandAttributes{v}
+}
+
+func (x *Command) SetCompleteWorkflowExecutionCommandAttributes(v *CompleteWorkflowExecutionCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_CompleteWorkflowExecutionCommandAttributes{v}
+}
+
+func (x *Command) SetFailWorkflowExecutionCommandAttributes(v *FailWorkflowExecutionCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_FailWorkflowExecutionCommandAttributes{v}
+}
+
+func (x *Command) SetRequestCancelActivityTaskCommandAttributes(v *RequestCancelActivityTaskCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_RequestCancelActivityTaskCommandAttributes{v}
+}
+
+func (x *Command) SetCancelTimerCommandAttributes(v *CancelTimerCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_CancelTimerCommandAttributes{v}
+}
+
+func (x *Command) SetCancelWorkflowExecutionCommandAttributes(v *CancelWorkflowExecutionCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_CancelWorkflowExecutionCommandAttributes{v}
+}
+
+func (x *Command) SetRequestCancelExternalWorkflowExecutionCommandAttributes(v *RequestCancelExternalWorkflowExecutionCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_RequestCancelExternalWorkflowExecutionCommandAttributes{v}
+}
+
+func (x *Command) SetRecordMarkerCommandAttributes(v *RecordMarkerCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_RecordMarkerCommandAttributes{v}
+}
+
+func (x *Command) SetContinueAsNewWorkflowExecutionCommandAttributes(v *ContinueAsNewWorkflowExecutionCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_ContinueAsNewWorkflowExecutionCommandAttributes{v}
+}
+
+func (x *Command) SetStartChildWorkflowExecutionCommandAttributes(v *StartChildWorkflowExecutionCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_StartChildWorkflowExecutionCommandAttributes{v}
+}
+
+func (x *Command) SetSignalExternalWorkflowExecutionCommandAttributes(v *SignalExternalWorkflowExecutionCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_SignalExternalWorkflowExecutionCommandAttributes{v}
+}
+
+func (x *Command) SetUpsertWorkflowSearchAttributesCommandAttributes(v *UpsertWorkflowSearchAttributesCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_UpsertWorkflowSearchAttributesCommandAttributes{v}
+}
+
+func (x *Command) SetProtocolMessageCommandAttributes(v *ProtocolMessageCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_ProtocolMessageCommandAttributes{v}
+}
+
+func (x *Command) SetModifyWorkflowPropertiesCommandAttributes(v *ModifyWorkflowPropertiesCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_ModifyWorkflowPropertiesCommandAttributes{v}
+}
+
+func (x *Command) SetScheduleNexusOperationCommandAttributes(v *ScheduleNexusOperationCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_ScheduleNexusOperationCommandAttributes{v}
+}
+
+func (x *Command) SetRequestCancelNexusOperationCommandAttributes(v *RequestCancelNexusOperationCommandAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &Command_RequestCancelNexusOperationCommandAttributes{v}
+}
+
+func (x *Command) HasUserMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UserMetadata != nil
+}
+
+func (x *Command) HasAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.Attributes != nil
+}
+
+func (x *Command) HasScheduleActivityTaskCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_ScheduleActivityTaskCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasStartTimerCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_StartTimerCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasCompleteWorkflowExecutionCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_CompleteWorkflowExecutionCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasFailWorkflowExecutionCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_FailWorkflowExecutionCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasRequestCancelActivityTaskCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_RequestCancelActivityTaskCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasCancelTimerCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_CancelTimerCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasCancelWorkflowExecutionCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_CancelWorkflowExecutionCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasRequestCancelExternalWorkflowExecutionCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_RequestCancelExternalWorkflowExecutionCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasRecordMarkerCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_RecordMarkerCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasContinueAsNewWorkflowExecutionCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_ContinueAsNewWorkflowExecutionCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasStartChildWorkflowExecutionCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_StartChildWorkflowExecutionCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasSignalExternalWorkflowExecutionCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_SignalExternalWorkflowExecutionCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasUpsertWorkflowSearchAttributesCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_UpsertWorkflowSearchAttributesCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasProtocolMessageCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_ProtocolMessageCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasModifyWorkflowPropertiesCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_ModifyWorkflowPropertiesCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasScheduleNexusOperationCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_ScheduleNexusOperationCommandAttributes)
+	return ok
+}
+
+func (x *Command) HasRequestCancelNexusOperationCommandAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*Command_RequestCancelNexusOperationCommandAttributes)
+	return ok
+}
+
+func (x *Command) ClearUserMetadata() {
+	x.UserMetadata = nil
+}
+
+func (x *Command) ClearAttributes() {
+	x.Attributes = nil
+}
+
+func (x *Command) ClearScheduleActivityTaskCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_ScheduleActivityTaskCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearStartTimerCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_StartTimerCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearCompleteWorkflowExecutionCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_CompleteWorkflowExecutionCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearFailWorkflowExecutionCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_FailWorkflowExecutionCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearRequestCancelActivityTaskCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_RequestCancelActivityTaskCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearCancelTimerCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_CancelTimerCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearCancelWorkflowExecutionCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_CancelWorkflowExecutionCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearRequestCancelExternalWorkflowExecutionCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_RequestCancelExternalWorkflowExecutionCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearRecordMarkerCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_RecordMarkerCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearContinueAsNewWorkflowExecutionCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_ContinueAsNewWorkflowExecutionCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearStartChildWorkflowExecutionCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_StartChildWorkflowExecutionCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearSignalExternalWorkflowExecutionCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_SignalExternalWorkflowExecutionCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearUpsertWorkflowSearchAttributesCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_UpsertWorkflowSearchAttributesCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearProtocolMessageCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_ProtocolMessageCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearModifyWorkflowPropertiesCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_ModifyWorkflowPropertiesCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearScheduleNexusOperationCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_ScheduleNexusOperationCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *Command) ClearRequestCancelNexusOperationCommandAttributes() {
+	if _, ok := x.Attributes.(*Command_RequestCancelNexusOperationCommandAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+const Command_Attributes_not_set_case case_Command_Attributes = 0
+const Command_ScheduleActivityTaskCommandAttributes_case case_Command_Attributes = 2
+const Command_StartTimerCommandAttributes_case case_Command_Attributes = 3
+const Command_CompleteWorkflowExecutionCommandAttributes_case case_Command_Attributes = 4
+const Command_FailWorkflowExecutionCommandAttributes_case case_Command_Attributes = 5
+const Command_RequestCancelActivityTaskCommandAttributes_case case_Command_Attributes = 6
+const Command_CancelTimerCommandAttributes_case case_Command_Attributes = 7
+const Command_CancelWorkflowExecutionCommandAttributes_case case_Command_Attributes = 8
+const Command_RequestCancelExternalWorkflowExecutionCommandAttributes_case case_Command_Attributes = 9
+const Command_RecordMarkerCommandAttributes_case case_Command_Attributes = 10
+const Command_ContinueAsNewWorkflowExecutionCommandAttributes_case case_Command_Attributes = 11
+const Command_StartChildWorkflowExecutionCommandAttributes_case case_Command_Attributes = 12
+const Command_SignalExternalWorkflowExecutionCommandAttributes_case case_Command_Attributes = 13
+const Command_UpsertWorkflowSearchAttributesCommandAttributes_case case_Command_Attributes = 14
+const Command_ProtocolMessageCommandAttributes_case case_Command_Attributes = 15
+const Command_ModifyWorkflowPropertiesCommandAttributes_case case_Command_Attributes = 17
+const Command_ScheduleNexusOperationCommandAttributes_case case_Command_Attributes = 18
+const Command_RequestCancelNexusOperationCommandAttributes_case case_Command_Attributes = 19
+
+func (x *Command) WhichAttributes() case_Command_Attributes {
+	if x == nil {
+		return Command_Attributes_not_set_case
+	}
+	switch x.Attributes.(type) {
+	case *Command_ScheduleActivityTaskCommandAttributes:
+		return Command_ScheduleActivityTaskCommandAttributes_case
+	case *Command_StartTimerCommandAttributes:
+		return Command_StartTimerCommandAttributes_case
+	case *Command_CompleteWorkflowExecutionCommandAttributes:
+		return Command_CompleteWorkflowExecutionCommandAttributes_case
+	case *Command_FailWorkflowExecutionCommandAttributes:
+		return Command_FailWorkflowExecutionCommandAttributes_case
+	case *Command_RequestCancelActivityTaskCommandAttributes:
+		return Command_RequestCancelActivityTaskCommandAttributes_case
+	case *Command_CancelTimerCommandAttributes:
+		return Command_CancelTimerCommandAttributes_case
+	case *Command_CancelWorkflowExecutionCommandAttributes:
+		return Command_CancelWorkflowExecutionCommandAttributes_case
+	case *Command_RequestCancelExternalWorkflowExecutionCommandAttributes:
+		return Command_RequestCancelExternalWorkflowExecutionCommandAttributes_case
+	case *Command_RecordMarkerCommandAttributes:
+		return Command_RecordMarkerCommandAttributes_case
+	case *Command_ContinueAsNewWorkflowExecutionCommandAttributes:
+		return Command_ContinueAsNewWorkflowExecutionCommandAttributes_case
+	case *Command_StartChildWorkflowExecutionCommandAttributes:
+		return Command_StartChildWorkflowExecutionCommandAttributes_case
+	case *Command_SignalExternalWorkflowExecutionCommandAttributes:
+		return Command_SignalExternalWorkflowExecutionCommandAttributes_case
+	case *Command_UpsertWorkflowSearchAttributesCommandAttributes:
+		return Command_UpsertWorkflowSearchAttributesCommandAttributes_case
+	case *Command_ProtocolMessageCommandAttributes:
+		return Command_ProtocolMessageCommandAttributes_case
+	case *Command_ModifyWorkflowPropertiesCommandAttributes:
+		return Command_ModifyWorkflowPropertiesCommandAttributes_case
+	case *Command_ScheduleNexusOperationCommandAttributes:
+		return Command_ScheduleNexusOperationCommandAttributes_case
+	case *Command_RequestCancelNexusOperationCommandAttributes:
+		return Command_RequestCancelNexusOperationCommandAttributes_case
+	default:
+		return Command_Attributes_not_set_case
+	}
+}
+
+type Command_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	CommandType v13.CommandType
+	// Metadata on the command. This is sometimes carried over to the history event if one is
+	// created as a result of the command. Most commands won't have this information, and how this
+	// information is used is dependent upon the interface that reads it.
+	//
+	// Current well-known uses:
+	//   - start_child_workflow_execution_command_attributes - populates
+	//     temporal.api.workflow.v1.WorkflowExecutionInfo.user_metadata where the summary and details
+	//     are used by user interfaces to show fixed as-of-start workflow summary and details.
+	//   - start_timer_command_attributes - populates temporal.api.history.v1.HistoryEvent for timer
+	//     started where the summary is used to identify the timer.
+	UserMetadata *v14.UserMetadata
+	// The command details. The type must match that in `command_type`.
+
+	// Fields of oneof Attributes:
+	ScheduleActivityTaskCommandAttributes                   *ScheduleActivityTaskCommandAttributes
+	StartTimerCommandAttributes                             *StartTimerCommandAttributes
+	CompleteWorkflowExecutionCommandAttributes              *CompleteWorkflowExecutionCommandAttributes
+	FailWorkflowExecutionCommandAttributes                  *FailWorkflowExecutionCommandAttributes
+	RequestCancelActivityTaskCommandAttributes              *RequestCancelActivityTaskCommandAttributes
+	CancelTimerCommandAttributes                            *CancelTimerCommandAttributes
+	CancelWorkflowExecutionCommandAttributes                *CancelWorkflowExecutionCommandAttributes
+	RequestCancelExternalWorkflowExecutionCommandAttributes *RequestCancelExternalWorkflowExecutionCommandAttributes
+	RecordMarkerCommandAttributes                           *RecordMarkerCommandAttributes
+	ContinueAsNewWorkflowExecutionCommandAttributes         *ContinueAsNewWorkflowExecutionCommandAttributes
+	StartChildWorkflowExecutionCommandAttributes            *StartChildWorkflowExecutionCommandAttributes
+	SignalExternalWorkflowExecutionCommandAttributes        *SignalExternalWorkflowExecutionCommandAttributes
+	UpsertWorkflowSearchAttributesCommandAttributes         *UpsertWorkflowSearchAttributesCommandAttributes
+	ProtocolMessageCommandAttributes                        *ProtocolMessageCommandAttributes
+	// 16 is available for use - it was used as part of a prototype that never made it into a release
+	ModifyWorkflowPropertiesCommandAttributes    *ModifyWorkflowPropertiesCommandAttributes
+	ScheduleNexusOperationCommandAttributes      *ScheduleNexusOperationCommandAttributes
+	RequestCancelNexusOperationCommandAttributes *RequestCancelNexusOperationCommandAttributes
+	// -- end of Attributes
+}
+
+func (b0 Command_builder) Build() *Command {
+	m0 := &Command{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CommandType = b.CommandType
+	x.UserMetadata = b.UserMetadata
+	if b.ScheduleActivityTaskCommandAttributes != nil {
+		x.Attributes = &Command_ScheduleActivityTaskCommandAttributes{b.ScheduleActivityTaskCommandAttributes}
+	}
+	if b.StartTimerCommandAttributes != nil {
+		x.Attributes = &Command_StartTimerCommandAttributes{b.StartTimerCommandAttributes}
+	}
+	if b.CompleteWorkflowExecutionCommandAttributes != nil {
+		x.Attributes = &Command_CompleteWorkflowExecutionCommandAttributes{b.CompleteWorkflowExecutionCommandAttributes}
+	}
+	if b.FailWorkflowExecutionCommandAttributes != nil {
+		x.Attributes = &Command_FailWorkflowExecutionCommandAttributes{b.FailWorkflowExecutionCommandAttributes}
+	}
+	if b.RequestCancelActivityTaskCommandAttributes != nil {
+		x.Attributes = &Command_RequestCancelActivityTaskCommandAttributes{b.RequestCancelActivityTaskCommandAttributes}
+	}
+	if b.CancelTimerCommandAttributes != nil {
+		x.Attributes = &Command_CancelTimerCommandAttributes{b.CancelTimerCommandAttributes}
+	}
+	if b.CancelWorkflowExecutionCommandAttributes != nil {
+		x.Attributes = &Command_CancelWorkflowExecutionCommandAttributes{b.CancelWorkflowExecutionCommandAttributes}
+	}
+	if b.RequestCancelExternalWorkflowExecutionCommandAttributes != nil {
+		x.Attributes = &Command_RequestCancelExternalWorkflowExecutionCommandAttributes{b.RequestCancelExternalWorkflowExecutionCommandAttributes}
+	}
+	if b.RecordMarkerCommandAttributes != nil {
+		x.Attributes = &Command_RecordMarkerCommandAttributes{b.RecordMarkerCommandAttributes}
+	}
+	if b.ContinueAsNewWorkflowExecutionCommandAttributes != nil {
+		x.Attributes = &Command_ContinueAsNewWorkflowExecutionCommandAttributes{b.ContinueAsNewWorkflowExecutionCommandAttributes}
+	}
+	if b.StartChildWorkflowExecutionCommandAttributes != nil {
+		x.Attributes = &Command_StartChildWorkflowExecutionCommandAttributes{b.StartChildWorkflowExecutionCommandAttributes}
+	}
+	if b.SignalExternalWorkflowExecutionCommandAttributes != nil {
+		x.Attributes = &Command_SignalExternalWorkflowExecutionCommandAttributes{b.SignalExternalWorkflowExecutionCommandAttributes}
+	}
+	if b.UpsertWorkflowSearchAttributesCommandAttributes != nil {
+		x.Attributes = &Command_UpsertWorkflowSearchAttributesCommandAttributes{b.UpsertWorkflowSearchAttributesCommandAttributes}
+	}
+	if b.ProtocolMessageCommandAttributes != nil {
+		x.Attributes = &Command_ProtocolMessageCommandAttributes{b.ProtocolMessageCommandAttributes}
+	}
+	if b.ModifyWorkflowPropertiesCommandAttributes != nil {
+		x.Attributes = &Command_ModifyWorkflowPropertiesCommandAttributes{b.ModifyWorkflowPropertiesCommandAttributes}
+	}
+	if b.ScheduleNexusOperationCommandAttributes != nil {
+		x.Attributes = &Command_ScheduleNexusOperationCommandAttributes{b.ScheduleNexusOperationCommandAttributes}
+	}
+	if b.RequestCancelNexusOperationCommandAttributes != nil {
+		x.Attributes = &Command_RequestCancelNexusOperationCommandAttributes{b.RequestCancelNexusOperationCommandAttributes}
+	}
+	return m0
+}
+
+type case_Command_Attributes protoreflect.FieldNumber
+
+func (x case_Command_Attributes) String() string {
+	switch x {
+	case Command_Attributes_not_set_case:
+		return "CommandAttributesNotSetCase"
+	case Command_ScheduleActivityTaskCommandAttributes_case:
+		return "CommandScheduleActivityTaskCommandAttributesCase"
+	case Command_StartTimerCommandAttributes_case:
+		return "CommandStartTimerCommandAttributesCase"
+	case Command_CompleteWorkflowExecutionCommandAttributes_case:
+		return "CommandCompleteWorkflowExecutionCommandAttributesCase"
+	case Command_FailWorkflowExecutionCommandAttributes_case:
+		return "CommandFailWorkflowExecutionCommandAttributesCase"
+	case Command_RequestCancelActivityTaskCommandAttributes_case:
+		return "CommandRequestCancelActivityTaskCommandAttributesCase"
+	case Command_CancelTimerCommandAttributes_case:
+		return "CommandCancelTimerCommandAttributesCase"
+	case Command_CancelWorkflowExecutionCommandAttributes_case:
+		return "CommandCancelWorkflowExecutionCommandAttributesCase"
+	case Command_RequestCancelExternalWorkflowExecutionCommandAttributes_case:
+		return "CommandRequestCancelExternalWorkflowExecutionCommandAttributesCase"
+	case Command_RecordMarkerCommandAttributes_case:
+		return "CommandRecordMarkerCommandAttributesCase"
+	case Command_ContinueAsNewWorkflowExecutionCommandAttributes_case:
+		return "CommandContinueAsNewWorkflowExecutionCommandAttributesCase"
+	case Command_StartChildWorkflowExecutionCommandAttributes_case:
+		return "CommandStartChildWorkflowExecutionCommandAttributesCase"
+	case Command_SignalExternalWorkflowExecutionCommandAttributes_case:
+		return "CommandSignalExternalWorkflowExecutionCommandAttributesCase"
+	case Command_UpsertWorkflowSearchAttributesCommandAttributes_case:
+		return "CommandUpsertWorkflowSearchAttributesCommandAttributesCase"
+	case Command_ProtocolMessageCommandAttributes_case:
+		return "CommandProtocolMessageCommandAttributesCase"
+	case Command_ModifyWorkflowPropertiesCommandAttributes_case:
+		return "CommandModifyWorkflowPropertiesCommandAttributesCase"
+	case Command_ScheduleNexusOperationCommandAttributes_case:
+		return "CommandScheduleNexusOperationCommandAttributesCase"
+	case Command_RequestCancelNexusOperationCommandAttributes_case:
+		return "CommandRequestCancelNexusOperationCommandAttributesCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 type isCommand_Attributes interface {
@@ -1940,18 +3832,6 @@ const file_temporal_api_command_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"attributesB\x8e\x01\n" +
 	"\x1aio.temporal.api.command.v1B\fMessageProtoP\x01Z%go.temporal.io/api/command/v1;command\xaa\x02\x19Temporalio.Api.Command.V1\xea\x02\x1cTemporalio::Api::Command::V1b\x06proto3"
-
-var (
-	file_temporal_api_command_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_command_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_command_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_command_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_command_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_command_v1_message_proto_rawDesc), len(file_temporal_api_command_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_command_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_command_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_temporal_api_command_v1_message_proto_goTypes = []any{

@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/command_type.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -113,8 +114,6 @@ func (x CommandType) String() string {
 		return "FailWorkflowExecution"
 	case COMMAND_TYPE_CANCEL_TIMER:
 		return "CancelTimer"
-
-		// Deprecated: Use CommandType.Descriptor instead.
 	case COMMAND_TYPE_CANCEL_WORKFLOW_EXECUTION:
 		return "CancelWorkflowExecution"
 	case COMMAND_TYPE_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION:
@@ -155,10 +154,6 @@ func (x CommandType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-func (CommandType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_command_type_proto_rawDescGZIP(), []int{0}
-}
-
 var File_temporal_api_enums_v1_command_type_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_command_type_proto_rawDesc = "" +
@@ -185,18 +180,6 @@ const file_temporal_api_enums_v1_command_type_proto_rawDesc = "" +
 	"%COMMAND_TYPE_SCHEDULE_NEXUS_OPERATION\x10\x11\x12/\n" +
 	"+COMMAND_TYPE_REQUEST_CANCEL_NEXUS_OPERATION\x10\x12B\x88\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x10CommandTypeProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_command_type_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_command_type_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_command_type_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_command_type_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_command_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_command_type_proto_rawDesc), len(file_temporal_api_enums_v1_command_type_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_command_type_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_command_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_temporal_api_enums_v1_command_type_proto_goTypes = []any{

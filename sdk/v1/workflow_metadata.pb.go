@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/sdk/v1/workflow_metadata.proto
 
+//go:build !protoopaque
+
 package sdk
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -24,7 +25,7 @@ const (
 
 // The name of the query to retrieve this information is `__temporal_workflow_metadata`.
 type WorkflowMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Metadata provided at declaration or creation time.
 	Definition *WorkflowDefinition `protobuf:"bytes,1,opt,name=definition,proto3" json:"definition,omitempty"`
 	// Current long-form details of the workflow's state. This is used by user interfaces to show
@@ -59,11 +60,6 @@ func (x *WorkflowMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowMetadata.ProtoReflect.Descriptor instead.
-func (*WorkflowMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkflowMetadata) GetDefinition() *WorkflowDefinition {
 	if x != nil {
 		return x.Definition
@@ -78,9 +74,47 @@ func (x *WorkflowMetadata) GetCurrentDetails() string {
 	return ""
 }
 
+func (x *WorkflowMetadata) SetDefinition(v *WorkflowDefinition) {
+	x.Definition = v
+}
+
+func (x *WorkflowMetadata) SetCurrentDetails(v string) {
+	x.CurrentDetails = v
+}
+
+func (x *WorkflowMetadata) HasDefinition() bool {
+	if x == nil {
+		return false
+	}
+	return x.Definition != nil
+}
+
+func (x *WorkflowMetadata) ClearDefinition() {
+	x.Definition = nil
+}
+
+type WorkflowMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Metadata provided at declaration or creation time.
+	Definition *WorkflowDefinition
+	// Current long-form details of the workflow's state. This is used by user interfaces to show
+	// long-form text. This text may be formatted by the user interface.
+	CurrentDetails string
+}
+
+func (b0 WorkflowMetadata_builder) Build() *WorkflowMetadata {
+	m0 := &WorkflowMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Definition = b.Definition
+	x.CurrentDetails = b.CurrentDetails
+	return m0
+}
+
 // (-- api-linter: core::0203::optional=disabled --)
 type WorkflowDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A name scoped by the task queue that maps to this workflow definition.
 	// If missing, this workflow is a dynamic workflow.
 	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
@@ -119,11 +153,6 @@ func (x *WorkflowDefinition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowDefinition.ProtoReflect.Descriptor instead.
-func (*WorkflowDefinition) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *WorkflowDefinition) GetType() string {
 	if x != nil {
 		return x.Type
@@ -152,13 +181,54 @@ func (x *WorkflowDefinition) GetUpdateDefinitions() []*WorkflowInteractionDefini
 	return nil
 }
 
+func (x *WorkflowDefinition) SetType(v string) {
+	x.Type = v
+}
+
+func (x *WorkflowDefinition) SetQueryDefinitions(v []*WorkflowInteractionDefinition) {
+	x.QueryDefinitions = v
+}
+
+func (x *WorkflowDefinition) SetSignalDefinitions(v []*WorkflowInteractionDefinition) {
+	x.SignalDefinitions = v
+}
+
+func (x *WorkflowDefinition) SetUpdateDefinitions(v []*WorkflowInteractionDefinition) {
+	x.UpdateDefinitions = v
+}
+
+type WorkflowDefinition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A name scoped by the task queue that maps to this workflow definition.
+	// If missing, this workflow is a dynamic workflow.
+	Type string
+	// Query definitions, sorted by name.
+	QueryDefinitions []*WorkflowInteractionDefinition
+	// Signal definitions, sorted by name.
+	SignalDefinitions []*WorkflowInteractionDefinition
+	// Update definitions, sorted by name.
+	UpdateDefinitions []*WorkflowInteractionDefinition
+}
+
+func (b0 WorkflowDefinition_builder) Build() *WorkflowDefinition {
+	m0 := &WorkflowDefinition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Type = b.Type
+	x.QueryDefinitions = b.QueryDefinitions
+	x.SignalDefinitions = b.SignalDefinitions
+	x.UpdateDefinitions = b.UpdateDefinitions
+	return m0
+}
+
 // (-- api-linter: core::0123::resource-annotation=disabled
 //
 //	aip.dev/not-precedent: The `name` field is optional. --)
 //
 // (-- api-linter: core::0203::optional=disabled --)
 type WorkflowInteractionDefinition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// An optional name for the handler. If missing, it represents
 	// a dynamic handler that processes any interactions not handled by others.
 	// There is at most one dynamic handler per workflow and interaction kind.
@@ -196,11 +266,6 @@ func (x *WorkflowInteractionDefinition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowInteractionDefinition.ProtoReflect.Descriptor instead.
-func (*WorkflowInteractionDefinition) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *WorkflowInteractionDefinition) GetName() string {
 	if x != nil {
 		return x.Name
@@ -213,6 +278,36 @@ func (x *WorkflowInteractionDefinition) GetDescription() string {
 		return x.Description
 	}
 	return ""
+}
+
+func (x *WorkflowInteractionDefinition) SetName(v string) {
+	x.Name = v
+}
+
+func (x *WorkflowInteractionDefinition) SetDescription(v string) {
+	x.Description = v
+}
+
+type WorkflowInteractionDefinition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// An optional name for the handler. If missing, it represents
+	// a dynamic handler that processes any interactions not handled by others.
+	// There is at most one dynamic handler per workflow and interaction kind.
+	Name string
+	// An optional interaction description provided by the application.
+	// By convention, external tools may interpret its first part,
+	// i.e., ending with a line break, as a summary of the description.
+	Description string
+}
+
+func (b0 WorkflowInteractionDefinition_builder) Build() *WorkflowInteractionDefinition {
+	m0 := &WorkflowInteractionDefinition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Description = b.Description
+	return m0
 }
 
 var File_temporal_api_sdk_v1_workflow_metadata_proto protoreflect.FileDescriptor
@@ -234,18 +329,6 @@ const file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescriptionB\x83\x01\n" +
 	"\x16io.temporal.api.sdk.v1B\x15WorkflowMetadataProtoP\x01Z\x1dgo.temporal.io/api/sdk/v1;sdk\xaa\x02\x15Temporalio.Api.Sdk.V1\xea\x02\x18Temporalio::Api::Sdk::V1b\x06proto3"
-
-var (
-	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData []byte
-)
-
-func file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescGZIP() []byte {
-	file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc), len(file_temporal_api_sdk_v1_workflow_metadata_proto_rawDesc)))
-	})
-	return file_temporal_api_sdk_v1_workflow_metadata_proto_rawDescData
-}
 
 var file_temporal_api_sdk_v1_workflow_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_temporal_api_sdk_v1_workflow_metadata_proto_goTypes = []any{

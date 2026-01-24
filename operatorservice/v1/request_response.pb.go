@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/operatorservice/v1/request_response.proto
 
+//go:build !protoopaque
+
 package operatorservice
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/enums/v1"
@@ -26,7 +27,7 @@ const (
 )
 
 type AddSearchAttributesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Mapping between search attribute name and its IndexedValueType.
 	SearchAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	Namespace        string                         `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -59,11 +60,6 @@ func (x *AddSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AddSearchAttributesRequest.ProtoReflect.Descriptor instead.
-func (*AddSearchAttributesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *AddSearchAttributesRequest) GetSearchAttributes() map[string]v1.IndexedValueType {
 	if x != nil {
 		return x.SearchAttributes
@@ -78,8 +74,33 @@ func (x *AddSearchAttributesRequest) GetNamespace() string {
 	return ""
 }
 
+func (x *AddSearchAttributesRequest) SetSearchAttributes(v map[string]v1.IndexedValueType) {
+	x.SearchAttributes = v
+}
+
+func (x *AddSearchAttributesRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+type AddSearchAttributesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Mapping between search attribute name and its IndexedValueType.
+	SearchAttributes map[string]v1.IndexedValueType
+	Namespace        string
+}
+
+func (b0 AddSearchAttributesRequest_builder) Build() *AddSearchAttributesRequest {
+	m0 := &AddSearchAttributesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SearchAttributes = b.SearchAttributes
+	x.Namespace = b.Namespace
+	return m0
+}
+
 type AddSearchAttributesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -109,13 +130,20 @@ func (x *AddSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AddSearchAttributesResponse.ProtoReflect.Descriptor instead.
-func (*AddSearchAttributesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{1}
+type AddSearchAttributesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 AddSearchAttributesResponse_builder) Build() *AddSearchAttributesResponse {
+	m0 := &AddSearchAttributesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type RemoveSearchAttributesRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Search attribute names to delete.
 	SearchAttributes []string `protobuf:"bytes,1,rep,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
 	Namespace        string   `protobuf:"bytes,2,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -148,11 +176,6 @@ func (x *RemoveSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoveSearchAttributesRequest.ProtoReflect.Descriptor instead.
-func (*RemoveSearchAttributesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *RemoveSearchAttributesRequest) GetSearchAttributes() []string {
 	if x != nil {
 		return x.SearchAttributes
@@ -167,8 +190,33 @@ func (x *RemoveSearchAttributesRequest) GetNamespace() string {
 	return ""
 }
 
+func (x *RemoveSearchAttributesRequest) SetSearchAttributes(v []string) {
+	x.SearchAttributes = v
+}
+
+func (x *RemoveSearchAttributesRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+type RemoveSearchAttributesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Search attribute names to delete.
+	SearchAttributes []string
+	Namespace        string
+}
+
+func (b0 RemoveSearchAttributesRequest_builder) Build() *RemoveSearchAttributesRequest {
+	m0 := &RemoveSearchAttributesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SearchAttributes = b.SearchAttributes
+	x.Namespace = b.Namespace
+	return m0
+}
+
 type RemoveSearchAttributesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -198,13 +246,20 @@ func (x *RemoveSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoveSearchAttributesResponse.ProtoReflect.Descriptor instead.
-func (*RemoveSearchAttributesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{3}
+type RemoveSearchAttributesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RemoveSearchAttributesResponse_builder) Build() *RemoveSearchAttributesResponse {
+	m0 := &RemoveSearchAttributesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListSearchAttributesRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -235,11 +290,6 @@ func (x *ListSearchAttributesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListSearchAttributesRequest.ProtoReflect.Descriptor instead.
-func (*ListSearchAttributesRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *ListSearchAttributesRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -247,8 +297,26 @@ func (x *ListSearchAttributesRequest) GetNamespace() string {
 	return ""
 }
 
+func (x *ListSearchAttributesRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+type ListSearchAttributesRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+}
+
+func (b0 ListSearchAttributesRequest_builder) Build() *ListSearchAttributesRequest {
+	m0 := &ListSearchAttributesRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	return m0
+}
+
 type ListSearchAttributesResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Mapping between custom (user-registered) search attribute name to its IndexedValueType.
 	CustomAttributes map[string]v1.IndexedValueType `protobuf:"bytes,1,rep,name=custom_attributes,json=customAttributes,proto3" json:"custom_attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value,enum=temporal.api.enums.v1.IndexedValueType"`
 	// Mapping between system (predefined) search attribute name to its IndexedValueType.
@@ -284,11 +352,6 @@ func (x *ListSearchAttributesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListSearchAttributesResponse.ProtoReflect.Descriptor instead.
-func (*ListSearchAttributesResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *ListSearchAttributesResponse) GetCustomAttributes() map[string]v1.IndexedValueType {
 	if x != nil {
 		return x.CustomAttributes
@@ -310,8 +373,41 @@ func (x *ListSearchAttributesResponse) GetStorageSchema() map[string]string {
 	return nil
 }
 
+func (x *ListSearchAttributesResponse) SetCustomAttributes(v map[string]v1.IndexedValueType) {
+	x.CustomAttributes = v
+}
+
+func (x *ListSearchAttributesResponse) SetSystemAttributes(v map[string]v1.IndexedValueType) {
+	x.SystemAttributes = v
+}
+
+func (x *ListSearchAttributesResponse) SetStorageSchema(v map[string]string) {
+	x.StorageSchema = v
+}
+
+type ListSearchAttributesResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Mapping between custom (user-registered) search attribute name to its IndexedValueType.
+	CustomAttributes map[string]v1.IndexedValueType
+	// Mapping between system (predefined) search attribute name to its IndexedValueType.
+	SystemAttributes map[string]v1.IndexedValueType
+	// Mapping from the attribute name to the visibility storage native type.
+	StorageSchema map[string]string
+}
+
+func (b0 ListSearchAttributesResponse_builder) Build() *ListSearchAttributesResponse {
+	m0 := &ListSearchAttributesResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CustomAttributes = b.CustomAttributes
+	x.SystemAttributes = b.SystemAttributes
+	x.StorageSchema = b.StorageSchema
+	return m0
+}
+
 type DeleteNamespaceRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Only one of namespace or namespace_id must be specified to identify namespace.
 	Namespace   string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	NamespaceId string `protobuf:"bytes,2,opt,name=namespace_id,json=namespaceId,proto3" json:"namespace_id,omitempty"`
@@ -347,11 +443,6 @@ func (x *DeleteNamespaceRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteNamespaceRequest.ProtoReflect.Descriptor instead.
-func (*DeleteNamespaceRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *DeleteNamespaceRequest) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -373,8 +464,52 @@ func (x *DeleteNamespaceRequest) GetNamespaceDeleteDelay() *durationpb.Duration 
 	return nil
 }
 
+func (x *DeleteNamespaceRequest) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *DeleteNamespaceRequest) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *DeleteNamespaceRequest) SetNamespaceDeleteDelay(v *durationpb.Duration) {
+	x.NamespaceDeleteDelay = v
+}
+
+func (x *DeleteNamespaceRequest) HasNamespaceDeleteDelay() bool {
+	if x == nil {
+		return false
+	}
+	return x.NamespaceDeleteDelay != nil
+}
+
+func (x *DeleteNamespaceRequest) ClearNamespaceDeleteDelay() {
+	x.NamespaceDeleteDelay = nil
+}
+
+type DeleteNamespaceRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Only one of namespace or namespace_id must be specified to identify namespace.
+	Namespace   string
+	NamespaceId string
+	// If provided, the deletion of namespace info will be delayed for the given duration (0 means no delay).
+	// If not provided, the default delay configured in the cluster will be used.
+	NamespaceDeleteDelay *durationpb.Duration
+}
+
+func (b0 DeleteNamespaceRequest_builder) Build() *DeleteNamespaceRequest {
+	m0 := &DeleteNamespaceRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.NamespaceDeleteDelay = b.NamespaceDeleteDelay
+	return m0
+}
+
 type DeleteNamespaceResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Temporary namespace name that is used during reclaim resources step.
 	DeletedNamespace string `protobuf:"bytes,1,opt,name=deleted_namespace,json=deletedNamespace,proto3" json:"deleted_namespace,omitempty"`
 	unknownFields    protoimpl.UnknownFields
@@ -406,11 +541,6 @@ func (x *DeleteNamespaceResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteNamespaceResponse.ProtoReflect.Descriptor instead.
-func (*DeleteNamespaceResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *DeleteNamespaceResponse) GetDeletedNamespace() string {
 	if x != nil {
 		return x.DeletedNamespace
@@ -418,8 +548,27 @@ func (x *DeleteNamespaceResponse) GetDeletedNamespace() string {
 	return ""
 }
 
+func (x *DeleteNamespaceResponse) SetDeletedNamespace(v string) {
+	x.DeletedNamespace = v
+}
+
+type DeleteNamespaceResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Temporary namespace name that is used during reclaim resources step.
+	DeletedNamespace string
+}
+
+func (b0 DeleteNamespaceResponse_builder) Build() *DeleteNamespaceResponse {
+	m0 := &DeleteNamespaceResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DeletedNamespace = b.DeletedNamespace
+	return m0
+}
+
 type AddOrUpdateRemoteClusterRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Frontend Address is a cross cluster accessible address for gRPC traffic. This field is required.
 	FrontendAddress string `protobuf:"bytes,1,opt,name=frontend_address,json=frontendAddress,proto3" json:"frontend_address,omitempty"`
 	// Flag to enable / disable the cross cluster connection.
@@ -459,11 +608,6 @@ func (x *AddOrUpdateRemoteClusterRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AddOrUpdateRemoteClusterRequest.ProtoReflect.Descriptor instead.
-func (*AddOrUpdateRemoteClusterRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *AddOrUpdateRemoteClusterRequest) GetFrontendAddress() string {
 	if x != nil {
 		return x.FrontendAddress
@@ -492,8 +636,50 @@ func (x *AddOrUpdateRemoteClusterRequest) GetEnableReplication() bool {
 	return false
 }
 
+func (x *AddOrUpdateRemoteClusterRequest) SetFrontendAddress(v string) {
+	x.FrontendAddress = v
+}
+
+func (x *AddOrUpdateRemoteClusterRequest) SetEnableRemoteClusterConnection(v bool) {
+	x.EnableRemoteClusterConnection = v
+}
+
+func (x *AddOrUpdateRemoteClusterRequest) SetFrontendHttpAddress(v string) {
+	x.FrontendHttpAddress = v
+}
+
+func (x *AddOrUpdateRemoteClusterRequest) SetEnableReplication(v bool) {
+	x.EnableReplication = v
+}
+
+type AddOrUpdateRemoteClusterRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Frontend Address is a cross cluster accessible address for gRPC traffic. This field is required.
+	FrontendAddress string
+	// Flag to enable / disable the cross cluster connection.
+	EnableRemoteClusterConnection bool
+	// Frontend HTTP Address is a cross cluster accessible address for HTTP traffic. This field is optional. If not provided
+	//
+	//	on update, the existing HTTP address will be removed.
+	FrontendHttpAddress string
+	// Controls whether replication streams are active.
+	EnableReplication bool
+}
+
+func (b0 AddOrUpdateRemoteClusterRequest_builder) Build() *AddOrUpdateRemoteClusterRequest {
+	m0 := &AddOrUpdateRemoteClusterRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FrontendAddress = b.FrontendAddress
+	x.EnableRemoteClusterConnection = b.EnableRemoteClusterConnection
+	x.FrontendHttpAddress = b.FrontendHttpAddress
+	x.EnableReplication = b.EnableReplication
+	return m0
+}
+
 type AddOrUpdateRemoteClusterResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -523,13 +709,20 @@ func (x *AddOrUpdateRemoteClusterResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AddOrUpdateRemoteClusterResponse.ProtoReflect.Descriptor instead.
-func (*AddOrUpdateRemoteClusterResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{9}
+type AddOrUpdateRemoteClusterResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 AddOrUpdateRemoteClusterResponse_builder) Build() *AddOrUpdateRemoteClusterResponse {
+	m0 := &AddOrUpdateRemoteClusterResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type RemoveRemoteClusterRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Remote cluster name to be removed.
 	ClusterName   string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -561,11 +754,6 @@ func (x *RemoveRemoteClusterRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoveRemoteClusterRequest.ProtoReflect.Descriptor instead.
-func (*RemoveRemoteClusterRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *RemoveRemoteClusterRequest) GetClusterName() string {
 	if x != nil {
 		return x.ClusterName
@@ -573,8 +761,27 @@ func (x *RemoveRemoteClusterRequest) GetClusterName() string {
 	return ""
 }
 
+func (x *RemoveRemoteClusterRequest) SetClusterName(v string) {
+	x.ClusterName = v
+}
+
+type RemoveRemoteClusterRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Remote cluster name to be removed.
+	ClusterName string
+}
+
+func (b0 RemoveRemoteClusterRequest_builder) Build() *RemoveRemoteClusterRequest {
+	m0 := &RemoveRemoteClusterRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ClusterName = b.ClusterName
+	return m0
+}
+
 type RemoveRemoteClusterResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -604,13 +811,20 @@ func (x *RemoveRemoteClusterResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoveRemoteClusterResponse.ProtoReflect.Descriptor instead.
-func (*RemoveRemoteClusterResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{11}
+type RemoveRemoteClusterResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 RemoveRemoteClusterResponse_builder) Build() *RemoveRemoteClusterResponse {
+	m0 := &RemoveRemoteClusterResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListClustersRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	PageSize      int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -642,11 +856,6 @@ func (x *ListClustersRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListClustersRequest.ProtoReflect.Descriptor instead.
-func (*ListClustersRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *ListClustersRequest) GetPageSize() int32 {
 	if x != nil {
 		return x.PageSize
@@ -661,8 +870,35 @@ func (x *ListClustersRequest) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListClustersRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListClustersRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListClustersRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	PageSize      int32
+	NextPageToken []byte
+}
+
+func (b0 ListClustersRequest_builder) Build() *ListClustersRequest {
+	m0 := &ListClustersRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type ListClustersResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// List of all cluster information
 	Clusters      []*ClusterMetadata `protobuf:"bytes,1,rep,name=clusters,proto3" json:"clusters,omitempty"`
 	NextPageToken []byte             `protobuf:"bytes,4,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
@@ -695,11 +931,6 @@ func (x *ListClustersResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListClustersResponse.ProtoReflect.Descriptor instead.
-func (*ListClustersResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *ListClustersResponse) GetClusters() []*ClusterMetadata {
 	if x != nil {
 		return x.Clusters
@@ -714,8 +945,36 @@ func (x *ListClustersResponse) GetNextPageToken() []byte {
 	return nil
 }
 
+func (x *ListClustersResponse) SetClusters(v []*ClusterMetadata) {
+	x.Clusters = v
+}
+
+func (x *ListClustersResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+type ListClustersResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// List of all cluster information
+	Clusters      []*ClusterMetadata
+	NextPageToken []byte
+}
+
+func (b0 ListClustersResponse_builder) Build() *ListClustersResponse {
+	m0 := &ListClustersResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Clusters = b.Clusters
+	x.NextPageToken = b.NextPageToken
+	return m0
+}
+
 type ClusterMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Name of the cluster name.
 	ClusterName string `protobuf:"bytes,1,opt,name=cluster_name,json=clusterName,proto3" json:"cluster_name,omitempty"`
 	// Id of the cluster.
@@ -759,11 +1018,6 @@ func (x *ClusterMetadata) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ClusterMetadata.ProtoReflect.Descriptor instead.
-func (*ClusterMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ClusterMetadata) GetClusterName() string {
@@ -822,8 +1076,76 @@ func (x *ClusterMetadata) GetIsReplicationEnabled() bool {
 	return false
 }
 
+func (x *ClusterMetadata) SetClusterName(v string) {
+	x.ClusterName = v
+}
+
+func (x *ClusterMetadata) SetClusterId(v string) {
+	x.ClusterId = v
+}
+
+func (x *ClusterMetadata) SetAddress(v string) {
+	x.Address = v
+}
+
+func (x *ClusterMetadata) SetHttpAddress(v string) {
+	x.HttpAddress = v
+}
+
+func (x *ClusterMetadata) SetInitialFailoverVersion(v int64) {
+	x.InitialFailoverVersion = v
+}
+
+func (x *ClusterMetadata) SetHistoryShardCount(v int32) {
+	x.HistoryShardCount = v
+}
+
+func (x *ClusterMetadata) SetIsConnectionEnabled(v bool) {
+	x.IsConnectionEnabled = v
+}
+
+func (x *ClusterMetadata) SetIsReplicationEnabled(v bool) {
+	x.IsReplicationEnabled = v
+}
+
+type ClusterMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Name of the cluster name.
+	ClusterName string
+	// Id of the cluster.
+	ClusterId string
+	// gRPC address.
+	Address string
+	// HTTP address, if one exists.
+	HttpAddress string
+	// A unique failover version across all connected clusters.
+	InitialFailoverVersion int64
+	// History service shard number.
+	HistoryShardCount int32
+	// A flag to indicate if a connection is active.
+	IsConnectionEnabled bool
+	// A flag to indicate if replication is enabled.
+	IsReplicationEnabled bool
+}
+
+func (b0 ClusterMetadata_builder) Build() *ClusterMetadata {
+	m0 := &ClusterMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ClusterName = b.ClusterName
+	x.ClusterId = b.ClusterId
+	x.Address = b.Address
+	x.HttpAddress = b.HttpAddress
+	x.InitialFailoverVersion = b.InitialFailoverVersion
+	x.HistoryShardCount = b.HistoryShardCount
+	x.IsConnectionEnabled = b.IsConnectionEnabled
+	x.IsReplicationEnabled = b.IsReplicationEnabled
+	return m0
+}
+
 type GetNexusEndpointRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Server-generated unique endpoint ID.
 	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -855,11 +1177,6 @@ func (x *GetNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetNexusEndpointRequest.ProtoReflect.Descriptor instead.
-func (*GetNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *GetNexusEndpointRequest) GetId() string {
 	if x != nil {
 		return x.Id
@@ -867,8 +1184,27 @@ func (x *GetNexusEndpointRequest) GetId() string {
 	return ""
 }
 
+func (x *GetNexusEndpointRequest) SetId(v string) {
+	x.Id = v
+}
+
+type GetNexusEndpointRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Server-generated unique endpoint ID.
+	Id string
+}
+
+func (b0 GetNexusEndpointRequest_builder) Build() *GetNexusEndpointRequest {
+	m0 := &GetNexusEndpointRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Id = b.Id
+	return m0
+}
+
 type GetNexusEndpointResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Endpoint      *v11.Endpoint          `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -899,11 +1235,6 @@ func (x *GetNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetNexusEndpointResponse.ProtoReflect.Descriptor instead.
-func (*GetNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *GetNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 	if x != nil {
 		return x.Endpoint
@@ -911,8 +1242,37 @@ func (x *GetNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 	return nil
 }
 
+func (x *GetNexusEndpointResponse) SetEndpoint(v *v11.Endpoint) {
+	x.Endpoint = v
+}
+
+func (x *GetNexusEndpointResponse) HasEndpoint() bool {
+	if x == nil {
+		return false
+	}
+	return x.Endpoint != nil
+}
+
+func (x *GetNexusEndpointResponse) ClearEndpoint() {
+	x.Endpoint = nil
+}
+
+type GetNexusEndpointResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Endpoint *v11.Endpoint
+}
+
+func (b0 GetNexusEndpointResponse_builder) Build() *GetNexusEndpointResponse {
+	m0 := &GetNexusEndpointResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Endpoint = b.Endpoint
+	return m0
+}
+
 type CreateNexusEndpointRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Endpoint definition to create.
 	Spec          *v11.EndpointSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -944,11 +1304,6 @@ func (x *CreateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateNexusEndpointRequest.ProtoReflect.Descriptor instead.
-func (*CreateNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{17}
-}
-
 func (x *CreateNexusEndpointRequest) GetSpec() *v11.EndpointSpec {
 	if x != nil {
 		return x.Spec
@@ -956,8 +1311,38 @@ func (x *CreateNexusEndpointRequest) GetSpec() *v11.EndpointSpec {
 	return nil
 }
 
+func (x *CreateNexusEndpointRequest) SetSpec(v *v11.EndpointSpec) {
+	x.Spec = v
+}
+
+func (x *CreateNexusEndpointRequest) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	return x.Spec != nil
+}
+
+func (x *CreateNexusEndpointRequest) ClearSpec() {
+	x.Spec = nil
+}
+
+type CreateNexusEndpointRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Endpoint definition to create.
+	Spec *v11.EndpointSpec
+}
+
+func (b0 CreateNexusEndpointRequest_builder) Build() *CreateNexusEndpointRequest {
+	m0 := &CreateNexusEndpointRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Spec = b.Spec
+	return m0
+}
+
 type CreateNexusEndpointResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Data post acceptance. Can be used to issue additional updates to this record.
 	Endpoint      *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -989,11 +1374,6 @@ func (x *CreateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateNexusEndpointResponse.ProtoReflect.Descriptor instead.
-func (*CreateNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{18}
-}
-
 func (x *CreateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 	if x != nil {
 		return x.Endpoint
@@ -1001,8 +1381,38 @@ func (x *CreateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 	return nil
 }
 
+func (x *CreateNexusEndpointResponse) SetEndpoint(v *v11.Endpoint) {
+	x.Endpoint = v
+}
+
+func (x *CreateNexusEndpointResponse) HasEndpoint() bool {
+	if x == nil {
+		return false
+	}
+	return x.Endpoint != nil
+}
+
+func (x *CreateNexusEndpointResponse) ClearEndpoint() {
+	x.Endpoint = nil
+}
+
+type CreateNexusEndpointResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Data post acceptance. Can be used to issue additional updates to this record.
+	Endpoint *v11.Endpoint
+}
+
+func (b0 CreateNexusEndpointResponse_builder) Build() *CreateNexusEndpointResponse {
+	m0 := &CreateNexusEndpointResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Endpoint = b.Endpoint
+	return m0
+}
+
 type UpdateNexusEndpointRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Server-generated unique endpoint ID.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Data version for this endpoint. Must match current version.
@@ -1037,11 +1447,6 @@ func (x *UpdateNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateNexusEndpointRequest.ProtoReflect.Descriptor instead.
-func (*UpdateNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{19}
-}
-
 func (x *UpdateNexusEndpointRequest) GetId() string {
 	if x != nil {
 		return x.Id
@@ -1063,8 +1468,51 @@ func (x *UpdateNexusEndpointRequest) GetSpec() *v11.EndpointSpec {
 	return nil
 }
 
+func (x *UpdateNexusEndpointRequest) SetId(v string) {
+	x.Id = v
+}
+
+func (x *UpdateNexusEndpointRequest) SetVersion(v int64) {
+	x.Version = v
+}
+
+func (x *UpdateNexusEndpointRequest) SetSpec(v *v11.EndpointSpec) {
+	x.Spec = v
+}
+
+func (x *UpdateNexusEndpointRequest) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	return x.Spec != nil
+}
+
+func (x *UpdateNexusEndpointRequest) ClearSpec() {
+	x.Spec = nil
+}
+
+type UpdateNexusEndpointRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Server-generated unique endpoint ID.
+	Id string
+	// Data version for this endpoint. Must match current version.
+	Version int64
+	Spec    *v11.EndpointSpec
+}
+
+func (b0 UpdateNexusEndpointRequest_builder) Build() *UpdateNexusEndpointRequest {
+	m0 := &UpdateNexusEndpointRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Id = b.Id
+	x.Version = b.Version
+	x.Spec = b.Spec
+	return m0
+}
+
 type UpdateNexusEndpointResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Data post acceptance. Can be used to issue additional updates to this record.
 	Endpoint      *v11.Endpoint `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1096,11 +1544,6 @@ func (x *UpdateNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateNexusEndpointResponse.ProtoReflect.Descriptor instead.
-func (*UpdateNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{20}
-}
-
 func (x *UpdateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 	if x != nil {
 		return x.Endpoint
@@ -1108,8 +1551,38 @@ func (x *UpdateNexusEndpointResponse) GetEndpoint() *v11.Endpoint {
 	return nil
 }
 
+func (x *UpdateNexusEndpointResponse) SetEndpoint(v *v11.Endpoint) {
+	x.Endpoint = v
+}
+
+func (x *UpdateNexusEndpointResponse) HasEndpoint() bool {
+	if x == nil {
+		return false
+	}
+	return x.Endpoint != nil
+}
+
+func (x *UpdateNexusEndpointResponse) ClearEndpoint() {
+	x.Endpoint = nil
+}
+
+type UpdateNexusEndpointResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Data post acceptance. Can be used to issue additional updates to this record.
+	Endpoint *v11.Endpoint
+}
+
+func (b0 UpdateNexusEndpointResponse_builder) Build() *UpdateNexusEndpointResponse {
+	m0 := &UpdateNexusEndpointResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Endpoint = b.Endpoint
+	return m0
+}
+
 type DeleteNexusEndpointRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Server-generated unique endpoint ID.
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Data version for this endpoint. Must match current version.
@@ -1143,11 +1616,6 @@ func (x *DeleteNexusEndpointRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteNexusEndpointRequest.ProtoReflect.Descriptor instead.
-func (*DeleteNexusEndpointRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{21}
-}
-
 func (x *DeleteNexusEndpointRequest) GetId() string {
 	if x != nil {
 		return x.Id
@@ -1162,8 +1630,34 @@ func (x *DeleteNexusEndpointRequest) GetVersion() int64 {
 	return 0
 }
 
+func (x *DeleteNexusEndpointRequest) SetId(v string) {
+	x.Id = v
+}
+
+func (x *DeleteNexusEndpointRequest) SetVersion(v int64) {
+	x.Version = v
+}
+
+type DeleteNexusEndpointRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Server-generated unique endpoint ID.
+	Id string
+	// Data version for this endpoint. Must match current version.
+	Version int64
+}
+
+func (b0 DeleteNexusEndpointRequest_builder) Build() *DeleteNexusEndpointRequest {
+	m0 := &DeleteNexusEndpointRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Id = b.Id
+	x.Version = b.Version
+	return m0
+}
+
 type DeleteNexusEndpointResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1193,13 +1687,20 @@ func (x *DeleteNexusEndpointResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteNexusEndpointResponse.ProtoReflect.Descriptor instead.
-func (*DeleteNexusEndpointResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{22}
+type DeleteNexusEndpointResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 DeleteNexusEndpointResponse_builder) Build() *DeleteNexusEndpointResponse {
+	m0 := &DeleteNexusEndpointResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ListNexusEndpointsRequest struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"hybrid.v1"`
 	PageSize int32                  `protobuf:"varint,1,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// To get the next page, pass in `ListNexusEndpointsResponse.next_page_token` from the previous page's
 	// response, the token will be empty if there's no other page.
@@ -1239,11 +1740,6 @@ func (x *ListNexusEndpointsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListNexusEndpointsRequest.ProtoReflect.Descriptor instead.
-func (*ListNexusEndpointsRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{23}
-}
-
 func (x *ListNexusEndpointsRequest) GetPageSize() int32 {
 	if x != nil {
 		return x.PageSize
@@ -1265,8 +1761,48 @@ func (x *ListNexusEndpointsRequest) GetName() string {
 	return ""
 }
 
+func (x *ListNexusEndpointsRequest) SetPageSize(v int32) {
+	x.PageSize = v
+}
+
+func (x *ListNexusEndpointsRequest) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListNexusEndpointsRequest) SetName(v string) {
+	x.Name = v
+}
+
+type ListNexusEndpointsRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	PageSize int32
+	// To get the next page, pass in `ListNexusEndpointsResponse.next_page_token` from the previous page's
+	// response, the token will be empty if there's no other page.
+	// Note: the last page may be empty if the total number of endpoints registered is a multiple of the page size.
+	NextPageToken []byte
+	// Name of the incoming endpoint to filter on - optional. Specifying this will result in zero or one results.
+	// (-- api-linter: core::203::field-behavior-required=disabled
+	//
+	//	aip.dev/not-precedent: Not following linter rules. --)
+	Name string
+}
+
+func (b0 ListNexusEndpointsRequest_builder) Build() *ListNexusEndpointsRequest {
+	m0 := &ListNexusEndpointsRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PageSize = b.PageSize
+	x.NextPageToken = b.NextPageToken
+	x.Name = b.Name
+	return m0
+}
+
 type ListNexusEndpointsResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Token for getting the next page.
 	NextPageToken []byte          `protobuf:"bytes,1,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	Endpoints     []*v11.Endpoint `protobuf:"bytes,2,rep,name=endpoints,proto3" json:"endpoints,omitempty"`
@@ -1299,11 +1835,6 @@ func (x *ListNexusEndpointsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListNexusEndpointsResponse.ProtoReflect.Descriptor instead.
-func (*ListNexusEndpointsResponse) Descriptor() ([]byte, []int) {
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP(), []int{24}
-}
-
 func (x *ListNexusEndpointsResponse) GetNextPageToken() []byte {
 	if x != nil {
 		return x.NextPageToken
@@ -1316,6 +1847,34 @@ func (x *ListNexusEndpointsResponse) GetEndpoints() []*v11.Endpoint {
 		return x.Endpoints
 	}
 	return nil
+}
+
+func (x *ListNexusEndpointsResponse) SetNextPageToken(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.NextPageToken = v
+}
+
+func (x *ListNexusEndpointsResponse) SetEndpoints(v []*v11.Endpoint) {
+	x.Endpoints = v
+}
+
+type ListNexusEndpointsResponse_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Token for getting the next page.
+	NextPageToken []byte
+	Endpoints     []*v11.Endpoint
+}
+
+func (b0 ListNexusEndpointsResponse_builder) Build() *ListNexusEndpointsResponse {
+	m0 := &ListNexusEndpointsResponse{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NextPageToken = b.NextPageToken
+	x.Endpoints = b.Endpoints
+	return m0
 }
 
 var File_temporal_api_operatorservice_v1_request_response_proto protoreflect.FileDescriptor
@@ -1406,18 +1965,6 @@ const file_temporal_api_operatorservice_v1_request_response_proto_rawDesc = "" +
 	"\x0fnext_page_token\x18\x01 \x01(\fR\rnextPageToken\x12=\n" +
 	"\tendpoints\x18\x02 \x03(\v2\x1f.temporal.api.nexus.v1.EndpointR\tendpointsB\xbe\x01\n" +
 	"\"io.temporal.api.operatorservice.v1B\x14RequestResponseProtoP\x01Z5go.temporal.io/api/operatorservice/v1;operatorservice\xaa\x02!Temporalio.Api.OperatorService.V1\xea\x02$Temporalio::Api::OperatorService::V1b\x06proto3"
-
-var (
-	file_temporal_api_operatorservice_v1_request_response_proto_rawDescOnce sync.Once
-	file_temporal_api_operatorservice_v1_request_response_proto_rawDescData []byte
-)
-
-func file_temporal_api_operatorservice_v1_request_response_proto_rawDescGZIP() []byte {
-	file_temporal_api_operatorservice_v1_request_response_proto_rawDescOnce.Do(func() {
-		file_temporal_api_operatorservice_v1_request_response_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc), len(file_temporal_api_operatorservice_v1_request_response_proto_rawDesc)))
-	})
-	return file_temporal_api_operatorservice_v1_request_response_proto_rawDescData
-}
 
 var file_temporal_api_operatorservice_v1_request_response_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_temporal_api_operatorservice_v1_request_response_proto_goTypes = []any{

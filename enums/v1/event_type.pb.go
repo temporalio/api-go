@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/event_type.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -340,8 +341,6 @@ func (x EventType) String() string {
 	case EVENT_TYPE_WORKFLOW_TASK_SCHEDULED:
 		return "WorkflowTaskScheduled"
 	case EVENT_TYPE_WORKFLOW_TASK_STARTED:
-
-		// Deprecated: Use EventType.Descriptor instead.
 		return "WorkflowTaskStarted"
 	case EVENT_TYPE_WORKFLOW_TASK_COMPLETED:
 		return "WorkflowTaskCompleted"
@@ -448,6 +447,8 @@ func (x EventType) String() string {
 	case EVENT_TYPE_WORKFLOW_EXECUTION_PAUSED:
 		return "WorkflowExecutionPaused"
 	case EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED:
+
+		// 0: temporal.api.enums.v1.EventType
 		return "WorkflowExecutionUnpaused"
 	default:
 		return strconv.Itoa(int(x))
@@ -465,10 +466,6 @@ func (EventType) Type() protoreflect.EnumType {
 
 func (x EventType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-func (EventType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_event_type_proto_rawDescGZIP(), []int{0}
 }
 
 var File_temporal_api_enums_v1_event_type_proto protoreflect.FileDescriptor
@@ -540,21 +537,9 @@ const file_temporal_api_enums_v1_event_type_proto_rawDesc = "" +
 	"&EVENT_TYPE_WORKFLOW_EXECUTION_UNPAUSED\x10;B\x86\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x0eEventTypeProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
 
-var (
-	file_temporal_api_enums_v1_event_type_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_event_type_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_event_type_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_event_type_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_event_type_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_event_type_proto_rawDesc), len(file_temporal_api_enums_v1_event_type_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_event_type_proto_rawDescData
-}
-
 var file_temporal_api_enums_v1_event_type_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_temporal_api_enums_v1_event_type_proto_goTypes = []any{
-	(EventType)(0), // 0: temporal.api.enums.v1.EventType
+	(EventType)(0),
 }
 var file_temporal_api_enums_v1_event_type_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/common.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -75,11 +76,6 @@ func (EncodingType) Type() protoreflect.EnumType {
 
 func (x EncodingType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use EncodingType.Descriptor instead.
-func (EncodingType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{0}
 }
 
 type IndexedValueType int32
@@ -161,11 +157,6 @@ func (x IndexedValueType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use IndexedValueType.Descriptor instead.
-func (IndexedValueType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{1}
-}
-
 type Severity int32
 
 const (
@@ -223,11 +214,6 @@ func (Severity) Type() protoreflect.EnumType {
 
 func (x Severity) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use Severity.Descriptor instead.
-func (Severity) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{2}
 }
 
 // State of a callback.
@@ -312,11 +298,6 @@ func (x CallbackState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use CallbackState.Descriptor instead.
-func (CallbackState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{3}
-}
-
 // State of a pending Nexus operation.
 type PendingNexusOperationState int32
 
@@ -387,11 +368,6 @@ func (x PendingNexusOperationState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use PendingNexusOperationState.Descriptor instead.
-func (PendingNexusOperationState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{4}
-}
-
 // State of a Nexus operation cancellation.
 type NexusOperationCancellationState int32
 
@@ -457,10 +433,7 @@ func (x NexusOperationCancellationState) String() string {
 	case NEXUS_OPERATION_CANCELLATION_STATE_BLOCKED:
 		return "Blocked"
 	default:
-		return strconv.Itoa(
-
-			// Deprecated: Use NexusOperationCancellationState.Descriptor instead.
-			int(x))
+		return strconv.Itoa(int(x))
 	}
 
 }
@@ -475,10 +448,6 @@ func (NexusOperationCancellationState) Type() protoreflect.EnumType {
 
 func (x NexusOperationCancellationState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-func (NexusOperationCancellationState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{5}
 }
 
 type WorkflowRuleActionScope int32
@@ -538,11 +507,6 @@ func (x WorkflowRuleActionScope) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use WorkflowRuleActionScope.Descriptor instead.
-func (WorkflowRuleActionScope) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{6}
-}
-
 type ApplicationErrorCategory int32
 
 const (
@@ -591,11 +555,6 @@ func (ApplicationErrorCategory) Type() protoreflect.EnumType {
 
 func (x ApplicationErrorCategory) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ApplicationErrorCategory.Descriptor instead.
-func (ApplicationErrorCategory) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{7}
 }
 
 // (-- api-linter: core::0216::synonyms=disabled
@@ -660,11 +619,6 @@ func (x WorkerStatus) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use WorkerStatus.Descriptor instead.
-func (WorkerStatus) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_common_proto_rawDescGZIP(), []int{8}
-}
-
 var File_temporal_api_enums_v1_common_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
@@ -723,18 +677,6 @@ const file_temporal_api_enums_v1_common_proto_rawDesc = "" +
 	"\x1bWORKER_STATUS_SHUTTING_DOWN\x10\x02\x12\x1a\n" +
 	"\x16WORKER_STATUS_SHUTDOWN\x10\x03B\x83\x01\n" +
 	"\x18io.temporal.api.enums.v1B\vCommonProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_common_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_common_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_common_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_common_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_common_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_common_proto_rawDesc), len(file_temporal_api_enums_v1_common_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_common_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_common_proto_enumTypes = make([]protoimpl.EnumInfo, 9)
 var file_temporal_api_enums_v1_common_proto_goTypes = []any{

@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/query.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -77,11 +78,6 @@ func (x QueryResultType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use QueryResultType.Descriptor instead.
-func (QueryResultType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_query_proto_rawDescGZIP(), []int{0}
-}
-
 type QueryRejectCondition int32
 
 const (
@@ -144,11 +140,6 @@ func (x QueryRejectCondition) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use QueryRejectCondition.Descriptor instead.
-func (QueryRejectCondition) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_query_proto_rawDescGZIP(), []int{1}
-}
-
 var File_temporal_api_enums_v1_query_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_query_proto_rawDesc = "" +
@@ -165,18 +156,6 @@ const file_temporal_api_enums_v1_query_proto_rawDesc = "" +
 	",QUERY_REJECT_CONDITION_NOT_COMPLETED_CLEANLY\x10\x03B\x82\x01\n" +
 	"\x18io.temporal.api.enums.v1B\n" +
 	"QueryProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_query_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_query_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_query_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_query_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_query_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_query_proto_rawDesc), len(file_temporal_api_enums_v1_query_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_query_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_query_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_temporal_api_enums_v1_query_proto_goTypes = []any{

@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/common/v1/message.proto
 
+//go:build !protoopaque
+
 package common
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/enums/v1"
@@ -26,7 +28,7 @@ const (
 )
 
 type DataBlob struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	EncodingType  v1.EncodingType        `protobuf:"varint,1,opt,name=encoding_type,json=encodingType,proto3,enum=temporal.api.enums.v1.EncodingType" json:"encoding_type,omitempty"`
 	Data          []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -58,11 +60,6 @@ func (x *DataBlob) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DataBlob.ProtoReflect.Descriptor instead.
-func (*DataBlob) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *DataBlob) GetEncodingType() v1.EncodingType {
 	if x != nil {
 		return x.EncodingType
@@ -77,9 +74,36 @@ func (x *DataBlob) GetData() []byte {
 	return nil
 }
 
+func (x *DataBlob) SetEncodingType(v v1.EncodingType) {
+	x.EncodingType = v
+}
+
+func (x *DataBlob) SetData(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.Data = v
+}
+
+type DataBlob_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	EncodingType v1.EncodingType
+	Data         []byte
+}
+
+func (b0 DataBlob_builder) Build() *DataBlob {
+	m0 := &DataBlob{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EncodingType = b.EncodingType
+	x.Data = b.Data
+	return m0
+}
+
 // See `Payload`
 type Payloads struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Payloads      []*Payload             `protobuf:"bytes,1,rep,name=payloads,proto3" json:"payloads,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -110,11 +134,6 @@ func (x *Payloads) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Payloads.ProtoReflect.Descriptor instead.
-func (*Payloads) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *Payloads) GetPayloads() []*Payload {
 	if x != nil {
 		return x.Payloads
@@ -122,11 +141,29 @@ func (x *Payloads) GetPayloads() []*Payload {
 	return nil
 }
 
+func (x *Payloads) SetPayloads(v []*Payload) {
+	x.Payloads = v
+}
+
+type Payloads_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Payloads []*Payload
+}
+
+func (b0 Payloads_builder) Build() *Payloads {
+	m0 := &Payloads{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Payloads = b.Payloads
+	return m0
+}
+
 // Represents some binary (byte array) data (ex: activity input parameters or workflow result) with
 // metadata which describes this binary data (format, encoding, encryption, etc). Serialization
 // of the data may be user-defined.
 type Payload struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
+	state    protoimpl.MessageState `protogen:"hybrid.v1"`
 	Metadata map[string][]byte      `protobuf:"bytes,1,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	Data     []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	// Details about externally stored payloads associated with this payload.
@@ -160,11 +197,6 @@ func (x *Payload) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Payload.ProtoReflect.Descriptor instead.
-func (*Payload) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *Payload) GetMetadata() map[string][]byte {
 	if x != nil {
 		return x.Metadata
@@ -186,10 +218,44 @@ func (x *Payload) GetExternalPayloads() []*Payload_ExternalPayloadDetails {
 	return nil
 }
 
+func (x *Payload) SetMetadata(v map[string][]byte) {
+	x.Metadata = v
+}
+
+func (x *Payload) SetData(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.Data = v
+}
+
+func (x *Payload) SetExternalPayloads(v []*Payload_ExternalPayloadDetails) {
+	x.ExternalPayloads = v
+}
+
+type Payload_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Metadata map[string][]byte
+	Data     []byte
+	// Details about externally stored payloads associated with this payload.
+	ExternalPayloads []*Payload_ExternalPayloadDetails
+}
+
+func (b0 Payload_builder) Build() *Payload {
+	m0 := &Payload{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Metadata = b.Metadata
+	x.Data = b.Data
+	x.ExternalPayloads = b.ExternalPayloads
+	return m0
+}
+
 // A user-defined set of *indexed* fields that are used/exposed when listing/searching workflows.
 // The payload is not serialized in a user-defined way.
 type SearchAttributes struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	IndexedFields map[string]*Payload    `protobuf:"bytes,1,rep,name=indexed_fields,json=indexedFields,proto3" json:"indexed_fields,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -220,11 +286,6 @@ func (x *SearchAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SearchAttributes.ProtoReflect.Descriptor instead.
-func (*SearchAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *SearchAttributes) GetIndexedFields() map[string]*Payload {
 	if x != nil {
 		return x.IndexedFields
@@ -232,9 +293,27 @@ func (x *SearchAttributes) GetIndexedFields() map[string]*Payload {
 	return nil
 }
 
+func (x *SearchAttributes) SetIndexedFields(v map[string]*Payload) {
+	x.IndexedFields = v
+}
+
+type SearchAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	IndexedFields map[string]*Payload
+}
+
+func (b0 SearchAttributes_builder) Build() *SearchAttributes {
+	m0 := &SearchAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.IndexedFields = b.IndexedFields
+	return m0
+}
+
 // A user-defined set of *unindexed* fields that are exposed when listing/searching workflows
 type Memo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Fields        map[string]*Payload    `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -265,11 +344,6 @@ func (x *Memo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Memo.ProtoReflect.Descriptor instead.
-func (*Memo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *Memo) GetFields() map[string]*Payload {
 	if x != nil {
 		return x.Fields
@@ -277,10 +351,28 @@ func (x *Memo) GetFields() map[string]*Payload {
 	return nil
 }
 
+func (x *Memo) SetFields(v map[string]*Payload) {
+	x.Fields = v
+}
+
+type Memo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Fields map[string]*Payload
+}
+
+func (b0 Memo_builder) Build() *Memo {
+	m0 := &Memo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Fields = b.Fields
+	return m0
+}
+
 // Contains metadata that can be attached to a variety of requests, like starting a workflow, and
 // can be propagated between, for example, workflows and activities.
 type Header struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Fields        map[string]*Payload    `protobuf:"bytes,1,rep,name=fields,proto3" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -311,11 +403,6 @@ func (x *Header) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Header.ProtoReflect.Descriptor instead.
-func (*Header) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *Header) GetFields() map[string]*Payload {
 	if x != nil {
 		return x.Fields
@@ -323,11 +410,29 @@ func (x *Header) GetFields() map[string]*Payload {
 	return nil
 }
 
+func (x *Header) SetFields(v map[string]*Payload) {
+	x.Fields = v
+}
+
+type Header_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Fields map[string]*Payload
+}
+
+func (b0 Header_builder) Build() *Header {
+	m0 := &Header{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Fields = b.Fields
+	return m0
+}
+
 // Identifies a specific workflow within a namespace. Practically speaking, because run_id is a
 // uuid, a workflow execution is globally unique. Note that many commands allow specifying an empty
 // run id as a way of saying "target the latest run of the workflow".
 type WorkflowExecution struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -359,11 +464,6 @@ func (x *WorkflowExecution) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecution.ProtoReflect.Descriptor instead.
-func (*WorkflowExecution) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *WorkflowExecution) GetWorkflowId() string {
 	if x != nil {
 		return x.WorkflowId
@@ -378,10 +478,34 @@ func (x *WorkflowExecution) GetRunId() string {
 	return ""
 }
 
+func (x *WorkflowExecution) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *WorkflowExecution) SetRunId(v string) {
+	x.RunId = v
+}
+
+type WorkflowExecution_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowId string
+	RunId      string
+}
+
+func (b0 WorkflowExecution_builder) Build() *WorkflowExecution {
+	m0 := &WorkflowExecution{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	return m0
+}
+
 // Represents the identifier used by a workflow author to define the workflow. Typically, the
 // name of a function. This is sometimes referred to as the workflow's "name"
 type WorkflowType struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -412,11 +536,6 @@ func (x *WorkflowType) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowType.ProtoReflect.Descriptor instead.
-func (*WorkflowType) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *WorkflowType) GetName() string {
 	if x != nil {
 		return x.Name
@@ -424,10 +543,28 @@ func (x *WorkflowType) GetName() string {
 	return ""
 }
 
+func (x *WorkflowType) SetName(v string) {
+	x.Name = v
+}
+
+type WorkflowType_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name string
+}
+
+func (b0 WorkflowType_builder) Build() *WorkflowType {
+	m0 := &WorkflowType{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	return m0
+}
+
 // Represents the identifier used by a activity author to define the activity. Typically, the
 // name of a function. This is sometimes referred to as the activity's "name"
 type ActivityType struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -458,11 +595,6 @@ func (x *ActivityType) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityType.ProtoReflect.Descriptor instead.
-func (*ActivityType) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *ActivityType) GetName() string {
 	if x != nil {
 		return x.Name
@@ -470,9 +602,27 @@ func (x *ActivityType) GetName() string {
 	return ""
 }
 
+func (x *ActivityType) SetName(v string) {
+	x.Name = v
+}
+
+type ActivityType_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name string
+}
+
+func (b0 ActivityType_builder) Build() *ActivityType {
+	m0 := &ActivityType{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	return m0
+}
+
 // How retries ought to be handled, usable by both workflows and activities
 type RetryPolicy struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Interval of the first retry. If retryBackoffCoefficient is 1.0 then it is used for all retries.
 	InitialInterval *durationpb.Duration `protobuf:"bytes,1,opt,name=initial_interval,json=initialInterval,proto3" json:"initial_interval,omitempty"`
 	// Coefficient used to calculate the next retry interval.
@@ -517,11 +667,6 @@ func (x *RetryPolicy) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RetryPolicy.ProtoReflect.Descriptor instead.
-func (*RetryPolicy) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *RetryPolicy) GetInitialInterval() *durationpb.Duration {
 	if x != nil {
 		return x.InitialInterval
@@ -557,9 +702,83 @@ func (x *RetryPolicy) GetNonRetryableErrorTypes() []string {
 	return nil
 }
 
+func (x *RetryPolicy) SetInitialInterval(v *durationpb.Duration) {
+	x.InitialInterval = v
+}
+
+func (x *RetryPolicy) SetBackoffCoefficient(v float64) {
+	x.BackoffCoefficient = v
+}
+
+func (x *RetryPolicy) SetMaximumInterval(v *durationpb.Duration) {
+	x.MaximumInterval = v
+}
+
+func (x *RetryPolicy) SetMaximumAttempts(v int32) {
+	x.MaximumAttempts = v
+}
+
+func (x *RetryPolicy) SetNonRetryableErrorTypes(v []string) {
+	x.NonRetryableErrorTypes = v
+}
+
+func (x *RetryPolicy) HasInitialInterval() bool {
+	if x == nil {
+		return false
+	}
+	return x.InitialInterval != nil
+}
+
+func (x *RetryPolicy) HasMaximumInterval() bool {
+	if x == nil {
+		return false
+	}
+	return x.MaximumInterval != nil
+}
+
+func (x *RetryPolicy) ClearInitialInterval() {
+	x.InitialInterval = nil
+}
+
+func (x *RetryPolicy) ClearMaximumInterval() {
+	x.MaximumInterval = nil
+}
+
+type RetryPolicy_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Interval of the first retry. If retryBackoffCoefficient is 1.0 then it is used for all retries.
+	InitialInterval *durationpb.Duration
+	// Coefficient used to calculate the next retry interval.
+	// The next retry interval is previous interval multiplied by the coefficient.
+	// Must be 1 or larger.
+	BackoffCoefficient float64
+	// Maximum interval between retries. Exponential backoff leads to interval increase.
+	// This value is the cap of the increase. Default is 100x of the initial interval.
+	MaximumInterval *durationpb.Duration
+	// Maximum number of attempts. When exceeded the retries stop even if not expired yet.
+	// 1 disables retries. 0 means unlimited (up to the timeouts)
+	MaximumAttempts int32
+	// Non-Retryable errors types. Will stop retrying if the error type matches this list. Note that
+	// this is not a substring match, the error *type* (not message) must match exactly.
+	NonRetryableErrorTypes []string
+}
+
+func (b0 RetryPolicy_builder) Build() *RetryPolicy {
+	m0 := &RetryPolicy{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.InitialInterval = b.InitialInterval
+	x.BackoffCoefficient = b.BackoffCoefficient
+	x.MaximumInterval = b.MaximumInterval
+	x.MaximumAttempts = b.MaximumAttempts
+	x.NonRetryableErrorTypes = b.NonRetryableErrorTypes
+	return m0
+}
+
 // Metadata relevant for metering purposes
 type MeteringMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Count of local activities which have begun an execution attempt during this workflow task,
 	// and whose first attempt occurred in some previous task. This is used for metering
 	// purposes, and does not affect workflow state.
@@ -597,11 +816,6 @@ func (x *MeteringMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MeteringMetadata.ProtoReflect.Descriptor instead.
-func (*MeteringMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *MeteringMetadata) GetNonfirstLocalActivityExecutionAttempts() uint32 {
 	if x != nil {
 		return x.NonfirstLocalActivityExecutionAttempts
@@ -609,10 +823,35 @@ func (x *MeteringMetadata) GetNonfirstLocalActivityExecutionAttempts() uint32 {
 	return 0
 }
 
+func (x *MeteringMetadata) SetNonfirstLocalActivityExecutionAttempts(v uint32) {
+	x.NonfirstLocalActivityExecutionAttempts = v
+}
+
+type MeteringMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Count of local activities which have begun an execution attempt during this workflow task,
+	// and whose first attempt occurred in some previous task. This is used for metering
+	// purposes, and does not affect workflow state.
+	//
+	// (-- api-linter: core::0141::forbidden-types=disabled
+	//
+	//	aip.dev/not-precedent: Negative values make no sense to represent. --)
+	NonfirstLocalActivityExecutionAttempts uint32
+}
+
+func (b0 MeteringMetadata_builder) Build() *MeteringMetadata {
+	m0 := &MeteringMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NonfirstLocalActivityExecutionAttempts = b.NonfirstLocalActivityExecutionAttempts
+	return m0
+}
+
 // Deprecated. This message is replaced with `Deployment` and `VersioningBehavior`.
 // Identifies the version(s) of a worker that processed a task
 type WorkerVersionStamp struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// An opaque whole-worker identifier. Replaces the deprecated `binary_checksum` field when this
 	// message is included in requests which previously used that.
 	BuildId string `protobuf:"bytes,1,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
@@ -648,11 +887,6 @@ func (x *WorkerVersionStamp) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerVersionStamp.ProtoReflect.Descriptor instead.
-func (*WorkerVersionStamp) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *WorkerVersionStamp) GetBuildId() string {
 	if x != nil {
 		return x.BuildId
@@ -667,12 +901,40 @@ func (x *WorkerVersionStamp) GetUseVersioning() bool {
 	return false
 }
 
+func (x *WorkerVersionStamp) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+func (x *WorkerVersionStamp) SetUseVersioning(v bool) {
+	x.UseVersioning = v
+}
+
+type WorkerVersionStamp_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// An opaque whole-worker identifier. Replaces the deprecated `binary_checksum` field when this
+	// message is included in requests which previously used that.
+	BuildId string
+	// If set, the worker is opting in to worker versioning. Otherwise, this is used only as a
+	// marker for workflow reset points and the BuildIDs search attribute.
+	UseVersioning bool
+}
+
+func (b0 WorkerVersionStamp_builder) Build() *WorkerVersionStamp {
+	m0 := &WorkerVersionStamp{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildId = b.BuildId
+	x.UseVersioning = b.UseVersioning
+	return m0
+}
+
 // Identifies the version that a worker is compatible with when polling or identifying itself,
 // and whether or not this worker is opting into the build-id based versioning feature. This is
 // used by matching to determine which workers ought to receive what tasks.
 // Deprecated. Use WorkerDeploymentOptions instead.
 type WorkerVersionCapabilities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// An opaque whole-worker identifier
 	BuildId string `protobuf:"bytes,1,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// If set, the worker is opting in to worker versioning, and wishes to only receive appropriate
@@ -709,11 +971,6 @@ func (x *WorkerVersionCapabilities) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerVersionCapabilities.ProtoReflect.Descriptor instead.
-func (*WorkerVersionCapabilities) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *WorkerVersionCapabilities) GetBuildId() string {
 	if x != nil {
 		return x.BuildId
@@ -735,10 +992,44 @@ func (x *WorkerVersionCapabilities) GetDeploymentSeriesName() string {
 	return ""
 }
 
+func (x *WorkerVersionCapabilities) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+func (x *WorkerVersionCapabilities) SetUseVersioning(v bool) {
+	x.UseVersioning = v
+}
+
+func (x *WorkerVersionCapabilities) SetDeploymentSeriesName(v string) {
+	x.DeploymentSeriesName = v
+}
+
+type WorkerVersionCapabilities_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// An opaque whole-worker identifier
+	BuildId string
+	// If set, the worker is opting in to worker versioning, and wishes to only receive appropriate
+	// tasks.
+	UseVersioning bool
+	// Must be sent if user has set a deployment series name (versioning-3).
+	DeploymentSeriesName string
+}
+
+func (b0 WorkerVersionCapabilities_builder) Build() *WorkerVersionCapabilities {
+	m0 := &WorkerVersionCapabilities{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildId = b.BuildId
+	x.UseVersioning = b.UseVersioning
+	x.DeploymentSeriesName = b.DeploymentSeriesName
+	return m0
+}
+
 // Describes where and how to reset a workflow, used for batch reset currently
 // and may be used for single-workflow reset later.
 type ResetOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Which workflow task to reset to.
 	//
 	// Types that are valid to be assigned to Target:
@@ -785,11 +1076,6 @@ func (x *ResetOptions) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResetOptions.ProtoReflect.Descriptor instead.
-func (*ResetOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ResetOptions) GetTarget() isResetOptions_Target {
@@ -857,12 +1143,216 @@ func (x *ResetOptions) GetResetReapplyExcludeTypes() []v1.ResetReapplyExcludeTyp
 	return nil
 }
 
+func (x *ResetOptions) SetFirstWorkflowTask(v *emptypb.Empty) {
+	if v == nil {
+		x.Target = nil
+		return
+	}
+	x.Target = &ResetOptions_FirstWorkflowTask{v}
+}
+
+func (x *ResetOptions) SetLastWorkflowTask(v *emptypb.Empty) {
+	if v == nil {
+		x.Target = nil
+		return
+	}
+	x.Target = &ResetOptions_LastWorkflowTask{v}
+}
+
+func (x *ResetOptions) SetWorkflowTaskId(v int64) {
+	x.Target = &ResetOptions_WorkflowTaskId{v}
+}
+
+func (x *ResetOptions) SetBuildId(v string) {
+	x.Target = &ResetOptions_BuildId{v}
+}
+
+// Deprecated: Marked as deprecated in temporal/api/common/v1/message.proto.
+func (x *ResetOptions) SetResetReapplyType(v v1.ResetReapplyType) {
+	x.ResetReapplyType = v
+}
+
+func (x *ResetOptions) SetCurrentRunOnly(v bool) {
+	x.CurrentRunOnly = v
+}
+
+func (x *ResetOptions) SetResetReapplyExcludeTypes(v []v1.ResetReapplyExcludeType) {
+	x.ResetReapplyExcludeTypes = v
+}
+
+func (x *ResetOptions) HasTarget() bool {
+	if x == nil {
+		return false
+	}
+	return x.Target != nil
+}
+
+func (x *ResetOptions) HasFirstWorkflowTask() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Target.(*ResetOptions_FirstWorkflowTask)
+	return ok
+}
+
+func (x *ResetOptions) HasLastWorkflowTask() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Target.(*ResetOptions_LastWorkflowTask)
+	return ok
+}
+
+func (x *ResetOptions) HasWorkflowTaskId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Target.(*ResetOptions_WorkflowTaskId)
+	return ok
+}
+
+func (x *ResetOptions) HasBuildId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Target.(*ResetOptions_BuildId)
+	return ok
+}
+
+func (x *ResetOptions) ClearTarget() {
+	x.Target = nil
+}
+
+func (x *ResetOptions) ClearFirstWorkflowTask() {
+	if _, ok := x.Target.(*ResetOptions_FirstWorkflowTask); ok {
+		x.Target = nil
+	}
+}
+
+func (x *ResetOptions) ClearLastWorkflowTask() {
+	if _, ok := x.Target.(*ResetOptions_LastWorkflowTask); ok {
+		x.Target = nil
+	}
+}
+
+func (x *ResetOptions) ClearWorkflowTaskId() {
+	if _, ok := x.Target.(*ResetOptions_WorkflowTaskId); ok {
+		x.Target = nil
+	}
+}
+
+func (x *ResetOptions) ClearBuildId() {
+	if _, ok := x.Target.(*ResetOptions_BuildId); ok {
+		x.Target = nil
+	}
+}
+
+const ResetOptions_Target_not_set_case case_ResetOptions_Target = 0
+const ResetOptions_FirstWorkflowTask_case case_ResetOptions_Target = 1
+const ResetOptions_LastWorkflowTask_case case_ResetOptions_Target = 2
+const ResetOptions_WorkflowTaskId_case case_ResetOptions_Target = 3
+const ResetOptions_BuildId_case case_ResetOptions_Target = 4
+
+func (x *ResetOptions) WhichTarget() case_ResetOptions_Target {
+	if x == nil {
+		return ResetOptions_Target_not_set_case
+	}
+	switch x.Target.(type) {
+	case *ResetOptions_FirstWorkflowTask:
+		return ResetOptions_FirstWorkflowTask_case
+	case *ResetOptions_LastWorkflowTask:
+		return ResetOptions_LastWorkflowTask_case
+	case *ResetOptions_WorkflowTaskId:
+		return ResetOptions_WorkflowTaskId_case
+	case *ResetOptions_BuildId:
+		return ResetOptions_BuildId_case
+	default:
+		return ResetOptions_Target_not_set_case
+	}
+}
+
+type ResetOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Which workflow task to reset to.
+
+	// Fields of oneof Target:
+	// Resets to the first workflow task completed or started event.
+	FirstWorkflowTask *emptypb.Empty
+	// Resets to the last workflow task completed or started event.
+	LastWorkflowTask *emptypb.Empty
+	// The id of a specific `WORKFLOW_TASK_COMPLETED`,`WORKFLOW_TASK_TIMED_OUT`, `WORKFLOW_TASK_FAILED`, or
+	// `WORKFLOW_TASK_STARTED` event to reset to.
+	// Note that this option doesn't make sense when used as part of a batch request.
+	WorkflowTaskId *int64
+	// Resets to the first workflow task processed by this build id.
+	// If the workflow was not processed by the build id, or the workflow task can't be
+	// determined, no reset will be performed.
+	// Note that by default, this reset is allowed to be to a prior run in a chain of
+	// continue-as-new.
+	BuildId *string
+	// -- end of Target
+	// Deprecated. Use `options`.
+	// Default: RESET_REAPPLY_TYPE_SIGNAL
+	//
+	// Deprecated: Marked as deprecated in temporal/api/common/v1/message.proto.
+	ResetReapplyType v1.ResetReapplyType
+	// If true, limit the reset to only within the current run. (Applies to build_id targets and
+	// possibly others in the future.)
+	CurrentRunOnly bool
+	// Event types not to be reapplied
+	ResetReapplyExcludeTypes []v1.ResetReapplyExcludeType
+}
+
+func (b0 ResetOptions_builder) Build() *ResetOptions {
+	m0 := &ResetOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.FirstWorkflowTask != nil {
+		x.Target = &ResetOptions_FirstWorkflowTask{b.FirstWorkflowTask}
+	}
+	if b.LastWorkflowTask != nil {
+		x.Target = &ResetOptions_LastWorkflowTask{b.LastWorkflowTask}
+	}
+	if b.WorkflowTaskId != nil {
+		x.Target = &ResetOptions_WorkflowTaskId{*b.WorkflowTaskId}
+	}
+	if b.BuildId != nil {
+		x.Target = &ResetOptions_BuildId{*b.BuildId}
+	}
+	x.ResetReapplyType = b.ResetReapplyType
+	x.CurrentRunOnly = b.CurrentRunOnly
+	x.ResetReapplyExcludeTypes = b.ResetReapplyExcludeTypes
+	return m0
+}
+
+type case_ResetOptions_Target protoreflect.FieldNumber
+
+func (x case_ResetOptions_Target) String() string {
+	switch x {
+	case ResetOptions_Target_not_set_case:
+		return "ResetOptionsTargetNotSetCase"
+	case ResetOptions_FirstWorkflowTask_case:
+		return "ResetOptionsFirstWorkflowTaskCase"
+	case ResetOptions_LastWorkflowTask_case:
+		return "ResetOptionsLastWorkflowTaskCase"
+	case ResetOptions_WorkflowTaskId_case:
+		return "ResetOptionsWorkflowTaskIdCase"
+
+		// Resets to the first workflow task completed or started event.
+	case ResetOptions_BuildId_case:
+		return "ResetOptionsBuildIdCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isResetOptions_Target interface {
 	isResetOptions_Target()
 }
 
 type ResetOptions_FirstWorkflowTask struct {
-	// Resets to the first workflow task completed or started event.
 	FirstWorkflowTask *emptypb.Empty `protobuf:"bytes,1,opt,name=first_workflow_task,json=firstWorkflowTask,proto3,oneof"`
 }
 
@@ -897,7 +1387,7 @@ func (*ResetOptions_BuildId) isResetOptions_Target() {}
 
 // Callback to attach to various events in the system, e.g. workflow run completion.
 type Callback struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Variant:
 	//
 	//	*Callback_Nexus_
@@ -935,11 +1425,6 @@ func (x *Callback) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Callback.ProtoReflect.Descriptor instead.
-func (*Callback) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{14}
-}
-
 func (x *Callback) GetVariant() isCallback_Variant {
 	if x != nil {
 		return x.Variant
@@ -972,6 +1457,125 @@ func (x *Callback) GetLinks() []*Link {
 	return nil
 }
 
+func (x *Callback) SetNexus(v *Callback_Nexus) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &Callback_Nexus_{v}
+}
+
+func (x *Callback) SetInternal(v *Callback_Internal) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &Callback_Internal_{v}
+}
+
+func (x *Callback) SetLinks(v []*Link) {
+	x.Links = v
+}
+
+func (x *Callback) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *Callback) HasNexus() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*Callback_Nexus_)
+	return ok
+}
+
+func (x *Callback) HasInternal() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*Callback_Internal_)
+	return ok
+}
+
+func (x *Callback) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *Callback) ClearNexus() {
+	if _, ok := x.Variant.(*Callback_Nexus_); ok {
+		x.Variant = nil
+	}
+}
+
+func (x *Callback) ClearInternal() {
+	if _, ok := x.Variant.(*Callback_Internal_); ok {
+		x.Variant = nil
+	}
+}
+
+const Callback_Variant_not_set_case case_Callback_Variant = 0
+const Callback_Nexus_case case_Callback_Variant = 2
+const Callback_Internal_case case_Callback_Variant = 3
+
+func (x *Callback) WhichVariant() case_Callback_Variant {
+	if x == nil {
+		return Callback_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *Callback_Nexus_:
+		return Callback_Nexus_case
+	case *Callback_Internal_:
+		return Callback_Internal_case
+	default:
+		return Callback_Variant_not_set_case
+	}
+}
+
+type Callback_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Variant:
+	Nexus    *Callback_Nexus
+	Internal *Callback_Internal
+	// -- end of Variant
+	// Links associated with the callback. It can be used to link to underlying resources of the
+	// callback.
+	Links []*Link
+}
+
+func (b0 Callback_builder) Build() *Callback {
+	m0 := &Callback{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Nexus != nil {
+		x.Variant = &Callback_Nexus_{b.Nexus}
+	}
+	if b.Internal != nil {
+		x.Variant = &Callback_Internal_{b.Internal}
+	}
+	x.Links = b.Links
+	return m0
+}
+
+type case_Callback_Variant protoreflect.FieldNumber
+
+func (x case_Callback_Variant) String() string {
+	switch x {
+	case Callback_Variant_not_set_case:
+		return "CallbackVariantNotSetCase"
+	case Callback_Nexus_case:
+		return "CallbackNexusCase"
+	case Callback_Internal_case:
+		return "CallbackInternalCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isCallback_Variant interface {
 	isCallback_Variant()
 }
@@ -993,7 +1597,7 @@ func (*Callback_Internal_) isCallback_Variant() {}
 // in this case, a history event in workflow A could contain a Link to the workflow started event in
 // workflow B, and vice-versa.
 type Link struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Variant:
 	//
 	//	*Link_WorkflowEvent_
@@ -1028,11 +1632,6 @@ func (x *Link) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Link.ProtoReflect.Descriptor instead.
-func (*Link) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *Link) GetVariant() isLink_Variant {
 	if x != nil {
 		return x.Variant
@@ -1056,6 +1655,117 @@ func (x *Link) GetBatchJob() *Link_BatchJob {
 		}
 	}
 	return nil
+}
+
+func (x *Link) SetWorkflowEvent(v *Link_WorkflowEvent) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &Link_WorkflowEvent_{v}
+}
+
+func (x *Link) SetBatchJob(v *Link_BatchJob) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &Link_BatchJob_{v}
+}
+
+func (x *Link) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *Link) HasWorkflowEvent() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*Link_WorkflowEvent_)
+	return ok
+}
+
+func (x *Link) HasBatchJob() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*Link_BatchJob_)
+	return ok
+}
+
+func (x *Link) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *Link) ClearWorkflowEvent() {
+	if _, ok := x.Variant.(*Link_WorkflowEvent_); ok {
+		x.Variant = nil
+	}
+}
+
+func (x *Link) ClearBatchJob() {
+	if _, ok := x.Variant.(*Link_BatchJob_); ok {
+		x.Variant = nil
+	}
+}
+
+const Link_Variant_not_set_case case_Link_Variant = 0
+const Link_WorkflowEvent_case case_Link_Variant = 1
+const Link_BatchJob_case case_Link_Variant = 2
+
+func (x *Link) WhichVariant() case_Link_Variant {
+	if x == nil {
+		return Link_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *Link_WorkflowEvent_:
+		return Link_WorkflowEvent_case
+	case *Link_BatchJob_:
+		return Link_BatchJob_case
+	default:
+		return Link_Variant_not_set_case
+	}
+}
+
+type Link_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Variant:
+	WorkflowEvent *Link_WorkflowEvent
+	BatchJob      *Link_BatchJob
+	// -- end of Variant
+}
+
+func (b0 Link_builder) Build() *Link {
+	m0 := &Link{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.WorkflowEvent != nil {
+		x.Variant = &Link_WorkflowEvent_{b.WorkflowEvent}
+	}
+	if b.BatchJob != nil {
+		x.Variant = &Link_BatchJob_{b.BatchJob}
+	}
+	return m0
+}
+
+type case_Link_Variant protoreflect.FieldNumber
+
+func (x case_Link_Variant) String() string {
+	switch x {
+	case Link_Variant_not_set_case:
+		return "LinkVariantNotSetCase"
+	case Link_WorkflowEvent_case:
+		return "LinkWorkflowEventCase"
+	case Link_BatchJob_case:
+		return "LinkBatchJobCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 type isLink_Variant interface {
@@ -1107,7 +1817,7 @@ func (*Link_BatchJob_) isLink_Variant() {}
 // Not all queues in the system may support the "full" semantics of all priority
 // fields. (Currently only support in matching task queues is planned.)
 type Priority struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Priority key is a positive integer from 1 to n, where smaller integers
 	// correspond to higher priorities (tasks run sooner). In general, tasks in
 	// a queue should be processed in close to priority order, although small
@@ -1183,11 +1893,6 @@ func (x *Priority) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Priority.ProtoReflect.Descriptor instead.
-func (*Priority) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *Priority) GetPriorityKey() int32 {
 	if x != nil {
 		return x.PriorityKey
@@ -1209,11 +1914,84 @@ func (x *Priority) GetFairnessWeight() float32 {
 	return 0
 }
 
+func (x *Priority) SetPriorityKey(v int32) {
+	x.PriorityKey = v
+}
+
+func (x *Priority) SetFairnessKey(v string) {
+	x.FairnessKey = v
+}
+
+func (x *Priority) SetFairnessWeight(v float32) {
+	x.FairnessWeight = v
+}
+
+type Priority_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Priority key is a positive integer from 1 to n, where smaller integers
+	// correspond to higher priorities (tasks run sooner). In general, tasks in
+	// a queue should be processed in close to priority order, although small
+	// deviations are possible.
+	//
+	// The maximum priority value (minimum priority) is determined by server
+	// configuration, and defaults to 5.
+	//
+	// If priority is not present (or zero), then the effective priority will be
+	// the default priority, which is calculated by (min+max)/2. With the
+	// default max of 5, and min of 1, that comes out to 3.
+	PriorityKey int32
+	// Fairness key is a short string that's used as a key for a fairness
+	// balancing mechanism. It may correspond to a tenant id, or to a fixed
+	// string like "high" or "low". The default is the empty string.
+	//
+	// The fairness mechanism attempts to dispatch tasks for a given key in
+	// proportion to its weight. For example, using a thousand distinct tenant
+	// ids, each with a weight of 1.0 (the default) will result in each tenant
+	// getting a roughly equal share of task dispatch throughput.
+	//
+	// (Note: this does not imply equal share of worker capacity! Fairness
+	// decisions are made based on queue statistics, not
+	// current worker load.)
+	//
+	// As another example, using keys "high" and "low" with weight 9.0 and 1.0
+	// respectively will prefer dispatching "high" tasks over "low" tasks at a
+	// 9:1 ratio, while allowing either key to use all worker capacity if the
+	// other is not present.
+	//
+	// All fairness mechanisms, including rate limits, are best-effort and
+	// probabilistic. The results may not match what a "perfect" algorithm with
+	// infinite resources would produce. The more unique keys are used, the less
+	// accurate the results will be.
+	//
+	// Fairness keys are limited to 64 bytes.
+	FairnessKey string
+	// Fairness weight for a task can come from multiple sources for
+	// flexibility. From highest to lowest precedence:
+	//  1. Weights for a small set of keys can be overridden in task queue
+	//     configuration with an API.
+	//  2. It can be attached to the workflow/activity in this field.
+	//  3. The default weight of 1.0 will be used.
+	//
+	// Weight values are clamped to the range [0.001, 1000].
+	FairnessWeight float32
+}
+
+func (b0 Priority_builder) Build() *Priority {
+	m0 := &Priority{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PriorityKey = b.PriorityKey
+	x.FairnessKey = b.FairnessKey
+	x.FairnessWeight = b.FairnessWeight
+	return m0
+}
+
 // This is used to send commands to a specific worker or a group of workers.
 // Right now, it is used to send commands to a specific worker instance.
 // Will be extended to be able to send command to multiple workers.
 type WorkerSelector struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Options are:
 	//   - query (will be used as query to ListWorkers, same format as in ListWorkersRequest.query)
 	//   - task queue (just a shortcut. Same as query=' "TaskQueue"="my-task-queue" ')
@@ -1257,11 +2035,6 @@ func (x *WorkerSelector) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerSelector.ProtoReflect.Descriptor instead.
-func (*WorkerSelector) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{17}
-}
-
 func (x *WorkerSelector) GetSelector() isWorkerSelector_Selector {
 	if x != nil {
 		return x.Selector
@@ -1278,6 +2051,92 @@ func (x *WorkerSelector) GetWorkerInstanceKey() string {
 	return ""
 }
 
+func (x *WorkerSelector) SetWorkerInstanceKey(v string) {
+	x.Selector = &WorkerSelector_WorkerInstanceKey{v}
+}
+
+func (x *WorkerSelector) HasSelector() bool {
+	if x == nil {
+		return false
+	}
+	return x.Selector != nil
+}
+
+func (x *WorkerSelector) HasWorkerInstanceKey() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Selector.(*WorkerSelector_WorkerInstanceKey)
+	return ok
+}
+
+func (x *WorkerSelector) ClearSelector() {
+	x.Selector = nil
+}
+
+func (x *WorkerSelector) ClearWorkerInstanceKey() {
+	if _, ok := x.Selector.(*WorkerSelector_WorkerInstanceKey); ok {
+		x.Selector = nil
+	}
+}
+
+const WorkerSelector_Selector_not_set_case case_WorkerSelector_Selector = 0
+const WorkerSelector_WorkerInstanceKey_case case_WorkerSelector_Selector = 1
+
+func (x *WorkerSelector) WhichSelector() case_WorkerSelector_Selector {
+	if x == nil {
+		return WorkerSelector_Selector_not_set_case
+	}
+	switch x.Selector.(type) {
+	case *WorkerSelector_WorkerInstanceKey:
+		return WorkerSelector_WorkerInstanceKey_case
+	default:
+		return WorkerSelector_Selector_not_set_case
+	}
+}
+
+type WorkerSelector_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Options are:
+	// - query (will be used as query to ListWorkers, same format as in ListWorkersRequest.query)
+	// - task queue (just a shortcut. Same as query=' "TaskQueue"="my-task-queue" ')
+	// - etc.
+	//   All but 'query' are shortcuts, can be replaced with a query, but it is not convenient.
+	// string query = 5;
+	// string task_queue = 6;
+	// ...
+
+	// Fields of oneof Selector:
+	// Worker instance key to which the command should be sent.
+	WorkerInstanceKey *string
+	// -- end of Selector
+}
+
+func (b0 WorkerSelector_builder) Build() *WorkerSelector {
+	m0 := &WorkerSelector{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.WorkerInstanceKey != nil {
+		x.Selector = &WorkerSelector_WorkerInstanceKey{*b.WorkerInstanceKey}
+	}
+	return m0
+}
+
+type case_WorkerSelector_Selector protoreflect.FieldNumber
+
+func (x case_WorkerSelector_Selector) String() string {
+	switch x {
+	case WorkerSelector_Selector_not_set_case:
+		return "WorkerSelectorSelectorNotSetCase"
+	case WorkerSelector_WorkerInstanceKey_case:
+		return "WorkerSelectorWorkerInstanceKeyCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isWorkerSelector_Selector interface {
 	isWorkerSelector_Selector()
 }
@@ -1291,7 +2150,7 @@ func (*WorkerSelector_WorkerInstanceKey) isWorkerSelector_Selector() {}
 
 // Describes an externally stored object referenced by this payload.
 type Payload_ExternalPayloadDetails struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Size in bytes of the externally stored payload
 	SizeBytes     int64 `protobuf:"varint,1,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1323,11 +2182,6 @@ func (x *Payload_ExternalPayloadDetails) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Payload_ExternalPayloadDetails.ProtoReflect.Descriptor instead.
-func (*Payload_ExternalPayloadDetails) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{2, 1}
-}
-
 func (x *Payload_ExternalPayloadDetails) GetSizeBytes() int64 {
 	if x != nil {
 		return x.SizeBytes
@@ -1335,8 +2189,27 @@ func (x *Payload_ExternalPayloadDetails) GetSizeBytes() int64 {
 	return 0
 }
 
+func (x *Payload_ExternalPayloadDetails) SetSizeBytes(v int64) {
+	x.SizeBytes = v
+}
+
+type Payload_ExternalPayloadDetails_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Size in bytes of the externally stored payload
+	SizeBytes int64
+}
+
+func (b0 Payload_ExternalPayloadDetails_builder) Build() *Payload_ExternalPayloadDetails {
+	m0 := &Payload_ExternalPayloadDetails{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SizeBytes = b.SizeBytes
+	return m0
+}
+
 type Callback_Nexus struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Callback URL.
 	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// Header to attach to callback request.
@@ -1370,11 +2243,6 @@ func (x *Callback_Nexus) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Callback_Nexus.ProtoReflect.Descriptor instead.
-func (*Callback_Nexus) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{14, 0}
-}
-
 func (x *Callback_Nexus) GetUrl() string {
 	if x != nil {
 		return x.Url
@@ -1389,12 +2257,38 @@ func (x *Callback_Nexus) GetHeader() map[string]string {
 	return nil
 }
 
+func (x *Callback_Nexus) SetUrl(v string) {
+	x.Url = v
+}
+
+func (x *Callback_Nexus) SetHeader(v map[string]string) {
+	x.Header = v
+}
+
+type Callback_Nexus_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Callback URL.
+	Url string
+	// Header to attach to callback request.
+	Header map[string]string
+}
+
+func (b0 Callback_Nexus_builder) Build() *Callback_Nexus {
+	m0 := &Callback_Nexus{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Url = b.Url
+	x.Header = b.Header
+	return m0
+}
+
 // Callbacks to be delivered internally within the system.
 // This variant is not settable in the API and will be rejected by the service with an INVALID_ARGUMENT error.
 // The only reason that this is exposed is because callbacks are replicated across clusters via the
 // WorkflowExecutionStarted event, which is defined in the public API.
 type Callback_Internal struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Opaque internal data.
 	Data          []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1426,11 +2320,6 @@ func (x *Callback_Internal) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Callback_Internal.ProtoReflect.Descriptor instead.
-func (*Callback_Internal) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{14, 1}
-}
-
 func (x *Callback_Internal) GetData() []byte {
 	if x != nil {
 		return x.Data
@@ -1438,8 +2327,30 @@ func (x *Callback_Internal) GetData() []byte {
 	return nil
 }
 
+func (x *Callback_Internal) SetData(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.Data = v
+}
+
+type Callback_Internal_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Opaque internal data.
+	Data []byte
+}
+
+func (b0 Callback_Internal_builder) Build() *Callback_Internal {
+	m0 := &Callback_Internal{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Data = b.Data
+	return m0
+}
+
 type Link_WorkflowEvent struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace  string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	WorkflowId string                 `protobuf:"bytes,2,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	RunId      string                 `protobuf:"bytes,3,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
@@ -1478,11 +2389,6 @@ func (x *Link_WorkflowEvent) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Link_WorkflowEvent.ProtoReflect.Descriptor instead.
-func (*Link_WorkflowEvent) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{15, 0}
 }
 
 func (x *Link_WorkflowEvent) GetNamespace() string {
@@ -1531,6 +2437,138 @@ func (x *Link_WorkflowEvent) GetRequestIdRef() *Link_WorkflowEvent_RequestIdRefe
 	return nil
 }
 
+func (x *Link_WorkflowEvent) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *Link_WorkflowEvent) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *Link_WorkflowEvent) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *Link_WorkflowEvent) SetEventRef(v *Link_WorkflowEvent_EventReference) {
+	if v == nil {
+		x.Reference = nil
+		return
+	}
+	x.Reference = &Link_WorkflowEvent_EventRef{v}
+}
+
+func (x *Link_WorkflowEvent) SetRequestIdRef(v *Link_WorkflowEvent_RequestIdReference) {
+	if v == nil {
+		x.Reference = nil
+		return
+	}
+	x.Reference = &Link_WorkflowEvent_RequestIdRef{v}
+}
+
+func (x *Link_WorkflowEvent) HasReference() bool {
+	if x == nil {
+		return false
+	}
+	return x.Reference != nil
+}
+
+func (x *Link_WorkflowEvent) HasEventRef() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Reference.(*Link_WorkflowEvent_EventRef)
+	return ok
+}
+
+func (x *Link_WorkflowEvent) HasRequestIdRef() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Reference.(*Link_WorkflowEvent_RequestIdRef)
+	return ok
+}
+
+func (x *Link_WorkflowEvent) ClearReference() {
+	x.Reference = nil
+}
+
+func (x *Link_WorkflowEvent) ClearEventRef() {
+	if _, ok := x.Reference.(*Link_WorkflowEvent_EventRef); ok {
+		x.Reference = nil
+	}
+}
+
+func (x *Link_WorkflowEvent) ClearRequestIdRef() {
+	if _, ok := x.Reference.(*Link_WorkflowEvent_RequestIdRef); ok {
+		x.Reference = nil
+	}
+}
+
+const Link_WorkflowEvent_Reference_not_set_case case_Link_WorkflowEvent_Reference = 0
+const Link_WorkflowEvent_EventRef_case case_Link_WorkflowEvent_Reference = 100
+const Link_WorkflowEvent_RequestIdRef_case case_Link_WorkflowEvent_Reference = 101
+
+func (x *Link_WorkflowEvent) WhichReference() case_Link_WorkflowEvent_Reference {
+	if x == nil {
+		return Link_WorkflowEvent_Reference_not_set_case
+	}
+	switch x.Reference.(type) {
+	case *Link_WorkflowEvent_EventRef:
+		return Link_WorkflowEvent_EventRef_case
+	case *Link_WorkflowEvent_RequestIdRef:
+		return Link_WorkflowEvent_RequestIdRef_case
+	default:
+		return Link_WorkflowEvent_Reference_not_set_case
+	}
+}
+
+type Link_WorkflowEvent_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace  string
+	WorkflowId string
+	RunId      string
+	// Additional information about the workflow event.
+	// Eg: the caller workflow can send the history event details that made the Nexus call.
+
+	// Fields of oneof Reference:
+	EventRef     *Link_WorkflowEvent_EventReference
+	RequestIdRef *Link_WorkflowEvent_RequestIdReference
+	// -- end of Reference
+}
+
+func (b0 Link_WorkflowEvent_builder) Build() *Link_WorkflowEvent {
+	m0 := &Link_WorkflowEvent{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	if b.EventRef != nil {
+		x.Reference = &Link_WorkflowEvent_EventRef{b.EventRef}
+	}
+	if b.RequestIdRef != nil {
+		x.Reference = &Link_WorkflowEvent_RequestIdRef{b.RequestIdRef}
+	}
+	return m0
+}
+
+type case_Link_WorkflowEvent_Reference protoreflect.FieldNumber
+
+func (x case_Link_WorkflowEvent_Reference) String() string {
+	switch x {
+	case Link_WorkflowEvent_Reference_not_set_case:
+		return "LinkWorkflowEventReferenceNotSetCase"
+	case Link_WorkflowEvent_EventRef_case:
+		return "LinkWorkflowEventEventRefCase"
+	case Link_WorkflowEvent_RequestIdRef_case:
+		return "LinkWorkflowEventRequestIdRefCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isLink_WorkflowEvent_Reference interface {
 	isLink_WorkflowEvent_Reference()
 }
@@ -1551,7 +2589,7 @@ func (*Link_WorkflowEvent_RequestIdRef) isLink_WorkflowEvent_Reference() {}
 // Batch jobs can be used to perform operations on a set of workflows (e.g. terminate, signal, cancel, etc).
 // This link can be put on workflow history events generated by actions taken by a batch job.
 type Link_BatchJob struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	JobId         string                 `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1582,11 +2620,6 @@ func (x *Link_BatchJob) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Link_BatchJob.ProtoReflect.Descriptor instead.
-func (*Link_BatchJob) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{15, 1}
-}
-
 func (x *Link_BatchJob) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -1594,9 +2627,27 @@ func (x *Link_BatchJob) GetJobId() string {
 	return ""
 }
 
+func (x *Link_BatchJob) SetJobId(v string) {
+	x.JobId = v
+}
+
+type Link_BatchJob_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	JobId string
+}
+
+func (b0 Link_BatchJob_builder) Build() *Link_BatchJob {
+	m0 := &Link_BatchJob{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.JobId = b.JobId
+	return m0
+}
+
 // EventReference is a direct reference to a history event through the event ID.
 type Link_WorkflowEvent_EventReference struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	EventId       int64                  `protobuf:"varint,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
 	EventType     v1.EventType           `protobuf:"varint,2,opt,name=event_type,json=eventType,proto3,enum=temporal.api.enums.v1.EventType" json:"event_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1628,11 +2679,6 @@ func (x *Link_WorkflowEvent_EventReference) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Link_WorkflowEvent_EventReference.ProtoReflect.Descriptor instead.
-func (*Link_WorkflowEvent_EventReference) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{15, 0, 0}
-}
-
 func (x *Link_WorkflowEvent_EventReference) GetEventId() int64 {
 	if x != nil {
 		return x.EventId
@@ -1647,9 +2693,33 @@ func (x *Link_WorkflowEvent_EventReference) GetEventType() v1.EventType {
 	return v1.EventType(0)
 }
 
+func (x *Link_WorkflowEvent_EventReference) SetEventId(v int64) {
+	x.EventId = v
+}
+
+func (x *Link_WorkflowEvent_EventReference) SetEventType(v v1.EventType) {
+	x.EventType = v
+}
+
+type Link_WorkflowEvent_EventReference_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	EventId   int64
+	EventType v1.EventType
+}
+
+func (b0 Link_WorkflowEvent_EventReference_builder) Build() *Link_WorkflowEvent_EventReference {
+	m0 := &Link_WorkflowEvent_EventReference{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EventId = b.EventId
+	x.EventType = b.EventType
+	return m0
+}
+
 // RequestIdReference is a indirect reference to a history event through the request ID.
 type Link_WorkflowEvent_RequestIdReference struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	RequestId     string                 `protobuf:"bytes,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	EventType     v1.EventType           `protobuf:"varint,2,opt,name=event_type,json=eventType,proto3,enum=temporal.api.enums.v1.EventType" json:"event_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1681,11 +2751,6 @@ func (x *Link_WorkflowEvent_RequestIdReference) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Link_WorkflowEvent_RequestIdReference.ProtoReflect.Descriptor instead.
-func (*Link_WorkflowEvent_RequestIdReference) Descriptor() ([]byte, []int) {
-	return file_temporal_api_common_v1_message_proto_rawDescGZIP(), []int{15, 0, 1}
-}
-
 func (x *Link_WorkflowEvent_RequestIdReference) GetRequestId() string {
 	if x != nil {
 		return x.RequestId
@@ -1698,6 +2763,30 @@ func (x *Link_WorkflowEvent_RequestIdReference) GetEventType() v1.EventType {
 		return x.EventType
 	}
 	return v1.EventType(0)
+}
+
+func (x *Link_WorkflowEvent_RequestIdReference) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *Link_WorkflowEvent_RequestIdReference) SetEventType(v v1.EventType) {
+	x.EventType = v
+}
+
+type Link_WorkflowEvent_RequestIdReference_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	RequestId string
+	EventType v1.EventType
+}
+
+func (b0 Link_WorkflowEvent_RequestIdReference_builder) Build() *Link_WorkflowEvent_RequestIdReference {
+	m0 := &Link_WorkflowEvent_RequestIdReference{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RequestId = b.RequestId
+	x.EventType = b.EventType
+	return m0
 }
 
 var File_temporal_api_common_v1_message_proto protoreflect.FileDescriptor
@@ -1813,18 +2902,6 @@ const file_temporal_api_common_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"\bselectorB\x89\x01\n" +
 	"\x19io.temporal.api.common.v1B\fMessageProtoP\x01Z#go.temporal.io/api/common/v1;common\xaa\x02\x18Temporalio.Api.Common.V1\xea\x02\x1bTemporalio::Api::Common::V1b\x06proto3"
-
-var (
-	file_temporal_api_common_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_common_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_common_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_common_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_common_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_common_v1_message_proto_rawDesc), len(file_temporal_api_common_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_common_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_common_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 30)
 var file_temporal_api_common_v1_message_proto_goTypes = []any{

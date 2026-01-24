@@ -7,11 +7,12 @@
 // These error details are supplied in google.rpc.Status#details as described in "Google APIs, Error Model" (https://cloud.google.com/apis/design/errors#error_model)
 // and extend standard Error Details defined in https://github.com/googleapis/googleapis/blob/master/google/rpc/error_details.proto
 
+//go:build !protoopaque
+
 package errordetails
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v12 "go.temporal.io/api/common/v1"
@@ -30,7 +31,7 @@ const (
 )
 
 type NotFoundFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	CurrentCluster string                 `protobuf:"bytes,1,opt,name=current_cluster,json=currentCluster,proto3" json:"current_cluster,omitempty"`
 	ActiveCluster  string                 `protobuf:"bytes,2,opt,name=active_cluster,json=activeCluster,proto3" json:"active_cluster,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -62,11 +63,6 @@ func (x *NotFoundFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NotFoundFailure.ProtoReflect.Descriptor instead.
-func (*NotFoundFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *NotFoundFailure) GetCurrentCluster() string {
 	if x != nil {
 		return x.CurrentCluster
@@ -81,8 +77,32 @@ func (x *NotFoundFailure) GetActiveCluster() string {
 	return ""
 }
 
+func (x *NotFoundFailure) SetCurrentCluster(v string) {
+	x.CurrentCluster = v
+}
+
+func (x *NotFoundFailure) SetActiveCluster(v string) {
+	x.ActiveCluster = v
+}
+
+type NotFoundFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	CurrentCluster string
+	ActiveCluster  string
+}
+
+func (b0 NotFoundFailure_builder) Build() *NotFoundFailure {
+	m0 := &NotFoundFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CurrentCluster = b.CurrentCluster
+	x.ActiveCluster = b.ActiveCluster
+	return m0
+}
+
 type WorkflowExecutionAlreadyStartedFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	StartRequestId string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
 	RunId          string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -114,11 +134,6 @@ func (x *WorkflowExecutionAlreadyStartedFailure) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionAlreadyStartedFailure.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionAlreadyStartedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *WorkflowExecutionAlreadyStartedFailure) GetStartRequestId() string {
 	if x != nil {
 		return x.StartRequestId
@@ -133,8 +148,32 @@ func (x *WorkflowExecutionAlreadyStartedFailure) GetRunId() string {
 	return ""
 }
 
+func (x *WorkflowExecutionAlreadyStartedFailure) SetStartRequestId(v string) {
+	x.StartRequestId = v
+}
+
+func (x *WorkflowExecutionAlreadyStartedFailure) SetRunId(v string) {
+	x.RunId = v
+}
+
+type WorkflowExecutionAlreadyStartedFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	StartRequestId string
+	RunId          string
+}
+
+func (b0 WorkflowExecutionAlreadyStartedFailure_builder) Build() *WorkflowExecutionAlreadyStartedFailure {
+	m0 := &WorkflowExecutionAlreadyStartedFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StartRequestId = b.StartRequestId
+	x.RunId = b.RunId
+	return m0
+}
+
 type NamespaceNotActiveFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace      string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	CurrentCluster string                 `protobuf:"bytes,2,opt,name=current_cluster,json=currentCluster,proto3" json:"current_cluster,omitempty"`
 	ActiveCluster  string                 `protobuf:"bytes,3,opt,name=active_cluster,json=activeCluster,proto3" json:"active_cluster,omitempty"`
@@ -167,11 +206,6 @@ func (x *NamespaceNotActiveFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NamespaceNotActiveFailure.ProtoReflect.Descriptor instead.
-func (*NamespaceNotActiveFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *NamespaceNotActiveFailure) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -193,11 +227,41 @@ func (x *NamespaceNotActiveFailure) GetActiveCluster() string {
 	return ""
 }
 
+func (x *NamespaceNotActiveFailure) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *NamespaceNotActiveFailure) SetCurrentCluster(v string) {
+	x.CurrentCluster = v
+}
+
+func (x *NamespaceNotActiveFailure) SetActiveCluster(v string) {
+	x.ActiveCluster = v
+}
+
+type NamespaceNotActiveFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace      string
+	CurrentCluster string
+	ActiveCluster  string
+}
+
+func (b0 NamespaceNotActiveFailure_builder) Build() *NamespaceNotActiveFailure {
+	m0 := &NamespaceNotActiveFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.CurrentCluster = b.CurrentCluster
+	x.ActiveCluster = b.ActiveCluster
+	return m0
+}
+
 // NamespaceUnavailableFailure is returned by the service when a request addresses a namespace that is unavailable. For
 // example, when a namespace is in the process of failing over between clusters.
 // This is a transient error that should be automatically retried by clients.
 type NamespaceUnavailableFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -228,11 +292,6 @@ func (x *NamespaceUnavailableFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NamespaceUnavailableFailure.ProtoReflect.Descriptor instead.
-func (*NamespaceUnavailableFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *NamespaceUnavailableFailure) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -240,8 +299,26 @@ func (x *NamespaceUnavailableFailure) GetNamespace() string {
 	return ""
 }
 
+func (x *NamespaceUnavailableFailure) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+type NamespaceUnavailableFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+}
+
+func (b0 NamespaceUnavailableFailure_builder) Build() *NamespaceUnavailableFailure {
+	m0 := &NamespaceUnavailableFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	return m0
+}
+
 type NamespaceInvalidStateFailure struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
+	state     protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	// Current state of the requested namespace.
 	State v1.NamespaceState `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
@@ -277,11 +354,6 @@ func (x *NamespaceInvalidStateFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NamespaceInvalidStateFailure.ProtoReflect.Descriptor instead.
-func (*NamespaceInvalidStateFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *NamespaceInvalidStateFailure) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -303,8 +375,41 @@ func (x *NamespaceInvalidStateFailure) GetAllowedStates() []v1.NamespaceState {
 	return nil
 }
 
+func (x *NamespaceInvalidStateFailure) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *NamespaceInvalidStateFailure) SetState(v v1.NamespaceState) {
+	x.State = v
+}
+
+func (x *NamespaceInvalidStateFailure) SetAllowedStates(v []v1.NamespaceState) {
+	x.AllowedStates = v
+}
+
+type NamespaceInvalidStateFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+	// Current state of the requested namespace.
+	State v1.NamespaceState
+	// Allowed namespace states for requested operation.
+	// For example NAMESPACE_STATE_DELETED is forbidden for most operations but allowed for DescribeNamespace.
+	AllowedStates []v1.NamespaceState
+}
+
+func (b0 NamespaceInvalidStateFailure_builder) Build() *NamespaceInvalidStateFailure {
+	m0 := &NamespaceInvalidStateFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.State = b.State
+	x.AllowedStates = b.AllowedStates
+	return m0
+}
+
 type NamespaceNotFoundFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -335,11 +440,6 @@ func (x *NamespaceNotFoundFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NamespaceNotFoundFailure.ProtoReflect.Descriptor instead.
-func (*NamespaceNotFoundFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *NamespaceNotFoundFailure) GetNamespace() string {
 	if x != nil {
 		return x.Namespace
@@ -347,8 +447,26 @@ func (x *NamespaceNotFoundFailure) GetNamespace() string {
 	return ""
 }
 
+func (x *NamespaceNotFoundFailure) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+type NamespaceNotFoundFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Namespace string
+}
+
+func (b0 NamespaceNotFoundFailure_builder) Build() *NamespaceNotFoundFailure {
+	m0 := &NamespaceNotFoundFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	return m0
+}
+
 type NamespaceAlreadyExistsFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -378,13 +496,20 @@ func (x *NamespaceAlreadyExistsFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NamespaceAlreadyExistsFailure.ProtoReflect.Descriptor instead.
-func (*NamespaceAlreadyExistsFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{6}
+type NamespaceAlreadyExistsFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 NamespaceAlreadyExistsFailure_builder) Build() *NamespaceAlreadyExistsFailure {
+	m0 := &NamespaceAlreadyExistsFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type ClientVersionNotSupportedFailure struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state             protoimpl.MessageState `protogen:"hybrid.v1"`
 	ClientVersion     string                 `protobuf:"bytes,1,opt,name=client_version,json=clientVersion,proto3" json:"client_version,omitempty"`
 	ClientName        string                 `protobuf:"bytes,2,opt,name=client_name,json=clientName,proto3" json:"client_name,omitempty"`
 	SupportedVersions string                 `protobuf:"bytes,3,opt,name=supported_versions,json=supportedVersions,proto3" json:"supported_versions,omitempty"`
@@ -417,11 +542,6 @@ func (x *ClientVersionNotSupportedFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ClientVersionNotSupportedFailure.ProtoReflect.Descriptor instead.
-func (*ClientVersionNotSupportedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *ClientVersionNotSupportedFailure) GetClientVersion() string {
 	if x != nil {
 		return x.ClientVersion
@@ -443,8 +563,38 @@ func (x *ClientVersionNotSupportedFailure) GetSupportedVersions() string {
 	return ""
 }
 
+func (x *ClientVersionNotSupportedFailure) SetClientVersion(v string) {
+	x.ClientVersion = v
+}
+
+func (x *ClientVersionNotSupportedFailure) SetClientName(v string) {
+	x.ClientName = v
+}
+
+func (x *ClientVersionNotSupportedFailure) SetSupportedVersions(v string) {
+	x.SupportedVersions = v
+}
+
+type ClientVersionNotSupportedFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ClientVersion     string
+	ClientName        string
+	SupportedVersions string
+}
+
+func (b0 ClientVersionNotSupportedFailure_builder) Build() *ClientVersionNotSupportedFailure {
+	m0 := &ClientVersionNotSupportedFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ClientVersion = b.ClientVersion
+	x.ClientName = b.ClientName
+	x.SupportedVersions = b.SupportedVersions
+	return m0
+}
+
 type ServerVersionNotSupportedFailure struct {
-	state                         protoimpl.MessageState `protogen:"open.v1"`
+	state                         protoimpl.MessageState `protogen:"hybrid.v1"`
 	ServerVersion                 string                 `protobuf:"bytes,1,opt,name=server_version,json=serverVersion,proto3" json:"server_version,omitempty"`
 	ClientSupportedServerVersions string                 `protobuf:"bytes,2,opt,name=client_supported_server_versions,json=clientSupportedServerVersions,proto3" json:"client_supported_server_versions,omitempty"`
 	unknownFields                 protoimpl.UnknownFields
@@ -476,11 +626,6 @@ func (x *ServerVersionNotSupportedFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ServerVersionNotSupportedFailure.ProtoReflect.Descriptor instead.
-func (*ServerVersionNotSupportedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *ServerVersionNotSupportedFailure) GetServerVersion() string {
 	if x != nil {
 		return x.ServerVersion
@@ -495,8 +640,32 @@ func (x *ServerVersionNotSupportedFailure) GetClientSupportedServerVersions() st
 	return ""
 }
 
+func (x *ServerVersionNotSupportedFailure) SetServerVersion(v string) {
+	x.ServerVersion = v
+}
+
+func (x *ServerVersionNotSupportedFailure) SetClientSupportedServerVersions(v string) {
+	x.ClientSupportedServerVersions = v
+}
+
+type ServerVersionNotSupportedFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ServerVersion                 string
+	ClientSupportedServerVersions string
+}
+
+func (b0 ServerVersionNotSupportedFailure_builder) Build() *ServerVersionNotSupportedFailure {
+	m0 := &ServerVersionNotSupportedFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ServerVersion = b.ServerVersion
+	x.ClientSupportedServerVersions = b.ClientSupportedServerVersions
+	return m0
+}
+
 type CancellationAlreadyRequestedFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -526,13 +695,20 @@ func (x *CancellationAlreadyRequestedFailure) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancellationAlreadyRequestedFailure.ProtoReflect.Descriptor instead.
-func (*CancellationAlreadyRequestedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{9}
+type CancellationAlreadyRequestedFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 CancellationAlreadyRequestedFailure_builder) Build() *CancellationAlreadyRequestedFailure {
+	m0 := &CancellationAlreadyRequestedFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type QueryFailedFailure struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The full reason for this query failure. May not be available if the response is generated by an old
 	// SDK. This field can be encoded by the SDK's failure converter to support E2E encryption of messages and stack
 	// traces.
@@ -566,11 +742,6 @@ func (x *QueryFailedFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryFailedFailure.ProtoReflect.Descriptor instead.
-func (*QueryFailedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *QueryFailedFailure) GetFailure() *v11.Failure {
 	if x != nil {
 		return x.Failure
@@ -578,8 +749,40 @@ func (x *QueryFailedFailure) GetFailure() *v11.Failure {
 	return nil
 }
 
+func (x *QueryFailedFailure) SetFailure(v *v11.Failure) {
+	x.Failure = v
+}
+
+func (x *QueryFailedFailure) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *QueryFailedFailure) ClearFailure() {
+	x.Failure = nil
+}
+
+type QueryFailedFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The full reason for this query failure. May not be available if the response is generated by an old
+	// SDK. This field can be encoded by the SDK's failure converter to support E2E encryption of messages and stack
+	// traces.
+	Failure *v11.Failure
+}
+
+func (b0 QueryFailedFailure_builder) Build() *QueryFailedFailure {
+	m0 := &QueryFailedFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Failure = b.Failure
+	return m0
+}
+
 type PermissionDeniedFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Reason        string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -610,11 +813,6 @@ func (x *PermissionDeniedFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PermissionDeniedFailure.ProtoReflect.Descriptor instead.
-func (*PermissionDeniedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *PermissionDeniedFailure) GetReason() string {
 	if x != nil {
 		return x.Reason
@@ -622,8 +820,26 @@ func (x *PermissionDeniedFailure) GetReason() string {
 	return ""
 }
 
+func (x *PermissionDeniedFailure) SetReason(v string) {
+	x.Reason = v
+}
+
+type PermissionDeniedFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Reason string
+}
+
+func (b0 PermissionDeniedFailure_builder) Build() *PermissionDeniedFailure {
+	m0 := &PermissionDeniedFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Reason = b.Reason
+	return m0
+}
+
 type ResourceExhaustedFailure struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
+	state         protoimpl.MessageState    `protogen:"hybrid.v1"`
 	Cause         v1.ResourceExhaustedCause `protobuf:"varint,1,opt,name=cause,proto3,enum=temporal.api.enums.v1.ResourceExhaustedCause" json:"cause,omitempty"`
 	Scope         v1.ResourceExhaustedScope `protobuf:"varint,2,opt,name=scope,proto3,enum=temporal.api.enums.v1.ResourceExhaustedScope" json:"scope,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -655,11 +871,6 @@ func (x *ResourceExhaustedFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResourceExhaustedFailure.ProtoReflect.Descriptor instead.
-func (*ResourceExhaustedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *ResourceExhaustedFailure) GetCause() v1.ResourceExhaustedCause {
 	if x != nil {
 		return x.Cause
@@ -674,8 +885,32 @@ func (x *ResourceExhaustedFailure) GetScope() v1.ResourceExhaustedScope {
 	return v1.ResourceExhaustedScope(0)
 }
 
+func (x *ResourceExhaustedFailure) SetCause(v v1.ResourceExhaustedCause) {
+	x.Cause = v
+}
+
+func (x *ResourceExhaustedFailure) SetScope(v v1.ResourceExhaustedScope) {
+	x.Scope = v
+}
+
+type ResourceExhaustedFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Cause v1.ResourceExhaustedCause
+	Scope v1.ResourceExhaustedScope
+}
+
+func (b0 ResourceExhaustedFailure_builder) Build() *ResourceExhaustedFailure {
+	m0 := &ResourceExhaustedFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Cause = b.Cause
+	x.Scope = b.Scope
+	return m0
+}
+
 type SystemWorkflowFailure struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// WorkflowId and RunId of the Temporal system workflow performing the underlying operation.
 	// Looking up the info of the system workflow run may help identify the issue causing the failure.
 	WorkflowExecution *v12.WorkflowExecution `protobuf:"bytes,1,opt,name=workflow_execution,json=workflowExecution,proto3" json:"workflow_execution,omitempty"`
@@ -710,11 +945,6 @@ func (x *SystemWorkflowFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SystemWorkflowFailure.ProtoReflect.Descriptor instead.
-func (*SystemWorkflowFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *SystemWorkflowFailure) GetWorkflowExecution() *v12.WorkflowExecution {
 	if x != nil {
 		return x.WorkflowExecution
@@ -729,8 +959,46 @@ func (x *SystemWorkflowFailure) GetWorkflowError() string {
 	return ""
 }
 
+func (x *SystemWorkflowFailure) SetWorkflowExecution(v *v12.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *SystemWorkflowFailure) SetWorkflowError(v string) {
+	x.WorkflowError = v
+}
+
+func (x *SystemWorkflowFailure) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *SystemWorkflowFailure) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type SystemWorkflowFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// WorkflowId and RunId of the Temporal system workflow performing the underlying operation.
+	// Looking up the info of the system workflow run may help identify the issue causing the failure.
+	WorkflowExecution *v12.WorkflowExecution
+	// Serialized error returned by the system workflow performing the underlying operation.
+	WorkflowError string
+}
+
+func (b0 SystemWorkflowFailure_builder) Build() *SystemWorkflowFailure {
+	m0 := &SystemWorkflowFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowError = b.WorkflowError
+	return m0
+}
+
 type WorkflowNotReadyFailure struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -760,13 +1028,20 @@ func (x *WorkflowNotReadyFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowNotReadyFailure.ProtoReflect.Descriptor instead.
-func (*WorkflowNotReadyFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{14}
+type WorkflowNotReadyFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 WorkflowNotReadyFailure_builder) Build() *WorkflowNotReadyFailure {
+	m0 := &WorkflowNotReadyFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type NewerBuildExistsFailure struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The current default compatible build ID which will receive tasks
 	DefaultBuildId string `protobuf:"bytes,1,opt,name=default_build_id,json=defaultBuildId,proto3" json:"default_build_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -798,11 +1073,6 @@ func (x *NewerBuildExistsFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NewerBuildExistsFailure.ProtoReflect.Descriptor instead.
-func (*NewerBuildExistsFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *NewerBuildExistsFailure) GetDefaultBuildId() string {
 	if x != nil {
 		return x.DefaultBuildId
@@ -810,8 +1080,27 @@ func (x *NewerBuildExistsFailure) GetDefaultBuildId() string {
 	return ""
 }
 
+func (x *NewerBuildExistsFailure) SetDefaultBuildId(v string) {
+	x.DefaultBuildId = v
+}
+
+type NewerBuildExistsFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The current default compatible build ID which will receive tasks
+	DefaultBuildId string
+}
+
+func (b0 NewerBuildExistsFailure_builder) Build() *NewerBuildExistsFailure {
+	m0 := &NewerBuildExistsFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DefaultBuildId = b.DefaultBuildId
+	return m0
+}
+
 type MultiOperationExecutionFailure struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// One status for each requested operation from the failed MultiOperation. The failed
 	// operation(s) have the same error details as if it was executed separately. All other operations have the
 	// status code `Aborted` and `MultiOperationExecutionAborted` is added to the details field.
@@ -845,11 +1134,6 @@ func (x *MultiOperationExecutionFailure) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MultiOperationExecutionFailure.ProtoReflect.Descriptor instead.
-func (*MultiOperationExecutionFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *MultiOperationExecutionFailure) GetStatuses() []*MultiOperationExecutionFailure_OperationStatus {
 	if x != nil {
 		return x.Statuses
@@ -857,11 +1141,32 @@ func (x *MultiOperationExecutionFailure) GetStatuses() []*MultiOperationExecutio
 	return nil
 }
 
+func (x *MultiOperationExecutionFailure) SetStatuses(v []*MultiOperationExecutionFailure_OperationStatus) {
+	x.Statuses = v
+}
+
+type MultiOperationExecutionFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// One status for each requested operation from the failed MultiOperation. The failed
+	// operation(s) have the same error details as if it was executed separately. All other operations have the
+	// status code `Aborted` and `MultiOperationExecutionAborted` is added to the details field.
+	Statuses []*MultiOperationExecutionFailure_OperationStatus
+}
+
+func (b0 MultiOperationExecutionFailure_builder) Build() *MultiOperationExecutionFailure {
+	m0 := &MultiOperationExecutionFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Statuses = b.Statuses
+	return m0
+}
+
 // An error indicating that an activity execution failed to start. Returned when there is an existing activity with the
 // given activity ID, and the given ID reuse and conflict policies do not permit starting a new one or attaching to an
 // existing one.
 type ActivityExecutionAlreadyStartedFailure struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
+	state          protoimpl.MessageState `protogen:"hybrid.v1"`
 	StartRequestId string                 `protobuf:"bytes,1,opt,name=start_request_id,json=startRequestId,proto3" json:"start_request_id,omitempty"`
 	RunId          string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -893,11 +1198,6 @@ func (x *ActivityExecutionAlreadyStartedFailure) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityExecutionAlreadyStartedFailure.ProtoReflect.Descriptor instead.
-func (*ActivityExecutionAlreadyStartedFailure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{17}
-}
-
 func (x *ActivityExecutionAlreadyStartedFailure) GetStartRequestId() string {
 	if x != nil {
 		return x.StartRequestId
@@ -912,6 +1212,30 @@ func (x *ActivityExecutionAlreadyStartedFailure) GetRunId() string {
 	return ""
 }
 
+func (x *ActivityExecutionAlreadyStartedFailure) SetStartRequestId(v string) {
+	x.StartRequestId = v
+}
+
+func (x *ActivityExecutionAlreadyStartedFailure) SetRunId(v string) {
+	x.RunId = v
+}
+
+type ActivityExecutionAlreadyStartedFailure_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	StartRequestId string
+	RunId          string
+}
+
+func (b0 ActivityExecutionAlreadyStartedFailure_builder) Build() *ActivityExecutionAlreadyStartedFailure {
+	m0 := &ActivityExecutionAlreadyStartedFailure{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StartRequestId = b.StartRequestId
+	x.RunId = b.RunId
+	return m0
+}
+
 // NOTE: `OperationStatus` is modelled after
 // [`google.rpc.Status`](https://github.com/googleapis/googleapis/blob/master/google/rpc/status.proto).
 //
@@ -919,7 +1243,7 @@ func (x *ActivityExecutionAlreadyStartedFailure) GetRunId() string {
 //
 //	aip.dev/not-precedent: details are meant to hold arbitrary payloads. --)
 type MultiOperationExecutionFailure_OperationStatus struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Code          int32                  `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	Details       []*anypb.Any           `protobuf:"bytes,3,rep,name=details,proto3" json:"details,omitempty"`
@@ -952,11 +1276,6 @@ func (x *MultiOperationExecutionFailure_OperationStatus) ProtoReflect() protoref
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MultiOperationExecutionFailure_OperationStatus.ProtoReflect.Descriptor instead.
-func (*MultiOperationExecutionFailure_OperationStatus) Descriptor() ([]byte, []int) {
-	return file_temporal_api_errordetails_v1_message_proto_rawDescGZIP(), []int{16, 0}
-}
-
 func (x *MultiOperationExecutionFailure_OperationStatus) GetCode() int32 {
 	if x != nil {
 		return x.Code
@@ -976,6 +1295,36 @@ func (x *MultiOperationExecutionFailure_OperationStatus) GetDetails() []*anypb.A
 		return x.Details
 	}
 	return nil
+}
+
+func (x *MultiOperationExecutionFailure_OperationStatus) SetCode(v int32) {
+	x.Code = v
+}
+
+func (x *MultiOperationExecutionFailure_OperationStatus) SetMessage(v string) {
+	x.Message = v
+}
+
+func (x *MultiOperationExecutionFailure_OperationStatus) SetDetails(v []*anypb.Any) {
+	x.Details = v
+}
+
+type MultiOperationExecutionFailure_OperationStatus_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Code    int32
+	Message string
+	Details []*anypb.Any
+}
+
+func (b0 MultiOperationExecutionFailure_OperationStatus_builder) Build() *MultiOperationExecutionFailure_OperationStatus {
+	m0 := &MultiOperationExecutionFailure_OperationStatus{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Code = b.Code
+	x.Message = b.Message
+	x.Details = b.Details
+	return m0
 }
 
 var File_temporal_api_errordetails_v1_message_proto protoreflect.FileDescriptor
@@ -1034,18 +1383,6 @@ const file_temporal_api_errordetails_v1_message_proto_rawDesc = "" +
 	"\x10start_request_id\x18\x01 \x01(\tR\x0estartRequestId\x12\x15\n" +
 	"\x06run_id\x18\x02 \x01(\tR\x05runIdB\xa7\x01\n" +
 	"\x1fio.temporal.api.errordetails.v1B\fMessageProtoP\x01Z/go.temporal.io/api/errordetails/v1;errordetails\xaa\x02\x1eTemporalio.Api.ErrorDetails.V1\xea\x02!Temporalio::Api::ErrorDetails::V1b\x06proto3"
-
-var (
-	file_temporal_api_errordetails_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_errordetails_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_errordetails_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_errordetails_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_errordetails_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_errordetails_v1_message_proto_rawDesc), len(file_temporal_api_errordetails_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_errordetails_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_errordetails_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_temporal_api_errordetails_v1_message_proto_goTypes = []any{

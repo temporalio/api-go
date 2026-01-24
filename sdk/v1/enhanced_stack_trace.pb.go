@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/sdk/v1/enhanced_stack_trace.proto
 
+//go:build !protoopaque
+
 package sdk
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -24,7 +25,7 @@ const (
 
 // Internal structure used to create worker stack traces with references to code.
 type EnhancedStackTrace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Information pertaining to the SDK that the trace has been captured from.
 	Sdk *StackTraceSDKInfo `protobuf:"bytes,1,opt,name=sdk,proto3" json:"sdk,omitempty"`
 	// Mapping of file path to file contents.
@@ -60,11 +61,6 @@ func (x *EnhancedStackTrace) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EnhancedStackTrace.ProtoReflect.Descriptor instead.
-func (*EnhancedStackTrace) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *EnhancedStackTrace) GetSdk() *StackTraceSDKInfo {
 	if x != nil {
 		return x.Sdk
@@ -86,12 +82,56 @@ func (x *EnhancedStackTrace) GetStacks() []*StackTrace {
 	return nil
 }
 
+func (x *EnhancedStackTrace) SetSdk(v *StackTraceSDKInfo) {
+	x.Sdk = v
+}
+
+func (x *EnhancedStackTrace) SetSources(v map[string]*StackTraceFileSlice) {
+	x.Sources = v
+}
+
+func (x *EnhancedStackTrace) SetStacks(v []*StackTrace) {
+	x.Stacks = v
+}
+
+func (x *EnhancedStackTrace) HasSdk() bool {
+	if x == nil {
+		return false
+	}
+	return x.Sdk != nil
+}
+
+func (x *EnhancedStackTrace) ClearSdk() {
+	x.Sdk = nil
+}
+
+type EnhancedStackTrace_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Information pertaining to the SDK that the trace has been captured from.
+	Sdk *StackTraceSDKInfo
+	// Mapping of file path to file contents.
+	Sources map[string]*StackTraceFileSlice
+	// Collection of stacks captured.
+	Stacks []*StackTrace
+}
+
+func (b0 EnhancedStackTrace_builder) Build() *EnhancedStackTrace {
+	m0 := &EnhancedStackTrace{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Sdk = b.Sdk
+	x.Sources = b.Sources
+	x.Stacks = b.Stacks
+	return m0
+}
+
 // Information pertaining to the SDK that the trace has been captured from.
 // (-- api-linter: core::0123::resource-annotation=disabled
 //
 //	aip.dev/not-precedent: Naming SDK version is optional. --)
 type StackTraceSDKInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Name of the SDK
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Version string of the SDK
@@ -125,11 +165,6 @@ func (x *StackTraceSDKInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StackTraceSDKInfo.ProtoReflect.Descriptor instead.
-func (*StackTraceSDKInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *StackTraceSDKInfo) GetName() string {
 	if x != nil {
 		return x.Name
@@ -144,9 +179,35 @@ func (x *StackTraceSDKInfo) GetVersion() string {
 	return ""
 }
 
+func (x *StackTraceSDKInfo) SetName(v string) {
+	x.Name = v
+}
+
+func (x *StackTraceSDKInfo) SetVersion(v string) {
+	x.Version = v
+}
+
+type StackTraceSDKInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Name of the SDK
+	Name string
+	// Version string of the SDK
+	Version string
+}
+
+func (b0 StackTraceSDKInfo_builder) Build() *StackTraceSDKInfo {
+	m0 := &StackTraceSDKInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Version = b.Version
+	return m0
+}
+
 // "Slice" of a file starting at line_offset -- a line offset and code fragment corresponding to the worker's stack.
 type StackTraceFileSlice struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Only used (possibly) to trim the file without breaking syntax highlighting. This is not optional, unlike
 	// the `line` property of a `StackTraceFileLocation`.
 	// (-- api-linter: core::0141::forbidden-types=disabled
@@ -184,11 +245,6 @@ func (x *StackTraceFileSlice) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StackTraceFileSlice.ProtoReflect.Descriptor instead.
-func (*StackTraceFileSlice) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *StackTraceFileSlice) GetLineOffset() uint32 {
 	if x != nil {
 		return x.LineOffset
@@ -203,10 +259,40 @@ func (x *StackTraceFileSlice) GetContent() string {
 	return ""
 }
 
+func (x *StackTraceFileSlice) SetLineOffset(v uint32) {
+	x.LineOffset = v
+}
+
+func (x *StackTraceFileSlice) SetContent(v string) {
+	x.Content = v
+}
+
+type StackTraceFileSlice_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Only used (possibly) to trim the file without breaking syntax highlighting. This is not optional, unlike
+	// the `line` property of a `StackTraceFileLocation`.
+	// (-- api-linter: core::0141::forbidden-types=disabled
+	//
+	//	aip.dev/not-precedent: These really shouldn't have negative values. --)
+	LineOffset uint32
+	// Slice of a file with the respective OS-specific line terminator.
+	Content string
+}
+
+func (b0 StackTraceFileSlice_builder) Build() *StackTraceFileSlice {
+	m0 := &StackTraceFileSlice{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.LineOffset = b.LineOffset
+	x.Content = b.Content
+	return m0
+}
+
 // More specific location details of a file: its path, precise line and column numbers if applicable, and function name if available.
 // In essence, a pointer to a location in a file
 type StackTraceFileLocation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Path to source file (absolute or relative).
 	// If the paths are relative, ensure that they are all relative to the same root.
 	FilePath string `protobuf:"bytes,1,opt,name=file_path,json=filePath,proto3" json:"file_path,omitempty"`
@@ -250,11 +336,6 @@ func (x *StackTraceFileLocation) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StackTraceFileLocation.ProtoReflect.Descriptor instead.
-func (*StackTraceFileLocation) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *StackTraceFileLocation) GetFilePath() string {
 	if x != nil {
 		return x.FilePath
@@ -290,9 +371,60 @@ func (x *StackTraceFileLocation) GetInternalCode() bool {
 	return false
 }
 
+func (x *StackTraceFileLocation) SetFilePath(v string) {
+	x.FilePath = v
+}
+
+func (x *StackTraceFileLocation) SetLine(v int32) {
+	x.Line = v
+}
+
+func (x *StackTraceFileLocation) SetColumn(v int32) {
+	x.Column = v
+}
+
+func (x *StackTraceFileLocation) SetFunctionName(v string) {
+	x.FunctionName = v
+}
+
+func (x *StackTraceFileLocation) SetInternalCode(v bool) {
+	x.InternalCode = v
+}
+
+type StackTraceFileLocation_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Path to source file (absolute or relative).
+	// If the paths are relative, ensure that they are all relative to the same root.
+	FilePath string
+	// Optional; If possible, SDK should send this -- this is required for displaying the code location.
+	// If not provided, set to -1.
+	Line int32
+	// Optional; if possible, SDK should send this.
+	// If not provided, set to -1.
+	Column int32
+	// Function name this line belongs to, if applicable.
+	// Used for falling back to stack trace view.
+	FunctionName string
+	// Flag to communicate whether a location should be hidden by default in the stack view.
+	InternalCode bool
+}
+
+func (b0 StackTraceFileLocation_builder) Build() *StackTraceFileLocation {
+	m0 := &StackTraceFileLocation{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.FilePath = b.FilePath
+	x.Line = b.Line
+	x.Column = b.Column
+	x.FunctionName = b.FunctionName
+	x.InternalCode = b.InternalCode
+	return m0
+}
+
 // Collection of FileLocation messages from a single stack.
 type StackTrace struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Collection of `FileLocation`s, each for a stack frame that comprise a stack trace.
 	Locations     []*StackTraceFileLocation `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -324,16 +456,30 @@ func (x *StackTrace) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StackTrace.ProtoReflect.Descriptor instead.
-func (*StackTrace) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *StackTrace) GetLocations() []*StackTraceFileLocation {
 	if x != nil {
 		return x.Locations
 	}
 	return nil
+}
+
+func (x *StackTrace) SetLocations(v []*StackTraceFileLocation) {
+	x.Locations = v
+}
+
+type StackTrace_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Collection of `FileLocation`s, each for a stack frame that comprise a stack trace.
+	Locations []*StackTraceFileLocation
+}
+
+func (b0 StackTrace_builder) Build() *StackTrace {
+	m0 := &StackTrace{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Locations = b.Locations
+	return m0
 }
 
 var File_temporal_api_sdk_v1_enhanced_stack_trace_proto protoreflect.FileDescriptor
@@ -365,18 +511,6 @@ const file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc = "" +
 	"StackTrace\x12I\n" +
 	"\tlocations\x18\x01 \x03(\v2+.temporal.api.sdk.v1.StackTraceFileLocationR\tlocationsB\x85\x01\n" +
 	"\x16io.temporal.api.sdk.v1B\x17EnhancedStackTraceProtoP\x01Z\x1dgo.temporal.io/api/sdk/v1;sdk\xaa\x02\x15Temporalio.Api.Sdk.V1\xea\x02\x18Temporalio::Api::Sdk::V1b\x06proto3"
-
-var (
-	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData []byte
-)
-
-func file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescGZIP() []byte {
-	file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc), len(file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDesc)))
-	})
-	return file_temporal_api_sdk_v1_enhanced_stack_trace_proto_rawDescData
-}
 
 var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_temporal_api_sdk_v1_enhanced_stack_trace_proto_goTypes = []any{

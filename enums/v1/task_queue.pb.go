@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/task_queue.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -95,11 +96,6 @@ func (x TaskQueueKind) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use TaskQueueKind.Descriptor instead.
-func (TaskQueueKind) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{0}
-}
-
 type TaskQueueType int32
 
 const (
@@ -160,11 +156,6 @@ func (TaskQueueType) Type() protoreflect.EnumType {
 
 func (x TaskQueueType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use TaskQueueType.Descriptor instead.
-func (TaskQueueType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{1}
 }
 
 // Specifies which category of tasks may reach a worker on a versioned task queue.
@@ -240,11 +231,6 @@ func (TaskReachability) Type() protoreflect.EnumType {
 
 func (x TaskReachability) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use TaskReachability.Descriptor instead.
-func (TaskReachability) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{2}
 }
 
 // Specifies which category of tasks may reach a versioned worker of a certain Build ID.
@@ -325,11 +311,6 @@ func (x BuildIdTaskReachability) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use BuildIdTaskReachability.Descriptor instead.
-func (BuildIdTaskReachability) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{3}
-}
-
 type DescribeTaskQueueMode int32
 
 const (
@@ -379,11 +360,6 @@ func (DescribeTaskQueueMode) Type() protoreflect.EnumType {
 
 func (x DescribeTaskQueueMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use DescribeTaskQueueMode.Descriptor instead.
-func (DescribeTaskQueueMode) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{4}
 }
 
 // Source for the effective rate limit.
@@ -449,11 +425,6 @@ func (x RateLimitSource) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use RateLimitSource.Descriptor instead.
-func (RateLimitSource) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{5}
-}
-
 // Indicates whether a change to the Routing Config has been
 // propagated to all relevant Task Queues and their partitions.
 type RoutingConfigUpdateState int32
@@ -512,11 +483,6 @@ func (x RoutingConfigUpdateState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use RoutingConfigUpdateState.Descriptor instead.
-func (RoutingConfigUpdateState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP(), []int{6}
-}
-
 var File_temporal_api_enums_v1_task_queue_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_task_queue_proto_rawDesc = "" +
@@ -555,18 +521,6 @@ const file_temporal_api_enums_v1_task_queue_proto_rawDesc = "" +
 	"'ROUTING_CONFIG_UPDATE_STATE_IN_PROGRESS\x10\x01\x12)\n" +
 	"%ROUTING_CONFIG_UPDATE_STATE_COMPLETED\x10\x02B\x86\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x0eTaskQueueProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_task_queue_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_task_queue_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_task_queue_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_task_queue_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_task_queue_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_task_queue_proto_rawDesc), len(file_temporal_api_enums_v1_task_queue_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_task_queue_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_task_queue_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
 var file_temporal_api_enums_v1_task_queue_proto_goTypes = []any{

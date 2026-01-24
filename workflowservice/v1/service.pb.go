@@ -4,6 +4,8 @@
 // 	protoc
 // source: temporal/api/workflowservice/v1/service.proto
 
+//go:build !protoopaque
+
 package workflowservice
 
 import (

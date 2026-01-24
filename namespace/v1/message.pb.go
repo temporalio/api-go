@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/namespace/v1/message.proto
 
+//go:build !protoopaque
+
 package namespace
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/enums/v1"
@@ -26,7 +27,7 @@ const (
 )
 
 type NamespaceInfo struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
+	state       protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name        string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	State       v1.NamespaceState      `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NamespaceState" json:"state,omitempty"`
 	Description string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
@@ -68,11 +69,6 @@ func (x *NamespaceInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NamespaceInfo.ProtoReflect.Descriptor instead.
-func (*NamespaceInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_namespace_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *NamespaceInfo) GetName() string {
@@ -138,8 +134,101 @@ func (x *NamespaceInfo) GetSupportsSchedules() bool {
 	return false
 }
 
+func (x *NamespaceInfo) SetName(v string) {
+	x.Name = v
+}
+
+func (x *NamespaceInfo) SetState(v v1.NamespaceState) {
+	x.State = v
+}
+
+func (x *NamespaceInfo) SetDescription(v string) {
+	x.Description = v
+}
+
+func (x *NamespaceInfo) SetOwnerEmail(v string) {
+	x.OwnerEmail = v
+}
+
+func (x *NamespaceInfo) SetData(v map[string]string) {
+	x.Data = v
+}
+
+func (x *NamespaceInfo) SetId(v string) {
+	x.Id = v
+}
+
+func (x *NamespaceInfo) SetCapabilities(v *NamespaceInfo_Capabilities) {
+	x.Capabilities = v
+}
+
+func (x *NamespaceInfo) SetLimits(v *NamespaceInfo_Limits) {
+	x.Limits = v
+}
+
+func (x *NamespaceInfo) SetSupportsSchedules(v bool) {
+	x.SupportsSchedules = v
+}
+
+func (x *NamespaceInfo) HasCapabilities() bool {
+	if x == nil {
+		return false
+	}
+	return x.Capabilities != nil
+}
+
+func (x *NamespaceInfo) HasLimits() bool {
+	if x == nil {
+		return false
+	}
+	return x.Limits != nil
+}
+
+func (x *NamespaceInfo) ClearCapabilities() {
+	x.Capabilities = nil
+}
+
+func (x *NamespaceInfo) ClearLimits() {
+	x.Limits = nil
+}
+
+type NamespaceInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name        string
+	State       v1.NamespaceState
+	Description string
+	OwnerEmail  string
+	// A key-value map for any customized purpose.
+	Data map[string]string
+	Id   string
+	// All capabilities the namespace supports.
+	Capabilities *NamespaceInfo_Capabilities
+	// Namespace configured limits
+	Limits *NamespaceInfo_Limits
+	// Whether scheduled workflows are supported on this namespace. This is only needed
+	// temporarily while the feature is experimental, so we can give it a high tag.
+	SupportsSchedules bool
+}
+
+func (b0 NamespaceInfo_builder) Build() *NamespaceInfo {
+	m0 := &NamespaceInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.State = b.State
+	x.Description = b.Description
+	x.OwnerEmail = b.OwnerEmail
+	x.Data = b.Data
+	x.Id = b.Id
+	x.Capabilities = b.Capabilities
+	x.Limits = b.Limits
+	x.SupportsSchedules = b.SupportsSchedules
+	return m0
+}
+
 type NamespaceConfig struct {
-	state                         protoimpl.MessageState `protogen:"open.v1"`
+	state                         protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowExecutionRetentionTtl *durationpb.Duration   `protobuf:"bytes,1,opt,name=workflow_execution_retention_ttl,json=workflowExecutionRetentionTtl,proto3" json:"workflow_execution_retention_ttl,omitempty"`
 	BadBinaries                   *BadBinaries           `protobuf:"bytes,2,opt,name=bad_binaries,json=badBinaries,proto3" json:"bad_binaries,omitempty"`
 	// If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used.
@@ -177,11 +266,6 @@ func (x *NamespaceConfig) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NamespaceConfig.ProtoReflect.Descriptor instead.
-func (*NamespaceConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_namespace_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *NamespaceConfig) GetWorkflowExecutionRetentionTtl() *durationpb.Duration {
@@ -233,8 +317,87 @@ func (x *NamespaceConfig) GetCustomSearchAttributeAliases() map[string]string {
 	return nil
 }
 
+func (x *NamespaceConfig) SetWorkflowExecutionRetentionTtl(v *durationpb.Duration) {
+	x.WorkflowExecutionRetentionTtl = v
+}
+
+func (x *NamespaceConfig) SetBadBinaries(v *BadBinaries) {
+	x.BadBinaries = v
+}
+
+func (x *NamespaceConfig) SetHistoryArchivalState(v v1.ArchivalState) {
+	x.HistoryArchivalState = v
+}
+
+func (x *NamespaceConfig) SetHistoryArchivalUri(v string) {
+	x.HistoryArchivalUri = v
+}
+
+func (x *NamespaceConfig) SetVisibilityArchivalState(v v1.ArchivalState) {
+	x.VisibilityArchivalState = v
+}
+
+func (x *NamespaceConfig) SetVisibilityArchivalUri(v string) {
+	x.VisibilityArchivalUri = v
+}
+
+func (x *NamespaceConfig) SetCustomSearchAttributeAliases(v map[string]string) {
+	x.CustomSearchAttributeAliases = v
+}
+
+func (x *NamespaceConfig) HasWorkflowExecutionRetentionTtl() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionRetentionTtl != nil
+}
+
+func (x *NamespaceConfig) HasBadBinaries() bool {
+	if x == nil {
+		return false
+	}
+	return x.BadBinaries != nil
+}
+
+func (x *NamespaceConfig) ClearWorkflowExecutionRetentionTtl() {
+	x.WorkflowExecutionRetentionTtl = nil
+}
+
+func (x *NamespaceConfig) ClearBadBinaries() {
+	x.BadBinaries = nil
+}
+
+type NamespaceConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowExecutionRetentionTtl *durationpb.Duration
+	BadBinaries                   *BadBinaries
+	// If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used.
+	HistoryArchivalState v1.ArchivalState
+	HistoryArchivalUri   string
+	// If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used.
+	VisibilityArchivalState v1.ArchivalState
+	VisibilityArchivalUri   string
+	// Map from field name to alias.
+	CustomSearchAttributeAliases map[string]string
+}
+
+func (b0 NamespaceConfig_builder) Build() *NamespaceConfig {
+	m0 := &NamespaceConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowExecutionRetentionTtl = b.WorkflowExecutionRetentionTtl
+	x.BadBinaries = b.BadBinaries
+	x.HistoryArchivalState = b.HistoryArchivalState
+	x.HistoryArchivalUri = b.HistoryArchivalUri
+	x.VisibilityArchivalState = b.VisibilityArchivalState
+	x.VisibilityArchivalUri = b.VisibilityArchivalUri
+	x.CustomSearchAttributeAliases = b.CustomSearchAttributeAliases
+	return m0
+}
+
 type BadBinaries struct {
-	state         protoimpl.MessageState    `protogen:"open.v1"`
+	state         protoimpl.MessageState    `protogen:"hybrid.v1"`
 	Binaries      map[string]*BadBinaryInfo `protobuf:"bytes,1,rep,name=binaries,proto3" json:"binaries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -265,11 +428,6 @@ func (x *BadBinaries) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BadBinaries.ProtoReflect.Descriptor instead.
-func (*BadBinaries) Descriptor() ([]byte, []int) {
-	return file_temporal_api_namespace_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *BadBinaries) GetBinaries() map[string]*BadBinaryInfo {
 	if x != nil {
 		return x.Binaries
@@ -277,8 +435,26 @@ func (x *BadBinaries) GetBinaries() map[string]*BadBinaryInfo {
 	return nil
 }
 
+func (x *BadBinaries) SetBinaries(v map[string]*BadBinaryInfo) {
+	x.Binaries = v
+}
+
+type BadBinaries_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Binaries map[string]*BadBinaryInfo
+}
+
+func (b0 BadBinaries_builder) Build() *BadBinaries {
+	m0 := &BadBinaries{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Binaries = b.Binaries
+	return m0
+}
+
 type BadBinaryInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Reason        string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
 	Operator      string                 `protobuf:"bytes,2,opt,name=operator,proto3" json:"operator,omitempty"`
 	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
@@ -311,11 +487,6 @@ func (x *BadBinaryInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BadBinaryInfo.ProtoReflect.Descriptor instead.
-func (*BadBinaryInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_namespace_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *BadBinaryInfo) GetReason() string {
 	if x != nil {
 		return x.Reason
@@ -337,8 +508,49 @@ func (x *BadBinaryInfo) GetCreateTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *BadBinaryInfo) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *BadBinaryInfo) SetOperator(v string) {
+	x.Operator = v
+}
+
+func (x *BadBinaryInfo) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *BadBinaryInfo) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *BadBinaryInfo) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+type BadBinaryInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Reason     string
+	Operator   string
+	CreateTime *timestamppb.Timestamp
+}
+
+func (b0 BadBinaryInfo_builder) Build() *BadBinaryInfo {
+	m0 := &BadBinaryInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Reason = b.Reason
+	x.Operator = b.Operator
+	x.CreateTime = b.CreateTime
+	return m0
+}
+
 type UpdateNamespaceInfo struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
+	state       protoimpl.MessageState `protogen:"hybrid.v1"`
 	Description string                 `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
 	OwnerEmail  string                 `protobuf:"bytes,2,opt,name=owner_email,json=ownerEmail,proto3" json:"owner_email,omitempty"`
 	// A key-value map for any customized purpose.
@@ -382,11 +594,6 @@ func (x *UpdateNamespaceInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateNamespaceInfo.ProtoReflect.Descriptor instead.
-func (*UpdateNamespaceInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_namespace_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *UpdateNamespaceInfo) GetDescription() string {
 	if x != nil {
 		return x.Description
@@ -415,8 +622,54 @@ func (x *UpdateNamespaceInfo) GetState() v1.NamespaceState {
 	return v1.NamespaceState(0)
 }
 
+func (x *UpdateNamespaceInfo) SetDescription(v string) {
+	x.Description = v
+}
+
+func (x *UpdateNamespaceInfo) SetOwnerEmail(v string) {
+	x.OwnerEmail = v
+}
+
+func (x *UpdateNamespaceInfo) SetData(v map[string]string) {
+	x.Data = v
+}
+
+func (x *UpdateNamespaceInfo) SetState(v v1.NamespaceState) {
+	x.State = v
+}
+
+type UpdateNamespaceInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Description string
+	OwnerEmail  string
+	// A key-value map for any customized purpose.
+	// If data already exists on the namespace,
+	// this will merge with the existing key values.
+	Data map[string]string
+	// New namespace state, server will reject if transition is not allowed.
+	// Allowed transitions are:
+	//
+	//	Registered -> [ Deleted | Deprecated | Handover ]
+	//	Handover -> [ Registered ]
+	//
+	// Default is NAMESPACE_STATE_UNSPECIFIED which is do not change state.
+	State v1.NamespaceState
+}
+
+func (b0 UpdateNamespaceInfo_builder) Build() *UpdateNamespaceInfo {
+	m0 := &UpdateNamespaceInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Description = b.Description
+	x.OwnerEmail = b.OwnerEmail
+	x.Data = b.Data
+	x.State = b.State
+	return m0
+}
+
 type NamespaceFilter struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// By default namespaces in NAMESPACE_STATE_DELETED state are not included.
 	// Setting include_deleted to true will include deleted namespaces.
 	// Note: Namespace is in NAMESPACE_STATE_DELETED state when it was deleted from the system but associated data is not deleted yet.
@@ -450,11 +703,6 @@ func (x *NamespaceFilter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NamespaceFilter.ProtoReflect.Descriptor instead.
-func (*NamespaceFilter) Descriptor() ([]byte, []int) {
-	return file_temporal_api_namespace_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *NamespaceFilter) GetIncludeDeleted() bool {
 	if x != nil {
 		return x.IncludeDeleted
@@ -462,9 +710,30 @@ func (x *NamespaceFilter) GetIncludeDeleted() bool {
 	return false
 }
 
+func (x *NamespaceFilter) SetIncludeDeleted(v bool) {
+	x.IncludeDeleted = v
+}
+
+type NamespaceFilter_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// By default namespaces in NAMESPACE_STATE_DELETED state are not included.
+	// Setting include_deleted to true will include deleted namespaces.
+	// Note: Namespace is in NAMESPACE_STATE_DELETED state when it was deleted from the system but associated data is not deleted yet.
+	IncludeDeleted bool
+}
+
+func (b0 NamespaceFilter_builder) Build() *NamespaceFilter {
+	m0 := &NamespaceFilter{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.IncludeDeleted = b.IncludeDeleted
+	return m0
+}
+
 // Namespace capability details. Should contain what features are enabled in a namespace.
 type NamespaceInfo_Capabilities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// True if the namespace supports eager workflow start.
 	EagerWorkflowStart bool `protobuf:"varint,1,opt,name=eager_workflow_start,json=eagerWorkflowStart,proto3" json:"eager_workflow_start,omitempty"`
 	// True if the namespace supports sync update
@@ -506,11 +775,6 @@ func (x *NamespaceInfo_Capabilities) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NamespaceInfo_Capabilities.ProtoReflect.Descriptor instead.
-func (*NamespaceInfo_Capabilities) Descriptor() ([]byte, []int) {
-	return file_temporal_api_namespace_v1_message_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *NamespaceInfo_Capabilities) GetEagerWorkflowStart() bool {
@@ -562,8 +826,69 @@ func (x *NamespaceInfo_Capabilities) GetStandaloneActivities() bool {
 	return false
 }
 
+func (x *NamespaceInfo_Capabilities) SetEagerWorkflowStart(v bool) {
+	x.EagerWorkflowStart = v
+}
+
+func (x *NamespaceInfo_Capabilities) SetSyncUpdate(v bool) {
+	x.SyncUpdate = v
+}
+
+func (x *NamespaceInfo_Capabilities) SetAsyncUpdate(v bool) {
+	x.AsyncUpdate = v
+}
+
+func (x *NamespaceInfo_Capabilities) SetWorkerHeartbeats(v bool) {
+	x.WorkerHeartbeats = v
+}
+
+func (x *NamespaceInfo_Capabilities) SetReportedProblemsSearchAttribute(v bool) {
+	x.ReportedProblemsSearchAttribute = v
+}
+
+func (x *NamespaceInfo_Capabilities) SetWorkflowPause(v bool) {
+	x.WorkflowPause = v
+}
+
+func (x *NamespaceInfo_Capabilities) SetStandaloneActivities(v bool) {
+	x.StandaloneActivities = v
+}
+
+type NamespaceInfo_Capabilities_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// True if the namespace supports eager workflow start.
+	EagerWorkflowStart bool
+	// True if the namespace supports sync update
+	SyncUpdate bool
+	// True if the namespace supports async update
+	AsyncUpdate bool
+	// True if the namespace supports worker heartbeats
+	WorkerHeartbeats bool
+	// True if the namespace supports reported problems search attribute
+	ReportedProblemsSearchAttribute bool
+	// True if the namespace supports pausing workflows
+	WorkflowPause bool
+	// True if the namespace supports standalone activities
+	StandaloneActivities bool
+}
+
+func (b0 NamespaceInfo_Capabilities_builder) Build() *NamespaceInfo_Capabilities {
+	m0 := &NamespaceInfo_Capabilities{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EagerWorkflowStart = b.EagerWorkflowStart
+	x.SyncUpdate = b.SyncUpdate
+	x.AsyncUpdate = b.AsyncUpdate
+	x.WorkerHeartbeats = b.WorkerHeartbeats
+	x.ReportedProblemsSearchAttribute = b.ReportedProblemsSearchAttribute
+	x.WorkflowPause = b.WorkflowPause
+	x.StandaloneActivities = b.StandaloneActivities
+	return m0
+}
+
 type NamespaceInfo_Limits struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Maximum size in bytes for payload fields in workflow history events
 	// (e.g., workflow/activity inputs and results, failure details, signal payloads).
 	// When exceeded, the server will reject the operation with an error.
@@ -599,11 +924,6 @@ func (x *NamespaceInfo_Limits) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NamespaceInfo_Limits.ProtoReflect.Descriptor instead.
-func (*NamespaceInfo_Limits) Descriptor() ([]byte, []int) {
-	return file_temporal_api_namespace_v1_message_proto_rawDescGZIP(), []int{0, 2}
-}
-
 func (x *NamespaceInfo_Limits) GetBlobSizeLimitError() int64 {
 	if x != nil {
 		return x.BlobSizeLimitError
@@ -616,6 +936,34 @@ func (x *NamespaceInfo_Limits) GetMemoSizeLimitError() int64 {
 		return x.MemoSizeLimitError
 	}
 	return 0
+}
+
+func (x *NamespaceInfo_Limits) SetBlobSizeLimitError(v int64) {
+	x.BlobSizeLimitError = v
+}
+
+func (x *NamespaceInfo_Limits) SetMemoSizeLimitError(v int64) {
+	x.MemoSizeLimitError = v
+}
+
+type NamespaceInfo_Limits_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Maximum size in bytes for payload fields in workflow history events
+	// (e.g., workflow/activity inputs and results, failure details, signal payloads).
+	// When exceeded, the server will reject the operation with an error.
+	BlobSizeLimitError int64
+	// Maximum total memo size in bytes per workflow execution.
+	MemoSizeLimitError int64
+}
+
+func (b0 NamespaceInfo_Limits_builder) Build() *NamespaceInfo_Limits {
+	m0 := &NamespaceInfo_Limits{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BlobSizeLimitError = b.BlobSizeLimitError
+	x.MemoSizeLimitError = b.MemoSizeLimitError
+	return m0
 }
 
 var File_temporal_api_namespace_v1_message_proto protoreflect.FileDescriptor
@@ -682,18 +1030,6 @@ const file_temporal_api_namespace_v1_message_proto_rawDesc = "" +
 	"\x0fNamespaceFilter\x12'\n" +
 	"\x0finclude_deleted\x18\x01 \x01(\bR\x0eincludeDeletedB\x98\x01\n" +
 	"\x1cio.temporal.api.namespace.v1B\fMessageProtoP\x01Z)go.temporal.io/api/namespace/v1;namespace\xaa\x02\x1bTemporalio.Api.Namespace.V1\xea\x02\x1eTemporalio::Api::Namespace::V1b\x06proto3"
-
-var (
-	file_temporal_api_namespace_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_namespace_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_namespace_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_namespace_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_namespace_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_namespace_v1_message_proto_rawDesc), len(file_temporal_api_namespace_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_namespace_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_namespace_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_temporal_api_namespace_v1_message_proto_goTypes = []any{

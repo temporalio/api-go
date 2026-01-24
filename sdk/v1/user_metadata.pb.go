@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/sdk/v1/user_metadata.proto
 
+//go:build !protoopaque
+
 package sdk
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/common/v1"
@@ -25,7 +26,7 @@ const (
 
 // Information a user can set, often for use by user interfaces.
 type UserMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Short-form text that provides a summary. This payload should be a "json/plain"-encoded payload
 	// that is a single JSON string for use in user interfaces. User interface formatting may not
 	// apply to this text when used in "title" situations. The payload data section is limited to 400
@@ -64,11 +65,6 @@ func (x *UserMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UserMetadata.ProtoReflect.Descriptor instead.
-func (*UserMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_user_metadata_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *UserMetadata) GetSummary() *v1.Payload {
 	if x != nil {
 		return x.Summary
@@ -83,6 +79,59 @@ func (x *UserMetadata) GetDetails() *v1.Payload {
 	return nil
 }
 
+func (x *UserMetadata) SetSummary(v *v1.Payload) {
+	x.Summary = v
+}
+
+func (x *UserMetadata) SetDetails(v *v1.Payload) {
+	x.Details = v
+}
+
+func (x *UserMetadata) HasSummary() bool {
+	if x == nil {
+		return false
+	}
+	return x.Summary != nil
+}
+
+func (x *UserMetadata) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *UserMetadata) ClearSummary() {
+	x.Summary = nil
+}
+
+func (x *UserMetadata) ClearDetails() {
+	x.Details = nil
+}
+
+type UserMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Short-form text that provides a summary. This payload should be a "json/plain"-encoded payload
+	// that is a single JSON string for use in user interfaces. User interface formatting may not
+	// apply to this text when used in "title" situations. The payload data section is limited to 400
+	// bytes by default.
+	Summary *v1.Payload
+	// Long-form text that provides details. This payload should be a "json/plain"-encoded payload
+	// that is a single JSON string for use in user interfaces. User interface formatting may apply to
+	// this text in common use. The payload data section is limited to 20000 bytes by default.
+	Details *v1.Payload
+}
+
+func (b0 UserMetadata_builder) Build() *UserMetadata {
+	m0 := &UserMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Summary = b.Summary
+	x.Details = b.Details
+	return m0
+}
+
 var File_temporal_api_sdk_v1_user_metadata_proto protoreflect.FileDescriptor
 
 const file_temporal_api_sdk_v1_user_metadata_proto_rawDesc = "" +
@@ -92,18 +141,6 @@ const file_temporal_api_sdk_v1_user_metadata_proto_rawDesc = "" +
 	"\asummary\x18\x01 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\asummary\x129\n" +
 	"\adetails\x18\x02 \x01(\v2\x1f.temporal.api.common.v1.PayloadR\adetailsB\x7f\n" +
 	"\x16io.temporal.api.sdk.v1B\x11UserMetadataProtoP\x01Z\x1dgo.temporal.io/api/sdk/v1;sdk\xaa\x02\x15Temporalio.Api.Sdk.V1\xea\x02\x18Temporalio::Api::Sdk::V1b\x06proto3"
-
-var (
-	file_temporal_api_sdk_v1_user_metadata_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_user_metadata_proto_rawDescData []byte
-)
-
-func file_temporal_api_sdk_v1_user_metadata_proto_rawDescGZIP() []byte {
-	file_temporal_api_sdk_v1_user_metadata_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_user_metadata_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_user_metadata_proto_rawDesc), len(file_temporal_api_sdk_v1_user_metadata_proto_rawDesc)))
-	})
-	return file_temporal_api_sdk_v1_user_metadata_proto_rawDescData
-}
 
 var file_temporal_api_sdk_v1_user_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_temporal_api_sdk_v1_user_metadata_proto_goTypes = []any{

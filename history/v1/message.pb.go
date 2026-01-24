@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/history/v1/message.proto
 
+//go:build !protoopaque
+
 package history
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/common/v1"
@@ -34,7 +36,7 @@ const (
 
 // Always the first event in workflow history
 type WorkflowExecutionStartedEventAttributes struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
+	state        protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowType *v1.WorkflowType       `protobuf:"bytes,1,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	// If this workflow is a child, the namespace our parent lives in.
 	// SDKs and UI tools should use `parent_workflow_namespace` field but server must use `parent_workflow_namespace_id` only.
@@ -217,11 +219,6 @@ func (x *WorkflowExecutionStartedEventAttributes) ProtoReflect() protoreflect.Me
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkflowExecutionStartedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionStartedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *WorkflowExecutionStartedEventAttributes) GetWorkflowType() *v1.WorkflowType {
@@ -493,8 +490,612 @@ func (x *WorkflowExecutionStartedEventAttributes) GetEagerExecutionAccepted() bo
 	return false
 }
 
+func (x *WorkflowExecutionStartedEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetParentWorkflowNamespace(v string) {
+	x.ParentWorkflowNamespace = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetParentWorkflowNamespaceId(v string) {
+	x.ParentWorkflowNamespaceId = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetParentWorkflowExecution(v *v1.WorkflowExecution) {
+	x.ParentWorkflowExecution = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetParentInitiatedEventId(v int64) {
+	x.ParentInitiatedEventId = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetTaskQueue(v *v11.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetWorkflowExecutionTimeout(v *durationpb.Duration) {
+	x.WorkflowExecutionTimeout = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.WorkflowTaskTimeout = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetContinuedExecutionRunId(v string) {
+	x.ContinuedExecutionRunId = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetInitiator(v v12.ContinueAsNewInitiator) {
+	x.Initiator = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetContinuedFailure(v *v13.Failure) {
+	x.ContinuedFailure = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetLastCompletionResult(v *v1.Payloads) {
+	x.LastCompletionResult = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetOriginalExecutionRunId(v string) {
+	x.OriginalExecutionRunId = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetFirstExecutionRunId(v string) {
+	x.FirstExecutionRunId = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetWorkflowExecutionExpirationTime(v *timestamppb.Timestamp) {
+	x.WorkflowExecutionExpirationTime = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetCronSchedule(v string) {
+	x.CronSchedule = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetFirstWorkflowTaskBackoff(v *durationpb.Duration) {
+	x.FirstWorkflowTaskBackoff = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetMemo(v *v1.Memo) {
+	x.Memo = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetPrevAutoResetPoints(v *v14.ResetPoints) {
+	x.PrevAutoResetPoints = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetParentInitiatedEventVersion(v int64) {
+	x.ParentInitiatedEventVersion = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionStartedEventAttributes) SetSourceVersionStamp(v *v1.WorkerVersionStamp) {
+	x.SourceVersionStamp = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetCompletionCallbacks(v []*v1.Callback) {
+	x.CompletionCallbacks = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetRootWorkflowExecution(v *v1.WorkflowExecution) {
+	x.RootWorkflowExecution = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionStartedEventAttributes) SetInheritedBuildId(v string) {
+	x.InheritedBuildId = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetVersioningOverride(v *v14.VersioningOverride) {
+	x.VersioningOverride = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionStartedEventAttributes) SetParentPinnedWorkerDeploymentVersion(v string) {
+	x.ParentPinnedWorkerDeploymentVersion = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetInheritedPinnedVersion(v *v15.WorkerDeploymentVersion) {
+	x.InheritedPinnedVersion = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetInheritedAutoUpgradeInfo(v *v15.InheritedAutoUpgradeInfo) {
+	x.InheritedAutoUpgradeInfo = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) SetEagerExecutionAccepted(v bool) {
+	x.EagerExecutionAccepted = v
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasParentWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.ParentWorkflowExecution != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasWorkflowExecutionTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionTimeout != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskTimeout != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasContinuedFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.ContinuedFailure != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasLastCompletionResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastCompletionResult != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasWorkflowExecutionExpirationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionExpirationTime != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasFirstWorkflowTaskBackoff() bool {
+	if x == nil {
+		return false
+	}
+	return x.FirstWorkflowTaskBackoff != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasPrevAutoResetPoints() bool {
+	if x == nil {
+		return false
+	}
+	return x.PrevAutoResetPoints != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionStartedEventAttributes) HasSourceVersionStamp() bool {
+	if x == nil {
+		return false
+	}
+	return x.SourceVersionStamp != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasRootWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.RootWorkflowExecution != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasVersioningOverride() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningOverride != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasInheritedPinnedVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.InheritedPinnedVersion != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) HasInheritedAutoUpgradeInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.InheritedAutoUpgradeInfo != nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearParentWorkflowExecution() {
+	x.ParentWorkflowExecution = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearWorkflowExecutionTimeout() {
+	x.WorkflowExecutionTimeout = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearWorkflowTaskTimeout() {
+	x.WorkflowTaskTimeout = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearContinuedFailure() {
+	x.ContinuedFailure = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearLastCompletionResult() {
+	x.LastCompletionResult = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearWorkflowExecutionExpirationTime() {
+	x.WorkflowExecutionExpirationTime = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearFirstWorkflowTaskBackoff() {
+	x.FirstWorkflowTaskBackoff = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearPrevAutoResetPoints() {
+	x.PrevAutoResetPoints = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionStartedEventAttributes) ClearSourceVersionStamp() {
+	x.SourceVersionStamp = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearRootWorkflowExecution() {
+	x.RootWorkflowExecution = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearVersioningOverride() {
+	x.VersioningOverride = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearPriority() {
+	x.Priority = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearInheritedPinnedVersion() {
+	x.InheritedPinnedVersion = nil
+}
+
+func (x *WorkflowExecutionStartedEventAttributes) ClearInheritedAutoUpgradeInfo() {
+	x.InheritedAutoUpgradeInfo = nil
+}
+
+type WorkflowExecutionStartedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowType *v1.WorkflowType
+	// If this workflow is a child, the namespace our parent lives in.
+	// SDKs and UI tools should use `parent_workflow_namespace` field but server must use `parent_workflow_namespace_id` only.
+	ParentWorkflowNamespace   string
+	ParentWorkflowNamespaceId string
+	// Contains information about parent workflow execution that initiated the child workflow these attributes belong to.
+	// If the workflow these attributes belong to is not a child workflow of any other execution, this field will not be populated.
+	ParentWorkflowExecution *v1.WorkflowExecution
+	// EventID of the child execution initiated event in parent workflow
+	ParentInitiatedEventId int64
+	TaskQueue              *v11.TaskQueue
+	// SDK will deserialize this and provide it as arguments to the workflow function
+	Input *v1.Payloads
+	// Total workflow execution timeout including retries and continue as new.
+	WorkflowExecutionTimeout *durationpb.Duration
+	// Timeout of a single workflow run.
+	WorkflowRunTimeout *durationpb.Duration
+	// Timeout of a single workflow task.
+	WorkflowTaskTimeout *durationpb.Duration
+	// Run id of the previous workflow which continued-as-new or retried or cron executed into this
+	// workflow.
+	ContinuedExecutionRunId string
+	Initiator               v12.ContinueAsNewInitiator
+	ContinuedFailure        *v13.Failure
+	LastCompletionResult    *v1.Payloads
+	// This is the run id when the WorkflowExecutionStarted event was written.
+	// A workflow reset changes the execution run_id, but preserves this field.
+	OriginalExecutionRunId string
+	// Identity of the client who requested this execution
+	Identity string
+	// This is the very first runId along the chain of ContinueAsNew, Retry, Cron and Reset.
+	// Used to identify a chain.
+	FirstExecutionRunId string
+	RetryPolicy         *v1.RetryPolicy
+	// Starting at 1, the number of times we have tried to execute this workflow
+	Attempt int32
+	// The absolute time at which the workflow will be timed out.
+	// This is passed without change to the next run/retry of a workflow.
+	WorkflowExecutionExpirationTime *timestamppb.Timestamp
+	// If this workflow runs on a cron schedule, it will appear here
+	CronSchedule string
+	// For a cron workflow, this contains the amount of time between when this iteration of
+	// the cron workflow was scheduled and when it should run next per its cron_schedule.
+	FirstWorkflowTaskBackoff *durationpb.Duration
+	Memo                     *v1.Memo
+	SearchAttributes         *v1.SearchAttributes
+	PrevAutoResetPoints      *v14.ResetPoints
+	Header                   *v1.Header
+	// Version of the child execution initiated event in parent workflow
+	// It should be used together with parent_initiated_event_id to identify
+	// a child initiated event for global namespace
+	ParentInitiatedEventVersion int64
+	// This field is new in 1.21.
+	WorkflowId string
+	// If this workflow intends to use anything other than the current overall default version for
+	// the queue, then we include it here.
+	// Deprecated. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	SourceVersionStamp *v1.WorkerVersionStamp
+	// Completion callbacks attached when this workflow was started.
+	CompletionCallbacks []*v1.Callback
+	// Contains information about the root workflow execution.
+	// The root workflow execution is defined as follows:
+	//  1. A workflow without parent workflow is its own root workflow.
+	//  2. A workflow that has a parent workflow has the same root workflow as its parent workflow.
+	//
+	// When the workflow is its own root workflow, then root_workflow_execution is nil.
+	// Note: workflows continued as new or reseted may or may not have parents, check examples below.
+	//
+	// Examples:
+	//
+	//	Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3.
+	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
+	//	Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3.
+	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
+	//	Scenario 3: Workflow W1 continued as new W2.
+	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//	  - W1 and W2 have root_workflow_execution set to nil.
+	//	Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3
+	//	  - The root workflow of all three workflows is W1.
+	//	  - W1 has root_workflow_execution set to nil.
+	//	  - W2 and W3 have root_workflow_execution set to W1.
+	//	Scenario 5: Workflow W1 is reseted, creating W2.
+	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//	  - W1 and W2 have root_workflow_execution set to nil.
+	RootWorkflowExecution *v1.WorkflowExecution
+	// When present, this execution is assigned to the build ID of its parent or previous execution.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	InheritedBuildId string
+	// Versioning override applied to this workflow when it was started.
+	// Children, crons, retries, and continue-as-new will inherit source run's override if pinned
+	// and if the new workflow's Task Queue belongs to the override version.
+	VersioningOverride *v14.VersioningOverride
+	// When present, it means this is a child workflow of a parent that is Pinned to this Worker
+	// Deployment Version. In this case, child workflow will start as Pinned to this Version instead
+	// of starting on the Current Version of its Task Queue.
+	// This is set only if the child workflow is starting on a Task Queue belonging to the same
+	// Worker Deployment Version.
+	// Deprecated. Use `parent_versioning_info`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	ParentPinnedWorkerDeploymentVersion string
+	// Priority metadata
+	Priority *v1.Priority
+	// If present, the new workflow should start on this version with pinned base behavior.
+	// Child of pinned parent will inherit the parent's version if the Child's Task Queue belongs to that version.
+	//
+	// A new run initiated by workflow ContinueAsNew of pinned run, will inherit the previous run's version if the
+	// new run's Task Queue belongs to that version.
+	//
+	// A new run initiated by workflow Cron will never inherit.
+	//
+	// A new run initiated by workflow Retry will only inherit if the retried run is effectively pinned at the time
+	// of retry, and the retried run inherited a pinned version when it started (ie. it is a child of a pinned
+	// parent, or a CaN of a pinned run, and is running on a Task Queue in the inherited version).
+	//
+	// Pinned override is inherited if Task Queue of new run is compatible with the override version.
+	// Override is inherited separately and takes precedence over inherited base version.
+	//
+	// Note: This field is mutually exclusive with inherited_auto_upgrade_info.
+	// Additionaly, versioning_override, if present, overrides this field during routing decisions.
+	InheritedPinnedVersion *v15.WorkerDeploymentVersion
+	// If present, the new workflow begins with AutoUpgrade behavior. Before dispatching the
+	// first workflow task, this field is set to the deployment version on which the parent/
+	// previous run was operating. This inheritance only happens when the task queues belong to
+	// the same deployment version. The first workflow task will then be dispatched to either
+	// this inherited deployment version, or the current deployment version of the task queue's
+	// Deployment. After the first workflow task, the effective behavior depends on worker-sent
+	// values in subsequent workflow tasks.
+	//
+	// Inheritance rules:
+	//   - ContinueAsNew and child workflows: inherit AutoUpgrade behavior and deployment version
+	//   - Cron: never inherits
+	//   - Retry: inherits only if the retried run is effectively AutoUpgrade at the time of
+	//     retry, and inherited AutoUpgrade behavior when it started (i.e. it is a child of an
+	//     AutoUpgrade parent or ContinueAsNew of an AutoUpgrade run, running on the same
+	//     deployment as the parent/previous run)
+	//
+	// Additional notes:
+	//   - This field is mutually exclusive with `inherited_pinned_version`.
+	//   - `versioning_override`, if present, overrides this field during routing decisions.
+	//   - SDK implementations do not interact with this field and is only used internally by
+	//     the server to ensure task routing correctness.
+	InheritedAutoUpgradeInfo *v15.InheritedAutoUpgradeInfo
+	// A boolean indicating whether the SDK has asked to eagerly execute the first workflow task for this workflow and
+	// eager execution was accepted by the server.
+	// Only populated by server with version >= 1.29.0.
+	EagerExecutionAccepted bool
+}
+
+func (b0 WorkflowExecutionStartedEventAttributes_builder) Build() *WorkflowExecutionStartedEventAttributes {
+	m0 := &WorkflowExecutionStartedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowType = b.WorkflowType
+	x.ParentWorkflowNamespace = b.ParentWorkflowNamespace
+	x.ParentWorkflowNamespaceId = b.ParentWorkflowNamespaceId
+	x.ParentWorkflowExecution = b.ParentWorkflowExecution
+	x.ParentInitiatedEventId = b.ParentInitiatedEventId
+	x.TaskQueue = b.TaskQueue
+	x.Input = b.Input
+	x.WorkflowExecutionTimeout = b.WorkflowExecutionTimeout
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.WorkflowTaskTimeout = b.WorkflowTaskTimeout
+	x.ContinuedExecutionRunId = b.ContinuedExecutionRunId
+	x.Initiator = b.Initiator
+	x.ContinuedFailure = b.ContinuedFailure
+	x.LastCompletionResult = b.LastCompletionResult
+	x.OriginalExecutionRunId = b.OriginalExecutionRunId
+	x.Identity = b.Identity
+	x.FirstExecutionRunId = b.FirstExecutionRunId
+	x.RetryPolicy = b.RetryPolicy
+	x.Attempt = b.Attempt
+	x.WorkflowExecutionExpirationTime = b.WorkflowExecutionExpirationTime
+	x.CronSchedule = b.CronSchedule
+	x.FirstWorkflowTaskBackoff = b.FirstWorkflowTaskBackoff
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.PrevAutoResetPoints = b.PrevAutoResetPoints
+	x.Header = b.Header
+	x.ParentInitiatedEventVersion = b.ParentInitiatedEventVersion
+	x.WorkflowId = b.WorkflowId
+	x.SourceVersionStamp = b.SourceVersionStamp
+	x.CompletionCallbacks = b.CompletionCallbacks
+	x.RootWorkflowExecution = b.RootWorkflowExecution
+	x.InheritedBuildId = b.InheritedBuildId
+	x.VersioningOverride = b.VersioningOverride
+	x.ParentPinnedWorkerDeploymentVersion = b.ParentPinnedWorkerDeploymentVersion
+	x.Priority = b.Priority
+	x.InheritedPinnedVersion = b.InheritedPinnedVersion
+	x.InheritedAutoUpgradeInfo = b.InheritedAutoUpgradeInfo
+	x.EagerExecutionAccepted = b.EagerExecutionAccepted
+	return m0
+}
+
 type WorkflowExecutionCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Serialized result of workflow completion (ie: The return value of the workflow function)
 	Result *v1.Payloads `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
@@ -530,11 +1131,6 @@ func (x *WorkflowExecutionCompletedEventAttributes) ProtoReflect() protoreflect.
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionCompletedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionCompletedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *WorkflowExecutionCompletedEventAttributes) GetResult() *v1.Payloads {
 	if x != nil {
 		return x.Result
@@ -556,8 +1152,52 @@ func (x *WorkflowExecutionCompletedEventAttributes) GetNewExecutionRunId() strin
 	return ""
 }
 
+func (x *WorkflowExecutionCompletedEventAttributes) SetResult(v *v1.Payloads) {
+	x.Result = v
+}
+
+func (x *WorkflowExecutionCompletedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *WorkflowExecutionCompletedEventAttributes) SetNewExecutionRunId(v string) {
+	x.NewExecutionRunId = v
+}
+
+func (x *WorkflowExecutionCompletedEventAttributes) HasResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.Result != nil
+}
+
+func (x *WorkflowExecutionCompletedEventAttributes) ClearResult() {
+	x.Result = nil
+}
+
+type WorkflowExecutionCompletedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Serialized result of workflow completion (ie: The return value of the workflow function)
+	Result *v1.Payloads
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// If another run is started by cron, this contains the new run id.
+	NewExecutionRunId string
+}
+
+func (b0 WorkflowExecutionCompletedEventAttributes_builder) Build() *WorkflowExecutionCompletedEventAttributes {
+	m0 := &WorkflowExecutionCompletedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Result = b.Result
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.NewExecutionRunId = b.NewExecutionRunId
+	return m0
+}
+
 type WorkflowExecutionFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Serialized result of workflow failure (ex: An exception thrown, or error returned)
 	Failure    *v13.Failure   `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 	RetryState v12.RetryState `protobuf:"varint,2,opt,name=retry_state,json=retryState,proto3,enum=temporal.api.enums.v1.RetryState" json:"retry_state,omitempty"`
@@ -594,11 +1234,6 @@ func (x *WorkflowExecutionFailedEventAttributes) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *WorkflowExecutionFailedEventAttributes) GetFailure() *v13.Failure {
 	if x != nil {
 		return x.Failure
@@ -627,8 +1262,58 @@ func (x *WorkflowExecutionFailedEventAttributes) GetNewExecutionRunId() string {
 	return ""
 }
 
+func (x *WorkflowExecutionFailedEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *WorkflowExecutionFailedEventAttributes) SetRetryState(v v12.RetryState) {
+	x.RetryState = v
+}
+
+func (x *WorkflowExecutionFailedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *WorkflowExecutionFailedEventAttributes) SetNewExecutionRunId(v string) {
+	x.NewExecutionRunId = v
+}
+
+func (x *WorkflowExecutionFailedEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *WorkflowExecutionFailedEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type WorkflowExecutionFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Serialized result of workflow failure (ex: An exception thrown, or error returned)
+	Failure    *v13.Failure
+	RetryState v12.RetryState
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// If another run is started by cron or retry, this contains the new run id.
+	NewExecutionRunId string
+}
+
+func (b0 WorkflowExecutionFailedEventAttributes_builder) Build() *WorkflowExecutionFailedEventAttributes {
+	m0 := &WorkflowExecutionFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Failure = b.Failure
+	x.RetryState = b.RetryState
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.NewExecutionRunId = b.NewExecutionRunId
+	return m0
+}
+
 type WorkflowExecutionTimedOutEventAttributes struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	RetryState v12.RetryState         `protobuf:"varint,1,opt,name=retry_state,json=retryState,proto3,enum=temporal.api.enums.v1.RetryState" json:"retry_state,omitempty"`
 	// If another run is started by cron or retry, this contains the new run id.
 	NewExecutionRunId string `protobuf:"bytes,2,opt,name=new_execution_run_id,json=newExecutionRunId,proto3" json:"new_execution_run_id,omitempty"`
@@ -661,11 +1346,6 @@ func (x *WorkflowExecutionTimedOutEventAttributes) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionTimedOutEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionTimedOutEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *WorkflowExecutionTimedOutEventAttributes) GetRetryState() v12.RetryState {
 	if x != nil {
 		return x.RetryState
@@ -680,8 +1360,33 @@ func (x *WorkflowExecutionTimedOutEventAttributes) GetNewExecutionRunId() string
 	return ""
 }
 
+func (x *WorkflowExecutionTimedOutEventAttributes) SetRetryState(v v12.RetryState) {
+	x.RetryState = v
+}
+
+func (x *WorkflowExecutionTimedOutEventAttributes) SetNewExecutionRunId(v string) {
+	x.NewExecutionRunId = v
+}
+
+type WorkflowExecutionTimedOutEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	RetryState v12.RetryState
+	// If another run is started by cron or retry, this contains the new run id.
+	NewExecutionRunId string
+}
+
+func (b0 WorkflowExecutionTimedOutEventAttributes_builder) Build() *WorkflowExecutionTimedOutEventAttributes {
+	m0 := &WorkflowExecutionTimedOutEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RetryState = b.RetryState
+	x.NewExecutionRunId = b.NewExecutionRunId
+	return m0
+}
+
 type WorkflowExecutionContinuedAsNewEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The run ID of the new workflow started by this continue-as-new
 	NewExecutionRunId string           `protobuf:"bytes,1,opt,name=new_execution_run_id,json=newExecutionRunId,proto3" json:"new_execution_run_id,omitempty"`
 	WorkflowType      *v1.WorkflowType `protobuf:"bytes,2,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
@@ -747,11 +1452,6 @@ func (x *WorkflowExecutionContinuedAsNewEventAttributes) ProtoReflect() protoref
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkflowExecutionContinuedAsNewEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionContinuedAsNewEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *WorkflowExecutionContinuedAsNewEventAttributes) GetNewExecutionRunId() string {
@@ -868,8 +1568,263 @@ func (x *WorkflowExecutionContinuedAsNewEventAttributes) GetInitialVersioningBeh
 	return v12.ContinueAsNewVersioningBehavior(0)
 }
 
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetNewExecutionRunId(v string) {
+	x.NewExecutionRunId = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetTaskQueue(v *v11.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.WorkflowTaskTimeout = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetBackoffStartInterval(v *durationpb.Duration) {
+	x.BackoffStartInterval = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetInitiator(v v12.ContinueAsNewInitiator) {
+	x.Initiator = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetLastCompletionResult(v *v1.Payloads) {
+	x.LastCompletionResult = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetMemo(v *v1.Memo) {
+	x.Memo = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetInheritBuildId(v bool) {
+	x.InheritBuildId = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) SetInitialVersioningBehavior(v v12.ContinueAsNewVersioningBehavior) {
+	x.InitialVersioningBehavior = v
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskTimeout != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasBackoffStartInterval() bool {
+	if x == nil {
+		return false
+	}
+	return x.BackoffStartInterval != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasLastCompletionResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastCompletionResult != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearWorkflowTaskTimeout() {
+	x.WorkflowTaskTimeout = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearBackoffStartInterval() {
+	x.BackoffStartInterval = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearLastCompletionResult() {
+	x.LastCompletionResult = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *WorkflowExecutionContinuedAsNewEventAttributes) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+type WorkflowExecutionContinuedAsNewEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The run ID of the new workflow started by this continue-as-new
+	NewExecutionRunId string
+	WorkflowType      *v1.WorkflowType
+	TaskQueue         *v11.TaskQueue
+	Input             *v1.Payloads
+	// Timeout of a single workflow run.
+	WorkflowRunTimeout *durationpb.Duration
+	// Timeout of a single workflow task.
+	WorkflowTaskTimeout *durationpb.Duration
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// How long the server will wait before scheduling the first workflow task for the new run.
+	// Used for cron, retry, and other continue-as-new cases that server may enforce some minimal
+	// delay between new runs for system protection purpose.
+	BackoffStartInterval *durationpb.Duration
+	Initiator            v12.ContinueAsNewInitiator
+	// Deprecated. If a workflow's retry policy would cause a new run to start when the current one
+	// has failed, this field would be populated with that failure. Now (when supported by server
+	// and sdk) the final event will be `WORKFLOW_EXECUTION_FAILED` with `new_execution_run_id` set.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Failure *v13.Failure
+	// The result from the most recent completed run of this workflow. The SDK surfaces this to the
+	// new run via APIs such as `GetLastCompletionResult`.
+	LastCompletionResult *v1.Payloads
+	Header               *v1.Header
+	Memo                 *v1.Memo
+	SearchAttributes     *v1.SearchAttributes
+	// If this is set, the new execution inherits the Build ID of the current execution. Otherwise,
+	// the assignment rules will be used to independently assign a Build ID to the new execution.
+	// Deprecated. Only considered for versioning v0.2.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	InheritBuildId bool
+	// Experimental. Optionally decide the versioning behavior that the first task of the new run should use.
+	// For example, choose to AutoUpgrade on continue-as-new instead of inheriting the pinned version
+	// of the previous run.
+	InitialVersioningBehavior v12.ContinueAsNewVersioningBehavior
+}
+
+func (b0 WorkflowExecutionContinuedAsNewEventAttributes_builder) Build() *WorkflowExecutionContinuedAsNewEventAttributes {
+	m0 := &WorkflowExecutionContinuedAsNewEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NewExecutionRunId = b.NewExecutionRunId
+	x.WorkflowType = b.WorkflowType
+	x.TaskQueue = b.TaskQueue
+	x.Input = b.Input
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.WorkflowTaskTimeout = b.WorkflowTaskTimeout
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.BackoffStartInterval = b.BackoffStartInterval
+	x.Initiator = b.Initiator
+	x.Failure = b.Failure
+	x.LastCompletionResult = b.LastCompletionResult
+	x.Header = b.Header
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.InheritBuildId = b.InheritBuildId
+	x.InitialVersioningBehavior = b.InitialVersioningBehavior
+	return m0
+}
+
 type WorkflowTaskScheduledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The task queue this workflow task was enqueued in, which could be a normal or sticky queue
 	TaskQueue *v11.TaskQueue `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	// How long the worker has to process this task once receiving it before it times out
@@ -909,11 +1864,6 @@ func (x *WorkflowTaskScheduledEventAttributes) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowTaskScheduledEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowTaskScheduledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *WorkflowTaskScheduledEventAttributes) GetTaskQueue() *v11.TaskQueue {
 	if x != nil {
 		return x.TaskQueue
@@ -935,8 +1885,67 @@ func (x *WorkflowTaskScheduledEventAttributes) GetAttempt() int32 {
 	return 0
 }
 
+func (x *WorkflowTaskScheduledEventAttributes) SetTaskQueue(v *v11.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *WorkflowTaskScheduledEventAttributes) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *WorkflowTaskScheduledEventAttributes) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *WorkflowTaskScheduledEventAttributes) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *WorkflowTaskScheduledEventAttributes) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *WorkflowTaskScheduledEventAttributes) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *WorkflowTaskScheduledEventAttributes) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+type WorkflowTaskScheduledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The task queue this workflow task was enqueued in, which could be a normal or sticky queue
+	TaskQueue *v11.TaskQueue
+	// How long the worker has to process this task once receiving it before it times out
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+	// Starting at 1, how many attempts there have been to complete this task
+	Attempt int32
+}
+
+func (b0 WorkflowTaskScheduledEventAttributes_builder) Build() *WorkflowTaskScheduledEventAttributes {
+	m0 := &WorkflowTaskScheduledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskQueue = b.TaskQueue
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	x.Attempt = b.Attempt
+	return m0
+}
+
 type WorkflowTaskStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Identity of the worker who picked up this task
@@ -997,11 +2006,6 @@ func (x *WorkflowTaskStartedEventAttributes) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowTaskStartedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowTaskStartedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *WorkflowTaskStartedEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -1060,8 +2064,106 @@ func (x *WorkflowTaskStartedEventAttributes) GetBuildIdRedirectCounter() int64 {
 	return 0
 }
 
+func (x *WorkflowTaskStartedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *WorkflowTaskStartedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowTaskStartedEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *WorkflowTaskStartedEventAttributes) SetSuggestContinueAsNew(v bool) {
+	x.SuggestContinueAsNew = v
+}
+
+func (x *WorkflowTaskStartedEventAttributes) SetSuggestContinueAsNewReasons(v []v12.SuggestContinueAsNewReason) {
+	x.SuggestContinueAsNewReasons = v
+}
+
+func (x *WorkflowTaskStartedEventAttributes) SetHistorySizeBytes(v int64) {
+	x.HistorySizeBytes = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskStartedEventAttributes) SetWorkerVersion(v *v1.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskStartedEventAttributes) SetBuildIdRedirectCounter(v int64) {
+	x.BuildIdRedirectCounter = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskStartedEventAttributes) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskStartedEventAttributes) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+type WorkflowTaskStartedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
+	ScheduledEventId int64
+	// Identity of the worker who picked up this task
+	Identity string
+	// This field is populated from the RecordWorkflowTaskStartedRequest. Matching service would
+	// set the request_id on the RecordWorkflowTaskStartedRequest to a new UUID. This is useful
+	// in case a RecordWorkflowTaskStarted call succeed but matching doesn't get that response,
+	// so matching could retry and history service would return success if the request_id matches.
+	// In that case, matching will continue to deliver the task to worker. Without this field, history
+	// service would return AlreadyStarted error, and matching would drop the task.
+	RequestId string
+	// True if this workflow should continue-as-new soon. See `suggest_continue_as_new_reasons` for why.
+	SuggestContinueAsNew bool
+	// The reason(s) that suggest_continue_as_new is true, if it is.
+	// Unset if suggest_continue_as_new is false.
+	SuggestContinueAsNewReasons []v12.SuggestContinueAsNewReason
+	// Total history size in bytes, which the workflow might use to decide when to
+	// continue-as-new regardless of the suggestion. Note that history event count is
+	// just the event id of this event, so we don't include it explicitly here.
+	HistorySizeBytes int64
+	// Version info of the worker to whom this task was dispatched.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	WorkerVersion *v1.WorkerVersionStamp
+	// Used by server internally to properly reapply build ID redirects to an execution
+	// when rebuilding it from events.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	BuildIdRedirectCounter int64
+}
+
+func (b0 WorkflowTaskStartedEventAttributes_builder) Build() *WorkflowTaskStartedEventAttributes {
+	m0 := &WorkflowTaskStartedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.SuggestContinueAsNew = b.SuggestContinueAsNew
+	x.SuggestContinueAsNewReasons = b.SuggestContinueAsNewReasons
+	x.HistorySizeBytes = b.HistorySizeBytes
+	x.WorkerVersion = b.WorkerVersion
+	x.BuildIdRedirectCounter = b.BuildIdRedirectCounter
+	return m0
+}
+
 type WorkflowTaskCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
@@ -1138,11 +2240,6 @@ func (x *WorkflowTaskCompletedEventAttributes) ProtoReflect() protoreflect.Messa
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkflowTaskCompletedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowTaskCompletedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *WorkflowTaskCompletedEventAttributes) GetScheduledEventId() int64 {
@@ -1233,8 +2330,192 @@ func (x *WorkflowTaskCompletedEventAttributes) GetDeploymentVersion() *v15.Worke
 	return nil
 }
 
+func (x *WorkflowTaskCompletedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskCompletedEventAttributes) SetBinaryChecksum(v string) {
+	x.BinaryChecksum = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskCompletedEventAttributes) SetWorkerVersion(v *v1.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) SetSdkMetadata(v *v16.WorkflowTaskCompletedMetadata) {
+	x.SdkMetadata = v
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) SetMeteringMetadata(v *v1.MeteringMetadata) {
+	x.MeteringMetadata = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskCompletedEventAttributes) SetDeployment(v *v15.Deployment) {
+	x.Deployment = v
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) SetVersioningBehavior(v v12.VersioningBehavior) {
+	x.VersioningBehavior = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskCompletedEventAttributes) SetWorkerDeploymentVersion(v string) {
+	x.WorkerDeploymentVersion = v
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) SetWorkerDeploymentName(v string) {
+	x.WorkerDeploymentName = v
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) SetDeploymentVersion(v *v15.WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskCompletedEventAttributes) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) HasSdkMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.SdkMetadata != nil
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) HasMeteringMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.MeteringMetadata != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskCompletedEventAttributes) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskCompletedEventAttributes) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) ClearSdkMetadata() {
+	x.SdkMetadata = nil
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) ClearMeteringMetadata() {
+	x.MeteringMetadata = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskCompletedEventAttributes) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *WorkflowTaskCompletedEventAttributes) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+type WorkflowTaskCompletedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
+	ScheduledEventId int64
+	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
+	StartedEventId int64
+	// Identity of the worker who completed this task
+	Identity string
+	// Binary ID of the worker who completed this task
+	// Deprecated. Replaced with `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	BinaryChecksum string
+	// Version info of the worker who processed this workflow task. If present, the `build_id` field
+	// within is also used as `binary_checksum`, which may be omitted in that case (it may also be
+	// populated to preserve compatibility).
+	// Deprecated. Use `deployment_version` and `versioning_behavior` instead.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	WorkerVersion *v1.WorkerVersionStamp
+	// Data the SDK wishes to record for itself, but server need not interpret, and does not
+	// directly impact workflow state.
+	SdkMetadata *v16.WorkflowTaskCompletedMetadata
+	// Local usage data sent during workflow task completion and recorded here for posterity
+	MeteringMetadata *v1.MeteringMetadata
+	// The deployment that completed this task. May or may not be set for unversioned workers,
+	// depending on whether a value is sent by the SDK. This value updates workflow execution's
+	// `versioning_info.deployment`.
+	// Deprecated. Replaced with `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Deployment *v15.Deployment
+	// Versioning behavior sent by the worker that completed this task for this particular workflow
+	// execution. UNSPECIFIED means the task was completed by an unversioned worker. This value
+	// updates workflow execution's `versioning_info.behavior`.
+	VersioningBehavior v12.VersioningBehavior
+	// The Worker Deployment Version that completed this task. Must be set if `versioning_behavior`
+	// is set. This value updates workflow execution's `versioning_info.version`.
+	// Experimental. Worker Deployments are experimental and might significantly change in the future.
+	// Deprecated. Replaced with `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	WorkerDeploymentVersion string
+	// The name of Worker Deployment that completed this task. Must be set if `versioning_behavior`
+	// is set. This value updates workflow execution's `worker_deployment_name`.
+	// Experimental. Worker Deployments are experimental and might significantly change in the future.
+	WorkerDeploymentName string
+	// The Worker Deployment Version that completed this task. Must be set if `versioning_behavior`
+	// is set. This value updates workflow execution's `versioning_info.deployment_version`.
+	// Experimental. Worker Deployments are experimental and might significantly change in the future.
+	DeploymentVersion *v15.WorkerDeploymentVersion
+}
+
+func (b0 WorkflowTaskCompletedEventAttributes_builder) Build() *WorkflowTaskCompletedEventAttributes {
+	m0 := &WorkflowTaskCompletedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.StartedEventId = b.StartedEventId
+	x.Identity = b.Identity
+	x.BinaryChecksum = b.BinaryChecksum
+	x.WorkerVersion = b.WorkerVersion
+	x.SdkMetadata = b.SdkMetadata
+	x.MeteringMetadata = b.MeteringMetadata
+	x.Deployment = b.Deployment
+	x.VersioningBehavior = b.VersioningBehavior
+	x.WorkerDeploymentVersion = b.WorkerDeploymentVersion
+	x.WorkerDeploymentName = b.WorkerDeploymentName
+	x.DeploymentVersion = b.DeploymentVersion
+	return m0
+}
+
 type WorkflowTaskTimedOutEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
@@ -1269,11 +2550,6 @@ func (x *WorkflowTaskTimedOutEventAttributes) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowTaskTimedOutEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowTaskTimedOutEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *WorkflowTaskTimedOutEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -1295,8 +2571,40 @@ func (x *WorkflowTaskTimedOutEventAttributes) GetTimeoutType() v12.TimeoutType {
 	return v12.TimeoutType(0)
 }
 
+func (x *WorkflowTaskTimedOutEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *WorkflowTaskTimedOutEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *WorkflowTaskTimedOutEventAttributes) SetTimeoutType(v v12.TimeoutType) {
+	x.TimeoutType = v
+}
+
+type WorkflowTaskTimedOutEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
+	ScheduledEventId int64
+	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
+	StartedEventId int64
+	TimeoutType    v12.TimeoutType
+}
+
+func (b0 WorkflowTaskTimedOutEventAttributes_builder) Build() *WorkflowTaskTimedOutEventAttributes {
+	m0 := &WorkflowTaskTimedOutEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.StartedEventId = b.StartedEventId
+	x.TimeoutType = b.TimeoutType
+	return m0
+}
+
 type WorkflowTaskFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
@@ -1353,11 +2661,6 @@ func (x *WorkflowTaskFailedEventAttributes) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkflowTaskFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowTaskFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *WorkflowTaskFailedEventAttributes) GetScheduledEventId() int64 {
@@ -1432,8 +2735,125 @@ func (x *WorkflowTaskFailedEventAttributes) GetWorkerVersion() *v1.WorkerVersion
 	return nil
 }
 
+func (x *WorkflowTaskFailedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *WorkflowTaskFailedEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *WorkflowTaskFailedEventAttributes) SetCause(v v12.WorkflowTaskFailedCause) {
+	x.Cause = v
+}
+
+func (x *WorkflowTaskFailedEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *WorkflowTaskFailedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowTaskFailedEventAttributes) SetBaseRunId(v string) {
+	x.BaseRunId = v
+}
+
+func (x *WorkflowTaskFailedEventAttributes) SetNewRunId(v string) {
+	x.NewRunId = v
+}
+
+func (x *WorkflowTaskFailedEventAttributes) SetForkEventVersion(v int64) {
+	x.ForkEventVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskFailedEventAttributes) SetBinaryChecksum(v string) {
+	x.BinaryChecksum = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskFailedEventAttributes) SetWorkerVersion(v *v1.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+func (x *WorkflowTaskFailedEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskFailedEventAttributes) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+func (x *WorkflowTaskFailedEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowTaskFailedEventAttributes) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+type WorkflowTaskFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to
+	ScheduledEventId int64
+	// The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to
+	StartedEventId int64
+	Cause          v12.WorkflowTaskFailedCause
+	// The failure details
+	Failure *v13.Failure
+	// If a worker explicitly failed this task, this field contains the worker's identity.
+	// When the server generates the failure internally this field is set as 'history-service'.
+	Identity string
+	// The original run id of the workflow. For reset workflow.
+	BaseRunId string
+	// If the workflow is being reset, the new run id.
+	NewRunId string
+	// Version of the event where the history branch was forked. Used by multi-cluster replication
+	// during resets to identify the correct history branch.
+	ForkEventVersion int64
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	// If a worker explicitly failed this task, its binary id
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	BinaryChecksum string
+	// Version info of the worker who processed this workflow task. If present, the `build_id` field
+	// within is also used as `binary_checksum`, which may be omitted in that case (it may also be
+	// populated to preserve compatibility).
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	WorkerVersion *v1.WorkerVersionStamp
+}
+
+func (b0 WorkflowTaskFailedEventAttributes_builder) Build() *WorkflowTaskFailedEventAttributes {
+	m0 := &WorkflowTaskFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.StartedEventId = b.StartedEventId
+	x.Cause = b.Cause
+	x.Failure = b.Failure
+	x.Identity = b.Identity
+	x.BaseRunId = b.BaseRunId
+	x.NewRunId = b.NewRunId
+	x.ForkEventVersion = b.ForkEventVersion
+	x.BinaryChecksum = b.BinaryChecksum
+	x.WorkerVersion = b.WorkerVersion
+	return m0
+}
+
 type ActivityTaskScheduledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The worker/user assigned identifier for the activity
 	ActivityId   string           `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	ActivityType *v1.ActivityType `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
@@ -1508,11 +2928,6 @@ func (x *ActivityTaskScheduledEventAttributes) ProtoReflect() protoreflect.Messa
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ActivityTaskScheduledEventAttributes.ProtoReflect.Descriptor instead.
-func (*ActivityTaskScheduledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ActivityTaskScheduledEventAttributes) GetActivityId() string {
@@ -1607,8 +3022,243 @@ func (x *ActivityTaskScheduledEventAttributes) GetPriority() *v1.Priority {
 	return nil
 }
 
+func (x *ActivityTaskScheduledEventAttributes) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetActivityType(v *v1.ActivityType) {
+	x.ActivityType = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetTaskQueue(v *v11.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetHeartbeatTimeout(v *durationpb.Duration) {
+	x.HeartbeatTimeout = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskScheduledEventAttributes) SetUseWorkflowBuildId(v bool) {
+	x.UseWorkflowBuildId = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasActivityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityType != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasHeartbeatTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatTimeout != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearActivityType() {
+	x.ActivityType = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearHeartbeatTimeout() {
+	x.HeartbeatTimeout = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *ActivityTaskScheduledEventAttributes) ClearPriority() {
+	x.Priority = nil
+}
+
+type ActivityTaskScheduledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The worker/user assigned identifier for the activity
+	ActivityId   string
+	ActivityType *v1.ActivityType
+	TaskQueue    *v11.TaskQueue
+	Header       *v1.Header
+	Input        *v1.Payloads
+	// Indicates how long the caller is willing to wait for an activity completion. Limits how long
+	// retries will be attempted. Either this or `start_to_close_timeout` must be specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// Limits time an activity task can stay in a task queue before a worker picks it up. This
+	// timeout is always non retryable, as all a retry would achieve is to put it back into the same
+	// queue. Defaults to `schedule_to_close_timeout` or workflow execution timeout if not
+	// specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToStartTimeout *durationpb.Duration
+	// Maximum time an activity is allowed to execute after being picked up by a worker. This
+	// timeout is always retryable. Either this or `schedule_to_close_timeout` must be
+	// specified.
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+	// Maximum permitted time between successful worker heartbeats.
+	HeartbeatTimeout *durationpb.Duration
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// Activities are assigned a default retry policy controlled by the service's dynamic
+	// configuration. Retries will happen up to `schedule_to_close_timeout`. To disable retries set
+	// retry_policy.maximum_attempts to 1.
+	RetryPolicy *v1.RetryPolicy
+	// If this is set, the activity would be assigned to the Build ID of the workflow. Otherwise,
+	// Assignment rules of the activity's Task Queue will be used to determine the Build ID.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	UseWorkflowBuildId bool
+	// Priority metadata. If this message is not present, or any fields are not
+	// present, they inherit the values from the workflow.
+	Priority *v1.Priority
+}
+
+func (b0 ActivityTaskScheduledEventAttributes_builder) Build() *ActivityTaskScheduledEventAttributes {
+	m0 := &ActivityTaskScheduledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActivityId = b.ActivityId
+	x.ActivityType = b.ActivityType
+	x.TaskQueue = b.TaskQueue
+	x.Header = b.Header
+	x.Input = b.Input
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	x.HeartbeatTimeout = b.HeartbeatTimeout
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.RetryPolicy = b.RetryPolicy
+	x.UseWorkflowBuildId = b.UseWorkflowBuildId
+	x.Priority = b.Priority
+	return m0
+}
+
 type ActivityTaskStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this task corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// id of the worker that picked up this task
@@ -1665,11 +3315,6 @@ func (x *ActivityTaskStartedEventAttributes) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityTaskStartedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ActivityTaskStartedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *ActivityTaskStartedEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -1721,8 +3366,108 @@ func (x *ActivityTaskStartedEventAttributes) GetBuildIdRedirectCounter() int64 {
 	return 0
 }
 
+func (x *ActivityTaskStartedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *ActivityTaskStartedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *ActivityTaskStartedEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *ActivityTaskStartedEventAttributes) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *ActivityTaskStartedEventAttributes) SetLastFailure(v *v13.Failure) {
+	x.LastFailure = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskStartedEventAttributes) SetWorkerVersion(v *v1.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskStartedEventAttributes) SetBuildIdRedirectCounter(v int64) {
+	x.BuildIdRedirectCounter = v
+}
+
+func (x *ActivityTaskStartedEventAttributes) HasLastFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastFailure != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskStartedEventAttributes) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+func (x *ActivityTaskStartedEventAttributes) ClearLastFailure() {
+	x.LastFailure = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskStartedEventAttributes) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+type ActivityTaskStartedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the `ACTIVITY_TASK_SCHEDULED` event this task corresponds to
+	ScheduledEventId int64
+	// id of the worker that picked up this task
+	Identity string
+	// This field is populated from the RecordActivityTaskStartedRequest. Matching service would
+	// set the request_id on the RecordActivityTaskStartedRequest to a new UUID. This is useful
+	// in case a RecordActivityTaskStarted call succeed but matching doesn't get that response,
+	// so matching could retry and history service would return success if the request_id matches.
+	// In that case, matching will continue to deliver the task to worker. Without this field, history
+	// service would return AlreadyStarted error, and matching would drop the task.
+	RequestId string
+	// Starting at 1, the number of times this task has been attempted
+	Attempt int32
+	// Will be set to the most recent failure details, if this task has previously failed and then
+	// been retried.
+	LastFailure *v13.Failure
+	// Version info of the worker to whom this task was dispatched.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	WorkerVersion *v1.WorkerVersionStamp
+	// Used by server internally to properly reapply build ID redirects to an execution
+	// when rebuilding it from events.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	BuildIdRedirectCounter int64
+}
+
+func (b0 ActivityTaskStartedEventAttributes_builder) Build() *ActivityTaskStartedEventAttributes {
+	m0 := &ActivityTaskStartedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.Identity = b.Identity
+	x.RequestId = b.RequestId
+	x.Attempt = b.Attempt
+	x.LastFailure = b.LastFailure
+	x.WorkerVersion = b.WorkerVersion
+	x.BuildIdRedirectCounter = b.BuildIdRedirectCounter
+	return m0
+}
+
 type ActivityTaskCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Serialized results of the activity. IE: The return value of the activity function
 	Result *v1.Payloads `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this completion corresponds to
@@ -1765,11 +3510,6 @@ func (x *ActivityTaskCompletedEventAttributes) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityTaskCompletedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ActivityTaskCompletedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{12}
-}
-
 func (x *ActivityTaskCompletedEventAttributes) GetResult() *v1.Payloads {
 	if x != nil {
 		return x.Result
@@ -1806,8 +3546,83 @@ func (x *ActivityTaskCompletedEventAttributes) GetWorkerVersion() *v1.WorkerVers
 	return nil
 }
 
+func (x *ActivityTaskCompletedEventAttributes) SetResult(v *v1.Payloads) {
+	x.Result = v
+}
+
+func (x *ActivityTaskCompletedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *ActivityTaskCompletedEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ActivityTaskCompletedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskCompletedEventAttributes) SetWorkerVersion(v *v1.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+func (x *ActivityTaskCompletedEventAttributes) HasResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.Result != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskCompletedEventAttributes) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+func (x *ActivityTaskCompletedEventAttributes) ClearResult() {
+	x.Result = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskCompletedEventAttributes) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+type ActivityTaskCompletedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Serialized results of the activity. IE: The return value of the activity function
+	Result *v1.Payloads
+	// The id of the `ACTIVITY_TASK_SCHEDULED` event this completion corresponds to
+	ScheduledEventId int64
+	// The id of the `ACTIVITY_TASK_STARTED` event this completion corresponds to
+	StartedEventId int64
+	// id of the worker that completed this task
+	Identity string
+	// Version info of the worker who processed this workflow task.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	WorkerVersion *v1.WorkerVersionStamp
+}
+
+func (b0 ActivityTaskCompletedEventAttributes_builder) Build() *ActivityTaskCompletedEventAttributes {
+	m0 := &ActivityTaskCompletedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Result = b.Result
+	x.ScheduledEventId = b.ScheduledEventId
+	x.StartedEventId = b.StartedEventId
+	x.Identity = b.Identity
+	x.WorkerVersion = b.WorkerVersion
+	return m0
+}
+
 type ActivityTaskFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Failure details
 	Failure *v13.Failure `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this failure corresponds to
@@ -1849,11 +3664,6 @@ func (x *ActivityTaskFailedEventAttributes) ProtoReflect() protoreflect.Message 
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ActivityTaskFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ActivityTaskFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ActivityTaskFailedEventAttributes) GetFailure() *v13.Failure {
@@ -1899,8 +3709,89 @@ func (x *ActivityTaskFailedEventAttributes) GetWorkerVersion() *v1.WorkerVersion
 	return nil
 }
 
+func (x *ActivityTaskFailedEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *ActivityTaskFailedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *ActivityTaskFailedEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ActivityTaskFailedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *ActivityTaskFailedEventAttributes) SetRetryState(v v12.RetryState) {
+	x.RetryState = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskFailedEventAttributes) SetWorkerVersion(v *v1.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+func (x *ActivityTaskFailedEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskFailedEventAttributes) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+func (x *ActivityTaskFailedEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskFailedEventAttributes) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+type ActivityTaskFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Failure details
+	Failure *v13.Failure
+	// The id of the `ACTIVITY_TASK_SCHEDULED` event this failure corresponds to
+	ScheduledEventId int64
+	// The id of the `ACTIVITY_TASK_STARTED` event this failure corresponds to
+	StartedEventId int64
+	// id of the worker that failed this task
+	Identity   string
+	RetryState v12.RetryState
+	// Version info of the worker who processed this workflow task.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	WorkerVersion *v1.WorkerVersionStamp
+}
+
+func (b0 ActivityTaskFailedEventAttributes_builder) Build() *ActivityTaskFailedEventAttributes {
+	m0 := &ActivityTaskFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Failure = b.Failure
+	x.ScheduledEventId = b.ScheduledEventId
+	x.StartedEventId = b.StartedEventId
+	x.Identity = b.Identity
+	x.RetryState = b.RetryState
+	x.WorkerVersion = b.WorkerVersion
+	return m0
+}
+
 type ActivityTaskTimedOutEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// If this activity had failed, was retried, and then timed out, that failure is stored as the
 	// `cause` in here.
 	Failure *v13.Failure `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
@@ -1938,11 +3829,6 @@ func (x *ActivityTaskTimedOutEventAttributes) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityTaskTimedOutEventAttributes.ProtoReflect.Descriptor instead.
-func (*ActivityTaskTimedOutEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{14}
-}
-
 func (x *ActivityTaskTimedOutEventAttributes) GetFailure() *v13.Failure {
 	if x != nil {
 		return x.Failure
@@ -1971,8 +3857,59 @@ func (x *ActivityTaskTimedOutEventAttributes) GetRetryState() v12.RetryState {
 	return v12.RetryState(0)
 }
 
+func (x *ActivityTaskTimedOutEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *ActivityTaskTimedOutEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *ActivityTaskTimedOutEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ActivityTaskTimedOutEventAttributes) SetRetryState(v v12.RetryState) {
+	x.RetryState = v
+}
+
+func (x *ActivityTaskTimedOutEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *ActivityTaskTimedOutEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type ActivityTaskTimedOutEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// If this activity had failed, was retried, and then timed out, that failure is stored as the
+	// `cause` in here.
+	Failure *v13.Failure
+	// The id of the `ACTIVITY_TASK_SCHEDULED` event this timeout corresponds to
+	ScheduledEventId int64
+	// The id of the `ACTIVITY_TASK_STARTED` event this timeout corresponds to
+	StartedEventId int64
+	RetryState     v12.RetryState
+}
+
+func (b0 ActivityTaskTimedOutEventAttributes_builder) Build() *ActivityTaskTimedOutEventAttributes {
+	m0 := &ActivityTaskTimedOutEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Failure = b.Failure
+	x.ScheduledEventId = b.ScheduledEventId
+	x.StartedEventId = b.StartedEventId
+	x.RetryState = b.RetryState
+	return m0
+}
+
 type ActivityTaskCancelRequestedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this cancel request corresponds to
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
@@ -2006,11 +3943,6 @@ func (x *ActivityTaskCancelRequestedEventAttributes) ProtoReflect() protoreflect
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityTaskCancelRequestedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ActivityTaskCancelRequestedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *ActivityTaskCancelRequestedEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -2025,8 +3957,34 @@ func (x *ActivityTaskCancelRequestedEventAttributes) GetWorkflowTaskCompletedEve
 	return 0
 }
 
+func (x *ActivityTaskCancelRequestedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *ActivityTaskCancelRequestedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+type ActivityTaskCancelRequestedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the `ACTIVITY_TASK_SCHEDULED` event this cancel request corresponds to
+	ScheduledEventId int64
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+}
+
+func (b0 ActivityTaskCancelRequestedEventAttributes_builder) Build() *ActivityTaskCancelRequestedEventAttributes {
+	m0 := &ActivityTaskCancelRequestedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	return m0
+}
+
 type ActivityTaskCanceledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Additional information that the activity reported upon confirming cancellation
 	Details *v1.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	// id of the most recent `ACTIVITY_TASK_CANCEL_REQUESTED` event which refers to the same
@@ -2072,11 +4030,6 @@ func (x *ActivityTaskCanceledEventAttributes) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityTaskCanceledEventAttributes.ProtoReflect.Descriptor instead.
-func (*ActivityTaskCanceledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *ActivityTaskCanceledEventAttributes) GetDetails() *v1.Payloads {
 	if x != nil {
 		return x.Details
@@ -2120,8 +4073,91 @@ func (x *ActivityTaskCanceledEventAttributes) GetWorkerVersion() *v1.WorkerVersi
 	return nil
 }
 
+func (x *ActivityTaskCanceledEventAttributes) SetDetails(v *v1.Payloads) {
+	x.Details = v
+}
+
+func (x *ActivityTaskCanceledEventAttributes) SetLatestCancelRequestedEventId(v int64) {
+	x.LatestCancelRequestedEventId = v
+}
+
+func (x *ActivityTaskCanceledEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *ActivityTaskCanceledEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ActivityTaskCanceledEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskCanceledEventAttributes) SetWorkerVersion(v *v1.WorkerVersionStamp) {
+	x.WorkerVersion = v
+}
+
+func (x *ActivityTaskCanceledEventAttributes) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskCanceledEventAttributes) HasWorkerVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkerVersion != nil
+}
+
+func (x *ActivityTaskCanceledEventAttributes) ClearDetails() {
+	x.Details = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ActivityTaskCanceledEventAttributes) ClearWorkerVersion() {
+	x.WorkerVersion = nil
+}
+
+type ActivityTaskCanceledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Additional information that the activity reported upon confirming cancellation
+	Details *v1.Payloads
+	// id of the most recent `ACTIVITY_TASK_CANCEL_REQUESTED` event which refers to the same
+	// activity
+	LatestCancelRequestedEventId int64
+	// The id of the `ACTIVITY_TASK_SCHEDULED` event this cancel confirmation corresponds to
+	ScheduledEventId int64
+	// The id of the `ACTIVITY_TASK_STARTED` event this cancel confirmation corresponds to
+	StartedEventId int64
+	// id of the worker who canceled this activity
+	Identity string
+	// Version info of the worker who processed this workflow task.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	WorkerVersion *v1.WorkerVersionStamp
+}
+
+func (b0 ActivityTaskCanceledEventAttributes_builder) Build() *ActivityTaskCanceledEventAttributes {
+	m0 := &ActivityTaskCanceledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Details = b.Details
+	x.LatestCancelRequestedEventId = b.LatestCancelRequestedEventId
+	x.ScheduledEventId = b.ScheduledEventId
+	x.StartedEventId = b.StartedEventId
+	x.Identity = b.Identity
+	x.WorkerVersion = b.WorkerVersion
+	return m0
+}
+
 type TimerStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The worker/user assigned id for this timer
 	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
 	// How long until this timer fires
@@ -2161,11 +4197,6 @@ func (x *TimerStartedEventAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TimerStartedEventAttributes.ProtoReflect.Descriptor instead.
-func (*TimerStartedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{17}
-}
-
 func (x *TimerStartedEventAttributes) GetTimerId() string {
 	if x != nil {
 		return x.TimerId
@@ -2187,8 +4218,56 @@ func (x *TimerStartedEventAttributes) GetWorkflowTaskCompletedEventId() int64 {
 	return 0
 }
 
+func (x *TimerStartedEventAttributes) SetTimerId(v string) {
+	x.TimerId = v
+}
+
+func (x *TimerStartedEventAttributes) SetStartToFireTimeout(v *durationpb.Duration) {
+	x.StartToFireTimeout = v
+}
+
+func (x *TimerStartedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *TimerStartedEventAttributes) HasStartToFireTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToFireTimeout != nil
+}
+
+func (x *TimerStartedEventAttributes) ClearStartToFireTimeout() {
+	x.StartToFireTimeout = nil
+}
+
+type TimerStartedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The worker/user assigned id for this timer
+	TimerId string
+	// How long until this timer fires
+	//
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToFireTimeout *durationpb.Duration
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+}
+
+func (b0 TimerStartedEventAttributes_builder) Build() *TimerStartedEventAttributes {
+	m0 := &TimerStartedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TimerId = b.TimerId
+	x.StartToFireTimeout = b.StartToFireTimeout
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	return m0
+}
+
 type TimerFiredEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Will match the `timer_id` from `TIMER_STARTED` event for this timer
 	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
 	// The id of the `TIMER_STARTED` event itself
@@ -2222,11 +4301,6 @@ func (x *TimerFiredEventAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TimerFiredEventAttributes.ProtoReflect.Descriptor instead.
-func (*TimerFiredEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{18}
-}
-
 func (x *TimerFiredEventAttributes) GetTimerId() string {
 	if x != nil {
 		return x.TimerId
@@ -2241,8 +4315,34 @@ func (x *TimerFiredEventAttributes) GetStartedEventId() int64 {
 	return 0
 }
 
+func (x *TimerFiredEventAttributes) SetTimerId(v string) {
+	x.TimerId = v
+}
+
+func (x *TimerFiredEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+type TimerFiredEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Will match the `timer_id` from `TIMER_STARTED` event for this timer
+	TimerId string
+	// The id of the `TIMER_STARTED` event itself
+	StartedEventId int64
+}
+
+func (b0 TimerFiredEventAttributes_builder) Build() *TimerFiredEventAttributes {
+	m0 := &TimerFiredEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TimerId = b.TimerId
+	x.StartedEventId = b.StartedEventId
+	return m0
+}
+
 type TimerCanceledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Will match the `timer_id` from `TIMER_STARTED` event for this timer
 	TimerId string `protobuf:"bytes,1,opt,name=timer_id,json=timerId,proto3" json:"timer_id,omitempty"`
 	// The id of the `TIMER_STARTED` event itself
@@ -2280,11 +4380,6 @@ func (x *TimerCanceledEventAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TimerCanceledEventAttributes.ProtoReflect.Descriptor instead.
-func (*TimerCanceledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{19}
-}
-
 func (x *TimerCanceledEventAttributes) GetTimerId() string {
 	if x != nil {
 		return x.TimerId
@@ -2313,8 +4408,48 @@ func (x *TimerCanceledEventAttributes) GetIdentity() string {
 	return ""
 }
 
+func (x *TimerCanceledEventAttributes) SetTimerId(v string) {
+	x.TimerId = v
+}
+
+func (x *TimerCanceledEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *TimerCanceledEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *TimerCanceledEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+type TimerCanceledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Will match the `timer_id` from `TIMER_STARTED` event for this timer
+	TimerId string
+	// The id of the `TIMER_STARTED` event itself
+	StartedEventId int64
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// The id of the worker who requested this cancel
+	Identity string
+}
+
+func (b0 TimerCanceledEventAttributes_builder) Build() *TimerCanceledEventAttributes {
+	m0 := &TimerCanceledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TimerId = b.TimerId
+	x.StartedEventId = b.StartedEventId
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.Identity = b.Identity
+	return m0
+}
+
 type WorkflowExecutionCancelRequestedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// User provided reason for requesting cancellation
 	Cause string `protobuf:"bytes,1,opt,name=cause,proto3" json:"cause,omitempty"`
 	// The ID of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event in the external
@@ -2352,11 +4487,6 @@ func (x *WorkflowExecutionCancelRequestedEventAttributes) ProtoReflect() protore
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionCancelRequestedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionCancelRequestedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{20}
-}
-
 func (x *WorkflowExecutionCancelRequestedEventAttributes) GetCause() string {
 	if x != nil {
 		return x.Cause
@@ -2385,8 +4515,59 @@ func (x *WorkflowExecutionCancelRequestedEventAttributes) GetIdentity() string {
 	return ""
 }
 
+func (x *WorkflowExecutionCancelRequestedEventAttributes) SetCause(v string) {
+	x.Cause = v
+}
+
+func (x *WorkflowExecutionCancelRequestedEventAttributes) SetExternalInitiatedEventId(v int64) {
+	x.ExternalInitiatedEventId = v
+}
+
+func (x *WorkflowExecutionCancelRequestedEventAttributes) SetExternalWorkflowExecution(v *v1.WorkflowExecution) {
+	x.ExternalWorkflowExecution = v
+}
+
+func (x *WorkflowExecutionCancelRequestedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowExecutionCancelRequestedEventAttributes) HasExternalWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalWorkflowExecution != nil
+}
+
+func (x *WorkflowExecutionCancelRequestedEventAttributes) ClearExternalWorkflowExecution() {
+	x.ExternalWorkflowExecution = nil
+}
+
+type WorkflowExecutionCancelRequestedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// User provided reason for requesting cancellation
+	Cause string
+	// The ID of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event in the external
+	// workflow history when the cancellation was requested by another workflow.
+	ExternalInitiatedEventId  int64
+	ExternalWorkflowExecution *v1.WorkflowExecution
+	// id of the worker or client who requested this cancel
+	Identity string
+}
+
+func (b0 WorkflowExecutionCancelRequestedEventAttributes_builder) Build() *WorkflowExecutionCancelRequestedEventAttributes {
+	m0 := &WorkflowExecutionCancelRequestedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Cause = b.Cause
+	x.ExternalInitiatedEventId = b.ExternalInitiatedEventId
+	x.ExternalWorkflowExecution = b.ExternalWorkflowExecution
+	x.Identity = b.Identity
+	return m0
+}
+
 type WorkflowExecutionCanceledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64        `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	Details                      *v1.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
@@ -2419,11 +4600,6 @@ func (x *WorkflowExecutionCanceledEventAttributes) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionCanceledEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionCanceledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{21}
-}
-
 func (x *WorkflowExecutionCanceledEventAttributes) GetWorkflowTaskCompletedEventId() int64 {
 	if x != nil {
 		return x.WorkflowTaskCompletedEventId
@@ -2438,8 +4614,44 @@ func (x *WorkflowExecutionCanceledEventAttributes) GetDetails() *v1.Payloads {
 	return nil
 }
 
+func (x *WorkflowExecutionCanceledEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *WorkflowExecutionCanceledEventAttributes) SetDetails(v *v1.Payloads) {
+	x.Details = v
+}
+
+func (x *WorkflowExecutionCanceledEventAttributes) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *WorkflowExecutionCanceledEventAttributes) ClearDetails() {
+	x.Details = nil
+}
+
+type WorkflowExecutionCanceledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	Details                      *v1.Payloads
+}
+
+func (b0 WorkflowExecutionCanceledEventAttributes_builder) Build() *WorkflowExecutionCanceledEventAttributes {
+	m0 := &WorkflowExecutionCanceledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.Details = b.Details
+	return m0
+}
+
 type MarkerRecordedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Workers use this to identify the "types" of various markers. Ex: Local activity, side effect.
 	MarkerName string `protobuf:"bytes,1,opt,name=marker_name,json=markerName,proto3" json:"marker_name,omitempty"`
 	// Serialized information recorded in the marker
@@ -2478,11 +4690,6 @@ func (x *MarkerRecordedEventAttributes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MarkerRecordedEventAttributes.ProtoReflect.Descriptor instead.
-func (*MarkerRecordedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{22}
-}
-
 func (x *MarkerRecordedEventAttributes) GetMarkerName() string {
 	if x != nil {
 		return x.MarkerName
@@ -2518,8 +4725,76 @@ func (x *MarkerRecordedEventAttributes) GetFailure() *v13.Failure {
 	return nil
 }
 
+func (x *MarkerRecordedEventAttributes) SetMarkerName(v string) {
+	x.MarkerName = v
+}
+
+func (x *MarkerRecordedEventAttributes) SetDetails(v map[string]*v1.Payloads) {
+	x.Details = v
+}
+
+func (x *MarkerRecordedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *MarkerRecordedEventAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *MarkerRecordedEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *MarkerRecordedEventAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *MarkerRecordedEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *MarkerRecordedEventAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *MarkerRecordedEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type MarkerRecordedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Workers use this to identify the "types" of various markers. Ex: Local activity, side effect.
+	MarkerName string
+	// Serialized information recorded in the marker
+	Details map[string]*v1.Payloads
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	Header                       *v1.Header
+	// Some uses of markers, like a local activity, could "fail". If they did that is recorded here.
+	Failure *v13.Failure
+}
+
+func (b0 MarkerRecordedEventAttributes_builder) Build() *MarkerRecordedEventAttributes {
+	m0 := &MarkerRecordedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MarkerName = b.MarkerName
+	x.Details = b.Details
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.Header = b.Header
+	x.Failure = b.Failure
+	return m0
+}
+
 type WorkflowExecutionSignaledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The name/type of the signal to fire
 	SignalName string `protobuf:"bytes,1,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
 	// Will be deserialized and provided as argument(s) to the signal handler
@@ -2562,11 +4837,6 @@ func (x *WorkflowExecutionSignaledEventAttributes) ProtoReflect() protoreflect.M
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkflowExecutionSignaledEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionSignaledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *WorkflowExecutionSignaledEventAttributes) GetSignalName() string {
@@ -2612,8 +4882,99 @@ func (x *WorkflowExecutionSignaledEventAttributes) GetExternalWorkflowExecution(
 	return nil
 }
 
+func (x *WorkflowExecutionSignaledEventAttributes) SetSignalName(v string) {
+	x.SignalName = v
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *WorkflowExecutionSignaledEventAttributes) SetSkipGenerateWorkflowTask(v bool) {
+	x.SkipGenerateWorkflowTask = v
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) SetExternalWorkflowExecution(v *v1.WorkflowExecution) {
+	x.ExternalWorkflowExecution = v
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) HasExternalWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExternalWorkflowExecution != nil
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *WorkflowExecutionSignaledEventAttributes) ClearExternalWorkflowExecution() {
+	x.ExternalWorkflowExecution = nil
+}
+
+type WorkflowExecutionSignaledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The name/type of the signal to fire
+	SignalName string
+	// Will be deserialized and provided as argument(s) to the signal handler
+	Input *v1.Payloads
+	// id of the worker/client who sent this signal
+	Identity string
+	// Headers that were passed by the sender of the signal and copied by temporal
+	// server into the workflow task.
+	Header *v1.Header
+	// Deprecated. This field is never respected and should always be set to false.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	SkipGenerateWorkflowTask bool
+	// When signal origin is a workflow execution, this field is set.
+	ExternalWorkflowExecution *v1.WorkflowExecution
+}
+
+func (b0 WorkflowExecutionSignaledEventAttributes_builder) Build() *WorkflowExecutionSignaledEventAttributes {
+	m0 := &WorkflowExecutionSignaledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SignalName = b.SignalName
+	x.Input = b.Input
+	x.Identity = b.Identity
+	x.Header = b.Header
+	x.SkipGenerateWorkflowTask = b.SkipGenerateWorkflowTask
+	x.ExternalWorkflowExecution = b.ExternalWorkflowExecution
+	return m0
+}
+
 type WorkflowExecutionTerminatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// User/client provided reason for termination
 	Reason  string       `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
 	Details *v1.Payloads `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
@@ -2648,11 +5009,6 @@ func (x *WorkflowExecutionTerminatedEventAttributes) ProtoReflect() protoreflect
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionTerminatedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionTerminatedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{24}
-}
-
 func (x *WorkflowExecutionTerminatedEventAttributes) GetReason() string {
 	if x != nil {
 		return x.Reason
@@ -2674,8 +5030,51 @@ func (x *WorkflowExecutionTerminatedEventAttributes) GetIdentity() string {
 	return ""
 }
 
+func (x *WorkflowExecutionTerminatedEventAttributes) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *WorkflowExecutionTerminatedEventAttributes) SetDetails(v *v1.Payloads) {
+	x.Details = v
+}
+
+func (x *WorkflowExecutionTerminatedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowExecutionTerminatedEventAttributes) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *WorkflowExecutionTerminatedEventAttributes) ClearDetails() {
+	x.Details = nil
+}
+
+type WorkflowExecutionTerminatedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// User/client provided reason for termination
+	Reason  string
+	Details *v1.Payloads
+	// id of the client who requested termination
+	Identity string
+}
+
+func (b0 WorkflowExecutionTerminatedEventAttributes_builder) Build() *WorkflowExecutionTerminatedEventAttributes {
+	m0 := &WorkflowExecutionTerminatedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Reason = b.Reason
+	x.Details = b.Details
+	x.Identity = b.Identity
+	return m0
+}
+
 type RequestCancelExternalWorkflowExecutionInitiatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// The namespace the workflow to be cancelled lives in.
@@ -2719,11 +5118,6 @@ func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) ProtoRe
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestCancelExternalWorkflowExecutionInitiatedEventAttributes.ProtoReflect.Descriptor instead.
-func (*RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) GetWorkflowTaskCompletedEventId() int64 {
@@ -2776,8 +5170,83 @@ func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) GetReas
 	return ""
 }
 
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) SetChildWorkflowOnly(v bool) {
+	x.ChildWorkflowOnly = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type RequestCancelExternalWorkflowExecutionInitiatedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// The namespace the workflow to be cancelled lives in.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Control string
+	// Workers are expected to set this to true if the workflow they are requesting to cancel is
+	// a child of the workflow which issued the request
+	ChildWorkflowOnly bool
+	// Reason for requesting the cancellation
+	Reason string
+}
+
+func (b0 RequestCancelExternalWorkflowExecutionInitiatedEventAttributes_builder) Build() *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
+	m0 := &RequestCancelExternalWorkflowExecutionInitiatedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.Control = b.Control
+	x.ChildWorkflowOnly = b.ChildWorkflowOnly
+	x.Reason = b.Reason
+	return m0
+}
+
 type RequestCancelExternalWorkflowExecutionFailedEventAttributes struct {
-	state protoimpl.MessageState                         `protogen:"open.v1"`
+	state protoimpl.MessageState                         `protogen:"hybrid.v1"`
 	Cause v12.CancelExternalWorkflowExecutionFailedCause `protobuf:"varint,1,opt,name=cause,proto3,enum=temporal.api.enums.v1.CancelExternalWorkflowExecutionFailedCause" json:"cause,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
@@ -2820,11 +5289,6 @@ func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) ProtoRefle
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestCancelExternalWorkflowExecutionFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*RequestCancelExternalWorkflowExecutionFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) GetCause() v12.CancelExternalWorkflowExecutionFailedCause {
@@ -2877,8 +5341,82 @@ func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) GetControl
 	return ""
 }
 
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) SetCause(v v12.CancelExternalWorkflowExecutionFailedCause) {
+	x.Cause = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *RequestCancelExternalWorkflowExecutionFailedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type RequestCancelExternalWorkflowExecutionFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Cause v12.CancelExternalWorkflowExecutionFailedCause
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// Namespace of the workflow which failed to cancel.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	// id of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this failure
+	// corresponds to
+	InitiatedEventId int64
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Control string
+}
+
+func (b0 RequestCancelExternalWorkflowExecutionFailedEventAttributes_builder) Build() *RequestCancelExternalWorkflowExecutionFailedEventAttributes {
+	m0 := &RequestCancelExternalWorkflowExecutionFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Cause = b.Cause
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.InitiatedEventId = b.InitiatedEventId
+	x.Control = b.Control
+	return m0
+}
+
 type ExternalWorkflowExecutionCancelRequestedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// id of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this event corresponds
 	// to
 	InitiatedEventId int64 `protobuf:"varint,1,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
@@ -2916,11 +5454,6 @@ func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) ProtoReflect()
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExternalWorkflowExecutionCancelRequestedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ExternalWorkflowExecutionCancelRequestedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{27}
-}
-
 func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) GetInitiatedEventId() int64 {
 	if x != nil {
 		return x.InitiatedEventId
@@ -2949,8 +5482,59 @@ func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) GetWorkflowExe
 	return nil
 }
 
+func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ExternalWorkflowExecutionCancelRequestedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type ExternalWorkflowExecutionCancelRequestedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// id of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this event corresponds
+	// to
+	InitiatedEventId int64
+	// Namespace of the to-be-cancelled workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+}
+
+func (b0 ExternalWorkflowExecutionCancelRequestedEventAttributes_builder) Build() *ExternalWorkflowExecutionCancelRequestedEventAttributes {
+	m0 := &ExternalWorkflowExecutionCancelRequestedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.InitiatedEventId = b.InitiatedEventId
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	return m0
+}
+
 type SignalExternalWorkflowExecutionInitiatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// Namespace of the to-be-signalled workflow.
@@ -2997,11 +5581,6 @@ func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) ProtoReflect()
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SignalExternalWorkflowExecutionInitiatedEventAttributes.ProtoReflect.Descriptor instead.
-func (*SignalExternalWorkflowExecutionInitiatedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) GetWorkflowTaskCompletedEventId() int64 {
@@ -3068,8 +5647,118 @@ func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) GetHeader() *v
 	return nil
 }
 
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetSignalName(v string) {
+	x.SignalName = v
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetChildWorkflowOnly(v bool) {
+	x.ChildWorkflowOnly = v
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *SignalExternalWorkflowExecutionInitiatedEventAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+type SignalExternalWorkflowExecutionInitiatedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// Namespace of the to-be-signalled workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	// name/type of the signal to fire in the external workflow
+	SignalName string
+	// Serialized arguments to provide to the signal handler
+	Input *v1.Payloads
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Control string
+	// Workers are expected to set this to true if the workflow they are requesting to cancel is
+	// a child of the workflow which issued the request
+	ChildWorkflowOnly bool
+	Header            *v1.Header
+}
+
+func (b0 SignalExternalWorkflowExecutionInitiatedEventAttributes_builder) Build() *SignalExternalWorkflowExecutionInitiatedEventAttributes {
+	m0 := &SignalExternalWorkflowExecutionInitiatedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.SignalName = b.SignalName
+	x.Input = b.Input
+	x.Control = b.Control
+	x.ChildWorkflowOnly = b.ChildWorkflowOnly
+	x.Header = b.Header
+	return m0
+}
+
 type SignalExternalWorkflowExecutionFailedEventAttributes struct {
-	state protoimpl.MessageState                         `protogen:"open.v1"`
+	state protoimpl.MessageState                         `protogen:"hybrid.v1"`
 	Cause v12.SignalExternalWorkflowExecutionFailedCause `protobuf:"varint,1,opt,name=cause,proto3,enum=temporal.api.enums.v1.SignalExternalWorkflowExecutionFailedCause" json:"cause,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,2,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
@@ -3110,11 +5799,6 @@ func (x *SignalExternalWorkflowExecutionFailedEventAttributes) ProtoReflect() pr
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SignalExternalWorkflowExecutionFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*SignalExternalWorkflowExecutionFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *SignalExternalWorkflowExecutionFailedEventAttributes) GetCause() v12.SignalExternalWorkflowExecutionFailedCause {
@@ -3167,8 +5851,80 @@ func (x *SignalExternalWorkflowExecutionFailedEventAttributes) GetControl() stri
 	return ""
 }
 
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) SetCause(v v12.SignalExternalWorkflowExecutionFailedCause) {
+	x.Cause = v
+}
+
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *SignalExternalWorkflowExecutionFailedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type SignalExternalWorkflowExecutionFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Cause v12.SignalExternalWorkflowExecutionFailedCause
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// Namespace of the workflow which failed the signal.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	InitiatedEventId  int64
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Control string
+}
+
+func (b0 SignalExternalWorkflowExecutionFailedEventAttributes_builder) Build() *SignalExternalWorkflowExecutionFailedEventAttributes {
+	m0 := &SignalExternalWorkflowExecutionFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Cause = b.Cause
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.InitiatedEventId = b.InitiatedEventId
+	x.Control = b.Control
+	return m0
+}
+
 type ExternalWorkflowExecutionSignaledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// id of the `SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this event corresponds to
 	InitiatedEventId int64 `protobuf:"varint,1,opt,name=initiated_event_id,json=initiatedEventId,proto3" json:"initiated_event_id,omitempty"`
 	// Namespace of the workflow which was signaled.
@@ -3209,11 +5965,6 @@ func (x *ExternalWorkflowExecutionSignaledEventAttributes) ProtoReflect() protor
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ExternalWorkflowExecutionSignaledEventAttributes.ProtoReflect.Descriptor instead.
-func (*ExternalWorkflowExecutionSignaledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{30}
-}
-
 func (x *ExternalWorkflowExecutionSignaledEventAttributes) GetInitiatedEventId() int64 {
 	if x != nil {
 		return x.InitiatedEventId
@@ -3250,8 +6001,68 @@ func (x *ExternalWorkflowExecutionSignaledEventAttributes) GetControl() string {
 	return ""
 }
 
+func (x *ExternalWorkflowExecutionSignaledEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ExternalWorkflowExecutionSignaledEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ExternalWorkflowExecutionSignaledEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *ExternalWorkflowExecutionSignaledEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *ExternalWorkflowExecutionSignaledEventAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *ExternalWorkflowExecutionSignaledEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ExternalWorkflowExecutionSignaledEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+type ExternalWorkflowExecutionSignaledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// id of the `SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this event corresponds to
+	InitiatedEventId int64
+	// Namespace of the workflow which was signaled.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Control string
+}
+
+func (b0 ExternalWorkflowExecutionSignaledEventAttributes_builder) Build() *ExternalWorkflowExecutionSignaledEventAttributes {
+	m0 := &ExternalWorkflowExecutionSignaledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.InitiatedEventId = b.InitiatedEventId
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.Control = b.Control
+	return m0
+}
+
 type UpsertWorkflowSearchAttributesEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64                `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	SearchAttributes             *v1.SearchAttributes `protobuf:"bytes,2,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
@@ -3284,11 +6095,6 @@ func (x *UpsertWorkflowSearchAttributesEventAttributes) ProtoReflect() protorefl
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpsertWorkflowSearchAttributesEventAttributes.ProtoReflect.Descriptor instead.
-func (*UpsertWorkflowSearchAttributesEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{31}
-}
-
 func (x *UpsertWorkflowSearchAttributesEventAttributes) GetWorkflowTaskCompletedEventId() int64 {
 	if x != nil {
 		return x.WorkflowTaskCompletedEventId
@@ -3303,8 +6109,44 @@ func (x *UpsertWorkflowSearchAttributesEventAttributes) GetSearchAttributes() *v
 	return nil
 }
 
+func (x *UpsertWorkflowSearchAttributesEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *UpsertWorkflowSearchAttributesEventAttributes) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *UpsertWorkflowSearchAttributesEventAttributes) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *UpsertWorkflowSearchAttributesEventAttributes) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+type UpsertWorkflowSearchAttributesEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	SearchAttributes             *v1.SearchAttributes
+}
+
+func (b0 UpsertWorkflowSearchAttributesEventAttributes_builder) Build() *UpsertWorkflowSearchAttributesEventAttributes {
+	m0 := &UpsertWorkflowSearchAttributesEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.SearchAttributes = b.SearchAttributes
+	return m0
+}
+
 type WorkflowPropertiesModifiedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
 	WorkflowTaskCompletedEventId int64 `protobuf:"varint,1,opt,name=workflow_task_completed_event_id,json=workflowTaskCompletedEventId,proto3" json:"workflow_task_completed_event_id,omitempty"`
 	// If set, update the workflow memo with the provided values. The values will be merged with
@@ -3340,11 +6182,6 @@ func (x *WorkflowPropertiesModifiedEventAttributes) ProtoReflect() protoreflect.
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowPropertiesModifiedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowPropertiesModifiedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{32}
-}
-
 func (x *WorkflowPropertiesModifiedEventAttributes) GetWorkflowTaskCompletedEventId() int64 {
 	if x != nil {
 		return x.WorkflowTaskCompletedEventId
@@ -3359,8 +6196,47 @@ func (x *WorkflowPropertiesModifiedEventAttributes) GetUpsertedMemo() *v1.Memo {
 	return nil
 }
 
+func (x *WorkflowPropertiesModifiedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *WorkflowPropertiesModifiedEventAttributes) SetUpsertedMemo(v *v1.Memo) {
+	x.UpsertedMemo = v
+}
+
+func (x *WorkflowPropertiesModifiedEventAttributes) HasUpsertedMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpsertedMemo != nil
+}
+
+func (x *WorkflowPropertiesModifiedEventAttributes) ClearUpsertedMemo() {
+	x.UpsertedMemo = nil
+}
+
+type WorkflowPropertiesModifiedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// If set, update the workflow memo with the provided values. The values will be merged with
+	// the existing memo. If the user wants to delete values, a default/empty Payload should be
+	// used as the value for the key being deleted.
+	UpsertedMemo *v1.Memo
+}
+
+func (b0 WorkflowPropertiesModifiedEventAttributes_builder) Build() *WorkflowPropertiesModifiedEventAttributes {
+	m0 := &WorkflowPropertiesModifiedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.UpsertedMemo = b.UpsertedMemo
+	return m0
+}
+
 type StartChildWorkflowExecutionInitiatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace    string           `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3426,11 +6302,6 @@ func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ProtoReflect() pro
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StartChildWorkflowExecutionInitiatedEventAttributes.ProtoReflect.Descriptor instead.
-func (*StartChildWorkflowExecutionInitiatedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *StartChildWorkflowExecutionInitiatedEventAttributes) GetNamespace() string {
@@ -3575,8 +6446,281 @@ func (x *StartChildWorkflowExecutionInitiatedEventAttributes) GetPriority() *v1.
 	return nil
 }
 
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetTaskQueue(v *v11.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetWorkflowExecutionTimeout(v *durationpb.Duration) {
+	x.WorkflowExecutionTimeout = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.WorkflowTaskTimeout = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetParentClosePolicy(v v12.ParentClosePolicy) {
+	x.ParentClosePolicy = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetWorkflowIdReusePolicy(v v12.WorkflowIdReusePolicy) {
+	x.WorkflowIdReusePolicy = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetCronSchedule(v string) {
+	x.CronSchedule = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetMemo(v *v1.Memo) {
+	x.Memo = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetInheritBuildId(v bool) {
+	x.InheritBuildId = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasWorkflowExecutionTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionTimeout != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskTimeout != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearWorkflowExecutionTimeout() {
+	x.WorkflowExecutionTimeout = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearWorkflowTaskTimeout() {
+	x.WorkflowTaskTimeout = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *StartChildWorkflowExecutionInitiatedEventAttributes) ClearPriority() {
+	x.Priority = nil
+}
+
+type StartChildWorkflowExecutionInitiatedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the child workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace    string
+	NamespaceId  string
+	WorkflowId   string
+	WorkflowType *v1.WorkflowType
+	TaskQueue    *v11.TaskQueue
+	Input        *v1.Payloads
+	// Total workflow execution timeout including retries and continue as new.
+	WorkflowExecutionTimeout *durationpb.Duration
+	// Timeout of a single workflow run.
+	WorkflowRunTimeout *durationpb.Duration
+	// Timeout of a single workflow task.
+	WorkflowTaskTimeout *durationpb.Duration
+	// Default: PARENT_CLOSE_POLICY_TERMINATE.
+	ParentClosePolicy v12.ParentClosePolicy
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Control string
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+	// Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	WorkflowIdReusePolicy v12.WorkflowIdReusePolicy
+	RetryPolicy           *v1.RetryPolicy
+	// If this child runs on a cron schedule, it will appear here
+	CronSchedule     string
+	Header           *v1.Header
+	Memo             *v1.Memo
+	SearchAttributes *v1.SearchAttributes
+	// If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment
+	// rules of the child's Task Queue will be used to independently assign a Build ID to it.
+	// Deprecated. Only considered for versioning v0.2.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	InheritBuildId bool
+	// Priority metadata
+	Priority *v1.Priority
+}
+
+func (b0 StartChildWorkflowExecutionInitiatedEventAttributes_builder) Build() *StartChildWorkflowExecutionInitiatedEventAttributes {
+	m0 := &StartChildWorkflowExecutionInitiatedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowId = b.WorkflowId
+	x.WorkflowType = b.WorkflowType
+	x.TaskQueue = b.TaskQueue
+	x.Input = b.Input
+	x.WorkflowExecutionTimeout = b.WorkflowExecutionTimeout
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.WorkflowTaskTimeout = b.WorkflowTaskTimeout
+	x.ParentClosePolicy = b.ParentClosePolicy
+	x.Control = b.Control
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.WorkflowIdReusePolicy = b.WorkflowIdReusePolicy
+	x.RetryPolicy = b.RetryPolicy
+	x.CronSchedule = b.CronSchedule
+	x.Header = b.Header
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.InheritBuildId = b.InheritBuildId
+	x.Priority = b.Priority
+	return m0
+}
+
 type StartChildWorkflowExecutionFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace    string                                     `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3619,11 +6763,6 @@ func (x *StartChildWorkflowExecutionFailedEventAttributes) ProtoReflect() protor
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StartChildWorkflowExecutionFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*StartChildWorkflowExecutionFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *StartChildWorkflowExecutionFailedEventAttributes) GetNamespace() string {
@@ -3683,8 +6822,87 @@ func (x *StartChildWorkflowExecutionFailedEventAttributes) GetWorkflowTaskComple
 	return 0
 }
 
+func (x *StartChildWorkflowExecutionFailedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *StartChildWorkflowExecutionFailedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *StartChildWorkflowExecutionFailedEventAttributes) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *StartChildWorkflowExecutionFailedEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *StartChildWorkflowExecutionFailedEventAttributes) SetCause(v v12.StartChildWorkflowExecutionFailedCause) {
+	x.Cause = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *StartChildWorkflowExecutionFailedEventAttributes) SetControl(v string) {
+	x.Control = v
+}
+
+func (x *StartChildWorkflowExecutionFailedEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *StartChildWorkflowExecutionFailedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *StartChildWorkflowExecutionFailedEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *StartChildWorkflowExecutionFailedEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+type StartChildWorkflowExecutionFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the child workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace    string
+	NamespaceId  string
+	WorkflowId   string
+	WorkflowType *v1.WorkflowType
+	Cause        v12.StartChildWorkflowExecutionFailedCause
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	Control string
+	// Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to
+	InitiatedEventId int64
+	// The `WORKFLOW_TASK_COMPLETED` event which this command was reported with
+	WorkflowTaskCompletedEventId int64
+}
+
+func (b0 StartChildWorkflowExecutionFailedEventAttributes_builder) Build() *StartChildWorkflowExecutionFailedEventAttributes {
+	m0 := &StartChildWorkflowExecutionFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowId = b.WorkflowId
+	x.WorkflowType = b.WorkflowType
+	x.Cause = b.Cause
+	x.Control = b.Control
+	x.InitiatedEventId = b.InitiatedEventId
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	return m0
+}
+
 type ChildWorkflowExecutionStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace   string `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -3721,11 +6939,6 @@ func (x *ChildWorkflowExecutionStartedEventAttributes) ProtoReflect() protorefle
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChildWorkflowExecutionStartedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ChildWorkflowExecutionStartedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *ChildWorkflowExecutionStartedEventAttributes) GetNamespace() string {
@@ -3770,8 +6983,92 @@ func (x *ChildWorkflowExecutionStartedEventAttributes) GetHeader() *v1.Header {
 	return nil
 }
 
+func (x *ChildWorkflowExecutionStartedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *ChildWorkflowExecutionStartedEventAttributes) ClearHeader() {
+	x.Header = nil
+}
+
+type ChildWorkflowExecutionStartedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the child workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace   string
+	NamespaceId string
+	// Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to
+	InitiatedEventId  int64
+	WorkflowExecution *v1.WorkflowExecution
+	WorkflowType      *v1.WorkflowType
+	Header            *v1.Header
+}
+
+func (b0 ChildWorkflowExecutionStartedEventAttributes_builder) Build() *ChildWorkflowExecutionStartedEventAttributes {
+	m0 := &ChildWorkflowExecutionStartedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.InitiatedEventId = b.InitiatedEventId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowType = b.WorkflowType
+	x.Header = b.Header
+	return m0
+}
+
 type ChildWorkflowExecutionCompletedEventAttributes struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
+	state  protoimpl.MessageState `protogen:"hybrid.v1"`
 	Result *v1.Payloads           `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
@@ -3810,11 +7107,6 @@ func (x *ChildWorkflowExecutionCompletedEventAttributes) ProtoReflect() protoref
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChildWorkflowExecutionCompletedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ChildWorkflowExecutionCompletedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *ChildWorkflowExecutionCompletedEventAttributes) GetResult() *v1.Payloads {
@@ -3866,8 +7158,99 @@ func (x *ChildWorkflowExecutionCompletedEventAttributes) GetStartedEventId() int
 	return 0
 }
 
+func (x *ChildWorkflowExecutionCompletedEventAttributes) SetResult(v *v1.Payloads) {
+	x.Result = v
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) HasResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.Result != nil
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) ClearResult() {
+	x.Result = nil
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *ChildWorkflowExecutionCompletedEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+type ChildWorkflowExecutionCompletedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Result *v1.Payloads
+	// Namespace of the child workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	WorkflowType      *v1.WorkflowType
+	// Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to
+	InitiatedEventId int64
+	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
+	StartedEventId int64
+}
+
+func (b0 ChildWorkflowExecutionCompletedEventAttributes_builder) Build() *ChildWorkflowExecutionCompletedEventAttributes {
+	m0 := &ChildWorkflowExecutionCompletedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Result = b.Result
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowType = b.WorkflowType
+	x.InitiatedEventId = b.InitiatedEventId
+	x.StartedEventId = b.StartedEventId
+	return m0
+}
+
 type ChildWorkflowExecutionFailedEventAttributes struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
+	state   protoimpl.MessageState `protogen:"hybrid.v1"`
 	Failure *v13.Failure           `protobuf:"bytes,1,opt,name=failure,proto3" json:"failure,omitempty"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
@@ -3907,11 +7290,6 @@ func (x *ChildWorkflowExecutionFailedEventAttributes) ProtoReflect() protoreflec
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChildWorkflowExecutionFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ChildWorkflowExecutionFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *ChildWorkflowExecutionFailedEventAttributes) GetFailure() *v13.Failure {
@@ -3970,8 +7348,105 @@ func (x *ChildWorkflowExecutionFailedEventAttributes) GetRetryState() v12.RetryS
 	return v12.RetryState(0)
 }
 
+func (x *ChildWorkflowExecutionFailedEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) SetRetryState(v v12.RetryState) {
+	x.RetryState = v
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *ChildWorkflowExecutionFailedEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+type ChildWorkflowExecutionFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Failure *v13.Failure
+	// Namespace of the child workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	WorkflowType      *v1.WorkflowType
+	// Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to
+	InitiatedEventId int64
+	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
+	StartedEventId int64
+	RetryState     v12.RetryState
+}
+
+func (b0 ChildWorkflowExecutionFailedEventAttributes_builder) Build() *ChildWorkflowExecutionFailedEventAttributes {
+	m0 := &ChildWorkflowExecutionFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Failure = b.Failure
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowType = b.WorkflowType
+	x.InitiatedEventId = b.InitiatedEventId
+	x.StartedEventId = b.StartedEventId
+	x.RetryState = b.RetryState
+	return m0
+}
+
 type ChildWorkflowExecutionCanceledEventAttributes struct {
-	state   protoimpl.MessageState `protogen:"open.v1"`
+	state   protoimpl.MessageState `protogen:"hybrid.v1"`
 	Details *v1.Payloads           `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
@@ -4010,11 +7485,6 @@ func (x *ChildWorkflowExecutionCanceledEventAttributes) ProtoReflect() protorefl
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChildWorkflowExecutionCanceledEventAttributes.ProtoReflect.Descriptor instead.
-func (*ChildWorkflowExecutionCanceledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *ChildWorkflowExecutionCanceledEventAttributes) GetDetails() *v1.Payloads {
@@ -4066,8 +7536,99 @@ func (x *ChildWorkflowExecutionCanceledEventAttributes) GetStartedEventId() int6
 	return 0
 }
 
+func (x *ChildWorkflowExecutionCanceledEventAttributes) SetDetails(v *v1.Payloads) {
+	x.Details = v
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) ClearDetails() {
+	x.Details = nil
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *ChildWorkflowExecutionCanceledEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+type ChildWorkflowExecutionCanceledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Details *v1.Payloads
+	// Namespace of the child workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	WorkflowType      *v1.WorkflowType
+	// Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to
+	InitiatedEventId int64
+	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
+	StartedEventId int64
+}
+
+func (b0 ChildWorkflowExecutionCanceledEventAttributes_builder) Build() *ChildWorkflowExecutionCanceledEventAttributes {
+	m0 := &ChildWorkflowExecutionCanceledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Details = b.Details
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowType = b.WorkflowType
+	x.InitiatedEventId = b.InitiatedEventId
+	x.StartedEventId = b.StartedEventId
+	return m0
+}
+
 type ChildWorkflowExecutionTimedOutEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace         string                `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -4106,11 +7667,6 @@ func (x *ChildWorkflowExecutionTimedOutEventAttributes) ProtoReflect() protorefl
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChildWorkflowExecutionTimedOutEventAttributes.ProtoReflect.Descriptor instead.
-func (*ChildWorkflowExecutionTimedOutEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *ChildWorkflowExecutionTimedOutEventAttributes) GetNamespace() string {
@@ -4162,8 +7718,88 @@ func (x *ChildWorkflowExecutionTimedOutEventAttributes) GetRetryState() v12.Retr
 	return v12.RetryState(0)
 }
 
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) SetRetryState(v v12.RetryState) {
+	x.RetryState = v
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *ChildWorkflowExecutionTimedOutEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+type ChildWorkflowExecutionTimedOutEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the child workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	WorkflowType      *v1.WorkflowType
+	// Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to
+	InitiatedEventId int64
+	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
+	StartedEventId int64
+	RetryState     v12.RetryState
+}
+
+func (b0 ChildWorkflowExecutionTimedOutEventAttributes_builder) Build() *ChildWorkflowExecutionTimedOutEventAttributes {
+	m0 := &ChildWorkflowExecutionTimedOutEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowType = b.WorkflowType
+	x.InitiatedEventId = b.InitiatedEventId
+	x.StartedEventId = b.StartedEventId
+	x.RetryState = b.RetryState
+	return m0
+}
+
 type ChildWorkflowExecutionTerminatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Namespace of the child workflow.
 	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
 	Namespace         string                `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
@@ -4201,11 +7837,6 @@ func (x *ChildWorkflowExecutionTerminatedEventAttributes) ProtoReflect() protore
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChildWorkflowExecutionTerminatedEventAttributes.ProtoReflect.Descriptor instead.
-func (*ChildWorkflowExecutionTerminatedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *ChildWorkflowExecutionTerminatedEventAttributes) GetNamespace() string {
@@ -4250,8 +7881,82 @@ func (x *ChildWorkflowExecutionTerminatedEventAttributes) GetStartedEventId() in
 	return 0
 }
 
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) SetNamespace(v string) {
+	x.Namespace = v
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) SetNamespaceId(v string) {
+	x.NamespaceId = v
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) SetWorkflowExecution(v *v1.WorkflowExecution) {
+	x.WorkflowExecution = v
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) SetInitiatedEventId(v int64) {
+	x.InitiatedEventId = v
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) SetStartedEventId(v int64) {
+	x.StartedEventId = v
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) HasWorkflowExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecution != nil
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) ClearWorkflowExecution() {
+	x.WorkflowExecution = nil
+}
+
+func (x *ChildWorkflowExecutionTerminatedEventAttributes) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+type ChildWorkflowExecutionTerminatedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Namespace of the child workflow.
+	// SDKs and UI tools should use `namespace` field but server must use `namespace_id` only.
+	Namespace         string
+	NamespaceId       string
+	WorkflowExecution *v1.WorkflowExecution
+	WorkflowType      *v1.WorkflowType
+	// Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to
+	InitiatedEventId int64
+	// Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to
+	StartedEventId int64
+}
+
+func (b0 ChildWorkflowExecutionTerminatedEventAttributes_builder) Build() *ChildWorkflowExecutionTerminatedEventAttributes {
+	m0 := &ChildWorkflowExecutionTerminatedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Namespace = b.Namespace
+	x.NamespaceId = b.NamespaceId
+	x.WorkflowExecution = b.WorkflowExecution
+	x.WorkflowType = b.WorkflowType
+	x.InitiatedEventId = b.InitiatedEventId
+	x.StartedEventId = b.StartedEventId
+	return m0
+}
+
 type WorkflowExecutionOptionsUpdatedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Versioning override upserted in this event.
 	// Ignored if nil or if unset_versioning_override is true.
 	VersioningOverride *v14.VersioningOverride `protobuf:"bytes,1,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
@@ -4296,11 +8001,6 @@ func (x *WorkflowExecutionOptionsUpdatedEventAttributes) ProtoReflect() protoref
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionOptionsUpdatedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionOptionsUpdatedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{41}
-}
-
 func (x *WorkflowExecutionOptionsUpdatedEventAttributes) GetVersioningOverride() *v14.VersioningOverride {
 	if x != nil {
 		return x.VersioningOverride
@@ -4343,9 +8043,88 @@ func (x *WorkflowExecutionOptionsUpdatedEventAttributes) GetPriority() *v1.Prior
 	return nil
 }
 
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) SetVersioningOverride(v *v14.VersioningOverride) {
+	x.VersioningOverride = v
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) SetUnsetVersioningOverride(v bool) {
+	x.UnsetVersioningOverride = v
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) SetAttachedRequestId(v string) {
+	x.AttachedRequestId = v
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) SetAttachedCompletionCallbacks(v []*v1.Callback) {
+	x.AttachedCompletionCallbacks = v
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) HasVersioningOverride() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningOverride != nil
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) ClearVersioningOverride() {
+	x.VersioningOverride = nil
+}
+
+func (x *WorkflowExecutionOptionsUpdatedEventAttributes) ClearPriority() {
+	x.Priority = nil
+}
+
+type WorkflowExecutionOptionsUpdatedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Versioning override upserted in this event.
+	// Ignored if nil or if unset_versioning_override is true.
+	VersioningOverride *v14.VersioningOverride
+	// Versioning override removed in this event.
+	UnsetVersioningOverride bool
+	// Request ID attached to the running workflow execution so that subsequent requests with same
+	// request ID will be deduped.
+	AttachedRequestId string
+	// Completion callbacks attached to the running workflow execution.
+	AttachedCompletionCallbacks []*v1.Callback
+	// Optional. The identity of the client who initiated the request that created this event.
+	Identity string
+	// Priority override upserted in this event. Represents the full priority; not just partial fields.
+	// Ignored if nil.
+	Priority *v1.Priority
+}
+
+func (b0 WorkflowExecutionOptionsUpdatedEventAttributes_builder) Build() *WorkflowExecutionOptionsUpdatedEventAttributes {
+	m0 := &WorkflowExecutionOptionsUpdatedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.VersioningOverride = b.VersioningOverride
+	x.UnsetVersioningOverride = b.UnsetVersioningOverride
+	x.AttachedRequestId = b.AttachedRequestId
+	x.AttachedCompletionCallbacks = b.AttachedCompletionCallbacks
+	x.Identity = b.Identity
+	x.Priority = b.Priority
+	return m0
+}
+
 // Not used anywhere. Use case is replaced by WorkflowExecutionOptionsUpdatedEventAttributes
 type WorkflowPropertiesModifiedExternallyEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Not used.
 	NewTaskQueue string `protobuf:"bytes,1,opt,name=new_task_queue,json=newTaskQueue,proto3" json:"new_task_queue,omitempty"`
 	// Not used.
@@ -4385,11 +8164,6 @@ func (x *WorkflowPropertiesModifiedExternallyEventAttributes) ProtoReflect() pro
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowPropertiesModifiedExternallyEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowPropertiesModifiedExternallyEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{42}
-}
-
 func (x *WorkflowPropertiesModifiedExternallyEventAttributes) GetNewTaskQueue() string {
 	if x != nil {
 		return x.NewTaskQueue
@@ -4425,8 +8199,99 @@ func (x *WorkflowPropertiesModifiedExternallyEventAttributes) GetUpsertedMemo() 
 	return nil
 }
 
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) SetNewTaskQueue(v string) {
+	x.NewTaskQueue = v
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) SetNewWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.NewWorkflowTaskTimeout = v
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) SetNewWorkflowRunTimeout(v *durationpb.Duration) {
+	x.NewWorkflowRunTimeout = v
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) SetNewWorkflowExecutionTimeout(v *durationpb.Duration) {
+	x.NewWorkflowExecutionTimeout = v
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) SetUpsertedMemo(v *v1.Memo) {
+	x.UpsertedMemo = v
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) HasNewWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.NewWorkflowTaskTimeout != nil
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) HasNewWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.NewWorkflowRunTimeout != nil
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) HasNewWorkflowExecutionTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.NewWorkflowExecutionTimeout != nil
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) HasUpsertedMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpsertedMemo != nil
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) ClearNewWorkflowTaskTimeout() {
+	x.NewWorkflowTaskTimeout = nil
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) ClearNewWorkflowRunTimeout() {
+	x.NewWorkflowRunTimeout = nil
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) ClearNewWorkflowExecutionTimeout() {
+	x.NewWorkflowExecutionTimeout = nil
+}
+
+func (x *WorkflowPropertiesModifiedExternallyEventAttributes) ClearUpsertedMemo() {
+	x.UpsertedMemo = nil
+}
+
+type WorkflowPropertiesModifiedExternallyEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Not used.
+	NewTaskQueue string
+	// Not used.
+	NewWorkflowTaskTimeout *durationpb.Duration
+	// Not used.
+	NewWorkflowRunTimeout *durationpb.Duration
+	// Not used.
+	NewWorkflowExecutionTimeout *durationpb.Duration
+	// Not used.
+	UpsertedMemo *v1.Memo
+}
+
+func (b0 WorkflowPropertiesModifiedExternallyEventAttributes_builder) Build() *WorkflowPropertiesModifiedExternallyEventAttributes {
+	m0 := &WorkflowPropertiesModifiedExternallyEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.NewTaskQueue = b.NewTaskQueue
+	x.NewWorkflowTaskTimeout = b.NewWorkflowTaskTimeout
+	x.NewWorkflowRunTimeout = b.NewWorkflowRunTimeout
+	x.NewWorkflowExecutionTimeout = b.NewWorkflowExecutionTimeout
+	x.UpsertedMemo = b.UpsertedMemo
+	return m0
+}
+
 type ActivityPropertiesModifiedExternallyEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the `ACTIVITY_TASK_SCHEDULED` event this modification corresponds to.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// If set, update the retry policy of the activity, replacing it with the specified one.
@@ -4461,11 +8326,6 @@ func (x *ActivityPropertiesModifiedExternallyEventAttributes) ProtoReflect() pro
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityPropertiesModifiedExternallyEventAttributes.ProtoReflect.Descriptor instead.
-func (*ActivityPropertiesModifiedExternallyEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{43}
-}
-
 func (x *ActivityPropertiesModifiedExternallyEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -4480,8 +8340,46 @@ func (x *ActivityPropertiesModifiedExternallyEventAttributes) GetNewRetryPolicy(
 	return nil
 }
 
+func (x *ActivityPropertiesModifiedExternallyEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *ActivityPropertiesModifiedExternallyEventAttributes) SetNewRetryPolicy(v *v1.RetryPolicy) {
+	x.NewRetryPolicy = v
+}
+
+func (x *ActivityPropertiesModifiedExternallyEventAttributes) HasNewRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.NewRetryPolicy != nil
+}
+
+func (x *ActivityPropertiesModifiedExternallyEventAttributes) ClearNewRetryPolicy() {
+	x.NewRetryPolicy = nil
+}
+
+type ActivityPropertiesModifiedExternallyEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the `ACTIVITY_TASK_SCHEDULED` event this modification corresponds to.
+	ScheduledEventId int64
+	// If set, update the retry policy of the activity, replacing it with the specified one.
+	// The number of attempts at the activity is preserved.
+	NewRetryPolicy *v1.RetryPolicy
+}
+
+func (b0 ActivityPropertiesModifiedExternallyEventAttributes_builder) Build() *ActivityPropertiesModifiedExternallyEventAttributes {
+	m0 := &ActivityPropertiesModifiedExternallyEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.NewRetryPolicy = b.NewRetryPolicy
+	return m0
+}
+
 type WorkflowExecutionUpdateAcceptedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The instance ID of the update protocol that generated this event.
 	ProtocolInstanceId string `protobuf:"bytes,1,opt,name=protocol_instance_id,json=protocolInstanceId,proto3" json:"protocol_instance_id,omitempty"`
 	// The message ID of the original request message that initiated this
@@ -4522,11 +8420,6 @@ func (x *WorkflowExecutionUpdateAcceptedEventAttributes) ProtoReflect() protoref
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionUpdateAcceptedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionUpdateAcceptedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{44}
-}
-
 func (x *WorkflowExecutionUpdateAcceptedEventAttributes) GetProtocolInstanceId() string {
 	if x != nil {
 		return x.ProtocolInstanceId
@@ -4555,8 +8448,62 @@ func (x *WorkflowExecutionUpdateAcceptedEventAttributes) GetAcceptedRequest() *v
 	return nil
 }
 
+func (x *WorkflowExecutionUpdateAcceptedEventAttributes) SetProtocolInstanceId(v string) {
+	x.ProtocolInstanceId = v
+}
+
+func (x *WorkflowExecutionUpdateAcceptedEventAttributes) SetAcceptedRequestMessageId(v string) {
+	x.AcceptedRequestMessageId = v
+}
+
+func (x *WorkflowExecutionUpdateAcceptedEventAttributes) SetAcceptedRequestSequencingEventId(v int64) {
+	x.AcceptedRequestSequencingEventId = v
+}
+
+func (x *WorkflowExecutionUpdateAcceptedEventAttributes) SetAcceptedRequest(v *v17.Request) {
+	x.AcceptedRequest = v
+}
+
+func (x *WorkflowExecutionUpdateAcceptedEventAttributes) HasAcceptedRequest() bool {
+	if x == nil {
+		return false
+	}
+	return x.AcceptedRequest != nil
+}
+
+func (x *WorkflowExecutionUpdateAcceptedEventAttributes) ClearAcceptedRequest() {
+	x.AcceptedRequest = nil
+}
+
+type WorkflowExecutionUpdateAcceptedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The instance ID of the update protocol that generated this event.
+	ProtocolInstanceId string
+	// The message ID of the original request message that initiated this
+	// update. Needed so that the worker can recreate and deliver that same
+	// message as part of replay.
+	AcceptedRequestMessageId string
+	// The event ID used to sequence the original request message.
+	AcceptedRequestSequencingEventId int64
+	// The message payload of the original request message that initiated this
+	// update.
+	AcceptedRequest *v17.Request
+}
+
+func (b0 WorkflowExecutionUpdateAcceptedEventAttributes_builder) Build() *WorkflowExecutionUpdateAcceptedEventAttributes {
+	m0 := &WorkflowExecutionUpdateAcceptedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProtocolInstanceId = b.ProtocolInstanceId
+	x.AcceptedRequestMessageId = b.AcceptedRequestMessageId
+	x.AcceptedRequestSequencingEventId = b.AcceptedRequestSequencingEventId
+	x.AcceptedRequest = b.AcceptedRequest
+	return m0
+}
+
 type WorkflowExecutionUpdateCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The metadata about this update.
 	Meta *v17.Meta `protobuf:"bytes,1,opt,name=meta,proto3" json:"meta,omitempty"`
 	// The event ID indicating the acceptance of this update.
@@ -4592,11 +8539,6 @@ func (x *WorkflowExecutionUpdateCompletedEventAttributes) ProtoReflect() protore
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionUpdateCompletedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionUpdateCompletedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{45}
-}
-
 func (x *WorkflowExecutionUpdateCompletedEventAttributes) GetMeta() *v17.Meta {
 	if x != nil {
 		return x.Meta
@@ -4618,8 +8560,63 @@ func (x *WorkflowExecutionUpdateCompletedEventAttributes) GetOutcome() *v17.Outc
 	return nil
 }
 
+func (x *WorkflowExecutionUpdateCompletedEventAttributes) SetMeta(v *v17.Meta) {
+	x.Meta = v
+}
+
+func (x *WorkflowExecutionUpdateCompletedEventAttributes) SetAcceptedEventId(v int64) {
+	x.AcceptedEventId = v
+}
+
+func (x *WorkflowExecutionUpdateCompletedEventAttributes) SetOutcome(v *v17.Outcome) {
+	x.Outcome = v
+}
+
+func (x *WorkflowExecutionUpdateCompletedEventAttributes) HasMeta() bool {
+	if x == nil {
+		return false
+	}
+	return x.Meta != nil
+}
+
+func (x *WorkflowExecutionUpdateCompletedEventAttributes) HasOutcome() bool {
+	if x == nil {
+		return false
+	}
+	return x.Outcome != nil
+}
+
+func (x *WorkflowExecutionUpdateCompletedEventAttributes) ClearMeta() {
+	x.Meta = nil
+}
+
+func (x *WorkflowExecutionUpdateCompletedEventAttributes) ClearOutcome() {
+	x.Outcome = nil
+}
+
+type WorkflowExecutionUpdateCompletedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The metadata about this update.
+	Meta *v17.Meta
+	// The event ID indicating the acceptance of this update.
+	AcceptedEventId int64
+	// The outcome of executing the workflow update function.
+	Outcome *v17.Outcome
+}
+
+func (b0 WorkflowExecutionUpdateCompletedEventAttributes_builder) Build() *WorkflowExecutionUpdateCompletedEventAttributes {
+	m0 := &WorkflowExecutionUpdateCompletedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Meta = b.Meta
+	x.AcceptedEventId = b.AcceptedEventId
+	x.Outcome = b.Outcome
+	return m0
+}
+
 type WorkflowExecutionUpdateRejectedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The instance ID of the update protocol that generated this event.
 	ProtocolInstanceId string `protobuf:"bytes,1,opt,name=protocol_instance_id,json=protocolInstanceId,proto3" json:"protocol_instance_id,omitempty"`
 	// The message ID of the original request message that initiated this
@@ -4662,11 +8659,6 @@ func (x *WorkflowExecutionUpdateRejectedEventAttributes) ProtoReflect() protoref
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionUpdateRejectedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionUpdateRejectedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{46}
-}
-
 func (x *WorkflowExecutionUpdateRejectedEventAttributes) GetProtocolInstanceId() string {
 	if x != nil {
 		return x.ProtocolInstanceId
@@ -4702,8 +8694,80 @@ func (x *WorkflowExecutionUpdateRejectedEventAttributes) GetFailure() *v13.Failu
 	return nil
 }
 
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) SetProtocolInstanceId(v string) {
+	x.ProtocolInstanceId = v
+}
+
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) SetRejectedRequestMessageId(v string) {
+	x.RejectedRequestMessageId = v
+}
+
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) SetRejectedRequestSequencingEventId(v int64) {
+	x.RejectedRequestSequencingEventId = v
+}
+
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) SetRejectedRequest(v *v17.Request) {
+	x.RejectedRequest = v
+}
+
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) HasRejectedRequest() bool {
+	if x == nil {
+		return false
+	}
+	return x.RejectedRequest != nil
+}
+
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) ClearRejectedRequest() {
+	x.RejectedRequest = nil
+}
+
+func (x *WorkflowExecutionUpdateRejectedEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type WorkflowExecutionUpdateRejectedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The instance ID of the update protocol that generated this event.
+	ProtocolInstanceId string
+	// The message ID of the original request message that initiated this
+	// update. Needed so that the worker can recreate and deliver that same
+	// message as part of replay.
+	RejectedRequestMessageId string
+	// The event ID used to sequence the original request message.
+	RejectedRequestSequencingEventId int64
+	// The message payload of the original request message that initiated this
+	// update.
+	RejectedRequest *v17.Request
+	// The cause of rejection.
+	Failure *v13.Failure
+}
+
+func (b0 WorkflowExecutionUpdateRejectedEventAttributes_builder) Build() *WorkflowExecutionUpdateRejectedEventAttributes {
+	m0 := &WorkflowExecutionUpdateRejectedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ProtocolInstanceId = b.ProtocolInstanceId
+	x.RejectedRequestMessageId = b.RejectedRequestMessageId
+	x.RejectedRequestSequencingEventId = b.RejectedRequestSequencingEventId
+	x.RejectedRequest = b.RejectedRequest
+	x.Failure = b.Failure
+	return m0
+}
+
 type WorkflowExecutionUpdateAdmittedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The update request associated with this event.
 	Request *v17.Request `protobuf:"bytes,1,opt,name=request,proto3" json:"request,omitempty"`
 	// An explanation of why this event was written to history.
@@ -4737,11 +8801,6 @@ func (x *WorkflowExecutionUpdateAdmittedEventAttributes) ProtoReflect() protoref
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionUpdateAdmittedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionUpdateAdmittedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{47}
-}
-
 func (x *WorkflowExecutionUpdateAdmittedEventAttributes) GetRequest() *v17.Request {
 	if x != nil {
 		return x.Request
@@ -4756,9 +8815,46 @@ func (x *WorkflowExecutionUpdateAdmittedEventAttributes) GetOrigin() v12.UpdateA
 	return v12.UpdateAdmittedEventOrigin(0)
 }
 
+func (x *WorkflowExecutionUpdateAdmittedEventAttributes) SetRequest(v *v17.Request) {
+	x.Request = v
+}
+
+func (x *WorkflowExecutionUpdateAdmittedEventAttributes) SetOrigin(v v12.UpdateAdmittedEventOrigin) {
+	x.Origin = v
+}
+
+func (x *WorkflowExecutionUpdateAdmittedEventAttributes) HasRequest() bool {
+	if x == nil {
+		return false
+	}
+	return x.Request != nil
+}
+
+func (x *WorkflowExecutionUpdateAdmittedEventAttributes) ClearRequest() {
+	x.Request = nil
+}
+
+type WorkflowExecutionUpdateAdmittedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The update request associated with this event.
+	Request *v17.Request
+	// An explanation of why this event was written to history.
+	Origin v12.UpdateAdmittedEventOrigin
+}
+
+func (b0 WorkflowExecutionUpdateAdmittedEventAttributes_builder) Build() *WorkflowExecutionUpdateAdmittedEventAttributes {
+	m0 := &WorkflowExecutionUpdateAdmittedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Request = b.Request
+	x.Origin = b.Origin
+	return m0
+}
+
 // Attributes for an event marking that a workflow execution was paused.
 type WorkflowExecutionPausedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the client who paused the workflow execution.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// The reason for pausing the workflow execution.
@@ -4794,11 +8890,6 @@ func (x *WorkflowExecutionPausedEventAttributes) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionPausedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionPausedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{48}
-}
-
 func (x *WorkflowExecutionPausedEventAttributes) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -4820,9 +8911,42 @@ func (x *WorkflowExecutionPausedEventAttributes) GetRequestId() string {
 	return ""
 }
 
+func (x *WorkflowExecutionPausedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowExecutionPausedEventAttributes) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *WorkflowExecutionPausedEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+type WorkflowExecutionPausedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the client who paused the workflow execution.
+	Identity string
+	// The reason for pausing the workflow execution.
+	Reason string
+	// The request ID of the request that paused the workflow execution.
+	RequestId string
+}
+
+func (b0 WorkflowExecutionPausedEventAttributes_builder) Build() *WorkflowExecutionPausedEventAttributes {
+	m0 := &WorkflowExecutionPausedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	x.RequestId = b.RequestId
+	return m0
+}
+
 // Attributes for an event marking that a workflow execution was unpaused.
 type WorkflowExecutionUnpausedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the client who unpaused the workflow execution.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// The reason for unpausing the workflow execution.
@@ -4858,11 +8982,6 @@ func (x *WorkflowExecutionUnpausedEventAttributes) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionUnpausedEventAttributes.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionUnpausedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{49}
-}
-
 func (x *WorkflowExecutionUnpausedEventAttributes) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -4884,9 +9003,42 @@ func (x *WorkflowExecutionUnpausedEventAttributes) GetRequestId() string {
 	return ""
 }
 
+func (x *WorkflowExecutionUnpausedEventAttributes) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowExecutionUnpausedEventAttributes) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *WorkflowExecutionUnpausedEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+type WorkflowExecutionUnpausedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the client who unpaused the workflow execution.
+	Identity string
+	// The reason for unpausing the workflow execution.
+	Reason string
+	// The request ID of the request that unpaused the workflow execution.
+	RequestId string
+}
+
+func (b0 WorkflowExecutionUnpausedEventAttributes_builder) Build() *WorkflowExecutionUnpausedEventAttributes {
+	m0 := &WorkflowExecutionUnpausedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	x.RequestId = b.RequestId
+	return m0
+}
+
 // Event marking that an operation was scheduled by a workflow via the ScheduleNexusOperation command.
 type NexusOperationScheduledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Endpoint name, must exist in the endpoint registry.
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
 	// Service name.
@@ -4956,11 +9108,6 @@ func (x *NexusOperationScheduledEventAttributes) ProtoReflect() protoreflect.Mes
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NexusOperationScheduledEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationScheduledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *NexusOperationScheduledEventAttributes) GetEndpoint() string {
@@ -5040,12 +9187,165 @@ func (x *NexusOperationScheduledEventAttributes) GetStartToCloseTimeout() *durat
 	return nil
 }
 
+func (x *NexusOperationScheduledEventAttributes) SetEndpoint(v string) {
+	x.Endpoint = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetService(v string) {
+	x.Service = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetOperation(v string) {
+	x.Operation = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetInput(v *v1.Payload) {
+	x.Input = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetNexusHeader(v map[string]string) {
+	x.NexusHeader = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetEndpointId(v string) {
+	x.EndpointId = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *NexusOperationScheduledEventAttributes) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *NexusOperationScheduledEventAttributes) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *NexusOperationScheduledEventAttributes) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *NexusOperationScheduledEventAttributes) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *NexusOperationScheduledEventAttributes) ClearInput() {
+	x.Input = nil
+}
+
+func (x *NexusOperationScheduledEventAttributes) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *NexusOperationScheduledEventAttributes) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+func (x *NexusOperationScheduledEventAttributes) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+type NexusOperationScheduledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Endpoint name, must exist in the endpoint registry.
+	Endpoint string
+	// Service name.
+	Service string
+	// Operation name.
+	Operation string
+	// Input for the operation. The server converts this into Nexus request content and the appropriate content headers
+	// internally when sending the StartOperation request. On the handler side, if it is also backed by Temporal, the
+	// content is transformed back to the original Payload stored in this event.
+	Input *v1.Payload
+	// Schedule-to-close timeout for this operation.
+	// Indicates how long the caller is willing to wait for operation completion.
+	// Calls are retried internally by the server.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// Header to attach to the Nexus request. Note these headers are not the same as Temporal headers on internal
+	// activities and child workflows, these are transmitted to Nexus operations that may be external and are not
+	// traditional payloads.
+	NexusHeader map[string]string
+	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding ScheduleNexusOperation command was reported with.
+	WorkflowTaskCompletedEventId int64
+	// A unique ID generated by the history service upon creation of this event.
+	// The ID will be transmitted with all nexus StartOperation requests and is used as an idempotentency key.
+	RequestId string
+	// Endpoint ID as resolved in the endpoint registry at the time this event was generated.
+	// This is stored on the event and used internally by the server in case the endpoint is renamed from the time the
+	// event was originally scheduled.
+	EndpointId string
+	// Schedule-to-start timeout for this operation.
+	// See ScheduleNexusOperationCommandAttributes.schedule_to_start_timeout for details.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToStartTimeout *durationpb.Duration
+	// Start-to-close timeout for this operation.
+	// See ScheduleNexusOperationCommandAttributes.start_to_close_timeout for details.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+}
+
+func (b0 NexusOperationScheduledEventAttributes_builder) Build() *NexusOperationScheduledEventAttributes {
+	m0 := &NexusOperationScheduledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Endpoint = b.Endpoint
+	x.Service = b.Service
+	x.Operation = b.Operation
+	x.Input = b.Input
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.NexusHeader = b.NexusHeader
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.RequestId = b.RequestId
+	x.EndpointId = b.EndpointId
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	return m0
+}
+
 // Event marking an asynchronous operation was started by the responding Nexus handler.
 // If the operation completes synchronously, this event is not generated.
 // In rare situations, such as request timeouts, the service may fail to record the actual start time and will fabricate
 // this event upon receiving the operation completion via callback.
 type NexusOperationStartedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event this task corresponds to.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The operation ID returned by the Nexus handler in the response to the StartOperation request.
@@ -5089,11 +9389,6 @@ func (x *NexusOperationStartedEventAttributes) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationStartedEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationStartedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{51}
-}
-
 func (x *NexusOperationStartedEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -5123,9 +9418,56 @@ func (x *NexusOperationStartedEventAttributes) GetOperationToken() string {
 	return ""
 }
 
+func (x *NexusOperationStartedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+func (x *NexusOperationStartedEventAttributes) SetOperationId(v string) {
+	x.OperationId = v
+}
+
+func (x *NexusOperationStartedEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *NexusOperationStartedEventAttributes) SetOperationToken(v string) {
+	x.OperationToken = v
+}
+
+type NexusOperationStartedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The ID of the `NEXUS_OPERATION_SCHEDULED` event this task corresponds to.
+	ScheduledEventId int64
+	// The operation ID returned by the Nexus handler in the response to the StartOperation request.
+	// This ID is used when canceling the operation.
+	//
+	// Deprecated: Renamed to operation_token.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/history/v1/message.proto.
+	OperationId string
+	// The request ID allocated at schedule time.
+	RequestId string
+	// The operation token returned by the Nexus handler in the response to the StartOperation request.
+	// This token is used when canceling the operation.
+	OperationToken string
+}
+
+func (b0 NexusOperationStartedEventAttributes_builder) Build() *NexusOperationStartedEventAttributes {
+	m0 := &NexusOperationStartedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.OperationId = b.OperationId
+	x.RequestId = b.RequestId
+	x.OperationToken = b.OperationToken
+	return m0
+}
+
 // Nexus operation completed successfully.
 type NexusOperationCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Serialized result of the Nexus operation. The response of the Nexus handler.
@@ -5162,11 +9504,6 @@ func (x *NexusOperationCompletedEventAttributes) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationCompletedEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationCompletedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{52}
-}
-
 func (x *NexusOperationCompletedEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -5188,9 +9525,54 @@ func (x *NexusOperationCompletedEventAttributes) GetRequestId() string {
 	return ""
 }
 
+func (x *NexusOperationCompletedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *NexusOperationCompletedEventAttributes) SetResult(v *v1.Payload) {
+	x.Result = v
+}
+
+func (x *NexusOperationCompletedEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *NexusOperationCompletedEventAttributes) HasResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.Result != nil
+}
+
+func (x *NexusOperationCompletedEventAttributes) ClearResult() {
+	x.Result = nil
+}
+
+type NexusOperationCompletedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
+	ScheduledEventId int64
+	// Serialized result of the Nexus operation. The response of the Nexus handler.
+	// Delivered either via a completion callback or as a response to a synchronous operation.
+	Result *v1.Payload
+	// The request ID allocated at schedule time.
+	RequestId string
+}
+
+func (b0 NexusOperationCompletedEventAttributes_builder) Build() *NexusOperationCompletedEventAttributes {
+	m0 := &NexusOperationCompletedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.Result = b.Result
+	x.RequestId = b.RequestId
+	return m0
+}
+
 // Nexus operation failed.
 type NexusOperationFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Failure details. A NexusOperationFailureInfo wrapping an ApplicationFailureInfo.
@@ -5226,11 +9608,6 @@ func (x *NexusOperationFailedEventAttributes) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{53}
-}
-
 func (x *NexusOperationFailedEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -5252,9 +9629,53 @@ func (x *NexusOperationFailedEventAttributes) GetRequestId() string {
 	return ""
 }
 
+func (x *NexusOperationFailedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *NexusOperationFailedEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *NexusOperationFailedEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *NexusOperationFailedEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *NexusOperationFailedEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type NexusOperationFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
+	ScheduledEventId int64
+	// Failure details. A NexusOperationFailureInfo wrapping an ApplicationFailureInfo.
+	Failure *v13.Failure
+	// The request ID allocated at schedule time.
+	RequestId string
+}
+
+func (b0 NexusOperationFailedEventAttributes_builder) Build() *NexusOperationFailedEventAttributes {
+	m0 := &NexusOperationFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.Failure = b.Failure
+	x.RequestId = b.RequestId
+	return m0
+}
+
 // Nexus operation timed out.
 type NexusOperationTimedOutEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Failure details. A NexusOperationFailureInfo wrapping a CanceledFailureInfo.
@@ -5290,11 +9711,6 @@ func (x *NexusOperationTimedOutEventAttributes) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationTimedOutEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationTimedOutEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{54}
-}
-
 func (x *NexusOperationTimedOutEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -5316,9 +9732,53 @@ func (x *NexusOperationTimedOutEventAttributes) GetRequestId() string {
 	return ""
 }
 
+func (x *NexusOperationTimedOutEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *NexusOperationTimedOutEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *NexusOperationTimedOutEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *NexusOperationTimedOutEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *NexusOperationTimedOutEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type NexusOperationTimedOutEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
+	ScheduledEventId int64
+	// Failure details. A NexusOperationFailureInfo wrapping a CanceledFailureInfo.
+	Failure *v13.Failure
+	// The request ID allocated at schedule time.
+	RequestId string
+}
+
+func (b0 NexusOperationTimedOutEventAttributes_builder) Build() *NexusOperationTimedOutEventAttributes {
+	m0 := &NexusOperationTimedOutEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.Failure = b.Failure
+	x.RequestId = b.RequestId
+	return m0
+}
+
 // Nexus operation completed as canceled. May or may not have been due to a cancellation request by the workflow.
 type NexusOperationCanceledEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// Cancellation details.
@@ -5354,11 +9814,6 @@ func (x *NexusOperationCanceledEventAttributes) ProtoReflect() protoreflect.Mess
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationCanceledEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationCanceledEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{55}
-}
-
 func (x *NexusOperationCanceledEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -5380,8 +9835,52 @@ func (x *NexusOperationCanceledEventAttributes) GetRequestId() string {
 	return ""
 }
 
+func (x *NexusOperationCanceledEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *NexusOperationCanceledEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *NexusOperationCanceledEventAttributes) SetRequestId(v string) {
+	x.RequestId = v
+}
+
+func (x *NexusOperationCanceledEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *NexusOperationCanceledEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type NexusOperationCanceledEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation.
+	ScheduledEventId int64
+	// Cancellation details.
+	Failure *v13.Failure
+	// The request ID allocated at schedule time.
+	RequestId string
+}
+
+func (b0 NexusOperationCanceledEventAttributes_builder) Build() *NexusOperationCanceledEventAttributes {
+	m0 := &NexusOperationCanceledEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.Failure = b.Failure
+	x.RequestId = b.RequestId
+	return m0
+}
+
 type NexusOperationCancelRequestedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to.
 	ScheduledEventId int64 `protobuf:"varint,1,opt,name=scheduled_event_id,json=scheduledEventId,proto3" json:"scheduled_event_id,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported
@@ -5416,11 +9915,6 @@ func (x *NexusOperationCancelRequestedEventAttributes) ProtoReflect() protorefle
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationCancelRequestedEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationCancelRequestedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{56}
-}
-
 func (x *NexusOperationCancelRequestedEventAttributes) GetScheduledEventId() int64 {
 	if x != nil {
 		return x.ScheduledEventId
@@ -5435,8 +9929,35 @@ func (x *NexusOperationCancelRequestedEventAttributes) GetWorkflowTaskCompletedE
 	return 0
 }
 
+func (x *NexusOperationCancelRequestedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *NexusOperationCancelRequestedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+type NexusOperationCancelRequestedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to.
+	ScheduledEventId int64
+	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported
+	// with.
+	WorkflowTaskCompletedEventId int64
+}
+
+func (b0 NexusOperationCancelRequestedEventAttributes_builder) Build() *NexusOperationCancelRequestedEventAttributes {
+	m0 := &NexusOperationCancelRequestedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduledEventId = b.ScheduledEventId
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	return m0
+}
+
 type NexusOperationCancelRequestCompletedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The ID of the `NEXUS_OPERATION_CANCEL_REQUESTED` event.
 	RequestedEventId int64 `protobuf:"varint,1,opt,name=requested_event_id,json=requestedEventId,proto3" json:"requested_event_id,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported
@@ -5473,11 +9994,6 @@ func (x *NexusOperationCancelRequestCompletedEventAttributes) ProtoReflect() pro
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationCancelRequestCompletedEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationCancelRequestCompletedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{57}
-}
-
 func (x *NexusOperationCancelRequestCompletedEventAttributes) GetRequestedEventId() int64 {
 	if x != nil {
 		return x.RequestedEventId
@@ -5499,8 +10015,42 @@ func (x *NexusOperationCancelRequestCompletedEventAttributes) GetScheduledEventI
 	return 0
 }
 
+func (x *NexusOperationCancelRequestCompletedEventAttributes) SetRequestedEventId(v int64) {
+	x.RequestedEventId = v
+}
+
+func (x *NexusOperationCancelRequestCompletedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *NexusOperationCancelRequestCompletedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+type NexusOperationCancelRequestCompletedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The ID of the `NEXUS_OPERATION_CANCEL_REQUESTED` event.
+	RequestedEventId int64
+	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported
+	// with.
+	WorkflowTaskCompletedEventId int64
+	// The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to.
+	ScheduledEventId int64
+}
+
+func (b0 NexusOperationCancelRequestCompletedEventAttributes_builder) Build() *NexusOperationCancelRequestCompletedEventAttributes {
+	m0 := &NexusOperationCancelRequestCompletedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RequestedEventId = b.RequestedEventId
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.ScheduledEventId = b.ScheduledEventId
+	return m0
+}
+
 type NexusOperationCancelRequestFailedEventAttributes struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The ID of the `NEXUS_OPERATION_CANCEL_REQUESTED` event.
 	RequestedEventId int64 `protobuf:"varint,1,opt,name=requested_event_id,json=requestedEventId,proto3" json:"requested_event_id,omitempty"`
 	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported
@@ -5539,11 +10089,6 @@ func (x *NexusOperationCancelRequestFailedEventAttributes) ProtoReflect() protor
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use NexusOperationCancelRequestFailedEventAttributes.ProtoReflect.Descriptor instead.
-func (*NexusOperationCancelRequestFailedEventAttributes) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{58}
-}
-
 func (x *NexusOperationCancelRequestFailedEventAttributes) GetRequestedEventId() int64 {
 	if x != nil {
 		return x.RequestedEventId
@@ -5572,10 +10117,62 @@ func (x *NexusOperationCancelRequestFailedEventAttributes) GetScheduledEventId()
 	return 0
 }
 
+func (x *NexusOperationCancelRequestFailedEventAttributes) SetRequestedEventId(v int64) {
+	x.RequestedEventId = v
+}
+
+func (x *NexusOperationCancelRequestFailedEventAttributes) SetWorkflowTaskCompletedEventId(v int64) {
+	x.WorkflowTaskCompletedEventId = v
+}
+
+func (x *NexusOperationCancelRequestFailedEventAttributes) SetFailure(v *v13.Failure) {
+	x.Failure = v
+}
+
+func (x *NexusOperationCancelRequestFailedEventAttributes) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *NexusOperationCancelRequestFailedEventAttributes) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *NexusOperationCancelRequestFailedEventAttributes) ClearFailure() {
+	x.Failure = nil
+}
+
+type NexusOperationCancelRequestFailedEventAttributes_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The ID of the `NEXUS_OPERATION_CANCEL_REQUESTED` event.
+	RequestedEventId int64
+	// The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported
+	// with.
+	WorkflowTaskCompletedEventId int64
+	// Failure details. A NexusOperationFailureInfo wrapping a CanceledFailureInfo.
+	Failure *v13.Failure
+	// The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to.
+	ScheduledEventId int64
+}
+
+func (b0 NexusOperationCancelRequestFailedEventAttributes_builder) Build() *NexusOperationCancelRequestFailedEventAttributes {
+	m0 := &NexusOperationCancelRequestFailedEventAttributes{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RequestedEventId = b.RequestedEventId
+	x.WorkflowTaskCompletedEventId = b.WorkflowTaskCompletedEventId
+	x.Failure = b.Failure
+	x.ScheduledEventId = b.ScheduledEventId
+	return m0
+}
+
 // History events are the method by which Temporal SDKs advance (or recreate) workflow state.
 // See the `EventType` enum for more info about what each event is for.
 type HistoryEvent struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Monotonically increasing event number, starts at 1.
 	EventId   int64                  `protobuf:"varint,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
 	EventTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=event_time,json=eventTime,proto3" json:"event_time,omitempty"`
@@ -5693,11 +10290,6 @@ func (x *HistoryEvent) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use HistoryEvent.ProtoReflect.Descriptor instead.
-func (*HistoryEvent) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{59}
 }
 
 func (x *HistoryEvent) GetEventId() int64 {
@@ -6294,6 +10886,1974 @@ func (x *HistoryEvent) GetWorkflowExecutionUnpausedEventAttributes() *WorkflowEx
 	return nil
 }
 
+func (x *HistoryEvent) SetEventId(v int64) {
+	x.EventId = v
+}
+
+func (x *HistoryEvent) SetEventTime(v *timestamppb.Timestamp) {
+	x.EventTime = v
+}
+
+func (x *HistoryEvent) SetEventType(v v12.EventType) {
+	x.EventType = v
+}
+
+func (x *HistoryEvent) SetVersion(v int64) {
+	x.Version = v
+}
+
+func (x *HistoryEvent) SetTaskId(v int64) {
+	x.TaskId = v
+}
+
+func (x *HistoryEvent) SetWorkerMayIgnore(v bool) {
+	x.WorkerMayIgnore = v
+}
+
+func (x *HistoryEvent) SetUserMetadata(v *v16.UserMetadata) {
+	x.UserMetadata = v
+}
+
+func (x *HistoryEvent) SetLinks(v []*v1.Link) {
+	x.Links = v
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionStartedEventAttributes(v *WorkflowExecutionStartedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionStartedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionCompletedEventAttributes(v *WorkflowExecutionCompletedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionCompletedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionFailedEventAttributes(v *WorkflowExecutionFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionTimedOutEventAttributes(v *WorkflowExecutionTimedOutEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionTimedOutEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowTaskScheduledEventAttributes(v *WorkflowTaskScheduledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowTaskScheduledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowTaskStartedEventAttributes(v *WorkflowTaskStartedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowTaskStartedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowTaskCompletedEventAttributes(v *WorkflowTaskCompletedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowTaskCompletedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowTaskTimedOutEventAttributes(v *WorkflowTaskTimedOutEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowTaskTimedOutEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowTaskFailedEventAttributes(v *WorkflowTaskFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowTaskFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetActivityTaskScheduledEventAttributes(v *ActivityTaskScheduledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ActivityTaskScheduledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetActivityTaskStartedEventAttributes(v *ActivityTaskStartedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ActivityTaskStartedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetActivityTaskCompletedEventAttributes(v *ActivityTaskCompletedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ActivityTaskCompletedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetActivityTaskFailedEventAttributes(v *ActivityTaskFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ActivityTaskFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetActivityTaskTimedOutEventAttributes(v *ActivityTaskTimedOutEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ActivityTaskTimedOutEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetTimerStartedEventAttributes(v *TimerStartedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_TimerStartedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetTimerFiredEventAttributes(v *TimerFiredEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_TimerFiredEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetActivityTaskCancelRequestedEventAttributes(v *ActivityTaskCancelRequestedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ActivityTaskCancelRequestedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetActivityTaskCanceledEventAttributes(v *ActivityTaskCanceledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ActivityTaskCanceledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetTimerCanceledEventAttributes(v *TimerCanceledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_TimerCanceledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetMarkerRecordedEventAttributes(v *MarkerRecordedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_MarkerRecordedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionSignaledEventAttributes(v *WorkflowExecutionSignaledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionSignaledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionTerminatedEventAttributes(v *WorkflowExecutionTerminatedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionTerminatedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionCancelRequestedEventAttributes(v *WorkflowExecutionCancelRequestedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionCanceledEventAttributes(v *WorkflowExecutionCanceledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionCanceledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetRequestCancelExternalWorkflowExecutionInitiatedEventAttributes(v *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetRequestCancelExternalWorkflowExecutionFailedEventAttributes(v *RequestCancelExternalWorkflowExecutionFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetExternalWorkflowExecutionCancelRequestedEventAttributes(v *ExternalWorkflowExecutionCancelRequestedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionContinuedAsNewEventAttributes(v *WorkflowExecutionContinuedAsNewEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetStartChildWorkflowExecutionInitiatedEventAttributes(v *StartChildWorkflowExecutionInitiatedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetStartChildWorkflowExecutionFailedEventAttributes(v *StartChildWorkflowExecutionFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetChildWorkflowExecutionStartedEventAttributes(v *ChildWorkflowExecutionStartedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ChildWorkflowExecutionStartedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetChildWorkflowExecutionCompletedEventAttributes(v *ChildWorkflowExecutionCompletedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetChildWorkflowExecutionFailedEventAttributes(v *ChildWorkflowExecutionFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ChildWorkflowExecutionFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetChildWorkflowExecutionCanceledEventAttributes(v *ChildWorkflowExecutionCanceledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetChildWorkflowExecutionTimedOutEventAttributes(v *ChildWorkflowExecutionTimedOutEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetChildWorkflowExecutionTerminatedEventAttributes(v *ChildWorkflowExecutionTerminatedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetSignalExternalWorkflowExecutionInitiatedEventAttributes(v *SignalExternalWorkflowExecutionInitiatedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetSignalExternalWorkflowExecutionFailedEventAttributes(v *SignalExternalWorkflowExecutionFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetExternalWorkflowExecutionSignaledEventAttributes(v *ExternalWorkflowExecutionSignaledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetUpsertWorkflowSearchAttributesEventAttributes(v *UpsertWorkflowSearchAttributesEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionUpdateAcceptedEventAttributes(v *WorkflowExecutionUpdateAcceptedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionUpdateRejectedEventAttributes(v *WorkflowExecutionUpdateRejectedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionUpdateCompletedEventAttributes(v *WorkflowExecutionUpdateCompletedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowPropertiesModifiedExternallyEventAttributes(v *WorkflowPropertiesModifiedExternallyEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetActivityPropertiesModifiedExternallyEventAttributes(v *ActivityPropertiesModifiedExternallyEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowPropertiesModifiedEventAttributes(v *WorkflowPropertiesModifiedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowPropertiesModifiedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionUpdateAdmittedEventAttributes(v *WorkflowExecutionUpdateAdmittedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationScheduledEventAttributes(v *NexusOperationScheduledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationScheduledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationStartedEventAttributes(v *NexusOperationStartedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationStartedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationCompletedEventAttributes(v *NexusOperationCompletedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationCompletedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationFailedEventAttributes(v *NexusOperationFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationCanceledEventAttributes(v *NexusOperationCanceledEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationCanceledEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationTimedOutEventAttributes(v *NexusOperationTimedOutEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationTimedOutEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationCancelRequestedEventAttributes(v *NexusOperationCancelRequestedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationCancelRequestedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionOptionsUpdatedEventAttributes(v *WorkflowExecutionOptionsUpdatedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationCancelRequestCompletedEventAttributes(v *NexusOperationCancelRequestCompletedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationCancelRequestCompletedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetNexusOperationCancelRequestFailedEventAttributes(v *NexusOperationCancelRequestFailedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_NexusOperationCancelRequestFailedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionPausedEventAttributes(v *WorkflowExecutionPausedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionPausedEventAttributes{v}
+}
+
+func (x *HistoryEvent) SetWorkflowExecutionUnpausedEventAttributes(v *WorkflowExecutionUnpausedEventAttributes) {
+	if v == nil {
+		x.Attributes = nil
+		return
+	}
+	x.Attributes = &HistoryEvent_WorkflowExecutionUnpausedEventAttributes{v}
+}
+
+func (x *HistoryEvent) HasEventTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.EventTime != nil
+}
+
+func (x *HistoryEvent) HasUserMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UserMetadata != nil
+}
+
+func (x *HistoryEvent) HasAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.Attributes != nil
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionStartedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionStartedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionCompletedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCompletedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionTimedOutEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionTimedOutEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowTaskScheduledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowTaskScheduledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowTaskStartedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowTaskStartedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowTaskCompletedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowTaskCompletedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowTaskTimedOutEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowTaskTimedOutEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowTaskFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowTaskFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasActivityTaskScheduledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ActivityTaskScheduledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasActivityTaskStartedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ActivityTaskStartedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasActivityTaskCompletedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ActivityTaskCompletedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasActivityTaskFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ActivityTaskFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasActivityTaskTimedOutEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ActivityTaskTimedOutEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasTimerStartedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_TimerStartedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasTimerFiredEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_TimerFiredEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasActivityTaskCancelRequestedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ActivityTaskCancelRequestedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasActivityTaskCanceledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ActivityTaskCanceledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasTimerCanceledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_TimerCanceledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasMarkerRecordedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_MarkerRecordedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionSignaledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionSignaledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionTerminatedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionTerminatedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionCancelRequestedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionCanceledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCanceledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasRequestCancelExternalWorkflowExecutionInitiatedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasRequestCancelExternalWorkflowExecutionFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasExternalWorkflowExecutionCancelRequestedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionContinuedAsNewEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasStartChildWorkflowExecutionInitiatedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasStartChildWorkflowExecutionFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasChildWorkflowExecutionStartedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionStartedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasChildWorkflowExecutionCompletedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasChildWorkflowExecutionFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasChildWorkflowExecutionCanceledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasChildWorkflowExecutionTimedOutEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasChildWorkflowExecutionTerminatedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasSignalExternalWorkflowExecutionInitiatedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasSignalExternalWorkflowExecutionFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasExternalWorkflowExecutionSignaledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasUpsertWorkflowSearchAttributesEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionUpdateAcceptedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionUpdateRejectedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionUpdateCompletedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowPropertiesModifiedExternallyEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasActivityPropertiesModifiedExternallyEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowPropertiesModifiedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowPropertiesModifiedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionUpdateAdmittedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationScheduledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationScheduledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationStartedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationStartedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationCompletedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationCompletedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationCanceledEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationCanceledEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationTimedOutEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationTimedOutEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationCancelRequestedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationCancelRequestedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionOptionsUpdatedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationCancelRequestCompletedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationCancelRequestCompletedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasNexusOperationCancelRequestFailedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_NexusOperationCancelRequestFailedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionPausedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionPausedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) HasWorkflowExecutionUnpausedEventAttributes() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUnpausedEventAttributes)
+	return ok
+}
+
+func (x *HistoryEvent) ClearEventTime() {
+	x.EventTime = nil
+}
+
+func (x *HistoryEvent) ClearUserMetadata() {
+	x.UserMetadata = nil
+}
+
+func (x *HistoryEvent) ClearAttributes() {
+	x.Attributes = nil
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionStartedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionStartedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionCompletedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCompletedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionTimedOutEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionTimedOutEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowTaskScheduledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowTaskScheduledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowTaskStartedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowTaskStartedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowTaskCompletedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowTaskCompletedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowTaskTimedOutEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowTaskTimedOutEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowTaskFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowTaskFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearActivityTaskScheduledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ActivityTaskScheduledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearActivityTaskStartedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ActivityTaskStartedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearActivityTaskCompletedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ActivityTaskCompletedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearActivityTaskFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ActivityTaskFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearActivityTaskTimedOutEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ActivityTaskTimedOutEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearTimerStartedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_TimerStartedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearTimerFiredEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_TimerFiredEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearActivityTaskCancelRequestedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ActivityTaskCancelRequestedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearActivityTaskCanceledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ActivityTaskCanceledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearTimerCanceledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_TimerCanceledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearMarkerRecordedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_MarkerRecordedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionSignaledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionSignaledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionTerminatedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionTerminatedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionCancelRequestedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionCanceledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionCanceledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearRequestCancelExternalWorkflowExecutionInitiatedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearRequestCancelExternalWorkflowExecutionFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearExternalWorkflowExecutionCancelRequestedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionContinuedAsNewEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearStartChildWorkflowExecutionInitiatedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearStartChildWorkflowExecutionFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearChildWorkflowExecutionStartedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionStartedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearChildWorkflowExecutionCompletedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearChildWorkflowExecutionFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearChildWorkflowExecutionCanceledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearChildWorkflowExecutionTimedOutEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearChildWorkflowExecutionTerminatedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearSignalExternalWorkflowExecutionInitiatedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearSignalExternalWorkflowExecutionFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearExternalWorkflowExecutionSignaledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearUpsertWorkflowSearchAttributesEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionUpdateAcceptedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionUpdateRejectedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionUpdateCompletedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowPropertiesModifiedExternallyEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearActivityPropertiesModifiedExternallyEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowPropertiesModifiedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowPropertiesModifiedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionUpdateAdmittedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationScheduledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationScheduledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationStartedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationStartedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationCompletedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationCompletedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationCanceledEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationCanceledEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationTimedOutEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationTimedOutEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationCancelRequestedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationCancelRequestedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionOptionsUpdatedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationCancelRequestCompletedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationCancelRequestCompletedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearNexusOperationCancelRequestFailedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_NexusOperationCancelRequestFailedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionPausedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionPausedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+func (x *HistoryEvent) ClearWorkflowExecutionUnpausedEventAttributes() {
+	if _, ok := x.Attributes.(*HistoryEvent_WorkflowExecutionUnpausedEventAttributes); ok {
+		x.Attributes = nil
+	}
+}
+
+const HistoryEvent_Attributes_not_set_case case_HistoryEvent_Attributes = 0
+const HistoryEvent_WorkflowExecutionStartedEventAttributes_case case_HistoryEvent_Attributes = 6
+const HistoryEvent_WorkflowExecutionCompletedEventAttributes_case case_HistoryEvent_Attributes = 7
+const HistoryEvent_WorkflowExecutionFailedEventAttributes_case case_HistoryEvent_Attributes = 8
+const HistoryEvent_WorkflowExecutionTimedOutEventAttributes_case case_HistoryEvent_Attributes = 9
+const HistoryEvent_WorkflowTaskScheduledEventAttributes_case case_HistoryEvent_Attributes = 10
+const HistoryEvent_WorkflowTaskStartedEventAttributes_case case_HistoryEvent_Attributes = 11
+const HistoryEvent_WorkflowTaskCompletedEventAttributes_case case_HistoryEvent_Attributes = 12
+const HistoryEvent_WorkflowTaskTimedOutEventAttributes_case case_HistoryEvent_Attributes = 13
+const HistoryEvent_WorkflowTaskFailedEventAttributes_case case_HistoryEvent_Attributes = 14
+const HistoryEvent_ActivityTaskScheduledEventAttributes_case case_HistoryEvent_Attributes = 15
+const HistoryEvent_ActivityTaskStartedEventAttributes_case case_HistoryEvent_Attributes = 16
+const HistoryEvent_ActivityTaskCompletedEventAttributes_case case_HistoryEvent_Attributes = 17
+const HistoryEvent_ActivityTaskFailedEventAttributes_case case_HistoryEvent_Attributes = 18
+const HistoryEvent_ActivityTaskTimedOutEventAttributes_case case_HistoryEvent_Attributes = 19
+const HistoryEvent_TimerStartedEventAttributes_case case_HistoryEvent_Attributes = 20
+const HistoryEvent_TimerFiredEventAttributes_case case_HistoryEvent_Attributes = 21
+const HistoryEvent_ActivityTaskCancelRequestedEventAttributes_case case_HistoryEvent_Attributes = 22
+const HistoryEvent_ActivityTaskCanceledEventAttributes_case case_HistoryEvent_Attributes = 23
+const HistoryEvent_TimerCanceledEventAttributes_case case_HistoryEvent_Attributes = 24
+const HistoryEvent_MarkerRecordedEventAttributes_case case_HistoryEvent_Attributes = 25
+const HistoryEvent_WorkflowExecutionSignaledEventAttributes_case case_HistoryEvent_Attributes = 26
+const HistoryEvent_WorkflowExecutionTerminatedEventAttributes_case case_HistoryEvent_Attributes = 27
+const HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes_case case_HistoryEvent_Attributes = 28
+const HistoryEvent_WorkflowExecutionCanceledEventAttributes_case case_HistoryEvent_Attributes = 29
+const HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes_case case_HistoryEvent_Attributes = 30
+const HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes_case case_HistoryEvent_Attributes = 31
+const HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes_case case_HistoryEvent_Attributes = 32
+const HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes_case case_HistoryEvent_Attributes = 33
+const HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes_case case_HistoryEvent_Attributes = 34
+const HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes_case case_HistoryEvent_Attributes = 35
+const HistoryEvent_ChildWorkflowExecutionStartedEventAttributes_case case_HistoryEvent_Attributes = 36
+const HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes_case case_HistoryEvent_Attributes = 37
+const HistoryEvent_ChildWorkflowExecutionFailedEventAttributes_case case_HistoryEvent_Attributes = 38
+const HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes_case case_HistoryEvent_Attributes = 39
+const HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes_case case_HistoryEvent_Attributes = 40
+const HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes_case case_HistoryEvent_Attributes = 41
+const HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes_case case_HistoryEvent_Attributes = 42
+const HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes_case case_HistoryEvent_Attributes = 43
+const HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes_case case_HistoryEvent_Attributes = 44
+const HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes_case case_HistoryEvent_Attributes = 45
+const HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes_case case_HistoryEvent_Attributes = 46
+const HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes_case case_HistoryEvent_Attributes = 47
+const HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes_case case_HistoryEvent_Attributes = 48
+const HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes_case case_HistoryEvent_Attributes = 49
+const HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes_case case_HistoryEvent_Attributes = 50
+const HistoryEvent_WorkflowPropertiesModifiedEventAttributes_case case_HistoryEvent_Attributes = 51
+const HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes_case case_HistoryEvent_Attributes = 52
+const HistoryEvent_NexusOperationScheduledEventAttributes_case case_HistoryEvent_Attributes = 53
+const HistoryEvent_NexusOperationStartedEventAttributes_case case_HistoryEvent_Attributes = 54
+const HistoryEvent_NexusOperationCompletedEventAttributes_case case_HistoryEvent_Attributes = 55
+const HistoryEvent_NexusOperationFailedEventAttributes_case case_HistoryEvent_Attributes = 56
+const HistoryEvent_NexusOperationCanceledEventAttributes_case case_HistoryEvent_Attributes = 57
+const HistoryEvent_NexusOperationTimedOutEventAttributes_case case_HistoryEvent_Attributes = 58
+const HistoryEvent_NexusOperationCancelRequestedEventAttributes_case case_HistoryEvent_Attributes = 59
+const HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes_case case_HistoryEvent_Attributes = 60
+const HistoryEvent_NexusOperationCancelRequestCompletedEventAttributes_case case_HistoryEvent_Attributes = 61
+const HistoryEvent_NexusOperationCancelRequestFailedEventAttributes_case case_HistoryEvent_Attributes = 62
+const HistoryEvent_WorkflowExecutionPausedEventAttributes_case case_HistoryEvent_Attributes = 63
+const HistoryEvent_WorkflowExecutionUnpausedEventAttributes_case case_HistoryEvent_Attributes = 64
+
+func (x *HistoryEvent) WhichAttributes() case_HistoryEvent_Attributes {
+	if x == nil {
+		return HistoryEvent_Attributes_not_set_case
+	}
+	switch x.Attributes.(type) {
+	case *HistoryEvent_WorkflowExecutionStartedEventAttributes:
+		return HistoryEvent_WorkflowExecutionStartedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionCompletedEventAttributes:
+		return HistoryEvent_WorkflowExecutionCompletedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionFailedEventAttributes:
+		return HistoryEvent_WorkflowExecutionFailedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionTimedOutEventAttributes:
+		return HistoryEvent_WorkflowExecutionTimedOutEventAttributes_case
+	case *HistoryEvent_WorkflowTaskScheduledEventAttributes:
+		return HistoryEvent_WorkflowTaskScheduledEventAttributes_case
+	case *HistoryEvent_WorkflowTaskStartedEventAttributes:
+		return HistoryEvent_WorkflowTaskStartedEventAttributes_case
+	case *HistoryEvent_WorkflowTaskCompletedEventAttributes:
+		return HistoryEvent_WorkflowTaskCompletedEventAttributes_case
+	case *HistoryEvent_WorkflowTaskTimedOutEventAttributes:
+		return HistoryEvent_WorkflowTaskTimedOutEventAttributes_case
+	case *HistoryEvent_WorkflowTaskFailedEventAttributes:
+		return HistoryEvent_WorkflowTaskFailedEventAttributes_case
+	case *HistoryEvent_ActivityTaskScheduledEventAttributes:
+		return HistoryEvent_ActivityTaskScheduledEventAttributes_case
+	case *HistoryEvent_ActivityTaskStartedEventAttributes:
+		return HistoryEvent_ActivityTaskStartedEventAttributes_case
+	case *HistoryEvent_ActivityTaskCompletedEventAttributes:
+		return HistoryEvent_ActivityTaskCompletedEventAttributes_case
+	case *HistoryEvent_ActivityTaskFailedEventAttributes:
+		return HistoryEvent_ActivityTaskFailedEventAttributes_case
+	case *HistoryEvent_ActivityTaskTimedOutEventAttributes:
+		return HistoryEvent_ActivityTaskTimedOutEventAttributes_case
+	case *HistoryEvent_TimerStartedEventAttributes:
+		return HistoryEvent_TimerStartedEventAttributes_case
+	case *HistoryEvent_TimerFiredEventAttributes:
+		return HistoryEvent_TimerFiredEventAttributes_case
+	case *HistoryEvent_ActivityTaskCancelRequestedEventAttributes:
+		return HistoryEvent_ActivityTaskCancelRequestedEventAttributes_case
+	case *HistoryEvent_ActivityTaskCanceledEventAttributes:
+		return HistoryEvent_ActivityTaskCanceledEventAttributes_case
+	case *HistoryEvent_TimerCanceledEventAttributes:
+		return HistoryEvent_TimerCanceledEventAttributes_case
+	case *HistoryEvent_MarkerRecordedEventAttributes:
+		return HistoryEvent_MarkerRecordedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionSignaledEventAttributes:
+		return HistoryEvent_WorkflowExecutionSignaledEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionTerminatedEventAttributes:
+		return HistoryEvent_WorkflowExecutionTerminatedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes:
+		return HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionCanceledEventAttributes:
+		return HistoryEvent_WorkflowExecutionCanceledEventAttributes_case
+	case *HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes:
+		return HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes_case
+	case *HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes:
+		return HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes_case
+	case *HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes:
+		return HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes:
+		return HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes_case
+	case *HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes:
+		return HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes_case
+	case *HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes:
+		return HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes_case
+	case *HistoryEvent_ChildWorkflowExecutionStartedEventAttributes:
+		return HistoryEvent_ChildWorkflowExecutionStartedEventAttributes_case
+	case *HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes:
+		return HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes_case
+	case *HistoryEvent_ChildWorkflowExecutionFailedEventAttributes:
+		return HistoryEvent_ChildWorkflowExecutionFailedEventAttributes_case
+	case *HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes:
+		return HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes_case
+	case *HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes:
+		return HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes_case
+	case *HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes:
+		return HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes_case
+	case *HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes:
+		return HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes_case
+	case *HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes:
+		return HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes_case
+	case *HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes:
+		return HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes_case
+	case *HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes:
+		return HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes:
+		return HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes:
+		return HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes:
+		return HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes_case
+	case *HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes:
+		return HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes_case
+	case *HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes:
+		return HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes_case
+	case *HistoryEvent_WorkflowPropertiesModifiedEventAttributes:
+		return HistoryEvent_WorkflowPropertiesModifiedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes:
+		return HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes_case
+	case *HistoryEvent_NexusOperationScheduledEventAttributes:
+		return HistoryEvent_NexusOperationScheduledEventAttributes_case
+	case *HistoryEvent_NexusOperationStartedEventAttributes:
+		return HistoryEvent_NexusOperationStartedEventAttributes_case
+	case *HistoryEvent_NexusOperationCompletedEventAttributes:
+		return HistoryEvent_NexusOperationCompletedEventAttributes_case
+	case *HistoryEvent_NexusOperationFailedEventAttributes:
+		return HistoryEvent_NexusOperationFailedEventAttributes_case
+	case *HistoryEvent_NexusOperationCanceledEventAttributes:
+		return HistoryEvent_NexusOperationCanceledEventAttributes_case
+	case *HistoryEvent_NexusOperationTimedOutEventAttributes:
+		return HistoryEvent_NexusOperationTimedOutEventAttributes_case
+	case *HistoryEvent_NexusOperationCancelRequestedEventAttributes:
+		return HistoryEvent_NexusOperationCancelRequestedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes:
+		return HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes_case
+	case *HistoryEvent_NexusOperationCancelRequestCompletedEventAttributes:
+		return HistoryEvent_NexusOperationCancelRequestCompletedEventAttributes_case
+	case *HistoryEvent_NexusOperationCancelRequestFailedEventAttributes:
+		return HistoryEvent_NexusOperationCancelRequestFailedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionPausedEventAttributes:
+		return HistoryEvent_WorkflowExecutionPausedEventAttributes_case
+	case *HistoryEvent_WorkflowExecutionUnpausedEventAttributes:
+		return HistoryEvent_WorkflowExecutionUnpausedEventAttributes_case
+	default:
+		return HistoryEvent_Attributes_not_set_case
+	}
+}
+
+type HistoryEvent_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Monotonically increasing event number, starts at 1.
+	EventId   int64
+	EventTime *timestamppb.Timestamp
+	EventType v12.EventType
+	// Failover version of the event, used by the server for multi-cluster replication and history
+	// versioning. SDKs generally ignore this field.
+	Version int64
+	// Identifier used by the service to order replication and transfer tasks associated with this
+	// event. SDKs generally ignore this field.
+	TaskId int64
+	// Set to true when the SDK may ignore the event as it does not impact workflow state or
+	// information in any way that the SDK need be concerned with. If an SDK encounters an event
+	// type which it does not understand, it must error unless this is true. If it is true, it's
+	// acceptable for the event type and/or attributes to be uninterpretable.
+	WorkerMayIgnore bool
+	// Metadata on the event. This is often carried over from commands and client calls. Most events
+	// won't have this information, and how this information is used is dependent upon the interface
+	// that reads it.
+	//
+	// Current well-known uses:
+	//   - workflow_execution_started_event_attributes - summary and details from start workflow.
+	//   - timer_started_event_attributes - summary represents an identifier for the timer for use by
+	//     user interfaces.
+	UserMetadata *v16.UserMetadata
+	// Links associated with the event.
+	Links []*v1.Link
+	// The event details. The type must match that in `event_type`.
+
+	// Fields of oneof Attributes:
+	WorkflowExecutionStartedEventAttributes                        *WorkflowExecutionStartedEventAttributes
+	WorkflowExecutionCompletedEventAttributes                      *WorkflowExecutionCompletedEventAttributes
+	WorkflowExecutionFailedEventAttributes                         *WorkflowExecutionFailedEventAttributes
+	WorkflowExecutionTimedOutEventAttributes                       *WorkflowExecutionTimedOutEventAttributes
+	WorkflowTaskScheduledEventAttributes                           *WorkflowTaskScheduledEventAttributes
+	WorkflowTaskStartedEventAttributes                             *WorkflowTaskStartedEventAttributes
+	WorkflowTaskCompletedEventAttributes                           *WorkflowTaskCompletedEventAttributes
+	WorkflowTaskTimedOutEventAttributes                            *WorkflowTaskTimedOutEventAttributes
+	WorkflowTaskFailedEventAttributes                              *WorkflowTaskFailedEventAttributes
+	ActivityTaskScheduledEventAttributes                           *ActivityTaskScheduledEventAttributes
+	ActivityTaskStartedEventAttributes                             *ActivityTaskStartedEventAttributes
+	ActivityTaskCompletedEventAttributes                           *ActivityTaskCompletedEventAttributes
+	ActivityTaskFailedEventAttributes                              *ActivityTaskFailedEventAttributes
+	ActivityTaskTimedOutEventAttributes                            *ActivityTaskTimedOutEventAttributes
+	TimerStartedEventAttributes                                    *TimerStartedEventAttributes
+	TimerFiredEventAttributes                                      *TimerFiredEventAttributes
+	ActivityTaskCancelRequestedEventAttributes                     *ActivityTaskCancelRequestedEventAttributes
+	ActivityTaskCanceledEventAttributes                            *ActivityTaskCanceledEventAttributes
+	TimerCanceledEventAttributes                                   *TimerCanceledEventAttributes
+	MarkerRecordedEventAttributes                                  *MarkerRecordedEventAttributes
+	WorkflowExecutionSignaledEventAttributes                       *WorkflowExecutionSignaledEventAttributes
+	WorkflowExecutionTerminatedEventAttributes                     *WorkflowExecutionTerminatedEventAttributes
+	WorkflowExecutionCancelRequestedEventAttributes                *WorkflowExecutionCancelRequestedEventAttributes
+	WorkflowExecutionCanceledEventAttributes                       *WorkflowExecutionCanceledEventAttributes
+	RequestCancelExternalWorkflowExecutionInitiatedEventAttributes *RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
+	RequestCancelExternalWorkflowExecutionFailedEventAttributes    *RequestCancelExternalWorkflowExecutionFailedEventAttributes
+	ExternalWorkflowExecutionCancelRequestedEventAttributes        *ExternalWorkflowExecutionCancelRequestedEventAttributes
+	WorkflowExecutionContinuedAsNewEventAttributes                 *WorkflowExecutionContinuedAsNewEventAttributes
+	StartChildWorkflowExecutionInitiatedEventAttributes            *StartChildWorkflowExecutionInitiatedEventAttributes
+	StartChildWorkflowExecutionFailedEventAttributes               *StartChildWorkflowExecutionFailedEventAttributes
+	ChildWorkflowExecutionStartedEventAttributes                   *ChildWorkflowExecutionStartedEventAttributes
+	ChildWorkflowExecutionCompletedEventAttributes                 *ChildWorkflowExecutionCompletedEventAttributes
+	ChildWorkflowExecutionFailedEventAttributes                    *ChildWorkflowExecutionFailedEventAttributes
+	ChildWorkflowExecutionCanceledEventAttributes                  *ChildWorkflowExecutionCanceledEventAttributes
+	ChildWorkflowExecutionTimedOutEventAttributes                  *ChildWorkflowExecutionTimedOutEventAttributes
+	ChildWorkflowExecutionTerminatedEventAttributes                *ChildWorkflowExecutionTerminatedEventAttributes
+	SignalExternalWorkflowExecutionInitiatedEventAttributes        *SignalExternalWorkflowExecutionInitiatedEventAttributes
+	SignalExternalWorkflowExecutionFailedEventAttributes           *SignalExternalWorkflowExecutionFailedEventAttributes
+	ExternalWorkflowExecutionSignaledEventAttributes               *ExternalWorkflowExecutionSignaledEventAttributes
+	UpsertWorkflowSearchAttributesEventAttributes                  *UpsertWorkflowSearchAttributesEventAttributes
+	WorkflowExecutionUpdateAcceptedEventAttributes                 *WorkflowExecutionUpdateAcceptedEventAttributes
+	WorkflowExecutionUpdateRejectedEventAttributes                 *WorkflowExecutionUpdateRejectedEventAttributes
+	WorkflowExecutionUpdateCompletedEventAttributes                *WorkflowExecutionUpdateCompletedEventAttributes
+	WorkflowPropertiesModifiedExternallyEventAttributes            *WorkflowPropertiesModifiedExternallyEventAttributes
+	ActivityPropertiesModifiedExternallyEventAttributes            *ActivityPropertiesModifiedExternallyEventAttributes
+	WorkflowPropertiesModifiedEventAttributes                      *WorkflowPropertiesModifiedEventAttributes
+	WorkflowExecutionUpdateAdmittedEventAttributes                 *WorkflowExecutionUpdateAdmittedEventAttributes
+	NexusOperationScheduledEventAttributes                         *NexusOperationScheduledEventAttributes
+	NexusOperationStartedEventAttributes                           *NexusOperationStartedEventAttributes
+	NexusOperationCompletedEventAttributes                         *NexusOperationCompletedEventAttributes
+	NexusOperationFailedEventAttributes                            *NexusOperationFailedEventAttributes
+	NexusOperationCanceledEventAttributes                          *NexusOperationCanceledEventAttributes
+	NexusOperationTimedOutEventAttributes                          *NexusOperationTimedOutEventAttributes
+	NexusOperationCancelRequestedEventAttributes                   *NexusOperationCancelRequestedEventAttributes
+	WorkflowExecutionOptionsUpdatedEventAttributes                 *WorkflowExecutionOptionsUpdatedEventAttributes
+	NexusOperationCancelRequestCompletedEventAttributes            *NexusOperationCancelRequestCompletedEventAttributes
+	NexusOperationCancelRequestFailedEventAttributes               *NexusOperationCancelRequestFailedEventAttributes
+	WorkflowExecutionPausedEventAttributes                         *WorkflowExecutionPausedEventAttributes
+	WorkflowExecutionUnpausedEventAttributes                       *WorkflowExecutionUnpausedEventAttributes
+	// -- end of Attributes
+}
+
+func (b0 HistoryEvent_builder) Build() *HistoryEvent {
+	m0 := &HistoryEvent{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EventId = b.EventId
+	x.EventTime = b.EventTime
+	x.EventType = b.EventType
+	x.Version = b.Version
+	x.TaskId = b.TaskId
+	x.WorkerMayIgnore = b.WorkerMayIgnore
+	x.UserMetadata = b.UserMetadata
+	x.Links = b.Links
+	if b.WorkflowExecutionStartedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionStartedEventAttributes{b.WorkflowExecutionStartedEventAttributes}
+	}
+	if b.WorkflowExecutionCompletedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionCompletedEventAttributes{b.WorkflowExecutionCompletedEventAttributes}
+	}
+	if b.WorkflowExecutionFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionFailedEventAttributes{b.WorkflowExecutionFailedEventAttributes}
+	}
+	if b.WorkflowExecutionTimedOutEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionTimedOutEventAttributes{b.WorkflowExecutionTimedOutEventAttributes}
+	}
+	if b.WorkflowTaskScheduledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowTaskScheduledEventAttributes{b.WorkflowTaskScheduledEventAttributes}
+	}
+	if b.WorkflowTaskStartedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowTaskStartedEventAttributes{b.WorkflowTaskStartedEventAttributes}
+	}
+	if b.WorkflowTaskCompletedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowTaskCompletedEventAttributes{b.WorkflowTaskCompletedEventAttributes}
+	}
+	if b.WorkflowTaskTimedOutEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowTaskTimedOutEventAttributes{b.WorkflowTaskTimedOutEventAttributes}
+	}
+	if b.WorkflowTaskFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowTaskFailedEventAttributes{b.WorkflowTaskFailedEventAttributes}
+	}
+	if b.ActivityTaskScheduledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ActivityTaskScheduledEventAttributes{b.ActivityTaskScheduledEventAttributes}
+	}
+	if b.ActivityTaskStartedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ActivityTaskStartedEventAttributes{b.ActivityTaskStartedEventAttributes}
+	}
+	if b.ActivityTaskCompletedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ActivityTaskCompletedEventAttributes{b.ActivityTaskCompletedEventAttributes}
+	}
+	if b.ActivityTaskFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ActivityTaskFailedEventAttributes{b.ActivityTaskFailedEventAttributes}
+	}
+	if b.ActivityTaskTimedOutEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ActivityTaskTimedOutEventAttributes{b.ActivityTaskTimedOutEventAttributes}
+	}
+	if b.TimerStartedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_TimerStartedEventAttributes{b.TimerStartedEventAttributes}
+	}
+	if b.TimerFiredEventAttributes != nil {
+		x.Attributes = &HistoryEvent_TimerFiredEventAttributes{b.TimerFiredEventAttributes}
+	}
+	if b.ActivityTaskCancelRequestedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ActivityTaskCancelRequestedEventAttributes{b.ActivityTaskCancelRequestedEventAttributes}
+	}
+	if b.ActivityTaskCanceledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ActivityTaskCanceledEventAttributes{b.ActivityTaskCanceledEventAttributes}
+	}
+	if b.TimerCanceledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_TimerCanceledEventAttributes{b.TimerCanceledEventAttributes}
+	}
+	if b.MarkerRecordedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_MarkerRecordedEventAttributes{b.MarkerRecordedEventAttributes}
+	}
+	if b.WorkflowExecutionSignaledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionSignaledEventAttributes{b.WorkflowExecutionSignaledEventAttributes}
+	}
+	if b.WorkflowExecutionTerminatedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionTerminatedEventAttributes{b.WorkflowExecutionTerminatedEventAttributes}
+	}
+	if b.WorkflowExecutionCancelRequestedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes{b.WorkflowExecutionCancelRequestedEventAttributes}
+	}
+	if b.WorkflowExecutionCanceledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionCanceledEventAttributes{b.WorkflowExecutionCanceledEventAttributes}
+	}
+	if b.RequestCancelExternalWorkflowExecutionInitiatedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes{b.RequestCancelExternalWorkflowExecutionInitiatedEventAttributes}
+	}
+	if b.RequestCancelExternalWorkflowExecutionFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes{b.RequestCancelExternalWorkflowExecutionFailedEventAttributes}
+	}
+	if b.ExternalWorkflowExecutionCancelRequestedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes{b.ExternalWorkflowExecutionCancelRequestedEventAttributes}
+	}
+	if b.WorkflowExecutionContinuedAsNewEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes{b.WorkflowExecutionContinuedAsNewEventAttributes}
+	}
+	if b.StartChildWorkflowExecutionInitiatedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes{b.StartChildWorkflowExecutionInitiatedEventAttributes}
+	}
+	if b.StartChildWorkflowExecutionFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes{b.StartChildWorkflowExecutionFailedEventAttributes}
+	}
+	if b.ChildWorkflowExecutionStartedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ChildWorkflowExecutionStartedEventAttributes{b.ChildWorkflowExecutionStartedEventAttributes}
+	}
+	if b.ChildWorkflowExecutionCompletedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes{b.ChildWorkflowExecutionCompletedEventAttributes}
+	}
+	if b.ChildWorkflowExecutionFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ChildWorkflowExecutionFailedEventAttributes{b.ChildWorkflowExecutionFailedEventAttributes}
+	}
+	if b.ChildWorkflowExecutionCanceledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes{b.ChildWorkflowExecutionCanceledEventAttributes}
+	}
+	if b.ChildWorkflowExecutionTimedOutEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes{b.ChildWorkflowExecutionTimedOutEventAttributes}
+	}
+	if b.ChildWorkflowExecutionTerminatedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes{b.ChildWorkflowExecutionTerminatedEventAttributes}
+	}
+	if b.SignalExternalWorkflowExecutionInitiatedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes{b.SignalExternalWorkflowExecutionInitiatedEventAttributes}
+	}
+	if b.SignalExternalWorkflowExecutionFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes{b.SignalExternalWorkflowExecutionFailedEventAttributes}
+	}
+	if b.ExternalWorkflowExecutionSignaledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes{b.ExternalWorkflowExecutionSignaledEventAttributes}
+	}
+	if b.UpsertWorkflowSearchAttributesEventAttributes != nil {
+		x.Attributes = &HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes{b.UpsertWorkflowSearchAttributesEventAttributes}
+	}
+	if b.WorkflowExecutionUpdateAcceptedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes{b.WorkflowExecutionUpdateAcceptedEventAttributes}
+	}
+	if b.WorkflowExecutionUpdateRejectedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes{b.WorkflowExecutionUpdateRejectedEventAttributes}
+	}
+	if b.WorkflowExecutionUpdateCompletedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes{b.WorkflowExecutionUpdateCompletedEventAttributes}
+	}
+	if b.WorkflowPropertiesModifiedExternallyEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes{b.WorkflowPropertiesModifiedExternallyEventAttributes}
+	}
+	if b.ActivityPropertiesModifiedExternallyEventAttributes != nil {
+		x.Attributes = &HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes{b.ActivityPropertiesModifiedExternallyEventAttributes}
+	}
+	if b.WorkflowPropertiesModifiedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowPropertiesModifiedEventAttributes{b.WorkflowPropertiesModifiedEventAttributes}
+	}
+	if b.WorkflowExecutionUpdateAdmittedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes{b.WorkflowExecutionUpdateAdmittedEventAttributes}
+	}
+	if b.NexusOperationScheduledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationScheduledEventAttributes{b.NexusOperationScheduledEventAttributes}
+	}
+	if b.NexusOperationStartedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationStartedEventAttributes{b.NexusOperationStartedEventAttributes}
+	}
+	if b.NexusOperationCompletedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationCompletedEventAttributes{b.NexusOperationCompletedEventAttributes}
+	}
+	if b.NexusOperationFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationFailedEventAttributes{b.NexusOperationFailedEventAttributes}
+	}
+	if b.NexusOperationCanceledEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationCanceledEventAttributes{b.NexusOperationCanceledEventAttributes}
+	}
+	if b.NexusOperationTimedOutEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationTimedOutEventAttributes{b.NexusOperationTimedOutEventAttributes}
+	}
+	if b.NexusOperationCancelRequestedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationCancelRequestedEventAttributes{b.NexusOperationCancelRequestedEventAttributes}
+	}
+	if b.WorkflowExecutionOptionsUpdatedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes{b.WorkflowExecutionOptionsUpdatedEventAttributes}
+	}
+	if b.NexusOperationCancelRequestCompletedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationCancelRequestCompletedEventAttributes{b.NexusOperationCancelRequestCompletedEventAttributes}
+	}
+	if b.NexusOperationCancelRequestFailedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_NexusOperationCancelRequestFailedEventAttributes{b.NexusOperationCancelRequestFailedEventAttributes}
+	}
+	if b.WorkflowExecutionPausedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionPausedEventAttributes{b.WorkflowExecutionPausedEventAttributes}
+	}
+	if b.WorkflowExecutionUnpausedEventAttributes != nil {
+		x.Attributes = &HistoryEvent_WorkflowExecutionUnpausedEventAttributes{b.WorkflowExecutionUnpausedEventAttributes}
+	}
+	return m0
+}
+
+type case_HistoryEvent_Attributes protoreflect.FieldNumber
+
+func (x case_HistoryEvent_Attributes) String() string {
+	switch x {
+	case HistoryEvent_Attributes_not_set_case:
+		return "HistoryEventAttributesNotSetCase"
+	case HistoryEvent_WorkflowExecutionStartedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionStartedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionCompletedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionCompletedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionFailedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionFailedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionTimedOutEventAttributes_case:
+		return "HistoryEventWorkflowExecutionTimedOutEventAttributesCase"
+	case HistoryEvent_WorkflowTaskScheduledEventAttributes_case:
+		return "HistoryEventWorkflowTaskScheduledEventAttributesCase"
+	case HistoryEvent_WorkflowTaskStartedEventAttributes_case:
+		return "HistoryEventWorkflowTaskStartedEventAttributesCase"
+	case HistoryEvent_WorkflowTaskCompletedEventAttributes_case:
+		return "HistoryEventWorkflowTaskCompletedEventAttributesCase"
+	case HistoryEvent_WorkflowTaskTimedOutEventAttributes_case:
+		return "HistoryEventWorkflowTaskTimedOutEventAttributesCase"
+	case HistoryEvent_WorkflowTaskFailedEventAttributes_case:
+		return "HistoryEventWorkflowTaskFailedEventAttributesCase"
+	case HistoryEvent_ActivityTaskScheduledEventAttributes_case:
+		return "HistoryEventActivityTaskScheduledEventAttributesCase"
+	case HistoryEvent_ActivityTaskStartedEventAttributes_case:
+		return "HistoryEventActivityTaskStartedEventAttributesCase"
+	case HistoryEvent_ActivityTaskCompletedEventAttributes_case:
+		return "HistoryEventActivityTaskCompletedEventAttributesCase"
+	case HistoryEvent_ActivityTaskFailedEventAttributes_case:
+		return "HistoryEventActivityTaskFailedEventAttributesCase"
+	case HistoryEvent_ActivityTaskTimedOutEventAttributes_case:
+		return "HistoryEventActivityTaskTimedOutEventAttributesCase"
+	case HistoryEvent_TimerStartedEventAttributes_case:
+		return "HistoryEventTimerStartedEventAttributesCase"
+	case HistoryEvent_TimerFiredEventAttributes_case:
+		return "HistoryEventTimerFiredEventAttributesCase"
+	case HistoryEvent_ActivityTaskCancelRequestedEventAttributes_case:
+		return "HistoryEventActivityTaskCancelRequestedEventAttributesCase"
+	case HistoryEvent_ActivityTaskCanceledEventAttributes_case:
+		return "HistoryEventActivityTaskCanceledEventAttributesCase"
+	case HistoryEvent_TimerCanceledEventAttributes_case:
+		return "HistoryEventTimerCanceledEventAttributesCase"
+	case HistoryEvent_MarkerRecordedEventAttributes_case:
+		return "HistoryEventMarkerRecordedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionSignaledEventAttributes_case:
+		return "HistoryEventWorkflowExecutionSignaledEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionTerminatedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionTerminatedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionCancelRequestedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionCancelRequestedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionCanceledEventAttributes_case:
+		return "HistoryEventWorkflowExecutionCanceledEventAttributesCase"
+	case HistoryEvent_RequestCancelExternalWorkflowExecutionInitiatedEventAttributes_case:
+		return "HistoryEventRequestCancelExternalWorkflowExecutionInitiatedEventAttributesCase"
+	case HistoryEvent_RequestCancelExternalWorkflowExecutionFailedEventAttributes_case:
+		return "HistoryEventRequestCancelExternalWorkflowExecutionFailedEventAttributesCase"
+	case HistoryEvent_ExternalWorkflowExecutionCancelRequestedEventAttributes_case:
+		return "HistoryEventExternalWorkflowExecutionCancelRequestedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionContinuedAsNewEventAttributes_case:
+		return "HistoryEventWorkflowExecutionContinuedAsNewEventAttributesCase"
+	case HistoryEvent_StartChildWorkflowExecutionInitiatedEventAttributes_case:
+		return "HistoryEventStartChildWorkflowExecutionInitiatedEventAttributesCase"
+	case HistoryEvent_StartChildWorkflowExecutionFailedEventAttributes_case:
+		return "HistoryEventStartChildWorkflowExecutionFailedEventAttributesCase"
+	case HistoryEvent_ChildWorkflowExecutionStartedEventAttributes_case:
+		return "HistoryEventChildWorkflowExecutionStartedEventAttributesCase"
+	case HistoryEvent_ChildWorkflowExecutionCompletedEventAttributes_case:
+		return "HistoryEventChildWorkflowExecutionCompletedEventAttributesCase"
+	case HistoryEvent_ChildWorkflowExecutionFailedEventAttributes_case:
+		return "HistoryEventChildWorkflowExecutionFailedEventAttributesCase"
+	case HistoryEvent_ChildWorkflowExecutionCanceledEventAttributes_case:
+		return "HistoryEventChildWorkflowExecutionCanceledEventAttributesCase"
+	case HistoryEvent_ChildWorkflowExecutionTimedOutEventAttributes_case:
+		return "HistoryEventChildWorkflowExecutionTimedOutEventAttributesCase"
+	case HistoryEvent_ChildWorkflowExecutionTerminatedEventAttributes_case:
+		return "HistoryEventChildWorkflowExecutionTerminatedEventAttributesCase"
+	case HistoryEvent_SignalExternalWorkflowExecutionInitiatedEventAttributes_case:
+		return "HistoryEventSignalExternalWorkflowExecutionInitiatedEventAttributesCase"
+	case HistoryEvent_SignalExternalWorkflowExecutionFailedEventAttributes_case:
+		return "HistoryEventSignalExternalWorkflowExecutionFailedEventAttributesCase"
+	case HistoryEvent_ExternalWorkflowExecutionSignaledEventAttributes_case:
+		return "HistoryEventExternalWorkflowExecutionSignaledEventAttributesCase"
+	case HistoryEvent_UpsertWorkflowSearchAttributesEventAttributes_case:
+		return "HistoryEventUpsertWorkflowSearchAttributesEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionUpdateAcceptedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionUpdateAcceptedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionUpdateRejectedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionUpdateRejectedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionUpdateCompletedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionUpdateCompletedEventAttributesCase"
+	case HistoryEvent_WorkflowPropertiesModifiedExternallyEventAttributes_case:
+		return "HistoryEventWorkflowPropertiesModifiedExternallyEventAttributesCase"
+	case HistoryEvent_ActivityPropertiesModifiedExternallyEventAttributes_case:
+		return "HistoryEventActivityPropertiesModifiedExternallyEventAttributesCase"
+	case HistoryEvent_WorkflowPropertiesModifiedEventAttributes_case:
+		return "HistoryEventWorkflowPropertiesModifiedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionUpdateAdmittedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionUpdateAdmittedEventAttributesCase"
+	case HistoryEvent_NexusOperationScheduledEventAttributes_case:
+		return "HistoryEventNexusOperationScheduledEventAttributesCase"
+	case HistoryEvent_NexusOperationStartedEventAttributes_case:
+		return "HistoryEventNexusOperationStartedEventAttributesCase"
+	case HistoryEvent_NexusOperationCompletedEventAttributes_case:
+		return "HistoryEventNexusOperationCompletedEventAttributesCase"
+	case HistoryEvent_NexusOperationFailedEventAttributes_case:
+		return "HistoryEventNexusOperationFailedEventAttributesCase"
+	case HistoryEvent_NexusOperationCanceledEventAttributes_case:
+		return "HistoryEventNexusOperationCanceledEventAttributesCase"
+	case HistoryEvent_NexusOperationTimedOutEventAttributes_case:
+		return "HistoryEventNexusOperationTimedOutEventAttributesCase"
+	case HistoryEvent_NexusOperationCancelRequestedEventAttributes_case:
+		return "HistoryEventNexusOperationCancelRequestedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionOptionsUpdatedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionOptionsUpdatedEventAttributesCase"
+	case HistoryEvent_NexusOperationCancelRequestCompletedEventAttributes_case:
+		return "HistoryEventNexusOperationCancelRequestCompletedEventAttributesCase"
+	case HistoryEvent_NexusOperationCancelRequestFailedEventAttributes_case:
+		return "HistoryEventNexusOperationCancelRequestFailedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionPausedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionPausedEventAttributesCase"
+	case HistoryEvent_WorkflowExecutionUnpausedEventAttributes_case:
+		return "HistoryEventWorkflowExecutionUnpausedEventAttributesCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isHistoryEvent_Attributes interface {
 	isHistoryEvent_Attributes()
 }
@@ -6662,7 +13222,7 @@ func (*HistoryEvent_WorkflowExecutionPausedEventAttributes) isHistoryEvent_Attri
 func (*HistoryEvent_WorkflowExecutionUnpausedEventAttributes) isHistoryEvent_Attributes() {}
 
 type History struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Events        []*HistoryEvent        `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -6693,16 +13253,29 @@ func (x *History) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use History.ProtoReflect.Descriptor instead.
-func (*History) Descriptor() ([]byte, []int) {
-	return file_temporal_api_history_v1_message_proto_rawDescGZIP(), []int{60}
-}
-
 func (x *History) GetEvents() []*HistoryEvent {
 	if x != nil {
 		return x.Events
 	}
 	return nil
+}
+
+func (x *History) SetEvents(v []*HistoryEvent) {
+	x.Events = v
+}
+
+type History_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Events []*HistoryEvent
+}
+
+func (b0 History_builder) Build() *History {
+	m0 := &History{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Events = b.Events
+	return m0
 }
 
 var File_temporal_api_history_v1_message_proto protoreflect.FileDescriptor
@@ -7243,18 +13816,6 @@ const file_temporal_api_history_v1_message_proto_rawDesc = "" +
 	"\aHistory\x12=\n" +
 	"\x06events\x18\x01 \x03(\v2%.temporal.api.history.v1.HistoryEventR\x06eventsB\x8e\x01\n" +
 	"\x1aio.temporal.api.history.v1B\fMessageProtoP\x01Z%go.temporal.io/api/history/v1;history\xaa\x02\x19Temporalio.Api.History.V1\xea\x02\x1cTemporalio::Api::History::V1b\x06proto3"
-
-var (
-	file_temporal_api_history_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_history_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_history_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_history_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_history_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_history_v1_message_proto_rawDesc), len(file_temporal_api_history_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_history_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_history_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 63)
 var file_temporal_api_history_v1_message_proto_goTypes = []any{

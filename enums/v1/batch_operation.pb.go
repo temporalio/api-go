@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/batch_operation.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -91,8 +92,6 @@ func (x BatchOperationType) String() string {
 	case BATCH_OPERATION_TYPE_UNPAUSE_ACTIVITY:
 		return "UnpauseActivity"
 	case BATCH_OPERATION_TYPE_UPDATE_ACTIVITY_OPTIONS:
-
-		// Deprecated: Use BatchOperationType.Descriptor instead.
 		return "UpdateActivityOptions"
 	case BATCH_OPERATION_TYPE_RESET_ACTIVITY:
 		return "ResetActivity"
@@ -112,10 +111,6 @@ func (BatchOperationType) Type() protoreflect.EnumType {
 
 func (x BatchOperationType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-func (BatchOperationType) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_batch_operation_proto_rawDescGZIP(), []int{0}
 }
 
 type BatchOperationState int32
@@ -177,11 +172,6 @@ func (x BatchOperationState) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use BatchOperationState.Descriptor instead.
-func (BatchOperationState) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_batch_operation_proto_rawDescGZIP(), []int{1}
-}
-
 var File_temporal_api_enums_v1_batch_operation_proto protoreflect.FileDescriptor
 
 const file_temporal_api_enums_v1_batch_operation_proto_rawDesc = "" +
@@ -204,18 +194,6 @@ const file_temporal_api_enums_v1_batch_operation_proto_rawDesc = "" +
 	"\x1fBATCH_OPERATION_STATE_COMPLETED\x10\x02\x12 \n" +
 	"\x1cBATCH_OPERATION_STATE_FAILED\x10\x03B\x8b\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x13BatchOperationProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_batch_operation_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_batch_operation_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_batch_operation_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_batch_operation_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_batch_operation_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_batch_operation_proto_rawDesc), len(file_temporal_api_enums_v1_batch_operation_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_batch_operation_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_batch_operation_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_temporal_api_enums_v1_batch_operation_proto_goTypes = []any{

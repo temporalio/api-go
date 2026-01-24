@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/export/v1/message.proto
 
+//go:build !protoopaque
+
 package export
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/history/v1"
@@ -24,7 +25,7 @@ const (
 )
 
 type WorkflowExecution struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	History       *v1.History            `protobuf:"bytes,1,opt,name=history,proto3" json:"history,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -55,11 +56,6 @@ func (x *WorkflowExecution) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecution.ProtoReflect.Descriptor instead.
-func (*WorkflowExecution) Descriptor() ([]byte, []int) {
-	return file_temporal_api_export_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkflowExecution) GetHistory() *v1.History {
 	if x != nil {
 		return x.History
@@ -67,10 +63,39 @@ func (x *WorkflowExecution) GetHistory() *v1.History {
 	return nil
 }
 
+func (x *WorkflowExecution) SetHistory(v *v1.History) {
+	x.History = v
+}
+
+func (x *WorkflowExecution) HasHistory() bool {
+	if x == nil {
+		return false
+	}
+	return x.History != nil
+}
+
+func (x *WorkflowExecution) ClearHistory() {
+	x.History = nil
+}
+
+type WorkflowExecution_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	History *v1.History
+}
+
+func (b0 WorkflowExecution_builder) Build() *WorkflowExecution {
+	m0 := &WorkflowExecution{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.History = b.History
+	return m0
+}
+
 // WorkflowExecutions is used by the Cloud Export feature to deserialize
 // the exported file. It encapsulates a collection of workflow execution information.
 type WorkflowExecutions struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Items         []*WorkflowExecution   `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -101,16 +126,29 @@ func (x *WorkflowExecutions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutions.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_export_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *WorkflowExecutions) GetItems() []*WorkflowExecution {
 	if x != nil {
 		return x.Items
 	}
 	return nil
+}
+
+func (x *WorkflowExecutions) SetItems(v []*WorkflowExecution) {
+	x.Items = v
+}
+
+type WorkflowExecutions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Items []*WorkflowExecution
+}
+
+func (b0 WorkflowExecutions_builder) Build() *WorkflowExecutions {
+	m0 := &WorkflowExecutions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Items = b.Items
+	return m0
 }
 
 var File_temporal_api_export_v1_message_proto protoreflect.FileDescriptor
@@ -123,18 +161,6 @@ const file_temporal_api_export_v1_message_proto_rawDesc = "" +
 	"\x12WorkflowExecutions\x12?\n" +
 	"\x05items\x18\x01 \x03(\v2).temporal.api.export.v1.WorkflowExecutionR\x05itemsB\x89\x01\n" +
 	"\x19io.temporal.api.export.v1B\fMessageProtoP\x01Z#go.temporal.io/api/export/v1;export\xaa\x02\x18Temporalio.Api.Export.V1\xea\x02\x1bTemporalio::Api::Export::V1b\x06proto3"
-
-var (
-	file_temporal_api_export_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_export_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_export_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_export_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_export_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_export_v1_message_proto_rawDesc), len(file_temporal_api_export_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_export_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_export_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_temporal_api_export_v1_message_proto_goTypes = []any{

@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/workflow/v1/message.proto
 
+//go:build !protoopaque
+
 package workflow
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	v16 "go.temporal.io/api/activity/v1"
@@ -85,15 +86,10 @@ func (x VersioningOverride_PinnedOverrideBehavior) Number() protoreflect.EnumNum
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use VersioningOverride_PinnedOverrideBehavior.Descriptor instead.
-func (VersioningOverride_PinnedOverrideBehavior) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16, 0}
-}
-
 // Hold basic information about a workflow execution.
 // This structure is a part of visibility, and thus contain a limited subset of information.
 type WorkflowExecutionInfo struct {
-	state                protoimpl.MessageState      `protogen:"open.v1"`
+	state                protoimpl.MessageState      `protogen:"hybrid.v1"`
 	Execution            *v1.WorkflowExecution       `protobuf:"bytes,1,opt,name=execution,proto3" json:"execution,omitempty"`
 	Type                 *v1.WorkflowType            `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 	StartTime            *timestamppb.Timestamp      `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
@@ -199,11 +195,6 @@ func (x *WorkflowExecutionInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkflowExecutionInfo.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *WorkflowExecutionInfo) GetExecution() *v1.WorkflowExecution {
@@ -391,9 +382,388 @@ func (x *WorkflowExecutionInfo) GetExternalPayloadCount() int64 {
 	return 0
 }
 
+func (x *WorkflowExecutionInfo) SetExecution(v *v1.WorkflowExecution) {
+	x.Execution = v
+}
+
+func (x *WorkflowExecutionInfo) SetType(v *v1.WorkflowType) {
+	x.Type = v
+}
+
+func (x *WorkflowExecutionInfo) SetStartTime(v *timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+func (x *WorkflowExecutionInfo) SetCloseTime(v *timestamppb.Timestamp) {
+	x.CloseTime = v
+}
+
+func (x *WorkflowExecutionInfo) SetStatus(v v11.WorkflowExecutionStatus) {
+	x.Status = v
+}
+
+func (x *WorkflowExecutionInfo) SetHistoryLength(v int64) {
+	x.HistoryLength = v
+}
+
+func (x *WorkflowExecutionInfo) SetParentNamespaceId(v string) {
+	x.ParentNamespaceId = v
+}
+
+func (x *WorkflowExecutionInfo) SetParentExecution(v *v1.WorkflowExecution) {
+	x.ParentExecution = v
+}
+
+func (x *WorkflowExecutionInfo) SetExecutionTime(v *timestamppb.Timestamp) {
+	x.ExecutionTime = v
+}
+
+func (x *WorkflowExecutionInfo) SetMemo(v *v1.Memo) {
+	x.Memo = v
+}
+
+func (x *WorkflowExecutionInfo) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *WorkflowExecutionInfo) SetAutoResetPoints(v *ResetPoints) {
+	x.AutoResetPoints = v
+}
+
+func (x *WorkflowExecutionInfo) SetTaskQueue(v string) {
+	x.TaskQueue = v
+}
+
+func (x *WorkflowExecutionInfo) SetStateTransitionCount(v int64) {
+	x.StateTransitionCount = v
+}
+
+func (x *WorkflowExecutionInfo) SetHistorySizeBytes(v int64) {
+	x.HistorySizeBytes = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionInfo) SetMostRecentWorkerVersionStamp(v *v1.WorkerVersionStamp) {
+	x.MostRecentWorkerVersionStamp = v
+}
+
+func (x *WorkflowExecutionInfo) SetExecutionDuration(v *durationpb.Duration) {
+	x.ExecutionDuration = v
+}
+
+func (x *WorkflowExecutionInfo) SetRootExecution(v *v1.WorkflowExecution) {
+	x.RootExecution = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionInfo) SetAssignedBuildId(v string) {
+	x.AssignedBuildId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionInfo) SetInheritedBuildId(v string) {
+	x.InheritedBuildId = v
+}
+
+func (x *WorkflowExecutionInfo) SetFirstRunId(v string) {
+	x.FirstRunId = v
+}
+
+func (x *WorkflowExecutionInfo) SetVersioningInfo(v *WorkflowExecutionVersioningInfo) {
+	x.VersioningInfo = v
+}
+
+func (x *WorkflowExecutionInfo) SetWorkerDeploymentName(v string) {
+	x.WorkerDeploymentName = v
+}
+
+func (x *WorkflowExecutionInfo) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *WorkflowExecutionInfo) SetExternalPayloadSizeBytes(v int64) {
+	x.ExternalPayloadSizeBytes = v
+}
+
+func (x *WorkflowExecutionInfo) SetExternalPayloadCount(v int64) {
+	x.ExternalPayloadCount = v
+}
+
+func (x *WorkflowExecutionInfo) HasExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.Execution != nil
+}
+
+func (x *WorkflowExecutionInfo) HasType() bool {
+	if x == nil {
+		return false
+	}
+	return x.Type != nil
+}
+
+func (x *WorkflowExecutionInfo) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *WorkflowExecutionInfo) HasCloseTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CloseTime != nil
+}
+
+func (x *WorkflowExecutionInfo) HasParentExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.ParentExecution != nil
+}
+
+func (x *WorkflowExecutionInfo) HasExecutionTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExecutionTime != nil
+}
+
+func (x *WorkflowExecutionInfo) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *WorkflowExecutionInfo) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *WorkflowExecutionInfo) HasAutoResetPoints() bool {
+	if x == nil {
+		return false
+	}
+	return x.AutoResetPoints != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionInfo) HasMostRecentWorkerVersionStamp() bool {
+	if x == nil {
+		return false
+	}
+	return x.MostRecentWorkerVersionStamp != nil
+}
+
+func (x *WorkflowExecutionInfo) HasExecutionDuration() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExecutionDuration != nil
+}
+
+func (x *WorkflowExecutionInfo) HasRootExecution() bool {
+	if x == nil {
+		return false
+	}
+	return x.RootExecution != nil
+}
+
+func (x *WorkflowExecutionInfo) HasVersioningInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningInfo != nil
+}
+
+func (x *WorkflowExecutionInfo) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *WorkflowExecutionInfo) ClearExecution() {
+	x.Execution = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearType() {
+	x.Type = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearCloseTime() {
+	x.CloseTime = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearParentExecution() {
+	x.ParentExecution = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearExecutionTime() {
+	x.ExecutionTime = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearAutoResetPoints() {
+	x.AutoResetPoints = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionInfo) ClearMostRecentWorkerVersionStamp() {
+	x.MostRecentWorkerVersionStamp = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearExecutionDuration() {
+	x.ExecutionDuration = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearRootExecution() {
+	x.RootExecution = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearVersioningInfo() {
+	x.VersioningInfo = nil
+}
+
+func (x *WorkflowExecutionInfo) ClearPriority() {
+	x.Priority = nil
+}
+
+type WorkflowExecutionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Execution            *v1.WorkflowExecution
+	Type                 *v1.WorkflowType
+	StartTime            *timestamppb.Timestamp
+	CloseTime            *timestamppb.Timestamp
+	Status               v11.WorkflowExecutionStatus
+	HistoryLength        int64
+	ParentNamespaceId    string
+	ParentExecution      *v1.WorkflowExecution
+	ExecutionTime        *timestamppb.Timestamp
+	Memo                 *v1.Memo
+	SearchAttributes     *v1.SearchAttributes
+	AutoResetPoints      *ResetPoints
+	TaskQueue            string
+	StateTransitionCount int64
+	HistorySizeBytes     int64
+	// If set, the most recent worker version stamp that appeared in a workflow task completion
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	MostRecentWorkerVersionStamp *v1.WorkerVersionStamp
+	// Workflow execution duration is defined as difference between close time and execution time.
+	// This field is only populated if the workflow is closed.
+	ExecutionDuration *durationpb.Duration
+	// Contains information about the root workflow execution.
+	// The root workflow execution is defined as follows:
+	// 1. A workflow without parent workflow is its own root workflow.
+	// 2. A workflow that has a parent workflow has the same root workflow as its parent workflow.
+	// Note: workflows continued as new or reseted may or may not have parents, check examples below.
+	//
+	// Examples:
+	//
+	//	Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3.
+	//	  - The root workflow of all three workflows is W1.
+	//	Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3.
+	//	  - The root workflow of all three workflows is W1.
+	//	Scenario 3: Workflow W1 continued as new W2.
+	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	//	Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3
+	//	  - The root workflow of all three workflows is W1.
+	//	Scenario 5: Workflow W1 is reseted, creating W2.
+	//	  - The root workflow of W1 is W1 and the root workflow of W2 is W2.
+	RootExecution *v1.WorkflowExecution
+	// The currently assigned build ID for this execution. Presence of this value means worker versioning is used
+	// for this execution. Assigned build ID is selected based on Worker Versioning Assignment Rules
+	// when the first workflow task of the execution is scheduled. If the first workflow task fails and is scheduled
+	// again, the assigned build ID may change according to the latest versioning rules.
+	// Assigned build ID can also change in the middle of a execution if Compatible Redirect Rules are applied to
+	// this execution.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	AssignedBuildId string
+	// Build ID inherited from a previous/parent execution. If present, assigned_build_id will be set to this, instead
+	// of using the assignment rules.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	InheritedBuildId string
+	// The first run ID in the execution chain.
+	// Executions created via the following operations are considered to be in the same chain
+	// - ContinueAsNew
+	// - Workflow Retry
+	// - Workflow Reset
+	// - Cron Schedule
+	FirstRunId string
+	// Absent value means the workflow execution is not versioned. When present, the execution might
+	// be versioned or unversioned, depending on `versioning_info.behavior` and `versioning_info.versioning_override`.
+	// Experimental. Versioning info is experimental and might change in the future.
+	VersioningInfo *WorkflowExecutionVersioningInfo
+	// The name of Worker Deployment that completed the most recent workflow task.
+	// Experimental. Worker Deployments are experimental and might change in the future.
+	WorkerDeploymentName string
+	// Priority metadata
+	Priority *v1.Priority
+	// Total size in bytes of all external payloads referenced in workflow history.
+	ExternalPayloadSizeBytes int64
+	// Count of external payloads referenced in workflow history.
+	ExternalPayloadCount int64
+}
+
+func (b0 WorkflowExecutionInfo_builder) Build() *WorkflowExecutionInfo {
+	m0 := &WorkflowExecutionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Execution = b.Execution
+	x.Type = b.Type
+	x.StartTime = b.StartTime
+	x.CloseTime = b.CloseTime
+	x.Status = b.Status
+	x.HistoryLength = b.HistoryLength
+	x.ParentNamespaceId = b.ParentNamespaceId
+	x.ParentExecution = b.ParentExecution
+	x.ExecutionTime = b.ExecutionTime
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.AutoResetPoints = b.AutoResetPoints
+	x.TaskQueue = b.TaskQueue
+	x.StateTransitionCount = b.StateTransitionCount
+	x.HistorySizeBytes = b.HistorySizeBytes
+	x.MostRecentWorkerVersionStamp = b.MostRecentWorkerVersionStamp
+	x.ExecutionDuration = b.ExecutionDuration
+	x.RootExecution = b.RootExecution
+	x.AssignedBuildId = b.AssignedBuildId
+	x.InheritedBuildId = b.InheritedBuildId
+	x.FirstRunId = b.FirstRunId
+	x.VersioningInfo = b.VersioningInfo
+	x.WorkerDeploymentName = b.WorkerDeploymentName
+	x.Priority = b.Priority
+	x.ExternalPayloadSizeBytes = b.ExternalPayloadSizeBytes
+	x.ExternalPayloadCount = b.ExternalPayloadCount
+	return m0
+}
+
 // Holds all the extra information about workflow execution that is not part of Visibility.
 type WorkflowExecutionExtendedInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Workflow execution expiration time is defined as workflow start time plus expiration timeout.
 	// Workflow start time may change after workflow reset.
 	ExecutionExpirationTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=execution_expiration_time,json=executionExpirationTime,proto3" json:"execution_expiration_time,omitempty"`
@@ -441,11 +811,6 @@ func (x *WorkflowExecutionExtendedInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkflowExecutionExtendedInfo.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionExtendedInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *WorkflowExecutionExtendedInfo) GetExecutionExpirationTime() *timestamppb.Timestamp {
@@ -504,10 +869,137 @@ func (x *WorkflowExecutionExtendedInfo) GetPauseInfo() *WorkflowExecutionPauseIn
 	return nil
 }
 
+func (x *WorkflowExecutionExtendedInfo) SetExecutionExpirationTime(v *timestamppb.Timestamp) {
+	x.ExecutionExpirationTime = v
+}
+
+func (x *WorkflowExecutionExtendedInfo) SetRunExpirationTime(v *timestamppb.Timestamp) {
+	x.RunExpirationTime = v
+}
+
+func (x *WorkflowExecutionExtendedInfo) SetCancelRequested(v bool) {
+	x.CancelRequested = v
+}
+
+func (x *WorkflowExecutionExtendedInfo) SetLastResetTime(v *timestamppb.Timestamp) {
+	x.LastResetTime = v
+}
+
+func (x *WorkflowExecutionExtendedInfo) SetOriginalStartTime(v *timestamppb.Timestamp) {
+	x.OriginalStartTime = v
+}
+
+func (x *WorkflowExecutionExtendedInfo) SetResetRunId(v string) {
+	x.ResetRunId = v
+}
+
+func (x *WorkflowExecutionExtendedInfo) SetRequestIdInfos(v map[string]*RequestIdInfo) {
+	x.RequestIdInfos = v
+}
+
+func (x *WorkflowExecutionExtendedInfo) SetPauseInfo(v *WorkflowExecutionPauseInfo) {
+	x.PauseInfo = v
+}
+
+func (x *WorkflowExecutionExtendedInfo) HasExecutionExpirationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExecutionExpirationTime != nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) HasRunExpirationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RunExpirationTime != nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) HasLastResetTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastResetTime != nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) HasOriginalStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.OriginalStartTime != nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) HasPauseInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.PauseInfo != nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) ClearExecutionExpirationTime() {
+	x.ExecutionExpirationTime = nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) ClearRunExpirationTime() {
+	x.RunExpirationTime = nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) ClearLastResetTime() {
+	x.LastResetTime = nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) ClearOriginalStartTime() {
+	x.OriginalStartTime = nil
+}
+
+func (x *WorkflowExecutionExtendedInfo) ClearPauseInfo() {
+	x.PauseInfo = nil
+}
+
+type WorkflowExecutionExtendedInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Workflow execution expiration time is defined as workflow start time plus expiration timeout.
+	// Workflow start time may change after workflow reset.
+	ExecutionExpirationTime *timestamppb.Timestamp
+	// Workflow run expiration time is defined as current workflow run start time plus workflow run timeout.
+	RunExpirationTime *timestamppb.Timestamp
+	// indicates if the workflow received a cancel request
+	CancelRequested bool
+	// Last workflow reset time. Nil if the workflow was never reset.
+	LastResetTime *timestamppb.Timestamp
+	// Original workflow start time.
+	OriginalStartTime *timestamppb.Timestamp
+	// Reset Run ID points to the new run when this execution is reset. If the execution is reset multiple times, it points to the latest run.
+	ResetRunId string
+	// Request ID information (eg: history event information associated with the request ID).
+	// Note: It only contains request IDs from StartWorkflowExecution requests, including indirect
+	// calls (eg: if SignalWithStartWorkflowExecution starts a new workflow, then the request ID is
+	// used in the StartWorkflowExecution request).
+	RequestIdInfos map[string]*RequestIdInfo
+	// Information about the workflow execution pause operation.
+	PauseInfo *WorkflowExecutionPauseInfo
+}
+
+func (b0 WorkflowExecutionExtendedInfo_builder) Build() *WorkflowExecutionExtendedInfo {
+	m0 := &WorkflowExecutionExtendedInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ExecutionExpirationTime = b.ExecutionExpirationTime
+	x.RunExpirationTime = b.RunExpirationTime
+	x.CancelRequested = b.CancelRequested
+	x.LastResetTime = b.LastResetTime
+	x.OriginalStartTime = b.OriginalStartTime
+	x.ResetRunId = b.ResetRunId
+	x.RequestIdInfos = b.RequestIdInfos
+	x.PauseInfo = b.PauseInfo
+	return m0
+}
+
 // Holds all the information about worker versioning for a particular workflow execution.
 // Experimental. Versioning info is experimental and might change in the future.
 type WorkflowExecutionVersioningInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Versioning behavior determines how the server should treat this execution when workers are
 	// upgraded. When present it means this workflow execution is versioned; UNSPECIFIED means
 	// unversioned. See the comments in `VersioningBehavior` enum for more info about different
@@ -635,11 +1127,6 @@ func (x *WorkflowExecutionVersioningInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionVersioningInfo.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionVersioningInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *WorkflowExecutionVersioningInfo) GetBehavior() v11.VersioningBehavior {
 	if x != nil {
 		return x.Behavior
@@ -699,10 +1186,222 @@ func (x *WorkflowExecutionVersioningInfo) GetRevisionNumber() int64 {
 	return 0
 }
 
+func (x *WorkflowExecutionVersioningInfo) SetBehavior(v v11.VersioningBehavior) {
+	x.Behavior = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionVersioningInfo) SetDeployment(v *v12.Deployment) {
+	x.Deployment = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionVersioningInfo) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *WorkflowExecutionVersioningInfo) SetDeploymentVersion(v *v12.WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+func (x *WorkflowExecutionVersioningInfo) SetVersioningOverride(v *VersioningOverride) {
+	x.VersioningOverride = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionVersioningInfo) SetDeploymentTransition(v *DeploymentTransition) {
+	x.DeploymentTransition = v
+}
+
+func (x *WorkflowExecutionVersioningInfo) SetVersionTransition(v *DeploymentVersionTransition) {
+	x.VersionTransition = v
+}
+
+func (x *WorkflowExecutionVersioningInfo) SetRevisionNumber(v int64) {
+	x.RevisionNumber = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionVersioningInfo) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *WorkflowExecutionVersioningInfo) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+func (x *WorkflowExecutionVersioningInfo) HasVersioningOverride() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningOverride != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionVersioningInfo) HasDeploymentTransition() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentTransition != nil
+}
+
+func (x *WorkflowExecutionVersioningInfo) HasVersionTransition() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersionTransition != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionVersioningInfo) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *WorkflowExecutionVersioningInfo) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+func (x *WorkflowExecutionVersioningInfo) ClearVersioningOverride() {
+	x.VersioningOverride = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *WorkflowExecutionVersioningInfo) ClearDeploymentTransition() {
+	x.DeploymentTransition = nil
+}
+
+func (x *WorkflowExecutionVersioningInfo) ClearVersionTransition() {
+	x.VersionTransition = nil
+}
+
+type WorkflowExecutionVersioningInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Versioning behavior determines how the server should treat this execution when workers are
+	// upgraded. When present it means this workflow execution is versioned; UNSPECIFIED means
+	// unversioned. See the comments in `VersioningBehavior` enum for more info about different
+	// behaviors.
+	//
+	// Child workflows or CaN executions **inherit** their parent/previous run's effective Versioning
+	// Behavior and Version (except when the new execution runs on a task queue not belonging to the
+	// same deployment version as the parent/previous run's task queue). The first workflow task will
+	// be dispatched according to the inherited behavior (or to the current version of the task-queue's
+	// deployment in the case of AutoUpgrade.) After completion of their first workflow task the
+	// Deployment Version and Behavior of the execution will update according to configuration on the worker.
+	//
+	// Note that `behavior` is overridden by `versioning_override` if the latter is present.
+	Behavior v11.VersioningBehavior
+	// The worker deployment that completed the last workflow task of this workflow execution. Must
+	// be present if `behavior` is set. Absent value means no workflow task is completed, or the
+	// last workflow task was completed by an unversioned worker. Unversioned workers may still send
+	// a deployment value which will be stored here, so the right way to check if an execution is
+	// versioned if an execution is versioned or not is via the `behavior` field.
+	// Note that `deployment` is overridden by `versioning_override` if the latter is present.
+	// Deprecated. Use `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	Deployment *v12.Deployment
+	// Deprecated. Use `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	Version string
+	// The Worker Deployment Version that completed the last workflow task of this workflow execution.
+	// An absent value means no workflow task is completed, or the workflow is unversioned.
+	// If present, and `behavior` is UNSPECIFIED, the last task of this workflow execution was completed
+	// by a worker that is not using versioning but _is_ passing Deployment Name and Build ID.
+	//
+	// Child workflows or CaN executions **inherit** their parent/previous run's effective Versioning
+	// Behavior and Version (except when the new execution runs on a task queue not belonging to the
+	// same deployment version as the parent/previous run's task queue). The first workflow task will
+	// be dispatched according to the inherited behavior (or to the current version of the task-queue's
+	// deployment in the case of AutoUpgrade.) After completion of their first workflow task the
+	// Deployment Version and Behavior of the execution will update according to configuration on the worker.
+	//
+	// Note that if `versioning_override.behavior` is PINNED then `versioning_override.pinned_version`
+	// will override this value.
+	DeploymentVersion *v12.WorkerDeploymentVersion
+	// Present if user has set an execution-specific versioning override. This override takes
+	// precedence over SDK-sent `behavior` (and `version` when override is PINNED). An
+	// override can be set when starting a new execution, as well as afterwards by calling the
+	// `UpdateWorkflowExecutionOptions` API.
+	// Pinned overrides are automatically inherited by child workflows, continue-as-new workflows,
+	// workflow retries, and cron workflows.
+	VersioningOverride *VersioningOverride
+	// When present, indicates the workflow is transitioning to a different deployment. Can
+	// indicate one of the following transitions: unversioned -> versioned, versioned -> versioned
+	// on a different deployment, or versioned -> unversioned.
+	// Not applicable to workflows with PINNED behavior.
+	// When a workflow with AUTO_UPGRADE behavior creates a new workflow task, it will automatically
+	// start a transition to the task queue's current deployment if the task queue's current
+	// deployment is different from the workflow's deployment.
+	// If the AUTO_UPGRADE workflow is stuck due to backlogged activity or workflow tasks, those
+	// tasks will be redirected to the task queue's current deployment. As soon as a poller from
+	// that deployment is available to receive the task, the workflow will automatically start a
+	// transition to that deployment and continue execution there.
+	// A deployment transition can only exist while there is a pending or started workflow task.
+	// Once the pending workflow task completes on the transition's target deployment, the
+	// transition completes and the workflow's `deployment` and `behavior` fields are updated per
+	// the worker's task completion response.
+	// Pending activities will not start new attempts during a transition. Once the transition is
+	// completed, pending activities will start their next attempt on the new deployment.
+	// Deprecated. Use version_transition.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	DeploymentTransition *DeploymentTransition
+	// When present, indicates the workflow is transitioning to a different deployment version
+	// (which may belong to the same deployment name or another). Can indicate one of the following
+	// transitions: unversioned -> versioned, versioned -> versioned
+	// on a different deployment version, or versioned -> unversioned.
+	// Not applicable to workflows with PINNED behavior.
+	// When a workflow with AUTO_UPGRADE behavior creates a new workflow task, it will automatically
+	// start a transition to the task queue's current version if the task queue's current version is
+	// different from the workflow's current deployment version.
+	// If the AUTO_UPGRADE workflow is stuck due to backlogged activity or workflow tasks, those
+	// tasks will be redirected to the task queue's current version. As soon as a poller from
+	// that deployment version is available to receive the task, the workflow will automatically
+	// start a transition to that version and continue execution there.
+	// A version transition can only exist while there is a pending or started workflow task.
+	// Once the pending workflow task completes on the transition's target version, the
+	// transition completes and the workflow's `behavior`, and `deployment_version` fields are updated per the
+	// worker's task completion response.
+	// Pending activities will not start new attempts during a transition. Once the transition is
+	// completed, pending activities will start their next attempt on the new version.
+	VersionTransition *DeploymentVersionTransition
+	// Monotonic counter reflecting the latest routing decision for this workflow execution.
+	// Used for staleness detection between history and matching when dispatching tasks to workers.
+	// Incremented when a workflow execution routes to a new deployment version, which happens
+	// when a worker of the new deployment version completes a workflow task.
+	// Note: Pinned tasks and sticky tasks send a value of 0 for this field since these tasks do not
+	// face the problem of inconsistent dispatching that arises from eventual consistency between
+	// task queues and their partitions.
+	RevisionNumber int64
+}
+
+func (b0 WorkflowExecutionVersioningInfo_builder) Build() *WorkflowExecutionVersioningInfo {
+	m0 := &WorkflowExecutionVersioningInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Behavior = b.Behavior
+	x.Deployment = b.Deployment
+	x.Version = b.Version
+	x.DeploymentVersion = b.DeploymentVersion
+	x.VersioningOverride = b.VersioningOverride
+	x.DeploymentTransition = b.DeploymentTransition
+	x.VersionTransition = b.VersionTransition
+	x.RevisionNumber = b.RevisionNumber
+	return m0
+}
+
 // Holds information about ongoing transition of a workflow execution from one deployment to another.
 // Deprecated. Use DeploymentVersionTransition.
 type DeploymentTransition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The target deployment of the transition. Null means a so-far-versioned workflow is
 	// transitioning to unversioned workers.
 	Deployment    *v12.Deployment `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
@@ -735,11 +1434,6 @@ func (x *DeploymentTransition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeploymentTransition.ProtoReflect.Descriptor instead.
-func (*DeploymentTransition) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *DeploymentTransition) GetDeployment() *v12.Deployment {
 	if x != nil {
 		return x.Deployment
@@ -747,11 +1441,42 @@ func (x *DeploymentTransition) GetDeployment() *v12.Deployment {
 	return nil
 }
 
+func (x *DeploymentTransition) SetDeployment(v *v12.Deployment) {
+	x.Deployment = v
+}
+
+func (x *DeploymentTransition) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *DeploymentTransition) ClearDeployment() {
+	x.Deployment = nil
+}
+
+type DeploymentTransition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The target deployment of the transition. Null means a so-far-versioned workflow is
+	// transitioning to unversioned workers.
+	Deployment *v12.Deployment
+}
+
+func (b0 DeploymentTransition_builder) Build() *DeploymentTransition {
+	m0 := &DeploymentTransition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Deployment = b.Deployment
+	return m0
+}
+
 // Holds information about ongoing transition of a workflow execution from one worker
 // deployment version to another.
 // Experimental. Might change in the future.
 type DeploymentVersionTransition struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Deprecated. Use `deployment_version`.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
@@ -788,11 +1513,6 @@ func (x *DeploymentVersionTransition) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeploymentVersionTransition.ProtoReflect.Descriptor instead.
-func (*DeploymentVersionTransition) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 // Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 func (x *DeploymentVersionTransition) GetVersion() string {
 	if x != nil {
@@ -808,8 +1528,49 @@ func (x *DeploymentVersionTransition) GetDeploymentVersion() *v12.WorkerDeployme
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *DeploymentVersionTransition) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *DeploymentVersionTransition) SetDeploymentVersion(v *v12.WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+func (x *DeploymentVersionTransition) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+func (x *DeploymentVersionTransition) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+type DeploymentVersionTransition_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Deprecated. Use `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	Version string
+	// The target Version of the transition.
+	// If nil, a so-far-versioned workflow is transitioning to unversioned workers.
+	DeploymentVersion *v12.WorkerDeploymentVersion
+}
+
+func (b0 DeploymentVersionTransition_builder) Build() *DeploymentVersionTransition {
+	m0 := &DeploymentVersionTransition{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Version = b.Version
+	x.DeploymentVersion = b.DeploymentVersion
+	return m0
+}
+
 type WorkflowExecutionConfig struct {
-	state                      protoimpl.MessageState `protogen:"open.v1"`
+	state                      protoimpl.MessageState `protogen:"hybrid.v1"`
 	TaskQueue                  *v13.TaskQueue         `protobuf:"bytes,1,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
 	WorkflowExecutionTimeout   *durationpb.Duration   `protobuf:"bytes,2,opt,name=workflow_execution_timeout,json=workflowExecutionTimeout,proto3" json:"workflow_execution_timeout,omitempty"`
 	WorkflowRunTimeout         *durationpb.Duration   `protobuf:"bytes,3,opt,name=workflow_run_timeout,json=workflowRunTimeout,proto3" json:"workflow_run_timeout,omitempty"`
@@ -843,11 +1604,6 @@ func (x *WorkflowExecutionConfig) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkflowExecutionConfig.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *WorkflowExecutionConfig) GetTaskQueue() *v13.TaskQueue {
@@ -885,8 +1641,106 @@ func (x *WorkflowExecutionConfig) GetUserMetadata() *v14.UserMetadata {
 	return nil
 }
 
+func (x *WorkflowExecutionConfig) SetTaskQueue(v *v13.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *WorkflowExecutionConfig) SetWorkflowExecutionTimeout(v *durationpb.Duration) {
+	x.WorkflowExecutionTimeout = v
+}
+
+func (x *WorkflowExecutionConfig) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *WorkflowExecutionConfig) SetDefaultWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.DefaultWorkflowTaskTimeout = v
+}
+
+func (x *WorkflowExecutionConfig) SetUserMetadata(v *v14.UserMetadata) {
+	x.UserMetadata = v
+}
+
+func (x *WorkflowExecutionConfig) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *WorkflowExecutionConfig) HasWorkflowExecutionTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionTimeout != nil
+}
+
+func (x *WorkflowExecutionConfig) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *WorkflowExecutionConfig) HasDefaultWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.DefaultWorkflowTaskTimeout != nil
+}
+
+func (x *WorkflowExecutionConfig) HasUserMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UserMetadata != nil
+}
+
+func (x *WorkflowExecutionConfig) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *WorkflowExecutionConfig) ClearWorkflowExecutionTimeout() {
+	x.WorkflowExecutionTimeout = nil
+}
+
+func (x *WorkflowExecutionConfig) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *WorkflowExecutionConfig) ClearDefaultWorkflowTaskTimeout() {
+	x.DefaultWorkflowTaskTimeout = nil
+}
+
+func (x *WorkflowExecutionConfig) ClearUserMetadata() {
+	x.UserMetadata = nil
+}
+
+type WorkflowExecutionConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	TaskQueue                  *v13.TaskQueue
+	WorkflowExecutionTimeout   *durationpb.Duration
+	WorkflowRunTimeout         *durationpb.Duration
+	DefaultWorkflowTaskTimeout *durationpb.Duration
+	// User metadata provided on start workflow.
+	UserMetadata *v14.UserMetadata
+}
+
+func (b0 WorkflowExecutionConfig_builder) Build() *WorkflowExecutionConfig {
+	m0 := &WorkflowExecutionConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TaskQueue = b.TaskQueue
+	x.WorkflowExecutionTimeout = b.WorkflowExecutionTimeout
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.DefaultWorkflowTaskTimeout = b.DefaultWorkflowTaskTimeout
+	x.UserMetadata = b.UserMetadata
+	return m0
+}
+
 type PendingActivityInfo struct {
-	state              protoimpl.MessageState   `protogen:"open.v1"`
+	state              protoimpl.MessageState   `protogen:"hybrid.v1"`
 	ActivityId         string                   `protobuf:"bytes,1,opt,name=activity_id,json=activityId,proto3" json:"activity_id,omitempty"`
 	ActivityType       *v1.ActivityType         `protobuf:"bytes,2,opt,name=activity_type,json=activityType,proto3" json:"activity_type,omitempty"`
 	State              v11.PendingActivityState `protobuf:"varint,3,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingActivityState" json:"state,omitempty"`
@@ -973,11 +1827,6 @@ func (x *PendingActivityInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PendingActivityInfo.ProtoReflect.Descriptor instead.
-func (*PendingActivityInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *PendingActivityInfo) GetActivityId() string {
@@ -1171,14 +2020,489 @@ func (x *PendingActivityInfo) GetActivityOptions() *v16.ActivityOptions {
 	return nil
 }
 
+func (x *PendingActivityInfo) SetActivityId(v string) {
+	x.ActivityId = v
+}
+
+func (x *PendingActivityInfo) SetActivityType(v *v1.ActivityType) {
+	x.ActivityType = v
+}
+
+func (x *PendingActivityInfo) SetState(v v11.PendingActivityState) {
+	x.State = v
+}
+
+func (x *PendingActivityInfo) SetHeartbeatDetails(v *v1.Payloads) {
+	x.HeartbeatDetails = v
+}
+
+func (x *PendingActivityInfo) SetLastHeartbeatTime(v *timestamppb.Timestamp) {
+	x.LastHeartbeatTime = v
+}
+
+func (x *PendingActivityInfo) SetLastStartedTime(v *timestamppb.Timestamp) {
+	x.LastStartedTime = v
+}
+
+func (x *PendingActivityInfo) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *PendingActivityInfo) SetMaximumAttempts(v int32) {
+	x.MaximumAttempts = v
+}
+
+func (x *PendingActivityInfo) SetScheduledTime(v *timestamppb.Timestamp) {
+	x.ScheduledTime = v
+}
+
+func (x *PendingActivityInfo) SetExpirationTime(v *timestamppb.Timestamp) {
+	x.ExpirationTime = v
+}
+
+func (x *PendingActivityInfo) SetLastFailure(v *v15.Failure) {
+	x.LastFailure = v
+}
+
+func (x *PendingActivityInfo) SetLastWorkerIdentity(v string) {
+	x.LastWorkerIdentity = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) SetUseWorkflowBuildId(v *emptypb.Empty) {
+	if v == nil {
+		x.AssignedBuildId = nil
+		return
+	}
+	x.AssignedBuildId = &PendingActivityInfo_UseWorkflowBuildId{v}
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) SetLastIndependentlyAssignedBuildId(v string) {
+	x.AssignedBuildId = &PendingActivityInfo_LastIndependentlyAssignedBuildId{v}
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) SetLastWorkerVersionStamp(v *v1.WorkerVersionStamp) {
+	x.LastWorkerVersionStamp = v
+}
+
+func (x *PendingActivityInfo) SetCurrentRetryInterval(v *durationpb.Duration) {
+	x.CurrentRetryInterval = v
+}
+
+func (x *PendingActivityInfo) SetLastAttemptCompleteTime(v *timestamppb.Timestamp) {
+	x.LastAttemptCompleteTime = v
+}
+
+func (x *PendingActivityInfo) SetNextAttemptScheduleTime(v *timestamppb.Timestamp) {
+	x.NextAttemptScheduleTime = v
+}
+
+func (x *PendingActivityInfo) SetPaused(v bool) {
+	x.Paused = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) SetLastDeployment(v *v12.Deployment) {
+	x.LastDeployment = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) SetLastWorkerDeploymentVersion(v string) {
+	x.LastWorkerDeploymentVersion = v
+}
+
+func (x *PendingActivityInfo) SetLastDeploymentVersion(v *v12.WorkerDeploymentVersion) {
+	x.LastDeploymentVersion = v
+}
+
+func (x *PendingActivityInfo) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *PendingActivityInfo) SetPauseInfo(v *PendingActivityInfo_PauseInfo) {
+	x.PauseInfo = v
+}
+
+func (x *PendingActivityInfo) SetActivityOptions(v *v16.ActivityOptions) {
+	x.ActivityOptions = v
+}
+
+func (x *PendingActivityInfo) HasActivityType() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityType != nil
+}
+
+func (x *PendingActivityInfo) HasHeartbeatDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.HeartbeatDetails != nil
+}
+
+func (x *PendingActivityInfo) HasLastHeartbeatTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastHeartbeatTime != nil
+}
+
+func (x *PendingActivityInfo) HasLastStartedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastStartedTime != nil
+}
+
+func (x *PendingActivityInfo) HasScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduledTime != nil
+}
+
+func (x *PendingActivityInfo) HasExpirationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExpirationTime != nil
+}
+
+func (x *PendingActivityInfo) HasLastFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastFailure != nil
+}
+
+func (x *PendingActivityInfo) HasAssignedBuildId() bool {
+	if x == nil {
+		return false
+	}
+	return x.AssignedBuildId != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) HasUseWorkflowBuildId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.AssignedBuildId.(*PendingActivityInfo_UseWorkflowBuildId)
+	return ok
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) HasLastIndependentlyAssignedBuildId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.AssignedBuildId.(*PendingActivityInfo_LastIndependentlyAssignedBuildId)
+	return ok
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) HasLastWorkerVersionStamp() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastWorkerVersionStamp != nil
+}
+
+func (x *PendingActivityInfo) HasCurrentRetryInterval() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentRetryInterval != nil
+}
+
+func (x *PendingActivityInfo) HasLastAttemptCompleteTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAttemptCompleteTime != nil
+}
+
+func (x *PendingActivityInfo) HasNextAttemptScheduleTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.NextAttemptScheduleTime != nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) HasLastDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastDeployment != nil
+}
+
+func (x *PendingActivityInfo) HasLastDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastDeploymentVersion != nil
+}
+
+func (x *PendingActivityInfo) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *PendingActivityInfo) HasPauseInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.PauseInfo != nil
+}
+
+func (x *PendingActivityInfo) HasActivityOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityOptions != nil
+}
+
+func (x *PendingActivityInfo) ClearActivityType() {
+	x.ActivityType = nil
+}
+
+func (x *PendingActivityInfo) ClearHeartbeatDetails() {
+	x.HeartbeatDetails = nil
+}
+
+func (x *PendingActivityInfo) ClearLastHeartbeatTime() {
+	x.LastHeartbeatTime = nil
+}
+
+func (x *PendingActivityInfo) ClearLastStartedTime() {
+	x.LastStartedTime = nil
+}
+
+func (x *PendingActivityInfo) ClearScheduledTime() {
+	x.ScheduledTime = nil
+}
+
+func (x *PendingActivityInfo) ClearExpirationTime() {
+	x.ExpirationTime = nil
+}
+
+func (x *PendingActivityInfo) ClearLastFailure() {
+	x.LastFailure = nil
+}
+
+func (x *PendingActivityInfo) ClearAssignedBuildId() {
+	x.AssignedBuildId = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) ClearUseWorkflowBuildId() {
+	if _, ok := x.AssignedBuildId.(*PendingActivityInfo_UseWorkflowBuildId); ok {
+		x.AssignedBuildId = nil
+	}
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) ClearLastIndependentlyAssignedBuildId() {
+	if _, ok := x.AssignedBuildId.(*PendingActivityInfo_LastIndependentlyAssignedBuildId); ok {
+		x.AssignedBuildId = nil
+	}
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) ClearLastWorkerVersionStamp() {
+	x.LastWorkerVersionStamp = nil
+}
+
+func (x *PendingActivityInfo) ClearCurrentRetryInterval() {
+	x.CurrentRetryInterval = nil
+}
+
+func (x *PendingActivityInfo) ClearLastAttemptCompleteTime() {
+	x.LastAttemptCompleteTime = nil
+}
+
+func (x *PendingActivityInfo) ClearNextAttemptScheduleTime() {
+	x.NextAttemptScheduleTime = nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingActivityInfo) ClearLastDeployment() {
+	x.LastDeployment = nil
+}
+
+func (x *PendingActivityInfo) ClearLastDeploymentVersion() {
+	x.LastDeploymentVersion = nil
+}
+
+func (x *PendingActivityInfo) ClearPriority() {
+	x.Priority = nil
+}
+
+func (x *PendingActivityInfo) ClearPauseInfo() {
+	x.PauseInfo = nil
+}
+
+func (x *PendingActivityInfo) ClearActivityOptions() {
+	x.ActivityOptions = nil
+}
+
+const PendingActivityInfo_AssignedBuildId_not_set_case case_PendingActivityInfo_AssignedBuildId = 0
+const PendingActivityInfo_UseWorkflowBuildId_case case_PendingActivityInfo_AssignedBuildId = 13
+const PendingActivityInfo_LastIndependentlyAssignedBuildId_case case_PendingActivityInfo_AssignedBuildId = 14
+
+func (x *PendingActivityInfo) WhichAssignedBuildId() case_PendingActivityInfo_AssignedBuildId {
+	if x == nil {
+		return PendingActivityInfo_AssignedBuildId_not_set_case
+	}
+	switch x.AssignedBuildId.(type) {
+	case *PendingActivityInfo_UseWorkflowBuildId:
+		return PendingActivityInfo_UseWorkflowBuildId_case
+	case *PendingActivityInfo_LastIndependentlyAssignedBuildId:
+		return PendingActivityInfo_LastIndependentlyAssignedBuildId_case
+	default:
+		return PendingActivityInfo_AssignedBuildId_not_set_case
+	}
+}
+
+type PendingActivityInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ActivityId         string
+	ActivityType       *v1.ActivityType
+	State              v11.PendingActivityState
+	HeartbeatDetails   *v1.Payloads
+	LastHeartbeatTime  *timestamppb.Timestamp
+	LastStartedTime    *timestamppb.Timestamp
+	Attempt            int32
+	MaximumAttempts    int32
+	ScheduledTime      *timestamppb.Timestamp
+	ExpirationTime     *timestamppb.Timestamp
+	LastFailure        *v15.Failure
+	LastWorkerIdentity string
+	// Absence of `assigned_build_id` generally means this task is on an "unversioned" task queue.
+	// In rare cases, it can also mean that the task queue is versioned but we failed to write activity's
+	// independently-assigned build ID to the database. This case heals automatically once the task is dispatched.
+	// Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+
+	// Fields of oneof AssignedBuildId:
+	// Deprecated. When present, it means this activity is assigned to the build ID of its workflow.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	UseWorkflowBuildId *emptypb.Empty
+	// Deprecated. This means the activity is independently versioned and not bound to the build ID of its workflow.
+	// The activity will use the build id in this field instead.
+	// If the task fails and is scheduled again, the assigned build ID may change according to the latest versioning
+	// rules.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	LastIndependentlyAssignedBuildId *string
+	// -- end of AssignedBuildId
+	// Deprecated. The version stamp of the worker to whom this activity was most recently dispatched
+	// This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv]
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	LastWorkerVersionStamp *v1.WorkerVersionStamp
+	// The time activity will wait until the next retry.
+	// If activity is currently running it will be next retry interval if activity failed.
+	// If activity is currently waiting it will be current retry interval.
+	// If there will be no retry it will be null.
+	CurrentRetryInterval *durationpb.Duration
+	// The time when the last activity attempt was completed. If activity has not been completed yet then it will be null.
+	LastAttemptCompleteTime *timestamppb.Timestamp
+	// Next time when activity will be scheduled.
+	// If activity is currently scheduled or started it will be null.
+	NextAttemptScheduleTime *timestamppb.Timestamp
+	// Indicates if activity is paused.
+	Paused bool
+	// The deployment this activity was dispatched to most recently. Present only if the activity
+	// was dispatched to a versioned worker.
+	// Deprecated. Use `last_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	LastDeployment *v12.Deployment
+	// The Worker Deployment Version this activity was dispatched to most recently.
+	// Deprecated. Use `last_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	LastWorkerDeploymentVersion string
+	// The Worker Deployment Version this activity was dispatched to most recently.
+	// If nil, the activity has not yet been dispatched or was last dispatched to an unversioned worker.
+	LastDeploymentVersion *v12.WorkerDeploymentVersion
+	// Priority metadata. If this message is not present, or any fields are not
+	// present, they inherit the values from the workflow.
+	Priority  *v1.Priority
+	PauseInfo *PendingActivityInfo_PauseInfo
+	// Current activity options. May be different from the one used to start the activity.
+	ActivityOptions *v16.ActivityOptions
+}
+
+func (b0 PendingActivityInfo_builder) Build() *PendingActivityInfo {
+	m0 := &PendingActivityInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActivityId = b.ActivityId
+	x.ActivityType = b.ActivityType
+	x.State = b.State
+	x.HeartbeatDetails = b.HeartbeatDetails
+	x.LastHeartbeatTime = b.LastHeartbeatTime
+	x.LastStartedTime = b.LastStartedTime
+	x.Attempt = b.Attempt
+	x.MaximumAttempts = b.MaximumAttempts
+	x.ScheduledTime = b.ScheduledTime
+	x.ExpirationTime = b.ExpirationTime
+	x.LastFailure = b.LastFailure
+	x.LastWorkerIdentity = b.LastWorkerIdentity
+	if b.UseWorkflowBuildId != nil {
+		x.AssignedBuildId = &PendingActivityInfo_UseWorkflowBuildId{b.UseWorkflowBuildId}
+	}
+	if b.LastIndependentlyAssignedBuildId != nil {
+		x.AssignedBuildId = &PendingActivityInfo_LastIndependentlyAssignedBuildId{*b.LastIndependentlyAssignedBuildId}
+	}
+	x.LastWorkerVersionStamp = b.LastWorkerVersionStamp
+	x.CurrentRetryInterval = b.CurrentRetryInterval
+	x.LastAttemptCompleteTime = b.LastAttemptCompleteTime
+	x.NextAttemptScheduleTime = b.NextAttemptScheduleTime
+	x.Paused = b.Paused
+	x.LastDeployment = b.LastDeployment
+	x.LastWorkerDeploymentVersion = b.LastWorkerDeploymentVersion
+	x.LastDeploymentVersion = b.LastDeploymentVersion
+	x.Priority = b.Priority
+	x.PauseInfo = b.PauseInfo
+	x.ActivityOptions = b.ActivityOptions
+	return m0
+}
+
+type case_PendingActivityInfo_AssignedBuildId protoreflect.FieldNumber
+
+func (x case_PendingActivityInfo_AssignedBuildId) String() string {
+	switch x {
+	case PendingActivityInfo_AssignedBuildId_not_set_case:
+		return "PendingActivityInfoAssignedBuildIdNotSetCase"
+	case PendingActivityInfo_UseWorkflowBuildId_case:
+		return "PendingActivityInfoUseWorkflowBuildIdCase"
+	case PendingActivityInfo_LastIndependentlyAssignedBuildId_case:
+		return "PendingActivityInfoLastIndependentlyAssignedBuildIdCase"
+	default:
+
+		// Deprecated. When present, it means this activity is assigned to the build ID of its workflow.
+		//
+		// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isPendingActivityInfo_AssignedBuildId interface {
 	isPendingActivityInfo_AssignedBuildId()
 }
 
 type PendingActivityInfo_UseWorkflowBuildId struct {
-	// Deprecated. When present, it means this activity is assigned to the build ID of its workflow.
-	//
-	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
 	UseWorkflowBuildId *emptypb.Empty `protobuf:"bytes,13,opt,name=use_workflow_build_id,json=useWorkflowBuildId,proto3,oneof"`
 }
 
@@ -1198,7 +2522,7 @@ func (*PendingActivityInfo_LastIndependentlyAssignedBuildId) isPendingActivityIn
 }
 
 type PendingChildExecutionInfo struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
+	state            protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowId       string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	RunId            string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	WorkflowTypeName string                 `protobuf:"bytes,3,opt,name=workflow_type_name,json=workflowTypeName,proto3" json:"workflow_type_name,omitempty"`
@@ -1232,11 +2556,6 @@ func (x *PendingChildExecutionInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PendingChildExecutionInfo.ProtoReflect.Descriptor instead.
-func (*PendingChildExecutionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *PendingChildExecutionInfo) GetWorkflowId() string {
@@ -1274,8 +2593,51 @@ func (x *PendingChildExecutionInfo) GetParentClosePolicy() v11.ParentClosePolicy
 	return v11.ParentClosePolicy(0)
 }
 
+func (x *PendingChildExecutionInfo) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *PendingChildExecutionInfo) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *PendingChildExecutionInfo) SetWorkflowTypeName(v string) {
+	x.WorkflowTypeName = v
+}
+
+func (x *PendingChildExecutionInfo) SetInitiatedId(v int64) {
+	x.InitiatedId = v
+}
+
+func (x *PendingChildExecutionInfo) SetParentClosePolicy(v v11.ParentClosePolicy) {
+	x.ParentClosePolicy = v
+}
+
+type PendingChildExecutionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowId       string
+	RunId            string
+	WorkflowTypeName string
+	InitiatedId      int64
+	// Default: PARENT_CLOSE_POLICY_TERMINATE.
+	ParentClosePolicy v11.ParentClosePolicy
+}
+
+func (b0 PendingChildExecutionInfo_builder) Build() *PendingChildExecutionInfo {
+	m0 := &PendingChildExecutionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	x.WorkflowTypeName = b.WorkflowTypeName
+	x.InitiatedId = b.InitiatedId
+	x.ParentClosePolicy = b.ParentClosePolicy
+	return m0
+}
+
 type PendingWorkflowTaskInfo struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
+	state         protoimpl.MessageState       `protogen:"hybrid.v1"`
 	State         v11.PendingWorkflowTaskState `protobuf:"varint,1,opt,name=state,proto3,enum=temporal.api.enums.v1.PendingWorkflowTaskState" json:"state,omitempty"`
 	ScheduledTime *timestamppb.Timestamp       `protobuf:"bytes,2,opt,name=scheduled_time,json=scheduledTime,proto3" json:"scheduled_time,omitempty"`
 	// original_scheduled_time is the scheduled time of the first workflow task during workflow task heartbeat.
@@ -1314,11 +2676,6 @@ func (x *PendingWorkflowTaskInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PendingWorkflowTaskInfo.ProtoReflect.Descriptor instead.
-func (*PendingWorkflowTaskInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *PendingWorkflowTaskInfo) GetState() v11.PendingWorkflowTaskState {
 	if x != nil {
 		return x.State
@@ -1354,8 +2711,87 @@ func (x *PendingWorkflowTaskInfo) GetAttempt() int32 {
 	return 0
 }
 
+func (x *PendingWorkflowTaskInfo) SetState(v v11.PendingWorkflowTaskState) {
+	x.State = v
+}
+
+func (x *PendingWorkflowTaskInfo) SetScheduledTime(v *timestamppb.Timestamp) {
+	x.ScheduledTime = v
+}
+
+func (x *PendingWorkflowTaskInfo) SetOriginalScheduledTime(v *timestamppb.Timestamp) {
+	x.OriginalScheduledTime = v
+}
+
+func (x *PendingWorkflowTaskInfo) SetStartedTime(v *timestamppb.Timestamp) {
+	x.StartedTime = v
+}
+
+func (x *PendingWorkflowTaskInfo) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *PendingWorkflowTaskInfo) HasScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduledTime != nil
+}
+
+func (x *PendingWorkflowTaskInfo) HasOriginalScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.OriginalScheduledTime != nil
+}
+
+func (x *PendingWorkflowTaskInfo) HasStartedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartedTime != nil
+}
+
+func (x *PendingWorkflowTaskInfo) ClearScheduledTime() {
+	x.ScheduledTime = nil
+}
+
+func (x *PendingWorkflowTaskInfo) ClearOriginalScheduledTime() {
+	x.OriginalScheduledTime = nil
+}
+
+func (x *PendingWorkflowTaskInfo) ClearStartedTime() {
+	x.StartedTime = nil
+}
+
+type PendingWorkflowTaskInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	State         v11.PendingWorkflowTaskState
+	ScheduledTime *timestamppb.Timestamp
+	// original_scheduled_time is the scheduled time of the first workflow task during workflow task heartbeat.
+	// Heartbeat workflow task is done by RespondWorkflowTaskComplete with ForceCreateNewWorkflowTask == true and no command
+	// In this case, OriginalScheduledTime won't change. Then when current time - original_scheduled_time exceeds
+	// some threshold, the workflow task will be forced timeout.
+	OriginalScheduledTime *timestamppb.Timestamp
+	StartedTime           *timestamppb.Timestamp
+	Attempt               int32
+}
+
+func (b0 PendingWorkflowTaskInfo_builder) Build() *PendingWorkflowTaskInfo {
+	m0 := &PendingWorkflowTaskInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.State = b.State
+	x.ScheduledTime = b.ScheduledTime
+	x.OriginalScheduledTime = b.OriginalScheduledTime
+	x.StartedTime = b.StartedTime
+	x.Attempt = b.Attempt
+	return m0
+}
+
 type ResetPoints struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Points        []*ResetPointInfo      `protobuf:"bytes,1,rep,name=points,proto3" json:"points,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1386,11 +2822,6 @@ func (x *ResetPoints) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ResetPoints.ProtoReflect.Descriptor instead.
-func (*ResetPoints) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *ResetPoints) GetPoints() []*ResetPointInfo {
 	if x != nil {
 		return x.Points
@@ -1398,11 +2829,29 @@ func (x *ResetPoints) GetPoints() []*ResetPointInfo {
 	return nil
 }
 
+func (x *ResetPoints) SetPoints(v []*ResetPointInfo) {
+	x.Points = v
+}
+
+type ResetPoints_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Points []*ResetPointInfo
+}
+
+func (b0 ResetPoints_builder) Build() *ResetPoints {
+	m0 := &ResetPoints{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Points = b.Points
+	return m0
+}
+
 // ResetPointInfo records the workflow event id that is the first one processed by a given
 // build id or binary checksum. A new reset point will be created if either build id or binary
 // checksum changes (although in general only one or the other will be used at a time).
 type ResetPointInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Worker build id.
 	BuildId string `protobuf:"bytes,7,opt,name=build_id,json=buildId,proto3" json:"build_id,omitempty"`
 	// Deprecated. A worker binary version identifier.
@@ -1449,11 +2898,6 @@ func (x *ResetPointInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResetPointInfo.ProtoReflect.Descriptor instead.
-func (*ResetPointInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ResetPointInfo) GetBuildId() string {
@@ -1506,10 +2950,99 @@ func (x *ResetPointInfo) GetResettable() bool {
 	return false
 }
 
+func (x *ResetPointInfo) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *ResetPointInfo) SetBinaryChecksum(v string) {
+	x.BinaryChecksum = v
+}
+
+func (x *ResetPointInfo) SetRunId(v string) {
+	x.RunId = v
+}
+
+func (x *ResetPointInfo) SetFirstWorkflowTaskCompletedId(v int64) {
+	x.FirstWorkflowTaskCompletedId = v
+}
+
+func (x *ResetPointInfo) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *ResetPointInfo) SetExpireTime(v *timestamppb.Timestamp) {
+	x.ExpireTime = v
+}
+
+func (x *ResetPointInfo) SetResettable(v bool) {
+	x.Resettable = v
+}
+
+func (x *ResetPointInfo) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *ResetPointInfo) HasExpireTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ExpireTime != nil
+}
+
+func (x *ResetPointInfo) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+func (x *ResetPointInfo) ClearExpireTime() {
+	x.ExpireTime = nil
+}
+
+type ResetPointInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Worker build id.
+	BuildId string
+	// Deprecated. A worker binary version identifier.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	BinaryChecksum string
+	// The first run ID in the execution chain that was touched by this worker build.
+	RunId string
+	// Event ID of the first WorkflowTaskCompleted event processed by this worker build.
+	FirstWorkflowTaskCompletedId int64
+	CreateTime                   *timestamppb.Timestamp
+	// (-- api-linter: core::0214::resource-expiry=disabled
+	//
+	//	aip.dev/not-precedent: TTL is not defined for ResetPointInfo. --)
+	//
+	// The time that the run is deleted due to retention.
+	ExpireTime *timestamppb.Timestamp
+	// false if the reset point has pending childWFs/reqCancels/signalExternals.
+	Resettable bool
+}
+
+func (b0 ResetPointInfo_builder) Build() *ResetPointInfo {
+	m0 := &ResetPointInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildId = b.BuildId
+	x.BinaryChecksum = b.BinaryChecksum
+	x.RunId = b.RunId
+	x.FirstWorkflowTaskCompletedId = b.FirstWorkflowTaskCompletedId
+	x.CreateTime = b.CreateTime
+	x.ExpireTime = b.ExpireTime
+	x.Resettable = b.Resettable
+	return m0
+}
+
 // NewWorkflowExecutionInfo is a shared message that encapsulates all the
 // required arguments to starting a workflow in different contexts.
 type NewWorkflowExecutionInfo struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
+	state        protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowId   string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	WorkflowType *v1.WorkflowType       `protobuf:"bytes,2,opt,name=workflow_type,json=workflowType,proto3" json:"workflow_type,omitempty"`
 	TaskQueue    *v13.TaskQueue         `protobuf:"bytes,3,opt,name=task_queue,json=taskQueue,proto3" json:"task_queue,omitempty"`
@@ -1566,11 +3099,6 @@ func (x *NewWorkflowExecutionInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NewWorkflowExecutionInfo.ProtoReflect.Descriptor instead.
-func (*NewWorkflowExecutionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *NewWorkflowExecutionInfo) GetWorkflowId() string {
@@ -1685,9 +3213,273 @@ func (x *NewWorkflowExecutionInfo) GetPriority() *v1.Priority {
 	return nil
 }
 
+func (x *NewWorkflowExecutionInfo) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetWorkflowType(v *v1.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetTaskQueue(v *v13.TaskQueue) {
+	x.TaskQueue = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetWorkflowExecutionTimeout(v *durationpb.Duration) {
+	x.WorkflowExecutionTimeout = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetWorkflowRunTimeout(v *durationpb.Duration) {
+	x.WorkflowRunTimeout = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetWorkflowTaskTimeout(v *durationpb.Duration) {
+	x.WorkflowTaskTimeout = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetWorkflowIdReusePolicy(v v11.WorkflowIdReusePolicy) {
+	x.WorkflowIdReusePolicy = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetRetryPolicy(v *v1.RetryPolicy) {
+	x.RetryPolicy = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetCronSchedule(v string) {
+	x.CronSchedule = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetMemo(v *v1.Memo) {
+	x.Memo = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetSearchAttributes(v *v1.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetUserMetadata(v *v14.UserMetadata) {
+	x.UserMetadata = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetVersioningOverride(v *VersioningOverride) {
+	x.VersioningOverride = v
+}
+
+func (x *NewWorkflowExecutionInfo) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *NewWorkflowExecutionInfo) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasTaskQueue() bool {
+	if x == nil {
+		return false
+	}
+	return x.TaskQueue != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasWorkflowExecutionTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionTimeout != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasWorkflowRunTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowRunTimeout != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasWorkflowTaskTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowTaskTimeout != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasRetryPolicy() bool {
+	if x == nil {
+		return false
+	}
+	return x.RetryPolicy != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasUserMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.UserMetadata != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasVersioningOverride() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningOverride != nil
+}
+
+func (x *NewWorkflowExecutionInfo) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearTaskQueue() {
+	x.TaskQueue = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearInput() {
+	x.Input = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearWorkflowExecutionTimeout() {
+	x.WorkflowExecutionTimeout = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearWorkflowRunTimeout() {
+	x.WorkflowRunTimeout = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearWorkflowTaskTimeout() {
+	x.WorkflowTaskTimeout = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearRetryPolicy() {
+	x.RetryPolicy = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearHeader() {
+	x.Header = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearUserMetadata() {
+	x.UserMetadata = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearVersioningOverride() {
+	x.VersioningOverride = nil
+}
+
+func (x *NewWorkflowExecutionInfo) ClearPriority() {
+	x.Priority = nil
+}
+
+type NewWorkflowExecutionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowId   string
+	WorkflowType *v1.WorkflowType
+	TaskQueue    *v13.TaskQueue
+	// Serialized arguments to the workflow.
+	Input *v1.Payloads
+	// Total workflow execution timeout including retries and continue as new.
+	WorkflowExecutionTimeout *durationpb.Duration
+	// Timeout of a single workflow run.
+	WorkflowRunTimeout *durationpb.Duration
+	// Timeout of a single workflow task.
+	WorkflowTaskTimeout *durationpb.Duration
+	// Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE.
+	WorkflowIdReusePolicy v11.WorkflowIdReusePolicy
+	// The retry policy for the workflow. Will never exceed `workflow_execution_timeout`.
+	RetryPolicy *v1.RetryPolicy
+	// See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/
+	CronSchedule     string
+	Memo             *v1.Memo
+	SearchAttributes *v1.SearchAttributes
+	Header           *v1.Header
+	// Metadata on the workflow if it is started. This is carried over to the WorkflowExecutionConfig
+	// for use by user interfaces to display the fixed as-of-start summary and details of the
+	// workflow.
+	UserMetadata *v14.UserMetadata
+	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
+	// To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions.
+	VersioningOverride *VersioningOverride
+	// Priority metadata
+	Priority *v1.Priority
+}
+
+func (b0 NewWorkflowExecutionInfo_builder) Build() *NewWorkflowExecutionInfo {
+	m0 := &NewWorkflowExecutionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowId = b.WorkflowId
+	x.WorkflowType = b.WorkflowType
+	x.TaskQueue = b.TaskQueue
+	x.Input = b.Input
+	x.WorkflowExecutionTimeout = b.WorkflowExecutionTimeout
+	x.WorkflowRunTimeout = b.WorkflowRunTimeout
+	x.WorkflowTaskTimeout = b.WorkflowTaskTimeout
+	x.WorkflowIdReusePolicy = b.WorkflowIdReusePolicy
+	x.RetryPolicy = b.RetryPolicy
+	x.CronSchedule = b.CronSchedule
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.Header = b.Header
+	x.UserMetadata = b.UserMetadata
+	x.VersioningOverride = b.VersioningOverride
+	x.Priority = b.Priority
+	return m0
+}
+
 // CallbackInfo contains the state of an attached workflow callback.
 type CallbackInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Information on how this callback should be invoked (e.g. its URL and type).
 	Callback *v1.Callback `protobuf:"bytes,1,opt,name=callback,proto3" json:"callback,omitempty"`
 	// Trigger for this callback.
@@ -1733,11 +3525,6 @@ func (x *CallbackInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CallbackInfo.ProtoReflect.Descriptor instead.
-func (*CallbackInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *CallbackInfo) GetCallback() *v1.Callback {
@@ -1803,9 +3590,150 @@ func (x *CallbackInfo) GetBlockedReason() string {
 	return ""
 }
 
+func (x *CallbackInfo) SetCallback(v *v1.Callback) {
+	x.Callback = v
+}
+
+func (x *CallbackInfo) SetTrigger(v *CallbackInfo_Trigger) {
+	x.Trigger = v
+}
+
+func (x *CallbackInfo) SetRegistrationTime(v *timestamppb.Timestamp) {
+	x.RegistrationTime = v
+}
+
+func (x *CallbackInfo) SetState(v v11.CallbackState) {
+	x.State = v
+}
+
+func (x *CallbackInfo) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *CallbackInfo) SetLastAttemptCompleteTime(v *timestamppb.Timestamp) {
+	x.LastAttemptCompleteTime = v
+}
+
+func (x *CallbackInfo) SetLastAttemptFailure(v *v15.Failure) {
+	x.LastAttemptFailure = v
+}
+
+func (x *CallbackInfo) SetNextAttemptScheduleTime(v *timestamppb.Timestamp) {
+	x.NextAttemptScheduleTime = v
+}
+
+func (x *CallbackInfo) SetBlockedReason(v string) {
+	x.BlockedReason = v
+}
+
+func (x *CallbackInfo) HasCallback() bool {
+	if x == nil {
+		return false
+	}
+	return x.Callback != nil
+}
+
+func (x *CallbackInfo) HasTrigger() bool {
+	if x == nil {
+		return false
+	}
+	return x.Trigger != nil
+}
+
+func (x *CallbackInfo) HasRegistrationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RegistrationTime != nil
+}
+
+func (x *CallbackInfo) HasLastAttemptCompleteTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAttemptCompleteTime != nil
+}
+
+func (x *CallbackInfo) HasLastAttemptFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAttemptFailure != nil
+}
+
+func (x *CallbackInfo) HasNextAttemptScheduleTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.NextAttemptScheduleTime != nil
+}
+
+func (x *CallbackInfo) ClearCallback() {
+	x.Callback = nil
+}
+
+func (x *CallbackInfo) ClearTrigger() {
+	x.Trigger = nil
+}
+
+func (x *CallbackInfo) ClearRegistrationTime() {
+	x.RegistrationTime = nil
+}
+
+func (x *CallbackInfo) ClearLastAttemptCompleteTime() {
+	x.LastAttemptCompleteTime = nil
+}
+
+func (x *CallbackInfo) ClearLastAttemptFailure() {
+	x.LastAttemptFailure = nil
+}
+
+func (x *CallbackInfo) ClearNextAttemptScheduleTime() {
+	x.NextAttemptScheduleTime = nil
+}
+
+type CallbackInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Information on how this callback should be invoked (e.g. its URL and type).
+	Callback *v1.Callback
+	// Trigger for this callback.
+	Trigger *CallbackInfo_Trigger
+	// The time when the callback was registered.
+	RegistrationTime *timestamppb.Timestamp
+	State            v11.CallbackState
+	// The number of attempts made to deliver the callback.
+	// This number represents a minimum bound since the attempt is incremented after the callback request completes.
+	Attempt int32
+	// The time when the last attempt completed.
+	LastAttemptCompleteTime *timestamppb.Timestamp
+	// The last attempt's failure, if any.
+	LastAttemptFailure *v15.Failure
+	// The time when the next attempt is scheduled.
+	NextAttemptScheduleTime *timestamppb.Timestamp
+	// If the state is BLOCKED, blocked reason provides additional information.
+	BlockedReason string
+}
+
+func (b0 CallbackInfo_builder) Build() *CallbackInfo {
+	m0 := &CallbackInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Callback = b.Callback
+	x.Trigger = b.Trigger
+	x.RegistrationTime = b.RegistrationTime
+	x.State = b.State
+	x.Attempt = b.Attempt
+	x.LastAttemptCompleteTime = b.LastAttemptCompleteTime
+	x.LastAttemptFailure = b.LastAttemptFailure
+	x.NextAttemptScheduleTime = b.NextAttemptScheduleTime
+	x.BlockedReason = b.BlockedReason
+	return m0
+}
+
 // PendingNexusOperationInfo contains the state of a pending Nexus operation.
 type PendingNexusOperationInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Endpoint name.
 	// Resolved to a URL via the cluster's endpoint registry.
 	Endpoint string `protobuf:"bytes,1,opt,name=endpoint,proto3" json:"endpoint,omitempty"`
@@ -1882,11 +3810,6 @@ func (x *PendingNexusOperationInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use PendingNexusOperationInfo.ProtoReflect.Descriptor instead.
-func (*PendingNexusOperationInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *PendingNexusOperationInfo) GetEndpoint() string {
@@ -2009,9 +3932,244 @@ func (x *PendingNexusOperationInfo) GetStartToCloseTimeout() *durationpb.Duratio
 	return nil
 }
 
+func (x *PendingNexusOperationInfo) SetEndpoint(v string) {
+	x.Endpoint = v
+}
+
+func (x *PendingNexusOperationInfo) SetService(v string) {
+	x.Service = v
+}
+
+func (x *PendingNexusOperationInfo) SetOperation(v string) {
+	x.Operation = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *PendingNexusOperationInfo) SetOperationId(v string) {
+	x.OperationId = v
+}
+
+func (x *PendingNexusOperationInfo) SetScheduleToCloseTimeout(v *durationpb.Duration) {
+	x.ScheduleToCloseTimeout = v
+}
+
+func (x *PendingNexusOperationInfo) SetScheduledTime(v *timestamppb.Timestamp) {
+	x.ScheduledTime = v
+}
+
+func (x *PendingNexusOperationInfo) SetState(v v11.PendingNexusOperationState) {
+	x.State = v
+}
+
+func (x *PendingNexusOperationInfo) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *PendingNexusOperationInfo) SetLastAttemptCompleteTime(v *timestamppb.Timestamp) {
+	x.LastAttemptCompleteTime = v
+}
+
+func (x *PendingNexusOperationInfo) SetLastAttemptFailure(v *v15.Failure) {
+	x.LastAttemptFailure = v
+}
+
+func (x *PendingNexusOperationInfo) SetNextAttemptScheduleTime(v *timestamppb.Timestamp) {
+	x.NextAttemptScheduleTime = v
+}
+
+func (x *PendingNexusOperationInfo) SetCancellationInfo(v *NexusOperationCancellationInfo) {
+	x.CancellationInfo = v
+}
+
+func (x *PendingNexusOperationInfo) SetScheduledEventId(v int64) {
+	x.ScheduledEventId = v
+}
+
+func (x *PendingNexusOperationInfo) SetBlockedReason(v string) {
+	x.BlockedReason = v
+}
+
+func (x *PendingNexusOperationInfo) SetOperationToken(v string) {
+	x.OperationToken = v
+}
+
+func (x *PendingNexusOperationInfo) SetScheduleToStartTimeout(v *durationpb.Duration) {
+	x.ScheduleToStartTimeout = v
+}
+
+func (x *PendingNexusOperationInfo) SetStartToCloseTimeout(v *durationpb.Duration) {
+	x.StartToCloseTimeout = v
+}
+
+func (x *PendingNexusOperationInfo) HasScheduleToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToCloseTimeout != nil
+}
+
+func (x *PendingNexusOperationInfo) HasScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduledTime != nil
+}
+
+func (x *PendingNexusOperationInfo) HasLastAttemptCompleteTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAttemptCompleteTime != nil
+}
+
+func (x *PendingNexusOperationInfo) HasLastAttemptFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAttemptFailure != nil
+}
+
+func (x *PendingNexusOperationInfo) HasNextAttemptScheduleTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.NextAttemptScheduleTime != nil
+}
+
+func (x *PendingNexusOperationInfo) HasCancellationInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.CancellationInfo != nil
+}
+
+func (x *PendingNexusOperationInfo) HasScheduleToStartTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleToStartTimeout != nil
+}
+
+func (x *PendingNexusOperationInfo) HasStartToCloseTimeout() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartToCloseTimeout != nil
+}
+
+func (x *PendingNexusOperationInfo) ClearScheduleToCloseTimeout() {
+	x.ScheduleToCloseTimeout = nil
+}
+
+func (x *PendingNexusOperationInfo) ClearScheduledTime() {
+	x.ScheduledTime = nil
+}
+
+func (x *PendingNexusOperationInfo) ClearLastAttemptCompleteTime() {
+	x.LastAttemptCompleteTime = nil
+}
+
+func (x *PendingNexusOperationInfo) ClearLastAttemptFailure() {
+	x.LastAttemptFailure = nil
+}
+
+func (x *PendingNexusOperationInfo) ClearNextAttemptScheduleTime() {
+	x.NextAttemptScheduleTime = nil
+}
+
+func (x *PendingNexusOperationInfo) ClearCancellationInfo() {
+	x.CancellationInfo = nil
+}
+
+func (x *PendingNexusOperationInfo) ClearScheduleToStartTimeout() {
+	x.ScheduleToStartTimeout = nil
+}
+
+func (x *PendingNexusOperationInfo) ClearStartToCloseTimeout() {
+	x.StartToCloseTimeout = nil
+}
+
+type PendingNexusOperationInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Endpoint name.
+	// Resolved to a URL via the cluster's endpoint registry.
+	Endpoint string
+	// Service name.
+	Service string
+	// Operation name.
+	Operation string
+	// Operation ID. Only set for asynchronous operations after a successful StartOperation call.
+	//
+	// Deprecated. Renamed to operation_token.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	OperationId string
+	// Schedule-to-close timeout for this operation.
+	// This is the only timeout settable by a workflow.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToCloseTimeout *durationpb.Duration
+	// The time when the operation was scheduled.
+	ScheduledTime *timestamppb.Timestamp
+	State         v11.PendingNexusOperationState
+	// The number of attempts made to deliver the start operation request.
+	// This number represents a minimum bound since the attempt is incremented after the request completes.
+	Attempt int32
+	// The time when the last attempt completed.
+	LastAttemptCompleteTime *timestamppb.Timestamp
+	// The last attempt's failure, if any.
+	LastAttemptFailure *v15.Failure
+	// The time when the next attempt is scheduled.
+	NextAttemptScheduleTime *timestamppb.Timestamp
+	CancellationInfo        *NexusOperationCancellationInfo
+	// The event ID of the NexusOperationScheduled event. Can be used to correlate an operation in the
+	// DescribeWorkflowExecution response with workflow history.
+	ScheduledEventId int64
+	// If the state is BLOCKED, blocked reason provides additional information.
+	BlockedReason string
+	// Operation token. Only set for asynchronous operations after a successful StartOperation call.
+	OperationToken string
+	// Schedule-to-start timeout for this operation.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	ScheduleToStartTimeout *durationpb.Duration
+	// Start-to-close timeout for this operation.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: "to" is used to indicate interval. --)
+	StartToCloseTimeout *durationpb.Duration
+}
+
+func (b0 PendingNexusOperationInfo_builder) Build() *PendingNexusOperationInfo {
+	m0 := &PendingNexusOperationInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Endpoint = b.Endpoint
+	x.Service = b.Service
+	x.Operation = b.Operation
+	x.OperationId = b.OperationId
+	x.ScheduleToCloseTimeout = b.ScheduleToCloseTimeout
+	x.ScheduledTime = b.ScheduledTime
+	x.State = b.State
+	x.Attempt = b.Attempt
+	x.LastAttemptCompleteTime = b.LastAttemptCompleteTime
+	x.LastAttemptFailure = b.LastAttemptFailure
+	x.NextAttemptScheduleTime = b.NextAttemptScheduleTime
+	x.CancellationInfo = b.CancellationInfo
+	x.ScheduledEventId = b.ScheduledEventId
+	x.BlockedReason = b.BlockedReason
+	x.OperationToken = b.OperationToken
+	x.ScheduleToStartTimeout = b.ScheduleToStartTimeout
+	x.StartToCloseTimeout = b.StartToCloseTimeout
+	return m0
+}
+
 // NexusOperationCancellationInfo contains the state of a nexus operation cancellation.
 type NexusOperationCancellationInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The time when cancellation was requested.
 	RequestedTime *timestamppb.Timestamp              `protobuf:"bytes,1,opt,name=requested_time,json=requestedTime,proto3" json:"requested_time,omitempty"`
 	State         v11.NexusOperationCancellationState `protobuf:"varint,2,opt,name=state,proto3,enum=temporal.api.enums.v1.NexusOperationCancellationState" json:"state,omitempty"`
@@ -2053,11 +4211,6 @@ func (x *NexusOperationCancellationInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NexusOperationCancellationInfo.ProtoReflect.Descriptor instead.
-func (*NexusOperationCancellationInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *NexusOperationCancellationInfo) GetRequestedTime() *timestamppb.Timestamp {
@@ -2109,8 +4262,113 @@ func (x *NexusOperationCancellationInfo) GetBlockedReason() string {
 	return ""
 }
 
+func (x *NexusOperationCancellationInfo) SetRequestedTime(v *timestamppb.Timestamp) {
+	x.RequestedTime = v
+}
+
+func (x *NexusOperationCancellationInfo) SetState(v v11.NexusOperationCancellationState) {
+	x.State = v
+}
+
+func (x *NexusOperationCancellationInfo) SetAttempt(v int32) {
+	x.Attempt = v
+}
+
+func (x *NexusOperationCancellationInfo) SetLastAttemptCompleteTime(v *timestamppb.Timestamp) {
+	x.LastAttemptCompleteTime = v
+}
+
+func (x *NexusOperationCancellationInfo) SetLastAttemptFailure(v *v15.Failure) {
+	x.LastAttemptFailure = v
+}
+
+func (x *NexusOperationCancellationInfo) SetNextAttemptScheduleTime(v *timestamppb.Timestamp) {
+	x.NextAttemptScheduleTime = v
+}
+
+func (x *NexusOperationCancellationInfo) SetBlockedReason(v string) {
+	x.BlockedReason = v
+}
+
+func (x *NexusOperationCancellationInfo) HasRequestedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RequestedTime != nil
+}
+
+func (x *NexusOperationCancellationInfo) HasLastAttemptCompleteTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAttemptCompleteTime != nil
+}
+
+func (x *NexusOperationCancellationInfo) HasLastAttemptFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastAttemptFailure != nil
+}
+
+func (x *NexusOperationCancellationInfo) HasNextAttemptScheduleTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.NextAttemptScheduleTime != nil
+}
+
+func (x *NexusOperationCancellationInfo) ClearRequestedTime() {
+	x.RequestedTime = nil
+}
+
+func (x *NexusOperationCancellationInfo) ClearLastAttemptCompleteTime() {
+	x.LastAttemptCompleteTime = nil
+}
+
+func (x *NexusOperationCancellationInfo) ClearLastAttemptFailure() {
+	x.LastAttemptFailure = nil
+}
+
+func (x *NexusOperationCancellationInfo) ClearNextAttemptScheduleTime() {
+	x.NextAttemptScheduleTime = nil
+}
+
+type NexusOperationCancellationInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The time when cancellation was requested.
+	RequestedTime *timestamppb.Timestamp
+	State         v11.NexusOperationCancellationState
+	// The number of attempts made to deliver the cancel operation request.
+	// This number represents a minimum bound since the attempt is incremented after the request completes.
+	Attempt int32
+	// The time when the last attempt completed.
+	LastAttemptCompleteTime *timestamppb.Timestamp
+	// The last attempt's failure, if any.
+	LastAttemptFailure *v15.Failure
+	// The time when the next attempt is scheduled.
+	NextAttemptScheduleTime *timestamppb.Timestamp
+	// If the state is BLOCKED, blocked reason provides additional information.
+	BlockedReason string
+}
+
+func (b0 NexusOperationCancellationInfo_builder) Build() *NexusOperationCancellationInfo {
+	m0 := &NexusOperationCancellationInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RequestedTime = b.RequestedTime
+	x.State = b.State
+	x.Attempt = b.Attempt
+	x.LastAttemptCompleteTime = b.LastAttemptCompleteTime
+	x.LastAttemptFailure = b.LastAttemptFailure
+	x.NextAttemptScheduleTime = b.NextAttemptScheduleTime
+	x.BlockedReason = b.BlockedReason
+	return m0
+}
+
 type WorkflowExecutionOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
 	VersioningOverride *VersioningOverride `protobuf:"bytes,1,opt,name=versioning_override,json=versioningOverride,proto3" json:"versioning_override,omitempty"`
 	// If set, overrides the workflow's priority sent by the SDK.
@@ -2144,11 +4402,6 @@ func (x *WorkflowExecutionOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionOptions.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *WorkflowExecutionOptions) GetVersioningOverride() *VersioningOverride {
 	if x != nil {
 		return x.VersioningOverride
@@ -2163,6 +4416,54 @@ func (x *WorkflowExecutionOptions) GetPriority() *v1.Priority {
 	return nil
 }
 
+func (x *WorkflowExecutionOptions) SetVersioningOverride(v *VersioningOverride) {
+	x.VersioningOverride = v
+}
+
+func (x *WorkflowExecutionOptions) SetPriority(v *v1.Priority) {
+	x.Priority = v
+}
+
+func (x *WorkflowExecutionOptions) HasVersioningOverride() bool {
+	if x == nil {
+		return false
+	}
+	return x.VersioningOverride != nil
+}
+
+func (x *WorkflowExecutionOptions) HasPriority() bool {
+	if x == nil {
+		return false
+	}
+	return x.Priority != nil
+}
+
+func (x *WorkflowExecutionOptions) ClearVersioningOverride() {
+	x.VersioningOverride = nil
+}
+
+func (x *WorkflowExecutionOptions) ClearPriority() {
+	x.Priority = nil
+}
+
+type WorkflowExecutionOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion.
+	VersioningOverride *VersioningOverride
+	// If set, overrides the workflow's priority sent by the SDK.
+	Priority *v1.Priority
+}
+
+func (b0 WorkflowExecutionOptions_builder) Build() *WorkflowExecutionOptions {
+	m0 := &WorkflowExecutionOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.VersioningOverride = b.VersioningOverride
+	x.Priority = b.Priority
+	return m0
+}
+
 // Used to override the versioning behavior (and pinned deployment version, if applicable) of a
 // specific workflow execution. If set, this override takes precedence over worker-sent values.
 // See `WorkflowExecutionInfo.VersioningInfo` for more information.
@@ -2173,7 +4474,7 @@ func (x *WorkflowExecutionOptions) GetPriority() *v1.Priority {
 // Pinned behavior overrides are automatically inherited by child workflows, workflow retries, continue-as-new
 // workflows, and cron workflows.
 type VersioningOverride struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Indicates whether to override the workflow to be AutoUpgrade or Pinned.
 	//
 	// Types that are valid to be assigned to Override:
@@ -2228,11 +4529,6 @@ func (x *VersioningOverride) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VersioningOverride.ProtoReflect.Descriptor instead.
-func (*VersioningOverride) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16}
-}
-
 func (x *VersioningOverride) GetOverride() isVersioningOverride_Override {
 	if x != nil {
 		return x.Override
@@ -2282,6 +4578,166 @@ func (x *VersioningOverride) GetPinnedVersion() string {
 	return ""
 }
 
+func (x *VersioningOverride) SetPinned(v *VersioningOverride_PinnedOverride) {
+	if v == nil {
+		x.Override = nil
+		return
+	}
+	x.Override = &VersioningOverride_Pinned{v}
+}
+
+func (x *VersioningOverride) SetAutoUpgrade(v bool) {
+	x.Override = &VersioningOverride_AutoUpgrade{v}
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *VersioningOverride) SetBehavior(v v11.VersioningBehavior) {
+	x.Behavior = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *VersioningOverride) SetDeployment(v *v12.Deployment) {
+	x.Deployment = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *VersioningOverride) SetPinnedVersion(v string) {
+	x.PinnedVersion = v
+}
+
+func (x *VersioningOverride) HasOverride() bool {
+	if x == nil {
+		return false
+	}
+	return x.Override != nil
+}
+
+func (x *VersioningOverride) HasPinned() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Override.(*VersioningOverride_Pinned)
+	return ok
+}
+
+func (x *VersioningOverride) HasAutoUpgrade() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Override.(*VersioningOverride_AutoUpgrade)
+	return ok
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *VersioningOverride) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *VersioningOverride) ClearOverride() {
+	x.Override = nil
+}
+
+func (x *VersioningOverride) ClearPinned() {
+	if _, ok := x.Override.(*VersioningOverride_Pinned); ok {
+		x.Override = nil
+	}
+}
+
+func (x *VersioningOverride) ClearAutoUpgrade() {
+	if _, ok := x.Override.(*VersioningOverride_AutoUpgrade); ok {
+		x.Override = nil
+	}
+}
+
+// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+func (x *VersioningOverride) ClearDeployment() {
+	x.Deployment = nil
+}
+
+const VersioningOverride_Override_not_set_case case_VersioningOverride_Override = 0
+const VersioningOverride_Pinned_case case_VersioningOverride_Override = 3
+const VersioningOverride_AutoUpgrade_case case_VersioningOverride_Override = 4
+
+func (x *VersioningOverride) WhichOverride() case_VersioningOverride_Override {
+	if x == nil {
+		return VersioningOverride_Override_not_set_case
+	}
+	switch x.Override.(type) {
+	case *VersioningOverride_Pinned:
+		return VersioningOverride_Pinned_case
+	case *VersioningOverride_AutoUpgrade:
+		return VersioningOverride_AutoUpgrade_case
+	default:
+		return VersioningOverride_Override_not_set_case
+	}
+}
+
+type VersioningOverride_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Indicates whether to override the workflow to be AutoUpgrade or Pinned.
+
+	// Fields of oneof Override:
+	// Override the workflow to have Pinned behavior.
+	Pinned *VersioningOverride_PinnedOverride
+	// Override the workflow to have AutoUpgrade behavior.
+	AutoUpgrade *bool
+	// -- end of Override
+	// Required.
+	// Deprecated. Use `override`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	Behavior v11.VersioningBehavior
+	// Required if behavior is `PINNED`. Must be null if behavior is `AUTO_UPGRADE`.
+	// Identifies the worker deployment to pin the workflow to.
+	// Deprecated. Use `override.pinned.version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	Deployment *v12.Deployment
+	// Required if behavior is `PINNED`. Must be absent if behavior is not `PINNED`.
+	// Identifies the worker deployment version to pin the workflow to, in the format
+	// "<deployment_name>.<build_id>".
+	// Deprecated. Use `override.pinned.version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/workflow/v1/message.proto.
+	PinnedVersion string
+}
+
+func (b0 VersioningOverride_builder) Build() *VersioningOverride {
+	m0 := &VersioningOverride{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.Pinned != nil {
+		x.Override = &VersioningOverride_Pinned{b.Pinned}
+	}
+	if b.AutoUpgrade != nil {
+		x.Override = &VersioningOverride_AutoUpgrade{*b.AutoUpgrade}
+	}
+	x.Behavior = b.Behavior
+	x.Deployment = b.Deployment
+	x.PinnedVersion = b.PinnedVersion
+	return m0
+}
+
+type case_VersioningOverride_Override protoreflect.FieldNumber
+
+func (x case_VersioningOverride_Override) String() string {
+	switch x {
+	case VersioningOverride_Override_not_set_case:
+		return "VersioningOverrideOverrideNotSetCase"
+	case VersioningOverride_Pinned_case:
+		return "VersioningOverridePinnedCase"
+	case VersioningOverride_AutoUpgrade_case:
+		return "VersioningOverrideAutoUpgradeCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isVersioningOverride_Override interface {
 	isVersioningOverride_Override()
 }
@@ -2305,7 +4761,7 @@ func (*VersioningOverride_AutoUpgrade) isVersioningOverride_Override() {}
 // the existing running workflow. In this case, it will create a WorkflowExecutionOptionsUpdatedEvent
 // history event in the running workflow with the changes requested in this object.
 type OnConflictOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Attaches the request ID to the running workflow.
 	AttachRequestId bool `protobuf:"varint,1,opt,name=attach_request_id,json=attachRequestId,proto3" json:"attach_request_id,omitempty"`
 	// Attaches the completion callbacks to the running workflow.
@@ -2341,11 +4797,6 @@ func (x *OnConflictOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use OnConflictOptions.ProtoReflect.Descriptor instead.
-func (*OnConflictOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{17}
-}
-
 func (x *OnConflictOptions) GetAttachRequestId() bool {
 	if x != nil {
 		return x.AttachRequestId
@@ -2367,9 +4818,42 @@ func (x *OnConflictOptions) GetAttachLinks() bool {
 	return false
 }
 
+func (x *OnConflictOptions) SetAttachRequestId(v bool) {
+	x.AttachRequestId = v
+}
+
+func (x *OnConflictOptions) SetAttachCompletionCallbacks(v bool) {
+	x.AttachCompletionCallbacks = v
+}
+
+func (x *OnConflictOptions) SetAttachLinks(v bool) {
+	x.AttachLinks = v
+}
+
+type OnConflictOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Attaches the request ID to the running workflow.
+	AttachRequestId bool
+	// Attaches the completion callbacks to the running workflow.
+	AttachCompletionCallbacks bool
+	// Attaches the links to the WorkflowExecutionOptionsUpdatedEvent history event.
+	AttachLinks bool
+}
+
+func (b0 OnConflictOptions_builder) Build() *OnConflictOptions {
+	m0 := &OnConflictOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.AttachRequestId = b.AttachRequestId
+	x.AttachCompletionCallbacks = b.AttachCompletionCallbacks
+	x.AttachLinks = b.AttachLinks
+	return m0
+}
+
 // RequestIdInfo contains details of a request ID.
 type RequestIdInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The event type of the history event generated by the request.
 	EventType v11.EventType `protobuf:"varint,1,opt,name=event_type,json=eventType,proto3,enum=temporal.api.enums.v1.EventType" json:"event_type,omitempty"`
 	// The event id of the history event generated by the request. It's possible the event ID is not
@@ -2408,11 +4892,6 @@ func (x *RequestIdInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RequestIdInfo.ProtoReflect.Descriptor instead.
-func (*RequestIdInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{18}
-}
-
 func (x *RequestIdInfo) GetEventType() v11.EventType {
 	if x != nil {
 		return x.EventType
@@ -2434,9 +4913,45 @@ func (x *RequestIdInfo) GetBuffered() bool {
 	return false
 }
 
+func (x *RequestIdInfo) SetEventType(v v11.EventType) {
+	x.EventType = v
+}
+
+func (x *RequestIdInfo) SetEventId(v int64) {
+	x.EventId = v
+}
+
+func (x *RequestIdInfo) SetBuffered(v bool) {
+	x.Buffered = v
+}
+
+type RequestIdInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The event type of the history event generated by the request.
+	EventType v11.EventType
+	// The event id of the history event generated by the request. It's possible the event ID is not
+	// known (unflushed buffered event). In this case, the value will be zero or a negative value,
+	// representing an invalid ID.
+	EventId int64
+	// Indicate if the request is still buffered. If so, the event ID is not known and its value
+	// will be an invalid event ID.
+	Buffered bool
+}
+
+func (b0 RequestIdInfo_builder) Build() *RequestIdInfo {
+	m0 := &RequestIdInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EventType = b.EventType
+	x.EventId = b.EventId
+	x.Buffered = b.Buffered
+	return m0
+}
+
 // PostResetOperation represents an operation to be performed on the new workflow execution after a workflow reset.
 type PostResetOperation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Variant:
 	//
 	//	*PostResetOperation_SignalWorkflow_
@@ -2471,11 +4986,6 @@ func (x *PostResetOperation) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PostResetOperation.ProtoReflect.Descriptor instead.
-func (*PostResetOperation) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{19}
-}
-
 func (x *PostResetOperation) GetVariant() isPostResetOperation_Variant {
 	if x != nil {
 		return x.Variant
@@ -2501,6 +5011,117 @@ func (x *PostResetOperation) GetUpdateWorkflowOptions() *PostResetOperation_Upda
 	return nil
 }
 
+func (x *PostResetOperation) SetSignalWorkflow(v *PostResetOperation_SignalWorkflow) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &PostResetOperation_SignalWorkflow_{v}
+}
+
+func (x *PostResetOperation) SetUpdateWorkflowOptions(v *PostResetOperation_UpdateWorkflowOptions) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &PostResetOperation_UpdateWorkflowOptions_{v}
+}
+
+func (x *PostResetOperation) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *PostResetOperation) HasSignalWorkflow() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*PostResetOperation_SignalWorkflow_)
+	return ok
+}
+
+func (x *PostResetOperation) HasUpdateWorkflowOptions() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*PostResetOperation_UpdateWorkflowOptions_)
+	return ok
+}
+
+func (x *PostResetOperation) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *PostResetOperation) ClearSignalWorkflow() {
+	if _, ok := x.Variant.(*PostResetOperation_SignalWorkflow_); ok {
+		x.Variant = nil
+	}
+}
+
+func (x *PostResetOperation) ClearUpdateWorkflowOptions() {
+	if _, ok := x.Variant.(*PostResetOperation_UpdateWorkflowOptions_); ok {
+		x.Variant = nil
+	}
+}
+
+const PostResetOperation_Variant_not_set_case case_PostResetOperation_Variant = 0
+const PostResetOperation_SignalWorkflow_case case_PostResetOperation_Variant = 1
+const PostResetOperation_UpdateWorkflowOptions_case case_PostResetOperation_Variant = 2
+
+func (x *PostResetOperation) WhichVariant() case_PostResetOperation_Variant {
+	if x == nil {
+		return PostResetOperation_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *PostResetOperation_SignalWorkflow_:
+		return PostResetOperation_SignalWorkflow_case
+	case *PostResetOperation_UpdateWorkflowOptions_:
+		return PostResetOperation_UpdateWorkflowOptions_case
+	default:
+		return PostResetOperation_Variant_not_set_case
+	}
+}
+
+type PostResetOperation_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Variant:
+	SignalWorkflow        *PostResetOperation_SignalWorkflow
+	UpdateWorkflowOptions *PostResetOperation_UpdateWorkflowOptions
+	// -- end of Variant
+}
+
+func (b0 PostResetOperation_builder) Build() *PostResetOperation {
+	m0 := &PostResetOperation{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.SignalWorkflow != nil {
+		x.Variant = &PostResetOperation_SignalWorkflow_{b.SignalWorkflow}
+	}
+	if b.UpdateWorkflowOptions != nil {
+		x.Variant = &PostResetOperation_UpdateWorkflowOptions_{b.UpdateWorkflowOptions}
+	}
+	return m0
+}
+
+type case_PostResetOperation_Variant protoreflect.FieldNumber
+
+func (x case_PostResetOperation_Variant) String() string {
+	switch x {
+	case PostResetOperation_Variant_not_set_case:
+		return "PostResetOperationVariantNotSetCase"
+	case PostResetOperation_SignalWorkflow_case:
+		return "PostResetOperationSignalWorkflowCase"
+	case PostResetOperation_UpdateWorkflowOptions_case:
+		return "PostResetOperationUpdateWorkflowOptionsCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isPostResetOperation_Variant interface {
 	isPostResetOperation_Variant()
 }
@@ -2519,7 +5140,7 @@ func (*PostResetOperation_UpdateWorkflowOptions_) isPostResetOperation_Variant()
 
 // WorkflowExecutionPauseInfo contains the information about a workflow execution pause.
 type WorkflowExecutionPauseInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the client who paused the workflow execution.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// The time when the workflow execution was paused.
@@ -2555,11 +5176,6 @@ func (x *WorkflowExecutionPauseInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionPauseInfo.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionPauseInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{20}
-}
-
 func (x *WorkflowExecutionPauseInfo) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -2581,8 +5197,52 @@ func (x *WorkflowExecutionPauseInfo) GetReason() string {
 	return ""
 }
 
+func (x *WorkflowExecutionPauseInfo) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *WorkflowExecutionPauseInfo) SetPausedTime(v *timestamppb.Timestamp) {
+	x.PausedTime = v
+}
+
+func (x *WorkflowExecutionPauseInfo) SetReason(v string) {
+	x.Reason = v
+}
+
+func (x *WorkflowExecutionPauseInfo) HasPausedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.PausedTime != nil
+}
+
+func (x *WorkflowExecutionPauseInfo) ClearPausedTime() {
+	x.PausedTime = nil
+}
+
+type WorkflowExecutionPauseInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the client who paused the workflow execution.
+	Identity string
+	// The time when the workflow execution was paused.
+	PausedTime *timestamppb.Timestamp
+	// The reason for pausing the workflow execution.
+	Reason string
+}
+
+func (b0 WorkflowExecutionPauseInfo_builder) Build() *WorkflowExecutionPauseInfo {
+	m0 := &WorkflowExecutionPauseInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	x.PausedTime = b.PausedTime
+	x.Reason = b.Reason
+	return m0
+}
+
 type PendingActivityInfo_PauseInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The time when the activity was paused.
 	PauseTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=pause_time,json=pauseTime,proto3" json:"pause_time,omitempty"`
 	// Types that are valid to be assigned to PausedBy:
@@ -2619,11 +5279,6 @@ func (x *PendingActivityInfo_PauseInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PendingActivityInfo_PauseInfo.ProtoReflect.Descriptor instead.
-func (*PendingActivityInfo_PauseInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{6, 0}
-}
-
 func (x *PendingActivityInfo_PauseInfo) GetPauseTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.PauseTime
@@ -2656,6 +5311,137 @@ func (x *PendingActivityInfo_PauseInfo) GetRule() *PendingActivityInfo_PauseInfo
 	return nil
 }
 
+func (x *PendingActivityInfo_PauseInfo) SetPauseTime(v *timestamppb.Timestamp) {
+	x.PauseTime = v
+}
+
+func (x *PendingActivityInfo_PauseInfo) SetManual(v *PendingActivityInfo_PauseInfo_Manual) {
+	if v == nil {
+		x.PausedBy = nil
+		return
+	}
+	x.PausedBy = &PendingActivityInfo_PauseInfo_Manual_{v}
+}
+
+func (x *PendingActivityInfo_PauseInfo) SetRule(v *PendingActivityInfo_PauseInfo_Rule) {
+	if v == nil {
+		x.PausedBy = nil
+		return
+	}
+	x.PausedBy = &PendingActivityInfo_PauseInfo_Rule_{v}
+}
+
+func (x *PendingActivityInfo_PauseInfo) HasPauseTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.PauseTime != nil
+}
+
+func (x *PendingActivityInfo_PauseInfo) HasPausedBy() bool {
+	if x == nil {
+		return false
+	}
+	return x.PausedBy != nil
+}
+
+func (x *PendingActivityInfo_PauseInfo) HasManual() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.PausedBy.(*PendingActivityInfo_PauseInfo_Manual_)
+	return ok
+}
+
+func (x *PendingActivityInfo_PauseInfo) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.PausedBy.(*PendingActivityInfo_PauseInfo_Rule_)
+	return ok
+}
+
+func (x *PendingActivityInfo_PauseInfo) ClearPauseTime() {
+	x.PauseTime = nil
+}
+
+func (x *PendingActivityInfo_PauseInfo) ClearPausedBy() {
+	x.PausedBy = nil
+}
+
+func (x *PendingActivityInfo_PauseInfo) ClearManual() {
+	if _, ok := x.PausedBy.(*PendingActivityInfo_PauseInfo_Manual_); ok {
+		x.PausedBy = nil
+	}
+}
+
+func (x *PendingActivityInfo_PauseInfo) ClearRule() {
+	if _, ok := x.PausedBy.(*PendingActivityInfo_PauseInfo_Rule_); ok {
+		x.PausedBy = nil
+	}
+}
+
+const PendingActivityInfo_PauseInfo_PausedBy_not_set_case case_PendingActivityInfo_PauseInfo_PausedBy = 0
+const PendingActivityInfo_PauseInfo_Manual_case case_PendingActivityInfo_PauseInfo_PausedBy = 2
+const PendingActivityInfo_PauseInfo_Rule_case case_PendingActivityInfo_PauseInfo_PausedBy = 4
+
+func (x *PendingActivityInfo_PauseInfo) WhichPausedBy() case_PendingActivityInfo_PauseInfo_PausedBy {
+	if x == nil {
+		return PendingActivityInfo_PauseInfo_PausedBy_not_set_case
+	}
+	switch x.PausedBy.(type) {
+	case *PendingActivityInfo_PauseInfo_Manual_:
+		return PendingActivityInfo_PauseInfo_Manual_case
+	case *PendingActivityInfo_PauseInfo_Rule_:
+		return PendingActivityInfo_PauseInfo_Rule_case
+	default:
+		return PendingActivityInfo_PauseInfo_PausedBy_not_set_case
+	}
+}
+
+type PendingActivityInfo_PauseInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The time when the activity was paused.
+	PauseTime *timestamppb.Timestamp
+	// Fields of oneof PausedBy:
+	// activity was paused by the manual intervention
+	Manual *PendingActivityInfo_PauseInfo_Manual
+	// activity was paused by the rule
+	Rule *PendingActivityInfo_PauseInfo_Rule
+	// -- end of PausedBy
+}
+
+func (b0 PendingActivityInfo_PauseInfo_builder) Build() *PendingActivityInfo_PauseInfo {
+	m0 := &PendingActivityInfo_PauseInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.PauseTime = b.PauseTime
+	if b.Manual != nil {
+		x.PausedBy = &PendingActivityInfo_PauseInfo_Manual_{b.Manual}
+	}
+	if b.Rule != nil {
+		x.PausedBy = &PendingActivityInfo_PauseInfo_Rule_{b.Rule}
+	}
+	return m0
+}
+
+type case_PendingActivityInfo_PauseInfo_PausedBy protoreflect.FieldNumber
+
+func (x case_PendingActivityInfo_PauseInfo_PausedBy) String() string {
+	switch x {
+	case PendingActivityInfo_PauseInfo_PausedBy_not_set_case:
+		return "PendingActivityInfoPauseInfoPausedByNotSetCase"
+	case PendingActivityInfo_PauseInfo_Manual_case:
+		return "PendingActivityInfoPauseInfoManualCase"
+	case PendingActivityInfo_PauseInfo_Rule_case:
+		return "PendingActivityInfoPauseInfoRuleCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isPendingActivityInfo_PauseInfo_PausedBy interface {
 	isPendingActivityInfo_PauseInfo_PausedBy()
 }
@@ -2675,7 +5461,7 @@ func (*PendingActivityInfo_PauseInfo_Manual_) isPendingActivityInfo_PauseInfo_Pa
 func (*PendingActivityInfo_PauseInfo_Rule_) isPendingActivityInfo_PauseInfo_PausedBy() {}
 
 type PendingActivityInfo_PauseInfo_Manual struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the actor that paused the activity.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Reason for pausing the activity.
@@ -2709,11 +5495,6 @@ func (x *PendingActivityInfo_PauseInfo_Manual) ProtoReflect() protoreflect.Messa
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PendingActivityInfo_PauseInfo_Manual.ProtoReflect.Descriptor instead.
-func (*PendingActivityInfo_PauseInfo_Manual) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{6, 0, 0}
-}
-
 func (x *PendingActivityInfo_PauseInfo_Manual) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -2728,8 +5509,34 @@ func (x *PendingActivityInfo_PauseInfo_Manual) GetReason() string {
 	return ""
 }
 
+func (x *PendingActivityInfo_PauseInfo_Manual) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PendingActivityInfo_PauseInfo_Manual) SetReason(v string) {
+	x.Reason = v
+}
+
+type PendingActivityInfo_PauseInfo_Manual_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the actor that paused the activity.
+	Identity string
+	// Reason for pausing the activity.
+	Reason string
+}
+
+func (b0 PendingActivityInfo_PauseInfo_Manual_builder) Build() *PendingActivityInfo_PauseInfo_Manual {
+	m0 := &PendingActivityInfo_PauseInfo_Manual{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	return m0
+}
+
 type PendingActivityInfo_PauseInfo_Rule struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The rule that paused the activity.
 	RuleId string `protobuf:"bytes,1,opt,name=rule_id,json=ruleId,proto3" json:"rule_id,omitempty"`
 	// The identity of the actor that created the rule.
@@ -2765,11 +5572,6 @@ func (x *PendingActivityInfo_PauseInfo_Rule) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PendingActivityInfo_PauseInfo_Rule.ProtoReflect.Descriptor instead.
-func (*PendingActivityInfo_PauseInfo_Rule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{6, 0, 1}
-}
-
 func (x *PendingActivityInfo_PauseInfo_Rule) GetRuleId() string {
 	if x != nil {
 		return x.RuleId
@@ -2791,9 +5593,42 @@ func (x *PendingActivityInfo_PauseInfo_Rule) GetReason() string {
 	return ""
 }
 
+func (x *PendingActivityInfo_PauseInfo_Rule) SetRuleId(v string) {
+	x.RuleId = v
+}
+
+func (x *PendingActivityInfo_PauseInfo_Rule) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *PendingActivityInfo_PauseInfo_Rule) SetReason(v string) {
+	x.Reason = v
+}
+
+type PendingActivityInfo_PauseInfo_Rule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The rule that paused the activity.
+	RuleId string
+	// The identity of the actor that created the rule.
+	Identity string
+	// Reason why rule was created. Populated from rule description.
+	Reason string
+}
+
+func (b0 PendingActivityInfo_PauseInfo_Rule_builder) Build() *PendingActivityInfo_PauseInfo_Rule {
+	m0 := &PendingActivityInfo_PauseInfo_Rule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.RuleId = b.RuleId
+	x.Identity = b.Identity
+	x.Reason = b.Reason
+	return m0
+}
+
 // Trigger for when the workflow is closed.
 type CallbackInfo_WorkflowClosed struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2823,13 +5658,20 @@ func (x *CallbackInfo_WorkflowClosed) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CallbackInfo_WorkflowClosed.ProtoReflect.Descriptor instead.
-func (*CallbackInfo_WorkflowClosed) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{12, 0}
+type CallbackInfo_WorkflowClosed_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+}
+
+func (b0 CallbackInfo_WorkflowClosed_builder) Build() *CallbackInfo_WorkflowClosed {
+	m0 := &CallbackInfo_WorkflowClosed{}
+	b, x := &b0, m0
+	_, _ = b, x
+	return m0
 }
 
 type CallbackInfo_Trigger struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Variant:
 	//
 	//	*CallbackInfo_Trigger_WorkflowClosed
@@ -2863,11 +5705,6 @@ func (x *CallbackInfo_Trigger) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CallbackInfo_Trigger.ProtoReflect.Descriptor instead.
-func (*CallbackInfo_Trigger) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{12, 1}
-}
-
 func (x *CallbackInfo_Trigger) GetVariant() isCallbackInfo_Trigger_Variant {
 	if x != nil {
 		return x.Variant
@@ -2884,6 +5721,86 @@ func (x *CallbackInfo_Trigger) GetWorkflowClosed() *CallbackInfo_WorkflowClosed 
 	return nil
 }
 
+func (x *CallbackInfo_Trigger) SetWorkflowClosed(v *CallbackInfo_WorkflowClosed) {
+	if v == nil {
+		x.Variant = nil
+		return
+	}
+	x.Variant = &CallbackInfo_Trigger_WorkflowClosed{v}
+}
+
+func (x *CallbackInfo_Trigger) HasVariant() bool {
+	if x == nil {
+		return false
+	}
+	return x.Variant != nil
+}
+
+func (x *CallbackInfo_Trigger) HasWorkflowClosed() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Variant.(*CallbackInfo_Trigger_WorkflowClosed)
+	return ok
+}
+
+func (x *CallbackInfo_Trigger) ClearVariant() {
+	x.Variant = nil
+}
+
+func (x *CallbackInfo_Trigger) ClearWorkflowClosed() {
+	if _, ok := x.Variant.(*CallbackInfo_Trigger_WorkflowClosed); ok {
+		x.Variant = nil
+	}
+}
+
+const CallbackInfo_Trigger_Variant_not_set_case case_CallbackInfo_Trigger_Variant = 0
+const CallbackInfo_Trigger_WorkflowClosed_case case_CallbackInfo_Trigger_Variant = 1
+
+func (x *CallbackInfo_Trigger) WhichVariant() case_CallbackInfo_Trigger_Variant {
+	if x == nil {
+		return CallbackInfo_Trigger_Variant_not_set_case
+	}
+	switch x.Variant.(type) {
+	case *CallbackInfo_Trigger_WorkflowClosed:
+		return CallbackInfo_Trigger_WorkflowClosed_case
+	default:
+		return CallbackInfo_Trigger_Variant_not_set_case
+	}
+}
+
+type CallbackInfo_Trigger_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Variant:
+	WorkflowClosed *CallbackInfo_WorkflowClosed
+	// -- end of Variant
+}
+
+func (b0 CallbackInfo_Trigger_builder) Build() *CallbackInfo_Trigger {
+	m0 := &CallbackInfo_Trigger{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.WorkflowClosed != nil {
+		x.Variant = &CallbackInfo_Trigger_WorkflowClosed{b.WorkflowClosed}
+	}
+	return m0
+}
+
+type case_CallbackInfo_Trigger_Variant protoreflect.FieldNumber
+
+func (x case_CallbackInfo_Trigger_Variant) String() string {
+	switch x {
+	case CallbackInfo_Trigger_Variant_not_set_case:
+		return "CallbackInfoTriggerVariantNotSetCase"
+	case CallbackInfo_Trigger_WorkflowClosed_case:
+		return "CallbackInfoTriggerWorkflowClosedCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isCallbackInfo_Trigger_Variant interface {
 	isCallbackInfo_Trigger_Variant()
 }
@@ -2895,7 +5812,7 @@ type CallbackInfo_Trigger_WorkflowClosed struct {
 func (*CallbackInfo_Trigger_WorkflowClosed) isCallbackInfo_Trigger_Variant() {}
 
 type VersioningOverride_PinnedOverride struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.
 	// See `PinnedOverrideBehavior` for details.
 	Behavior VersioningOverride_PinnedOverrideBehavior `protobuf:"varint,1,opt,name=behavior,proto3,enum=temporal.api.workflow.v1.VersioningOverride_PinnedOverrideBehavior" json:"behavior,omitempty"`
@@ -2937,11 +5854,6 @@ func (x *VersioningOverride_PinnedOverride) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VersioningOverride_PinnedOverride.ProtoReflect.Descriptor instead.
-func (*VersioningOverride_PinnedOverride) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{16, 0}
-}
-
 func (x *VersioningOverride_PinnedOverride) GetBehavior() VersioningOverride_PinnedOverrideBehavior {
 	if x != nil {
 		return x.Behavior
@@ -2956,10 +5868,55 @@ func (x *VersioningOverride_PinnedOverride) GetVersion() *v12.WorkerDeploymentVe
 	return nil
 }
 
+func (x *VersioningOverride_PinnedOverride) SetBehavior(v VersioningOverride_PinnedOverrideBehavior) {
+	x.Behavior = v
+}
+
+func (x *VersioningOverride_PinnedOverride) SetVersion(v *v12.WorkerDeploymentVersion) {
+	x.Version = v
+}
+
+func (x *VersioningOverride_PinnedOverride) HasVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.Version != nil
+}
+
+func (x *VersioningOverride_PinnedOverride) ClearVersion() {
+	x.Version = nil
+}
+
+type VersioningOverride_PinnedOverride_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED.
+	// See `PinnedOverrideBehavior` for details.
+	Behavior VersioningOverride_PinnedOverrideBehavior
+	// Specifies the Worker Deployment Version to pin this workflow to.
+	// Required if the target workflow is not already pinned to a version.
+	//
+	// If omitted and the target workflow is already pinned, the effective
+	// pinned version will be the existing pinned version.
+	//
+	// If omitted and the target workflow is not pinned, the override request
+	// will be rejected with a PreconditionFailed error.
+	Version *v12.WorkerDeploymentVersion
+}
+
+func (b0 VersioningOverride_PinnedOverride_builder) Build() *VersioningOverride_PinnedOverride {
+	m0 := &VersioningOverride_PinnedOverride{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Behavior = b.Behavior
+	x.Version = b.Version
+	return m0
+}
+
 // SignalWorkflow represents sending a signal after a workflow reset.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.
 type PostResetOperation_SignalWorkflow struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The workflow author-defined name of the signal to send to the workflow.
 	SignalName string `protobuf:"bytes,1,opt,name=signal_name,json=signalName,proto3" json:"signal_name,omitempty"`
 	// Serialized value(s) to provide with the signal.
@@ -2997,11 +5954,6 @@ func (x *PostResetOperation_SignalWorkflow) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PostResetOperation_SignalWorkflow.ProtoReflect.Descriptor instead.
-func (*PostResetOperation_SignalWorkflow) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{19, 0}
-}
-
 func (x *PostResetOperation_SignalWorkflow) GetSignalName() string {
 	if x != nil {
 		return x.SignalName
@@ -3030,10 +5982,72 @@ func (x *PostResetOperation_SignalWorkflow) GetLinks() []*v1.Link {
 	return nil
 }
 
+func (x *PostResetOperation_SignalWorkflow) SetSignalName(v string) {
+	x.SignalName = v
+}
+
+func (x *PostResetOperation_SignalWorkflow) SetInput(v *v1.Payloads) {
+	x.Input = v
+}
+
+func (x *PostResetOperation_SignalWorkflow) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *PostResetOperation_SignalWorkflow) SetLinks(v []*v1.Link) {
+	x.Links = v
+}
+
+func (x *PostResetOperation_SignalWorkflow) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *PostResetOperation_SignalWorkflow) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *PostResetOperation_SignalWorkflow) ClearInput() {
+	x.Input = nil
+}
+
+func (x *PostResetOperation_SignalWorkflow) ClearHeader() {
+	x.Header = nil
+}
+
+type PostResetOperation_SignalWorkflow_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The workflow author-defined name of the signal to send to the workflow.
+	SignalName string
+	// Serialized value(s) to provide with the signal.
+	Input *v1.Payloads
+	// Headers that are passed with the signal to the processing workflow.
+	Header *v1.Header
+	// Links to be associated with the WorkflowExecutionSignaled event.
+	Links []*v1.Link
+}
+
+func (b0 PostResetOperation_SignalWorkflow_builder) Build() *PostResetOperation_SignalWorkflow {
+	m0 := &PostResetOperation_SignalWorkflow{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SignalName = b.SignalName
+	x.Input = b.Input
+	x.Header = b.Header
+	x.Links = b.Links
+	return m0
+}
+
 // UpdateWorkflowOptions represents updating workflow execution options after a workflow reset.
 // Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.
 type PostResetOperation_UpdateWorkflowOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Update Workflow options that were originally specified via StartWorkflowExecution. Partial updates are accepted and controlled by update_mask.
 	WorkflowExecutionOptions *WorkflowExecutionOptions `protobuf:"bytes,1,opt,name=workflow_execution_options,json=workflowExecutionOptions,proto3" json:"workflow_execution_options,omitempty"`
 	// Controls which fields from `workflow_execution_options` will be applied.
@@ -3068,11 +6082,6 @@ func (x *PostResetOperation_UpdateWorkflowOptions) ProtoReflect() protoreflect.M
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PostResetOperation_UpdateWorkflowOptions.ProtoReflect.Descriptor instead.
-func (*PostResetOperation_UpdateWorkflowOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_workflow_v1_message_proto_rawDescGZIP(), []int{19, 1}
-}
-
 func (x *PostResetOperation_UpdateWorkflowOptions) GetWorkflowExecutionOptions() *WorkflowExecutionOptions {
 	if x != nil {
 		return x.WorkflowExecutionOptions
@@ -3085,6 +6094,55 @@ func (x *PostResetOperation_UpdateWorkflowOptions) GetUpdateMask() *fieldmaskpb.
 		return x.UpdateMask
 	}
 	return nil
+}
+
+func (x *PostResetOperation_UpdateWorkflowOptions) SetWorkflowExecutionOptions(v *WorkflowExecutionOptions) {
+	x.WorkflowExecutionOptions = v
+}
+
+func (x *PostResetOperation_UpdateWorkflowOptions) SetUpdateMask(v *fieldmaskpb.FieldMask) {
+	x.UpdateMask = v
+}
+
+func (x *PostResetOperation_UpdateWorkflowOptions) HasWorkflowExecutionOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionOptions != nil
+}
+
+func (x *PostResetOperation_UpdateWorkflowOptions) HasUpdateMask() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateMask != nil
+}
+
+func (x *PostResetOperation_UpdateWorkflowOptions) ClearWorkflowExecutionOptions() {
+	x.WorkflowExecutionOptions = nil
+}
+
+func (x *PostResetOperation_UpdateWorkflowOptions) ClearUpdateMask() {
+	x.UpdateMask = nil
+}
+
+type PostResetOperation_UpdateWorkflowOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Update Workflow options that were originally specified via StartWorkflowExecution. Partial updates are accepted and controlled by update_mask.
+	WorkflowExecutionOptions *WorkflowExecutionOptions
+	// Controls which fields from `workflow_execution_options` will be applied.
+	// To unset a field, set it to null and use the update mask to indicate that it should be mutated.
+	UpdateMask *fieldmaskpb.FieldMask
+}
+
+func (b0 PostResetOperation_UpdateWorkflowOptions_builder) Build() *PostResetOperation_UpdateWorkflowOptions {
+	m0 := &PostResetOperation_UpdateWorkflowOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowExecutionOptions = b.WorkflowExecutionOptions
+	x.UpdateMask = b.UpdateMask
+	return m0
 }
 
 var File_temporal_api_workflow_v1_message_proto protoreflect.FileDescriptor
@@ -3342,18 +6400,6 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"pausedTime\x12\x16\n" +
 	"\x06reason\x18\x03 \x01(\tR\x06reasonB\x93\x01\n" +
 	"\x1bio.temporal.api.workflow.v1B\fMessageProtoP\x01Z'go.temporal.io/api/workflow/v1;workflow\xaa\x02\x1aTemporalio.Api.Workflow.V1\xea\x02\x1dTemporalio::Api::Workflow::V1b\x06proto3"
-
-var (
-	file_temporal_api_workflow_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_workflow_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_workflow_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_workflow_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_workflow_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_workflow_v1_message_proto_rawDesc), len(file_temporal_api_workflow_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_workflow_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_workflow_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_temporal_api_workflow_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 30)

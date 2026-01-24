@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/batch/v1/message.proto
 
+//go:build !protoopaque
+
 package batch
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v14 "go.temporal.io/api/activity/v1"
@@ -31,7 +33,7 @@ const (
 )
 
 type BatchOperationInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Batch job ID
 	JobId string `protobuf:"bytes,1,opt,name=job_id,json=jobId,proto3" json:"job_id,omitempty"`
 	// Batch operation state
@@ -69,11 +71,6 @@ func (x *BatchOperationInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchOperationInfo.ProtoReflect.Descriptor instead.
-func (*BatchOperationInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *BatchOperationInfo) GetJobId() string {
 	if x != nil {
 		return x.JobId
@@ -102,11 +99,73 @@ func (x *BatchOperationInfo) GetCloseTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *BatchOperationInfo) SetJobId(v string) {
+	x.JobId = v
+}
+
+func (x *BatchOperationInfo) SetState(v v1.BatchOperationState) {
+	x.State = v
+}
+
+func (x *BatchOperationInfo) SetStartTime(v *timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+func (x *BatchOperationInfo) SetCloseTime(v *timestamppb.Timestamp) {
+	x.CloseTime = v
+}
+
+func (x *BatchOperationInfo) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *BatchOperationInfo) HasCloseTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CloseTime != nil
+}
+
+func (x *BatchOperationInfo) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *BatchOperationInfo) ClearCloseTime() {
+	x.CloseTime = nil
+}
+
+type BatchOperationInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Batch job ID
+	JobId string
+	// Batch operation state
+	State v1.BatchOperationState
+	// Batch operation start time
+	StartTime *timestamppb.Timestamp
+	// Batch operation close time
+	CloseTime *timestamppb.Timestamp
+}
+
+func (b0 BatchOperationInfo_builder) Build() *BatchOperationInfo {
+	m0 := &BatchOperationInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.JobId = b.JobId
+	x.State = b.State
+	x.StartTime = b.StartTime
+	x.CloseTime = b.CloseTime
+	return m0
+}
+
 // BatchOperationTermination sends terminate requests to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest.
 // Ignore first_execution_run_id because this is used for single workflow operation.
 type BatchOperationTermination struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Serialized value(s) to provide to the termination event
 	Details *v11.Payloads `protobuf:"bytes,1,opt,name=details,proto3" json:"details,omitempty"`
 	// The identity of the worker/client
@@ -140,11 +199,6 @@ func (x *BatchOperationTermination) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchOperationTermination.ProtoReflect.Descriptor instead.
-func (*BatchOperationTermination) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *BatchOperationTermination) GetDetails() *v11.Payloads {
 	if x != nil {
 		return x.Details
@@ -159,10 +213,47 @@ func (x *BatchOperationTermination) GetIdentity() string {
 	return ""
 }
 
+func (x *BatchOperationTermination) SetDetails(v *v11.Payloads) {
+	x.Details = v
+}
+
+func (x *BatchOperationTermination) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *BatchOperationTermination) HasDetails() bool {
+	if x == nil {
+		return false
+	}
+	return x.Details != nil
+}
+
+func (x *BatchOperationTermination) ClearDetails() {
+	x.Details = nil
+}
+
+type BatchOperationTermination_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Serialized value(s) to provide to the termination event
+	Details *v11.Payloads
+	// The identity of the worker/client
+	Identity string
+}
+
+func (b0 BatchOperationTermination_builder) Build() *BatchOperationTermination {
+	m0 := &BatchOperationTermination{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Details = b.Details
+	x.Identity = b.Identity
+	return m0
+}
+
 // BatchOperationSignal sends signals to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest.
 type BatchOperationSignal struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The workflow author-defined name of the signal to send to the workflow
 	Signal string `protobuf:"bytes,1,opt,name=signal,proto3" json:"signal,omitempty"`
 	// Serialized value(s) to provide with the signal
@@ -201,11 +292,6 @@ func (x *BatchOperationSignal) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchOperationSignal.ProtoReflect.Descriptor instead.
-func (*BatchOperationSignal) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *BatchOperationSignal) GetSignal() string {
 	if x != nil {
 		return x.Signal
@@ -234,11 +320,74 @@ func (x *BatchOperationSignal) GetIdentity() string {
 	return ""
 }
 
+func (x *BatchOperationSignal) SetSignal(v string) {
+	x.Signal = v
+}
+
+func (x *BatchOperationSignal) SetInput(v *v11.Payloads) {
+	x.Input = v
+}
+
+func (x *BatchOperationSignal) SetHeader(v *v11.Header) {
+	x.Header = v
+}
+
+func (x *BatchOperationSignal) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *BatchOperationSignal) HasInput() bool {
+	if x == nil {
+		return false
+	}
+	return x.Input != nil
+}
+
+func (x *BatchOperationSignal) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *BatchOperationSignal) ClearInput() {
+	x.Input = nil
+}
+
+func (x *BatchOperationSignal) ClearHeader() {
+	x.Header = nil
+}
+
+type BatchOperationSignal_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The workflow author-defined name of the signal to send to the workflow
+	Signal string
+	// Serialized value(s) to provide with the signal
+	Input *v11.Payloads
+	// Headers that are passed with the signal to the processing workflow.
+	// These can include things like auth or tracing tokens.
+	Header *v11.Header
+	// The identity of the worker/client
+	Identity string
+}
+
+func (b0 BatchOperationSignal_builder) Build() *BatchOperationSignal {
+	m0 := &BatchOperationSignal{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Signal = b.Signal
+	x.Input = b.Input
+	x.Header = b.Header
+	x.Identity = b.Identity
+	return m0
+}
+
 // BatchOperationCancellation sends cancel requests to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest.
 // Ignore first_execution_run_id because this is used for single workflow operation.
 type BatchOperationCancellation struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the worker/client
 	Identity      string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -270,11 +419,6 @@ func (x *BatchOperationCancellation) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchOperationCancellation.ProtoReflect.Descriptor instead.
-func (*BatchOperationCancellation) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *BatchOperationCancellation) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -282,10 +426,29 @@ func (x *BatchOperationCancellation) GetIdentity() string {
 	return ""
 }
 
+func (x *BatchOperationCancellation) SetIdentity(v string) {
+	x.Identity = v
+}
+
+type BatchOperationCancellation_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the worker/client
+	Identity string
+}
+
+func (b0 BatchOperationCancellation_builder) Build() *BatchOperationCancellation {
+	m0 := &BatchOperationCancellation{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	return m0
+}
+
 // BatchOperationDeletion sends deletion requests to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.DeleteWorkflowExecutionRequest.
 type BatchOperationDeletion struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the worker/client
 	Identity      string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -317,11 +480,6 @@ func (x *BatchOperationDeletion) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchOperationDeletion.ProtoReflect.Descriptor instead.
-func (*BatchOperationDeletion) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *BatchOperationDeletion) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -329,10 +487,29 @@ func (x *BatchOperationDeletion) GetIdentity() string {
 	return ""
 }
 
+func (x *BatchOperationDeletion) SetIdentity(v string) {
+	x.Identity = v
+}
+
+type BatchOperationDeletion_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the worker/client
+	Identity string
+}
+
+func (b0 BatchOperationDeletion_builder) Build() *BatchOperationDeletion {
+	m0 := &BatchOperationDeletion{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	return m0
+}
+
 // BatchOperationReset sends reset requests to batch workflows.
 // Keep the parameter in sync with temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest.
 type BatchOperationReset struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Describes what to reset to and how. If set, `reset_type` and `reset_reapply_type` are ignored.
@@ -378,11 +555,6 @@ func (x *BatchOperationReset) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchOperationReset.ProtoReflect.Descriptor instead.
-func (*BatchOperationReset) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *BatchOperationReset) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -420,10 +592,76 @@ func (x *BatchOperationReset) GetPostResetOperations() []*v12.PostResetOperation
 	return nil
 }
 
+func (x *BatchOperationReset) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *BatchOperationReset) SetOptions(v *v11.ResetOptions) {
+	x.Options = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/batch/v1/message.proto.
+func (x *BatchOperationReset) SetResetType(v v1.ResetType) {
+	x.ResetType = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/batch/v1/message.proto.
+func (x *BatchOperationReset) SetResetReapplyType(v v1.ResetReapplyType) {
+	x.ResetReapplyType = v
+}
+
+func (x *BatchOperationReset) SetPostResetOperations(v []*v12.PostResetOperation) {
+	x.PostResetOperations = v
+}
+
+func (x *BatchOperationReset) HasOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.Options != nil
+}
+
+func (x *BatchOperationReset) ClearOptions() {
+	x.Options = nil
+}
+
+type BatchOperationReset_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the worker/client.
+	Identity string
+	// Describes what to reset to and how. If set, `reset_type` and `reset_reapply_type` are ignored.
+	Options *v11.ResetOptions
+	// Deprecated. Use `options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/batch/v1/message.proto.
+	ResetType v1.ResetType
+	// Deprecated. Use `options`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/batch/v1/message.proto.
+	ResetReapplyType v1.ResetReapplyType
+	// Operations to perform after the workflow has been reset. These operations will be applied
+	// to the *new* run of the workflow execution in the order they are provided.
+	// All operations are applied to the workflow before the first new workflow task is generated
+	PostResetOperations []*v12.PostResetOperation
+}
+
+func (b0 BatchOperationReset_builder) Build() *BatchOperationReset {
+	m0 := &BatchOperationReset{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	x.Options = b.Options
+	x.ResetType = b.ResetType
+	x.ResetReapplyType = b.ResetReapplyType
+	x.PostResetOperations = b.PostResetOperations
+	return m0
+}
+
 // BatchOperationUpdateWorkflowExecutionOptions sends UpdateWorkflowExecutionOptions requests to batch workflows.
 // Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest.
 type BatchOperationUpdateWorkflowExecutionOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Update Workflow options that were originally specified via StartWorkflowExecution. Partial updates are accepted and controlled by update_mask.
@@ -460,11 +698,6 @@ func (x *BatchOperationUpdateWorkflowExecutionOptions) ProtoReflect() protorefle
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchOperationUpdateWorkflowExecutionOptions.ProtoReflect.Descriptor instead.
-func (*BatchOperationUpdateWorkflowExecutionOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *BatchOperationUpdateWorkflowExecutionOptions) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -486,9 +719,65 @@ func (x *BatchOperationUpdateWorkflowExecutionOptions) GetUpdateMask() *fieldmas
 	return nil
 }
 
+func (x *BatchOperationUpdateWorkflowExecutionOptions) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *BatchOperationUpdateWorkflowExecutionOptions) SetWorkflowExecutionOptions(v *v12.WorkflowExecutionOptions) {
+	x.WorkflowExecutionOptions = v
+}
+
+func (x *BatchOperationUpdateWorkflowExecutionOptions) SetUpdateMask(v *fieldmaskpb.FieldMask) {
+	x.UpdateMask = v
+}
+
+func (x *BatchOperationUpdateWorkflowExecutionOptions) HasWorkflowExecutionOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowExecutionOptions != nil
+}
+
+func (x *BatchOperationUpdateWorkflowExecutionOptions) HasUpdateMask() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateMask != nil
+}
+
+func (x *BatchOperationUpdateWorkflowExecutionOptions) ClearWorkflowExecutionOptions() {
+	x.WorkflowExecutionOptions = nil
+}
+
+func (x *BatchOperationUpdateWorkflowExecutionOptions) ClearUpdateMask() {
+	x.UpdateMask = nil
+}
+
+type BatchOperationUpdateWorkflowExecutionOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the worker/client.
+	Identity string
+	// Update Workflow options that were originally specified via StartWorkflowExecution. Partial updates are accepted and controlled by update_mask.
+	WorkflowExecutionOptions *v12.WorkflowExecutionOptions
+	// Controls which fields from `workflow_execution_options` will be applied.
+	// To unset a field, set it to null and use the update mask to indicate that it should be mutated.
+	UpdateMask *fieldmaskpb.FieldMask
+}
+
+func (b0 BatchOperationUpdateWorkflowExecutionOptions_builder) Build() *BatchOperationUpdateWorkflowExecutionOptions {
+	m0 := &BatchOperationUpdateWorkflowExecutionOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	x.WorkflowExecutionOptions = b.WorkflowExecutionOptions
+	x.UpdateMask = b.UpdateMask
+	return m0
+}
+
 // BatchOperationUnpauseActivities sends unpause requests to batch workflows.
 type BatchOperationUnpauseActivities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// The activity to unpause. If match_all is set to true, all activities will be unpaused.
@@ -532,11 +821,6 @@ func (x *BatchOperationUnpauseActivities) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BatchOperationUnpauseActivities.ProtoReflect.Descriptor instead.
-func (*BatchOperationUnpauseActivities) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *BatchOperationUnpauseActivities) GetIdentity() string {
@@ -592,6 +876,151 @@ func (x *BatchOperationUnpauseActivities) GetJitter() *durationpb.Duration {
 	return nil
 }
 
+func (x *BatchOperationUnpauseActivities) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *BatchOperationUnpauseActivities) SetType(v string) {
+	x.Activity = &BatchOperationUnpauseActivities_Type{v}
+}
+
+func (x *BatchOperationUnpauseActivities) SetMatchAll(v bool) {
+	x.Activity = &BatchOperationUnpauseActivities_MatchAll{v}
+}
+
+func (x *BatchOperationUnpauseActivities) SetResetAttempts(v bool) {
+	x.ResetAttempts = v
+}
+
+func (x *BatchOperationUnpauseActivities) SetResetHeartbeat(v bool) {
+	x.ResetHeartbeat = v
+}
+
+func (x *BatchOperationUnpauseActivities) SetJitter(v *durationpb.Duration) {
+	x.Jitter = v
+}
+
+func (x *BatchOperationUnpauseActivities) HasActivity() bool {
+	if x == nil {
+		return false
+	}
+	return x.Activity != nil
+}
+
+func (x *BatchOperationUnpauseActivities) HasType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*BatchOperationUnpauseActivities_Type)
+	return ok
+}
+
+func (x *BatchOperationUnpauseActivities) HasMatchAll() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*BatchOperationUnpauseActivities_MatchAll)
+	return ok
+}
+
+func (x *BatchOperationUnpauseActivities) HasJitter() bool {
+	if x == nil {
+		return false
+	}
+	return x.Jitter != nil
+}
+
+func (x *BatchOperationUnpauseActivities) ClearActivity() {
+	x.Activity = nil
+}
+
+func (x *BatchOperationUnpauseActivities) ClearType() {
+	if _, ok := x.Activity.(*BatchOperationUnpauseActivities_Type); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *BatchOperationUnpauseActivities) ClearMatchAll() {
+	if _, ok := x.Activity.(*BatchOperationUnpauseActivities_MatchAll); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *BatchOperationUnpauseActivities) ClearJitter() {
+	x.Jitter = nil
+}
+
+const BatchOperationUnpauseActivities_Activity_not_set_case case_BatchOperationUnpauseActivities_Activity = 0
+const BatchOperationUnpauseActivities_Type_case case_BatchOperationUnpauseActivities_Activity = 2
+const BatchOperationUnpauseActivities_MatchAll_case case_BatchOperationUnpauseActivities_Activity = 3
+
+func (x *BatchOperationUnpauseActivities) WhichActivity() case_BatchOperationUnpauseActivities_Activity {
+	if x == nil {
+		return BatchOperationUnpauseActivities_Activity_not_set_case
+	}
+	switch x.Activity.(type) {
+	case *BatchOperationUnpauseActivities_Type:
+		return BatchOperationUnpauseActivities_Type_case
+	case *BatchOperationUnpauseActivities_MatchAll:
+		return BatchOperationUnpauseActivities_MatchAll_case
+	default:
+		return BatchOperationUnpauseActivities_Activity_not_set_case
+	}
+}
+
+type BatchOperationUnpauseActivities_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the worker/client.
+	Identity string
+	// The activity to unpause. If match_all is set to true, all activities will be unpaused.
+
+	// Fields of oneof Activity:
+	Type     *string
+	MatchAll *bool
+	// -- end of Activity
+	// Setting this flag will also reset the number of attempts.
+	ResetAttempts bool
+	// Setting this flag will also reset the heartbeat details.
+	ResetHeartbeat bool
+	// If set, the activity will start at a random time within the specified jitter
+	// duration, introducing variability to the start time.
+	Jitter *durationpb.Duration
+}
+
+func (b0 BatchOperationUnpauseActivities_builder) Build() *BatchOperationUnpauseActivities {
+	m0 := &BatchOperationUnpauseActivities{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	if b.Type != nil {
+		x.Activity = &BatchOperationUnpauseActivities_Type{*b.Type}
+	}
+	if b.MatchAll != nil {
+		x.Activity = &BatchOperationUnpauseActivities_MatchAll{*b.MatchAll}
+	}
+	x.ResetAttempts = b.ResetAttempts
+	x.ResetHeartbeat = b.ResetHeartbeat
+	x.Jitter = b.Jitter
+	return m0
+}
+
+type case_BatchOperationUnpauseActivities_Activity protoreflect.FieldNumber
+
+func (x case_BatchOperationUnpauseActivities_Activity) String() string {
+	switch x {
+	case BatchOperationUnpauseActivities_Activity_not_set_case:
+		return "BatchOperationUnpauseActivitiesActivityNotSetCase"
+	case BatchOperationUnpauseActivities_Type_case:
+		return "BatchOperationUnpauseActivitiesTypeCase"
+	case BatchOperationUnpauseActivities_MatchAll_case:
+		return "BatchOperationUnpauseActivitiesMatchAllCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isBatchOperationUnpauseActivities_Activity interface {
 	isBatchOperationUnpauseActivities_Activity()
 }
@@ -610,7 +1039,7 @@ func (*BatchOperationUnpauseActivities_MatchAll) isBatchOperationUnpauseActiviti
 
 // BatchOperationTriggerWorkflowRule sends TriggerWorkflowRule requests to batch workflows.
 type BatchOperationTriggerWorkflowRule struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// Types that are valid to be assigned to Rule:
@@ -647,11 +1076,6 @@ func (x *BatchOperationTriggerWorkflowRule) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BatchOperationTriggerWorkflowRule.ProtoReflect.Descriptor instead.
-func (*BatchOperationTriggerWorkflowRule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *BatchOperationTriggerWorkflowRule) GetIdentity() string {
 	if x != nil {
 		return x.Identity
@@ -684,6 +1108,122 @@ func (x *BatchOperationTriggerWorkflowRule) GetSpec() *v13.WorkflowRuleSpec {
 	return nil
 }
 
+func (x *BatchOperationTriggerWorkflowRule) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *BatchOperationTriggerWorkflowRule) SetId(v string) {
+	x.Rule = &BatchOperationTriggerWorkflowRule_Id{v}
+}
+
+func (x *BatchOperationTriggerWorkflowRule) SetSpec(v *v13.WorkflowRuleSpec) {
+	if v == nil {
+		x.Rule = nil
+		return
+	}
+	x.Rule = &BatchOperationTriggerWorkflowRule_Spec{v}
+}
+
+func (x *BatchOperationTriggerWorkflowRule) HasRule() bool {
+	if x == nil {
+		return false
+	}
+	return x.Rule != nil
+}
+
+func (x *BatchOperationTriggerWorkflowRule) HasId() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Rule.(*BatchOperationTriggerWorkflowRule_Id)
+	return ok
+}
+
+func (x *BatchOperationTriggerWorkflowRule) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Rule.(*BatchOperationTriggerWorkflowRule_Spec)
+	return ok
+}
+
+func (x *BatchOperationTriggerWorkflowRule) ClearRule() {
+	x.Rule = nil
+}
+
+func (x *BatchOperationTriggerWorkflowRule) ClearId() {
+	if _, ok := x.Rule.(*BatchOperationTriggerWorkflowRule_Id); ok {
+		x.Rule = nil
+	}
+}
+
+func (x *BatchOperationTriggerWorkflowRule) ClearSpec() {
+	if _, ok := x.Rule.(*BatchOperationTriggerWorkflowRule_Spec); ok {
+		x.Rule = nil
+	}
+}
+
+const BatchOperationTriggerWorkflowRule_Rule_not_set_case case_BatchOperationTriggerWorkflowRule_Rule = 0
+const BatchOperationTriggerWorkflowRule_Id_case case_BatchOperationTriggerWorkflowRule_Rule = 2
+const BatchOperationTriggerWorkflowRule_Spec_case case_BatchOperationTriggerWorkflowRule_Rule = 3
+
+func (x *BatchOperationTriggerWorkflowRule) WhichRule() case_BatchOperationTriggerWorkflowRule_Rule {
+	if x == nil {
+		return BatchOperationTriggerWorkflowRule_Rule_not_set_case
+	}
+	switch x.Rule.(type) {
+	case *BatchOperationTriggerWorkflowRule_Id:
+		return BatchOperationTriggerWorkflowRule_Id_case
+	case *BatchOperationTriggerWorkflowRule_Spec:
+		return BatchOperationTriggerWorkflowRule_Spec_case
+	default:
+		return BatchOperationTriggerWorkflowRule_Rule_not_set_case
+	}
+}
+
+type BatchOperationTriggerWorkflowRule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the worker/client.
+	Identity string
+	// Fields of oneof Rule:
+	// ID of existing rule.
+	Id *string
+	// Rule specification to be applied to the workflow without creating a new rule.
+	Spec *v13.WorkflowRuleSpec
+	// -- end of Rule
+}
+
+func (b0 BatchOperationTriggerWorkflowRule_builder) Build() *BatchOperationTriggerWorkflowRule {
+	m0 := &BatchOperationTriggerWorkflowRule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	if b.Id != nil {
+		x.Rule = &BatchOperationTriggerWorkflowRule_Id{*b.Id}
+	}
+	if b.Spec != nil {
+		x.Rule = &BatchOperationTriggerWorkflowRule_Spec{b.Spec}
+	}
+	return m0
+}
+
+type case_BatchOperationTriggerWorkflowRule_Rule protoreflect.FieldNumber
+
+func (x case_BatchOperationTriggerWorkflowRule_Rule) String() string {
+	switch x {
+	case BatchOperationTriggerWorkflowRule_Rule_not_set_case:
+		return "BatchOperationTriggerWorkflowRuleRuleNotSetCase"
+	case BatchOperationTriggerWorkflowRule_Id_case:
+		return "BatchOperationTriggerWorkflowRuleIdCase"
+	case BatchOperationTriggerWorkflowRule_Spec_case:
+		return "BatchOperationTriggerWorkflowRuleSpecCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isBatchOperationTriggerWorkflowRule_Rule interface {
 	isBatchOperationTriggerWorkflowRule_Rule()
 }
@@ -705,7 +1245,7 @@ func (*BatchOperationTriggerWorkflowRule_Spec) isBatchOperationTriggerWorkflowRu
 // BatchOperationResetActivities sends activity reset requests in a batch.
 // NOTE: keep in sync with temporal.api.workflowservice.v1.ResetActivityRequest
 type BatchOperationResetActivities struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// The activities to reset. If match_all is set to true, all activities will be reset.
@@ -755,11 +1295,6 @@ func (x *BatchOperationResetActivities) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BatchOperationResetActivities.ProtoReflect.Descriptor instead.
-func (*BatchOperationResetActivities) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *BatchOperationResetActivities) GetIdentity() string {
@@ -829,6 +1364,167 @@ func (x *BatchOperationResetActivities) GetRestoreOriginalOptions() bool {
 	return false
 }
 
+func (x *BatchOperationResetActivities) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *BatchOperationResetActivities) SetType(v string) {
+	x.Activity = &BatchOperationResetActivities_Type{v}
+}
+
+func (x *BatchOperationResetActivities) SetMatchAll(v bool) {
+	x.Activity = &BatchOperationResetActivities_MatchAll{v}
+}
+
+func (x *BatchOperationResetActivities) SetResetAttempts(v bool) {
+	x.ResetAttempts = v
+}
+
+func (x *BatchOperationResetActivities) SetResetHeartbeat(v bool) {
+	x.ResetHeartbeat = v
+}
+
+func (x *BatchOperationResetActivities) SetKeepPaused(v bool) {
+	x.KeepPaused = v
+}
+
+func (x *BatchOperationResetActivities) SetJitter(v *durationpb.Duration) {
+	x.Jitter = v
+}
+
+func (x *BatchOperationResetActivities) SetRestoreOriginalOptions(v bool) {
+	x.RestoreOriginalOptions = v
+}
+
+func (x *BatchOperationResetActivities) HasActivity() bool {
+	if x == nil {
+		return false
+	}
+	return x.Activity != nil
+}
+
+func (x *BatchOperationResetActivities) HasType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*BatchOperationResetActivities_Type)
+	return ok
+}
+
+func (x *BatchOperationResetActivities) HasMatchAll() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*BatchOperationResetActivities_MatchAll)
+	return ok
+}
+
+func (x *BatchOperationResetActivities) HasJitter() bool {
+	if x == nil {
+		return false
+	}
+	return x.Jitter != nil
+}
+
+func (x *BatchOperationResetActivities) ClearActivity() {
+	x.Activity = nil
+}
+
+func (x *BatchOperationResetActivities) ClearType() {
+	if _, ok := x.Activity.(*BatchOperationResetActivities_Type); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *BatchOperationResetActivities) ClearMatchAll() {
+	if _, ok := x.Activity.(*BatchOperationResetActivities_MatchAll); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *BatchOperationResetActivities) ClearJitter() {
+	x.Jitter = nil
+}
+
+const BatchOperationResetActivities_Activity_not_set_case case_BatchOperationResetActivities_Activity = 0
+const BatchOperationResetActivities_Type_case case_BatchOperationResetActivities_Activity = 2
+const BatchOperationResetActivities_MatchAll_case case_BatchOperationResetActivities_Activity = 3
+
+func (x *BatchOperationResetActivities) WhichActivity() case_BatchOperationResetActivities_Activity {
+	if x == nil {
+		return BatchOperationResetActivities_Activity_not_set_case
+	}
+	switch x.Activity.(type) {
+	case *BatchOperationResetActivities_Type:
+		return BatchOperationResetActivities_Type_case
+	case *BatchOperationResetActivities_MatchAll:
+		return BatchOperationResetActivities_MatchAll_case
+	default:
+		return BatchOperationResetActivities_Activity_not_set_case
+	}
+}
+
+type BatchOperationResetActivities_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the worker/client.
+	Identity string
+	// The activities to reset. If match_all is set to true, all activities will be reset.
+
+	// Fields of oneof Activity:
+	Type     *string
+	MatchAll *bool
+	// -- end of Activity
+	// Setting this flag will also reset the number of attempts.
+	ResetAttempts bool
+	// Setting this flag will also reset the heartbeat details.
+	ResetHeartbeat bool
+	// If activity is paused, it will remain paused after reset
+	KeepPaused bool
+	// If set, the activity will start at a random time within the specified jitter
+	// duration, introducing variability to the start time.
+	Jitter *durationpb.Duration
+	// If set, the activity options will be restored to the defaults.
+	// Default options are then options activity was created with.
+	// They are part of the first ActivityTaskScheduled event.
+	RestoreOriginalOptions bool
+}
+
+func (b0 BatchOperationResetActivities_builder) Build() *BatchOperationResetActivities {
+	m0 := &BatchOperationResetActivities{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	if b.Type != nil {
+		x.Activity = &BatchOperationResetActivities_Type{*b.Type}
+	}
+	if b.MatchAll != nil {
+		x.Activity = &BatchOperationResetActivities_MatchAll{*b.MatchAll}
+	}
+	x.ResetAttempts = b.ResetAttempts
+	x.ResetHeartbeat = b.ResetHeartbeat
+	x.KeepPaused = b.KeepPaused
+	x.Jitter = b.Jitter
+	x.RestoreOriginalOptions = b.RestoreOriginalOptions
+	return m0
+}
+
+type case_BatchOperationResetActivities_Activity protoreflect.FieldNumber
+
+func (x case_BatchOperationResetActivities_Activity) String() string {
+	switch x {
+	case BatchOperationResetActivities_Activity_not_set_case:
+		return "BatchOperationResetActivitiesActivityNotSetCase"
+	case BatchOperationResetActivities_Type_case:
+		return "BatchOperationResetActivitiesTypeCase"
+	case BatchOperationResetActivities_MatchAll_case:
+		return "BatchOperationResetActivitiesMatchAllCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isBatchOperationResetActivities_Activity interface {
 	isBatchOperationResetActivities_Activity()
 }
@@ -848,7 +1544,7 @@ func (*BatchOperationResetActivities_MatchAll) isBatchOperationResetActivities_A
 // BatchOperationUpdateActivityOptions sends an update-activity-options requests in a batch.
 // NOTE: keep in sync with temporal.api.workflowservice.v1.UpdateActivityRequest
 type BatchOperationUpdateActivityOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The identity of the worker/client.
 	Identity string `protobuf:"bytes,1,opt,name=identity,proto3" json:"identity,omitempty"`
 	// The activity to update. If match_all is set to true, all activities will be updated.
@@ -895,11 +1591,6 @@ func (x *BatchOperationUpdateActivityOptions) ProtoReflect() protoreflect.Messag
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BatchOperationUpdateActivityOptions.ProtoReflect.Descriptor instead.
-func (*BatchOperationUpdateActivityOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_batch_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *BatchOperationUpdateActivityOptions) GetIdentity() string {
@@ -953,6 +1644,165 @@ func (x *BatchOperationUpdateActivityOptions) GetRestoreOriginal() bool {
 		return x.RestoreOriginal
 	}
 	return false
+}
+
+func (x *BatchOperationUpdateActivityOptions) SetIdentity(v string) {
+	x.Identity = v
+}
+
+func (x *BatchOperationUpdateActivityOptions) SetType(v string) {
+	x.Activity = &BatchOperationUpdateActivityOptions_Type{v}
+}
+
+func (x *BatchOperationUpdateActivityOptions) SetMatchAll(v bool) {
+	x.Activity = &BatchOperationUpdateActivityOptions_MatchAll{v}
+}
+
+func (x *BatchOperationUpdateActivityOptions) SetActivityOptions(v *v14.ActivityOptions) {
+	x.ActivityOptions = v
+}
+
+func (x *BatchOperationUpdateActivityOptions) SetUpdateMask(v *fieldmaskpb.FieldMask) {
+	x.UpdateMask = v
+}
+
+func (x *BatchOperationUpdateActivityOptions) SetRestoreOriginal(v bool) {
+	x.RestoreOriginal = v
+}
+
+func (x *BatchOperationUpdateActivityOptions) HasActivity() bool {
+	if x == nil {
+		return false
+	}
+	return x.Activity != nil
+}
+
+func (x *BatchOperationUpdateActivityOptions) HasType() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*BatchOperationUpdateActivityOptions_Type)
+	return ok
+}
+
+func (x *BatchOperationUpdateActivityOptions) HasMatchAll() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Activity.(*BatchOperationUpdateActivityOptions_MatchAll)
+	return ok
+}
+
+func (x *BatchOperationUpdateActivityOptions) HasActivityOptions() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActivityOptions != nil
+}
+
+func (x *BatchOperationUpdateActivityOptions) HasUpdateMask() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateMask != nil
+}
+
+func (x *BatchOperationUpdateActivityOptions) ClearActivity() {
+	x.Activity = nil
+}
+
+func (x *BatchOperationUpdateActivityOptions) ClearType() {
+	if _, ok := x.Activity.(*BatchOperationUpdateActivityOptions_Type); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *BatchOperationUpdateActivityOptions) ClearMatchAll() {
+	if _, ok := x.Activity.(*BatchOperationUpdateActivityOptions_MatchAll); ok {
+		x.Activity = nil
+	}
+}
+
+func (x *BatchOperationUpdateActivityOptions) ClearActivityOptions() {
+	x.ActivityOptions = nil
+}
+
+func (x *BatchOperationUpdateActivityOptions) ClearUpdateMask() {
+	x.UpdateMask = nil
+}
+
+const BatchOperationUpdateActivityOptions_Activity_not_set_case case_BatchOperationUpdateActivityOptions_Activity = 0
+const BatchOperationUpdateActivityOptions_Type_case case_BatchOperationUpdateActivityOptions_Activity = 2
+const BatchOperationUpdateActivityOptions_MatchAll_case case_BatchOperationUpdateActivityOptions_Activity = 3
+
+func (x *BatchOperationUpdateActivityOptions) WhichActivity() case_BatchOperationUpdateActivityOptions_Activity {
+	if x == nil {
+		return BatchOperationUpdateActivityOptions_Activity_not_set_case
+	}
+	switch x.Activity.(type) {
+	case *BatchOperationUpdateActivityOptions_Type:
+		return BatchOperationUpdateActivityOptions_Type_case
+	case *BatchOperationUpdateActivityOptions_MatchAll:
+		return BatchOperationUpdateActivityOptions_MatchAll_case
+	default:
+		return BatchOperationUpdateActivityOptions_Activity_not_set_case
+	}
+}
+
+type BatchOperationUpdateActivityOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The identity of the worker/client.
+	Identity string
+	// The activity to update. If match_all is set to true, all activities will be updated.
+
+	// Fields of oneof Activity:
+	Type     *string
+	MatchAll *bool
+	// -- end of Activity
+	// Update Activity options. Partial updates are accepted and controlled by update_mask.
+	ActivityOptions *v14.ActivityOptions
+	// Controls which fields from `activity_options` will be applied
+	UpdateMask *fieldmaskpb.FieldMask
+	// If set, the activity options will be restored to the default.
+	// Default options are then options activity was created with.
+	// They are part of the first ActivityTaskScheduled event.
+	// This flag cannot be combined with any other option; if you supply
+	// restore_original together with other options, the request will be rejected.
+	RestoreOriginal bool
+}
+
+func (b0 BatchOperationUpdateActivityOptions_builder) Build() *BatchOperationUpdateActivityOptions {
+	m0 := &BatchOperationUpdateActivityOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Identity = b.Identity
+	if b.Type != nil {
+		x.Activity = &BatchOperationUpdateActivityOptions_Type{*b.Type}
+	}
+	if b.MatchAll != nil {
+		x.Activity = &BatchOperationUpdateActivityOptions_MatchAll{*b.MatchAll}
+	}
+	x.ActivityOptions = b.ActivityOptions
+	x.UpdateMask = b.UpdateMask
+	x.RestoreOriginal = b.RestoreOriginal
+	return m0
+}
+
+type case_BatchOperationUpdateActivityOptions_Activity protoreflect.FieldNumber
+
+func (x case_BatchOperationUpdateActivityOptions_Activity) String() string {
+	switch x {
+	case BatchOperationUpdateActivityOptions_Activity_not_set_case:
+		return "BatchOperationUpdateActivityOptionsActivityNotSetCase"
+	case BatchOperationUpdateActivityOptions_Type_case:
+		return "BatchOperationUpdateActivityOptionsTypeCase"
+	case BatchOperationUpdateActivityOptions_MatchAll_case:
+		return "BatchOperationUpdateActivityOptionsMatchAllCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 type isBatchOperationUpdateActivityOptions_Activity interface {
@@ -1045,18 +1895,6 @@ const file_temporal_api_batch_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"\bactivityB\x84\x01\n" +
 	"\x18io.temporal.api.batch.v1B\fMessageProtoP\x01Z!go.temporal.io/api/batch/v1;batch\xaa\x02\x17Temporalio.Api.Batch.V1\xea\x02\x1aTemporalio::Api::Batch::V1b\x06proto3"
-
-var (
-	file_temporal_api_batch_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_batch_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_batch_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_batch_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_batch_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_batch_v1_message_proto_rawDesc), len(file_temporal_api_batch_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_batch_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_batch_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_temporal_api_batch_v1_message_proto_goTypes = []any{

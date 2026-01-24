@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/query/v1/message.proto
 
+//go:build !protoopaque
+
 package query
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/common/v1"
@@ -27,7 +28,7 @@ const (
 
 // See https://docs.temporal.io/docs/concepts/queries/
 type WorkflowQuery struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The workflow-author-defined identifier of the query. Typically a function name.
 	QueryType string `protobuf:"bytes,1,opt,name=query_type,json=queryType,proto3" json:"query_type,omitempty"`
 	// Serialized arguments that will be provided to the query handler.
@@ -64,11 +65,6 @@ func (x *WorkflowQuery) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowQuery.ProtoReflect.Descriptor instead.
-func (*WorkflowQuery) Descriptor() ([]byte, []int) {
-	return file_temporal_api_query_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkflowQuery) GetQueryType() string {
 	if x != nil {
 		return x.QueryType
@@ -90,9 +86,65 @@ func (x *WorkflowQuery) GetHeader() *v1.Header {
 	return nil
 }
 
+func (x *WorkflowQuery) SetQueryType(v string) {
+	x.QueryType = v
+}
+
+func (x *WorkflowQuery) SetQueryArgs(v *v1.Payloads) {
+	x.QueryArgs = v
+}
+
+func (x *WorkflowQuery) SetHeader(v *v1.Header) {
+	x.Header = v
+}
+
+func (x *WorkflowQuery) HasQueryArgs() bool {
+	if x == nil {
+		return false
+	}
+	return x.QueryArgs != nil
+}
+
+func (x *WorkflowQuery) HasHeader() bool {
+	if x == nil {
+		return false
+	}
+	return x.Header != nil
+}
+
+func (x *WorkflowQuery) ClearQueryArgs() {
+	x.QueryArgs = nil
+}
+
+func (x *WorkflowQuery) ClearHeader() {
+	x.Header = nil
+}
+
+type WorkflowQuery_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The workflow-author-defined identifier of the query. Typically a function name.
+	QueryType string
+	// Serialized arguments that will be provided to the query handler.
+	QueryArgs *v1.Payloads
+	// Headers that were passed by the caller of the query and copied by temporal
+	// server into the workflow task.
+	Header *v1.Header
+}
+
+func (b0 WorkflowQuery_builder) Build() *WorkflowQuery {
+	m0 := &WorkflowQuery{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.QueryType = b.QueryType
+	x.QueryArgs = b.QueryArgs
+	x.Header = b.Header
+	return m0
+}
+
 // Answer to a `WorkflowQuery`
 type WorkflowQueryResult struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Did the query succeed or fail?
 	ResultType v11.QueryResultType `protobuf:"varint,1,opt,name=result_type,json=resultType,proto3,enum=temporal.api.enums.v1.QueryResultType" json:"result_type,omitempty"`
 	// Set when the query succeeds with the results.
@@ -134,11 +186,6 @@ func (x *WorkflowQueryResult) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowQueryResult.ProtoReflect.Descriptor instead.
-func (*WorkflowQueryResult) Descriptor() ([]byte, []int) {
-	return file_temporal_api_query_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *WorkflowQueryResult) GetResultType() v11.QueryResultType {
 	if x != nil {
 		return x.ResultType
@@ -167,8 +214,74 @@ func (x *WorkflowQueryResult) GetFailure() *v12.Failure {
 	return nil
 }
 
+func (x *WorkflowQueryResult) SetResultType(v v11.QueryResultType) {
+	x.ResultType = v
+}
+
+func (x *WorkflowQueryResult) SetAnswer(v *v1.Payloads) {
+	x.Answer = v
+}
+
+func (x *WorkflowQueryResult) SetErrorMessage(v string) {
+	x.ErrorMessage = v
+}
+
+func (x *WorkflowQueryResult) SetFailure(v *v12.Failure) {
+	x.Failure = v
+}
+
+func (x *WorkflowQueryResult) HasAnswer() bool {
+	if x == nil {
+		return false
+	}
+	return x.Answer != nil
+}
+
+func (x *WorkflowQueryResult) HasFailure() bool {
+	if x == nil {
+		return false
+	}
+	return x.Failure != nil
+}
+
+func (x *WorkflowQueryResult) ClearAnswer() {
+	x.Answer = nil
+}
+
+func (x *WorkflowQueryResult) ClearFailure() {
+	x.Failure = nil
+}
+
+type WorkflowQueryResult_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Did the query succeed or fail?
+	ResultType v11.QueryResultType
+	// Set when the query succeeds with the results.
+	// Mutually exclusive with `error_message` and `failure`.
+	Answer *v1.Payloads
+	// Mutually exclusive with `answer`. Set when the query fails.
+	// See also the newer `failure` field.
+	ErrorMessage string
+	// The full reason for this query failure. This field is newer than `error_message` and can be encoded by the SDK's
+	// failure converter to support E2E encryption of messages and stack traces.
+	// Mutually exclusive with `answer`. Set when the query fails.
+	Failure *v12.Failure
+}
+
+func (b0 WorkflowQueryResult_builder) Build() *WorkflowQueryResult {
+	m0 := &WorkflowQueryResult{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ResultType = b.ResultType
+	x.Answer = b.Answer
+	x.ErrorMessage = b.ErrorMessage
+	x.Failure = b.Failure
+	return m0
+}
+
 type QueryRejected struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
+	state         protoimpl.MessageState      `protogen:"hybrid.v1"`
 	Status        v11.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -199,16 +312,29 @@ func (x *QueryRejected) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use QueryRejected.ProtoReflect.Descriptor instead.
-func (*QueryRejected) Descriptor() ([]byte, []int) {
-	return file_temporal_api_query_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *QueryRejected) GetStatus() v11.WorkflowExecutionStatus {
 	if x != nil {
 		return x.Status
 	}
 	return v11.WorkflowExecutionStatus(0)
+}
+
+func (x *QueryRejected) SetStatus(v v11.WorkflowExecutionStatus) {
+	x.Status = v
+}
+
+type QueryRejected_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Status v11.WorkflowExecutionStatus
+}
+
+func (b0 QueryRejected_builder) Build() *QueryRejected {
+	m0 := &QueryRejected{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Status = b.Status
+	return m0
 }
 
 var File_temporal_api_query_v1_message_proto protoreflect.FileDescriptor
@@ -231,18 +357,6 @@ const file_temporal_api_query_v1_message_proto_rawDesc = "" +
 	"\rQueryRejected\x12F\n" +
 	"\x06status\x18\x01 \x01(\x0e2..temporal.api.enums.v1.WorkflowExecutionStatusR\x06statusB\x84\x01\n" +
 	"\x18io.temporal.api.query.v1B\fMessageProtoP\x01Z!go.temporal.io/api/query/v1;query\xaa\x02\x17Temporalio.Api.Query.V1\xea\x02\x1aTemporalio::Api::Query::V1b\x06proto3"
-
-var (
-	file_temporal_api_query_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_query_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_query_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_query_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_query_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_query_v1_message_proto_rawDesc), len(file_temporal_api_query_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_query_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_query_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_temporal_api_query_v1_message_proto_goTypes = []any{

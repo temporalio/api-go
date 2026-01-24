@@ -4,11 +4,13 @@
 // 	protoc
 // source: temporal/api/sdk/v1/worker_config.proto
 
+//go:build !protoopaque
+
 package sdk
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -23,7 +25,7 @@ const (
 )
 
 type WorkerConfig struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
+	state             protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowCacheSize int32                  `protobuf:"varint,1,opt,name=workflow_cache_size,json=workflowCacheSize,proto3" json:"workflow_cache_size,omitempty"`
 	// Types that are valid to be assigned to PollerBehavior:
 	//
@@ -59,11 +61,6 @@ func (x *WorkerConfig) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerConfig.ProtoReflect.Descriptor instead.
-func (*WorkerConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_worker_config_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkerConfig) GetWorkflowCacheSize() int32 {
 	if x != nil {
 		return x.WorkflowCacheSize
@@ -96,6 +93,123 @@ func (x *WorkerConfig) GetAutoscalingPollerBehavior() *WorkerConfig_AutoscalingP
 	return nil
 }
 
+func (x *WorkerConfig) SetWorkflowCacheSize(v int32) {
+	x.WorkflowCacheSize = v
+}
+
+func (x *WorkerConfig) SetSimplePollerBehavior(v *WorkerConfig_SimplePollerBehavior) {
+	if v == nil {
+		x.PollerBehavior = nil
+		return
+	}
+	x.PollerBehavior = &WorkerConfig_SimplePollerBehavior_{v}
+}
+
+func (x *WorkerConfig) SetAutoscalingPollerBehavior(v *WorkerConfig_AutoscalingPollerBehavior) {
+	if v == nil {
+		x.PollerBehavior = nil
+		return
+	}
+	x.PollerBehavior = &WorkerConfig_AutoscalingPollerBehavior_{v}
+}
+
+func (x *WorkerConfig) HasPollerBehavior() bool {
+	if x == nil {
+		return false
+	}
+	return x.PollerBehavior != nil
+}
+
+func (x *WorkerConfig) HasSimplePollerBehavior() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.PollerBehavior.(*WorkerConfig_SimplePollerBehavior_)
+	return ok
+}
+
+func (x *WorkerConfig) HasAutoscalingPollerBehavior() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.PollerBehavior.(*WorkerConfig_AutoscalingPollerBehavior_)
+	return ok
+}
+
+func (x *WorkerConfig) ClearPollerBehavior() {
+	x.PollerBehavior = nil
+}
+
+func (x *WorkerConfig) ClearSimplePollerBehavior() {
+	if _, ok := x.PollerBehavior.(*WorkerConfig_SimplePollerBehavior_); ok {
+		x.PollerBehavior = nil
+	}
+}
+
+func (x *WorkerConfig) ClearAutoscalingPollerBehavior() {
+	if _, ok := x.PollerBehavior.(*WorkerConfig_AutoscalingPollerBehavior_); ok {
+		x.PollerBehavior = nil
+	}
+}
+
+const WorkerConfig_PollerBehavior_not_set_case case_WorkerConfig_PollerBehavior = 0
+const WorkerConfig_SimplePollerBehavior_case case_WorkerConfig_PollerBehavior = 2
+const WorkerConfig_AutoscalingPollerBehavior_case case_WorkerConfig_PollerBehavior = 3
+
+func (x *WorkerConfig) WhichPollerBehavior() case_WorkerConfig_PollerBehavior {
+	if x == nil {
+		return WorkerConfig_PollerBehavior_not_set_case
+	}
+	switch x.PollerBehavior.(type) {
+	case *WorkerConfig_SimplePollerBehavior_:
+		return WorkerConfig_SimplePollerBehavior_case
+	case *WorkerConfig_AutoscalingPollerBehavior_:
+		return WorkerConfig_AutoscalingPollerBehavior_case
+	default:
+		return WorkerConfig_PollerBehavior_not_set_case
+	}
+}
+
+type WorkerConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowCacheSize int32
+	// Fields of oneof PollerBehavior:
+	SimplePollerBehavior      *WorkerConfig_SimplePollerBehavior
+	AutoscalingPollerBehavior *WorkerConfig_AutoscalingPollerBehavior
+	// -- end of PollerBehavior
+}
+
+func (b0 WorkerConfig_builder) Build() *WorkerConfig {
+	m0 := &WorkerConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowCacheSize = b.WorkflowCacheSize
+	if b.SimplePollerBehavior != nil {
+		x.PollerBehavior = &WorkerConfig_SimplePollerBehavior_{b.SimplePollerBehavior}
+	}
+	if b.AutoscalingPollerBehavior != nil {
+		x.PollerBehavior = &WorkerConfig_AutoscalingPollerBehavior_{b.AutoscalingPollerBehavior}
+	}
+	return m0
+}
+
+type case_WorkerConfig_PollerBehavior protoreflect.FieldNumber
+
+func (x case_WorkerConfig_PollerBehavior) String() string {
+	switch x {
+	case WorkerConfig_PollerBehavior_not_set_case:
+		return "WorkerConfigPollerBehaviorNotSetCase"
+	case WorkerConfig_SimplePollerBehavior_case:
+		return "WorkerConfigSimplePollerBehaviorCase"
+	case WorkerConfig_AutoscalingPollerBehavior_case:
+		return "WorkerConfigAutoscalingPollerBehaviorCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
+}
+
 type isWorkerConfig_PollerBehavior interface {
 	isWorkerConfig_PollerBehavior()
 }
@@ -113,7 +227,7 @@ func (*WorkerConfig_SimplePollerBehavior_) isWorkerConfig_PollerBehavior() {}
 func (*WorkerConfig_AutoscalingPollerBehavior_) isWorkerConfig_PollerBehavior() {}
 
 type WorkerConfig_SimplePollerBehavior struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	MaxPollers    int32                  `protobuf:"varint,1,opt,name=max_pollers,json=maxPollers,proto3" json:"max_pollers,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -144,11 +258,6 @@ func (x *WorkerConfig_SimplePollerBehavior) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerConfig_SimplePollerBehavior.ProtoReflect.Descriptor instead.
-func (*WorkerConfig_SimplePollerBehavior) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_worker_config_proto_rawDescGZIP(), []int{0, 0}
-}
-
 func (x *WorkerConfig_SimplePollerBehavior) GetMaxPollers() int32 {
 	if x != nil {
 		return x.MaxPollers
@@ -156,8 +265,26 @@ func (x *WorkerConfig_SimplePollerBehavior) GetMaxPollers() int32 {
 	return 0
 }
 
+func (x *WorkerConfig_SimplePollerBehavior) SetMaxPollers(v int32) {
+	x.MaxPollers = v
+}
+
+type WorkerConfig_SimplePollerBehavior_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	MaxPollers int32
+}
+
+func (b0 WorkerConfig_SimplePollerBehavior_builder) Build() *WorkerConfig_SimplePollerBehavior {
+	m0 := &WorkerConfig_SimplePollerBehavior{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MaxPollers = b.MaxPollers
+	return m0
+}
+
 type WorkerConfig_AutoscalingPollerBehavior struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// At least this many poll calls will always be attempted (assuming slots are available).
 	// Cannot be zero.
 	MinPollers int32 `protobuf:"varint,1,opt,name=min_pollers,json=minPollers,proto3" json:"min_pollers,omitempty"`
@@ -196,11 +323,6 @@ func (x *WorkerConfig_AutoscalingPollerBehavior) ProtoReflect() protoreflect.Mes
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerConfig_AutoscalingPollerBehavior.ProtoReflect.Descriptor instead.
-func (*WorkerConfig_AutoscalingPollerBehavior) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_worker_config_proto_rawDescGZIP(), []int{0, 1}
-}
-
 func (x *WorkerConfig_AutoscalingPollerBehavior) GetMinPollers() int32 {
 	if x != nil {
 		return x.MinPollers
@@ -220,6 +342,42 @@ func (x *WorkerConfig_AutoscalingPollerBehavior) GetInitialPollers() int32 {
 		return x.InitialPollers
 	}
 	return 0
+}
+
+func (x *WorkerConfig_AutoscalingPollerBehavior) SetMinPollers(v int32) {
+	x.MinPollers = v
+}
+
+func (x *WorkerConfig_AutoscalingPollerBehavior) SetMaxPollers(v int32) {
+	x.MaxPollers = v
+}
+
+func (x *WorkerConfig_AutoscalingPollerBehavior) SetInitialPollers(v int32) {
+	x.InitialPollers = v
+}
+
+type WorkerConfig_AutoscalingPollerBehavior_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// At least this many poll calls will always be attempted (assuming slots are available).
+	// Cannot be zero.
+	MinPollers int32
+	// At most this many poll calls will ever be open at once. Must be >= `minimum`.
+	MaxPollers int32
+	// This many polls will be attempted initially before scaling kicks in. Must be between
+	//
+	//	`minimum` and `maximum`.
+	InitialPollers int32
+}
+
+func (b0 WorkerConfig_AutoscalingPollerBehavior_builder) Build() *WorkerConfig_AutoscalingPollerBehavior {
+	m0 := &WorkerConfig_AutoscalingPollerBehavior{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.MinPollers = b.MinPollers
+	x.MaxPollers = b.MaxPollers
+	x.InitialPollers = b.InitialPollers
+	return m0
 }
 
 var File_temporal_api_sdk_v1_worker_config_proto protoreflect.FileDescriptor
@@ -242,18 +400,6 @@ const file_temporal_api_sdk_v1_worker_config_proto_rawDesc = "" +
 	"\x0finitial_pollers\x18\x03 \x01(\x05R\x0einitialPollersB\x11\n" +
 	"\x0fpoller_behaviorB\x7f\n" +
 	"\x16io.temporal.api.sdk.v1B\x11WorkerConfigProtoP\x01Z\x1dgo.temporal.io/api/sdk/v1;sdk\xaa\x02\x15Temporalio.Api.Sdk.V1\xea\x02\x18Temporalio::Api::Sdk::V1b\x06proto3"
-
-var (
-	file_temporal_api_sdk_v1_worker_config_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_worker_config_proto_rawDescData []byte
-)
-
-func file_temporal_api_sdk_v1_worker_config_proto_rawDescGZIP() []byte {
-	file_temporal_api_sdk_v1_worker_config_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_worker_config_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_worker_config_proto_rawDesc), len(file_temporal_api_sdk_v1_worker_config_proto_rawDesc)))
-	})
-	return file_temporal_api_sdk_v1_worker_config_proto_rawDescData
-}
 
 var file_temporal_api_sdk_v1_worker_config_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_temporal_api_sdk_v1_worker_config_proto_goTypes = []any{

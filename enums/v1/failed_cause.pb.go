@@ -4,12 +4,13 @@
 // 	protoc
 // source: temporal/api/enums/v1/failed_cause.proto
 
+//go:build !protoopaque
+
 package enums
 
 import (
 	reflect "reflect"
 	"strconv"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -202,8 +203,6 @@ func (x WorkflowTaskFailedCause) String() string {
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_START_TIMER_ATTRIBUTES:
 		return "BadStartTimerAttributes"
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_CANCEL_TIMER_ATTRIBUTES:
-
-		// Deprecated: Use WorkflowTaskFailedCause.Descriptor instead.
 		return "BadCancelTimerAttributes"
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_RECORD_MARKER_ATTRIBUTES:
 		return "BadRecordMarkerAttributes"
@@ -214,11 +213,11 @@ func (x WorkflowTaskFailedCause) String() string {
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_CANCEL_WORKFLOW_EXECUTION_ATTRIBUTES:
 		return "BadCancelWorkflowExecutionAttributes"
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_ATTRIBUTES:
+
+		// Enum value maps for StartChildWorkflowExecutionFailedCause.
 		return "BadRequestCancelExternalWorkflowExecutionAttributes"
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_CONTINUE_AS_NEW_ATTRIBUTES:
 		return "BadContinueAsNewAttributes"
-
-		// Enum value maps for StartChildWorkflowExecutionFailedCause.
 	case WORKFLOW_TASK_FAILED_CAUSE_START_TIMER_DUPLICATE_ID:
 		return "StartTimerDuplicateId"
 	case WORKFLOW_TASK_FAILED_CAUSE_RESET_STICKY_TASK_QUEUE:
@@ -250,8 +249,6 @@ func (x WorkflowTaskFailedCause) String() string {
 	case WORKFLOW_TASK_FAILED_CAUSE_PENDING_CHILD_WORKFLOWS_LIMIT_EXCEEDED:
 		return "PendingChildWorkflowsLimitExceeded"
 	case WORKFLOW_TASK_FAILED_CAUSE_PENDING_ACTIVITIES_LIMIT_EXCEEDED:
-
-		// Deprecated: Use StartChildWorkflowExecutionFailedCause.Descriptor instead.
 		return "PendingActivitiesLimitExceeded"
 	case WORKFLOW_TASK_FAILED_CAUSE_PENDING_SIGNALS_LIMIT_EXCEEDED:
 		return "PendingSignalsLimitExceeded"
@@ -259,7 +256,10 @@ func (x WorkflowTaskFailedCause) String() string {
 		return "PendingRequestCancelLimitExceeded"
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_UPDATE_WORKFLOW_EXECUTION_MESSAGE:
 		return "BadUpdateWorkflowExecutionMessage"
-	case WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_UPDATE:
+	case
+
+		// Enum value maps for CancelExternalWorkflowExecutionFailedCause.
+		WORKFLOW_TASK_FAILED_CAUSE_UNHANDLED_UPDATE:
 		return "UnhandledUpdate"
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_SCHEDULE_NEXUS_OPERATION_ATTRIBUTES:
 		return "BadScheduleNexusOperationAttributes"
@@ -268,8 +268,6 @@ func (x WorkflowTaskFailedCause) String() string {
 	case WORKFLOW_TASK_FAILED_CAUSE_BAD_REQUEST_CANCEL_NEXUS_OPERATION_ATTRIBUTES:
 		return "BadRequestCancelNexusOperationAttributes"
 	case WORKFLOW_TASK_FAILED_CAUSE_FEATURE_DISABLED:
-
-		// Enum value maps for CancelExternalWorkflowExecutionFailedCause.
 		return "FeatureDisabled"
 	case WORKFLOW_TASK_FAILED_CAUSE_GRPC_MESSAGE_TOO_LARGE:
 		return "GrpcMessageTooLarge"
@@ -291,10 +289,6 @@ func (WorkflowTaskFailedCause) Type() protoreflect.EnumType {
 
 func (x WorkflowTaskFailedCause) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-func (WorkflowTaskFailedCause) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{0}
 }
 
 type StartChildWorkflowExecutionFailedCause int32
@@ -350,10 +344,6 @@ func (x StartChildWorkflowExecutionFailedCause) Number() protoreflect.EnumNumber
 	return protoreflect.EnumNumber(x)
 }
 
-func (StartChildWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{1}
-}
-
 type CancelExternalWorkflowExecutionFailedCause int32
 
 const (
@@ -405,11 +395,6 @@ func (CancelExternalWorkflowExecutionFailedCause) Type() protoreflect.EnumType {
 
 func (x CancelExternalWorkflowExecutionFailedCause) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use CancelExternalWorkflowExecutionFailedCause.Descriptor instead.
-func (CancelExternalWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{2}
 }
 
 type SignalExternalWorkflowExecutionFailedCause int32
@@ -470,11 +455,6 @@ func (SignalExternalWorkflowExecutionFailedCause) Type() protoreflect.EnumType {
 
 func (x SignalExternalWorkflowExecutionFailedCause) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use SignalExternalWorkflowExecutionFailedCause.Descriptor instead.
-func (SignalExternalWorkflowExecutionFailedCause) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{3}
 }
 
 type ResourceExhaustedCause int32
@@ -556,15 +536,17 @@ func (x ResourceExhaustedCause) String() string {
 	case RESOURCE_EXHAUSTED_CAUSE_APS_LIMIT:
 		return "ApsLimit"
 	case RESOURCE_EXHAUSTED_CAUSE_PERSISTENCE_STORAGE_LIMIT:
-
-		// Deprecated: Use ResourceExhaustedCause.Descriptor instead.
 		return "PersistenceStorageLimit"
 	case RESOURCE_EXHAUSTED_CAUSE_CIRCUIT_BREAKER_OPEN:
 		return "CircuitBreakerOpen"
+
+		// Exhausted resource is a system-level resource.
 	case RESOURCE_EXHAUSTED_CAUSE_OPS_LIMIT:
 		return "OpsLimit"
 	case RESOURCE_EXHAUSTED_CAUSE_WORKER_DEPLOYMENT_LIMITS:
 		return "WorkerDeploymentLimits"
+
+		// Exhausted resource is a namespace-level resource.
 	default:
 		return strconv.Itoa(int(x))
 	}
@@ -583,17 +565,13 @@ func (x ResourceExhaustedCause) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-func (ResourceExhaustedCause) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{4}
-}
-
 type ResourceExhaustedScope int32
 
 const (
 	RESOURCE_EXHAUSTED_SCOPE_UNSPECIFIED ResourceExhaustedScope = 0
-	// Exhausted resource is a system-level resource.
+
 	RESOURCE_EXHAUSTED_SCOPE_NAMESPACE ResourceExhaustedScope = 1
-	// Exhausted resource is a namespace-level resource.
+
 	RESOURCE_EXHAUSTED_SCOPE_SYSTEM ResourceExhaustedScope = 2
 )
 
@@ -641,11 +619,6 @@ func (ResourceExhaustedScope) Type() protoreflect.EnumType {
 
 func (x ResourceExhaustedScope) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use ResourceExhaustedScope.Descriptor instead.
-func (ResourceExhaustedScope) EnumDescriptor() ([]byte, []int) {
-	return file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP(), []int{5}
 }
 
 var File_temporal_api_enums_v1_failed_cause_proto protoreflect.FileDescriptor
@@ -724,18 +697,6 @@ const file_temporal_api_enums_v1_failed_cause_proto_rawDesc = "" +
 	"\"RESOURCE_EXHAUSTED_SCOPE_NAMESPACE\x10\x01\x12#\n" +
 	"\x1fRESOURCE_EXHAUSTED_SCOPE_SYSTEM\x10\x02B\x88\x01\n" +
 	"\x18io.temporal.api.enums.v1B\x10FailedCauseProtoP\x01Z!go.temporal.io/api/enums/v1;enums\xaa\x02\x17Temporalio.Api.Enums.V1\xea\x02\x1aTemporalio::Api::Enums::V1b\x06proto3"
-
-var (
-	file_temporal_api_enums_v1_failed_cause_proto_rawDescOnce sync.Once
-	file_temporal_api_enums_v1_failed_cause_proto_rawDescData []byte
-)
-
-func file_temporal_api_enums_v1_failed_cause_proto_rawDescGZIP() []byte {
-	file_temporal_api_enums_v1_failed_cause_proto_rawDescOnce.Do(func() {
-		file_temporal_api_enums_v1_failed_cause_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_enums_v1_failed_cause_proto_rawDesc), len(file_temporal_api_enums_v1_failed_cause_proto_rawDesc)))
-	})
-	return file_temporal_api_enums_v1_failed_cause_proto_rawDescData
-}
 
 var file_temporal_api_enums_v1_failed_cause_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
 var file_temporal_api_enums_v1_failed_cause_proto_goTypes = []any{

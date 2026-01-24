@@ -4,6 +4,8 @@
 // 	protoc
 // source: temporal/api/operatorservice/v1/service.proto
 
+//go:build !protoopaque
+
 package operatorservice
 
 import (

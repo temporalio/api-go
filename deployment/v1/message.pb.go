@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/deployment/v1/message.proto
 
+//go:build !protoopaque
+
 package deployment
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v11 "go.temporal.io/api/common/v1"
@@ -28,7 +29,7 @@ const (
 // Worker Deployment options set in SDK that need to be sent to server in every poll.
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
 type WorkerDeploymentOptions struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Required when `worker_versioning_mode==VERSIONED`.
 	DeploymentName string `protobuf:"bytes,1,opt,name=deployment_name,json=deploymentName,proto3" json:"deployment_name,omitempty"`
 	// The Build ID of the worker. Required when `worker_versioning_mode==VERSIONED`, in which case,
@@ -67,11 +68,6 @@ func (x *WorkerDeploymentOptions) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerDeploymentOptions.ProtoReflect.Descriptor instead.
-func (*WorkerDeploymentOptions) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkerDeploymentOptions) GetDeploymentName() string {
 	if x != nil {
 		return x.DeploymentName
@@ -93,12 +89,48 @@ func (x *WorkerDeploymentOptions) GetWorkerVersioningMode() v1.WorkerVersioningM
 	return v1.WorkerVersioningMode(0)
 }
 
+func (x *WorkerDeploymentOptions) SetDeploymentName(v string) {
+	x.DeploymentName = v
+}
+
+func (x *WorkerDeploymentOptions) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+func (x *WorkerDeploymentOptions) SetWorkerVersioningMode(v v1.WorkerVersioningMode) {
+	x.WorkerVersioningMode = v
+}
+
+type WorkerDeploymentOptions_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Required when `worker_versioning_mode==VERSIONED`.
+	DeploymentName string
+	// The Build ID of the worker. Required when `worker_versioning_mode==VERSIONED`, in which case,
+	// the worker will be part of a Deployment Version.
+	BuildId string
+	// Required. Versioning Mode for this worker. Must be the same for all workers with the
+	// same `deployment_name` and `build_id` combination, across all Task Queues.
+	// When `worker_versioning_mode==VERSIONED`, the worker will be part of a Deployment Version.
+	WorkerVersioningMode v1.WorkerVersioningMode
+}
+
+func (b0 WorkerDeploymentOptions_builder) Build() *WorkerDeploymentOptions {
+	m0 := &WorkerDeploymentOptions{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.DeploymentName = b.DeploymentName
+	x.BuildId = b.BuildId
+	x.WorkerVersioningMode = b.WorkerVersioningMode
+	return m0
+}
+
 // `Deployment` identifies a deployment of Temporal workers. The combination of deployment series
 // name + build ID serves as the identifier. User can use `WorkerDeploymentOptions` in their worker
 // programs to specify these values.
 // Deprecated.
 type Deployment struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Different versions of the same worker service/application are related together by having a
 	// shared series name.
 	// Out of all deployments of a series, one can be designated as the current deployment, which
@@ -137,11 +169,6 @@ func (x *Deployment) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Deployment.ProtoReflect.Descriptor instead.
-func (*Deployment) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *Deployment) GetSeriesName() string {
 	if x != nil {
 		return x.SeriesName
@@ -156,12 +183,43 @@ func (x *Deployment) GetBuildId() string {
 	return ""
 }
 
+func (x *Deployment) SetSeriesName(v string) {
+	x.SeriesName = v
+}
+
+func (x *Deployment) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+type Deployment_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Different versions of the same worker service/application are related together by having a
+	// shared series name.
+	// Out of all deployments of a series, one can be designated as the current deployment, which
+	// receives new workflow executions and new tasks of workflows with
+	// `VERSIONING_BEHAVIOR_AUTO_UPGRADE` versioning behavior.
+	SeriesName string
+	// Build ID changes with each version of the worker when the worker program code and/or config
+	// changes.
+	BuildId string
+}
+
+func (b0 Deployment_builder) Build() *Deployment {
+	m0 := &Deployment{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SeriesName = b.SeriesName
+	x.BuildId = b.BuildId
+	return m0
+}
+
 // `DeploymentInfo` holds information about a deployment. Deployment information is tracked
 // automatically by server as soon as the first poll from that deployment reaches the server. There
 // can be multiple task queue workers in a single deployment which are listed in this message.
 // Deprecated.
 type DeploymentInfo struct {
-	state          protoimpl.MessageState          `protogen:"open.v1"`
+	state          protoimpl.MessageState          `protogen:"hybrid.v1"`
 	Deployment     *Deployment                     `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	CreateTime     *timestamppb.Timestamp          `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	TaskQueueInfos []*DeploymentInfo_TaskQueueInfo `protobuf:"bytes,3,rep,name=task_queue_infos,json=taskQueueInfos,proto3" json:"task_queue_infos,omitempty"`
@@ -199,11 +257,6 @@ func (x *DeploymentInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeploymentInfo.ProtoReflect.Descriptor instead.
-func (*DeploymentInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *DeploymentInfo) GetDeployment() *Deployment {
 	if x != nil {
 		return x.Deployment
@@ -239,10 +292,77 @@ func (x *DeploymentInfo) GetIsCurrent() bool {
 	return false
 }
 
+func (x *DeploymentInfo) SetDeployment(v *Deployment) {
+	x.Deployment = v
+}
+
+func (x *DeploymentInfo) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *DeploymentInfo) SetTaskQueueInfos(v []*DeploymentInfo_TaskQueueInfo) {
+	x.TaskQueueInfos = v
+}
+
+func (x *DeploymentInfo) SetMetadata(v map[string]*v11.Payload) {
+	x.Metadata = v
+}
+
+func (x *DeploymentInfo) SetIsCurrent(v bool) {
+	x.IsCurrent = v
+}
+
+func (x *DeploymentInfo) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *DeploymentInfo) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *DeploymentInfo) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *DeploymentInfo) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+type DeploymentInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Deployment     *Deployment
+	CreateTime     *timestamppb.Timestamp
+	TaskQueueInfos []*DeploymentInfo_TaskQueueInfo
+	// A user-defined set of key-values. Can be updated as part of write operations to the
+	// deployment, such as `SetCurrentDeployment`.
+	Metadata map[string]*v11.Payload
+	// If this deployment is the current deployment of its deployment series.
+	IsCurrent bool
+}
+
+func (b0 DeploymentInfo_builder) Build() *DeploymentInfo {
+	m0 := &DeploymentInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Deployment = b.Deployment
+	x.CreateTime = b.CreateTime
+	x.TaskQueueInfos = b.TaskQueueInfos
+	x.Metadata = b.Metadata
+	x.IsCurrent = b.IsCurrent
+	return m0
+}
+
 // Used as part of Deployment write APIs to update metadata attached to a deployment.
 // Deprecated.
 type UpdateDeploymentMetadata struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
+	state         protoimpl.MessageState  `protogen:"hybrid.v1"`
 	UpsertEntries map[string]*v11.Payload `protobuf:"bytes,1,rep,name=upsert_entries,json=upsertEntries,proto3" json:"upsert_entries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	// List of keys to remove from the metadata.
 	RemoveEntries []string `protobuf:"bytes,2,rep,name=remove_entries,json=removeEntries,proto3" json:"remove_entries,omitempty"`
@@ -275,11 +395,6 @@ func (x *UpdateDeploymentMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateDeploymentMetadata.ProtoReflect.Descriptor instead.
-func (*UpdateDeploymentMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *UpdateDeploymentMetadata) GetUpsertEntries() map[string]*v11.Payload {
 	if x != nil {
 		return x.UpsertEntries
@@ -294,11 +409,36 @@ func (x *UpdateDeploymentMetadata) GetRemoveEntries() []string {
 	return nil
 }
 
+func (x *UpdateDeploymentMetadata) SetUpsertEntries(v map[string]*v11.Payload) {
+	x.UpsertEntries = v
+}
+
+func (x *UpdateDeploymentMetadata) SetRemoveEntries(v []string) {
+	x.RemoveEntries = v
+}
+
+type UpdateDeploymentMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	UpsertEntries map[string]*v11.Payload
+	// List of keys to remove from the metadata.
+	RemoveEntries []string
+}
+
+func (b0 UpdateDeploymentMetadata_builder) Build() *UpdateDeploymentMetadata {
+	m0 := &UpdateDeploymentMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.UpsertEntries = b.UpsertEntries
+	x.RemoveEntries = b.RemoveEntries
+	return m0
+}
+
 // DeploymentListInfo is an abbreviated set of fields from DeploymentInfo that's returned in
 // ListDeployments.
 // Deprecated.
 type DeploymentListInfo struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
+	state      protoimpl.MessageState `protogen:"hybrid.v1"`
 	Deployment *Deployment            `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment,omitempty"`
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty"`
 	// If this deployment is the current deployment of its deployment series.
@@ -332,11 +472,6 @@ func (x *DeploymentListInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeploymentListInfo.ProtoReflect.Descriptor instead.
-func (*DeploymentListInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *DeploymentListInfo) GetDeployment() *Deployment {
 	if x != nil {
 		return x.Deployment
@@ -358,6 +493,59 @@ func (x *DeploymentListInfo) GetIsCurrent() bool {
 	return false
 }
 
+func (x *DeploymentListInfo) SetDeployment(v *Deployment) {
+	x.Deployment = v
+}
+
+func (x *DeploymentListInfo) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *DeploymentListInfo) SetIsCurrent(v bool) {
+	x.IsCurrent = v
+}
+
+func (x *DeploymentListInfo) HasDeployment() bool {
+	if x == nil {
+		return false
+	}
+	return x.Deployment != nil
+}
+
+func (x *DeploymentListInfo) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *DeploymentListInfo) ClearDeployment() {
+	x.Deployment = nil
+}
+
+func (x *DeploymentListInfo) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+type DeploymentListInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Deployment *Deployment
+	CreateTime *timestamppb.Timestamp
+	// If this deployment is the current deployment of its deployment series.
+	IsCurrent bool
+}
+
+func (b0 DeploymentListInfo_builder) Build() *DeploymentListInfo {
+	m0 := &DeploymentListInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Deployment = b.Deployment
+	x.CreateTime = b.CreateTime
+	x.IsCurrent = b.IsCurrent
+	return m0
+}
+
 // A Worker Deployment Version (Version, for short) represents all workers of the same
 // code and config within a Deployment. Workers of the same Version are expected to
 // behave exactly the same so when executions move between them there are no
@@ -366,7 +554,7 @@ func (x *DeploymentListInfo) GetIsCurrent() bool {
 // their first poller arrives to the server.
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
 type WorkerDeploymentVersionInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Deprecated. Use `deployment_version`.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
@@ -448,11 +636,6 @@ func (x *WorkerDeploymentVersionInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkerDeploymentVersionInfo.ProtoReflect.Descriptor instead.
-func (*WorkerDeploymentVersionInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{5}
 }
 
 // Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
@@ -561,11 +744,263 @@ func (x *WorkerDeploymentVersionInfo) GetMetadata() *VersionMetadata {
 	return nil
 }
 
+// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
+func (x *WorkerDeploymentVersionInfo) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetStatus(v v1.WorkerDeploymentVersionStatus) {
+	x.Status = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetDeploymentVersion(v *WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetDeploymentName(v string) {
+	x.DeploymentName = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetRoutingChangedTime(v *timestamppb.Timestamp) {
+	x.RoutingChangedTime = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetCurrentSinceTime(v *timestamppb.Timestamp) {
+	x.CurrentSinceTime = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetRampingSinceTime(v *timestamppb.Timestamp) {
+	x.RampingSinceTime = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetFirstActivationTime(v *timestamppb.Timestamp) {
+	x.FirstActivationTime = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetLastCurrentTime(v *timestamppb.Timestamp) {
+	x.LastCurrentTime = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetLastDeactivationTime(v *timestamppb.Timestamp) {
+	x.LastDeactivationTime = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetRampPercentage(v float32) {
+	x.RampPercentage = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetTaskQueueInfos(v []*WorkerDeploymentVersionInfo_VersionTaskQueueInfo) {
+	x.TaskQueueInfos = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetDrainageInfo(v *VersionDrainageInfo) {
+	x.DrainageInfo = v
+}
+
+func (x *WorkerDeploymentVersionInfo) SetMetadata(v *VersionMetadata) {
+	x.Metadata = v
+}
+
+func (x *WorkerDeploymentVersionInfo) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasRoutingChangedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RoutingChangedTime != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasCurrentSinceTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentSinceTime != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasRampingSinceTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RampingSinceTime != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasFirstActivationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.FirstActivationTime != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasLastCurrentTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastCurrentTime != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasLastDeactivationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastDeactivationTime != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasDrainageInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.DrainageInfo != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) HasMetadata() bool {
+	if x == nil {
+		return false
+	}
+	return x.Metadata != nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearRoutingChangedTime() {
+	x.RoutingChangedTime = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearCurrentSinceTime() {
+	x.CurrentSinceTime = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearRampingSinceTime() {
+	x.RampingSinceTime = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearFirstActivationTime() {
+	x.FirstActivationTime = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearLastCurrentTime() {
+	x.LastCurrentTime = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearLastDeactivationTime() {
+	x.LastDeactivationTime = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearDrainageInfo() {
+	x.DrainageInfo = nil
+}
+
+func (x *WorkerDeploymentVersionInfo) ClearMetadata() {
+	x.Metadata = nil
+}
+
+type WorkerDeploymentVersionInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Deprecated. Use `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
+	Version string
+	// The status of the Worker Deployment Version.
+	Status v1.WorkerDeploymentVersionStatus
+	// Required.
+	DeploymentVersion *WorkerDeploymentVersion
+	DeploymentName    string
+	CreateTime        *timestamppb.Timestamp
+	// Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed.
+	RoutingChangedTime *timestamppb.Timestamp
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
+	//
+	// Unset if not current.
+	CurrentSinceTime *timestamppb.Timestamp
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
+	//
+	// Unset if not ramping. Updated when the version first starts ramping, not on each ramp change.
+	RampingSinceTime *timestamppb.Timestamp
+	// Timestamp when this version first became current or ramping.
+	FirstActivationTime *timestamppb.Timestamp
+	// Timestamp when this version last became current.
+	// Can be used to determine whether a version has ever been Current.
+	LastCurrentTime *timestamppb.Timestamp
+	// Timestamp when this version last stopped being current or ramping.
+	// Cleared if the version becomes current or ramping again.
+	LastDeactivationTime *timestamppb.Timestamp
+	// Range: [0, 100]. Must be zero if the version is not ramping (i.e. `ramping_since_time` is nil).
+	// Can be in the range [0, 100] if the version is ramping.
+	RampPercentage float32
+	// All the Task Queues that have ever polled from this Deployment version.
+	// Deprecated. Use `version_task_queues` in DescribeWorkerDeploymentVersionResponse instead.
+	TaskQueueInfos []*WorkerDeploymentVersionInfo_VersionTaskQueueInfo
+	// Helps user determine when it is safe to decommission the workers of this
+	// Version. Not present when version is current or ramping.
+	// Current limitations:
+	//   - Not supported for Unversioned mode.
+	//   - Periodically refreshed, may have delays up to few minutes (consult the
+	//     last_checked_time value).
+	//   - Refreshed only when version is not current or ramping AND the status is not
+	//     "drained" yet.
+	//   - Once the status is changed to "drained", it is not changed until the Version
+	//     becomes Current or Ramping again, at which time the drainage info is cleared.
+	//     This means if the Version is "drained" but new workflows are sent to it via
+	//     Pinned Versioning Override, the status does not account for those Pinned-override
+	//     executions and remains "drained".
+	DrainageInfo *VersionDrainageInfo
+	// Arbitrary user-provided metadata attached to this version.
+	Metadata *VersionMetadata
+}
+
+func (b0 WorkerDeploymentVersionInfo_builder) Build() *WorkerDeploymentVersionInfo {
+	m0 := &WorkerDeploymentVersionInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Version = b.Version
+	x.Status = b.Status
+	x.DeploymentVersion = b.DeploymentVersion
+	x.DeploymentName = b.DeploymentName
+	x.CreateTime = b.CreateTime
+	x.RoutingChangedTime = b.RoutingChangedTime
+	x.CurrentSinceTime = b.CurrentSinceTime
+	x.RampingSinceTime = b.RampingSinceTime
+	x.FirstActivationTime = b.FirstActivationTime
+	x.LastCurrentTime = b.LastCurrentTime
+	x.LastDeactivationTime = b.LastDeactivationTime
+	x.RampPercentage = b.RampPercentage
+	x.TaskQueueInfos = b.TaskQueueInfos
+	x.DrainageInfo = b.DrainageInfo
+	x.Metadata = b.Metadata
+	return m0
+}
+
 // Information about workflow drainage to help the user determine when it is safe
 // to decommission a Version. Not present while version is current or ramping.
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
 type VersionDrainageInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Set to DRAINING when the version first stops accepting new executions (is no longer current or ramping).
 	// Set to DRAINED when no more open pinned workflows exist on this version.
 	Status v1.VersionDrainageStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.VersionDrainageStatus" json:"status,omitempty"`
@@ -602,11 +1037,6 @@ func (x *VersionDrainageInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VersionDrainageInfo.ProtoReflect.Descriptor instead.
-func (*VersionDrainageInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *VersionDrainageInfo) GetStatus() v1.VersionDrainageStatus {
 	if x != nil {
 		return x.Status
@@ -628,6 +1058,62 @@ func (x *VersionDrainageInfo) GetLastCheckedTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *VersionDrainageInfo) SetStatus(v v1.VersionDrainageStatus) {
+	x.Status = v
+}
+
+func (x *VersionDrainageInfo) SetLastChangedTime(v *timestamppb.Timestamp) {
+	x.LastChangedTime = v
+}
+
+func (x *VersionDrainageInfo) SetLastCheckedTime(v *timestamppb.Timestamp) {
+	x.LastCheckedTime = v
+}
+
+func (x *VersionDrainageInfo) HasLastChangedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastChangedTime != nil
+}
+
+func (x *VersionDrainageInfo) HasLastCheckedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastCheckedTime != nil
+}
+
+func (x *VersionDrainageInfo) ClearLastChangedTime() {
+	x.LastChangedTime = nil
+}
+
+func (x *VersionDrainageInfo) ClearLastCheckedTime() {
+	x.LastCheckedTime = nil
+}
+
+type VersionDrainageInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Set to DRAINING when the version first stops accepting new executions (is no longer current or ramping).
+	// Set to DRAINED when no more open pinned workflows exist on this version.
+	Status v1.VersionDrainageStatus
+	// Last time the drainage status changed.
+	LastChangedTime *timestamppb.Timestamp
+	// Last time the system checked for drainage of this version.
+	LastCheckedTime *timestamppb.Timestamp
+}
+
+func (b0 VersionDrainageInfo_builder) Build() *VersionDrainageInfo {
+	m0 := &VersionDrainageInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Status = b.Status
+	x.LastChangedTime = b.LastChangedTime
+	x.LastCheckedTime = b.LastCheckedTime
+	return m0
+}
+
 // A Worker Deployment (Deployment, for short) represents all workers serving
 // a shared set of Task Queues. Typically, a Deployment represents one service or
 // application.
@@ -637,7 +1123,7 @@ func (x *VersionDrainageInfo) GetLastCheckedTime() *timestamppb.Timestamp {
 // first poller arrives to the server.
 // Experimental. Worker Deployments are experimental and might significantly change in the future.
 type WorkerDeploymentInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Identifies a Worker Deployment. Must be unique within the namespace.
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Deployment Versions that are currently tracked in this Deployment. A DeploymentVersion will be
@@ -689,11 +1175,6 @@ func (x *WorkerDeploymentInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerDeploymentInfo.ProtoReflect.Descriptor instead.
-func (*WorkerDeploymentInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *WorkerDeploymentInfo) GetName() string {
 	if x != nil {
 		return x.Name
@@ -743,13 +1224,104 @@ func (x *WorkerDeploymentInfo) GetRoutingConfigUpdateState() v1.RoutingConfigUpd
 	return v1.RoutingConfigUpdateState(0)
 }
 
+func (x *WorkerDeploymentInfo) SetName(v string) {
+	x.Name = v
+}
+
+func (x *WorkerDeploymentInfo) SetVersionSummaries(v []*WorkerDeploymentInfo_WorkerDeploymentVersionSummary) {
+	x.VersionSummaries = v
+}
+
+func (x *WorkerDeploymentInfo) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *WorkerDeploymentInfo) SetRoutingConfig(v *RoutingConfig) {
+	x.RoutingConfig = v
+}
+
+func (x *WorkerDeploymentInfo) SetLastModifierIdentity(v string) {
+	x.LastModifierIdentity = v
+}
+
+func (x *WorkerDeploymentInfo) SetManagerIdentity(v string) {
+	x.ManagerIdentity = v
+}
+
+func (x *WorkerDeploymentInfo) SetRoutingConfigUpdateState(v v1.RoutingConfigUpdateState) {
+	x.RoutingConfigUpdateState = v
+}
+
+func (x *WorkerDeploymentInfo) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *WorkerDeploymentInfo) HasRoutingConfig() bool {
+	if x == nil {
+		return false
+	}
+	return x.RoutingConfig != nil
+}
+
+func (x *WorkerDeploymentInfo) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+func (x *WorkerDeploymentInfo) ClearRoutingConfig() {
+	x.RoutingConfig = nil
+}
+
+type WorkerDeploymentInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Identifies a Worker Deployment. Must be unique within the namespace.
+	Name string
+	// Deployment Versions that are currently tracked in this Deployment. A DeploymentVersion will be
+	// cleaned up automatically if all the following conditions meet:
+	// - It does not receive new executions (is not current or ramping)
+	// - It has no active pollers (see WorkerDeploymentVersionInfo.pollers_status)
+	// - It is drained (see WorkerDeploymentVersionInfo.drainage_status)
+	VersionSummaries []*WorkerDeploymentInfo_WorkerDeploymentVersionSummary
+	CreateTime       *timestamppb.Timestamp
+	RoutingConfig    *RoutingConfig
+	// Identity of the last client who modified the configuration of this Deployment. Set to the
+	// `identity` value sent by APIs such as `SetWorkerDeploymentCurrentVersion` and
+	// `SetWorkerDeploymentRampingVersion`.
+	LastModifierIdentity string
+	// Identity of the client that has the exclusive right to make changes to this Worker Deployment.
+	// Empty by default.
+	// If this is set, clients whose identity does not match `manager_identity` will not be able to make changes
+	// to this Worker Deployment. They can either set their own identity as the manager or unset the field to proceed.
+	ManagerIdentity string
+	// Indicates whether the routing_config has been fully propagated to all
+	// relevant task queues and their partitions.
+	RoutingConfigUpdateState v1.RoutingConfigUpdateState
+}
+
+func (b0 WorkerDeploymentInfo_builder) Build() *WorkerDeploymentInfo {
+	m0 := &WorkerDeploymentInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.VersionSummaries = b.VersionSummaries
+	x.CreateTime = b.CreateTime
+	x.RoutingConfig = b.RoutingConfig
+	x.LastModifierIdentity = b.LastModifierIdentity
+	x.ManagerIdentity = b.ManagerIdentity
+	x.RoutingConfigUpdateState = b.RoutingConfigUpdateState
+	return m0
+}
+
 // A Worker Deployment Version (Version, for short) represents a
 // version of workers within a Worker Deployment. (see documentation of WorkerDeploymentVersionInfo)
 // Version records are created in Temporal server automatically when their
 // first poller arrives to the server.
 // Experimental. Worker Deployment Versions are experimental and might significantly change in the future.
 type WorkerDeploymentVersion struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// A unique identifier for this Version within the Deployment it is a part of.
 	// Not necessarily unique within the namespace.
 	// The combination of `deployment_name` and `build_id` uniquely identifies this
@@ -786,11 +1358,6 @@ func (x *WorkerDeploymentVersion) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerDeploymentVersion.ProtoReflect.Descriptor instead.
-func (*WorkerDeploymentVersion) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *WorkerDeploymentVersion) GetBuildId() string {
 	if x != nil {
 		return x.BuildId
@@ -805,8 +1372,37 @@ func (x *WorkerDeploymentVersion) GetDeploymentName() string {
 	return ""
 }
 
+func (x *WorkerDeploymentVersion) SetBuildId(v string) {
+	x.BuildId = v
+}
+
+func (x *WorkerDeploymentVersion) SetDeploymentName(v string) {
+	x.DeploymentName = v
+}
+
+type WorkerDeploymentVersion_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// A unique identifier for this Version within the Deployment it is a part of.
+	// Not necessarily unique within the namespace.
+	// The combination of `deployment_name` and `build_id` uniquely identifies this
+	// Version within the namespace, because Deployment names are unique within a namespace.
+	BuildId string
+	// Identifies the Worker Deployment this Version is part of.
+	DeploymentName string
+}
+
+func (b0 WorkerDeploymentVersion_builder) Build() *WorkerDeploymentVersion {
+	m0 := &WorkerDeploymentVersion{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.BuildId = b.BuildId
+	x.DeploymentName = b.DeploymentName
+	return m0
+}
+
 type VersionMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Arbitrary key-values.
 	Entries       map[string]*v11.Payload `protobuf:"bytes,1,rep,name=entries,proto3" json:"entries,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
@@ -838,11 +1434,6 @@ func (x *VersionMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VersionMetadata.ProtoReflect.Descriptor instead.
-func (*VersionMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *VersionMetadata) GetEntries() map[string]*v11.Payload {
 	if x != nil {
 		return x.Entries
@@ -850,8 +1441,27 @@ func (x *VersionMetadata) GetEntries() map[string]*v11.Payload {
 	return nil
 }
 
+func (x *VersionMetadata) SetEntries(v map[string]*v11.Payload) {
+	x.Entries = v
+}
+
+type VersionMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Arbitrary key-values.
+	Entries map[string]*v11.Payload
+}
+
+func (b0 VersionMetadata_builder) Build() *VersionMetadata {
+	m0 := &VersionMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Entries = b.Entries
+	return m0
+}
+
 type RoutingConfig struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Specifies which Deployment Version should receive new workflow executions and tasks of
 	// existing unversioned or AutoUpgrade workflows.
 	// Nil value means no Version in this Deployment (except Ramping Version, if present) receives traffic other than tasks of previously Pinned workflows. In absence of a Current Version, remaining traffic after any ramp (if set)  goes to unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.).
@@ -914,11 +1524,6 @@ func (x *RoutingConfig) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RoutingConfig.ProtoReflect.Descriptor instead.
-func (*RoutingConfig) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *RoutingConfig) GetCurrentDeploymentVersion() *WorkerDeploymentVersion {
@@ -986,10 +1591,159 @@ func (x *RoutingConfig) GetRevisionNumber() int64 {
 	return 0
 }
 
+func (x *RoutingConfig) SetCurrentDeploymentVersion(v *WorkerDeploymentVersion) {
+	x.CurrentDeploymentVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
+func (x *RoutingConfig) SetCurrentVersion(v string) {
+	x.CurrentVersion = v
+}
+
+func (x *RoutingConfig) SetRampingDeploymentVersion(v *WorkerDeploymentVersion) {
+	x.RampingDeploymentVersion = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
+func (x *RoutingConfig) SetRampingVersion(v string) {
+	x.RampingVersion = v
+}
+
+func (x *RoutingConfig) SetRampingVersionPercentage(v float32) {
+	x.RampingVersionPercentage = v
+}
+
+func (x *RoutingConfig) SetCurrentVersionChangedTime(v *timestamppb.Timestamp) {
+	x.CurrentVersionChangedTime = v
+}
+
+func (x *RoutingConfig) SetRampingVersionChangedTime(v *timestamppb.Timestamp) {
+	x.RampingVersionChangedTime = v
+}
+
+func (x *RoutingConfig) SetRampingVersionPercentageChangedTime(v *timestamppb.Timestamp) {
+	x.RampingVersionPercentageChangedTime = v
+}
+
+func (x *RoutingConfig) SetRevisionNumber(v int64) {
+	x.RevisionNumber = v
+}
+
+func (x *RoutingConfig) HasCurrentDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentDeploymentVersion != nil
+}
+
+func (x *RoutingConfig) HasRampingDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.RampingDeploymentVersion != nil
+}
+
+func (x *RoutingConfig) HasCurrentVersionChangedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentVersionChangedTime != nil
+}
+
+func (x *RoutingConfig) HasRampingVersionChangedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RampingVersionChangedTime != nil
+}
+
+func (x *RoutingConfig) HasRampingVersionPercentageChangedTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RampingVersionPercentageChangedTime != nil
+}
+
+func (x *RoutingConfig) ClearCurrentDeploymentVersion() {
+	x.CurrentDeploymentVersion = nil
+}
+
+func (x *RoutingConfig) ClearRampingDeploymentVersion() {
+	x.RampingDeploymentVersion = nil
+}
+
+func (x *RoutingConfig) ClearCurrentVersionChangedTime() {
+	x.CurrentVersionChangedTime = nil
+}
+
+func (x *RoutingConfig) ClearRampingVersionChangedTime() {
+	x.RampingVersionChangedTime = nil
+}
+
+func (x *RoutingConfig) ClearRampingVersionPercentageChangedTime() {
+	x.RampingVersionPercentageChangedTime = nil
+}
+
+type RoutingConfig_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Specifies which Deployment Version should receive new workflow executions and tasks of
+	// existing unversioned or AutoUpgrade workflows.
+	// Nil value means no Version in this Deployment (except Ramping Version, if present) receives traffic other than tasks of previously Pinned workflows. In absence of a Current Version, remaining traffic after any ramp (if set)  goes to unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.).
+	// Note: Current Version is overridden by the Ramping Version for a portion of traffic when ramp percentage
+	// is non-zero (see `ramping_deployment_version` and `ramping_version_percentage`).
+	CurrentDeploymentVersion *WorkerDeploymentVersion
+	// Deprecated. Use `current_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
+	CurrentVersion string
+	// When ramp percentage is non-zero, that portion of traffic is shifted from the Current Version to the Ramping Version.
+	// Must always be different from `current_deployment_version` unless both are nil.
+	// Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.)
+	// Note that it is possible to ramp from one Version to another Version, or from unversioned
+	// workers to a particular Version, or from a particular Version to unversioned workers.
+	RampingDeploymentVersion *WorkerDeploymentVersion
+	// Deprecated. Use `ramping_deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
+	RampingVersion string
+	// Percentage of tasks that are routed to the Ramping Version instead of the Current Version.
+	// Valid range: [0, 100]. A 100% value means the Ramping Version is receiving full traffic but
+	// not yet "promoted" to be the Current Version, likely due to pending validations.
+	// A 0% value means the Ramping Version is receiving no traffic.
+	RampingVersionPercentage float32
+	// Last time current version was changed.
+	CurrentVersionChangedTime *timestamppb.Timestamp
+	// Last time ramping version was changed. Not updated if only the ramp percentage changes.
+	RampingVersionChangedTime *timestamppb.Timestamp
+	// Last time ramping version percentage was changed.
+	// If ramping version is changed, this is also updated, even if the percentage stays the same.
+	RampingVersionPercentageChangedTime *timestamppb.Timestamp
+	// Monotonically increasing value which is incremented on every mutation
+	// to any field of this message to achieve eventual consistency between task queues and their partitions.
+	RevisionNumber int64
+}
+
+func (b0 RoutingConfig_builder) Build() *RoutingConfig {
+	m0 := &RoutingConfig{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CurrentDeploymentVersion = b.CurrentDeploymentVersion
+	x.CurrentVersion = b.CurrentVersion
+	x.RampingDeploymentVersion = b.RampingDeploymentVersion
+	x.RampingVersion = b.RampingVersion
+	x.RampingVersionPercentage = b.RampingVersionPercentage
+	x.CurrentVersionChangedTime = b.CurrentVersionChangedTime
+	x.RampingVersionChangedTime = b.RampingVersionChangedTime
+	x.RampingVersionPercentageChangedTime = b.RampingVersionPercentageChangedTime
+	x.RevisionNumber = b.RevisionNumber
+	return m0
+}
+
 // Used as part of WorkflowExecutionStartedEventAttributes to pass down the AutoUpgrade behavior and source deployment version
 // to a workflow execution whose parent/previous workflow has an AutoUpgrade behavior.
 type InheritedAutoUpgradeInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// The source deployment version of the parent/previous workflow.
 	SourceDeploymentVersion *WorkerDeploymentVersion `protobuf:"bytes,1,opt,name=source_deployment_version,json=sourceDeploymentVersion,proto3" json:"source_deployment_version,omitempty"`
 	// The revision number of the source deployment version of the parent/previous workflow.
@@ -1023,11 +1777,6 @@ func (x *InheritedAutoUpgradeInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use InheritedAutoUpgradeInfo.ProtoReflect.Descriptor instead.
-func (*InheritedAutoUpgradeInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *InheritedAutoUpgradeInfo) GetSourceDeploymentVersion() *WorkerDeploymentVersion {
 	if x != nil {
 		return x.SourceDeploymentVersion
@@ -1042,8 +1791,45 @@ func (x *InheritedAutoUpgradeInfo) GetSourceDeploymentRevisionNumber() int64 {
 	return 0
 }
 
+func (x *InheritedAutoUpgradeInfo) SetSourceDeploymentVersion(v *WorkerDeploymentVersion) {
+	x.SourceDeploymentVersion = v
+}
+
+func (x *InheritedAutoUpgradeInfo) SetSourceDeploymentRevisionNumber(v int64) {
+	x.SourceDeploymentRevisionNumber = v
+}
+
+func (x *InheritedAutoUpgradeInfo) HasSourceDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.SourceDeploymentVersion != nil
+}
+
+func (x *InheritedAutoUpgradeInfo) ClearSourceDeploymentVersion() {
+	x.SourceDeploymentVersion = nil
+}
+
+type InheritedAutoUpgradeInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// The source deployment version of the parent/previous workflow.
+	SourceDeploymentVersion *WorkerDeploymentVersion
+	// The revision number of the source deployment version of the parent/previous workflow.
+	SourceDeploymentRevisionNumber int64
+}
+
+func (b0 InheritedAutoUpgradeInfo_builder) Build() *InheritedAutoUpgradeInfo {
+	m0 := &InheritedAutoUpgradeInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.SourceDeploymentVersion = b.SourceDeploymentVersion
+	x.SourceDeploymentRevisionNumber = b.SourceDeploymentRevisionNumber
+	return m0
+}
+
 type DeploymentInfo_TaskQueueInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Type  v1.TaskQueueType       `protobuf:"varint,2,opt,name=type,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"type,omitempty"`
 	// When server saw the first poller for this task queue in this deployment.
@@ -1077,11 +1863,6 @@ func (x *DeploymentInfo_TaskQueueInfo) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeploymentInfo_TaskQueueInfo.ProtoReflect.Descriptor instead.
-func (*DeploymentInfo_TaskQueueInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{2, 1}
-}
-
 func (x *DeploymentInfo_TaskQueueInfo) GetName() string {
 	if x != nil {
 		return x.Name
@@ -1103,8 +1884,50 @@ func (x *DeploymentInfo_TaskQueueInfo) GetFirstPollerTime() *timestamppb.Timesta
 	return nil
 }
 
+func (x *DeploymentInfo_TaskQueueInfo) SetName(v string) {
+	x.Name = v
+}
+
+func (x *DeploymentInfo_TaskQueueInfo) SetType(v v1.TaskQueueType) {
+	x.Type = v
+}
+
+func (x *DeploymentInfo_TaskQueueInfo) SetFirstPollerTime(v *timestamppb.Timestamp) {
+	x.FirstPollerTime = v
+}
+
+func (x *DeploymentInfo_TaskQueueInfo) HasFirstPollerTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.FirstPollerTime != nil
+}
+
+func (x *DeploymentInfo_TaskQueueInfo) ClearFirstPollerTime() {
+	x.FirstPollerTime = nil
+}
+
+type DeploymentInfo_TaskQueueInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name string
+	Type v1.TaskQueueType
+	// When server saw the first poller for this task queue in this deployment.
+	FirstPollerTime *timestamppb.Timestamp
+}
+
+func (b0 DeploymentInfo_TaskQueueInfo_builder) Build() *DeploymentInfo_TaskQueueInfo {
+	m0 := &DeploymentInfo_TaskQueueInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Type = b.Type
+	x.FirstPollerTime = b.FirstPollerTime
+	return m0
+}
+
 type WorkerDeploymentVersionInfo_VersionTaskQueueInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Type          v1.TaskQueueType       `protobuf:"varint,2,opt,name=type,proto3,enum=temporal.api.enums.v1.TaskQueueType" json:"type,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1136,11 +1959,6 @@ func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) ProtoReflect() protor
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerDeploymentVersionInfo_VersionTaskQueueInfo.ProtoReflect.Descriptor instead.
-func (*WorkerDeploymentVersionInfo_VersionTaskQueueInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{5, 0}
-}
-
 func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) GetName() string {
 	if x != nil {
 		return x.Name
@@ -1155,8 +1973,32 @@ func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) GetType() v1.TaskQueu
 	return v1.TaskQueueType(0)
 }
 
+func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) SetName(v string) {
+	x.Name = v
+}
+
+func (x *WorkerDeploymentVersionInfo_VersionTaskQueueInfo) SetType(v v1.TaskQueueType) {
+	x.Type = v
+}
+
+type WorkerDeploymentVersionInfo_VersionTaskQueueInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name string
+	Type v1.TaskQueueType
+}
+
+func (b0 WorkerDeploymentVersionInfo_VersionTaskQueueInfo_builder) Build() *WorkerDeploymentVersionInfo_VersionTaskQueueInfo {
+	m0 := &WorkerDeploymentVersionInfo_VersionTaskQueueInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	x.Type = b.Type
+	return m0
+}
+
 type WorkerDeploymentInfo_WorkerDeploymentVersionSummary struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Deprecated. Use `deployment_version`.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
@@ -1218,11 +2060,6 @@ func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ProtoReflect() pro
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use WorkerDeploymentInfo_WorkerDeploymentVersionSummary.ProtoReflect.Descriptor instead.
-func (*WorkerDeploymentInfo_WorkerDeploymentVersionSummary) Descriptor() ([]byte, []int) {
-	return file_temporal_api_deployment_v1_message_proto_rawDescGZIP(), []int{7, 0}
 }
 
 // Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
@@ -1308,6 +2145,212 @@ func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) GetLastDeactivatio
 		return x.LastDeactivationTime
 	}
 	return nil
+}
+
+// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetVersion(v string) {
+	x.Version = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetStatus(v v1.WorkerDeploymentVersionStatus) {
+	x.Status = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetDeploymentVersion(v *WorkerDeploymentVersion) {
+	x.DeploymentVersion = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetDrainageStatus(v v1.VersionDrainageStatus) {
+	x.DrainageStatus = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetDrainageInfo(v *VersionDrainageInfo) {
+	x.DrainageInfo = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetCurrentSinceTime(v *timestamppb.Timestamp) {
+	x.CurrentSinceTime = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetRampingSinceTime(v *timestamppb.Timestamp) {
+	x.RampingSinceTime = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetRoutingUpdateTime(v *timestamppb.Timestamp) {
+	x.RoutingUpdateTime = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetFirstActivationTime(v *timestamppb.Timestamp) {
+	x.FirstActivationTime = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetLastCurrentTime(v *timestamppb.Timestamp) {
+	x.LastCurrentTime = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) SetLastDeactivationTime(v *timestamppb.Timestamp) {
+	x.LastDeactivationTime = v
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasDeploymentVersion() bool {
+	if x == nil {
+		return false
+	}
+	return x.DeploymentVersion != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasDrainageInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.DrainageInfo != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasCurrentSinceTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CurrentSinceTime != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasRampingSinceTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RampingSinceTime != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasRoutingUpdateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.RoutingUpdateTime != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasFirstActivationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.FirstActivationTime != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasLastCurrentTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastCurrentTime != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) HasLastDeactivationTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LastDeactivationTime != nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearDeploymentVersion() {
+	x.DeploymentVersion = nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearDrainageInfo() {
+	x.DrainageInfo = nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearCurrentSinceTime() {
+	x.CurrentSinceTime = nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearRampingSinceTime() {
+	x.RampingSinceTime = nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearRoutingUpdateTime() {
+	x.RoutingUpdateTime = nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearFirstActivationTime() {
+	x.FirstActivationTime = nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearLastCurrentTime() {
+	x.LastCurrentTime = nil
+}
+
+func (x *WorkerDeploymentInfo_WorkerDeploymentVersionSummary) ClearLastDeactivationTime() {
+	x.LastDeactivationTime = nil
+}
+
+type WorkerDeploymentInfo_WorkerDeploymentVersionSummary_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Deprecated. Use `deployment_version`.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/deployment/v1/message.proto.
+	Version string
+	// The status of the Worker Deployment Version.
+	Status v1.WorkerDeploymentVersionStatus
+	// Required.
+	DeploymentVersion *WorkerDeploymentVersion
+	CreateTime        *timestamppb.Timestamp
+	// Deprecated. Use `drainage_info` instead.
+	DrainageStatus v1.VersionDrainageStatus
+	// Information about workflow drainage to help the user determine when it is safe
+	// to decommission a Version. Not present while version is current or ramping
+	DrainageInfo *VersionDrainageInfo
+	// Unset if not current.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
+	CurrentSinceTime *timestamppb.Timestamp
+	// Unset if not ramping. Updated when the version first starts ramping, not on each ramp change.
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --)
+	RampingSinceTime *timestamppb.Timestamp
+	// Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed.
+	RoutingUpdateTime *timestamppb.Timestamp
+	// Timestamp when this version first became current or ramping.
+	FirstActivationTime *timestamppb.Timestamp
+	// Timestamp when this version last became current.
+	// Can be used to determine whether a version has ever been Current.
+	LastCurrentTime *timestamppb.Timestamp
+	// Timestamp when this version last stopped being current or ramping.
+	// Cleared if the version becomes current or ramping again.
+	LastDeactivationTime *timestamppb.Timestamp
+}
+
+func (b0 WorkerDeploymentInfo_WorkerDeploymentVersionSummary_builder) Build() *WorkerDeploymentInfo_WorkerDeploymentVersionSummary {
+	m0 := &WorkerDeploymentInfo_WorkerDeploymentVersionSummary{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Version = b.Version
+	x.Status = b.Status
+	x.DeploymentVersion = b.DeploymentVersion
+	x.CreateTime = b.CreateTime
+	x.DrainageStatus = b.DrainageStatus
+	x.DrainageInfo = b.DrainageInfo
+	x.CurrentSinceTime = b.CurrentSinceTime
+	x.RampingSinceTime = b.RampingSinceTime
+	x.RoutingUpdateTime = b.RoutingUpdateTime
+	x.FirstActivationTime = b.FirstActivationTime
+	x.LastCurrentTime = b.LastCurrentTime
+	x.LastDeactivationTime = b.LastDeactivationTime
+	return m0
 }
 
 var File_temporal_api_deployment_v1_message_proto protoreflect.FileDescriptor
@@ -1427,18 +2470,6 @@ const file_temporal_api_deployment_v1_message_proto_rawDesc = "" +
 	"\x19source_deployment_version\x18\x01 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x17sourceDeploymentVersion\x12I\n" +
 	"!source_deployment_revision_number\x18\x02 \x01(\x03R\x1esourceDeploymentRevisionNumberB\x9d\x01\n" +
 	"\x1dio.temporal.api.deployment.v1B\fMessageProtoP\x01Z+go.temporal.io/api/deployment/v1;deployment\xaa\x02\x1cTemporalio.Api.Deployment.V1\xea\x02\x1fTemporalio::Api::Deployment::V1b\x06proto3"
-
-var (
-	file_temporal_api_deployment_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_deployment_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_deployment_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_deployment_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_deployment_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_deployment_v1_message_proto_rawDesc), len(file_temporal_api_deployment_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_deployment_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_deployment_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_temporal_api_deployment_v1_message_proto_goTypes = []any{

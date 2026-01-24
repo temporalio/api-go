@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/filter/v1/message.proto
 
+//go:build !protoopaque
+
 package filter
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	v1 "go.temporal.io/api/enums/v1"
@@ -25,7 +26,7 @@ const (
 )
 
 type WorkflowExecutionFilter struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	WorkflowId    string                 `protobuf:"bytes,1,opt,name=workflow_id,json=workflowId,proto3" json:"workflow_id,omitempty"`
 	RunId         string                 `protobuf:"bytes,2,opt,name=run_id,json=runId,proto3" json:"run_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -57,11 +58,6 @@ func (x *WorkflowExecutionFilter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowExecutionFilter.ProtoReflect.Descriptor instead.
-func (*WorkflowExecutionFilter) Descriptor() ([]byte, []int) {
-	return file_temporal_api_filter_v1_message_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkflowExecutionFilter) GetWorkflowId() string {
 	if x != nil {
 		return x.WorkflowId
@@ -76,8 +72,32 @@ func (x *WorkflowExecutionFilter) GetRunId() string {
 	return ""
 }
 
+func (x *WorkflowExecutionFilter) SetWorkflowId(v string) {
+	x.WorkflowId = v
+}
+
+func (x *WorkflowExecutionFilter) SetRunId(v string) {
+	x.RunId = v
+}
+
+type WorkflowExecutionFilter_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	WorkflowId string
+	RunId      string
+}
+
+func (b0 WorkflowExecutionFilter_builder) Build() *WorkflowExecutionFilter {
+	m0 := &WorkflowExecutionFilter{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.WorkflowId = b.WorkflowId
+	x.RunId = b.RunId
+	return m0
+}
+
 type WorkflowTypeFilter struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -108,11 +128,6 @@ func (x *WorkflowTypeFilter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowTypeFilter.ProtoReflect.Descriptor instead.
-func (*WorkflowTypeFilter) Descriptor() ([]byte, []int) {
-	return file_temporal_api_filter_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *WorkflowTypeFilter) GetName() string {
 	if x != nil {
 		return x.Name
@@ -120,8 +135,26 @@ func (x *WorkflowTypeFilter) GetName() string {
 	return ""
 }
 
+func (x *WorkflowTypeFilter) SetName(v string) {
+	x.Name = v
+}
+
+type WorkflowTypeFilter_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Name string
+}
+
+func (b0 WorkflowTypeFilter_builder) Build() *WorkflowTypeFilter {
+	m0 := &WorkflowTypeFilter{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Name = b.Name
+	return m0
+}
+
 type StartTimeFilter struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	EarliestTime  *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=earliest_time,json=earliestTime,proto3" json:"earliest_time,omitempty"`
 	LatestTime    *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=latest_time,json=latestTime,proto3" json:"latest_time,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -153,11 +186,6 @@ func (x *StartTimeFilter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StartTimeFilter.ProtoReflect.Descriptor instead.
-func (*StartTimeFilter) Descriptor() ([]byte, []int) {
-	return file_temporal_api_filter_v1_message_proto_rawDescGZIP(), []int{2}
-}
-
 func (x *StartTimeFilter) GetEarliestTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.EarliestTime
@@ -172,8 +200,54 @@ func (x *StartTimeFilter) GetLatestTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *StartTimeFilter) SetEarliestTime(v *timestamppb.Timestamp) {
+	x.EarliestTime = v
+}
+
+func (x *StartTimeFilter) SetLatestTime(v *timestamppb.Timestamp) {
+	x.LatestTime = v
+}
+
+func (x *StartTimeFilter) HasEarliestTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.EarliestTime != nil
+}
+
+func (x *StartTimeFilter) HasLatestTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.LatestTime != nil
+}
+
+func (x *StartTimeFilter) ClearEarliestTime() {
+	x.EarliestTime = nil
+}
+
+func (x *StartTimeFilter) ClearLatestTime() {
+	x.LatestTime = nil
+}
+
+type StartTimeFilter_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	EarliestTime *timestamppb.Timestamp
+	LatestTime   *timestamppb.Timestamp
+}
+
+func (b0 StartTimeFilter_builder) Build() *StartTimeFilter {
+	m0 := &StartTimeFilter{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.EarliestTime = b.EarliestTime
+	x.LatestTime = b.LatestTime
+	return m0
+}
+
 type StatusFilter struct {
-	state         protoimpl.MessageState     `protogen:"open.v1"`
+	state         protoimpl.MessageState     `protogen:"hybrid.v1"`
 	Status        v1.WorkflowExecutionStatus `protobuf:"varint,1,opt,name=status,proto3,enum=temporal.api.enums.v1.WorkflowExecutionStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -204,16 +278,29 @@ func (x *StatusFilter) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use StatusFilter.ProtoReflect.Descriptor instead.
-func (*StatusFilter) Descriptor() ([]byte, []int) {
-	return file_temporal_api_filter_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *StatusFilter) GetStatus() v1.WorkflowExecutionStatus {
 	if x != nil {
 		return x.Status
 	}
 	return v1.WorkflowExecutionStatus(0)
+}
+
+func (x *StatusFilter) SetStatus(v v1.WorkflowExecutionStatus) {
+	x.Status = v
+}
+
+type StatusFilter_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Status v1.WorkflowExecutionStatus
+}
+
+func (b0 StatusFilter_builder) Build() *StatusFilter {
+	m0 := &StatusFilter{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Status = b.Status
+	return m0
 }
 
 var File_temporal_api_filter_v1_message_proto protoreflect.FileDescriptor
@@ -234,18 +321,6 @@ const file_temporal_api_filter_v1_message_proto_rawDesc = "" +
 	"\fStatusFilter\x12F\n" +
 	"\x06status\x18\x01 \x01(\x0e2..temporal.api.enums.v1.WorkflowExecutionStatusR\x06statusB\x89\x01\n" +
 	"\x19io.temporal.api.filter.v1B\fMessageProtoP\x01Z#go.temporal.io/api/filter/v1;filter\xaa\x02\x18Temporalio.Api.Filter.V1\xea\x02\x1bTemporalio::Api::Filter::V1b\x06proto3"
-
-var (
-	file_temporal_api_filter_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_filter_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_filter_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_filter_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_filter_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_filter_v1_message_proto_rawDesc), len(file_temporal_api_filter_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_filter_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_filter_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_temporal_api_filter_v1_message_proto_goTypes = []any{

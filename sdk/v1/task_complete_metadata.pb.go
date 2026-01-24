@@ -4,11 +4,12 @@
 // 	protoc
 // source: temporal/api/sdk/v1/task_complete_metadata.proto
 
+//go:build !protoopaque
+
 package sdk
 
 import (
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -23,7 +24,7 @@ const (
 )
 
 type WorkflowTaskCompletedMetadata struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Internal flags used by the core SDK. SDKs using flags must comply with the following behavior:
 	//
 	// During replay:
@@ -94,11 +95,6 @@ func (x *WorkflowTaskCompletedMetadata) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkflowTaskCompletedMetadata.ProtoReflect.Descriptor instead.
-func (*WorkflowTaskCompletedMetadata) Descriptor() ([]byte, []int) {
-	return file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDescGZIP(), []int{0}
-}
-
 func (x *WorkflowTaskCompletedMetadata) GetCoreUsedFlags() []uint32 {
 	if x != nil {
 		return x.CoreUsedFlags
@@ -127,6 +123,79 @@ func (x *WorkflowTaskCompletedMetadata) GetSdkVersion() string {
 	return ""
 }
 
+func (x *WorkflowTaskCompletedMetadata) SetCoreUsedFlags(v []uint32) {
+	x.CoreUsedFlags = v
+}
+
+func (x *WorkflowTaskCompletedMetadata) SetLangUsedFlags(v []uint32) {
+	x.LangUsedFlags = v
+}
+
+func (x *WorkflowTaskCompletedMetadata) SetSdkName(v string) {
+	x.SdkName = v
+}
+
+func (x *WorkflowTaskCompletedMetadata) SetSdkVersion(v string) {
+	x.SdkVersion = v
+}
+
+type WorkflowTaskCompletedMetadata_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Internal flags used by the core SDK. SDKs using flags must comply with the following behavior:
+	//
+	// During replay:
+	//   - If a flag is not recognized (value is too high or not defined), it must fail the workflow
+	//     task.
+	//   - If a flag is recognized, it is stored in a set of used flags for the run. Code checks for
+	//     that flag during and after this WFT are allowed to assume that the flag is present.
+	//   - If a code check for a flag does not find the flag in the set of used flags, it must take
+	//     the branch corresponding to the absence of that flag.
+	//
+	// During non-replay execution of new WFTs:
+	//   - The SDK is free to use all flags it knows about. It must record any newly-used (IE: not
+	//     previously recorded) flags when completing the WFT.
+	//
+	// SDKs which are too old to even know about this field at all are considered to produce
+	// undefined behavior if they replay workflows which used this mechanism.
+	//
+	// (-- api-linter: core::0141::forbidden-types=disabled
+	//
+	//	aip.dev/not-precedent: These really shouldn't have negative values. --)
+	CoreUsedFlags []uint32
+	// Flags used by the SDK lang. No attempt is made to distinguish between different SDK languages
+	// here as processing a workflow with a different language than the one which authored it is
+	// already undefined behavior. See `core_used_patches` for more.
+	//
+	// (-- api-linter: core::0141::forbidden-types=disabled
+	//
+	//	aip.dev/not-precedent: These really shouldn't have negative values. --)
+	LangUsedFlags []uint32
+	// Name of the SDK that processed the task. This is usually something like "temporal-go" and is
+	// usually the same as client-name gRPC header. This should only be set if its value changed
+	// since the last time recorded on the workflow (or be set on the first task).
+	//
+	// (-- api-linter: core::0122::name-suffix=disabled
+	//
+	//	aip.dev/not-precedent: We're ok with a name suffix here. --)
+	SdkName string
+	// Version of the SDK that processed the task. This is usually something like "1.20.0" and is
+	// usually the same as client-version gRPC header. This should only be set if its value changed
+	// since the last time recorded on the workflow (or be set on the first task).
+	SdkVersion string
+}
+
+func (b0 WorkflowTaskCompletedMetadata_builder) Build() *WorkflowTaskCompletedMetadata {
+	m0 := &WorkflowTaskCompletedMetadata{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.CoreUsedFlags = b.CoreUsedFlags
+	x.LangUsedFlags = b.LangUsedFlags
+	x.SdkName = b.SdkName
+	x.SdkVersion = b.SdkVersion
+	return m0
+}
+
 var File_temporal_api_sdk_v1_task_complete_metadata_proto protoreflect.FileDescriptor
 
 const file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDesc = "" +
@@ -139,18 +208,6 @@ const file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDesc = "" +
 	"\vsdk_version\x18\x04 \x01(\tR\n" +
 	"sdkVersionB\x87\x01\n" +
 	"\x16io.temporal.api.sdk.v1B\x19TaskCompleteMetadataProtoP\x01Z\x1dgo.temporal.io/api/sdk/v1;sdk\xaa\x02\x15Temporalio.Api.Sdk.V1\xea\x02\x18Temporalio::Api::Sdk::V1b\x06proto3"
-
-var (
-	file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDescOnce sync.Once
-	file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDescData []byte
-)
-
-func file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDescGZIP() []byte {
-	file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDescOnce.Do(func() {
-		file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDesc), len(file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDesc)))
-	})
-	return file_temporal_api_sdk_v1_task_complete_metadata_proto_rawDescData
-}
 
 var file_temporal_api_sdk_v1_task_complete_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_temporal_api_sdk_v1_task_complete_metadata_proto_goTypes = []any{

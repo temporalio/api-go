@@ -9,11 +9,13 @@
 // 	protoc
 // source: temporal/api/schedule/v1/message.proto
 
+//go:build !protoopaque
+
 package schedule
 
 import (
 	reflect "reflect"
-	sync "sync"
+	"strconv"
 	unsafe "unsafe"
 
 	v12 "go.temporal.io/api/common/v1"
@@ -53,7 +55,7 @@ const (
 // CalendarSpec gets compiled into StructuredCalendarSpec, which is what will be
 // returned if you describe the schedule.
 type CalendarSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Expression to match seconds. Default: 0
 	Second string `protobuf:"bytes,1,opt,name=second,proto3" json:"second,omitempty"`
 	// Expression to match minutes. Default: 0
@@ -100,11 +102,6 @@ func (x *CalendarSpec) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CalendarSpec.ProtoReflect.Descriptor instead.
-func (*CalendarSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CalendarSpec) GetSecond() string {
@@ -163,12 +160,83 @@ func (x *CalendarSpec) GetComment() string {
 	return ""
 }
 
+func (x *CalendarSpec) SetSecond(v string) {
+	x.Second = v
+}
+
+func (x *CalendarSpec) SetMinute(v string) {
+	x.Minute = v
+}
+
+func (x *CalendarSpec) SetHour(v string) {
+	x.Hour = v
+}
+
+func (x *CalendarSpec) SetDayOfMonth(v string) {
+	x.DayOfMonth = v
+}
+
+func (x *CalendarSpec) SetMonth(v string) {
+	x.Month = v
+}
+
+func (x *CalendarSpec) SetYear(v string) {
+	x.Year = v
+}
+
+func (x *CalendarSpec) SetDayOfWeek(v string) {
+	x.DayOfWeek = v
+}
+
+func (x *CalendarSpec) SetComment(v string) {
+	x.Comment = v
+}
+
+type CalendarSpec_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Expression to match seconds. Default: 0
+	Second string
+	// Expression to match minutes. Default: 0
+	Minute string
+	// Expression to match hours. Default: 0
+	Hour string
+	// Expression to match days of the month. Default: *
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: standard name of field --)
+	DayOfMonth string
+	// Expression to match months. Default: *
+	Month string
+	// Expression to match years. Default: *
+	Year string
+	// Expression to match days of the week. Default: *
+	DayOfWeek string
+	// Free-form comment describing the intention of this spec.
+	Comment string
+}
+
+func (b0 CalendarSpec_builder) Build() *CalendarSpec {
+	m0 := &CalendarSpec{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Second = b.Second
+	x.Minute = b.Minute
+	x.Hour = b.Hour
+	x.DayOfMonth = b.DayOfMonth
+	x.Month = b.Month
+	x.Year = b.Year
+	x.DayOfWeek = b.DayOfWeek
+	x.Comment = b.Comment
+	return m0
+}
+
 // Range represents a set of integer values, used to match fields of a calendar
 // time in StructuredCalendarSpec. If end < start, then end is interpreted as
 // equal to start. This means you can use a Range with start set to a value, and
 // end and step unset (defaulting to 0) to represent a single value.
 type Range struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Start of range (inclusive).
 	Start int32 `protobuf:"varint,1,opt,name=start,proto3" json:"start,omitempty"`
 	// End of range (inclusive).
@@ -204,11 +272,6 @@ func (x *Range) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Range.ProtoReflect.Descriptor instead.
-func (*Range) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{1}
-}
-
 func (x *Range) GetStart() int32 {
 	if x != nil {
 		return x.Start
@@ -230,6 +293,39 @@ func (x *Range) GetStep() int32 {
 	return 0
 }
 
+func (x *Range) SetStart(v int32) {
+	x.Start = v
+}
+
+func (x *Range) SetEnd(v int32) {
+	x.End = v
+}
+
+func (x *Range) SetStep(v int32) {
+	x.Step = v
+}
+
+type Range_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Start of range (inclusive).
+	Start int32
+	// End of range (inclusive).
+	End int32
+	// Step (optional, default 1).
+	Step int32
+}
+
+func (b0 Range_builder) Build() *Range {
+	m0 := &Range{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Start = b.Start
+	x.End = b.End
+	x.Step = b.Step
+	return m0
+}
+
 // StructuredCalendarSpec describes an event specification relative to the
 // calendar, in a form that's easy to work with programmatically. Each field can
 // be one or more ranges.
@@ -240,7 +336,7 @@ func (x *Range) GetStep() int32 {
 // Relative expressions such as "last day of the month" or "third Monday" are not currently
 // representable; callers must enumerate the concrete days they require.
 type StructuredCalendarSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Match seconds (0-59)
 	Second []*Range `protobuf:"bytes,1,rep,name=second,proto3" json:"second,omitempty"`
 	// Match minutes (0-59)
@@ -287,11 +383,6 @@ func (x *StructuredCalendarSpec) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StructuredCalendarSpec.ProtoReflect.Descriptor instead.
-func (*StructuredCalendarSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *StructuredCalendarSpec) GetSecond() []*Range {
@@ -350,6 +441,77 @@ func (x *StructuredCalendarSpec) GetComment() string {
 	return ""
 }
 
+func (x *StructuredCalendarSpec) SetSecond(v []*Range) {
+	x.Second = v
+}
+
+func (x *StructuredCalendarSpec) SetMinute(v []*Range) {
+	x.Minute = v
+}
+
+func (x *StructuredCalendarSpec) SetHour(v []*Range) {
+	x.Hour = v
+}
+
+func (x *StructuredCalendarSpec) SetDayOfMonth(v []*Range) {
+	x.DayOfMonth = v
+}
+
+func (x *StructuredCalendarSpec) SetMonth(v []*Range) {
+	x.Month = v
+}
+
+func (x *StructuredCalendarSpec) SetYear(v []*Range) {
+	x.Year = v
+}
+
+func (x *StructuredCalendarSpec) SetDayOfWeek(v []*Range) {
+	x.DayOfWeek = v
+}
+
+func (x *StructuredCalendarSpec) SetComment(v string) {
+	x.Comment = v
+}
+
+type StructuredCalendarSpec_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Match seconds (0-59)
+	Second []*Range
+	// Match minutes (0-59)
+	Minute []*Range
+	// Match hours (0-23)
+	Hour []*Range
+	// Match days of the month (1-31)
+	// (-- api-linter: core::0140::prepositions=disabled
+	//
+	//	aip.dev/not-precedent: standard name of field --)
+	DayOfMonth []*Range
+	// Match months (1-12)
+	Month []*Range
+	// Match years.
+	Year []*Range
+	// Match days of the week (0-6; 0 is Sunday).
+	DayOfWeek []*Range
+	// Free-form comment describing the intention of this spec.
+	Comment string
+}
+
+func (b0 StructuredCalendarSpec_builder) Build() *StructuredCalendarSpec {
+	m0 := &StructuredCalendarSpec{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Second = b.Second
+	x.Minute = b.Minute
+	x.Hour = b.Hour
+	x.DayOfMonth = b.DayOfMonth
+	x.Month = b.Month
+	x.Year = b.Year
+	x.DayOfWeek = b.DayOfWeek
+	x.Comment = b.Comment
+	return m0
+}
+
 // IntervalSpec matches times that can be expressed as:
 // epoch + n * interval + phase
 // where n is an integer.
@@ -362,7 +524,7 @@ func (x *StructuredCalendarSpec) GetComment() string {
 // 2022-02-17T00:00:00Z (among other times). The same interval with a phase of 3
 // days, 5 hours, and 23 minutes would match 2022-02-20T05:23:00Z instead.
 type IntervalSpec struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Interval      *durationpb.Duration   `protobuf:"bytes,1,opt,name=interval,proto3" json:"interval,omitempty"`
 	Phase         *durationpb.Duration   `protobuf:"bytes,2,opt,name=phase,proto3" json:"phase,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -394,11 +556,6 @@ func (x *IntervalSpec) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use IntervalSpec.ProtoReflect.Descriptor instead.
-func (*IntervalSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{3}
-}
-
 func (x *IntervalSpec) GetInterval() *durationpb.Duration {
 	if x != nil {
 		return x.Interval
@@ -411,6 +568,52 @@ func (x *IntervalSpec) GetPhase() *durationpb.Duration {
 		return x.Phase
 	}
 	return nil
+}
+
+func (x *IntervalSpec) SetInterval(v *durationpb.Duration) {
+	x.Interval = v
+}
+
+func (x *IntervalSpec) SetPhase(v *durationpb.Duration) {
+	x.Phase = v
+}
+
+func (x *IntervalSpec) HasInterval() bool {
+	if x == nil {
+		return false
+	}
+	return x.Interval != nil
+}
+
+func (x *IntervalSpec) HasPhase() bool {
+	if x == nil {
+		return false
+	}
+	return x.Phase != nil
+}
+
+func (x *IntervalSpec) ClearInterval() {
+	x.Interval = nil
+}
+
+func (x *IntervalSpec) ClearPhase() {
+	x.Phase = nil
+}
+
+type IntervalSpec_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Interval *durationpb.Duration
+	Phase    *durationpb.Duration
+}
+
+func (b0 IntervalSpec_builder) Build() *IntervalSpec {
+	m0 := &IntervalSpec{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Interval = b.Interval
+	x.Phase = b.Phase
+	return m0
 }
 
 // ScheduleSpec is a complete description of a set of absolute timestamps
@@ -432,7 +635,7 @@ func (x *IntervalSpec) GetPhase() *durationpb.Duration {
 // If a spec has no matching times after the current time, then the schedule
 // will be subject to automatic deletion (after several days).
 type ScheduleSpec struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Calendar-based specifications of times.
 	StructuredCalendar []*StructuredCalendarSpec `protobuf:"bytes,7,rep,name=structured_calendar,json=structuredCalendar,proto3" json:"structured_calendar,omitempty"`
 	// cron_string holds a traditional cron specification as a string. It
@@ -527,11 +730,6 @@ func (x *ScheduleSpec) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScheduleSpec.ProtoReflect.Descriptor instead.
-func (*ScheduleSpec) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{4}
-}
-
 func (x *ScheduleSpec) GetStructuredCalendar() []*StructuredCalendarSpec {
 	if x != nil {
 		return x.StructuredCalendar
@@ -610,8 +808,177 @@ func (x *ScheduleSpec) GetTimezoneData() []byte {
 	return nil
 }
 
+func (x *ScheduleSpec) SetStructuredCalendar(v []*StructuredCalendarSpec) {
+	x.StructuredCalendar = v
+}
+
+func (x *ScheduleSpec) SetCronString(v []string) {
+	x.CronString = v
+}
+
+func (x *ScheduleSpec) SetCalendar(v []*CalendarSpec) {
+	x.Calendar = v
+}
+
+func (x *ScheduleSpec) SetInterval(v []*IntervalSpec) {
+	x.Interval = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/schedule/v1/message.proto.
+func (x *ScheduleSpec) SetExcludeCalendar(v []*CalendarSpec) {
+	x.ExcludeCalendar = v
+}
+
+func (x *ScheduleSpec) SetExcludeStructuredCalendar(v []*StructuredCalendarSpec) {
+	x.ExcludeStructuredCalendar = v
+}
+
+func (x *ScheduleSpec) SetStartTime(v *timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+func (x *ScheduleSpec) SetEndTime(v *timestamppb.Timestamp) {
+	x.EndTime = v
+}
+
+func (x *ScheduleSpec) SetJitter(v *durationpb.Duration) {
+	x.Jitter = v
+}
+
+func (x *ScheduleSpec) SetTimezoneName(v string) {
+	x.TimezoneName = v
+}
+
+func (x *ScheduleSpec) SetTimezoneData(v []byte) {
+	if v == nil {
+		v = []byte{}
+	}
+	x.TimezoneData = v
+}
+
+func (x *ScheduleSpec) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *ScheduleSpec) HasEndTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.EndTime != nil
+}
+
+func (x *ScheduleSpec) HasJitter() bool {
+	if x == nil {
+		return false
+	}
+	return x.Jitter != nil
+}
+
+func (x *ScheduleSpec) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *ScheduleSpec) ClearEndTime() {
+	x.EndTime = nil
+}
+
+func (x *ScheduleSpec) ClearJitter() {
+	x.Jitter = nil
+}
+
+type ScheduleSpec_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Calendar-based specifications of times.
+	StructuredCalendar []*StructuredCalendarSpec
+	// cron_string holds a traditional cron specification as a string. It
+	// accepts 5, 6, or 7 fields, separated by spaces, and interprets them the
+	// same way as CalendarSpec.
+	// 5 fields:         minute, hour, day_of_month, month, day_of_week
+	// 6 fields:         minute, hour, day_of_month, month, day_of_week, year
+	// 7 fields: second, minute, hour, day_of_month, month, day_of_week, year
+	// If year is not given, it defaults to *. If second is not given, it
+	// defaults to 0.
+	// Shorthands @yearly, @monthly, @weekly, @daily, and @hourly are also
+	// accepted instead of the 5-7 time fields.
+	// Optionally, the string can be preceded by CRON_TZ=<timezone name> or
+	// TZ=<timezone name>, which will get copied to timezone_name. (There must
+	// not also be a timezone_name present.)
+	// Optionally "#" followed by a comment can appear at the end of the string.
+	// Note that the special case that some cron implementations have for
+	// treating day_of_month and day_of_week as "or" instead of "and" when both
+	// are set is not implemented.
+	// @every <interval>[/<phase>] is accepted and gets compiled into an
+	// IntervalSpec instead. <interval> and <phase> should be a decimal integer
+	// with a unit suffix s, m, h, or d.
+	CronString []string
+	// Calendar-based specifications of times.
+	Calendar []*CalendarSpec
+	// Interval-based specifications of times.
+	Interval []*IntervalSpec
+	// Any timestamps matching any of exclude_* will be skipped.
+	// Deprecated. Use exclude_structured_calendar.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/schedule/v1/message.proto.
+	ExcludeCalendar           []*CalendarSpec
+	ExcludeStructuredCalendar []*StructuredCalendarSpec
+	// If start_time is set, any timestamps before start_time will be skipped.
+	// (Together, start_time and end_time make an inclusive interval.)
+	StartTime *timestamppb.Timestamp
+	// If end_time is set, any timestamps after end_time will be skipped.
+	EndTime *timestamppb.Timestamp
+	// All timestamps will be incremented by a random value from 0 to this
+	// amount of jitter. Default: 0
+	Jitter *durationpb.Duration
+	// Time zone to interpret all calendar-based specs in.
+	//
+	// If unset, defaults to UTC. We recommend using UTC for your application if
+	// at all possible, to avoid various surprising properties of time zones.
+	//
+	// Time zones may be provided by name, corresponding to names in the IANA
+	// time zone database (see https://www.iana.org/time-zones). The definition
+	// will be loaded by the Temporal server from the environment it runs in.
+	//
+	// If your application requires more control over the time zone definition
+	// used, it may pass in a complete definition in the form of a TZif file
+	// from the time zone database. If present, this will be used instead of
+	// loading anything from the environment. You are then responsible for
+	// updating timezone_data when the definition changes.
+	//
+	// Calendar spec matching is based on literal matching of the clock time
+	// with no special handling of DST: if you write a calendar spec that fires
+	// at 2:30am and specify a time zone that follows DST, that action will not
+	// be triggered on the day that has no 2:30am. Similarly, an action that
+	// fires at 1:30am will be triggered twice on the day that has two 1:30s.
+	//
+	// Also note that no actions are taken on leap-seconds (e.g. 23:59:60 UTC).
+	TimezoneName string
+	TimezoneData []byte
+}
+
+func (b0 ScheduleSpec_builder) Build() *ScheduleSpec {
+	m0 := &ScheduleSpec{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StructuredCalendar = b.StructuredCalendar
+	x.CronString = b.CronString
+	x.Calendar = b.Calendar
+	x.Interval = b.Interval
+	x.ExcludeCalendar = b.ExcludeCalendar
+	x.ExcludeStructuredCalendar = b.ExcludeStructuredCalendar
+	x.StartTime = b.StartTime
+	x.EndTime = b.EndTime
+	x.Jitter = b.Jitter
+	x.TimezoneName = b.TimezoneName
+	x.TimezoneData = b.TimezoneData
+	return m0
+}
+
 type SchedulePolicies struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Policy for overlaps.
 	// Note that this can be changed after a schedule has taken some actions,
 	// and some changes might produce unintuitive results. In general, the later
@@ -659,11 +1026,6 @@ func (x *SchedulePolicies) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SchedulePolicies.ProtoReflect.Descriptor instead.
-func (*SchedulePolicies) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{5}
-}
-
 func (x *SchedulePolicies) GetOverlapPolicy() v1.ScheduleOverlapPolicy {
 	if x != nil {
 		return x.OverlapPolicy
@@ -692,8 +1054,69 @@ func (x *SchedulePolicies) GetKeepOriginalWorkflowId() bool {
 	return false
 }
 
+func (x *SchedulePolicies) SetOverlapPolicy(v v1.ScheduleOverlapPolicy) {
+	x.OverlapPolicy = v
+}
+
+func (x *SchedulePolicies) SetCatchupWindow(v *durationpb.Duration) {
+	x.CatchupWindow = v
+}
+
+func (x *SchedulePolicies) SetPauseOnFailure(v bool) {
+	x.PauseOnFailure = v
+}
+
+func (x *SchedulePolicies) SetKeepOriginalWorkflowId(v bool) {
+	x.KeepOriginalWorkflowId = v
+}
+
+func (x *SchedulePolicies) HasCatchupWindow() bool {
+	if x == nil {
+		return false
+	}
+	return x.CatchupWindow != nil
+}
+
+func (x *SchedulePolicies) ClearCatchupWindow() {
+	x.CatchupWindow = nil
+}
+
+type SchedulePolicies_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Policy for overlaps.
+	// Note that this can be changed after a schedule has taken some actions,
+	// and some changes might produce unintuitive results. In general, the later
+	// policy overrides the earlier policy.
+	OverlapPolicy v1.ScheduleOverlapPolicy
+	// Policy for catchups:
+	// If the Temporal server misses an action due to one or more components
+	// being down, and comes back up, the action will be run if the scheduled
+	// time is within this window from the current time.
+	// This value defaults to one year, and can't be less than 10 seconds.
+	CatchupWindow *durationpb.Duration
+	// If true, and a workflow run fails or times out, turn on "paused".
+	// This applies after retry policies: the full chain of retries must fail to
+	// trigger a pause here.
+	PauseOnFailure bool
+	// If true, and the action would start a workflow, a timestamp will not be
+	// appended to the scheduled workflow id.
+	KeepOriginalWorkflowId bool
+}
+
+func (b0 SchedulePolicies_builder) Build() *SchedulePolicies {
+	m0 := &SchedulePolicies{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.OverlapPolicy = b.OverlapPolicy
+	x.CatchupWindow = b.CatchupWindow
+	x.PauseOnFailure = b.PauseOnFailure
+	x.KeepOriginalWorkflowId = b.KeepOriginalWorkflowId
+	return m0
+}
+
 type ScheduleAction struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Types that are valid to be assigned to Action:
 	//
 	//	*ScheduleAction_StartWorkflow
@@ -727,11 +1150,6 @@ func (x *ScheduleAction) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScheduleAction.ProtoReflect.Descriptor instead.
-func (*ScheduleAction) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
 func (x *ScheduleAction) GetAction() isScheduleAction_Action {
 	if x != nil {
 		return x.Action
@@ -746,6 +1164,91 @@ func (x *ScheduleAction) GetStartWorkflow() *v11.NewWorkflowExecutionInfo {
 		}
 	}
 	return nil
+}
+
+func (x *ScheduleAction) SetStartWorkflow(v *v11.NewWorkflowExecutionInfo) {
+	if v == nil {
+		x.Action = nil
+		return
+	}
+	x.Action = &ScheduleAction_StartWorkflow{v}
+}
+
+func (x *ScheduleAction) HasAction() bool {
+	if x == nil {
+		return false
+	}
+	return x.Action != nil
+}
+
+func (x *ScheduleAction) HasStartWorkflow() bool {
+	if x == nil {
+		return false
+	}
+	_, ok := x.Action.(*ScheduleAction_StartWorkflow)
+	return ok
+}
+
+func (x *ScheduleAction) ClearAction() {
+	x.Action = nil
+}
+
+func (x *ScheduleAction) ClearStartWorkflow() {
+	if _, ok := x.Action.(*ScheduleAction_StartWorkflow); ok {
+		x.Action = nil
+	}
+}
+
+const ScheduleAction_Action_not_set_case case_ScheduleAction_Action = 0
+const ScheduleAction_StartWorkflow_case case_ScheduleAction_Action = 1
+
+func (x *ScheduleAction) WhichAction() case_ScheduleAction_Action {
+	if x == nil {
+		return ScheduleAction_Action_not_set_case
+	}
+	switch x.Action.(type) {
+	case *ScheduleAction_StartWorkflow:
+		return ScheduleAction_StartWorkflow_case
+	default:
+		return ScheduleAction_Action_not_set_case
+	}
+}
+
+type ScheduleAction_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Fields of oneof Action:
+	// All fields of NewWorkflowExecutionInfo are valid except for:
+	// - workflow_id_reuse_policy
+	// - cron_schedule
+	// The workflow id of the started workflow may not match this exactly,
+	// it may have a timestamp appended for uniqueness.
+	StartWorkflow *v11.NewWorkflowExecutionInfo
+	// -- end of Action
+}
+
+func (b0 ScheduleAction_builder) Build() *ScheduleAction {
+	m0 := &ScheduleAction{}
+	b, x := &b0, m0
+	_, _ = b, x
+	if b.StartWorkflow != nil {
+		x.Action = &ScheduleAction_StartWorkflow{b.StartWorkflow}
+	}
+	return m0
+}
+
+type case_ScheduleAction_Action protoreflect.FieldNumber
+
+func (x case_ScheduleAction_Action) String() string {
+	switch x {
+	case ScheduleAction_Action_not_set_case:
+		return "ScheduleActionActionNotSetCase"
+	case ScheduleAction_StartWorkflow_case:
+		return "ScheduleActionStartWorkflowCase"
+	default:
+		return strconv.Itoa(int(x))
+	}
+
 }
 
 type isScheduleAction_Action interface {
@@ -764,7 +1267,7 @@ type ScheduleAction_StartWorkflow struct {
 func (*ScheduleAction_StartWorkflow) isScheduleAction_Action() {}
 
 type ScheduleActionResult struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Time that the action was taken (according to the schedule, including jitter).
 	ScheduleTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=schedule_time,json=scheduleTime,proto3" json:"schedule_time,omitempty"`
 	// Time that the action was taken (real time).
@@ -803,11 +1306,6 @@ func (x *ScheduleActionResult) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScheduleActionResult.ProtoReflect.Descriptor instead.
-func (*ScheduleActionResult) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{7}
-}
-
 func (x *ScheduleActionResult) GetScheduleTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.ScheduleTime
@@ -836,8 +1334,82 @@ func (x *ScheduleActionResult) GetStartWorkflowStatus() v1.WorkflowExecutionStat
 	return v1.WorkflowExecutionStatus(0)
 }
 
+func (x *ScheduleActionResult) SetScheduleTime(v *timestamppb.Timestamp) {
+	x.ScheduleTime = v
+}
+
+func (x *ScheduleActionResult) SetActualTime(v *timestamppb.Timestamp) {
+	x.ActualTime = v
+}
+
+func (x *ScheduleActionResult) SetStartWorkflowResult(v *v12.WorkflowExecution) {
+	x.StartWorkflowResult = v
+}
+
+func (x *ScheduleActionResult) SetStartWorkflowStatus(v v1.WorkflowExecutionStatus) {
+	x.StartWorkflowStatus = v
+}
+
+func (x *ScheduleActionResult) HasScheduleTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduleTime != nil
+}
+
+func (x *ScheduleActionResult) HasActualTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ActualTime != nil
+}
+
+func (x *ScheduleActionResult) HasStartWorkflowResult() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartWorkflowResult != nil
+}
+
+func (x *ScheduleActionResult) ClearScheduleTime() {
+	x.ScheduleTime = nil
+}
+
+func (x *ScheduleActionResult) ClearActualTime() {
+	x.ActualTime = nil
+}
+
+func (x *ScheduleActionResult) ClearStartWorkflowResult() {
+	x.StartWorkflowResult = nil
+}
+
+type ScheduleActionResult_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Time that the action was taken (according to the schedule, including jitter).
+	ScheduleTime *timestamppb.Timestamp
+	// Time that the action was taken (real time).
+	ActualTime *timestamppb.Timestamp
+	// If action was start_workflow:
+	StartWorkflowResult *v12.WorkflowExecution
+	// If the action was start_workflow, this field will reflect an
+	// eventually-consistent view of the started workflow's status.
+	StartWorkflowStatus v1.WorkflowExecutionStatus
+}
+
+func (b0 ScheduleActionResult_builder) Build() *ScheduleActionResult {
+	m0 := &ScheduleActionResult{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduleTime = b.ScheduleTime
+	x.ActualTime = b.ActualTime
+	x.StartWorkflowResult = b.StartWorkflowResult
+	x.StartWorkflowStatus = b.StartWorkflowStatus
+	return m0
+}
+
 type ScheduleState struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Informative human-readable message with contextual notes, e.g. the reason
 	// a schedule is paused. The system may overwrite this message on certain
 	// conditions, e.g. when pause-on-failure happens.
@@ -882,11 +1454,6 @@ func (x *ScheduleState) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScheduleState.ProtoReflect.Descriptor instead.
-func (*ScheduleState) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{8}
-}
-
 func (x *ScheduleState) GetNotes() string {
 	if x != nil {
 		return x.Notes
@@ -915,8 +1482,55 @@ func (x *ScheduleState) GetRemainingActions() int64 {
 	return 0
 }
 
+func (x *ScheduleState) SetNotes(v string) {
+	x.Notes = v
+}
+
+func (x *ScheduleState) SetPaused(v bool) {
+	x.Paused = v
+}
+
+func (x *ScheduleState) SetLimitedActions(v bool) {
+	x.LimitedActions = v
+}
+
+func (x *ScheduleState) SetRemainingActions(v int64) {
+	x.RemainingActions = v
+}
+
+type ScheduleState_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Informative human-readable message with contextual notes, e.g. the reason
+	// a schedule is paused. The system may overwrite this message on certain
+	// conditions, e.g. when pause-on-failure happens.
+	Notes string
+	// If true, do not take any actions based on the schedule spec.
+	Paused bool
+	// If limited_actions is true, decrement remaining_actions after each
+	// action, and do not take any more scheduled actions if remaining_actions
+	// is zero. Actions may still be taken by explicit request (i.e. trigger
+	// immediately or backfill). Skipped actions (due to overlap policy) do not
+	// count against remaining actions.
+	// If a schedule has no more remaining actions, then the schedule will be
+	// subject to automatic deletion (after several days).
+	LimitedActions   bool
+	RemainingActions int64
+}
+
+func (b0 ScheduleState_builder) Build() *ScheduleState {
+	m0 := &ScheduleState{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Notes = b.Notes
+	x.Paused = b.Paused
+	x.LimitedActions = b.LimitedActions
+	x.RemainingActions = b.RemainingActions
+	return m0
+}
+
 type TriggerImmediatelyRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// If set, override overlap policy for this one request.
 	OverlapPolicy v1.ScheduleOverlapPolicy `protobuf:"varint,1,opt,name=overlap_policy,json=overlapPolicy,proto3,enum=temporal.api.enums.v1.ScheduleOverlapPolicy" json:"overlap_policy,omitempty"`
 	// Timestamp used for the identity of the target workflow.
@@ -951,11 +1565,6 @@ func (x *TriggerImmediatelyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TriggerImmediatelyRequest.ProtoReflect.Descriptor instead.
-func (*TriggerImmediatelyRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{9}
-}
-
 func (x *TriggerImmediatelyRequest) GetOverlapPolicy() v1.ScheduleOverlapPolicy {
 	if x != nil {
 		return x.OverlapPolicy
@@ -970,8 +1579,46 @@ func (x *TriggerImmediatelyRequest) GetScheduledTime() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *TriggerImmediatelyRequest) SetOverlapPolicy(v v1.ScheduleOverlapPolicy) {
+	x.OverlapPolicy = v
+}
+
+func (x *TriggerImmediatelyRequest) SetScheduledTime(v *timestamppb.Timestamp) {
+	x.ScheduledTime = v
+}
+
+func (x *TriggerImmediatelyRequest) HasScheduledTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.ScheduledTime != nil
+}
+
+func (x *TriggerImmediatelyRequest) ClearScheduledTime() {
+	x.ScheduledTime = nil
+}
+
+type TriggerImmediatelyRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// If set, override overlap policy for this one request.
+	OverlapPolicy v1.ScheduleOverlapPolicy
+	// Timestamp used for the identity of the target workflow.
+	// If not set the default value is the current time.
+	ScheduledTime *timestamppb.Timestamp
+}
+
+func (b0 TriggerImmediatelyRequest_builder) Build() *TriggerImmediatelyRequest {
+	m0 := &TriggerImmediatelyRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.OverlapPolicy = b.OverlapPolicy
+	x.ScheduledTime = b.ScheduledTime
+	return m0
+}
+
 type BackfillRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Time range to evaluate schedule in. Currently, this time range is
 	// exclusive on start_time and inclusive on end_time. (This is admittedly
 	// counterintuitive and it may change in the future, so to be safe, use a
@@ -1011,11 +1658,6 @@ func (x *BackfillRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use BackfillRequest.ProtoReflect.Descriptor instead.
-func (*BackfillRequest) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{10}
-}
-
 func (x *BackfillRequest) GetStartTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.StartTime
@@ -1037,8 +1679,67 @@ func (x *BackfillRequest) GetOverlapPolicy() v1.ScheduleOverlapPolicy {
 	return v1.ScheduleOverlapPolicy(0)
 }
 
+func (x *BackfillRequest) SetStartTime(v *timestamppb.Timestamp) {
+	x.StartTime = v
+}
+
+func (x *BackfillRequest) SetEndTime(v *timestamppb.Timestamp) {
+	x.EndTime = v
+}
+
+func (x *BackfillRequest) SetOverlapPolicy(v v1.ScheduleOverlapPolicy) {
+	x.OverlapPolicy = v
+}
+
+func (x *BackfillRequest) HasStartTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.StartTime != nil
+}
+
+func (x *BackfillRequest) HasEndTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.EndTime != nil
+}
+
+func (x *BackfillRequest) ClearStartTime() {
+	x.StartTime = nil
+}
+
+func (x *BackfillRequest) ClearEndTime() {
+	x.EndTime = nil
+}
+
+type BackfillRequest_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Time range to evaluate schedule in. Currently, this time range is
+	// exclusive on start_time and inclusive on end_time. (This is admittedly
+	// counterintuitive and it may change in the future, so to be safe, use a
+	// start time strictly before a scheduled time.) Also note that an action
+	// nominally scheduled in the interval but with jitter that pushes it after
+	// end_time will not be included.
+	StartTime *timestamppb.Timestamp
+	EndTime   *timestamppb.Timestamp
+	// If set, override overlap policy for this request.
+	OverlapPolicy v1.ScheduleOverlapPolicy
+}
+
+func (b0 BackfillRequest_builder) Build() *BackfillRequest {
+	m0 := &BackfillRequest{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.StartTime = b.StartTime
+	x.EndTime = b.EndTime
+	x.OverlapPolicy = b.OverlapPolicy
+	return m0
+}
+
 type SchedulePatch struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// If set, trigger one action immediately.
 	TriggerImmediately *TriggerImmediatelyRequest `protobuf:"bytes,1,opt,name=trigger_immediately,json=triggerImmediately,proto3" json:"trigger_immediately,omitempty"`
 	// If set, runs though the specified time period(s) and takes actions as if that time
@@ -1078,11 +1779,6 @@ func (x *SchedulePatch) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SchedulePatch.ProtoReflect.Descriptor instead.
-func (*SchedulePatch) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
 func (x *SchedulePatch) GetTriggerImmediately() *TriggerImmediatelyRequest {
 	if x != nil {
 		return x.TriggerImmediately
@@ -1111,8 +1807,61 @@ func (x *SchedulePatch) GetUnpause() string {
 	return ""
 }
 
+func (x *SchedulePatch) SetTriggerImmediately(v *TriggerImmediatelyRequest) {
+	x.TriggerImmediately = v
+}
+
+func (x *SchedulePatch) SetBackfillRequest(v []*BackfillRequest) {
+	x.BackfillRequest = v
+}
+
+func (x *SchedulePatch) SetPause(v string) {
+	x.Pause = v
+}
+
+func (x *SchedulePatch) SetUnpause(v string) {
+	x.Unpause = v
+}
+
+func (x *SchedulePatch) HasTriggerImmediately() bool {
+	if x == nil {
+		return false
+	}
+	return x.TriggerImmediately != nil
+}
+
+func (x *SchedulePatch) ClearTriggerImmediately() {
+	x.TriggerImmediately = nil
+}
+
+type SchedulePatch_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// If set, trigger one action immediately.
+	TriggerImmediately *TriggerImmediatelyRequest
+	// If set, runs though the specified time period(s) and takes actions as if that time
+	// passed by right now, all at once. The overlap policy can be overridden for the
+	// scope of the backfill.
+	BackfillRequest []*BackfillRequest
+	// If set, change the state to paused or unpaused (respectively) and set the
+	// notes field to the value of the string.
+	Pause   string
+	Unpause string
+}
+
+func (b0 SchedulePatch_builder) Build() *SchedulePatch {
+	m0 := &SchedulePatch{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.TriggerImmediately = b.TriggerImmediately
+	x.BackfillRequest = b.BackfillRequest
+	x.Pause = b.Pause
+	x.Unpause = b.Unpause
+	return m0
+}
+
 type ScheduleInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// Number of actions taken so far.
 	ActionCount int64 `protobuf:"varint,1,opt,name=action_count,json=actionCount,proto3" json:"action_count,omitempty"`
 	// Number of times a scheduled action was skipped due to missing the catchup window.
@@ -1169,11 +1918,6 @@ func (x *ScheduleInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ScheduleInfo.ProtoReflect.Descriptor instead.
-func (*ScheduleInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *ScheduleInfo) GetActionCount() int64 {
@@ -1254,8 +1998,127 @@ func (x *ScheduleInfo) GetInvalidScheduleError() string {
 	return ""
 }
 
+func (x *ScheduleInfo) SetActionCount(v int64) {
+	x.ActionCount = v
+}
+
+func (x *ScheduleInfo) SetMissedCatchupWindow(v int64) {
+	x.MissedCatchupWindow = v
+}
+
+func (x *ScheduleInfo) SetOverlapSkipped(v int64) {
+	x.OverlapSkipped = v
+}
+
+func (x *ScheduleInfo) SetBufferDropped(v int64) {
+	x.BufferDropped = v
+}
+
+func (x *ScheduleInfo) SetBufferSize(v int64) {
+	x.BufferSize = v
+}
+
+func (x *ScheduleInfo) SetRunningWorkflows(v []*v12.WorkflowExecution) {
+	x.RunningWorkflows = v
+}
+
+func (x *ScheduleInfo) SetRecentActions(v []*ScheduleActionResult) {
+	x.RecentActions = v
+}
+
+func (x *ScheduleInfo) SetFutureActionTimes(v []*timestamppb.Timestamp) {
+	x.FutureActionTimes = v
+}
+
+func (x *ScheduleInfo) SetCreateTime(v *timestamppb.Timestamp) {
+	x.CreateTime = v
+}
+
+func (x *ScheduleInfo) SetUpdateTime(v *timestamppb.Timestamp) {
+	x.UpdateTime = v
+}
+
+// Deprecated: Marked as deprecated in temporal/api/schedule/v1/message.proto.
+func (x *ScheduleInfo) SetInvalidScheduleError(v string) {
+	x.InvalidScheduleError = v
+}
+
+func (x *ScheduleInfo) HasCreateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.CreateTime != nil
+}
+
+func (x *ScheduleInfo) HasUpdateTime() bool {
+	if x == nil {
+		return false
+	}
+	return x.UpdateTime != nil
+}
+
+func (x *ScheduleInfo) ClearCreateTime() {
+	x.CreateTime = nil
+}
+
+func (x *ScheduleInfo) ClearUpdateTime() {
+	x.UpdateTime = nil
+}
+
+type ScheduleInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// Number of actions taken so far.
+	ActionCount int64
+	// Number of times a scheduled action was skipped due to missing the catchup window.
+	MissedCatchupWindow int64
+	// Number of skipped actions due to overlap.
+	OverlapSkipped int64
+	// Number of dropped actions due to buffer limit.
+	BufferDropped int64
+	// Number of actions in the buffer. The buffer holds the actions that cannot
+	// be immediately triggered (due to the overlap policy). These actions can be a result of
+	// the normal schedule or a backfill.
+	BufferSize int64
+	// Currently-running workflows started by this schedule. (There might be
+	// more than one if the overlap policy allows overlaps.)
+	// Note that the run_ids in here are the original execution run ids as
+	// started by the schedule. If the workflows retried, did continue-as-new,
+	// or were reset, they might still be running but with a different run_id.
+	RunningWorkflows []*v12.WorkflowExecution
+	// Most recent ten actual action times (including manual triggers).
+	RecentActions []*ScheduleActionResult
+	// Next ten scheduled action times.
+	FutureActionTimes []*timestamppb.Timestamp
+	// Timestamps of schedule creation and last update.
+	CreateTime *timestamppb.Timestamp
+	UpdateTime *timestamppb.Timestamp
+	// Deprecated.
+	//
+	// Deprecated: Marked as deprecated in temporal/api/schedule/v1/message.proto.
+	InvalidScheduleError string
+}
+
+func (b0 ScheduleInfo_builder) Build() *ScheduleInfo {
+	m0 := &ScheduleInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ActionCount = b.ActionCount
+	x.MissedCatchupWindow = b.MissedCatchupWindow
+	x.OverlapSkipped = b.OverlapSkipped
+	x.BufferDropped = b.BufferDropped
+	x.BufferSize = b.BufferSize
+	x.RunningWorkflows = b.RunningWorkflows
+	x.RecentActions = b.RecentActions
+	x.FutureActionTimes = b.FutureActionTimes
+	x.CreateTime = b.CreateTime
+	x.UpdateTime = b.UpdateTime
+	x.InvalidScheduleError = b.InvalidScheduleError
+	return m0
+}
+
 type Schedule struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state         protoimpl.MessageState `protogen:"hybrid.v1"`
 	Spec          *ScheduleSpec          `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
 	Action        *ScheduleAction        `protobuf:"bytes,2,opt,name=action,proto3" json:"action,omitempty"`
 	Policies      *SchedulePolicies      `protobuf:"bytes,3,opt,name=policies,proto3" json:"policies,omitempty"`
@@ -1289,11 +2152,6 @@ func (x *Schedule) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Schedule.ProtoReflect.Descriptor instead.
-func (*Schedule) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{13}
-}
-
 func (x *Schedule) GetSpec() *ScheduleSpec {
 	if x != nil {
 		return x.Spec
@@ -1322,10 +2180,90 @@ func (x *Schedule) GetState() *ScheduleState {
 	return nil
 }
 
+func (x *Schedule) SetSpec(v *ScheduleSpec) {
+	x.Spec = v
+}
+
+func (x *Schedule) SetAction(v *ScheduleAction) {
+	x.Action = v
+}
+
+func (x *Schedule) SetPolicies(v *SchedulePolicies) {
+	x.Policies = v
+}
+
+func (x *Schedule) SetState(v *ScheduleState) {
+	x.State = v
+}
+
+func (x *Schedule) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	return x.Spec != nil
+}
+
+func (x *Schedule) HasAction() bool {
+	if x == nil {
+		return false
+	}
+	return x.Action != nil
+}
+
+func (x *Schedule) HasPolicies() bool {
+	if x == nil {
+		return false
+	}
+	return x.Policies != nil
+}
+
+func (x *Schedule) HasState() bool {
+	if x == nil {
+		return false
+	}
+	return x.State != nil
+}
+
+func (x *Schedule) ClearSpec() {
+	x.Spec = nil
+}
+
+func (x *Schedule) ClearAction() {
+	x.Action = nil
+}
+
+func (x *Schedule) ClearPolicies() {
+	x.Policies = nil
+}
+
+func (x *Schedule) ClearState() {
+	x.State = nil
+}
+
+type Schedule_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	Spec     *ScheduleSpec
+	Action   *ScheduleAction
+	Policies *SchedulePolicies
+	State    *ScheduleState
+}
+
+func (b0 Schedule_builder) Build() *Schedule {
+	m0 := &Schedule{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Spec = b.Spec
+	x.Action = b.Action
+	x.Policies = b.Policies
+	x.State = b.State
+	return m0
+}
+
 // ScheduleListInfo is an abbreviated set of values from Schedule and ScheduleInfo
 // that's returned in ListSchedules.
 type ScheduleListInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"hybrid.v1"`
 	// From spec:
 	// Some fields are dropped from this copy of spec: timezone_data
 	Spec *ScheduleSpec `protobuf:"bytes,1,opt,name=spec,proto3" json:"spec,omitempty"`
@@ -1366,11 +2304,6 @@ func (x *ScheduleListInfo) ProtoReflect() protoreflect.Message {
 		return ms
 	}
 	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ScheduleListInfo.ProtoReflect.Descriptor instead.
-func (*ScheduleListInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *ScheduleListInfo) GetSpec() *ScheduleSpec {
@@ -1415,9 +2348,86 @@ func (x *ScheduleListInfo) GetFutureActionTimes() []*timestamppb.Timestamp {
 	return nil
 }
 
+func (x *ScheduleListInfo) SetSpec(v *ScheduleSpec) {
+	x.Spec = v
+}
+
+func (x *ScheduleListInfo) SetWorkflowType(v *v12.WorkflowType) {
+	x.WorkflowType = v
+}
+
+func (x *ScheduleListInfo) SetNotes(v string) {
+	x.Notes = v
+}
+
+func (x *ScheduleListInfo) SetPaused(v bool) {
+	x.Paused = v
+}
+
+func (x *ScheduleListInfo) SetRecentActions(v []*ScheduleActionResult) {
+	x.RecentActions = v
+}
+
+func (x *ScheduleListInfo) SetFutureActionTimes(v []*timestamppb.Timestamp) {
+	x.FutureActionTimes = v
+}
+
+func (x *ScheduleListInfo) HasSpec() bool {
+	if x == nil {
+		return false
+	}
+	return x.Spec != nil
+}
+
+func (x *ScheduleListInfo) HasWorkflowType() bool {
+	if x == nil {
+		return false
+	}
+	return x.WorkflowType != nil
+}
+
+func (x *ScheduleListInfo) ClearSpec() {
+	x.Spec = nil
+}
+
+func (x *ScheduleListInfo) ClearWorkflowType() {
+	x.WorkflowType = nil
+}
+
+type ScheduleListInfo_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	// From spec:
+	// Some fields are dropped from this copy of spec: timezone_data
+	Spec *ScheduleSpec
+	// From action:
+	// Action is a oneof field, but we need to encode this in JSON and oneof fields don't work
+	// well with JSON. If action is start_workflow, this is set:
+	WorkflowType *v12.WorkflowType
+	// From state:
+	Notes  string
+	Paused bool
+	// From info (maybe fewer entries):
+	RecentActions     []*ScheduleActionResult
+	FutureActionTimes []*timestamppb.Timestamp
+}
+
+func (b0 ScheduleListInfo_builder) Build() *ScheduleListInfo {
+	m0 := &ScheduleListInfo{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.Spec = b.Spec
+	x.WorkflowType = b.WorkflowType
+	x.Notes = b.Notes
+	x.Paused = b.Paused
+	x.RecentActions = b.RecentActions
+	x.FutureActionTimes = b.FutureActionTimes
+	return m0
+}
+
 // ScheduleListEntry is returned by ListSchedules.
 type ScheduleListEntry struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
+	state            protoimpl.MessageState `protogen:"hybrid.v1"`
 	ScheduleId       string                 `protobuf:"bytes,1,opt,name=schedule_id,json=scheduleId,proto3" json:"schedule_id,omitempty"`
 	Memo             *v12.Memo              `protobuf:"bytes,2,opt,name=memo,proto3" json:"memo,omitempty"`
 	SearchAttributes *v12.SearchAttributes  `protobuf:"bytes,3,opt,name=search_attributes,json=searchAttributes,proto3" json:"search_attributes,omitempty"`
@@ -1451,11 +2461,6 @@ func (x *ScheduleListEntry) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ScheduleListEntry.ProtoReflect.Descriptor instead.
-func (*ScheduleListEntry) Descriptor() ([]byte, []int) {
-	return file_temporal_api_schedule_v1_message_proto_rawDescGZIP(), []int{15}
-}
-
 func (x *ScheduleListEntry) GetScheduleId() string {
 	if x != nil {
 		return x.ScheduleId
@@ -1482,6 +2487,75 @@ func (x *ScheduleListEntry) GetInfo() *ScheduleListInfo {
 		return x.Info
 	}
 	return nil
+}
+
+func (x *ScheduleListEntry) SetScheduleId(v string) {
+	x.ScheduleId = v
+}
+
+func (x *ScheduleListEntry) SetMemo(v *v12.Memo) {
+	x.Memo = v
+}
+
+func (x *ScheduleListEntry) SetSearchAttributes(v *v12.SearchAttributes) {
+	x.SearchAttributes = v
+}
+
+func (x *ScheduleListEntry) SetInfo(v *ScheduleListInfo) {
+	x.Info = v
+}
+
+func (x *ScheduleListEntry) HasMemo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Memo != nil
+}
+
+func (x *ScheduleListEntry) HasSearchAttributes() bool {
+	if x == nil {
+		return false
+	}
+	return x.SearchAttributes != nil
+}
+
+func (x *ScheduleListEntry) HasInfo() bool {
+	if x == nil {
+		return false
+	}
+	return x.Info != nil
+}
+
+func (x *ScheduleListEntry) ClearMemo() {
+	x.Memo = nil
+}
+
+func (x *ScheduleListEntry) ClearSearchAttributes() {
+	x.SearchAttributes = nil
+}
+
+func (x *ScheduleListEntry) ClearInfo() {
+	x.Info = nil
+}
+
+type ScheduleListEntry_builder struct {
+	_ [0]func() // Prevents comparability and use of unkeyed literals for the builder.
+
+	ScheduleId       string
+	Memo             *v12.Memo
+	SearchAttributes *v12.SearchAttributes
+	Info             *ScheduleListInfo
+}
+
+func (b0 ScheduleListEntry_builder) Build() *ScheduleListEntry {
+	m0 := &ScheduleListEntry{}
+	b, x := &b0, m0
+	_, _ = b, x
+	x.ScheduleId = b.ScheduleId
+	x.Memo = b.Memo
+	x.SearchAttributes = b.SearchAttributes
+	x.Info = b.Info
+	return m0
 }
 
 var File_temporal_api_schedule_v1_message_proto protoreflect.FileDescriptor
@@ -1598,18 +2672,6 @@ const file_temporal_api_schedule_v1_message_proto_rawDesc = "" +
 	"\x11search_attributes\x18\x03 \x01(\v2(.temporal.api.common.v1.SearchAttributesR\x10searchAttributes\x12>\n" +
 	"\x04info\x18\x04 \x01(\v2*.temporal.api.schedule.v1.ScheduleListInfoR\x04infoB\x93\x01\n" +
 	"\x1bio.temporal.api.schedule.v1B\fMessageProtoP\x01Z'go.temporal.io/api/schedule/v1;schedule\xaa\x02\x1aTemporalio.Api.Schedule.V1\xea\x02\x1dTemporalio::Api::Schedule::V1b\x06proto3"
-
-var (
-	file_temporal_api_schedule_v1_message_proto_rawDescOnce sync.Once
-	file_temporal_api_schedule_v1_message_proto_rawDescData []byte
-)
-
-func file_temporal_api_schedule_v1_message_proto_rawDescGZIP() []byte {
-	file_temporal_api_schedule_v1_message_proto_rawDescOnce.Do(func() {
-		file_temporal_api_schedule_v1_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_temporal_api_schedule_v1_message_proto_rawDesc), len(file_temporal_api_schedule_v1_message_proto_rawDesc)))
-	})
-	return file_temporal_api_schedule_v1_message_proto_rawDescData
-}
 
 var file_temporal_api_schedule_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_temporal_api_schedule_v1_message_proto_goTypes = []any{
