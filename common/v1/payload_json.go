@@ -243,8 +243,8 @@ func (p *Payloads) MaybeMarshalProtoJSON(meta map[string]interface{}, enc *json.
 
 	// We only support marshalling to shorthand if all payloads are handled or
 	// there are no payloads, so check if all can be handled first.
-	vals := make([]any, len(p.Payloads))
-	for i, payload := range p.Payloads {
+	vals := make([]any, len(p.GetPayloads()))
+	for i, payload := range p.GetPayloads() {
 		handled, vals[i], err = payload.toJSONShorthand()
 		if !handled || err != nil {
 			return handled, err
@@ -302,7 +302,7 @@ func (p *Payloads) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *jso
 		if err := pl.fromJSONMaybeShorthand(dec); err != nil {
 			return true, fmt.Errorf("unable to unmarshal payload: %w", err)
 		}
-		p.Payloads = append(p.Payloads, &pl)
+		p.SetPayloads(append(p.GetPayloads(), &pl))
 	}
 
 	return true, nil
@@ -350,37 +350,37 @@ func (p *Payload) MaybeUnmarshalProtoJSON(meta map[string]interface{}, dec *json
 
 func (p *Payload) toJSONShorthand() (handled bool, value interface{}, err error) {
 	// Only support binary null, plain JSON and proto JSON
-	switch string(p.Metadata["encoding"]) {
+	switch string(p.GetMetadata()["encoding"]) {
 	case "binary/null":
 		// Leave value as nil
 		handled = true
 	case "json/plain":
 		// Must only have this single metadata
-		if len(p.Metadata) != 1 {
+		if len(p.GetMetadata()) != 1 {
 			return false, nil, nil
 		}
 		// We unmarshal because we may have to indent. We let this error fail the
 		// marshaller.
 		handled = true
-		err = gojson.Unmarshal(p.Data, &value)
+		err = gojson.Unmarshal(p.GetData(), &value)
 	case "json/protobuf":
 		// Must have the message type and no other metadata
-		msgType := string(p.Metadata["messageType"])
-		if msgType == "" || len(p.Metadata) != 2 {
+		msgType := string(p.GetMetadata()["messageType"])
+		if msgType == "" || len(p.GetMetadata()) != 2 {
 			return false, nil, nil
 		}
 		// Since this is a proto object, this must unmarshal to a object. We let
 		// this error fail the marshaller.
 		var valueMap map[string]interface{}
 		handled = true
-		err = gojson.Unmarshal(p.Data, &valueMap)
+		err = gojson.Unmarshal(p.GetData(), &valueMap)
 		// Put the message type on the object
 		if valueMap != nil {
 			valueMap[shorthandMessageTypeKey] = msgType
 		}
 		value = valueMap
 	default:
-		return false, nil, fmt.Errorf("unsupported encoding %s", string(p.Metadata["encoding"]))
+		return false, nil, fmt.Errorf("unsupported encoding %s", string(p.GetMetadata()["encoding"]))
 	}
 	return
 }
@@ -499,9 +499,9 @@ func (p *Payload) unmarshalPayload(valueMap map[string]interface{}) bool {
 	d, dataOk := valueMap[payloadDataKey]
 	// It's ok to have no data key if the encoding is binary/null
 	if mdOk && !dataOk && enc == binaryNullBase64 {
-		p.Metadata = map[string][]byte{
+		p.SetMetadata(map[string][]byte{
 			"encoding": []byte("binary/null"),
-		}
+		})
 		return true
 	} else if !mdOk && !dataOk {
 		return false
@@ -538,8 +538,8 @@ func (p *Payload) unmarshalPayload(valueMap map[string]interface{}) bool {
 		mdbm[k] = vb
 	}
 
-	p.Metadata = mdbm
-	p.Data = dataBytes
+	p.SetMetadata(mdbm)
+	p.SetData(dataBytes)
 	return true
 }
 
@@ -562,12 +562,13 @@ func (p *Payload) fromJSONMaybeShorthand(dec *json.Decoder) error {
 	switch tv := val.(type) {
 	default:
 		// take it as-is
-		p.Metadata = map[string][]byte{"encoding": []byte("json/plain")}
-		p.Data, err = gojson.Marshal(val)
+		p.SetMetadata(map[string][]byte{"encoding": []byte("json/plain")})
+		data, err := gojson.Marshal(val)
+		p.SetData(data)
 		return err
 	case nil:
-		p.Data = nil
-		p.Metadata = map[string][]byte{"encoding": []byte("binary/null")}
+		p.SetData(nil)
+		p.SetMetadata(map[string][]byte{"encoding": []byte("binary/null")})
 		return nil
 	case map[string]interface{}:
 		if handled := p.unmarshalPayload(tv); handled {
@@ -590,14 +591,16 @@ func (p *Payload) fromJSONMaybeShorthand(dec *json.Decoder) error {
 			// what user passed in sans message type (e.g. user may have indented or
 			// did not have same field order), but that is acceptable when going
 			// from shorthand to non-shorthand.
-			p.Data, _ = gojson.Marshal(tv)
-			p.Metadata = map[string][]byte{
+			data, _ := gojson.Marshal(tv)
+			p.SetData(data)
+			p.SetMetadata(map[string][]byte{
 				"encoding":    []byte("json/protobuf"),
 				"messageType": []byte(msgType),
-			}
+			})
 		} else {
-			p.Metadata = map[string][]byte{"encoding": []byte("json/plain")}
-			p.Data, err = gojson.Marshal(val)
+			p.SetMetadata(map[string][]byte{"encoding": []byte("json/plain")})
+			data, err := gojson.Marshal(val)
+			p.SetData(data)
 			return err
 		}
 		return nil

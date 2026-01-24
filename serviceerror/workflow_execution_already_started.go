@@ -49,10 +49,10 @@ func (e *WorkflowExecutionAlreadyStarted) Status() *status.Status {
 
 	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.WorkflowExecutionAlreadyStartedFailure{
+		errordetails.WorkflowExecutionAlreadyStartedFailure_builder{
 			StartRequestId: e.StartRequestId,
 			RunId:          e.RunId,
-		},
+		}.Build(),
 	)
 	return st
 }

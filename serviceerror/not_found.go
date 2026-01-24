@@ -45,10 +45,10 @@ func (e *NotFound) Status() *status.Status {
 
 	st := status.New(codes.NotFound, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.NotFoundFailure{
+		errordetails.NotFoundFailure_builder{
 			CurrentCluster: e.CurrentCluster,
 			ActiveCluster:  e.ActiveCluster,
-		},
+		}.Build(),
 	)
 	return st
 }

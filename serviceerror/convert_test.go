@@ -28,9 +28,9 @@ func TestFromStatus_NotFound(t *testing.T) {
 	require.Equal(t, "Not found.", err1.(*serviceerror.NotFound).Message)
 
 	st2 := status.New(codes.NotFound, "Not found.")
-	st2, err = st1.WithDetails(&errordetails.NamespaceNotFoundFailure{
+	st2, err = st1.WithDetails(errordetails.NamespaceNotFoundFailure_builder{
 		Namespace: "test-ns",
-	})
+	}.Build())
 	require.NoError(t, err)
 	err2 := serviceerror.FromStatus(st2)
 	require.IsType(t, &serviceerror.NamespaceNotFound{}, err2)
@@ -93,13 +93,13 @@ func TestMultiOperationExecution(t *testing.T) {
 		require.Len(t, st.Details(), 1)
 
 		failure := st.Details()[0].(*errordetails.MultiOperationExecutionFailure)
-		st1 := failure.Statuses[0]
+		st1 := failure.GetStatuses()[0]
 		require.Equal(t, int32(codes.Aborted), st1.GetCode())
 		require.Equal(t, "Operation was aborted.", st1.GetMessage())
-		st2 := failure.Statuses[1]
+		st2 := failure.GetStatuses()[1]
 		require.Equal(t, int32(codes.InvalidArgument), st2.GetCode())
 		require.Equal(t, "invalid arg", st2.GetMessage())
-		st3 := failure.Statuses[2]
+		st3 := failure.GetStatuses()[2]
 		require.Equal(t, int32(codes.Aborted), st3.GetCode())
 		require.Equal(t, "Operation was aborted.", st3.GetMessage())
 
@@ -130,7 +130,7 @@ func TestMultiOperationExecution(t *testing.T) {
 		require.Equal(t, codes.Aborted, st.Code())
 		require.Equal(t, err.Error(), st.Message())
 		require.Len(t, st.Details(), 1)
-		require.Empty(t, st.Details()[0].(*errordetails.MultiOperationExecutionFailure).Statuses)
+		require.Empty(t, st.Details()[0].(*errordetails.MultiOperationExecutionFailure).GetStatuses())
 	})
 }
 
@@ -201,6 +201,6 @@ func TestFromWrapped(t *testing.T) {
 	require.Equal(t, codes.PermissionDenied, s.Code())
 	require.Equal(t, "wrapped error: x is not allowed", s.Message())
 	require.True(t, proto.Equal(
-		&errordetails.PermissionDeniedFailure{Reason: "arbitrary reason"},
+		errordetails.PermissionDeniedFailure_builder{Reason: "arbitrary reason"}.Build(),
 		s.Details()[0].(*errordetails.PermissionDeniedFailure)))
 }

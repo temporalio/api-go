@@ -41,9 +41,9 @@ func (e *NamespaceNotFound) Status() *status.Status {
 
 	st := status.New(codes.NotFound, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.NamespaceNotFoundFailure{
+		errordetails.NamespaceNotFoundFailure_builder{
 			Namespace: e.Namespace,
-		},
+		}.Build(),
 	)
 	return st
 }

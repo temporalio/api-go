@@ -39,7 +39,7 @@ func NewSystemWorkflowf(workflowExecution *common.WorkflowExecution, format stri
 func (e *SystemWorkflow) Error() string {
 	execution := e.WorkflowExecution
 	return fmt.Sprintf("System Workflow with WorkflowId %s and RunId %s returned an error: %s",
-		execution.WorkflowId, execution.RunId, e.WorkflowError)
+		execution.GetWorkflowId(), execution.GetRunId(), e.WorkflowError)
 }
 
 func (e *SystemWorkflow) Status() *status.Status {
@@ -49,18 +49,18 @@ func (e *SystemWorkflow) Status() *status.Status {
 
 	st := status.New(codes.Internal, e.Error())
 	st, _ = st.WithDetails(
-		&errordetails.SystemWorkflowFailure{
+		errordetails.SystemWorkflowFailure_builder{
 			WorkflowExecution: e.WorkflowExecution,
 			WorkflowError:     e.WorkflowError,
-		},
+		}.Build(),
 	)
 	return st
 }
 
 func newSystemWorkflow(st *status.Status, errDetails *errordetails.SystemWorkflowFailure) error {
 	return &SystemWorkflow{
-		WorkflowExecution: errDetails.WorkflowExecution,
-		WorkflowError:     errDetails.WorkflowError,
+		WorkflowExecution: errDetails.GetWorkflowExecution(),
+		WorkflowError:     errDetails.GetWorkflowError(),
 		st:                st,
 	}
 }

@@ -49,11 +49,11 @@ func TestProxyMetadataForward(t *testing.T) {
 
 	// Make call with metadata and confirm properly set
 	ctx := metadata.AppendToOutgoingContext(context.Background(), "my-header", "my-header-value")
-	_, err = client.StartWorkflowExecution(ctx, &workflowservice.StartWorkflowExecutionRequest{
-		WorkflowType: &common.WorkflowType{Name: "my-workflow-1"},
-	})
+	_, err = client.StartWorkflowExecution(ctx, workflowservice.StartWorkflowExecutionRequest_builder{
+		WorkflowType: common.WorkflowType_builder{Name: "my-workflow-1"}.Build(),
+	}.Build())
 	require.NoError(t, err)
-	require.Equal(t, "my-workflow-1", endSrv.startWorkflowExecutionRequest.WorkflowType.Name)
+	require.Equal(t, "my-workflow-1", endSrv.startWorkflowExecutionRequest.GetWorkflowType().GetName())
 	require.Equal(t, []string{"my-header-value"}, endSrv.startWorkflowExecutionMetadata.Get("my-header"))
 	// Also make sure that authority is proper and didn't get overridden
 	require.Equal(t, []string{endSrv.addr}, endSrv.startWorkflowExecutionMetadata.Get(":authority"))

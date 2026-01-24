@@ -40,10 +40,10 @@ func (e *ServerVersionNotSupported) Status() *status.Status {
 
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ServerVersionNotSupportedFailure{
+		errordetails.ServerVersionNotSupportedFailure_builder{
 			ServerVersion:                 e.ServerVersion,
 			ClientSupportedServerVersions: e.ClientSupportedServerVersions,
-		},
+		}.Build(),
 	)
 	return st
 }

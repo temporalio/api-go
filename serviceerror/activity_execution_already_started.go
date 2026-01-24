@@ -49,10 +49,10 @@ func (e *ActivityExecutionAlreadyStarted) Status() *status.Status {
 
 	st := status.New(codes.AlreadyExists, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ActivityExecutionAlreadyStartedFailure{
+		errordetails.ActivityExecutionAlreadyStartedFailure_builder{
 			StartRequestId: e.StartRequestId,
 			RunId:          e.RunId,
-		},
+		}.Build(),
 	)
 	return st
 }

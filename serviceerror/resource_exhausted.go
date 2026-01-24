@@ -48,10 +48,10 @@ func (e *ResourceExhausted) Status() *status.Status {
 
 	st := status.New(codes.ResourceExhausted, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ResourceExhaustedFailure{
+		errordetails.ResourceExhaustedFailure_builder{
 			Cause: e.Cause,
 			Scope: e.Scope,
-		},
+		}.Build(),
 	)
 	return st
 }

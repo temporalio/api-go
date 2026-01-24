@@ -39,9 +39,9 @@ func (e *NewerBuildExists) Status() *status.Status {
 
 	st := status.New(codes.OutOfRange, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.NewerBuildExistsFailure{
+		errordetails.NewerBuildExistsFailure_builder{
 			DefaultBuildId: e.DefaultBuildID,
-		},
+		}.Build(),
 	)
 	return st
 }

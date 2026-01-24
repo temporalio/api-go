@@ -104,10 +104,11 @@ func request_WorkflowService_DescribeNamespace_0(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -128,10 +129,11 @@ func local_request_WorkflowService_DescribeNamespace_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -157,10 +159,11 @@ func request_WorkflowService_DescribeNamespace_1(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -181,10 +184,11 @@ func local_request_WorkflowService_DescribeNamespace_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -281,10 +285,11 @@ func request_WorkflowService_UpdateNamespace_0(ctx context.Context, marshaler ru
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.UpdateNamespace(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -302,10 +307,11 @@ func local_request_WorkflowService_UpdateNamespace_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.UpdateNamespace(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -326,10 +332,11 @@ func request_WorkflowService_UpdateNamespace_1(ctx context.Context, marshaler ru
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.UpdateNamespace(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -347,10 +354,11 @@ func local_request_WorkflowService_UpdateNamespace_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.UpdateNamespace(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -371,18 +379,20 @@ func request_WorkflowService_StartWorkflowExecution_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	msg, err := client.StartWorkflowExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -400,18 +410,20 @@ func local_request_WorkflowService_StartWorkflowExecution_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	msg, err := server.StartWorkflowExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -432,18 +444,20 @@ func request_WorkflowService_StartWorkflowExecution_1(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	msg, err := client.StartWorkflowExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -461,18 +475,20 @@ func local_request_WorkflowService_StartWorkflowExecution_1(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	msg, err := server.StartWorkflowExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -493,10 +509,11 @@ func request_WorkflowService_ExecuteMultiOperation_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.ExecuteMultiOperation(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -514,10 +531,11 @@ func local_request_WorkflowService_ExecuteMultiOperation_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.ExecuteMultiOperation(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -538,10 +556,11 @@ func request_WorkflowService_ExecuteMultiOperation_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.ExecuteMultiOperation(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -559,10 +578,11 @@ func local_request_WorkflowService_ExecuteMultiOperation_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.ExecuteMultiOperation(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -582,10 +602,11 @@ func request_WorkflowService_GetWorkflowExecutionHistory_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -614,10 +635,11 @@ func local_request_WorkflowService_GetWorkflowExecutionHistory_0(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -651,10 +673,11 @@ func request_WorkflowService_GetWorkflowExecutionHistory_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -683,10 +706,11 @@ func local_request_WorkflowService_GetWorkflowExecutionHistory_1(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -720,10 +744,11 @@ func request_WorkflowService_GetWorkflowExecutionHistoryReverse_0(ctx context.Co
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -752,10 +777,11 @@ func local_request_WorkflowService_GetWorkflowExecutionHistoryReverse_0(ctx cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -789,10 +815,11 @@ func request_WorkflowService_GetWorkflowExecutionHistoryReverse_1(ctx context.Co
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -821,10 +848,11 @@ func local_request_WorkflowService_GetWorkflowExecutionHistoryReverse_1(ctx cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -859,10 +887,11 @@ func request_WorkflowService_RecordActivityTaskHeartbeat_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RecordActivityTaskHeartbeat(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -880,10 +909,11 @@ func local_request_WorkflowService_RecordActivityTaskHeartbeat_0(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RecordActivityTaskHeartbeat(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -904,10 +934,11 @@ func request_WorkflowService_RecordActivityTaskHeartbeat_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RecordActivityTaskHeartbeat(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -925,10 +956,11 @@ func local_request_WorkflowService_RecordActivityTaskHeartbeat_1(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RecordActivityTaskHeartbeat(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -949,10 +981,11 @@ func request_WorkflowService_RecordActivityTaskHeartbeatById_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RecordActivityTaskHeartbeatById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -970,10 +1003,11 @@ func local_request_WorkflowService_RecordActivityTaskHeartbeatById_0(ctx context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RecordActivityTaskHeartbeatById(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -994,10 +1028,11 @@ func request_WorkflowService_RecordActivityTaskHeartbeatById_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RecordActivityTaskHeartbeatById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1015,10 +1050,11 @@ func local_request_WorkflowService_RecordActivityTaskHeartbeatById_1(ctx context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RecordActivityTaskHeartbeatById(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1039,10 +1075,11 @@ func request_WorkflowService_RespondActivityTaskCompleted_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskCompleted(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1060,10 +1097,11 @@ func local_request_WorkflowService_RespondActivityTaskCompleted_0(ctx context.Co
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskCompleted(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1084,10 +1122,11 @@ func request_WorkflowService_RespondActivityTaskCompleted_1(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskCompleted(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1105,10 +1144,11 @@ func local_request_WorkflowService_RespondActivityTaskCompleted_1(ctx context.Co
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskCompleted(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1129,10 +1169,11 @@ func request_WorkflowService_RespondActivityTaskCompletedById_0(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskCompletedById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1150,10 +1191,11 @@ func local_request_WorkflowService_RespondActivityTaskCompletedById_0(ctx contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskCompletedById(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1174,10 +1216,11 @@ func request_WorkflowService_RespondActivityTaskCompletedById_1(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskCompletedById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1195,10 +1238,11 @@ func local_request_WorkflowService_RespondActivityTaskCompletedById_1(ctx contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskCompletedById(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1219,10 +1263,11 @@ func request_WorkflowService_RespondActivityTaskFailed_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskFailed(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1240,10 +1285,11 @@ func local_request_WorkflowService_RespondActivityTaskFailed_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskFailed(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1264,10 +1310,11 @@ func request_WorkflowService_RespondActivityTaskFailed_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskFailed(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1285,10 +1332,11 @@ func local_request_WorkflowService_RespondActivityTaskFailed_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskFailed(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1309,10 +1357,11 @@ func request_WorkflowService_RespondActivityTaskFailedById_0(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskFailedById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1330,10 +1379,11 @@ func local_request_WorkflowService_RespondActivityTaskFailedById_0(ctx context.C
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskFailedById(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1354,10 +1404,11 @@ func request_WorkflowService_RespondActivityTaskFailedById_1(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskFailedById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1375,10 +1426,11 @@ func local_request_WorkflowService_RespondActivityTaskFailedById_1(ctx context.C
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskFailedById(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1399,10 +1451,11 @@ func request_WorkflowService_RespondActivityTaskCanceled_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskCanceled(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1420,10 +1473,11 @@ func local_request_WorkflowService_RespondActivityTaskCanceled_0(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskCanceled(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1444,10 +1498,11 @@ func request_WorkflowService_RespondActivityTaskCanceled_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskCanceled(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1465,10 +1520,11 @@ func local_request_WorkflowService_RespondActivityTaskCanceled_1(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskCanceled(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1489,10 +1545,11 @@ func request_WorkflowService_RespondActivityTaskCanceledById_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskCanceledById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1510,10 +1567,11 @@ func local_request_WorkflowService_RespondActivityTaskCanceledById_0(ctx context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskCanceledById(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1534,10 +1592,11 @@ func request_WorkflowService_RespondActivityTaskCanceledById_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RespondActivityTaskCanceledById(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1555,10 +1614,11 @@ func local_request_WorkflowService_RespondActivityTaskCanceledById_1(ctx context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RespondActivityTaskCanceledById(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1579,10 +1639,11 @@ func request_WorkflowService_RequestCancelWorkflowExecution_0(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -1608,10 +1669,11 @@ func local_request_WorkflowService_RequestCancelWorkflowExecution_0(ctx context.
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -1640,10 +1702,11 @@ func request_WorkflowService_RequestCancelWorkflowExecution_1(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -1669,10 +1732,11 @@ func local_request_WorkflowService_RequestCancelWorkflowExecution_1(ctx context.
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -1701,10 +1765,11 @@ func request_WorkflowService_SignalWorkflowExecution_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -1717,10 +1782,11 @@ func request_WorkflowService_SignalWorkflowExecution_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "signal_name")
 	}
-	protoReq.SignalName, err = runtime.String(val)
+	signalNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "signal_name", err)
 	}
+	protoReq.SetSignalName(signalNameVal)
 	msg, err := client.SignalWorkflowExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1738,10 +1804,11 @@ func local_request_WorkflowService_SignalWorkflowExecution_0(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -1754,10 +1821,11 @@ func local_request_WorkflowService_SignalWorkflowExecution_0(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "signal_name")
 	}
-	protoReq.SignalName, err = runtime.String(val)
+	signalNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "signal_name", err)
 	}
+	protoReq.SetSignalName(signalNameVal)
 	msg, err := server.SignalWorkflowExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1778,10 +1846,11 @@ func request_WorkflowService_SignalWorkflowExecution_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -1794,10 +1863,11 @@ func request_WorkflowService_SignalWorkflowExecution_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "signal_name")
 	}
-	protoReq.SignalName, err = runtime.String(val)
+	signalNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "signal_name", err)
 	}
+	protoReq.SetSignalName(signalNameVal)
 	msg, err := client.SignalWorkflowExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1815,10 +1885,11 @@ func local_request_WorkflowService_SignalWorkflowExecution_1(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -1831,10 +1902,11 @@ func local_request_WorkflowService_SignalWorkflowExecution_1(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "signal_name")
 	}
-	protoReq.SignalName, err = runtime.String(val)
+	signalNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "signal_name", err)
 	}
+	protoReq.SetSignalName(signalNameVal)
 	msg, err := server.SignalWorkflowExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1855,26 +1927,29 @@ func request_WorkflowService_SignalWithStartWorkflowExecution_0(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	val, ok = pathParams["signal_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "signal_name")
 	}
-	protoReq.SignalName, err = runtime.String(val)
+	signalNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "signal_name", err)
 	}
+	protoReq.SetSignalName(signalNameVal)
 	msg, err := client.SignalWithStartWorkflowExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1892,26 +1967,29 @@ func local_request_WorkflowService_SignalWithStartWorkflowExecution_0(ctx contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	val, ok = pathParams["signal_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "signal_name")
 	}
-	protoReq.SignalName, err = runtime.String(val)
+	signalNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "signal_name", err)
 	}
+	protoReq.SetSignalName(signalNameVal)
 	msg, err := server.SignalWithStartWorkflowExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -1932,26 +2010,29 @@ func request_WorkflowService_SignalWithStartWorkflowExecution_1(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	val, ok = pathParams["signal_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "signal_name")
 	}
-	protoReq.SignalName, err = runtime.String(val)
+	signalNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "signal_name", err)
 	}
+	protoReq.SetSignalName(signalNameVal)
 	msg, err := client.SignalWithStartWorkflowExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -1969,26 +2050,29 @@ func local_request_WorkflowService_SignalWithStartWorkflowExecution_1(ctx contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	val, ok = pathParams["signal_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "signal_name")
 	}
-	protoReq.SignalName, err = runtime.String(val)
+	signalNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "signal_name", err)
 	}
+	protoReq.SetSignalName(signalNameVal)
 	msg, err := server.SignalWithStartWorkflowExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -2009,10 +2093,11 @@ func request_WorkflowService_ResetWorkflowExecution_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -2038,10 +2123,11 @@ func local_request_WorkflowService_ResetWorkflowExecution_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -2070,10 +2156,11 @@ func request_WorkflowService_ResetWorkflowExecution_1(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -2099,10 +2186,11 @@ func local_request_WorkflowService_ResetWorkflowExecution_1(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -2131,10 +2219,11 @@ func request_WorkflowService_TerminateWorkflowExecution_0(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -2160,10 +2249,11 @@ func local_request_WorkflowService_TerminateWorkflowExecution_0(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -2192,10 +2282,11 @@ func request_WorkflowService_TerminateWorkflowExecution_1(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -2221,10 +2312,11 @@ func local_request_WorkflowService_TerminateWorkflowExecution_1(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -2252,10 +2344,11 @@ func request_WorkflowService_ListWorkflowExecutions_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2276,10 +2369,11 @@ func local_request_WorkflowService_ListWorkflowExecutions_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2305,10 +2399,11 @@ func request_WorkflowService_ListWorkflowExecutions_1(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2329,10 +2424,11 @@ func local_request_WorkflowService_ListWorkflowExecutions_1(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2358,10 +2454,11 @@ func request_WorkflowService_ListArchivedWorkflowExecutions_0(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2382,10 +2479,11 @@ func local_request_WorkflowService_ListArchivedWorkflowExecutions_0(ctx context.
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2411,10 +2509,11 @@ func request_WorkflowService_ListArchivedWorkflowExecutions_1(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2435,10 +2534,11 @@ func local_request_WorkflowService_ListArchivedWorkflowExecutions_1(ctx context.
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2464,10 +2564,11 @@ func request_WorkflowService_CountWorkflowExecutions_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2488,10 +2589,11 @@ func local_request_WorkflowService_CountWorkflowExecutions_0(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2517,10 +2619,11 @@ func request_WorkflowService_CountWorkflowExecutions_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2541,10 +2644,11 @@ func local_request_WorkflowService_CountWorkflowExecutions_1(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -2571,10 +2675,11 @@ func request_WorkflowService_QueryWorkflow_0(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -2608,10 +2713,11 @@ func local_request_WorkflowService_QueryWorkflow_0(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -2648,10 +2754,11 @@ func request_WorkflowService_QueryWorkflow_1(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -2685,10 +2792,11 @@ func local_request_WorkflowService_QueryWorkflow_1(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -2724,10 +2832,11 @@ func request_WorkflowService_DescribeWorkflowExecution_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -2756,10 +2865,11 @@ func local_request_WorkflowService_DescribeWorkflowExecution_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -2793,10 +2903,11 @@ func request_WorkflowService_DescribeWorkflowExecution_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -2825,10 +2936,11 @@ func local_request_WorkflowService_DescribeWorkflowExecution_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -2862,10 +2974,11 @@ func request_WorkflowService_DescribeTaskQueue_0(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue.name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue.name")
@@ -2894,10 +3007,11 @@ func local_request_WorkflowService_DescribeTaskQueue_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue.name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue.name")
@@ -2931,10 +3045,11 @@ func request_WorkflowService_DescribeTaskQueue_1(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue.name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue.name")
@@ -2963,10 +3078,11 @@ func local_request_WorkflowService_DescribeTaskQueue_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue.name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue.name")
@@ -3085,18 +3201,20 @@ func request_WorkflowService_CreateSchedule_0(ctx context.Context, marshaler run
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := client.CreateSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3114,18 +3232,20 @@ func local_request_WorkflowService_CreateSchedule_0(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := server.CreateSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -3146,18 +3266,20 @@ func request_WorkflowService_CreateSchedule_1(ctx context.Context, marshaler run
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := client.CreateSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3175,18 +3297,20 @@ func local_request_WorkflowService_CreateSchedule_1(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := server.CreateSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -3204,18 +3328,20 @@ func request_WorkflowService_DescribeSchedule_0(ctx context.Context, marshaler r
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := client.DescribeSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3230,18 +3356,20 @@ func local_request_WorkflowService_DescribeSchedule_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := server.DescribeSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -3259,18 +3387,20 @@ func request_WorkflowService_DescribeSchedule_1(ctx context.Context, marshaler r
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := client.DescribeSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3285,18 +3415,20 @@ func local_request_WorkflowService_DescribeSchedule_1(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := server.DescribeSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -3317,18 +3449,20 @@ func request_WorkflowService_UpdateSchedule_0(ctx context.Context, marshaler run
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := client.UpdateSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3346,18 +3480,20 @@ func local_request_WorkflowService_UpdateSchedule_0(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := server.UpdateSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -3378,18 +3514,20 @@ func request_WorkflowService_UpdateSchedule_1(ctx context.Context, marshaler run
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := client.UpdateSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3407,18 +3545,20 @@ func local_request_WorkflowService_UpdateSchedule_1(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := server.UpdateSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -3439,18 +3579,20 @@ func request_WorkflowService_PatchSchedule_0(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := client.PatchSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3468,18 +3610,20 @@ func local_request_WorkflowService_PatchSchedule_0(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := server.PatchSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -3500,18 +3644,20 @@ func request_WorkflowService_PatchSchedule_1(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := client.PatchSchedule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -3529,18 +3675,20 @@ func local_request_WorkflowService_PatchSchedule_1(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	msg, err := server.PatchSchedule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -3560,18 +3708,20 @@ func request_WorkflowService_ListScheduleMatchingTimes_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3592,18 +3742,20 @@ func local_request_WorkflowService_ListScheduleMatchingTimes_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3629,18 +3781,20 @@ func request_WorkflowService_ListScheduleMatchingTimes_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3661,18 +3815,20 @@ func local_request_WorkflowService_ListScheduleMatchingTimes_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3698,18 +3854,20 @@ func request_WorkflowService_DeleteSchedule_0(ctx context.Context, marshaler run
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3730,18 +3888,20 @@ func local_request_WorkflowService_DeleteSchedule_0(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3767,18 +3927,20 @@ func request_WorkflowService_DeleteSchedule_1(ctx context.Context, marshaler run
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3799,18 +3961,20 @@ func local_request_WorkflowService_DeleteSchedule_1(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["schedule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "schedule_id")
 	}
-	protoReq.ScheduleId, err = runtime.String(val)
+	scheduleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "schedule_id", err)
 	}
+	protoReq.SetScheduleId(scheduleIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3836,10 +4000,11 @@ func request_WorkflowService_ListSchedules_0(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3860,10 +4025,11 @@ func local_request_WorkflowService_ListSchedules_0(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3889,10 +4055,11 @@ func request_WorkflowService_ListSchedules_1(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3913,10 +4080,11 @@ func local_request_WorkflowService_ListSchedules_1(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3942,18 +4110,20 @@ func request_WorkflowService_GetWorkerBuildIdCompatibility_0(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -3974,18 +4144,20 @@ func local_request_WorkflowService_GetWorkerBuildIdCompatibility_0(ctx context.C
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4011,18 +4183,20 @@ func request_WorkflowService_GetWorkerBuildIdCompatibility_1(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4043,18 +4217,20 @@ func local_request_WorkflowService_GetWorkerBuildIdCompatibility_1(ctx context.C
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4078,18 +4254,20 @@ func request_WorkflowService_GetWorkerVersioningRules_0(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	msg, err := client.GetWorkerVersioningRules(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -4104,18 +4282,20 @@ func local_request_WorkflowService_GetWorkerVersioningRules_0(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	msg, err := server.GetWorkerVersioningRules(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -4133,18 +4313,20 @@ func request_WorkflowService_GetWorkerVersioningRules_1(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	msg, err := client.GetWorkerVersioningRules(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -4159,18 +4341,20 @@ func local_request_WorkflowService_GetWorkerVersioningRules_1(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	msg, err := server.GetWorkerVersioningRules(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -4190,10 +4374,11 @@ func request_WorkflowService_GetWorkerTaskReachability_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4214,10 +4399,11 @@ func local_request_WorkflowService_GetWorkerTaskReachability_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4243,10 +4429,11 @@ func request_WorkflowService_GetWorkerTaskReachability_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4267,10 +4454,11 @@ func local_request_WorkflowService_GetWorkerTaskReachability_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4296,10 +4484,11 @@ func request_WorkflowService_DescribeDeployment_0(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -4336,10 +4525,11 @@ func local_request_WorkflowService_DescribeDeployment_0(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -4381,10 +4571,11 @@ func request_WorkflowService_DescribeDeployment_1(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -4421,10 +4612,11 @@ func local_request_WorkflowService_DescribeDeployment_1(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -4466,10 +4658,11 @@ func request_WorkflowService_DescribeWorkerDeploymentVersion_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -4506,10 +4699,11 @@ func local_request_WorkflowService_DescribeWorkerDeploymentVersion_0(ctx context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -4551,10 +4745,11 @@ func request_WorkflowService_DescribeWorkerDeploymentVersion_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -4591,10 +4786,11 @@ func local_request_WorkflowService_DescribeWorkerDeploymentVersion_1(ctx context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -4636,10 +4832,11 @@ func request_WorkflowService_ListDeployments_0(ctx context.Context, marshaler ru
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4660,10 +4857,11 @@ func local_request_WorkflowService_ListDeployments_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4689,10 +4887,11 @@ func request_WorkflowService_ListDeployments_1(ctx context.Context, marshaler ru
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4713,10 +4912,11 @@ func local_request_WorkflowService_ListDeployments_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -4742,10 +4942,11 @@ func request_WorkflowService_GetDeploymentReachability_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -4782,10 +4983,11 @@ func local_request_WorkflowService_GetDeploymentReachability_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -4827,10 +5029,11 @@ func request_WorkflowService_GetDeploymentReachability_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -4867,10 +5070,11 @@ func local_request_WorkflowService_GetDeploymentReachability_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -4910,18 +5114,20 @@ func request_WorkflowService_GetCurrentDeployment_0(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_name")
 	}
-	protoReq.SeriesName, err = runtime.String(val)
+	seriesNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_name", err)
 	}
+	protoReq.SetSeriesName(seriesNameVal)
 	msg, err := client.GetCurrentDeployment(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -4936,18 +5142,20 @@ func local_request_WorkflowService_GetCurrentDeployment_0(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_name")
 	}
-	protoReq.SeriesName, err = runtime.String(val)
+	seriesNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_name", err)
 	}
+	protoReq.SetSeriesName(seriesNameVal)
 	msg, err := server.GetCurrentDeployment(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -4965,18 +5173,20 @@ func request_WorkflowService_GetCurrentDeployment_1(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_name")
 	}
-	protoReq.SeriesName, err = runtime.String(val)
+	seriesNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_name", err)
 	}
+	protoReq.SetSeriesName(seriesNameVal)
 	msg, err := client.GetCurrentDeployment(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -4991,18 +5201,20 @@ func local_request_WorkflowService_GetCurrentDeployment_1(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "series_name")
 	}
-	protoReq.SeriesName, err = runtime.String(val)
+	seriesNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "series_name", err)
 	}
+	protoReq.SetSeriesName(seriesNameVal)
 	msg, err := server.GetCurrentDeployment(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -5023,10 +5235,11 @@ func request_WorkflowService_SetCurrentDeployment_0(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -5052,10 +5265,11 @@ func local_request_WorkflowService_SetCurrentDeployment_0(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -5084,10 +5298,11 @@ func request_WorkflowService_SetCurrentDeployment_1(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -5113,10 +5328,11 @@ func local_request_WorkflowService_SetCurrentDeployment_1(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment.series_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment.series_name")
@@ -5145,18 +5361,20 @@ func request_WorkflowService_SetWorkerDeploymentCurrentVersion_0(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := client.SetWorkerDeploymentCurrentVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -5174,18 +5392,20 @@ func local_request_WorkflowService_SetWorkerDeploymentCurrentVersion_0(ctx conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := server.SetWorkerDeploymentCurrentVersion(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -5206,18 +5426,20 @@ func request_WorkflowService_SetWorkerDeploymentCurrentVersion_1(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := client.SetWorkerDeploymentCurrentVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -5235,18 +5457,20 @@ func local_request_WorkflowService_SetWorkerDeploymentCurrentVersion_1(ctx conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := server.SetWorkerDeploymentCurrentVersion(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -5264,18 +5488,20 @@ func request_WorkflowService_DescribeWorkerDeployment_0(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := client.DescribeWorkerDeployment(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -5290,18 +5516,20 @@ func local_request_WorkflowService_DescribeWorkerDeployment_0(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := server.DescribeWorkerDeployment(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -5319,18 +5547,20 @@ func request_WorkflowService_DescribeWorkerDeployment_1(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := client.DescribeWorkerDeployment(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -5345,18 +5575,20 @@ func local_request_WorkflowService_DescribeWorkerDeployment_1(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := server.DescribeWorkerDeployment(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -5376,18 +5608,20 @@ func request_WorkflowService_DeleteWorkerDeployment_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -5408,18 +5642,20 @@ func local_request_WorkflowService_DeleteWorkerDeployment_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -5445,18 +5681,20 @@ func request_WorkflowService_DeleteWorkerDeployment_1(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -5477,18 +5715,20 @@ func local_request_WorkflowService_DeleteWorkerDeployment_1(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -5514,10 +5754,11 @@ func request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -5554,10 +5795,11 @@ func local_request_WorkflowService_DeleteWorkerDeploymentVersion_0(ctx context.C
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -5599,10 +5841,11 @@ func request_WorkflowService_DeleteWorkerDeploymentVersion_1(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -5639,10 +5882,11 @@ func local_request_WorkflowService_DeleteWorkerDeploymentVersion_1(ctx context.C
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -5685,18 +5929,20 @@ func request_WorkflowService_SetWorkerDeploymentRampingVersion_0(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := client.SetWorkerDeploymentRampingVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -5714,18 +5960,20 @@ func local_request_WorkflowService_SetWorkerDeploymentRampingVersion_0(ctx conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := server.SetWorkerDeploymentRampingVersion(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -5746,18 +5994,20 @@ func request_WorkflowService_SetWorkerDeploymentRampingVersion_1(ctx context.Con
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := client.SetWorkerDeploymentRampingVersion(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -5775,18 +6025,20 @@ func local_request_WorkflowService_SetWorkerDeploymentRampingVersion_1(ctx conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := server.SetWorkerDeploymentRampingVersion(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -5806,10 +6058,11 @@ func request_WorkflowService_ListWorkerDeployments_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -5830,10 +6083,11 @@ func local_request_WorkflowService_ListWorkerDeployments_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -5859,10 +6113,11 @@ func request_WorkflowService_ListWorkerDeployments_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -5883,10 +6138,11 @@ func local_request_WorkflowService_ListWorkerDeployments_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -5913,10 +6169,11 @@ func request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(ctx context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -5950,10 +6207,11 @@ func local_request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_0(ctx c
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -5990,10 +6248,11 @@ func request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(ctx context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -6027,10 +6286,11 @@ func local_request_WorkflowService_UpdateWorkerDeploymentVersionMetadata_1(ctx c
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_version.deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_version.deployment_name")
@@ -6067,18 +6327,20 @@ func request_WorkflowService_SetWorkerDeploymentManager_0(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := client.SetWorkerDeploymentManager(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6096,18 +6358,20 @@ func local_request_WorkflowService_SetWorkerDeploymentManager_0(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := server.SetWorkerDeploymentManager(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6128,18 +6392,20 @@ func request_WorkflowService_SetWorkerDeploymentManager_1(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := client.SetWorkerDeploymentManager(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6157,18 +6423,20 @@ func local_request_WorkflowService_SetWorkerDeploymentManager_1(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["deployment_name"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "deployment_name")
 	}
-	protoReq.DeploymentName, err = runtime.String(val)
+	deploymentNameVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "deployment_name", err)
 	}
+	protoReq.SetDeploymentName(deploymentNameVal)
 	msg, err := server.SetWorkerDeploymentManager(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6189,10 +6457,11 @@ func request_WorkflowService_UpdateWorkflowExecution_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -6226,10 +6495,11 @@ func local_request_WorkflowService_UpdateWorkflowExecution_0(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -6266,10 +6536,11 @@ func request_WorkflowService_UpdateWorkflowExecution_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -6303,10 +6574,11 @@ func local_request_WorkflowService_UpdateWorkflowExecution_1(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -6343,18 +6615,20 @@ func request_WorkflowService_StartBatchOperation_0(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := client.StartBatchOperation(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6372,18 +6646,20 @@ func local_request_WorkflowService_StartBatchOperation_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := server.StartBatchOperation(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6404,18 +6680,20 @@ func request_WorkflowService_StartBatchOperation_1(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := client.StartBatchOperation(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6433,18 +6711,20 @@ func local_request_WorkflowService_StartBatchOperation_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := server.StartBatchOperation(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6465,18 +6745,20 @@ func request_WorkflowService_StopBatchOperation_0(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := client.StopBatchOperation(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6494,18 +6776,20 @@ func local_request_WorkflowService_StopBatchOperation_0(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := server.StopBatchOperation(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6526,18 +6810,20 @@ func request_WorkflowService_StopBatchOperation_1(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := client.StopBatchOperation(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6555,18 +6841,20 @@ func local_request_WorkflowService_StopBatchOperation_1(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := server.StopBatchOperation(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6584,18 +6872,20 @@ func request_WorkflowService_DescribeBatchOperation_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := client.DescribeBatchOperation(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6610,18 +6900,20 @@ func local_request_WorkflowService_DescribeBatchOperation_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := server.DescribeBatchOperation(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6639,18 +6931,20 @@ func request_WorkflowService_DescribeBatchOperation_1(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := client.DescribeBatchOperation(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6665,18 +6959,20 @@ func local_request_WorkflowService_DescribeBatchOperation_1(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["job_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "job_id")
 	}
-	protoReq.JobId, err = runtime.String(val)
+	jobIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "job_id", err)
 	}
+	protoReq.SetJobId(jobIdVal)
 	msg, err := server.DescribeBatchOperation(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6696,10 +6992,11 @@ func request_WorkflowService_ListBatchOperations_0(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -6720,10 +7017,11 @@ func local_request_WorkflowService_ListBatchOperations_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -6749,10 +7047,11 @@ func request_WorkflowService_ListBatchOperations_1(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -6773,10 +7072,11 @@ func local_request_WorkflowService_ListBatchOperations_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -6803,10 +7103,11 @@ func request_WorkflowService_UpdateActivityOptions_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.UpdateActivityOptions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6824,10 +7125,11 @@ func local_request_WorkflowService_UpdateActivityOptions_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.UpdateActivityOptions(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6848,10 +7150,11 @@ func request_WorkflowService_UpdateActivityOptions_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.UpdateActivityOptions(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -6869,10 +7172,11 @@ func local_request_WorkflowService_UpdateActivityOptions_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.UpdateActivityOptions(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -6893,10 +7197,11 @@ func request_WorkflowService_UpdateWorkflowExecutionOptions_0(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -6922,10 +7227,11 @@ func local_request_WorkflowService_UpdateWorkflowExecutionOptions_0(ctx context.
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -6954,10 +7260,11 @@ func request_WorkflowService_UpdateWorkflowExecutionOptions_1(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -6983,10 +7290,11 @@ func local_request_WorkflowService_UpdateWorkflowExecutionOptions_1(ctx context.
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_execution.workflow_id")
@@ -7015,10 +7323,11 @@ func request_WorkflowService_PauseActivity_0(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.PauseActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7036,10 +7345,11 @@ func local_request_WorkflowService_PauseActivity_0(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.PauseActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7060,10 +7370,11 @@ func request_WorkflowService_PauseActivity_1(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.PauseActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7081,10 +7392,11 @@ func local_request_WorkflowService_PauseActivity_1(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.PauseActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7105,10 +7417,11 @@ func request_WorkflowService_UnpauseActivity_0(ctx context.Context, marshaler ru
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.UnpauseActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7126,10 +7439,11 @@ func local_request_WorkflowService_UnpauseActivity_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.UnpauseActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7150,10 +7464,11 @@ func request_WorkflowService_UnpauseActivity_1(ctx context.Context, marshaler ru
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.UnpauseActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7171,10 +7486,11 @@ func local_request_WorkflowService_UnpauseActivity_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.UnpauseActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7195,10 +7511,11 @@ func request_WorkflowService_ResetActivity_0(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.ResetActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7216,10 +7533,11 @@ func local_request_WorkflowService_ResetActivity_0(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.ResetActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7240,10 +7558,11 @@ func request_WorkflowService_ResetActivity_1(ctx context.Context, marshaler runt
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.ResetActivity(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7261,10 +7580,11 @@ func local_request_WorkflowService_ResetActivity_1(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.ResetActivity(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7285,10 +7605,11 @@ func request_WorkflowService_CreateWorkflowRule_0(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.CreateWorkflowRule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7306,10 +7627,11 @@ func local_request_WorkflowService_CreateWorkflowRule_0(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.CreateWorkflowRule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7330,10 +7652,11 @@ func request_WorkflowService_CreateWorkflowRule_1(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.CreateWorkflowRule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7351,10 +7674,11 @@ func local_request_WorkflowService_CreateWorkflowRule_1(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.CreateWorkflowRule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7372,18 +7696,20 @@ func request_WorkflowService_DescribeWorkflowRule_0(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["rule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "rule_id")
 	}
-	protoReq.RuleId, err = runtime.String(val)
+	ruleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "rule_id", err)
 	}
+	protoReq.SetRuleId(ruleIdVal)
 	msg, err := client.DescribeWorkflowRule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7398,18 +7724,20 @@ func local_request_WorkflowService_DescribeWorkflowRule_0(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["rule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "rule_id")
 	}
-	protoReq.RuleId, err = runtime.String(val)
+	ruleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "rule_id", err)
 	}
+	protoReq.SetRuleId(ruleIdVal)
 	msg, err := server.DescribeWorkflowRule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7427,18 +7755,20 @@ func request_WorkflowService_DescribeWorkflowRule_1(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["rule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "rule_id")
 	}
-	protoReq.RuleId, err = runtime.String(val)
+	ruleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "rule_id", err)
 	}
+	protoReq.SetRuleId(ruleIdVal)
 	msg, err := client.DescribeWorkflowRule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7453,18 +7783,20 @@ func local_request_WorkflowService_DescribeWorkflowRule_1(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["rule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "rule_id")
 	}
-	protoReq.RuleId, err = runtime.String(val)
+	ruleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "rule_id", err)
 	}
+	protoReq.SetRuleId(ruleIdVal)
 	msg, err := server.DescribeWorkflowRule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7482,18 +7814,20 @@ func request_WorkflowService_DeleteWorkflowRule_0(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["rule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "rule_id")
 	}
-	protoReq.RuleId, err = runtime.String(val)
+	ruleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "rule_id", err)
 	}
+	protoReq.SetRuleId(ruleIdVal)
 	msg, err := client.DeleteWorkflowRule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7508,18 +7842,20 @@ func local_request_WorkflowService_DeleteWorkflowRule_0(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["rule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "rule_id")
 	}
-	protoReq.RuleId, err = runtime.String(val)
+	ruleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "rule_id", err)
 	}
+	protoReq.SetRuleId(ruleIdVal)
 	msg, err := server.DeleteWorkflowRule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7537,18 +7873,20 @@ func request_WorkflowService_DeleteWorkflowRule_1(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["rule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "rule_id")
 	}
-	protoReq.RuleId, err = runtime.String(val)
+	ruleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "rule_id", err)
 	}
+	protoReq.SetRuleId(ruleIdVal)
 	msg, err := client.DeleteWorkflowRule(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7563,18 +7901,20 @@ func local_request_WorkflowService_DeleteWorkflowRule_1(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["rule_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "rule_id")
 	}
-	protoReq.RuleId, err = runtime.String(val)
+	ruleIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "rule_id", err)
 	}
+	protoReq.SetRuleId(ruleIdVal)
 	msg, err := server.DeleteWorkflowRule(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7594,10 +7934,11 @@ func request_WorkflowService_ListWorkflowRules_0(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -7618,10 +7959,11 @@ func local_request_WorkflowService_ListWorkflowRules_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -7647,10 +7989,11 @@ func request_WorkflowService_ListWorkflowRules_1(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -7671,10 +8014,11 @@ func local_request_WorkflowService_ListWorkflowRules_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -7701,10 +8045,11 @@ func request_WorkflowService_TriggerWorkflowRule_0(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -7730,10 +8075,11 @@ func local_request_WorkflowService_TriggerWorkflowRule_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -7762,10 +8108,11 @@ func request_WorkflowService_TriggerWorkflowRule_1(ctx context.Context, marshale
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -7791,10 +8138,11 @@ func local_request_WorkflowService_TriggerWorkflowRule_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["execution.workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "execution.workflow_id")
@@ -7823,10 +8171,11 @@ func request_WorkflowService_RecordWorkerHeartbeat_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RecordWorkerHeartbeat(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7844,10 +8193,11 @@ func local_request_WorkflowService_RecordWorkerHeartbeat_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RecordWorkerHeartbeat(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7868,10 +8218,11 @@ func request_WorkflowService_RecordWorkerHeartbeat_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.RecordWorkerHeartbeat(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -7889,10 +8240,11 @@ func local_request_WorkflowService_RecordWorkerHeartbeat_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.RecordWorkerHeartbeat(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -7912,10 +8264,11 @@ func request_WorkflowService_ListWorkers_0(ctx context.Context, marshaler runtim
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -7936,10 +8289,11 @@ func local_request_WorkflowService_ListWorkers_0(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -7965,10 +8319,11 @@ func request_WorkflowService_ListWorkers_1(ctx context.Context, marshaler runtim
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -7989,10 +8344,11 @@ func local_request_WorkflowService_ListWorkers_1(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8019,18 +8375,20 @@ func request_WorkflowService_UpdateTaskQueueConfig_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	msg, err := client.UpdateTaskQueueConfig(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8048,18 +8406,20 @@ func local_request_WorkflowService_UpdateTaskQueueConfig_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	msg, err := server.UpdateTaskQueueConfig(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8080,18 +8440,20 @@ func request_WorkflowService_UpdateTaskQueueConfig_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	msg, err := client.UpdateTaskQueueConfig(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8109,18 +8471,20 @@ func local_request_WorkflowService_UpdateTaskQueueConfig_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["task_queue"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "task_queue")
 	}
-	protoReq.TaskQueue, err = runtime.String(val)
+	taskQueueVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "task_queue", err)
 	}
+	protoReq.SetTaskQueue(taskQueueVal)
 	msg, err := server.UpdateTaskQueueConfig(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8141,10 +8505,11 @@ func request_WorkflowService_FetchWorkerConfig_0(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.FetchWorkerConfig(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8162,10 +8527,11 @@ func local_request_WorkflowService_FetchWorkerConfig_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.FetchWorkerConfig(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8186,10 +8552,11 @@ func request_WorkflowService_FetchWorkerConfig_1(ctx context.Context, marshaler 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.FetchWorkerConfig(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8207,10 +8574,11 @@ func local_request_WorkflowService_FetchWorkerConfig_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.FetchWorkerConfig(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8231,10 +8599,11 @@ func request_WorkflowService_UpdateWorkerConfig_0(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.UpdateWorkerConfig(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8252,10 +8621,11 @@ func local_request_WorkflowService_UpdateWorkerConfig_0(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.UpdateWorkerConfig(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8276,10 +8646,11 @@ func request_WorkflowService_UpdateWorkerConfig_1(ctx context.Context, marshaler
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := client.UpdateWorkerConfig(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8297,10 +8668,11 @@ func local_request_WorkflowService_UpdateWorkerConfig_1(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	msg, err := server.UpdateWorkerConfig(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8318,18 +8690,20 @@ func request_WorkflowService_DescribeWorker_0(ctx context.Context, marshaler run
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["worker_instance_key"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "worker_instance_key")
 	}
-	protoReq.WorkerInstanceKey, err = runtime.String(val)
+	workerInstanceKeyVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "worker_instance_key", err)
 	}
+	protoReq.SetWorkerInstanceKey(workerInstanceKeyVal)
 	msg, err := client.DescribeWorker(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8344,18 +8718,20 @@ func local_request_WorkflowService_DescribeWorker_0(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["worker_instance_key"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "worker_instance_key")
 	}
-	protoReq.WorkerInstanceKey, err = runtime.String(val)
+	workerInstanceKeyVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "worker_instance_key", err)
 	}
+	protoReq.SetWorkerInstanceKey(workerInstanceKeyVal)
 	msg, err := server.DescribeWorker(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8373,18 +8749,20 @@ func request_WorkflowService_DescribeWorker_1(ctx context.Context, marshaler run
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["worker_instance_key"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "worker_instance_key")
 	}
-	protoReq.WorkerInstanceKey, err = runtime.String(val)
+	workerInstanceKeyVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "worker_instance_key", err)
 	}
+	protoReq.SetWorkerInstanceKey(workerInstanceKeyVal)
 	msg, err := client.DescribeWorker(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8399,18 +8777,20 @@ func local_request_WorkflowService_DescribeWorker_1(ctx context.Context, marshal
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["worker_instance_key"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "worker_instance_key")
 	}
-	protoReq.WorkerInstanceKey, err = runtime.String(val)
+	workerInstanceKeyVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "worker_instance_key", err)
 	}
+	protoReq.SetWorkerInstanceKey(workerInstanceKeyVal)
 	msg, err := server.DescribeWorker(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8431,18 +8811,20 @@ func request_WorkflowService_PauseWorkflowExecution_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	msg, err := client.PauseWorkflowExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8460,18 +8842,20 @@ func local_request_WorkflowService_PauseWorkflowExecution_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	msg, err := server.PauseWorkflowExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8492,18 +8876,20 @@ func request_WorkflowService_UnpauseWorkflowExecution_0(ctx context.Context, mar
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	msg, err := client.UnpauseWorkflowExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8521,18 +8907,20 @@ func local_request_WorkflowService_UnpauseWorkflowExecution_0(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["workflow_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "workflow_id")
 	}
-	protoReq.WorkflowId, err = runtime.String(val)
+	workflowIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "workflow_id", err)
 	}
+	protoReq.SetWorkflowId(workflowIdVal)
 	msg, err := server.UnpauseWorkflowExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8553,18 +8941,20 @@ func request_WorkflowService_StartActivityExecution_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := client.StartActivityExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8582,18 +8972,20 @@ func local_request_WorkflowService_StartActivityExecution_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := server.StartActivityExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8614,18 +9006,20 @@ func request_WorkflowService_StartActivityExecution_1(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := client.StartActivityExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -8643,18 +9037,20 @@ func local_request_WorkflowService_StartActivityExecution_1(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := server.StartActivityExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -8674,18 +9070,20 @@ func request_WorkflowService_DescribeActivityExecution_0(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8706,18 +9104,20 @@ func local_request_WorkflowService_DescribeActivityExecution_0(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8743,18 +9143,20 @@ func request_WorkflowService_DescribeActivityExecution_1(ctx context.Context, ma
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8775,18 +9177,20 @@ func local_request_WorkflowService_DescribeActivityExecution_1(ctx context.Conte
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8812,18 +9216,20 @@ func request_WorkflowService_PollActivityExecution_0(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8844,18 +9250,20 @@ func local_request_WorkflowService_PollActivityExecution_0(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8881,18 +9289,20 @@ func request_WorkflowService_PollActivityExecution_1(ctx context.Context, marsha
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8913,18 +9323,20 @@ func local_request_WorkflowService_PollActivityExecution_1(ctx context.Context, 
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8950,10 +9362,11 @@ func request_WorkflowService_ListActivityExecutions_0(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -8974,10 +9387,11 @@ func local_request_WorkflowService_ListActivityExecutions_0(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -9003,10 +9417,11 @@ func request_WorkflowService_ListActivityExecutions_1(ctx context.Context, marsh
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -9027,10 +9442,11 @@ func local_request_WorkflowService_ListActivityExecutions_1(ctx context.Context,
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -9056,10 +9472,11 @@ func request_WorkflowService_CountActivityExecutions_0(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -9080,10 +9497,11 @@ func local_request_WorkflowService_CountActivityExecutions_0(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -9109,10 +9527,11 @@ func request_WorkflowService_CountActivityExecutions_1(ctx context.Context, mars
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -9133,10 +9552,11 @@ func local_request_WorkflowService_CountActivityExecutions_1(ctx context.Context
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
@@ -9163,18 +9583,20 @@ func request_WorkflowService_RequestCancelActivityExecution_0(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := client.RequestCancelActivityExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -9192,18 +9614,20 @@ func local_request_WorkflowService_RequestCancelActivityExecution_0(ctx context.
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := server.RequestCancelActivityExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -9224,18 +9648,20 @@ func request_WorkflowService_RequestCancelActivityExecution_1(ctx context.Contex
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := client.RequestCancelActivityExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -9253,18 +9679,20 @@ func local_request_WorkflowService_RequestCancelActivityExecution_1(ctx context.
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := server.RequestCancelActivityExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -9285,18 +9713,20 @@ func request_WorkflowService_TerminateActivityExecution_0(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := client.TerminateActivityExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -9314,18 +9744,20 @@ func local_request_WorkflowService_TerminateActivityExecution_0(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := server.TerminateActivityExecution(ctx, &protoReq)
 	return msg, metadata, err
 }
@@ -9346,18 +9778,20 @@ func request_WorkflowService_TerminateActivityExecution_1(ctx context.Context, m
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := client.TerminateActivityExecution(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
@@ -9375,18 +9809,20 @@ func local_request_WorkflowService_TerminateActivityExecution_1(ctx context.Cont
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "namespace")
 	}
-	protoReq.Namespace, err = runtime.String(val)
+	namespaceVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "namespace", err)
 	}
+	protoReq.SetNamespace(namespaceVal)
 	val, ok = pathParams["activity_id"]
 	if !ok {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "activity_id")
 	}
-	protoReq.ActivityId, err = runtime.String(val)
+	activityIdVal, err := runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "activity_id", err)
 	}
+	protoReq.SetActivityId(activityIdVal)
 	msg, err := server.TerminateActivityExecution(ctx, &protoReq)
 	return msg, metadata, err
 }

@@ -37,9 +37,7 @@ func (e *MultiOperationExecution) OperationErrors() []error {
 
 func (e *MultiOperationExecution) Status() *status.Status {
 	var code *codes.Code
-	failure := &errordetails.MultiOperationExecutionFailure{
-		Statuses: make([]*errordetails.MultiOperationExecutionFailure_OperationStatus, len(e.errs)),
-	}
+	statuses := make([]*errordetails.MultiOperationExecutionFailure_OperationStatus, len(e.errs))
 
 	var abortedErr *MultiOperationAborted
 	for i, err := range e.errs {
@@ -51,11 +49,11 @@ func (e *MultiOperationExecution) Status() *status.Status {
 			code = &c
 		}
 
-		failure.Statuses[i] = &errordetails.MultiOperationExecutionFailure_OperationStatus{
+		statuses[i] = errordetails.MultiOperationExecutionFailure_OperationStatus_builder{
 			Code:    int32(st.Code()),
 			Message: st.Message(),
 			Details: st.Proto().Details,
-		}
+		}.Build()
 	}
 
 	// this should never happen, but it's better to set it to `Aborted` than to panic
@@ -64,6 +62,9 @@ func (e *MultiOperationExecution) Status() *status.Status {
 		code = &c
 	}
 
+	failure := errordetails.MultiOperationExecutionFailure_builder{
+		Statuses: statuses,
+	}.Build()
 	st := status.New(*code, e.Error())
 	st, _ = st.WithDetails(failure)
 	return st

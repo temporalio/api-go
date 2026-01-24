@@ -45,9 +45,9 @@ func (e *PermissionDenied) Status() *status.Status {
 
 	st := status.New(codes.PermissionDenied, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.PermissionDeniedFailure{
+		errordetails.PermissionDeniedFailure_builder{
 			Reason: e.Reason,
-		},
+		}.Build(),
 	)
 	return st
 }

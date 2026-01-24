@@ -47,11 +47,11 @@ func (e *NamespaceNotActive) Status() *status.Status {
 
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.NamespaceNotActiveFailure{
+		errordetails.NamespaceNotActiveFailure_builder{
 			Namespace:      e.Namespace,
 			CurrentCluster: e.CurrentCluster,
 			ActiveCluster:  e.ActiveCluster,
-		},
+		}.Build(),
 	)
 	return st
 }

@@ -55,12 +55,12 @@ func FromStatus(st *status.Status) error {
 
 	// Special case: MultiOperation error can have any status code.
 	if err, ok := errDetails.(*errordetails.MultiOperationExecutionFailure); ok {
-		errs := make([]error, len(err.Statuses))
-		for i, opStatus := range err.Statuses {
+		errs := make([]error, len(err.GetStatuses()))
+		for i, opStatus := range err.GetStatuses() {
 			errs[i] = FromStatus(status.FromProto(&spb.Status{
-				Code:    opStatus.Code,
-				Message: opStatus.Message,
-				Details: opStatus.Details,
+				Code:    opStatus.GetCode(),
+				Message: opStatus.GetMessage(),
+				Details: opStatus.GetDetails(),
 			}))
 		}
 		return newMultiOperationExecution(st, errs)

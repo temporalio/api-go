@@ -62,9 +62,9 @@ func (e *QueryFailed) Status() *status.Status {
 
 	st := status.New(codes.InvalidArgument, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.QueryFailedFailure{
+		errordetails.QueryFailedFailure_builder{
 			Failure: e.Failure,
-		},
+		}.Build(),
 	)
 	return st
 }
@@ -72,7 +72,7 @@ func (e *QueryFailed) Status() *status.Status {
 func newQueryFailed(st *status.Status, errDetails *errordetails.QueryFailedFailure) error {
 	return &QueryFailed{
 		Message: st.Message(),
-		Failure: errDetails.Failure,
+		Failure: errDetails.GetFailure(),
 		st:      st,
 	}
 }

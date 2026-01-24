@@ -276,12 +276,12 @@ func visitPayloads(
 				continue
 			}
 			ctx.Parent = parent
-			newPayloads, err := options.Visitor(ctx, o.Payloads)
+			newPayloads, err := options.Visitor(ctx, o.GetPayloads())
 			ctx.Parent = nil
 			if err != nil {
 				return err
 			}
-			o.Payloads = newPayloads
+			o.SetPayloads(newPayloads)
 		case map[string]*common.Payloads:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
@@ -571,12 +571,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.Input != nil {
-				no, err := visitPayload(ctx, options, o, o.Input)
+			if o.HasInput() {
+				no, err := visitPayload(ctx, options, o, o.GetInput())
 				if err != nil {
 					return err
 				}
-				o.Input = no
+				o.SetInput(no)
 			}
 
 		case *command.SignalExternalWorkflowExecutionCommandAttributes:
@@ -868,12 +868,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.EncodedAttributes != nil {
-				no, err := visitPayload(ctx, options, o, o.EncodedAttributes)
+			if o.HasEncodedAttributes() {
+				no, err := visitPayload(ctx, options, o, o.GetEncodedAttributes())
 				if err != nil {
 					return err
 				}
-				o.EncodedAttributes = no
+				o.SetEncodedAttributes(no)
 			}
 
 			if err := visitPayloads(
@@ -1193,12 +1193,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.Result != nil {
-				no, err := visitPayload(ctx, options, o, o.Result)
+			if o.HasResult() {
+				no, err := visitPayload(ctx, options, o, o.GetResult())
 				if err != nil {
 					return err
 				}
-				o.Result = no
+				o.SetResult(no)
 			}
 
 		case *history.NexusOperationFailedEventAttributes:
@@ -1221,12 +1221,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.Input != nil {
-				no, err := visitPayload(ctx, options, o, o.Input)
+			if o.HasInput() {
+				no, err := visitPayload(ctx, options, o, o.GetInput())
 				if err != nil {
 					return err
 				}
-				o.Input = no
+				o.SetInput(no)
 			}
 
 		case *history.NexusOperationTimedOutEventAttributes:
@@ -1542,12 +1542,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.Description != nil {
-				no, err := visitPayload(ctx, options, o, o.Description)
+			if o.HasDescription() {
+				no, err := visitPayload(ctx, options, o, o.GetDescription())
 				if err != nil {
 					return err
 				}
-				o.Description = no
+				o.SetDescription(no)
 			}
 
 		case *nexus.Request:
@@ -1585,12 +1585,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.Payload != nil {
-				no, err := visitPayload(ctx, options, o, o.Payload)
+			if o.HasPayload() {
+				no, err := visitPayload(ctx, options, o, o.GetPayload())
 				if err != nil {
 					return err
 				}
-				o.Payload = no
+				o.SetPayload(no)
 			}
 
 		case *nexus.StartOperationResponse:
@@ -1613,12 +1613,12 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.Payload != nil {
-				no, err := visitPayload(ctx, options, o, o.Payload)
+			if o.HasPayload() {
+				no, err := visitPayload(ctx, options, o, o.GetPayload())
 				if err != nil {
 					return err
 				}
-				o.Payload = no
+				o.SetPayload(no)
 			}
 
 		case *operatorservice.CreateNexusEndpointRequest:
@@ -1837,19 +1837,19 @@ func visitPayloads(
 			if o == nil {
 				continue
 			}
-			if o.Details != nil {
-				no, err := visitPayload(ctx, options, o, o.Details)
+			if o.HasDetails() {
+				no, err := visitPayload(ctx, options, o, o.GetDetails())
 				if err != nil {
 					return err
 				}
-				o.Details = no
+				o.SetDetails(no)
 			}
-			if o.Summary != nil {
-				no, err := visitPayload(ctx, options, o, o.Summary)
+			if o.HasSummary() {
+				no, err := visitPayload(ctx, options, o, o.GetSummary())
 				if err != nil {
 					return err
 				}
-				o.Summary = no
+				o.SetSummary(no)
 			}
 
 		case *update.Acceptance:

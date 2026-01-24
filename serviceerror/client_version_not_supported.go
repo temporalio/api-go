@@ -52,11 +52,11 @@ func (e *ClientVersionNotSupported) Status() *status.Status {
 
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.ClientVersionNotSupportedFailure{
+		errordetails.ClientVersionNotSupportedFailure_builder{
 			ClientVersion:     e.ClientVersion,
 			ClientName:        e.ClientName,
 			SupportedVersions: e.SupportedVersions,
-		},
+		}.Build(),
 	)
 	return st
 }

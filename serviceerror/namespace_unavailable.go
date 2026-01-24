@@ -44,9 +44,9 @@ func (e *NamespaceUnavailable) Status() *status.Status {
 	st := status.New(codes.Unavailable, e.Error())
 	// We seem to be okay ignoring these errors everywhere else, doing this here too.
 	st, _ = st.WithDetails(
-		&errordetails.NamespaceUnavailableFailure{
+		errordetails.NamespaceUnavailableFailure_builder{
 			Namespace: e.Namespace,
-		},
+		}.Build(),
 	)
 	return st
 }

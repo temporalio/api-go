@@ -40,20 +40,20 @@ import (
 )
 
 func inputPayloads() *common.Payloads {
-	return &common.Payloads{
+	return common.Payloads_builder{
 		Payloads: []*common.Payload{
 			inputPayload(),
 		},
-	}
+	}.Build()
 }
 
 func inputPayload() *common.Payload {
-	return &common.Payload{
+	return common.Payload_builder{
 		Metadata: map[string][]byte{
 			"encoding": []byte("plain/json"),
 		},
 		Data: []byte("test"),
-	}
+	}.Build()
 }
 
 func TestVisitPayloads(t *testing.T) {
@@ -61,9 +61,9 @@ func TestVisitPayloads(t *testing.T) {
 
 	err := VisitPayloads(
 		context.Background(),
-		&workflowservice.StartWorkflowExecutionRequest{
+		workflowservice.StartWorkflowExecutionRequest_builder{
 			Input: inputPayloads(),
-		},
+		}.Build(),
 		VisitPayloadsOptions{
 			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 				require.False(vpc.SinglePayloadRequired)
@@ -75,11 +75,11 @@ func TestVisitPayloads(t *testing.T) {
 
 	err = VisitPayloads(
 		context.Background(),
-		&workflowservice.StartWorkflowExecutionRequest{
-			Header: &common.Header{
+		workflowservice.StartWorkflowExecutionRequest_builder{
+			Header: common.Header_builder{
 				Fields: map[string]*common.Payload{"test": inputPayload()},
-			},
-		},
+			}.Build(),
+		}.Build(),
 		VisitPayloadsOptions{
 			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 				require.True(vpc.SinglePayloadRequired)
@@ -91,68 +91,64 @@ func TestVisitPayloads(t *testing.T) {
 
 	err = VisitPayloads(
 		context.Background(),
-		&export.WorkflowExecutions{Items: []*export.WorkflowExecution{{History: &history.History{
+		export.WorkflowExecutions_builder{Items: []*export.WorkflowExecution{export.WorkflowExecution_builder{History: history.History_builder{
 			Events: []*history.HistoryEvent{
-				{
-					Attributes: &history.HistoryEvent_WorkflowExecutionStartedEventAttributes{
-						WorkflowExecutionStartedEventAttributes: &history.WorkflowExecutionStartedEventAttributes{
-							Input: inputPayloads(),
-						},
-					},
-				},
+				history.HistoryEvent_builder{
+					WorkflowExecutionStartedEventAttributes: history.WorkflowExecutionStartedEventAttributes_builder{
+						Input: inputPayloads(),
+					}.Build(),
+				}.Build(),
 			},
-		}}}},
+		}.Build()}.Build()}}.Build(),
 		VisitPayloadsOptions{
 			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 				require.False(vpc.SinglePayloadRequired)
-				require.Equal([]byte("test"), p[0].Data)
+				require.Equal([]byte("test"), p[0].GetData())
 				return p, nil
 			},
 		},
 	)
 	require.NoError(err)
 
-	msg := &history.HistoryEvent{
-		Attributes: &history.HistoryEvent_NexusOperationScheduledEventAttributes{
-			NexusOperationScheduledEventAttributes: &history.NexusOperationScheduledEventAttributes{
-				Input: inputPayload(),
-			},
-		},
-	}
+	msg := history.HistoryEvent_builder{
+		NexusOperationScheduledEventAttributes: history.NexusOperationScheduledEventAttributes_builder{
+			Input: inputPayload(),
+		}.Build(),
+	}.Build()
 	err = VisitPayloads(
 		context.Background(),
 		msg,
 		VisitPayloadsOptions{
 			Visitor: func(vpc *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 				require.True(vpc.SinglePayloadRequired)
-				require.Equal([]byte("test"), p[0].Data)
-				return []*common.Payload{{Data: []byte("visited")}}, nil
+				require.Equal([]byte("test"), p[0].GetData())
+				return []*common.Payload{common.Payload_builder{Data: []byte("visited")}.Build()}, nil
 			},
 		},
 	)
-	require.Equal([]byte("visited"), msg.GetNexusOperationScheduledEventAttributes().Input.Data)
+	require.Equal([]byte("visited"), msg.GetNexusOperationScheduledEventAttributes().GetInput().GetData())
 	require.NoError(err)
 }
 
 func TestVisitPayloads_NestedParent(t *testing.T) {
 	// Due to an invalid approach in the previous visitor, this test used to fail
-	root := &command.StartChildWorkflowExecutionCommandAttributes{
-		Header: &common.Header{
+	root := command.StartChildWorkflowExecutionCommandAttributes_builder{
+		Header: common.Header_builder{
 			Fields: map[string]*common.Payload{
-				"header-key": {Data: []byte("header-value")},
+				"header-key": common.Payload_builder{Data: []byte("header-value")}.Build(),
 			},
-		},
-		Input: &common.Payloads{
-			Payloads: []*common.Payload{{Data: []byte("input-value")}},
-		},
-	}
+		}.Build(),
+		Input: common.Payloads_builder{
+			Payloads: []*common.Payload{common.Payload_builder{Data: []byte("input-value")}.Build()},
+		}.Build(),
+	}.Build()
 	var headerParent, inputParent proto.Message
 	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
 		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 			if len(p) == 1 {
-				if string(p[0].Data) == "header-value" {
+				if string(p[0].GetData()) == "header-value" {
 					headerParent = proto.Clone(ctx.Parent)
-				} else if string(p[0].Data) == "input-value" {
+				} else if string(p[0].GetData()) == "input-value" {
 					inputParent = proto.Clone(ctx.Parent)
 				}
 			}
@@ -165,128 +161,124 @@ func TestVisitPayloads_NestedParent(t *testing.T) {
 }
 
 func TestVisitPayloads_RepeatedPayload(t *testing.T) {
-	root := &workflowservice.CountWorkflowExecutionsResponse_AggregationGroup{GroupValues: []*common.Payload{{Data: []byte("orig-val")}}}
+	root := workflowservice.CountWorkflowExecutionsResponse_AggregationGroup_builder{GroupValues: []*common.Payload{common.Payload_builder{Data: []byte("orig-val")}.Build()}}.Build()
 
 	var count int
 	err := VisitPayloads(context.Background(), root, VisitPayloadsOptions{
 		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 			count += 1
 			// Only mutate if the payloads has orig-val
-			if len(p) == 1 && string(p[0].Data) == "orig-val" {
-				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			if len(p) == 1 && string(p[0].GetData()) == "orig-val" {
+				return []*common.Payload{common.Payload_builder{Data: []byte("new-val")}.Build()}, nil
 			}
 			return p, nil
 		},
 	})
 	require.NoError(t, err)
 	require.Equal(t, 1, count)
-	require.Equal(t, []*common.Payload{{Data: []byte("new-val")}}, root.GroupValues)
+	require.Equal(t, []*common.Payload{common.Payload_builder{Data: []byte("new-val")}.Build()}, root.GetGroupValues())
 }
 
 func TestVisitPayloads_Any(t *testing.T) {
 	// Due to us not visiting protos inside Any, this test used to fail
-	msg1, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
-		Payloads: []*common.Payload{{Data: []byte("orig-val")}},
-	}}})
+	msg1, err := anypb.New(update.Request_builder{Input: update.Input_builder{Args: common.Payloads_builder{
+		Payloads: []*common.Payload{common.Payload_builder{Data: []byte("orig-val")}.Build()},
+	}.Build()}.Build()}.Build())
 	require.NoError(t, err)
-	msg2, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
-		Payloads: []*common.Payload{{Data: []byte("orig-val-don't-touch")}},
-	}}})
+	msg2, err := anypb.New(update.Request_builder{Input: update.Input_builder{Args: common.Payloads_builder{
+		Payloads: []*common.Payload{common.Payload_builder{Data: []byte("orig-val-don't-touch")}.Build()},
+	}.Build()}.Build()}.Build())
 	require.NoError(t, err)
-	msg3, err := anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Success{
-		Success: &common.Payloads{
-			Payloads: []*common.Payload{{Data: []byte("orig-val")}},
-		},
-	}}})
+	msg3, err := anypb.New(update.Response_builder{Outcome: update.Outcome_builder{Success: common.Payloads_builder{
+		Payloads: []*common.Payload{common.Payload_builder{Data: []byte("orig-val")}.Build()},
+	}.Build()}.Build()}.Build())
 	require.NoError(t, err)
-	root := &workflowservice.PollWorkflowTaskQueueResponse{
-		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}},
-	}
+	root := workflowservice.PollWorkflowTaskQueueResponse_builder{
+		Messages: []*protocol.Message{protocol.Message_builder{Body: msg1}.Build(), protocol.Message_builder{Body: msg2}.Build(), protocol.Message_builder{Body: msg3}.Build()},
+	}.Build()
 
 	// Visit with any recursion enabled and only change orig-val
 	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
 		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 			// Only mutate if the payloads has orig-val
-			if len(p) == 1 && string(p[0].Data) == "orig-val" {
-				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			if len(p) == 1 && string(p[0].GetData()) == "orig-val" {
+				return []*common.Payload{common.Payload_builder{Data: []byte("new-val")}.Build()}, nil
 			}
 			return p, nil
 		},
 	})
 	require.NoError(t, err)
-	update1, err := root.Messages[0].Body.UnmarshalNew()
+	update1, err := root.GetMessages()[0].GetBody().UnmarshalNew()
 	require.NoError(t, err)
-	require.Equal(t, "new-val", string(update1.(*update.Request).Input.Args.Payloads[0].Data))
-	update2, err := root.Messages[1].Body.UnmarshalNew()
+	require.Equal(t, "new-val", string(update1.(*update.Request).GetInput().GetArgs().GetPayloads()[0].GetData()))
+	update2, err := root.GetMessages()[1].GetBody().UnmarshalNew()
 	require.NoError(t, err)
-	require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).Input.Args.Payloads[0].Data))
-	update3, err := root.Messages[2].Body.UnmarshalNew()
+	require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).GetInput().GetArgs().GetPayloads()[0].GetData()))
+	update3, err := root.GetMessages()[2].GetBody().UnmarshalNew()
 	require.NoError(t, err)
-	require.Equal(t, "new-val", string(update3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
+	require.Equal(t, "new-val", string(update3.(*update.Response).GetOutcome().GetSuccess().GetPayloads()[0].GetData()))
 
 	// Do the same test but with a do-nothing visitor and confirm unchanged
-	msg1, err = anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
-		Payloads: []*common.Payload{{Data: []byte("orig-val")}},
-	}}})
+	msg1, err = anypb.New(update.Request_builder{Input: update.Input_builder{Args: common.Payloads_builder{
+		Payloads: []*common.Payload{common.Payload_builder{Data: []byte("orig-val")}.Build()},
+	}.Build()}.Build()}.Build())
 	require.NoError(t, err)
-	msg2, err = anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
-		Payloads: []*common.Payload{{Data: []byte("orig-val-don't-touch")}},
-	}}})
+	msg2, err = anypb.New(update.Request_builder{Input: update.Input_builder{Args: common.Payloads_builder{
+		Payloads: []*common.Payload{common.Payload_builder{Data: []byte("orig-val-don't-touch")}.Build()},
+	}.Build()}.Build()}.Build())
 	require.NoError(t, err)
-	msg3, err = anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Success{
-		Success: &common.Payloads{
-			Payloads: []*common.Payload{{Data: []byte("orig-val")}},
-		},
-	}}})
+	msg3, err = anypb.New(update.Response_builder{Outcome: update.Outcome_builder{Success: common.Payloads_builder{
+		Payloads: []*common.Payload{common.Payload_builder{Data: []byte("orig-val")}.Build()},
+	}.Build()}.Build()}.Build())
 	require.NoError(t, err)
-	root = &workflowservice.PollWorkflowTaskQueueResponse{
-		Messages: []*protocol.Message{{Body: msg1}, {Body: msg2}, {Body: msg3}},
-	}
+	root = workflowservice.PollWorkflowTaskQueueResponse_builder{
+		Messages: []*protocol.Message{protocol.Message_builder{Body: msg1}.Build(), protocol.Message_builder{Body: msg2}.Build(), protocol.Message_builder{Body: msg3}.Build()},
+	}.Build()
 	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
 		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 			// Only mutate if the payloads has orig-val
-			if len(p) == 1 && string(p[0].Data) == "orig-val" {
-				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			if len(p) == 1 && string(p[0].GetData()) == "orig-val" {
+				return []*common.Payload{common.Payload_builder{Data: []byte("new-val")}.Build()}, nil
 			}
 			return p, nil
 		},
 		WellKnownAnyVisitor: func(*VisitPayloadsContext, *anypb.Any) error { return nil },
 	})
 	require.NoError(t, err)
-	update1, err = root.Messages[0].Body.UnmarshalNew()
+	update1, err = root.GetMessages()[0].GetBody().UnmarshalNew()
 	require.NoError(t, err)
-	require.Equal(t, "orig-val", string(update1.(*update.Request).Input.Args.Payloads[0].Data))
-	update2, err = root.Messages[1].Body.UnmarshalNew()
+	require.Equal(t, "orig-val", string(update1.(*update.Request).GetInput().GetArgs().GetPayloads()[0].GetData()))
+	update2, err = root.GetMessages()[1].GetBody().UnmarshalNew()
 	require.NoError(t, err)
-	require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).Input.Args.Payloads[0].Data))
-	update3, err = root.Messages[2].Body.UnmarshalNew()
+	require.Equal(t, "orig-val-don't-touch", string(update2.(*update.Request).GetInput().GetArgs().GetPayloads()[0].GetData()))
+	update3, err = root.GetMessages()[2].GetBody().UnmarshalNew()
 	require.NoError(t, err)
-	require.Equal(t, "orig-val", string(update3.(*update.Response).GetOutcome().GetSuccess().Payloads[0].Data))
+	require.Equal(t, "orig-val", string(update3.(*update.Response).GetOutcome().GetSuccess().GetPayloads()[0].GetData()))
 }
 
 func TestVisitPayloads_RepeatedAny(t *testing.T) {
-	msg, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
-		Payloads: []*common.Payload{{Data: []byte("orig-val")}},
-	}}})
+	msg, err := anypb.New(update.Request_builder{Input: update.Input_builder{Args: common.Payloads_builder{
+		Payloads: []*common.Payload{common.Payload_builder{Data: []byte("orig-val")}.Build()},
+	}.Build()}.Build()}.Build())
 	require.NoError(t, err)
-	root := &errordetails.MultiOperationExecutionFailure_OperationStatus{Details: []*anypb.Any{msg}}
+	root := errordetails.MultiOperationExecutionFailure_OperationStatus_builder{Details: []*anypb.Any{msg}}.Build()
 	var anyCount int
 	err = VisitPayloads(context.Background(), root, VisitPayloadsOptions{
 		Visitor: func(ctx *VisitPayloadsContext, p []*common.Payload) ([]*common.Payload, error) {
 			anyCount++
 			// Only mutate if the payloads has "test"
-			if len(p) == 1 && string(p[0].Data) == "orig-val" {
-				return []*common.Payload{{Data: []byte("new-val")}}, nil
+			if len(p) == 1 && string(p[0].GetData()) == "orig-val" {
+				return []*common.Payload{common.Payload_builder{Data: []byte("new-val")}.Build()}, nil
 			}
 			return p, nil
 		},
 	})
 	require.NoError(t, err)
 	require.Equal(t, 1, anyCount)
-	update1, err := root.Details[0].UnmarshalNew()
+	update1, err := root.GetDetails()[0].UnmarshalNew()
 
 	require.NoError(t, err)
-	require.Equal(t, "new-val", string(update1.(*update.Request).Input.Args.Payloads[0].Data))
+	require.Equal(t, "new-val", string(update1.(*update.Request).GetInput().GetArgs().GetPayloads()[0].GetData()))
 }
 
 func TestVisitFailures(t *testing.T) {
@@ -296,9 +288,9 @@ func TestVisitFailures(t *testing.T) {
 
 	err := VisitFailures(
 		context.Background(),
-		&workflowservice.RespondActivityTaskFailedRequest{
+		workflowservice.RespondActivityTaskFailedRequest_builder{
 			Failure: fail,
-		},
+		}.Build(),
 		VisitFailuresOptions{
 			Visitor: func(vfc *VisitFailuresContext, f *failure.Failure) error {
 				require.Equal(fail, f)
@@ -308,14 +300,14 @@ func TestVisitFailures(t *testing.T) {
 	)
 	require.NoError(err)
 
-	nestedFailure := &failure.Failure{Cause: fail}
+	nestedFailure := failure.Failure_builder{Cause: fail}.Build()
 	failureCount := 0
 
 	err = VisitFailures(
 		context.Background(),
-		&workflowservice.RespondActivityTaskFailedRequest{
+		workflowservice.RespondActivityTaskFailedRequest_builder{
 			Failure: nestedFailure,
-		},
+		}.Build(),
 		VisitFailuresOptions{
 			Visitor: func(vfc *VisitFailuresContext, f *failure.Failure) error {
 				failureCount += 1
@@ -330,18 +322,16 @@ func TestVisitFailures(t *testing.T) {
 func TestVisitFailuresAny(t *testing.T) {
 	require := require.New(t)
 
-	fail := &failure.Failure{
+	fail := failure.Failure_builder{
 		Message: "test failure",
-	}
+	}.Build()
 
-	msg, err := anypb.New(&update.Response{Outcome: &update.Outcome{Value: &update.Outcome_Failure{
-		Failure: fail,
-	}}})
+	msg, err := anypb.New(update.Response_builder{Outcome: update.Outcome_builder{Failure: proto.ValueOrDefault(fail)}.Build()}.Build())
 	require.NoError(err)
 
-	req := &workflowservice.RespondWorkflowTaskCompletedRequest{
-		Messages: []*protocol.Message{{Body: msg}},
-	}
+	req := workflowservice.RespondWorkflowTaskCompletedRequest_builder{
+		Messages: []*protocol.Message{protocol.Message_builder{Body: msg}.Build()},
+	}.Build()
 	failureCount := 0
 	err = VisitFailures(
 		context.Background(),
@@ -349,9 +339,9 @@ func TestVisitFailuresAny(t *testing.T) {
 		VisitFailuresOptions{
 			Visitor: func(vfc *VisitFailuresContext, f *failure.Failure) error {
 				failureCount += 1
-				require.Equal("test failure", f.Message)
-				f.EncodedAttributes = &common.Payload{Data: []byte("test failure")}
-				f.Message = "encoded failure"
+				require.Equal("test failure", f.GetMessage())
+				f.SetEncodedAttributes(common.Payload_builder{Data: []byte("test failure")}.Build())
+				f.SetMessage("encoded failure")
 				return nil
 			},
 		},
@@ -361,7 +351,7 @@ func TestVisitFailuresAny(t *testing.T) {
 	updateMsg, err := req.GetMessages()[0].GetBody().UnmarshalNew()
 	require.NoError(err)
 	require.Equal("encoded failure", updateMsg.(*update.Response).GetOutcome().GetFailure().GetMessage())
-	require.Equal("test failure", string(updateMsg.(*update.Response).GetOutcome().GetFailure().EncodedAttributes.Data))
+	require.Equal("test failure", string(updateMsg.(*update.Response).GetOutcome().GetFailure().GetEncodedAttributes().GetData()))
 
 }
 
@@ -404,13 +394,13 @@ func TestClientInterceptor(t *testing.T) {
 
 	_, err = client.StartWorkflowExecution(
 		context.Background(),
-		&workflowservice.StartWorkflowExecutionRequest{
+		workflowservice.StartWorkflowExecutionRequest_builder{
 			Input: inputPayloads(),
-		},
+		}.Build(),
 	)
 	require.NoError(err)
 
-	require.True(proto.Equal(inputs.Payloads[0], outboundPayload))
+	require.True(proto.Equal(inputs.GetPayloads()[0], outboundPayload))
 
 	_, err = client.PollActivityTaskQueue(
 		context.Background(),
@@ -418,7 +408,7 @@ func TestClientInterceptor(t *testing.T) {
 	)
 	require.NoError(err)
 
-	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
+	require.True(proto.Equal(inputs.GetPayloads()[0], inboundPayload))
 }
 
 func TestClientInterceptorGrpcFailures(t *testing.T) {
@@ -437,7 +427,7 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 			Inbound: &VisitPayloadsOptions{
 				Visitor: func(vpc *VisitPayloadsContext, payloads []*common.Payload) ([]*common.Payload, error) {
 					inboundPayload = payloads[0]
-					payloads[0] = &common.Payload{Data: []byte("new-val")}
+					payloads[0] = common.Payload_builder{Data: []byte("new-val")}.Build()
 					return payloads, nil
 				},
 			},
@@ -448,8 +438,8 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 	failureInterceptor, err := NewFailureVisitorInterceptor(
 		FailureVisitorInterceptorOptions{
 			Inbound: &VisitFailuresOptions{Visitor: func(vpc *VisitFailuresContext, f *failure.Failure) error {
-				inboundFailure = f.Message
-				f.Message = failureMessage
+				inboundFailure = f.GetMessage()
+				f.SetMessage(failureMessage)
 				return nil
 			}},
 		})
@@ -465,9 +455,9 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 
 	_, err = client.StartWorkflowExecution(
 		context.Background(),
-		&workflowservice.StartWorkflowExecutionRequest{
+		workflowservice.StartWorkflowExecutionRequest_builder{
 			Input: inputPayloads(),
-		},
+		}.Build(),
 	)
 	require.NoError(err)
 
@@ -475,18 +465,18 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 	// We expect that even though an error is returned, the Payload visitor visited the payload
 	// included in the GRPC error details
 	require.Error(err)
-	require.True(proto.Equal(inputs.Payloads[0], inboundPayload))
+	require.True(proto.Equal(inputs.GetPayloads()[0], inboundPayload))
 	stat, ok := status.FromError(err)
 	require.True(ok)
 	for _, detail := range stat.Details() {
 		multiOpFailure, ok := detail.(*errordetails.MultiOperationExecutionFailure)
 		require.True(ok)
 		payloads := &common.Payloads{}
-		err = multiOpFailure.Statuses[0].Details[0].UnmarshalTo(payloads)
+		err = multiOpFailure.GetStatuses()[0].GetDetails()[0].UnmarshalTo(payloads)
 		require.NoError(err)
 
-		newPayload := &common.Payload{Data: []byte("new-val")}
-		require.True(proto.Equal(payloads.Payloads[0], newPayload))
+		newPayload := common.Payload_builder{Data: []byte("new-val")}.Build()
+		require.True(proto.Equal(payloads.GetPayloads()[0], newPayload))
 	}
 
 	_, err = client.QueryWorkflow(context.Background(), &workflowservice.QueryWorkflowRequest{})
@@ -497,7 +487,7 @@ func TestClientInterceptorGrpcFailures(t *testing.T) {
 	for _, detail := range stat.Details() {
 		queryFailure, ok := detail.(*errordetails.QueryFailedFailure)
 		require.True(ok)
-		require.Equal(failureMessage, queryFailure.Failure.Message)
+		require.Equal(failureMessage, queryFailure.GetFailure().GetMessage())
 	}
 
 }
@@ -576,9 +566,9 @@ func (t *testGRPCServer) PollActivityTaskQueue(
 	ctx context.Context,
 	req *workflowservice.PollActivityTaskQueueRequest,
 ) (*workflowservice.PollActivityTaskQueueResponse, error) {
-	return &workflowservice.PollActivityTaskQueueResponse{
+	return workflowservice.PollActivityTaskQueueResponse_builder{
 		Input: inputPayloads(),
-	}, nil
+	}.Build(), nil
 }
 
 func (t *testGRPCServer) ExecuteMultiOperation(
@@ -588,13 +578,13 @@ func (t *testGRPCServer) ExecuteMultiOperation(
 	if err != nil {
 		return nil, err
 	}
-	operationStatus := &errordetails.MultiOperationExecutionFailure_OperationStatus{Details: []*anypb.Any{anyDetail}}
-	multiOpFailure := errordetails.MultiOperationExecutionFailure{
+	operationStatus := errordetails.MultiOperationExecutionFailure_OperationStatus_builder{Details: []*anypb.Any{anyDetail}}.Build()
+	multiOpFailure := errordetails.MultiOperationExecutionFailure_builder{
 		Statuses: []*errordetails.MultiOperationExecutionFailure_OperationStatus{operationStatus},
-	}
+	}.Build()
 	st := status.New(codes.Internal, "Operation failed due to a user error")
 
-	stWithDetails, err := st.WithDetails(&multiOpFailure)
+	stWithDetails, err := st.WithDetails(multiOpFailure)
 	if err != nil {
 		return nil, st.Err()
 	}
@@ -605,14 +595,14 @@ func (t *testGRPCServer) ExecuteMultiOperation(
 func (t *testGRPCServer) QueryWorkflow(
 	ctx context.Context,
 	req *workflowservice.QueryWorkflowRequest) (*workflowservice.QueryWorkflowResponse, error) {
-	failureMessage := failure.Failure{
+	failureMessage := failure.Failure_builder{
 		Message: "test failure",
-	}
-	queryFailure := errordetails.QueryFailedFailure{Failure: &failureMessage}
+	}.Build()
+	queryFailure := errordetails.QueryFailedFailure_builder{Failure: failureMessage}.Build()
 
 	st := status.New(codes.Internal, "Operation failed due to a user error")
 
-	stWithDetails, err := st.WithDetails(&queryFailure)
+	stWithDetails, err := st.WithDetails(queryFailure)
 	if err != nil {
 		return nil, st.Err()
 	}
@@ -651,9 +641,9 @@ func populatePayload(root *proto.Message, msg proto.Message, require *require.As
 		if i.TypeUrl == "" {
 			// Set to a random proto struct we know contains a payload, to test if we
 			// are able to recurse through Any to reach a payload
-			newAny, err := anypb.New(&update.Request{Input: &update.Input{Args: &common.Payloads{
-				Payloads: []*common.Payload{{Data: []byte("orig-val")}},
-			}}})
+			newAny, err := anypb.New(update.Request_builder{Input: update.Input_builder{Args: common.Payloads_builder{
+				Payloads: []*common.Payload{common.Payload_builder{Data: []byte("orig-val")}.Build()},
+			}.Build()}.Build()}.Build())
 			require.NoError(err)
 			proto.Merge(msg, newAny)
 		}

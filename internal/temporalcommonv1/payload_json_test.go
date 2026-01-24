@@ -20,22 +20,22 @@ var tests = []struct {
 	name:          "json/plain",
 	longformJSON:  `{"metadata":{"encoding":"anNvbi9wcm90b2J1Zg==","messageType":"dGVtcG9yYWwuYXBpLmNvbW1vbi52MS5Xb3JrZmxvd1R5cGU="},"data":"eyJuYW1lIjoid29ya2Zsb3ctbmFtZSJ9"}`,
 	shorthandJSON: `{"_protoMessageType": "temporal.api.common.v1.WorkflowType", "name": "workflow-name"}`,
-	pb: &common.Payload{
+	pb: common.Payload_builder{
 		Metadata: map[string][]byte{
 			"encoding":    []byte("json/protobuf"),
 			"messageType": []byte("temporal.api.common.v1.WorkflowType"),
 		},
 		Data: []byte(`{"name":"workflow-name"}`),
-	},
+	}.Build(),
 }, {
 	name:          "binary/null",
 	longformJSON:  `{"metadata":{"encoding":"YmluYXJ5L251bGw="}}`,
 	shorthandJSON: `{"metadata":{"encoding":"YmluYXJ5L251bGw="}}`,
-	pb: &common.Payload{
+	pb: common.Payload_builder{
 		Metadata: map[string][]byte{
 			"encoding": []byte("binary/null"),
 		},
-	},
+	}.Build(),
 }, {
 	name: "memo with varying fields",
 	longformJSON: `{"fields":{
@@ -44,53 +44,53 @@ var tests = []struct {
 	shorthandJSON: `{"fields": {
                       "some-string": "string",
 			          "some-array": ["foo", 123, false]}}`,
-	pb: &common.Memo{
+	pb: common.Memo_builder{
 		Fields: map[string]*common.Payload{
-			"some-string": {
+			"some-string": common.Payload_builder{
 				Metadata: map[string][]byte{
 					"encoding": []byte("json/plain"),
 				},
 				Data: []byte(`"string"`),
-			},
-			"some-array": {
+			}.Build(),
+			"some-array": common.Payload_builder{
 				Metadata: map[string][]byte{
 					"encoding": []byte("json/plain"),
 				},
 				// NOTE: we don't include spurious spaces when re-encoding
 				Data: []byte(`["foo",123,false]`),
-			},
+			}.Build(),
 		},
-	},
+	}.Build(),
 }, {
 	name:          "json/plain with empty object",
 	longformJSON:  `{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"eyJncmVldGluZyI6e319"}`,
 	shorthandJSON: `{"greeting": {}}`,
-	pb: &common.Payload{
+	pb: common.Payload_builder{
 		Metadata: map[string][]byte{
 			"encoding": []byte("json/plain"),
 		},
 		Data: []byte(`{"greeting":{}}`),
-	},
+	}.Build(),
 }, {
 	name:          "json/plain with nested object",
 	longformJSON:  `{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"eyJncmVldGluZyI6eyJuYW1lIjp7fX19"}`,
 	shorthandJSON: `{"greeting": {"name": {}}}`,
-	pb: &common.Payload{
+	pb: common.Payload_builder{
 		Metadata: map[string][]byte{
 			"encoding": []byte("json/plain"),
 		},
 		Data: []byte(`{"greeting":{"name":{}}}`),
-	},
+	}.Build(),
 }, {
 	name:          "json/plain with null",
 	longformJSON:  `{"metadata":{"encoding":"anNvbi9wbGFpbg=="},"data":"eyJncmVldGluZyI6bnVsbH0="}`,
 	shorthandJSON: `{"greeting": null}`,
-	pb: &common.Payload{
+	pb: common.Payload_builder{
 		Metadata: map[string][]byte{
 			"encoding": []byte("json/plain"),
 		},
 		Data: []byte(`{"greeting":null}`),
-	},
+	}.Build(),
 }, {
 	name:          "empty payloads",
 	longformJSON:  `{}`,
@@ -100,21 +100,21 @@ var tests = []struct {
 	name:          "empty payloads with non-nil slice",
 	longformJSON:  `{}`,
 	shorthandJSON: `[]`,
-	pb:            &common.Payloads{Payloads: []*common.Payload{}},
+	pb:            common.Payloads_builder{Payloads: []*common.Payload{}}.Build(),
 }, {
 	name:          "payloads with two items",
 	longformJSON:  `{"payloads":[{"data":"InN0cmluZyB2YWx1ZSI=","metadata":{"encoding":"anNvbi9wbGFpbg=="}},{"data":"MzI0Mw==","metadata":{"encoding":"anNvbi9wbGFpbg=="}}]}`,
 	shorthandJSON: `["string value", 3243]`,
-	pb: &common.Payloads{Payloads: []*common.Payload{
-		&common.Payload{
+	pb: common.Payloads_builder{Payloads: []*common.Payload{
+		common.Payload_builder{
 			Metadata: map[string][]byte{"encoding": []byte("json/plain")},
 			Data:     []byte(`"string value"`),
-		},
-		&common.Payload{
+		}.Build(),
+		common.Payload_builder{
 			Metadata: map[string][]byte{"encoding": []byte("json/plain")},
 			Data:     []byte(`3243`),
-		},
-	}},
+		}.Build(),
+	}}.Build(),
 }}
 
 func TestMaybeMarshal_ShorthandEnabled(t *testing.T) {
@@ -182,7 +182,7 @@ func TestMaybeUnmarshal_Payloads_AcceptsNull(t *testing.T) {
 	}
 	err := opts.Unmarshal([]byte("null"), &out)
 	require.NoError(t, err)
-	require.Equal(t, 0, len(out.Payloads))
+	require.Equal(t, 0, len(out.GetPayloads()))
 }
 
 func TestMaybeMarshal_Payloads_Unhandled(t *testing.T) {
@@ -191,22 +191,22 @@ func TestMaybeMarshal_Payloads_Unhandled(t *testing.T) {
 			common.EnablePayloadShorthandMetadataKey: true,
 		},
 	}
-	p := common.Payloads{Payloads: []*common.Payload{
-		&common.Payload{
+	p := common.Payloads_builder{Payloads: []*common.Payload{
+		common.Payload_builder{
 			Metadata: map[string][]byte{
 				"encoding": []byte("json/plain"),
 			},
 			Data: []byte(`"string"`),
-		},
-		&common.Payload{ // this one can't be handled by shorthand because of extra metadata
+		}.Build(),
+		common.Payload_builder{ // this one can't be handled by shorthand because of extra metadata
 			Metadata: map[string][]byte{
 				"encoding":            []byte("json/plain"),
 				"some other metadata": []byte("23"),
 			},
 			Data: []byte(`"string"`),
-		},
-	}}
-	out, err := opts.Marshal(&p)
+		}.Build(),
+	}}.Build()
+	out, err := opts.Marshal(p)
 	require.NoError(t, err)
 	var i any
 	require.NoError(t, json.Unmarshal(out, &i), "must unmarshal as valid json")
@@ -215,12 +215,12 @@ func TestMaybeMarshal_Payloads_Unhandled(t *testing.T) {
 
 func TestTest(t *testing.T) {
 
-	pb := &common.Payload{
+	pb := common.Payload_builder{
 		Metadata: map[string][]byte{
 			"encoding": []byte("json/plain"),
 		},
 		Data: []byte(`{"greeting":null}`),
-	}
+	}.Build()
 	opts := temporalproto.CustomJSONMarshalOptions{
 		Metadata: map[string]interface{}{
 			common.EnablePayloadShorthandMetadataKey: true,

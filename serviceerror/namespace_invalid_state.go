@@ -52,11 +52,11 @@ func (e *NamespaceInvalidState) Status() *status.Status {
 
 	st := status.New(codes.FailedPrecondition, e.Message)
 	st, _ = st.WithDetails(
-		&errordetails.NamespaceInvalidStateFailure{
+		errordetails.NamespaceInvalidStateFailure_builder{
 			Namespace:     e.Namespace,
 			State:         e.State,
 			AllowedStates: e.AllowedStates,
-		},
+		}.Build(),
 	)
 	return st
 }
