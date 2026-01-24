@@ -280,10 +280,10 @@ func visitPayloads(
 			case *common.Payloads:
 				if o == nil { continue }
 				ctx.Parent = parent
-				newPayloads, err := options.Visitor(ctx, o.Payloads)
+				newPayloads, err := options.Visitor(ctx, o.GetPayloads())
 				ctx.Parent = nil
 				if err != nil { return err }
-				o.Payloads = newPayloads
+				o.SetPayloads(newPayloads)
 			case map[string]*common.Payloads:
 				for _, x := range o {
 					if err := visitPayloads(ctx, options, parent, x); err != nil {
@@ -341,10 +341,10 @@ func visitPayloads(
 				{{end}}
 				if o == nil { continue }
 				{{range $record.Payloads -}}
-				if o.{{.}} != nil {
-					no, err := visitPayload(ctx, options, o, o.{{.}})
+				if o.Has{{.}}() {
+					no, err := visitPayload(ctx, options, o, o.Get{{.}}())
 					if err != nil { return err }
-					o.{{.}} = no
+					o.Set{{.}}(no)
 				}
 				{{end}}
 				{{if $record.Methods}}
