@@ -56,6 +56,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) CountActivityExecutions(ctx, in
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountActivityExecutions", reflect.TypeOf((*MockWorkflowServiceClient)(nil).CountActivityExecutions), varargs...)
 }
 
+// CountSchedules mocks base method.
+func (m *MockWorkflowServiceClient) CountSchedules(ctx context.Context, in *workflowservice.CountSchedulesRequest, opts ...grpc.CallOption) (*workflowservice.CountSchedulesResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CountSchedules", varargs...)
+	ret0, _ := ret[0].(*workflowservice.CountSchedulesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountSchedules indicates an expected call of CountSchedules.
+func (mr *MockWorkflowServiceClientMockRecorder) CountSchedules(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountSchedules", reflect.TypeOf((*MockWorkflowServiceClient)(nil).CountSchedules), varargs...)
+}
+
 // CountWorkflowExecutions mocks base method.
 func (m *MockWorkflowServiceClient) CountWorkflowExecutions(ctx context.Context, in *workflowservice.CountWorkflowExecutionsRequest, opts ...grpc.CallOption) (*workflowservice.CountWorkflowExecutionsResponse, error) {
 	m.ctrl.T.Helper()
@@ -2155,6 +2175,21 @@ func (m *MockWorkflowServiceServer) CountActivityExecutions(arg0 context.Context
 func (mr *MockWorkflowServiceServerMockRecorder) CountActivityExecutions(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountActivityExecutions", reflect.TypeOf((*MockWorkflowServiceServer)(nil).CountActivityExecutions), arg0, arg1)
+}
+
+// CountSchedules mocks base method.
+func (m *MockWorkflowServiceServer) CountSchedules(arg0 context.Context, arg1 *workflowservice.CountSchedulesRequest) (*workflowservice.CountSchedulesResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountSchedules", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.CountSchedulesResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountSchedules indicates an expected call of CountSchedules.
+func (mr *MockWorkflowServiceServerMockRecorder) CountSchedules(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountSchedules", reflect.TypeOf((*MockWorkflowServiceServer)(nil).CountSchedules), arg0, arg1)
 }
 
 // CountWorkflowExecutions mocks base method.
