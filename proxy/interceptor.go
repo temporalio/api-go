@@ -2161,6 +2161,43 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.CountSchedulesResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetGroups(),
+			); err != nil {
+				return err
+			}
+
+		case []*workflowservice.CountSchedulesResponse_AggregationGroup:
+			for _, x := range o {
+				if err := visitPayloads(ctx, options, parent, x); err != nil {
+					return err
+				}
+			}
+
+		case *workflowservice.CountSchedulesResponse_AggregationGroup:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetGroupValues(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.CountWorkflowExecutionsResponse:
 
 			if o == nil {

@@ -3631,6 +3631,80 @@ func (this *ListSchedulesResponse) Equal(that interface{}) bool {
 	return proto.Equal(this, that1)
 }
 
+// Marshal an object of type CountSchedulesRequest to the protobuf v3 wire format
+func (val *CountSchedulesRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CountSchedulesRequest from the protobuf v3 wire format
+func (val *CountSchedulesRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CountSchedulesRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CountSchedulesRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CountSchedulesRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CountSchedulesRequest
+	switch t := that.(type) {
+	case *CountSchedulesRequest:
+		that1 = t
+	case CountSchedulesRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type CountSchedulesResponse to the protobuf v3 wire format
+func (val *CountSchedulesResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CountSchedulesResponse from the protobuf v3 wire format
+func (val *CountSchedulesResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CountSchedulesResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CountSchedulesResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CountSchedulesResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CountSchedulesResponse
+	switch t := that.(type) {
+	case *CountSchedulesResponse:
+		that1 = t
+	case CountSchedulesResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
 // Marshal an object of type UpdateWorkerBuildIdCompatibilityRequest to the protobuf v3 wire format
 func (val *UpdateWorkerBuildIdCompatibilityRequest) Marshal() ([]byte, error) {
 	return proto.Marshal(val)
