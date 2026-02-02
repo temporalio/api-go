@@ -680,7 +680,7 @@ type StartOperationResponse_OperationError struct {
 
 type StartOperationResponse_Failure struct {
 	// The operation completed unsuccessfully (failed or canceled).
-	// Failure object must contain a NexusSDKOperationFailureInfo object.
+	// Failure object must contain an ApplicationFailureInfo or CanceledFailureInfo object.
 	Failure *v12.Failure `protobuf:"bytes,4,opt,name=failure,proto3,oneof"`
 }
 

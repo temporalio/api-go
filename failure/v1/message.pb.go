@@ -644,104 +644,6 @@ func (x *NexusHandlerFailureInfo) GetRetryBehavior() v11.NexusHandlerErrorRetryB
 	return v11.NexusHandlerErrorRetryBehavior(0)
 }
 
-// Representation of the Nexus SDK OperationError object.
-type NexusSDKOperationFailureInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	State         string                 `protobuf:"bytes,1,opt,name=state,proto3" json:"state,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *NexusSDKOperationFailureInfo) Reset() {
-	*x = NexusSDKOperationFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *NexusSDKOperationFailureInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*NexusSDKOperationFailureInfo) ProtoMessage() {}
-
-func (x *NexusSDKOperationFailureInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NexusSDKOperationFailureInfo.ProtoReflect.Descriptor instead.
-func (*NexusSDKOperationFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *NexusSDKOperationFailureInfo) GetState() string {
-	if x != nil {
-		return x.State
-	}
-	return ""
-}
-
-// Representation of the Nexus SDK FailureError object.
-type NexusSDKFailureErrorFailureInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Metadata      map[string]string      `protobuf:"bytes,1,rep,name=metadata,proto3" json:"metadata,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Details       []byte                 `protobuf:"bytes,2,opt,name=details,proto3" json:"details,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *NexusSDKFailureErrorFailureInfo) Reset() {
-	*x = NexusSDKFailureErrorFailureInfo{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *NexusSDKFailureErrorFailureInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*NexusSDKFailureErrorFailureInfo) ProtoMessage() {}
-
-func (x *NexusSDKFailureErrorFailureInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use NexusSDKFailureErrorFailureInfo.ProtoReflect.Descriptor instead.
-func (*NexusSDKFailureErrorFailureInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *NexusSDKFailureErrorFailureInfo) GetMetadata() map[string]string {
-	if x != nil {
-		return x.Metadata
-	}
-	return nil
-}
-
-func (x *NexusSDKFailureErrorFailureInfo) GetDetails() []byte {
-	if x != nil {
-		return x.Details
-	}
-	return nil
-}
-
 type Failure struct {
 	state   protoimpl.MessageState `protogen:"open.v1"`
 	Message string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
@@ -778,8 +680,6 @@ type Failure struct {
 	//	*Failure_ChildWorkflowExecutionFailureInfo
 	//	*Failure_NexusOperationExecutionFailureInfo
 	//	*Failure_NexusHandlerFailureInfo
-	//	*Failure_NexusSdkOperationFailureInfo
-	//	*Failure_NexusSdkFailureErrorInfo
 	FailureInfo   isFailure_FailureInfo `protobuf_oneof:"failure_info"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -787,7 +687,7 @@ type Failure struct {
 
 func (x *Failure) Reset() {
 	*x = Failure{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[12]
+	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -799,7 +699,7 @@ func (x *Failure) String() string {
 func (*Failure) ProtoMessage() {}
 
 func (x *Failure) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[12]
+	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -812,7 +712,7 @@ func (x *Failure) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Failure.ProtoReflect.Descriptor instead.
 func (*Failure) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{12}
+	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Failure) GetMessage() string {
@@ -947,24 +847,6 @@ func (x *Failure) GetNexusHandlerFailureInfo() *NexusHandlerFailureInfo {
 	return nil
 }
 
-func (x *Failure) GetNexusSdkOperationFailureInfo() *NexusSDKOperationFailureInfo {
-	if x != nil {
-		if x, ok := x.FailureInfo.(*Failure_NexusSdkOperationFailureInfo); ok {
-			return x.NexusSdkOperationFailureInfo
-		}
-	}
-	return nil
-}
-
-func (x *Failure) GetNexusSdkFailureErrorInfo() *NexusSDKFailureErrorFailureInfo {
-	if x != nil {
-		if x, ok := x.FailureInfo.(*Failure_NexusSdkFailureErrorInfo); ok {
-			return x.NexusSdkFailureErrorInfo
-		}
-	}
-	return nil
-}
-
 type isFailure_FailureInfo interface {
 	isFailure_FailureInfo()
 }
@@ -1009,14 +891,6 @@ type Failure_NexusHandlerFailureInfo struct {
 	NexusHandlerFailureInfo *NexusHandlerFailureInfo `protobuf:"bytes,14,opt,name=nexus_handler_failure_info,json=nexusHandlerFailureInfo,proto3,oneof"`
 }
 
-type Failure_NexusSdkOperationFailureInfo struct {
-	NexusSdkOperationFailureInfo *NexusSDKOperationFailureInfo `protobuf:"bytes,15,opt,name=nexus_sdk_operation_failure_info,json=nexusSdkOperationFailureInfo,proto3,oneof"`
-}
-
-type Failure_NexusSdkFailureErrorInfo struct {
-	NexusSdkFailureErrorInfo *NexusSDKFailureErrorFailureInfo `protobuf:"bytes,16,opt,name=nexus_sdk_failure_error_info,json=nexusSdkFailureErrorInfo,proto3,oneof"`
-}
-
 func (*Failure_ApplicationFailureInfo) isFailure_FailureInfo() {}
 
 func (*Failure_TimeoutFailureInfo) isFailure_FailureInfo() {}
@@ -1037,10 +911,6 @@ func (*Failure_NexusOperationExecutionFailureInfo) isFailure_FailureInfo() {}
 
 func (*Failure_NexusHandlerFailureInfo) isFailure_FailureInfo() {}
 
-func (*Failure_NexusSdkOperationFailureInfo) isFailure_FailureInfo() {}
-
-func (*Failure_NexusSdkFailureErrorInfo) isFailure_FailureInfo() {}
-
 type MultiOperationExecutionAborted struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -1049,7 +919,7 @@ type MultiOperationExecutionAborted struct {
 
 func (x *MultiOperationExecutionAborted) Reset() {
 	*x = MultiOperationExecutionAborted{}
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1061,7 +931,7 @@ func (x *MultiOperationExecutionAborted) String() string {
 func (*MultiOperationExecutionAborted) ProtoMessage() {}
 
 func (x *MultiOperationExecutionAborted) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[13]
+	mi := &file_temporal_api_failure_v1_message_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1074,7 +944,7 @@ func (x *MultiOperationExecutionAborted) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MultiOperationExecutionAborted.ProtoReflect.Descriptor instead.
 func (*MultiOperationExecutionAborted) Descriptor() ([]byte, []int) {
-	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{13}
+	return file_temporal_api_failure_v1_message_proto_rawDescGZIP(), []int{11}
 }
 
 var File_temporal_api_failure_v1_message_proto protoreflect.FileDescriptor
@@ -1124,15 +994,8 @@ const file_temporal_api_failure_v1_message_proto_rawDesc = "" +
 	"\x0foperation_token\x18\x06 \x01(\tR\x0eoperationToken\"\x8b\x01\n" +
 	"\x17NexusHandlerFailureInfo\x12\x12\n" +
 	"\x04type\x18\x01 \x01(\tR\x04type\x12\\\n" +
-	"\x0eretry_behavior\x18\x02 \x01(\x0e25.temporal.api.enums.v1.NexusHandlerErrorRetryBehaviorR\rretryBehavior\"4\n" +
-	"\x1cNexusSDKOperationFailureInfo\x12\x14\n" +
-	"\x05state\x18\x01 \x01(\tR\x05state\"\xdc\x01\n" +
-	"\x1fNexusSDKFailureErrorFailureInfo\x12b\n" +
-	"\bmetadata\x18\x01 \x03(\v2F.temporal.api.failure.v1.NexusSDKFailureErrorFailureInfo.MetadataEntryR\bmetadata\x12\x18\n" +
-	"\adetails\x18\x02 \x01(\fR\adetails\x1a;\n" +
-	"\rMetadataEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd0\f\n" +
+	"\x0eretry_behavior\x18\x02 \x01(\x0e25.temporal.api.enums.v1.NexusHandlerErrorRetryBehaviorR\rretryBehavior\"\xd3\n" +
+	"\n" +
 	"\aFailure\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\x12\x16\n" +
 	"\x06source\x18\x02 \x01(\tR\x06source\x12\x1f\n" +
@@ -1150,9 +1013,7 @@ const file_temporal_api_failure_v1_message_proto_rawDesc = "" +
 	"\x15activity_failure_info\x18\v \x01(\v2,.temporal.api.failure.v1.ActivityFailureInfoH\x00R\x13activityFailureInfo\x12\x8e\x01\n" +
 	"%child_workflow_execution_failure_info\x18\f \x01(\v2:.temporal.api.failure.v1.ChildWorkflowExecutionFailureInfoH\x00R!childWorkflowExecutionFailureInfo\x12\x88\x01\n" +
 	"&nexus_operation_execution_failure_info\x18\r \x01(\v22.temporal.api.failure.v1.NexusOperationFailureInfoH\x00R\"nexusOperationExecutionFailureInfo\x12o\n" +
-	"\x1anexus_handler_failure_info\x18\x0e \x01(\v20.temporal.api.failure.v1.NexusHandlerFailureInfoH\x00R\x17nexusHandlerFailureInfo\x12\x7f\n" +
-	" nexus_sdk_operation_failure_info\x18\x0f \x01(\v25.temporal.api.failure.v1.NexusSDKOperationFailureInfoH\x00R\x1cnexusSdkOperationFailureInfo\x12z\n" +
-	"\x1cnexus_sdk_failure_error_info\x18\x10 \x01(\v28.temporal.api.failure.v1.NexusSDKFailureErrorFailureInfoH\x00R\x18nexusSdkFailureErrorInfoB\x0e\n" +
+	"\x1anexus_handler_failure_info\x18\x0e \x01(\v20.temporal.api.failure.v1.NexusHandlerFailureInfoH\x00R\x17nexusHandlerFailureInfoB\x0e\n" +
 	"\ffailure_info\" \n" +
 	"\x1eMultiOperationExecutionAbortedB\x8e\x01\n" +
 	"\x1aio.temporal.api.failure.v1B\fMessageProtoP\x01Z%go.temporal.io/api/failure/v1;failure\xaa\x02\x19Temporalio.Api.Failure.V1\xea\x02\x1cTemporalio::Api::Failure::V1b\x06proto3"
@@ -1169,7 +1030,7 @@ func file_temporal_api_failure_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_failure_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_failure_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_temporal_api_failure_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_temporal_api_failure_v1_message_proto_goTypes = []any{
 	(*ApplicationFailureInfo)(nil),            // 0: temporal.api.failure.v1.ApplicationFailureInfo
 	(*TimeoutFailureInfo)(nil),                // 1: temporal.api.failure.v1.TimeoutFailureInfo
@@ -1181,56 +1042,50 @@ var file_temporal_api_failure_v1_message_proto_goTypes = []any{
 	(*ChildWorkflowExecutionFailureInfo)(nil), // 7: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo
 	(*NexusOperationFailureInfo)(nil),         // 8: temporal.api.failure.v1.NexusOperationFailureInfo
 	(*NexusHandlerFailureInfo)(nil),           // 9: temporal.api.failure.v1.NexusHandlerFailureInfo
-	(*NexusSDKOperationFailureInfo)(nil),      // 10: temporal.api.failure.v1.NexusSDKOperationFailureInfo
-	(*NexusSDKFailureErrorFailureInfo)(nil),   // 11: temporal.api.failure.v1.NexusSDKFailureErrorFailureInfo
-	(*Failure)(nil),                           // 12: temporal.api.failure.v1.Failure
-	(*MultiOperationExecutionAborted)(nil),    // 13: temporal.api.failure.v1.MultiOperationExecutionAborted
-	nil,                                       // 14: temporal.api.failure.v1.NexusSDKFailureErrorFailureInfo.MetadataEntry
-	(*v1.Payloads)(nil),                       // 15: temporal.api.common.v1.Payloads
-	(*durationpb.Duration)(nil),               // 16: google.protobuf.Duration
-	(v11.ApplicationErrorCategory)(0),         // 17: temporal.api.enums.v1.ApplicationErrorCategory
-	(v11.TimeoutType)(0),                      // 18: temporal.api.enums.v1.TimeoutType
-	(*v1.ActivityType)(nil),                   // 19: temporal.api.common.v1.ActivityType
-	(v11.RetryState)(0),                       // 20: temporal.api.enums.v1.RetryState
-	(*v1.WorkflowExecution)(nil),              // 21: temporal.api.common.v1.WorkflowExecution
-	(*v1.WorkflowType)(nil),                   // 22: temporal.api.common.v1.WorkflowType
-	(v11.NexusHandlerErrorRetryBehavior)(0),   // 23: temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
-	(*v1.Payload)(nil),                        // 24: temporal.api.common.v1.Payload
+	(*Failure)(nil),                           // 10: temporal.api.failure.v1.Failure
+	(*MultiOperationExecutionAborted)(nil),    // 11: temporal.api.failure.v1.MultiOperationExecutionAborted
+	(*v1.Payloads)(nil),                       // 12: temporal.api.common.v1.Payloads
+	(*durationpb.Duration)(nil),               // 13: google.protobuf.Duration
+	(v11.ApplicationErrorCategory)(0),         // 14: temporal.api.enums.v1.ApplicationErrorCategory
+	(v11.TimeoutType)(0),                      // 15: temporal.api.enums.v1.TimeoutType
+	(*v1.ActivityType)(nil),                   // 16: temporal.api.common.v1.ActivityType
+	(v11.RetryState)(0),                       // 17: temporal.api.enums.v1.RetryState
+	(*v1.WorkflowExecution)(nil),              // 18: temporal.api.common.v1.WorkflowExecution
+	(*v1.WorkflowType)(nil),                   // 19: temporal.api.common.v1.WorkflowType
+	(v11.NexusHandlerErrorRetryBehavior)(0),   // 20: temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
+	(*v1.Payload)(nil),                        // 21: temporal.api.common.v1.Payload
 }
 var file_temporal_api_failure_v1_message_proto_depIdxs = []int32{
-	15, // 0: temporal.api.failure.v1.ApplicationFailureInfo.details:type_name -> temporal.api.common.v1.Payloads
-	16, // 1: temporal.api.failure.v1.ApplicationFailureInfo.next_retry_delay:type_name -> google.protobuf.Duration
-	17, // 2: temporal.api.failure.v1.ApplicationFailureInfo.category:type_name -> temporal.api.enums.v1.ApplicationErrorCategory
-	18, // 3: temporal.api.failure.v1.TimeoutFailureInfo.timeout_type:type_name -> temporal.api.enums.v1.TimeoutType
-	15, // 4: temporal.api.failure.v1.TimeoutFailureInfo.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	15, // 5: temporal.api.failure.v1.CanceledFailureInfo.details:type_name -> temporal.api.common.v1.Payloads
-	15, // 6: temporal.api.failure.v1.ResetWorkflowFailureInfo.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
-	19, // 7: temporal.api.failure.v1.ActivityFailureInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
-	20, // 8: temporal.api.failure.v1.ActivityFailureInfo.retry_state:type_name -> temporal.api.enums.v1.RetryState
-	21, // 9: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
-	22, // 10: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
-	20, // 11: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.retry_state:type_name -> temporal.api.enums.v1.RetryState
-	23, // 12: temporal.api.failure.v1.NexusHandlerFailureInfo.retry_behavior:type_name -> temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
-	14, // 13: temporal.api.failure.v1.NexusSDKFailureErrorFailureInfo.metadata:type_name -> temporal.api.failure.v1.NexusSDKFailureErrorFailureInfo.MetadataEntry
-	24, // 14: temporal.api.failure.v1.Failure.encoded_attributes:type_name -> temporal.api.common.v1.Payload
-	12, // 15: temporal.api.failure.v1.Failure.cause:type_name -> temporal.api.failure.v1.Failure
-	0,  // 16: temporal.api.failure.v1.Failure.application_failure_info:type_name -> temporal.api.failure.v1.ApplicationFailureInfo
-	1,  // 17: temporal.api.failure.v1.Failure.timeout_failure_info:type_name -> temporal.api.failure.v1.TimeoutFailureInfo
-	2,  // 18: temporal.api.failure.v1.Failure.canceled_failure_info:type_name -> temporal.api.failure.v1.CanceledFailureInfo
-	3,  // 19: temporal.api.failure.v1.Failure.terminated_failure_info:type_name -> temporal.api.failure.v1.TerminatedFailureInfo
-	4,  // 20: temporal.api.failure.v1.Failure.server_failure_info:type_name -> temporal.api.failure.v1.ServerFailureInfo
-	5,  // 21: temporal.api.failure.v1.Failure.reset_workflow_failure_info:type_name -> temporal.api.failure.v1.ResetWorkflowFailureInfo
-	6,  // 22: temporal.api.failure.v1.Failure.activity_failure_info:type_name -> temporal.api.failure.v1.ActivityFailureInfo
-	7,  // 23: temporal.api.failure.v1.Failure.child_workflow_execution_failure_info:type_name -> temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo
-	8,  // 24: temporal.api.failure.v1.Failure.nexus_operation_execution_failure_info:type_name -> temporal.api.failure.v1.NexusOperationFailureInfo
-	9,  // 25: temporal.api.failure.v1.Failure.nexus_handler_failure_info:type_name -> temporal.api.failure.v1.NexusHandlerFailureInfo
-	10, // 26: temporal.api.failure.v1.Failure.nexus_sdk_operation_failure_info:type_name -> temporal.api.failure.v1.NexusSDKOperationFailureInfo
-	11, // 27: temporal.api.failure.v1.Failure.nexus_sdk_failure_error_info:type_name -> temporal.api.failure.v1.NexusSDKFailureErrorFailureInfo
-	28, // [28:28] is the sub-list for method output_type
-	28, // [28:28] is the sub-list for method input_type
-	28, // [28:28] is the sub-list for extension type_name
-	28, // [28:28] is the sub-list for extension extendee
-	0,  // [0:28] is the sub-list for field type_name
+	12, // 0: temporal.api.failure.v1.ApplicationFailureInfo.details:type_name -> temporal.api.common.v1.Payloads
+	13, // 1: temporal.api.failure.v1.ApplicationFailureInfo.next_retry_delay:type_name -> google.protobuf.Duration
+	14, // 2: temporal.api.failure.v1.ApplicationFailureInfo.category:type_name -> temporal.api.enums.v1.ApplicationErrorCategory
+	15, // 3: temporal.api.failure.v1.TimeoutFailureInfo.timeout_type:type_name -> temporal.api.enums.v1.TimeoutType
+	12, // 4: temporal.api.failure.v1.TimeoutFailureInfo.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	12, // 5: temporal.api.failure.v1.CanceledFailureInfo.details:type_name -> temporal.api.common.v1.Payloads
+	12, // 6: temporal.api.failure.v1.ResetWorkflowFailureInfo.last_heartbeat_details:type_name -> temporal.api.common.v1.Payloads
+	16, // 7: temporal.api.failure.v1.ActivityFailureInfo.activity_type:type_name -> temporal.api.common.v1.ActivityType
+	17, // 8: temporal.api.failure.v1.ActivityFailureInfo.retry_state:type_name -> temporal.api.enums.v1.RetryState
+	18, // 9: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.workflow_execution:type_name -> temporal.api.common.v1.WorkflowExecution
+	19, // 10: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.workflow_type:type_name -> temporal.api.common.v1.WorkflowType
+	17, // 11: temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo.retry_state:type_name -> temporal.api.enums.v1.RetryState
+	20, // 12: temporal.api.failure.v1.NexusHandlerFailureInfo.retry_behavior:type_name -> temporal.api.enums.v1.NexusHandlerErrorRetryBehavior
+	21, // 13: temporal.api.failure.v1.Failure.encoded_attributes:type_name -> temporal.api.common.v1.Payload
+	10, // 14: temporal.api.failure.v1.Failure.cause:type_name -> temporal.api.failure.v1.Failure
+	0,  // 15: temporal.api.failure.v1.Failure.application_failure_info:type_name -> temporal.api.failure.v1.ApplicationFailureInfo
+	1,  // 16: temporal.api.failure.v1.Failure.timeout_failure_info:type_name -> temporal.api.failure.v1.TimeoutFailureInfo
+	2,  // 17: temporal.api.failure.v1.Failure.canceled_failure_info:type_name -> temporal.api.failure.v1.CanceledFailureInfo
+	3,  // 18: temporal.api.failure.v1.Failure.terminated_failure_info:type_name -> temporal.api.failure.v1.TerminatedFailureInfo
+	4,  // 19: temporal.api.failure.v1.Failure.server_failure_info:type_name -> temporal.api.failure.v1.ServerFailureInfo
+	5,  // 20: temporal.api.failure.v1.Failure.reset_workflow_failure_info:type_name -> temporal.api.failure.v1.ResetWorkflowFailureInfo
+	6,  // 21: temporal.api.failure.v1.Failure.activity_failure_info:type_name -> temporal.api.failure.v1.ActivityFailureInfo
+	7,  // 22: temporal.api.failure.v1.Failure.child_workflow_execution_failure_info:type_name -> temporal.api.failure.v1.ChildWorkflowExecutionFailureInfo
+	8,  // 23: temporal.api.failure.v1.Failure.nexus_operation_execution_failure_info:type_name -> temporal.api.failure.v1.NexusOperationFailureInfo
+	9,  // 24: temporal.api.failure.v1.Failure.nexus_handler_failure_info:type_name -> temporal.api.failure.v1.NexusHandlerFailureInfo
+	25, // [25:25] is the sub-list for method output_type
+	25, // [25:25] is the sub-list for method input_type
+	25, // [25:25] is the sub-list for extension type_name
+	25, // [25:25] is the sub-list for extension extendee
+	0,  // [0:25] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_failure_v1_message_proto_init() }
@@ -1238,7 +1093,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 	if File_temporal_api_failure_v1_message_proto != nil {
 		return
 	}
-	file_temporal_api_failure_v1_message_proto_msgTypes[12].OneofWrappers = []any{
+	file_temporal_api_failure_v1_message_proto_msgTypes[10].OneofWrappers = []any{
 		(*Failure_ApplicationFailureInfo)(nil),
 		(*Failure_TimeoutFailureInfo)(nil),
 		(*Failure_CanceledFailureInfo)(nil),
@@ -1249,8 +1104,6 @@ func file_temporal_api_failure_v1_message_proto_init() {
 		(*Failure_ChildWorkflowExecutionFailureInfo)(nil),
 		(*Failure_NexusOperationExecutionFailureInfo)(nil),
 		(*Failure_NexusHandlerFailureInfo)(nil),
-		(*Failure_NexusSdkOperationFailureInfo)(nil),
-		(*Failure_NexusSdkFailureErrorInfo)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1258,7 +1111,7 @@ func file_temporal_api_failure_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_failure_v1_message_proto_rawDesc), len(file_temporal_api_failure_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
