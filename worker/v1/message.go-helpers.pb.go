@@ -226,3 +226,40 @@ func (this *PluginInfo) Equal(that interface{}) bool {
 
 	return proto.Equal(this, that1)
 }
+
+// Marshal an object of type CancelActivitiesRequestPayload to the protobuf v3 wire format
+func (val *CancelActivitiesRequestPayload) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type CancelActivitiesRequestPayload from the protobuf v3 wire format
+func (val *CancelActivitiesRequestPayload) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *CancelActivitiesRequestPayload) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two CancelActivitiesRequestPayload values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *CancelActivitiesRequestPayload) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *CancelActivitiesRequestPayload
+	switch t := that.(type) {
+	case *CancelActivitiesRequestPayload:
+		that1 = t
+	case CancelActivitiesRequestPayload:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
