@@ -8766,6 +8766,21 @@ func local_request_WorkflowService_UnpauseWorkflowExecution_1(ctx context.Contex
 }
 
 func request_WorkflowService_StartActivityExecution_0(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	// Route to the correct handler when activity_id matches a reserved literal path segment.
+	switch pathParams["activity_id"] {
+	case "pause":
+		return request_WorkflowService_PauseActivity_0(ctx, marshaler, client, req, pathParams)
+	case "unpause":
+		return request_WorkflowService_UnpauseActivity_0(ctx, marshaler, client, req, pathParams)
+	case "reset":
+		return request_WorkflowService_ResetActivity_0(ctx, marshaler, client, req, pathParams)
+	case "update-options":
+		return request_WorkflowService_UpdateActivityOptions_0(ctx, marshaler, client, req, pathParams)
+	case "complete-by-id":
+		return request_WorkflowService_RespondActivityTaskCompletedById_0(ctx, marshaler, client, req, pathParams)
+	case "fail-by-id":
+		return request_WorkflowService_RespondActivityTaskFailedById_0(ctx, marshaler, client, req, pathParams)
+	}
 	var (
 		protoReq StartActivityExecutionRequest
 		metadata runtime.ServerMetadata
@@ -8798,6 +8813,21 @@ func request_WorkflowService_StartActivityExecution_0(ctx context.Context, marsh
 }
 
 func local_request_WorkflowService_StartActivityExecution_0(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	// Route to the correct handler when activity_id matches a reserved path segment.
+	switch pathParams["activity_id"] {
+	case "pause":
+		return local_request_WorkflowService_PauseActivity_0(ctx, marshaler, server, req, pathParams)
+	case "unpause":
+		return local_request_WorkflowService_UnpauseActivity_0(ctx, marshaler, server, req, pathParams)
+	case "reset":
+		return local_request_WorkflowService_ResetActivity_0(ctx, marshaler, server, req, pathParams)
+	case "update-options":
+		return local_request_WorkflowService_UpdateActivityOptions_0(ctx, marshaler, server, req, pathParams)
+	case "complete-by-id":
+		return local_request_WorkflowService_RespondActivityTaskCompletedById_0(ctx, marshaler, server, req, pathParams)
+	case "fail-by-id":
+		return local_request_WorkflowService_RespondActivityTaskFailedById_0(ctx, marshaler, server, req, pathParams)
+	}
 	var (
 		protoReq StartActivityExecutionRequest
 		metadata runtime.ServerMetadata
@@ -8827,6 +8857,21 @@ func local_request_WorkflowService_StartActivityExecution_0(ctx context.Context,
 }
 
 func request_WorkflowService_StartActivityExecution_1(ctx context.Context, marshaler runtime.Marshaler, client WorkflowServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	// Route to the correct handler when activity_id matches a reserved path segment.
+	switch pathParams["activity_id"] {
+	case "pause":
+		return request_WorkflowService_PauseActivity_1(ctx, marshaler, client, req, pathParams)
+	case "unpause":
+		return request_WorkflowService_UnpauseActivity_1(ctx, marshaler, client, req, pathParams)
+	case "reset":
+		return request_WorkflowService_ResetActivity_1(ctx, marshaler, client, req, pathParams)
+	case "update-options":
+		return request_WorkflowService_UpdateActivityOptions_1(ctx, marshaler, client, req, pathParams)
+	case "complete-by-id":
+		return request_WorkflowService_RespondActivityTaskCompletedById_1(ctx, marshaler, client, req, pathParams)
+	case "fail-by-id":
+		return request_WorkflowService_RespondActivityTaskFailedById_1(ctx, marshaler, client, req, pathParams)
+	}
 	var (
 		protoReq StartActivityExecutionRequest
 		metadata runtime.ServerMetadata
@@ -8859,6 +8904,21 @@ func request_WorkflowService_StartActivityExecution_1(ctx context.Context, marsh
 }
 
 func local_request_WorkflowService_StartActivityExecution_1(ctx context.Context, marshaler runtime.Marshaler, server WorkflowServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	// Route to the correct handler when activity_id matches a reserved literal path segment.
+	switch pathParams["activity_id"] {
+	case "pause":
+		return local_request_WorkflowService_PauseActivity_1(ctx, marshaler, server, req, pathParams)
+	case "unpause":
+		return local_request_WorkflowService_UnpauseActivity_1(ctx, marshaler, server, req, pathParams)
+	case "reset":
+		return local_request_WorkflowService_ResetActivity_1(ctx, marshaler, server, req, pathParams)
+	case "update-options":
+		return local_request_WorkflowService_UpdateActivityOptions_1(ctx, marshaler, server, req, pathParams)
+	case "complete-by-id":
+		return local_request_WorkflowService_RespondActivityTaskCompletedById_1(ctx, marshaler, server, req, pathParams)
+	case "fail-by-id":
+		return local_request_WorkflowService_RespondActivityTaskFailedById_1(ctx, marshaler, server, req, pathParams)
+	}
 	var (
 		protoReq StartActivityExecutionRequest
 		metadata runtime.ServerMetadata
