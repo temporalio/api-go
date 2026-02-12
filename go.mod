@@ -1,10 +1,11 @@
 module go.temporal.io/api
 
-go 1.21
+go 1.23.0
 
 require (
 	github.com/golang/mock v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0
+	github.com/nexus-rpc/sdk-go v0.5.1
 	github.com/stretchr/testify v1.9.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240827150818-7e3bb234dfed
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240827150818-7e3bb234dfed

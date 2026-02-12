@@ -23,29 +23,28 @@ const (
 )
 
 // Request payload for the "cancel-activities" Nexus operation.
-type CancelActivitiesRequestPayload struct {
+type CancelActivitiesRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Task tokens identifying the activities to cancel.
-	// Each token corresponds to a specific activity task that the worker received.
 	TaskTokens    [][]byte `protobuf:"bytes,1,rep,name=task_tokens,json=taskTokens,proto3" json:"task_tokens,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CancelActivitiesRequestPayload) Reset() {
-	*x = CancelActivitiesRequestPayload{}
+func (x *CancelActivitiesRequest) Reset() {
+	*x = CancelActivitiesRequest{}
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CancelActivitiesRequestPayload) String() string {
+func (x *CancelActivitiesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CancelActivitiesRequestPayload) ProtoMessage() {}
+func (*CancelActivitiesRequest) ProtoMessage() {}
 
-func (x *CancelActivitiesRequestPayload) ProtoReflect() protoreflect.Message {
+func (x *CancelActivitiesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -57,12 +56,12 @@ func (x *CancelActivitiesRequestPayload) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelActivitiesRequestPayload.ProtoReflect.Descriptor instead.
-func (*CancelActivitiesRequestPayload) Descriptor() ([]byte, []int) {
+// Deprecated: Use CancelActivitiesRequest.ProtoReflect.Descriptor instead.
+func (*CancelActivitiesRequest) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CancelActivitiesRequestPayload) GetTaskTokens() [][]byte {
+func (x *CancelActivitiesRequest) GetTaskTokens() [][]byte {
 	if x != nil {
 		return x.TaskTokens
 	}
@@ -70,26 +69,26 @@ func (x *CancelActivitiesRequestPayload) GetTaskTokens() [][]byte {
 }
 
 // Response payload for the "cancel-activities" Nexus operation.
-type CancelActivitiesResponsePayload struct {
+type CancelActivitiesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CancelActivitiesResponsePayload) Reset() {
-	*x = CancelActivitiesResponsePayload{}
+func (x *CancelActivitiesResponse) Reset() {
+	*x = CancelActivitiesResponse{}
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CancelActivitiesResponsePayload) String() string {
+func (x *CancelActivitiesResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CancelActivitiesResponsePayload) ProtoMessage() {}
+func (*CancelActivitiesResponse) ProtoMessage() {}
 
-func (x *CancelActivitiesResponsePayload) ProtoReflect() protoreflect.Message {
+func (x *CancelActivitiesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -101,8 +100,8 @@ func (x *CancelActivitiesResponsePayload) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelActivitiesResponsePayload.ProtoReflect.Descriptor instead.
-func (*CancelActivitiesResponsePayload) Descriptor() ([]byte, []int) {
+// Deprecated: Use CancelActivitiesResponse.ProtoReflect.Descriptor instead.
+func (*CancelActivitiesResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP(), []int{1}
 }
 
@@ -110,11 +109,11 @@ var File_temporal_api_worker_v1_worker_nexus_service_commands_proto protoreflect
 
 const file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDesc = "" +
 	"\n" +
-	":temporal/api/worker/v1/worker_nexus_service_commands.proto\x12\x16temporal.api.worker.v1\"A\n" +
-	"\x1eCancelActivitiesRequestPayload\x12\x1f\n" +
+	":temporal/api/worker/v1/worker_nexus_service_commands.proto\x12\x16temporal.api.worker.v1\":\n" +
+	"\x17CancelActivitiesRequest\x12\x1f\n" +
 	"\vtask_tokens\x18\x01 \x03(\fR\n" +
-	"taskTokens\"!\n" +
-	"\x1fCancelActivitiesResponsePayloadB\x9c\x01\n" +
+	"taskTokens\"\x1a\n" +
+	"\x18CancelActivitiesResponseB\x9c\x01\n" +
 	"\x19io.temporal.api.worker.v1B\x1fWorkerNexusServiceCommandsProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
 
 var (
@@ -131,8 +130,8 @@ func file_temporal_api_worker_v1_worker_nexus_service_commands_proto_rawDescGZIP
 
 var file_temporal_api_worker_v1_worker_nexus_service_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_temporal_api_worker_v1_worker_nexus_service_commands_proto_goTypes = []any{
-	(*CancelActivitiesRequestPayload)(nil),  // 0: temporal.api.worker.v1.CancelActivitiesRequestPayload
-	(*CancelActivitiesResponsePayload)(nil), // 1: temporal.api.worker.v1.CancelActivitiesResponsePayload
+	(*CancelActivitiesRequest)(nil),  // 0: temporal.api.worker.v1.CancelActivitiesRequest
+	(*CancelActivitiesResponse)(nil), // 1: temporal.api.worker.v1.CancelActivitiesResponse
 }
 var file_temporal_api_worker_v1_worker_nexus_service_commands_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
