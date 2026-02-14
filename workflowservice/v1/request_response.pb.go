@@ -1420,6 +1420,8 @@ type PollWorkflowTaskQueueRequest struct {
 	// A unique key for this worker instance, used for tracking worker lifecycle.
 	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
 	WorkerInstanceKey string `protobuf:"bytes,8,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
+	// The task queue where the server sends control commands (cancel, pause, etc.) to this worker.
+	WorkerControlTaskQueue string `protobuf:"bytes,9,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
 	// Deprecated. Use deployment_options instead.
 	// Each worker process should provide an ID unique to the specific set of code it is running
 	// "checksum" in this field name isn't very accurate, it should be though of as an id.
@@ -1493,6 +1495,13 @@ func (x *PollWorkflowTaskQueueRequest) GetIdentity() string {
 func (x *PollWorkflowTaskQueueRequest) GetWorkerInstanceKey() string {
 	if x != nil {
 		return x.WorkerInstanceKey
+	}
+	return ""
+}
+
+func (x *PollWorkflowTaskQueueRequest) GetWorkerControlTaskQueue() string {
+	if x != nil {
+		return x.WorkerControlTaskQueue
 	}
 	return ""
 }
@@ -1773,8 +1782,11 @@ type RespondWorkflowTaskCompletedRequest struct {
 	VersioningBehavior v11.VersioningBehavior `protobuf:"varint,16,opt,name=versioning_behavior,json=versioningBehavior,proto3,enum=temporal.api.enums.v1.VersioningBehavior" json:"versioning_behavior,omitempty"`
 	// Worker deployment options that user has set in the worker.
 	DeploymentOptions *v18.WorkerDeploymentOptions `protobuf:"bytes,17,opt,name=deployment_options,json=deploymentOptions,proto3" json:"deployment_options,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	// The task queue where the server sends control commands to this worker.
+	// Used for eager activity dispatch to enable activity cancellation.
+	WorkerControlTaskQueue string `protobuf:"bytes,18,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
 }
 
 func (x *RespondWorkflowTaskCompletedRequest) Reset() {
@@ -1927,6 +1939,13 @@ func (x *RespondWorkflowTaskCompletedRequest) GetDeploymentOptions() *v18.Worker
 		return x.DeploymentOptions
 	}
 	return nil
+}
+
+func (x *RespondWorkflowTaskCompletedRequest) GetWorkerControlTaskQueue() string {
+	if x != nil {
+		return x.WorkerControlTaskQueue
+	}
+	return ""
 }
 
 type RespondWorkflowTaskCompletedResponse struct {
@@ -2179,8 +2198,10 @@ type PollActivityTaskQueueRequest struct {
 	Identity string `protobuf:"bytes,3,opt,name=identity,proto3" json:"identity,omitempty"`
 	// A unique key for this worker instance, used for tracking worker lifecycle.
 	// This is guaranteed to be unique, whereas identity is not guaranteed to be unique.
-	WorkerInstanceKey string                 `protobuf:"bytes,8,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
-	TaskQueueMetadata *v14.TaskQueueMetadata `protobuf:"bytes,4,opt,name=task_queue_metadata,json=taskQueueMetadata,proto3" json:"task_queue_metadata,omitempty"`
+	WorkerInstanceKey string `protobuf:"bytes,8,opt,name=worker_instance_key,json=workerInstanceKey,proto3" json:"worker_instance_key,omitempty"`
+	// The task queue where the server sends control commands (cancel, pause, etc.) to this worker.
+	WorkerControlTaskQueue string                 `protobuf:"bytes,9,opt,name=worker_control_task_queue,json=workerControlTaskQueue,proto3" json:"worker_control_task_queue,omitempty"`
+	TaskQueueMetadata      *v14.TaskQueueMetadata `protobuf:"bytes,4,opt,name=task_queue_metadata,json=taskQueueMetadata,proto3" json:"task_queue_metadata,omitempty"`
 	// Information about this worker's build identifier and if it is choosing to use the versioning
 	// feature. See the `WorkerVersionCapabilities` docstring for more.
 	// Deprecated. Replaced by deployment_options.
@@ -2247,6 +2268,13 @@ func (x *PollActivityTaskQueueRequest) GetIdentity() string {
 func (x *PollActivityTaskQueueRequest) GetWorkerInstanceKey() string {
 	if x != nil {
 		return x.WorkerInstanceKey
+	}
+	return ""
+}
+
+func (x *PollActivityTaskQueueRequest) GetWorkerControlTaskQueue() string {
+	if x != nil {
+		return x.WorkerControlTaskQueue
 	}
 	return ""
 }
@@ -17235,13 +17263,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x0fnext_page_token\x18\x04 \x01(\fR\rnextPageToken\"\x90\x01\n" +
 	"*GetWorkflowExecutionHistoryReverseResponse\x12:\n" +
 	"\ahistory\x18\x01 \x01(\v2 .temporal.api.history.v1.HistoryR\ahistory\x12&\n" +
-	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\"\xed\x03\n" +
+	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\"\xa8\x04\n" +
 	"\x1cPollWorkflowTaskQueueRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12C\n" +
 	"\n" +
 	"task_queue\x18\x02 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12.\n" +
-	"\x13worker_instance_key\x18\b \x01(\tR\x11workerInstanceKey\x12+\n" +
+	"\x13worker_instance_key\x18\b \x01(\tR\x11workerInstanceKey\x129\n" +
+	"\x19worker_control_task_queue\x18\t \x01(\tR\x16workerControlTaskQueue\x12+\n" +
 	"\x0fbinary_checksum\x18\x04 \x01(\tB\x02\x18\x01R\x0ebinaryChecksum\x12u\n" +
 	"\x1bworker_version_capabilities\x18\x05 \x01(\v21.temporal.api.common.v1.WorkerVersionCapabilitiesB\x02\x18\x01R\x19workerVersionCapabilities\x12b\n" +
 	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptionsJ\x04\b\a\x10\bR\x10worker_heartbeat\"\x8d\t\n" +
@@ -17266,7 +17295,7 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\x17poller_scaling_decision\x18\x10 \x01(\v20.temporal.api.taskqueue.v1.PollerScalingDecisionR\x15pollerScalingDecision\x1a`\n" +
 	"\fQueriesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12:\n" +
-	"\x05value\x18\x02 \x01(\v2$.temporal.api.query.v1.WorkflowQueryR\x05value:\x028\x01\"\xf6\v\n" +
+	"\x05value\x18\x02 \x01(\v2$.temporal.api.query.v1.WorkflowQueryR\x05value:\x028\x01\"\xb1\f\n" +
 	"#RespondWorkflowTaskCompletedRequest\x12\x1d\n" +
 	"\n" +
 	"task_token\x18\x01 \x01(\fR\ttaskToken\x12<\n" +
@@ -17288,7 +17317,8 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"deployment\x18\x0f \x01(\v2&.temporal.api.deployment.v1.DeploymentB\x02\x18\x01R\n" +
 	"deployment\x12Z\n" +
 	"\x13versioning_behavior\x18\x10 \x01(\x0e2).temporal.api.enums.v1.VersioningBehaviorR\x12versioningBehavior\x12b\n" +
-	"\x12deployment_options\x18\x11 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\x1ak\n" +
+	"\x12deployment_options\x18\x11 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\x129\n" +
+	"\x19worker_control_task_queue\x18\x12 \x01(\tR\x16workerControlTaskQueue\x1ak\n" +
 	"\x11QueryResultsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12@\n" +
 	"\x05value\x18\x02 \x01(\v2*.temporal.api.query.v1.WorkflowQueryResultR\x05value:\x028\x01\x1ao\n" +
@@ -17313,13 +17343,14 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"deployment\x12b\n" +
 	"\x12deployment_options\x18\n" +
 	" \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptions\"#\n" +
-	"!RespondWorkflowTaskFailedResponse\"\x9e\x04\n" +
+	"!RespondWorkflowTaskFailedResponse\"\xd9\x04\n" +
 	"\x1cPollActivityTaskQueueRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12C\n" +
 	"\n" +
 	"task_queue\x18\x02 \x01(\v2$.temporal.api.taskqueue.v1.TaskQueueR\ttaskQueue\x12\x1a\n" +
 	"\bidentity\x18\x03 \x01(\tR\bidentity\x12.\n" +
-	"\x13worker_instance_key\x18\b \x01(\tR\x11workerInstanceKey\x12\\\n" +
+	"\x13worker_instance_key\x18\b \x01(\tR\x11workerInstanceKey\x129\n" +
+	"\x19worker_control_task_queue\x18\t \x01(\tR\x16workerControlTaskQueue\x12\\\n" +
 	"\x13task_queue_metadata\x18\x04 \x01(\v2,.temporal.api.taskqueue.v1.TaskQueueMetadataR\x11taskQueueMetadata\x12u\n" +
 	"\x1bworker_version_capabilities\x18\x05 \x01(\v21.temporal.api.common.v1.WorkerVersionCapabilitiesB\x02\x18\x01R\x19workerVersionCapabilities\x12b\n" +
 	"\x12deployment_options\x18\x06 \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentOptionsR\x11deploymentOptionsJ\x04\b\a\x10\bR\x10worker_heartbeat\"\xc0\n" +

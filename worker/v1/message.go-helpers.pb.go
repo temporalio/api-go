@@ -2,6 +2,8 @@
 package worker
 
 import (
+	"fmt"
+
 	"google.golang.org/protobuf/proto"
 )
 
@@ -225,4 +227,98 @@ func (this *PluginInfo) Equal(that interface{}) bool {
 	}
 
 	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type ActivityControlRequest to the protobuf v3 wire format
+func (val *ActivityControlRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ActivityControlRequest from the protobuf v3 wire format
+func (val *ActivityControlRequest) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ActivityControlRequest) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ActivityControlRequest values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ActivityControlRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ActivityControlRequest
+	switch t := that.(type) {
+	case *ActivityControlRequest:
+		that1 = t
+	case ActivityControlRequest:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+// Marshal an object of type ActivityControlResponse to the protobuf v3 wire format
+func (val *ActivityControlResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(val)
+}
+
+// Unmarshal an object of type ActivityControlResponse from the protobuf v3 wire format
+func (val *ActivityControlResponse) Unmarshal(buf []byte) error {
+	return proto.Unmarshal(buf, val)
+}
+
+// Size returns the size of the object, in bytes, once serialized
+func (val *ActivityControlResponse) Size() int {
+	return proto.Size(val)
+}
+
+// Equal returns whether two ActivityControlResponse values are equivalent by recursively
+// comparing the message's fields.
+// For more information see the documentation for
+// https://pkg.go.dev/google.golang.org/protobuf/proto#Equal
+func (this *ActivityControlResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	var that1 *ActivityControlResponse
+	switch t := that.(type) {
+	case *ActivityControlResponse:
+		that1 = t
+	case ActivityControlResponse:
+		that1 = &t
+	default:
+		return false
+	}
+
+	return proto.Equal(this, that1)
+}
+
+var (
+	ActivityControlType_shorthandValue = map[string]int32{
+		"Unspecified": 0,
+		"Cancel":      1,
+		"Pause":       2,
+		"Resume":      3,
+	}
+)
+
+// ActivityControlTypeFromString parses a ActivityControlType value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to ActivityControlType
+func ActivityControlTypeFromString(s string) (ActivityControlType, error) {
+	if v, ok := ActivityControlType_value[s]; ok {
+		return ActivityControlType(v), nil
+	} else if v, ok := ActivityControlType_shorthandValue[s]; ok {
+		return ActivityControlType(v), nil
+	}
+	return ActivityControlType(0), fmt.Errorf("%s is not a valid ActivityControlType", s)
 }
