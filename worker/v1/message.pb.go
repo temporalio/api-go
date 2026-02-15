@@ -27,47 +27,47 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Type of control operation to perform on activities.
-type ActivityControlType int32
+// Type of notification to send to activities.
+type ActivityNotificationType int32
 
 const (
-	ACTIVITY_CONTROL_TYPE_UNSPECIFIED ActivityControlType = 0
-	ACTIVITY_CONTROL_TYPE_CANCEL      ActivityControlType = 1
-	ACTIVITY_CONTROL_TYPE_PAUSE       ActivityControlType = 2
-	ACTIVITY_CONTROL_TYPE_RESUME      ActivityControlType = 3
+	ACTIVITY_NOTIFICATION_TYPE_UNSPECIFIED ActivityNotificationType = 0
+	ACTIVITY_NOTIFICATION_TYPE_CANCEL      ActivityNotificationType = 1
+	ACTIVITY_NOTIFICATION_TYPE_PAUSE       ActivityNotificationType = 2
+	ACTIVITY_NOTIFICATION_TYPE_RESUME      ActivityNotificationType = 3
 )
 
-// Enum value maps for ActivityControlType.
+// Enum value maps for ActivityNotificationType.
 var (
-	ActivityControlType_name = map[int32]string{
-		0: "ACTIVITY_CONTROL_TYPE_UNSPECIFIED",
-		1: "ACTIVITY_CONTROL_TYPE_CANCEL",
-		2: "ACTIVITY_CONTROL_TYPE_PAUSE",
-		3: "ACTIVITY_CONTROL_TYPE_RESUME",
+	ActivityNotificationType_name = map[int32]string{
+		0: "ACTIVITY_NOTIFICATION_TYPE_UNSPECIFIED",
+		1: "ACTIVITY_NOTIFICATION_TYPE_CANCEL",
+		2: "ACTIVITY_NOTIFICATION_TYPE_PAUSE",
+		3: "ACTIVITY_NOTIFICATION_TYPE_RESUME",
 	}
-	ActivityControlType_value = map[string]int32{
-		"ACTIVITY_CONTROL_TYPE_UNSPECIFIED": 0,
-		"ACTIVITY_CONTROL_TYPE_CANCEL":      1,
-		"ACTIVITY_CONTROL_TYPE_PAUSE":       2,
-		"ACTIVITY_CONTROL_TYPE_RESUME":      3,
+	ActivityNotificationType_value = map[string]int32{
+		"ACTIVITY_NOTIFICATION_TYPE_UNSPECIFIED": 0,
+		"ACTIVITY_NOTIFICATION_TYPE_CANCEL":      1,
+		"ACTIVITY_NOTIFICATION_TYPE_PAUSE":       2,
+		"ACTIVITY_NOTIFICATION_TYPE_RESUME":      3,
 	}
 )
 
-func (x ActivityControlType) Enum() *ActivityControlType {
-	p := new(ActivityControlType)
+func (x ActivityNotificationType) Enum() *ActivityNotificationType {
+	p := new(ActivityNotificationType)
 	*p = x
 	return p
 }
 
-func (x ActivityControlType) String() string {
+func (x ActivityNotificationType) String() string {
 	switch x {
-	case ACTIVITY_CONTROL_TYPE_UNSPECIFIED:
+	case ACTIVITY_NOTIFICATION_TYPE_UNSPECIFIED:
 		return "Unspecified"
-	case ACTIVITY_CONTROL_TYPE_CANCEL:
+	case ACTIVITY_NOTIFICATION_TYPE_CANCEL:
 		return "Cancel"
-	case ACTIVITY_CONTROL_TYPE_PAUSE:
+	case ACTIVITY_NOTIFICATION_TYPE_PAUSE:
 		return "Pause"
-	case ACTIVITY_CONTROL_TYPE_RESUME:
+	case ACTIVITY_NOTIFICATION_TYPE_RESUME:
 		return "Resume"
 	default:
 		return strconv.Itoa(int(x))
@@ -75,20 +75,20 @@ func (x ActivityControlType) String() string {
 
 }
 
-func (ActivityControlType) Descriptor() protoreflect.EnumDescriptor {
+func (ActivityNotificationType) Descriptor() protoreflect.EnumDescriptor {
 	return file_temporal_api_worker_v1_message_proto_enumTypes[0].Descriptor()
 }
 
-func (ActivityControlType) Type() protoreflect.EnumType {
+func (ActivityNotificationType) Type() protoreflect.EnumType {
 	return &file_temporal_api_worker_v1_message_proto_enumTypes[0]
 }
 
-func (x ActivityControlType) Number() protoreflect.EnumNumber {
+func (x ActivityNotificationType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ActivityControlType.Descriptor instead.
-func (ActivityControlType) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use ActivityNotificationType.Descriptor instead.
+func (ActivityNotificationType) EnumDescriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{0}
 }
 
@@ -684,31 +684,31 @@ func (x *PluginInfo) GetVersion() string {
 	return ""
 }
 
-// Request payload for the activity control Nexus operation.
-type ActivityControlRequest struct {
+// Request payload for the notify-activity Nexus operation.
+type ActivityNotificationRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Type of control operation to perform.
-	ControlType ActivityControlType `protobuf:"varint,1,opt,name=control_type,json=controlType,proto3,enum=temporal.api.worker.v1.ActivityControlType" json:"control_type,omitempty"`
-	// Task tokens identifying the activities to control.
+	// Type of notification to send.
+	NotificationType ActivityNotificationType `protobuf:"varint,1,opt,name=notification_type,json=notificationType,proto3,enum=temporal.api.worker.v1.ActivityNotificationType" json:"notification_type,omitempty"`
+	// Task tokens identifying the activities to notify.
 	TaskTokens    [][]byte `protobuf:"bytes,2,rep,name=task_tokens,json=taskTokens,proto3" json:"task_tokens,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ActivityControlRequest) Reset() {
-	*x = ActivityControlRequest{}
+func (x *ActivityNotificationRequest) Reset() {
+	*x = ActivityNotificationRequest{}
 	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ActivityControlRequest) String() string {
+func (x *ActivityNotificationRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ActivityControlRequest) ProtoMessage() {}
+func (*ActivityNotificationRequest) ProtoMessage() {}
 
-func (x *ActivityControlRequest) ProtoReflect() protoreflect.Message {
+func (x *ActivityNotificationRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -720,46 +720,46 @@ func (x *ActivityControlRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityControlRequest.ProtoReflect.Descriptor instead.
-func (*ActivityControlRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ActivityNotificationRequest.ProtoReflect.Descriptor instead.
+func (*ActivityNotificationRequest) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *ActivityControlRequest) GetControlType() ActivityControlType {
+func (x *ActivityNotificationRequest) GetNotificationType() ActivityNotificationType {
 	if x != nil {
-		return x.ControlType
+		return x.NotificationType
 	}
-	return ACTIVITY_CONTROL_TYPE_UNSPECIFIED
+	return ACTIVITY_NOTIFICATION_TYPE_UNSPECIFIED
 }
 
-func (x *ActivityControlRequest) GetTaskTokens() [][]byte {
+func (x *ActivityNotificationRequest) GetTaskTokens() [][]byte {
 	if x != nil {
 		return x.TaskTokens
 	}
 	return nil
 }
 
-// Response payload for the activity control Nexus operation.
-type ActivityControlResponse struct {
+// Response payload for the notify-activity Nexus operation.
+type ActivityNotificationResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ActivityControlResponse) Reset() {
-	*x = ActivityControlResponse{}
+func (x *ActivityNotificationResponse) Reset() {
+	*x = ActivityNotificationResponse{}
 	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ActivityControlResponse) String() string {
+func (x *ActivityNotificationResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ActivityControlResponse) ProtoMessage() {}
+func (*ActivityNotificationResponse) ProtoMessage() {}
 
-func (x *ActivityControlResponse) ProtoReflect() protoreflect.Message {
+func (x *ActivityNotificationResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -771,8 +771,8 @@ func (x *ActivityControlResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ActivityControlResponse.ProtoReflect.Descriptor instead.
-func (*ActivityControlResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ActivityNotificationResponse.ProtoReflect.Descriptor instead.
+func (*ActivityNotificationResponse) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{7}
 }
 
@@ -834,17 +834,17 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"PluginInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversion\"\x89\x01\n" +
-	"\x16ActivityControlRequest\x12N\n" +
-	"\fcontrol_type\x18\x01 \x01(\x0e2+.temporal.api.worker.v1.ActivityControlTypeR\vcontrolType\x12\x1f\n" +
+	"\aversion\x18\x02 \x01(\tR\aversion\"\x9d\x01\n" +
+	"\x1bActivityNotificationRequest\x12]\n" +
+	"\x11notification_type\x18\x01 \x01(\x0e20.temporal.api.worker.v1.ActivityNotificationTypeR\x10notificationType\x12\x1f\n" +
 	"\vtask_tokens\x18\x02 \x03(\fR\n" +
-	"taskTokens\"\x19\n" +
-	"\x17ActivityControlResponse*\xa1\x01\n" +
-	"\x13ActivityControlType\x12%\n" +
-	"!ACTIVITY_CONTROL_TYPE_UNSPECIFIED\x10\x00\x12 \n" +
-	"\x1cACTIVITY_CONTROL_TYPE_CANCEL\x10\x01\x12\x1f\n" +
-	"\x1bACTIVITY_CONTROL_TYPE_PAUSE\x10\x02\x12 \n" +
-	"\x1cACTIVITY_CONTROL_TYPE_RESUME\x10\x03B\x89\x01\n" +
+	"taskTokens\"\x1e\n" +
+	"\x1cActivityNotificationResponse*\xba\x01\n" +
+	"\x18ActivityNotificationType\x12*\n" +
+	"&ACTIVITY_NOTIFICATION_TYPE_UNSPECIFIED\x10\x00\x12%\n" +
+	"!ACTIVITY_NOTIFICATION_TYPE_CANCEL\x10\x01\x12$\n" +
+	" ACTIVITY_NOTIFICATION_TYPE_PAUSE\x10\x02\x12%\n" +
+	"!ACTIVITY_NOTIFICATION_TYPE_RESUME\x10\x03B\x89\x01\n" +
 	"\x19io.temporal.api.worker.v1B\fMessageProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
 
 var (
@@ -862,19 +862,19 @@ func file_temporal_api_worker_v1_message_proto_rawDescGZIP() []byte {
 var file_temporal_api_worker_v1_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_temporal_api_worker_v1_message_proto_goTypes = []any{
-	(ActivityControlType)(0),           // 0: temporal.api.worker.v1.ActivityControlType
-	(*WorkerPollerInfo)(nil),           // 1: temporal.api.worker.v1.WorkerPollerInfo
-	(*WorkerSlotsInfo)(nil),            // 2: temporal.api.worker.v1.WorkerSlotsInfo
-	(*WorkerHostInfo)(nil),             // 3: temporal.api.worker.v1.WorkerHostInfo
-	(*WorkerHeartbeat)(nil),            // 4: temporal.api.worker.v1.WorkerHeartbeat
-	(*WorkerInfo)(nil),                 // 5: temporal.api.worker.v1.WorkerInfo
-	(*PluginInfo)(nil),                 // 6: temporal.api.worker.v1.PluginInfo
-	(*ActivityControlRequest)(nil),     // 7: temporal.api.worker.v1.ActivityControlRequest
-	(*ActivityControlResponse)(nil),    // 8: temporal.api.worker.v1.ActivityControlResponse
-	(*timestamppb.Timestamp)(nil),      // 9: google.protobuf.Timestamp
-	(*v1.WorkerDeploymentVersion)(nil), // 10: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(v11.WorkerStatus)(0),              // 11: temporal.api.enums.v1.WorkerStatus
-	(*durationpb.Duration)(nil),        // 12: google.protobuf.Duration
+	(ActivityNotificationType)(0),        // 0: temporal.api.worker.v1.ActivityNotificationType
+	(*WorkerPollerInfo)(nil),             // 1: temporal.api.worker.v1.WorkerPollerInfo
+	(*WorkerSlotsInfo)(nil),              // 2: temporal.api.worker.v1.WorkerSlotsInfo
+	(*WorkerHostInfo)(nil),               // 3: temporal.api.worker.v1.WorkerHostInfo
+	(*WorkerHeartbeat)(nil),              // 4: temporal.api.worker.v1.WorkerHeartbeat
+	(*WorkerInfo)(nil),                   // 5: temporal.api.worker.v1.WorkerInfo
+	(*PluginInfo)(nil),                   // 6: temporal.api.worker.v1.PluginInfo
+	(*ActivityNotificationRequest)(nil),  // 7: temporal.api.worker.v1.ActivityNotificationRequest
+	(*ActivityNotificationResponse)(nil), // 8: temporal.api.worker.v1.ActivityNotificationResponse
+	(*timestamppb.Timestamp)(nil),        // 9: google.protobuf.Timestamp
+	(*v1.WorkerDeploymentVersion)(nil),   // 10: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(v11.WorkerStatus)(0),                // 11: temporal.api.enums.v1.WorkerStatus
+	(*durationpb.Duration)(nil),          // 12: google.protobuf.Duration
 }
 var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
 	9,  // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
@@ -894,7 +894,7 @@ var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
 	1,  // 14: temporal.api.worker.v1.WorkerHeartbeat.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
 	6,  // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
 	4,  // 16: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	0,  // 17: temporal.api.worker.v1.ActivityControlRequest.control_type:type_name -> temporal.api.worker.v1.ActivityControlType
+	0,  // 17: temporal.api.worker.v1.ActivityNotificationRequest.notification_type:type_name -> temporal.api.worker.v1.ActivityNotificationType
 	18, // [18:18] is the sub-list for method output_type
 	18, // [18:18] is the sub-list for method input_type
 	18, // [18:18] is the sub-list for extension type_name
