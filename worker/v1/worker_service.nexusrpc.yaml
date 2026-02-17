@@ -1,0 +1,16 @@
+nexusrpc: 1.0.0
+
+services:
+  temporal.api.worker.v1.WorkerService:
+    description: |
+      Server-to-worker control commands via Nexus.
+      Used by the Temporal server to send commands (e.g., activity notifications) to workers.
+    operations:
+      notify-activity:
+        description: |
+          Sends activity notifications (e.g., cancellation, pause, resume) to a worker.
+          The worker should check the notification type and handle accordingly.
+        input:
+          $goRef: '*ActivityNotificationRequest'
+        output:
+          $goRef: '*ActivityNotificationResponse'

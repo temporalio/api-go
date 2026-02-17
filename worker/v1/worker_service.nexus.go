@@ -4,15 +4,14 @@ package worker
 
 import "github.com/nexus-rpc/sdk-go/nexus"
 
-// WorkerService is the Nexus service definition for server-to-worker communication.
+// Server-to-worker control commands via Nexus.
 // Used by the Temporal server to send commands (e.g., activity notifications) to workers.
-var WorkerService = struct {
-	// ServiceName is the fully qualified Nexus service name.
-	ServiceName string
-	// NotifyActivity sends activity notifications (e.g., cancellation) to a worker.
-	NotifyActivity nexus.OperationReference[*ActivityNotificationRequest, *ActivityNotificationResponse]
+//
+var TemporalAPIWorkerV1WorkerService = struct {
+	ServiceName                                                                                                                                                string
+	// Sends activity notifications (e.g., cancellation, pause, resume) to a worker.// The worker should check the notification type and handle accordingly.// 
+	NotifyActivity                                                                                                                                             nexus.OperationReference[*ActivityNotificationRequest, *ActivityNotificationResponse]
 }{
 	ServiceName:    "temporal.api.worker.v1.WorkerService",
 	NotifyActivity: nexus.NewOperationReference[*ActivityNotificationRequest, *ActivityNotificationResponse]("notify-activity"),
 }
-
