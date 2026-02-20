@@ -26,7 +26,7 @@ var File_temporal_api_workflowservice_v1_service_proto protoreflect.FileDescript
 
 const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\xb4\xdf\x01\n" +
+	"-temporal/api/workflowservice/v1/service.proto\x12\x1ftemporal.api.workflowservice.v1\x1a6temporal/api/workflowservice/v1/request_response.proto\x1a\x1cgoogle/api/annotations.proto2\xe5\xe1\x01\n" +
 	"\x0fWorkflowService\x12\xc3\x01\n" +
 	"\x11RegisterNamespace\x129.temporal.api.workflowservice.v1.RegisterNamespaceRequest\x1a:.temporal.api.workflowservice.v1.RegisterNamespaceResponse\"7\x82\xd3\xe4\x93\x021:\x01*Z\x17:\x01*\"\x12/api/v1/namespaces\"\x13/cluster/namespaces\x12\xd5\x01\n" +
 	"\x11DescribeNamespace\x129.temporal.api.workflowservice.v1.DescribeNamespaceRequest\x1a:.temporal.api.workflowservice.v1.DescribeNamespaceResponse\"I\x82\xd3\xe4\x93\x02CZ \x12\x1e/api/v1/namespaces/{namespace}\x12\x1f/cluster/namespaces/{namespace}\x12\xb4\x01\n" +
@@ -95,7 +95,8 @@ const file_temporal_api_workflowservice_v1_service_proto_rawDesc = "" +
 	"\x16DeleteWorkerDeployment\x12>.temporal.api.workflowservice.v1.DeleteWorkerDeploymentRequest\x1a?.temporal.api.workflowservice.v1.DeleteWorkerDeploymentResponse\"\x8c\x01\x82\xd3\xe4\x93\x02\x85\x01ZE*C/api/v1/namespaces/{namespace}/worker-deployments/{deployment_name}*</namespaces/{namespace}/worker-deployments/{deployment_name}\x12\xaf\x03\n" +
 	"\x1dDeleteWorkerDeploymentVersion\x12E.temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionRequest\x1aF.temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionResponse\"\xfe\x01\x82\xd3\xe4\x93\x02\xf7\x01Z~*|/api/v1/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}*u/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}\x12\xf7\x02\n" +
 	"!SetWorkerDeploymentRampingVersion\x12I.temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionRequest\x1aJ.temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionResponse\"\xba\x01\x82\xd3\xe4\x93\x02\xb3\x01:\x01*Z\\:\x01*\"W/api/v1/namespaces/{namespace}/worker-deployments/{deployment_name}/set-ramping-version\"P/namespaces/{namespace}/worker-deployments/{deployment_name}/set-ramping-version\x12\xff\x01\n" +
-	"\x15ListWorkerDeployments\x12=.temporal.api.workflowservice.v1.ListWorkerDeploymentsRequest\x1a>.temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse\"g\x82\xd3\xe4\x93\x02aZ3\x121/api/v1/namespaces/{namespace}/worker-deployments\x12*/namespaces/{namespace}/worker-deployments\x12\xf0\x03\n" +
+	"\x15ListWorkerDeployments\x12=.temporal.api.workflowservice.v1.ListWorkerDeploymentsRequest\x1a>.temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse\"g\x82\xd3\xe4\x93\x02aZ3\x121/api/v1/namespaces/{namespace}/worker-deployments\x12*/namespaces/{namespace}/worker-deployments\x12\xae\x02\n" +
+	"\x16CreateWorkerDeployment\x12>.temporal.api.workflowservice.v1.CreateWorkerDeploymentRequest\x1a?.temporal.api.workflowservice.v1.CreateWorkerDeploymentResponse\"\x92\x01\x82\xd3\xe4\x93\x02\x8b\x01:\x01*ZH:\x01*\"C/api/v1/namespaces/{namespace}/worker-deployments/{deployment_name}\"</namespaces/{namespace}/worker-deployments/{deployment_name}\x12\xf0\x03\n" +
 	"%UpdateWorkerDeploymentVersionMetadata\x12M.temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest\x1aN.temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataResponse\"\xa7\x02\x82\xd3\xe4\x93\x02\xa0\x02:\x01*Z\x92\x01:\x01*\"\x8c\x01/api/v1/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}/update-metadata\"\x85\x01/namespaces/{namespace}/worker-deployment-versions/{deployment_version.deployment_name}/{deployment_version.build_id}/update-metadata\x12\xd2\x02\n" +
 	"\x1aSetWorkerDeploymentManager\x12B.temporal.api.workflowservice.v1.SetWorkerDeploymentManagerRequest\x1aC.temporal.api.workflowservice.v1.SetWorkerDeploymentManagerResponse\"\xaa\x01\x82\xd3\xe4\x93\x02\xa3\x01:\x01*ZT:\x01*\"O/api/v1/namespaces/{namespace}/worker-deployments/{deployment_name}/set-manager\"H/namespaces/{namespace}/worker-deployments/{deployment_name}/set-manager\x12\xf5\x02\n" +
 	"\x17UpdateWorkflowExecution\x12?.temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest\x1a@.temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse\"\xd6\x01\x82\xd3\xe4\x93\x02\xcf\x01:\x01*Zj:\x01*\"e/api/v1/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/update/{request.input.name}\"^/namespaces/{namespace}/workflows/{workflow_execution.workflow_id}/update/{request.input.name}\x12\xaa\x01\n" +
@@ -204,148 +205,150 @@ var file_temporal_api_workflowservice_v1_service_proto_goTypes = []any{
 	(*DeleteWorkerDeploymentVersionRequest)(nil),          // 65: temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionRequest
 	(*SetWorkerDeploymentRampingVersionRequest)(nil),      // 66: temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionRequest
 	(*ListWorkerDeploymentsRequest)(nil),                  // 67: temporal.api.workflowservice.v1.ListWorkerDeploymentsRequest
-	(*UpdateWorkerDeploymentVersionMetadataRequest)(nil),  // 68: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest
-	(*SetWorkerDeploymentManagerRequest)(nil),             // 69: temporal.api.workflowservice.v1.SetWorkerDeploymentManagerRequest
-	(*UpdateWorkflowExecutionRequest)(nil),                // 70: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
-	(*PollWorkflowExecutionUpdateRequest)(nil),            // 71: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest
-	(*StartBatchOperationRequest)(nil),                    // 72: temporal.api.workflowservice.v1.StartBatchOperationRequest
-	(*StopBatchOperationRequest)(nil),                     // 73: temporal.api.workflowservice.v1.StopBatchOperationRequest
-	(*DescribeBatchOperationRequest)(nil),                 // 74: temporal.api.workflowservice.v1.DescribeBatchOperationRequest
-	(*ListBatchOperationsRequest)(nil),                    // 75: temporal.api.workflowservice.v1.ListBatchOperationsRequest
-	(*PollNexusTaskQueueRequest)(nil),                     // 76: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest
-	(*RespondNexusTaskCompletedRequest)(nil),              // 77: temporal.api.workflowservice.v1.RespondNexusTaskCompletedRequest
-	(*RespondNexusTaskFailedRequest)(nil),                 // 78: temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest
-	(*UpdateActivityOptionsRequest)(nil),                  // 79: temporal.api.workflowservice.v1.UpdateActivityOptionsRequest
-	(*UpdateWorkflowExecutionOptionsRequest)(nil),         // 80: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest
-	(*PauseActivityRequest)(nil),                          // 81: temporal.api.workflowservice.v1.PauseActivityRequest
-	(*UnpauseActivityRequest)(nil),                        // 82: temporal.api.workflowservice.v1.UnpauseActivityRequest
-	(*ResetActivityRequest)(nil),                          // 83: temporal.api.workflowservice.v1.ResetActivityRequest
-	(*CreateWorkflowRuleRequest)(nil),                     // 84: temporal.api.workflowservice.v1.CreateWorkflowRuleRequest
-	(*DescribeWorkflowRuleRequest)(nil),                   // 85: temporal.api.workflowservice.v1.DescribeWorkflowRuleRequest
-	(*DeleteWorkflowRuleRequest)(nil),                     // 86: temporal.api.workflowservice.v1.DeleteWorkflowRuleRequest
-	(*ListWorkflowRulesRequest)(nil),                      // 87: temporal.api.workflowservice.v1.ListWorkflowRulesRequest
-	(*TriggerWorkflowRuleRequest)(nil),                    // 88: temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest
-	(*RecordWorkerHeartbeatRequest)(nil),                  // 89: temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest
-	(*ListWorkersRequest)(nil),                            // 90: temporal.api.workflowservice.v1.ListWorkersRequest
-	(*UpdateTaskQueueConfigRequest)(nil),                  // 91: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest
-	(*FetchWorkerConfigRequest)(nil),                      // 92: temporal.api.workflowservice.v1.FetchWorkerConfigRequest
-	(*UpdateWorkerConfigRequest)(nil),                     // 93: temporal.api.workflowservice.v1.UpdateWorkerConfigRequest
-	(*DescribeWorkerRequest)(nil),                         // 94: temporal.api.workflowservice.v1.DescribeWorkerRequest
-	(*PauseWorkflowExecutionRequest)(nil),                 // 95: temporal.api.workflowservice.v1.PauseWorkflowExecutionRequest
-	(*UnpauseWorkflowExecutionRequest)(nil),               // 96: temporal.api.workflowservice.v1.UnpauseWorkflowExecutionRequest
-	(*StartActivityExecutionRequest)(nil),                 // 97: temporal.api.workflowservice.v1.StartActivityExecutionRequest
-	(*DescribeActivityExecutionRequest)(nil),              // 98: temporal.api.workflowservice.v1.DescribeActivityExecutionRequest
-	(*PollActivityExecutionRequest)(nil),                  // 99: temporal.api.workflowservice.v1.PollActivityExecutionRequest
-	(*ListActivityExecutionsRequest)(nil),                 // 100: temporal.api.workflowservice.v1.ListActivityExecutionsRequest
-	(*CountActivityExecutionsRequest)(nil),                // 101: temporal.api.workflowservice.v1.CountActivityExecutionsRequest
-	(*RequestCancelActivityExecutionRequest)(nil),         // 102: temporal.api.workflowservice.v1.RequestCancelActivityExecutionRequest
-	(*TerminateActivityExecutionRequest)(nil),             // 103: temporal.api.workflowservice.v1.TerminateActivityExecutionRequest
-	(*DeleteActivityExecutionRequest)(nil),                // 104: temporal.api.workflowservice.v1.DeleteActivityExecutionRequest
-	(*RegisterNamespaceResponse)(nil),                     // 105: temporal.api.workflowservice.v1.RegisterNamespaceResponse
-	(*DescribeNamespaceResponse)(nil),                     // 106: temporal.api.workflowservice.v1.DescribeNamespaceResponse
-	(*ListNamespacesResponse)(nil),                        // 107: temporal.api.workflowservice.v1.ListNamespacesResponse
-	(*UpdateNamespaceResponse)(nil),                       // 108: temporal.api.workflowservice.v1.UpdateNamespaceResponse
-	(*DeprecateNamespaceResponse)(nil),                    // 109: temporal.api.workflowservice.v1.DeprecateNamespaceResponse
-	(*StartWorkflowExecutionResponse)(nil),                // 110: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
-	(*ExecuteMultiOperationResponse)(nil),                 // 111: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse
-	(*GetWorkflowExecutionHistoryResponse)(nil),           // 112: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse
-	(*GetWorkflowExecutionHistoryReverseResponse)(nil),    // 113: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse
-	(*PollWorkflowTaskQueueResponse)(nil),                 // 114: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
-	(*RespondWorkflowTaskCompletedResponse)(nil),          // 115: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse
-	(*RespondWorkflowTaskFailedResponse)(nil),             // 116: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedResponse
-	(*PollActivityTaskQueueResponse)(nil),                 // 117: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
-	(*RecordActivityTaskHeartbeatResponse)(nil),           // 118: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatResponse
-	(*RecordActivityTaskHeartbeatByIdResponse)(nil),       // 119: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdResponse
-	(*RespondActivityTaskCompletedResponse)(nil),          // 120: temporal.api.workflowservice.v1.RespondActivityTaskCompletedResponse
-	(*RespondActivityTaskCompletedByIdResponse)(nil),      // 121: temporal.api.workflowservice.v1.RespondActivityTaskCompletedByIdResponse
-	(*RespondActivityTaskFailedResponse)(nil),             // 122: temporal.api.workflowservice.v1.RespondActivityTaskFailedResponse
-	(*RespondActivityTaskFailedByIdResponse)(nil),         // 123: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdResponse
-	(*RespondActivityTaskCanceledResponse)(nil),           // 124: temporal.api.workflowservice.v1.RespondActivityTaskCanceledResponse
-	(*RespondActivityTaskCanceledByIdResponse)(nil),       // 125: temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdResponse
-	(*RequestCancelWorkflowExecutionResponse)(nil),        // 126: temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionResponse
-	(*SignalWorkflowExecutionResponse)(nil),               // 127: temporal.api.workflowservice.v1.SignalWorkflowExecutionResponse
-	(*SignalWithStartWorkflowExecutionResponse)(nil),      // 128: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionResponse
-	(*ResetWorkflowExecutionResponse)(nil),                // 129: temporal.api.workflowservice.v1.ResetWorkflowExecutionResponse
-	(*TerminateWorkflowExecutionResponse)(nil),            // 130: temporal.api.workflowservice.v1.TerminateWorkflowExecutionResponse
-	(*DeleteWorkflowExecutionResponse)(nil),               // 131: temporal.api.workflowservice.v1.DeleteWorkflowExecutionResponse
-	(*ListOpenWorkflowExecutionsResponse)(nil),            // 132: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsResponse
-	(*ListClosedWorkflowExecutionsResponse)(nil),          // 133: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsResponse
-	(*ListWorkflowExecutionsResponse)(nil),                // 134: temporal.api.workflowservice.v1.ListWorkflowExecutionsResponse
-	(*ListArchivedWorkflowExecutionsResponse)(nil),        // 135: temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse
-	(*ScanWorkflowExecutionsResponse)(nil),                // 136: temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse
-	(*CountWorkflowExecutionsResponse)(nil),               // 137: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse
-	(*GetSearchAttributesResponse)(nil),                   // 138: temporal.api.workflowservice.v1.GetSearchAttributesResponse
-	(*RespondQueryTaskCompletedResponse)(nil),             // 139: temporal.api.workflowservice.v1.RespondQueryTaskCompletedResponse
-	(*ResetStickyTaskQueueResponse)(nil),                  // 140: temporal.api.workflowservice.v1.ResetStickyTaskQueueResponse
-	(*ShutdownWorkerResponse)(nil),                        // 141: temporal.api.workflowservice.v1.ShutdownWorkerResponse
-	(*QueryWorkflowResponse)(nil),                         // 142: temporal.api.workflowservice.v1.QueryWorkflowResponse
-	(*DescribeWorkflowExecutionResponse)(nil),             // 143: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse
-	(*DescribeTaskQueueResponse)(nil),                     // 144: temporal.api.workflowservice.v1.DescribeTaskQueueResponse
-	(*GetClusterInfoResponse)(nil),                        // 145: temporal.api.workflowservice.v1.GetClusterInfoResponse
-	(*GetSystemInfoResponse)(nil),                         // 146: temporal.api.workflowservice.v1.GetSystemInfoResponse
-	(*ListTaskQueuePartitionsResponse)(nil),               // 147: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse
-	(*CreateScheduleResponse)(nil),                        // 148: temporal.api.workflowservice.v1.CreateScheduleResponse
-	(*DescribeScheduleResponse)(nil),                      // 149: temporal.api.workflowservice.v1.DescribeScheduleResponse
-	(*UpdateScheduleResponse)(nil),                        // 150: temporal.api.workflowservice.v1.UpdateScheduleResponse
-	(*PatchScheduleResponse)(nil),                         // 151: temporal.api.workflowservice.v1.PatchScheduleResponse
-	(*ListScheduleMatchingTimesResponse)(nil),             // 152: temporal.api.workflowservice.v1.ListScheduleMatchingTimesResponse
-	(*DeleteScheduleResponse)(nil),                        // 153: temporal.api.workflowservice.v1.DeleteScheduleResponse
-	(*ListSchedulesResponse)(nil),                         // 154: temporal.api.workflowservice.v1.ListSchedulesResponse
-	(*CountSchedulesResponse)(nil),                        // 155: temporal.api.workflowservice.v1.CountSchedulesResponse
-	(*UpdateWorkerBuildIdCompatibilityResponse)(nil),      // 156: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityResponse
-	(*GetWorkerBuildIdCompatibilityResponse)(nil),         // 157: temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse
-	(*UpdateWorkerVersioningRulesResponse)(nil),           // 158: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse
-	(*GetWorkerVersioningRulesResponse)(nil),              // 159: temporal.api.workflowservice.v1.GetWorkerVersioningRulesResponse
-	(*GetWorkerTaskReachabilityResponse)(nil),             // 160: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse
-	(*DescribeDeploymentResponse)(nil),                    // 161: temporal.api.workflowservice.v1.DescribeDeploymentResponse
-	(*DescribeWorkerDeploymentVersionResponse)(nil),       // 162: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse
-	(*ListDeploymentsResponse)(nil),                       // 163: temporal.api.workflowservice.v1.ListDeploymentsResponse
-	(*GetDeploymentReachabilityResponse)(nil),             // 164: temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse
-	(*GetCurrentDeploymentResponse)(nil),                  // 165: temporal.api.workflowservice.v1.GetCurrentDeploymentResponse
-	(*SetCurrentDeploymentResponse)(nil),                  // 166: temporal.api.workflowservice.v1.SetCurrentDeploymentResponse
-	(*SetWorkerDeploymentCurrentVersionResponse)(nil),     // 167: temporal.api.workflowservice.v1.SetWorkerDeploymentCurrentVersionResponse
-	(*DescribeWorkerDeploymentResponse)(nil),              // 168: temporal.api.workflowservice.v1.DescribeWorkerDeploymentResponse
-	(*DeleteWorkerDeploymentResponse)(nil),                // 169: temporal.api.workflowservice.v1.DeleteWorkerDeploymentResponse
-	(*DeleteWorkerDeploymentVersionResponse)(nil),         // 170: temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionResponse
-	(*SetWorkerDeploymentRampingVersionResponse)(nil),     // 171: temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionResponse
-	(*ListWorkerDeploymentsResponse)(nil),                 // 172: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse
-	(*UpdateWorkerDeploymentVersionMetadataResponse)(nil), // 173: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataResponse
-	(*SetWorkerDeploymentManagerResponse)(nil),            // 174: temporal.api.workflowservice.v1.SetWorkerDeploymentManagerResponse
-	(*UpdateWorkflowExecutionResponse)(nil),               // 175: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
-	(*PollWorkflowExecutionUpdateResponse)(nil),           // 176: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse
-	(*StartBatchOperationResponse)(nil),                   // 177: temporal.api.workflowservice.v1.StartBatchOperationResponse
-	(*StopBatchOperationResponse)(nil),                    // 178: temporal.api.workflowservice.v1.StopBatchOperationResponse
-	(*DescribeBatchOperationResponse)(nil),                // 179: temporal.api.workflowservice.v1.DescribeBatchOperationResponse
-	(*ListBatchOperationsResponse)(nil),                   // 180: temporal.api.workflowservice.v1.ListBatchOperationsResponse
-	(*PollNexusTaskQueueResponse)(nil),                    // 181: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse
-	(*RespondNexusTaskCompletedResponse)(nil),             // 182: temporal.api.workflowservice.v1.RespondNexusTaskCompletedResponse
-	(*RespondNexusTaskFailedResponse)(nil),                // 183: temporal.api.workflowservice.v1.RespondNexusTaskFailedResponse
-	(*UpdateActivityOptionsResponse)(nil),                 // 184: temporal.api.workflowservice.v1.UpdateActivityOptionsResponse
-	(*UpdateWorkflowExecutionOptionsResponse)(nil),        // 185: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse
-	(*PauseActivityResponse)(nil),                         // 186: temporal.api.workflowservice.v1.PauseActivityResponse
-	(*UnpauseActivityResponse)(nil),                       // 187: temporal.api.workflowservice.v1.UnpauseActivityResponse
-	(*ResetActivityResponse)(nil),                         // 188: temporal.api.workflowservice.v1.ResetActivityResponse
-	(*CreateWorkflowRuleResponse)(nil),                    // 189: temporal.api.workflowservice.v1.CreateWorkflowRuleResponse
-	(*DescribeWorkflowRuleResponse)(nil),                  // 190: temporal.api.workflowservice.v1.DescribeWorkflowRuleResponse
-	(*DeleteWorkflowRuleResponse)(nil),                    // 191: temporal.api.workflowservice.v1.DeleteWorkflowRuleResponse
-	(*ListWorkflowRulesResponse)(nil),                     // 192: temporal.api.workflowservice.v1.ListWorkflowRulesResponse
-	(*TriggerWorkflowRuleResponse)(nil),                   // 193: temporal.api.workflowservice.v1.TriggerWorkflowRuleResponse
-	(*RecordWorkerHeartbeatResponse)(nil),                 // 194: temporal.api.workflowservice.v1.RecordWorkerHeartbeatResponse
-	(*ListWorkersResponse)(nil),                           // 195: temporal.api.workflowservice.v1.ListWorkersResponse
-	(*UpdateTaskQueueConfigResponse)(nil),                 // 196: temporal.api.workflowservice.v1.UpdateTaskQueueConfigResponse
-	(*FetchWorkerConfigResponse)(nil),                     // 197: temporal.api.workflowservice.v1.FetchWorkerConfigResponse
-	(*UpdateWorkerConfigResponse)(nil),                    // 198: temporal.api.workflowservice.v1.UpdateWorkerConfigResponse
-	(*DescribeWorkerResponse)(nil),                        // 199: temporal.api.workflowservice.v1.DescribeWorkerResponse
-	(*PauseWorkflowExecutionResponse)(nil),                // 200: temporal.api.workflowservice.v1.PauseWorkflowExecutionResponse
-	(*UnpauseWorkflowExecutionResponse)(nil),              // 201: temporal.api.workflowservice.v1.UnpauseWorkflowExecutionResponse
-	(*StartActivityExecutionResponse)(nil),                // 202: temporal.api.workflowservice.v1.StartActivityExecutionResponse
-	(*DescribeActivityExecutionResponse)(nil),             // 203: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
-	(*PollActivityExecutionResponse)(nil),                 // 204: temporal.api.workflowservice.v1.PollActivityExecutionResponse
-	(*ListActivityExecutionsResponse)(nil),                // 205: temporal.api.workflowservice.v1.ListActivityExecutionsResponse
-	(*CountActivityExecutionsResponse)(nil),               // 206: temporal.api.workflowservice.v1.CountActivityExecutionsResponse
-	(*RequestCancelActivityExecutionResponse)(nil),        // 207: temporal.api.workflowservice.v1.RequestCancelActivityExecutionResponse
-	(*TerminateActivityExecutionResponse)(nil),            // 208: temporal.api.workflowservice.v1.TerminateActivityExecutionResponse
-	(*DeleteActivityExecutionResponse)(nil),               // 209: temporal.api.workflowservice.v1.DeleteActivityExecutionResponse
+	(*CreateWorkerDeploymentRequest)(nil),                 // 68: temporal.api.workflowservice.v1.CreateWorkerDeploymentRequest
+	(*UpdateWorkerDeploymentVersionMetadataRequest)(nil),  // 69: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest
+	(*SetWorkerDeploymentManagerRequest)(nil),             // 70: temporal.api.workflowservice.v1.SetWorkerDeploymentManagerRequest
+	(*UpdateWorkflowExecutionRequest)(nil),                // 71: temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
+	(*PollWorkflowExecutionUpdateRequest)(nil),            // 72: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest
+	(*StartBatchOperationRequest)(nil),                    // 73: temporal.api.workflowservice.v1.StartBatchOperationRequest
+	(*StopBatchOperationRequest)(nil),                     // 74: temporal.api.workflowservice.v1.StopBatchOperationRequest
+	(*DescribeBatchOperationRequest)(nil),                 // 75: temporal.api.workflowservice.v1.DescribeBatchOperationRequest
+	(*ListBatchOperationsRequest)(nil),                    // 76: temporal.api.workflowservice.v1.ListBatchOperationsRequest
+	(*PollNexusTaskQueueRequest)(nil),                     // 77: temporal.api.workflowservice.v1.PollNexusTaskQueueRequest
+	(*RespondNexusTaskCompletedRequest)(nil),              // 78: temporal.api.workflowservice.v1.RespondNexusTaskCompletedRequest
+	(*RespondNexusTaskFailedRequest)(nil),                 // 79: temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest
+	(*UpdateActivityOptionsRequest)(nil),                  // 80: temporal.api.workflowservice.v1.UpdateActivityOptionsRequest
+	(*UpdateWorkflowExecutionOptionsRequest)(nil),         // 81: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest
+	(*PauseActivityRequest)(nil),                          // 82: temporal.api.workflowservice.v1.PauseActivityRequest
+	(*UnpauseActivityRequest)(nil),                        // 83: temporal.api.workflowservice.v1.UnpauseActivityRequest
+	(*ResetActivityRequest)(nil),                          // 84: temporal.api.workflowservice.v1.ResetActivityRequest
+	(*CreateWorkflowRuleRequest)(nil),                     // 85: temporal.api.workflowservice.v1.CreateWorkflowRuleRequest
+	(*DescribeWorkflowRuleRequest)(nil),                   // 86: temporal.api.workflowservice.v1.DescribeWorkflowRuleRequest
+	(*DeleteWorkflowRuleRequest)(nil),                     // 87: temporal.api.workflowservice.v1.DeleteWorkflowRuleRequest
+	(*ListWorkflowRulesRequest)(nil),                      // 88: temporal.api.workflowservice.v1.ListWorkflowRulesRequest
+	(*TriggerWorkflowRuleRequest)(nil),                    // 89: temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest
+	(*RecordWorkerHeartbeatRequest)(nil),                  // 90: temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest
+	(*ListWorkersRequest)(nil),                            // 91: temporal.api.workflowservice.v1.ListWorkersRequest
+	(*UpdateTaskQueueConfigRequest)(nil),                  // 92: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest
+	(*FetchWorkerConfigRequest)(nil),                      // 93: temporal.api.workflowservice.v1.FetchWorkerConfigRequest
+	(*UpdateWorkerConfigRequest)(nil),                     // 94: temporal.api.workflowservice.v1.UpdateWorkerConfigRequest
+	(*DescribeWorkerRequest)(nil),                         // 95: temporal.api.workflowservice.v1.DescribeWorkerRequest
+	(*PauseWorkflowExecutionRequest)(nil),                 // 96: temporal.api.workflowservice.v1.PauseWorkflowExecutionRequest
+	(*UnpauseWorkflowExecutionRequest)(nil),               // 97: temporal.api.workflowservice.v1.UnpauseWorkflowExecutionRequest
+	(*StartActivityExecutionRequest)(nil),                 // 98: temporal.api.workflowservice.v1.StartActivityExecutionRequest
+	(*DescribeActivityExecutionRequest)(nil),              // 99: temporal.api.workflowservice.v1.DescribeActivityExecutionRequest
+	(*PollActivityExecutionRequest)(nil),                  // 100: temporal.api.workflowservice.v1.PollActivityExecutionRequest
+	(*ListActivityExecutionsRequest)(nil),                 // 101: temporal.api.workflowservice.v1.ListActivityExecutionsRequest
+	(*CountActivityExecutionsRequest)(nil),                // 102: temporal.api.workflowservice.v1.CountActivityExecutionsRequest
+	(*RequestCancelActivityExecutionRequest)(nil),         // 103: temporal.api.workflowservice.v1.RequestCancelActivityExecutionRequest
+	(*TerminateActivityExecutionRequest)(nil),             // 104: temporal.api.workflowservice.v1.TerminateActivityExecutionRequest
+	(*DeleteActivityExecutionRequest)(nil),                // 105: temporal.api.workflowservice.v1.DeleteActivityExecutionRequest
+	(*RegisterNamespaceResponse)(nil),                     // 106: temporal.api.workflowservice.v1.RegisterNamespaceResponse
+	(*DescribeNamespaceResponse)(nil),                     // 107: temporal.api.workflowservice.v1.DescribeNamespaceResponse
+	(*ListNamespacesResponse)(nil),                        // 108: temporal.api.workflowservice.v1.ListNamespacesResponse
+	(*UpdateNamespaceResponse)(nil),                       // 109: temporal.api.workflowservice.v1.UpdateNamespaceResponse
+	(*DeprecateNamespaceResponse)(nil),                    // 110: temporal.api.workflowservice.v1.DeprecateNamespaceResponse
+	(*StartWorkflowExecutionResponse)(nil),                // 111: temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
+	(*ExecuteMultiOperationResponse)(nil),                 // 112: temporal.api.workflowservice.v1.ExecuteMultiOperationResponse
+	(*GetWorkflowExecutionHistoryResponse)(nil),           // 113: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse
+	(*GetWorkflowExecutionHistoryReverseResponse)(nil),    // 114: temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse
+	(*PollWorkflowTaskQueueResponse)(nil),                 // 115: temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
+	(*RespondWorkflowTaskCompletedResponse)(nil),          // 116: temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse
+	(*RespondWorkflowTaskFailedResponse)(nil),             // 117: temporal.api.workflowservice.v1.RespondWorkflowTaskFailedResponse
+	(*PollActivityTaskQueueResponse)(nil),                 // 118: temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
+	(*RecordActivityTaskHeartbeatResponse)(nil),           // 119: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatResponse
+	(*RecordActivityTaskHeartbeatByIdResponse)(nil),       // 120: temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdResponse
+	(*RespondActivityTaskCompletedResponse)(nil),          // 121: temporal.api.workflowservice.v1.RespondActivityTaskCompletedResponse
+	(*RespondActivityTaskCompletedByIdResponse)(nil),      // 122: temporal.api.workflowservice.v1.RespondActivityTaskCompletedByIdResponse
+	(*RespondActivityTaskFailedResponse)(nil),             // 123: temporal.api.workflowservice.v1.RespondActivityTaskFailedResponse
+	(*RespondActivityTaskFailedByIdResponse)(nil),         // 124: temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdResponse
+	(*RespondActivityTaskCanceledResponse)(nil),           // 125: temporal.api.workflowservice.v1.RespondActivityTaskCanceledResponse
+	(*RespondActivityTaskCanceledByIdResponse)(nil),       // 126: temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdResponse
+	(*RequestCancelWorkflowExecutionResponse)(nil),        // 127: temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionResponse
+	(*SignalWorkflowExecutionResponse)(nil),               // 128: temporal.api.workflowservice.v1.SignalWorkflowExecutionResponse
+	(*SignalWithStartWorkflowExecutionResponse)(nil),      // 129: temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionResponse
+	(*ResetWorkflowExecutionResponse)(nil),                // 130: temporal.api.workflowservice.v1.ResetWorkflowExecutionResponse
+	(*TerminateWorkflowExecutionResponse)(nil),            // 131: temporal.api.workflowservice.v1.TerminateWorkflowExecutionResponse
+	(*DeleteWorkflowExecutionResponse)(nil),               // 132: temporal.api.workflowservice.v1.DeleteWorkflowExecutionResponse
+	(*ListOpenWorkflowExecutionsResponse)(nil),            // 133: temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsResponse
+	(*ListClosedWorkflowExecutionsResponse)(nil),          // 134: temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsResponse
+	(*ListWorkflowExecutionsResponse)(nil),                // 135: temporal.api.workflowservice.v1.ListWorkflowExecutionsResponse
+	(*ListArchivedWorkflowExecutionsResponse)(nil),        // 136: temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse
+	(*ScanWorkflowExecutionsResponse)(nil),                // 137: temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse
+	(*CountWorkflowExecutionsResponse)(nil),               // 138: temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse
+	(*GetSearchAttributesResponse)(nil),                   // 139: temporal.api.workflowservice.v1.GetSearchAttributesResponse
+	(*RespondQueryTaskCompletedResponse)(nil),             // 140: temporal.api.workflowservice.v1.RespondQueryTaskCompletedResponse
+	(*ResetStickyTaskQueueResponse)(nil),                  // 141: temporal.api.workflowservice.v1.ResetStickyTaskQueueResponse
+	(*ShutdownWorkerResponse)(nil),                        // 142: temporal.api.workflowservice.v1.ShutdownWorkerResponse
+	(*QueryWorkflowResponse)(nil),                         // 143: temporal.api.workflowservice.v1.QueryWorkflowResponse
+	(*DescribeWorkflowExecutionResponse)(nil),             // 144: temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse
+	(*DescribeTaskQueueResponse)(nil),                     // 145: temporal.api.workflowservice.v1.DescribeTaskQueueResponse
+	(*GetClusterInfoResponse)(nil),                        // 146: temporal.api.workflowservice.v1.GetClusterInfoResponse
+	(*GetSystemInfoResponse)(nil),                         // 147: temporal.api.workflowservice.v1.GetSystemInfoResponse
+	(*ListTaskQueuePartitionsResponse)(nil),               // 148: temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse
+	(*CreateScheduleResponse)(nil),                        // 149: temporal.api.workflowservice.v1.CreateScheduleResponse
+	(*DescribeScheduleResponse)(nil),                      // 150: temporal.api.workflowservice.v1.DescribeScheduleResponse
+	(*UpdateScheduleResponse)(nil),                        // 151: temporal.api.workflowservice.v1.UpdateScheduleResponse
+	(*PatchScheduleResponse)(nil),                         // 152: temporal.api.workflowservice.v1.PatchScheduleResponse
+	(*ListScheduleMatchingTimesResponse)(nil),             // 153: temporal.api.workflowservice.v1.ListScheduleMatchingTimesResponse
+	(*DeleteScheduleResponse)(nil),                        // 154: temporal.api.workflowservice.v1.DeleteScheduleResponse
+	(*ListSchedulesResponse)(nil),                         // 155: temporal.api.workflowservice.v1.ListSchedulesResponse
+	(*CountSchedulesResponse)(nil),                        // 156: temporal.api.workflowservice.v1.CountSchedulesResponse
+	(*UpdateWorkerBuildIdCompatibilityResponse)(nil),      // 157: temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityResponse
+	(*GetWorkerBuildIdCompatibilityResponse)(nil),         // 158: temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse
+	(*UpdateWorkerVersioningRulesResponse)(nil),           // 159: temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse
+	(*GetWorkerVersioningRulesResponse)(nil),              // 160: temporal.api.workflowservice.v1.GetWorkerVersioningRulesResponse
+	(*GetWorkerTaskReachabilityResponse)(nil),             // 161: temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse
+	(*DescribeDeploymentResponse)(nil),                    // 162: temporal.api.workflowservice.v1.DescribeDeploymentResponse
+	(*DescribeWorkerDeploymentVersionResponse)(nil),       // 163: temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse
+	(*ListDeploymentsResponse)(nil),                       // 164: temporal.api.workflowservice.v1.ListDeploymentsResponse
+	(*GetDeploymentReachabilityResponse)(nil),             // 165: temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse
+	(*GetCurrentDeploymentResponse)(nil),                  // 166: temporal.api.workflowservice.v1.GetCurrentDeploymentResponse
+	(*SetCurrentDeploymentResponse)(nil),                  // 167: temporal.api.workflowservice.v1.SetCurrentDeploymentResponse
+	(*SetWorkerDeploymentCurrentVersionResponse)(nil),     // 168: temporal.api.workflowservice.v1.SetWorkerDeploymentCurrentVersionResponse
+	(*DescribeWorkerDeploymentResponse)(nil),              // 169: temporal.api.workflowservice.v1.DescribeWorkerDeploymentResponse
+	(*DeleteWorkerDeploymentResponse)(nil),                // 170: temporal.api.workflowservice.v1.DeleteWorkerDeploymentResponse
+	(*DeleteWorkerDeploymentVersionResponse)(nil),         // 171: temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionResponse
+	(*SetWorkerDeploymentRampingVersionResponse)(nil),     // 172: temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionResponse
+	(*ListWorkerDeploymentsResponse)(nil),                 // 173: temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse
+	(*CreateWorkerDeploymentResponse)(nil),                // 174: temporal.api.workflowservice.v1.CreateWorkerDeploymentResponse
+	(*UpdateWorkerDeploymentVersionMetadataResponse)(nil), // 175: temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataResponse
+	(*SetWorkerDeploymentManagerResponse)(nil),            // 176: temporal.api.workflowservice.v1.SetWorkerDeploymentManagerResponse
+	(*UpdateWorkflowExecutionResponse)(nil),               // 177: temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
+	(*PollWorkflowExecutionUpdateResponse)(nil),           // 178: temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse
+	(*StartBatchOperationResponse)(nil),                   // 179: temporal.api.workflowservice.v1.StartBatchOperationResponse
+	(*StopBatchOperationResponse)(nil),                    // 180: temporal.api.workflowservice.v1.StopBatchOperationResponse
+	(*DescribeBatchOperationResponse)(nil),                // 181: temporal.api.workflowservice.v1.DescribeBatchOperationResponse
+	(*ListBatchOperationsResponse)(nil),                   // 182: temporal.api.workflowservice.v1.ListBatchOperationsResponse
+	(*PollNexusTaskQueueResponse)(nil),                    // 183: temporal.api.workflowservice.v1.PollNexusTaskQueueResponse
+	(*RespondNexusTaskCompletedResponse)(nil),             // 184: temporal.api.workflowservice.v1.RespondNexusTaskCompletedResponse
+	(*RespondNexusTaskFailedResponse)(nil),                // 185: temporal.api.workflowservice.v1.RespondNexusTaskFailedResponse
+	(*UpdateActivityOptionsResponse)(nil),                 // 186: temporal.api.workflowservice.v1.UpdateActivityOptionsResponse
+	(*UpdateWorkflowExecutionOptionsResponse)(nil),        // 187: temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse
+	(*PauseActivityResponse)(nil),                         // 188: temporal.api.workflowservice.v1.PauseActivityResponse
+	(*UnpauseActivityResponse)(nil),                       // 189: temporal.api.workflowservice.v1.UnpauseActivityResponse
+	(*ResetActivityResponse)(nil),                         // 190: temporal.api.workflowservice.v1.ResetActivityResponse
+	(*CreateWorkflowRuleResponse)(nil),                    // 191: temporal.api.workflowservice.v1.CreateWorkflowRuleResponse
+	(*DescribeWorkflowRuleResponse)(nil),                  // 192: temporal.api.workflowservice.v1.DescribeWorkflowRuleResponse
+	(*DeleteWorkflowRuleResponse)(nil),                    // 193: temporal.api.workflowservice.v1.DeleteWorkflowRuleResponse
+	(*ListWorkflowRulesResponse)(nil),                     // 194: temporal.api.workflowservice.v1.ListWorkflowRulesResponse
+	(*TriggerWorkflowRuleResponse)(nil),                   // 195: temporal.api.workflowservice.v1.TriggerWorkflowRuleResponse
+	(*RecordWorkerHeartbeatResponse)(nil),                 // 196: temporal.api.workflowservice.v1.RecordWorkerHeartbeatResponse
+	(*ListWorkersResponse)(nil),                           // 197: temporal.api.workflowservice.v1.ListWorkersResponse
+	(*UpdateTaskQueueConfigResponse)(nil),                 // 198: temporal.api.workflowservice.v1.UpdateTaskQueueConfigResponse
+	(*FetchWorkerConfigResponse)(nil),                     // 199: temporal.api.workflowservice.v1.FetchWorkerConfigResponse
+	(*UpdateWorkerConfigResponse)(nil),                    // 200: temporal.api.workflowservice.v1.UpdateWorkerConfigResponse
+	(*DescribeWorkerResponse)(nil),                        // 201: temporal.api.workflowservice.v1.DescribeWorkerResponse
+	(*PauseWorkflowExecutionResponse)(nil),                // 202: temporal.api.workflowservice.v1.PauseWorkflowExecutionResponse
+	(*UnpauseWorkflowExecutionResponse)(nil),              // 203: temporal.api.workflowservice.v1.UnpauseWorkflowExecutionResponse
+	(*StartActivityExecutionResponse)(nil),                // 204: temporal.api.workflowservice.v1.StartActivityExecutionResponse
+	(*DescribeActivityExecutionResponse)(nil),             // 205: temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
+	(*PollActivityExecutionResponse)(nil),                 // 206: temporal.api.workflowservice.v1.PollActivityExecutionResponse
+	(*ListActivityExecutionsResponse)(nil),                // 207: temporal.api.workflowservice.v1.ListActivityExecutionsResponse
+	(*CountActivityExecutionsResponse)(nil),               // 208: temporal.api.workflowservice.v1.CountActivityExecutionsResponse
+	(*RequestCancelActivityExecutionResponse)(nil),        // 209: temporal.api.workflowservice.v1.RequestCancelActivityExecutionResponse
+	(*TerminateActivityExecutionResponse)(nil),            // 210: temporal.api.workflowservice.v1.TerminateActivityExecutionResponse
+	(*DeleteActivityExecutionResponse)(nil),               // 211: temporal.api.workflowservice.v1.DeleteActivityExecutionResponse
 }
 var file_temporal_api_workflowservice_v1_service_proto_depIdxs = []int32{
 	0,   // 0: temporal.api.workflowservice.v1.WorkflowService.RegisterNamespace:input_type -> temporal.api.workflowservice.v1.RegisterNamespaceRequest
@@ -416,150 +419,152 @@ var file_temporal_api_workflowservice_v1_service_proto_depIdxs = []int32{
 	65,  // 65: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkerDeploymentVersion:input_type -> temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionRequest
 	66,  // 66: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentRampingVersion:input_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionRequest
 	67,  // 67: temporal.api.workflowservice.v1.WorkflowService.ListWorkerDeployments:input_type -> temporal.api.workflowservice.v1.ListWorkerDeploymentsRequest
-	68,  // 68: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerDeploymentVersionMetadata:input_type -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest
-	69,  // 69: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentManager:input_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentManagerRequest
-	70,  // 70: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkflowExecution:input_type -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
-	71,  // 71: temporal.api.workflowservice.v1.WorkflowService.PollWorkflowExecutionUpdate:input_type -> temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest
-	72,  // 72: temporal.api.workflowservice.v1.WorkflowService.StartBatchOperation:input_type -> temporal.api.workflowservice.v1.StartBatchOperationRequest
-	73,  // 73: temporal.api.workflowservice.v1.WorkflowService.StopBatchOperation:input_type -> temporal.api.workflowservice.v1.StopBatchOperationRequest
-	74,  // 74: temporal.api.workflowservice.v1.WorkflowService.DescribeBatchOperation:input_type -> temporal.api.workflowservice.v1.DescribeBatchOperationRequest
-	75,  // 75: temporal.api.workflowservice.v1.WorkflowService.ListBatchOperations:input_type -> temporal.api.workflowservice.v1.ListBatchOperationsRequest
-	76,  // 76: temporal.api.workflowservice.v1.WorkflowService.PollNexusTaskQueue:input_type -> temporal.api.workflowservice.v1.PollNexusTaskQueueRequest
-	77,  // 77: temporal.api.workflowservice.v1.WorkflowService.RespondNexusTaskCompleted:input_type -> temporal.api.workflowservice.v1.RespondNexusTaskCompletedRequest
-	78,  // 78: temporal.api.workflowservice.v1.WorkflowService.RespondNexusTaskFailed:input_type -> temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest
-	79,  // 79: temporal.api.workflowservice.v1.WorkflowService.UpdateActivityOptions:input_type -> temporal.api.workflowservice.v1.UpdateActivityOptionsRequest
-	80,  // 80: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkflowExecutionOptions:input_type -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest
-	81,  // 81: temporal.api.workflowservice.v1.WorkflowService.PauseActivity:input_type -> temporal.api.workflowservice.v1.PauseActivityRequest
-	82,  // 82: temporal.api.workflowservice.v1.WorkflowService.UnpauseActivity:input_type -> temporal.api.workflowservice.v1.UnpauseActivityRequest
-	83,  // 83: temporal.api.workflowservice.v1.WorkflowService.ResetActivity:input_type -> temporal.api.workflowservice.v1.ResetActivityRequest
-	84,  // 84: temporal.api.workflowservice.v1.WorkflowService.CreateWorkflowRule:input_type -> temporal.api.workflowservice.v1.CreateWorkflowRuleRequest
-	85,  // 85: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkflowRule:input_type -> temporal.api.workflowservice.v1.DescribeWorkflowRuleRequest
-	86,  // 86: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkflowRule:input_type -> temporal.api.workflowservice.v1.DeleteWorkflowRuleRequest
-	87,  // 87: temporal.api.workflowservice.v1.WorkflowService.ListWorkflowRules:input_type -> temporal.api.workflowservice.v1.ListWorkflowRulesRequest
-	88,  // 88: temporal.api.workflowservice.v1.WorkflowService.TriggerWorkflowRule:input_type -> temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest
-	89,  // 89: temporal.api.workflowservice.v1.WorkflowService.RecordWorkerHeartbeat:input_type -> temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest
-	90,  // 90: temporal.api.workflowservice.v1.WorkflowService.ListWorkers:input_type -> temporal.api.workflowservice.v1.ListWorkersRequest
-	91,  // 91: temporal.api.workflowservice.v1.WorkflowService.UpdateTaskQueueConfig:input_type -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest
-	92,  // 92: temporal.api.workflowservice.v1.WorkflowService.FetchWorkerConfig:input_type -> temporal.api.workflowservice.v1.FetchWorkerConfigRequest
-	93,  // 93: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerConfig:input_type -> temporal.api.workflowservice.v1.UpdateWorkerConfigRequest
-	94,  // 94: temporal.api.workflowservice.v1.WorkflowService.DescribeWorker:input_type -> temporal.api.workflowservice.v1.DescribeWorkerRequest
-	95,  // 95: temporal.api.workflowservice.v1.WorkflowService.PauseWorkflowExecution:input_type -> temporal.api.workflowservice.v1.PauseWorkflowExecutionRequest
-	96,  // 96: temporal.api.workflowservice.v1.WorkflowService.UnpauseWorkflowExecution:input_type -> temporal.api.workflowservice.v1.UnpauseWorkflowExecutionRequest
-	97,  // 97: temporal.api.workflowservice.v1.WorkflowService.StartActivityExecution:input_type -> temporal.api.workflowservice.v1.StartActivityExecutionRequest
-	98,  // 98: temporal.api.workflowservice.v1.WorkflowService.DescribeActivityExecution:input_type -> temporal.api.workflowservice.v1.DescribeActivityExecutionRequest
-	99,  // 99: temporal.api.workflowservice.v1.WorkflowService.PollActivityExecution:input_type -> temporal.api.workflowservice.v1.PollActivityExecutionRequest
-	100, // 100: temporal.api.workflowservice.v1.WorkflowService.ListActivityExecutions:input_type -> temporal.api.workflowservice.v1.ListActivityExecutionsRequest
-	101, // 101: temporal.api.workflowservice.v1.WorkflowService.CountActivityExecutions:input_type -> temporal.api.workflowservice.v1.CountActivityExecutionsRequest
-	102, // 102: temporal.api.workflowservice.v1.WorkflowService.RequestCancelActivityExecution:input_type -> temporal.api.workflowservice.v1.RequestCancelActivityExecutionRequest
-	103, // 103: temporal.api.workflowservice.v1.WorkflowService.TerminateActivityExecution:input_type -> temporal.api.workflowservice.v1.TerminateActivityExecutionRequest
-	104, // 104: temporal.api.workflowservice.v1.WorkflowService.DeleteActivityExecution:input_type -> temporal.api.workflowservice.v1.DeleteActivityExecutionRequest
-	105, // 105: temporal.api.workflowservice.v1.WorkflowService.RegisterNamespace:output_type -> temporal.api.workflowservice.v1.RegisterNamespaceResponse
-	106, // 106: temporal.api.workflowservice.v1.WorkflowService.DescribeNamespace:output_type -> temporal.api.workflowservice.v1.DescribeNamespaceResponse
-	107, // 107: temporal.api.workflowservice.v1.WorkflowService.ListNamespaces:output_type -> temporal.api.workflowservice.v1.ListNamespacesResponse
-	108, // 108: temporal.api.workflowservice.v1.WorkflowService.UpdateNamespace:output_type -> temporal.api.workflowservice.v1.UpdateNamespaceResponse
-	109, // 109: temporal.api.workflowservice.v1.WorkflowService.DeprecateNamespace:output_type -> temporal.api.workflowservice.v1.DeprecateNamespaceResponse
-	110, // 110: temporal.api.workflowservice.v1.WorkflowService.StartWorkflowExecution:output_type -> temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
-	111, // 111: temporal.api.workflowservice.v1.WorkflowService.ExecuteMultiOperation:output_type -> temporal.api.workflowservice.v1.ExecuteMultiOperationResponse
-	112, // 112: temporal.api.workflowservice.v1.WorkflowService.GetWorkflowExecutionHistory:output_type -> temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse
-	113, // 113: temporal.api.workflowservice.v1.WorkflowService.GetWorkflowExecutionHistoryReverse:output_type -> temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse
-	114, // 114: temporal.api.workflowservice.v1.WorkflowService.PollWorkflowTaskQueue:output_type -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
-	115, // 115: temporal.api.workflowservice.v1.WorkflowService.RespondWorkflowTaskCompleted:output_type -> temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse
-	116, // 116: temporal.api.workflowservice.v1.WorkflowService.RespondWorkflowTaskFailed:output_type -> temporal.api.workflowservice.v1.RespondWorkflowTaskFailedResponse
-	117, // 117: temporal.api.workflowservice.v1.WorkflowService.PollActivityTaskQueue:output_type -> temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
-	118, // 118: temporal.api.workflowservice.v1.WorkflowService.RecordActivityTaskHeartbeat:output_type -> temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatResponse
-	119, // 119: temporal.api.workflowservice.v1.WorkflowService.RecordActivityTaskHeartbeatById:output_type -> temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdResponse
-	120, // 120: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskCompleted:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskCompletedResponse
-	121, // 121: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskCompletedById:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskCompletedByIdResponse
-	122, // 122: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskFailed:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskFailedResponse
-	123, // 123: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskFailedById:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdResponse
-	124, // 124: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskCanceled:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskCanceledResponse
-	125, // 125: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskCanceledById:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdResponse
-	126, // 126: temporal.api.workflowservice.v1.WorkflowService.RequestCancelWorkflowExecution:output_type -> temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionResponse
-	127, // 127: temporal.api.workflowservice.v1.WorkflowService.SignalWorkflowExecution:output_type -> temporal.api.workflowservice.v1.SignalWorkflowExecutionResponse
-	128, // 128: temporal.api.workflowservice.v1.WorkflowService.SignalWithStartWorkflowExecution:output_type -> temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionResponse
-	129, // 129: temporal.api.workflowservice.v1.WorkflowService.ResetWorkflowExecution:output_type -> temporal.api.workflowservice.v1.ResetWorkflowExecutionResponse
-	130, // 130: temporal.api.workflowservice.v1.WorkflowService.TerminateWorkflowExecution:output_type -> temporal.api.workflowservice.v1.TerminateWorkflowExecutionResponse
-	131, // 131: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkflowExecution:output_type -> temporal.api.workflowservice.v1.DeleteWorkflowExecutionResponse
-	132, // 132: temporal.api.workflowservice.v1.WorkflowService.ListOpenWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsResponse
-	133, // 133: temporal.api.workflowservice.v1.WorkflowService.ListClosedWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsResponse
-	134, // 134: temporal.api.workflowservice.v1.WorkflowService.ListWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ListWorkflowExecutionsResponse
-	135, // 135: temporal.api.workflowservice.v1.WorkflowService.ListArchivedWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse
-	136, // 136: temporal.api.workflowservice.v1.WorkflowService.ScanWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse
-	137, // 137: temporal.api.workflowservice.v1.WorkflowService.CountWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse
-	138, // 138: temporal.api.workflowservice.v1.WorkflowService.GetSearchAttributes:output_type -> temporal.api.workflowservice.v1.GetSearchAttributesResponse
-	139, // 139: temporal.api.workflowservice.v1.WorkflowService.RespondQueryTaskCompleted:output_type -> temporal.api.workflowservice.v1.RespondQueryTaskCompletedResponse
-	140, // 140: temporal.api.workflowservice.v1.WorkflowService.ResetStickyTaskQueue:output_type -> temporal.api.workflowservice.v1.ResetStickyTaskQueueResponse
-	141, // 141: temporal.api.workflowservice.v1.WorkflowService.ShutdownWorker:output_type -> temporal.api.workflowservice.v1.ShutdownWorkerResponse
-	142, // 142: temporal.api.workflowservice.v1.WorkflowService.QueryWorkflow:output_type -> temporal.api.workflowservice.v1.QueryWorkflowResponse
-	143, // 143: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkflowExecution:output_type -> temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse
-	144, // 144: temporal.api.workflowservice.v1.WorkflowService.DescribeTaskQueue:output_type -> temporal.api.workflowservice.v1.DescribeTaskQueueResponse
-	145, // 145: temporal.api.workflowservice.v1.WorkflowService.GetClusterInfo:output_type -> temporal.api.workflowservice.v1.GetClusterInfoResponse
-	146, // 146: temporal.api.workflowservice.v1.WorkflowService.GetSystemInfo:output_type -> temporal.api.workflowservice.v1.GetSystemInfoResponse
-	147, // 147: temporal.api.workflowservice.v1.WorkflowService.ListTaskQueuePartitions:output_type -> temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse
-	148, // 148: temporal.api.workflowservice.v1.WorkflowService.CreateSchedule:output_type -> temporal.api.workflowservice.v1.CreateScheduleResponse
-	149, // 149: temporal.api.workflowservice.v1.WorkflowService.DescribeSchedule:output_type -> temporal.api.workflowservice.v1.DescribeScheduleResponse
-	150, // 150: temporal.api.workflowservice.v1.WorkflowService.UpdateSchedule:output_type -> temporal.api.workflowservice.v1.UpdateScheduleResponse
-	151, // 151: temporal.api.workflowservice.v1.WorkflowService.PatchSchedule:output_type -> temporal.api.workflowservice.v1.PatchScheduleResponse
-	152, // 152: temporal.api.workflowservice.v1.WorkflowService.ListScheduleMatchingTimes:output_type -> temporal.api.workflowservice.v1.ListScheduleMatchingTimesResponse
-	153, // 153: temporal.api.workflowservice.v1.WorkflowService.DeleteSchedule:output_type -> temporal.api.workflowservice.v1.DeleteScheduleResponse
-	154, // 154: temporal.api.workflowservice.v1.WorkflowService.ListSchedules:output_type -> temporal.api.workflowservice.v1.ListSchedulesResponse
-	155, // 155: temporal.api.workflowservice.v1.WorkflowService.CountSchedules:output_type -> temporal.api.workflowservice.v1.CountSchedulesResponse
-	156, // 156: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerBuildIdCompatibility:output_type -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityResponse
-	157, // 157: temporal.api.workflowservice.v1.WorkflowService.GetWorkerBuildIdCompatibility:output_type -> temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse
-	158, // 158: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerVersioningRules:output_type -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse
-	159, // 159: temporal.api.workflowservice.v1.WorkflowService.GetWorkerVersioningRules:output_type -> temporal.api.workflowservice.v1.GetWorkerVersioningRulesResponse
-	160, // 160: temporal.api.workflowservice.v1.WorkflowService.GetWorkerTaskReachability:output_type -> temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse
-	161, // 161: temporal.api.workflowservice.v1.WorkflowService.DescribeDeployment:output_type -> temporal.api.workflowservice.v1.DescribeDeploymentResponse
-	162, // 162: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkerDeploymentVersion:output_type -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse
-	163, // 163: temporal.api.workflowservice.v1.WorkflowService.ListDeployments:output_type -> temporal.api.workflowservice.v1.ListDeploymentsResponse
-	164, // 164: temporal.api.workflowservice.v1.WorkflowService.GetDeploymentReachability:output_type -> temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse
-	165, // 165: temporal.api.workflowservice.v1.WorkflowService.GetCurrentDeployment:output_type -> temporal.api.workflowservice.v1.GetCurrentDeploymentResponse
-	166, // 166: temporal.api.workflowservice.v1.WorkflowService.SetCurrentDeployment:output_type -> temporal.api.workflowservice.v1.SetCurrentDeploymentResponse
-	167, // 167: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentCurrentVersion:output_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentCurrentVersionResponse
-	168, // 168: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkerDeployment:output_type -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentResponse
-	169, // 169: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkerDeployment:output_type -> temporal.api.workflowservice.v1.DeleteWorkerDeploymentResponse
-	170, // 170: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkerDeploymentVersion:output_type -> temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionResponse
-	171, // 171: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentRampingVersion:output_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionResponse
-	172, // 172: temporal.api.workflowservice.v1.WorkflowService.ListWorkerDeployments:output_type -> temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse
-	173, // 173: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerDeploymentVersionMetadata:output_type -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataResponse
-	174, // 174: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentManager:output_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentManagerResponse
-	175, // 175: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkflowExecution:output_type -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
-	176, // 176: temporal.api.workflowservice.v1.WorkflowService.PollWorkflowExecutionUpdate:output_type -> temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse
-	177, // 177: temporal.api.workflowservice.v1.WorkflowService.StartBatchOperation:output_type -> temporal.api.workflowservice.v1.StartBatchOperationResponse
-	178, // 178: temporal.api.workflowservice.v1.WorkflowService.StopBatchOperation:output_type -> temporal.api.workflowservice.v1.StopBatchOperationResponse
-	179, // 179: temporal.api.workflowservice.v1.WorkflowService.DescribeBatchOperation:output_type -> temporal.api.workflowservice.v1.DescribeBatchOperationResponse
-	180, // 180: temporal.api.workflowservice.v1.WorkflowService.ListBatchOperations:output_type -> temporal.api.workflowservice.v1.ListBatchOperationsResponse
-	181, // 181: temporal.api.workflowservice.v1.WorkflowService.PollNexusTaskQueue:output_type -> temporal.api.workflowservice.v1.PollNexusTaskQueueResponse
-	182, // 182: temporal.api.workflowservice.v1.WorkflowService.RespondNexusTaskCompleted:output_type -> temporal.api.workflowservice.v1.RespondNexusTaskCompletedResponse
-	183, // 183: temporal.api.workflowservice.v1.WorkflowService.RespondNexusTaskFailed:output_type -> temporal.api.workflowservice.v1.RespondNexusTaskFailedResponse
-	184, // 184: temporal.api.workflowservice.v1.WorkflowService.UpdateActivityOptions:output_type -> temporal.api.workflowservice.v1.UpdateActivityOptionsResponse
-	185, // 185: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkflowExecutionOptions:output_type -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse
-	186, // 186: temporal.api.workflowservice.v1.WorkflowService.PauseActivity:output_type -> temporal.api.workflowservice.v1.PauseActivityResponse
-	187, // 187: temporal.api.workflowservice.v1.WorkflowService.UnpauseActivity:output_type -> temporal.api.workflowservice.v1.UnpauseActivityResponse
-	188, // 188: temporal.api.workflowservice.v1.WorkflowService.ResetActivity:output_type -> temporal.api.workflowservice.v1.ResetActivityResponse
-	189, // 189: temporal.api.workflowservice.v1.WorkflowService.CreateWorkflowRule:output_type -> temporal.api.workflowservice.v1.CreateWorkflowRuleResponse
-	190, // 190: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkflowRule:output_type -> temporal.api.workflowservice.v1.DescribeWorkflowRuleResponse
-	191, // 191: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkflowRule:output_type -> temporal.api.workflowservice.v1.DeleteWorkflowRuleResponse
-	192, // 192: temporal.api.workflowservice.v1.WorkflowService.ListWorkflowRules:output_type -> temporal.api.workflowservice.v1.ListWorkflowRulesResponse
-	193, // 193: temporal.api.workflowservice.v1.WorkflowService.TriggerWorkflowRule:output_type -> temporal.api.workflowservice.v1.TriggerWorkflowRuleResponse
-	194, // 194: temporal.api.workflowservice.v1.WorkflowService.RecordWorkerHeartbeat:output_type -> temporal.api.workflowservice.v1.RecordWorkerHeartbeatResponse
-	195, // 195: temporal.api.workflowservice.v1.WorkflowService.ListWorkers:output_type -> temporal.api.workflowservice.v1.ListWorkersResponse
-	196, // 196: temporal.api.workflowservice.v1.WorkflowService.UpdateTaskQueueConfig:output_type -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigResponse
-	197, // 197: temporal.api.workflowservice.v1.WorkflowService.FetchWorkerConfig:output_type -> temporal.api.workflowservice.v1.FetchWorkerConfigResponse
-	198, // 198: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerConfig:output_type -> temporal.api.workflowservice.v1.UpdateWorkerConfigResponse
-	199, // 199: temporal.api.workflowservice.v1.WorkflowService.DescribeWorker:output_type -> temporal.api.workflowservice.v1.DescribeWorkerResponse
-	200, // 200: temporal.api.workflowservice.v1.WorkflowService.PauseWorkflowExecution:output_type -> temporal.api.workflowservice.v1.PauseWorkflowExecutionResponse
-	201, // 201: temporal.api.workflowservice.v1.WorkflowService.UnpauseWorkflowExecution:output_type -> temporal.api.workflowservice.v1.UnpauseWorkflowExecutionResponse
-	202, // 202: temporal.api.workflowservice.v1.WorkflowService.StartActivityExecution:output_type -> temporal.api.workflowservice.v1.StartActivityExecutionResponse
-	203, // 203: temporal.api.workflowservice.v1.WorkflowService.DescribeActivityExecution:output_type -> temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
-	204, // 204: temporal.api.workflowservice.v1.WorkflowService.PollActivityExecution:output_type -> temporal.api.workflowservice.v1.PollActivityExecutionResponse
-	205, // 205: temporal.api.workflowservice.v1.WorkflowService.ListActivityExecutions:output_type -> temporal.api.workflowservice.v1.ListActivityExecutionsResponse
-	206, // 206: temporal.api.workflowservice.v1.WorkflowService.CountActivityExecutions:output_type -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse
-	207, // 207: temporal.api.workflowservice.v1.WorkflowService.RequestCancelActivityExecution:output_type -> temporal.api.workflowservice.v1.RequestCancelActivityExecutionResponse
-	208, // 208: temporal.api.workflowservice.v1.WorkflowService.TerminateActivityExecution:output_type -> temporal.api.workflowservice.v1.TerminateActivityExecutionResponse
-	209, // 209: temporal.api.workflowservice.v1.WorkflowService.DeleteActivityExecution:output_type -> temporal.api.workflowservice.v1.DeleteActivityExecutionResponse
-	105, // [105:210] is the sub-list for method output_type
-	0,   // [0:105] is the sub-list for method input_type
+	68,  // 68: temporal.api.workflowservice.v1.WorkflowService.CreateWorkerDeployment:input_type -> temporal.api.workflowservice.v1.CreateWorkerDeploymentRequest
+	69,  // 69: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerDeploymentVersionMetadata:input_type -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataRequest
+	70,  // 70: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentManager:input_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentManagerRequest
+	71,  // 71: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkflowExecution:input_type -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionRequest
+	72,  // 72: temporal.api.workflowservice.v1.WorkflowService.PollWorkflowExecutionUpdate:input_type -> temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateRequest
+	73,  // 73: temporal.api.workflowservice.v1.WorkflowService.StartBatchOperation:input_type -> temporal.api.workflowservice.v1.StartBatchOperationRequest
+	74,  // 74: temporal.api.workflowservice.v1.WorkflowService.StopBatchOperation:input_type -> temporal.api.workflowservice.v1.StopBatchOperationRequest
+	75,  // 75: temporal.api.workflowservice.v1.WorkflowService.DescribeBatchOperation:input_type -> temporal.api.workflowservice.v1.DescribeBatchOperationRequest
+	76,  // 76: temporal.api.workflowservice.v1.WorkflowService.ListBatchOperations:input_type -> temporal.api.workflowservice.v1.ListBatchOperationsRequest
+	77,  // 77: temporal.api.workflowservice.v1.WorkflowService.PollNexusTaskQueue:input_type -> temporal.api.workflowservice.v1.PollNexusTaskQueueRequest
+	78,  // 78: temporal.api.workflowservice.v1.WorkflowService.RespondNexusTaskCompleted:input_type -> temporal.api.workflowservice.v1.RespondNexusTaskCompletedRequest
+	79,  // 79: temporal.api.workflowservice.v1.WorkflowService.RespondNexusTaskFailed:input_type -> temporal.api.workflowservice.v1.RespondNexusTaskFailedRequest
+	80,  // 80: temporal.api.workflowservice.v1.WorkflowService.UpdateActivityOptions:input_type -> temporal.api.workflowservice.v1.UpdateActivityOptionsRequest
+	81,  // 81: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkflowExecutionOptions:input_type -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest
+	82,  // 82: temporal.api.workflowservice.v1.WorkflowService.PauseActivity:input_type -> temporal.api.workflowservice.v1.PauseActivityRequest
+	83,  // 83: temporal.api.workflowservice.v1.WorkflowService.UnpauseActivity:input_type -> temporal.api.workflowservice.v1.UnpauseActivityRequest
+	84,  // 84: temporal.api.workflowservice.v1.WorkflowService.ResetActivity:input_type -> temporal.api.workflowservice.v1.ResetActivityRequest
+	85,  // 85: temporal.api.workflowservice.v1.WorkflowService.CreateWorkflowRule:input_type -> temporal.api.workflowservice.v1.CreateWorkflowRuleRequest
+	86,  // 86: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkflowRule:input_type -> temporal.api.workflowservice.v1.DescribeWorkflowRuleRequest
+	87,  // 87: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkflowRule:input_type -> temporal.api.workflowservice.v1.DeleteWorkflowRuleRequest
+	88,  // 88: temporal.api.workflowservice.v1.WorkflowService.ListWorkflowRules:input_type -> temporal.api.workflowservice.v1.ListWorkflowRulesRequest
+	89,  // 89: temporal.api.workflowservice.v1.WorkflowService.TriggerWorkflowRule:input_type -> temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest
+	90,  // 90: temporal.api.workflowservice.v1.WorkflowService.RecordWorkerHeartbeat:input_type -> temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest
+	91,  // 91: temporal.api.workflowservice.v1.WorkflowService.ListWorkers:input_type -> temporal.api.workflowservice.v1.ListWorkersRequest
+	92,  // 92: temporal.api.workflowservice.v1.WorkflowService.UpdateTaskQueueConfig:input_type -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest
+	93,  // 93: temporal.api.workflowservice.v1.WorkflowService.FetchWorkerConfig:input_type -> temporal.api.workflowservice.v1.FetchWorkerConfigRequest
+	94,  // 94: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerConfig:input_type -> temporal.api.workflowservice.v1.UpdateWorkerConfigRequest
+	95,  // 95: temporal.api.workflowservice.v1.WorkflowService.DescribeWorker:input_type -> temporal.api.workflowservice.v1.DescribeWorkerRequest
+	96,  // 96: temporal.api.workflowservice.v1.WorkflowService.PauseWorkflowExecution:input_type -> temporal.api.workflowservice.v1.PauseWorkflowExecutionRequest
+	97,  // 97: temporal.api.workflowservice.v1.WorkflowService.UnpauseWorkflowExecution:input_type -> temporal.api.workflowservice.v1.UnpauseWorkflowExecutionRequest
+	98,  // 98: temporal.api.workflowservice.v1.WorkflowService.StartActivityExecution:input_type -> temporal.api.workflowservice.v1.StartActivityExecutionRequest
+	99,  // 99: temporal.api.workflowservice.v1.WorkflowService.DescribeActivityExecution:input_type -> temporal.api.workflowservice.v1.DescribeActivityExecutionRequest
+	100, // 100: temporal.api.workflowservice.v1.WorkflowService.PollActivityExecution:input_type -> temporal.api.workflowservice.v1.PollActivityExecutionRequest
+	101, // 101: temporal.api.workflowservice.v1.WorkflowService.ListActivityExecutions:input_type -> temporal.api.workflowservice.v1.ListActivityExecutionsRequest
+	102, // 102: temporal.api.workflowservice.v1.WorkflowService.CountActivityExecutions:input_type -> temporal.api.workflowservice.v1.CountActivityExecutionsRequest
+	103, // 103: temporal.api.workflowservice.v1.WorkflowService.RequestCancelActivityExecution:input_type -> temporal.api.workflowservice.v1.RequestCancelActivityExecutionRequest
+	104, // 104: temporal.api.workflowservice.v1.WorkflowService.TerminateActivityExecution:input_type -> temporal.api.workflowservice.v1.TerminateActivityExecutionRequest
+	105, // 105: temporal.api.workflowservice.v1.WorkflowService.DeleteActivityExecution:input_type -> temporal.api.workflowservice.v1.DeleteActivityExecutionRequest
+	106, // 106: temporal.api.workflowservice.v1.WorkflowService.RegisterNamespace:output_type -> temporal.api.workflowservice.v1.RegisterNamespaceResponse
+	107, // 107: temporal.api.workflowservice.v1.WorkflowService.DescribeNamespace:output_type -> temporal.api.workflowservice.v1.DescribeNamespaceResponse
+	108, // 108: temporal.api.workflowservice.v1.WorkflowService.ListNamespaces:output_type -> temporal.api.workflowservice.v1.ListNamespacesResponse
+	109, // 109: temporal.api.workflowservice.v1.WorkflowService.UpdateNamespace:output_type -> temporal.api.workflowservice.v1.UpdateNamespaceResponse
+	110, // 110: temporal.api.workflowservice.v1.WorkflowService.DeprecateNamespace:output_type -> temporal.api.workflowservice.v1.DeprecateNamespaceResponse
+	111, // 111: temporal.api.workflowservice.v1.WorkflowService.StartWorkflowExecution:output_type -> temporal.api.workflowservice.v1.StartWorkflowExecutionResponse
+	112, // 112: temporal.api.workflowservice.v1.WorkflowService.ExecuteMultiOperation:output_type -> temporal.api.workflowservice.v1.ExecuteMultiOperationResponse
+	113, // 113: temporal.api.workflowservice.v1.WorkflowService.GetWorkflowExecutionHistory:output_type -> temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryResponse
+	114, // 114: temporal.api.workflowservice.v1.WorkflowService.GetWorkflowExecutionHistoryReverse:output_type -> temporal.api.workflowservice.v1.GetWorkflowExecutionHistoryReverseResponse
+	115, // 115: temporal.api.workflowservice.v1.WorkflowService.PollWorkflowTaskQueue:output_type -> temporal.api.workflowservice.v1.PollWorkflowTaskQueueResponse
+	116, // 116: temporal.api.workflowservice.v1.WorkflowService.RespondWorkflowTaskCompleted:output_type -> temporal.api.workflowservice.v1.RespondWorkflowTaskCompletedResponse
+	117, // 117: temporal.api.workflowservice.v1.WorkflowService.RespondWorkflowTaskFailed:output_type -> temporal.api.workflowservice.v1.RespondWorkflowTaskFailedResponse
+	118, // 118: temporal.api.workflowservice.v1.WorkflowService.PollActivityTaskQueue:output_type -> temporal.api.workflowservice.v1.PollActivityTaskQueueResponse
+	119, // 119: temporal.api.workflowservice.v1.WorkflowService.RecordActivityTaskHeartbeat:output_type -> temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatResponse
+	120, // 120: temporal.api.workflowservice.v1.WorkflowService.RecordActivityTaskHeartbeatById:output_type -> temporal.api.workflowservice.v1.RecordActivityTaskHeartbeatByIdResponse
+	121, // 121: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskCompleted:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskCompletedResponse
+	122, // 122: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskCompletedById:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskCompletedByIdResponse
+	123, // 123: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskFailed:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskFailedResponse
+	124, // 124: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskFailedById:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskFailedByIdResponse
+	125, // 125: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskCanceled:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskCanceledResponse
+	126, // 126: temporal.api.workflowservice.v1.WorkflowService.RespondActivityTaskCanceledById:output_type -> temporal.api.workflowservice.v1.RespondActivityTaskCanceledByIdResponse
+	127, // 127: temporal.api.workflowservice.v1.WorkflowService.RequestCancelWorkflowExecution:output_type -> temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionResponse
+	128, // 128: temporal.api.workflowservice.v1.WorkflowService.SignalWorkflowExecution:output_type -> temporal.api.workflowservice.v1.SignalWorkflowExecutionResponse
+	129, // 129: temporal.api.workflowservice.v1.WorkflowService.SignalWithStartWorkflowExecution:output_type -> temporal.api.workflowservice.v1.SignalWithStartWorkflowExecutionResponse
+	130, // 130: temporal.api.workflowservice.v1.WorkflowService.ResetWorkflowExecution:output_type -> temporal.api.workflowservice.v1.ResetWorkflowExecutionResponse
+	131, // 131: temporal.api.workflowservice.v1.WorkflowService.TerminateWorkflowExecution:output_type -> temporal.api.workflowservice.v1.TerminateWorkflowExecutionResponse
+	132, // 132: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkflowExecution:output_type -> temporal.api.workflowservice.v1.DeleteWorkflowExecutionResponse
+	133, // 133: temporal.api.workflowservice.v1.WorkflowService.ListOpenWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ListOpenWorkflowExecutionsResponse
+	134, // 134: temporal.api.workflowservice.v1.WorkflowService.ListClosedWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ListClosedWorkflowExecutionsResponse
+	135, // 135: temporal.api.workflowservice.v1.WorkflowService.ListWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ListWorkflowExecutionsResponse
+	136, // 136: temporal.api.workflowservice.v1.WorkflowService.ListArchivedWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ListArchivedWorkflowExecutionsResponse
+	137, // 137: temporal.api.workflowservice.v1.WorkflowService.ScanWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.ScanWorkflowExecutionsResponse
+	138, // 138: temporal.api.workflowservice.v1.WorkflowService.CountWorkflowExecutions:output_type -> temporal.api.workflowservice.v1.CountWorkflowExecutionsResponse
+	139, // 139: temporal.api.workflowservice.v1.WorkflowService.GetSearchAttributes:output_type -> temporal.api.workflowservice.v1.GetSearchAttributesResponse
+	140, // 140: temporal.api.workflowservice.v1.WorkflowService.RespondQueryTaskCompleted:output_type -> temporal.api.workflowservice.v1.RespondQueryTaskCompletedResponse
+	141, // 141: temporal.api.workflowservice.v1.WorkflowService.ResetStickyTaskQueue:output_type -> temporal.api.workflowservice.v1.ResetStickyTaskQueueResponse
+	142, // 142: temporal.api.workflowservice.v1.WorkflowService.ShutdownWorker:output_type -> temporal.api.workflowservice.v1.ShutdownWorkerResponse
+	143, // 143: temporal.api.workflowservice.v1.WorkflowService.QueryWorkflow:output_type -> temporal.api.workflowservice.v1.QueryWorkflowResponse
+	144, // 144: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkflowExecution:output_type -> temporal.api.workflowservice.v1.DescribeWorkflowExecutionResponse
+	145, // 145: temporal.api.workflowservice.v1.WorkflowService.DescribeTaskQueue:output_type -> temporal.api.workflowservice.v1.DescribeTaskQueueResponse
+	146, // 146: temporal.api.workflowservice.v1.WorkflowService.GetClusterInfo:output_type -> temporal.api.workflowservice.v1.GetClusterInfoResponse
+	147, // 147: temporal.api.workflowservice.v1.WorkflowService.GetSystemInfo:output_type -> temporal.api.workflowservice.v1.GetSystemInfoResponse
+	148, // 148: temporal.api.workflowservice.v1.WorkflowService.ListTaskQueuePartitions:output_type -> temporal.api.workflowservice.v1.ListTaskQueuePartitionsResponse
+	149, // 149: temporal.api.workflowservice.v1.WorkflowService.CreateSchedule:output_type -> temporal.api.workflowservice.v1.CreateScheduleResponse
+	150, // 150: temporal.api.workflowservice.v1.WorkflowService.DescribeSchedule:output_type -> temporal.api.workflowservice.v1.DescribeScheduleResponse
+	151, // 151: temporal.api.workflowservice.v1.WorkflowService.UpdateSchedule:output_type -> temporal.api.workflowservice.v1.UpdateScheduleResponse
+	152, // 152: temporal.api.workflowservice.v1.WorkflowService.PatchSchedule:output_type -> temporal.api.workflowservice.v1.PatchScheduleResponse
+	153, // 153: temporal.api.workflowservice.v1.WorkflowService.ListScheduleMatchingTimes:output_type -> temporal.api.workflowservice.v1.ListScheduleMatchingTimesResponse
+	154, // 154: temporal.api.workflowservice.v1.WorkflowService.DeleteSchedule:output_type -> temporal.api.workflowservice.v1.DeleteScheduleResponse
+	155, // 155: temporal.api.workflowservice.v1.WorkflowService.ListSchedules:output_type -> temporal.api.workflowservice.v1.ListSchedulesResponse
+	156, // 156: temporal.api.workflowservice.v1.WorkflowService.CountSchedules:output_type -> temporal.api.workflowservice.v1.CountSchedulesResponse
+	157, // 157: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerBuildIdCompatibility:output_type -> temporal.api.workflowservice.v1.UpdateWorkerBuildIdCompatibilityResponse
+	158, // 158: temporal.api.workflowservice.v1.WorkflowService.GetWorkerBuildIdCompatibility:output_type -> temporal.api.workflowservice.v1.GetWorkerBuildIdCompatibilityResponse
+	159, // 159: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerVersioningRules:output_type -> temporal.api.workflowservice.v1.UpdateWorkerVersioningRulesResponse
+	160, // 160: temporal.api.workflowservice.v1.WorkflowService.GetWorkerVersioningRules:output_type -> temporal.api.workflowservice.v1.GetWorkerVersioningRulesResponse
+	161, // 161: temporal.api.workflowservice.v1.WorkflowService.GetWorkerTaskReachability:output_type -> temporal.api.workflowservice.v1.GetWorkerTaskReachabilityResponse
+	162, // 162: temporal.api.workflowservice.v1.WorkflowService.DescribeDeployment:output_type -> temporal.api.workflowservice.v1.DescribeDeploymentResponse
+	163, // 163: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkerDeploymentVersion:output_type -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentVersionResponse
+	164, // 164: temporal.api.workflowservice.v1.WorkflowService.ListDeployments:output_type -> temporal.api.workflowservice.v1.ListDeploymentsResponse
+	165, // 165: temporal.api.workflowservice.v1.WorkflowService.GetDeploymentReachability:output_type -> temporal.api.workflowservice.v1.GetDeploymentReachabilityResponse
+	166, // 166: temporal.api.workflowservice.v1.WorkflowService.GetCurrentDeployment:output_type -> temporal.api.workflowservice.v1.GetCurrentDeploymentResponse
+	167, // 167: temporal.api.workflowservice.v1.WorkflowService.SetCurrentDeployment:output_type -> temporal.api.workflowservice.v1.SetCurrentDeploymentResponse
+	168, // 168: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentCurrentVersion:output_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentCurrentVersionResponse
+	169, // 169: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkerDeployment:output_type -> temporal.api.workflowservice.v1.DescribeWorkerDeploymentResponse
+	170, // 170: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkerDeployment:output_type -> temporal.api.workflowservice.v1.DeleteWorkerDeploymentResponse
+	171, // 171: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkerDeploymentVersion:output_type -> temporal.api.workflowservice.v1.DeleteWorkerDeploymentVersionResponse
+	172, // 172: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentRampingVersion:output_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentRampingVersionResponse
+	173, // 173: temporal.api.workflowservice.v1.WorkflowService.ListWorkerDeployments:output_type -> temporal.api.workflowservice.v1.ListWorkerDeploymentsResponse
+	174, // 174: temporal.api.workflowservice.v1.WorkflowService.CreateWorkerDeployment:output_type -> temporal.api.workflowservice.v1.CreateWorkerDeploymentResponse
+	175, // 175: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerDeploymentVersionMetadata:output_type -> temporal.api.workflowservice.v1.UpdateWorkerDeploymentVersionMetadataResponse
+	176, // 176: temporal.api.workflowservice.v1.WorkflowService.SetWorkerDeploymentManager:output_type -> temporal.api.workflowservice.v1.SetWorkerDeploymentManagerResponse
+	177, // 177: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkflowExecution:output_type -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionResponse
+	178, // 178: temporal.api.workflowservice.v1.WorkflowService.PollWorkflowExecutionUpdate:output_type -> temporal.api.workflowservice.v1.PollWorkflowExecutionUpdateResponse
+	179, // 179: temporal.api.workflowservice.v1.WorkflowService.StartBatchOperation:output_type -> temporal.api.workflowservice.v1.StartBatchOperationResponse
+	180, // 180: temporal.api.workflowservice.v1.WorkflowService.StopBatchOperation:output_type -> temporal.api.workflowservice.v1.StopBatchOperationResponse
+	181, // 181: temporal.api.workflowservice.v1.WorkflowService.DescribeBatchOperation:output_type -> temporal.api.workflowservice.v1.DescribeBatchOperationResponse
+	182, // 182: temporal.api.workflowservice.v1.WorkflowService.ListBatchOperations:output_type -> temporal.api.workflowservice.v1.ListBatchOperationsResponse
+	183, // 183: temporal.api.workflowservice.v1.WorkflowService.PollNexusTaskQueue:output_type -> temporal.api.workflowservice.v1.PollNexusTaskQueueResponse
+	184, // 184: temporal.api.workflowservice.v1.WorkflowService.RespondNexusTaskCompleted:output_type -> temporal.api.workflowservice.v1.RespondNexusTaskCompletedResponse
+	185, // 185: temporal.api.workflowservice.v1.WorkflowService.RespondNexusTaskFailed:output_type -> temporal.api.workflowservice.v1.RespondNexusTaskFailedResponse
+	186, // 186: temporal.api.workflowservice.v1.WorkflowService.UpdateActivityOptions:output_type -> temporal.api.workflowservice.v1.UpdateActivityOptionsResponse
+	187, // 187: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkflowExecutionOptions:output_type -> temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsResponse
+	188, // 188: temporal.api.workflowservice.v1.WorkflowService.PauseActivity:output_type -> temporal.api.workflowservice.v1.PauseActivityResponse
+	189, // 189: temporal.api.workflowservice.v1.WorkflowService.UnpauseActivity:output_type -> temporal.api.workflowservice.v1.UnpauseActivityResponse
+	190, // 190: temporal.api.workflowservice.v1.WorkflowService.ResetActivity:output_type -> temporal.api.workflowservice.v1.ResetActivityResponse
+	191, // 191: temporal.api.workflowservice.v1.WorkflowService.CreateWorkflowRule:output_type -> temporal.api.workflowservice.v1.CreateWorkflowRuleResponse
+	192, // 192: temporal.api.workflowservice.v1.WorkflowService.DescribeWorkflowRule:output_type -> temporal.api.workflowservice.v1.DescribeWorkflowRuleResponse
+	193, // 193: temporal.api.workflowservice.v1.WorkflowService.DeleteWorkflowRule:output_type -> temporal.api.workflowservice.v1.DeleteWorkflowRuleResponse
+	194, // 194: temporal.api.workflowservice.v1.WorkflowService.ListWorkflowRules:output_type -> temporal.api.workflowservice.v1.ListWorkflowRulesResponse
+	195, // 195: temporal.api.workflowservice.v1.WorkflowService.TriggerWorkflowRule:output_type -> temporal.api.workflowservice.v1.TriggerWorkflowRuleResponse
+	196, // 196: temporal.api.workflowservice.v1.WorkflowService.RecordWorkerHeartbeat:output_type -> temporal.api.workflowservice.v1.RecordWorkerHeartbeatResponse
+	197, // 197: temporal.api.workflowservice.v1.WorkflowService.ListWorkers:output_type -> temporal.api.workflowservice.v1.ListWorkersResponse
+	198, // 198: temporal.api.workflowservice.v1.WorkflowService.UpdateTaskQueueConfig:output_type -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigResponse
+	199, // 199: temporal.api.workflowservice.v1.WorkflowService.FetchWorkerConfig:output_type -> temporal.api.workflowservice.v1.FetchWorkerConfigResponse
+	200, // 200: temporal.api.workflowservice.v1.WorkflowService.UpdateWorkerConfig:output_type -> temporal.api.workflowservice.v1.UpdateWorkerConfigResponse
+	201, // 201: temporal.api.workflowservice.v1.WorkflowService.DescribeWorker:output_type -> temporal.api.workflowservice.v1.DescribeWorkerResponse
+	202, // 202: temporal.api.workflowservice.v1.WorkflowService.PauseWorkflowExecution:output_type -> temporal.api.workflowservice.v1.PauseWorkflowExecutionResponse
+	203, // 203: temporal.api.workflowservice.v1.WorkflowService.UnpauseWorkflowExecution:output_type -> temporal.api.workflowservice.v1.UnpauseWorkflowExecutionResponse
+	204, // 204: temporal.api.workflowservice.v1.WorkflowService.StartActivityExecution:output_type -> temporal.api.workflowservice.v1.StartActivityExecutionResponse
+	205, // 205: temporal.api.workflowservice.v1.WorkflowService.DescribeActivityExecution:output_type -> temporal.api.workflowservice.v1.DescribeActivityExecutionResponse
+	206, // 206: temporal.api.workflowservice.v1.WorkflowService.PollActivityExecution:output_type -> temporal.api.workflowservice.v1.PollActivityExecutionResponse
+	207, // 207: temporal.api.workflowservice.v1.WorkflowService.ListActivityExecutions:output_type -> temporal.api.workflowservice.v1.ListActivityExecutionsResponse
+	208, // 208: temporal.api.workflowservice.v1.WorkflowService.CountActivityExecutions:output_type -> temporal.api.workflowservice.v1.CountActivityExecutionsResponse
+	209, // 209: temporal.api.workflowservice.v1.WorkflowService.RequestCancelActivityExecution:output_type -> temporal.api.workflowservice.v1.RequestCancelActivityExecutionResponse
+	210, // 210: temporal.api.workflowservice.v1.WorkflowService.TerminateActivityExecution:output_type -> temporal.api.workflowservice.v1.TerminateActivityExecutionResponse
+	211, // 211: temporal.api.workflowservice.v1.WorkflowService.DeleteActivityExecution:output_type -> temporal.api.workflowservice.v1.DeleteActivityExecutionResponse
+	106, // [106:212] is the sub-list for method output_type
+	0,   // [0:106] is the sub-list for method input_type
 	0,   // [0:0] is the sub-list for extension type_name
 	0,   // [0:0] is the sub-list for extension extendee
 	0,   // [0:0] is the sub-list for field type_name

@@ -116,6 +116,26 @@ func (mr *MockWorkflowServiceClientMockRecorder) CreateSchedule(ctx, in interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSchedule", reflect.TypeOf((*MockWorkflowServiceClient)(nil).CreateSchedule), varargs...)
 }
 
+// CreateWorkerDeployment mocks base method.
+func (m *MockWorkflowServiceClient) CreateWorkerDeployment(ctx context.Context, in *workflowservice.CreateWorkerDeploymentRequest, opts ...grpc.CallOption) (*workflowservice.CreateWorkerDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateWorkerDeployment", varargs...)
+	ret0, _ := ret[0].(*workflowservice.CreateWorkerDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateWorkerDeployment indicates an expected call of CreateWorkerDeployment.
+func (mr *MockWorkflowServiceClientMockRecorder) CreateWorkerDeployment(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateWorkerDeployment", reflect.TypeOf((*MockWorkflowServiceClient)(nil).CreateWorkerDeployment), varargs...)
+}
+
 // CreateWorkflowRule mocks base method.
 func (m *MockWorkflowServiceClient) CreateWorkflowRule(ctx context.Context, in *workflowservice.CreateWorkflowRuleRequest, opts ...grpc.CallOption) (*workflowservice.CreateWorkflowRuleResponse, error) {
 	m.ctrl.T.Helper()
@@ -2220,6 +2240,21 @@ func (m *MockWorkflowServiceServer) CreateSchedule(arg0 context.Context, arg1 *w
 func (mr *MockWorkflowServiceServerMockRecorder) CreateSchedule(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSchedule", reflect.TypeOf((*MockWorkflowServiceServer)(nil).CreateSchedule), arg0, arg1)
+}
+
+// CreateWorkerDeployment mocks base method.
+func (m *MockWorkflowServiceServer) CreateWorkerDeployment(arg0 context.Context, arg1 *workflowservice.CreateWorkerDeploymentRequest) (*workflowservice.CreateWorkerDeploymentResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateWorkerDeployment", arg0, arg1)
+	ret0, _ := ret[0].(*workflowservice.CreateWorkerDeploymentResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateWorkerDeployment indicates an expected call of CreateWorkerDeployment.
+func (mr *MockWorkflowServiceServerMockRecorder) CreateWorkerDeployment(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateWorkerDeployment", reflect.TypeOf((*MockWorkflowServiceServer)(nil).CreateWorkerDeployment), arg0, arg1)
 }
 
 // CreateWorkflowRule mocks base method.

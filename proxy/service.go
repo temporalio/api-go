@@ -48,6 +48,10 @@ func (s *workflowServiceProxyServer) CreateSchedule(ctx context.Context, in0 *wo
 	return s.client.CreateSchedule(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) CreateWorkerDeployment(ctx context.Context, in0 *workflowservice.CreateWorkerDeploymentRequest) (*workflowservice.CreateWorkerDeploymentResponse, error) {
+	return s.client.CreateWorkerDeployment(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) CreateWorkflowRule(ctx context.Context, in0 *workflowservice.CreateWorkflowRuleRequest) (*workflowservice.CreateWorkflowRuleResponse, error) {
 	return s.client.CreateWorkflowRule(s.reqCtx(ctx), in0)
 }

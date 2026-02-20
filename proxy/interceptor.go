@@ -11,6 +11,7 @@ import (
 	"go.temporal.io/api/batch/v1"
 	"go.temporal.io/api/command/v1"
 	"go.temporal.io/api/common/v1"
+	"go.temporal.io/api/compute/v1"
 	"go.temporal.io/api/deployment/v1"
 	"go.temporal.io/api/errordetails/v1"
 	"go.temporal.io/api/export/v1"
@@ -677,6 +678,35 @@ func visitPayloads(
 				return err
 			}
 
+		case *compute.ComputeConfig:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetProvider(),
+			); err != nil {
+				return err
+			}
+
+		case *compute.ComputeProvider:
+
+			if o == nil {
+				continue
+			}
+
+			if dp := o.GetDetailPayload(); dp != nil {
+				no, err := visitPayload(ctx, options, o, dp)
+				if err != nil {
+					return err
+				}
+				o.Detail = &compute.ComputeProvider_DetailPayload{DetailPayload: no}
+			}
+
 		case *deployment.DeploymentInfo:
 
 			if o == nil {
@@ -718,6 +748,21 @@ func visitPayloads(
 				options,
 				o,
 				o.GetEntries(),
+			); err != nil {
+				return err
+			}
+
+		case *deployment.WorkerDeploymentInfo:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfig(),
 			); err != nil {
 				return err
 			}
@@ -2252,6 +2297,21 @@ func visitPayloads(
 				return err
 			}
 
+		case *workflowservice.CreateWorkerDeploymentRequest:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetComputeConfig(),
+			); err != nil {
+				return err
+			}
+
 		case *workflowservice.DescribeActivityExecutionResponse:
 
 			if o == nil {
@@ -2297,6 +2357,21 @@ func visitPayloads(
 				o.GetMemo(),
 				o.GetSchedule(),
 				o.GetSearchAttributes(),
+			); err != nil {
+				return err
+			}
+
+		case *workflowservice.DescribeWorkerDeploymentResponse:
+
+			if o == nil {
+				continue
+			}
+
+			if err := visitPayloads(
+				ctx,
+				options,
+				o,
+				o.GetWorkerDeploymentInfo(),
 			); err != nil {
 				return err
 			}
