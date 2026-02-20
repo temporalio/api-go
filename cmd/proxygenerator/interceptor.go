@@ -347,6 +347,13 @@ func visitPayloads(
 					o.{{.}} = no
 				}
 				{{end}}
+				{{range $record.OneofPayloads -}}
+				if dp := o.Get{{.Field}}(); dp != nil {
+					no, err := visitPayload(ctx, options, o, dp)
+					if err != nil { return err }
+					o.{{.OneofVar}} = &{{.Wrapper}}{{"{"}}{{.Field}}: no{{"}"}}
+				}
+				{{end}}
 				{{if $record.Methods}}
 				if err := visitPayloads(
 					ctx,
@@ -427,13 +434,21 @@ type TemplateInput struct {
 	GrpcFailure  []string
 }
 
+// OneofPayload holds info needed to read/write a Payload field that lives inside a protobuf oneof.
+type OneofPayload struct {
+	Field    string // e.g. "DetailPayload" (stripped from GetDetailPayload)
+	OneofVar string // e.g. "Detail"       (the exported oneof interface field on the struct)
+	Wrapper  string // e.g. "compute.ComputeProvider_DetailPayload" (the oneof wrapper type)
+}
+
 // TypeRecord holds the state for a type referred to by the workflow service
 type TypeRecord struct {
-	Methods  []string // List of methods on this type that can eventually lead to Payload(s)
-	Payloads []string // List of attributes on this type that are of type Payload
-	Slice    bool     // The API refers to slices of this type
-	Map      bool     // The API refers to maps with this type as the value
-	Matches  bool     // We found methods on this type that can eventually lead to Payload(s)
+	Methods       []string       // List of methods on this type that can eventually lead to Payload(s)
+	Payloads      []string       // List of direct struct fields on this type that are of type Payload
+	OneofPayloads []OneofPayload // List of oneof-wrapped Payload fields on this type
+	Slice         bool           // The API refers to slices of this type
+	Map           bool           // The API refers to maps with this type as the value
+	Matches       bool           // We found methods on this type that can eventually lead to Payload(s)
 }
 
 // isSlice returns true if a type is slice, false otherwise
@@ -675,6 +690,58 @@ func gatherMatchesToTypeRecords(
 	return matchingRecords, nil
 }
 
+// findOneofInfo checks whether fieldName is a oneof-wrapped field on typ rather than a direct
+// struct field. If so it returns the exported oneof variable name (e.g. "Detail") and the
+// fully-qualified Go wrapper type (e.g. "compute.ComputeProvider_DetailPayload").
+func findOneofInfo(typ types.Type, fieldName string) (oneofVar, wrapper string, isOneof bool) {
+	namedType, ok := resolveType(typ).(*types.Named)
+	if !ok {
+		return "", "", false
+	}
+	structType, ok := namedType.Underlying().(*types.Struct)
+	if !ok {
+		return "", "", false
+	}
+
+	// If fieldName is a direct field on the struct it is not a oneof.
+	for i := 0; i < structType.NumFields(); i++ {
+		if structType.Field(i).Name() == fieldName {
+			return "", "", false
+		}
+	}
+
+	// fieldName is not a direct field – look for the oneof wrapper type.
+	// Protobuf-generated Go code names wrapper types as {ParentType}_{FieldName}.
+	pkg := namedType.Obj().Pkg()
+	if pkg == nil {
+		return "", "", false
+	}
+	wrapperObjName := namedType.Obj().Name() + "_" + fieldName
+	wrapperObj := pkg.Scope().Lookup(wrapperObjName)
+	if wrapperObj == nil {
+		return "", "", false
+	}
+	wrapperNamed, ok := wrapperObj.Type().(*types.Named)
+	if !ok {
+		return "", "", false
+	}
+	wrapperPtr := types.NewPointer(wrapperNamed)
+
+	// Find which interface-typed field in the struct this wrapper implements; that is the oneof var.
+	for i := 0; i < structType.NumFields(); i++ {
+		field := structType.Field(i)
+		iface, ok := field.Type().Underlying().(*types.Interface)
+		if !ok {
+			continue
+		}
+		if types.Implements(wrapperPtr, iface) {
+			return field.Name(), pkg.Name() + "." + wrapperObjName, true
+		}
+	}
+
+	return "", "", false
+}
+
 // walk iterates the methods on a type and returns whether any of them can eventually lead the
 // desired type(s). The return type for each method on this type is walked recursively to decide
 // which methods can lead to the desired type.
@@ -740,7 +807,15 @@ func walk(desired []types.Type, directMatchTypes []types.Type, typ types.Type, r
 			if !ok {
 				panic(fmt.Errorf("expected method to have a Get prefix: %s", methodName))
 			}
-			record.Payloads = append(record.Payloads, prefix)
+			if oneofVar, wrapperType, isOneof := findOneofInfo(typ, prefix); isOneof {
+				record.OneofPayloads = append(record.OneofPayloads, OneofPayload{
+					Field:    prefix,
+					OneofVar: oneofVar,
+					Wrapper:  wrapperType,
+				})
+			} else {
+				record.Payloads = append(record.Payloads, prefix)
+			}
 			continue
 		}
 
