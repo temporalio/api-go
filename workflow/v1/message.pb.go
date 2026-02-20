@@ -606,7 +606,7 @@ type WorkflowExecutionVersioningInfo struct {
 	// face the problem of inconsistent dispatching that arises from eventual consistency between
 	// task queues and their partitions.
 	RevisionNumber int64 `protobuf:"varint,8,opt,name=revision_number,json=revisionNumber,proto3" json:"revision_number,omitempty"`
-	// The target deployment version (from the task queue's routing config) observed on the
+	// The target Worker Deployment Version (from the task queue's routing config) observed on the
 	// very first workflow task of this run. On each subsequent workflow task, this value is
 	// compared against the current target deployment version, which is fetched from the task queue's routing config,
 	// to compute the `target_worker_deployment_version_changed` flag in WorkflowTaskStartedEvent. That
@@ -616,9 +616,9 @@ type WorkflowExecutionVersioningInfo struct {
 	// pinned workflows permanently differs from the routing target after a version change,
 	// causing the flag to stay true indefinitely and triggering infinite continue-as-new
 	// loops.
-	TargetVersionOnStart *v12.WorkerDeploymentVersion `protobuf:"bytes,9,opt,name=target_version_on_start,json=targetVersionOnStart,proto3" json:"target_version_on_start,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	TargetWorkerDeploymentVersionOnStart *v12.WorkerDeploymentVersion `protobuf:"bytes,9,opt,name=target_worker_deployment_version_on_start,json=targetWorkerDeploymentVersionOnStart,proto3" json:"target_worker_deployment_version_on_start,omitempty"`
+	unknownFields                        protoimpl.UnknownFields
+	sizeCache                            protoimpl.SizeCache
 }
 
 func (x *WorkflowExecutionVersioningInfo) Reset() {
@@ -710,9 +710,9 @@ func (x *WorkflowExecutionVersioningInfo) GetRevisionNumber() int64 {
 	return 0
 }
 
-func (x *WorkflowExecutionVersioningInfo) GetTargetVersionOnStart() *v12.WorkerDeploymentVersion {
+func (x *WorkflowExecutionVersioningInfo) GetTargetWorkerDeploymentVersionOnStart() *v12.WorkerDeploymentVersion {
 	if x != nil {
-		return x.TargetVersionOnStart
+		return x.TargetWorkerDeploymentVersionOnStart
 	}
 	return nil
 }
@@ -3155,7 +3155,7 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"pause_info\x18\b \x01(\v24.temporal.api.workflow.v1.WorkflowExecutionPauseInfoR\tpauseInfo\x1aj\n" +
 	"\x13RequestIdInfosEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12=\n" +
-	"\x05value\x18\x02 \x01(\v2'.temporal.api.workflow.v1.RequestIdInfoR\x05value:\x028\x01\"\xf9\x05\n" +
+	"\x05value\x18\x02 \x01(\v2'.temporal.api.workflow.v1.RequestIdInfoR\x05value:\x028\x01\"\x9c\x06\n" +
 	"\x1fWorkflowExecutionVersioningInfo\x12E\n" +
 	"\bbehavior\x18\x01 \x01(\x0e2).temporal.api.enums.v1.VersioningBehaviorR\bbehavior\x12J\n" +
 	"\n" +
@@ -3166,8 +3166,8 @@ const file_temporal_api_workflow_v1_message_proto_rawDesc = "" +
 	"\x13versioning_override\x18\x03 \x01(\v2,.temporal.api.workflow.v1.VersioningOverrideR\x12versioningOverride\x12g\n" +
 	"\x15deployment_transition\x18\x04 \x01(\v2..temporal.api.workflow.v1.DeploymentTransitionB\x02\x18\x01R\x14deploymentTransition\x12d\n" +
 	"\x12version_transition\x18\x06 \x01(\v25.temporal.api.workflow.v1.DeploymentVersionTransitionR\x11versionTransition\x12'\n" +
-	"\x0frevision_number\x18\b \x01(\x03R\x0erevisionNumber\x12j\n" +
-	"\x17target_version_on_start\x18\t \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR\x14targetVersionOnStart\"^\n" +
+	"\x0frevision_number\x18\b \x01(\x03R\x0erevisionNumber\x12\x8c\x01\n" +
+	")target_worker_deployment_version_on_start\x18\t \x01(\v23.temporal.api.deployment.v1.WorkerDeploymentVersionR$targetWorkerDeploymentVersionOnStart\"^\n" +
 	"\x14DeploymentTransition\x12F\n" +
 	"\n" +
 	"deployment\x18\x01 \x01(\v2&.temporal.api.deployment.v1.DeploymentR\n" +
@@ -3469,7 +3469,7 @@ var file_temporal_api_workflow_v1_message_proto_depIdxs = []int32{
 	17,  // 24: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.versioning_override:type_name -> temporal.api.workflow.v1.VersioningOverride
 	4,   // 25: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.deployment_transition:type_name -> temporal.api.workflow.v1.DeploymentTransition
 	5,   // 26: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.version_transition:type_name -> temporal.api.workflow.v1.DeploymentVersionTransition
-	42,  // 27: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.target_version_on_start:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	42,  // 27: temporal.api.workflow.v1.WorkflowExecutionVersioningInfo.target_worker_deployment_version_on_start:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	41,  // 28: temporal.api.workflow.v1.DeploymentTransition.deployment:type_name -> temporal.api.deployment.v1.Deployment
 	42,  // 29: temporal.api.workflow.v1.DeploymentVersionTransition.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
 	43,  // 30: temporal.api.workflow.v1.WorkflowExecutionConfig.task_queue:type_name -> temporal.api.taskqueue.v1.TaskQueue
