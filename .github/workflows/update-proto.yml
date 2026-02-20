@@ -40,7 +40,6 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           persist-credentials: true
           ref: ${{ github.event.inputs.branch }}
-          submodules: true
 
       - uses: actions/setup-go@v5
         with:
