@@ -1,6 +1,6 @@
 module go.temporal.io/api/cmd/proxygenerator
 
-go 1.22.0
+go 1.23.0
 
 toolchain go1.24.0
 
