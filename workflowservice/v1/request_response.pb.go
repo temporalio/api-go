@@ -13748,8 +13748,8 @@ type ListWorkersRequest struct {
 	Namespace     string                 `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	NextPageToken []byte                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	// `query` in ListWorkers is used to filter workers based on worker status info.
-	// The following worker status attributes are expected are supported as part of the query:
+	// `query` in ListWorkers is used to filter workers based on worker attributes.
+	// Supported attributes:
 	// * WorkerInstanceKey
 	// * WorkerIdentity
 	// * HostName
@@ -13759,9 +13759,7 @@ type ListWorkersRequest struct {
 	// * SdkName
 	// * SdkVersion
 	// * StartTime
-	// * LastHeartbeatTime
 	// * Status
-	// Currently metrics are not supported as a part of ListWorkers query.
 	Query         string `protobuf:"bytes,4,opt,name=query,proto3" json:"query,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -13828,16 +13826,14 @@ func (x *ListWorkersRequest) GetQuery() string {
 type ListWorkersResponse struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Deprecated: Use workers instead. This field returns full WorkerInfo which
-	// includes expensive dynamic metrics. Use workers for efficient listing.
-	// We will stop populating this field in the future.
+	// includes expensive runtime metrics. We will stop populating this field in the future.
 	//
 	// Deprecated: Marked as deprecated in temporal/api/workflowservice/v1/request_response.proto.
 	WorkersInfo []*v114.WorkerInfo `protobuf:"bytes,1,rep,name=workers_info,json=workersInfo,proto3" json:"workers_info,omitempty"`
+	// Limited worker information.
+	Workers []*v114.WorkerListInfo `protobuf:"bytes,3,rep,name=workers,proto3" json:"workers,omitempty"`
 	// Next page token
 	NextPageToken []byte `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
-	// Worker summary information. This contains only static/slow-changing fields
-	// and is optimized for listing many workers efficiently.
-	Workers       []*v114.WorkerSummary `protobuf:"bytes,3,rep,name=workers,proto3" json:"workers,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -13880,16 +13876,16 @@ func (x *ListWorkersResponse) GetWorkersInfo() []*v114.WorkerInfo {
 	return nil
 }
 
-func (x *ListWorkersResponse) GetNextPageToken() []byte {
+func (x *ListWorkersResponse) GetWorkers() []*v114.WorkerListInfo {
 	if x != nil {
-		return x.NextPageToken
+		return x.Workers
 	}
 	return nil
 }
 
-func (x *ListWorkersResponse) GetWorkers() []*v114.WorkerSummary {
+func (x *ListWorkersResponse) GetNextPageToken() []byte {
 	if x != nil {
-		return x.Workers
+		return x.NextPageToken
 	}
 	return nil
 }
@@ -18269,11 +18265,11 @@ const file_temporal_api_workflowservice_v1_request_response_proto_rawDesc = "" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12&\n" +
 	"\x0fnext_page_token\x18\x03 \x01(\fR\rnextPageToken\x12\x14\n" +
-	"\x05query\x18\x04 \x01(\tR\x05query\"\xc9\x01\n" +
+	"\x05query\x18\x04 \x01(\tR\x05query\"\xca\x01\n" +
 	"\x13ListWorkersResponse\x12I\n" +
-	"\fworkers_info\x18\x01 \x03(\v2\".temporal.api.worker.v1.WorkerInfoB\x02\x18\x01R\vworkersInfo\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\x12?\n" +
-	"\aworkers\x18\x03 \x03(\v2%.temporal.api.worker.v1.WorkerSummaryR\aworkers\"\x98\a\n" +
+	"\fworkers_info\x18\x01 \x03(\v2\".temporal.api.worker.v1.WorkerInfoB\x02\x18\x01R\vworkersInfo\x12@\n" +
+	"\aworkers\x18\x03 \x03(\v2&.temporal.api.worker.v1.WorkerListInfoR\aworkers\x12&\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\fR\rnextPageToken\"\x98\a\n" +
 	"\x1cUpdateTaskQueueConfigRequest\x12\x1c\n" +
 	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x1a\n" +
 	"\bidentity\x18\x02 \x01(\tR\bidentity\x12\x1d\n" +
@@ -18805,7 +18801,7 @@ var file_temporal_api_workflowservice_v1_request_response_proto_goTypes = []any{
 	(*v121.WorkflowRuleSpec)(nil),                                   // 355: temporal.api.rules.v1.WorkflowRuleSpec
 	(*v121.WorkflowRule)(nil),                                       // 356: temporal.api.rules.v1.WorkflowRule
 	(*v114.WorkerInfo)(nil),                                         // 357: temporal.api.worker.v1.WorkerInfo
-	(*v114.WorkerSummary)(nil),                                      // 358: temporal.api.worker.v1.WorkerSummary
+	(*v114.WorkerListInfo)(nil),                                     // 358: temporal.api.worker.v1.WorkerListInfo
 	(*v13.WorkerSelector)(nil),                                      // 359: temporal.api.common.v1.WorkerSelector
 	(*v16.WorkerConfig)(nil),                                        // 360: temporal.api.sdk.v1.WorkerConfig
 	(v11.ActivityIdReusePolicy)(0),                                  // 361: temporal.api.enums.v1.ActivityIdReusePolicy
@@ -19145,7 +19141,7 @@ var file_temporal_api_workflowservice_v1_request_response_proto_depIdxs = []int3
 	355, // 317: temporal.api.workflowservice.v1.TriggerWorkflowRuleRequest.spec:type_name -> temporal.api.rules.v1.WorkflowRuleSpec
 	295, // 318: temporal.api.workflowservice.v1.RecordWorkerHeartbeatRequest.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
 	357, // 319: temporal.api.workflowservice.v1.ListWorkersResponse.workers_info:type_name -> temporal.api.worker.v1.WorkerInfo
-	358, // 320: temporal.api.workflowservice.v1.ListWorkersResponse.workers:type_name -> temporal.api.worker.v1.WorkerSummary
+	358, // 320: temporal.api.workflowservice.v1.ListWorkersResponse.workers:type_name -> temporal.api.worker.v1.WorkerListInfo
 	296, // 321: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.task_queue_type:type_name -> temporal.api.enums.v1.TaskQueueType
 	237, // 322: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.update_queue_rate_limit:type_name -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate
 	237, // 323: temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.update_fairness_key_rate_limit_default:type_name -> temporal.api.workflowservice.v1.UpdateTaskQueueConfigRequest.RateLimitUpdate

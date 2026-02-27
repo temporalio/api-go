@@ -529,6 +529,7 @@ func (x *WorkerHeartbeat) GetDrivers() []*StorageDriverInfo {
 	return nil
 }
 
+// Detailed worker information.
 type WorkerInfo struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	WorkerHeartbeat *WorkerHeartbeat       `protobuf:"bytes,1,opt,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
@@ -573,11 +574,9 @@ func (x *WorkerInfo) GetWorkerHeartbeat() *WorkerHeartbeat {
 	return nil
 }
 
-// WorkerSummary contains static or slow-changing worker information.
-// (-- api-linter: core::0140::prepositions=disabled
-//
-//	aip.dev/not-precedent: Removing those words make names less clear. --)
-type WorkerSummary struct {
+// Limited worker information returned in the list response.
+// When adding fields here, ensure that it is also added to WorkerInfo (as it carries the full worker information).
+type WorkerListInfo struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Worker identifier, should be unique for the namespace.
 	// It is distinct from worker identity, which is not necessarily namespace-unique.
@@ -612,20 +611,20 @@ type WorkerSummary struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *WorkerSummary) Reset() {
-	*x = WorkerSummary{}
+func (x *WorkerListInfo) Reset() {
+	*x = WorkerListInfo{}
 	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *WorkerSummary) String() string {
+func (x *WorkerListInfo) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*WorkerSummary) ProtoMessage() {}
+func (*WorkerListInfo) ProtoMessage() {}
 
-func (x *WorkerSummary) ProtoReflect() protoreflect.Message {
+func (x *WorkerListInfo) ProtoReflect() protoreflect.Message {
 	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -637,96 +636,96 @@ func (x *WorkerSummary) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use WorkerSummary.ProtoReflect.Descriptor instead.
-func (*WorkerSummary) Descriptor() ([]byte, []int) {
+// Deprecated: Use WorkerListInfo.ProtoReflect.Descriptor instead.
+func (*WorkerListInfo) Descriptor() ([]byte, []int) {
 	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *WorkerSummary) GetWorkerInstanceKey() string {
+func (x *WorkerListInfo) GetWorkerInstanceKey() string {
 	if x != nil {
 		return x.WorkerInstanceKey
 	}
 	return ""
 }
 
-func (x *WorkerSummary) GetWorkerIdentity() string {
+func (x *WorkerListInfo) GetWorkerIdentity() string {
 	if x != nil {
 		return x.WorkerIdentity
 	}
 	return ""
 }
 
-func (x *WorkerSummary) GetTaskQueue() string {
+func (x *WorkerListInfo) GetTaskQueue() string {
 	if x != nil {
 		return x.TaskQueue
 	}
 	return ""
 }
 
-func (x *WorkerSummary) GetDeploymentVersion() *v1.WorkerDeploymentVersion {
+func (x *WorkerListInfo) GetDeploymentVersion() *v1.WorkerDeploymentVersion {
 	if x != nil {
 		return x.DeploymentVersion
 	}
 	return nil
 }
 
-func (x *WorkerSummary) GetSdkName() string {
+func (x *WorkerListInfo) GetSdkName() string {
 	if x != nil {
 		return x.SdkName
 	}
 	return ""
 }
 
-func (x *WorkerSummary) GetSdkVersion() string {
+func (x *WorkerListInfo) GetSdkVersion() string {
 	if x != nil {
 		return x.SdkVersion
 	}
 	return ""
 }
 
-func (x *WorkerSummary) GetStatus() v11.WorkerStatus {
+func (x *WorkerListInfo) GetStatus() v11.WorkerStatus {
 	if x != nil {
 		return x.Status
 	}
 	return v11.WorkerStatus(0)
 }
 
-func (x *WorkerSummary) GetStartTime() *timestamppb.Timestamp {
+func (x *WorkerListInfo) GetStartTime() *timestamppb.Timestamp {
 	if x != nil {
 		return x.StartTime
 	}
 	return nil
 }
 
-func (x *WorkerSummary) GetHostName() string {
+func (x *WorkerListInfo) GetHostName() string {
 	if x != nil {
 		return x.HostName
 	}
 	return ""
 }
 
-func (x *WorkerSummary) GetWorkerGroupingKey() string {
+func (x *WorkerListInfo) GetWorkerGroupingKey() string {
 	if x != nil {
 		return x.WorkerGroupingKey
 	}
 	return ""
 }
 
-func (x *WorkerSummary) GetProcessId() string {
+func (x *WorkerListInfo) GetProcessId() string {
 	if x != nil {
 		return x.ProcessId
 	}
 	return ""
 }
 
-func (x *WorkerSummary) GetPlugins() []*PluginInfo {
+func (x *WorkerListInfo) GetPlugins() []*PluginInfo {
 	if x != nil {
 		return x.Plugins
 	}
 	return nil
 }
 
-func (x *WorkerSummary) GetDrivers() []*StorageDriverInfo {
+func (x *WorkerListInfo) GetDrivers() []*StorageDriverInfo {
 	if x != nil {
 		return x.Drivers
 	}
@@ -887,8 +886,8 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\adrivers\x18\x18 \x03(\v2).temporal.api.worker.v1.StorageDriverInfoR\adrivers\"`\n" +
 	"\n" +
 	"WorkerInfo\x12R\n" +
-	"\x10worker_heartbeat\x18\x01 \x01(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\x8e\x05\n" +
-	"\rWorkerSummary\x12.\n" +
+	"\x10worker_heartbeat\x18\x01 \x01(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\"\x8f\x05\n" +
+	"\x0eWorkerListInfo\x12.\n" +
 	"\x13worker_instance_key\x18\x01 \x01(\tR\x11workerInstanceKey\x12'\n" +
 	"\x0fworker_identity\x18\x02 \x01(\tR\x0eworkerIdentity\x12\x1d\n" +
 	"\n" +
@@ -934,7 +933,7 @@ var file_temporal_api_worker_v1_message_proto_goTypes = []any{
 	(*WorkerHostInfo)(nil),             // 2: temporal.api.worker.v1.WorkerHostInfo
 	(*WorkerHeartbeat)(nil),            // 3: temporal.api.worker.v1.WorkerHeartbeat
 	(*WorkerInfo)(nil),                 // 4: temporal.api.worker.v1.WorkerInfo
-	(*WorkerSummary)(nil),              // 5: temporal.api.worker.v1.WorkerSummary
+	(*WorkerListInfo)(nil),             // 5: temporal.api.worker.v1.WorkerListInfo
 	(*PluginInfo)(nil),                 // 6: temporal.api.worker.v1.PluginInfo
 	(*StorageDriverInfo)(nil),          // 7: temporal.api.worker.v1.StorageDriverInfo
 	(*timestamppb.Timestamp)(nil),      // 8: google.protobuf.Timestamp
@@ -961,11 +960,11 @@ var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
 	6,  // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
 	7,  // 16: temporal.api.worker.v1.WorkerHeartbeat.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
 	3,  // 17: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	9,  // 18: temporal.api.worker.v1.WorkerSummary.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	10, // 19: temporal.api.worker.v1.WorkerSummary.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	8,  // 20: temporal.api.worker.v1.WorkerSummary.start_time:type_name -> google.protobuf.Timestamp
-	6,  // 21: temporal.api.worker.v1.WorkerSummary.plugins:type_name -> temporal.api.worker.v1.PluginInfo
-	7,  // 22: temporal.api.worker.v1.WorkerSummary.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
+	9,  // 18: temporal.api.worker.v1.WorkerListInfo.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	10, // 19: temporal.api.worker.v1.WorkerListInfo.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	8,  // 20: temporal.api.worker.v1.WorkerListInfo.start_time:type_name -> google.protobuf.Timestamp
+	6,  // 21: temporal.api.worker.v1.WorkerListInfo.plugins:type_name -> temporal.api.worker.v1.PluginInfo
+	7,  // 22: temporal.api.worker.v1.WorkerListInfo.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
 	23, // [23:23] is the sub-list for method output_type
 	23, // [23:23] is the sub-list for method input_type
 	23, // [23:23] is the sub-list for extension type_name
