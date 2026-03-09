@@ -68,11 +68,11 @@ func ExtractTemporalRequestHeaders(ctx context.Context, opts ExtractHeadersOptio
 		}
 	}
 
-	// Set headers from proto annotations
+	// Set headers from proto annotations{{if .Methods}}
 	switch r := opts.Request.(type) {
 {{range .Methods}}	case *{{.PackageAlias}}.{{.RequestType}}:
 {{range .Headers}}{{.Code}}{{end}}
-{{end}}	}
+{{end}}	}{{end}}
 
 	return headers, nil
 }
