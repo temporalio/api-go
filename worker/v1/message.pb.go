@@ -324,9 +324,7 @@ type WorkerHeartbeat struct {
 	// Current cache size, expressed in number of Workflow Executions.
 	CurrentStickyCacheSize int32 `protobuf:"varint,22,opt,name=current_sticky_cache_size,json=currentStickyCacheSize,proto3" json:"current_sticky_cache_size,omitempty"`
 	// Plugins currently in use by this SDK.
-	Plugins []*PluginInfo `protobuf:"bytes,23,rep,name=plugins,proto3" json:"plugins,omitempty"`
-	// Storage drivers in use by this SDK.
-	Drivers       []*StorageDriverInfo `protobuf:"bytes,24,rep,name=drivers,proto3" json:"drivers,omitempty"`
+	Plugins       []*PluginInfo `protobuf:"bytes,23,rep,name=plugins,proto3" json:"plugins,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -522,13 +520,6 @@ func (x *WorkerHeartbeat) GetPlugins() []*PluginInfo {
 	return nil
 }
 
-func (x *WorkerHeartbeat) GetDrivers() []*StorageDriverInfo {
-	if x != nil {
-		return x.Drivers
-	}
-	return nil
-}
-
 type WorkerInfo struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	WorkerHeartbeat *WorkerHeartbeat       `protobuf:"bytes,1,opt,name=worker_heartbeat,json=workerHeartbeat,proto3" json:"worker_heartbeat,omitempty"`
@@ -627,51 +618,6 @@ func (x *PluginInfo) GetVersion() string {
 	return ""
 }
 
-type StorageDriverInfo struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// The type of the driver, required.
-	Type          string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *StorageDriverInfo) Reset() {
-	*x = StorageDriverInfo{}
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *StorageDriverInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*StorageDriverInfo) ProtoMessage() {}
-
-func (x *StorageDriverInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_temporal_api_worker_v1_message_proto_msgTypes[6]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StorageDriverInfo.ProtoReflect.Descriptor instead.
-func (*StorageDriverInfo) Descriptor() ([]byte, []int) {
-	return file_temporal_api_worker_v1_message_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *StorageDriverInfo) GetType() string {
-	if x != nil {
-		return x.Type
-	}
-	return ""
-}
-
 var File_temporal_api_worker_v1_message_proto protoreflect.FileDescriptor
 
 const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
@@ -695,7 +641,7 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\n" +
 	"process_id\x18\x02 \x01(\tR\tprocessId\x123\n" +
 	"\x16current_host_cpu_usage\x18\x03 \x01(\x02R\x13currentHostCpuUsage\x123\n" +
-	"\x16current_host_mem_usage\x18\x04 \x01(\x02R\x13currentHostMemUsage\"\xaa\r\n" +
+	"\x16current_host_mem_usage\x18\x04 \x01(\x02R\x13currentHostMemUsage\"\xe5\f\n" +
 	"\x0fWorkerHeartbeat\x12.\n" +
 	"\x13worker_instance_key\x18\x01 \x01(\tR\x11workerInstanceKey\x12'\n" +
 	"\x0fworker_identity\x18\x02 \x01(\tR\x0eworkerIdentity\x12C\n" +
@@ -723,17 +669,14 @@ const file_temporal_api_worker_v1_message_proto_rawDesc = "" +
 	"\x16total_sticky_cache_hit\x18\x14 \x01(\x05R\x13totalStickyCacheHit\x125\n" +
 	"\x17total_sticky_cache_miss\x18\x15 \x01(\x05R\x14totalStickyCacheMiss\x129\n" +
 	"\x19current_sticky_cache_size\x18\x16 \x01(\x05R\x16currentStickyCacheSize\x12<\n" +
-	"\aplugins\x18\x17 \x03(\v2\".temporal.api.worker.v1.PluginInfoR\aplugins\x12C\n" +
-	"\adrivers\x18\x18 \x03(\v2).temporal.api.worker.v1.StorageDriverInfoR\adrivers\"`\n" +
+	"\aplugins\x18\x17 \x03(\v2\".temporal.api.worker.v1.PluginInfoR\aplugins\"`\n" +
 	"\n" +
 	"WorkerInfo\x12R\n" +
 	"\x10worker_heartbeat\x18\x01 \x01(\v2'.temporal.api.worker.v1.WorkerHeartbeatR\x0fworkerHeartbeat\":\n" +
 	"\n" +
 	"PluginInfo\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
-	"\aversion\x18\x02 \x01(\tR\aversion\"'\n" +
-	"\x11StorageDriverInfo\x12\x12\n" +
-	"\x04type\x18\x01 \x01(\tR\x04typeB\x89\x01\n" +
+	"\aversion\x18\x02 \x01(\tR\aversionB\x89\x01\n" +
 	"\x19io.temporal.api.worker.v1B\fMessageProtoP\x01Z#go.temporal.io/api/worker/v1;worker\xaa\x02\x18Temporalio.Api.Worker.V1\xea\x02\x1bTemporalio::Api::Worker::V1b\x06proto3"
 
 var (
@@ -748,7 +691,7 @@ func file_temporal_api_worker_v1_message_proto_rawDescGZIP() []byte {
 	return file_temporal_api_worker_v1_message_proto_rawDescData
 }
 
-var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_temporal_api_worker_v1_message_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_temporal_api_worker_v1_message_proto_goTypes = []any{
 	(*WorkerPollerInfo)(nil),           // 0: temporal.api.worker.v1.WorkerPollerInfo
 	(*WorkerSlotsInfo)(nil),            // 1: temporal.api.worker.v1.WorkerSlotsInfo
@@ -756,20 +699,19 @@ var file_temporal_api_worker_v1_message_proto_goTypes = []any{
 	(*WorkerHeartbeat)(nil),            // 3: temporal.api.worker.v1.WorkerHeartbeat
 	(*WorkerInfo)(nil),                 // 4: temporal.api.worker.v1.WorkerInfo
 	(*PluginInfo)(nil),                 // 5: temporal.api.worker.v1.PluginInfo
-	(*StorageDriverInfo)(nil),          // 6: temporal.api.worker.v1.StorageDriverInfo
-	(*timestamppb.Timestamp)(nil),      // 7: google.protobuf.Timestamp
-	(*v1.WorkerDeploymentVersion)(nil), // 8: temporal.api.deployment.v1.WorkerDeploymentVersion
-	(v11.WorkerStatus)(0),              // 9: temporal.api.enums.v1.WorkerStatus
-	(*durationpb.Duration)(nil),        // 10: google.protobuf.Duration
+	(*timestamppb.Timestamp)(nil),      // 6: google.protobuf.Timestamp
+	(*v1.WorkerDeploymentVersion)(nil), // 7: temporal.api.deployment.v1.WorkerDeploymentVersion
+	(v11.WorkerStatus)(0),              // 8: temporal.api.enums.v1.WorkerStatus
+	(*durationpb.Duration)(nil),        // 9: google.protobuf.Duration
 }
 var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
-	7,  // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
+	6,  // 0: temporal.api.worker.v1.WorkerPollerInfo.last_successful_poll_time:type_name -> google.protobuf.Timestamp
 	2,  // 1: temporal.api.worker.v1.WorkerHeartbeat.host_info:type_name -> temporal.api.worker.v1.WorkerHostInfo
-	8,  // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
-	9,  // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
-	7,  // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
-	7,  // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
-	10, // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
+	7,  // 2: temporal.api.worker.v1.WorkerHeartbeat.deployment_version:type_name -> temporal.api.deployment.v1.WorkerDeploymentVersion
+	8,  // 3: temporal.api.worker.v1.WorkerHeartbeat.status:type_name -> temporal.api.enums.v1.WorkerStatus
+	6,  // 4: temporal.api.worker.v1.WorkerHeartbeat.start_time:type_name -> google.protobuf.Timestamp
+	6,  // 5: temporal.api.worker.v1.WorkerHeartbeat.heartbeat_time:type_name -> google.protobuf.Timestamp
+	9,  // 6: temporal.api.worker.v1.WorkerHeartbeat.elapsed_since_last_heartbeat:type_name -> google.protobuf.Duration
 	1,  // 7: temporal.api.worker.v1.WorkerHeartbeat.workflow_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
 	1,  // 8: temporal.api.worker.v1.WorkerHeartbeat.activity_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
 	1,  // 9: temporal.api.worker.v1.WorkerHeartbeat.nexus_task_slots_info:type_name -> temporal.api.worker.v1.WorkerSlotsInfo
@@ -779,13 +721,12 @@ var file_temporal_api_worker_v1_message_proto_depIdxs = []int32{
 	0,  // 13: temporal.api.worker.v1.WorkerHeartbeat.activity_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
 	0,  // 14: temporal.api.worker.v1.WorkerHeartbeat.nexus_poller_info:type_name -> temporal.api.worker.v1.WorkerPollerInfo
 	5,  // 15: temporal.api.worker.v1.WorkerHeartbeat.plugins:type_name -> temporal.api.worker.v1.PluginInfo
-	6,  // 16: temporal.api.worker.v1.WorkerHeartbeat.drivers:type_name -> temporal.api.worker.v1.StorageDriverInfo
-	3,  // 17: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
-	18, // [18:18] is the sub-list for method output_type
-	18, // [18:18] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	3,  // 16: temporal.api.worker.v1.WorkerInfo.worker_heartbeat:type_name -> temporal.api.worker.v1.WorkerHeartbeat
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_temporal_api_worker_v1_message_proto_init() }
@@ -799,7 +740,7 @@ func file_temporal_api_worker_v1_message_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_temporal_api_worker_v1_message_proto_rawDesc), len(file_temporal_api_worker_v1_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
