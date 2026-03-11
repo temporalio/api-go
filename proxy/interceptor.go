@@ -1550,7 +1550,7 @@ func visitPayloads(
 				o.Description = no
 			}
 
-		case *nexus.NexusOperationCancellationInfo:
+		case *nexus.NexusOperationExecutionCancellationInfo:
 
 			if o == nil {
 				continue
@@ -1565,7 +1565,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *nexus.NexusOperationInfo:
+		case *nexus.NexusOperationExecutionInfo:
 
 			if o == nil {
 				continue
@@ -1583,14 +1583,14 @@ func visitPayloads(
 				return err
 			}
 
-		case []*nexus.NexusOperationListInfo:
+		case []*nexus.NexusOperationExecutionListInfo:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
 
-		case *nexus.NexusOperationListInfo:
+		case *nexus.NexusOperationExecutionListInfo:
 
 			if o == nil {
 				continue
@@ -2216,7 +2216,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.CountNexusOperationsResponse:
+		case *workflowservice.CountNexusOperationExecutionsResponse:
 
 			if o == nil {
 				continue
@@ -2231,14 +2231,14 @@ func visitPayloads(
 				return err
 			}
 
-		case []*workflowservice.CountNexusOperationsResponse_AggregationGroup:
+		case []*workflowservice.CountNexusOperationExecutionsResponse_AggregationGroup:
 			for _, x := range o {
 				if err := visitPayloads(ctx, options, parent, x); err != nil {
 					return err
 				}
 			}
 
-		case *workflowservice.CountNexusOperationsResponse_AggregationGroup:
+		case *workflowservice.CountNexusOperationExecutionsResponse_AggregationGroup:
 
 			if o == nil {
 				continue
@@ -2376,7 +2376,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.DescribeNexusOperationResponse:
+		case *workflowservice.DescribeNexusOperationExecutionResponse:
 
 			if o == nil {
 				continue
@@ -2393,7 +2393,7 @@ func visitPayloads(
 				if err != nil {
 					return err
 				}
-				o.Outcome = &workflowservice.DescribeNexusOperationResponse_Result{Result: no}
+				o.Outcome = &workflowservice.DescribeNexusOperationExecutionResponse_Result{Result: no}
 			}
 
 			if err := visitPayloads(
@@ -2638,7 +2638,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.ListNexusOperationsResponse:
+		case *workflowservice.ListNexusOperationExecutionsResponse:
 
 			if o == nil {
 				continue
@@ -2737,7 +2737,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.PollNexusOperationResponse:
+		case *workflowservice.PollNexusOperationExecutionResponse:
 
 			if o == nil {
 				continue
@@ -2747,7 +2747,7 @@ func visitPayloads(
 				if err != nil {
 					return err
 				}
-				o.Outcome = &workflowservice.PollNexusOperationResponse_Result{Result: no}
+				o.Outcome = &workflowservice.PollNexusOperationExecutionResponse_Result{Result: no}
 			}
 
 			if err := visitPayloads(
@@ -3216,7 +3216,7 @@ func visitPayloads(
 				return err
 			}
 
-		case *workflowservice.StartNexusOperationRequest:
+		case *workflowservice.StartNexusOperationExecutionRequest:
 
 			if o == nil {
 				continue
@@ -3814,7 +3814,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *nexus.NexusOperationCancellationInfo:
+		case *nexus.NexusOperationExecutionCancellationInfo:
 			if o == nil {
 				continue
 			}
@@ -3827,7 +3827,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *nexus.NexusOperationInfo:
+		case *nexus.NexusOperationExecutionInfo:
 			if o == nil {
 				continue
 			}
@@ -4034,7 +4034,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *workflowservice.DescribeNexusOperationResponse:
+		case *workflowservice.DescribeNexusOperationExecutionResponse:
 			if o == nil {
 				continue
 			}
@@ -4169,7 +4169,7 @@ func visitFailures(ctx *VisitFailuresContext, options *VisitFailuresOptions, obj
 				return err
 			}
 
-		case *workflowservice.PollNexusOperationResponse:
+		case *workflowservice.PollNexusOperationExecutionResponse:
 			if o == nil {
 				continue
 			}

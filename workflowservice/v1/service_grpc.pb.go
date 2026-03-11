@@ -118,21 +118,21 @@ const (
 	WorkflowService_PauseWorkflowExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/PauseWorkflowExecution"
 	WorkflowService_UnpauseWorkflowExecution_FullMethodName              = "/temporal.api.workflowservice.v1.WorkflowService/UnpauseWorkflowExecution"
 	WorkflowService_StartActivityExecution_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/StartActivityExecution"
-	WorkflowService_StartNexusOperation_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/StartNexusOperation"
+	WorkflowService_StartNexusOperationExecution_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/StartNexusOperationExecution"
 	WorkflowService_DescribeActivityExecution_FullMethodName             = "/temporal.api.workflowservice.v1.WorkflowService/DescribeActivityExecution"
-	WorkflowService_DescribeNexusOperation_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/DescribeNexusOperation"
+	WorkflowService_DescribeNexusOperationExecution_FullMethodName       = "/temporal.api.workflowservice.v1.WorkflowService/DescribeNexusOperationExecution"
 	WorkflowService_PollActivityExecution_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/PollActivityExecution"
-	WorkflowService_PollNexusOperation_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/PollNexusOperation"
+	WorkflowService_PollNexusOperationExecution_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/PollNexusOperationExecution"
 	WorkflowService_ListActivityExecutions_FullMethodName                = "/temporal.api.workflowservice.v1.WorkflowService/ListActivityExecutions"
-	WorkflowService_ListNexusOperations_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/ListNexusOperations"
+	WorkflowService_ListNexusOperationExecutions_FullMethodName          = "/temporal.api.workflowservice.v1.WorkflowService/ListNexusOperationExecutions"
 	WorkflowService_CountActivityExecutions_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/CountActivityExecutions"
-	WorkflowService_CountNexusOperations_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/CountNexusOperations"
+	WorkflowService_CountNexusOperationExecutions_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/CountNexusOperationExecutions"
 	WorkflowService_RequestCancelActivityExecution_FullMethodName        = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelActivityExecution"
-	WorkflowService_RequestCancelNexusOperation_FullMethodName           = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelNexusOperation"
+	WorkflowService_RequestCancelNexusOperationExecution_FullMethodName  = "/temporal.api.workflowservice.v1.WorkflowService/RequestCancelNexusOperationExecution"
 	WorkflowService_TerminateActivityExecution_FullMethodName            = "/temporal.api.workflowservice.v1.WorkflowService/TerminateActivityExecution"
 	WorkflowService_DeleteActivityExecution_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/DeleteActivityExecution"
-	WorkflowService_TerminateNexusOperation_FullMethodName               = "/temporal.api.workflowservice.v1.WorkflowService/TerminateNexusOperation"
-	WorkflowService_DeleteNexusOperation_FullMethodName                  = "/temporal.api.workflowservice.v1.WorkflowService/DeleteNexusOperation"
+	WorkflowService_TerminateNexusOperationExecution_FullMethodName      = "/temporal.api.workflowservice.v1.WorkflowService/TerminateNexusOperationExecution"
+	WorkflowService_DeleteNexusOperationExecution_FullMethodName         = "/temporal.api.workflowservice.v1.WorkflowService/DeleteNexusOperationExecution"
 )
 
 // WorkflowServiceClient is the client API for WorkflowService service.
@@ -748,37 +748,37 @@ type WorkflowServiceClient interface {
 	// Returns an `ActivityExecutionAlreadyStarted` error if an instance already exists with same activity ID in this namespace
 	// unless permitted by the specified ID conflict policy.
 	StartActivityExecution(ctx context.Context, in *StartActivityExecutionRequest, opts ...grpc.CallOption) (*StartActivityExecutionResponse, error)
-	// StartNexusOperation starts a new Nexus operation.
+	// StartNexusOperationExecution starts a new Nexus operation.
 	//
-	// Returns a `NexusOperationAlreadyStarted` error if an instance already exists with same operation ID in this
+	// Returns a `NexusOperationExecutionAlreadyStarted` error if an instance already exists with same operation ID in this
 	// namespace unless permitted by the specified ID conflict policy.
-	StartNexusOperation(ctx context.Context, in *StartNexusOperationRequest, opts ...grpc.CallOption) (*StartNexusOperationResponse, error)
+	StartNexusOperationExecution(ctx context.Context, in *StartNexusOperationExecutionRequest, opts ...grpc.CallOption) (*StartNexusOperationExecutionResponse, error)
 	// DescribeActivityExecution returns information about an activity execution.
 	// It can be used to:
 	// - Get current activity info without waiting
 	// - Long-poll for next state change and return new activity info
 	// Response can optionally include activity input or outcome (if the activity has completed).
 	DescribeActivityExecution(ctx context.Context, in *DescribeActivityExecutionRequest, opts ...grpc.CallOption) (*DescribeActivityExecutionResponse, error)
-	// DescribeNexusOperation returns information about a Nexus operation.
+	// DescribeNexusOperationExecution returns information about a Nexus operation.
 	// Supported use cases include:
 	// - Get current operation info without waiting
 	// - Long-poll for next state change and return new operation info
 	// Response can optionally include operation input or outcome (if the operation has completed).
-	DescribeNexusOperation(ctx context.Context, in *DescribeNexusOperationRequest, opts ...grpc.CallOption) (*DescribeNexusOperationResponse, error)
+	DescribeNexusOperationExecution(ctx context.Context, in *DescribeNexusOperationExecutionRequest, opts ...grpc.CallOption) (*DescribeNexusOperationExecutionResponse, error)
 	// PollActivityExecution long-polls for an activity execution to complete and returns the
 	// outcome (result or failure).
 	PollActivityExecution(ctx context.Context, in *PollActivityExecutionRequest, opts ...grpc.CallOption) (*PollActivityExecutionResponse, error)
-	// PollNexusOperation long-polls for a Nexus operation for a given wait stage to complete and returns
+	// PollNexusOperationExecution long-polls for a Nexus operation for a given wait stage to complete and returns
 	// the outcome (result or failure).
-	PollNexusOperation(ctx context.Context, in *PollNexusOperationRequest, opts ...grpc.CallOption) (*PollNexusOperationResponse, error)
+	PollNexusOperationExecution(ctx context.Context, in *PollNexusOperationExecutionRequest, opts ...grpc.CallOption) (*PollNexusOperationExecutionResponse, error)
 	// ListActivityExecutions is a visibility API to list activity executions in a specific namespace.
 	ListActivityExecutions(ctx context.Context, in *ListActivityExecutionsRequest, opts ...grpc.CallOption) (*ListActivityExecutionsResponse, error)
-	// ListNexusOperations is a visibility API to list Nexus operations in a specific namespace.
-	ListNexusOperations(ctx context.Context, in *ListNexusOperationsRequest, opts ...grpc.CallOption) (*ListNexusOperationsResponse, error)
+	// ListNexusOperationExecutions is a visibility API to list Nexus operations in a specific namespace.
+	ListNexusOperationExecutions(ctx context.Context, in *ListNexusOperationExecutionsRequest, opts ...grpc.CallOption) (*ListNexusOperationExecutionsResponse, error)
 	// CountActivityExecutions is a visibility API to count activity executions in a specific namespace.
 	CountActivityExecutions(ctx context.Context, in *CountActivityExecutionsRequest, opts ...grpc.CallOption) (*CountActivityExecutionsResponse, error)
-	// CountNexusOperations is a visibility API to count Nexus operations in a specific namespace.
-	CountNexusOperations(ctx context.Context, in *CountNexusOperationsRequest, opts ...grpc.CallOption) (*CountNexusOperationsResponse, error)
+	// CountNexusOperationExecutions is a visibility API to count Nexus operations in a specific namespace.
+	CountNexusOperationExecutions(ctx context.Context, in *CountNexusOperationExecutionsRequest, opts ...grpc.CallOption) (*CountNexusOperationExecutionsResponse, error)
 	// RequestCancelActivityExecution requests cancellation of an activity execution.
 	//
 	// Cancellation is cooperative: this call records the request, but the activity must detect and
@@ -786,12 +786,12 @@ type WorkflowServiceClient interface {
 	// delivered via `cancel_requested` in the heartbeat response; SDKs surface this via
 	// language-idiomatic mechanisms (context cancellation, exceptions, abort signals).
 	RequestCancelActivityExecution(ctx context.Context, in *RequestCancelActivityExecutionRequest, opts ...grpc.CallOption) (*RequestCancelActivityExecutionResponse, error)
-	// RequestCancelNexusOperation requests cancellation of a Nexus operation.
+	// RequestCancelNexusOperationExecution requests cancellation of a Nexus operation.
 	//
 	// Requesting to cancel an operation does not automatically transition the operation to canceled status.
 	// The operation will only transition to canceled status if it supports cancellation and the handler
 	// processes the cancellation request.
-	RequestCancelNexusOperation(ctx context.Context, in *RequestCancelNexusOperationRequest, opts ...grpc.CallOption) (*RequestCancelNexusOperationResponse, error)
+	RequestCancelNexusOperationExecution(ctx context.Context, in *RequestCancelNexusOperationExecutionRequest, opts ...grpc.CallOption) (*RequestCancelNexusOperationExecutionResponse, error)
 	// TerminateActivityExecution terminates an existing activity execution immediately.
 	//
 	// Termination does not reach the worker and the activity code cannot react to it. A terminated activity may have a
@@ -806,19 +806,19 @@ type WorkflowServiceClient interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(ctx context.Context, in *DeleteActivityExecutionRequest, opts ...grpc.CallOption) (*DeleteActivityExecutionResponse, error)
-	// TerminateNexusOperation terminates an existing Nexus operation immediately.
+	// TerminateNexusOperationExecution terminates an existing Nexus operation immediately.
 	//
 	// Termination happens immediately and the operation handler cannot react to it. A terminated operation will have
 	// its outcome set to a failure with a termination reason.
-	TerminateNexusOperation(ctx context.Context, in *TerminateNexusOperationRequest, opts ...grpc.CallOption) (*TerminateNexusOperationResponse, error)
-	// DeleteNexusOperation asynchronously deletes a specific Nexus operation run (when
+	TerminateNexusOperationExecution(ctx context.Context, in *TerminateNexusOperationExecutionRequest, opts ...grpc.CallOption) (*TerminateNexusOperationExecutionResponse, error)
+	// DeleteNexusOperationExecution asynchronously deletes a specific Nexus operation run (when
 	// run_id is provided) or the latest run (when run_id is not provided). If the operation
 	// is running, it will be terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
-	DeleteNexusOperation(ctx context.Context, in *DeleteNexusOperationRequest, opts ...grpc.CallOption) (*DeleteNexusOperationResponse, error)
+	DeleteNexusOperationExecution(ctx context.Context, in *DeleteNexusOperationExecutionRequest, opts ...grpc.CallOption) (*DeleteNexusOperationExecutionResponse, error)
 }
 
 type workflowServiceClient struct {
@@ -1809,10 +1809,10 @@ func (c *workflowServiceClient) StartActivityExecution(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *workflowServiceClient) StartNexusOperation(ctx context.Context, in *StartNexusOperationRequest, opts ...grpc.CallOption) (*StartNexusOperationResponse, error) {
+func (c *workflowServiceClient) StartNexusOperationExecution(ctx context.Context, in *StartNexusOperationExecutionRequest, opts ...grpc.CallOption) (*StartNexusOperationExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(StartNexusOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_StartNexusOperation_FullMethodName, in, out, cOpts...)
+	out := new(StartNexusOperationExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_StartNexusOperationExecution_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1829,10 +1829,10 @@ func (c *workflowServiceClient) DescribeActivityExecution(ctx context.Context, i
 	return out, nil
 }
 
-func (c *workflowServiceClient) DescribeNexusOperation(ctx context.Context, in *DescribeNexusOperationRequest, opts ...grpc.CallOption) (*DescribeNexusOperationResponse, error) {
+func (c *workflowServiceClient) DescribeNexusOperationExecution(ctx context.Context, in *DescribeNexusOperationExecutionRequest, opts ...grpc.CallOption) (*DescribeNexusOperationExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DescribeNexusOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DescribeNexusOperation_FullMethodName, in, out, cOpts...)
+	out := new(DescribeNexusOperationExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DescribeNexusOperationExecution_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1849,10 +1849,10 @@ func (c *workflowServiceClient) PollActivityExecution(ctx context.Context, in *P
 	return out, nil
 }
 
-func (c *workflowServiceClient) PollNexusOperation(ctx context.Context, in *PollNexusOperationRequest, opts ...grpc.CallOption) (*PollNexusOperationResponse, error) {
+func (c *workflowServiceClient) PollNexusOperationExecution(ctx context.Context, in *PollNexusOperationExecutionRequest, opts ...grpc.CallOption) (*PollNexusOperationExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PollNexusOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_PollNexusOperation_FullMethodName, in, out, cOpts...)
+	out := new(PollNexusOperationExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_PollNexusOperationExecution_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1869,10 +1869,10 @@ func (c *workflowServiceClient) ListActivityExecutions(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *workflowServiceClient) ListNexusOperations(ctx context.Context, in *ListNexusOperationsRequest, opts ...grpc.CallOption) (*ListNexusOperationsResponse, error) {
+func (c *workflowServiceClient) ListNexusOperationExecutions(ctx context.Context, in *ListNexusOperationExecutionsRequest, opts ...grpc.CallOption) (*ListNexusOperationExecutionsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListNexusOperationsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_ListNexusOperations_FullMethodName, in, out, cOpts...)
+	out := new(ListNexusOperationExecutionsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_ListNexusOperationExecutions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1889,10 +1889,10 @@ func (c *workflowServiceClient) CountActivityExecutions(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *workflowServiceClient) CountNexusOperations(ctx context.Context, in *CountNexusOperationsRequest, opts ...grpc.CallOption) (*CountNexusOperationsResponse, error) {
+func (c *workflowServiceClient) CountNexusOperationExecutions(ctx context.Context, in *CountNexusOperationExecutionsRequest, opts ...grpc.CallOption) (*CountNexusOperationExecutionsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CountNexusOperationsResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_CountNexusOperations_FullMethodName, in, out, cOpts...)
+	out := new(CountNexusOperationExecutionsResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_CountNexusOperationExecutions_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1909,10 +1909,10 @@ func (c *workflowServiceClient) RequestCancelActivityExecution(ctx context.Conte
 	return out, nil
 }
 
-func (c *workflowServiceClient) RequestCancelNexusOperation(ctx context.Context, in *RequestCancelNexusOperationRequest, opts ...grpc.CallOption) (*RequestCancelNexusOperationResponse, error) {
+func (c *workflowServiceClient) RequestCancelNexusOperationExecution(ctx context.Context, in *RequestCancelNexusOperationExecutionRequest, opts ...grpc.CallOption) (*RequestCancelNexusOperationExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RequestCancelNexusOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_RequestCancelNexusOperation_FullMethodName, in, out, cOpts...)
+	out := new(RequestCancelNexusOperationExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_RequestCancelNexusOperationExecution_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1939,20 +1939,20 @@ func (c *workflowServiceClient) DeleteActivityExecution(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *workflowServiceClient) TerminateNexusOperation(ctx context.Context, in *TerminateNexusOperationRequest, opts ...grpc.CallOption) (*TerminateNexusOperationResponse, error) {
+func (c *workflowServiceClient) TerminateNexusOperationExecution(ctx context.Context, in *TerminateNexusOperationExecutionRequest, opts ...grpc.CallOption) (*TerminateNexusOperationExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TerminateNexusOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_TerminateNexusOperation_FullMethodName, in, out, cOpts...)
+	out := new(TerminateNexusOperationExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_TerminateNexusOperationExecution_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *workflowServiceClient) DeleteNexusOperation(ctx context.Context, in *DeleteNexusOperationRequest, opts ...grpc.CallOption) (*DeleteNexusOperationResponse, error) {
+func (c *workflowServiceClient) DeleteNexusOperationExecution(ctx context.Context, in *DeleteNexusOperationExecutionRequest, opts ...grpc.CallOption) (*DeleteNexusOperationExecutionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteNexusOperationResponse)
-	err := c.cc.Invoke(ctx, WorkflowService_DeleteNexusOperation_FullMethodName, in, out, cOpts...)
+	out := new(DeleteNexusOperationExecutionResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_DeleteNexusOperationExecution_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2572,37 +2572,37 @@ type WorkflowServiceServer interface {
 	// Returns an `ActivityExecutionAlreadyStarted` error if an instance already exists with same activity ID in this namespace
 	// unless permitted by the specified ID conflict policy.
 	StartActivityExecution(context.Context, *StartActivityExecutionRequest) (*StartActivityExecutionResponse, error)
-	// StartNexusOperation starts a new Nexus operation.
+	// StartNexusOperationExecution starts a new Nexus operation.
 	//
-	// Returns a `NexusOperationAlreadyStarted` error if an instance already exists with same operation ID in this
+	// Returns a `NexusOperationExecutionAlreadyStarted` error if an instance already exists with same operation ID in this
 	// namespace unless permitted by the specified ID conflict policy.
-	StartNexusOperation(context.Context, *StartNexusOperationRequest) (*StartNexusOperationResponse, error)
+	StartNexusOperationExecution(context.Context, *StartNexusOperationExecutionRequest) (*StartNexusOperationExecutionResponse, error)
 	// DescribeActivityExecution returns information about an activity execution.
 	// It can be used to:
 	// - Get current activity info without waiting
 	// - Long-poll for next state change and return new activity info
 	// Response can optionally include activity input or outcome (if the activity has completed).
 	DescribeActivityExecution(context.Context, *DescribeActivityExecutionRequest) (*DescribeActivityExecutionResponse, error)
-	// DescribeNexusOperation returns information about a Nexus operation.
+	// DescribeNexusOperationExecution returns information about a Nexus operation.
 	// Supported use cases include:
 	// - Get current operation info without waiting
 	// - Long-poll for next state change and return new operation info
 	// Response can optionally include operation input or outcome (if the operation has completed).
-	DescribeNexusOperation(context.Context, *DescribeNexusOperationRequest) (*DescribeNexusOperationResponse, error)
+	DescribeNexusOperationExecution(context.Context, *DescribeNexusOperationExecutionRequest) (*DescribeNexusOperationExecutionResponse, error)
 	// PollActivityExecution long-polls for an activity execution to complete and returns the
 	// outcome (result or failure).
 	PollActivityExecution(context.Context, *PollActivityExecutionRequest) (*PollActivityExecutionResponse, error)
-	// PollNexusOperation long-polls for a Nexus operation for a given wait stage to complete and returns
+	// PollNexusOperationExecution long-polls for a Nexus operation for a given wait stage to complete and returns
 	// the outcome (result or failure).
-	PollNexusOperation(context.Context, *PollNexusOperationRequest) (*PollNexusOperationResponse, error)
+	PollNexusOperationExecution(context.Context, *PollNexusOperationExecutionRequest) (*PollNexusOperationExecutionResponse, error)
 	// ListActivityExecutions is a visibility API to list activity executions in a specific namespace.
 	ListActivityExecutions(context.Context, *ListActivityExecutionsRequest) (*ListActivityExecutionsResponse, error)
-	// ListNexusOperations is a visibility API to list Nexus operations in a specific namespace.
-	ListNexusOperations(context.Context, *ListNexusOperationsRequest) (*ListNexusOperationsResponse, error)
+	// ListNexusOperationExecutions is a visibility API to list Nexus operations in a specific namespace.
+	ListNexusOperationExecutions(context.Context, *ListNexusOperationExecutionsRequest) (*ListNexusOperationExecutionsResponse, error)
 	// CountActivityExecutions is a visibility API to count activity executions in a specific namespace.
 	CountActivityExecutions(context.Context, *CountActivityExecutionsRequest) (*CountActivityExecutionsResponse, error)
-	// CountNexusOperations is a visibility API to count Nexus operations in a specific namespace.
-	CountNexusOperations(context.Context, *CountNexusOperationsRequest) (*CountNexusOperationsResponse, error)
+	// CountNexusOperationExecutions is a visibility API to count Nexus operations in a specific namespace.
+	CountNexusOperationExecutions(context.Context, *CountNexusOperationExecutionsRequest) (*CountNexusOperationExecutionsResponse, error)
 	// RequestCancelActivityExecution requests cancellation of an activity execution.
 	//
 	// Cancellation is cooperative: this call records the request, but the activity must detect and
@@ -2610,12 +2610,12 @@ type WorkflowServiceServer interface {
 	// delivered via `cancel_requested` in the heartbeat response; SDKs surface this via
 	// language-idiomatic mechanisms (context cancellation, exceptions, abort signals).
 	RequestCancelActivityExecution(context.Context, *RequestCancelActivityExecutionRequest) (*RequestCancelActivityExecutionResponse, error)
-	// RequestCancelNexusOperation requests cancellation of a Nexus operation.
+	// RequestCancelNexusOperationExecution requests cancellation of a Nexus operation.
 	//
 	// Requesting to cancel an operation does not automatically transition the operation to canceled status.
 	// The operation will only transition to canceled status if it supports cancellation and the handler
 	// processes the cancellation request.
-	RequestCancelNexusOperation(context.Context, *RequestCancelNexusOperationRequest) (*RequestCancelNexusOperationResponse, error)
+	RequestCancelNexusOperationExecution(context.Context, *RequestCancelNexusOperationExecutionRequest) (*RequestCancelNexusOperationExecutionResponse, error)
 	// TerminateActivityExecution terminates an existing activity execution immediately.
 	//
 	// Termination does not reach the worker and the activity code cannot react to it. A terminated activity may have a
@@ -2630,19 +2630,19 @@ type WorkflowServiceServer interface {
 	//
 	//	aip.dev/not-precedent: Activity deletion not exposed to HTTP, users should use cancel or terminate. --)
 	DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error)
-	// TerminateNexusOperation terminates an existing Nexus operation immediately.
+	// TerminateNexusOperationExecution terminates an existing Nexus operation immediately.
 	//
 	// Termination happens immediately and the operation handler cannot react to it. A terminated operation will have
 	// its outcome set to a failure with a termination reason.
-	TerminateNexusOperation(context.Context, *TerminateNexusOperationRequest) (*TerminateNexusOperationResponse, error)
-	// DeleteNexusOperation asynchronously deletes a specific Nexus operation run (when
+	TerminateNexusOperationExecution(context.Context, *TerminateNexusOperationExecutionRequest) (*TerminateNexusOperationExecutionResponse, error)
+	// DeleteNexusOperationExecution asynchronously deletes a specific Nexus operation run (when
 	// run_id is provided) or the latest run (when run_id is not provided). If the operation
 	// is running, it will be terminated before deletion.
 	//
 	// (-- api-linter: core::0127::http-annotation=disabled
 	//
 	//	aip.dev/not-precedent: Nexus operation deletion not exposed to HTTP, users should use cancel or terminate. --)
-	DeleteNexusOperation(context.Context, *DeleteNexusOperationRequest) (*DeleteNexusOperationResponse, error)
+	DeleteNexusOperationExecution(context.Context, *DeleteNexusOperationExecutionRequest) (*DeleteNexusOperationExecutionResponse, error)
 	mustEmbedUnimplementedWorkflowServiceServer()
 }
 
@@ -2947,38 +2947,38 @@ func (UnimplementedWorkflowServiceServer) UnpauseWorkflowExecution(context.Conte
 func (UnimplementedWorkflowServiceServer) StartActivityExecution(context.Context, *StartActivityExecutionRequest) (*StartActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method StartActivityExecution not implemented")
 }
-func (UnimplementedWorkflowServiceServer) StartNexusOperation(context.Context, *StartNexusOperationRequest) (*StartNexusOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method StartNexusOperation not implemented")
+func (UnimplementedWorkflowServiceServer) StartNexusOperationExecution(context.Context, *StartNexusOperationExecutionRequest) (*StartNexusOperationExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method StartNexusOperationExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) DescribeActivityExecution(context.Context, *DescribeActivityExecutionRequest) (*DescribeActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DescribeActivityExecution not implemented")
 }
-func (UnimplementedWorkflowServiceServer) DescribeNexusOperation(context.Context, *DescribeNexusOperationRequest) (*DescribeNexusOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DescribeNexusOperation not implemented")
+func (UnimplementedWorkflowServiceServer) DescribeNexusOperationExecution(context.Context, *DescribeNexusOperationExecutionRequest) (*DescribeNexusOperationExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DescribeNexusOperationExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) PollActivityExecution(context.Context, *PollActivityExecutionRequest) (*PollActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method PollActivityExecution not implemented")
 }
-func (UnimplementedWorkflowServiceServer) PollNexusOperation(context.Context, *PollNexusOperationRequest) (*PollNexusOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method PollNexusOperation not implemented")
+func (UnimplementedWorkflowServiceServer) PollNexusOperationExecution(context.Context, *PollNexusOperationExecutionRequest) (*PollNexusOperationExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PollNexusOperationExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) ListActivityExecutions(context.Context, *ListActivityExecutionsRequest) (*ListActivityExecutionsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListActivityExecutions not implemented")
 }
-func (UnimplementedWorkflowServiceServer) ListNexusOperations(context.Context, *ListNexusOperationsRequest) (*ListNexusOperationsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ListNexusOperations not implemented")
+func (UnimplementedWorkflowServiceServer) ListNexusOperationExecutions(context.Context, *ListNexusOperationExecutionsRequest) (*ListNexusOperationExecutionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListNexusOperationExecutions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) CountActivityExecutions(context.Context, *CountActivityExecutionsRequest) (*CountActivityExecutionsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CountActivityExecutions not implemented")
 }
-func (UnimplementedWorkflowServiceServer) CountNexusOperations(context.Context, *CountNexusOperationsRequest) (*CountNexusOperationsResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method CountNexusOperations not implemented")
+func (UnimplementedWorkflowServiceServer) CountNexusOperationExecutions(context.Context, *CountNexusOperationExecutionsRequest) (*CountNexusOperationExecutionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CountNexusOperationExecutions not implemented")
 }
 func (UnimplementedWorkflowServiceServer) RequestCancelActivityExecution(context.Context, *RequestCancelActivityExecutionRequest) (*RequestCancelActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method RequestCancelActivityExecution not implemented")
 }
-func (UnimplementedWorkflowServiceServer) RequestCancelNexusOperation(context.Context, *RequestCancelNexusOperationRequest) (*RequestCancelNexusOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RequestCancelNexusOperation not implemented")
+func (UnimplementedWorkflowServiceServer) RequestCancelNexusOperationExecution(context.Context, *RequestCancelNexusOperationExecutionRequest) (*RequestCancelNexusOperationExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RequestCancelNexusOperationExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) TerminateActivityExecution(context.Context, *TerminateActivityExecutionRequest) (*TerminateActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method TerminateActivityExecution not implemented")
@@ -2986,11 +2986,11 @@ func (UnimplementedWorkflowServiceServer) TerminateActivityExecution(context.Con
 func (UnimplementedWorkflowServiceServer) DeleteActivityExecution(context.Context, *DeleteActivityExecutionRequest) (*DeleteActivityExecutionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteActivityExecution not implemented")
 }
-func (UnimplementedWorkflowServiceServer) TerminateNexusOperation(context.Context, *TerminateNexusOperationRequest) (*TerminateNexusOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method TerminateNexusOperation not implemented")
+func (UnimplementedWorkflowServiceServer) TerminateNexusOperationExecution(context.Context, *TerminateNexusOperationExecutionRequest) (*TerminateNexusOperationExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method TerminateNexusOperationExecution not implemented")
 }
-func (UnimplementedWorkflowServiceServer) DeleteNexusOperation(context.Context, *DeleteNexusOperationRequest) (*DeleteNexusOperationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method DeleteNexusOperation not implemented")
+func (UnimplementedWorkflowServiceServer) DeleteNexusOperationExecution(context.Context, *DeleteNexusOperationExecutionRequest) (*DeleteNexusOperationExecutionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteNexusOperationExecution not implemented")
 }
 func (UnimplementedWorkflowServiceServer) mustEmbedUnimplementedWorkflowServiceServer() {}
 func (UnimplementedWorkflowServiceServer) testEmbeddedByValue()                         {}
@@ -4777,20 +4777,20 @@ func _WorkflowService_StartActivityExecution_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_StartNexusOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(StartNexusOperationRequest)
+func _WorkflowService_StartNexusOperationExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StartNexusOperationExecutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).StartNexusOperation(ctx, in)
+		return srv.(WorkflowServiceServer).StartNexusOperationExecution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_StartNexusOperation_FullMethodName,
+		FullMethod: WorkflowService_StartNexusOperationExecution_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).StartNexusOperation(ctx, req.(*StartNexusOperationRequest))
+		return srv.(WorkflowServiceServer).StartNexusOperationExecution(ctx, req.(*StartNexusOperationExecutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4813,20 +4813,20 @@ func _WorkflowService_DescribeActivityExecution_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_DescribeNexusOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DescribeNexusOperationRequest)
+func _WorkflowService_DescribeNexusOperationExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeNexusOperationExecutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).DescribeNexusOperation(ctx, in)
+		return srv.(WorkflowServiceServer).DescribeNexusOperationExecution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_DescribeNexusOperation_FullMethodName,
+		FullMethod: WorkflowService_DescribeNexusOperationExecution_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).DescribeNexusOperation(ctx, req.(*DescribeNexusOperationRequest))
+		return srv.(WorkflowServiceServer).DescribeNexusOperationExecution(ctx, req.(*DescribeNexusOperationExecutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4849,20 +4849,20 @@ func _WorkflowService_PollActivityExecution_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_PollNexusOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PollNexusOperationRequest)
+func _WorkflowService_PollNexusOperationExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PollNexusOperationExecutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).PollNexusOperation(ctx, in)
+		return srv.(WorkflowServiceServer).PollNexusOperationExecution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_PollNexusOperation_FullMethodName,
+		FullMethod: WorkflowService_PollNexusOperationExecution_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).PollNexusOperation(ctx, req.(*PollNexusOperationRequest))
+		return srv.(WorkflowServiceServer).PollNexusOperationExecution(ctx, req.(*PollNexusOperationExecutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4885,20 +4885,20 @@ func _WorkflowService_ListActivityExecutions_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_ListNexusOperations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListNexusOperationsRequest)
+func _WorkflowService_ListNexusOperationExecutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNexusOperationExecutionsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).ListNexusOperations(ctx, in)
+		return srv.(WorkflowServiceServer).ListNexusOperationExecutions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_ListNexusOperations_FullMethodName,
+		FullMethod: WorkflowService_ListNexusOperationExecutions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).ListNexusOperations(ctx, req.(*ListNexusOperationsRequest))
+		return srv.(WorkflowServiceServer).ListNexusOperationExecutions(ctx, req.(*ListNexusOperationExecutionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4921,20 +4921,20 @@ func _WorkflowService_CountActivityExecutions_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_CountNexusOperations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CountNexusOperationsRequest)
+func _WorkflowService_CountNexusOperationExecutions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountNexusOperationExecutionsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).CountNexusOperations(ctx, in)
+		return srv.(WorkflowServiceServer).CountNexusOperationExecutions(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_CountNexusOperations_FullMethodName,
+		FullMethod: WorkflowService_CountNexusOperationExecutions_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).CountNexusOperations(ctx, req.(*CountNexusOperationsRequest))
+		return srv.(WorkflowServiceServer).CountNexusOperationExecutions(ctx, req.(*CountNexusOperationExecutionsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -4957,20 +4957,20 @@ func _WorkflowService_RequestCancelActivityExecution_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_RequestCancelNexusOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestCancelNexusOperationRequest)
+func _WorkflowService_RequestCancelNexusOperationExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestCancelNexusOperationExecutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).RequestCancelNexusOperation(ctx, in)
+		return srv.(WorkflowServiceServer).RequestCancelNexusOperationExecution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_RequestCancelNexusOperation_FullMethodName,
+		FullMethod: WorkflowService_RequestCancelNexusOperationExecution_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).RequestCancelNexusOperation(ctx, req.(*RequestCancelNexusOperationRequest))
+		return srv.(WorkflowServiceServer).RequestCancelNexusOperationExecution(ctx, req.(*RequestCancelNexusOperationExecutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5011,38 +5011,38 @@ func _WorkflowService_DeleteActivityExecution_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_TerminateNexusOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TerminateNexusOperationRequest)
+func _WorkflowService_TerminateNexusOperationExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TerminateNexusOperationExecutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).TerminateNexusOperation(ctx, in)
+		return srv.(WorkflowServiceServer).TerminateNexusOperationExecution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_TerminateNexusOperation_FullMethodName,
+		FullMethod: WorkflowService_TerminateNexusOperationExecution_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).TerminateNexusOperation(ctx, req.(*TerminateNexusOperationRequest))
+		return srv.(WorkflowServiceServer).TerminateNexusOperationExecution(ctx, req.(*TerminateNexusOperationExecutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _WorkflowService_DeleteNexusOperation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteNexusOperationRequest)
+func _WorkflowService_DeleteNexusOperationExecution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteNexusOperationExecutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WorkflowServiceServer).DeleteNexusOperation(ctx, in)
+		return srv.(WorkflowServiceServer).DeleteNexusOperationExecution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: WorkflowService_DeleteNexusOperation_FullMethodName,
+		FullMethod: WorkflowService_DeleteNexusOperationExecution_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WorkflowServiceServer).DeleteNexusOperation(ctx, req.(*DeleteNexusOperationRequest))
+		return srv.(WorkflowServiceServer).DeleteNexusOperationExecution(ctx, req.(*DeleteNexusOperationExecutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5447,48 +5447,48 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_StartActivityExecution_Handler,
 		},
 		{
-			MethodName: "StartNexusOperation",
-			Handler:    _WorkflowService_StartNexusOperation_Handler,
+			MethodName: "StartNexusOperationExecution",
+			Handler:    _WorkflowService_StartNexusOperationExecution_Handler,
 		},
 		{
 			MethodName: "DescribeActivityExecution",
 			Handler:    _WorkflowService_DescribeActivityExecution_Handler,
 		},
 		{
-			MethodName: "DescribeNexusOperation",
-			Handler:    _WorkflowService_DescribeNexusOperation_Handler,
+			MethodName: "DescribeNexusOperationExecution",
+			Handler:    _WorkflowService_DescribeNexusOperationExecution_Handler,
 		},
 		{
 			MethodName: "PollActivityExecution",
 			Handler:    _WorkflowService_PollActivityExecution_Handler,
 		},
 		{
-			MethodName: "PollNexusOperation",
-			Handler:    _WorkflowService_PollNexusOperation_Handler,
+			MethodName: "PollNexusOperationExecution",
+			Handler:    _WorkflowService_PollNexusOperationExecution_Handler,
 		},
 		{
 			MethodName: "ListActivityExecutions",
 			Handler:    _WorkflowService_ListActivityExecutions_Handler,
 		},
 		{
-			MethodName: "ListNexusOperations",
-			Handler:    _WorkflowService_ListNexusOperations_Handler,
+			MethodName: "ListNexusOperationExecutions",
+			Handler:    _WorkflowService_ListNexusOperationExecutions_Handler,
 		},
 		{
 			MethodName: "CountActivityExecutions",
 			Handler:    _WorkflowService_CountActivityExecutions_Handler,
 		},
 		{
-			MethodName: "CountNexusOperations",
-			Handler:    _WorkflowService_CountNexusOperations_Handler,
+			MethodName: "CountNexusOperationExecutions",
+			Handler:    _WorkflowService_CountNexusOperationExecutions_Handler,
 		},
 		{
 			MethodName: "RequestCancelActivityExecution",
 			Handler:    _WorkflowService_RequestCancelActivityExecution_Handler,
 		},
 		{
-			MethodName: "RequestCancelNexusOperation",
-			Handler:    _WorkflowService_RequestCancelNexusOperation_Handler,
+			MethodName: "RequestCancelNexusOperationExecution",
+			Handler:    _WorkflowService_RequestCancelNexusOperationExecution_Handler,
 		},
 		{
 			MethodName: "TerminateActivityExecution",
@@ -5499,12 +5499,12 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _WorkflowService_DeleteActivityExecution_Handler,
 		},
 		{
-			MethodName: "TerminateNexusOperation",
-			Handler:    _WorkflowService_TerminateNexusOperation_Handler,
+			MethodName: "TerminateNexusOperationExecution",
+			Handler:    _WorkflowService_TerminateNexusOperationExecution_Handler,
 		},
 		{
-			MethodName: "DeleteNexusOperation",
-			Handler:    _WorkflowService_DeleteNexusOperation_Handler,
+			MethodName: "DeleteNexusOperationExecution",
+			Handler:    _WorkflowService_DeleteNexusOperationExecution_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

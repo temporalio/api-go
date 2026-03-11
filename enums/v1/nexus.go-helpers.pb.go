@@ -25,7 +25,7 @@ func NexusHandlerErrorRetryBehaviorFromString(s string) (NexusHandlerErrorRetryB
 }
 
 var (
-	NexusOperationStatus_shorthandValue = map[string]int32{
+	NexusOperationExecutionStatus_shorthandValue = map[string]int32{
 		"Unspecified": 0,
 		"Running":     1,
 		"Completed":   2,
@@ -36,15 +36,15 @@ var (
 	}
 )
 
-// NexusOperationStatusFromString parses a NexusOperationStatus value from  either the protojson
-// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to NexusOperationStatus
-func NexusOperationStatusFromString(s string) (NexusOperationStatus, error) {
-	if v, ok := NexusOperationStatus_value[s]; ok {
-		return NexusOperationStatus(v), nil
-	} else if v, ok := NexusOperationStatus_shorthandValue[s]; ok {
-		return NexusOperationStatus(v), nil
+// NexusOperationExecutionStatusFromString parses a NexusOperationExecutionStatus value from  either the protojson
+// canonical SCREAMING_CASE enum or the traditional temporal PascalCase enum to NexusOperationExecutionStatus
+func NexusOperationExecutionStatusFromString(s string) (NexusOperationExecutionStatus, error) {
+	if v, ok := NexusOperationExecutionStatus_value[s]; ok {
+		return NexusOperationExecutionStatus(v), nil
+	} else if v, ok := NexusOperationExecutionStatus_shorthandValue[s]; ok {
+		return NexusOperationExecutionStatus(v), nil
 	}
-	return NexusOperationStatus(0), fmt.Errorf("%s is not a valid NexusOperationStatus", s)
+	return NexusOperationExecutionStatus(0), fmt.Errorf("%s is not a valid NexusOperationExecutionStatus", s)
 }
 
 var (
