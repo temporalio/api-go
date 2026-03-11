@@ -111,6 +111,7 @@ const (
 	WorkflowService_TriggerWorkflowRule_FullMethodName                   = "/temporal.api.workflowservice.v1.WorkflowService/TriggerWorkflowRule"
 	WorkflowService_RecordWorkerHeartbeat_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/RecordWorkerHeartbeat"
 	WorkflowService_ListWorkers_FullMethodName                           = "/temporal.api.workflowservice.v1.WorkflowService/ListWorkers"
+	WorkflowService_CountWorkers_FullMethodName                          = "/temporal.api.workflowservice.v1.WorkflowService/CountWorkers"
 	WorkflowService_UpdateTaskQueueConfig_FullMethodName                 = "/temporal.api.workflowservice.v1.WorkflowService/UpdateTaskQueueConfig"
 	WorkflowService_FetchWorkerConfig_FullMethodName                     = "/temporal.api.workflowservice.v1.WorkflowService/FetchWorkerConfig"
 	WorkflowService_UpdateWorkerConfig_FullMethodName                    = "/temporal.api.workflowservice.v1.WorkflowService/UpdateWorkerConfig"
@@ -706,6 +707,8 @@ type WorkflowServiceClient interface {
 	RecordWorkerHeartbeat(ctx context.Context, in *RecordWorkerHeartbeatRequest, opts ...grpc.CallOption) (*RecordWorkerHeartbeatResponse, error)
 	// ListWorkers is a visibility API to list worker status information in a specific namespace.
 	ListWorkers(ctx context.Context, in *ListWorkersRequest, opts ...grpc.CallOption) (*ListWorkersResponse, error)
+	// CountWorkers is a visibility API to count workers in a specific namespace.
+	CountWorkers(ctx context.Context, in *CountWorkersRequest, opts ...grpc.CallOption) (*CountWorkersResponse, error)
 	// Updates task queue configuration.
 	// For the overall queue rate limit: the rate limit set by this api overrides the worker-set rate limit,
 	// which uncouples the rate limit from the worker lifecycle.
@@ -1694,6 +1697,16 @@ func (c *workflowServiceClient) ListWorkers(ctx context.Context, in *ListWorkers
 	return out, nil
 }
 
+func (c *workflowServiceClient) CountWorkers(ctx context.Context, in *CountWorkersRequest, opts ...grpc.CallOption) (*CountWorkersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CountWorkersResponse)
+	err := c.cc.Invoke(ctx, WorkflowService_CountWorkers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *workflowServiceClient) UpdateTaskQueueConfig(ctx context.Context, in *UpdateTaskQueueConfigRequest, opts ...grpc.CallOption) (*UpdateTaskQueueConfigResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateTaskQueueConfigResponse)
@@ -2413,6 +2426,8 @@ type WorkflowServiceServer interface {
 	RecordWorkerHeartbeat(context.Context, *RecordWorkerHeartbeatRequest) (*RecordWorkerHeartbeatResponse, error)
 	// ListWorkers is a visibility API to list worker status information in a specific namespace.
 	ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error)
+	// CountWorkers is a visibility API to count workers in a specific namespace.
+	CountWorkers(context.Context, *CountWorkersRequest) (*CountWorkersResponse, error)
 	// Updates task queue configuration.
 	// For the overall queue rate limit: the rate limit set by this api overrides the worker-set rate limit,
 	// which uncouples the rate limit from the worker lifecycle.
@@ -2763,6 +2778,9 @@ func (UnimplementedWorkflowServiceServer) RecordWorkerHeartbeat(context.Context,
 }
 func (UnimplementedWorkflowServiceServer) ListWorkers(context.Context, *ListWorkersRequest) (*ListWorkersResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListWorkers not implemented")
+}
+func (UnimplementedWorkflowServiceServer) CountWorkers(context.Context, *CountWorkersRequest) (*CountWorkersResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CountWorkers not implemented")
 }
 func (UnimplementedWorkflowServiceServer) UpdateTaskQueueConfig(context.Context, *UpdateTaskQueueConfigRequest) (*UpdateTaskQueueConfigResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateTaskQueueConfig not implemented")
@@ -4465,6 +4483,24 @@ func _WorkflowService_ListWorkers_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _WorkflowService_CountWorkers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountWorkersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WorkflowServiceServer).CountWorkers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: WorkflowService_CountWorkers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WorkflowServiceServer).CountWorkers(ctx, req.(*CountWorkersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _WorkflowService_UpdateTaskQueueConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateTaskQueueConfigRequest)
 	if err := dec(in); err != nil {
@@ -5087,6 +5123,10 @@ var WorkflowService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListWorkers",
 			Handler:    _WorkflowService_ListWorkers_Handler,
+		},
+		{
+			MethodName: "CountWorkers",
+			Handler:    _WorkflowService_CountWorkers_Handler,
 		},
 		{
 			MethodName: "UpdateTaskQueueConfig",

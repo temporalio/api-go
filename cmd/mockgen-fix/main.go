@@ -44,7 +44,7 @@ func run() error {
 
 	// After the closing brace, we need to add the type assertion to ensure
 	// interface conformance
-	endBrace := structIndex + strings.Index(source[structIndex:], "}\n") + 2
+	endBrace := structIndex + strings.Index(source[structIndex:], "\n}\n") + 3
 	source = source[:endBrace] +
 		fmt.Sprintf(
 			"\nvar _ %v.%vServer = (*Mock%vServer)(nil)\n\n",

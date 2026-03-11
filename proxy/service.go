@@ -40,6 +40,10 @@ func (s *workflowServiceProxyServer) CountSchedules(ctx context.Context, in0 *wo
 	return s.client.CountSchedules(s.reqCtx(ctx), in0)
 }
 
+func (s *workflowServiceProxyServer) CountWorkers(ctx context.Context, in0 *workflowservice.CountWorkersRequest) (*workflowservice.CountWorkersResponse, error) {
+	return s.client.CountWorkers(s.reqCtx(ctx), in0)
+}
+
 func (s *workflowServiceProxyServer) CountWorkflowExecutions(ctx context.Context, in0 *workflowservice.CountWorkflowExecutionsRequest) (*workflowservice.CountWorkflowExecutionsResponse, error) {
 	return s.client.CountWorkflowExecutions(s.reqCtx(ctx), in0)
 }
